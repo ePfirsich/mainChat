@@ -65,7 +65,7 @@ switch ($_POST['aktion']) {
                         . "<tr><td colspan=\"2\"><br><br></td></tr></table>\n";
                     step_1();
                 } else {
-                    if (!@$connect = mysql_connect($_POST['chat']['host'],
+                    if (!@$connect = mysqli_connect($_POST['chat']['host'],
                         $_POST['chat']['user'], $_POST['chat']['pass'])) {
                         echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\" align=\"center\">\n"
                             . "<tr bgcolor=\"#007ABE\"><td colspan=\"2\" style=\"font-size:15px; text-align:center;color:White;\"><B>FEHLER</b></td></tr>\n"
@@ -74,10 +74,10 @@ switch ($_POST['aktion']) {
                         unlink($configdatei);
                         step_1();
                     } else {
-                        mysql_set_charset("utf8mb4");
-                        if (!$select = mysql_select_db($_POST['chat']['dbase'], $connect)) {
-                            if (!$create_db = mysql_query(
-                                "CREATE DATABASE ".$_POST['chat']['dbase'], $connect)) {
+                        mysqli_set_charset($mysqli_link, "utf8mb4");
+                        if (!$select = mysqli_select_db($connect, $_POST['chat']['dbase'])) {
+                            if (!$create_db = mysqli_query($connect, 
+                                "CREATE DATABASE ".$_POST['chat']['dbase'])) {
                                 echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\" align=\"center\">\n"
                                     . "<tr bgcolor=\"#007ABE\"><td colspan=\"2\" style=\"font-size:15px; text-align:center;color:White;\"><B>FEHLER</b></td></tr>\n"
                                     . "<tr style=\"color:red; font-weigth:bold;\"><td>FEHLER: Anlegen der Datenbank misslungen!</td></tr>\n"
@@ -85,8 +85,7 @@ switch ($_POST['aktion']) {
                                 unlink($configdatei);
                                 step_1();
                             } else {
-                                $select = mysql_select_db($_POST['chat']['dbase'],
-                                    $connect);
+                                $select = mysqli_select_db($connect, $_POST['chat']['dbase']);
                                 step_2($connect, $select, $_POST['chat'], $fp);
                             }
                             

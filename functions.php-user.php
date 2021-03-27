@@ -49,8 +49,8 @@ function user_liste($larr, $anzahl)
                 $ids[] = intval($v['u_id']);
             $query = "SELECT ui_userid,ui_geschlecht FROM userinfo WHERE ui_userid in ('"
                 . implode("','", $ids) . "')";
-            $result = mysql_query($query, $conn);
-            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+            $result = mysqli_query($conn, $query);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $uid = $row[ui_userid];
                 if ($row[ui_geschlecht] == "männlich")
                     $geschl[$uid] = "M";
@@ -58,7 +58,7 @@ function user_liste($larr, $anzahl)
                     $geschl[$uid] = "W";
                 else $geschl[$uid] = "";
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
         }
         
         // Leveltexte erzeugen
@@ -154,10 +154,10 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         . "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS letzter_login,"
         . "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS erster_login "
         . "FROM user WHERE u_id=$user ";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     
-    if ($result AND mysql_num_rows($result) == 1) {
-        $row = mysql_fetch_object($result);
+    if ($result AND mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_object($result);
         $uu_away = $row->u_away;
         $uu_nick = htmlspecialchars($row->u_nick);
         $uu_name = htmlspecialchars($row->u_name);
@@ -186,9 +186,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         unset($o_http_stuff);
         $query = "SELECT r_name,online.*,UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit "
             . " FROM online left join raum on o_raum=r_id WHERE o_user=$user ";
-        $result = mysql_query($query, $conn);
-        if ($result && $rows = mysql_num_rows($result) == 1) {
-            $o_row = mysql_fetch_object($result);
+        $result = mysqli_query($conn, $query);
+        if ($result && $rows = mysqli_num_rows($result) == 1) {
+            $o_row = mysqli_fetch_object($result);
             $onlinezeit = $o_row->onlinezeit;
             if ($admin) {
                 $host_name = htmlspecialchars(gethostbyaddr($o_row->o_ip));
@@ -549,8 +549,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><BR>";
             
             $query = "SELECT u_chathomepage FROM user WHERE u_id = '$uu_id'";
-            $result = mysql_query($query);
-            $g = @mysql_fetch_array($result);
+            $result = mysqli_query($mysqli_link, $query);
+            $g = @mysqli_fetch_array($result);
             
             if ($g['u_chathomepage'] == "J")
                 echo "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Homepage löschen!\">"
@@ -567,7 +567,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         
         // ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Nickname: $uu_nick)
         
-        mysql_free_result($result);
+        mysqli_free_result($result);
         
     }
 }

@@ -117,7 +117,7 @@ function step_2($connect, $select, $chat, $fpconfig)
     $mysqlarray = explode(';', $mysqlinhalt);
     
     foreach ($mysqlarray as $key => $value)
-        mysql_query($value);
+        mysqli_query($mysqli_link, $value);
     
     echo "<tr><td colspan=\"2\"><br><br></td></tr>\n"
         . "<tr bgcolor=\"#007ABE\"><td style=\"font-size:15px; text-align:center;color:White;\"><b>Datenbank</b></td></tr>\n"
@@ -125,7 +125,7 @@ function step_2($connect, $select, $chat, $fpconfig)
         . $chat['user'] . ") wurden folgende Tabellen " . "angelegt: <br>\n";
     
     $tables = mysql_listtables($chat['dbase']);
-    for ($i = 0; $i < mysql_num_rows($tables); $i++) {
+    for ($i = 0; $i < mysqli_num_rows($tables); $i++) {
         $table = mysql_tablename($tables, $i);
         echo "<b>" . $table . "</b>, \n";
     }

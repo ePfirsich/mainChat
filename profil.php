@@ -72,10 +72,10 @@ if ($u_id && $communityfeatures) {
     // Prüfung, ob für diesen user bereits ein profil vorliegt -> in $f lesen und merken
     // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
     $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) != 0) {
         if (!isset($f) || !is_array($f)) {
-            $f = mysql_fetch_array($result);
+            $f = mysqli_fetch_array($result);
         } else {
             $f['ui_id'] = mysql_result($result, 0, "ui_id");
         }
@@ -83,7 +83,7 @@ if ($u_id && $communityfeatures) {
     } else {
         $profil_gefunden = false;
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Menü als erstes ausgeben
     $box = $ft0 . "Menü Profile" . $ft1;
@@ -227,9 +227,9 @@ if ($u_id && $communityfeatures) {
                     . "<TR><TH>Nick</TH><TH>Username</TH><TH>Straße</TH><TH>PLZ Ort</TH><TH>Land</TH><TH>Admin-EMail</TH><TH>E-Mail</TH><TH>URL</TH><TH>Geburt</TH><TH>Geschlecht</TH><TH>Fam. Stand</TH><TH>Typ</TH><TH>Beruf</TH><TH>Hobby</TH><TH>Tel</TH><TH>Fax</TH><TH>Handy</TH><TH>ICQ</TH></TR>";
                 
                 $query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick,u_name";
-                $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) > 0) {
-                    while ($row = mysql_fetch_object($result)) {
+                $result = mysqli_query($conn, $query);
+                if ($result && mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_object($result)) {
                         echo "<TR><TD><B>"
                             . htmlspecialchars($row->u_nick)
                             . "</B></TD><TD>"
@@ -272,7 +272,7 @@ if ($u_id && $communityfeatures) {
                     }
                 }
                 echo "</TABLE>\n";
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             
             break;

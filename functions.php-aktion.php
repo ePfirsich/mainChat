@@ -22,9 +22,9 @@ function zeige_aktionen($aktion)
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>";
     
     // Einstellungen aus Datenbank lesen 
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) > 0) {
-        while ($row = mysql_fetch_array($result)) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
             $was[$row['a_was']][$row['a_wann']] = $row;
         }
     }
@@ -38,8 +38,8 @@ function zeige_aktionen($aktion)
     
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);
@@ -48,8 +48,8 @@ function zeige_aktionen($aktion)
     
     // Alle möglichen a_wie in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wie'";
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 4, -1));
         $a_wie = explode(",", $txt);
@@ -168,8 +168,8 @@ function eintrag_aktionen($aktion_datensatz)
     
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);
@@ -185,9 +185,9 @@ function eintrag_aktionen($aktion_datensatz)
             
             if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
                 $query = "DELETE FROM aktion "
-                    . "WHERE a_was='" . mysql_real_escape_string($def_was_eintrag) . "' "
-                    . "AND a_wann='" . mysql_real_escape_string($a_wann_eintrag) . "' " . "AND a_user='$u_id'";
-                $result = mysql_query($query, $conn);
+                    . "WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
+                    . "AND a_wann='" . mysqli_real_escape_string($mysqli_link, $a_wann_eintrag) . "' " . "AND a_user='$u_id'";
+                $result = mysqli_query($conn, $query);
             }
             
             $f['a_wie'] = $temp[1];

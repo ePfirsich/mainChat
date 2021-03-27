@@ -9,14 +9,14 @@ function HoleNick($handynummer)
     // holt den nick, wenn nicht gefunden, gibt handynummer mit 3 Stellen X aus
     
     $handynummer = trim($handynummer);
-    $handynummer = mysql_real_escape_string(preg_replace("/^0049/", "0", $handynummer));
+    $handynummer = mysqli_real_escape_string("0", $handynummer), preg_replace("/^0049/");
     
     $query = "SELECT user.u_id, user.u_nick,u_login FROM user, userinfo WHERE user.u_id=userinfo.ui_userid AND ui_handy='$handynummer' order by u_login desc limit 0,1";
-    $result = mysql_query($query);
+    $result = mysqli_query($mysqli_link, $query);
     $nick = "";
     if (mysql_numrows($result) == "1") {
         echo "user gefunden!";
-        $a = mysql_fetch_array($result);
+        $a = mysqli_fetch_array($result);
         $nick = $a['u_nick'];
     }
     if (!$nick) {
@@ -27,9 +27,9 @@ function HoleNick($handynummer)
 }
 
 if ($timestamp && $smstext && $nummer && $keyword && $shortnumber) {
-    $query = "INSERT INTO smsin (s_timestamp,  s_text, s_handynummer,s_keyword,s_shortnumber) VALUES ('" . mysql_real_escape_string($timestamp) . "','" . mysql_real_escape_string($smstext) . "','" . mysql_real_escape_string($nummer) . "','" . mysql_real_escape_string($keyword) . "','" . mysql_real_escape_string($shortnumber) . "')";
-    mysql_query($query);
-    echo mysql_error();
+    $query = "INSERT INTO smsin (s_timestamp,  s_text, s_handynummer,s_keyword,s_shortnumber) VALUES ('" . mysqli_real_escape_string($mysqli_link, $timestamp) . "','" . mysqli_real_escape_string($mysqli_link, $smstext) . "','" . mysqli_real_escape_string($mysqli_link, $nummer) . "','" . mysqli_real_escape_string($mysqli_link, $keyword) . "','" . mysqli_real_escape_string($mysqli_link, $shortnumber) . "')";
+    mysqli_query($mysqli_link, $query);
+    echo mysqli_error($mysqli_link);
     echo "OK!<BR><HR>";
     
     $text = trim(preg_replace("/^MC/i", "", $smstext));

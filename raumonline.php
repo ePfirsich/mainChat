@@ -14,9 +14,9 @@ $query = "SELECT r_name,r_id FROM raum "
     . "WHERE (r_status1='O' OR r_status1 LIKE BINARY 'm') AND r_status2='P' "
     . "ORDER BY r_name";
 
-$result = mysql_query($query, $conn);
+$result = mysqli_query($conn, $query);
 if ($result) {
-    $rows = mysql_num_rows($result);
+    $rows = mysqli_num_rows($result);
 }
 
 $raeume = "";
@@ -35,7 +35,7 @@ if ($rows > 0) {
         $i++;
     }
 }
-mysql_free_result($result);
+mysqli_free_result($result);
 
 echo "$raeume";
 ?>

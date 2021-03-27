@@ -45,12 +45,12 @@ $STAT_BAR_FONTEND3 = "</B></FONT>";
 if (!$admin || !$erweitertefeatures)
     return;
 
-$c = @mysql_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+$c = @mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
 if ($c) {
-    mysql_set_charset("utf8mb4");
-    mysql_select_db($STAT_DB_NAME, $c);
+    mysqli_set_charset($mysqli_link, "utf8mb4");
+    mysqli_select_db($c, $STAT_DB_NAME);
 }
-$v = mysql_real_escape_string($http_host);
+$v = mysqli_real_escape_string($mysqli_link, $http_host);
 
 // Wenn User Statistiken gesammelt werden, dann nicht HTTP_HOST sondern die Zeichenkette aus $STAT_DB_COLLECT
 if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
@@ -66,9 +66,9 @@ if (!$c) {
     $msg = $t['statistik4'];
 } else {
     //testen, ob statisiken überhaupt geschrieben werden:
-    $r1 = mysql_query("SELECT DISTINCT c_host FROM chat WHERE c_host LIKE '$v' ORDER BY c_host");
+    $r1 = mysqli_query($mysqli_link, "SELECT DISTINCT c_host FROM chat WHERE c_host LIKE '$v' ORDER BY c_host");
     if ($r1 > 0) {
-        if (mysql_num_rows($r1) == 0) {
+        if (mysqli_num_rows($r1) == 0) {
             // host taucht nicht auf... nix wars.
             $msg = $t['statistik5'];
             $fehler = true;
@@ -164,22 +164,22 @@ switch ($type) {
         
         // Statistiken einzeln nach Monaten
         
-        $r1 = @mysql_query(
+        $r1 = @mysqli_query($mysqli_link, 
             "SELECT DISTINCT c_host FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host LIKE '$v' ORDER BY c_host");
         if ($r1 > 0) {
             $j = 0;
-            $o = @mysql_num_rows($r1);
+            $o = @mysqli_num_rows($r1);
             
             while ($j < $o) {
                 $c_host = @mysql_result($r1, $j, "c_host");
                 
                 statsResetMonth($y, $m);
                 
-                $r0 = @mysql_query(
-                    "SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host='" . mysql_real_escape_string($c_host) . "' ORDER BY c_timestamp");
+                $r0 = @mysqli_query($mysqli_link, 
+                    "SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host='" . mysqli_real_escape_string($mysqli_link, $c_host) . "' ORDER BY c_timestamp");
                 if ($r0 > 0) {
                     $i = 0;
-                    $n = @mysql_num_rows($r0);
+                    $n = @mysqli_num_rows($r0);
                     
                     while ($i < $n) {
                         $x = @mysql_result($r0, $i, "tag");
@@ -210,11 +210,11 @@ switch ($type) {
         
         statsResetHours($showtime, $h);
         
-        $r0 = @mysql_query("SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM chat WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime AND c_host LIKE '$v' ORDER BY c_timestamp");
+        $r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM chat WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime AND c_host LIKE '$v' ORDER BY c_timestamp");
         
         if ($r0 > 0) {
             $i = 0;
-            $n = @mysql_num_rows($r0);
+            $n = @mysqli_num_rows($r0);
             while ($i < $n) {
                 $x = @mysql_result($r0, $i, "stunde");
                 $c_users = @mysql_result($r0, $i, "c_users");

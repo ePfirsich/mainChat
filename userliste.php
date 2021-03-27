@@ -19,8 +19,8 @@ $query = "SELECT o_name,r_name,UNIX_TIMESTAMP(o_aktiv) as login FROM raum,online
     . "WHERE o_raum=r_id "
     . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
     . "ORDER BY r_name,o_user ";
-$result = @mysql_query($query, $conn);
-$rows = @mysql_Num_Rows($result);
+$result = @mysqli_query($conn, $query);
+$rows = @mysqli_num_rows($result);
 
 if ($rows > 0) {
     $i = 0;
@@ -34,7 +34,7 @@ if ($rows > 0) {
                 echo ") ";
         }
         
-        $row = @mysql_fetch_array($result);
+        $row = @mysqli_fetch_array($result);
         if ($klammer == "j")
             echo "(";
         echo $row[o_name];
@@ -64,7 +64,7 @@ if ($rows > 0) {
         echo "$br";
         $i++;
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
 }
 
 ?>

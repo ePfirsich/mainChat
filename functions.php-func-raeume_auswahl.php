@@ -22,10 +22,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     $query = "SELECT r_id,count(o_id) as anzahl FROM raum "
         . "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
     
-    $result = mysql_query($query, $conn);
-    while ($row = mysql_fetch_object($result))
+    $result = mysqli_query($conn, $query);
+    while ($row = mysqli_fetch_object($result))
         $anzahl_user[$row->r_id] = $row->anzahl;
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Optional Formularzusatz für Community-Module  ergänzen
     $zusatz_select = "";
@@ -33,10 +33,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $query = "SELECT o_who,count(o_who) as anzahl FROM online "
             . "WHERE o_who>1 " . "GROUP BY o_who ";
         
-        $result = mysql_query($query, $conn);
-        while ($row = mysql_fetch_object($result))
+        $result = mysqli_query($conn, $query);
+        while ($row = mysqli_fetch_object($result))
             $anzahl_who[$row->o_who] = $row->anzahl;
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         foreach ($whotext as $key => $whotxt) {
             if ($key > 1 && isset($anzahl_who) && $anzahl_who[$key])
@@ -54,23 +54,23 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
             . "WHERE inv_user='$u_id' ";
         
         $rows = array();
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
         
         $query = "SELECT r_id FROM raum "
             . "WHERE r_status1='O' OR r_status1 like binary 'm' OR r_besitzer=$u_id OR r_id=" . intval($o_raum);
         
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
     }
     
@@ -83,10 +83,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     } else {
         return 1;
     }
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     
     echo $zusatz_select;
-    while ($row = mysql_fetch_object($result)) {
+    while ($row = mysqli_fetch_object($result)) {
         if ($row->r_status1 != "O") {
             // L->t und G->g übersetzen
             if ($row->r_status1 == "L") {
@@ -117,7 +117,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         }
     }
     echo $zusatz_select;
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 
 ?>

@@ -11,11 +11,11 @@ id_lese($id);
 $query = "SELECT r_name,r_status1,r_austritt from raum "
     . "WHERE r_id=" . intval($o_raum);
 
-$result = mysql_query($query, $conn);
+$result = mysqli_query($conn, $query);
 
-if ($result && mysql_num_rows($result) == 1) {
-    $alt = mysql_fetch_object($result);
-    mysql_free_result($result);
+if ($result && mysqli_num_rows($result) == 1) {
+    $alt = mysqli_fetch_object($result);
+    mysqli_free_result($result);
 }
 
 if ($alt->r_status1 == "L" && $u_level != "A" && !$admin)
@@ -69,7 +69,7 @@ if (isset($frame_online) && strlen($frame_online) == 0) {
 
 // Falls user eigene Einstellungen für das Frameset hat -> überschreiben
 $sql = "select u_frames from user where u_id = $u_id";
-$query = mysql_query($sql, $conn);
+$query = mysqli_query($conn, $sql);
 $u_frames = mysql_result($query, 0, "u_frames");
 if ($u_frames) {
     $u_frames = unserialize($u_frames);

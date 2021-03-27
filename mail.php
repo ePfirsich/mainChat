@@ -77,7 +77,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         . date("YmdHis",
             mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb),
                 date("Y"))) . "'";
-    $result2 = mysql_query($query2, $conn);
+    $result2 = mysqli_query($conn, $query2);
     
     // Menü als erstes ausgeben
     $box = $ft0 . "Menü Mail" . $ft1;
@@ -103,19 +103,19 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         case "neu2":
         // Mail versenden, 2. Schritt: Nick Prüfen
             $neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
-            $neue_email['an_nick'] = mysql_real_escape_string(coreCheckName($neue_email['an_nick'], $check_name));
+            $neue_email['an_nick'] = mysqli_real_escape_string($check_name), coreCheckName($neue_email['an_nick']);
             
             if (!isset($m_id))
                 $m_id = "";
             
             $query = "SELECT u_id,u_level  FROM user WHERE u_nick = '$neue_email[an_nick]'";
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
                 $neue_email['m_an_uid'] = mysql_result($result, 0, "u_id");
                 
                 $ignore = false;
                 $query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email[m_an_uid]) . "' AND i_user_passiv = '$u_id'";
-                $result2 = mysql_query($query2);
+                $result2 = mysqli_query($mysqli_link, $query2);
                 $num = mysql_numrows($result2);
                 if ($num >= 1) {
                     $ignore = true;
@@ -123,7 +123,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 
                 $boxzu = false;
                 $query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email[m_an_uid]) . "' AND m_an_uid='" . intval($neue_email[m_an_uid]) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
-                $result2 = mysql_query($query);
+                $result2 = mysqli_query($mysqli_link, $query);
                 $num = mysql_numrows($result2);
                 if ($num >= 1) {
                     $boxzu = true;
@@ -150,8 +150,8 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 echo "<P><B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!</P>\n";
                 formular_neue_email($neue_email, $m_id);
             }
-            @mysql_free_result($result);
-            @mysql_free_result($result2);
+            @mysqli_free_result($result);
+            @mysqli_free_result($result2);
             break;
         
         case "neu3":
@@ -185,14 +185,14 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             // User-ID Prüfen
             $neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
             $query = "SELECT u_nick FROM user WHERE u_id = $neue_email[m_an_uid]";
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
                 $an_nick = mysql_result($result, 0, "u_nick");
             } else {
                 echo "<B>Fehler:</B> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!<BR>\n";
                 $ok = FALSE;
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             
             // Mail schreiben
             if ($ok) {
@@ -243,9 +243,9 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                     // Prüfen ob Empfänger SMS möchte
                     $neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
                     $query = "SELECT u_sms_ok FROM user WHERE u_id = '$neue_email[m_an_uid]'";
-                    $result = mysql_query($query);
-                    $a = mysql_fetch_array($result);
-                    mysql_free_result($result);
+                    $result = mysqli_query($mysqli_link, $query);
+                    $a = mysqli_fetch_array($result);
+                    mysqli_free_result($result);
                     $sms_ok = $a[u_sms_ok];
                     if (!isset($fehler)) {
                         if ($sms_ok == "N") {
@@ -329,18 +329,18 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             $query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit "
                 . "FROM mail WHERE m_an_uid=$u_id AND m_id=$m_id ";
             
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
-                $row = mysql_fetch_object($result);
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_object($result);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             
             // Nick prüfen
             $query = "SELECT u_id,u_nick FROM user WHERE u_id=" . $row->m_von_uid;
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
                 
-                $row2 = mysql_fetch_object($result);
+                $row2 = mysqli_fetch_object($result);
                 $neue_email['m_an_uid'] = $row2->u_id;
                 if (substr($row->m_betreff, 0, 3) == "Re:") {
                     $neue_email['m_betreff'] = $row->m_betreff;
@@ -371,7 +371,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 echo "<B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!<BR>\n";
                 formular_neue_email($neue_email);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "antworten_forum":
@@ -381,15 +381,15 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			from posting
 			left join user on po_u_id = u_id
 			where po_id = " . intval($po_vater_id);
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
-                $row = mysql_fetch_object($result);
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_object($result);
             }
             
             // Nick prüfen
             if ($row->u_nick && $row->u_nick != "NULL") {
                 
-                $row2 = mysql_fetch_object($result);
+                $row2 = mysqli_fetch_object($result);
                 $neue_email['m_an_uid'] = $row->u_id;
                 if (substr($row->po_titel, 0, 3) == "Re:") {
                     $neue_email['m_betreff'] = $row->po_titel;
@@ -410,7 +410,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 echo "<B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!<BR>\n";
                 formular_neue_email($neue_email);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "zeige":
@@ -424,7 +424,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         // Mails mit Status geloescht löschen
             echo "<BR>";
             $query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             if (!isset($neue_email))
                 $neue_email[] = "";
             formular_neue_email($neue_email);

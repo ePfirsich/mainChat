@@ -166,16 +166,16 @@ if (strlen($u_id) != 0) {
     if ($admin && isset($kick_user_chat) && $user) {
         // Nur Admins: User sofort aus dem Chat kicken
         $query = "SELECT o_id,o_raum,o_name FROM online "
-            . "WHERE o_user='" . mysql_real_escape_string($user) . "' "
+            . "WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' "
             . "AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         
-        if ($result && mysql_num_rows($result) > 0) {
-            $row = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_object($result);
             verlasse_chat($user, $row->o_name, $row->o_raum);
             logout($row->o_id, $user, "user->kick " . $u_id . " " . $u_nick);
             
-            mysql_free_result($result);
+            mysqli_free_result($result);
         } else {
             echo $t['sonst40'];
         }
@@ -226,9 +226,9 @@ if (strlen($u_id) != 0) {
                                 $f['u_name'] = $userd[1];
                                 $f['u_adminemail'] = $userd[2];
                                 $f['u_passwort'] = $userd[3];
-                                $query = "SELECT u_id FROM user where u_nick like '" . mysql_real_escape_string($f[u_nick]) . "'"; // User importieren
-                                $result = mysql_query($query, $conn);
-                                if ($result && mysql_num_rows($result)) {
+                                $query = "SELECT u_id FROM user where u_nick like '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
+                                $result = mysqli_query($conn, $query);
+                                if ($result && mysqli_num_rows($result)) {
                                     $ui_userid = mysql_result($result, 0, 0);
                                     echo " ID: $ui_userid";
                                 }
@@ -308,9 +308,9 @@ if (strlen($u_id) != 0) {
             if ($u_level == "S") {
                 
                 $query = "DELETE FROM user where u_level != 'C' AND u_level != 'S'";
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 if ($result) {
-                    $ok = mysql_affected_rows() . " " . $ok = $t['sonst52'];
+                    $ok = mysqli_affected_rows($mysqli_link) . " " . $ok = $t['sonst52'];
                 } else {
                     $ok = $t['sonst53'];
                 }
@@ -335,10 +335,10 @@ if (strlen($u_id) != 0) {
                     . "date_format(u_login,'%d.%m.%y %H:%i') as login FROM user "
                     . "ORDER BY u_nick";
                 
-                $result = mysql_query($query, $conn);
-                $rows = mysql_num_rows($result);
+                $result = mysqli_query($conn, $query);
+                $rows = mysqli_num_rows($result);
                 
-                if (!$result || mysql_num_rows($result) == 0) {
+                if (!$result || mysqli_num_rows($result) == 0) {
                     echo "<HTML><BODY><P>$t[sonst4]</P></BODY></HTML>\n";
                 } else {
                     
@@ -358,7 +358,7 @@ if (strlen($u_id) != 0) {
                         echo $t['sonst26b'];
                     }
                     
-                    while ($row = mysql_fetch_object($result)) {
+                    while ($row = mysqli_fetch_object($result)) {
                         if ($erweitertefeatures) {
                             echo str_replace("\\", "",
                                 htmlspecialchars($row->u_nick)) . "\t"
@@ -486,7 +486,7 @@ if (strlen($u_id) != 0) {
                     // Kein Suchtext, aber evtl subquery
                     $where[0] = "WHERE ";
                 } elseif (strpos($suchtext, "%") >= 0) {
-                    $suchtext = mysql_real_escape_string($suchtext);
+                    $suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
                     if ($admin) {
                         $where[0] = "WHERE (u_name LIKE '$suchtext' OR u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext' "
                             . " OR u_adminemail LIKE '$suchtext') ";
@@ -494,7 +494,7 @@ if (strlen($u_id) != 0) {
                         $where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
                     }
                 } else {
-                    $suchtext = mysql_real_escape_string($suchtext);
+                    $suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
                     if ($admin) {
                         $where[0] = "WHERE u_name = '$suchtext' ";
                         $where[1] = "WHERE u_nick = '$suchtext' ";
@@ -511,14 +511,14 @@ if (strlen($u_id) != 0) {
                 if ($admin) {
                     // Optional level ergänzen
                     if ($f['level'] && $subquery)
-                        $subquery .= "AND u_level = '" . mysql_real_escape_string($f[level]) . "' ";
+                        $subquery .= "AND u_level = '" . mysqli_real_escape_string($mysqli_link, $f[level]) . "' ";
                     elseif ($f['level'])
-                        $subquery = " u_level = '" . mysql_real_escape_string($f[level]) . "' ";
+                        $subquery = " u_level = '" . mysqli_real_escape_string($mysqli_link, $f[level]) . "' ";
                     
                     if ($f['ip'] && $subquery)
-                        $subquery .= "AND u_ip_historie LIKE '%" . mysql_real_escape_string($f[ip]) . "%' ";
+                        $subquery .= "AND u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f[ip]) . "%' ";
                     elseif ($f['ip'])
-                        $subquery = " u_ip_historie LIKE '%" . mysql_real_escape_string($f[ip]) . "%' ";
+                        $subquery = " u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f[ip]) . "%' ";
                 }
                 
                 if ($f['u_chathomepage'] == "J" && $subquery)
@@ -527,14 +527,14 @@ if (strlen($u_id) != 0) {
                     $subquery = " u_chathomepage='J' ";
                 
                 if ($f['user_neu'] && $subquery)
-                    $subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysql_real_escape_string($f[user_neu]) . "' day)>=NOW() ";
+                    $subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
                 elseif ($f['user_neu'])
-                    $subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysql_real_escape_string($f[user_neu]) . "' day)>=NOW() ";
+                    $subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
                 
                 if ($f['user_login'] && $subquery)
-                    $subquery .= "AND date_add(u_login, interval '" . mysql_real_escape_string($f[user_login]) . "' hour)>=NOW() ";
+                    $subquery .= "AND date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
                 elseif ($f['user_login'])
-                    $subquery = " date_add(u_login, interval '" . mysql_real_escape_string($f[user_login]) . "' hour)>=NOW() ";
+                    $subquery = " date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
                 
                 if ($u_level == "U" && $subquery)
                     $subquery .= "AND u_level IN ('A','C','G','M','S','U') ";
@@ -570,8 +570,8 @@ if (strlen($u_id) != 0) {
                 }
                 $query .= $sortierung;
                 
-                $result = mysql_query($query, $conn);
-                $anzahl = mysql_num_rows($result);
+                $result = mysqli_query($conn, $query);
+                $anzahl = mysqli_num_rows($result);
                 
                 if ($anzahl == 0) {
                     // Kein user gefunden
@@ -584,7 +584,7 @@ if (strlen($u_id) != 0) {
                     // Einen User gefunden, alle Userdaten ausgeben
                     if (!isset($zeigeip))
                         $zeigeip = 0;
-                    while ($arr = mysql_fetch_array($result)) {
+                    while ($arr = mysqli_fetch_array($result)) {
                         user_zeige($arr['u_id'], $admin, $schau_raum, $u_level,
                             $zeigeip);
                     }
@@ -597,8 +597,8 @@ if (strlen($u_id) != 0) {
                         
                         // Mehrere User gefunden, als Tabelle ausgeben
                         
-                        for ($i = 0; $row = mysql_fetch_array($result,
-                            MYSQL_ASSOC); $i++) {
+                        for ($i = 0; $row = mysqli_fetch_array($result,
+                            MYSQLI_ASSOC); $i++) {
                             
                             // Array mit Userdaten und Infotexten aufbauen
                             $larr[$i]['u_email'] = str_replace("\\", "",
@@ -628,7 +628,7 @@ if (strlen($u_id) != 0) {
                             
                             flush();
                         }
-                        mysql_free_result($result);
+                        mysqli_free_result($result);
                         
                         $rows = count($larr);
                         $CELLPADDING = (($aktion == "chatuserliste"
@@ -734,10 +734,10 @@ if (strlen($u_id) != 0) {
         case "adminliste":
             if ($adminlisteabrufbar && $u_level != "G") {
                 
-                $result = mysql_query('select * from user where u_level = "S" or u_level = "C" order by u_nick ', $conn);
-                $anzahl = mysql_num_rows($result);
+                $result = mysqli_query($conn, 'select * from user where u_level = "S" or u_level = "C" order by u_nick ');
+                $anzahl = mysqli_num_rows($result);
                 
-                for ($i = 0; $row = mysql_fetch_array($result, MYSQL_ASSOC); $i++) {
+                for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
                     
                     // Array mit Userdaten und Infotexten aufbauen
                     $larr[$i][u_email] = str_replace("\\", "",
@@ -760,7 +760,7 @@ if (strlen($u_id) != 0) {
                     
                     flush();
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
                 $rows = count($larr);
                 $CELLPADDING = (($aktion == "chatuserliste" OR $rows > 15) ? 0
@@ -791,14 +791,14 @@ if (strlen($u_id) != 0) {
             if (isset($beichtstuhl) && $beichtstuhl && !$admin) {
                 
                 // Id der Lobby als Voreinstellung ermitteln
-                $query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysql_real_escape_string($lobby) . "' ";
-                $result = mysql_query($query, $conn);
-                $rows = mysql_num_rows($result);
+                $query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $lobby) . "' ";
+                $result = mysqli_query($conn, $query);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows > 0) {
                     $lobby_id = mysql_result($result, 0, "r_id");
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             
             // Raum listen
@@ -807,9 +807,9 @@ if (strlen($u_id) != 0) {
                 . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
                 . "ORDER BY o_name";
             
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             
-            for ($i = 0; $row = mysql_fetch_array($result, MYSQL_ASSOC); $i++) {
+            for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
                 
                 // Array mit Userdaten und Infotexten aufbauen
                 $userdata = unserialize(
@@ -875,7 +875,7 @@ if (strlen($u_id) != 0) {
                     $larr[$i]['u_level'] = "B";
                 
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             
             if (isset($larr)) {
                 $rows = count($larr);
@@ -889,8 +889,8 @@ if (strlen($u_id) != 0) {
             if (!$rows && $schau_raum > 0) {
                 
                 $query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
-                $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) != 0)
+                $result = mysqli_query($conn, $query);
+                if ($result && mysqli_num_rows($result) != 0)
                     $r_name = mysql_result($result, 0, 0);
                 echo "<P>" . str_replace("%r_name%", $r_name, $t['sonst13'])
                     . "</P>\n";

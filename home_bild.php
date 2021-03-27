@@ -14,8 +14,8 @@ header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", FALSE);
 
 $cache = "home_bild";
-$feld = mysql_real_escape_string($feld);
-$http_host = mysql_real_escape_string($http_host);
+$feld = mysqli_real_escape_string($mysqli_link, $feld);
+$http_host = mysqli_real_escape_string($mysqli_link, $http_host);
 $u_id = intval($u_id);
 
 if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3"
@@ -58,9 +58,9 @@ $cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/"
 $conn = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
 for ($c = 0; $c++ < 50 AND !$conn;) {
-    if ($conn = @mysql_connect($mysqlhost, $mysqluser, $mysqlpass)) {
-        @mysql_select_db($dbase, $conn);
-        mysql_set_charset("utf8mb4");
+    if ($conn = @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass)) {
+        @mysqli_select_db($conn, $dbase);
+        mysqli_set_charset($mysqli_link, "utf8mb4");
     }
     usleep(200000);
 }
@@ -71,8 +71,8 @@ if (!$conn) {
 
 // Prüfe ob User existiert und NP aktiviert ist
 $query = "SELECT u_chathomepage FROM user WHERE u_id=$u_id ";
-$result = mysql_query($query, $conn);
-if ($result && mysql_num_rows($result) == 1) {
+$result = mysqli_query($conn, $query);
+if ($result && mysqli_num_rows($result) == 1) {
     if (mysql_result($result, 0, "u_chathomepage") != 'J') {
         echo "Nickpage dieses Users deaktiviert!<BR>";
         exit;
@@ -81,7 +81,7 @@ if ($result && mysql_num_rows($result) == 1) {
     echo "User ID nicht gefunden!<BR>";
     exit;
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 $anzeigeauscache = false;
 if (file_exists($cachepfad)) {
@@ -111,8 +111,8 @@ if (file_exists($cachepfad)) {
         
         // Größen aus DB
         $query = "SELECT b_width, b_height, b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-        $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
+        $result = mysqli_query($conn, $query);
+        if ($result && mysqli_num_rows($result) == 1) {
             $b_width = mysql_result($result, 0, "b_width");
             $b_heigth = mysql_result($result, 0, "b_height");
             $b_mime = mysql_result($result, 0, "b_mime");
@@ -123,7 +123,7 @@ if (file_exists($cachepfad)) {
                 $anzeigeauscache = true;
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
 }
 
@@ -150,12 +150,12 @@ if ($anzeigeauscache) {
     // Bild aus der DB lesen
     
     $query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-    $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) == 1) {
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) == 1) {
         $b_mime = mysql_result($result, 0, "b_mime");
         $bild = mysql_result($result, 0, "b_bild");
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Bild in den Cache schreiben
     if (!@stat($cache))

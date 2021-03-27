@@ -81,13 +81,13 @@ if ($u_id && $communityfeatures) {
         case "editinfotext":
             if ((strlen($editeintrag) > 0)
                 && (preg_match("/^[0-9]+$/", trim($editeintrag)) == 1)) {
-                $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . mysql_real_escape_string($editeintrag) . ")";
-                $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) == 1) {
+                $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . mysqli_real_escape_string($mysqli_link, $editeintrag) . ")";
+                $result = mysqli_query($conn, $query);
+                if ($result && mysqli_num_rows($result) == 1) {
                     $infotext = mysql_result($result, 0, 0);
                     formular_editieren($editeintrag, $infotext);
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             break;
         
@@ -95,14 +95,14 @@ if ($u_id && $communityfeatures) {
             if ((strlen($f_id) > 0)
                 && (preg_match("/^[0-9]+$/", trim($f_id)) == 1)) {
                 $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . intval($f_id) . ")";
-                $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) == 1) {
+                $result = mysqli_query($conn, $query);
+                if ($result && mysqli_num_rows($result) == 1) {
                     // f_id ist zahl und gehört zu dem User, also ist update möglich
                     $back = edit_freund($f_id, $f_text);
                     echo "<P>$back</P>";
                     zeige_freunde("normal", "");
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             break;
         
@@ -118,21 +118,21 @@ if ($u_id && $communityfeatures) {
         case "neu2":
         // Neuer Freund, 2. Schritt: Nick Prüfen
             $neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
-            $query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . mysql_real_escape_string($neuer_freund[u_nick]) . "'";
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            $query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund[u_nick]) . "'";
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) == 1) {
                 $neuer_freund['u_id'] = mysql_result($result, 0, 0);
                 $neuer_freund['u_level'] = mysql_result($result, 0, 1);
                 
                 $ignore = false;
                 $query2 = "SELECT * FROM iignore WHERE i_user_aktiv='$neuer_freund[u_id]' AND i_user_passiv = '$u_id'";
-                $result2 = mysql_query($query2);
+                $result2 = mysqli_query($mysqli_link, $query2);
                 $num = mysql_numrows($result2);
                 if ($num >= 1) {
                     $ignore = true;
                 }
                 ;
-                @mysql_free_result($result2);
+                @mysqli_free_result($result2);
                 
                 if ($ignore) {
                     echo (str_replace("%u_name%", $neuer_freund['u_nick'],
@@ -160,15 +160,15 @@ if ($u_id && $communityfeatures) {
                 echo "<B>Fehler:</B> Der Nickname '$neuer_freund[u_nick]' existiert nicht!<BR>\n";
                 formular_neuer_freund($neuer_freund);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "admins":
         // Alle Admins (Status C und S) als Freund hinzufügen
             $query = "SELECT u_id,u_nick,u_level FROM user WHERE u_level='S' OR u_level='C'";
-            $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) > 0) {
-                while ($rows = mysql_fetch_array($result)) {
+            $result = mysqli_query($conn, $query);
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($rows = mysqli_fetch_array($result)) {
                     unset($neuer_freund);
                     $neuer_freund['u_nick'] = $rows['u_nick'];
                     $neuer_freund['u_id'] = $rows['u_id'];
@@ -178,7 +178,7 @@ if ($u_id && $communityfeatures) {
                 ;
             }
             zeige_freunde("normal", "");
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "bearbeite":
