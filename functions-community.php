@@ -151,7 +151,7 @@ function autoselect($name, $voreinstellung, $tabelle, $feld)
     $query = "SHOW COLUMNS FROM $tabelle like '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $txt = substr(mysql_result($result, 0, "Type"), 4, -1);
+    	$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
         $felder = explode(",", $txt);
         echo "<SELECT NAME=\"$name\">\n";
         while (list($key, $set_name) = each($felder)) {
@@ -248,7 +248,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE)
         $result = mysqli_query($conn, 
             "select u_punkte_gesamt FROM user WHERE u_id=$u_id");
         if ($result && mysqli_num_rows($result) == 1) {
-            $u_punkte_gesamt = mysql_result($result, 0, 0);
+        	$u_punkte_gesamt = mysqli_result($result, 0, 0);
             foreach ($punkte_gruppe as $key => $value) {
                 if ($u_punkte_gesamt < $value) {
                     break;
@@ -312,8 +312,8 @@ function punkte_offline($anzahl, $u_id)
     $result = mysqli_query($conn, 
         "select u_punkte_gesamt,u_nick FROM user WHERE u_id=$u_id");
     if ($result && mysqli_num_rows($result) == 1) {
-        $u_punkte_gesamt = mysql_result($result, 0, "u_punkte_gesamt");
-        $u_nick = mysql_result($result, 0, "u_nick");
+    	$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
+    	$u_nick = mysqli_result($result, 0, "u_nick");
         foreach ($punkte_gruppe as $key => $value) {
             if ($u_punkte_gesamt < $value) {
                 break;
@@ -701,7 +701,7 @@ function mail_sende($von, $an, $text, $betreff = "")
     // User die die Mailbox zu haben, bekommen keine Aktionen per Mainchat
     $query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
     $result = mysqli_query($mysqli_link, $query);
-    $num = mysql_numrows($result);
+    $num = mysqli_num_rows($result);
     if ($num >= 1) {
         $mailversand_ok = false;
         $fehlermeldung = $t['chat_msg105'];
@@ -710,7 +710,7 @@ function mail_sende($von, $an, $text, $betreff = "")
     // Gesperrte User bekommen keine Chatmail Aktionen mehr
     $query = "SELECT u_id FROM user WHERE u_id=" . intval($an) . " AND u_level='Z'";
     $result = mysqli_query($mysqli_link, $query);
-    $num = mysql_numrows($result);
+    $num = mysqli_num_rows($result);
     if ($num >= 1) {
         $mailversand_ok = false;
         $fehlermeldung = "User ist gesperrt, und kann deswegen keine Chatmail empfangen";
@@ -721,7 +721,7 @@ function mail_sende($von, $an, $text, $betreff = "")
     // system_msg("",0,$von,$system_farbe,"DEBUG: $query");
     $result = mysqli_query($mysqli_link, $query);
     
-    if (mysql_numrows($result) == 1) {
+    if (mysqli_num_rows($result) == 1) {
         $a = mysqli_fetch_array($result);
         $zeit = $a['zeit'];
     } else {
@@ -991,7 +991,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
     $sql = "select u_gelesene_postings from user where u_id = " . intval($an_u_id);
     $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0)
-        $gelesene = mysql_result($query, 0, "u_gelesene_postings");
+    	$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
     @mysqli_free_result($query);
     

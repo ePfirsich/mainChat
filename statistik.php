@@ -171,7 +171,7 @@ switch ($type) {
             $o = @mysqli_num_rows($r1);
             
             while ($j < $o) {
-                $c_host = @mysql_result($r1, $j, "c_host");
+            	$c_host = @mysqli_result($r1, $j, "c_host");
                 
                 statsResetMonth($y, $m);
                 
@@ -182,8 +182,8 @@ switch ($type) {
                     $n = @mysqli_num_rows($r0);
                     
                     while ($i < $n) {
-                        $x = @mysql_result($r0, $i, "tag");
-                        $c_users = @mysql_result($r0, $i, "c_users");
+                    	$x = @mysqli_result($r0, $i, "tag");
+                    	$c_users = @mysqli_result($r0, $i, "c_users");
                         
                         if ($c_users > $grapharray["$x"])
                             $grapharray["$x"] = $c_users;
@@ -216,8 +216,8 @@ switch ($type) {
             $i = 0;
             $n = @mysqli_num_rows($r0);
             while ($i < $n) {
-                $x = @mysql_result($r0, $i, "stunde");
-                $c_users = @mysql_result($r0, $i, "c_users");
+            	$x = @mysqli_result($r0, $i, "stunde");
+            	$c_users = @mysqli_result($r0, $i, "c_users");
                 $grapharray["$x"] += $c_users;
                 $i++;
             }

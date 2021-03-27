@@ -91,7 +91,7 @@ if ($admin && $u_id && $communityfeatures) {
             $query = "SELECT u_id FROM user WHERE u_nick = '$neuer_blacklist[u_nick]'";
             $result = mysqli_query($conn, $query);
             if ($result && mysqli_num_rows($result) == 1) {
-                $neuer_blacklist['u_id'] = mysql_result($result, 0, 0);
+            	$neuer_blacklist['u_id'] = mysqli_result($result, 0, 0);
                 neuer_blacklist($u_id, $neuer_blacklist);
                 unset($neuer_blacklist);
                 $neuer_blacklist[] = "";

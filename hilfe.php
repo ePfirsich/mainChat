@@ -47,7 +47,7 @@ if ($erweitertefeatures) {
     $result = mysqli_query($conn, $query);
     
     if ($result && mysqli_num_rows($result) != 0) {
-        $txt = mysql_result($result, 0, 0);
+    	$txt = mysqli_result($result, 0, 0);
         if (strlen($txt) > 7)
             $frame_online = $txt;
     }

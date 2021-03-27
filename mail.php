@@ -103,7 +103,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         case "neu2":
         // Mail versenden, 2. Schritt: Nick Prüfen
             $neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
-            $neue_email['an_nick'] = mysqli_real_escape_string($check_name), coreCheckName($neue_email['an_nick']);
+            $neue_email['an_nick'] = mysqli_real_escape_string($mysqli_link, coreCheckName($neue_email['an_nick'], $check_name));
             
             if (!isset($m_id))
                 $m_id = "";
@@ -111,12 +111,12 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             $query = "SELECT u_id,u_level  FROM user WHERE u_nick = '$neue_email[an_nick]'";
             $result = mysqli_query($conn, $query);
             if ($result && mysqli_num_rows($result) == 1) {
-                $neue_email['m_an_uid'] = mysql_result($result, 0, "u_id");
+            	$neue_email['m_an_uid'] = mysqli_result($result, 0, "u_id");
                 
                 $ignore = false;
                 $query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email[m_an_uid]) . "' AND i_user_passiv = '$u_id'";
                 $result2 = mysqli_query($mysqli_link, $query2);
-                $num = mysql_numrows($result2);
+                $num = mysqli_num_rows($result2);
                 if ($num >= 1) {
                     $ignore = true;
                 }
@@ -124,7 +124,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 $boxzu = false;
                 $query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email[m_an_uid]) . "' AND m_an_uid='" . intval($neue_email[m_an_uid]) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
                 $result2 = mysqli_query($mysqli_link, $query);
-                $num = mysql_numrows($result2);
+                $num = mysqli_num_rows($result2);
                 if ($num >= 1) {
                     $boxzu = true;
                 }
@@ -135,7 +135,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                     break;
                 }
                 
-                $m_u_level = mysql_result($result, 0, "u_level");
+                $m_u_level = mysqli_result($result, 0, "u_level");
                 if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
                     formular_neue_email2($neue_email, $m_id);
                 } else {
@@ -187,7 +187,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             $query = "SELECT u_nick FROM user WHERE u_id = $neue_email[m_an_uid]";
             $result = mysqli_query($conn, $query);
             if ($result && mysqli_num_rows($result) == 1) {
-                $an_nick = mysql_result($result, 0, "u_nick");
+            	$an_nick = mysqli_result($result, 0, "u_nick");
             } else {
                 echo "<B>Fehler:</B> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!<BR>\n";
                 $ok = FALSE;

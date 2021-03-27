@@ -652,7 +652,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
                 $query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
                 $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) != 0) {
-                    $b_id = mysql_result($result, 0, 0);
+                	$b_id = mysqli_result($result, 0, 0);
                 }
                 schreibe_db("bild", $f, $b_id, "b_id");
             } else {

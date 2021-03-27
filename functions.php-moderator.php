@@ -57,7 +57,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
         $query = "SELECT c_id,c_text FROM moderation WHERE c_id=$answer AND c_typ='P'";
         $result = mysqli_query($conn, $query);
         if ($result > 0) {
-            echo mysql_result($result, 0, "c_text");
+        	echo mysqli_result($result, 0, "c_text");
         }
         mysqli_free_result($result);
     }

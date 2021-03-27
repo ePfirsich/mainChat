@@ -229,7 +229,7 @@ if (strlen($u_id) != 0) {
                                 $query = "SELECT u_id FROM user where u_nick like '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
                                 $result = mysqli_query($conn, $query);
                                 if ($result && mysqli_num_rows($result)) {
-                                    $ui_userid = mysql_result($result, 0, 0);
+                                	$ui_userid = mysqli_result($result, 0, 0);
                                     echo " ID: $ui_userid";
                                 }
                                 
@@ -796,7 +796,7 @@ if (strlen($u_id) != 0) {
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows > 0) {
-                    $lobby_id = mysql_result($result, 0, "r_id");
+                	$lobby_id = mysqli_result($result, 0, "r_id");
                 }
                 @mysqli_free_result($result);
             }
@@ -891,7 +891,7 @@ if (strlen($u_id) != 0) {
                 $query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
                 $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) != 0)
-                    $r_name = mysql_result($result, 0, 0);
+                	$r_name = mysqli_result($result, 0, 0);
                 echo "<P>" . str_replace("%r_name%", $r_name, $t['sonst13'])
                     . "</P>\n";
                 

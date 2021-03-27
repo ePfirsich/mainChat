@@ -49,7 +49,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
-            $o_chat_id = mysql_result($result, 0, "o_chat_id");
+        	$o_chat_id = mysqli_result($result, 0, "o_chat_id");
         } else {
             $o_chat_id = 0;
         }
@@ -88,7 +88,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
             $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
             $result = mysqli_query($conn, $query);
             if ($result && mysqli_num_rows($result) == 1) {
-                $o_chat_id = mysql_result($result, 0, "o_chat_id");
+            	$o_chat_id = mysqli_result($result, 0, "o_chat_id");
             } else {
                 $o_chat_id = 0;
             }

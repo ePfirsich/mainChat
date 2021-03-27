@@ -77,7 +77,7 @@ if ($u_id && $communityfeatures) {
         if (!isset($f) || !is_array($f)) {
             $f = mysqli_fetch_array($result);
         } else {
-            $f['ui_id'] = mysql_result($result, 0, "ui_id");
+        	$f['ui_id'] = mysqli_result($result, 0, "ui_id");
         }
         $profil_gefunden = true;
     } else {

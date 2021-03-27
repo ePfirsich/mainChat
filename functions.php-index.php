@@ -26,7 +26,7 @@ function erzeuge_sequence($db, $id)
         $query = "select max($id) from $db";
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1)
-            $temp = mysql_result($result, 0, 0) + 1;
+            $temp = mysqli_result($result, 0, 0) + 1;
         if ($temp == "NULL" || !$temp)
             $temp = 0;
         
@@ -174,8 +174,8 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     $query = "select o_id, o_login FROM online WHERE o_user=$u_id ";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $alteloginzeit = mysql_result($result, 0, 1);
-        logout(mysql_result($result, 0, 0), $u_id, "login");
+        $alteloginzeit = mysqli_result($result, 0, 1);
+        logout(mysqli_result($result, 0, 0), $u_id, "login");
     }
     @mysqli_free_result($result);
     
@@ -453,7 +453,7 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
                     if (($result1222b > 0) && (mysqli_num_rows($result1222b) > 0)) {
                         // Es gibt Räume, für die man noch nicht gesperrt ist.
                         // hiervon den ersten nehmen
-                        $raum = mysql_result($result1222b, 0, 0);
+                        $raum = mysqli_result($result1222b, 0, 0);
                     }
                     mysqli_free_result($result1222b);
                 }
@@ -503,10 +503,10 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
     }
     
     if ($result && $rows == 1) {
-        $r_id = mysql_result($result, 0, "r_id");
-        $r_eintritt = mysql_result($result, 0, "r_eintritt");
-        $r_topic = mysql_result($result, 0, "r_topic");
-        $r_name = mysql_result($result, 0, "r_name");
+        $r_id = mysqli_result($result, 0, "r_id");
+        $r_eintritt = mysqli_result($result, 0, "r_eintritt");
+        $r_topic = mysqli_result($result, 0, "r_topic");
+        $r_name = mysqli_result($result, 0, "r_name");
         mysqli_free_result($result);
     } else {
         echo "<BODY><P>Fehler: Ungültige Raum-ID $raum beim Login!</P></BODY></HTML>\n";
@@ -770,7 +770,7 @@ function RaumNameToRaumID($eintrittsraum)
     $query = "SELECT r_id FROM raum WHERE r_name = '$eintrittsraum' ";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) == 1) {
-        $lobby_id = mysql_result($result, 0, "r_id");
+        $lobby_id = mysqli_result($result, 0, "r_id");
     }
     mysqli_free_result($result);
     return ($lobby_id);
@@ -790,7 +790,7 @@ function getsalt($feldname, $login)
     
     if ($result && mysqli_num_rows($result) == 1) {
         // User vorhanden, u_passwort untersuchen
-        $pass = mysql_result($result, 0, "u_passwort");
+        $pass = mysqli_result($result, 0, "u_passwort");
         
         if (preg_match('#(^\$6\$rounds\=([0-9]{4,9})\$(.{1,16})\$)#i', $pass, $treffer)) {
             // SHA 512 erkannt
@@ -892,7 +892,7 @@ function auth_user($feldname, $login, $passwort)
 {
     
     // Passwort prüfen und Userdaten lesen
-    // Funktion liefert das mysql_result zurück, wenn auf EINEN User das login/passwort passt
+    // Funktion liefert das mysqli_result zurück, wenn auf EINEN User das login/passwort passt
     // $login muss "sicher" kommen
     // feldname = uc_nick oder u_name
     // passwort = Passwort
@@ -928,7 +928,7 @@ function auth_user($feldname, $login, $passwort)
         $query = "SELECT * " . "FROM user WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND u_passwort='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
-            $usergefunden = mysql_result($result, 0, "u_id");
+            $usergefunden = mysqli_result($result, 0, "u_id");
             mysqli_free_result($result);
             
             if ($upgrade_password == 1) {

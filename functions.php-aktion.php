@@ -41,7 +41,7 @@ function zeige_aktionen($aktion)
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
-            substr(mysql_result($result, 0, "Type"), 5, -1));
+        	substr(mysqli_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);
     }
     $anzahl_spalten = count($a_wann);
@@ -51,7 +51,7 @@ function zeige_aktionen($aktion)
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
-            substr(mysql_result($result, 0, "Type"), 4, -1));
+        	substr(mysqli_result($result, 0, "Type"), 4, -1));
         $a_wie = explode(",", $txt);
     }
     $anzahl_wie = count($a_wie);
@@ -171,7 +171,7 @@ function eintrag_aktionen($aktion_datensatz)
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
-            substr(mysql_result($result, 0, "Type"), 5, -1));
+        	substr(mysqli_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);
     }
     

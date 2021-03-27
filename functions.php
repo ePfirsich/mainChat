@@ -74,6 +74,18 @@ $valid_fields = array(
 
 // Funktionen
 
+function mysqli_result($res,$row=0,$col=0){
+	$numrows = mysqli_num_rows($res);
+	if ($numrows && $row <= ($numrows-1) && $row >=0){
+		mysqli_data_seek($res,$row);
+		$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+		if (isset($resrow[$col])){
+			return $resrow[$col];
+		}
+	}
+	return false;
+}
+
 function onlinezeit($onlinezeit)
 {
     // Alternative zu gmdate("H:i:s", $onlinezeit), jedoch geht hier Std > 24
@@ -169,8 +181,8 @@ function ist_online($user)
     
     $result = mysqli_query($conn, $query);
     
-    if ($result && mysql_NumRows($result) > 0) {
-        $ist_online_raum = mysql_result($result, 0, "r_name");
+    if ($result && mysqli_num_rows($result) > 0) {
+    	$ist_online_raum = mysqli_result($result, 0, "r_name");
         if (!$ist_online_raum || $ist_online_raum == "NULL")
             $ist_online_raum = "[" . $whotext[2] . "]";
         @mysqli_free_result($result);
@@ -734,7 +746,7 @@ function schreibe_db($db, $f, $id, $id_name)
             $query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
             $result = mysqli_query($conn, $query);
             if ($result) {
-                $id = mysql_result($result, 0, 0);
+            	$id = mysqli_result($result, 0, 0);
                 mysqli_free_result($result);
                 $query = "UPDATE sequence SET se_nextid='" . ($id + 1)
                     . "' WHERE se_name='$db'";
@@ -763,7 +775,7 @@ function schreibe_db($db, $f, $id, $id_name)
                     if (!isset($f['u_salt']))
                         $f['u_salt'] = substr($inhalt, 0, 2);
                     // Verschlüsseln
-                    $q .= "='" . mysqli_real_escape_string($f['u_salt']), iCrypt($inhalt) . "'";
+                        $q .= "='" . mysqli_real_escape_string($mysqli_link, $f['u_salt']), iCrypt($inhalt) . "'";
                 } else {
                     $q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
                 }
@@ -795,7 +807,7 @@ function schreibe_db($db, $f, $id, $id_name)
                     // Verschlüsseln
                     if (!isset($f['u_salt']))
                         $f['u_salt'] = substr($inhalt, 0, 2);
-                    $q .= "='" . mysqli_real_escape_string($f['u_salt']), iCrypt($inhalt) . "'";
+                        $q .= "='" . mysqli_real_escape_string($mysqli_link, $f['u_salt']), iCrypt($inhalt) . "'";
                 } else {
                     $q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
                 }

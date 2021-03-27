@@ -16,7 +16,7 @@ function formular_neue_email($neue_email, $m_id = "")
         $query = "SELECT u_nick FROM user WHERE u_id = " . intval($neue_email[m_an_uid]);
         $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
-            $an_nick = mysql_result($result, 0, 0);
+        	$an_nick = mysqli_result($result, 0, 0);
             if (strlen($an_nick) > 0)
                 $neue_email['an_nick'] = $an_nick;
         }

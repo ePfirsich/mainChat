@@ -84,7 +84,7 @@ if ($u_id && $communityfeatures) {
                 $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . mysqli_real_escape_string($mysqli_link, $editeintrag) . ")";
                 $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) == 1) {
-                    $infotext = mysql_result($result, 0, 0);
+                    $infotext = mysqli_result($result, 0, 0);
                     formular_editieren($editeintrag, $infotext);
                 }
                 @mysqli_free_result($result);
@@ -121,13 +121,13 @@ if ($u_id && $communityfeatures) {
             $query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund[u_nick]) . "'";
             $result = mysqli_query($conn, $query);
             if ($result && mysqli_num_rows($result) == 1) {
-                $neuer_freund['u_id'] = mysql_result($result, 0, 0);
-                $neuer_freund['u_level'] = mysql_result($result, 0, 1);
+                $neuer_freund['u_id'] = mysqli_result($result, 0, 0);
+                $neuer_freund['u_level'] = mysqli_result($result, 0, 1);
                 
                 $ignore = false;
                 $query2 = "SELECT * FROM iignore WHERE i_user_aktiv='$neuer_freund[u_id]' AND i_user_passiv = '$u_id'";
                 $result2 = mysqli_query($mysqli_link, $query2);
-                $num = mysql_numrows($result2);
+                $num = mysqli_num_rows($result2);
                 if ($num >= 1) {
                     $ignore = true;
                 }

@@ -182,7 +182,7 @@ function loesche_freund($f_freundid, $f_userid)
     $query = "SELECT u_nick FROM user where u_id=$f_freundid";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $f_nick = mysql_result($result, 0, 0);
+    	$f_nick = mysqli_result($result, 0, 0);
         $back = "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr Ihr Freund.</P>";
     }
     @mysqli_free_result($result);
@@ -346,7 +346,7 @@ function bestaetige_freund($f_userid, $freund)
     $query = "SELECT u_nick FROM user where u_id='$f_userid'";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $f_nick = mysql_result($result, 0, 0);
+    	$f_nick = mysqli_result($result, 0, 0);
         $back = "<P><B>Hinweis: </B>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";
     }
     return ($back);

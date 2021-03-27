@@ -92,8 +92,8 @@ if ($erweitertefeatures) {
         . "AND date_add(t_zeit, interval '6' hour)>=NOW()";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) > 0) {
-        $t_id = mysql_result($result, 0, "t_id");
-        $array_user = unserialize(mysql_result($result, 0, "t_daten"));
+    	$t_id = mysqli_result($result, 0, "t_id");
+    	$array_user = unserialize(mysqli_result($result, 0, "t_daten"));
     } else {
         unset($array_user);
         // Top 100 Punkte im aktuellen Monat als Array aufbauen

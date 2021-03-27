@@ -16,7 +16,7 @@ function show_pfad_posting2($th_id)
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
     $query = mysqli_query($conn, $sql);
-    $fo_id = mysql_result($query, 0, "fo_id");
+    $fo_id = mysqli_result($query, 0, "fo_id");
     $fo_name = htmlspecialchars($query, 0, "fo_name");
     $th_name = htmlspecialchars($query, 0, "th_name");
     @mysqli_free_result($query);
@@ -228,7 +228,7 @@ function such_ergebnis()
     $sql = "select u_gelesene_postings from user where u_id=" . intval($u_id);
     $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0)
-        $gelesene = mysql_result($query, 0, "u_gelesene_postings");
+    	$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
     
     $fehler = "";
@@ -240,7 +240,7 @@ function such_ergebnis()
         $sql = "SELECT u_id FROM user where u_nick = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
         $query = mysqli_query($conn, $sql);
         if (mysqli_num_rows($query) == 1) {
-            $suche['u_id'] = mysql_result($query, 0, "u_id");
+        	$suche['u_id'] = mysqli_result($query, 0, "u_id");
         } else {
             $fehler .= 'Username unbekannt<br>';
         }

@@ -24,8 +24,8 @@ $raeume = "";
 if ($rows > 0) {
     $i = 0;
     while ($i < $rows) {
-        $r_id = mysql_result($result, $i, "r_id");
-        $r_name = mysql_result($result, $i, "r_name");
+    	$r_id = mysqli_result($result, $i, "r_id");
+    	$r_name = mysqli_result($result, $i, "r_name");
         if ((!$eintritt AND $r_name == $eintrittsraum)
             || ($eintritt AND $r_id == $eintritt)) {
             $raeume = $raeume . "<OPTION SELECTED VALUE=\"$r_id\">$r_name\n";

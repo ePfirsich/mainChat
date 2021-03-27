@@ -193,7 +193,7 @@ function loesche_blacklist($f_blacklistid)
     $query = "SELECT u_nick FROM user where u_id=$f_blacklistid";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $f_nick = mysql_result($result, 0, 0);
+    	$f_nick = mysqli_result($result, 0, 0);
         echo "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
     }
     @mysqli_free_result($result);

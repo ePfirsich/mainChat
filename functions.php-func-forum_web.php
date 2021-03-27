@@ -92,8 +92,8 @@ function maske_forum($fo_id = 0)
         $fo_id = intval($fo_id);
         $sql = "select fo_name, fo_admin from forum where fo_id=$fo_id";
         $query = mysqli_query($conn, $sql);
-        $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
-        $fo_admin = mysql_result($query, 0, "fo_admin");
+        $fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
+        $fo_admin = mysqli_result($query, 0, "fo_admin");
         @mysqli_free_result($query);
         
         $kopfzeile = str_replace("xxx", $fo_name, $t['forum_edit']);
@@ -316,8 +316,8 @@ function maske_thema($th_id = 0)
         
         $sql = "select th_name, th_desc from thema where th_id=" . intval($th_id);
         $query = mysqli_query($conn, $sql);
-        $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
-        $th_desc = htmlspecialchars(mysql_result($query, 0, "th_desc"));
+        $th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
+        $th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
         @mysqli_free_result($query);
         
         $kopfzeile = $chat_grafik['forum_themabearbeiten'];
@@ -392,10 +392,10 @@ function show_pfad($th_id)
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
     $query = mysqli_query($conn, $sql);
-    $fo_id = htmlspecialchars(mysql_result($query, 0, "fo_id"));
-    $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
-    $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
-    $th_anzthreads = mysql_result($query, 0, "th_anzthreads");
+    $fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
+    $fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
+    $th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
+    $th_anzthreads = mysqli_result($query, 0, "th_anzthreads");
     @mysqli_free_result($query);
     
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
@@ -664,17 +664,17 @@ function maske_posting($mode)
                                 where po_id = " . intval($po_vater_id);
             $query = mysqli_query($conn, $sql);
             
-            $autor = mysql_result($query, 0, "u_nick");
-            $po_date = mysql_result($query, 0, "po_date");
-            $po_titel = (mysql_result($query, 0, "po_titel"));
+            $autor = mysqli_result($query, 0, "u_nick");
+            $po_date = mysqli_result($query, 0, "po_date");
+            $po_titel = (mysqli_result($query, 0, "po_titel"));
             if (substr($po_titel, 0, 3) != $t['reply'])
                 $po_titel = $t['reply'] . " " . $po_titel;
             $titel = $po_titel;
-            $po_text = mysql_result($query, 0, "po_text");
+            $po_text = mysqli_result($query, 0, "po_text");
             $po_text = erzeuge_quoting($po_text, $autor, $po_date);
             $po_text = erzeuge_fuss($po_text);
             
-            $po_tiefe = mysql_result($query, 0, "po_tiefe");
+            $po_tiefe = mysqli_result($query, 0, "po_tiefe");
             
             $kopfzeile = $po_titel;
             $button = $t['neuer_thread_button'];
@@ -686,13 +686,13 @@ function maske_posting($mode)
                                 where po_id = " . intval($po_vater_id);
             $query = mysqli_query($conn, $sql);
             
-            $po_titel = mysql_result($query, 0, "po_titel");
+            $po_titel = mysqli_result($query, 0, "po_titel");
             if (substr($po_titel, 0, 3) != $t['reply'])
                 $po_titel = $t['reply'] . " " . $po_titel;
             $titel = $po_titel;
             $po_text = erzeuge_fuss("");
             
-            $po_tiefe = mysql_result($query, 0, "po_tiefe");
+            $po_tiefe = mysqli_result($query, 0, "po_tiefe");
             
             $kopfzeile = $po_titel;
             $button = $t['neuer_thread_button'];
@@ -707,15 +707,15 @@ function maske_posting($mode)
                                 where po_id = " . intval($po_id);
             $query = mysqli_query($conn, $sql);
             
-            $autor = mysql_result($query, 0, "u_nick");
-            $user_id = mysql_result($query, 0, "u_id");
-            $po_date = mysql_result($query, 0, "po_date");
-            $po_topposting = mysql_result($query, 0, "po_topposting");
-            $po_threadgesperrt = mysql_result($query, 0, "po_threadgesperrt");
-            $po_titel = mysql_result($query, 0, "po_titel");
+            $autor = mysqli_result($query, 0, "u_nick");
+            $user_id = mysqli_result($query, 0, "u_id");
+            $po_date = mysqli_result($query, 0, "po_date");
+            $po_topposting = mysqli_result($query, 0, "po_topposting");
+            $po_threadgesperrt = mysqli_result($query, 0, "po_threadgesperrt");
+            $po_titel = mysqli_result($query, 0, "po_titel");
             $titel = $po_titel;
-            $po_text = mysql_result($query, 0, "po_text");
-            $po_tiefe = mysql_result($query, 0, "po_tiefe");
+            $po_text = mysqli_result($query, 0, "po_text");
+            $po_tiefe = mysqli_result($query, 0, "po_tiefe");
             
             //Testen ob User mogelt, indem er den Edit-Link mit anderer po_id benutzt
             if ((!$forum_admin) && ($user_id != $u_id)) {
@@ -840,9 +840,9 @@ function show_pfad_posting($th_id, $po_titel)
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
     $query = mysqli_query($conn, $sql);
-    $fo_id = htmlspecialchars(mysql_result($query, 0, "fo_id"));
-    $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
-    $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
+    $fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
+    $fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
+    $th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
     @mysqli_free_result($query);
     
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
@@ -1063,7 +1063,7 @@ function show_posting()
     
     $sql = "select po_threadorder from posting where po_id=" . intval($thread);
     $query = mysqli_query($conn, $sql);
-    $po_threadorder = mysql_result($query, 0, "po_threadorder");
+    $po_threadorder = mysqli_result($query, 0, "po_threadorder");
     
     @mysqli_free_result($query);
     
@@ -1152,7 +1152,7 @@ function zeige_baum(
     $sql = "select u_gelesene_postings from user where u_id=$u_id";
     $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0)
-        $gelesene = mysql_result($query, 0, "u_gelesene_postings");
+        $gelesene = mysqli_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
     
     $sql = "select po_id, date_format(from_unixtime(po_ts), '%d.%m %H:%i') as po_date, po_tiefe,

@@ -267,7 +267,7 @@ if (strlen($u_id) != 0) {
                     // test, ob zu löschender Admin ist...
                     $query = "SELECT * FROM user WHERE u_id=$f[u_id] ";
                     $result = mysqli_query($conn, $query);
-                    $del_level = mysql_result($result, 0, "u_level");
+                    $del_level = mysqli_result($result, 0, "u_level");
                     if ($del_level != "S" && $del_level != "C"
                         && $del_level != "M") {
                         
@@ -394,7 +394,7 @@ if (strlen($u_id) != 0) {
                         $query = "SELECT u_nick FROM user WHERE u_id=$f[u_id]";
                         $result = mysqli_query($conn, $query);
                         if ($result) {
-                            $f['u_nick'] = mysql_result($result, 0);
+                        	$f['u_nick'] = mysqli_result($result, 0);
                         }
                     }
                     
@@ -507,7 +507,7 @@ if (strlen($u_id) != 0) {
                 $query = "SELECT u_level FROM user WHERE u_id=" . intval($f['u_id']);
                 $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) > 0) {
-                    $uu_level = mysql_result($result, 0, "u_level");
+                	$uu_level = mysqli_result($result, 0, "u_level");
                     
                     // Falls Userlevel G -> Änderung verboten
                     if (isset($f['u_level']) && strlen($f['u_level']) != 0

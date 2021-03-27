@@ -66,7 +66,7 @@ function statsOverview($v = "%")
             echo ("</TR>\n");
             
             while ($j < $o) {
-                $c_host = @mysql_result($r1, $j, "c_host");
+            	$c_host = @mysqli_result($r1, $j, "c_host");
                 
                 statsResetMonth($y, $m);
                 
@@ -79,8 +79,8 @@ function statsOverview($v = "%")
                     $n = @mysqli_num_rows($r0);
                     
                     while ($i < $n) {
-                        $c_timestamp = @mysql_result($r0, $i, "c_timestamp");
-                        $c_users = @mysql_result($r0, $i, "c_users");
+                    	$c_timestamp = @mysqli_result($r0, $i, "c_timestamp");
+                    	$c_users = @mysqli_result($r0, $i, "c_users");
                         
                         $x = trim(substr($c_timestamp, 6, 2));
                         

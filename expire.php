@@ -83,7 +83,7 @@ if ($expire_privat) {
         . "AND c_typ='P' ORDER BY c_raum,c_id";
     
     $result = mysqli_query($conn, $query);
-    $rows = mysql_NumRows($result);
+    $rows = mysqli_num_rows($result);
     
     if ($rows > 0) {
         $i = 0;
@@ -441,7 +441,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
                     $r1 = @mysqli_query($conn, 
                         "SELECT COUNT(o_id) AS anzahl FROM online ");
                 } else {
-                    $o_vhost = @mysql_result($r0, $i, "o_vhost");
+                	$o_vhost = @mysqli_result($r0, $i, "o_vhost");
                     $r1 = @mysqli_query($conn, 
                         "SELECT COUNT(o_id) AS anzahl FROM online WHERE o_vhost='"
                             . mysqli_real_escape_string($mysqli_link, $o_vhost) . "' ");
@@ -449,7 +449,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
                 
                 if ($r1 > 0) {
                     $onlinevhosts["$o_vhost"] = intval(
-                        @mysql_result($r1, 0, "anzahl"));
+                    	@mysqli_result($r1, 0, "anzahl"));
                 }
                 
                 $i++;
@@ -493,7 +493,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
                         /* User wird erneuert wenn sie größer als der alte Wert	*/
                         /* war. */
                         
-                        $currentnr = @mysql_result($r0, 0, "c_users");
+                    	$currentnr = @mysqli_result($r0, 0, "c_users");
                         
                         if ($nr > $currentnr) {
                             @mysqli_query($conn2, 

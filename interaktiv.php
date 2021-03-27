@@ -132,7 +132,7 @@ if (isset($u_id) && $u_id) {
         . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $anzahl_gesamt = mysql_result($result, 0, "anzahl");
+    	$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
         mysqli_free_result($result);
     }
     
@@ -142,7 +142,7 @@ if (isset($u_id) && $u_id) {
         . "(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
     $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
-        $anzahl_raum = mysql_result($result, 0, "anzahl");
+    	$anzahl_raum = mysqli_result($result, 0, "anzahl");
         mysqli_free_result($result);
     }
     

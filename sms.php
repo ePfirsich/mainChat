@@ -34,7 +34,7 @@ function erzwingeNeuePin()
     $sql = "select u_sms_extra from user where u_id=$u_id";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0)
-        $sms_extra = unserialize(mysql_result($result, 0, "u_sms_extra"));
+    	$sms_extra = unserialize(mysqli_result($result, 0, "u_sms_extra"));
     
     //falls pin vor mehr als 24 stunden vergeben wurde, muss neue erzwungen werden
     if ($sms_extra['pintime'] && ($sms_extra['pintime'] + 86400) < date("U")) {
@@ -55,7 +55,7 @@ function CheckHandynummerVorhanden()
     $sql = "select ui_handy from userinfo where ui_userid = $u_id";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0)
-        $handynr = mysql_result($result, 0, "ui_handy");
+    	$handynr = mysqli_result($result, 0, "ui_handy");
     
     if ($handynr)
         return true;
@@ -94,7 +94,7 @@ function ZeigSMSHistory($u_id)
     // Hier die zuletzt versandten 5 SMS ausgeben
     $query = "SELECT date_format(s_zeit,'%d.%m.%y %H:%i:%s') as zeit ,s_an_user_id ,s_text FROM sms WHERE s_von_user_id = '$u_id' order by s_zeit desc LIMIT 0,5";
     $result = mysqli_query($mysqli_link, $query);
-    if (mysql_numrows($result) > 0) {
+    if (mysqli_num_rows($result) > 0) {
         $atext = "<table border=0 cellpadding=2 cellspacing=0 width=100%>\n";
         $atext .= "<TR BGCOLOR=\"$farbe_tabelle_kopf\"\"><TD>Wann?</TD><TD>An wen?</TD><TD>Nachricht:</TD></TR>\n";
         $farbe = $farbe_tabelle_zeile1;
@@ -338,7 +338,7 @@ if ($u_id && $communityfeatures) {
             if (!isset($f) || !is_array($f)) {
                 $f = mysqli_fetch_array($result);
             } else {
-                $f['ui_id'] = mysql_result($result, 0, "ui_id");
+            	$f['ui_id'] = mysqli_result($result, 0, "ui_id");
             }
             $profil_gefunden = true;
         } else {

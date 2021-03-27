@@ -12,7 +12,7 @@ $query = "SELECT count(u_id) as anzahl_user from user";
 $result = @mysqli_query($conn, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
-    $anzahl_user = mysql_result($result, 0, 0);
+	$anzahl_user = mysqli_result($result, 0, 0);
 }
 @mysqli_free_result($result);
 
@@ -21,7 +21,7 @@ $query = "SELECT count(o_id) as anzahl_online FROM online "
 $result = @mysqli_query($conn, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
-    $anzahl_online = mysql_result($result, 0, 0);
+	$anzahl_online = mysqli_result($result, 0, 0);
 }
 @mysqli_free_result($result);
 
