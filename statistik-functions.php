@@ -40,12 +40,12 @@ function statsOverview($v = "%")
     global $grapharray;
     
     @mysql_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
-    mysql_set_charset("utf8mb4");
+    mysqli_set_charset($mysqli_link, "utf8mb4");
     
     $m = date("m", time());
     $y = date("Y", time());
     
-    $r1 = @mysql_query("SELECT DISTINCT c_host FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host LIKE '" . mysql_real_escape_string($v) . "' ORDER BY c_host");
+    $r1 = @mysqli_query($mysqli_link, "SELECT DISTINCT c_host FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host LIKE '" . mysqli_real_escape_string($mysqli_link, $v) . "' ORDER BY c_host");
     
     if ($r1 > 0) {
         $j = 0;
@@ -70,8 +70,8 @@ function statsOverview($v = "%")
                 
                 statsResetMonth($y, $m);
                 
-                $r0 = @mysql_query(
-                    "SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='". mysql_real_escape_string($c_host) . "' ORDER BY c_timestamp");
+                $r0 = @mysqli_query($mysqli_link, 
+                    "SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='". mysqli_real_escape_string($mysqli_link, $c_host) . "' ORDER BY c_timestamp");
                 
                 if ($r0 > 0) {
                     $i = 0;

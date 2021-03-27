@@ -91,7 +91,7 @@ function maske_forum($fo_id = 0)
     if ($fo_id > 0) {
         $fo_id = intval($fo_id);
         $sql = "select fo_name, fo_admin from forum where fo_id=$fo_id";
-        $query = mysql_query($sql, $conn);
+        $query = mysqli_query($conn, $sql);
         $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
         $fo_admin = mysql_result($query, 0, "fo_admin");
         @mysqli_free_result($query);
@@ -185,7 +185,7 @@ function forum_liste()
     
     $sql .= "order by fo_order, th_order";
     
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     //fo_id merken zur Darstellnug des Kopfes
     $fo_id_last = 0;
     $zeile = 0;
@@ -315,7 +315,7 @@ function maske_thema($th_id = 0)
     if ($th_id > 0) {
         
         $sql = "select th_name, th_desc from thema where th_id=" . intval($th_id);
-        $query = mysql_query($sql, $conn);
+        $query = mysqli_query($conn, $sql);
         $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
         $th_desc = htmlspecialchars(mysql_result($query, 0, "th_desc"));
         @mysqli_free_result($query);
@@ -352,7 +352,7 @@ function maske_thema($th_id = 0)
         echo "<input type=\"checkbox\" name=\"th_forumwechsel\" value=\"Y\">";
         
         $sql = "SELECT fo_id, fo_name FROM forum ORDER BY fo_order ";
-        $query = mysql_query($sql, $conn);
+        $query = mysqli_query($conn, $sql);
         echo "<SELECT NAME=\"th_verschiebe_nach\" SIZE=\"1\">";
         while ($row = mysqli_fetch_object($query)) {
             echo "<OPTION ";
@@ -391,7 +391,7 @@ function show_pfad($th_id)
                 from forum, thema
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     $fo_id = htmlspecialchars(mysql_result($query, 0, "fo_id"));
     $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
     $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
@@ -445,7 +445,7 @@ function show_thema()
         
     } else {
         $query = "SELECT u_forum_postingproseite FROM user WHERE u_id = '$u_id'";
-        $result = mysql_query($query);
+        $result = mysqli_query($mysqli_link, $query);
         $a = mysqli_fetch_array($result);
         $anzahl_po_seite2 = $a['u_forum_postingproseite'];
         $anzahl_po_seite = $anzahl_po_seite2;
@@ -473,7 +473,7 @@ function show_thema()
                 order by po_topposting desc, po_threadts desc, po_ts desc
                 limit $offset, $anzahl_po_seite";
     
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     
     $th_name = show_pfad($th_id);
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
@@ -662,7 +662,7 @@ function maske_posting($mode)
                                 from posting
                                 left join user on po_u_id = u_id
                                 where po_id = " . intval($po_vater_id);
-            $query = mysql_query($sql, $conn);
+            $query = mysqli_query($conn, $sql);
             
             $autor = mysql_result($query, 0, "u_nick");
             $po_date = mysql_result($query, 0, "po_date");
@@ -684,7 +684,7 @@ function maske_posting($mode)
             $sql = "select po_tiefe, po_titel
                                 from posting
                                 where po_id = " . intval($po_vater_id);
-            $query = mysql_query($sql, $conn);
+            $query = mysqli_query($conn, $sql);
             
             $po_titel = mysql_result($query, 0, "po_titel");
             if (substr($po_titel, 0, 3) != $t['reply'])
@@ -705,7 +705,7 @@ function maske_posting($mode)
                                 from posting
                                 left join user on po_u_id = u_id
                                 where po_id = " . intval($po_id);
-            $query = mysql_query($sql, $conn);
+            $query = mysqli_query($conn, $sql);
             
             $autor = mysql_result($query, 0, "u_nick");
             $user_id = mysql_result($query, 0, "u_id");
@@ -839,7 +839,7 @@ function show_pfad_posting($th_id, $po_titel)
                 from forum, thema
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     $fo_id = htmlspecialchars(mysql_result($query, 0, "fo_id"));
     $fo_name = htmlspecialchars(mysql_result($query, 0, "fo_name"));
     $th_name = htmlspecialchars(mysql_result($query, 0, "th_name"));
@@ -971,20 +971,20 @@ function verschiebe_posting()
                 left join user on po_u_id = u_id
                 where po_id = " . intval($thread);
     
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     if ($query)
         $row = mysqli_fetch_object($query);
     mysqli_free_result($query);
     
     $sql = "SELECT fo_name, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_id = " . intval($th_id);
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     if ($query)
         $row2 = mysqli_fetch_object($query);
     mysqli_free_result($query);
     
     $sql = "SELECT fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
         . "WHERE th_name <> 'dummy-thema' " . "ORDER BY fo_order, th_order ";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     
     echo "<form action=\"forum.php\" method=\"post\">";
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\">\n";
@@ -1036,7 +1036,7 @@ function show_posting()
                 left join user on po_u_id = u_id
                 where po_id = " . intval($po_id);
     
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     if ($query)
         $row = mysqli_fetch_object($query);
     $th_id = $row->po_th_id;
@@ -1062,7 +1062,7 @@ function show_posting()
     @mysqli_free_result($query);
     
     $sql = "select po_threadorder from posting where po_id=" . intval($thread);
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     $po_threadorder = mysql_result($query, 0, "po_threadorder");
     
     @mysqli_free_result($query);
@@ -1145,12 +1145,12 @@ function zeige_baum(
         return;
     
     if ($zeige_top) {
-        $postings = mysql_real_escape_string("$thread,$postings");
+        $postings = mysqli_real_escape_string($mysqli_link, "$thread,$postings");
     }
     
     //vom user gelesene postings holen
     $sql = "select u_gelesene_postings from user where u_id=$u_id";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0)
         $gelesene = mysql_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
@@ -1161,7 +1161,7 @@ function zeige_baum(
                 left join user on po_u_id = u_id
                 where po_id in ($postings)";
     
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     
     //array mit po_id als index anlegen, um wahlfreien zugriff auf postings zu ermoeglichen
     $po_wahlfrei = array();

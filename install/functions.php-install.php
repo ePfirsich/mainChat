@@ -117,7 +117,7 @@ function step_2($connect, $select, $chat, $fpconfig)
     $mysqlarray = explode(';', $mysqlinhalt);
     
     foreach ($mysqlarray as $key => $value)
-        mysql_query($value);
+        mysqli_query($mysqli_link, $value);
     
     echo "<tr><td colspan=\"2\"><br><br></td></tr>\n"
         . "<tr bgcolor=\"#007ABE\"><td style=\"font-size:15px; text-align:center;color:White;\"><b>Datenbank</b></td></tr>\n"

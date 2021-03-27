@@ -137,11 +137,11 @@ if (strlen($u_id) != 0) {
         $f['r_name'] = "";
     if (!isset($neu))
         $neu = false;
-    $f['r_id'] = mysql_real_escape_string($f['r_id']);
-    $f['r_name'] = mysql_real_escape_string($f['r_name']);
+    $f['r_id'] = mysqli_real_escape_string($mysqli_link, $f['r_id']);
+    $f['r_name'] = mysqli_real_escape_string($mysqli_link, $f['r_name']);
     
     $query = "SELECT r_id, r_besitzer, r_name FROM raum WHERE r_id = '$f[r_id]'";
-    $result = mysql_query($query);
+    $result = mysqli_query($mysqli_link, $query);
     $num = mysql_numrows($result);
     if ($num == 1) {
         $row = mysqli_fetch_object($result);
@@ -152,7 +152,7 @@ if (strlen($u_id) != 0) {
     
     // Gibt es den Raumnamen schon? Wenn ja dann Raum nicht speichern damit keine doppelten Raumnamen entstehen
     $query = "SELECT r_id, r_besitzer FROM raum WHERE r_name = '$f[r_name]' AND r_id != '$f[r_id]'";
-    $result = mysql_query($query);
+    $result = mysqli_query($mysqli_link, $query);
     $num = mysql_numrows($result);
     if ($num >= 1) {
         $f['r_id'] = "";
@@ -185,7 +185,7 @@ if (strlen($u_id) != 0) {
         
         // gibts den Raum schon?
         $query = "SELECT r_id FROM raum " . "WHERE r_name LIKE '$f[r_name]' ";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         $rows = mysqli_num_rows($result);
         
         if ($rows == 0) {
@@ -247,7 +247,7 @@ if (strlen($u_id) != 0) {
         // Raum löschen
             $query = "SELECT raum.*,u_id FROM raum left join user on r_besitzer=u_id WHERE r_id=$f[r_id] ";
             
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             
             if ($result AND mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_object($result);
@@ -255,8 +255,8 @@ if (strlen($u_id) != 0) {
                 // Berechtigung prüfen, alle User in Lobby werfen und löschen
                 if ($admin || ($row->r_besitzer == $u_id)) {
                     // Lobby suchen
-                    $query = "SELECT r_id FROM raum WHERE r_name='" . mysql_real_escape_string($lobby) . "'";
-                    $result2 = mysql_query($query, $conn);
+                    $query = "SELECT r_id FROM raum WHERE r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "'";
+                    $result2 = mysqli_query($conn, $query);
                     if ($result2 AND mysqli_num_rows($result2) > 0) {
                         $lobby_id = mysql_result($result2, 0, "r_id");
                     }
@@ -276,7 +276,7 @@ if (strlen($u_id) != 0) {
                         // Raum leeren
                         $query = "SELECT o_user,o_name FROM online WHERE o_raum=$f[r_id] ";
                         
-                        $result2 = mysql_query($query, $conn);
+                        $result2 = mysqli_query($conn, $query);
                         while ($row2 = mysqli_fetch_object($result2)) {
                             system_msg("", 0, $row2->o_user, $system_farbe,
                                 str_replace("%r_name%", $row->r_name,
@@ -289,12 +289,12 @@ if (strlen($u_id) != 0) {
                         @mysqli_free_result($result2);
                         
                         $query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
-                        $result2 = mysql_query($query, $conn);
+                        $result2 = mysqli_query($conn, $query);
                         @mysqli_free_result($result2);
                         
                         // Gesperrte Räume löschen
                         $query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
-                        $result2 = mysql_query($query, $conn);
+                        $result2 = mysqli_query($conn, $query);
                         @mysqli_free_result($result2);
                         
                         // ausgeben: raum wurde gelöscht.
@@ -321,7 +321,7 @@ if (strlen($u_id) != 0) {
             $query = "SELECT raum.*,u_id FROM raum left join user "
                 . "on r_besitzer=u_id " . "WHERE r_id=$f[r_id] ";
             
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             
             if ($result AND mysqli_num_rows($result) > 0) {
                 // Kopf Tabelle
@@ -378,7 +378,7 @@ if (strlen($u_id) != 0) {
             
             if ($communityfeatures && !$admin) {
                 
-                $result = mysql_query("select u_punkte_gesamt FROM user WHERE u_id=$u_id");
+                $result = mysqli_query($mysqli_link, "select u_punkte_gesamt FROM user WHERE u_id=$u_id");
                 if ($result && mysqli_num_rows($result) == 1) {
                     $u_punkte_gesamt = mysql_result($result, 0, 0);
                 }
@@ -538,7 +538,7 @@ if (strlen($u_id) != 0) {
                 $query = "SELECT raum.*,u_id,u_nick "
                     . "FROM raum left join user on r_besitzer=u_id "
                     . "WHERE r_id=" . intval($raum) . " ORDER BY $order";
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 
                 // Kopf Tabelle
                 echo $tabellenkopf;
@@ -719,7 +719,7 @@ if (strlen($u_id) != 0) {
                     . "GROUP BY r_id";
                 
                 //system_msg("",0,$u_id,"#000000","Debug: ".$query);
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 
                 while ($row = mysqli_fetch_object($result)) {
                     $anzahl_user[$row->r_id] = $row->anzahl;
@@ -730,7 +730,7 @@ if (strlen($u_id) != 0) {
                 $query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
                     . "FROM raum left join user on r_besitzer=u_id "
                     . "GROUP BY r_name ORDER BY $order";
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) > 0) {
                     
                     echo $tabellenkopf;

@@ -126,9 +126,8 @@ if ($u_id) {
             $o_raum_alt = $o_raum;
             
             // Bin ich noch online?
-            $result = mysql_query(
-                "SELECT HIGH_PRIORITY o_raum,o_ignore FROM online WHERE o_id=$o_id ",
-                $conn);
+            $result = mysqli_query($conn, 
+                "SELECT HIGH_PRIORITY o_raum,o_ignore FROM online WHERE o_id=$o_id ");
             if ($result > 0) {
                 if (mysqli_num_rows($result) == 1) {
                     $row = mysqli_fetch_object($result);

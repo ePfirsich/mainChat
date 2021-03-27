@@ -186,7 +186,7 @@ if (strlen($u_id) != 0) {
                 . "</TD></TR>\n";
             
             $query = "SELECT user.* " . "FROM user WHERE u_id=$u_id ";
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             $rows = mysqli_num_rows($result);
             
             if ($rows == 1) {
@@ -214,7 +214,7 @@ if (strlen($u_id) != 0) {
                 && ($einstellungen_aendern)) {
                 
                 $query = "SELECT user.* FROM user WHERE u_id=$u_id ";
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
@@ -247,7 +247,7 @@ if (strlen($u_id) != 0) {
                     $user = $row->u_nick;
                     $query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$u_id' AND o_level!='C' AND o_level!='S'";
                     
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     if ($result && mysqli_num_rows($result) > 0) {
                         $row = mysqli_fetch_object($result);
                         verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
@@ -266,7 +266,7 @@ if (strlen($u_id) != 0) {
                 } else {
                     // test, ob zu löschender Admin ist...
                     $query = "SELECT * FROM user WHERE u_id=$f[u_id] ";
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $del_level = mysql_result($result, 0, "u_level");
                     if ($del_level != "S" && $del_level != "C"
                         && $del_level != "M") {
@@ -276,15 +276,15 @@ if (strlen($u_id) != 0) {
                             . str_replace("%u_nick%", $f['u_nick'],
                                 $t['menue5']) . "</B></P>\n";
                         $query = "DELETE FROM user WHERE u_id=$f[u_id] ";
-                        $result = mysql_query($query, $conn);
+                        $result = mysqli_query($conn, $query);
                         
                         // Ignore-Einträge löschen
                         $query = "DELETE FROM iignore WHERE i_user_aktiv=$f[u_id] OR i_user_passiv=$f[u_id]";
-                        $result = mysql_query($query, $conn);
+                        $result = mysqli_query($conn, $query);
                         
                         // Gesperrte Räume löschen
                         $query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
-                        $result = mysql_query($query, $conn);
+                        $result = mysqli_query($conn, $query);
                     } else {
                         echo "<P><B>"
                             . str_replace("%u_nick%", $f['u_nick'],
@@ -392,7 +392,7 @@ if (strlen($u_id) != 0) {
                         && (strlen($f['u_nick']) == 0)) {
                         // wird nicht übergeben, wenn $einstellungen_aendern==0, also aus DB laden falls $admin.
                         $query = "SELECT u_nick FROM user WHERE u_id=$f[u_id]";
-                        $result = mysql_query($query, $conn);
+                        $result = mysqli_query($conn, $query);
                         if ($result) {
                             $f['u_nick'] = mysql_result($result, 0);
                         }
@@ -435,7 +435,7 @@ if (strlen($u_id) != 0) {
                     $query = "SELECT u_id FROM user "
                         . "WHERE u_nick = '$f[u_nick]' AND u_id!=$f[u_id]";
                     // echo "Debug: $query<BR>";
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $rows = mysqli_num_rows($result);
                     if ($rows != 0) {
                         echo "<P><B>$t[edit7]</B></P>\n";
@@ -452,7 +452,7 @@ if (strlen($u_id) != 0) {
                 // dann Nickname nicht speichern
                 if (isset($f['u_nick']) && $f['u_nick']) {
                     $query = "SELECT u_nick_historie, u_nick FROM user WHERE u_id = '$f[u_id]'";
-                    $result = mysql_query($query);
+                    $result = mysqli_query($mysqli_link, $query);
                     $xyz = mysqli_fetch_array($result);
                     $nick_historie = unserialize($xyz['u_nick_historie']);
                     $nick_alt = $xyz['u_nick'];
@@ -505,7 +505,7 @@ if (strlen($u_id) != 0) {
                 }
                 
                 $query = "SELECT u_level FROM user WHERE u_id=" . intval($f['u_id']);
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) > 0) {
                     $uu_level = mysql_result($result, 0, "u_level");
                     
@@ -574,7 +574,7 @@ if (strlen($u_id) != 0) {
                         
                         $query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum "
                             . "FROM online " . "WHERE o_user=" . intval($f[u_id]);
-                        $result = mysql_query($query, $conn);
+                        $result = mysqli_query($conn, $query);
                         if ($result && mysqli_num_rows($result) == 1) {
                             $row = mysqli_fetch_object($result);
                             $userdata = unserialize(
@@ -604,7 +604,7 @@ if (strlen($u_id) != 0) {
                     }
                     
                     $query = "SELECT u_profil_historie FROM user WHERE u_id = " . intval($f['u_id']);
-                    $result = mysql_query($query);
+                    $result = mysqli_query($mysqli_link, $query);
                     $g = mysqli_fetch_array($result);
                     
                     $g['u_profil_historie'] = unserialize(
@@ -632,7 +632,7 @@ if (strlen($u_id) != 0) {
                     if (isset($f['u_level']) && $f['u_level'] == "Z") {
                         $queryii = "SELECT u_nick,u_id from user,iignore "
                             . "WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
-                        $resultii = @mysql_query($queryii, $conn);
+                        $resultii = @mysqli_query($conn, $queryii);
                         $anzahlii = @mysqli_num_rows($resultii);
                         
                         if ($resultii && $anzahlii > 0) {
@@ -649,7 +649,7 @@ if (strlen($u_id) != 0) {
                         || (isset($f['u_level']) && $f['u_level'] == "S")) {
                         $queryii = "SELECT u_nick,u_id from user,iignore "
                             . "WHERE i_user_passiv=" . intval($f[u_id]) . " AND u_id=i_user_aktiv order by i_id";
-                        $resultii = @mysql_query($queryii, $conn);
+                        $resultii = @mysqli_query($conn, $queryii);
                         $anzahlii = @mysqli_num_rows($resultii);
                         
                         if ($resultii && $anzahlii > 0) {
@@ -682,7 +682,7 @@ if (strlen($u_id) != 0) {
                     // o_id und o_raum bestimmen
                     $query = "SELECT o_id,o_raum FROM online "
                         . "WHERE o_user=" . intval($f[u_id]);
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $rows = mysqli_num_rows($result);
                     
                     if ($rows > 0) {
@@ -698,7 +698,7 @@ if (strlen($u_id) != 0) {
                 
                 // User mit ID $u_id anzeigen
                 $query = "SELECT user.* " . "FROM user WHERE u_id=" . intval($f['u_id']);
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 
                 if ($result && mysqli_num_rows($result) == 1) {
                     $row = mysqli_fetch_object($result);
@@ -765,7 +765,7 @@ if (strlen($u_id) != 0) {
                     
                     $query = "SELECT user.* "
                         . "FROM user WHERE u_id=" . intval($f[u_id]);
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $rows = mysqli_num_rows($result);
                     
                     if ($rows == 1) {
@@ -797,13 +797,13 @@ if (strlen($u_id) != 0) {
                 if ($aktion3 == "loeschen") {
                     echo "<font face=\"Arial\">Homepage wurde gelöscht!</font>";
                     $query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f[u_id]);
-                    mysql_query($query);
+                    mysqli_query($mysqli_link, $query);
                     
                     $query = "UPDATE user SET u_login = u_login, u_chathomepage = 'N' WHERE u_id = " . intval($f[u_id]);
-                    mysql_query($query);
+                    mysqli_query($mysqli_link, $query);
                     
                     $query = "DELETE FROM bild WHERE b_user = " . intval($f[u_id]);
-                    mysql_query($query);
+                    mysqli_query($mysqli_link, $query);
                 } else {
                     echo "<FORM NAME=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n"
                         . "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
@@ -820,8 +820,8 @@ if (strlen($u_id) != 0) {
             } elseif (isset($eingabe) && $eingabe == $t['chat_msg110']
                 && $admin) {
                 // Admin E-Mailadresse aus DB holen
-                $query = "SELECT u_adminemail,u_level FROM user WHERE u_nick = '" . mysql_real_escape_string($f[u_nick]) . "'";
-                $result = mysql_query($query);
+                $query = "SELECT u_adminemail,u_level FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'";
+                $result = mysqli_query($mysqli_link, $query);
                 
                 $x = mysqli_fetch_array($result);
                 $f['u_adminemail'] = $x['u_adminemail'];
@@ -854,7 +854,7 @@ if (strlen($u_id) != 0) {
                     $user = $f['u_nick'];
                     $query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user=" . intval($f[u_id]) . " AND o_level!='C' AND o_level!='S'";
                     
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     if ($result && mysqli_num_rows($result) > 0) {
                         $row = mysqli_fetch_object($result);
                         verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
@@ -872,13 +872,13 @@ if (strlen($u_id) != 0) {
                 if ($admin && strlen($f['u_id']) > 0) {
                     // Jeden User anzeigen
                     $query = "SELECT user.* FROM user WHERE u_id=" . intval($f[u_id]);
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $rows = mysqli_num_rows($result);
                     
                 } else {
                     // Nur eigene Daten anzeigen
                     $query = "SELECT user.* FROM user WHERE u_id=" . intval($u_id);
-                    $result = mysql_query($query, $conn);
+                    $result = mysqli_query($conn, $query);
                     $rows = mysqli_num_rows($result);
                 }
                 
@@ -914,7 +914,7 @@ if (strlen($u_id) != 0) {
         // User mit ID $u_id anzeigen
         
             $query = "SELECT user.* FROM user WHERE u_id=" . intval($u_id);
-            $result = mysql_query($query, $conn);
+            $result = mysqli_query($conn, $query);
             $rows = mysqli_num_rows($result);
             
             if ($rows == 1) {

@@ -209,7 +209,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
         . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
         . "date_format(u_login,'%d.%m.%y %H:%i') as login "
         . "FROM user left join online on o_user=u_id " . "WHERE u_id=$u_id";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $userdata = mysqli_fetch_array($result);
         $online_zeit = $userdata['online'];
@@ -649,8 +649,8 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
             $f['b_name'] = $name;
             
             if ($f['b_mime']) {
-                $query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysql_real_escape_string($name) . "'";
-                $result = mysql_query($query, $conn);
+                $query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
+                $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) != 0) {
                     $b_id = mysql_result($result, 0, 0);
                 }
@@ -701,7 +701,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         
     } elseif ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
         // Aufruf als home.php?USERNAME
-        $tempnick = mysql_real_escape_string(strtolower(urldecode($_SERVER['QUERY_STRING'])));
+        $tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($_SERVER['QUERY_STRING'])));
         $tempnick = coreCheckName($tempnick, $check_name);
         
         $query = "SELECT u_id,u_nick,u_chathomepage FROM user WHERE u_nick = '"
@@ -712,7 +712,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
     
     // Userdaten lesen
     if ($query) {
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_object($result);
             $u_chathomepage = $row->u_chathomepage;
@@ -724,7 +724,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
     // Profil lesen
     if ($u_id) {
         $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $home = mysqli_fetch_array($result);
             if ($home['ui_farbe']) {
@@ -741,7 +741,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         // Bildinfos lesen und in Array speichern
         $query = "SELECT b_name,b_height,b_width,b_mime FROM bild "
             . "WHERE b_user=$u_id";
-        $result2 = mysql_query($query, $conn);
+        $result2 = mysqli_query($conn, $query);
         if ($result2 && mysqli_num_rows($result2) > 0) {
             unset($bilder);
             while ($row2 = mysqli_fetch_object($result2)) {

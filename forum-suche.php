@@ -15,7 +15,7 @@ function show_pfad_posting2($th_id)
                 from forum, thema
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     $fo_id = mysql_result($query, 0, "fo_id");
     $fo_name = htmlspecialchars($query, 0, "fo_name");
     $th_name = htmlspecialchars($query, 0, "th_name");
@@ -28,7 +28,7 @@ function show_pfad_posting2($th_id)
 function vater_rekursiv($vater)
 {
     $query = "SELECT po_id, po_vater_id FROM posting WHERE po_id = " . intval($vater);
-    $result = mysql_query($query);
+    $result = mysqli_query($mysqli_link, $query);
     $a = mysqli_fetch_array($result);
     if (mysqli_num_rows($result) <> 1) {
         return -1;
@@ -73,7 +73,7 @@ function such_bereich()
     
     $sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
         . "WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     $themaalt = "";
     echo "<OPTION ";
     if (substr($suche['thema'], 0, 1) <> "B")
@@ -226,7 +226,7 @@ function such_ergebnis()
     $titel = $t['ergebnis1'];
     
     $sql = "select u_gelesene_postings from user where u_id=" . intval($u_id);
-    $query = mysql_query($sql, $conn);
+    $query = mysqli_query($conn, $sql);
     if (mysqli_num_rows($query) > 0)
         $gelesene = mysql_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
@@ -237,8 +237,8 @@ function such_ergebnis()
     $suche['username'] = coreCheckName($suche['username'], $check_name);
     unset($suche['u_id']);
     if (strlen($fehler) == 0 && $suche['username'] <> "") {
-        $sql = "SELECT u_id FROM user where u_nick = '" . mysql_real_escape_string($suche['username']) . "'";
-        $query = mysql_query($sql, $conn);
+        $sql = "SELECT u_id FROM user where u_nick = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
+        $query = mysqli_query($conn, $sql);
         if (mysqli_num_rows($query) == 1) {
             $suche['u_id'] = mysql_result($query, 0, "u_id");
         } else {
@@ -270,27 +270,27 @@ function such_ergebnis()
             
             for ($i = 0; $i < count($suchetext); $i++) {
                 if (strlen($querytext) == 0) {
-                    $querytext = "po_text LIKE \"%" . mysql_real_escape_string($suchetext[$i]) . "%\"";
+                    $querytext = "po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
                 } else {
                     if ($suche['modus'] == "O") {
-                        $querytext .= " OR po_text LIKE \"%" . mysql_real_escape_string($suchetext[$i])
+                        $querytext .= " OR po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
                             . "%\"";
                     } else {
-                        $querytext .= " AND po_text LIKE \"%" . mysql_real_escape_string($suchetext[$i])
+                        $querytext .= " AND po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
                             . "%\"";
                     }
                 }
                 
                 if (strlen($querybetreff) == 0) {
-                    $querybetreff = "po_titel LIKE \"%" . mysql_real_escape_string($suchetext[$i])
+                    $querybetreff = "po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
                         . "%\"";
                 } else {
                     if ($suche['modus'] == "O") {
                         $querybetreff .= " OR po_titel LIKE \"%"
-                            . mysql_real_escape_string($suchetext[$i]) . "%\"";
+                            . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
                     } else {
                         $querybetreff .= " AND po_titel LIKE \"%"
-                            . mysql_real_escape_string($suchetext[$i]) . "%\"";
+                            . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
                     }
                 }
                 
@@ -321,7 +321,7 @@ function such_ergebnis()
         $boards = "";
         $sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
             . "WHERE th_anzthreads <> 0 " . "ORDER BY fo_order, th_order ";
-        $query2 = mysql_query($sql2, $conn);
+        $query2 = mysqli_query($conn, $sql2);
         while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
             if (pruefe_leserechte($thema['th_id'])) {
                 if ($suche['thema'] == "ALL") {
@@ -405,7 +405,7 @@ function such_ergebnis()
         
         flush();
         $sql = $sql . " " . $abfrage;
-        $query = mysql_query($sql, $conn);
+        $query = mysqli_query($conn, $sql);
         
         $anzahl = mysqli_num_rows($query);
         

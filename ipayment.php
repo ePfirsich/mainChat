@@ -24,7 +24,7 @@ $gekauftesms = floor($cc_amount / $sms[preis] + 0.5);
 
 // Auslesen des bisherigen Guthabens
 $query = "SELECT u_sms_guthaben FROM user WHERE u_id = '$u_id'";
-$result = mysql_query($query);
+$result = mysqli_query($mysqli_link, $query);
 $a = @mysqli_fetch_array($result);
 @mysqli_free_result($result);
 
@@ -34,12 +34,12 @@ $f['u_sms_guthaben'] = $a['u_sms_guthaben'] + $gekauftesms;
 $f['ui_id'] = schreibe_db("user", $f, $u_id, "u_id");
 
 $conn2 = mysql_connect("localhost", "www", "");
-mysql_set_charset("utf8mb4");
+mysqli_set_charset($mysqli_link, "utf8mb4");
 mysql_selectdb("ipayment", $conn2);
-$query = "INSERT INTO transaction_log (u_nick, u_id, datum, handynr, ip, http_host, trx_amount) VALUES ('" . mysql_real_escape_string($u_nick) . "','" . mysql_real_escape_string($u_id) . "',NOW(),'" . mysql_real_escape_string($handynr) . "','" . mysql_real_escape_string($ret_ip) . "','" . mysql_real_escape_string($http_host) . "','" . mysql_real_escape_string($trx_amount) . "')";
-$result = mysql_query($query);
-$id = mysql_insert_id();
-$v = mysql_real_escape_string($v);
+$query = "INSERT INTO transaction_log (u_nick, u_id, datum, handynr, ip, http_host, trx_amount) VALUES ('" . mysqli_real_escape_string($mysqli_link, $u_nick) . "','" . mysqli_real_escape_string($mysqli_link, $u_id) . "',NOW(),'" . mysqli_real_escape_string($mysqli_link, $handynr) . "','" . mysqli_real_escape_string($mysqli_link, $ret_ip) . "','" . mysqli_real_escape_string($mysqli_link, $http_host) . "','" . mysqli_real_escape_string($mysqli_link, $trx_amount) . "')";
+$result = mysqli_query($mysqli_link, $query);
+$id = mysqli_insert_id($mysqli_link);
+$v = mysqli_real_escape_string($mysqli_link, $v);
 $query = "INSERT INTO payment_log (id, payment_text) VALUES ('$id','$v')";
-$result = mysql_query($query);
+$result = mysqli_query($mysqli_link, $query);
 ?>

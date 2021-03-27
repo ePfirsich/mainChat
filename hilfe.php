@@ -44,7 +44,7 @@ aktualisiere_online($u_id, $o_raum);
 if ($erweitertefeatures) {
     
     $query = "SELECT r_werbung FROM raum WHERE r_id=" . intval($o_raum);
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = mysql_result($result, 0, 0);

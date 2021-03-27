@@ -26,17 +26,17 @@ function liste()
     for ($i = 0; $i < count($sperre_dialup); $i++) {
         if ($sperr != "")
             $sperr .= " OR ";
-        $sperr .= "is_domain like '%" . mysql_real_escape_string($sperre_dialup[$i]) . "%' ";
+        $sperr .= "is_domain like '%" . mysqli_real_escape_string($mysqli_link, $sperre_dialup[$i]) . "%' ";
     }
     
     if (count($sperre_dialup) >= 1) {
         $query = "DELETE FROM ip_sperre WHERE ($sperr) AND to_days(now())-to_days(is_zeit) > 3 ";
-        mysql_query($query);
+        mysqli_query($mysqli_link, $query);
     }
     
     if ($raumsperre) {
         $query = "delete from sperre where to_days(now())-to_days(s_zeit) > $raumsperre";
-        mysql_query($query);
+        mysqli_query($mysqli_link, $query);
     }
     
     // Alle Sperren ausgeben
@@ -44,7 +44,7 @@ function liste()
         . "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip "
         . "FROM ip_sperre,user WHERE is_owner=u_id "
         . "ORDER BY is_zeit DESC,is_domain,is_ip";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     $rows = mysqli_num_rows($result);
     
     if ($rows > 0) {
@@ -187,14 +187,14 @@ if (strlen($u_id) > 0 && $admin) {
         
         case "loginsperre0":
             $query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
-            $result2 = mysql_query($query2, $conn);
+            $result2 = mysqli_query($conn, $query2);
             
             unset($aktion);
             break;
         
         case "loginsperregast0":
             $query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GAST-' ";
-            $result2 = mysql_query($query2, $conn);
+            $result2 = mysqli_query($conn, $query2);
             
             unset($aktion);
             break;
@@ -236,7 +236,7 @@ if (strlen($u_id) > 0 && $admin) {
     
     if ($communityfeatures) {
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
                 . "Loginsperre: Deaktivieren" . "</A>\n";
@@ -247,7 +247,7 @@ if (strlen($u_id) > 0 && $admin) {
         @mysqli_free_result($result);
         
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
                 . "Loginsperre Gast: Deaktivieren" . "</A>\n";
@@ -332,7 +332,7 @@ if (strlen($u_id) > 0 && $admin) {
                 $query = "SELECT is_infotext,is_domain,is_ip FROM ip_sperre "
                     . "WHERE is_id=" . intval($is_id);
                 
-                $result = mysql_query($query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
@@ -378,7 +378,7 @@ if (strlen($u_id) > 0 && $admin) {
                 $query = "SELECT is_infotext,is_domain,is_ip_byte,SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip FROM ip_sperre "
                     . "WHERE is_id=" . intval($is_id);
                 
-                $result = mysql_query($query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
@@ -387,7 +387,7 @@ if (strlen($u_id) > 0 && $admin) {
                     
                     $query2 = "DELETE FROM ip_sperre WHERE is_id=" . intval($is_id);
                     
-                    $result2 = mysql_query($query2);
+                    $result2 = mysqli_query($mysqli_link, $query2);
                     
                     if (strlen($row->is_domain) > 0) {
                         echo "<P>"
@@ -421,7 +421,7 @@ if (strlen($u_id) > 0 && $admin) {
                 $query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre "
                     . "WHERE is_id=" . intval($is_id);
                 
-                $result = mysql_query($query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {

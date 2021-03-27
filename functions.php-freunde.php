@@ -39,7 +39,7 @@ function zeige_freunde($aktion, $zeilen)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     if ($result) {
         
         $anzahl = mysqli_num_rows($result);
@@ -75,14 +75,14 @@ function zeige_freunde($aktion, $zeilen)
                         . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
                         . "from user left join online on o_user=u_id "
                         . "WHERE u_id=$row->f_userid ";
-                    $result2 = mysql_query($query, $conn);
+                    $result2 = mysqli_query($conn, $query);
                 } elseif ($row->f_freundid != $u_id) {
                     $query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
                         . "date_format(u_login,'%d.%m.%y %H:%i') as login, "
                         . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
                         . "from user left join online on o_user=u_id "
                         . "WHERE u_id=$row->f_freundid ";
-                    $result2 = mysql_query($query, $conn);
+                    $result2 = mysqli_query($conn, $query);
                 }
                 if ($result2 && mysqli_num_rows($result2) > 0) {
                     
@@ -96,7 +96,7 @@ function zeige_freunde($aktion, $zeilen)
                     // User nicht gefunden, Freund löschen
                     $freund_nick = "NOBODY";
                     $query = "DELETE from freunde WHERE f_id=$row->f_id";
-                    $result2 = mysql_query($query, $conn);
+                    $result2 = mysqli_query($conn, $query);
                     
                 }
                 
@@ -171,16 +171,16 @@ function loesche_freund($f_freundid, $f_userid)
         echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<BR>";
         return (0);
     }
-    $f_freundid = mysql_real_escape_string($f_freundid);
-    $f_userid = mysql_real_escape_string($f_userid);
+    $f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
+    $f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
     
     $query = "DELETE from freunde WHERE "
         . "(f_userid=$f_userid AND f_freundid=$f_freundid) " . "OR "
         . "(f_userid=$f_freundid AND f_freundid=$f_userid)";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     
     $query = "SELECT u_nick FROM user where u_id=$f_freundid";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $f_nick = mysql_result($result, 0, 0);
         $back = "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr Ihr Freund.</P>";
@@ -262,14 +262,14 @@ function neuer_freund($f_userid, $freund)
     } else {
         
         // Prüfen ob Freund bereits in Tabelle steht
-        $freund['u_id'] = mysql_real_escape_string($freund['u_id']);
-        $f_userid = mysql_real_escape_string($f_userid);
+        $freund['u_id'] = mysqli_real_escape_string($mysqli_link, $freund['u_id']);
+        $f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
         
         $query = "SELECT f_id from freunde WHERE "
             . "(f_userid=$freund[u_id] AND f_freundid=$f_userid) " . "OR "
             . "(f_userid=$f_userid AND f_freundid=$freund[u_id])";
         
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             
             $back = "<P><B>Fehler:</B> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
@@ -339,12 +339,12 @@ function edit_freund($f_id, $f_text)
 function bestaetige_freund($f_userid, $freund)
 {
     global $dbase, $conn;
-    $f_userid = mysql_real_escape_string($f_userid);
-    $freund = mysql_real_escape_string($freund);
+    $f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
+    $freund = mysqli_real_escape_string($mysqli_link, $freund);
     $query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";
-    mysql_query($query);
+    mysqli_query($mysqli_link, $query);
     $query = "SELECT u_nick FROM user where u_id='$f_userid'";
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $f_nick = mysql_result($result, 0, 0);
         $back = "<P><B>Hinweis: </B>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";

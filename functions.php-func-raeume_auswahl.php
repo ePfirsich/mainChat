@@ -22,7 +22,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     $query = "SELECT r_id,count(o_id) as anzahl FROM raum "
         . "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
     
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     while ($row = mysqli_fetch_object($result))
         $anzahl_user[$row->r_id] = $row->anzahl;
     @mysqli_free_result($result);
@@ -33,7 +33,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $query = "SELECT o_who,count(o_who) as anzahl FROM online "
             . "WHERE o_who>1 " . "GROUP BY o_who ";
         
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_object($result))
             $anzahl_who[$row->o_who] = $row->anzahl;
         @mysqli_free_result($result);
@@ -54,7 +54,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
             . "WHERE inv_user='$u_id' ";
         
         $rows = array();
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -65,7 +65,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $query = "SELECT r_id FROM raum "
             . "WHERE r_status1='O' OR r_status1 like binary 'm' OR r_besitzer=$u_id OR r_id=" . intval($o_raum);
         
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -83,7 +83,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     } else {
         return 1;
     }
-    $result = mysql_query($query, $conn);
+    $result = mysqli_query($conn, $query);
     
     echo $zusatz_select;
     while ($row = mysqli_fetch_object($result)) {

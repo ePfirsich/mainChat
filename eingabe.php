@@ -180,7 +180,7 @@ function window_reload(file,win_name) {
         $query = "SELECT um_id FROM umfrage " . "WHERE um_start <= '"
             . date('Y-m-d H:i:s') . "'" . "  and um_ende >= '"
             . date('Y-m-d H:i:s') . "'";
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $umfrageanzeigen = 1;
             mysqli_free_result($result);
@@ -191,7 +191,7 @@ function window_reload(file,win_name) {
         // Raumstatus lesen, für Temporär, damit FORUM nicht angezeigt wird
         
         $query = "SELECT r_status1 from raum WHERE r_id=" . intval($o_raum);
-        $result = mysql_query($query, $conn);
+        $result = mysqli_query($conn, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $aktraum = mysqli_fetch_object($result);
             mysqli_free_result($result);

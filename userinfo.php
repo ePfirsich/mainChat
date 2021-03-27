@@ -114,7 +114,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                     . "WHERE (r_status1='O' OR r_status1 LIKE BINARY 'm') AND r_status2='P'"
                     . "ORDER BY r_name";
                 
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 $raeume = "<SELECT NAME=\"eintritt\">";
                 
                 $i = 0;
@@ -144,8 +144,8 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                 if (strlen($eintrittsraum) == 0) {
                     $eintrittsraum = $lobby;
                 }
-                $query = "SELECT r_id FROM raum WHERE r_name = '" . mysql_real_escape_string($eintrittsraum) . "'";
-                $result = mysql_query($query, $conn);
+                $query = "SELECT r_id FROM raum WHERE r_name = '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
+                $result = mysqli_query($conn, $query);
                 if ($result && mysqli_num_rows($result) == 1) {
                     $lobby_id = mysql_result($result, 0, "r_id");
                 }
@@ -163,7 +163,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                 
                 // Wie viele User sind in der DB?
                 $query = "SELECT count(u_id) FROM user WHERE u_level in ('A','C','G','M','S','U')";
-                $result = mysql_query($query, $conn);
+                $result = mysqli_query($conn, $query);
                 $rows = mysqli_num_rows($result);
                 if ($result) {
                     $ergebnis['registriert'] = mysql_result($result, 0, 0);
@@ -174,12 +174,12 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                 
                 // User online und Räume bestimmen -> merken
                 $query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, "
-                    . "r_name='" . mysql_real_escape_string($lobby) . "' as lobby "
+                    . "r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' as lobby "
                     . "FROM online left join raum on o_raum=r_id  "
                     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
                     . "ORDER BY lobby desc,r_name,o_who,o_name ";
                 
-                $result2 = mysql_query($query, $conn);
+                $result2 = mysqli_query($conn, $query);
                 if ($result2) {
                     $ergebnis['online'] = mysqli_num_rows($result2);
                 } else {
@@ -255,7 +255,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
         // Anzahl der User abfragen
             if (isset($registriert) && $registriert == "j") {
                 $query = "SELECT count(u_id) as anzahl FROM user WHERE u_level IN ('A','C','G','M','S','U')";
-                $result = @mysql_query($query, $conn);
+                $result = @mysqli_query($conn, $query);
                 if ($result && @mysqli_num_rows($result) > 0) {
                     $anzahl = @mysql_result($result, 0, "anzahl");
                     mysqli_free_result($result);
@@ -263,7 +263,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
             } else {
                 $query = "SELECT count(o_id) as anzahl FROM online "
                     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-                $result = @mysql_query($query);
+                $result = @mysqli_query($mysqli_link, $query);
                 if ($result && @mysqli_num_rows($result) > 0) {
                     $anzahl = @mysql_result($result, 0, "anzahl");
                     mysqli_free_result($result);
