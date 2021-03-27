@@ -618,7 +618,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             $fehlermeldung = "";
             
             if (isset($email) && isset($nickname) && isset($hash)) {
-            	$nickname = mysql_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
+            	$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
                 $email = mysqli_real_escape_string($mysqli_link, urldecode($email));
                 $query = "SELECT u_id, u_login, u_nick, u_name, u_passwort, u_adminemail, u_punkte_jahr FROM user "
                     . "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 1";
@@ -1142,7 +1142,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 }
                 
                 // Im Nick alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
-                $login = mysql_real_escape_string($mysqli_link, coreCheckName($login, $check_name));
+                $login = mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name));
                 
                 // Userdaten für Gast setzen
                 $f['u_level'] = "G";
