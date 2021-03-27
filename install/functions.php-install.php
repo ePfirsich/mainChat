@@ -124,9 +124,13 @@ function step_2($connect, $select, $chat, $fpconfig)
         . "<tr><td>In der Datenbank " . $chat['dbase'] . " (Datenbankuser: "
         . $chat['user'] . ") wurden folgende Tabellen " . "angelegt: <br>\n";
     
-    $tables = mysql_listtables($chat['dbase']);
+    $tables = mysqli_query($db, "SHOW TABLES FROM ".$chat['dbase']." ");
     for ($i = 0; $i < mysqli_num_rows($tables); $i++) {
-        $table = mysql_tablename($tables, $i);
+        mysqli_data_seek( $tables, $i );
+        $f = mysqli_fetch_array( $tables );
+        $table = $f[0];
+        
+        
         echo "<b>" . $table . "</b>, \n";
     }
     echo "</td></tr>" . "<tr><td colspan=\"2\"><br><br></td></tr>\n";

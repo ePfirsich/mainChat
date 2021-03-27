@@ -2362,7 +2362,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                             show_who_is_online($result2);
                 }
                 // result wird in "show_who_is_online" freigegeben
-                // mysql_free_result($result2);
+                // mysqli_free_result($result2);
             }
             
             // Fuss
