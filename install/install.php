@@ -65,7 +65,7 @@ switch ($_POST['aktion']) {
                         . "<tr><td colspan=\"2\"><br><br></td></tr></table>\n";
                     step_1();
                 } else {
-                    if (!@$connect = mysql_connect($_POST['chat']['host'],
+                    if (!@$connect = mysqli_connect($_POST['chat']['host'],
                         $_POST['chat']['user'], $_POST['chat']['pass'])) {
                         echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\" align=\"center\">\n"
                             . "<tr bgcolor=\"#007ABE\"><td colspan=\"2\" style=\"font-size:15px; text-align:center;color:White;\"><B>FEHLER</b></td></tr>\n"

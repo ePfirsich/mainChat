@@ -33,7 +33,7 @@ $f['u_sms_guthaben'] = $a['u_sms_guthaben'] + $gekauftesms;
 // Schreiben
 $f['ui_id'] = schreibe_db("user", $f, $u_id, "u_id");
 
-$conn2 = mysql_connect("localhost", "www", "");
+$conn2 = mysqli_connect("localhost", "www", "");
 mysqli_set_charset($mysqli_link, "utf8mb4");
 mysql_selectdb("ipayment", $conn2);
 $query = "INSERT INTO transaction_log (u_nick, u_id, datum, handynr, ip, http_host, trx_amount) VALUES ('" . mysqli_real_escape_string($mysqli_link, $u_nick) . "','" . mysqli_real_escape_string($mysqli_link, $u_id) . "',NOW(),'" . mysqli_real_escape_string($mysqli_link, $handynr) . "','" . mysqli_real_escape_string($mysqli_link, $ret_ip) . "','" . mysqli_real_escape_string($mysqli_link, $http_host) . "','" . mysqli_real_escape_string($mysqli_link, $trx_amount) . "')";

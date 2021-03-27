@@ -33,7 +33,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     if ($chatserver_dynamisch) {
         
         // Datenbankconnect
-        $connect = @mysql_connect($chatserver_mysqlhost, $mysqluser, $mysqlpass);
+        $connect = @mysqli_connect($chatserver_mysqlhost, $mysqluser, $mysqlpass);
         if ($connect) {
             
             mysqli_set_charset($mysqli_link, "utf8mb4");

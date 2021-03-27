@@ -45,7 +45,7 @@ $STAT_BAR_FONTEND3 = "</B></FONT>";
 if (!$admin || !$erweitertefeatures)
     return;
 
-$c = @mysql_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+$c = @mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
 if ($c) {
     mysqli_set_charset($mysqli_link, "utf8mb4");
     mysqli_select_db($c, $STAT_DB_NAME);

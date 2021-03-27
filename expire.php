@@ -408,7 +408,7 @@ if ($zeit == "03:10") {
  *************************************************************************/
 
 if ((strlen($STAT_DB_HOST) > 0)) {
-    @mysql_connect($mysqlhost, $mysqluser, $mysqlpass);
+    @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass);
     mysqli_set_charset($mysqli_link, "utf8mb4");
     
     $currenttime = time();
@@ -462,7 +462,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
     
     if ((isset($onlinevhosts)) && (count($onlinevhosts) > 0)) {
         if ($dbase != $STAT_DB_HOST) {
-            $conn2 = @mysql_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+            $conn2 = @mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
             mysqli_set_charset($mysqli_link, "utf8mb4");
         } else {
             $conn2 = $conn;

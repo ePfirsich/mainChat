@@ -25,7 +25,7 @@ if ($communityfeatures)
 
 // DB-Connect, ggf. 3 mal versuchen
 for ($c = 0; $c++ < 3 AND (!(isset($conn)));) {
-    if ($conn = @mysql_connect($mysqlhost, $mysqluser, $mysqlpass)) {
+    if ($conn = @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass)) {
         mysqli_set_charset($mysqli_link, "utf8mb4");
         mysqli_select_db($conn, $dbase);
     }
@@ -1573,13 +1573,13 @@ function logout_debug($o_id, $info)
     foreach ($logout as $key => $val)
         $query .= mysqli_real_escape_string($mysqli_link, $key) . "='" . mysqli_real_escape_string($mysqli_link, $val) . "', ";
     $query = substr($query, 0, -2);
-    $conn2 = mysql_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+    $conn2 = mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
     mysqli_set_charset($mysqli_link, "utf8mb4");
     mysqli_select_db($conn2, $STAT_DB_NAME);
     if ($conn2)
         mysqli_query($conn2, $query);
     
-    $conn = mysql_connect($mysqlhost, $mysqluser, $mysqlpass);
+    $conn = mysqli_connect($mysqlhost, $mysqluser, $mysqlpass);
     mysqli_set_charset($mysqli_link, "utf8mb4");
     mysqli_select_db($conn, $dbase);
 }

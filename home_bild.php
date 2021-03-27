@@ -58,7 +58,7 @@ $cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/"
 $conn = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
 for ($c = 0; $c++ < 50 AND !$conn;) {
-    if ($conn = @mysql_connect($mysqlhost, $mysqluser, $mysqlpass)) {
+    if ($conn = @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass)) {
         @mysqli_select_db($conn, $dbase);
         mysqli_set_charset($mysqli_link, "utf8mb4");
     }
