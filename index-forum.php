@@ -13,9 +13,9 @@ $query = "SELECT r_name,r_status1,r_austritt from raum "
 
 $result = mysql_query($query, $conn);
 
-if ($result && mysql_num_rows($result) == 1) {
-    $alt = mysql_fetch_object($result);
-    mysql_free_result($result);
+if ($result && mysqli_num_rows($result) == 1) {
+    $alt = mysqli_fetch_object($result);
+    mysqli_free_result($result);
 }
 
 if ($alt->r_status1 == "L" && $u_level != "A" && !$admin)

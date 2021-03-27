@@ -19,7 +19,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
     echo "<table width=100% border=0 cellpadding=0 cellspacing=0>";
     if ($result > 0) {
         $i = 0;
-        while ($row = mysql_fetch_object($result)) {
+        while ($row = mysqli_fetch_object($result)) {
             $i++;
             if ($i % 2 == 0) {
                 echo "<tr bgcolor=$farbe_tabelle_zeile1>";
@@ -40,7 +40,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
             echo "</small></td>";
             echo "</tr>";
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     echo "</table>";
     echo "<br><center>";
@@ -59,7 +59,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
         if ($result > 0) {
             echo mysql_result($result, 0, "c_text");
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     echo "</textarea>";
     echo "<br><input type=submit value=\"$t[mod1]\">";
@@ -98,8 +98,8 @@ function bearbeite_moderationstexte($o_raum)
             $query = "SELECT * FROM moderation WHERE c_id=" . intval($key) . " AND c_typ='N' AND c_moderator=$u_id";
             $result = mysql_query($query, $conn);
             if ($result > 0) {
-                if (mysql_num_rows($result) > 0) {
-                    $f = mysql_fetch_array($result);
+                if (mysqli_num_rows($result) > 0) {
+                    $f = mysqli_fetch_array($result);
                     switch ($action[$key]) {
                         case "ok":
                         case "clear":
@@ -157,7 +157,7 @@ function bearbeite_moderationstexte($o_raum)
                             break;
                     }
                     // jetzt noch aus moderierter Tabelle löschen.
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                     $query = "DELETE FROM moderation WHERE c_id=" . intval($key) . " AND c_moderator=$u_id";
                     $result2 = mysql_query($query, $conn);
                 } else {
@@ -208,7 +208,7 @@ function zeige_moderationstexte($o_raum, $limit = 20)
     $i = 0;
     $rows = 0;
     if ($result > 0) {
-        $rows = mysql_num_rows($result);
+        $rows = mysqli_num_rows($result);
         if ($o_js) {
             echo "<SCRIPT LANGUAGE=Javascript>\n";
             echo "function sel() {\n";
@@ -245,7 +245,7 @@ function zeige_moderationstexte($o_raum, $limit = 20)
                 . $t['mod15'] . "\"></td>";
             echo "</tr>\n";
             
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($i % 2 == 0) {
                     echo "<tr bgcolor=$farbe_tabelle_zeile1>";
@@ -313,7 +313,7 @@ function anzahl_moderationstexte($o_raum)
     $query = "SELECT c_id FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id";
     $result = mysql_query($query, $conn);
     if ($result > 0) {
-        $rows = mysql_num_rows($result);
+        $rows = mysqli_num_rows($result);
     }
     ;
     return $rows;

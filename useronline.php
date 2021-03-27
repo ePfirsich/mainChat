@@ -11,19 +11,19 @@ $user_im_raum = 0;
 $query = "SELECT count(u_id) as anzahl_user from user";
 $result = @mysql_query($query, $conn);
 
-if ($result && mysql_Num_Rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 0) {
     $anzahl_user = mysql_result($result, 0, 0);
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 $query = "SELECT count(o_id) as anzahl_online FROM online "
     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 $result = @mysql_query($query, $conn);
 
-if ($result && mysql_Num_Rows($result) > 0) {
+if ($result && mysqli_num_rows($result) > 0) {
     $anzahl_online = mysql_result($result, 0, 0);
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 $query = "SELECT o_name,r_name,UNIX_TIMESTAMP(o_aktiv) as login FROM raum,online "
     . "WHERE o_raum=r_id " . "AND (r_status1 like 'o' OR r_status1 like 'm') "
@@ -32,8 +32,8 @@ $query = "SELECT o_name,r_name,UNIX_TIMESTAMP(o_aktiv) as login FROM raum,online
     . "ORDER BY r_name,o_name ";
 $result = @mysql_query($query, $conn);
 
-if ($result && mysql_Num_Rows($result) > 0) {
-    while ($row = @mysql_fetch_object($result)) {
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = @mysqli_fetch_object($result)) {
         
         if (!$raum_alt)
             $raum_alt = $row->r_name;
@@ -63,7 +63,7 @@ if ($result && mysql_Num_Rows($result) > 0) {
         $nicks = "";
     }
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 if ($anzahl_online && $anzahl_user)
     $txt = str_replace("%anzahl_online%", $anzahl_online, $t[userliste2]);

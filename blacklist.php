@@ -90,7 +90,7 @@ if ($admin && $u_id && $communityfeatures) {
             $neuer_blacklist['u_nick'] = mysql_real_escape_string($neuer_blacklist['u_nick']); // sec
             $query = "SELECT u_id FROM user WHERE u_nick = '$neuer_blacklist[u_nick]'";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            if ($result && mysqli_num_rows($result) == 1) {
                 $neuer_blacklist['u_id'] = mysql_result($result, 0, 0);
                 neuer_blacklist($u_id, $neuer_blacklist);
                 unset($neuer_blacklist);
@@ -104,7 +104,7 @@ if ($admin && $u_id && $communityfeatures) {
                 echo "<B>Fehler:</B> Der Nickname '$neuer_blacklist[u_nick]' existiert nicht!<BR>\n";
                 formular_neuer_blacklist($neuer_blacklist);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "loesche":

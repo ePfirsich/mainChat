@@ -107,7 +107,7 @@ if (strlen($u_id) > 0) {
             }
         }
         
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
     } elseif (isset($text) && strlen($text) >= $chat_max_eingabe) {
         $fehler = TRUE;

@@ -49,7 +49,7 @@ function statsOverview($v = "%")
     
     if ($r1 > 0) {
         $j = 0;
-        $o = @mysql_num_rows($r1);
+        $o = @mysqli_num_rows($r1);
         
         if ($o > 0) {
             echo ("<TABLE BORDER=\"0\" CELLPADDING=\"1\" CELLSPACING=\"1\">\n");
@@ -76,7 +76,7 @@ function statsOverview($v = "%")
                 if ($r0 > 0) {
                     $i = 0;
                     $u = 0;
-                    $n = @mysql_num_rows($r0);
+                    $n = @mysqli_num_rows($r0);
                     
                     while ($i < $n) {
                         $c_timestamp = @mysql_result($r0, $i, "c_timestamp");

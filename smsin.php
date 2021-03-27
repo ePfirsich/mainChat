@@ -16,7 +16,7 @@ function HoleNick($handynummer)
     $nick = "";
     if (mysql_numrows($result) == "1") {
         echo "user gefunden!";
-        $a = mysql_fetch_array($result);
+        $a = mysqli_fetch_array($result);
         $nick = $a['u_nick'];
     }
     if (!$nick) {

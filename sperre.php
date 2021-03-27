@@ -45,7 +45,7 @@ function liste()
         . "FROM ip_sperre,user WHERE is_owner=u_id "
         . "ORDER BY is_zeit DESC,is_domain,is_ip";
     $result = mysql_query($query, $conn);
-    $rows = mysql_Num_Rows($result);
+    $rows = mysqli_num_rows($result);
     
     if ($rows > 0) {
         $i = 0;
@@ -58,7 +58,7 @@ function liste()
         
         while ($i < $rows) {
             // Ausgabe in Tabelle
-            $row = mysql_fetch_object($result);
+            $row = mysqli_fetch_object($result);
             
             if (strlen($row->isip) > 0) {
                 if ($row->is_ip_byte == 1) {
@@ -158,7 +158,7 @@ function liste()
     } else {
         echo "<P ALIGN=CENTER>$t[sonst4]</P>\n";
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
 }
 ?>
@@ -237,25 +237,25 @@ if (strlen($u_id) > 0 && $admin) {
     if ($communityfeatures) {
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
                 . "Loginsperre: Deaktivieren" . "</A>\n";
         } else {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre1\">"
                 . "Loginsperre: Aktivieren" . "</A>\n";
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
                 . "Loginsperre Gast: Deaktivieren" . "</A>\n";
         } else {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast1\">"
                 . "Loginsperre Gast: Aktivieren" . "</A>\n";
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         $text .= "| <A HREF=\"blacklist.php?http_host=$http_host&id=$id&neuer_blacklist[u_nick]=$uname\">"
             . $zusatztxt . $t['menue3'] . "</A>\n";
@@ -333,11 +333,11 @@ if (strlen($u_id) > 0 && $admin) {
                     . "WHERE is_id=" . intval($is_id);
                 
                 $result = mysql_query($query);
-                $rows = mysql_Num_Rows($result);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
                     // Zeile lese
-                    $row = mysql_fetch_object($result);
+                    $row = mysqli_fetch_object($result);
                     
                     $box = $ft0 . $t['sonst17'] . " " . $row->is_domain
                         . $row->is_ip . $ft1;
@@ -365,7 +365,7 @@ if (strlen($u_id) > 0 && $admin) {
                 } else {
                     echo "<P>$t[sonst9]</P>\n";
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
             }
             
             echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
@@ -379,11 +379,11 @@ if (strlen($u_id) > 0 && $admin) {
                     . "WHERE is_id=" . intval($is_id);
                 
                 $result = mysql_query($query);
-                $rows = mysql_Num_Rows($result);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
                     // Zeile lesen, IP zerlegen
-                    $row = mysql_fetch_object($result);
+                    $row = mysqli_fetch_object($result);
                     
                     $query2 = "DELETE FROM ip_sperre WHERE is_id=" . intval($is_id);
                     
@@ -410,7 +410,7 @@ if (strlen($u_id) > 0 && $admin) {
                 } else {
                     echo "<P>$t[sonst9]</P>\n";
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
             }
             liste();
             break;
@@ -422,11 +422,11 @@ if (strlen($u_id) > 0 && $admin) {
                     . "WHERE is_id=" . intval($is_id);
                 
                 $result = mysql_query($query);
-                $rows = mysql_Num_Rows($result);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
                     // Zeile lesen, IP zerlegen
-                    $row = mysql_fetch_object($result);
+                    $row = mysqli_fetch_object($result);
                     $ip = explode(".", $row->is_ip);
                     
                     // Kopf Tabelle
@@ -495,7 +495,7 @@ if (strlen($u_id) > 0 && $admin) {
                         . "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n";
                     echo "</FORM>\n";
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
             } else {
                 echo "<P>$t[sonst9]</P>\n";
             }

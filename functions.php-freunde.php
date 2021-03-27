@@ -42,7 +42,7 @@ function zeige_freunde($aktion, $zeilen)
     $result = mysql_query($query, $conn);
     if ($result) {
         
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             
             // Keine Freunde
@@ -66,7 +66,7 @@ function zeige_freunde($aktion, $zeilen)
             
             $i = 0;
             $bgcolor = $farbe_tabelle_zeile1;
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 
                 // User aus DB lesen
                 if ($row->f_userid != $u_id) {
@@ -84,10 +84,10 @@ function zeige_freunde($aktion, $zeilen)
                         . "WHERE u_id=$row->f_freundid ";
                     $result2 = mysql_query($query, $conn);
                 }
-                if ($result2 && mysql_num_rows($result2) > 0) {
+                if ($result2 && mysqli_num_rows($result2) > 0) {
                     
                     // User gefunden -> Ausgeben
-                    $row2 = mysql_fetch_object($result2);
+                    $row2 = mysqli_fetch_object($result2);
                     $freund_nick = "<B>"
                         . user($row2->u_id, $row2, TRUE, FALSE) . "</B>";
                     
@@ -181,11 +181,11 @@ function loesche_freund($f_freundid, $f_userid)
     
     $query = "SELECT u_nick FROM user where u_id=$f_freundid";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $f_nick = mysql_result($result, 0, 0);
         $back = "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr Ihr Freund.</P>";
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     return ($back);
 }
 
@@ -270,7 +270,7 @@ function neuer_freund($f_userid, $freund)
             . "(f_userid=$f_userid AND f_freundid=$freund[u_id])";
         
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             
             $back = "<P><B>Fehler:</B> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
             
@@ -345,7 +345,7 @@ function bestaetige_freund($f_userid, $freund)
     mysql_query($query);
     $query = "SELECT u_nick FROM user where u_id='$f_userid'";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $f_nick = mysql_result($result, 0, 0);
         $back = "<P><B>Hinweis: </B>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";
     }

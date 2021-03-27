@@ -33,7 +33,7 @@ function erzwingeNeuePin()
     
     $sql = "select u_sms_extra from user where u_id=$u_id";
     $result = mysql_query($sql, $conn);
-    if (mysql_num_rows($result) > 0)
+    if (mysqli_num_rows($result) > 0)
         $sms_extra = unserialize(mysql_result($result, 0, "u_sms_extra"));
     
     //falls pin vor mehr als 24 stunden vergeben wurde, muss neue erzwungen werden
@@ -54,7 +54,7 @@ function CheckHandynummerVorhanden()
     
     $sql = "select ui_handy from userinfo where ui_userid = $u_id";
     $result = mysql_query($sql, $conn);
-    if (mysql_num_rows($result) > 0)
+    if (mysqli_num_rows($result) > 0)
         $handynr = mysql_result($result, 0, "ui_handy");
     
     if ($handynr)
@@ -98,13 +98,13 @@ function ZeigSMSHistory($u_id)
         $atext = "<table border=0 cellpadding=2 cellspacing=0 width=100%>\n";
         $atext .= "<TR BGCOLOR=\"$farbe_tabelle_kopf\"\"><TD>Wann?</TD><TD>An wen?</TD><TD>Nachricht:</TD></TR>\n";
         $farbe = $farbe_tabelle_zeile1;
-        while ($a = mysql_fetch_array($result)) {
+        while ($a = mysqli_fetch_array($result)) {
             $user_id = $a['s_an_user_id'];
             
             $query = "SELECT user.* FROM user WHERE u_id=$user_id ";
             $result2 = mysql_query($query, $conn);
-            $b = mysql_fetch_array($result2);
-            @mysql_free_result($result2);
+            $b = mysqli_fetch_array($result2);
+            @mysqli_free_result($result2);
             
             $a['s_an_user_id'] = $b['u_nick'];
             $atext .= "<tr BGCOLOR=\"$farbe\">";
@@ -122,7 +122,7 @@ function ZeigSMSHistory($u_id)
         $box = "SMS History (Ihre fünf zuletzt versandten SMS)";
         show_box2($box, $atext, "100%");
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 
 function PINErrorFormular()
@@ -321,22 +321,22 @@ if ($u_id && $communityfeatures) {
         // Wir holen u_sms_ok und u_sms_guthaben aus der DB
         $q = "SELECT u_sms_ok, u_sms_guthaben FROM user WHERE u_id = '$u_id'";
         $result = mysql_query($q);
-        $a = @mysql_fetch_array($result);
+        $a = @mysqli_fetch_array($result);
         
         // Wir lesen die Userdaten in $userdata
         $query = "SELECT * FROM user WHERE u_id=$u_id";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
-            $userdata = mysql_fetch_array($result);
-            mysql_free_result($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $userdata = mysqli_fetch_array($result);
+            mysqli_free_result($result);
         }
         
         // Wir lesen Userinfo in $f
         $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) != 0) {
+        if ($result && mysqli_num_rows($result) != 0) {
             if (!isset($f) || !is_array($f)) {
-                $f = mysql_fetch_array($result);
+                $f = mysqli_fetch_array($result);
             } else {
                 $f['ui_id'] = mysql_result($result, 0, "ui_id");
             }
@@ -344,7 +344,7 @@ if ($u_id && $communityfeatures) {
         } else {
             $profil_gefunden = false;
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         SMSEmpfangFormular();
         
@@ -369,9 +369,9 @@ if ($u_id && $communityfeatures) {
             // Wir lesen die Userdaten in Userdata
             $query = "SELECT * FROM user WHERE u_id=$u_id";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
-                $userdata = mysql_fetch_array($result);
-                mysql_free_result($result);
+            if ($result && mysqli_num_rows($result) == 1) {
+                $userdata = mysqli_fetch_array($result);
+                mysqli_free_result($result);
             }
             
         }
@@ -441,9 +441,9 @@ if ($u_id && $communityfeatures) {
             // Wir lesen die Userdaten in Userdata
             $query = "SELECT * FROM user WHERE u_id=$u_id";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
-                $userdata = mysql_fetch_array($result);
-                mysql_free_result($result);
+            if ($result && mysqli_num_rows($result) == 1) {
+                $userdata = mysqli_fetch_array($result);
+                mysqli_free_result($result);
             }
             
         }

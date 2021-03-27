@@ -23,8 +23,8 @@ function zeige_aktionen($aktion)
     
     // Einstellungen aus Datenbank lesen 
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) > 0) {
-        while ($row = mysql_fetch_array($result)) {
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
             $was[$row['a_was']][$row['a_wann']] = $row;
         }
     }
@@ -39,7 +39,7 @@ function zeige_aktionen($aktion)
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);
@@ -49,7 +49,7 @@ function zeige_aktionen($aktion)
     // Alle möglichen a_wie in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wie'";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 4, -1));
         $a_wie = explode(",", $txt);
@@ -169,7 +169,7 @@ function eintrag_aktionen($aktion_datensatz)
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
             substr(mysql_result($result, 0, "Type"), 5, -1));
         $a_wann = explode(",", $txt);

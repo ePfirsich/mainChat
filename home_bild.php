@@ -72,7 +72,7 @@ if (!$conn) {
 // Prüfe ob User existiert und NP aktiviert ist
 $query = "SELECT u_chathomepage FROM user WHERE u_id=$u_id ";
 $result = mysql_query($query, $conn);
-if ($result && mysql_num_rows($result) == 1) {
+if ($result && mysqli_num_rows($result) == 1) {
     if (mysql_result($result, 0, "u_chathomepage") != 'J') {
         echo "Nickpage dieses Users deaktiviert!<BR>";
         exit;
@@ -81,7 +81,7 @@ if ($result && mysql_num_rows($result) == 1) {
     echo "User ID nicht gefunden!<BR>";
     exit;
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 $anzeigeauscache = false;
 if (file_exists($cachepfad)) {
@@ -112,7 +112,7 @@ if (file_exists($cachepfad)) {
         // Größen aus DB
         $query = "SELECT b_width, b_height, b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
+        if ($result && mysqli_num_rows($result) == 1) {
             $b_width = mysql_result($result, 0, "b_width");
             $b_heigth = mysql_result($result, 0, "b_height");
             $b_mime = mysql_result($result, 0, "b_mime");
@@ -123,7 +123,7 @@ if (file_exists($cachepfad)) {
                 $anzeigeauscache = true;
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
 }
 
@@ -151,11 +151,11 @@ if ($anzeigeauscache) {
     
     $query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) == 1) {
+    if ($result && mysqli_num_rows($result) == 1) {
         $b_mime = mysql_result($result, 0, "b_mime");
         $bild = mysql_result($result, 0, "b_bild");
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Bild in den Cache schreiben
     if (!@stat($cache))

@@ -22,14 +22,14 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
     if ($eintritt_individuell == "1") {
         $query = "SELECT u_eintritt FROM user where u_id = $u_id";
         $result = mysql_query($query, $conn);
-        $row = mysql_fetch_object($result);
+        $row = mysqli_fetch_object($result);
         if (strlen($row->u_eintritt) > 0) {
             $text = $row->u_eintritt;
             if ($eintritt_useranzeige == "1")
                 $text = htmlspecialchars($text) . "  <b>($u_name)</b> ";
             else $text = htmlspecialchars($text) . " <!-- <b>($u_name)</b> -->";
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     
     $text = str_replace("%u_name%", $u_name, $text);
@@ -53,7 +53,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
         $sql = "SELECT count(c_id) as nummer FROM chat WHERE c_von_user = '' and c_typ='S' and c_raum = " . intval($r_id) . " and c_zeit > '"
             . date("YmdHis", date("U") - 60) . "'";
         $result = mysql_query($sql);
-        $num = mysql_fetch_array($result);
+        $num = mysqli_fetch_array($result);
         $num = $num['nummer'];
         if ($num < 15)
             $back = global_msg($u_id, $r_id, "<B>&gt;&gt;&gt;</b> " . $text);
@@ -84,14 +84,14 @@ function nachricht_verlasse($r_id, $u_name, $r_name)
     if ($eintritt_individuell == "1") {
         $query = "SELECT u_austritt FROM user where u_nick = '" . mysql_real_escape_string($u_name) . "'";
         $result = mysql_query($query);
-        $row = mysql_fetch_object($result);
+        $row = mysqli_fetch_object($result);
         if (strlen($row->u_austritt) > 0) {
             $text = $row->u_austritt;
             if ($eintritt_useranzeige == "1")
                 $text = htmlspecialchars($text) . "  <b>($u_name)</b> ";
             else $text = htmlspecialchars($text) . " <!-- <b>($u_name)</b> -->";
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     
     $text = str_replace("%u_name%", $u_name, $text);

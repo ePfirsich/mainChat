@@ -83,11 +83,11 @@ if ($u_id && $communityfeatures) {
                 && (preg_match("/^[0-9]+$/", trim($editeintrag)) == 1)) {
                 $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . mysql_real_escape_string($editeintrag) . ")";
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) == 1) {
+                if ($result && mysqli_num_rows($result) == 1) {
                     $infotext = mysql_result($result, 0, 0);
                     formular_editieren($editeintrag, $infotext);
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             break;
         
@@ -96,13 +96,13 @@ if ($u_id && $communityfeatures) {
                 && (preg_match("/^[0-9]+$/", trim($f_id)) == 1)) {
                 $query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . intval($f_id) . ")";
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) == 1) {
+                if ($result && mysqli_num_rows($result) == 1) {
                     // f_id ist zahl und gehört zu dem User, also ist update möglich
                     $back = edit_freund($f_id, $f_text);
                     echo "<P>$back</P>";
                     zeige_freunde("normal", "");
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             break;
         
@@ -120,7 +120,7 @@ if ($u_id && $communityfeatures) {
             $neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
             $query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . mysql_real_escape_string($neuer_freund[u_nick]) . "'";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            if ($result && mysqli_num_rows($result) == 1) {
                 $neuer_freund['u_id'] = mysql_result($result, 0, 0);
                 $neuer_freund['u_level'] = mysql_result($result, 0, 1);
                 
@@ -132,7 +132,7 @@ if ($u_id && $communityfeatures) {
                     $ignore = true;
                 }
                 ;
-                @mysql_free_result($result2);
+                @mysqli_free_result($result2);
                 
                 if ($ignore) {
                     echo (str_replace("%u_name%", $neuer_freund['u_nick'],
@@ -160,15 +160,15 @@ if ($u_id && $communityfeatures) {
                 echo "<B>Fehler:</B> Der Nickname '$neuer_freund[u_nick]' existiert nicht!<BR>\n";
                 formular_neuer_freund($neuer_freund);
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "admins":
         // Alle Admins (Status C und S) als Freund hinzufügen
             $query = "SELECT u_id,u_nick,u_level FROM user WHERE u_level='S' OR u_level='C'";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) > 0) {
-                while ($rows = mysql_fetch_array($result)) {
+            if ($result && mysqli_num_rows($result) > 0) {
+                while ($rows = mysqli_fetch_array($result)) {
                     unset($neuer_freund);
                     $neuer_freund['u_nick'] = $rows['u_nick'];
                     $neuer_freund['u_id'] = $rows['u_id'];
@@ -178,7 +178,7 @@ if ($u_id && $communityfeatures) {
                 ;
             }
             zeige_freunde("normal", "");
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             break;
         
         case "bearbeite":

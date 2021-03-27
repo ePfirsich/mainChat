@@ -7,7 +7,7 @@ include("smstools.php");
 
 $query = "SELECT ui_id, ui_handy FROM userinfo";
 $result = mysql_query($query);
-while ($a = mysql_fetch_array($result)) {
+while ($a = mysqli_fetch_array($result)) {
     $nummer = FormatNumber($a[ui_handy]);
     
     $query = "UPDATE userinfo SET ui_handy = '" . mysql_real_escape_string($nummer) . "' WHERE ui_id = " . intval($a[ui_id]);

@@ -144,7 +144,7 @@ if (strlen($u_id) != 0) {
     $result = mysql_query($query);
     $num = mysql_numrows($result);
     if ($num == 1) {
-        $row = mysql_fetch_object($result);
+        $row = mysqli_fetch_object($result);
         $r_besitzer = $row->r_besitzer;
         if ($row->r_name == $lobby)
             $f['r_name'] = $lobby;
@@ -186,7 +186,7 @@ if (strlen($u_id) != 0) {
         // gibts den Raum schon?
         $query = "SELECT r_id FROM raum " . "WHERE r_name LIKE '$f[r_name]' ";
         $result = mysql_query($query, $conn);
-        $rows = mysql_num_rows($result);
+        $rows = mysqli_num_rows($result);
         
         if ($rows == 0) {
             // Raum neu eintragen und in Raum gehen
@@ -197,7 +197,7 @@ if (strlen($u_id) != 0) {
             echo "<P>" . str_replace("%r_name%", $f['r_name'], $t['fehler0'])
                 . "</P>\n";
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         
     }
     
@@ -249,18 +249,18 @@ if (strlen($u_id) != 0) {
             
             $result = mysql_query($query, $conn);
             
-            if ($result AND mysql_num_rows($result) > 0) {
-                $row = mysql_fetch_object($result);
+            if ($result AND mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_object($result);
                 
                 // Berechtigung prüfen, alle User in Lobby werfen und löschen
                 if ($admin || ($row->r_besitzer == $u_id)) {
                     // Lobby suchen
                     $query = "SELECT r_id FROM raum WHERE r_name='" . mysql_real_escape_string($lobby) . "'";
                     $result2 = mysql_query($query, $conn);
-                    if ($result2 AND mysql_num_rows($result2) > 0) {
+                    if ($result2 AND mysqli_num_rows($result2) > 0) {
                         $lobby_id = mysql_result($result2, 0, "r_id");
                     }
-                    @mysql_free_result($result2);
+                    @mysqli_free_result($result2);
                     
                     // Raum ist nicht Lobby -> Löschen
                     if ($f['r_id'] == $lobby_id) {
@@ -277,7 +277,7 @@ if (strlen($u_id) != 0) {
                         $query = "SELECT o_user,o_name FROM online WHERE o_raum=$f[r_id] ";
                         
                         $result2 = mysql_query($query, $conn);
-                        while ($row2 = mysql_fetch_object($result2)) {
+                        while ($row2 = mysqli_fetch_object($result2)) {
                             system_msg("", 0, $row2->o_user, $system_farbe,
                                 str_replace("%r_name%", $row->r_name,
                                     $t['fehler4']));
@@ -286,16 +286,16 @@ if (strlen($u_id) != 0) {
                             raum_user($lobby_id, $row2->o_user, $id);
                             $i++;
                         }
-                        @mysql_free_result($result2);
+                        @mysqli_free_result($result2);
                         
                         $query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
                         $result2 = mysql_query($query, $conn);
-                        @mysql_free_result($result2);
+                        @mysqli_free_result($result2);
                         
                         // Gesperrte Räume löschen
                         $query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
                         $result2 = mysql_query($query, $conn);
-                        @mysql_free_result($result2);
+                        @mysqli_free_result($result2);
                         
                         // ausgeben: raum wurde gelöscht.
                         echo "<P>"
@@ -309,7 +309,7 @@ if (strlen($u_id) != 0) {
                         . "</P>\n";
                 }
                 
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
             } else {
                 echo "<P>$t[fehler6]</P>\n";
@@ -323,7 +323,7 @@ if (strlen($u_id) != 0) {
             
             $result = mysql_query($query, $conn);
             
-            if ($result AND mysql_num_rows($result) > 0) {
+            if ($result AND mysqli_num_rows($result) > 0) {
                 // Kopf Tabelle
                 $box = $ft0 . $t['sonst6'] . $ft1;
                 echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
@@ -337,7 +337,7 @@ if (strlen($u_id) != 0) {
                 echo "<TR><TD>";
                 
                 // Raum zeigen
-                $row = mysql_fetch_object($result);
+                $row = mysqli_fetch_object($result);
                 echo "<TABLE WIDTH=100% BORDER=0 CELLSPACING=0><TR>\n";
                 echo "<TD><B>$t[sonst2] $row->r_name</B></TD></TR>\n";
                 echo "<TR><TD COLSPAN=2>" . $f1 . "<B>$t[sonst3]</B> "
@@ -362,7 +362,7 @@ if (strlen($u_id) != 0) {
                 
                 // Fuß der Tabelle
                 echo "</TD></TR></TABLE></TD></TR></TABLE>\n";
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
             } else {
                 echo "<P>$t[fehler8]</P>\n";
@@ -379,7 +379,7 @@ if (strlen($u_id) != 0) {
             if ($communityfeatures && !$admin) {
                 
                 $result = mysql_query("select u_punkte_gesamt FROM user WHERE u_id=$u_id");
-                if ($result && mysql_num_rows($result) == 1) {
+                if ($result && mysqli_num_rows($result) == 1) {
                     $u_punkte_gesamt = mysql_result($result, 0, 0);
                 }
                 
@@ -543,7 +543,7 @@ if (strlen($u_id) != 0) {
                 // Kopf Tabelle
                 echo $tabellenkopf;
                 
-                while ($rows = mysql_fetch_object($result)) {
+                while ($rows = mysqli_fetch_object($result)) {
                     if (!isset($fussaus)) {
                         $fussaus = TRUE;
                     } else {
@@ -708,7 +708,7 @@ if (strlen($u_id) != 0) {
                 
                 // Fuß der Tabelle
                 echo $tabellenfuss;
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
             } else {
                 
@@ -721,17 +721,17 @@ if (strlen($u_id) != 0) {
                 //system_msg("",0,$u_id,"#000000","Debug: ".$query);
                 $result = mysql_query($query, $conn);
                 
-                while ($row = mysql_fetch_object($result)) {
+                while ($row = mysqli_fetch_object($result)) {
                     $anzahl_user[$row->r_id] = $row->anzahl;
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
                 // Liste der Räume und der Raumbesitzer lesen
                 $query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
                     . "FROM raum left join user on r_besitzer=u_id "
                     . "GROUP BY r_name ORDER BY $order";
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_Num_Rows($result) > 0) {
+                if ($result && mysqli_num_rows($result) > 0) {
                     
                     echo $tabellenkopf;
                     // extended==Ansicht mit Details im extra beiten Fenster
@@ -795,7 +795,7 @@ if (strlen($u_id) != 0) {
                     echo "</tr>\n";
                     $i = 1;
                     $bgcolor = $farbe_tabelle_zeile1;
-                    while ($row = mysql_fetch_array($result)) {
+                    while ($row = mysqli_fetch_array($result)) {
                         $uu_id = $row['u_id'];
                         if ($row['r_status2'] == "P") {
                             $b1 = "<small><b>";
@@ -889,7 +889,7 @@ if (strlen($u_id) != 0) {
                     }
                     echo "</TABLE>";
                     echo $tabellenfuss;
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                 }
             }
         

@@ -25,8 +25,8 @@ $gekauftesms = floor($cc_amount / $sms[preis] + 0.5);
 // Auslesen des bisherigen Guthabens
 $query = "SELECT u_sms_guthaben FROM user WHERE u_id = '$u_id'";
 $result = mysql_query($query);
-$a = @mysql_fetch_array($result);
-@mysql_free_result($result);
+$a = @mysqli_fetch_array($result);
+@mysqli_free_result($result);
 
 // Dazuaddieren
 $f['u_sms_guthaben'] = $a['u_sms_guthaben'] + $gekauftesms;

@@ -17,7 +17,7 @@ function verlasse_chat($u_id, $u_name, $raum)
         if ($eintritt_individuell == "1") {
             $query = "SELECT u_austritt FROM user where u_id = $u_id";
             $result = mysql_query($query);
-            $row = mysql_fetch_object($result);
+            $row = mysqli_fetch_object($result);
             if (strlen($row->u_austritt) > 0) {
                 $text = $row->u_austritt;
                 if ($eintritt_useranzeige == "1")
@@ -26,18 +26,18 @@ function verlasse_chat($u_id, $u_name, $raum)
                 else $text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text)
                     . " <!-- (<b>$u_name</b> - verlässt Chat) -->";
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
             
             $query = "SELECT r_name FROM raum where r_id = " . intval($raum);
             $result = mysql_query($query);
-            $row = mysql_fetch_object($result);
+            $row = mysqli_fetch_object($result);
             if (isset($row->r_name)) {
                 $r_name = $row->r_name;
             } else {
                 $r_name = "[unbekannt]";
             }
             
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
         
         $text = str_replace("%u_name%", $u_name, $text);

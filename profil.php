@@ -73,9 +73,9 @@ if ($u_id && $communityfeatures) {
     // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
     $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         if (!isset($f) || !is_array($f)) {
-            $f = mysql_fetch_array($result);
+            $f = mysqli_fetch_array($result);
         } else {
             $f['ui_id'] = mysql_result($result, 0, "ui_id");
         }
@@ -83,7 +83,7 @@ if ($u_id && $communityfeatures) {
     } else {
         $profil_gefunden = false;
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Menü als erstes ausgeben
     $box = $ft0 . "Menü Profile" . $ft1;
@@ -228,8 +228,8 @@ if ($u_id && $communityfeatures) {
                 
                 $query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick,u_name";
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) > 0) {
-                    while ($row = mysql_fetch_object($result)) {
+                if ($result && mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_object($result)) {
                         echo "<TR><TD><B>"
                             . htmlspecialchars($row->u_nick)
                             . "</B></TD><TD>"
@@ -272,7 +272,7 @@ if ($u_id && $communityfeatures) {
                     }
                 }
                 echo "</TABLE>\n";
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             
             break;

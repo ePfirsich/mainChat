@@ -47,8 +47,8 @@ function sms_msg(
     // Prüfen ob User SMS möchte
     $query = "SELECT u_sms_ok FROM user WHERE u_id = " . intval($an_user);
     $result = mysql_query($query);
-    $a = mysql_fetch_array($result);
-    mysql_free_result($result);
+    $a = mysqli_fetch_array($result);
+    mysqli_free_result($result);
     $sms_ok = $a['u_sms_ok'];
     if (!isset($fehler)) {
         if ($sms_ok == "N") {
@@ -71,7 +71,7 @@ function sms_msg(
     } else {
         $query = "SELECT u_nick FROM user WHERE u_id = " . intval($an_user);
         $result = mysql_query($query);
-        $emp2 = mysql_fetch_array($result);
+        $emp2 = mysqli_fetch_array($result);
         
         sms_sende($von_user_id, $an_user, $complete);
         $txt = "<B>$chat:</B> sende SMS an $emp2[u_nick]: '$text'";
@@ -113,7 +113,7 @@ function sms_sende($von_user_id, $an_user, $nachricht)
         
         $query = "SELECT COUNT(*) as zahl FROM sms WHERE s_an_user_id = " . intval($an_user);
         $result = mysql_query($query);
-        $num = mysql_fetch_array($result);
+        $num = mysqli_fetch_array($result);
         if ($num[zahl] == 0) {
             $nachricht2 = "Du erhälst gleich eine SMS aus dem $chat - Um dem User zu antworten schreibe einfach eine SMS an $sms[shortid] mit $sms[keyword] <nick> <nachricht> (0,19EUR/SMS)";
             $nachricht2 = urlencode($nachricht2);
@@ -183,7 +183,7 @@ function hole_smsguthaben($von_user_id)
 {
     $query = "SELECT u_sms_guthaben FROM user WHERE u_id = " . intval($von_user_id);
     $result = mysql_query($query);
-    $a = mysql_fetch_array($result);
+    $a = mysqli_fetch_array($result);
     return ($a['u_sms_guthaben']);
 }
 
@@ -191,7 +191,7 @@ function hole_handynummer($user_id)
 {
     $query = "SELECT ui_handy FROM userinfo WHERE ui_userid = " . intval($user_id);
     $result = mysql_query($query);
-    $a = mysql_fetch_array($result);
+    $a = mysqli_fetch_array($result);
     $handynr = $a['ui_handy'];
     return ($handynr);
 }

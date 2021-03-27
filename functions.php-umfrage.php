@@ -41,7 +41,7 @@ function anzeige_umfragen_aktuell($adm = 0)
         . " order by um_bereich, um_start_umfrage, um_id ";
     $result = mysql_query($query, $conn);
     if ($result) {
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Aktuelle Umfragen</B>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
@@ -49,7 +49,7 @@ function anzeige_umfragen_aktuell($adm = 0)
             $bereich = '';
             $i = 0;
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Aktuelle Umfragen</B>";
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
                     if ($i <> 1) {
@@ -81,7 +81,7 @@ function anzeige_umfragen_aktuell($adm = 0)
             }
         }
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     echo "</TABLE>";
     
@@ -100,7 +100,7 @@ function anzeige_umfragen_zukuenftig($adm = 0)
         . " order by um_bereich, um_start_umfrage, um_id ";
     $result = mysql_query($query, $conn);
     if ($result) {
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Zukünftige Umfragen</B>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
@@ -108,7 +108,7 @@ function anzeige_umfragen_zukuenftig($adm = 0)
             $bereich = '';
             $i = 0;
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Zukünftige Umfragen</B>";
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
                     if ($i <> 1) {
@@ -137,7 +137,7 @@ function anzeige_umfragen_zukuenftig($adm = 0)
             }
         }
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     echo "</TABLE>";
     
@@ -156,7 +156,7 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
         . " order by um_bereich, um_start_umfrage, um_id ";
     $result = mysql_query($query, $conn);
     if ($result) {
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Abgeschlossene Umfragen</B>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
@@ -164,7 +164,7 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
             $bereich = '';
             $i = 0;
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Abgeschlossene Umfragen</B>";
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
                     if ($i <> 1) {
@@ -195,7 +195,7 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
             }
         }
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     echo "</TABLE>";
     

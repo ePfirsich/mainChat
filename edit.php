@@ -187,12 +187,12 @@ if (strlen($u_id) != 0) {
             
             $query = "SELECT user.* " . "FROM user WHERE u_id=$u_id ";
             $result = mysql_query($query, $conn);
-            $rows = mysql_num_rows($result);
+            $rows = mysqli_num_rows($result);
             
             if ($rows == 1) {
-                $row = mysql_fetch_object($result);
+                $row = mysqli_fetch_object($result);
                 $u_adminemail = $row->u_adminemail;
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
                 echo "<TR><TD COLSPAN=2>" . $f1 . "<B>" . $t['user_zeige3']
                     . "</B><BR>\n" . $f2
@@ -215,12 +215,12 @@ if (strlen($u_id) != 0) {
                 
                 $query = "SELECT user.* FROM user WHERE u_id=$u_id ";
                 $result = mysql_query($query, $conn);
-                $rows = mysql_num_rows($result);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows == 1) {
-                    $row = mysql_fetch_object($result);
+                    $row = mysqli_fetch_object($result);
                     $u_adminemail = $row->u_adminemail;
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                     
                     unset($p);
                     
@@ -248,11 +248,11 @@ if (strlen($u_id) != 0) {
                     $query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$u_id' AND o_level!='C' AND o_level!='S'";
                     
                     $result = mysql_query($query, $conn);
-                    if ($result && mysql_num_rows($result) > 0) {
-                        $row = mysql_fetch_object($result);
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $row = mysqli_fetch_object($result);
                         verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
                         logout($row->o_id, $f['u_id'], "edit->einständerung");
-                        mysql_free_result($result);
+                        mysqli_free_result($result);
                     }
                 }
             }
@@ -436,7 +436,7 @@ if (strlen($u_id) != 0) {
                         . "WHERE u_nick = '$f[u_nick]' AND u_id!=$f[u_id]";
                     // echo "Debug: $query<BR>";
                     $result = mysql_query($query, $conn);
-                    $rows = mysql_num_rows($result);
+                    $rows = mysqli_num_rows($result);
                     if ($rows != 0) {
                         echo "<P><B>$t[edit7]</B></P>\n";
                         unset($f['u_name']);
@@ -453,7 +453,7 @@ if (strlen($u_id) != 0) {
                 if (isset($f['u_nick']) && $f['u_nick']) {
                     $query = "SELECT u_nick_historie, u_nick FROM user WHERE u_id = '$f[u_id]'";
                     $result = mysql_query($query);
-                    $xyz = mysql_fetch_array($result);
+                    $xyz = mysqli_fetch_array($result);
                     $nick_historie = unserialize($xyz['u_nick_historie']);
                     $nick_alt = $xyz['u_nick'];
                     
@@ -506,7 +506,7 @@ if (strlen($u_id) != 0) {
                 
                 $query = "SELECT u_level FROM user WHERE u_id=" . intval($f['u_id']);
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) > 0) {
+                if ($result && mysqli_num_rows($result) > 0) {
                     $uu_level = mysql_result($result, 0, "u_level");
                     
                     // Falls Userlevel G -> Änderung verboten
@@ -528,7 +528,7 @@ if (strlen($u_id) != 0) {
                         $f = array(u_id => $f['u_id']);
                         unset($passwort1);
                     }
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                     
                 } else {
                     
@@ -575,8 +575,8 @@ if (strlen($u_id) != 0) {
                         $query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum "
                             . "FROM online " . "WHERE o_user=" . intval($f[u_id]);
                         $result = mysql_query($query, $conn);
-                        if ($result && mysql_num_rows($result) == 1) {
-                            $row = mysql_fetch_object($result);
+                        if ($result && mysqli_num_rows($result) == 1) {
+                            $row = mysqli_fetch_object($result);
                             $userdata = unserialize(
                                 $row->o_userdata . $row->o_userdata2
                                     . $row->o_userdata3 . $row->o_userdata4);
@@ -598,14 +598,14 @@ if (strlen($u_id) != 0) {
                                             $userdata['u_nick'], $t['edit10'])));
                             }
                         }
-                        @mysql_free_result($result);
+                        @mysqli_free_result($result);
                         echo "<P><B>$t[edit11]</B></P>\n";
                         
                     }
                     
                     $query = "SELECT u_profil_historie FROM user WHERE u_id = " . intval($f['u_id']);
                     $result = mysql_query($query);
-                    $g = mysql_fetch_array($result);
+                    $g = mysqli_fetch_array($result);
                     
                     $g['u_profil_historie'] = unserialize(
                         $g['u_profil_historie']);
@@ -633,16 +633,16 @@ if (strlen($u_id) != 0) {
                         $queryii = "SELECT u_nick,u_id from user,iignore "
                             . "WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
                         $resultii = @mysql_query($queryii, $conn);
-                        $anzahlii = @mysql_num_rows($resultii);
+                        $anzahlii = @mysqli_num_rows($resultii);
                         
                         if ($resultii && $anzahlii > 0) {
                             for ($i = 0; $i < $anzahlii; $i++) {
-                                $rowii = @mysql_fetch_object($resultii);
+                                $rowii = @mysqli_fetch_object($resultii);
                                 ignore($o_id, $f['u_id'], $f['u_nick'],
                                     $rowii->u_id, $rowii->u_nick);
                             }
                         }
-                        @mysql_free_result($resultii);
+                        @mysqli_free_result($resultii);
                     }
                     // Hat der User den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
  else if ((isset($f['u_level']) && $f['u_level'] == "C")
@@ -650,16 +650,16 @@ if (strlen($u_id) != 0) {
                         $queryii = "SELECT u_nick,u_id from user,iignore "
                             . "WHERE i_user_passiv=" . intval($f[u_id]) . " AND u_id=i_user_aktiv order by i_id";
                         $resultii = @mysql_query($queryii, $conn);
-                        $anzahlii = @mysql_num_rows($resultii);
+                        $anzahlii = @mysqli_num_rows($resultii);
                         
                         if ($resultii && $anzahlii > 0) {
                             for ($i = 0; $i < $anzahlii; $i++) {
-                                $rowii = @mysql_fetch_object($resultii);
+                                $rowii = @mysqli_fetch_object($resultii);
                                 ignore($o_id, $rowii->u_id, $rowii->u_nick,
                                     $f['u_id'], $f['u_nick']);
                             }
                         }
-                        @mysql_free_result($resultii);
+                        @mysqli_free_result($resultii);
                     }
                     
                     // Warnung für sicheren Modus ausgeben
@@ -683,25 +683,25 @@ if (strlen($u_id) != 0) {
                     $query = "SELECT o_id,o_raum FROM online "
                         . "WHERE o_user=" . intval($f[u_id]);
                     $result = mysql_query($query, $conn);
-                    $rows = mysql_num_rows($result);
+                    $rows = mysqli_num_rows($result);
                     
                     if ($rows > 0) {
-                        $row = mysql_fetch_object($result);
+                        $row = mysqli_fetch_object($result);
                         verlasse_chat($f['u_id'], $f['u_nick'], $row->o_raum);
                         logout($row->o_id, $f['u_id'], "edit->levelZ");
                         echo "<P><B>"
                             . str_replace("%u_name%", htmlspecialchars($f['u_nick']),
                                 $t['edit12']) . "</B></P>\n";
                     }
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                 }
                 
                 // User mit ID $u_id anzeigen
                 $query = "SELECT user.* " . "FROM user WHERE u_id=" . intval($f['u_id']);
                 $result = mysql_query($query, $conn);
                 
-                if ($result && mysql_num_rows($result) == 1) {
-                    $row = mysql_fetch_object($result);
+                if ($result && mysqli_num_rows($result) == 1) {
+                    $row = mysqli_fetch_object($result);
                     $f['u_id'] = $u_id;
                     $f['u_name'] = htmlspecialchars($row->u_name);
                     $f['u_nick'] = $row->u_nick;
@@ -723,7 +723,7 @@ if (strlen($u_id) != 0) {
                     $size = unserialize($row->u_frames);
                     user_edit($f, $admin, $u_level, $size);
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
                 // Bei Änderungen an u_smilie, u_systemmeldungen, u_punkte_anzeigen chat-Fenster neu laden
                 if (($u_smilie != $f['u_smilie']
@@ -766,10 +766,10 @@ if (strlen($u_id) != 0) {
                     $query = "SELECT user.* "
                         . "FROM user WHERE u_id=" . intval($f[u_id]);
                     $result = mysql_query($query, $conn);
-                    $rows = mysql_num_rows($result);
+                    $rows = mysqli_num_rows($result);
                     
                     if ($rows == 1) {
-                        $row = mysql_fetch_object($result);
+                        $row = mysqli_fetch_object($result);
                         $f['u_id'] = $u_id;
                         $f['u_name'] = htmlspecialchars($row->u_name);
                         $f['u_nick'] = $row->u_nick;
@@ -789,7 +789,7 @@ if (strlen($u_id) != 0) {
                         $f['u_signatur'] = $row->u_signatur;
                         $size = unserialize($row->u_frames);
                         user_edit($f, $admin, $u_level, $size);
-                        mysql_free_result($result);
+                        mysqli_free_result($result);
                     }
                 }
             } elseif (isset($eingabe) && $eingabe == "Homepage löschen!"
@@ -823,7 +823,7 @@ if (strlen($u_id) != 0) {
                 $query = "SELECT u_adminemail,u_level FROM user WHERE u_nick = '" . mysql_real_escape_string($f[u_nick]) . "'";
                 $result = mysql_query($query);
                 
-                $x = mysql_fetch_array($result);
+                $x = mysqli_fetch_array($result);
                 $f['u_adminemail'] = $x['u_adminemail'];
                 $pwdneu = genpassword(8);
                 $f['u_passwort'] = $pwdneu;
@@ -855,11 +855,11 @@ if (strlen($u_id) != 0) {
                     $query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user=" . intval($f[u_id]) . " AND o_level!='C' AND o_level!='S'";
                     
                     $result = mysql_query($query, $conn);
-                    if ($result && mysql_num_rows($result) > 0) {
-                        $row = mysql_fetch_object($result);
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $row = mysqli_fetch_object($result);
                         verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
                         logout($row->o_id, $f['u_id'], "edit->pwänderung");
-                        mysql_free_result($result);
+                        mysqli_free_result($result);
                     }
                 } else {
                     echo $f1 . "<P><B>Fehler: Aktion nicht erlaubt!</B></P>"
@@ -873,17 +873,17 @@ if (strlen($u_id) != 0) {
                     // Jeden User anzeigen
                     $query = "SELECT user.* FROM user WHERE u_id=" . intval($f[u_id]);
                     $result = mysql_query($query, $conn);
-                    $rows = mysql_num_rows($result);
+                    $rows = mysqli_num_rows($result);
                     
                 } else {
                     // Nur eigene Daten anzeigen
                     $query = "SELECT user.* FROM user WHERE u_id=" . intval($u_id);
                     $result = mysql_query($query, $conn);
-                    $rows = mysql_num_rows($result);
+                    $rows = mysqli_num_rows($result);
                 }
                 
                 if ($rows == 1) {
-                    $row = mysql_fetch_object($result);
+                    $row = mysqli_fetch_object($result);
                     $f['u_id'] = $u_id;
                     $f['u_name'] = $row->u_name;
                     $f['u_nick'] = $row->u_nick;
@@ -904,7 +904,7 @@ if (strlen($u_id) != 0) {
                     $f['u_kommentar'] = $row->u_kommentar;
                     $size = unserialize($row->u_frames);
                     user_edit($f, $admin, $u_level, $size);
-                    mysql_free_result($result);
+                    mysqli_free_result($result);
                 }
             }
             
@@ -915,10 +915,10 @@ if (strlen($u_id) != 0) {
         
             $query = "SELECT user.* FROM user WHERE u_id=" . intval($u_id);
             $result = mysql_query($query, $conn);
-            $rows = mysql_num_rows($result);
+            $rows = mysqli_num_rows($result);
             
             if ($rows == 1) {
-                $row = mysql_fetch_object($result);
+                $row = mysqli_fetch_object($result);
                 $f['u_id'] = $u_id;
                 $f['u_name'] = $row->u_name;
                 $f['u_nick'] = $row->u_nick;
@@ -938,7 +938,7 @@ if (strlen($u_id) != 0) {
                 $f['u_signatur'] = $row->u_signatur;
                 $size = unserialize($row->u_frames);
                 user_edit($f, $admin, $u_level, $size);
-                mysql_free_result($result);
+                mysqli_free_result($result);
             }
         
     }

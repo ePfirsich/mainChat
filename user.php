@@ -170,12 +170,12 @@ if (strlen($u_id) != 0) {
             . "AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
         $result = mysql_query($query, $conn);
         
-        if ($result && mysql_num_rows($result) > 0) {
-            $row = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_object($result);
             verlasse_chat($user, $row->o_name, $row->o_raum);
             logout($row->o_id, $user, "user->kick " . $u_id . " " . $u_nick);
             
-            mysql_free_result($result);
+            mysqli_free_result($result);
         } else {
             echo $t['sonst40'];
         }
@@ -228,7 +228,7 @@ if (strlen($u_id) != 0) {
                                 $f['u_passwort'] = $userd[3];
                                 $query = "SELECT u_id FROM user where u_nick like '" . mysql_real_escape_string($f[u_nick]) . "'"; // User importieren
                                 $result = mysql_query($query, $conn);
-                                if ($result && mysql_num_rows($result)) {
+                                if ($result && mysqli_num_rows($result)) {
                                     $ui_userid = mysql_result($result, 0, 0);
                                     echo " ID: $ui_userid";
                                 }
@@ -336,9 +336,9 @@ if (strlen($u_id) != 0) {
                     . "ORDER BY u_nick";
                 
                 $result = mysql_query($query, $conn);
-                $rows = mysql_num_rows($result);
+                $rows = mysqli_num_rows($result);
                 
-                if (!$result || mysql_num_rows($result) == 0) {
+                if (!$result || mysqli_num_rows($result) == 0) {
                     echo "<HTML><BODY><P>$t[sonst4]</P></BODY></HTML>\n";
                 } else {
                     
@@ -358,7 +358,7 @@ if (strlen($u_id) != 0) {
                         echo $t['sonst26b'];
                     }
                     
-                    while ($row = mysql_fetch_object($result)) {
+                    while ($row = mysqli_fetch_object($result)) {
                         if ($erweitertefeatures) {
                             echo str_replace("\\", "",
                                 htmlspecialchars($row->u_nick)) . "\t"
@@ -571,7 +571,7 @@ if (strlen($u_id) != 0) {
                 $query .= $sortierung;
                 
                 $result = mysql_query($query, $conn);
-                $anzahl = mysql_num_rows($result);
+                $anzahl = mysqli_num_rows($result);
                 
                 if ($anzahl == 0) {
                     // Kein user gefunden
@@ -584,7 +584,7 @@ if (strlen($u_id) != 0) {
                     // Einen User gefunden, alle Userdaten ausgeben
                     if (!isset($zeigeip))
                         $zeigeip = 0;
-                    while ($arr = mysql_fetch_array($result)) {
+                    while ($arr = mysqli_fetch_array($result)) {
                         user_zeige($arr['u_id'], $admin, $schau_raum, $u_level,
                             $zeigeip);
                     }
@@ -597,8 +597,8 @@ if (strlen($u_id) != 0) {
                         
                         // Mehrere User gefunden, als Tabelle ausgeben
                         
-                        for ($i = 0; $row = mysql_fetch_array($result,
-                            MYSQL_ASSOC); $i++) {
+                        for ($i = 0; $row = mysqli_fetch_array($result,
+                            MYSQLI_ASSOC); $i++) {
                             
                             // Array mit Userdaten und Infotexten aufbauen
                             $larr[$i]['u_email'] = str_replace("\\", "",
@@ -628,7 +628,7 @@ if (strlen($u_id) != 0) {
                             
                             flush();
                         }
-                        mysql_free_result($result);
+                        mysqli_free_result($result);
                         
                         $rows = count($larr);
                         $CELLPADDING = (($aktion == "chatuserliste"
@@ -735,9 +735,9 @@ if (strlen($u_id) != 0) {
             if ($adminlisteabrufbar && $u_level != "G") {
                 
                 $result = mysql_query('select * from user where u_level = "S" or u_level = "C" order by u_nick ', $conn);
-                $anzahl = mysql_num_rows($result);
+                $anzahl = mysqli_num_rows($result);
                 
-                for ($i = 0; $row = mysql_fetch_array($result, MYSQL_ASSOC); $i++) {
+                for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
                     
                     // Array mit Userdaten und Infotexten aufbauen
                     $larr[$i][u_email] = str_replace("\\", "",
@@ -760,7 +760,7 @@ if (strlen($u_id) != 0) {
                     
                     flush();
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 
                 $rows = count($larr);
                 $CELLPADDING = (($aktion == "chatuserliste" OR $rows > 15) ? 0
@@ -793,12 +793,12 @@ if (strlen($u_id) != 0) {
                 // Id der Lobby als Voreinstellung ermitteln
                 $query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysql_real_escape_string($lobby) . "' ";
                 $result = mysql_query($query, $conn);
-                $rows = mysql_num_rows($result);
+                $rows = mysqli_num_rows($result);
                 
                 if ($rows > 0) {
                     $lobby_id = mysql_result($result, 0, "r_id");
                 }
-                @mysql_free_result($result);
+                @mysqli_free_result($result);
             }
             
             // Raum listen
@@ -809,7 +809,7 @@ if (strlen($u_id) != 0) {
             
             $result = mysql_query($query, $conn);
             
-            for ($i = 0; $row = mysql_fetch_array($result, MYSQL_ASSOC); $i++) {
+            for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
                 
                 // Array mit Userdaten und Infotexten aufbauen
                 $userdata = unserialize(
@@ -875,7 +875,7 @@ if (strlen($u_id) != 0) {
                     $larr[$i]['u_level'] = "B";
                 
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             
             if (isset($larr)) {
                 $rows = count($larr);
@@ -890,7 +890,7 @@ if (strlen($u_id) != 0) {
                 
                 $query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
                 $result = mysql_query($query, $conn);
-                if ($result && mysql_num_rows($result) != 0)
+                if ($result && mysqli_num_rows($result) != 0)
                     $r_name = mysql_result($result, 0, 0);
                 echo "<P>" . str_replace("%r_name%", $r_name, $t['sonst13'])
                     . "</P>\n";

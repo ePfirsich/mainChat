@@ -48,9 +48,9 @@ function profil_editor($u_id, $u_nick, $f)
     // Userdaten lesen
     $query = "SELECT * FROM user WHERE u_id=$u_id";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) == 1) {
-        $userdata = mysql_fetch_array($result);
-        mysql_free_result($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $userdata = mysqli_fetch_array($result);
+        mysqli_free_result($result);
         $url = "edit.php?http_host=$http_host&id=$id";
         $userdaten_bearbeiten = "\n[<A HREF=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
     }

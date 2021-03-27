@@ -68,7 +68,7 @@ if (!$c) {
     //testen, ob statisiken überhaupt geschrieben werden:
     $r1 = mysql_query("SELECT DISTINCT c_host FROM chat WHERE c_host LIKE '$v' ORDER BY c_host");
     if ($r1 > 0) {
-        if (mysql_num_rows($r1) == 0) {
+        if (mysqli_num_rows($r1) == 0) {
             // host taucht nicht auf... nix wars.
             $msg = $t['statistik5'];
             $fehler = true;
@@ -168,7 +168,7 @@ switch ($type) {
             "SELECT DISTINCT c_host FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host LIKE '$v' ORDER BY c_host");
         if ($r1 > 0) {
             $j = 0;
-            $o = @mysql_num_rows($r1);
+            $o = @mysqli_num_rows($r1);
             
             while ($j < $o) {
                 $c_host = @mysql_result($r1, $j, "c_host");
@@ -179,7 +179,7 @@ switch ($type) {
                     "SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host='" . mysql_real_escape_string($c_host) . "' ORDER BY c_timestamp");
                 if ($r0 > 0) {
                     $i = 0;
-                    $n = @mysql_num_rows($r0);
+                    $n = @mysqli_num_rows($r0);
                     
                     while ($i < $n) {
                         $x = @mysql_result($r0, $i, "tag");
@@ -214,7 +214,7 @@ switch ($type) {
         
         if ($r0 > 0) {
             $i = 0;
-            $n = @mysql_num_rows($r0);
+            $n = @mysqli_num_rows($r0);
             while ($i < $n) {
                 $x = @mysql_result($r0, $i, "stunde");
                 $c_users = @mysql_result($r0, $i, "c_users");

@@ -23,9 +23,9 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         . "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
     
     $result = mysql_query($query, $conn);
-    while ($row = mysql_fetch_object($result))
+    while ($row = mysqli_fetch_object($result))
         $anzahl_user[$row->r_id] = $row->anzahl;
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Optional Formularzusatz für Community-Module  ergänzen
     $zusatz_select = "";
@@ -34,9 +34,9 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
             . "WHERE o_who>1 " . "GROUP BY o_who ";
         
         $result = mysql_query($query, $conn);
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $anzahl_who[$row->o_who] = $row->anzahl;
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         foreach ($whotext as $key => $whotxt) {
             if ($key > 1 && isset($anzahl_who) && $anzahl_who[$key])
@@ -56,10 +56,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $rows = array();
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
         
         $query = "SELECT r_id FROM raum "
@@ -67,10 +67,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
     }
     
@@ -86,7 +86,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     $result = mysql_query($query, $conn);
     
     echo $zusatz_select;
-    while ($row = mysql_fetch_object($result)) {
+    while ($row = mysqli_fetch_object($result)) {
         if ($row->r_status1 != "O") {
             // L->t und G->g übersetzen
             if ($row->r_status1 == "L") {
@@ -117,7 +117,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         }
     }
     echo $zusatz_select;
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 
 ?>

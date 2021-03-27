@@ -130,8 +130,8 @@ if ($u_id) {
                 "SELECT HIGH_PRIORITY o_raum,o_ignore FROM online WHERE o_id=$o_id ",
                 $conn);
             if ($result > 0) {
-                if (mysql_Num_Rows($result) == 1) {
-                    $row = mysql_fetch_object($result);
+                if (mysqli_num_rows($result) == 1) {
+                    $row = mysqli_fetch_object($result);
                     $o_raum = $row->o_raum;
                     $ignore = unserialize($row->o_ignore);
                 } else {
@@ -139,7 +139,7 @@ if ($u_id) {
                     sleep(10);
                     $beende_prozess = TRUE;
                 }
-                mysql_free_result($result);
+                mysqli_free_result($result);
             }
             
             $j++;

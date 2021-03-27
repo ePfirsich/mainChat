@@ -28,7 +28,7 @@ $result = mysql_query($query, $conn);
 if (!$result)
     echo mysql_errno() . " - " . mysql_error();
 
-$rows = mysql_Num_Rows($result);
+$rows = mysqli_num_rows($result);
 
 if ($rows > 0) {
     $i = 0;
@@ -36,7 +36,7 @@ if ($rows > 0) {
     $raum_alt = "---ohne---";
     while ($i < $rows) {
         set_time_limit(20);
-        $row = @mysql_fetch_object($result);
+        $row = @mysqli_fetch_object($result);
         if ($i > 0)
             $loesche .= ",";
         if (!$row->r_name)
@@ -69,7 +69,7 @@ if ($rows > 0) {
         $raum_alt = $r_name;
         $i++;
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // Chat-Zeilen löschen
     $query = "DELETE FROM chat WHERE c_id IN ($loesche)";
@@ -89,7 +89,7 @@ if ($expire_privat) {
         $i = 0;
         while ($i < $rows) {
             set_time_limit(20);
-            $row = @mysql_fetch_object($result);
+            $row = @mysqli_fetch_object($result);
             
             // Chat-Zeile in Log schreiben
             $r_name = $log . "/chat_privatnachrichten";
@@ -118,7 +118,7 @@ if ($expire_privat) {
                 $conn);
             $i++;
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     
 } else {
@@ -145,13 +145,13 @@ $query = "SELECT SQL_BUFFER_RESULT o_user,o_raum,o_id,o_who,o_name FROM online "
 
 $result = mysql_query($query, $conn);
 if ($result) {
-    while ($rows = mysql_fetch_object($result)) {
+    while ($rows = mysqli_fetch_object($result)) {
         // Chat verlassen und Nachricht an alle User im aktuellen Raum schreiben
         verlasse_chat($rows->o_user, $rows->o_name, $rows->o_raum);
         logout($rows->o_id, $rows->o_user, "expire->timeout $timeout");
         echo "$rows->o_name ";
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
 }
 echo "\n";
 
@@ -161,8 +161,8 @@ $query = "SELECT SQL_BUFFER_RESULT u_id FROM user left join online on o_user=u_i
     . "WHERE u_level='G' AND o_id IS NULL "
     . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 240";
 $result = mysql_query($query, $conn);
-if ($result && mysql_num_rows($result) > 0) {
-    while ($row = mysql_fetch_object($result)) {
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_object($result)) {
         // User löschen
         $result3 = mysql_query("DELETE FROM user WHERE u_id=$row->u_id", $conn);
         
@@ -176,7 +176,7 @@ if ($result && mysql_num_rows($result) > 0) {
         $result3 = mysql_query($query3, $conn);
     }
 }
-@mysql_free_result($result);
+@mysqli_free_result($result);
 
 // Leere temporäre Räume löschen, deren Besitzer nicht online ist
 echo "Leere temporäre Räume löschen\n";
@@ -185,14 +185,14 @@ $query = "SELECT SQL_BUFFER_RESULT r_id,r_name FROM raum "
     . "WHERE r_status2 LIKE 'T' AND o_timestamp IS NULL";
 
 $result = mysql_query($query, $conn);
-if ($result && mysql_num_rows($result) > 0) {
-    while ($row = mysql_fetch_object($result)) {
+if ($result && mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_object($result)) {
         // Ist der Raum leer?
         $query = "SELECT o_id from raum,online "
             . "WHERE r_id=$row->r_id AND o_raum=r_id";
         $result3 = mysql_query($query, $conn);
         if ($result3) {
-            if (mysql_num_rows($result3) == 0) {
+            if (mysqli_num_rows($result3) == 0) {
                 // Raum löschen
                 $query = "DELETE FROM raum WHERE r_id=$row->r_id";
                 $result4 = mysql_query($query, $conn);
@@ -201,10 +201,10 @@ if ($result && mysql_num_rows($result) > 0) {
                 $query = "DELETE FROM sperre WHERE s_raum=$row->r_id";
                 $result4 = mysql_query($query, $conn);
             }
-            mysql_free_result($result3);
+            mysqli_free_result($result3);
         }
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
 }
 
 // Täglicher expire, um  03:10 Uhr
@@ -227,7 +227,7 @@ if ($zeit == "03:10") {
     $query = "SELECT DISTINCT r_besitzer FROM raum WHERE r_status2 = 'P' ORDER BY r_besitzer";
     $result = mysql_query($query, $conn);
     if ($result) {
-        while ($row = mysql_fetch_object($result)) {
+        while ($row = mysqli_fetch_object($result)) {
             if (strlen($besitzer) > 0) {
                 $besitzer .= ", " . $row->r_besitzer;
             } else {
@@ -252,7 +252,7 @@ if ($zeit == "03:10") {
     
     $result = mysql_query($query, $conn);
     if ($result) {
-        while ($row = mysql_fetch_object($result)) {
+        while ($row = mysqli_fetch_object($result)) {
             
             // zur sicherheit vor versehentlichem löschen	
             if ($row->u_login == 0) {
@@ -274,7 +274,7 @@ if ($zeit == "03:10") {
             $i++;
         }
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Lösche alle IP-Sperren, die älter als ein Tag sind
     echo " Sperren ";
@@ -294,19 +294,19 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT inv_id FROM invite LEFT JOIN user on inv_user=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM invite WHERE inv_id=" . $row->inv_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle invites löschen, für die es keine Räume mehr gibt.
     $query = "SELECT SQL_BUFFER_RESULT inv_id FROM invite LEFT JOIN raum on inv_raum=r_id WHERE r_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM invite WHERE inv_id=" . $row->inv_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle Bilder löschen, für die es keine User mehr gibt.
     echo " Bilder ";
@@ -314,10 +314,10 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT b_id FROM bild LEFT JOIN user on b_user=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM bild WHERE b_id=" . $row->b_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle Mails löschen, für die es keine User mehr gibt.
     echo " Mails ";
@@ -325,10 +325,10 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT m_id FROM mail LEFT JOIN user on m_an_uid=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM mail WHERE m_id=" . $row->m_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle Aktionen löschen, für die es keine User mehr gibt.
     echo " Aktionen ";
@@ -336,10 +336,10 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT a_id FROM aktion LEFT JOIN user on a_user=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM aktion WHERE a_id=" . $row->a_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle Profile löschen, für die es keine User mehr gibt.
     echo " Profile ";
@@ -347,10 +347,10 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT ui_id FROM userinfo LEFT JOIN user on ui_userid=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM userinfo WHERE ui_id=" . $row->ui_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle User aus der Blacklist löschen, die es nicht mehr gibt.
     echo " Blacklist ";
@@ -358,10 +358,10 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT f_id FROM blacklist LEFT JOIN user on f_blacklistid=u_id WHERE u_id IS NULL;";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM blacklist WHERE f_id=" . $row->f_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // alle Ignore löschen, für die es keine User mehr gibt.
     echo " Ignore ";
@@ -369,17 +369,17 @@ if ($zeit == "03:10") {
     $query = "SELECT SQL_BUFFER_RESULT i_id FROM iignore LEFT JOIN user on i_user_aktiv=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM iignore WHERE i_id=" . $row->i_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     $query = "SELECT SQL_BUFFER_RESULT i_id FROM iignore LEFT JOIN user on i_user_passiv=u_id WHERE u_id IS NULL";
     $result = mysql_query($query, $conn);
     if ($result)
-        while ($row = mysql_fetch_object($result))
+        while ($row = mysqli_fetch_object($result))
             $result3 = mysql_query(
                 "DELETE FROM iignore WHERE i_id=" . $row->i_id, $conn);
-    mysql_free_result($result);
+    mysqli_free_result($result);
     
     // Datenbank optimieren
     set_time_limit(600);
@@ -433,7 +433,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
     
     if ($r0 > 0) {
         $i = 0;
-        $n = @mysql_num_rows($r0);
+        $n = @mysqli_num_rows($r0);
         
         if ($n > 0) {
             /* Für jeden Virtuellen Host werden die Anzahl der User im Chat	*/
@@ -488,7 +488,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
                     $conn2);
                 
                 if ($r0) {
-                    $n = @mysql_num_rows($r0);
+                    $n = @mysqli_num_rows($r0);
                     if ($n == 0) {
                         /* Es war noch kein Eintrag vorhanden. Neuer Eintrag wird angelegt. */
                         @mysql_query(

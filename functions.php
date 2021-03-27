@@ -98,11 +98,11 @@ function raum_user($r_id, $u_id, $id)
             . "ORDER BY o_name";
         
         $result = mysql_query($query, $conn);
-        $rows = @mysql_Num_Rows($result);
+        $rows = @mysqli_num_rows($result);
         
         if ($result AND $rows > 0) {
             $i = 0;
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 // Beim ersten Durchlauf Namen des Raums einfügen
                 if ($i == 0) {
                     $text = str_replace("%r_name%", $row->r_name,
@@ -143,7 +143,7 @@ function raum_user($r_id, $u_id, $id)
         }
         $back = system_msg("", 0, $u_id, "", $text);
         
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     } else {
         $back = 1;
     }
@@ -173,10 +173,10 @@ function ist_online($user)
         $ist_online_raum = mysql_result($result, 0, "r_name");
         if (!$ist_online_raum || $ist_online_raum == "NULL")
             $ist_online_raum = "[" . $whotext[2] . "]";
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         return (1);
     } else {
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         return (0);
     }
 }
@@ -206,7 +206,7 @@ function schreibe_moderation()
     $query = "SELECT * FROM moderation WHERE c_moderator=$u_id AND c_typ='N'";
     $result = mysql_query($query, $conn);
     if ($result > 0) {
-        while ($f = mysql_fetch_array($result)) {
+        while ($f = mysqli_fetch_array($result)) {
             unset($c);
             // vorbereiten für umspeichern... geht leider nicht 1:1, 
             // weil fetch_array mehr zurückliefert als in $f[] sein darf...
@@ -287,8 +287,8 @@ function logout($o_id, $u_id, $info = "")
     $result = @mysql_query(
         "select o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as knebelrest FROM online WHERE o_id=$o_id",
         $conn);
-    if ($result && mysql_num_rows($result) == 1) {
-        $row = mysql_fetch_object($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_object($result);
         $u_name = $row->o_name;
         if ($row->knebelrest > 0) {
             $knebelzeit = $row->o_knebel;
@@ -303,7 +303,7 @@ function logout($o_id, $u_id, $info = "")
             . "u_knebel='$knebelzeit' " . "where u_id=$u_id";
         $result2 = mysql_query($query, $conn);
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // User löschen
     $result2 = mysql_query(
@@ -328,9 +328,9 @@ function logout($o_id, $u_id, $info = "")
         
         $result = mysql_query($query, $conn);
         
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 unset($f);
                 $f['aktion'] = "Logout";
                 $f['f_text'] = $row->f_text;
@@ -355,7 +355,7 @@ function logout($o_id, $u_id, $info = "")
                 aktion($wann, $an_u_id, $u_name, "", "Freunde", $f);
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
 }
 
@@ -489,7 +489,7 @@ function aktualisiere_online($u_id, $o_raum)
     // sec ??
     $query = "UPDATE online SET o_aktiv=NULL WHERE o_user=$u_id";
     $result = mysql_query($query, $conn);
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 
 function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
@@ -525,7 +525,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
         exit;
     }
     
-    if ($ar = @mysql_fetch_array($result, MYSQL_ASSOC)) {
+    if ($ar = @mysqli_fetch_array($result, MYSQLI_ASSOC)) {
         
         // userdaten und ignore Arrays setzen
         $userdata = unserialize(
@@ -543,7 +543,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
         while (list($k, $v) = each($ar)) {
             $$k = $v;
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         // o_browser prüfen Userdaten in Array schreiben
         if (is_array($userdata) && $ar['o_browser'] == $browser) {
@@ -736,7 +736,7 @@ function schreibe_db($db, $f, $id, $id_name)
             $result = mysql_query($query, $conn);
             if ($result) {
                 $id = mysql_result($result, 0, 0);
-                mysql_free_result($result);
+                mysqli_free_result($result);
                 $query = "UPDATE sequence SET se_nextid='" . ($id + 1)
                     . "' WHERE se_name='$db'";
                 $result = mysql_query($query, $conn);
@@ -815,8 +815,8 @@ function schreibe_db($db, $f, $id, $id_name)
             . "u_chathomepage,u_systemmeldungen,u_punkte_anzeigen "
             . "FROM user WHERE u_id=$id";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
-            $userdata = mysql_fetch_array($result, MYSQL_ASSOC);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
             
             // Slashes in jedem Eintrag des Array ergänzen
             reset($userdata);
@@ -844,7 +844,7 @@ function schreibe_db($db, $f, $id, $id_name)
                 . mysql_real_escape_string($userdata['u_level']) . "', " . "o_name='"
                 . mysql_real_escape_string($userdata['u_nick']) . "' " . "WHERE o_user=$id";
             mysql_query($query, $conn);
-            mysql_free_result($result);
+            mysqli_free_result($result);
             
         }
     }
@@ -1017,18 +1017,18 @@ function raum_ist_moderiert($raum)
     
     $query = "SELECT * FROM raum WHERE r_id=$raum";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) > 0) {
-        $raum_einstellungen = mysql_fetch_array($result);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $raum_einstellungen = mysqli_fetch_array($result);
         $r_status1 = $raum_einstellungen['r_status1'];
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     if (isset($r_status1) && ($r_status1 == "m" || $r_status1 == "M")) {
         $query = "SELECT o_user FROM online "
             . "WHERE o_raum=$raum AND o_level='M' ";
         $result = mysql_query($query, $conn);
-        if (mysql_num_rows($result) > 0)
+        if (mysqli_num_rows($result) > 0)
             $moderiert = 1;
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     $ist_moderiert = $moderiert;
     $ist_eingang = $r_status1 == "E";
@@ -1180,8 +1180,8 @@ function user(
             . "FROM user left join online on o_user=u_id "
             . "where u_id=" . intval($zeige_user_id);
         $result = mysql_query($query, $conn);
-        if ($result && mysql_Num_Rows($result) == 1) {
-            $userdaten = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $userdaten = mysqli_fetch_object($result);
             $user_id = $userdaten->u_id;
             $user_nick = $userdaten->u_nick;
             $user_level = $userdaten->u_level;
@@ -1194,7 +1194,7 @@ function user(
             $letzter_login = $userdaten->login;
             
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         if ($show_geschlecht == true)
             $user_geschlecht = hole_geschlecht($zeige_user_id);
@@ -1217,11 +1217,11 @@ function user(
         || ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
         $query = "SELECT u_punkte_anzeigen FROM user where u_id=" . intval($user_id);
         $result = mysql_query($query, $conn);
-        if ($result && mysql_Num_Rows($result) == 1) {
-            $userdaten = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $userdaten = mysqli_fetch_object($result);
             $user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
     
     if ($user_id != $zeige_user_id) {
@@ -1552,22 +1552,22 @@ function logout_debug($o_id, $info)
     
     $o_id = intval($o_id);
     $result = mysql_query("select * FROM online WHERE o_id=$o_id", $conn);
-    if ($result && mysql_num_rows($result) == 1) {
-        $row = mysql_fetch_array($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_array($result);
         $logout['lo_nick'] = $row['o_name'];
         $logout['lo_timeout_zeit'] = $row['o_timeout_zeit'];
         $logout['lo_timeout_warnung'] = $row['o_timeout_warnung'];
         $logout['lo_ip'] = $row['o_ip'];
         $logout['lo_browser'] = $row['o_browser'];
         $logout['lo_onlinedump'] = serialize($row);
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
     $result = mysql_query(
         "select u_login FROM user WHERE u_nick='$logout[lo_nick]'", $conn);
-    if ($result && mysql_num_rows($result) == 1) {
-        $row = mysql_fetch_array($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_array($result);
         $logout[lo_login] = $row[u_login];
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
     }
     
     $query = "INSERT INTO logouts SET ";
@@ -1591,11 +1591,11 @@ function hole_geschlecht($userid)
     
     $query = "SELECT ui_geschlecht FROM userinfo WHERE ui_userid=" . intval($userid);
     $result = mysql_query($query, $conn);
-    if ($result AND mysql_Num_Rows($result) == 1) {
-        $userinfo = mysql_fetch_object($result);
+    if ($result AND mysqli_num_rows($result) == 1) {
+        $userinfo = mysqli_fetch_object($result);
         $user_geschlecht = $userinfo->ui_geschlecht;
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     if ($user_geschlecht == "männlich")
         $user_geschlecht = "geschlecht_maennlich";

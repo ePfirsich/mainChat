@@ -19,7 +19,7 @@ function show_pfad_posting2($th_id)
     $fo_id = mysql_result($query, 0, "fo_id");
     $fo_name = htmlspecialchars($query, 0, "fo_name");
     $th_name = htmlspecialchars($query, 0, "th_name");
-    @mysql_free_result($query);
+    @mysqli_free_result($query);
     
     return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
     
@@ -29,8 +29,8 @@ function vater_rekursiv($vater)
 {
     $query = "SELECT po_id, po_vater_id FROM posting WHERE po_id = " . intval($vater);
     $result = mysql_query($query);
-    $a = mysql_fetch_array($result);
-    if (mysql_num_rows($result) <> 1) {
+    $a = mysqli_fetch_array($result);
+    if (mysqli_num_rows($result) <> 1) {
         return -1;
     } else if ($a['po_vater_id'] <> 0) {
         $vater = vater_rekursiv($a['po_vater_id']);
@@ -79,7 +79,7 @@ function such_bereich()
     if (substr($suche['thema'], 0, 1) <> "B")
         echo "SELECTED ";
     echo "VALUE=\"ALL\">$t[option1]</OPTION>";
-    while ($thema = mysql_fetch_array($query, MYSQL_ASSOC)) {
+    while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         if (pruefe_leserechte($thema['th_id'])) {
             if ($themaalt <> $thema['fo_name']) {
                 echo "<OPTION ";
@@ -99,7 +99,7 @@ function such_bereich()
         }
     }
     echo "</SELECT></TD></TR>\n";
-    @mysql_free_result($query);
+    @mysqli_free_result($query);
     
     // Sucheinstelung UND/ODER
     echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" valign=\"top\">$t[suche3]</TD><TD>"
@@ -227,7 +227,7 @@ function such_ergebnis()
     
     $sql = "select u_gelesene_postings from user where u_id=" . intval($u_id);
     $query = mysql_query($sql, $conn);
-    if (mysql_num_rows($query) > 0)
+    if (mysqli_num_rows($query) > 0)
         $gelesene = mysql_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
     
@@ -239,7 +239,7 @@ function such_ergebnis()
     if (strlen($fehler) == 0 && $suche['username'] <> "") {
         $sql = "SELECT u_id FROM user where u_nick = '" . mysql_real_escape_string($suche['username']) . "'";
         $query = mysql_query($sql, $conn);
-        if (mysql_num_rows($query) == 1) {
+        if (mysqli_num_rows($query) == 1) {
             $suche['u_id'] = mysql_result($query, 0, "u_id");
         } else {
             $fehler .= 'Username unbekannt<br>';
@@ -322,7 +322,7 @@ function such_ergebnis()
         $sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
             . "WHERE th_anzthreads <> 0 " . "ORDER BY fo_order, th_order ";
         $query2 = mysql_query($sql2, $conn);
-        while ($thema = mysql_fetch_array($query2, MYSQL_ASSOC)) {
+        while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
             if (pruefe_leserechte($thema['th_id'])) {
                 if ($suche['thema'] == "ALL") {
                     if (strlen($boards) == 0) {
@@ -349,7 +349,7 @@ function such_ergebnis()
                 }
             }
         }
-        @mysql_free_result($query2);
+        @mysqli_free_result($query2);
         
         if (strlen(trim($boards)) == 0)
             $boards = " 1 = 2 ";
@@ -407,7 +407,7 @@ function such_ergebnis()
         $sql = $sql . " " . $abfrage;
         $query = mysql_query($sql, $conn);
         
-        $anzahl = mysql_num_rows($query);
+        $anzahl = mysqli_num_rows($query);
         
         echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\">$f1<B>$t[ergebnis2] $anzahl</B>";
         if ($anzahl > $maxpostingsprosuche) {
@@ -423,7 +423,7 @@ function such_ergebnis()
             echo "</TR>";
             
             $i = 0;
-            while ($fund = mysql_fetch_array($query, MYSQL_ASSOC)) {
+            while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
                 $i++;
                 
                 if ($i > $maxpostingsprosuche)
@@ -476,7 +476,7 @@ function such_ergebnis()
                 
                 echo "</TR>";
             }
-            @mysql_free_result($query);
+            @mysqli_free_result($query);
             
         }
         echo "</TABLE>\n";

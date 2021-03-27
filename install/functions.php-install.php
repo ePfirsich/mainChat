@@ -125,7 +125,7 @@ function step_2($connect, $select, $chat, $fpconfig)
         . $chat['user'] . ") wurden folgende Tabellen " . "angelegt: <br>\n";
     
     $tables = mysql_listtables($chat['dbase']);
-    for ($i = 0; $i < mysql_num_rows($tables); $i++) {
+    for ($i = 0; $i < mysqli_num_rows($tables); $i++) {
         $table = mysql_tablename($tables, $i);
         echo "<b>" . $table . "</b>, \n";
     }

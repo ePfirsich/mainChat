@@ -68,7 +68,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
     $result = mysql_query($query, $conn);
     if ($result) {
         
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             
             // Keine Blacklist-Einträge
@@ -90,7 +90,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
             
             $i = 0;
             $bgcolor = $farbe_tabelle_zeile1;
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 
                 // User aus DB lesen
                 $query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
@@ -99,10 +99,10 @@ function zeige_blacklist($aktion, $zeilen, $sort)
                     . "from user left join online on o_user=u_id "
                     . "WHERE u_id=$row->f_blacklistid ";
                 $result2 = mysql_query($query, $conn);
-                if ($result2 && mysql_num_rows($result2) > 0) {
+                if ($result2 && mysqli_num_rows($result2) > 0) {
                     
                     // User gefunden -> Ausgeben
-                    $row2 = mysql_fetch_object($result2);
+                    $row2 = mysqli_fetch_object($result2);
                     $blacklist_nick = "<B>"
                         . user($row2->u_id, $row2, TRUE, FALSE) . "</B>";
                     
@@ -192,11 +192,11 @@ function loesche_blacklist($f_blacklistid)
     
     $query = "SELECT u_nick FROM user where u_id=$f_blacklistid";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $f_nick = mysql_result($result, 0, 0);
         echo "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 
 function formular_neuer_blacklist($neuer_blacklist)
@@ -259,7 +259,7 @@ function neuer_blacklist($f_userid, $blacklist)
             . "OR " . "(f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";
         
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             
             echo "<P><B>Fehler:</B> '$blacklist[u_nick]' ist bereits in der Blackliste eingetragen!</P>\n";
             

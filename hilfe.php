@@ -46,12 +46,12 @@ if ($erweitertefeatures) {
     $query = "SELECT r_werbung FROM raum WHERE r_id=" . intval($o_raum);
     $result = mysql_query($query, $conn);
     
-    if ($result && mysql_Num_Rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $txt = mysql_result($result, 0, 0);
         if (strlen($txt) > 7)
             $frame_online = $txt;
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
 }
 // Frameset refreshen, falls reset=1, dann Fenster schliessen
 if (isset($reset) && $reset && $o_js) {

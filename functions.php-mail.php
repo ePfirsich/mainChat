@@ -15,7 +15,7 @@ function formular_neue_email($neue_email, $m_id = "")
     if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
         $query = "SELECT u_nick FROM user WHERE u_id = " . intval($neue_email[m_an_uid]);
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
+        if ($result && mysqli_num_rows($result) == 1) {
             $an_nick = mysql_result($result, 0, 0);
             if (strlen($an_nick) > 0)
                 $neue_email['an_nick'] = $an_nick;
@@ -81,8 +81,8 @@ function formular_neue_email2($neue_email, $m_id = "")
         $query = "SELECT m_betreff,m_text from mail "
             . "where m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
-            $row = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_object($result);
             
             $neue_email['m_betreff'] = $row->m_betreff . " [Weiterleitung]";
             $neue_email['m_text'] = $row->m_text;
@@ -98,7 +98,7 @@ function formular_neue_email2($neue_email, $m_id = "")
                 $neue_email['m_text']);
             
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
     } else {
         // Neue Mail versenden
@@ -117,8 +117,8 @@ function formular_neue_email2($neue_email, $m_id = "")
             . "from user left join online on o_user=u_id "
             . "WHERE u_id = $neue_email[m_an_uid]";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
-            $row = mysql_fetch_object($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $row = mysqli_fetch_object($result);
             
             $email = "";
             $email_select = "&nbsp;";
@@ -235,7 +235,7 @@ function zeige_mailbox($aktion, $zeilen)
     $result = mysql_query($query, $conn);
     if ($result) {
         
-        $anzahl = mysql_num_rows($result);
+        $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
             
             // Leere Mailbox
@@ -253,7 +253,7 @@ function zeige_mailbox($aktion, $zeilen)
             
             $i = 0;
             $bgcolor = $farbe_tabelle_zeile1;
-            while ($row = mysql_fetch_object($result)) {
+            while ($row = mysqli_fetch_object($result)) {
                 
                 $url = "<A HREF=\"" . $PHP_SELF
                     . "?id=$id&http_host=$http_host&aktion=zeige&m_id="
@@ -320,10 +320,10 @@ function zeige_email($m_id)
         . "WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " order by m_zeit desc";
     $result = mysql_query($query, $conn);
     
-    if ($result && mysql_num_rows($result) == 1) {
+    if ($result && mysqli_num_rows($result) == 1) {
         
         // Mail anzeigen
-        $row = mysql_fetch_object($result);
+        $row = mysqli_fetch_object($result);
         
         if ($row->u_nick == "NULL" || $row->u_nick == "") {
             $von_nick = "$chat";
@@ -404,9 +404,9 @@ function loesche_mail($m_id, $u_id)
     $query = "SELECT m_zeit,m_id,m_status FROM mail "
         . "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) == 1) {
+    if ($result && mysqli_num_rows($result) == 1) {
         
-        $row = mysql_fetch_object($result);
+        $row = mysqli_fetch_object($result);
         $f['m_zeit'] = $row->m_zeit;
         
         if ($row->m_status != "geloescht") {
@@ -421,7 +421,7 @@ function loesche_mail($m_id, $u_id)
     } else {
         echo "<P><B>Fehler:</B> Diese Mail nicht kann nicht gelöscht werden!</P>";
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
 }
 

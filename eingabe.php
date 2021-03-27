@@ -181,9 +181,9 @@ function window_reload(file,win_name) {
             . date('Y-m-d H:i:s') . "'" . "  and um_ende >= '"
             . date('Y-m-d H:i:s') . "'";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
+        if ($result && mysqli_num_rows($result) > 0) {
             $umfrageanzeigen = 1;
-            mysql_free_result($result);
+            mysqli_free_result($result);
         }
     }
     
@@ -192,9 +192,9 @@ function window_reload(file,win_name) {
         
         $query = "SELECT r_status1 from raum WHERE r_id=" . intval($o_raum);
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
-            $aktraum = mysql_fetch_object($result);
-            mysql_free_result($result);
+        if ($result && mysqli_num_rows($result) == 1) {
+            $aktraum = mysqli_fetch_object($result);
+            mysqli_free_result($result);
         }
     }
     

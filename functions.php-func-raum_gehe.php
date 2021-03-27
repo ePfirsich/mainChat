@@ -18,30 +18,30 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
     
     $result = mysql_query($query, $conn);
     
-    if ($result && mysql_num_rows($result) == 1) {
-        $alt = mysql_fetch_object($result);
-        mysql_free_result($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $alt = mysqli_fetch_object($result);
+        mysqli_free_result($result);
     }
     
     // Ist User aus dem Raum ausgesperrt?
     $query = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum_neu) . " AND s_user=$u_id";
     $result = @mysql_query($query, $conn);
-    $rows = @mysql_Num_Rows($result);
+    $rows = @mysqli_num_rows($result);
     if ($rows == 0) {
         $gesperrt = 0;
     } else {
         $gesperrt = 1;
     }
-    @mysql_free_result($result);
+    @mysqli_free_result($result);
     
     // Info zu neuem Raum lesen
     $query = "SELECT * from raum WHERE r_id=" . intval($raum_neu);
     
     $result = mysql_query($query, $conn);
     
-    if ($result && mysql_num_rows($result) == 1) {
-        $neu = mysql_fetch_object($result);
-        mysql_free_result($result);
+    if ($result && mysqli_num_rows($result) == 1) {
+        $neu = mysqli_fetch_object($result);
+        mysqli_free_result($result);
         
         // Online Punkte Holen, damit der User zum Raumwechsel nicht ein/ausloggen muss
         $o_punkte = 0;
@@ -49,9 +49,9 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
             $query2 = "SELECT o_punkte FROM online WHERE o_id=" . intval($o_id);
             $result2 = mysql_query($query2, $conn);
             
-            if ($result2 && mysql_num_rows($result2) == 1) {
-                $online = mysql_fetch_object($result2);
-                mysql_free_result($result2);
+            if ($result2 && mysqli_num_rows($result2) == 1) {
+                $online = mysqli_fetch_object($result2);
+                mysqli_free_result($result2);
                 $o_punkte = $online->o_punkte;
                 unset($online);
             }
@@ -82,9 +82,9 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
             $query = "SELECT inv_user FROM invite WHERE inv_raum=$neu->r_id AND inv_user=$u_id";
             $result = mysql_query($query, $conn);
             if ($result > 0) {
-                if (mysql_num_rows($result) > 0)
+                if (mysqli_num_rows($result) > 0)
                     $raumwechsel = true;
-                mysql_free_result($result);
+                mysqli_free_result($result);
             }
             // oder falls user=raumbesitzer...
             // macht wenig sinn, das ein RB in seinen Raum ein ! angeben muss
@@ -124,12 +124,12 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
             // system_msg("",0,$u_id,"","DEBUG $query");
             $result = mysql_query($query, $conn);
             
-            if ($result && mysql_num_rows($result) == 1) {
+            if ($result && mysqli_num_rows($result) == 1) {
                 $raumwechsel = TRUE;
             } else {
                 $raumwechsel = FALSE;
             }
-            @mysql_free_result($result);
+            @mysqli_free_result($result);
             
         }
         
@@ -190,9 +190,9 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
                 $query2 = "SELECT o_hash, o_vhost FROM online WHERE o_id=" . intval($o_id);
                 $result2 = mysql_query($query2, $conn);
                 
-                if ($result2 && mysql_num_rows($result2) == 1) {
-                    $online = mysql_fetch_object($result2);
-                    mysql_free_result($result2);
+                if ($result2 && mysqli_num_rows($result2) == 1) {
+                    $online = mysqli_fetch_object($result2);
+                    mysqli_free_result($result2);
                     
                     system_msg("", 0, $u_id, "",
                         "<SCRIPT>parent.frames[3].location.href='eingabe.php?http_host=$online->o_vhost&id=$online->o_hash';</SCRIPT>");

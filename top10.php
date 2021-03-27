@@ -91,7 +91,7 @@ if ($erweitertefeatures) {
     $query = "select * from top10cache where t_eintrag=1 "
         . "AND date_add(t_zeit, interval '6' hour)>=NOW()";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_num_rows($result) > 0) {
+    if ($result && mysqli_num_rows($result) > 0) {
         $t_id = mysql_result($result, 0, "t_id");
         $array_user = unserialize(mysql_result($result, 0, "t_daten"));
     } else {
@@ -103,13 +103,13 @@ if ($erweitertefeatures) {
             . date("Y", time()) . " and u_level != 'Z' "
             . "order by u_punkte_monat desc,u_punkte_gesamt desc,u_punkte_jahr desc limit 0,100";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
-            $array_anzahl[0] = mysql_num_rows($result);
-            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        if ($result && mysqli_num_rows($result) > 0) {
+            $array_anzahl[0] = mysqli_num_rows($result);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $array_user[0][] = $row;
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         // Top 100 Punkte im aktuellen Jahr als Array aufbauen
         $query = "select u_punkte_jahr as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
@@ -117,26 +117,26 @@ if ($erweitertefeatures) {
             . date("Y", time()) . "  and u_level != 'Z' "
             . "order by u_punkte_jahr desc,u_punkte_gesamt desc,u_punkte_monat desc limit 0,100";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
-            $array_anzahl[1] = mysql_num_rows($result);
-            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        if ($result && mysqli_num_rows($result) > 0) {
+            $array_anzahl[1] = mysqli_num_rows($result);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $array_user[1][] = $row;
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         // Top 100 Gesamtpunkte als Array aufbauen
         $query = "select u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
             . "where u_punkte_gesamt!=0  and u_level != 'Z' "
             . "order by u_punkte_gesamt desc,u_punkte_monat desc,u_punkte_jahr desc limit 0,100";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) > 0) {
-            $array_anzahl[2] = mysql_num_rows($result);
-            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        if ($result && mysqli_num_rows($result) > 0) {
+            $array_anzahl[2] = mysqli_num_rows($result);
+            while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $array_user[2][] = $row;
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         // Daten in Cache schreiben und alle anderen Einträge löschen
         unset($f);

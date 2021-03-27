@@ -16,7 +16,7 @@ $query = "SELECT r_name,r_id FROM raum "
 
 $result = mysql_query($query, $conn);
 if ($result) {
-    $rows = mysql_num_rows($result);
+    $rows = mysqli_num_rows($result);
 }
 
 $raeume = "";
@@ -35,7 +35,7 @@ if ($rows > 0) {
         $i++;
     }
 }
-mysql_free_result($result);
+mysqli_free_result($result);
 
 echo "$raeume";
 ?>

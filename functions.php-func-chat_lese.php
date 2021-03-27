@@ -48,13 +48,13 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         // o_chat_id lesen
         $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
         $result = mysql_query($query, $conn);
-        if ($result && mysql_num_rows($result) == 1) {
+        if ($result && mysqli_num_rows($result) == 1) {
             $o_chat_id = mysql_result($result, 0, "o_chat_id");
         } else {
             $o_chat_id = 0;
         }
         ;
-        mysql_free_result($result);
+        mysqli_free_result($result);
         
         // Nachrichten ab o_chat_id (Merker) in Tabelle online ausgeben
         // Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an User adressiert
@@ -63,20 +63,20 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         unset($rows);
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         if (isset($rows) && is_array($rows))
             sort($rows);
         
@@ -87,13 +87,13 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         if (!$admin) {
             $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
             $result = mysql_query($query, $conn);
-            if ($result && mysql_num_rows($result) == 1) {
+            if ($result && mysqli_num_rows($result) == 1) {
                 $o_chat_id = mysql_result($result, 0, "o_chat_id");
             } else {
                 $o_chat_id = 0;
             }
             ;
-            mysql_free_result($result);
+            mysqli_free_result($result);
         } else {
             $o_chat_id = 0;
         }
@@ -105,21 +105,21 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         unset($rows);
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
         
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         if (isset($rows) && is_array($rows))
             sort($rows);
         
@@ -148,21 +148,21 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         unset($rows);
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id > $letzte_id" . $qquery;
         
         $result = mysql_query($query, $conn);
         if ($result) {
-            while ($row = mysql_fetch_row($result)) {
+            while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
             }
         }
-        @mysql_free_result($result);
+        @mysqli_free_result($result);
         if (isset($rows) && is_array($rows))
             sort($rows);
         
@@ -183,7 +183,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
     if (isset($result) && $result) {
         
         $text_weitergabe = "";
-        while ($row = mysql_fetch_object($result)) {
+        while ($row = mysqli_fetch_object($result)) {
             
             // Falls ID ignoriert werden soll -> Ausgabe überspringen
             // Falls noch kein Text ausgegeben wurde und es eine Zeile in 
@@ -482,7 +482,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
     }
     
     if (isset($result))
-        mysql_free_result($result);
+        mysqli_free_result($result);
     
     flush();
     return ($text_ausgegeben);

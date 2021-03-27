@@ -105,9 +105,9 @@ function window_reload(file,win_name) {
     $query = "SELECT count(o_id) as anzahl FROM online "
         . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
     $result = mysql_query($query, $conn);
-    if ($result && mysql_Num_Rows($result) != 0) {
+    if ($result && mysqli_num_rows($result) != 0) {
         $anzahl_gesamt = mysql_result($result, 0, "anzahl");
-        mysql_free_result($result);
+        mysqli_free_result($result);
     }
     
     echo "<tr><td ALIGN=\"CENTER\">";
@@ -169,7 +169,7 @@ function window_reload(file,win_name) {
     
     $sql = "select r_id from raum where r_name like '" . mysql_real_escape_string($eintrittsraum) . "'";
     $query = mysql_query($sql, $conn);
-    if (mysql_num_rows($query) > 0)
+    if (mysqli_num_rows($query) > 0)
         $lobby_id = mysql_result($query, 0, "r_id");
     else $lobby_id = 1;
     
