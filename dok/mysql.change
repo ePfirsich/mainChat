@@ -1,0 +1,205 @@
+# Updates chat to utf8mb4
+
+-- Change database name
+# ALTER DATABASE mainchat CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
+
+-- Add column if not already done
+# ALTER TABLE online ADD o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';
+
+
+-- Update tables and columns to utf8mb4
+ALTER TABLE aktion
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
+  MODIFY a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY a_wie set('keine','Chat-Mail','E-Mail','OLM','SMS') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
+  MODIFY a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE bild
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY b_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY b_mime varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE blacklist
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE chat
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY c_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY c_br enum('normal','letzte','erste','mitte') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'normal';
+
+ALTER TABLE forum
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY fo_name varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE freunde
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY f_status enum('beworben','bestaetigt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'bestaetigt';
+
+ALTER TABLE iignore
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE invite
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE ip_sperre
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY is_ip varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY is_domain varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY is_ip_byte char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY is_infotext text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY is_warn enum('ja','nein') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'nein';
+
+ALTER TABLE mail
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY m_status enum('neu','gelesen','geloescht','neu/verschickt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'neu',
+  MODIFY m_betreff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY m_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE mail_check
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY email varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE moderation
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY c_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL;
+
+ALTER TABLE online
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY o_hash varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_ip varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_vhost varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default '',
+  MODIFY o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_http_stuff2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_userdata varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_userdata2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_userdata3 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_userdata4 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_ignore varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_timeout_zeit varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
+  MODIFY o_timeout_warnung char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY o_chat_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE posting
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY po_threadorder mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY po_gesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY po_threadgesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY po_topposting char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY po_titel varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY po_text longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+ALTER TABLE raum
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY r_name varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY r_eintritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY r_austritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY r_status1 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY r_topic text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY r_status2 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY r_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+  MODIFY r_werbung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE sequence
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE sms
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY s_status char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'W',
+  MODIFY s_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE smsin
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY s_handynummer varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY s_shortnumber varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY s_keyword varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY s_text varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+ALTER TABLE sperre
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE thema
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY th_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY th_desc varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY th_postings longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE top10cache
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE user
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY u_neu varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_auth char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_nick varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_passwort varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_adminemail varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_email varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_url varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
+  MODIFY u_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_farbe_alle varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+  MODIFY u_farbe_noise varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+  MODIFY u_farbe_priv varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+  MODIFY u_farbe_bg varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+  MODIFY u_farbe_sys varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+  MODIFY u_away varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_ip_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+  MODIFY u_agb char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY u_punkte_datum_monat char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '00',
+  MODIFY u_punkte_datum_jahr varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0000',
+  MODIFY u_punkte_gruppe char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_gelesene_postings mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  MODIFY u_frames varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_chathomepage char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY u_eintritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_austritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_signatur varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_sms_ok char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+  MODIFY u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY u_nick_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_profil_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_kommentar varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+  MODIFY u_systemmeldungen char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+  MODIFY u_punkte_anzeigen char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y';
+
+ALTER TABLE userinfo
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  MODIFY ui_strasse varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_plz varchar(6) NOT NULL default '',
+  MODIFY ui_ort varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_land varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_geburt varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_geschlecht set('keine Angabe','männlich','weiblich') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+  MODIFY ui_beziehung set('keine Angabe','verheiratet','ledig','single','vergeben') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+  MODIFY ui_typ set('keine Angabe','zierlich','schlank','sportlich','normal','mollig','dick') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+  MODIFY ui_beruf varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_hobby varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_tel varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_fax varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_handy varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_icq varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  MODIFY ui_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  MODIFY ui_einstellungen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+
+-- put that last in case of an error if the column doesn't exist (when you didn't follow the instructions)
+ALTER TABLE online
+  MODIFY o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';

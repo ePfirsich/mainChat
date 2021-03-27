@@ -1,0 +1,13 @@
+.DS_Store
+.project
+.settings
+.buildpath
+/conf/config.php
+/conf/config.php-*
+/conf/deutsch-*
+/conf/header.html
+/conf/footer.html
+/ext/functions.php-www*
+/seitenkoepfe/*
+/logs/*
+tests/_output/*

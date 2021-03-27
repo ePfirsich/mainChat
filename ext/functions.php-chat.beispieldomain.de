@@ -1,0 +1,18 @@
+<?php
+
+// Kundenspezisches Include
+// Name: functions.php-<VIRTUELLER_HOST>
+
+// bereitgestellte Funktionen:
+
+// ext_lese_user($nick,$pass)
+// Kopiert User aus externer Datenquelle in die Chat-Datenbank (index.php3)
+
+$crypted_password_extern = 1;
+
+function ext_lese_user($nick,$pass) {
+
+        global $conn,$dbase,$chat,$webmaster,$http_host, $crypted_password_extern;
+
+			
+};

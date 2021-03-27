@@ -1,0 +1,50 @@
+-- Database: mainchat_statistik
+# CREATE DATABASE mainchat_statistik CHARACTER SET = utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `chat`
+--
+
+CREATE TABLE chat (
+  c_users int(11) NOT NULL default '0',
+  c_host char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  c_timestamp timestamp NOT NULL,
+  KEY c_users (c_users),
+  KEY c_host (c_host)
+) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `log`
+--
+
+CREATE TABLE log (
+  l_id bigint(20) NOT NULL auto_increment,
+  l_chat varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  l_timestamp timestamp NOT NULL,
+  l_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  l_raum varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  l_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  PRIMARY KEY  (l_id),
+  KEY l_chat (l_chat),
+  KEY l_raum (l_raum)
+) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `logouts`
+--
+
+CREATE TABLE logouts (
+  lo_id bigint(20) NOT NULL auto_increment,
+  lo_chat varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_logout timestamp NOT NULL,
+  lo_nick varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_aktion varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_timeout_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_ip varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_onlinedump text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  lo_timeout_warnung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  lo_login int(14) NOT NULL default '0',
+  PRIMARY KEY  (lo_id)
+) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

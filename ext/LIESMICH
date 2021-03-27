@@ -1,0 +1,37 @@
+
+Um eine Externe Community an den Mainchat anzubinden, bei der man sich mit
+den dort hinterlegten Zugangsdaten automatisch im Chat anmeldet sind
+folgende Vorraussetzungen zu erfüllen:
+
+Die externe Community muss einen Button/Link in folgendem Format anbieten
+können:
+http://chat.beispieldomain.de/index.php?http_host=chat.beispieldomain.de&login=%LOGINNAME%&passwort=%PASSWORT%&eintritt=%RAUM%&aktion=login&javascript=on
+wobei %LOGINNAME%, %PASSWORT%, %RAUM% wie folgt zu füllen sind:
+
+%LOGINNAME%: Chat Loginname
+
+%PASSWORT%: Verschlüsseltes Passwort (SSH256, MD5, DES, etc.) ggf. function's getsalt, auth_user und iCrypt anpassen 
+Sollte das Passwort verschlüsselt muss auch $crypted_password_extern = 1 gesetzt werden
+Alternativ mit $crypted_password_extern = 0 ist das Passwort nicht verschlüsselt übergeben
+
+%RAUM%: Den PK-Index des Raumes der Betreten werden soll, default: 1
+Es ist egal, ob die Parameter als GET oder POST Parameter übermittelt werden.
+
+Dann muss sichergestellt sein, das ein User in der Tabelle User vorhanden
+ist, zu dem die %LOGINNAME% und %PASSWORT% Kombination genau einen Datensatz
+liefert.
+
+Um die Korrektheit des Logins gegen die Externe Community zu testen, 
+gibt es die Datei ext/functions.php-chat.beispieldomain.de.
+Die darin enthaltene function ext_lese_user soll gegen die Externe Community
+den Login prüfen (per mysql, curl, etc.) und bei Übereinstimmung
+sicherstellen, das o.g. Datensatz vorhanden ist, bzw. neu anlegen.
+
+Zu beachten ist:
+- Im Chat ist der User noch nicht vorhanden, User anlegen
+- In der Community wird das Passwort geändert -> im Chat ist es dadruch noch
+  das alte. Wird das Passwort dort einfach überschrieben?
+- Um Missbrauch im Chat vorzubeugen ist es ratsam in der config.php
+  den $chat_referer & die $chat_login_url passend zu setzen.
+
+

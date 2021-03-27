@@ -1,0 +1,46 @@
+Mögliche Nachrichtentypen:
+
+Art:           N: Normalnachricht mit Absender, Text wird in einem 
+                  Raum an alle User ausgegeben
+               S: Systemnachricht, "System" als Absender
+               H: Versteckte Nachricht, Ausgabe kursiv ohne Absender
+               P: Privatnachricht, wird in allen Räumen angezeigt,
+                  mit oder ohne Absender
+
+Auszug wichtiger Funktionen:
+
+id_erzeuge:  	Generiert aus User-ID und IP-Adresse des Users einen Hash-Wert
+id_lese:	Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum
+ist_online:	Liefert wahr zurück, falls User online ist
+
+user_zeige:	Aufruf mit User-ID, liefert alle User-Daten zurück
+user_edit:	Formular zum Ändern der Daten des Users
+login:		Anmeldung in der Community
+betrete_chat:	Anmeldung im Chat, Eintritt in einen Raum
+logout:		Community verlassen
+verlasse_chat:	Chat verlassen
+sperre:		Sperrt User aus Raum aus oder gibt sie frei
+ignore:		Filtert Text von bestimmten User aus oder schaltet den Filter wieder ab
+
+raum_gehe: 	Raum Betreten. User, Raum werden übergeben
+raum_verlasse:	Raum verlassen. User, Raum werden übergeben 
+raum_user:	Listet die User in einem Raum auf
+raeume_auswahl:	Zeige alle aktuellen Räume als selection
+
+chat_msg:	Schreibt Text in Raum r_id
+chat_lese:	ID in chat wird übergeben, Text wird gefiltert ausgegeben
+html_parse:	ersetzt nicht erlaubte Zeichen durch erlaubte
+schreibe_chat:	Schreibt Text in Chat-DB
+
+zufall_msg:	Gibt einen Zugfalls-Spruch aus
+global_msg:	Schreibt Systemmessage in alle Räume oder in übergebenen Raum
+priv_msg:	Schreibt private msg von User an User
+system_msg:	Schreibt private msg an User
+hidden_msg:	Entspricht /me
+
+hilfe:		Gibt Hilfe zum angegeben Thema aus, ohne Thema kommt Übersicht
+
+show_box:	Gibt Box mit Rahmen und definiertem Inhalt aus
+show_box2:	Wie oben
+show_box3:	Wie oben
+schreibe_db:	Trägt Daten in Tabelle ein

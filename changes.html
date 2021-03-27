@@ -1,0 +1,1228 @@
+<h3>Veränderungen am mainChat (C) fidion GmbH 1999-2012</h3>
+
+<small>
+	<h4>März 2017</h4>
+	<ul>
+		<li>Open mainChat 5.0.9</li>
+		<li>Feature: /einlad NAME RAUM um User in einen anderen als den aktuellen ein- oder auszuladen.</li>
+		<li>Fix: /user RAUM meldet nun nicht mehr immer fälschlicherweise "Der Raum existiert nicht".</li>
+	</ul>
+
+	<h4>Dezember 2015</h4>
+	<ul>
+		<li>Open mainChat 5.0.8</li>
+		<li>Fix: Links auf https://-Adressen funktionieren nun</li>
+	</ul>
+	
+	<h4>November 2015</h4>
+	<ul>
+		<li>Open mainChat 5.0.7</li>
+		<li>Feature: Option zur Deaktivierung der Autovervollständigung der Eingabezeile in Konfigurationsdatei</li>
+	</ul>
+	
+	<h4>Oktober 2015</h4>
+	<ul>
+		<li>Update auf MainChat 5.0.4</li>
+		<li>Fix: Sicherer Modus für bestimmte Browser angepasst</li>
+		<li>Security-Fix: Sicherheitslücke beseitigt um Superuser-Rechte zu erlangen (Vielen Dank an Jannis Grimm!)</li>
+	</ul>
+	<ul>
+		<li>Open mainChat 5.0.6</li>
+		<li>Feature: "Stiller Eingangsraum" für Räume, in denen nicht geschrieben werden darf</li>
+	</ul>
+	
+	<h4>Januar 2015</h4>
+	<ul>
+		<li>Open mainChat 5.0.5</li>
+		<li>Fix: Datenbankcodierung auf utf8mb4 für 4-Byte-Zeichen (Datenbank muss mittels dok/mysql.change aktualisiert werden)</li>
+	</ul>
+	
+	<h4>Dezember 2013</h4>
+	<ul>
+		<li>Update auf MainChat 5.0.3 (Open mainChat 5.0.4)</li>
+		<li>Security-Fix: Sicherheitslücke beseitigt um Superuser-Rechte zu erlangen (Vielen Dank an Jannis Grimm!)</li>
+	</ul>
+
+	<h4>September 2013</h4>
+	<ul>
+		<li>Open mainChat 5.0.3</li>
+		<li>Feature: /dicecheck um Würfelwürfe auf Korrektheit und Betrug
+			zu prüfen</li>
+	</ul>
+	<ul>
+		<li>Security-Fix: SQL-Injection bei URLs mit Parameter "id"</li>
+	</ul>
+
+	<h4>Mai 2013</h4>
+	<ul>
+		<li>Change: Sprüche sind in Gross- und Kleinschreibung möglich,
+			beispielsweise ist neben =panther nun auch =PANTHER oder =Panther
+			möglich</li>
+		<li>Fix: Würfel dürfen nur Zahlen vor und nach dem [wW] haben</li>
+	</ul>
+
+	<h4>März 2013</h4>
+	<ul>
+		<li>Security-Fix: HTML über /weg wird im User-Fenster nicht mehr
+			angezeigt (behebt XSS-Sicherheitslücke)</li>
+	</ul>
+
+	<h4>Februar 2013</h4>
+	<ul>
+		<li>Fix: Codierungen korrigiert – Buchstabe Ö ist in Nicks wieder
+			möglich und Smilie :-Þ wird wieder richtig angezeigt</li>
+	</ul>
+
+	<h4>Januar 2013</h4>
+	<ul>
+		<li>Update auf MainChat 5.0.1 (Open mainChat 5.0.1)</li>
+		<li>Fix: Usernamen mit weniger als 4 Buchstaben sind über
+			Namensänderungen nicht mehr möglich</li>
+		<li>Fix: Useranzeige auf der Hauptseite bei ehem. kostenlosen
+			Chats korrigiert</li>
+	</ul>
+	<ul>
+		<li>Update auf MainChat 5.0.2 (Open mainChat 5.0.2)</li>
+		<li>Fix: Usernamen mit weniger als 4 Buchstaben sind über die
+			Loginmaske nicht mehr möglich</li>
+	</ul>
+
+	<h4>Dezember 2012</h4>
+	<ul>
+		<li>Umbenennung auf Open mainChat 5.0.0</li>
+		<li><a href="https://github.com/netzhuffle/mainchat">Open
+				Source</a> unter der BSD-Lizenz</li>
+	</ul>
+
+	<h4>Oktober 2012</h4>
+	<ul>
+		<li>Update auf MainChat 5.0.0</li>
+		<li>Change: Optimierungen für PHP 5</li>
+		<li>Change: Codeoptimierungen Allgemein</li>
+		<li>Change: Passwortspeicher geändert</li>
+	</ul>
+
+	<h4>März 2011</h4>
+	<ul>
+		<li>Update auf MainChat 4.22</li>
+		<li>Fix: Streichung einiger Ausgaben/Eingaben bei deaktivierten
+			Punkten</li>
+		<li>Fix: Die Meldung das ein User sich im Sichern Modus befindet
+			kommt nicht mehr bei jeder Änderung seiner Einstellungen.</li>
+	</ul>
+
+	<h4>November 2010</h4>
+	<ul>
+		<li>Fix: Probleme beim Upload von NP Bildern in PHP 5</li>
+	</ul>
+
+	<h4>September 2010</h4>
+	<ul>
+		<li>Update auf MainChat 4.21</li>
+		<li>Fix: Sicherheitsupdate in den Usereinstellungen</li>
+		<li>Fix: Sicherheitsupdate in den Nickpagebildern</li>
+		<li>Fix: Sicherheitsupdate in den E-Mails</li>
+	</ul>
+
+	<h4>August 2010</h4>
+	<ul>
+		<li>Update auf MainChat 4.20</li>
+		<li>Change: Keine Unterstützung für PHP &lt; 4.4 mehr</li>
+		<li>Change: Volle Unterstützung von REGISTER_GLOBALS Off</li>
+		<li>Feature: Admins können im Miet/Lizenzchat den Login von Usern
+			mit zu wenigen Punkten oder Gästen unterbinden</li>
+	</ul>
+
+	<h4>Januar 2010</h4>
+	<ul>
+		<li>Update auf MainChat 4.19</li>
+		<li>Feature: Einige weitere Einstellungen per Wizard
+			Konfigurierbar (Miet/Lizenzchat)</li>
+	</ul>
+
+	<h4>Dezember 2009</h4>
+	<ul>
+		<li>Fix: LOG abspeichern geht nun auch wieder im IE 8.0
+			(besonders wenn per https zugegriffen wurde)</li>
+	</ul>
+
+	<h4>Oktober 2009</h4>
+	<ul>
+		<li>Change: Bei Moderatoren wurde der Flooding-Schutz
+			ausgeschaltet</li>
+		<li>Fix: Passwort wird beim ersten Login während der Captcha
+			Abfrage nicht mehr im Klartext im HTML Code angezeigt</li>
+		<li>Fix: Workaround für die IE 8.0 Kompatibilitätsansichts
+			Probleme</li>
+	</ul>
+
+	<h4>August 2009</h4>
+	<ul>
+		<li>Feature: User dürfen ihren Usernamen und die Interne
+			Mailadresse ändern. Ein neues Passwort wird an die neue Mailadresse
+			gesendet.</li>
+		<li>Feature: Einige weitere Einstellungen per Wizard
+			Konfigurierbar (Miet/Lizenzchat)</li>
+		<li>Change: User die den Goggle Chrome oder den Safari Browser
+			verwenden werden standardmäßig in den sichern Modus geschaltet</li>
+	</ul>
+
+	<h4>April 2009</h4>
+	<ul>
+		<li>Fix: Kleiner Bug beim Login ohne Text-Captcha's</li>
+		<li>Feature: Weiterleitung an alternative URL beim verlassen des
+			Chat's (Miet/Lizenzchat)</li>
+	</ul>
+
+	<h4>Dezember 2008</h4>
+	<ul>
+		<li>Update auf MainChat 4.18</li>
+		<li>AGBs und damit auch Text-Captcha's in den Kostenlosen Chats
+			aktivier/deaktivierbar</li>
+	</ul>
+
+	<h4>November 2008</h4>
+	<ul>
+		<li>Beim 1. Login bzw. beim Login als Gast wird zu den AGBs ein
+			Text-Captcha angezeigt, bei der eine Rechenaufgabe gelöst werden
+			muss.</li>
+		<li>Expire von Nicknamen in der Config bei Lizenzchats
+			einstellbar.</li>
+	</ul>
+
+	<h4>September 2008</h4>
+	<ul>
+		<li>Fix: Fehler in der Verarbeitung der Schriftfarbe behoben.</li>
+		<li>Fix: Sicherheitsbugfix</li>
+	</ul>
+
+	<h4>August 2008</h4>
+	<ul>
+		<li>Change: Weiterer Befehl /tf als kürzere Version von /msgf</li>
+		<li>Fix: Die Nickwechselzeit von 30 sekunden muss nun auch bei
+			Änderung des Nicknamens per [EINSTELLUNGEN] beachtet werden. Nicht
+			nur bei /nick</li>
+	</ul>
+
+	<h4>Juli 2008</h4>
+	<ul>
+		<li>Fix: Unter MySql 5 wurden die Punkte nicht richtig berechnet.
+			(Forum)</li>
+	</ul>
+
+	<h4>Juni 2008</h4>
+	<ul>
+		<li>Update auf MainChat 4.17</li>
+		<li>Fix: Bug in den Räumen beseitigt</li>
+	</ul>
+
+	<h4>Mai 2008</h4>
+	<ul>
+		<li>Change: Mietchats können die Anzahl der Punkte die zum
+			Umgehen einer IP Sperre nötig sind, selbst festlegen.</li>
+		<li>Fix: Unter gewissen umständen öffnet sich bei der
+			Freundschaftsbewerbung per "gleich zustimmen" ein leeres Fenster.</li>
+		<li>Fix: Unter MySql 5 wurden die Punkte nicht richtig berechnet.
+			(Chat)</li>
+		<li>Fix: Weitere Zeichen in der Eingabe ausgefiltert.</li>
+		<li>Fix: Einstellungen von Gästen angepasst, wenn Option
+			unsinnig, da nicht vorhanden.</li>
+	</ul>
+
+	<h4>April 2008</h4>
+	<ul>
+		<li>Update auf MainChat 4.16</li>
+		<li>Fix: Fehler in der Verarbeitung der Schriftfarbe behoben.</li>
+	</ul>
+
+	<h4>November 2007</h4>
+	<ul>
+		<li>Feature: Im Forum können einzelne Beiträge gesperrt werden,
+			sodaß diese nicht mehr lesbar sind.</li>
+		<li>Change: User die nicht Online sind kann der Raumzutritt
+			wieder gewährt werden (/kick aus Räumen wieder rückgängig machen).</li>
+		<li>Change: Gästen können keine Punkte mehr gutgeschrieben
+			werden.</li>
+		<li>Change: Raumbesitzer brauchen beim Raumwechsel in ihren
+			eigenen geschlossenen Raum kein ! (force) um den Raum zu betreten.</li>
+		<li>Change: Raumbesitzer können nun vom Forum direkt in ihren
+			eigenen geschlossenen Raum wechseln.</li>
+		<li>Change: User können nun vom Forum direkt in geschlossene
+			Räume wechseln, in die sie selber eingeladen sind.</li>
+		<li>Fix: Bildercache Syncronisierung verbessert in MultiHosting
+			Umgebungen.</li>
+		<li>Fix: Direktzugriff auf Nickpage Bilder geht nun nicht mehr
+			bei deaktivierter Nickpage.</li>
+		<li>Fix: Invite von Nicknamen in einen Raum bei
+			Namensähnlichkeiten im aktuellen Raum beseitigt.</li>
+		<li>Fix: In Räumen in denen keine Smilies erlaubt sind, lösst ein
+			&amp;text keine Fehlermeldung mehr aus, wenn der Smilie nicht
+			existiert.</li>
+	</ul>
+
+	<h4>Oktober 2007</h4>
+	<ul>
+		<li>Change: geknebelte User können nicht mehr Würfeln.</li>
+		<li>Fix: Fehler im Nickpage Wortfilter behoben.</li>
+		<li>Fix: Fehler im Bildercache behoben.</li>
+		<li>Fix: HTTP Info PHP_AUTH_PW wird nicht angezeigt.</li>
+		<li>Fix: User Statistiken für Chats mit mehreren URLs erweitert.</li>
+	</ul>
+
+	<h4>September 2007</h4>
+	<ul>
+		<li>Feature: Aus/Einloggen löscht die Knebelzeit nicht mehr</li>
+		<li>Change: Knebelzeit auf 1440 Minuten begrenzt</li>
+		<li>Fix: Korrektur der Prüfung des Referer Zugangs</li>
+	</ul>
+
+	<h4>August 2007</h4>
+	<ul>
+		<li>Feature: User können eine Liste aller Admins abrufen
+			(einstellbar im Wizard)</li>
+		<li>Change: Bei Antworten per E-Mail wird das "Re:" nicht ständig
+			wiederholt.</li>
+		<li>Change: Im Forum wird in der Übersicht nach dem Datum auch
+			die Uhrzeit des Beitrages angezeigt</li>
+		<li>Fix: Kleinere Textkorrekturen</li>
+		<li>Fix: Bei Änderungen von Beiträgen im Forum die ein &amp;,
+			&lt; oder &gt; im Betreff hatten, wurde der Betreff nicht richtig
+			übernommen</li>
+		<li>Fix: Manchmal wurden "Leerzeichen" in Texten und Ausgaben
+			"verschluckt". Dies kommt nun weniger häufig vor.</li>
+	</ul>
+
+	<h4>April 2007</h4>
+	<ul>
+		<li>Fix: Anzeige der User, die geknebelt sind, wurde korrigiert.</li>
+	</ul>
+
+	<h4>Februar 2007</h4>
+	<ul>
+		<li>Update auf MainChat 4.15</li>
+		<li>Feature: Admins können nun auch die Farbe eines Users ändern</li>
+		<li>Feature: Betritt ein Freund den Chat während ich Online bin,
+			und OLM Aktion ist aktiv, dann ist der Nick anklickbar</li>
+		<li>Feature: Wenn ich den Chat betrete, sehe ich in welchem Raum
+			meine Freunde sich aufhalten</li>
+		<li>Feature: Im Forum wird beim ändern eines Eintrages der
+			Änderungszeitpunkt/User mit ausgegeben</li>
+		<li>Feature: Die Anzahl der Anmeldungen pro User kann begrenzt
+			werden</li>
+		<li>Feature: User die vom Autoknebel erfasst wurden sind nun
+			anklickbar</li>
+		<li>Feature: Neuer Befehl für Admins: /ip - Zeigt alle User einer
+			IP an, oder alle User mit gleicher IP wie ein bestimmter User</li>
+		<li>Change: Neuer Beziehungstyp "vergeben" im Userprofil im
+			Community-Modul</li>
+		<li>Change: Im /oplist sind die Admins die away sind nun auch
+			anklickbar</li>
+		<li>Change: Das ansprechen von Gästen zu anderen mit dem @ wurde
+			verbessert</li>
+		<li>Change: Autoknebel verbessert, bei Usern die bereits
+			geknebelt waren</li>
+		<li>Change: Für Admins zählt die Nickwechselzeitbegrenzung nicht
+			mehr</li>
+		<li>Change: Ein paar neue Sprüche aufgenommen</li>
+		<li>Change: Bei einer aktiven Chatverbindung wird beim
+			wiedereinloggen die letzte Loginzeit übernommen</li>
+		<li>Fix: Bei deaktivierter SMS Funktion steht nichts mehr von den
+			SMS in der Hilfe und SMS ist nicht mehr als Aktion auswählbar</li>
+		<li>Fix: Bei deaktiviertem Forum ist keine Aktion mehr des Forums
+			bezüglich auswählbar</li>
+		<li>Fix: Farbset anzeige verbessert falls User mit gleichem
+			Nickende im Raum sind (z.b. MamaSchlumpf und Schlumpf)</li>
+		<li>Fix: Verbesserungen im Bezug zur Datenbank</li>
+		<li>Fix: Fehlerkorrektur bei Multilayout und Multihoming</li>
+	</ul>
+
+	<h4>Januar 2007</h4>
+	<ul>
+		<li>Update auf MainChat 4.14</li>
+		<li>Change: In /me-Sprüchen wir ein @nickname nicht mehr zu [zu
+			Nick] am Zeilenanfang ergänzt, sondern nur an entsprechender Stelle
+			ersetzt</li>
+		<li>Change: TempAdmins können nun auch nicht mehr aus dem Chat
+			gekickt werden</li>
+		<li>Change: Im Forum können gesperrte User nicht mehr angeklickt
+			werden</li>
+		<li>Change: Die Meldung bei der Raumübergabe wurde um den
+			Übergebenden erweitert</li>
+		<li>Change: Das Format der Dateinamen des Logfiles wurde von Tag
+			Monat Jahr auf Jahr Monat Tag geändert, damit die Sortierung besser
+			klappt.</li>
+		<li>Change: Einige nicht notwendige Zeichen dürfen im Usernamen
+			(intern) nicht mehr verwendet werden</li>
+		<li>Fix: Die Awaynachrichten werden wieder angezeigt, wenn man im
+			Flüsterfenster jemanden anspricht</li>
+		<li>Fix: Beim Löschen von Beiträgen im Forum und Löschen der
+			Nickpage wird das letzte Logindatum nicht mehr geändert</li>
+	</ul>
+
+	<h4>Dezember 2006</h4>
+	<ul>
+		<li>Change: Die Nickergänzung wurde für Flüsternachrichten im
+			Flüsterfenster deaktiviert</li>
+		<li>Fix: Bei der Umgehung einer IP-Sperre wird das Passwort mit
+			abgeprüft, um irritierende Meldungen zu verhindern</li>
+	</ul>
+
+	<h4>November 2006</h4>
+	<ul>
+		<li>Feature: In allen Chats können Superuser nun eine Userliste
+			exportieren</li>
+		<li>Change: Bei der bisherigen Exportliste ist nun auch der
+			Userlevel dabei</li>
+		<li>Change: Firefox/Mozilla 5 bei Betriebssystem MAC freigegeben
+			für den normalen Modus</li>
+		<li>Change: Aktualisierung der Eingabezeile bei Wechsel in
+			Teergrube unterbunden wenn User ein Admin ist</li>
+	</ul>
+
+	<h4>Oktober 2006</h4>
+	<ul>
+		<li>Change: Anpassungen an PHP 4.4</li>
+	</ul>
+
+	<h4>August 2006</h4>
+	<ul>
+		<li>Change: Kleinere Textkorrekturen</li>
+		<li>Fix: Einige Anzeigen bei besonderen Zeichen</li>
+	</ul>
+
+	<h4>Juli 2006</h4>
+	<ul>
+		<li>Change: Autoknebel verbessert bei Wörtern mit * und _ im Text</li>
+		<li>Change: Kleinere Textkorrekturen</li>
+		<li>Change: User die den Opera 9 verwenden werden standardmäßig
+			in den sichern Modus geschaltet</li>
+	</ul>
+
+	<h4>Mai 2006</h4>
+	<ul>
+		<li>Update auf MainChat 4.13</li>
+		<li>Feature: Im Forum kann auf Beiträge die älter als 6 Monate
+			sind nicht mehr geantwortet werden</li>
+		<li>Feature: In der Nickpage darf nun auch ein target="_blank" in
+			einem &lt;a href=""&gt;&lt;/a&gt; enthalten</li>
+		<li>Feature: In der Nickpage darf nun Musik per &lt;embed &gt;
+			eingebunden werden</li>
+		<li>Change: Wenn im Forum ein Beitrag gelöscht wird, wird das
+			Datum "letzter Beitrag von" im Thread mit angepasst</li>
+		<li>Change: In der Suche im Forum ist nun erkennbar, ob man den
+			Beitrag schon gelesen hat</li>
+		<li>Change: Autoknebel angepasst an Datenschutz</li>
+		<li>Change: Allgemeine Optimierungen in Bezug zu Datenbank</li>
+		<li>Change: Nickpage Wortfilter verbessert:
+			JavJavaaSJavaScriptcript wird nun erkannt und rausgelöscht</li>
+	</ul>
+
+	<h4>April 2006</h4>
+	<ul>
+		<li>Update auf MainChat 4.12</li>
+		<li>Feature: Lizenz/Mietchat: Für die Anmeldung kann eine Prüfung
+			der Mailadresse vom Webmaster aktiviert werden</li>
+		<li>Feature: Im Forum werden die Threads, in denen ein neuer
+			Beitrag dazukam, nach oben geschoben</li>
+		<li>Feature: Im Forum kann nach Beiträgen gesucht werden</li>
+		<li>Feature: Im Forum können auch nur einzelne Threads als
+			gelesen markiert werden</li>
+		<li>Feature: Im Forum können Admins einen Thread bei Bedarf
+			sperren</li>
+		<li>Feature: Im Forum können Admins einen Thread als TOP Posting
+			definieren, d.h. dieses Posting ist im jeweiligen Thema immer ganz
+			oben</li>
+		<li>Feature: Im Forum können Admins nun Threads von einem
+			Themenbereich in einen anderen verschieben</li>
+		<li>Feature: Im Forum können Admins nun Themen von einem
+			Forumsberich in einen anderen verschieben</li>
+		<li>Feature: Neues /farbset 4 eingeführt, optimierte
+			Farbeinstellungen für Farbenblinde</li>
+		<li>Feature: User können sich selber ein neues Passwort
+			generieren, wenn sie es vergessen haben</li>
+		<li>Change: Gelöschte Mails werden automatisch 14 Tagen nach
+			Löschzeitpunkt aus dem Papierkorb gelöscht, wenn die Mailbox
+			aufgemacht wird</li>
+		<li>Fix: gesperrte User bekommen keine Chatmails mehr zugestellt
+			aus Aktionen</li>
+		<li>Fix: kleinere Sicherheitsbugfixes</li>
+		<li>Fix: kleinere Korrekturen beim Raum anlegen und Nicknamen
+			wechsel</li>
+		<li>Fix: kleinere Korrekturen im Forum</li>
+		<li>Fix: kleinere Korrekturen bei den Sprüchen mit URLs</li>
+		<li>Fix: Auch in den Grafiken User Online / User angemeldet
+			werden in den "User angemeldet" die gesperrten Nicks nicht mehr
+			mitgezählt</li>
+		<li>Fix: Auf der Loginmaske wurde die Anzahl der
+			"Diskussionsthemen" berichtigt</li>
+		<li>Fix: Wenn das Feature "Änderung von Nicknamen und Passwort
+			ist abschaltbar" aktiviert war, konnte nichts mehr im Userprofil
+			geändert werden</li>
+	</ul>
+
+	<h4>März 2006</h4>
+	<ul>
+		<li>Update auf MainChat 4.11</li>
+		<li>Feature: User können die Ein-/Austrittsnachrichten nun selbst
+			definieren</li>
+		<li>Feature: In der Freundesliste können nun die Infotexte
+			nachträglich geändert werden, ohne den User rauszulöschen und neu als
+			Freunde einzutragen</li>
+		<li>Feature: User können nun aus einem Raum ausgeladen werden,
+			obwohl sie nicht mehr Online sind</li>
+		<li>Feature: Anzeige des Eigenen Punktewürfels kann der User
+			an-/abschalten</li>
+		<li>Feature: Anzeige der System-Ein-/Austrittsnachrichten kann
+			der User an-/abgeschalten</li>
+		<li>Feature: Für Räume können Mindestpunkte eingestellt werden,
+			die ein User haben muss, um den Raum zu betreten</li>
+		<li>Feature: Bei der Anmeldung sind bestimmte Domainadressen
+			sperrbar, speziell für "Wegwerf Mailadressen"</li>
+		<li>Feature: Bei Spüchen Erweiterte Möglichkeiten: Nickergänzung
+			deaktiviert wenn USERNAME in " ", Leerzeichen per + oder ganzer
+			USERNAME oder ZUSATZTEXT in " "</li>
+		<li>Feature: Nickergänzung per @ über /op geht nun auch für
+			TempAdmins</li>
+		<li>Feature: User mit mehr als x Punkten können den Chat trotz
+			IP-Sperre betreten</li>
+		<li>Feature: Aus Teergruben kommt man nicht über das Forum raus</li>
+		<li>Feature: "/whois gast" für Admins, zeigt alle Gäste im Chat
+			an</li>
+		<li>Feature: Neuer Befehl "/time": Gibt das Aktuelle Datum und
+			Uhrzeit aus</li>
+		<li>Feature: Neuer Befehl "/gaga" eingebaut, funktioniert
+			identisch dem "/gag", jedoch mit anschließender Ausgabe aller
+			Geknebelten User im Chat und nicht nur die des Raumes</li>
+		<li>Change: /away-Text auf 80 Zeichen begrenzt</li>
+		<li>Change: User, die Raumbesitzer in einem permanenten Raum
+			sind, werden nicht mehr nach 6 Monaten inaktivität gelöscht</li>
+		<li>Change: Sprüche Datei überarbeitet und neue Sprüche eingefügt</li>
+		<li>Change: Ein User kann keine Gäste und gesperrte User zu
+			Freunden machen. Auch kann er die User, die ihn ignorieren, nicht zu
+			Freunden machen.</li>
+		<li>Change: /op und /int Meldungen besser unterscheidbar</li>
+		<li>Change: Für Punktezählung im Chat wird * und _ nicht mehr
+			berücksichtigt</li>
+		<li>Change: Wenn ein User gesperrt wird, werden alle seine
+			/ignores gelöscht, die er gesetzt hat</li>
+		<li>Change: Wenn ein User auf Admin gesetzt wird, werden alle
+			/ignores von den Usern gelöscht, die den Admin ignorieren.</li>
+		<li>Change: User sehen keine gesperrten Nicknamen mehr;
+			differenzierte Fehlermeldung bei Nickwechsel</li>
+		<li>Change: Suche nach Usern für Gäste deaktiviert</li>
+		<li>Change: Auf der Loginseite werden bei den "Angemeldeten
+			Usern" die gesperrten User nicht mehr dazugezählt</li>
+		<li>Fix: Aufruf der Nickpage von auserhalb funktioniert nun auch
+			bei Nicknamen mit Umlaut. Nickpages von gesperrten Usern sind
+			hierüber nichtmehr abrufbar.</li>
+		<li>Fix: Wird in der Userinfo auf [SPERREN] geklickt, wird der
+			Username nun mit in die Sperrliste übernommen</li>
+		<li>Fix: Ein Raum für den man gesperrt ist, kann nicht betreten
+			werden, auch nicht dann wenn es, die Lobby oder der
+			Standardeintrittsraum ist</li>
+		<li>Fix: Wenn ein User einen anderen User ignoriert, können sie
+			sich beide nicht mehr anflüstern.</li>
+		<li>Fix: Ein User kann maximal 16 andere User ignorieren</li>
+		<li>Fix: Hatte ein Admin bei einem User im sicheren Modus eine
+			Einstellung geändert, hatte der ändernde Admin die Warnung für den
+			Sicheren Modus erhalten</li>
+		<li>Fix: Flüsterfenster beim User geht nun auch, wenn im Nick vom
+			Gesprächspartner Umlaute sind</li>
+		<li>Fix: Awaytext im Userfenster berücksichtig nun fett und
+			kursiv Schrift wie bei Eingabe mit * und _ angegeben</li>
+		<li>Fix: kleinere Bugfixes</li>
+	</ul>
+
+
+	<h4>Februar 2006</h4>
+	<ul>
+		<li>Bei entsprechender Config-Einstellung werden
+			Geschlechterbilder hinter den Usernamen angezeigt</li>
+		<li>Bei entsprechender Config-Einstellung wird auf externe
+			Homepages verwiesen</li>
+		<li>"Nick," wird in [zu Nick] umgewandelt</li>
+	</ul>
+
+	<h4>Juli 2005</h4>
+	<ul>
+		<li>Korrektur am Hilfetext, Top10/1000 auf Top10/100 geändert
+	</ul>
+
+	<h4>Juni 2005</h4>
+	<ul>
+		<li>Bugfix im Flüsterfenster, der bei sehr langen namen des Chats
+			und langen Usernamen auftritt
+		<li>Fenstergröße des Userinfo/Flüsterfensters vergrößert
+		<li>Breite des Editors im Forun angepasst
+	</ul>
+
+	<h4>April 2005</h4>
+	<ul>
+		<li>Link in Anmelde E-Mail für Chat nun auch bei web.de-Freemail
+			anklickbar
+		<li>Nickwelchsel in Name mit + nicht mehr möglich
+	</ul>
+
+	<h4>Februar 2005</h4>
+	<ul>
+		<li>Verbesserung Homepage Wortfilter auch:
+			javjavaasjavascriptcript wird nun erkannt und rausgelöscht
+	</ul>
+
+	<h4>November 2004</h4>
+	<ul>
+		<li>Update auf MainChat 4.10
+		<li>Verbesserungen für Apache 2.0
+		<li>Änderung von Nicknamen und Passwort ist abschaltbar
+	</ul>
+
+	<h4>September 2004</h4>
+	<ul>
+		<li>Fix: Links mit TARGET enthalten nun keine Sonderzeichen mehr,
+			manche Browser hatten damit ein Problem
+		<li>Fix: kleine Anpassungen des MainChat Forums an PHP 4.3.X
+	</ul>
+
+	<h4>Mai 2004</h4>
+	<ul>
+		<li>userinfo.php gibt nun eine jpeg statt gif-Grafik aus
+	</ul>
+
+	<h4>April 2004</h4>
+	<ul>
+		<li>Forum: Rechteerweiterung. Pro Forum kann nun festgelegt
+			werden ob ein Gast oder User das Forum garnicht/nur lesen/lesen und
+			schreiben darf
+		<li>automatische Nickergänzung bei =spruch
+		<li>Umbruchproblem beim nacheditieren im Forum gefixt
+	</ul>
+
+	<h4>März 2004</h4>
+	<ul>
+		<li>Nickergänzung bei /kick geht nun
+		<li>Speichern des Chat-Logs speichert nun genausoviele Zeilen ab
+			wie auch im Browser sichtbar (Limit von 100 Zeilen aufgehoben)
+		<li>Doppelter Raumnamenbug gefixt - Es können nun keine Räume
+			mehr in Räume umbenannt werden die schon existieren
+		<li>Texte getauscht (durch Tippfehlerbereinigte ersetzt):
+			Chat-Befehle, Chatiquette, Nutzungsbestimmungen, Sprueche, Übersicht
+			Mainchat
+		<li>/msgf in Hilfe aufgelistet
+		<li>Pluszeichen nicht mehr in Nicknamen erlaubt
+	</ul>
+
+	<h4>Februar 2004</h4>
+	<ul>
+		<li>Update auf MainChat 4.9
+		<li>Sicherheitsfixes im Usereditor
+		<li>Im Forum wird nun nicht mehr der Userlevel neben dem User
+			angezeigt
+		<li>Bugfix Loginprozedur
+		<li>Hinweistext Popupblocker eingefügt
+		<li>Bugfix E-Mailadressenprüfung (regexp)
+		<li>Flooding-Schutz bei Gast-Logins eingebaut (maximal 20
+			Systemmeldungen in 60 Sekunden)
+	</ul>
+
+
+	<h4>Dezember 2003</h4>
+	<ul>
+		<li>autologout-fix nach 1h
+		<li>ignoriere user können keine /msg mehr schicken
+		<li>Knopf im Useradmin eingefügt, mit dem ein Admin einem User
+			ein zufällig generiertes Passwort setzten kann und der User das
+			Passwort anschliessend per E-Mail zugeschickt bekommt
+		<li>Dieser Knopf funktioniert nun auch über die Sprachdateien
+	</ul>
+
+	<h4>November 2003</h4>
+	<ul>
+		<li>In sperre.php3 eingebaut, dass Sperren von Dynamischen IPs
+			(Dialup-User) nach 3 Tagen gelöscht werden - in $sperre_dialup[] in
+			der config wird festgelegt, welche Domains Dialup-Domains sind.
+		<li>$sperre_dialup in config.php eingefügt, hier können Domains
+			von Dialup Providern definiert werden. Sperrungen von IPs von
+			Dialup-Accounts werden nach 3 Tagen automatisch gelöscht.
+		<li>E-Mail-Prüfungs-Regexp so umgebaut, dass nun auch
+			bla@x.domain.de funktioniert
+		<li>Würfel mit 0 Seiten abgeschafft
+		<li>_ wird nun bei URLs nicht mehr in <b>text</b> gewandelt
+		<li>_ wird bei E-Mail Adressen nicht in <b>text</b> gewandelt
+	</ul>
+
+
+	<h4>Oktober 2003</h4>
+	<ul>
+		<li>Anzahl Postings pro Seite einstellbar
+		<li>Forum-Repair-Skripts in repariere.php3 eingebunden
+		<li>$check_np_referer="1" eingebaut. Ist dieser Schalter gesetzt,
+			so muss der Referer stimmen, damit die Bilder auf der Nickpage
+			angezeigt werden
+	</ul>
+
+	<h4>August/September 2003</h4>
+	<ul>
+		<li>Update auf mainChat 4.8
+		<li>$keineloginbox eingebaut (Login Box wird unterdrückt)
+		<li>$raumanlegenpunkte im Chat und Chatwizard eingebaut =>
+			Mindestpunkte die ein User braucht um einen Raum anlegen zu dürfen
+			(Mietchatfeature)
+		<li>Homepage löschen eingebaut...
+		<li>Kommentarfeld für Usersperre eingebaut
+		<li>Autoknebel ist in allen Chats möglich
+		<li>Forums-Bug: Nicht-Admin User kann Admin-Foren lesen indem er
+			die Forums ID in die URL schreibt behoben...
+		<li>Anmelde-Text geändert: sollten sie den "link nicht anklicken
+			können, so kopieren sie den link in die zwischenablage"
+	</ul>
+
+	<h4>Juli 2003</h4>
+	<ul>
+		<li>User können importiert und gelöscht werden (Nur Linzenz- oder
+			Mietversion, optional)
+		<li>mit /edithistory oder /edithistorie kann man die letzten
+			Admins anzeigen lassen, die den User editiert haben (auch User die
+			offline sind)
+		<li>De-Referer Skript so umgebaut, dass es nun funktioniert. Das
+			alte war nicht sicher
+		<li>Homepage enthält nun nicht mehr SessionID -
+			Sicherheitsbugfix!
+		<li>/raum zeigt für normale User nur noch offene Räume an
+		<li>Javascript-Handler werden nun nicht mehr auf der Homepage
+			ausgegeben
+		<li>Blacklist-Autoexpire eingebaut, default = 30 Tage
+		<li>Blacklist-Autoexpire Zeit im Wizard einstellbar
+		<li>$raumsperre eingeführt, hier man kann die Zeit wie lange ein
+			User auf der Raumsperrliste steht
+		<li>Sperre-Autoexpire Zeit im Wizard einstellbar
+			(Mietchatfeature)
+		<li>Spitze Klammer in Bestätigungs E-Mail bei Registrierung
+			eingefügt
+		<li>Punkteflooden mit _* abgeschafft
+		<li>$raum_msg eingeführt - Text erscheint alle 120 Sekunden im
+			Chat
+		<li>$eingabe_light eingeführt, hiermit wird in der Eingabe für
+			normale User alles ausser [LOG] [RESET] und [ENDE] abgeklemmt
+		<li>$eingabe_light nun über den Wizard konfigurierbar
+		<li>Smilies abschalten über den Wizard konfigurierbar
+		<li>Idle Text (120 Sekunden kein Chat) über den Wizard
+			konfigurierbar
+		<li># im Nicknamen ab sofort nicht mehr erlaubt
+	</ul>
+
+	<h4>Juni 2003</h4>
+	<ul>
+		<li>Nickwechselzeit im Wizard konfigurierbar
+		<li>User-Edit-Historie eingebaut
+		<li>Bug mit _test@test _ behoben
+		<li>Nickpage: Hinweis auf 30 kb Dateigrösse und nur JPG/GIF kein
+			BMP eingefügt
+	</ul>
+
+	<h4>Mai 2003</h4>
+	<ul>
+		<li>Update auf mainChat 4.7
+		<li>$msgpopup=1 => Flüstern im Popup auf an
+		<li>SMS im Mainchat und Payment freigeschaltet
+		<li>SMS Empfang SMS->Mainchat programmiert und freigeschaltet
+		<li>Punkte Problem bei > 10.000.000 Punkten gelöst
+		<li>Sicherheitsbugfix bei privater Homepage (body onload war
+			möglich!)
+		<li>nur Admins können andere Admins zu Freunden machen
+		<li>Nickwechselfloodschutz eingebaut
+	</ul>
+
+	<h4>April 2003</h4>
+	<ul>
+		<LI>Update auf mainChat 4.6a
+		<li>$keine_agb=1 eingeführt, Kunde muss dann keine AGBs
+			bestätigen
+		<li>$userframe_url eingebaut, damit kann das User-Frameset
+			überdeckt werden (Kundenwunsch)
+		<li>Wenn es nur einen Raum gibt, dann erscheint im
+			Interaktiv-Frame keine Raumauswahl (Kundenwunsch)
+		<LI>Bugfixes
+		<LI>DHTML-Menü über User integriert
+	</ul>
+
+	<h4>März 2003</h4>
+	<ul>
+		<LI>Flüstern im Popup nun möglich
+		<LI>Fix: bei Layer Menü wird nur der Name des Users selektiert,
+			solange das Popup nicht offen ist
+		<LI>Knebeltext nun über den Chatwizard erweiterbar
+			(fidion-internals)
+		<LI>Absender der Aktionen Chat-Mails ist nun immer "MainChat", so
+			kann man nicht mehr herausfinden, welcher Admin einen User gekickt
+			hat
+		<LI>Ignorieren von Admins geht ab sofort nicht mehr
+		<LI>Autologout im Forum aus
+		<LI>Temp-Admins sehen im Layer Menü nicht die Admin-Funktionen
+		<LI>Anordnung und Hintergrundfarbe der "Flüstern im Popup"
+			Funktion geändert
+		<LI>&amp;-Zeichen geht nun wieder im Forum
+		<LI>Mit /msgf kann man eine private Nachricht an alle seine
+			Freunde zugleich schreiben
+		<LI>Nickwechselfloodschutz eingebaut
+	</UL>
+
+	<h4>Februar 2003</h4>
+	<ul>
+		<LI>Update auf mainChat 4.6
+		<LI>Freundschaftsfunktion jetzt nur mit Zustimmung des Partners
+		<LI>Mailbox kann vom User zugemacht werden
+		<LI>Ignore Useranzahl auf 18 erhöht
+		<LI>Knebelzeit in der config einstellbar
+		<LI>Ignorierter User kann dem ignorierenden User keine Mail mehr
+			schicken
+		<LI>Temp Admins werden nicht mehr Auto-Geknebelt
+		<LI>Mailbombing Schutz: Ein User kann nur alle 30 Sek vom
+			gleichen User ein Mail empfangen
+		<LI>Default-Knebelzeit nun im Chat-Wizard einstellbar
+			($knebelzeit)
+		<LI>rechtsklick in der Userliste und es öffnet sich ein Menü zum
+			mail schicken/freund ja nein/ignorieren/knebeln/kicken/sperren usw.
+	</UL>
+
+	<h4>Januar-Februar 2003</h4>
+	<ul>
+		<LI>Update auf mainChat 4.5
+		<LI>Backdoorschutz
+		<LI>Bugfixes
+		<LI>Erweiterter Schutz gegen Hackversuche
+		<LI>Prüfung der E-Mail-Adresse bei Registrierung gegen Blacklist
+			und gesperrte User
+		<LI>Security-Bugfixes
+		<LI>Prüfung der E-Mail Adresse bei der Registrierung
+		<LI>Verbesserungen für Mozilla 1, Netscape 6 und Opera
+		<LI>Cache für Homepage-Bilder
+	</UL>
+
+	<h4>November 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.4d
+		<LI>Security-Bugfixes
+	</UL>
+
+	<h4>Oktober 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.4c
+		<LI>Security-Bugfixes
+	</UL>
+
+	<h4>August 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.4b
+		<LI>Mit /einlad können auf User eingeladen werden, die offline
+			sind
+	</UL>
+
+	<ul>
+		<LI>Update auf mainChat 4.4a
+		<LI>Fehler beim Redirect auf externe URLs behoben, die ein _
+			enthalten
+		<LI>Umstellung IVW-Pixel von einem Bild auf reinen Text (für
+			neuen IVW-Pixel)
+		<LI>IVW-Pixel in Userhomepages ergänzt
+	</UL>
+
+	<h4>Juni 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.3
+		<LI>Umstellung der Dateinamen auf .php zwecks besserer
+			Kompatibilität mit php4 sowie index.html und index.php3 zu index.php
+			zusammengefasst.
+	</UL>
+
+	<h4>März/April 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.2b
+		<LI>Expire rotiert Logdateien, die größer als 100 GB sind
+		<LI>Interne Optimierung, Fehlerbehebungen
+		<LI>Der Logout eines Users wird als Systemnachricht an alle User
+			im selben Raum ausgegeben
+		<LI>Update auf mainChat 4.2a
+		<LI>Interne Optimierung, Fehlerbehebungen
+		<LI>Update auf mainChat 4.2
+		<LI>Chat warnt bei Verwendung des sicheren Modus
+		<LI>Neue Würfel für Punkte-Gruppen zwischen 200.000 und
+			10.000.000 Punkte
+		<LI>Verbesserungen und Optimierungen im Forum
+		<LI>Foren und Themen können verändert und gelöscht werden
+		<LI>Über Antworten auf eigene Beiträge im Forum wird mit Aktionen
+			informiert
+		<LI>Interne Optimierung zur Erhöhung der Geschwindigkeit
+		<LI>Neuprogrammierung SPAM-Schutz
+		<LI>SMS-Versand als Aktion inkl. Modul für den Kauf der SMS (nur
+			Community)
+	</UL>
+	<h4>Februar 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.1
+		<LI>Optional wird ein User nach 60 Minuten (einstellbar) aus dem
+			Chat ausgelogt, wenn er nichts schreibt (nur Kauf- oder Mietlizenz)
+		<LI>Update auf mainChat 4.0b
+		<LI>Optional ist die maximale Anzahl der User im Chat
+			konfigurierbar (nur Kauf- oder Mietlizenz)
+		<LI>Verbesserungen am Forum
+		<LI>Update auf mainChat 4.0a
+		<LI>Verbesserungen am Forum
+		<LI>Links nach außen im Forum und Chat werden über einen Redirect
+			umgeleitet
+	</UL>
+	<h4>Januar 2002</h4>
+	<ul>
+		<LI>Update auf mainChat 4.0
+		<LI>Community-Modul Forum: Forum integriert, direkter Login ins
+			Forum, Wechsel aus Chat ins Forum und Zurück, in der Raumauswahl und
+			in der Userübersicht die User im Raum/Forum zeigen, /whois zeigt
+			Raum/Forum, Userinfo zeigt Raum/Forum (nur Community)
+		<LI>Blacklist als Communityfeature / nur für Admins: Auf
+			Nicknamen können Warnungen für den Login gelegt werden
+		<LI>Nickname bei /int, /op und /msg ist nun anklickbar und öffnet
+			Fenster mit Userdaten
+		<LI>Funktion "Alle User zeigen" entfällt, dafür gibt es "Admin:
+			User exportieren". Hiermit kann ein Superuser alle Userdaten direkt
+			in Excel exportieren (nur Kauf- oder Mietlizenz)
+		<LI>Update auf mainChat 3.2d
+		<LI>Erweiterung der Flood-Sperre im Chat: Pro verworfene Zeile
+			werden dem User 10 Punkte abgezogen
+		<LI>In der Mailbox können gleichzeitig mehrere Einträge zum
+			Löschen selektiert werden
+		<LI>Admins können über Userinfo -> "Aus dem CHAT KICKEN" andere
+			User sofort Ausloggen
+		<LI>Punktezählung ist im Chat abschaltbar
+		<LI>Fehllogins werden gespeichert und bei Wiederholung wird der
+			Login des Users für einige Minuten gesperrt
+		<LI>Bugfix: Möglicher Doppellogin wird 100%ig verhindert
+		<LI>Punkte gibt es nur noch in öffentlichen Räumen mit mindestens
+			5 Usern im Raum
+		<LI>E-Mails aus dem Chat, bei denen der Absender keine
+			öffentliche E-Mail-Adresse eingetragen hat (anonym): Die
+			Voreinstellung der Absenderadresse ist nicht mehr die
+			Webmaster-EMail, sondern die E-Mail des Users, der die E-Mail bekommt
+		<LI>Bugfix: Zeit des letzten Logins wird bei Admins bei
+			Login-Fehlversuchen nicht mehr verändert
+		<LI>Bugfix: + wird als Teil einer URL im Chat korrekt geparsed
+		<LI>Bugfix: Gast konnte Mail über Mail-Symbol versenden (nur
+			Community)
+		<LI>Bugfix: Fehler in Chat-Statistik behoben
+	</ul>
+
+	<h4>Dezember 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.2c
+		<LI>Alle User können nach anderen Usern mit "Homepage ja/nein",
+			"letzen Login" oder "Registriert am" suchen
+		<LI>Kleine Verbesserungen an allen Modulen
+		<LI>Diverse kleine Bugfixes
+	</ul>
+
+	<h4>November/Dezember 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.2b
+		<LI>Community-Modul Homepage
+		<LI>In Mail wird bei einer Antwort die Bezugsmail gequotet
+		<LI>Jeder User hat nun optional für Mail und Forum eine eigene
+			Signatur
+		<LI>Framegrößen des Layouts können in den Usereinstellungen von
+			jedem User individuell geändert werden
+		<LI>Community-Modul Punkte, User-Gruppen und User-Top10
+		<LI>Community-Modul Mail
+		<LI>Community-Modul Aktionen
+		<LI>Community-Modul Freunde
+	</ul>
+
+	<h4>Oktober 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.1b
+		<LI>Fehler in Raumeditor behoben, so dass auch Räume, deren
+			Besitzer gelöscht wurden, angezeigt und gelöscht werden können.
+		<LI>Befehl /ignore zeigt auch die anderen User an, von denen man
+			ignoriert wird.
+		<LI>Kleine Optimierungen für mehr Geschwindigkeit
+		<LI>Bei Usern, die in einen geschlossenen Raum eingeladen wurden,
+			wird der Raum in der Raumauswahl angezeigt.
+		<LI>In der User-Übersichtsliste wird vor dem Usernamen "E" zum
+			Einladen des Users angezeigt
+	</ul>
+
+	<h4>September 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.1a
+		<LI>Fehler in /raum behoben: Räume mit weniger als 4 Zeichen
+			Länge können nicht neu angelegt werden
+		<LI>Fehler in /away behoben: Falls im Away-Text ein Smilie
+			enthalten war, wurde der User ausgeloggt.
+		<LI>Geperrte Accounts/Nicks werden nicht mehr expired, sondern
+			verbleiben als Sperre für diesen Nicknamen in der Datenbank (nur
+			Kauf- oder Mietlizenz)
+		<LI>Interne Optimierungen am Datenmodell
+		<LI>Admins können ohne /go ! Teergruben verlassen
+		<LI>Admins können über die HTML-Raumauswahl Teergruben verlassen
+
+
+
+
+
+		
+	</ul>
+
+	<h4>August 2001</h4>
+	<ul>
+		<LI>Über SPERREN können nun auch Warnungen auf IP-Adressen und
+			Domains gelegt werden. Beim Login über diese Adressen erfolgt eine
+			Warnung an alle Admins, die online sind (ausser Temp-Admins).
+			Warnungen sind permanent, d.h. werden nicht automatisch gelöscht
+		<LI>Neue Obergrenze für /ignore: Es können maximal 10 User
+			gleichzeitig ignoriert werden
+		<LI>Update auf mainChat 3.1
+		<LI>Mit der Option $farbe_user_fest=1 kann der Nickname in der
+			Userfarbe ausgegeben werden, der Rest der Textzeile im Chat aber in
+			der system_farbe (nur Kauf- oder Mietlizenz)
+		<LI>JavaScript-Funktionen im rechten Userfenster optimiert
+		<LI>Userinfo-Fenster optimiert: Eingabezeile für Privatnachricht
+			steht nun oben
+		<LI>Neuer Link ">" links vor dem Nick im rechten User-Fenster für
+			private Nachricht an diesen User
+		<LI>Neuer Befehl: /analle - Schickt eine private Nachricht an
+			alle User, die online sind (nur für Admins oder Tempadmins)
+		<LI>/away-Befehl ist für geknebelte User gesperrt
+		<LI>Falls bei /msg eine Nachricht nicht ausgegeben werden kann,
+			weil der Nick nicht online ist, wird der Nachrichtentext in der
+			Fehlermeldung ausgegeben
+		<LI>Bug in /wuerfel behoben, über den Javascript ausgegeben
+			werden konnte
+		<LI>Links neben den Chatframes kann ein weiteres Frame mit
+			beliebigen Inhalten eingebunden werden (nur Kauf- oder Mietlizenz)
+		<LI>Neuregistierung als User mit dem Nick "gast*" ist nicht mehr
+			möglich
+		<LI>Der Chat kann nun über Schalter in der config.php komplett
+			gesperrt werden
+	</UL>
+
+	<h4>Juli 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.0h
+		<LI>Admins und Raumbesitzer werden beim Betreten von
+			geschlossenen Räumen abgewiesen
+		<LI>Neue Option "immer/force/!" für den Befehl /raum um als
+			Admin/Raumbesitzer geschlossen Räume zu betreten
+		<LI>Geschlossene, moderierte Räume werden in der Auswahl für
+			nicht-Admins unterdrückt
+		<LI>Fehler beim Login nach Neuregistrierung behoben
+		<LI>Usersuche für Admins: Optional ist die Suche nach XY Tagen
+			seit der ersten Anmeldung und nach XY Stunden seit dem letzten Login
+			möglich
+		<LI>Verbesserung Loginprozedur
+		<LI>Verbesserung des Moderationsmoduls für IE
+		<LI>Update auf mainChat 3.0g
+		<LI>Im moderierten Raum werden die öffentlichen
+			Ein/Austrittstexte unterdrückt, wenn mindestens ein Moderator
+			anwesend ist
+		<LI>Nicknamen-Vervollständigung für den Fall verbessert, dass der
+			eingegebene Name 1:1 gefunden wird
+		<LI>Kleine Fehler behoben
+	</UL>
+
+	<h4>Mai 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.0f
+		<LI>Neu in der Hauptleiste: [RESET]. Diese Funktion läd alle
+			Frames des Chats neu
+		<LI>In jedem Raum können öffentliche Smilie-Grafiken erlaubt oder
+			verboten werden (nur Kauf- oder Mietlizenz)
+		<LI>Jeder User kann individuell Smilie-Grafiken in Chat zulassen
+			oder die Ansicht unterdrücken (nur Kauf- oder Mietlizenz)
+		<LI>Login überarbeitet
+		<LI>Im Loginformular kann ein Gast einen Nicknamen angeben und
+			mit diesem Namen einloggen
+		<LI>Jeder Gast muss nach dem Login die Nutzungsbestimmungen
+			akzeptieren. Ein User muss nach der Registrierung einmalig die
+			Nutzungsbestimmungen bestätigen (nur Kauf- oder Mietlizenz)
+	</ul>
+
+	<ul>
+		<LI>Update auf mainChat 3.0e
+		<LI>50 Smilie-Grafiken in das Miet-/Kaufpaket aufgenommen.
+	</ul>
+
+	<h4>April 2001</h4>
+	<ul>
+		<LI>Update auf mainChat 3.0d
+		<LI>Bei der IP-Sperre kann ein Infotext pro gesperrter Adresse
+			angeben werden
+		<LI>Fehler behoben, über den unter Umständen verbotene Zeichen
+			(<>&) als Nick benutzt werden konnten
+		<LI>In der Usersuche ist die Suche nach den IP-Adressen der
+			letzten Logins optional möglich
+		<LI>Die letzten 4 IP-Adressen pro User werden mitgespeichert und
+			können in den Userdaten eingesehen werden
+		<LI>Neuer Befehl /aendereraum STATUS: Ändert den Raumstatus des
+			aktuellen Raums auf offen, geschlossen oder moderiert
+		<LI>In den Userinfos und dem WHOIS-Befehl wird die aktuelle
+			Onlinezeit ausgegeben, falls der User online ist
+		<LI>/whois optisch überarbeitet, /whois ist jetzt für alle User
+			erlaubt (Alias /zeige)
+		<LI>Neuer Befehl /uebergeberaum [USER] zum Übergeben eines Raums
+			an einen anderen User für Admins/Raumbesitzer
+		<LI>Neuer Befehl /loescheraum [RAUMNAME] zum Löschen eines Raums
+			für Admins/Raumbesitzer
+		<LI>Falls mit /raum [RAUMNAME] versucht wird, ein
+			nicht-existierender Raum zu betreten, wird dieser Raum automatisch
+			angelegt und betreten
+		<LI>Optimierungen und Beschleunigung der Chatausgabe
+		<LI>Speicherung der komprimierten Ignore-Listen in der
+			Online-Tabelle
+		<LI>Freigabe des Befehls /schubs für Tempadmins
+		<LI>Tempadmins dürfen Räume mit Status Teergrube verlassen
+	</UL>
+
+	<UL>
+		<LI>Update auf mainChat 3.0c
+		<LI>Einschränkungen für Gäste: Keine Ersetzung von Internet- und
+			E-Mail Adressen zum Anklicken, keine Smilie-Grafiken, keine Änderung
+			der Userdaten, Sperrung der Befehle /ignore, /me, /away, /wuerfeln,
+			/msg, /op
+		<LI>Smilies können als Grafiken ausgewählt und angezeigt werden.
+			Es wird ein Kommentar ausgeben, wenn man mehr als drei Grafiken
+			auswählt und die Grafiken gelöscht.
+	</ul>
+
+	<ul>
+		<LI>Update auf mainChat 3.0b
+		<LI>Gast-Login ist über die Chatkonfiguration sperrbar
+		<LI>Optimierung für Netscape 6
+		<LI>Fehler behoben, dass bei Neuanmeldung oder Nicknamenänderung
+			Nick gegen Usernamen geprüft wurden. Es brauchen nur Nicknamen
+			einmalig zu sein.
+		<LI>Die Usersuche wurde komplett überarbeitet. Es ist jetzt auch
+			die Auswahl einer Usergruppe für Admins möglich. Falls bei einer
+			Suche mehrere User gefunden werden, wird eine übersichtliche Liste
+			erzeugt. Die Liste aller User (nur Admin) ist mit PRE formatiert und
+			baut schneller auf. Admins können zusätzlich in E-Mail Adressen und
+			Usernamen suchen.
+	</ul>
+
+	<ul>
+		<LI>Update auf mainChat 3.0a
+		<LI>Verbesserungen Raumübersicht; Die Raumauswahl im Frame zum
+			Betreten der Räume zeigt jetzt immer alle offenen Räume an
+		<LI>Designverbesserungen
+		<LI>Die Unterdrückung der System- und Privatnachrichten im Log
+			ist aus/einschaltbar
+		<LI>Erweiterte Filterung verbotener Zeichen für Nicknamen und
+			Chat-Texte
+	</ul>
+
+	<ul>
+		<LI>Release mainChat 3.0
+		<LI>Überarbeitung /away Funktion
+		<LI>/dupes optisch überarbeitet
+	</UL>
+
+	<h4>Februar/März 2001</h4>
+	<ul>
+		<LI>/user RAUM listet die User im Raum RAUM auf
+		<LI>Behebung einiger Fehler
+		<LI>Weitreichende Optimierungen der Online- und Usertabelle
+		<LI>Unterdrückung der Systemnachrichten im Log
+		<LI>Erweiterter Spam- und Floodfilter
+		<LI>Filtern von /away und /nick Textausgaben in der Moderation
+		<LI>"Lustige Features" (Ein/Austrittsmeldungen) sind abschaltbar
+		<LI>Anzeige des "ersten Logins" in den öffentlichen Userinfos
+		<LI>Chat schaltet bei T-Online-Proxy in den sicheren Modus.
+		<LI>Admins sehen neben IP und User-Agent ausgewählte
+			HTTP-Headerinformationen: HTTP_FORWARDED, HTTP_CLIENT_IP,
+			REMOTE_ADDR, HTTP_VIA, HTTP_ACCEPT_CHARSET, HTTP_ACCEPT_ENCODING,
+			HTTP_ACCEPT_LANGUAGE, HTTP_TE
+		<LI>Expire überarbeitet und optimiert.
+		<LI>Das rechte Userfenster läßt sich auf eine Tabelle mit Smilies
+			umschalten. Bei Klick auf das Smilie wird es in die Eingabezeige
+			eingefügt.
+		<LI>Das Userfenster, das aufgeht, wenn man auf einen Usernamen
+			klickt, ist überarbeitet. Nun ist die Spamsperre auch für das
+			Eingabefeld für private Nachrichten aktiv; die Liste mit den Befehlen
+			ist überarbeitet und Ignorieren und Einladen sind neu dazugekommen.
+			Die Links Ignorieren und Einladen sind auch für die Nicht-Admins
+			nutzbar. Alle Links funktionieren jetzt auch mit nicht-Javascript.
+		<LI>Das Log kann man abspeichern, dazu gibt's einen Link oben im
+			Fenster des Logs, dass mit Klick auf LOG geöffnet wird.
+		<LI>Wenn der SPAM-Schutz zugeschlagen hat, wird dem betroffenen
+			User eine Fehlermeldung angezeigt.
+		<LI>Der Autoknebel ist implementiert, der bei der Eingabe frei
+			definierbarer Schlagworte den User sofort knebelt. Beim Autoknebel
+			ist nun Gross/Kleinschreibung egal.
+		<LI>Alle Eingabefelder sind nun je nach Browser unterschiedlich
+			breit.
+		<LI>Die Frames der Chatansicht sind je nach Browser und
+			Betriebsystem unterschiedlich hoch, damit das Chatfenster immer
+			möglichst hoch ist.
+		<LI>@ vor dem Nicknamen im rechten Frame mit der Userliste:
+			kopiert den Nicknamen in die Eingabezeile.
+		<LI>Anzeige von der "Anzahl der User in den Räumen" in den
+			Raumauswahl-Auswahlfeldern.
+		<LI>user.php (rechter Frame in der Chatansicht mit der Userliste)
+			wurde komplett überarbeitet. Neben Designverbesserungen wird die
+			Ausgabe komplett über Javascript realisiert und spart
+			Übertragunsvolumen.
+	</UL>
+
+	<h4>Januar 2001</h4>
+	<ul>
+		<LI>Kleinere Bugfixes
+		<li>Eingabe komplett überarbeitet und Shared-Mem als Alphaversion
+			eingebaut.
+	</ul>
+	<h4>Dezember 2000</h4>
+	<ul>
+		<li>neuer Status: Admin(Temp). Ein Temp-Admin kann knebeln und
+			kicken. Der Status gilt bis zum Logout.
+		<li>Userliste im Raum beim Eintritt sowie mit /people und /who
+			geändert: Adminstati werden mit angezeigt.
+	</ul>
+	<h4>November 2000</h4>
+	<ul>
+		<li>Release mainChat 2.0
+		<li>/away wird beim Login zurückgesetzt.
+		<li>Nicknamenergänzung mit @: ein @dil wird zu "[zu dilbert]"
+		<li>* und _ überarbeitet. eingabe von "**" wird zu "*" und "__"
+			wird zu "_"
+		<li>neuer Befehl für User: /op
+		<li>neuer Befehl für Admins: /oplist
+		<li>neuer Befehl für Admins: /dupes
+		<li>Moderationsmodul integriert
+		<li>diverse kleinere Bugfixes
+		<li>Sprüche abgeglichen
+		<li>Raumliste beim Login geändert
+		<li>Neuer Frame schreibe.php, über den die gesamte Eingabe läuft.
+	</ul>
+	<h4>Oktober 2000</h4>
+	<ul>
+		<li>diverse kleinere Bugfixes
+	</ul>
+	<h4>Juli 2000</h4>
+	<ul>
+		<li>/einlad, /invite - Bearbeitet die geladenen User von
+			geschlossenen Räumen.
+		<li>Nick-Ergänzung sucht jetzt zuerst im Raum, dann unter allen
+			online-Usern.
+		<li>Aufsplittung der zentralen Sprachdatei. Höhere Performance zu
+			erwarten.
+		<li>/away: Verwendung ähnlich /me: /away telefoniert gerade.
+		<li>/join und /j als Synonym für /go
+		<li>nur für admins: /schubs user [raum]
+		<li>neuer Raumstatus: Teergrube -> da gehts rein, aber nimmer
+			raus.<br> interessant in Verbindung mit /schubs ;-)
+		<li>Funktionslibraries aufgesplittet. Höhere Performance zu
+			erwarten.
+		<li>Fehler beim Editieren anderer User beseitigt. Chatadmin kann
+			nun das Passwort eines Superusers nicht mehr ändern.
+		<li>Ausgaberoutine für die Userliste geändert. Refresh sollte nun
+			sicherer funktionieren.
+	</ul>
+	<h4>Juni 2000</h4>
+	<ul>
+		<LI>Erstes Release mainchat 1.0
+	</ul>
+</small>
