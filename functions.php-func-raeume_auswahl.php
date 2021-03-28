@@ -9,7 +9,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     // $nur_chat=TRUE -> Nur Räume zeigen
     // $nur_chat=FALSE -> Räume + Community-Bereiche (whotext) zeigen
     
-    global $dbase, $u_id, $conn, $o_raum, $timeout, $whotext, $forumfeatures, $communityfeatures;
+    global $dbase, $u_id, $mysqli_link, $o_raum, $timeout, $whotext, $forumfeatures, $communityfeatures;
     
     // alle=TRUE, falls alle Räume (auch leere) gezeigt werden sollen
     if ($alle) {
@@ -22,7 +22,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     $query = "SELECT r_id,count(o_id) as anzahl FROM raum "
         . "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     while ($row = mysqli_fetch_object($result))
         $anzahl_user[$row->r_id] = $row->anzahl;
     @mysqli_free_result($result);
@@ -33,7 +33,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $query = "SELECT o_who,count(o_who) as anzahl FROM online "
             . "WHERE o_who>1 " . "GROUP BY o_who ";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         while ($row = mysqli_fetch_object($result))
             $anzahl_who[$row->o_who] = $row->anzahl;
         @mysqli_free_result($result);
@@ -54,7 +54,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
             . "WHERE inv_user='$u_id' ";
         
         $rows = array();
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -65,7 +65,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         $query = "SELECT r_id FROM raum "
             . "WHERE r_status1='O' OR r_status1 like binary 'm' OR r_besitzer=$u_id OR r_id=" . intval($o_raum);
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -83,7 +83,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
     } else {
         return 1;
     }
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     echo $zusatz_select;
     while ($row = mysqli_fetch_object($result)) {

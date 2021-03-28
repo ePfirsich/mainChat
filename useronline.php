@@ -9,7 +9,7 @@ $userliste = "";
 $user_im_raum = 0;
 
 $query = "SELECT count(u_id) as anzahl_user from user";
-$result = @mysqli_query($conn, $query);
+$result = @mysqli_query($mysqli_link, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
 	$anzahl_user = mysqli_result($result, 0, 0);
@@ -18,7 +18,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 $query = "SELECT count(o_id) as anzahl_online FROM online "
     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-$result = @mysqli_query($conn, $query);
+$result = @mysqli_query($mysqli_link, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
 	$anzahl_online = mysqli_result($result, 0, 0);
@@ -30,7 +30,7 @@ $query = "SELECT o_name,r_name,UNIX_TIMESTAMP(o_aktiv) as login FROM raum,online
     . "AND r_status2='P' "
     . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
     . "ORDER BY r_name,o_name ";
-$result = @mysqli_query($conn, $query);
+$result = @mysqli_query($mysqli_link, $query);
 
 if ($result && mysqli_num_rows($result) > 0) {
     while ($row = @mysqli_fetch_object($result)) {

@@ -6,7 +6,7 @@ function profil_editor($u_id, $u_nick, $f)
     // $u_id=User-Id
     // $u_nick=Nickname
     // $f=Array der Profileinstellungen
-    global $dbase, $conn, $communityfeatures, $t, $http_host, $id, $eingabe_breite, $f1, $f2;
+    global $dbase, $mysqli_link, $communityfeatures, $t, $http_host, $id, $eingabe_breite, $f1, $f2;
     global $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $farbe_tabelle_kopf2, $farbe_text;
     
     // Fenstername
@@ -47,7 +47,7 @@ function profil_editor($u_id, $u_nick, $f)
     
     // Userdaten lesen
     $query = "SELECT * FROM user WHERE u_id=$u_id";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $userdata = mysqli_fetch_array($result);
         mysqli_free_result($result);

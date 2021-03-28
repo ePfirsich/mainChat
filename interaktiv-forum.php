@@ -104,7 +104,7 @@ function window_reload(file,win_name) {
     // Anzahl der User insgesamt feststellen
     $query = "SELECT count(o_id) as anzahl FROM online "
         . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
         mysqli_free_result($result);
@@ -168,7 +168,7 @@ function window_reload(file,win_name) {
     }
     
     $sql = "select r_id from raum where r_name like '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
     	$lobby_id = mysqli_result($query, 0, "r_id");
     else $lobby_id = 1;

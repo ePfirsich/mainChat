@@ -35,7 +35,7 @@ $STAT_BAR_FONTEND1 = "</SMALL>";
 $STAT_BAR_FONTBEG2 = "<SMALL><B>";
 $STAT_BAR_FONTEND2 = "</B></SMALL>";
 
-// Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.                                                          
+// Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.
 $STAT_BAR_FONTBEG3 = "<FONT COLOR=\"#FFFFFF\"><B>";
 $STAT_BAR_FONTEND3 = "</B></FONT>";
 
@@ -45,7 +45,7 @@ $STAT_BAR_FONTEND3 = "</B></FONT>";
 if (!$admin || !$erweitertefeatures)
     return;
 
-$c = @mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+$c = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
 if ($c) {
     mysqli_set_charset($mysqli_link, "utf8mb4");
     mysqli_select_db($c, $STAT_DB_NAME);

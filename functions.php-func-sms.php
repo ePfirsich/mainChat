@@ -14,7 +14,7 @@ function sms_msg(
     //                P: Privatnachticht
     //                H: Versteckte Nachricht
     
-    global $conn, $chat, $http_host, $u_punkte_gesamt, $sms;
+    global $mysqli_link, $chat, $http_host, $u_punkte_gesamt, $sms;
     
     unset($fehler);
     
@@ -87,7 +87,7 @@ function sms_msg(
     if ($von_user_id) {
         $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
             . "WHERE o_user=" . intval($von_user_id);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     }
     
     return ($back);

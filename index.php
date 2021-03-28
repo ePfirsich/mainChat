@@ -35,7 +35,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     if ($chatserver_dynamisch) {
         
         // Datenbankconnect
-    	$mysqli_link = @mysqli_connect($chatserver_mysqlhost, $mysqluser, $mysqlpass);
+    	$mysqli_link = mysqli_connect('p:'.$chatserver_mysqlhost, $mysqluser, $mysqlpass, $dbase);
     	if ($mysqli_link) {
             
             mysqli_set_charset($mysqli_link, "utf8mb4");
@@ -199,7 +199,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             . "WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' "
             . "ORDER BY r_name";
         
-        $result = @mysqli_query($conn, $query);
+        $result = @mysqli_query($mysqli_link, $query);
         if ($result) {
             $rows = mysqli_num_rows($result);
         } else {
@@ -280,7 +280,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     
     // Sperrt den Chat, wenn in der Sperre Domain "-GLOBAL-" ist
     $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         $abweisen = true;
     }
@@ -298,7 +298,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     // Wenn die dbase = "mainchat" und in Sperre = "-GAST-"
     // dann Gastlogin gesperrt
     $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         $temp_gast_sperre = true;
     }
@@ -308,7 +308,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         . "WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
         . " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
         . "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     $rows = mysqli_num_rows($result);
     
     if ($rows > 0) {
@@ -338,7 +338,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             . "WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
             . " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
             . "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         $rows = mysqli_num_rows($result);
         
         if ($rows > 0) {
@@ -358,7 +358,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     
     // zweite Prüfung, gibts was, was mit "*" in der mitte schafft? für p3cea9*.t-online.de
     $query = "SELECT * FROM ip_sperre WHERE is_domain like '_%*%_'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_object($result)) {
             $part = explode("*", $row->is_domain, 2);
@@ -389,7 +389,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         $query = "select u_nick,u_level from user where u_nick='"
         	. mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
             . "' AND (u_level in ('S','C'))";
-        $r = mysqli_query($conn, $query);
+        $r = mysqli_query($mysqli_link, $query);
         $rw = mysqli_num_rows($r);
         
         if ($rw == 1 && (strlen($aktion) > 0)) {
@@ -410,7 +410,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             "AND u_passwort = encrypt('" . mysqli_real_escape_string($mysqli_link, $passwort) . "',u_passwort)";
             // Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
             // Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
-            $r = mysqli_query($conn, $query);
+            $r = mysqli_query($mysqli_link, $query);
             $rw = mysqli_num_rows($r);
             
             if ($rw == 1 && strlen($aktion) > 0) {
@@ -435,7 +435,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 $raumname = " (" . $whotext[2] . ")";
             } else {
                 $query2 = "SELECT r_name from raum where r_id=" . intval($eintritt);
-                $result2 = mysqli_query($conn, $query2);
+                $result2 = mysqli_query($mysqli_link, $query2);
                 if ($result2 AND mysqli_num_rows($result2) > 0) {
                     $raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
                 } else {
@@ -445,7 +445,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             }
             
             $query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
-            $result2 = mysqli_query($conn, $query2);
+            $result2 = mysqli_query($mysqli_link, $query2);
             if ($result2 AND mysqli_num_rows($result2) > 0) {
                 $txt = str_replace("%ip_adr%", $ip_adr, $t['ipsperre1']);
                 $txt = str_replace("%ip_name%", $ip_name, $txt);
@@ -652,7 +652,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 if ($fehlermeldung == "") {
                     $query = "SELECT u_id, u_login, u_nick, u_name, u_passwort, u_adminemail, u_punkte_jahr FROM user "
                         . "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 2";
-                    $result = mysqli_query($conn, $query);
+                    $result = mysqli_query($mysqli_link, $query);
                     if ($result && mysqli_num_rows($result) == 1) {
                         $a = mysqli_fetch_array($result);
                         $hash = md5(
@@ -1047,7 +1047,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         . "' " . "AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' "
                         . "AND o_level='G' "
                         . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-                    $result = mysqli_query($conn, $query4711);
+                    $result = mysqli_query($mysqli_link, $query4711);
                     if ($result)
                         $rows = mysqli_num_rows($result);
                     mysqli_free_result($result);
@@ -1123,7 +1123,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                             $login = $gast_name[mt_rand(1, $anzahl)];
                             $query4711 = "SELECT u_id FROM user "
                                 . "WHERE u_nick='$login' ";
-                            $result = mysqli_query($conn, $query4711);
+                            $result = mysqli_query($mysqli_link, $query4711);
                             $rows = mysqli_num_rows($result);
                             $i++;
                         }
@@ -1135,7 +1135,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         while ($rows != 0 && $i < 100) {
                             $login = $t['login13'] . strval((mt_rand(1, 10000)) + 1);
                             $query4711 = "SELECT u_id FROM user WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $login) . "'";
-                            $result = mysqli_query($conn, $query4711);
+                            $result = mysqli_query($mysqli_link, $query4711);
                             $rows = mysqli_num_rows($result);
                             $i++;
                         }
@@ -1155,7 +1155,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 
                 // Prüfung, ob dieser User bereits existiert
                 $query4711 = "SELECT u_id FROM user WHERE u_nick='$f[u_nick]'";
-                $result = mysqli_query($conn, $query4711);
+                $result = mysqli_query($mysqli_link, $query4711);
                 
                 if (mysqli_num_rows($result) == 0) {
                     // Account in DB schreiben
@@ -1170,7 +1170,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             $query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login,u_backup FROM user "
                 . "WHERE (u_name = '$login' OR u_nick = '$login') "
                 . "AND (u_level='S' OR u_level='C') ";
-            $result = mysqli_query($conn, $query4711);
+            $result = mysqli_query($mysqli_link, $query4711);
             if ($result)
                 $rows = mysqli_num_rows($result);
             
@@ -1183,7 +1183,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 $query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login,u_backup FROM user "
                     . "WHERE (u_nick = '$login') "
                     . "AND (u_level='S' OR u_level='C') ";
-                $result = mysqli_query($conn, $query4711);
+                $result = mysqli_query($mysqli_link, $query4711);
                 if ($result)
                     $rows = mysqli_num_rows($result);
             }
@@ -1301,7 +1301,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 if ($chat_max[$u_level] != 0) {
                     $query = "SELECT count(o_id) FROM online "
                         . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-                    $result2 = mysqli_query($conn, $query);
+                    $result2 = mysqli_query($mysqli_link, $query);
                     if ($result2)
                         $onlineanzahl = mysqli_result($result2, 0, 0);
                     mysqli_free_result($result2);
@@ -1533,7 +1533,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     // User in Blacklist überprüfen
                     // in den kostenlosen Chats konnte es sein, das die Tabelle nicht vorhanden ist
                     $query2 = "SELECT f_text from blacklist where f_blacklistid=$u_id";
-                    $result2 = mysqli_query($conn, $query2);
+                    $result2 = mysqli_query($mysqli_link, $query2);
                     if ($result2 AND mysqli_num_rows($result2) > 0) {
                         $infotext = "Blacklist: "
                             . mysqli_result($result2, 0, 0);
@@ -1549,7 +1549,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                             $raumname = " (" . $whotext[2] . ")";
                         } else {
                             $query2 = "SELECT r_name from raum where r_id=" . intval($eintritt);
-                            $result2 = mysqli_query($conn, $query2);
+                            $result2 = mysqli_query($mysqli_link, $query2);
                             if ($result2 AND mysqli_num_rows($result2) > 0) {
                                 $raumname = " (" . mysqli_result($result2, 0, 0)
                                     . ") ";
@@ -1560,7 +1560,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         }
                         
                         $query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
-                        $result2 = mysqli_query($conn, $query2);
+                        $result2 = mysqli_query($mysqli_link, $query2);
                         if ($result2 AND mysqli_num_rows($result2) > 0) {
                             $txt = str_replace("%ip_adr%", $ip_adr,
                                 $t['default6']);
@@ -1609,7 +1609,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                             . "FROM raum,online WHERE o_raum=r_id "
                             . "AND r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' "
                             . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-                        $result2 = mysqli_query($conn, $query2);
+                        $result2 = mysqli_query($mysqli_link, $query2);
                         
                         if ($result2 && mysqli_num_rows($result2) > 0) {
                             
@@ -1627,7 +1627,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                                 . "AND r_name!='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' "
                                 . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
                                 . "GROUP BY r_id HAVING anzahl=1 AND (CADMIN=1 OR SADMIN=1)";
-                            $result2 = mysqli_query($conn, $query2);
+                            $result2 = mysqli_query($mysqli_link, $query2);
                             $anzahl = mysqli_num_rows($result2);
                             if ($result2 && $anzahl == 1) {
                                 $eintritt = mysqli_result($result2, 0, "r_id");
@@ -1644,7 +1644,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         // ID der Lobby neu ermitteln -> Login in Lobby
                         if ($login_in_lobby) {
                             $query2 = "SELECT r_id FROM raum WHERE r_name = '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "' ";
-                            $result2 = mysqli_query($conn, $query2);
+                            $result2 = mysqli_query($mysqli_link, $query2);
                             if ($result2 && mysqli_num_rows($result2) == 1) {
                                 $eintritt = mysqli_result($result2, 0, "r_id");
                             }
@@ -1653,7 +1653,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         
                         // Bei Login dieses Users alle Admins (online, nicht Temp) informieren
                         $query2 = "SELECT r_name from raum where r_id= '" . mysqli_real_escape_string($mysqli_link, $eintritt) . "'";
-                        $result2 = mysqli_query($conn, $query2);
+                        $result2 = mysqli_query($mysqli_link, $query2);
                         if ($result2 AND mysqli_num_rows($result2) > 0) {
                             $raumname = mysqli_result($result2, 0, 0);
                         } else {
@@ -1662,7 +1662,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         mysqli_free_result($result2);
                         
                         $query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
-                        $result2 = mysqli_query($conn, $query2);
+                        $result2 = mysqli_query($mysqli_link, $query2);
                         if ($result2 AND mysqli_num_rows($result2) > 0) {
                             $txt = str_replace("%raumname%", $raumname,
                                 $t['default7']);
@@ -1987,7 +1987,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 // Gibts den Usernamen schon?
                 $query = "SELECT u_id FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
                 
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows != 0) {
@@ -2141,7 +2141,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 
                 $f['u_level'] = "U";
                 $u_id = schreibe_db("user", $f, "", "u_id");
-                $result = mysqli_query($conn, "UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
+                $result = mysqli_query($mysqli_link, "UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
                 
                 if ($pruefe_email == "1") {
                     $query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f[u_adminemail]) . "'";
@@ -2190,7 +2190,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             
             // Falls user eigene Einstellungen für das Frameset hat -> überschreiben
             $sql = "select u_frames from user where u_id = $u_id";
-            $result = mysqli_query($conn, $sql);
+            $result = mysqli_query($mysqli_link, $sql);
             if ($result && mysqli_num_rows($result) > 0) {
                 $u_frames = mysqli_result($result, 0, "u_frames");
             }
@@ -2293,7 +2293,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 
                 // Wie viele User sind in der DB?
                 $query = "SELECT count(u_id) FROM user WHERE u_level in ('A','C','G','M','S','U')";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 if ($result) {
                     $useranzahl = mysqli_result($result, 0, 0);
@@ -2306,7 +2306,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     . "FROM online left join raum on o_raum=r_id  "
                     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
                     . "ORDER BY lobby desc,r_name,o_who,o_name ";
-                $result2 = mysqli_query($conn, $query);
+                $result2 = mysqli_query($mysqli_link, $query);
                 if ($result2)
                     $onlineanzahl = mysqli_num_rows($result2);
                 // Anzahl der angemeldeten User ausgeben
@@ -2320,7 +2320,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     if ($communityfeatures && $forumfeatures) {
                         // Anzahl Themen
                         $query = "select count(th_id) from thema";
-                        $result = mysqli_query($conn, $query);
+                        $result = mysqli_query($mysqli_link, $query);
                         if ($result AND mysqli_num_rows($result) > 0) {
                             $themen = mysqli_result($result, 0, 0);
                             mysqli_free_result($result);
@@ -2328,7 +2328,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         
                         // Dummy Themen abziehen
                         $query = "select count(th_id) from thema where th_name = 'dummy-thema'";
-                        $result = mysqli_query($conn, $query);
+                        $result = mysqli_query($mysqli_link, $query);
                         if ($result AND mysqli_num_rows($result) > 0) {
                             $themen = $themen - mysqli_result($result, 0, 0);
                             mysqli_free_result($result);
@@ -2336,7 +2336,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         
                         // Anzahl Postings 
                         $query = "select count(po_id) from posting";
-                        $result = mysqli_query($conn, $query);
+                        $result = mysqli_query($mysqli_link, $query);
                         if ($result AND mysqli_num_rows($result) > 0) {
                             $beitraege = mysqli_result($result, 0, 0);
                             mysqli_free_result($result);

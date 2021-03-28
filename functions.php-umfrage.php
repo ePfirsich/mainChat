@@ -2,7 +2,7 @@
 
 function umfrage_aendern($umfrage)
 {
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     if ($umfrage == 0)
@@ -15,7 +15,7 @@ function umfrage_aendern($umfrage)
 
 function umfrage($umfrage)
 {
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     echo "Umfrage: " . $umfrage;
@@ -23,7 +23,7 @@ function umfrage($umfrage)
 
 function anzeige_umfragen_aktuell($adm = 0)
 {
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     echo "<BR /><TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
@@ -39,7 +39,7 @@ function anzeige_umfragen_aktuell($adm = 0)
         . " and um_start <= '" . date('Y-m-d H:i:s') . "'"
         . " and um_ende >= '" . date('Y-m-d H:i:s') . "'"
         . " order by um_bereich, um_start_umfrage, um_id ";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
@@ -89,7 +89,7 @@ function anzeige_umfragen_aktuell($adm = 0)
 
 function anzeige_umfragen_zukuenftig($adm = 0)
 {
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     echo "<BR /><TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
@@ -98,7 +98,7 @@ function anzeige_umfragen_zukuenftig($adm = 0)
         . "FROM umfrage WHERE um_start_umfrage >= '" . date('Y-m-d H:i:s')
         . "'" . " and um_start <= '" . date('Y-m-d H:i:s') . "'"
         . " order by um_bereich, um_start_umfrage, um_id ";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
@@ -145,7 +145,7 @@ function anzeige_umfragen_zukuenftig($adm = 0)
 
 function anzeige_umfragen_abgeschlossen($adm = 0)
 {
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     echo "<BR /><TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
@@ -154,7 +154,7 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
         . "FROM umfrage WHERE um_ende_umfrage <= '" . date('Y-m-d H:i:s') . "'"
         . " and um_ende <= '" . date('Y-m-d H:i:s') . "'"
         . " order by um_bereich, um_start_umfrage, um_id ";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {

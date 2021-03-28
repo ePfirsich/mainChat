@@ -5,7 +5,7 @@ function zeige_freunde($aktion, $zeilen)
     
     // Zeigt Liste der Freunde an
     
-    global $id, $http_host, $conn, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     
     switch ($aktion) {
@@ -39,7 +39,7 @@ function zeige_freunde($aktion, $zeilen)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         
         $anzahl = mysqli_num_rows($result);
@@ -75,14 +75,14 @@ function zeige_freunde($aktion, $zeilen)
                         . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
                         . "from user left join online on o_user=u_id "
                         . "WHERE u_id=$row->f_userid ";
-                    $result2 = mysqli_query($conn, $query);
+                    $result2 = mysqli_query($mysqli_link, $query);
                 } elseif ($row->f_freundid != $u_id) {
                     $query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
                         . "date_format(u_login,'%d.%m.%y %H:%i') as login, "
                         . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
                         . "from user left join online on o_user=u_id "
                         . "WHERE u_id=$row->f_freundid ";
-                    $result2 = mysqli_query($conn, $query);
+                    $result2 = mysqli_query($mysqli_link, $query);
                 }
                 if ($result2 && mysqli_num_rows($result2) > 0) {
                     
@@ -96,7 +96,7 @@ function zeige_freunde($aktion, $zeilen)
                     // User nicht gefunden, Freund löschen
                     $freund_nick = "NOBODY";
                     $query = "DELETE from freunde WHERE f_id=$row->f_id";
-                    $result2 = mysqli_query($conn, $query);
+                    $result2 = mysqli_query($mysqli_link, $query);
                     
                 }
                 
@@ -165,7 +165,7 @@ function loesche_freund($f_freundid, $f_userid)
     // $f_userid User-ID 
     // $f_freundid User-ID
     
-    global $id, $http_host, $conn, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     
     if (!$f_userid || !$f_freundid) {
         echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<BR>";
@@ -177,10 +177,10 @@ function loesche_freund($f_freundid, $f_userid)
     $query = "DELETE from freunde WHERE "
         . "(f_userid=$f_userid AND f_freundid=$f_freundid) " . "OR "
         . "(f_userid=$f_freundid AND f_freundid=$f_userid)";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     $query = "SELECT u_nick FROM user where u_id=$f_freundid";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
         $back = "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr Ihr Freund.</P>";
@@ -194,7 +194,7 @@ function formular_neuer_freund($neuer_freund)
     
     // Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     
     if (!$eingabe_breite)
@@ -227,7 +227,7 @@ function formular_editieren($f_id, $f_text)
     
     // Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     
     if (!$eingabe_breite)
@@ -255,7 +255,7 @@ function neuer_freund($f_userid, $freund)
 {
     // Trägt neuen Freund in der Datenbank ein
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase, $chat, $system_farbe;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $chat, $system_farbe;
     
     if (!$freund['u_id'] || !$f_userid) {
         echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<BR>";
@@ -269,7 +269,7 @@ function neuer_freund($f_userid, $freund)
             . "(f_userid=$freund[u_id] AND f_freundid=$f_userid) " . "OR "
             . "(f_userid=$f_userid AND f_freundid=$freund[u_id])";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             
             $back = "<P><B>Fehler:</B> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
@@ -338,13 +338,13 @@ function edit_freund($f_id, $f_text)
 
 function bestaetige_freund($f_userid, $freund)
 {
-    global $dbase, $conn;
+    global $dbase, $mysqli_link;
     $f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
     $freund = mysqli_real_escape_string($mysqli_link, $freund);
     $query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";
     mysqli_query($mysqli_link, $query);
     $query = "SELECT u_nick FROM user where u_id='$f_userid'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
         $back = "<P><B>Hinweis: </B>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";

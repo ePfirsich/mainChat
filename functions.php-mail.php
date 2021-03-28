@@ -5,7 +5,7 @@ function formular_neue_email($neue_email, $m_id = "")
     
     // Gibt Formular für Nicknamen zum Versand einer Mail aus
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     
     if (!$eingabe_breite)
@@ -14,7 +14,7 @@ function formular_neue_email($neue_email, $m_id = "")
     // Nickname aus u_nick lesen und setzen
     if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
         $query = "SELECT u_nick FROM user WHERE u_id = " . intval($neue_email[m_an_uid]);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
         	$an_nick = mysqli_result($result, 0, 0);
             if (strlen($an_nick) > 0)
@@ -51,7 +51,7 @@ function formular_neue_email2($neue_email, $m_id = "")
     
     // Gibt Formular zum Versand einer neuen Mail aus
     
-    global $id, $http_host, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase, $u_id;
+    global $id, $http_host, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
     global $u_punkte_gesamt, $sms;
     
@@ -80,7 +80,7 @@ function formular_neue_email2($neue_email, $m_id = "")
         $titel = "Mail weiterleiten an";
         $query = "SELECT m_betreff,m_text from mail "
             . "where m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_object($result);
             
@@ -116,7 +116,7 @@ function formular_neue_email2($neue_email, $m_id = "")
             . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
             . "from user left join online on o_user=u_id "
             . "WHERE u_id = $neue_email[m_an_uid]";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_object($result);
             
@@ -192,7 +192,7 @@ function zeige_mailbox($aktion, $zeilen)
     
     // Zeigt die Mails in der Übersicht an
     
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF, $chat;
     
     if (!$eingabe_breite)
@@ -232,7 +232,7 @@ function zeige_mailbox($aktion, $zeilen)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         
         $anzahl = mysqli_num_rows($result);
@@ -307,7 +307,7 @@ function zeige_email($m_id)
     
     // Zeigt die Mail im Detail an
     
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF, $chat;
     
     if (!$eingabe_breite)
@@ -318,7 +318,7 @@ function zeige_email($m_id)
     $query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
         . "FROM mail LEFT JOIN user on m_von_uid=u_id "
         . "WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " order by m_zeit desc";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     if ($result && mysqli_num_rows($result) == 1) {
         
@@ -399,11 +399,11 @@ function loesche_mail($m_id, $u_id)
     
     // Löscht eine Mail der ID m_id
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     
     $query = "SELECT m_zeit,m_id,m_status FROM mail "
         . "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         
         $row = mysqli_fetch_object($result);

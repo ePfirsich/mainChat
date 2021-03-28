@@ -20,7 +20,7 @@ function liste()
     global $id, $http_host;
     global $raumsperre;
     global $sperre_dialup;
-    global $conn;
+    global $mysqli_link;
     
     $sperr = "";
     for ($i = 0; $i < count($sperre_dialup); $i++) {
@@ -44,7 +44,7 @@ function liste()
         . "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip "
         . "FROM ip_sperre,user WHERE is_owner=u_id "
         . "ORDER BY is_zeit DESC,is_domain,is_ip";
-    $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     $rows = mysqli_num_rows($result);
     
     if ($rows > 0) {
@@ -187,14 +187,14 @@ if (strlen($u_id) > 0 && $admin) {
         
         case "loginsperre0":
             $query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
-            $result2 = mysqli_query($conn, $query2);
+            $result2 = mysqli_query($mysqli_link, $query2);
             
             unset($aktion);
             break;
         
         case "loginsperregast0":
             $query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GAST-' ";
-            $result2 = mysqli_query($conn, $query2);
+            $result2 = mysqli_query($mysqli_link, $query2);
             
             unset($aktion);
             break;
@@ -236,7 +236,7 @@ if (strlen($u_id) > 0 && $admin) {
     
     if ($communityfeatures) {
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
                 . "Loginsperre: Deaktivieren" . "</A>\n";
@@ -247,7 +247,7 @@ if (strlen($u_id) > 0 && $admin) {
         @mysqli_free_result($result);
         
         $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
                 . "Loginsperre Gast: Deaktivieren" . "</A>\n";

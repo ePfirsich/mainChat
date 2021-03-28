@@ -168,7 +168,7 @@ if (strlen($u_id) != 0) {
         $query = "SELECT o_id,o_raum,o_name FROM online "
             . "WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' "
             . "AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_object($result);
@@ -227,7 +227,7 @@ if (strlen($u_id) != 0) {
                                 $f['u_adminemail'] = $userd[2];
                                 $f['u_passwort'] = $userd[3];
                                 $query = "SELECT u_id FROM user where u_nick like '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
-                                $result = mysqli_query($conn, $query);
+                                $result = mysqli_query($mysqli_link, $query);
                                 if ($result && mysqli_num_rows($result)) {
                                 	$ui_userid = mysqli_result($result, 0, 0);
                                     echo " ID: $ui_userid";
@@ -308,7 +308,7 @@ if (strlen($u_id) != 0) {
             if ($u_level == "S") {
                 
                 $query = "DELETE FROM user where u_level != 'C' AND u_level != 'S'";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 if ($result) {
                     $ok = mysqli_affected_rows($mysqli_link) . " " . $ok = $t['sonst52'];
                 } else {
@@ -335,7 +335,7 @@ if (strlen($u_id) != 0) {
                     . "date_format(u_login,'%d.%m.%y %H:%i') as login FROM user "
                     . "ORDER BY u_nick";
                 
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if (!$result || mysqli_num_rows($result) == 0) {
@@ -570,7 +570,7 @@ if (strlen($u_id) != 0) {
                 }
                 $query .= $sortierung;
                 
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $anzahl = mysqli_num_rows($result);
                 
                 if ($anzahl == 0) {
@@ -734,7 +734,7 @@ if (strlen($u_id) != 0) {
         case "adminliste":
             if ($adminlisteabrufbar && $u_level != "G") {
                 
-                $result = mysqli_query($conn, 'select * from user where u_level = "S" or u_level = "C" order by u_nick ');
+                $result = mysqli_query($mysqli_link, 'select * from user where u_level = "S" or u_level = "C" order by u_nick ');
                 $anzahl = mysqli_num_rows($result);
                 
                 for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
@@ -792,7 +792,7 @@ if (strlen($u_id) != 0) {
                 
                 // Id der Lobby als Voreinstellung ermitteln
                 $query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $lobby) . "' ";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 
                 if ($rows > 0) {
@@ -807,7 +807,7 @@ if (strlen($u_id) != 0) {
                 . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
                 . "ORDER BY o_name";
             
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             
             for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
                 
@@ -889,7 +889,7 @@ if (strlen($u_id) != 0) {
             if (!$rows && $schau_raum > 0) {
                 
                 $query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 if ($result && mysqli_num_rows($result) != 0)
                 	$r_name = mysqli_result($result, 0, 0);
                 echo "<P>" . str_replace("%r_name%", $r_name, $t['sonst13'])

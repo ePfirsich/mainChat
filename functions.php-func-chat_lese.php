@@ -9,7 +9,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
     global $dbase, $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
     global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_farbe_bg, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
     global $show_spruch_owner, $farbe_user_fest, $id, $http_host, $o_dicecheck;
-    global $user_nick, $conn;
+    global $user_nick, $mysqli_link;
     
     $o_id = intval($o_id);
     
@@ -47,7 +47,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         
         // o_chat_id lesen
         $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
         	$o_chat_id = mysqli_result($result, 0, "o_chat_id");
         } else {
@@ -61,7 +61,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         $query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
         
         unset($rows);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -70,7 +70,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         mysqli_free_result($result);
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -86,7 +86,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         // Admins dürfen alle Nachrichten sehen
         if (!$admin) {
             $query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
             	$o_chat_id = mysqli_result($result, 0, "o_chat_id");
             } else {
@@ -103,7 +103,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         $query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
         
         unset($rows);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -113,7 +113,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -146,7 +146,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         $query = "SELECT c_id FROM chat WHERE c_raum=$raum AND c_id > $letzte_id" . $qquery;
         
         unset($rows);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -156,7 +156,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
         
         $query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id > $letzte_id" . $qquery;
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result) {
             while ($row = mysqli_fetch_row($result)) {
                 $rows[] = $row[0];
@@ -174,7 +174,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
     // Query aus Array erzeugen und die Chatzeilen lesen
     if (isset($rows) && is_array($rows)) {
         $query = "SELECT * FROM chat WHERE c_id IN (" . implode(",", $rows) . ") ORDER BY c_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     } else {
         unset($result);
     }

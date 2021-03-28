@@ -137,7 +137,7 @@ function sperre_posting($po_id)
 function gehe_forum($u_id, $u_nick, $o_id, $o_raum)
 {
     
-    global $conn, $t;
+    global $mysqli_link, $t;
     
     //Austrittstext im alten raum erzeugen
     verlasse_chat($u_id, $u_nick, $o_raum);
@@ -155,11 +155,11 @@ function gehe_forum($u_id, $u_nick, $o_id, $o_raum)
 function lese_gelesene_postings($u_id)
 {
     
-    global $conn, $u_gelesene;
+    global $mysqli_link, $u_gelesene;
     
     $sql = "select u_gelesene_postings from user
                 where u_id = $u_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
         $gelesene = mysqli_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
@@ -169,7 +169,7 @@ function lese_gelesene_postings($u_id)
 // markiert ein komplettes Thema als gelesen
 function thema_alles_gelesen($th_id, $u_id)
 {
-    global $conn, $u_gelesene;
+    global $mysqli_link, $u_gelesene;
     
     $query = "SELECT po_id FROM posting WHERE po_th_id = " . intval($th_id);
     $result = mysqli_query($mysqli_link, $query);
@@ -185,14 +185,14 @@ function thema_alles_gelesen($th_id, $u_id)
         $u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
         $gelesene = serialize($u_gelesene);
         $sql = "update user set u_gelesene_postings = '$gelesene' where u_id = $u_id";
-        mysqli_query($conn, $sql);
+        mysqli_query($mysqli_link, $sql);
     }
 }
 
 // markiert einen Thread als gelesen
 function thread_alles_gelesen($th_id, $thread_id, $u_id)
 {
-    global $conn, $u_gelesene;
+    global $mysqli_link, $u_gelesene;
     
     $query = "SELECT po_threadorder FROM posting WHERE po_id = " . intval($thread_id);
     $result = mysqli_query($mysqli_link, $query);
@@ -215,7 +215,7 @@ function thread_alles_gelesen($th_id, $thread_id, $u_id)
         // und zurückschreiben
         $gelesene = serialize($u_gelesene);
         $sql = "update user set u_gelesene_postings = '$gelesene' where u_id = $u_id";
-        mysqli_query($conn, $sql);
+        mysqli_query($mysqli_link, $sql);
     }
 }
 
@@ -223,7 +223,7 @@ function thread_alles_gelesen($th_id, $thread_id, $u_id)
 function markiere_als_gelesen($po_id, $u_id, $th_id)
 {
     
-    global $conn, $u_gelesene;
+    global $mysqli_link, $u_gelesene;
     
     if (!$u_gelesene[$th_id])
         $u_gelesene[$th_id][0] = $po_id;
@@ -240,7 +240,7 @@ function markiere_als_gelesen($po_id, $u_id, $th_id)
     //online-tabelle neu geschrieben wird -> hier unnoetig
     //und unperformant
     $sql = "update user set u_gelesene_postings = '$gelesene' where u_id = $u_id";
-    mysqli_query($conn, $sql);
+    mysqli_query($mysqli_link, $sql);
     
 }
 
@@ -384,7 +384,7 @@ function check_input($mode)
 function schreibe_forum()
 {
     
-    global $fo_id, $fo_name, $fo_admin, $conn;
+    global $fo_id, $fo_name, $fo_admin, $mysqli_link;
     global $fo_gast, $fo_user;
     
     $f['fo_name'] = $fo_name;
@@ -392,7 +392,7 @@ function schreibe_forum()
     
     //groesste Order holen
     $sql = "select max(fo_order) as maxorder from forum";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $maxorder = mysqli_result($query, 0, "maxorder");
     @mysqli_free_result($query);
     if ($maxorder)
@@ -415,7 +415,7 @@ function schreibe_forum()
 function aendere_forum()
 {
     
-    global $fo_id, $fo_name, $fo_admin, $conn;
+    global $fo_id, $fo_name, $fo_admin, $mysqli_link;
     global $fo_gast, $fo_user;
     
     $f['fo_name'] = $fo_name;
@@ -428,7 +428,7 @@ function aendere_forum()
 function forum_up($fo_id, $fo_order)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$fo_id)
         return;
@@ -439,7 +439,7 @@ function forum_up($fo_id, $fo_order)
                 where fo_order < " . intval($fo_order) . "
                 order by fo_order desc
                 limit 1";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     
     $numrows = mysqli_num_rows($query);
     
@@ -467,7 +467,7 @@ function forum_up($fo_id, $fo_order)
 function forum_down($fo_id, $fo_order)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$fo_id)
         return;
@@ -478,7 +478,7 @@ function forum_down($fo_id, $fo_order)
                 where fo_order > " . intval($fo_order) . "
                 order by fo_order 
                 limit 1";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     
     $numrows = mysqli_num_rows($query);
     
@@ -505,7 +505,7 @@ function forum_down($fo_id, $fo_order)
 function loesche_forum($fo_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$fo_id)
         return;
@@ -513,25 +513,25 @@ function loesche_forum($fo_id)
     $fo_id = intval($fo_id);
     
     $sql = "select fo_name from forum where fo_id=$fo_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $fo_name = mysqli_result($query, 0, "fo_name");
     @mysqli_free_result($query);
     
     $sql = "select th_id from thema where th_fo_id=$fo_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
         
         $delsql = "delete from posting where po_th_id=$thema[th_id]";
-        mysqli_query($conn, $delsql);
+        mysqli_query($mysqli_link, $delsql);
         
     }
     @mysqli_free_result($query);
     
     $sql = "delete from thema where th_fo_id=$fo_id";
-    mysqli_query($conn, $sql);
+    mysqli_query($mysqli_link, $sql);
     
     $sql = "delete from forum where fo_id=$fo_id";
-    mysqli_query($conn, $sql);
+    mysqli_query($mysqli_link, $sql);
     
     echo "<b>Forum $fo_name komplett gelöscht!</b><br>";
     
@@ -541,7 +541,7 @@ function loesche_forum($fo_id)
 function schreibe_thema($th_id = 0)
 {
     
-    global $fo_id, $th_name, $th_desc, $conn, $th_forumwechsel, $th_verschiebe_nach;
+    global $fo_id, $th_name, $th_desc, $mysqli_link, $th_forumwechsel, $th_verschiebe_nach;
     
     //neues Thema
     if ($th_id == 0) {
@@ -553,7 +553,7 @@ function schreibe_thema($th_id = 0)
         
         //groesste Order holen
         $sql = "select max(th_order) as maxorder from thema where th_fo_id=" . intval($fo_id);
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         $maxorder = mysqli_result($query, 0, "maxorder");
         @mysqli_free_result($query);
         if ($maxorder)
@@ -567,7 +567,7 @@ function schreibe_thema($th_id = 0)
             && preg_match("/^([0-9])+$/i", $th_verschiebe_nach)) {
             //groesste Order holen
             $sql = "select max(th_order) as maxorder from thema where th_fo_id=" . intval($th_verschiebe_nach);
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($mysqli_link, $sql);
             $maxorder = mysqli_result($query, 0, "maxorder");
             @mysqli_free_result($query);
             if ($maxorder)
@@ -589,7 +589,7 @@ function schreibe_thema($th_id = 0)
 function thema_up($th_id, $th_order, $fo_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$th_id || !$fo_id)
         return;
@@ -601,7 +601,7 @@ function thema_up($th_id, $th_order, $fo_id)
                 and th_order < " . intval($th_order) . "
                 order by th_order desc
                 limit 1";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $prev_order = mysqli_result($query, 0, "prev_order");
     $prev_id = mysqli_result($query, 0, "th_id");
     @mysqli_free_result($query);
@@ -624,7 +624,7 @@ function thema_up($th_id, $th_order, $fo_id)
 function thema_down($th_id, $th_order, $fo_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$th_id || !$fo_id)
         return;
@@ -636,7 +636,7 @@ function thema_down($th_id, $th_order, $fo_id)
                 and th_order > " . intval($th_order) . "
                 order by th_order
                 limit 1";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     
     $numrows = mysqli_num_rows($query);
     
@@ -663,7 +663,7 @@ function thema_down($th_id, $th_order, $fo_id)
 function loesche_thema($th_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     
     if (!$th_id)
         return;
@@ -671,15 +671,15 @@ function loesche_thema($th_id)
     $th_id = intval($th_id);
     
     $sql = "select th_name from thema where th_id=$th_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $th_name = @mysqli_result($query, 0, "th_name");
     @mysqli_free_result($query);
     
     $delsql = "delete from posting where po_th_id=$th_id";
-    mysqli_query($conn, $delsql);
+    mysqli_query($mysqli_link, $delsql);
     
     $sql = "delete from thema where th_id=$th_id";
-    mysqli_query($conn, $sql);
+    mysqli_query($mysqli_link, $sql);
     
     echo "<b>Thema $th_name komplett gelöscht!</b><br>";
     
@@ -689,7 +689,7 @@ function loesche_thema($th_id)
 function schreibe_posting()
 {
     
-    global $conn, $th_id, $po_vater_id, $u_id, $po_id, $po_tiefe, $u_nick;
+    global $mysqli_link, $th_id, $po_vater_id, $u_id, $po_id, $po_tiefe, $u_nick;
     global $po_titel, $po_text, $thread, $mode, $user_id, $autor;
     global $po_topposting, $po_threadgesperrt, $forum_admin, $t, $forum_aenderungsanzeige;
     
@@ -701,7 +701,7 @@ function schreibe_posting()
             if (!preg_match("/[a-z]|[A-Z]/", $autor))
                 $sql = "select u_id from user where u_id=$autor";
             else $sql = "select u_id from user where u_nick='$autor'";
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($mysqli_link, $sql);
             if (mysqli_num_rows($query) > 0)
                 $u_id_neu = mysqli_result($query, 0, "u_id");
             
@@ -756,11 +756,11 @@ function schreibe_posting()
             //po_threadorder des threadvaters neu schreiben
             //dazu Tabelle posting locken
             $sql = "LOCK TABLES posting WRITE";
-            @mysqli_query($conn, $sql);
+            @mysqli_query($mysqli_link, $sql);
             
             //alte Threadorder holen
             $sql = "select po_threadorder from posting where po_id = " . intval($thread);
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($mysqli_link, $sql);
             $threadorder = mysqli_result($query, 0, "po_threadorder");
             @mysqli_free_result($query);
             
@@ -796,7 +796,7 @@ function schreibe_posting()
                 . time()
                 . "
                                 where po_id = $thread";
-            mysqli_query($conn, $sql);
+            mysqli_query($mysqli_link, $sql);
             
             #print "neue threadorder: $threadorder<BR>";
             
@@ -806,11 +806,11 @@ function schreibe_posting()
                                 where po_threadorder = '1'
                                 and po_id <> $new_po_id
                                 and po_vater_id = " . intval($po_vater_id);
-            mysqli_query($conn, $sql);
+            mysqli_query($mysqli_link, $sql);
             
             //Tabellen wieder freigeben
             $sql = "UNLOCK TABLES";
-            @mysqli_query($conn, $sql);
+            @mysqli_query($mysqli_link, $sql);
             
         } else {
             //Thread neu setzen
@@ -822,11 +822,11 @@ function schreibe_posting()
         //anz_threads und anz_replys im Thema setzen
         //erst Tabelle thema sperren
         $sql = "LOCK TABLES thema WRITE";
-        @mysqli_query($conn, $sql);
+        @mysqli_query($mysqli_link, $sql);
         
         //altes th_postings und anz_threads und anz_replys holen
         $sql = "select th_postings, th_anzthreads, th_anzreplys from thema where th_id = " . intval($th_id);
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         $postings = mysqli_result($query, 0, "th_postings");
         $anzthreads = mysqli_result($query, 0, "th_anzthreads");
         $anzreplys = mysqli_result($query, 0, "th_anzreplys");
@@ -853,11 +853,11 @@ function schreibe_posting()
                         th_anzthreads = $anzthreads,
                         th_anzreplys = $anzreplys
                         where th_id = " . intval($th_id);
-        mysqli_query($conn, $sql);
+        mysqli_query($mysqli_link, $sql);
         
         //Tabellen wieder freigeben
         $sql = "UNLOCK TABLES";
-        @mysqli_query($conn, $sql);
+        @mysqli_query($mysqli_link, $sql);
         
     }
     
@@ -871,7 +871,7 @@ function schreibe_posting()
 function hole_letzten($root_id, $new_po_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     $sql = "select po_id
                 from posting
                 where po_vater_id = " . intval($root_id) . "
@@ -879,7 +879,7 @@ function hole_letzten($root_id, $new_po_id)
                 order by po_ts desc
                 limit 1";
     
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $anzahl = mysqli_num_rows($query);
     if ($anzahl > 0)
         $new_root_id = mysqli_result($query, 0, "po_id");
@@ -900,7 +900,7 @@ function hole_letzten($root_id, $new_po_id)
 function loesche_posting()
 {
     
-    global $conn, $th_id, $po_id, $thread;
+    global $mysqli_link, $th_id, $po_id, $thread;
     global $arr_delete;
     global $farbe_tabellenrahmen, $farbe_tabelle_kopf2, $punkte_pro_posting, $t, $farbe_text;
     
@@ -908,7 +908,7 @@ function loesche_posting()
     
     //tabelle posting und thema locken
     $sql = "LOCK TABLES posting, thema WRITE";
-    @mysqli_query($conn, $sql);
+    @mysqli_query($mysqli_link, $sql);
     
     //rekursiv alle zu loeschenden postings in feld einlesen
     $arr_delete[] = $po_id;
@@ -920,7 +920,7 @@ function loesche_posting()
     if ($po_id != $thread) {
         
         $sql = "select po_threadorder, po_ts from posting where po_id=" . intval($thread);
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         $threadorder = mysqli_result($query, 0, "po_threadorder");
         $new_ts = mysqli_result($query, 0, "po_ts");
         
@@ -939,7 +939,7 @@ function loesche_posting()
             $arr_new_threadorder = explode(",", $new_threadorder);
             for ($i = 0; $i < count($arr_new_threadorder); $i++) {
                 $sql = "select po_ts from posting where po_id = " . intval($arr_new_threadorder[$i]);
-                $query = mysqli_query($conn, $sql);
+                $query = mysqli_query($mysqli_link, $sql);
                 $ts = mysqli_result($query, 0, "po_ts");
                 if ($ts > $new_ts)
                     $new_ts = $ts;
@@ -952,11 +952,11 @@ function loesche_posting()
         $sql = "update posting
                         set po_threadorder = '$new_threadorder', po_threadts = $new_ts
                         where po_id = $thread";
-        mysqli_query($conn, $sql);
+        mysqli_query($mysqli_link, $sql);
         
         //eventuell letztes Posting auf ebene neu markieren
         $sql = "select po_vater_id, po_threadorder from posting where po_id = " . intval($po_id);
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         $threadorder = mysqli_result($query, 0, "po_threadorder");
         $vater_id = mysqli_result($query, 0, "po_vater_id");
         
@@ -968,7 +968,7 @@ function loesche_posting()
                                 and po_id <> " . intval($po_id) . "
                                 order by po_ts desc
                                 limit 1";
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($mysqli_link, $sql);
             if (mysqli_num_rows($query) > 0) {
                 
                 $po_id_update = mysqli_result($query, 0, "po_id");
@@ -976,7 +976,7 @@ function loesche_posting()
                 $sql = "update posting
                                         set po_threadorder = '1'
                                         where po_id = $po_id_update";
-                mysqli_query($conn, $sql);
+                mysqli_query($mysqli_link, $sql);
             }
         }
         
@@ -985,7 +985,7 @@ function loesche_posting()
     //eintragungen in Thema neu schreiben
     
     $sql = "select th_anzthreads, th_anzreplys, th_postings from thema where th_id=" . intval($th_id);
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $postings = mysqli_result($query, 0, "th_postings");
     $anzthreads = mysqli_result($query, 0, "th_anzthreads");
     $anzreplys = mysqli_result($query, 0, "th_anzreplys");
@@ -1014,7 +1014,7 @@ function loesche_posting()
                 th_anzreplys = $anzreplys,
                 th_postings = '$new_postings'
                 where th_id = " . intval($th_id);
-    mysqli_query($conn, $sql);
+    mysqli_query($mysqli_link, $sql);
     
     // Punkte abziehen
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
@@ -1023,7 +1023,7 @@ function loesche_posting()
     reset($arr_delete);
     while (list($k, $v) = @each($arr_delete)) {
         $sql = "select po_u_id from posting where po_id = " . intval($v);
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query($mysqli_link, $sql);
         if ($result && mysqli_num_rows($result) == 1) {
             $po_u_id = mysqli_result($result, 0, 0);
             if ($po_u_id)
@@ -1038,12 +1038,12 @@ function loesche_posting()
     reset($arr_delete);
     while (list($k, $v) = @each($arr_delete)) {
         $sql = "delete from posting where po_id = " . intval($v);
-        mysqli_query($conn, $sql);
+        mysqli_query($mysqli_link, $sql);
     }
     
     //Tabellen wieder freigeben
     $sql = "UNLOCK TABLES";
-    @mysqli_query($conn, $sql);
+    @mysqli_query($mysqli_link, $sql);
     
 }
 
@@ -1051,12 +1051,12 @@ function loesche_posting()
 function hole_alle_unter($vater_id)
 {
     
-    global $conn, $arr_delete;
+    global $mysqli_link, $arr_delete;
     
     $sql = "select po_id
                 from posting
                 where po_vater_id = " . intval($vater_id);
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $anzahl = mysqli_num_rows($query);
     if ($anzahl > 0) {
         while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -1075,13 +1075,13 @@ function hole_alle_unter($vater_id)
 function bereinige_u_gelesene_postings($u_id)
 {
     
-    global $conn;
+    global $mysqli_link;
     $u_id = intval($u_id);
     
     $sql = "select u_gelesene_postings, u_lastclean 
 		from user
 		where u_id = $u_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     
     if ($query && mysqli_num_rows($query) > 0) {
         
@@ -1091,7 +1091,7 @@ function bereinige_u_gelesene_postings($u_id)
         
             $lastclean = time();
             $sql = "update user set u_lastclean = $lastclean where u_id = $u_id";
-            mysqli_query($conn, $sql);
+            mysqli_query($mysqli_link, $sql);
             
         } else if ($lastclean < (time() - 2592000)) { //Bereinigung nötig
             $lastclean = time();
@@ -1099,7 +1099,7 @@ function bereinige_u_gelesene_postings($u_id)
             
             //alle Postings in Feld einlesen
             $sql = "select po_id from posting order by po_id";
-            $query = mysqli_query($conn, $sql);
+            $query = mysqli_query($mysqli_link, $sql);
             $arr_postings = array();
             while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC))
                 $arr_postings[] = $posting['po_id'];
@@ -1122,7 +1122,7 @@ function bereinige_u_gelesene_postings($u_id)
 				u_gelesene_postings = '$gelesene_neu'
 				where u_id = $u_id";
             
-            mysqli_query($conn, $sql);
+            mysqli_query($mysqli_link, $sql);
         }
         
     }
@@ -1132,32 +1132,32 @@ function bereinige_u_gelesene_postings($u_id)
 //bereinigt wenn ein SU das Forum betritt die Anzahl der beiträge und Replays mim Thema
 function bereinige_anz_in_thema()
 {
-    global $conn;
+    global $mysqli_link;
     
     $sql = "select th_id from thema order by th_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     
     if ($query && mysqli_num_rows($query) > 0) {
         while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             
             $sql = "LOCK TABLES posting WRITE, thema WRITE";
-            @mysqli_query($conn, $sql);
+            @mysqli_query($mysqli_link, $sql);
             
             $sql2 = "select count(*) from posting where po_vater_id = 0 and po_th_id = "
                 . $row['th_id'];
-            $query2 = mysqli_query($conn, $sql2);
+            $query2 = mysqli_query($mysqli_link, $sql2);
             $anzahl_thread = mysqli_result($query2, 0, 0);
             
             $sql2 = "select count(*) from posting where po_vater_id <> 0 and po_th_id = "
                 . $row['th_id'];
-            $query2 = mysqli_query($conn, $sql2);
+            $query2 = mysqli_query($mysqli_link, $sql2);
             $anzahl_reply = mysqli_result($query2, 0, 0);
             
             $sql2 = "update thema set th_anzthreads = $anzahl_thread, th_anzreplys = $anzahl_reply  where th_id = $row[th_id]";
-            mysqli_query($conn, $sql2);
+            mysqli_query($mysqli_link, $sql2);
             
             $sql = "UNLOCK TABLES";
-            @mysqli_query($conn, $sql);
+            @mysqli_query($mysqli_link, $sql);
             
         }
     }
@@ -1165,7 +1165,7 @@ function bereinige_anz_in_thema()
 
 function verschiebe_posting_ausfuehren()
 {
-    global $conn, $thread_verschiebe, $verschiebe_von, $verschiebe_nach;
+    global $mysqli_link, $thread_verschiebe, $verschiebe_von, $verschiebe_nach;
     
     if (!preg_match("/^([0-9])+$/i", $thread_verschiebe))
         exit();
@@ -1176,10 +1176,10 @@ function verschiebe_posting_ausfuehren()
     
     // Ändert die alle Postings eine Threads
     $sql = "SELECT po_threadorder FROM posting WHERE po_id = " . intval($thread_verschiebe) . " AND po_th_id = " . intval($verschiebe_von);
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     if ($query && mysqli_num_rows($query) == 1) {
         $sql = "LOCK TABLES posting WRITE, thema WRITE";
-        @mysqli_query($conn, $sql);
+        @mysqli_query($mysqli_link, $sql);
         
         // Verschiebt alle Kinder wenn vorhanden
         $postings = mysqli_result($query, 0, "po_threadorder");
@@ -1187,18 +1187,18 @@ function verschiebe_posting_ausfuehren()
             $postings2 = explode(",", $postings);
             for ($i = 0; $i < count($postings2); $i++) {
                 $sqlupdate = "UPDATE posting SET po_th_id = " . intval($verschiebe_nach) . " WHERE po_id = " . $postings2[$i];
-                mysqli_query($conn, $sqlupdate);
+                mysqli_query($mysqli_link, $sqlupdate);
             }
         }
         
         // Verschiebt den Vater
         $sqlupdate = "UPDATE posting SET po_th_id = " . intval($verschiebe_nach) . " WHERE po_id = " . intval($thread_verschiebe);
-        mysqli_query($conn, $sqlupdate);
+        mysqli_query($mysqli_link, $sqlupdate);
         
         // Baut Threadorder des Themas ALT und NEU komplett neu auf		
         // Da manchmal auch diese Threadorder kaputt geht
         $sql2 = "SELECT po_id FROM posting WHERE po_th_id = " . intval($verschiebe_von);
-        $query2 = mysqli_query($conn, $sql2);
+        $query2 = mysqli_query($mysqli_link, $sql2);
         $neuethreadorder = "0";
         if ($query2 && mysqli_num_rows($query2) > 0) {
             while ($row2 = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
@@ -1208,10 +1208,10 @@ function verschiebe_posting_ausfuehren()
             }
         }
         $sqlupdate = "UPDATE thema SET th_postings = '$neuethreadorder' WHERE th_id = " . intval($verschiebe_von);
-        mysqli_query($conn, $sqlupdate);
+        mysqli_query($mysqli_link, $sqlupdate);
         
         $sql2 = "SELECT po_id FROM posting WHERE po_th_id = " . intval($verschiebe_nach);
-        $query2 = mysqli_query($conn, $sql2);
+        $query2 = mysqli_query($mysqli_link, $sql2);
         $neuethreadorder = "0";
         if ($query2 && mysqli_num_rows($query2) > 0) {
             while ($row2 = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
@@ -1221,10 +1221,10 @@ function verschiebe_posting_ausfuehren()
             }
         }
         $sqlupdate = "UPDATE thema SET th_postings = '$neuethreadorder' WHERE th_id = " . intval($verschiebe_nach);
-        mysqli_query($conn, $sqlupdate);
+        mysqli_query($mysqli_link, $sqlupdate);
         
         $sql = "UNLOCK TABLES";
-        @mysqli_query($conn, $sql);
+        @mysqli_query($mysqli_link, $sql);
         
         bereinige_anz_in_thema();
     }
@@ -1260,7 +1260,7 @@ function ersetzte_smilies($text)
 function aktion_sofort($po_id, $po_vater_id, $thread)
 {
     
-    global $conn, $t;
+    global $mysqli_link, $t;
     //aktionen nur fuer Antworten
     if ($po_vater_id > 0) {
         
@@ -1271,7 +1271,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread)
 			and po_th_id = th_id
 			and th_fo_id = fo_id";
         
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         
         if ($query && mysqli_num_rows($query) > 0) {
             
@@ -1292,7 +1292,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread)
 			where po_u_id = u_id 
 			and po_id = " . intval($po_id);
         
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         
         if ($query && mysqli_num_rows($query) > 0) {
             $user_from_id = mysqli_result($query, 0, "u_id");
@@ -1313,7 +1313,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread)
         $sql = "select po_threadorder 
 			from posting 
 			where po_id=" . intval($thread);
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         if ($query && mysqli_num_rows($query) == 1) {
             
             $threadorder = mysqli_result($query, 0, "po_threadorder");

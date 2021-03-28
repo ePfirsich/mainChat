@@ -9,13 +9,13 @@ id_lese($id);
 function show_pfad_posting2($th_id)
 {
     
-    global $conn, $f1, $f2, $f3, $f4, $id, $http_host, $thread;
+    global $mysqli_link, $f1, $f2, $f3, $f4, $id, $http_host, $thread;
     //Infos über Forum und Thema holen
     $sql = "select fo_id, fo_name, th_name
                 from forum, thema
                 where th_id = " . intval($th_id) . "
                 and fo_id = th_fo_id";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $fo_id = mysqli_result($query, 0, "fo_id");
     $fo_name = htmlspecialchars($query, 0, "fo_name");
     $th_name = htmlspecialchars($query, 0, "th_name");
@@ -42,7 +42,7 @@ function vater_rekursiv($vater)
 
 function such_bereich()
 {
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     global $suche, $t;
     
@@ -73,7 +73,7 @@ function such_bereich()
     
     $sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
         . "WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     $themaalt = "";
     echo "<OPTION ";
     if (substr($suche['thema'], 0, 1) <> "B")
@@ -216,7 +216,7 @@ function such_bereich()
 
 function such_ergebnis()
 {
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase, $check_name, $u_id;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $farbe_hervorhebung_forum, $farbe_link;
     global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
     
@@ -226,7 +226,7 @@ function such_ergebnis()
     $titel = $t['ergebnis1'];
     
     $sql = "select u_gelesene_postings from user where u_id=" . intval($u_id);
-    $query = mysqli_query($conn, $sql);
+    $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
     	$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
     $u_gelesene = unserialize($gelesene);
@@ -238,7 +238,7 @@ function such_ergebnis()
     unset($suche['u_id']);
     if (strlen($fehler) == 0 && $suche['username'] <> "") {
         $sql = "SELECT u_id FROM user where u_nick = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         if (mysqli_num_rows($query) == 1) {
         	$suche['u_id'] = mysqli_result($query, 0, "u_id");
         } else {
@@ -321,7 +321,7 @@ function such_ergebnis()
         $boards = "";
         $sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
             . "WHERE th_anzthreads <> 0 " . "ORDER BY fo_order, th_order ";
-        $query2 = mysqli_query($conn, $sql2);
+        $query2 = mysqli_query($mysqli_link, $sql2);
         while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
             if (pruefe_leserechte($thema['th_id'])) {
                 if ($suche['thema'] == "ALL") {
@@ -405,7 +405,7 @@ function such_ergebnis()
         
         flush();
         $sql = $sql . " " . $abfrage;
-        $query = mysqli_query($conn, $sql);
+        $query = mysqli_query($mysqli_link, $sql);
         
         $anzahl = mysqli_num_rows($query);
         

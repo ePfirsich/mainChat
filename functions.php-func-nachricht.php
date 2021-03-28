@@ -5,7 +5,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
     // Eintrittsnachricht in Raum schreiben
     // Aufruf mit Raum-Id, UserName, Raum-Name
     // liefert $back zurück
-    global $conn, $farbe_chat_background2, $nachricht_b, $lustigefeatures, $u_farbe;
+    global $mysqli_link, $farbe_chat_background2, $nachricht_b, $lustigefeatures, $u_farbe;
     global $eintritt_individuell, $eintritt_useranzeige;
     
     // Nachricht Standard
@@ -21,7 +21,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
     // Nachricht auswählen
     if ($eintritt_individuell == "1") {
         $query = "SELECT u_eintritt FROM user where u_id = $u_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         $row = mysqli_fetch_object($result);
         if (strlen($row->u_eintritt) > 0) {
             $text = $row->u_eintritt;

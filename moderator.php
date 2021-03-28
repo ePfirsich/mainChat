@@ -66,7 +66,7 @@ if (strlen($u_id) > 0) {
                 if ($answer != "") {
                     $answer = intval($answer);
                     $query = "DELETE FROM moderation WHERE c_id=$answer";
-                    mysqli_query($conn, $query);
+                    mysqli_query($mysqli_link, $query);
                 }
                 zeige_moderations_antworten($o_raum);
                 break;

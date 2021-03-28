@@ -39,7 +39,7 @@ function statsOverview($v = "%")
     global $STAT_TITLE_BACK1;
     global $grapharray;
     
-    @mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+    mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
     mysqli_set_charset($mysqli_link, "utf8mb4");
     
     $m = date("m", time());

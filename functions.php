@@ -24,13 +24,14 @@ if ($communityfeatures)
     require_once "functions-community.php";
 
 // DB-Connect, ggf. 3 mal versuchen
-for ($c = 0; $c++ < 3 AND (!(isset($conn)));) {
-    if ($conn = @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass)) {
+for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
+	$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
+	if ($mysqli_link) {
         mysqli_set_charset($mysqli_link, "utf8mb4");
-        mysqli_select_db($conn, $dbase);
+        mysqli_select_db($mysqli_link, $dbase);
     }
 }
-if (!(isset($conn))) {
+if (!(isset($mysqli_link))) {
     echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<BR>";
     exit;
 }
@@ -101,7 +102,7 @@ function raum_user($r_id, $u_id, $id)
 {
     // Gibt die User im Raum r_id im Text an $u_id aus
     
-    global $timeout, $dbase, $t, $leveltext, $conn, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
+    global $timeout, $dbase, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
     
     if ($unterdruecke_user_im_raum_anzeige != "1") {
         $query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
@@ -109,7 +110,7 @@ function raum_user($r_id, $u_id, $id)
             . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
             . "ORDER BY o_name";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         $rows = @mysqli_num_rows($result);
         
         if ($result AND $rows > 0) {
@@ -169,7 +170,7 @@ function ist_online($user)
     // Prüft ob User noch online ist
     // liefert 1 oder 0 zurück
     
-    global $dbase, $timeout, $ist_online_raum, $conn, $whotext;
+    global $dbase, $timeout, $ist_online_raum, $mysqli_link, $whotext;
     
     $ist_online_raum = "";
     
@@ -179,7 +180,7 @@ function ist_online($user)
         . "WHERE o_user=$user "
         . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     if ($result && mysqli_num_rows($result) > 0) {
     	$ist_online_raum = mysqli_result($result, 0, "r_name");
@@ -198,7 +199,7 @@ function schreibe_moderiert($f)
     // Schreibt Chattext in DB
     
     global $dbase;
-    global $conn;
+    global $mysqli_link;
     // Schreiben falls text>0
     if (strlen($f['c_text']) > 0) {
         $back = schreibe_db("moderation", $f, "", "c_id");
@@ -212,11 +213,11 @@ function schreibe_moderation()
 {
     global $u_id;
     global $dbase;
-    global $conn;
+    global $mysqli_link;
     
     // alles aus der moderationstabelle schreiben, bei der u_id==c_moderator;
     $query = "SELECT * FROM moderation WHERE c_moderator=$u_id AND c_typ='N'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result > 0) {
         while ($f = mysqli_fetch_array($result)) {
             unset($c);
@@ -234,7 +235,7 @@ function schreibe_moderation()
             schreibe_chat($c);
             // und datensatz löschen...
             $query = "DELETE FROM moderation WHERE c_id=$f[c_id]";
-            $result2 = mysqli_query($conn, $query);
+            $result2 = mysqli_query($mysqli_link, $query);
         }
     }
 }
@@ -242,7 +243,7 @@ function schreibe_moderation()
 function schreibe_chat($f)
 {
     // Schreibt Chattext in DB
-    global $dbase, $conn;
+    global $dbase, $mysqli_link;
     
     // Schreiben falls text>0
     if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
@@ -252,7 +253,7 @@ function schreibe_chat($f)
             $laenge = strlen($temp);
             $i = 0;
             // Tabelle LOCK
-            $result = mysqli_query($conn, "LOCK TABLES chat WRITE");
+            $result = mysqli_query($mysqli_link, "LOCK TABLES chat WRITE");
             while ($i < $laenge) {
                 $f['c_text'] = substr($temp, $i, 255);
                 if ($i == 0) {
@@ -268,7 +269,7 @@ function schreibe_chat($f)
                 $i = $i + 255;
                 $back = schreibe_db("chat", $f, "", "c_id");
             }
-            $result = mysqli_query($conn, "UNLOCK TABLES chat");
+            $result = mysqli_query($mysqli_link, "UNLOCK TABLES chat");
         } else {
             // Normale Zeile in Tabelle schreiben
             $f['c_br'] = "normal";
@@ -284,19 +285,19 @@ function logout($o_id, $u_id, $info = "")
 {
     // Logout aus dem Gesamtsystem
     
-    global $dbase, $u_farbe, $conn, $communityfeatures, $logout_logging;
+    global $dbase, $u_farbe, $mysqli_link, $communityfeatures, $logout_logging;
     
     if ($logout_logging)
         logout_debug($o_id, $info);
     
     // Tabellen online+user exklusiv locken
     $query = "LOCK TABLES online WRITE, user WRITE";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     $o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
     
     // Aktuelle Punkte auf Punkte in Usertabelle addieren
-    $result = @mysqli_query($conn, 
+    $result = @mysqli_query($mysqli_link, 
         "select o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as knebelrest FROM online WHERE o_id=$o_id");
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_object($result);
@@ -312,17 +313,17 @@ function logout($o_id, $u_id, $info = "")
             . "u_punkte_jahr=u_punkte_jahr+$row->o_punkte, "
             . "u_punkte_gesamt=u_punkte_gesamt+$row->o_punkte, "
             . "u_knebel='$knebelzeit' " . "where u_id=$u_id";
-        $result2 = mysqli_query($conn, $query);
+        $result2 = mysqli_query($mysqli_link, $query);
     }
     @mysqli_free_result($result);
     
     // User löschen
-    $result2 = mysqli_query($conn, 
+    $result2 = mysqli_query($mysqli_link, 
         "DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id");
     
     // Lock freigeben
     $query = "UNLOCK TABLES";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     // Punkterepair 
     $repair1 = "UPDATE user SET u_punkte_jahr = 0, u_punkte_monat = 0, u_punkte_datum_jahr = YEAR(NOW()), u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_jahr != YEAR(NOW()) AND u_id=$u_id";
@@ -337,7 +338,7 @@ function logout($o_id, $u_id, $info = "")
             . "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
             . "ORDER BY f_zeit desc ";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         
         if ($result && mysqli_num_rows($result) > 0) {
             
@@ -378,7 +379,7 @@ function global_msg($u_id, $r_id, $text)
     //                P: Privatnachticht
     //                H: Versteckte Nachricht
     
-    global $conn;
+    global $mysqli_link;
     
     if (strlen($r_id) > 0) {
         $f['c_raum'] = $r_id;
@@ -394,7 +395,7 @@ function global_msg($u_id, $r_id, $text)
     if ($u_id) {
         $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
             . "WHERE o_user=$u_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     }
     
     return ($back);
@@ -408,7 +409,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text)
     //                P: Privatnachticht
     //                H: Versteckte Nachricht
     
-    global $conn;
+    global $mysqli_link;
     
     $f['c_von_user'] = $von_user;
     $f['c_von_user_id'] = $von_user_id;
@@ -423,7 +424,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text)
     if ($von_user_id) {
         $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
             . "WHERE o_user=$von_user_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     }
     
     return ($back);
@@ -443,7 +444,7 @@ function priv_msg(
     //                P: Privatnachticht
     //                H: Versteckte Nachricht
     
-    global $conn;
+    global $mysqli_link;
     
     // Optional Link auf User erzeugen
     
@@ -466,7 +467,7 @@ function priv_msg(
         $von_user_id = mysqli_real_escape_string($mysqli_link, $von_user_id); // sec
         $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
             . "WHERE o_user=$von_user_id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     }
     
     return ($back);
@@ -496,10 +497,10 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text)
 function aktualisiere_online($u_id, $o_raum)
 {
     // Timestamp im Datensatz aktualisieren -> User gilt als online
-    global $dbase, $conn;
+    global $dbase, $mysqli_link;
     // sec ??
     $query = "UPDATE online SET o_aktiv=NULL WHERE o_user=$u_id";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     @mysqli_free_result($result);
 }
 
@@ -511,7 +512,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
     global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_backup, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen;
     global $admin, $dbase, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
     global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit;
-    global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $conn;
+    global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
     global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $o_who, $o_timeout_zeit, $o_timeout_warnung;
     global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
     global $hackmail, $webmaster, $chat, $http_host, $t, $erweitertefeatures;
@@ -530,7 +531,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
         . "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online "
         . "WHERE o_hash='$id' ";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if (!$result) {
         echo "Fehler: " . mysqli_error($mysqli_link) . "<br><b>$query</b><br>";
         exit;
@@ -724,7 +725,7 @@ function schreibe_db($db, $f, $id, $id_name)
     // Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
     // Sonderbehandlung für Passwörter
     // Akualiert ggf Kopie des Datensatzes in online-Tabelle
-    global $dbase, $conn, $u_id, $valid_fields;
+    global $dbase, $mysqli_link, $u_id, $valid_fields;
     
     $neu = array();
     foreach ($valid_fields[$db] as $field) {
@@ -742,24 +743,24 @@ function schreibe_db($db, $f, $id, $id_name)
         if ($db == "online" || $db == "chat") {
             // ID aus sequence verwenden
             $query = "LOCK TABLES sequence WRITE";
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             $query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             if ($result) {
             	$id = mysqli_result($result, 0, 0);
                 mysqli_free_result($result);
                 $query = "UPDATE sequence SET se_nextid='" . ($id + 1)
                     . "' WHERE se_name='$db'";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
             } else {
                 echo "Schwerer Fehler in $query: " . mysqli_errno($mysqli_link) . " - "
                     . mysqli_error($mysqli_link);
                 $query = "UNLOCK TABLES";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 die();
             }
             $query = "UNLOCK TABLES";
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             
         } else {
             // ID mit auto_increment erzeugen
@@ -775,7 +776,7 @@ function schreibe_db($db, $f, $id, $id_name)
                     if (!isset($f['u_salt']))
                         $f['u_salt'] = substr($inhalt, 0, 2);
                     // Verschlüsseln
-                        $q .= "='" . mysqli_real_escape_string($mysqli_link, $f['u_salt']), iCrypt($inhalt) . "'";
+                        $q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
                 } else {
                     $q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
                 }
@@ -783,7 +784,7 @@ function schreibe_db($db, $f, $id, $id_name)
         }
         
         $query = "INSERT INTO $db SET $id_name=$id " . $q;
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if (!$result) {
             echo "Fataler Fehler in $query: " . mysqli_errno($mysqli_link) . " - "
                 . mysqli_error($mysqli_link);
@@ -807,14 +808,14 @@ function schreibe_db($db, $f, $id, $id_name)
                     // Verschlüsseln
                     if (!isset($f['u_salt']))
                         $f['u_salt'] = substr($inhalt, 0, 2);
-                        $q .= "='" . mysqli_real_escape_string($mysqli_link, $f['u_salt']), iCrypt($inhalt) . "'";
+                        $q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
                 } else {
                     $q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
                 }
             }
         }
         $q = "UPDATE $db SET " . $q . " WHERE $id_name=$id";
-        $result = mysqli_query($conn, $q);
+        $result = mysqli_query($mysqli_link, $q);
     }
     
     if ($db == "user" && $id_name == "u_id") {
@@ -825,7 +826,7 @@ function schreibe_db($db, $f, $id, $id_name)
             . "u_away,u_email,u_adminemail,u_smilie,u_punkte_gesamt,u_punkte_gruppe, "
             . "u_chathomepage,u_systemmeldungen,u_punkte_anzeigen "
             . "FROM user WHERE u_id=$id";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
             
@@ -854,7 +855,7 @@ function schreibe_db($db, $f, $id, $id_name)
                 . mysqli_real_escape_string($mysqli_link, $userdata_array[3]) . "', " . "o_level='"
                 . mysqli_real_escape_string($mysqli_link, $userdata['u_level']) . "', " . "o_name='"
                 . mysqli_real_escape_string($mysqli_link, $userdata['u_nick']) . "' " . "WHERE o_user=$id";
-            mysqli_query($conn, $query);
+            mysqli_query($mysqli_link, $query);
             mysqli_free_result($result);
             
         }
@@ -1022,12 +1023,12 @@ function raum_ist_moderiert($raum)
     // Liefert in ist_moderiert zurück: Moderiert ja/nein
     
     // Liefert in ist_eingang zurück: Stiller Eingangsraum ja/nein
-    global $dbase, $conn, $u_id, $system_farbe, $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
+    global $dbase, $mysqli_link, $u_id, $system_farbe, $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
     $moderiert = 0;
     $raum = intval($raum);
     
     $query = "SELECT * FROM raum WHERE r_id=$raum";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         $raum_einstellungen = mysqli_fetch_array($result);
         $r_status1 = $raum_einstellungen['r_status1'];
@@ -1036,7 +1037,7 @@ function raum_ist_moderiert($raum)
     if (isset($r_status1) && ($r_status1 == "m" || $r_status1 == "M")) {
         $query = "SELECT o_user FROM online "
             . "WHERE o_raum=$raum AND o_level='M' ";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if (mysqli_num_rows($result) > 0)
             $moderiert = 1;
         mysqli_free_result($result);
@@ -1127,7 +1128,7 @@ function user(
     // 8 = EMail zeigen
     // 16 = Homepage zeigen
     
-    global $id, $system_farbe, $dbase, $conn, $communityfeatures, $t, $http_host, $show_geschlecht;
+    global $id, $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t, $http_host, $show_geschlecht;
     global $f1, $f2, $f3, $f4, $leveltext, $punkte_grafik, $chat_grafik, $o_js, $homep_ext_link;
     
     $text = "";
@@ -1190,7 +1191,7 @@ function user(
             . "date_format(u_login,'%d.%m.%y %H:%i') as login "
             . "FROM user left join online on o_user=u_id "
             . "where u_id=" . intval($zeige_user_id);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $userdaten = mysqli_fetch_object($result);
             $user_id = $userdaten->u_id;
@@ -1227,7 +1228,7 @@ function user(
     if (!isset($user_punkte_anzeigen)
         || ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
         $query = "SELECT u_punkte_anzeigen FROM user where u_id=" . intval($user_id);
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $userdaten = mysqli_fetch_object($result);
             $user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
@@ -1554,7 +1555,7 @@ function genpassword($length)
 function logout_debug($o_id, $info)
 {
     // optionales Debugging, um herauszufinden, warum User aus dem Chat fliegen
-    global $chat, $dbase, $conn, $mysqlhost, $mysqluser, $mysqlpass;
+	global $chat, $dbase, $mysqli_link, $mysqlhost, $mysqluser, $mysqlpass;
     global $STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME;
     
     $logout = array(lo_chat => $chat, lo_aktion => "logout $info",);
@@ -1562,7 +1563,7 @@ function logout_debug($o_id, $info)
         $logout[lo_aktion] = "login";
     
     $o_id = intval($o_id);
-    $result = mysqli_query($conn, "select * FROM online WHERE o_id=$o_id");
+    $result = mysqli_query($mysqli_link, "select * FROM online WHERE o_id=$o_id");
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
         $logout['lo_nick'] = $row['o_name'];
@@ -1573,7 +1574,7 @@ function logout_debug($o_id, $info)
         $logout['lo_onlinedump'] = serialize($row);
         @mysqli_free_result($result);
     }
-    $result = mysqli_query($conn, 
+    $result = mysqli_query($mysqli_link, 
         "select u_login FROM user WHERE u_nick='$logout[lo_nick]'");
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
@@ -1585,23 +1586,24 @@ function logout_debug($o_id, $info)
     foreach ($logout as $key => $val)
         $query .= mysqli_real_escape_string($mysqli_link, $key) . "='" . mysqli_real_escape_string($mysqli_link, $val) . "', ";
     $query = substr($query, 0, -2);
-    $conn2 = mysqli_connect($STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS);
+    $mysqli_link2 = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
     mysqli_set_charset($mysqli_link, "utf8mb4");
-    mysqli_select_db($conn2, $STAT_DB_NAME);
-    if ($conn2)
-        mysqli_query($conn2, $query);
+    mysqli_select_db($mysqli_link2, $STAT_DB_NAME);
+    if ($mysqli_link2) {
+        mysqli_query($mysqli_link2, $query);
+    }
     
-    $conn = mysqli_connect($mysqlhost, $mysqluser, $mysqlpass);
+    $mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
     mysqli_set_charset($mysqli_link, "utf8mb4");
-    mysqli_select_db($conn, $dbase);
+    mysqli_select_db($mysqli_link, $dbase);
 }
 
 function hole_geschlecht($userid)
 {
-    global $dbase, $conn;
+    global $dbase, $mysqli_link;
     
     $query = "SELECT ui_geschlecht FROM userinfo WHERE ui_userid=" . intval($userid);
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result AND mysqli_num_rows($result) == 1) {
         $userinfo = mysqli_fetch_object($result);
         $user_geschlecht = $userinfo->ui_geschlecht;

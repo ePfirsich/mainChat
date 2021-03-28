@@ -11,7 +11,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
     // privat ist wahr bei privater Nachricht
     
     global $admin, $smilies_pfad, $smilies_datei, $sprachconfig, $o_raum, $u_id, $u_level;
-    global $t, $system_farbe, $erweitertefeatures, $conn, $smilies_anzahl, $smilies_config;
+    global $t, $system_farbe, $erweitertefeatures, $mysqli_link, $smilies_anzahl, $smilies_config;
     global $ist_moderiert, $smilies_aus;
     
     // Grafik-Smilies ergänzen, falls Funktion aktiv und Raum ist nicht moderiert
@@ -32,7 +32,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
             // Prüfen, ob im aktuellen Raum smilies erlaubt sind
             if (!$privat) {
                 $query = "SELECT r_smilie FROM raum WHERE r_id=" . intval($o_raum);
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 if ($result && mysqli_num_rows($result) > 0
                 	&& mysqli_result($result, 0, 0) != "Y") {
                     $smilie_ok = FALSE;

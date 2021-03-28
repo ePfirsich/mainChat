@@ -14,7 +14,8 @@ $query = "SELECT r_name,r_id FROM raum "
     . "WHERE (r_status1='O' OR r_status1 LIKE BINARY 'm') AND r_status2='P' "
     . "ORDER BY r_name";
 
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($mysqli_link, $query);
+
 if ($result) {
     $rows = mysqli_num_rows($result);
 }

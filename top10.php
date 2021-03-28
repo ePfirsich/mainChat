@@ -90,7 +90,7 @@ if ($erweitertefeatures) {
     // im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
     $query = "select * from top10cache where t_eintrag=1 "
         . "AND date_add(t_zeit, interval '6' hour)>=NOW()";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
     	$t_id = mysqli_result($result, 0, "t_id");
     	$array_user = unserialize(mysqli_result($result, 0, "t_daten"));
@@ -102,7 +102,7 @@ if ($erweitertefeatures) {
             . date("n", time()) . " and u_punkte_datum_jahr="
             . date("Y", time()) . " and u_level != 'Z' "
             . "order by u_punkte_monat desc,u_punkte_gesamt desc,u_punkte_jahr desc limit 0,100";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $array_anzahl[0] = mysqli_num_rows($result);
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -116,7 +116,7 @@ if ($erweitertefeatures) {
             . "where u_punkte_jahr!=0 " . "and u_punkte_datum_jahr="
             . date("Y", time()) . "  and u_level != 'Z' "
             . "order by u_punkte_jahr desc,u_punkte_gesamt desc,u_punkte_monat desc limit 0,100";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $array_anzahl[1] = mysqli_num_rows($result);
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -129,7 +129,7 @@ if ($erweitertefeatures) {
         $query = "select u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
             . "where u_punkte_gesamt!=0  and u_level != 'Z' "
             . "order by u_punkte_gesamt desc,u_punkte_monat desc,u_punkte_jahr desc limit 0,100";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $array_anzahl[2] = mysqli_num_rows($result);
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -144,7 +144,7 @@ if ($erweitertefeatures) {
         $f['t_daten'] = isset($array_user) ? serialize($array_user) : null;
         $t_id = schreibe_db("top10cache", $f, 0, "t_id");
         $query = "DELETE FROM top10cache WHERE t_eintrag=1 AND t_id!='$t_id'";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
     }
     
     // Array als Tabelle ausgeben

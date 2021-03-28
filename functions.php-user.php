@@ -10,7 +10,7 @@ function user_liste($larr, $anzahl)
     
     // Gibt Userliste $larr als Tabelle aus
     
-    global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $conn;
+    global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
     global $ft0, $ft1, $f1, $f2, $f3, $f4, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $homep_ext_link;
     global $CELLPADDING, $punkte_grafik, $leveltext, $chat_grafik;
     
@@ -49,7 +49,7 @@ function user_liste($larr, $anzahl)
                 $ids[] = intval($v['u_id']);
             $query = "SELECT ui_userid,ui_geschlecht FROM userinfo WHERE ui_userid in ('"
                 . implode("','", $ids) . "')";
-            $result = mysqli_query($conn, $query);
+            $result = mysqli_query($mysqli_link, $query);
             while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                 $uid = $row[ui_userid];
                 if ($row[ui_geschlecht] == "männlich")
@@ -138,7 +138,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
     // $user = ID des Users
     // Falls $admin wahr werden IP und Onlinedaten ausgegeben
     
-    global $conn, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_koerper;
+    global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_koerper;
     global $user_farbe, $farbe_text, $ist_online_raum, $chat_max_eingabe, $t, $ft0, $ft1, $communityfeatures;
     global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
     
@@ -154,7 +154,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         . "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS letzter_login,"
         . "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS erster_login "
         . "FROM user WHERE u_id=$user ";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     if ($result AND mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_object($result);
@@ -186,7 +186,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         unset($o_http_stuff);
         $query = "SELECT r_name,online.*,UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit "
             . " FROM online left join raum on o_raum=r_id WHERE o_user=$user ";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && $rows = mysqli_num_rows($result) == 1) {
             $o_row = mysqli_fetch_object($result);
             $onlinezeit = $o_row->onlinezeit;

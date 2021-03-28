@@ -55,23 +55,24 @@ if (isset($check_np_referer) && $check_np_referer == "1")
 $cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/"
     . $u_id . "/" . $feld;
 
-$conn = 0;
+$mysqli_link = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
-for ($c = 0; $c++ < 50 AND !$conn;) {
-    if ($conn = @mysqli_connect($mysqlhost, $mysqluser, $mysqlpass)) {
-        @mysqli_select_db($conn, $dbase);
+for ($c = 0; $c++ < 50 AND !$mysqli_link;) {
+	$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
+    if ($mysqli_link) {
+        @mysqli_select_db($mysqli_link, $dbase);
         mysqli_set_charset($mysqli_link, "utf8mb4");
     }
     usleep(200000);
 }
-if (!$conn) {
+if (!$mysqli_link) {
     echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später nocheinmal!<BR>";
     exit;
 }
 
 // Prüfe ob User existiert und NP aktiviert ist
 $query = "SELECT u_chathomepage FROM user WHERE u_id=$u_id ";
-$result = mysqli_query($conn, $query);
+$result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
     if (mysqli_result($result, 0, "u_chathomepage") != 'J') {
         echo "Nickpage dieses Users deaktiviert!<BR>";
@@ -111,7 +112,7 @@ if (file_exists($cachepfad)) {
         
         // Größen aus DB
         $query = "SELECT b_width, b_height, b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $b_width = mysqli_result($result, 0, "b_width");
             $b_heigth = mysqli_result($result, 0, "b_height");
@@ -150,7 +151,7 @@ if ($anzeigeauscache) {
     // Bild aus der DB lesen
     
     $query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $b_mime = mysqli_result($result, 0, "b_mime");
         $bild = mysqli_result($result, 0, "b_bild");

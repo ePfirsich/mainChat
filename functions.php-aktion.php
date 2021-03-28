@@ -6,7 +6,7 @@ function zeige_aktionen($aktion)
     // Zeigt Matrix der Aktionen an
     // Definition der aktionen in config.php ($def_was)
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $def_was, $eingabe_breite;
     global $farbe_text, $smsfeatures, $forumfeatures;
     
@@ -22,7 +22,7 @@ function zeige_aktionen($aktion)
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>";
     
     // Einstellungen aus Datenbank lesen 
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_array($result)) {
             $was[$row['a_was']][$row['a_wann']] = $row;
@@ -38,7 +38,7 @@ function zeige_aktionen($aktion)
     
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
         	substr(mysqli_result($result, 0, "Type"), 5, -1));
@@ -48,7 +48,7 @@ function zeige_aktionen($aktion)
     
     // Alle möglichen a_wie in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wie'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
         	substr(mysqli_result($result, 0, "Type"), 4, -1));
@@ -164,11 +164,11 @@ function eintrag_aktionen($aktion_datensatz)
     
     // Array mit definierten Aktionen in die DB schreiben
     
-    global $def_was, $dbase, $u_id, $u_nick, $conn;
+    global $def_was, $dbase, $u_id, $u_nick, $mysqli_link;
     
     // Alle möglichen a_wann in Array lesen
     $query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
         $txt = str_replace("'", "",
         	substr(mysqli_result($result, 0, "Type"), 5, -1));
@@ -187,7 +187,7 @@ function eintrag_aktionen($aktion_datensatz)
                 $query = "DELETE FROM aktion "
                     . "WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
                     . "AND a_wann='" . mysqli_real_escape_string($mysqli_link, $a_wann_eintrag) . "' " . "AND a_user='$u_id'";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
             }
             
             $f['a_wie'] = $temp[1];

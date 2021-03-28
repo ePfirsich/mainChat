@@ -5,7 +5,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
     
     // Zeigt Liste der Blacklist an
     
-    global $id, $conn, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn, $u_nick, $u_id;
+    global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     global $blacklistmaxdays;
     
@@ -65,7 +65,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         
         $anzahl = mysqli_num_rows($result);
@@ -98,7 +98,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
                     . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
                     . "from user left join online on o_user=u_id "
                     . "WHERE u_id=$row->f_blacklistid ";
-                $result2 = mysqli_query($conn, $query);
+                $result2 = mysqli_query($mysqli_link, $query);
                 if ($result2 && mysqli_num_rows($result2) > 0) {
                     
                     // User gefunden -> Ausgeben
@@ -111,7 +111,7 @@ function zeige_blacklist($aktion, $zeilen, $sort)
                     // User nicht gefunden, Blacklist-Eintrag löschen
                     $blacklist_nick = "NOBODY";
                     $query = "DELETE from blacklist WHERE f_id=$row->f_id";
-                    $result2 = mysqli_query($conn, $query);
+                    $result2 = mysqli_query($mysqli_link, $query);
                     
                 }
                 
@@ -177,7 +177,7 @@ function loesche_blacklist($f_blacklistid)
     // Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
     // $f_blacklistid User-ID des Blacklist-Eintrags
     
-    global $id, $http_host, $conn, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $conn;
+    global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link;
     global $u_id, $u_nick, $admin;
     
     if (!$admin || !$f_blacklistid) {
@@ -188,10 +188,10 @@ function loesche_blacklist($f_blacklistid)
     $f_blacklistid = intval($f_blacklistid);
     
     $query = "DELETE from blacklist WHERE f_blacklistid=$f_blacklistid";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     
     $query = "SELECT u_nick FROM user where u_id=$f_blacklistid";
-    $result = mysqli_query($conn, $query);
+    $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
         echo "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
@@ -204,7 +204,7 @@ function formular_neuer_blacklist($neuer_blacklist)
     
     // Gibt Formular für Nicknamen zum Hinzufügen als Blacklist-Eintrag aus
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
     
     if (!$eingabe_breite)
@@ -244,7 +244,7 @@ function neuer_blacklist($f_userid, $blacklist)
     
     // Trägt neuen Blacklist-Eintrag in der Datenbank ein
     
-    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $conn, $dbase;
+    global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     
     if (!$blacklist['u_id'] || !$f_userid) {
         echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<BR>";
@@ -258,7 +258,7 @@ function neuer_blacklist($f_userid, $blacklist)
             . "(f_userid=$blacklist[u_id] AND f_blacklistid=$f_userid) "
             . "OR " . "(f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";
         
-        $result = mysqli_query($conn, $query);
+        $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             
             echo "<P><B>Fehler:</B> '$blacklist[u_nick]' ist bereits in der Blackliste eingetragen!</P>\n";

@@ -114,7 +114,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                     . "WHERE (r_status1='O' OR r_status1 LIKE BINARY 'm') AND r_status2='P'"
                     . "ORDER BY r_name";
                 
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $raeume = "<SELECT NAME=\"eintritt\">";
                 
                 $i = 0;
@@ -145,7 +145,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                     $eintrittsraum = $lobby;
                 }
                 $query = "SELECT r_id FROM raum WHERE r_name = '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 if ($result && mysqli_num_rows($result) == 1) {
                 	$lobby_id = mysqli_result($result, 0, "r_id");
                 }
@@ -163,7 +163,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                 
                 // Wie viele User sind in der DB?
                 $query = "SELECT count(u_id) FROM user WHERE u_level in ('A','C','G','M','S','U')";
-                $result = mysqli_query($conn, $query);
+                $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 if ($result) {
                 	$ergebnis['registriert'] = mysqli_result($result, 0, 0);
@@ -179,7 +179,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
                     . "ORDER BY lobby desc,r_name,o_who,o_name ";
                 
-                $result2 = mysqli_query($conn, $query);
+                $result2 = mysqli_query($mysqli_link, $query);
                 if ($result2) {
                     $ergebnis['online'] = mysqli_num_rows($result2);
                 } else {
@@ -255,7 +255,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
         // Anzahl der User abfragen
             if (isset($registriert) && $registriert == "j") {
                 $query = "SELECT count(u_id) as anzahl FROM user WHERE u_level IN ('A','C','G','M','S','U')";
-                $result = @mysqli_query($conn, $query);
+                $result = @mysqli_query($mysqli_link, $query);
                 if ($result && @mysqli_num_rows($result) > 0) {
                 	$anzahl = @mysqli_result($result, 0, "anzahl");
                     mysqli_free_result($result);
