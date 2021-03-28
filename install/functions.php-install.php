@@ -94,7 +94,7 @@ function step_1()
         . "</form>\n" . "</table>\n";
 }
 
-function step_2($connect, $select, $chat, $fpconfig)
+function step_2($mysqli_link, $select, $chat, $fpconfig)
 {
     $configtpl = "../conf/config.php-tpl";
     $fpconfigtpl = fopen($configtpl, "r");

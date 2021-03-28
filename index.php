@@ -33,14 +33,14 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     if ($chatserver_dynamisch) {
         
         // Datenbankconnect
-        $connect = @mysqli_connect($chatserver_mysqlhost, $mysqluser, $mysqlpass);
-        if ($connect) {
+    	$mysqli_link = @mysqli_connect($chatserver_mysqlhost, $mysqluser, $mysqlpass);
+    	if ($mysqli_link) {
             
             mysqli_set_charset($mysqli_link, "utf8mb4");
             
             // Alle Hosts bestimmen, die in den letzten 150sek erreichbar waren und die den Typ "apache" haben...
-            mysqli_select_db($connect, "chat_info");
-            $result = mysqli_query($connect, 
+            mysqli_select_db($mysqli_link, "chat_info");
+            $result = mysqli_query($mysqli_link, 
                 "select h_host from host where (NOW()-h_time)<150 and h_type='apache' order by h_av1");
             $rows = mysqli_num_rows($result);
             
@@ -66,7 +66,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             }
             
             mysqli_free_result($result);
-            mysqli_close($connect);
+            mysqli_close($mysqli_link);
             
         } else {
             echo "<HTML><HEAD><TITLE>mainChat - http://www.mainchat.de </TITLE><META CHARSET=UTF-8></HEAD><BODY>"
