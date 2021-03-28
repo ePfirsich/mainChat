@@ -20,7 +20,7 @@ echo "<tr bgcolor=\"#007ABE\"><td><p style=\"font-size:20px;text-align:center;co
 switch ($_POST['aktion']) {
     case "step_2":
         if (!file_exists($configdatei)) {
-            $regexemail = "|^[_a-z0-9-]+(\.[_a-z0-9]+)*@([a-z0-9-]+\.)[a-z]{2,3}$|mi";
+            $regexemail = "|^[_a-z0-9-]+(\.[_a-z0-9]+)*@([a-z0-9-]+\.)[a-z]{2,8}$|mi";
             
             if ($_POST['chat']['lobby'] == "" || $_POST['chat']['dbase'] == ""
                 || $_POST['chat']['host'] == "" || $_POST['chat']['user'] == ""
