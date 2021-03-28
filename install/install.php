@@ -76,6 +76,7 @@ switch ($_POST['aktion']) {
                     } else {
                         mysqli_set_charset($mysqli_link, "utf8mb4");
                         if (!$select = mysqli_select_db($connect, $_POST['chat']['dbase'])) {
+                        	/*
                             if (!$create_db = mysqli_query($connect, 
                                 "CREATE DATABASE ".$_POST['chat']['dbase'])) {
                                 echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\" align=\"center\">\n"
@@ -85,9 +86,10 @@ switch ($_POST['aktion']) {
                                 unlink($configdatei);
                                 step_1();
                             } else {
+                            */
                                 $select = mysqli_select_db($connect, $_POST['chat']['dbase']);
                                 step_2($connect, $select, $_POST['chat'], $fp);
-                            }
+                            //}
                             
                         } else step_2($connect, $select, $_POST['chat'], $fp);
                     }
