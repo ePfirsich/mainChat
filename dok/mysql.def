@@ -70,13 +70,13 @@
 # c_von_user		Nachricht ist von User Nickname
 # c_von_user_id		ID c_von_user
 # c_an_user 		Nachricht ist an User u_id
-# c_typ 		Art der Nachricht (privat, System, normal) ("N"= chatnachricht, "P"=vordefinierte Antwort);
+# c_typ 		Art der Nachricht (privat, System, normal) ("N"= chatnachricht, "P"=vordefinierte Antwort)
 # c_raum 		Zeiger auf r_id
 # c_text 		Chatzeile
 # c_zeit 		Zeitstempel
 # c_farbe		Farbe der Textzeile
 # c_moderator	Id des Moderators, der diese Nachricht bearbeitet.
-                  
+
 # Tabelle raum		Beschreibung eines Raums
 # r_id 			ID
 # r_name 		Name des Raums
@@ -89,7 +89,7 @@
 # r_smilie		Smilies erlaubt (Y/N)
 # r_werbung		Name des Werbeframes, der diesem Raum zugeordnet ist
 # r_min_punkte		Anzahl der Punkte die ein User haben muss, bevor er den Raum betreten kann
-          
+
 # Tabelle online	welcher User ist in welchem Raum online
 # o_id int 		ID
 # o_user 		User -> u_id
@@ -133,12 +133,12 @@
 # s_user 		User -> u_id
 # s_raum 		Raum -> r_id
 # s_zeit 		Zeitpunkt wann Datensatz angelegt wurde
-                  
+
 # Tabelle iignore	welcher User hat welchen anderen user stummgeschaltet
 # i_id 			ID
 # i_user_aktiv 		User -> u_id
 # i_user_passiv 	User -> u_id
-                  
+
 # Tabelle ip_sperre	komplette Sperre für User von bestimmten IPs
 # is_id 		ID
 # is_ip 		IP-Adresse als xxx.yyy.zzz
@@ -151,12 +151,7 @@
 
 
 
--- Database: mainchat
 # CREATE DATABASE mainchat CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `aktion`
---
 
 CREATE TABLE aktion (
   a_id int(11) unsigned NOT NULL auto_increment,
@@ -171,10 +166,6 @@ CREATE TABLE aktion (
   KEY a_wann (a_wann)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `bild`
---
-
 CREATE TABLE bild (
   b_id int(11) unsigned NOT NULL auto_increment,
   b_user int(11) unsigned NOT NULL default '0',
@@ -187,10 +178,6 @@ CREATE TABLE bild (
   KEY b_user (b_user)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `blacklist`
---
-
 CREATE TABLE blacklist (
   f_id int(11) unsigned NOT NULL auto_increment,
   f_userid int(11) unsigned NOT NULL default '0',
@@ -200,10 +187,6 @@ CREATE TABLE blacklist (
   PRIMARY KEY  (f_id),
   KEY f_blacklistid (f_blacklistid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `chat`
---
 
 CREATE TABLE chat (
   c_id int(11) unsigned NOT NULL default '0',
@@ -221,10 +204,6 @@ CREATE TABLE chat (
   KEY c_raum (c_raum)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `forum`
---
-
 CREATE TABLE forum (
   fo_id smallint(5) unsigned NOT NULL auto_increment,
   fo_name varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
@@ -232,10 +211,6 @@ CREATE TABLE forum (
   fo_admin tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (fo_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `freunde`
---
 
 CREATE TABLE freunde (
   f_id int(11) unsigned NOT NULL auto_increment,
@@ -249,10 +224,6 @@ CREATE TABLE freunde (
   KEY f_freundid (f_freundid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `iignore`
---
-
 CREATE TABLE iignore (
   i_id int(11) unsigned NOT NULL auto_increment,
   i_user_aktiv int(11) unsigned NOT NULL default '0',
@@ -262,10 +233,6 @@ CREATE TABLE iignore (
   KEY i_user_passiv (i_user_passiv)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `invite`
---
-
 CREATE TABLE invite (
   inv_id int(11) NOT NULL auto_increment,
   inv_raum int(11) default NULL,
@@ -273,10 +240,6 @@ CREATE TABLE invite (
   PRIMARY KEY  (inv_id),
   KEY inv_user (inv_user)  
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `ip_sperre`
---
 
 CREATE TABLE ip_sperre (
   is_id int(11) unsigned NOT NULL auto_increment,
@@ -291,10 +254,6 @@ CREATE TABLE ip_sperre (
   KEY is_owner (is_owner),
   KEY is_warn (is_warn)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `mail`
---
 
 CREATE TABLE mail (
   m_id int(11) unsigned NOT NULL auto_increment,
@@ -312,20 +271,12 @@ CREATE TABLE mail (
   KEY m_geloescht_ts (m_an_uid,m_status,m_geloescht_ts)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `mail_check`
---
-
 CREATE TABLE mail_check (
   email varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   datum date NOT NULL default '0000-00-00',
   u_id int(11) NOT NULL default '0',
   PRIMARY KEY  (email)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `moderation`
---
 
 CREATE TABLE moderation (
   c_id int(11) unsigned NOT NULL auto_increment,
@@ -344,10 +295,6 @@ CREATE TABLE moderation (
   KEY c_von_user_id (c_von_user_id),
   KEY c_moderator (c_moderator)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `online`
---
 
 CREATE TABLE online (
   o_id int(11) unsigned NOT NULL default '0',
@@ -397,10 +344,6 @@ CREATE TABLE online (
   KEY o_level (o_level)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `posting`
---
-
 CREATE TABLE posting (
   po_id int(10) unsigned NOT NULL auto_increment,
   po_th_id int(10) NOT NULL default '0',
@@ -422,10 +365,6 @@ CREATE TABLE posting (
   KEY po_themasort (po_th_id,po_vater_id,po_topposting,po_threadts,po_ts)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `raum`
---
-
 CREATE TABLE raum (
   r_id int(11) unsigned NOT NULL auto_increment,
   r_name varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
@@ -445,19 +384,11 @@ CREATE TABLE raum (
   KEY r_smilie (r_smilie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `sequence`
---
-
 CREATE TABLE sequence (
   se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   se_nextid int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (se_name)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `sms`
---
 
 CREATE TABLE sms (
   s_id int(11) unsigned NOT NULL auto_increment,
@@ -469,10 +400,6 @@ CREATE TABLE sms (
   PRIMARY KEY  (s_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `smsin`
---
-
 CREATE TABLE smsin (
   s_id int(11) NOT NULL auto_increment,
   s_handynummer varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
@@ -483,10 +410,6 @@ CREATE TABLE smsin (
   PRIMARY KEY  (s_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `sperre`
---
-
 CREATE TABLE sperre (
   s_id int(11) unsigned NOT NULL auto_increment,
   s_user int(11) unsigned NOT NULL default '0',
@@ -496,10 +419,6 @@ CREATE TABLE sperre (
   KEY s_user (s_user),
   KEY s_raum (s_raum)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `thema`
---
 
 CREATE TABLE thema (
   th_id int(10) unsigned NOT NULL auto_increment,
@@ -515,10 +434,6 @@ CREATE TABLE thema (
   KEY th_name (th_name)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Table structure for table `top10cache`
---
-
 CREATE TABLE top10cache (
   t_id int(11) unsigned NOT NULL auto_increment,
   t_zeit timestamp NOT NULL,
@@ -526,10 +441,6 @@ CREATE TABLE top10cache (
   t_daten mediumblob,
   PRIMARY KEY  (t_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `user`
---
 
 CREATE TABLE user (
   u_id int(11) unsigned NOT NULL auto_increment,
@@ -588,10 +499,6 @@ CREATE TABLE user (
   KEY u_name (u_name),
   FULLTEXT KEY u_ip_historie (u_ip_historie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `userinfo`
---
 
 CREATE TABLE userinfo (
   ui_id int(11) NOT NULL auto_increment,
