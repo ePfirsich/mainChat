@@ -5,7 +5,7 @@
 
 <body>
 <pre>
-<?
+<?php
 $liesmich="../dok/LIESMICH";
 
 if (!file_exists ($liesmich))
