@@ -44,7 +44,7 @@ if (strlen($u_id) > 0) {
     $fenster = str_replace("ß", "", $fenster);
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "-Log " . date("d.m.y H:i"); ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "-Log " . date("d.m.y H:i"); ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()     
         function neuesFenster(url,name) {

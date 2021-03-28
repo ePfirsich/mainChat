@@ -8,7 +8,7 @@ id_lese($id);
 
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Einstellungen"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Einstellungen"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()     
 	function win_reload(file,win_name) {

@@ -6,7 +6,7 @@ require("functions.php");
 id_lese($id);
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Aktionen"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Aktionen"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()
         function win_reload(file,win_name) {

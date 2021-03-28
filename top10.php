@@ -21,7 +21,7 @@ $fenster = str_replace("ß", "", $fenster);
 // Kopf ausgeben
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Top10"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Top10"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()
         function win_reload(file,win_name) {

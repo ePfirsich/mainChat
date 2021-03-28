@@ -1,33 +1,33 @@
 <html>
 <head>
-<title>LIESMICH</TITLE><META CHARSET=UTF-8>
+	<title>LIESMICH</title>
+	<meta charset="utf-8">
 </head>
-
 <body>
-<pre>
-<?php
-$liesmich="../dok/LIESMICH";
-
-if (!file_exists ($liesmich))
-{
-	echo "Keine LIESMICH-Datei gefunden!";
-}
-else
-{
-	if (!$fp=fopen ($liesmich,"r"))
+	<pre>
+	<?php
+	$liesmich="../dok/LIESMICH";
+	
+	if (!file_exists ($liesmich))
 	{
-		echo "Datei konnte nicht geöffnet werden!";
+		echo "Keine LIESMICH-Datei gefunden!";
 	}
 	else
 	{
-		$inhalt=fread($fp,filesize($liesmich));
-		echo $inhalt;
-		fclose ($fp);
+		if (!$fp=fopen ($liesmich,"r"))
+		{
+			echo "Datei konnte nicht geöffnet werden!";
+		}
+		else
+		{
+			$inhalt=fread($fp,filesize($liesmich));
+			echo $inhalt;
+			fclose ($fp);
+		}
 	}
-}
-
-?>
-</pre>
+	
+	?>
+	</pre>
 </body>
 </html>
 	

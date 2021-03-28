@@ -6,7 +6,7 @@ require("functions.php");
 id_lese($id);
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Farben"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Farben"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
 window.focus()
 function colorsave() {

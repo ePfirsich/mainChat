@@ -16,7 +16,7 @@ $fenster = str_replace("ß", "", $fenster);
 
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Home"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Home"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()
         function win_reload(file,win_name) {

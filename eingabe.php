@@ -40,7 +40,7 @@ if ($u_id) {
     $fenster = str_replace("ß", "", $fenster);
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
 function resetinput() {
     document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;

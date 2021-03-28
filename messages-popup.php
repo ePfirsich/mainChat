@@ -35,7 +35,7 @@ if (strlen($u_id) > 0) {
     // auf die Startseite springen, da id_lese ein Problem damit hat
     $userfuerrefresh = urlencode($user_nick);
 ?>
-<HTML><HEAD><TITLE><?php echo $body_titel; ?></TITLE><META CHARSET=UTF-8>
+<HTML><HEAD><TITLE><?php echo $body_titel; ?></TITLE><meta charset="utf-8">
 <META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval(15)
         . "; URL=messages-popup.php?http_host=$http_host&id=$id&user=$user&user_nick=$userfuerrefresh"; ?>">
 <?php echo $stylesheet . "<SCRIPT>\n"

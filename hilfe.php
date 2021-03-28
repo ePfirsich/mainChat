@@ -13,7 +13,7 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
 
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()
         function win_reload(file,win_name) {

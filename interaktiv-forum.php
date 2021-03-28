@@ -63,7 +63,7 @@ if ($u_id) {
     
 ?>
     
-<HTML><HEAD><TITLE><?php echo $body_titel; ?></TITLE><META CHARSET=UTF-8>
+<HTML><HEAD><TITLE><?php echo $body_titel; ?></TITLE><meta charset="utf-8">
 <META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval($timeout / 3)
         . "; URL=interaktiv-forum.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum";
                                     ?>">

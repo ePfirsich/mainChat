@@ -163,7 +163,7 @@ function liste()
 }
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><META CHARSET=UTF-8>
+<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
 <SCRIPT>
         window.focus()     
 </SCRIPT>

@@ -3,7 +3,25 @@
 require_once "functions-registerglobals.php";
 
 // Konfigurationsdatei einbinden
-require "conf/config.php";
+$filenameConfig = 'conf/config.php';
+if (file_exists($filenameConfig)) {
+	require $filenameConfig;
+} else {
+	?>
+	<head>
+		<title>mainChat</title>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<table style="width:100%; border:0px;">
+			<tr style="color:#ff0000; font-weigth:bold;">
+				<td>FEHLER: Der Chat ist noch nicht konfiguriert!</td>
+			</tr>
+		</table>
+	</body>
+	<?php
+	die;
+}
 
 // Liegt lokale Konfigurationsdatei "config.php-http_host" in "conf/" vor? Falls ja einbinden
 if (!(isset($http_host)))
@@ -13,7 +31,7 @@ $http_host = str_replace(":8888", "", $http_host);
 
 $config = "config.php-" . $http_host;
 if (file_exists("conf/$config")) {
-    require "conf/$config";
+	require "conf/$config";
 }
 
 // Pfad des Chats auf dem WWW-Server
