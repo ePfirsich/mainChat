@@ -1,8 +1,12 @@
 # OpenMainChat
 
-Dies ist der Versuch, den mainChat von  [netzhuffle](https://github.com/netzhuffle/mainchat) unter PHP7 lauf‰hig zu machen.
+Dies ist der Versuch, den mainChat von  [netzhuffle](https://github.com/netzhuffle/mainchat) unter PHP7 lauf√§hig zu machen.
+
+Wichtig
+------------
+Dieser Stand ist aktuell unter keiner PHP-Version lauff√§hig, da die Anpassungen noch nicht abgeschlossen sind.
 
 Installation
 ------------
 
-Eine Anleitung zur Installation findet sich unter /dok/LIESMICH. Wird eine ‰ltere PHP-Version als 5.4 genutzt, muss die Einstellung 'magic_quotes_gpc' ausgeschaltet sein.
+Eine Anleitung zur Installation findet sich unter /dok/LIESMICH. Wird eine √§ltere PHP-Version als 5.4 genutzt, muss die Einstellung 'magic_quotes_gpc' ausgeschaltet sein.
