@@ -7,7 +7,6 @@ require_once("functions.php-func-nachricht.php");
 require_once("functions.php-func-html_parse.php");
 require_once("functions.php-func-raum_gehe.php");
 if ($communityfeatures) {
-    require_once("functions.php-func-sms.php");
     require_once("functions.php-freunde.php");
 }
 
@@ -2768,58 +2767,6 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 // Fehlermeldung
                 system_msg("", 0, $u_id, $system_farbe,
                     str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
-            }
-            break;
-        
-        case "/sms":
-            if ($u_level != "G" && $communityfeatures && $smsfeatures) {
-                
-                $text = html_parse($privat,
-                    htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]));
-                
-                // Empfänger im Chat suchen
-                // /talk muss z.B. mit "/talk kleiner" auch dann an kleiner gehen 
-                // wenn kleiner in anderem Raum ist und im eigenen Raum ein kleinerpfuscher anwesend ist.
-                if ($nick['u_nick'] == "")
-                    $nick = nick_ergaenze($chatzeile[1], "online", 1);
-                
-                // Falls keinen Empfänger gefunden, in Usertabelle nachsehen
-                if ($nick['u_nick'] == "") {
-                    
-                    $chatzeile[1] = coreCheckName($chatzeile[1], $check_name);
-                    $query = "SELECT u_nick,u_id from user "
-                        . "WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'";
-                    $result = mysqli_query($mysqli_link, $query);
-                    if ($result && mysqli_num_rows($result) == 1) {
-                        $nick = mysqli_fetch_array($result);
-                    }
-                    @mysqli_free_result($result);
-                }
-                
-                // Falls Empfänger gefunden, Nachricht versenden
-                if ($nick['u_nick'] != "") {
-                    
-                    // nick gefunden und Eindeutig.
-                    if ($text != " ") {
-                        sms_msg($u_name, $u_id, $nick['u_id'], $u_farbe, $text,
-                            $userdata);
-                        if ($nick['u_away'] != "")
-                            system_msg("", 0, $u_id, $system_farbe,
-                                "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
-                    }
-                } else {
-                    // Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-                    system_msg("", 0, $u_id, $system_farbe,
-                        str_replace("%nachricht%", $text, $t['chat_msg77']));
-                }
-                
-            } elseif (!$communityfeatures or !$smsfeatures) {
-                // Fehlermeldung Community
-                system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
-                
-            } else {
-                // Fehlermeldung Gast
-                system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
             }
             break;
             

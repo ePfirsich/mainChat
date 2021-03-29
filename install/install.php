@@ -50,7 +50,6 @@ $chat["erfeatures"] = filter_input(INPUT_POST, 'chat_erfeatures', FILTER_SANITIZ
 $chat["comfeatures"] = filter_input(INPUT_POST, 'chat_comfeatures', FILTER_SANITIZE_STRING);
 $chat["forumfeatures"] = filter_input(INPUT_POST, 'chat_forumfeatures', FILTER_SANITIZE_STRING);
 $chat["punktefeatures"] = filter_input(INPUT_POST, 'chat_punktefeatures', FILTER_SANITIZE_STRING);
-$chat["smsfeatures"] = filter_input(INPUT_POST, 'chat_smsfeatures', FILTER_SANITIZE_STRING);
 $chat["modmodul"] = filter_input(INPUT_POST, 'chat_modmodul', FILTER_SANITIZE_STRING);
 $chat["framelinks"] = filter_input(INPUT_POST, 'chat_framelinks', FILTER_SANITIZE_STRING);
 $chat["framesetbleibt"] = filter_input(INPUT_POST, 'chat_framesetbleibt', FILTER_SANITIZE_STRING);

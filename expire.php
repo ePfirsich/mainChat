@@ -382,7 +382,7 @@ if ($zeit == "03:10") {
     echo " Optimieren ";
     flush();
     $query = "OPTIMIZE TABLE mail_check,top10cache,blacklist,posting,thema,aktion,bild,forum,freunde,mail,"
-        . "iignore,invite,ip_sperre,moderation,online,raum,sperre,user,userinfo,sequence,sms";
+        . "iignore,invite,ip_sperre,moderation,online,raum,sperre,user,userinfo,sequence";
     mysqli_query($mysqli_link, $query);
     sleep(60);
     set_time_limit(600);

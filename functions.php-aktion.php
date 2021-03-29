@@ -8,7 +8,7 @@ function zeige_aktionen($aktion)
     
     global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     global $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $def_was, $eingabe_breite;
-    global $farbe_text, $smsfeatures, $forumfeatures;
+    global $farbe_text, $forumfeatures;
     
     $query = "SELECT * from aktion " . "WHERE a_user=$u_id ";
     $button = "EINTRAGEN";
@@ -59,14 +59,6 @@ function zeige_aktionen($aktion)
     // OLM merken
     $onlinemessage = $a_wie[3];
     
-    // SMS merken
-    $sms = $a_wie[4];
-    
-    // Wenn keine SMS angeboten werden, dann machen auch die Einstellungen diesbezüglich keinen Sinn
-    if (!$smsfeatures) {
-        unset($a_wie[4]);
-    }
-    
     // Wenn das Forum deaktiviert wird, sollte der 3. Eintrag aus $def_was raus, wichtig ist aber die Einhaltung der Reihenfolge in def_was
     if (!$forumfeatures) {
         unset($def_was[2]);
@@ -78,24 +70,11 @@ function zeige_aktionen($aktion)
         if (isset($offline_wie[$i]) && $offline_wie[$i] == $onlinemessage)
             unset($offline_wie[$i]);
     }
-    // Alle Kombinationen von offline_wie mit sms erstellen
-    if ($smsfeatures) {
-        for ($i = 1; $i < $anzahl_wie - 2; $i++) {
-            $offline_wie[] = $offline_wie[$i] . "," . $sms;
-        }
-    }
     
     // Alle Kombinationen von a_wie mit onlinemessage erstellen
     // Keine muss als erstes, OLM als letztes definiert sein!
     for ($i = 1; $i < $anzahl_wie - 2; $i++) {
         $a_wie[] = $a_wie[$i] . "," . $onlinemessage;
-    }
-    
-    // Alle Kombinationen von a_wie mit sms erstellen
-    if ($smsfeatures) {
-        for ($i = 1; $i < $anzahl_wie - 1; $i++) {
-            $a_wie[] = $a_wie[$i] . "," . $sms;
-        }
     }
     
     // Zeile der a_wann ausgeben

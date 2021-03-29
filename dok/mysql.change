@@ -12,7 +12,7 @@ ALTER TABLE aktion
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   MODIFY a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
   MODIFY a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY a_wie set('keine','Chat-Mail','E-Mail','OLM','SMS') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
+  MODIFY a_wie set('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
   MODIFY a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
 
 ALTER TABLE bild
@@ -92,8 +92,7 @@ ALTER TABLE online
   MODIFY o_chat_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   MODIFY o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   MODIFY o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
+  MODIFY o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
 
 ALTER TABLE posting
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
@@ -118,18 +117,6 @@ ALTER TABLE raum
 ALTER TABLE sequence
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   MODIFY se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
-
-ALTER TABLE sms
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  MODIFY s_status char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'W',
-  MODIFY s_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
-
-ALTER TABLE smsin
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  MODIFY s_handynummer varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY s_shortnumber varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY s_keyword varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY s_text varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '';
 
 ALTER TABLE sperre
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -173,8 +160,6 @@ ALTER TABLE user
   MODIFY u_eintritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   MODIFY u_austritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   MODIFY u_signatur varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  MODIFY u_sms_ok char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  MODIFY u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   MODIFY u_nick_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
   MODIFY u_profil_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
   MODIFY u_kommentar varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,

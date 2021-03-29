@@ -79,14 +79,6 @@ if ($u_id && $communityfeatures) {
         . "/msg)."
         . "Zusätzlich sind auch Kombinationen von <B>E-Mail und OLM</B> sowie <B>Chat-Mail "
         . "und OLM</B> möglich, wobei Sie in diesem Fall zwei Nachrichten erhalten.</P>";
-    
-    if ($smsfeatures) {
-        echo "<P><B><A href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#sms\">SMS</A></B> "
-            . "ist die Benachrichtung via <B>SMS auf Ihr Handy</B>, falls Sie für SMS freigeschaltet sind, "
-            . "eine Handy-Nummer eingetragen haben und ein Guthaben auf Ihrem Konto besteht. Ihr "
-            . "Konto können Sie <A HREF=\"sms.php?http_host=$http_host&id=$id\">hier aufladen</A>. "
-            . "Auch SMS können Sie wie OLM mit anderen Benachrichtigungsformen kombinieren.</P>";
-    }
 }
 
 if ($o_js || !$u_id) {

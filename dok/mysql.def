@@ -42,9 +42,7 @@
 # u_signatur		Signatur für Mail und Forum
 # u_lastclean           Zeitpunkt der letzten bereinigung von u_gelesene_postings
 # u_loginfehler		Array mit Datum und IP fehlerhafter Logins
-# u_sms_ok		User akzeptiert SMS
-# u_sms_guthaben	Anzahl der SMS im Guthaben
-# u_nick_historie	Nickwechsel Historie       
+# u_nick_historie	Nickwechsel Historie
 # u_profil_historie	Admin-Änderungen am Profil-Historie
 # u_kommentar		Kommentar, warum ein User gesperrt wurde
 # u_forum_postingproseite	Anzahl der Postings, die pro Seite im Forum angezeigt werden sollen
@@ -158,7 +156,7 @@ CREATE TABLE aktion (
   a_user int(11) unsigned NOT NULL default '0',
   a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
   a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  a_wie set('keine','Chat-Mail','E-Mail','OLM','SMS') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
+  a_wie set('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
   a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   a_zeit timestamp NOT NULL,
   PRIMARY KEY  (a_id),
@@ -328,7 +326,6 @@ CREATE TABLE online (
   o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY  (o_id),
   UNIQUE KEY o_user (o_user),
@@ -388,26 +385,6 @@ CREATE TABLE sequence (
   se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   se_nextid int(10) unsigned NOT NULL default '0',
   PRIMARY KEY  (se_name)
-) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE sms (
-  s_id int(11) unsigned NOT NULL auto_increment,
-  s_zeit timestamp NOT NULL,
-  s_von_user_id int(11) unsigned NOT NULL default '0',
-  s_an_user_id int(11) unsigned NOT NULL default '0',
-  s_status char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'W',
-  s_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (s_id)
-) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE smsin (
-  s_id int(11) NOT NULL auto_increment,
-  s_handynummer varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  s_shortnumber varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  s_keyword varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  s_timestamp datetime default NULL,
-  s_text varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (s_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE sperre (
@@ -481,9 +458,6 @@ CREATE TABLE user (
   u_signatur varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   u_lastclean bigint(14) NOT NULL default '0',
   u_loginfehler blob NOT NULL,
-  u_sms_ok char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  u_sms_guthaben int(10) unsigned NOT NULL default '0',
-  u_sms_extra varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   u_nick_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
   u_profil_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
   u_kommentar varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,

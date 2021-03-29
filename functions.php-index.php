@@ -192,13 +192,6 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     // Punkte des Vormonats/Vorjahres löschen und Usergruppe ermitteln, falls nicht Gast
     if ($u_level != "G" && $communityfeatures) {
         
-        // TODO
-        // Ist u_sms_anzahl_monat vom aktuellen Monat?
-        // if ($u_sms_anzahl_monat!=date("n",time())){
-        // 	$f[u_sms_anzahl_monat]=date("n",time());
-        //	$f[u_sms_anzahl_monat]=0;
-        //}
-        
         // Ist u_punkte_monat vom aktuellen Monat?
         if ($u_punkte_datum_monat != date("n", time())) {
             $f['u_punkte_datum_monat'] = date("n", time());

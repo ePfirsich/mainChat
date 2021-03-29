@@ -1,7 +1,6 @@
 <?php
 
 require("functions.php");
-require_once("functions.php-func-sms.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
 id_lese($id);
@@ -207,74 +206,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                     } else {
                         echo "<P><B>Fehler: </B>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</P>";
                     }
-                    
-                } elseif ($neue_email['typ'] == 2) {
-                    
-                    $smszulang = false;
-                    $text = $neue_email['m_betreff'] . " "
-                        . $neue_email['m_text'];
-                    $emp = user($u_id, $userdata, FALSE, FALSE, "&nbsp;", "",
-                        "", FALSE, TRUE);
-                    $absender = $emp . "@" . $chat . ": "; // Wir basteln uns den Absender der SMS
-                    
-                    if (160 - strlen($text) - strlen($absender) < 0) {
-                        $smszulang = true;
-                    }
-                    
-                    $text = substr($text, 0, 160 - strlen($absender)); // Text um Absender kürzen
-                    $text = preg_replace(
-                        "/[\\\\" . chr(1) . "-" . chr(31) . "]/", "", $text); // Ungültige Zeichen filtern
-                    $complete = $absender . str_replace("-- ", "\n", $text);
-                    
-                    // Prüfen ob genug Punkte
-                    if ($u_punkte_gesamt < $sms[punkte]) {
-                        $fehler = "Um SMS verschicken zu dürfen brauchst Du mehr als $sms[punkte] Punkte";
-                    }
-                    
-                    // Prüfen ob noch genug SMS-Guthaben da
-                    $guthaben = hole_smsguthaben($u_id);
-                    
-                    if (!isset($fehler)) {
-                        if ($guthaben <= 0) {
-                            $fehler = "Du hast kein SMS-Guthaben mehr!";
-                        }
-                    }
-                    
-                    // Prüfen ob Empfänger SMS möchte
-                    $neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
-                    $query = "SELECT u_sms_ok FROM user WHERE u_id = '$neue_email[m_an_uid]'";
-                    $result = mysqli_query($mysqli_link, $query);
-                    $a = mysqli_fetch_array($result);
-                    mysqli_free_result($result);
-                    $sms_ok = $a[u_sms_ok];
-                    if (!isset($fehler)) {
-                        if ($sms_ok == "N") {
-                            $fehler = "Dieser User möchte keine SMS empfangen";
-                        }
-                    }
-                    
-                    // Prüfen auf gültige Handynummer des Empfängers 
-                    
-                    $handynr = hole_handynummer($neue_email['m_an_uid']);
-                    if (!isset($fehler)) {
-                        if (!pruefe_handynummer($handynr)) {
-                            $fehler = "Dieser User hat leider keine gültige Handynummer eingetragen.";
-                        }
-                    }
-                    
-                    if (isset($fehler)) {
-                        echo "<p><b>Fehler: $fehler</b></p>";
-                    } else {
-                        sms_sende($u_id, $neue_email['m_an_uid'], $complete);
-                        echo "<p>SMS wurde erfolgreich versendet!<BR>";
-                        $guthaben = hole_smsguthaben($u_id);
-                        echo "Restguthaben: $guthaben SMS";
-                        if ($smszulang) {
-                            echo "<p><b>Fehler! Die eingegebene SMS war zu lang. Sie wurde auf 160 Zeichen gekürzt!</p></b>";
-                        }
-                        
-                    }
-                    
                 } else {
                     
                     $result = mail_sende($u_id, $neue_email['m_an_uid'],

@@ -121,11 +121,7 @@ $text = "<A HREF=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
     . "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</A>\n";
 if ($communityfeatures) {
     $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</A>\n";
-    if ($smsfeatures) {
-        $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7]</A>\n";
-    } else {
-        $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</A>\n";
-    }
+    $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</A>\n";
 }
 $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</A>\n";
 if ($erweitertefeatures) {
@@ -325,9 +321,6 @@ switch ($aktion) {
         echo "</TD></TR></TABLE>\n";
         
         echo $hilfe_community . "\n";
-        if ($smsfeatures) {
-            echo $hilfe_communitysms . "\n";
-        }
         echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
         break;
     

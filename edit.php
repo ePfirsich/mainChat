@@ -114,11 +114,6 @@ if (strlen($u_id) != 0) {
         $ur1 = "aktion.php?http_host=$http_host&id=$id";
         $url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
         $text .= "| <A $url>$t[menue8]</A>\n";
-        if ($smsfeatures == "1") {
-            $ur1 = "sms.php?http_host=$http_host&id=$id";
-            $url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-            $text .= "| <A $url>SMS</A>\n";
-        }
     }
     if (isset($text) && $text)
         show_box2($box, $text, "100%");
@@ -320,11 +315,8 @@ if (strlen($u_id) != 0) {
                 unset($f['u_gelesene_postings']);
                 unset($f['u_lastclean']);
                 unset($f['u_loginfehler']);
-                unset($f['u_sms_ok']);
-                unset($f['u_sms_guthaben']);
-                unset($f['u_sms_extra']);
                 unset($f['u_nick_historie']);
-                unset($f['u_profil_historie']);		
+                unset($f['u_profil_historie']);
                 unset($f['u_knebel']);
                 
                 // Nicht-Admin darf Einstellungen nicht ändern

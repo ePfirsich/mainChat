@@ -234,10 +234,6 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 				<td> Punktezählung einschalten:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["punktefeatures"],'chat_punktefeatures'); ?></td>
 			</tr>
-			<tr>
-				<td> Chat versendet SMS:</td>
-				<td><?php echo checkFormularRadioButton('0',$chat["smsfeatures"],'chat_smsfeatures'); ?></td>
-			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Moderationsmodul freigeschalten:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["modmodul"],'chat_modmodul'); ?></td>

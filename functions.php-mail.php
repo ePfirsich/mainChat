@@ -53,12 +53,7 @@ function formular_neue_email2($neue_email, $m_id = "")
     
     global $id, $http_host, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $PHP_SELF;
-    global $u_punkte_gesamt, $sms;
-    
-    $smsgh = hole_smsguthaben($u_id);
-    if ($u_punkte_gesamt > $sms['punkte'] && $smsgh > 0)
-        $darfsms = true;
-    else $darfsms = false;
+    global $u_punkte_gesamt;
     
     if (!$eingabe_breite1)
         $eingabe_breite1 = 30;
@@ -136,15 +131,11 @@ function formular_neue_email2($neue_email, $m_id = "")
                 if ($email_bekannt)
                     $email_select .= "<OPTION SELECTED VALUE=\"1\">E-Mail an "
                         . $row->u_email . "\n";
-                if ($darfsms)
-                    $email_select .= "<OPTION VALUE=\"2\">SMS\n";
             } else {
                 $email_select .= "<OPTION SELECTED VALUE=\"0\">Mail in Chat-Mailbox\n";
                 if ($email_bekannt)
                     $email_select .= "<OPTION VALUE=\"1\">E-Mail an "
                         . $row->u_email . "\n";
-                if ($darfsms)
-                    $email_select .= "<OPTION VALUE=\"2\">SMS\n";
             }
             $email_select .= "</SELECT>\n";
             

@@ -1,7 +1,4 @@
 <?php
-
-require_once("functions.php-func-sms.php");
-
 function suche_vaterposting($poid)
 {
     // Diese Funktion sucht das Vaterposting des übergebenen Postings
@@ -81,23 +78,6 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM")
                     // E-Mail an u_id versenden
                     email_versende($row->m_von_uid, $u_id,
                         $t['mail3'] . $row->m_text, $row->m_betreff);
-                    break;
-                
-                case "SMS":
-                // Mail als verschickt markieren
-                    unset($f);
-                    $f['m_status'] = "neu/verschickt";
-                    $f['m_zeit'] = $row->m_zeit;
-                    schreibe_db("mail", $f, $row->m_id, "m_id");
-                    
-                    $txt = str_replace("%zeit%", $row->zeit, $t['mail2']);
-                    if ($row->u_nick != "NULL" && $row->u_nick != "") {
-                        $txt = str_replace("%nick%", $row->u_nick, $txt);
-                    } else {
-                        $txt = str_replace("%nick%", $chat, $txt);
-                    }
-                    sms_sende($u_id, $u_id,
-                        str_replace("%betreff%", $row->m_betreff, $txt));
                     break;
                 
             }
@@ -404,15 +384,11 @@ function aktion(
                     freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
                 if (isset($a_was["Freunde"]["E-Mail"]))
                     freunde_online($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Freunde"]["SMS"]))
-                    freunde_online($an_u_id, $u_nick, $id, "SMS");
                 
                 if (isset($a_was["Neue Mail"]["OLM"]))
                     mail_neu($an_u_id, $u_nick, $id, "OLM");
                 if (isset($a_was["Neue Mail"]["E-Mail"]))
                     mail_neu($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Neue Mail"]["SMS"]))
-                    mail_neu($an_u_id, $u_nick, $id, "SMS");
                 
                 if (isset($a_was["Antwort auf eigenes Posting"]["OLM"]))
                     postings_neu($an_u_id, $u_nick, $id, "OLM");
@@ -420,8 +396,6 @@ function aktion(
                     postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
                 if (isset($a_was["Antwort auf eigenes Posting"]["E-Mail"]))
                     postings_neu($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Antwort auf eigenes Posting"]["SMS"]))
-                    postings_neu($an_u_id, $u_nick, $id, "SMS");
                 
                 // Merken, wann zuletzt die Aktionen ausgeführt wurden
                 $query = "UPDATE online SET o_aktion=" . time()
@@ -439,15 +413,11 @@ function aktion(
                     freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
                 if (isset($a_was["Freunde"]["E-Mail"]))
                     freunde_online($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Freunde"]["SMS"]))
-                    freunde_online($an_u_id, $u_nick, $id, "SMS");
                 
                 if (isset($a_was["Neue Mail"]["OLM"]))
                     mail_neu($an_u_id, $u_nick, $id, "OLM");
                 if (isset($a_was["Neue Mail"]["E-Mail"]))
                     mail_neu($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Neue Mail"]["SMS"]))
-                    mail_neu($an_u_id, $u_nick, $id, "SMS");
                 
                 if (isset($a_was["Antwort auf eigenes Posting"]["OLM"]))
                     postings_neu($an_u_id, $u_nick, $id, "OLM");
@@ -455,8 +425,6 @@ function aktion(
                     postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
                 if (isset($a_was["Antwort auf eigenes Posting"]["E-Mail"]))
                     postings_neu($an_u_id, $u_nick, $id, "E-Mail");
-                if (isset($a_was["Antwort auf eigenes Posting"]["SMS"]))
-                    postings_neu($an_u_id, $u_nick, $id, "SMS");
             
         }
         
@@ -638,50 +606,6 @@ function aktion_sende(
                     $text = str_replace("%baum%", $inhalt['baum'], $text);
                     
                     email_versende($von_u_id, $an_u_id, $text, $betreff);
-                    break;
-            }
-            break;
-        
-        case "SMS":
-        // Nachricht erzeugen
-            switch ($a_was) {
-                case "Freunde":
-                // Nachricht von Login/Logoff erzeugen
-                    if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-                        $txt = str_replace("%u_name%", $u_nick, $t['freunde1']);
-                        $txt = str_replace("%raum%", $inhalt['raum'], $txt);
-                    } elseif ($inhalt['aktion'] == "Login") {
-                        $txt = str_replace("%u_name%", $u_nick, $t['freunde5']);
-                    } else {
-                        $txt = str_replace("%u_name%", $u_nick, $t['freunde2']);
-                    }
-                    if ($inhalt['f_text'])
-                        $txt .= " (" . $inhalt['f_text'] . ")";
-                    sms_sende($an_u_id, $an_u_id, $txt);
-                    break;
-                
-                case "Neue Mail":
-                // Mail als verschickt markieren
-                    unset($f);
-                    $f['m_status'] = "neu/verschickt";
-                    schreibe_db("mail", $f, $inhalt['m_id'], "m_id");
-                    
-                    // Nachricht erzeugen
-                    $txt = str_replace("%nick%", $u_nick, $t['mail7']);
-                    $txt = str_replace("%betreff%", $inhalt['m_betreff'], $txt);
-                    
-                    // Nachricht versenden
-                    sms_sende($an_u_id, $an_u_id, $txt);
-                    break;
-                case "Antwort auf eigenes Posting":
-                    $text = str_replace("%po_titel%", $inhalt['po_titel'],
-                        $t['msg_new_posting_sms']);
-                    $text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
-                    $text = str_replace("%forum%", $inhalt['forum'], $text);
-                    $text = str_replace("%thema%", $inhalt['thema'], $text);
-                    
-                    system_msg("", 0, $an_u_id, $system_farbe, $text);
-                    sms_sende($an_u_id, $an_u_id, $text);
                     break;
             }
             break;
@@ -964,15 +888,6 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
                     email_versende("", $u_id, $t['mail5'] . $txt, $betreff);
                     break;
                 
-                case "SMS":
-                    $betreff = str_replace("%anzahl%", $i, $t['mail6']);
-                    $smstext = $betreff . " "
-                        . str_replace("%user%", $u_nick, $t['mail5']) . $txt;
-                    $smstext = str_replace("\n", " ", $smstext);
-                    sms_sende($u_id, $u_id, $smstext);
-                    // mail("martin@huskie.de","test","test");
-                    break;
-                
             }
         }
         
@@ -1137,18 +1052,6 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
                         $text = str_replace("%baum%", $baum, $text);
                         email_versende($postings['po_u_id_reply'], $an_u_id,
                             $text, $betreff);
-                        break;
-                    case "SMS":
-                        $text = str_replace("%po_titel%",
-                            $postings['po_titel_own'],
-                            $t['msg_new_posting_sms']);
-                        $text = str_replace("%po_ts%",
-                            $postings['po_date_own'], $text);
-                        $text = str_replace("%forum%", $postings['fo_name'],
-                            $text);
-                        $text = str_replace("%thema%", $postings['th_name'],
-                            $text);
-                        sms_sende($an_u_id, $an_u_id, $text);
                         break;
                     
                 }
