@@ -1149,6 +1149,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 $f['u_name'] = $login;
                 $f['u_nick'] = $login;
                 $passwort = $f['u_passwort'];
+                $f['u_loginfehler'] = '';
                 
                 // Prüfung, ob dieser User bereits existiert
                 $query4711 = "SELECT u_id FROM user WHERE u_nick='$f[u_nick]'";

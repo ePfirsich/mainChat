@@ -450,7 +450,7 @@ CREATE TABLE user (
   u_punkte_datum_monat char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '00',
   u_punkte_datum_jahr varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0000',
   u_punkte_gruppe char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_gelesene_postings mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  u_gelesene_postings int(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
   u_frames varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   u_chathomepage char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
   u_eintritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
@@ -499,4 +499,4 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';
-INSERT INTO user set u_id=1,u_nick='admin',u_name='admin',u_passwort='adpexzg3FUZAk',u_level='S';
+INSERT INTO user set u_id=1,u_nick='admin',u_name='admin',u_passwort='adpexzg3FUZAk',u_level='S',u_loginfehler='';
