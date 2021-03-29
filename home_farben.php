@@ -74,18 +74,24 @@ if ($bg == "Y") {
     }
 }
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
 </head>
+<body>
 <?php
-$body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-if (strlen($grafik_mini_background) > 0) :
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_mini_background\" ";
-endif;
-$body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-    . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-    . "ALINK=\"$farbe_mini_vlink\">\n";
-echo $body_tag;
-
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 

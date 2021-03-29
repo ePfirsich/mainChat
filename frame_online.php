@@ -2,21 +2,29 @@
 
 require "functions-init.php";
 
-$body_tag = "<BODY BGCOLOR=\"$farbe_background\" ";
-if (strlen($grafik_background) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_text\" " . "LINK=\"$farbe_link\" "
-    . "VLINK=\"$farbe_vlink\" " . "ALINK=\"$farbe_vlink\">\n";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <title><?php echo $body_titel; ?></title>
 <meta charset="utf-8">
+<style type="text/css">
 <?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_background; ?>;
+<?php if(strlen($grafik_background) > 0) { ?>
+	background-image:<?php echo $grafik_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink; ?>;
+}
+</style>
 </head>
-<?php echo $body_tag; ?>
+<body>
 <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%><TR><TD ALIGN=CENTER>
 
 <!-- Ab hier folgt der Kopf in HTML -->

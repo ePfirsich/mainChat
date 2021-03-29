@@ -35,7 +35,9 @@ $fenster = str_replace("ß", "", $fenster);
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
+</style>
 </head>
 <body>
 <?php

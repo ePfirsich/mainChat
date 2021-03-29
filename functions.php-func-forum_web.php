@@ -19,35 +19,41 @@ function kopf_forum($admin)
     $fenster = str_replace("Ö", "", $fenster);
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
-    
-    $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background1\" ";
-    if (strlen($grafik_background1) > 0) {
-        $body_tag = $body_tag . "BACKGROUND=\"$grafik_background1\" ";
-    }
-    $body_tag = $body_tag . "TEXT=\"$farbe_chat_text1\" "
-        . "LINK=\"$farbe_chat_link1\" " . "VLINK=\"$farbe_chat_vlink1\" "
-        . "ALINK=\"$farbe_chat_vlink1\">\n";
 	?>
 	<!DOCTYPE html>
 	<html>
 	<head>
 	<title><?php echo (isset($body_titel) ? $body_titel : ""); ?></title>
 	<meta charset="utf-8">
+	<style type="text/css">
 	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_chat_background1; ?>;
+	<?php if(strlen($grafik_background1) > 0) { ?>
+		background-image:<?php echo $grafik_background1; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_chat_link1; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_chat_vlink1; ?>;
+	}
+	</style>
 	<script>
 	function ask(text) {
-        	return(confirm(text));
+			return(confirm(text));
 	}
 	function neuesFenster(url) {
-        	hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
+			hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
 	}
 	function neuesFenster2(url) {
-        	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
 	}
 	</script>
 	</head>
+	<body>
 	<?php
-    echo $body_tag;
     // zeige_kopf();
     
     if (($admin) && (!$aktion)) {

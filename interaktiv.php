@@ -7,14 +7,6 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
 id_lese($id);
 
-$body_tag = "<HTML><HEAD></HEAD><BODY BGCOLOR=\"$farbe_chat_background3\" ";
-if (strlen($grafik_background3) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background3\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_chat_text3\" "
-    . "LINK=\"$farbe_chat_link3\" " . "VLINK=\"$farbe_chat_vlink3\" "
-    . "ALINK=\"$farbe_chat_vlink3\">\n";
-
 // Prüfung, ob User wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
     && $u_level != 'M' && $o_timeout_zeit) {
@@ -47,27 +39,40 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
 }
 
 if (isset($u_id) && $u_id) {
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval($timeout / 3)
-        . "; URL=interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum";?>">
-<script>
-        function chat_reload(file) {
-                parent.chat.location.href=file;
-}
-        function frame_online_reload(file) {
-                parent.frame_online.location.href=file;
-}
-</script>
-<?php echo $stylesheet; ?>
-</head>
-<?php
-    echo $body_tag;
-    
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	<meta http-equiv="REFRESH" CONTENT="<?php echo intval($timeout / 3)
+	        . "; URL=interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum";?>">
+	<script>
+	        function chat_reload(file) {
+	                parent.chat.location.href=file;
+	}
+	        function frame_online_reload(file) {
+	                parent.frame_online.location.href=file;
+	}
+	</script>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_background3; ?>;
+	<?php if(strlen($grafik_background3) > 0) { ?>
+		background-image:<?php echo $grafik_background3; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_chat_link3; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_chat_vlink3; ?>;
+	}
+	</style>
+	</head>
+	<body>
+	<?php
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum);
     

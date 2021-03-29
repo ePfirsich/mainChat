@@ -6,26 +6,45 @@ if (!isset($_SERVER["HTTP_REFERER"])) {
 }
 
 if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
-    // Falls diese Seite ohne Parameter aufgerufen wird, wird das oberste Frameset ausgegeben
-    
-    // Funktionen und Config laden, Host bestimmen
-    require_once("functions-init.php");
-    ?>
-    <!DOCTYPE html>
+	// Falls diese Seite ohne Parameter aufgerufen wird, wird das oberste Frameset ausgegeben
+	
+	// Funktionen und Config laden, Host bestimmen
+	require_once("functions-init.php");
+	?>
+	<!DOCTYPE html>
 	<html>
 	<head>
 	<title><?php if($body_titel != null && $body_titel != '') { echo $body_titel; } else { echo 'mainChat'; } ?></title>
 	<meta charset="utf-8">
-    <?php
-    
-    // Backdoorschutz über den HTTP_REFERER
-    if (isset($chat_referer) && $chat_referer != "") {
+	<?php echo $metatag; ?>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_background; ?>;
+	<?php if(strlen($grafik_background) > 0) { ?>
+		background-image:<?php echo $grafik_background; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_chat_link; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_chat_vlink; ?>;
+	}
+	</style>
+	<?php echo $zusatztext_kopf; ?>
+	<?php
+	
+	// Backdoorschutz über den HTTP_REFERER
+	if (isset($chat_referer) && $chat_referer != "") {
         
         if (!preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"])
             && $aktion != "neu") {
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5; URL=$chat_login_url\">\n"
-                . "</HEAD>\n";
+            ?>
+            <meta http-equiv="refresh" content="5; URL=<?php  echo $chat_login_url; ?>">
+            </head>
+            <body>
+            <?php
             zeige_kopf();
             $chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
             echo str_replace("%webseite%", $chat_login_url, $t['login26']);
@@ -75,9 +94,12 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             mysqli_close($mysqli_link);
             
         } else {
-            echo "</HEAD><BODY>"
-                . "<P>Der mainChat ist leider aus technischen Gründen nicht erreichbar. "
-                . "Bitte versuchen Sie es später noch einmal.</P>";
+        	?>
+            </head>
+            <body>
+            <P>Der mainChat ist leider aus technischen Gründen nicht erreichbar.<br>
+            Bitte versuchen Sie es später noch einmal.</P>";
+            <?php
             exit();
         }
     }
@@ -90,7 +112,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     }
     
     // Frameset ausgeben
-    echo $metatag . "\n</HEAD>"
+    echo $metatag . "\n</head>"
         . "<FRAMESET COLS=\"" . $opt
         . "100%,*\" BORDER=\"0\" FRAMEBORDER=\"0\">\n";
     
@@ -160,6 +182,11 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	<head>
 	<title><?php if($body_titel != null && $body_titel != '') { echo $body_titel; } else { echo 'mainChat'; } ?></title>
 	<meta charset="utf-8">
+	<?php echo $metatag; ?>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	</style>
+	<?php echo $zusatztext_kopf; ?>
 	<?php
     // Backdoorschutz über den HTTP_REFERER - wir prüfen ob bei gesetztem HTTP_HOST ob die index.php in eigenem Frameset läuft sonst => Fehler
     if (isset($chat_referer) && $chat_referer != "") {
@@ -169,9 +196,11 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         if ((!preg_match("#" . $chat_referer2 . "#", $_SERVER["HTTP_REFERER"]))
             && (!preg_match("#" . $chat_referer . "#", $refereroriginal))
             && $aktion != "neu") {
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5; URL=$chat_login_url\">\n"
-                . "</HEAD>\n";
+            ?>
+            <meta http-equiv="refresh" content="5; URL=<?php echo $chat_login_url; ?>">
+            </head>
+            <body>
+            <?php
             zeige_kopf();
             $chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
             echo str_replace("%webseite%", $chat_login_url, $t['login26']);
@@ -187,14 +216,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     } else {
         $willkommen = $t['willkommen2'];
     }
-    
-    // Body-Tag definieren
-    $body_tag = "<BODY BGCOLOR=\"$farbe_background\" ";
-    if (strlen($grafik_background) > 0) {
-        $body_tag = $body_tag . "BACKGROUND=\"$grafik_background\" ";
-    }
-    $body_tag = $body_tag . "TEXT=\"$farbe_text\" " . "LINK=\"$farbe_link\" "
-        . "VLINK=\"$farbe_vlink\" " . "ALINK=\"$farbe_vlink\">\n";
     
     // Liste offener Räume definieren (optional)
     if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
@@ -493,9 +514,12 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         id_lese($id);
         
         // Header ausgeben
-        if (($layout_bodytag) && (!isset($chat_logout_url)))
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "\n</HEAD>\n";
+        if ( !isset($chat_logout_url) ) {
+        	?>
+        	</head>
+        	<body>
+        	<?php
+        }
         
         // Logoff falls noch online
         if (strlen($u_id) > 0) {
@@ -505,9 +529,11 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         }
         
         if (isset($chat_logout_url) && ($chat_logout_url <> "")) {
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=$chat_logout_url\">\n"
-                . "</HEAD>\n";
+            echo "<meta http-equiv=\"REFRESH\" CONTENT=\"0; URL=$chat_logout_url\">\n";
+            ?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             $chat_login_url = "<a href=\"$chat_logout_url\">$chat_logout_url</a>";
             echo ("Sie werden nun auf $chat_logout_url weitergeleitet");
@@ -546,9 +572,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     
     if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail'])
         && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
-        if ($layout_bodytag)
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
         zeige_kopf();
         echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
             . "<A HREF=\"" . $chatserver
@@ -582,9 +609,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 $f['u_adminemail'] = $email;
             } else {
                 // Header ausgeben
-                if ($layout_bodytag)
-                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                        . "\n</HEAD>\n";
+            	?>
+	        	</head>
+	        	<body>
+	        	<?php
                 zeige_kopf();
                 echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
                     . "<A HREF=\"" . mysqli_real_escape_string($mysqli_link, $chatserver)
@@ -596,9 +624,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             }
         } else {
             // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo "<P><B>Fehler:</B> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
                 . "<A HREF=\"" . $chatserver
@@ -610,9 +639,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     
     switch ($aktion) {
         case "passwort_neu":
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             
@@ -766,9 +796,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             break;
         
         case "neubestaetigen":
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             
@@ -832,8 +863,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             break;
         
         case "mailcheckm":
-            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             echo "<p>" . $t['neu42'] . "</p>";
@@ -852,9 +885,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         case "mailcheck":
         // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             
@@ -999,9 +1033,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         case "abweisen":
         // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             
             echo $t['login4'];
@@ -1012,9 +1047,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         case "gesperrt":
         // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                    . "\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             
             if ($chat_offline_kunde) {
@@ -1059,11 +1095,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     // Gäste sind gesperrt
                     
                     // Header ausgeben
-                    if ($layout_bodytag) {
-                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                            . "\n";
-                        "</HEAD>\n";
-                    }
+                    ?>
+		        	</head>
+		        	<body>
+		        	<?php
                     zeige_kopf();
                     
                     // Passenden Fehlertext ausgeben
@@ -1312,9 +1347,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     // User gesperrt -> Fehlermeldung ausgeben
                     
                     // Header ausgeben
-                    if ($layout_bodytag)
-                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                            . "\n</HEAD>\n";
+                	?>
+		        	</head>
+		        	<body>
+		        	<?php
                     zeige_kopf();
                     
                     echo str_replace("%u_name%", $u_name,
@@ -1328,9 +1364,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     // Der User ein Admin und es sind cookies gesetzt -> Fehlermeldung ausgeben
                     
                     // Header ausgeben
-                    if ($layout_bodytag)
-                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                            . "\n" . "</HEAD>\n";
+                    ?>
+		        	</head>
+		        	<body>
+		        	<?php
                     zeige_kopf();
                     
                     echo str_replace("%url%", $chat_file, $t['login25']);
@@ -1345,9 +1382,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     // Maximale Anzahl der User im Chat erreicht -> Fehlermeldung ausgeben
                     
                     // Header ausgeben
-                    if ($layout_bodytag)
-                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                            . "\n" . "</HEAD>\n";
+                    ?>
+		        	</head>
+		        	<body>
+		        	<?php
                     zeige_kopf();
                     
                     $txt = str_replace("%online%", $onlineanzahl, $t['login24']);
@@ -1427,9 +1465,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                             $t['agb'] = $extra_agb;
                         
                         // Header ausgeben
-                        if ($layout_bodytag)
-                            echo $metatag . $stylesheet . "\n"
-                                . $zusatztext_kopf . "\n" . "</HEAD>\n";
+                        ?>
+			        	</head>
+			        	<body>
+			        	<?php
                         zeige_kopf();
                         
                         // Box für Login
@@ -1674,10 +1713,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     }
                     
                     // Kopf ausgeben
-                    if ($layout_bodytag)
-                        echo $stylesheet . "\n" . $zusatztext_kopf
-                            . "\n</HEAD>\n";
-                    
+                    ?>
+		        	</head>
+		        	<body>
+		        	<?php
                     if ($communityfeatures && $eintritt == "forum") {
                         
                         // Login ins Forum
@@ -1725,7 +1764,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         echo "<FRAME SRC=\"schreibe.php?http_host=$http_host&id=$hash_id&o_who=2\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
                         echo "</FRAMESET>\n";
                         echo "<NOFRAMES>\n";
-                        echo $body_tag . $t['login6'];
+                        echo "<body " . $t['login6'];
                         die();
                     } else {
                         
@@ -1793,7 +1832,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         }
                         echo "<FRAME SRC=\"schreibe.php?http_host=$http_host&id=$hash_id\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
                         echo "</FRAMESET>\n" . "<NOFRAMES>\n"
-                            . "<!-- Browser/OS  $frame_type -->\n" . $body_tag
+                            . "<!-- Browser/OS  $frame_type -->\n" . "<body "
                             . $t['login6'];
                     }
                 }
@@ -1823,9 +1862,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 // Fehlermeldung ausgeben
                 
                 // Header ausgeben
-                if ($layout_bodytag)
-                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                        . "\n</HEAD>\n";
+                ?>
+	        	</head>
+	        	<body>
+	        	<?php
                 zeige_kopf();
                 unset($u_name);
                 unset($u_nick);
@@ -1841,9 +1881,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 // Login fehlgeschlagen
                 
                 // Header ausgeben
-                if ($layout_bodytag)
-                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
-                        . "\n" . "</script>\n</HEAD>\n";
+            	?>
+	        	</head>
+	        	<body>
+	        	<?php
                 zeige_kopf();
                 
                 unset($u_name);
@@ -1900,9 +1941,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         // Neu anmelden
         
         // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
-                    . "</script>\n</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             
@@ -2218,7 +2260,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             }
             echo "<FRAME SRC=\"schreibe.php?http_host=$http_host&id=$id\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
             echo "</FRAMESET>\n" . "<NOFRAMES>\n"
-                . "<!-- Browser/OS  $frame_type -->\n" . $body_tag
+                . "<!-- Browser/OS  $frame_type -->\n" . "<body "
                 . $t['login6'];
             
             break;
@@ -2228,9 +2270,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         // Kopf
         // Header ausgeben
-            if ($layout_bodytag)
-                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
-                    . "</HEAD>\n";
+        	?>
+        	</head>
+        	<body>
+        	<?php
             zeige_kopf();
             echo $willkommen;
             

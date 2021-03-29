@@ -9,14 +9,6 @@ id_lese($id);
 // $raum_einstellungen und $ist_moderiert setzen
 raum_ist_moderiert($o_raum);
 
-$body_tag = "<BODY BGCOLOR=\"$farbe_chat_background3\" ";
-if (strlen($grafik_background3) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background3\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_chat_text3\" "
-    . "LINK=\"$farbe_chat_link3\" " . "VLINK=\"$farbe_chat_vlink3\" "
-    . "ALINK=\"$farbe_chat_vlink3\">\n";
-
 if (strlen($u_id) > 0) {
     
     // $chat_back gesetzt?
@@ -134,9 +126,30 @@ if (strlen($u_id) > 0) {
         }
         
     }
-    
-    // Kopf ausgeben
-    echo "<HTML><HEAD></HEAD>" . $body_tag;
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_background3; ?>;
+	<?php if(strlen($grafik_background3) > 0) { ?>
+		background-image:<?php echo $grafik_background3; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_chat_link3; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_chat_vlink3; ?>;
+	}
+	</style>
+	</head>
+	<body>
+	<?php
     
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum);
@@ -160,12 +173,20 @@ if (strlen($u_id) > 0) {
     
     echo "User nicht gefunden! ($id, $u_id, $u_name)<BR>";
     sleep(5);
-    
-    // User wird nicht gefunden. Login ausgeben
-    echo "<HTML><HEAD></HEAD><HTML>";
-    echo "<BODY onLoad='javascript:parent.location.href=\"index.php?http_host=$http_host\"'>\n";
-    echo "</BODY></HTML>\n";
-    exit;
+	
+	// User wird nicht gefunden. Login ausgeben
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	</body>
+	</html>
+	<?php
+	exit;
 }
 
 ?>

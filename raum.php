@@ -34,20 +34,24 @@ if (!isset($raumstatus['E'])) {
         	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 	}
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
-</head> 
-<?php
-
-// Body-Tag definieren
-$body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-if (strlen($grafik_mini_background) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_mini_background\" ";
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
 }
-$body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-    . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-    . "ALINK=\"$farbe_mini_vlink\">\n";
-echo $body_tag;
-
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
+</head>
+<body>
+<?php
 // Login ok?
 if (strlen($u_id) != 0) {
     // Timestamp im Datensatz aktualisieren

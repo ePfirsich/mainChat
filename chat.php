@@ -33,57 +33,48 @@ if ($u_id) {
 		<head>
 		<title><?php echo $body_titel; ?></title>
 		<meta charset="utf-8">
+		<meta http-equiv="expires" content="0">
 		<?php
-		echo "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
-            . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"7; "
+		echo "<meta http-equiv=\"REFRESH\" CONTENT=\"7; "
             . "URL=chat.php?http_host=$http_host&id=$id\" />\n"
             . "<SCRIPT>\n"
             . "setInterval(\"window.scrollTo(1,300000)\",100)\n"
             . "function neuesFenster(url,name) {\n"
             . "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=700\");\n"
-            . "}\n</SCRIPT>\n" . $stylesheet . "</HEAD>\n";
-        
-        // Body-Tag definieren
-        $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background1\" ";
-        if (strlen($grafik_background1) > 0) :
-            $body_tag = $body_tag . "BACKGROUND=\"$grafik_background1\" ";
-        endif;
-        $body_tag = $body_tag . "TEXT=\"$farbe_chat_text1\" "
-            . "LINK=\"$farbe_chat_link1\" " . "VLINK=\"$farbe_chat_vlink1\" "
-            . "ALINK=\"$farbe_chat_vlink1\">\n";
-        
-        echo $body_tag;
-        
+            . "}\n</SCRIPT>";
+		?>
+		<style type="text/css">
+		<?php echo $stylesheet; ?>
+		body {
+			background-color:<?php echo $farbe_chat_background1; ?>;
+		<?php if(strlen($grafik_background1) > 0) { ?>
+			background-image:<?php echo $grafik_background1; ?>;
+		<?php } ?>
+		}
+		a, a:link {
+			color:<?php echo $farbe_chat_link1; ?>;
+		}
+		a:visited, a:active {
+			color:<?php echo $farbe_chat_vlink1; ?>;
+		}
+		</style>
+		</head>
+		<?php
         // Chatausgabe, $letzte_id ist global
         chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
         
         echo "</BODY></HTML>\n";
     
     else :
-        // Endlos-Push-Methode - Normalmodus
-        
-        // Kopf ausgeben
-        // header("Content-Type: multipart/mixed;boundary=myboundary");
-        // echo "\n--myboundary\n";
-        // echo "Content-Type: text/html\n\n";
-        //echo "<HTML><HEAD>".
-        //	"<SCRIPT LANGUAGE=JavaScript>\n".
-        //	"function scroll() {\n".
-        //	"window.scrollTo(0,50000);\n".
-        //	"setTimeout(\"scroll()\",200);\n".
-        //	"}\n".
-        //	"setTimeout(\"scroll()\",100);\n".
-        //	"</SCRIPT>\n".
-        //	"$stylesheet</HEAD>\n";
 		?>
 		<!DOCTYPE html>
 		<html>
 		<head>
 		<title><?php echo $body_titel; ?></title>
 		<meta charset="utf-8">
+		<meta http-equiv="expires" content="0">
 		<?php
-		echo "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
-            . "<SCRIPT LANGUAGE=JavaScript>\n"
+		echo "<SCRIPT LANGUAGE=JavaScript>\n"
             . "setInterval(\"window.scrollTo(1,300000)\",100)\n"
             . "function neuesFenster(url,name) {\n"
             . "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=700\");\n"
@@ -100,19 +91,25 @@ if ($u_id) {
         $tmp = str_replace("ß", "", $tmp);
         
         echo "hWnd=window.open(url,\"640_$tmp\",\"resizable=yes,scrollbars=yes,width=780,height=700\");\n"
-            . "}\n" . "</SCRIPT>\n" . "$stylesheet</HEAD>\n";
-        
-        // Body-Tag definieren
-        $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background1\" ";
-        if (strlen($grafik_background1) > 0) :
-            $body_tag = $body_tag . "BACKGROUND=\"$grafik_background1\" ";
-        endif;
-        $body_tag = $body_tag . "TEXT=\"$farbe_chat_text1\" "
-            . "LINK=\"$farbe_chat_link1\" " . "VLINK=\"$farbe_chat_vlink1\" "
-            . "ALINK=\"$farbe_chat_vlink1\">\n";
-        
-        echo $body_tag;
-        
+            . "}\n" . "</SCRIPT>";
+        ?>
+		<style type="text/css">
+		<?php echo $stylesheet; ?>
+		body {
+			background-color:<?php echo $farbe_chat_background1; ?>;
+		<?php if(strlen($grafik_background1) > 0) { ?>
+			background-image:<?php echo $grafik_background1; ?>;
+		<?php } ?>
+		}
+		a, a:link {
+			color:<?php echo $farbe_chat_link1; ?>;
+		}
+		a:visited, a:active {
+			color:<?php echo $farbe_chat_vlink1; ?>;
+		}
+		</style>
+		</head>
+		<?php
         // Voreinstellungen
         $j = 0;
         $i = 0;

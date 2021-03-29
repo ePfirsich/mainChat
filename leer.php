@@ -2,18 +2,27 @@
 
 include("functions.php");
 
-$body_tag = "<BODY BGCOLOR=\"$farbe_chat_background3\" ";
-if (strlen($grafik_background3) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background3\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_chat_text3\" "
-    . "LINK=\"$farbe_chat_link3\" " . "VLINK=\"$farbe_chat_vlink3\" "
-    . "ALINK=\"$farbe_chat_vlink3\">\n";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <title><?php echo $body_titel; ?></title>
 <meta charset="utf-8">
-</head><?php echo $body_tag; ?></body>
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_background3; ?>;
+<?php if(strlen($grafik_background3) > 0) { ?>
+	background-image:<?php echo $grafik_background3; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link3; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink3; ?>;
+}
+</style>
+<body>
+</body>
 </html>

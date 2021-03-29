@@ -243,12 +243,18 @@ if (strlen($u_id) > 0) {
     fuss_forum();
     
 } else {
-    
-    // User wird nicht gefunden. Login ausgeben
-    echo "<HTML><HEAD></HEAD><HTML>";
-    echo "<BODY onLoad='javascript:parent.location.href=\"index.php?http_host=$http_host\"'>\n";
-    echo "</BODY></HTML>\n";
-    exit;
-    
+	// User wird nicht gefunden. Login ausgeben
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	</body>
+	</html>
+	<?php
+	exit;
 }
 ?>

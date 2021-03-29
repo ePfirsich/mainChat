@@ -37,15 +37,25 @@ function appendtext_opener( text ) {
      opener.parent.frames['forum'].document.forms['form'].elements['po_text'].focus();
 }
 </script>
+<style type="text/css">
+<?php echo $stylesheet; ?>
+<?php echo "a { text-decoration: none; font-weight:bold }"; ?>
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
+</head>
+<body>
 <?php
-echo $stylesheet . "<style type=\"text/css\">\n"
-    . "a { text-decoration: none; font-weight:bold }\n" . "</style></HEAD>\n";
-
-echo "<BODY BGCOLOR=\"$farbe_mini_background\" "
-    . (strlen($grafik_mini_background) > 0 ? "BACKGROUND=\"$grafik_mini_background\" "
-        : "") . "TEXT=\"$farbe_mini_text\" " . "LINK=\"$farbe_mini_link\" "
-    . "VLINK=\"$farbe_mini_vlink\" " . "ALINK=\"$farbe_mini_vlink\">\n";
-
 // Login ok?
 if (strlen($u_id) != 0) {
     if ($smilies_hintergrund) {

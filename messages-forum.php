@@ -6,14 +6,6 @@ require("functions.php-func-chat_lese.php");
 // Userdaten setzen
 id_lese($id);
 
-$body_tag = "<BODY BGCOLOR=\"$farbe_chat_background3\" onLoad=\"window.scrollTo(1,300000)\" ";
-if (strlen($grafik_background3) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background3\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_chat_text3\" "
-    . "LINK=\"$farbe_chat_link3\" " . "VLINK=\"$farbe_chat_vlink3\" "
-    . "ALINK=\"$farbe_chat_vlink3\">\n";
-
 // Userdaten gesetzt?
 if (strlen($u_id) > 0) {
     aktualisiere_online($u_id, $o_raum);
@@ -34,17 +26,33 @@ if (strlen($u_id) > 0) {
 <head>
 <title><?php echo $body_titel; ?></title>
 <meta charset="utf-8">
-<META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval($timeout / 3)
-        . "; URL=messages-forum.php?http_host=$http_host&id=$id"; ?>">
+<meta http-equiv="REFRESH" CONTENT="<?php echo intval($timeout / 3) . "; URL=messages-forum.php?http_host=$http_host&id=$id"; ?>">
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_background3; ?>;
+<?php if(strlen($grafik_background3) > 0) { ?>
+	background-image:<?php echo $grafik_background3; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link3; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink3; ?>;
+}
+</style>
 <?php
-    echo $stylesheet . "<SCRIPT>\n" . "function neuesFenster(url,name) {\n"
+    echo "<SCRIPT>\n" . "function neuesFenster(url,name) {\n"
         . "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=580\");\n"
         . "}\n" . "function neuesFenster2(url) {\n"
         . "hWnd=window.open(url,\"640_$fenster\",\"resizable=yes,scrollbars=yes,width=780,height=580\");\n"
-        . "}\n" . "</SCRIPT>\n" . "</HEAD>\n";
-    
-    echo $body_tag;
-    
+        . "}\n" . "</SCRIPT>\n";
+	?>
+	</head>
+	<body>
+	<?php
+
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum, 2);
     

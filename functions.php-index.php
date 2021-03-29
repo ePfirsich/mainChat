@@ -678,16 +678,11 @@ function betrete_forum($o_id, $u_id, $u_name, $u_level)
     
 }
 
-function zeige_kopf()
-{
+function zeige_kopf() {
     // Gibt den HTML-Kopf auf der Eingangsseite aus
-    global $body_tag, $layout_kopf, $layout_include, $layout_parse, $voreinstellung_body_tag, $layout_bodytag;
+    global $body_tag, $layout_kopf, $layout_include, $layout_parse;
     
-    if ($voreinstellung_body_tag) {
-        echo $voreinstellung_body_tag . "\n";
-    } elseif ($layout_bodytag) {
-        echo $body_tag;
-    }
+    echo $body_tag;
     
     if (strlen($layout_kopf) > 0 && !$layout_parse) {
         // Direkt einlesen
@@ -710,10 +705,9 @@ function zeige_kopf()
     }
 }
 
-function zeige_fuss()
-{
+function zeige_fuss() {
     // Gibt den HTML-Fuss auf der Eingangsseite aus
-    global $body_tag, $layout_fuss, $layout_include, $layout_parse, $ivw, $layout_bodytag;
+    global $body_tag, $layout_fuss, $layout_include, $layout_parse, $ivw;
     global $f3, $f4, $mainchat_version;
     
     echo "<DIV align=center>" . $f3 . $mainchat_version . "<BR><A HREF=\"https://github.com/netzhuffle/mainchat\" TARGET=\"_top\">mainChat Open Source</A>" . $f4 . "</DIV>\n<BR CLEAR=ALL>\n" . "<BR CLEAR=ALL>\n";
@@ -747,8 +741,7 @@ function zeige_fuss()
         echo $ivw . "\n";
     }
     
-    if ($layout_bodytag)
-        echo "</BODY></HTML>\n";
+    echo "</BODY></HTML>\n";
 }
 
 function RaumNameToRaumID($eintrittsraum)

@@ -30,9 +30,21 @@ if ($url) {
 <head>
 <title>DEREFER</title>
 <meta charset="utf-8">
-<META HTTP-EQUIV="REFRESH" CONTENT="0; URL=<?php echo $url; ?>">
+<meta http-equiv="REFRESH" CONTENT="0; URL=<?php echo $url; ?>">
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:#ffffff;
+}
+a, a:link {
+	color:#666666;
+}
+a:visited, a:active {
+	color:#666666;
+}
+</style>
 </head>
-<body bgcolor="#ffffff" link="#666666" vlink="#666666">
+<body>
 <table width="100%" height="100%" border="0"><tr><td align="center"><a href="<?php echo $url; ?>"><font face="Arial, Helvetica, sans-serif" size="2" color="#666666">Einen Moment bitte, die angeforderte Seite wird geladen...</font></a></td></tr></table>
 </body>
 </html>

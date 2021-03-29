@@ -5,13 +5,6 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
 id_lese($id);
 
-$body_tag = "<BODY BGCOLOR=\"$farbe_chat_background3\" ";
-if (strlen($grafik_background3) > 0)
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background3\" ";
-
-$body_tag .= "TEXT=\"$farbe_chat_text3\" " . "LINK=\"$farbe_chat_link3\" "
-    . "VLINK=\"$farbe_chat_vlink3\" " . "ALINK=\"$farbe_chat_vlink3\">\n";
-
 if (strlen($u_id) > 0) {
 	?>
 	<!DOCTYPE html>
@@ -24,17 +17,31 @@ if (strlen($u_id) > 0) {
     if ($o_js) {
         $moderations_zeilen = anzahl_moderationstexte($o_raum);
         if ($moderations_zeilen == 0) {
-            echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT= \"10; URL=moderator.php?http_host=$http_host&id=$id\">\n";
+            echo "<meta http-equiv=\"REFRESH\" CONTENT= \"10; URL=moderator.php?http_host=$http_host&id=$id\">\n";
         }
     }
     
     echo "<SCRIPT>\n" . "  function chat_reload(file) {\n"
         . "  parent.chat.location.href=file;\n}\n" . "</SCRIPT>\n";
-    echo $stylesheet;
-    echo "</HEAD>\n";
-    
-    echo $body_tag;
-    
+	?>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_background3; ?>;
+	<?php if(strlen($grafik_background3) > 0) { ?>
+		background-image:<?php echo $grafik_background3; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_chat_link3; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_chat_vlink3; ?>;
+	}
+	</style>
+	</head>
+	<body>
+	<?php
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum);
     

@@ -21,19 +21,24 @@ id_lese($id);
         	opener.parent.frames[frame_number].location.href=file;
 }
 </script>
-<?php
-echo $stylesheet;
-echo "</head>\n";
-
-$body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-if (strlen($grafik_mini_background) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_mini_background\" ";
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
 }
-$body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-    . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-    . "ALINK=\"$farbe_mini_vlink\">\n";
-echo $body_tag;
-
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
+</head>
+<body>
+<?php
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 

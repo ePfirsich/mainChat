@@ -57,18 +57,24 @@ if (strlen($u_id) > 0) {
              hWnd=window.open(url,"640_<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_chat_background1; ?>;
+<?php if(strlen($grafik_background1) > 0) { ?>
+	background-image:<?php echo $grafik_background1; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link1; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink1; ?>;
+}
+</style>
 </head>
+<body>
 <?php
-    $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background1\" ";
-    if (strlen($grafik_background1) > 0) {
-        $body_tag = $body_tag . "BACKGROUND=\"$grafik_background1\" ";
-    }
-    $body_tag = $body_tag . "TEXT=\"$farbe_chat_text1\" "
-        . "LINK=\"$farbe_chat_link1\" " . "VLINK=\"$farbe_chat_vlink1\" "
-        . "ALINK=\"$farbe_chat_vlink1\">\n";
-    echo $body_tag;
-    
     // Voreinstellungen
     // Trigger für die Ausgabe der letzten 100 Nachrichten setzen
     if ($back == 0)

@@ -40,14 +40,6 @@ if ($u_level == "S") {
 //ins forum wechseln
 gehe_forum($u_id, $u_nick, $o_id, $o_raum);
 
-// Body-Tag definieren
-$body_tag = "<BODY BGCOLOR=\"$farbe_background\" ";
-if (strlen($grafik_background) > 0) :
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_background\" ";
-endif;
-$body_tag = $body_tag . "TEXT=\"$farbe_text\" " . "LINK=\"$farbe_link\" "
-    . "VLINK=\"$farbe_vlink\" " . "ALINK=\"$farbe_vlink\">\n";
-
 // Frame-Einstellungen für Browser definieren
 $user_agent = strtolower($HTTP_USER_AGENT);
 if (preg_match("/linux/", $user_agent)) {
@@ -80,7 +72,29 @@ if ($u_frames) {
         }
     }
 }
-
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_background; ?>;
+<?php if(strlen($grafik_background) > 0) { ?>
+	background-image:<?php echo $grafik_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink; ?>;
+}
+</style>
+</head>
+<?php
 echo "<FRAMESET ROWS=\"$frame_online_size,*,5,"
     . $frame_size[$frame_type]['interaktivforum']
     . ",1\" border=0 frameborder=0 framespacing=0>\n";
@@ -95,6 +109,7 @@ echo "</FRAMESET>\n";
 echo "<FRAME SRC=\"schreibe.php?http_host=$http_host&id=$id&o_who=2\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
 echo "</FRAMESET>\n";
 echo "<NOFRAMES>\n";
-echo $body_tag . (isset($t['login6']) ? $t['login6'] : "");
-
+echo "<body " . (isset($t['login6']) ? $t['login6'] : "");
 ?>
+</body>
+</html>

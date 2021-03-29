@@ -10,7 +10,9 @@ set_time_limit(120);
 <head>
 <title><?php echo $body_titel; ?></title>
 <meta charset="utf-8">
+<style type="text/css">
 <?php echo $stylesheet; ?>
+</style>
 </head>
 <body>
 <pre>

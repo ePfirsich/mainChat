@@ -493,37 +493,40 @@ function such_ergebnis()
 <title><?php echo $body_titel . "_Info"; ?></title>
 <meta charset="utf-8">
 <script>
-        window.focus()     
+        window.focus()
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
-        <SCRIPT>
-        function neuesFenster(url) {
-                hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
-        }
-        function neuesFenster2(url) {
-                hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-        }
-	function win_reload(file,win_name) 
-	{
-                win_name.location.href=file;
-	}
-        function opener_reload(file,frame_number) 
-	{
-                opener.parent.frames[frame_number].location.href=file;
-	}
-
-</SCRIPT>
-</HEAD> 
-<?php
-$body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-if (strlen($grafik_mini_background) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_mini_background\" ";
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
 }
-$body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-    . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-    . "ALINK=\"$farbe_mini_vlink\">\n";
-echo $body_tag;
-
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
+<script>
+function neuesFenster(url) {
+	hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
+}
+function neuesFenster2(url) {
+	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+}
+function win_reload(file,win_name) {
+	win_name.location.href=file;
+}
+function opener_reload(file,frame_number) {
+	opener.parent.frames[frame_number].location.href=file;
+}
+</script>
+</head>
+<body>
+<?php
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 

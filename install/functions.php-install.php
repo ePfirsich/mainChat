@@ -164,12 +164,9 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 				</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Stylesheet:</td>
+				<td> Stylesheet (reines CSS):</td>
 				<td>
-					<textarea cols="30" rows="4" name="chat_style">
-<style type="text/css">
-	td, small, p, b, i, font {font-family:Arial,Helvetica;}
-</style></textarea>
+					<textarea cols="30" rows="4" name="chat_style">td, small, p, b, i, font {font-family:Arial,Helvetica;}</textarea>
 				</td>
 			</tr>
 			<tr>

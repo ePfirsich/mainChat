@@ -39,8 +39,7 @@ $fontname = "arialbd.ttf";
 require("functions-init.php");
 require("functions.php");
 
-function get_maximum_height($fontname, $fontsize)
-{
+function get_maximum_height($fontname, $fontsize) {
     $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890!\"ß%&/()=?ß*+";
     $oldheight = 0;
     for ($i = 0; $i < strlen($str); $i++) {
@@ -55,9 +54,7 @@ function get_maximum_height($fontname, $fontsize)
     return array("0" => $oldheight, "1" => abs($b[7]));
 }
 
-function JPGText($str, $fontname, $fontsize, $backcol, $txtcol)
-{
-    
+function JPGText($str, $fontname, $fontsize, $backcol, $txtcol) {
     global $layout;
     
     Header("Last-Modified: " . gmDate("D, d M Y H:i:s", Time()) . " GMT");
@@ -91,10 +88,30 @@ function JPGText($str, $fontname, $fontsize, $backcol, $txtcol)
 
 if ($_SERVER['QUERY_STRING'] == "hilfe") {
     // Hilfe anzeigen
-    echo "<HTML><BODY BGCOLOR=\"#FFFFFF\"><PRE>userinfo.php - (C) by fidion GmbH 1999-2012\n\n"
-        . $userinfo_hilfe . "\n</PRE></HTML></BODY>\n";
+    ?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel . "_Info"; ?></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:#ffffff;
+	}
+	a, a:link {
+		color:#666666;
+	}
+	a:visited, a:active {
+		color:#666666;
+	}
+	</style>
+	</head>
+	<body>
+	<pre>
+    <?php
+    echo "userinfo.php - (C) by fidion GmbH 1999-2012\n\n" . $userinfo_hilfe . "\n</pre></body></html>";
 } else {
-    
     if (!isset($art))
         $art = "";
     
@@ -346,5 +363,4 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
             }
     }
 }
-
 ?>

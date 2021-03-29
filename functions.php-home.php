@@ -818,7 +818,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         
     } elseif ($u_chathomepage != "J") {
         
-        echo "<BODY BGCOLOR=\"#FFFFFF\">"
+        echo "<body>"
             . "<P><B>Fehler: Dieser User hat keine Homepage!</B></P>";
         
         // IVW-Pixel ausgeben
@@ -834,7 +834,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         
     } else {
         
-        echo "<BODY BGCOLOR=\"#FFFFFF\">"
+        echo "<body>"
             . "<P><B>Fehler: Aufruf ohne gültige Parameter!</B></P>";
         
         // IVW-Pixel ausgeben

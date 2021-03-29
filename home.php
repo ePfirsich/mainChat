@@ -48,8 +48,23 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "")
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
 </head>
+<body>
 <?php
 } else {
     
@@ -137,17 +152,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
             $ui_userid = $u_id;
             
             // Homepage für User $u_id bearbeiten
-            
-            // Body-Tag ausgeben
-            $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-            if (strlen($grafik_mini_background) > 0) :
-                $body_tag = $body_tag
-                    . "BACKGROUND=\"$grafik_mini_background\" ";
-            endif;
-            $body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-                . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-                . "ALINK=\"$farbe_mini_vlink\">\n";
-            echo $body_tag;
             
             // Menü als erstes ausgeben
             $box = $ft0 . "Menü Freunde" . $ft1;
@@ -327,16 +331,23 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 <head>
 <title>DEREFER</title>
 <meta charset="utf-8">
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:#ffffff;
+}
+a, a:link {
+	color:#666666;
+}
+a:visited, a:active {
+	color:#666666;
+}
+</style>
 <?php
-echo '
-<META HTTP-EQUIV="REFRESH" CONTENT="0; URL=' . $url
-                . ' ">
+echo '<meta http-equiv="REFRESH" CONTENT="0; URL=' . $url . ' ">
 </head>
-<body bgcolor="#ffffff" link="#666666" vlink="#666666">
-<table width="100%" height="100%" border="0"><tr><td align="center"><a href="'
-                . $url
-                . '"><font face="Arial, Helvetica, sans-serif" size="2" color="#666666">Einen Moment bitte, die angeforderte Seite wird geladen...</font></a></td></tr></table>
-</body></html>';
+<body>
+<table width="100%" height="100%" border="0"><tr><td align="center"><a href="' . $url . '"><font face="Arial, Helvetica, sans-serif" size="2" color="#666666">Einen Moment bitte, die angeforderte Seite wird geladen...</font></a></td></tr></table>';
     }
     
 } else {

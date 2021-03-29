@@ -34,7 +34,21 @@ $fenster = str_replace("ß", "", $fenster);
                 opener.parent.frames[frame_number].location.href=file;
 }
 </script>
+<style type="text/css">
 <?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_mini_background; ?>;
+<?php if(strlen($grafik_mini_background) > 0) { ?>
+	background-image:<?php echo $grafik_mini_background; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_mini_link; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_mini_vlink; ?>;
+}
+</style>
 <script>
 function neuesFenster(url) { 
         hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580"); 
@@ -44,16 +58,8 @@ function neuesFenster2(url) {
 }
 </script>
 </head>
+<body>
 <?php
-$body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
-if (strlen($grafik_mini_background) > 0) {
-    $body_tag = $body_tag . "BACKGROUND=\"$grafik_mini_background\" ";
-}
-$body_tag = $body_tag . "TEXT=\"$farbe_mini_text\" "
-    . "LINK=\"$farbe_mini_link\" " . "VLINK=\"$farbe_mini_vlink\" "
-    . "ALINK=\"$farbe_mini_vlink\">\n";
-echo $body_tag;
-
 // Menue ausgeben
 
 // Menü als erstes ausgeben

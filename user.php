@@ -49,11 +49,9 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 	<head>
 	<title><?php echo $body_titel . "_Info"; ?></title>
 	<meta charset="utf-8">
-	</head>
-	<ja
 	<?php
     if ($aktion == "chatuserliste") {
-        echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . intval($timeout / 3)
+        echo "<meta http-equiv=\"REFRESH\" CONTENT=\"" . intval($timeout / 3)
             . "; URL=user.php?http_host=$http_host&id=$id&aktion=chatuserliste\">\n";
     }
     
@@ -84,35 +82,47 @@ if ($aktion != "zeigalle" || $u_level != "S") {
     echo "  var stdparm='?http_host='+http_host+'&id='+id+'&schau_raum='+raum;\n"
         . "  var stdparm2='?http_host='+http_host+'&id='+id;\n";
     if ($aktion != "chatuserliste") {
-?>
-window.focus();
-function resetinput() {
-    document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-		<?php
-        if ($u_clearedit == 1) {
-            echo "    document.forms['form'].elements['text2'].value='';\n";
-        }
-        ?>
-    document.forms['form'].submit();
-    document.forms['form'].elements['text2'].focus();
-    document.forms['form'].elements['text2'].select();
-}
-   function neuesFenster2(url) {
-                hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-   }
-		<?php
+	?>
+	window.focus();
+	function resetinput() {
+	    document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
+			<?php
+	        if ($u_clearedit == 1) {
+	            echo "    document.forms['form'].elements['text2'].value='';\n";
+	        }
+	        ?>
+	    document.forms['form'].submit();
+	    document.forms['form'].elements['text2'].focus();
+	    document.forms['form'].elements['text2'].select();
+	}
+	
+	function neuesFenster2(url) {
+	                hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+	}
+
+	<?php
     }
     echo "</SCRIPT>\n";
     echo "<SCRIPT LANGUAGE=\"JavaScript\" src=\"jscript.js\"></script>\n";
-    echo $stylesheet;
-    
-    echo "</HEAD>\n";
-    
-    // Body-Tag definieren
-    echo "<BODY BGCOLOR=\"$farbe_mini_background\" "
-        . (strlen($grafik_mini_background) > 0 ? "BACKGROUND=\"$grafik_mini_background\" "
-            : "") . "TEXT=\"$farbe_mini_text\" " . "LINK=\"$farbe_mini_link\" "
-        . "VLINK=\"$farbe_mini_vlink\" " . "ALINK=\"$farbe_mini_vlink\">\n";
+    ?>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_mini_background; ?>;
+	<?php if(strlen($grafik_mini_background) > 0) { ?>
+		background-image:<?php echo $grafik_mini_background; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_mini_link; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_mini_vlink; ?>;
+	}
+	</style>
+	</head>
+	<body>
+	<?php
 }
 
 // Login ok?

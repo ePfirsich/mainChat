@@ -69,21 +69,24 @@ function window_reload(file,win_name) {
 	win_name.location.href=file;
 }
 </script>
+<style type="text/css">
+<?php echo $stylesheet; ?>
+body {
+	background-color:<?php echo $farbe_chat_background2; ?>;
+<?php if(strlen($grafik_background2) > 0) { ?>
+	background-image:<?php echo $grafik_background2; ?>;
+<?php } ?>
+}
+a, a:link {
+	color:<?php echo $farbe_chat_link2; ?>;
+}
+a:visited, a:active {
+	color:<?php echo $farbe_chat_vlink2; ?>;
+}
+</style>
+</head>
+<body>
 <?php
-    echo $stylesheet;
-    echo "</head>\n";
-    
-    // Body-Tag definieren
-    $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background2\" ";
-    if (strlen($grafik_background2) > 0) {
-        $body_tag = $body_tag . "BACKGROUND=\"$grafik_background2\" ";
-    }
-    $body_tag = $body_tag . "TEXT=\"$farbe_chat_text2\" "
-        . "LINK=\"$farbe_chat_link2\" " . "VLINK=\"$farbe_chat_vlink2\" "
-        . "ALINK=\"$farbe_chat_vlink2\">\n";
-    
-    echo $body_tag;
-    
     // Eingabeformular mit Menu und Farbauswahl
     reset($farbe_chat_user);
     $i = 0;
