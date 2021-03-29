@@ -142,11 +142,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     } else {
         echo "<P><DIV ALIGN=\"CENTER\"><A HREF=\"index.php\">weiter</A></DIV>\n";
     }
-    echo "</NOFRAMES>\n";
-    
-    exit();
 	?>
-	</body>
+	</noframes>
 	</html>
 	<?php
 } else {
