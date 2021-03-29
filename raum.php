@@ -21,19 +21,21 @@ if (!isset($raumstatus['E'])) {
 
 // Kopf ausgeben
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
-        window.focus()     
-	function neuesFenster(url,name) { 
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
+<script>
+        window.focus()
+	function neuesFenster(url,name) {
                 hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580"); 
 	}
-	function neuesFenster2(url) { 
+	function neuesFenster2(url) {
         	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 	}
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head> 
 <?php
 
 // Body-Tag definieren
@@ -906,5 +908,5 @@ if (strlen($u_id) != 0) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

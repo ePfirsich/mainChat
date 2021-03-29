@@ -43,9 +43,15 @@ if (ist_netscape()) {
 }
 
 if ($aktion != "zeigalle" || $u_level != "S") {
-    echo "<HTML>\n<HEAD><TITLE>" . $body_titel
-        . "_Info</TITLE><META CHARSET=UTF-8>\n";
-    
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel . "_Info"; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<ja
+	<?php
     if ($aktion == "chatuserliste") {
         echo "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"" . intval($timeout / 3)
             . "; URL=user.php?http_host=$http_host&id=$id&aktion=chatuserliste\">\n";
@@ -1008,5 +1014,7 @@ if ($aktion != "zeigalle" || $u_level != "S") {
             . "<P ALIGN=CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
             . $f2 . "\n";
     }
-    echo "</BODY></HTML>\n";
 }
+?>
+</body>
+</html>

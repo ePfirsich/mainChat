@@ -14,10 +14,13 @@ if (isset($smilies_config) && file_exists("conf/" . $smilies_config)) {
     unset($smilietxt);
     require("conf/" . $smilies_config);
 }
-
-echo "<HTML>\n<HEAD><TITLE>" . $body_titel
-    . "_Info</TITLE><META CHARSET=UTF-8>\n";
-
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></title>
+<meta charset="utf-8">
+<?php
 echo "<SCRIPT>\n";
 echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
@@ -25,7 +28,7 @@ echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
 echo "</SCRIPT><SCRIPT src=\"jscript.js\"></script>\n";
 
 echo $stylesheet . "<style type=\"text/css\">\n"
-    . "a { text-decoration: none; font-weight:bold }\n" . "</style></HEAD>\n";
+    . "a { text-decoration: none; font-weight:bold }\n" . "</style></head>\n";
 
 echo "<BODY BGCOLOR=\"$farbe_mini_background\" "
     . (strlen($grafik_mini_background) > 0 ? "BACKGROUND=\"$grafik_mini_background\" "
@@ -104,5 +107,5 @@ if (strlen($u_id) != 0) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

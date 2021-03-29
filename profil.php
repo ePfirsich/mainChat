@@ -17,9 +17,12 @@ $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Profil"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Profil"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -33,9 +36,9 @@ $fenster = str_replace("ß", "", $fenster);
         function neuesFenster2(url) { 
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
 <?php
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
 if (strlen($grafik_mini_background) > 0) {
@@ -291,4 +294,5 @@ if ($o_js || !$u_id) :
 endif;
 
 ?>
-</BODY></HTML>
+</body>
+</html>

@@ -43,9 +43,12 @@ if (strlen($u_id) > 0) {
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "-Log " . date("d.m.y H:i"); ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "-Log " . date("d.m.y H:i"); ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()     
         function neuesFenster(url,name) {
              hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=700");
@@ -53,9 +56,9 @@ if (strlen($u_id) > 0) {
         function neuesFenster2(url) {
              hWnd=window.open(url,"640_<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
 <?php
     $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background1\" ";
     if (strlen($grafik_background1) > 0) {
@@ -100,7 +103,7 @@ if (strlen($u_id) > 0) {
     // Log ausgeben
     chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back);
     
-    echo "</BODY></HTML>\n";
+    echo "</body></html>";
 }
 
 ?>

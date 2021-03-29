@@ -5,9 +5,12 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
 id_lese($id);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Farben"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Farben"; ?></title>
+<meta charset="utf-8">
+<script>
 window.focus()
 function colorsave() {
 <?php
@@ -70,9 +73,9 @@ if ($bg == "Y") {
         alert('Bitte wählen Sie die Farbe vorher aus!\nHierzu einfach auf die Farbselectbox klicken.');
     }
 }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
 <?php
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
 if (strlen($grafik_mini_background) > 0) :
@@ -157,4 +160,5 @@ if ($u_id && $communityfeatures) {
         . $f2 . "</CENTER>\n";
 }
 ?>
-</BODY></HTML>
+</body>
+</html>

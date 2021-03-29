@@ -4,10 +4,17 @@ require("functions.php");
 umask(700);
 set_time_limit(120);
 
-$kopf_tag = "<HTML><HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>$stylesheet</HEAD><BODY><PRE>\n";
-$fuss_tag = "</PRE></BODY></HTML>\n";
-
-echo $kopf_tag;
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php echo $stylesheet; ?>
+</head>
+<body>
+<pre>
+<?php
 
 // Verzeichnis für Logs definieren
 if (strlen($log) == 0) :
@@ -508,5 +515,7 @@ if ((strlen($STAT_DB_HOST) > 0)) {
 }
 
 echo "fertig\n";
-echo $fuss_tag;
 ?>
+</pre>
+</body>
+</html>

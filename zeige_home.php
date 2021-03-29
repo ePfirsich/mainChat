@@ -15,9 +15,12 @@ $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Home"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Home"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -31,9 +34,10 @@ $fenster = str_replace("ß", "", $fenster);
         function neuesFenster2(url) {
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
+<body>
 <?php
 
 // Pfad auf Cache
@@ -59,6 +63,6 @@ if (isset($u_id) && $ui_userid == $u_id) {
 } else {
     zeige_home($ui_userid, FALSE, $farben);
 }
-
 ?>
-</HTML>
+</body>
+</html>

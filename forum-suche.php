@@ -487,10 +487,14 @@ function such_ergebnis()
 }
 ?>
 <HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()     
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
         <SCRIPT>
         function neuesFenster(url) {
@@ -552,5 +556,5 @@ if ($o_js) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

@@ -29,8 +29,11 @@ if (strlen($u_id) > 0) {
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML><HEAD><TITLE>
-<?php echo $body_titel; ?></TITLE><meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
 <META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval($timeout / 3)
         . "; URL=messages-forum.php?http_host=$http_host&id=$id"; ?>">
 <?php
@@ -65,12 +68,18 @@ if (strlen($u_id) > 0) {
     echo "</td></tr></table></td></tr></table></BODY></HTML>\n";
     
 } else {
-    
-    // User wird nicht gefunden. Login ausgeben
-    echo "<HTML><HEAD></HEAD><HTML>";
-    echo "<BODY onLoad='javascript:parent.location.href=\"index.php?http_host=$http_host\"'>\n";
-    echo "</BODY></HTML>\n";
-    exit;
+	// User wird nicht gefunden. Login ausgeben
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	</body>
+	</html>
+	<?php
+	exit;
 }
-
 ?>

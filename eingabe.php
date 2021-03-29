@@ -39,9 +39,12 @@ if ($u_id) {
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<script>
 function resetinput() {
     document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
 <?php
@@ -65,10 +68,10 @@ function neuesFenster3(url) {
 function window_reload(file,win_name) {
 	win_name.location.href=file;
 }
-</SCRIPT>
+</script>
 <?php
     echo $stylesheet;
-    echo "</HEAD>\n";
+    echo "</head>\n";
     
     // Body-Tag definieren
     $body_tag = "<BODY BGCOLOR=\"$farbe_chat_background2\" ";
@@ -268,5 +271,5 @@ function window_reload(file,win_name) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

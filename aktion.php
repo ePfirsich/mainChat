@@ -5,9 +5,12 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
 id_lese($id);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Aktionen"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Aktionen"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -15,9 +18,9 @@ id_lese($id);
         function opener_reload(file,frame_number) {
                 opener.parent.frames[frame_number].location.href=file;
 }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
 <?php
 
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
@@ -88,4 +91,5 @@ if ($o_js || !$u_id) {
 }
 
 ?>
-</BODY></HTML>
+</body>
+</html>

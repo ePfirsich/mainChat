@@ -27,11 +27,14 @@ function kopf_forum($admin)
     $body_tag = $body_tag . "TEXT=\"$farbe_chat_text1\" "
         . "LINK=\"$farbe_chat_link1\" " . "VLINK=\"$farbe_chat_vlink1\" "
         . "ALINK=\"$farbe_chat_vlink1\">\n";
-    
-?>
-	<HTML><HEAD><TITLE><?php echo (isset($body_titel) ? $body_titel : ""); ?></TITLE><meta charset="utf-8">
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo (isset($body_titel) ? $body_titel : ""); ?></title>
+	<meta charset="utf-8">
 	<?php echo $stylesheet; ?>
-	<SCRIPT>
+	<script>
 	function ask(text) {
         	return(confirm(text));
 	}
@@ -41,9 +44,9 @@ function kopf_forum($admin)
 	function neuesFenster2(url) {
         	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
 	}
-	</SCRIPT>
-	</HEAD> <?php
-    
+	</script>
+	</head>
+	<?php
     echo $body_tag;
     // zeige_kopf();
     
@@ -1315,5 +1318,6 @@ function zeige_baum(
     }
     echo "</table>";
 }
-
-            ?>
+?>
+</body>
+</html>

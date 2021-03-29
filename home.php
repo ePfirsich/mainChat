@@ -28,9 +28,12 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "")
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Home"; ?></TITLE><meta charset="utf-8">
- <SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Home"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -44,9 +47,9 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "")
         function neuesFenster2(url) {
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head>
 <?php
 } else {
     
@@ -318,9 +321,14 @@ if (isset($u_id) && $u_id && $communityfeatures) {
             $url = "zeige_home.php?http_host=$http_host&ui_userid=$ui_userid&hash=$hash";
             if (isset($preview) && $preview == "yes")
                 $url = "zeige_home.php?http_host=$http_host&ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";
-            echo '
-<html><head>
-<title>DEREFER</TITLE><META CHARSET=UTF-8>
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>DEREFER</title>
+<meta charset="utf-8">
+<?php
+echo '
 <META HTTP-EQUIV="REFRESH" CONTENT="0; URL=' . $url
                 . ' ">
 </head>
@@ -337,6 +345,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
         $ui_userid = -1;
     zeige_home($ui_userid, FALSE);
 }
-
 ?>
-</HTML>
+</body>
+</html>

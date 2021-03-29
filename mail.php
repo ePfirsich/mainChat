@@ -17,9 +17,12 @@ $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Mail"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Mail"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -40,9 +43,9 @@ $fenster = str_replace("ß", "", $fenster);
                          e.checked=tostat;
                 }
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head> 
 <?php
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
 if (strlen($grafik_mini_background) > 0) {
@@ -412,4 +415,5 @@ if ($o_js || !$u_id) {
 }
 
 ?>
-</BODY></HTML>
+</body>
+</html>

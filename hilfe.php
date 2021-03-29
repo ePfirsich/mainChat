@@ -12,9 +12,12 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
 }
 
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -22,9 +25,9 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
         function opener_reload(file,frame_number) {
                 opener.parent.frames[frame_number].location.href=file;
 }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> 
+</head> 
 <?php
 
 // Body-Tag definieren
@@ -400,5 +403,5 @@ echo $f1
     . $f2 . "<BR>\n";
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

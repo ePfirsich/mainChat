@@ -8,11 +8,15 @@ if (strlen($grafik_background) > 0) {
 }
 $body_tag = $body_tag . "TEXT=\"$farbe_text\" " . "LINK=\"$farbe_link\" "
     . "VLINK=\"$farbe_vlink\" " . "ALINK=\"$farbe_vlink\">\n";
-
-echo "<HTML><HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-    . "$stylesheet</HEAD>\n$body_tag\n";
-
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php echo $stylesheet; ?>
+</head>
+<?php echo $body_tag; ?>
 <TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%><TR><TD ALIGN=CENTER>
 
 <!-- Ab hier folgt der Kopf in HTML -->

@@ -27,9 +27,14 @@ if ($u_id) {
     // Algorithmus wählen
     if ($backup_chat || $u_backup) :
         // n-Zeilen ausgeben und nach Timeout neu laden
-        
-        echo "<HTML><HEAD>\n" . "<TITLE></TITLE><META CHARSET=\"UTF-8\">"
-            . "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
+		?>
+		<!DOCTYPE html>
+		<html>
+		<head>
+		<title><?php echo $body_titel; ?></title>
+		<meta charset="utf-8">
+		<?php
+		echo "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
             . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"7; "
             . "URL=chat.php?http_host=$http_host&id=$id\" />\n"
             . "<SCRIPT>\n"
@@ -70,9 +75,14 @@ if ($u_id) {
         //	"setTimeout(\"scroll()\",100);\n".
         //	"</SCRIPT>\n".
         //	"$stylesheet</HEAD>\n";
-        
-        echo "<HTML><HEAD><META CHARSET=\"UTF-8\"><TITLE></TITLE>"
-            . "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
+		?>
+		<!DOCTYPE html>
+		<html>
+		<head>
+		<title><?php echo $body_titel; ?></title>
+		<meta charset="utf-8">
+		<?php
+		echo "<META HTTP-EQUIV=\"expires\" content=\"0\" />\n"
             . "<SCRIPT LANGUAGE=JavaScript>\n"
             . "setInterval(\"window.scrollTo(1,300000)\",100)\n"
             . "function neuesFenster(url,name) {\n"
@@ -188,23 +198,28 @@ if ($u_id) {
         // Trigger für die Ausgabe der letzten 20 Nachrichten setzen
         $back = 20;
         
-        echo "</BODY></HTML>\n";
-        // echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-        echo "<HTML><HEAD><META CHARSET=\"UTF-8\"><TITLE></TITLE>"
-            . "</HEAD><BODY onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n"
-            . "</BODY></HTML>";
+        echo "<BODY onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n"
+            . "</body></html>";
         flush();
     
     endif;
     
 } else {
-    // Auf Chat-Eingangsseite leiten
-    echo "</BODY></HTML>\n";
-    echo "<HTML><HEAD><META CHARSET=\"UTF-8\"><TITLE></TITLE>";
-    echo "</HEAD><BODY onLoad='parent.location=\"index.php?http_host=$http_host\"'>\n";
-    echo "</BODY></HTML>\n";
-    exit;
-}
-;
 
+	
+	
+	// Auf Chat-Eingangsseite leiten
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	</body>
+	</html>
+	<?php
+	exit;
+}
 ?>

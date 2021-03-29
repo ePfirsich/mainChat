@@ -25,14 +25,17 @@ if ($url) {
     if (substr($url, 0, 7) != "http://" && substr($url, 0, 8) != "https://")
         $url = "http://" . $url;
 ?>
-<html><head>
-<title>DEREFER</TITLE><meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+<head>
+<title>DEREFER</title>
+<meta charset="utf-8">
 <META HTTP-EQUIV="REFRESH" CONTENT="0; URL=<?php echo $url; ?>">
 </head>
 <body bgcolor="#ffffff" link="#666666" vlink="#666666">
 <table width="100%" height="100%" border="0"><tr><td align="center"><a href="<?php echo $url; ?>"><font face="Arial, Helvetica, sans-serif" size="2" color="#666666">Einen Moment bitte, die angeforderte Seite wird geladen...</font></a></td></tr></table>
-</body></html>
+</body>
+</html>
 <?php
 }
-
 ?>

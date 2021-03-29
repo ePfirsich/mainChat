@@ -48,21 +48,24 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
 
 if (isset($u_id) && $u_id) {
 ?>
-<HTML><HEAD><TITLE><?php echo $body_titel; ?></TITLE><meta charset="utf-8">
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
 <META HTTP-EQUIV="REFRESH" CONTENT="<?php echo intval($timeout / 3)
-        . "; URL=interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum";
-                                    ?>">
-<SCRIPT>
+        . "; URL=interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum";?>">
+<script>
         function chat_reload(file) {
                 parent.chat.location.href=file;
 }
         function frame_online_reload(file) {
                 parent.frame_online.location.href=file;
 }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-</HEAD> <?php
-    
+</head>
+<?php
     echo $body_tag;
     
     // Timestamp im Datensatz aktualisieren
@@ -229,10 +232,18 @@ if (isset($u_id) && $u_id) {
     echo "</BODY></HTML>\n";
     
 } else {
-    // User wird nicht gefunden. Login ausgeben
-    echo "<HTML><HEAD>$zusatzjavascript</HEAD>"
-        . "<BODY onLoad='javascript:parent.location.href=\"index.php?http_host=$http_host\"'>\n"
-        . "</BODY></HTML>\n";
-    exit;
+	// User wird nicht gefunden. Login ausgeben
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel; ?></title>
+	<meta charset="utf-8">
+	</head>
+	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	</body>
+	</html>
+	<?php
+	exit;
 }
-        ?>
+?>

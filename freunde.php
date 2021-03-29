@@ -16,9 +16,12 @@ $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Freunde"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Freunde"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
             win_name.location.href=file;
@@ -39,7 +42,7 @@ $fenster = str_replace("ß", "", $fenster);
                      e.checked=tostat;
             }
         }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
 </HEAD> 
 <?php
@@ -231,4 +234,5 @@ if ($o_js || !$u_id) {
 }
 
 ?>
-</BODY></HTML>
+</body>
+</html>

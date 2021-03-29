@@ -7,20 +7,23 @@ require("functions-msg.php");
 id_lese($id);
 
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Einstellungen"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
-        window.focus()     
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Einstellungen"; ?></title>
+<meta charset="utf-8">
+<script>
+        window.focus()
 	function win_reload(file,win_name) {
         	win_name.location.href=file;
 }
 	function opener_reload(file,frame_number) {
         	opener.parent.frames[frame_number].location.href=file;
 }
-</SCRIPT>
+</script>
 <?php
 echo $stylesheet;
-echo "</HEAD>\n";
+echo "</head>\n";
 
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
 if (strlen($grafik_mini_background) > 0) {
@@ -947,5 +950,5 @@ if ($o_js) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

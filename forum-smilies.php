@@ -5,11 +5,13 @@ require("conf/deutsch.php-smilies.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
-
-echo "<HTML>\n<HEAD><TITLE>" . $body_titel
-    . "_Info</TITLE><META CHARSET=UTF-8>\n";
 ?>
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></title>
+<meta charset="utf-8">
+<script>
 <?php
 echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
@@ -27,7 +29,7 @@ function appendtext_opener( text ) {
      opener.parent.frames['forum'].document.forms['form'].elements['po_text'].value=text + opener.parent.frames['forum'].document.forms['form'].elements['po_text'].value;
      opener.parent.frames['forum'].document.forms['form'].elements['po_text'].focus();
 }
-</SCRIPT>
+</script>
 <?php
 echo $stylesheet . "<style type=\"text/css\">\n"
     . "a { text-decoration: none; font-weight:bold }\n" . "</style></HEAD>\n";
@@ -85,5 +87,5 @@ if (strlen($u_id) != 0) {
 }
 
 ?>
-
-</BODY></HTML>
+</body>
+</html>

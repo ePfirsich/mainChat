@@ -6,6 +6,9 @@ require_once "functions-registerglobals.php";
 $filenameConfig = 'conf/config.php';
 if ( !file_exists($filenameConfig) ) {
 	?>
+	?>
+	<!DOCTYPE html>
+	<html>
 	<head>
 		<title>mainChat</title>
 		<meta charset="utf-8">
@@ -17,6 +20,7 @@ if ( !file_exists($filenameConfig) ) {
 			</tr>
 		</table>
 	</body>
+	</html>
 	<?php
 } else {
 	require $filenameConfig;
@@ -105,12 +109,27 @@ if ( !file_exists($filenameConfig) ) {
 	//ini_set('implicit_flush', 1);
 	
 	if (substr(phpversion(), 0, strpos(phpversion(), '.')) >= 5) {
-	    date_default_timezone_set('Europe/Berlin');
+		date_default_timezone_set('Europe/Berlin');
 	}
 	
 	if (ini_get('output_buffering') >= 1) {
-	    echo "Chat funktioniert nur, wenn PHP: \"output_buffering\" auf 0 steht";
-	    die();
+		?>
+			<!DOCTYPE html>
+		<html>
+		<head>
+			<title>mainChat</title>
+			<meta charset="utf-8">
+		</head>
+		<body>
+			<table style="width:100%; border:0px;">
+				<tr style="color:#ff0000; font-weigth:bold;">
+					<td>FEHLER: Der Chat funktioniert nur, wenn PHP: "output_buffering" auf 0 steht!</td>
+				</tr>
+			</table>
+		</body>
+		</html>
+		<?php
+		die();
 	}
 	
 	$usleep = 50000;

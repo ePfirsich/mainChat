@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <?php
 require_once("functions-registerglobals.php");
 
@@ -12,14 +10,20 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     
     // Funktionen und Config laden, Host bestimmen
     require_once("functions-init.php");
+    ?>
+    <!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php if($body_titel != null && $body_titel != '') { echo $body_titel; } else { echo 'mainChat'; } ?></title>
+	<meta charset="utf-8">
+    <?php
     
     // Backdoorschutz über den HTTP_REFERER
     if (isset($chat_referer) && $chat_referer != "") {
         
         if (!preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"])
             && $aktion != "neu") {
-            echo "\n<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5; URL=$chat_login_url\">\n"
                 . "</HEAD>\n";
             zeige_kopf();
@@ -71,9 +75,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             mysqli_close($mysqli_link);
             
         } else {
-            echo "<HEAD><TITLE>mainChat - http://www.mainchat.de </TITLE><META CHARSET=UTF-8></HEAD><BODY>"
+            echo "</HEAD><BODY>"
                 . "<P>Der mainChat ist leider aus technischen Gründen nicht erreichbar. "
-                . "Bitte versuchen Sie es später noch einmal.</P></BODY>\n";
+                . "Bitte versuchen Sie es später noch einmal.</P>";
             exit();
         }
     }
@@ -86,8 +90,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     }
     
     // Frameset ausgeben
-    echo "<HEAD>\n<TITLE>" . $body_titel
-        . "</TITLE><META CHARSET=UTF-8>\n" . $metatag . "\n</HEAD>"
+    echo $metatag . "\n</HEAD>"
         . "<FRAMESET COLS=\"" . $opt
         . "100%,*\" BORDER=\"0\" FRAMEBORDER=\"0\">\n";
     
@@ -142,15 +145,25 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     echo "</NOFRAMES>\n";
     
     exit();
-    
+	?>
+	</body>
+	</html>
+	<?php
 } else {
-    
-    // Seite wurde mit Parametern innerhalb des Framesets aufgerufen: Eingangsseite ausgeben
-    
-    // Funktionen laden
-    require("functions.php");
-    require("functions.php-werbung.php");
-    
+	// ELSE-FALL
+	
+	// Seite wurde mit Parametern innerhalb des Framesets aufgerufen: Eingangsseite ausgeben
+	
+	// Funktionen laden
+	require("functions.php");
+	require("functions.php-werbung.php");
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php if($body_titel != null && $body_titel != '') { echo $body_titel; } else { echo 'mainChat'; } ?></title>
+	<meta charset="utf-8">
+	<?php
     // Backdoorschutz über den HTTP_REFERER - wir prüfen ob bei gesetztem HTTP_HOST ob die index.php in eigenem Frameset läuft sonst => Fehler
     if (isset($chat_referer) && $chat_referer != "") {
         $tmp = parse_url($serverprotokoll . "://" . $_SERVER["HTTP_HOST"]);
@@ -159,8 +172,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         if ((!preg_match("#" . $chat_referer2 . "#", $_SERVER["HTTP_REFERER"]))
             && (!preg_match("#" . $chat_referer . "#", $refereroriginal))
             && $aktion != "neu") {
-            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"5; URL=$chat_login_url\">\n"
                 . "</HEAD>\n";
             zeige_kopf();
@@ -485,8 +497,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         // Header ausgeben
         if (($layout_bodytag) && (!isset($chat_logout_url)))
-            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "\n</HEAD>\n";
         
         // Logoff falls noch online
@@ -497,8 +508,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         }
         
         if (isset($chat_logout_url) && ($chat_logout_url <> "")) {
-            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "<META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=$chat_logout_url\">\n"
                 . "</HEAD>\n";
             zeige_kopf();
@@ -540,8 +550,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail'])
         && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
         if ($layout_bodytag)
-            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "\n</HEAD>\n";
         zeige_kopf();
         echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
@@ -577,8 +586,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             } else {
                 // Header ausgeben
                 if ($layout_bodytag)
-                    echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                        . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                         . "\n</HEAD>\n";
                 zeige_kopf();
                 echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
@@ -592,8 +600,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         } else {
             // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             echo "<P><B>Fehler:</B> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
@@ -607,8 +614,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
     switch ($aktion) {
         case "passwort_neu":
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -764,8 +770,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         case "neubestaetigen":
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -830,8 +835,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             break;
         
         case "mailcheckm":
-            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+            echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                 . "\n</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -852,8 +856,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         case "mailcheck":
         // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -1000,8 +1003,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         case "abweisen":
         // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             
@@ -1014,8 +1016,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         case "gesperrt":
         // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                     . "\n</HEAD>\n";
             zeige_kopf();
             
@@ -1062,8 +1063,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     
                     // Header ausgeben
                     if ($layout_bodytag) {
-                        echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                            . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                             . "\n";
                         "</HEAD>\n";
                     }
@@ -1315,8 +1315,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     
                     // Header ausgeben
                     if ($layout_bodytag)
-                        echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                            . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                             . "\n</HEAD>\n";
                     zeige_kopf();
                     
@@ -1332,8 +1331,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     
                     // Header ausgeben
                     if ($layout_bodytag)
-                        echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                            . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                             . "\n" . "</HEAD>\n";
                     zeige_kopf();
                     
@@ -1350,8 +1348,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     
                     // Header ausgeben
                     if ($layout_bodytag)
-                        echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                            . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                        echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                             . "\n" . "</HEAD>\n";
                     zeige_kopf();
                     
@@ -1433,8 +1430,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                         
                         // Header ausgeben
                         if ($layout_bodytag)
-                            echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                                . $metatag . $stylesheet . "\n"
+                            echo $metatag . $stylesheet . "\n"
                                 . $zusatztext_kopf . "\n" . "</HEAD>\n";
                         zeige_kopf();
                         
@@ -1681,8 +1677,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                     
                     // Kopf ausgeben
                     if ($layout_bodytag)
-                        echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                            . $stylesheet . "\n" . $zusatztext_kopf
+                        echo $stylesheet . "\n" . $zusatztext_kopf
                             . "\n</HEAD>\n";
                     
                     if ($communityfeatures && $eintritt == "forum") {
@@ -1831,8 +1826,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 
                 // Header ausgeben
                 if ($layout_bodytag)
-                    echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                        . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                         . "\n</HEAD>\n";
                 zeige_kopf();
                 unset($u_name);
@@ -1850,8 +1844,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
                 
                 // Header ausgeben
                 if ($layout_bodytag)
-                    echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                        . $metatag . $stylesheet . "\n" . $zusatztext_kopf
+                    echo $metatag . $stylesheet . "\n" . $zusatztext_kopf
                         . "\n" . "</script>\n</HEAD>\n";
                 zeige_kopf();
                 
@@ -1910,8 +1903,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         
         // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
                     . "</script>\n</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -2239,8 +2231,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
         // Kopf
         // Header ausgeben
             if ($layout_bodytag)
-                echo "<HEAD><TITLE>$body_titel</TITLE><META CHARSET=UTF-8>\n"
-                    . $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
+                echo $metatag . $stylesheet . "\n" . $zusatztext_kopf . "\n"
                     . "</HEAD>\n";
             zeige_kopf();
             echo $willkommen;
@@ -2370,7 +2361,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
             // Fuss
             zeige_fuss();
     }
+	?>
+	</body>
+	</html>
+	<?php
 }
 
 ?>
-</html>

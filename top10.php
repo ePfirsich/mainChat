@@ -20,9 +20,12 @@ $fenster = str_replace("ß", "", $fenster);
 
 // Kopf ausgeben
 ?>
-<HTML>
-<HEAD><TITLE><?php echo $body_titel . "_Top10"; ?></TITLE><meta charset="utf-8">
-<SCRIPT>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Top10"; ?></title>
+<meta charset="utf-8">
+<script>
         window.focus()
         function win_reload(file,win_name) {
                 win_name.location.href=file;
@@ -30,18 +33,17 @@ $fenster = str_replace("ß", "", $fenster);
         function opener_reload(file,frame_number) {
                 opener.parent.frames[frame_number].location.href=file;
 }
-</SCRIPT>
+</script>
 <?php echo $stylesheet; ?>
-<SCRIPT>
+<script>
 function neuesFenster(url) { 
         hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580"); 
 }
 function neuesFenster2(url) { 
         hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 }
-</SCRIPT>
-
-</HEAD> 
+</script>
+</head>
 <?php
 $body_tag = "<BODY BGCOLOR=\"$farbe_mini_background\" ";
 if (strlen($grafik_mini_background) > 0) {
@@ -187,4 +189,5 @@ if ($o_js || !$u_id) {
 }
 
 ?>
-</BODY></HTML>
+</body>
+</html>
