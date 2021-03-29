@@ -893,8 +893,6 @@ function auth_user($feldname, $login, $passwort)
     global $dbase, $mysqli_link;
     global $crypted_password_extern, $upgrade_password;
     
-    // $crypt_login & $md5login ist veraltet und wird nicht mehr unterstützt
-    
     $v_salt = getsalt($feldname, $login);
     
     if ($v_salt == -9) {

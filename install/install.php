@@ -38,7 +38,6 @@ $chat["noframes"] = filter_input(INPUT_POST, 'chat_noframes', FILTER_SANITIZE_ST
 $chat["style"] = filter_input(INPUT_POST, 'chat_style', FILTER_SANITIZE_STRING);
 $chat["gastlogin"] = filter_input(INPUT_POST, 'chat_gastlogin', FILTER_SANITIZE_STRING);
 $chat["gastloginanzahl"] = filter_input(INPUT_POST, 'chat_gastloginanzahl', FILTER_SANITIZE_STRING);
-$chat["cryptlogin"] = filter_input(INPUT_POST, 'chat_cryptlogin', FILTER_SANITIZE_STRING);
 $chat["uppername"] = filter_input(INPUT_POST, 'chat_uppername', FILTER_SANITIZE_STRING);
 $chat["log"] = filter_input(INPUT_POST, 'chat_log', FILTER_SANITIZE_STRING);
 $chat["spruchliste"] = filter_input(INPUT_POST, 'chat_spruchliste', FILTER_SANITIZE_STRING);

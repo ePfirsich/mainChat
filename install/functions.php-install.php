@@ -180,10 +180,6 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 				<td> Beliebig viele Gast-Login von einer IP:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["gastloginanzahl"],'chat_gastloginanzahl'); ?></td>
 			</tr>
-			<tr>
-				<td> Passwort in DB verschlüsseln:</td>
-				<td><?php echo checkFormularRadioButton('1',$chat["cryptlogin"],'chat_cryptlogin'); ?></td>
-			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Erste Buchstabe groß:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["uppername"],'chat_uppername'); ?></td>
