@@ -1,0 +1,656 @@
+<?php
+
+// fidion GmbH mainChat
+
+// Konfigurationsdatei für mainChat
+// Die voreingestellte Konfigurationsdatei muss "config.php" heißen.
+
+// Für jeden virtuellen Webserver kann es noch eine eigene Konfigurationsdatei
+// geben, die automatisch geladen wird und die voreingestellten Einstellungen
+// Überschreibt. 
+// Format:    "config.php-webserver"
+// Beispiel: "config.php-chat.mainpost.de"
+
+
+// Für Login in Chat index.php aufrufen 
+// Für Expire der Datenbank sollte expire.php minütlich aufgerufen werden
+// Beispiel: lynx http://chat.main.de/expire.php
+
+
+// Globale Einstellungen 
+
+// Beispiel für Datenbankeinstellungen
+//$dbase="mainchat";			// Datenbank
+//$mysqlhost="localhost";		// Datenbankserver
+//$mysqluser="www";			// Datenbankuser
+//$mysqlpass="";			// Mysql-Passwort
+//$STAT_DB_NAME="statistiken";		// Name der Datenbank für chatstatistik
+//$STAT_DB_HOST="localhost";		// Datenbankserver für chatstatistik
+//$STAT_DB_USER="www";			// Datenbankuser für chatstatistik
+//$STAT_DB_PASS="";			// Mysql-Passwort für chatstatistik
+
+// Ist dieser Wert gesetzt, werden die Statistiken mit diesem HTTP_HOST gespeichert,
+// egal mit welchem VHOST auf den Chat zugegriffen wird.
+// Relevant für Lizenzkunden, die mit meherere URLs auf den Chat zugreifen,
+// und eine Zusammenfassende Userstatisik wünschen.
+//$STAT_DB_COLLECT="";
+
+
+$dbase="%dbase%";                              // Datenbank
+$mysqlhost="%host%";                         // Datenbankserver
+$mysqluser="%user%";                               // Datenbankuser
+$mysqlpass="%pass%";                                  // Mysql-Passwort
+// $STAT_DB_NAME="miet_chat_statistik";         // Name der Datenbank für chatstatistik
+// $STAT_DB_HOST="chatdb1.fidion.de";           // Datenbankserver für chatstatistik
+$webmaster="%webmaster%";                // Zuständige Person
+$hackmail="%hackmail%";                  // Zuständige Person für Hackversuche
+$sprachconfig="%language%";                   // Voreingestellte Sprachdatei
+$chat="%chatname%";                               // Name des Chats
+$body_titel=$chat;                              // Titel in den Seitenköpfen
+
+
+// Support für HEAP-Tabellen für chat und online (ab mysql 3.23.40 verwenden)
+$heap_tabellen=1;			 // 1=ja/0=nein
+
+
+// Dynamische Verteilung auf mehrere chat-Server ein/ausschalten
+$chatserver_dynamisch=0;		// 1=ja/0=nein
+$chatserver_mysqlhost="adressbus.main.de";
+
+
+// Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
+// $chat_offline="<P ALIGN=CENTER><B>Der $chat ist derzeit offline.</B></P>";
+
+// Chat abschalten 1=ja/0=nein
+$chat_offline_kunde=0;
+
+// Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
+$chat_offline_kunde_txt="<P ALIGN=CENTER><B>Der $chat ist derzeit offline.</B></P>";
+
+// Chat auf eine Maximalanzahl von Usern nach Level einschränken
+// Für Admins gilt C/S/M, für User U und für Gäste G
+// Kein Limit = 0
+$chat_max['C']=0;  
+$chat_max['S']=0;
+$chat_max['G']=200;
+$chat_max['U']=200;
+$chat_max['M']=0;  
+$chat_max['zusatztext']="<P><B>Bitte benutzen Sie stattdessen ".
+"<A HREF=\"http://www.mainchat.de/\" TARGET=_new>http://www.mainchat.de/</A> oder ".
+" <A HREF=\"http://chat.mainchat.de/\" TARGET=_new>http://chat.mainchat.de/</A>.</B></P>";
+
+// WebChat-Statistiken
+$webchatraumausgabe=1;			// Ausgabe mit Raum für Webchat 1=ja/0=nein
+// nun die Räume für die WebChat-Statistik, die ausgegeben werden.
+$webchatpredef=array("Lobby",
+					 "Mainfranken",
+					 "meinBerlin");
+// alle nicht genannten Räume in diesem Raum zusammenfassen
+$webchatprivatraum="privat";
+
+// Zeit bis wann User als ausgeloggt gilt, wenn der den Chat verlassen hat ohne
+// auf Ende zu klicken oder den Browser beendet. Der unterste Frame
+// wird 3x so oft neu geladen wie timeout dauert
+// Optimal sind 90 Sekunden
+$timeout=90;					
+
+
+// Voreinstellung für Backup-Algorithmus
+// Anzahl der Zeilen pro Seite
+$chat_back=10;
+
+
+// Einstellungen für die Eingabe im Chat (Spam-Schutz)
+// Falls in chat_max_zeit mehr als chat_max_byte oder chat_max_zeilen Zeilen 
+// wird die Eingabe verworfen.
+// Ebenso verworfen wird sie bei einer Zeilenlänge von über chat_max_eingabe 
+$chat_max_eingabe=256; 	// Anzahl der Zeichen, die in der Eingabezeile maximal eingeben werden können 
+$chat_max_zeit=5;	// Zeit in Sekunden.
+$chat_max_byte=256;	// Zeichen in Bytes. 
+$chat_max_zeilen=5;	// Anzahl der Zeilen
+
+
+// Soll beim Login die Auswahl des Raums möglich sein?
+// 1=ja, 0=nein
+$raum_auswahl="%raumauswahl%";
+
+// Sollen beim Login die Boxen mit Chattern in Räumen unterdrückt werden?
+// 1=ja, 0=nein
+$unterdruecke_raeume="%unterdrueckeraeume%";
+
+// Beichtstuhl-Modus: Wenn beim Login kein User in der Lobby, aber ein Admin
+// alleine in einem Raum ist, wird dieser Raum betreten, ansonsten die
+// Lobby. Bei meheren Räumen mit einem Admin wird einer zufällig ausgewählt.
+// Die User sehen nur die Lobby und Räume mit einem Admin. In der
+// Raumübersicht erscheinen alle User, ausser in der Lobby, anonym.
+// 1=ja, 0=nein
+$beichtstuhl=0;
+
+
+// Zusatznachricht auf Chat-Eingangsseite bei Login
+// $zusatznachricht="<a href=\"http://www.php-accelerator.co.uk\" target=\"new\"><img src=\"pics/phpa.gif\" align=\"right\" ".
+// "width=100 height=38 alt=\"PHPA\" border=\"0\"></a>".
+$zusatznachricht="";
+
+
+// Lobby (Defaultraum)
+$lobby="%lobby%"; 				
+
+
+// Voreingestellter Eintrittsraum für Login (optional, kann von lobby abweichen)
+$eintrittsraum="Lobby"; 				
+
+
+// Anzahl der User, die in der Usersuche maximal angezeigt werden
+$max_user_liste=200;
+
+
+// Layoutdateien (mindestens leere Dateien, kein BODY-Tag!)
+$layout_kopf="%layoutkopf%";				// Wird auf Indexseite oben eingefügt
+$layout_fuss="%layoutfuss%";				// Wird auf Indexseite an das Ende eingefügt
+
+$layout_include=0;				// 1= Datei wird mit include eingefügt (nur lokale Dateien)
+						// 0= Datei wird mit readfile eingefügt (auch externe Dateien)
+
+// Alle Pfade in den Layoutdateien auf folgende URL umrechnen
+// Falls URL
+$layout_parse="";
+
+
+// Grundfarben 
+
+// Tabellenfarben
+$farbe_tabelle_kopf="#A0A0FF";
+$farbe_tabelle_kopf2="#C0C0FF";
+$farbe_tabelle_koerper="#FFFFFF";
+$farbe_tabelle_zeile1="#E8E8FF";
+$farbe_tabelle_zeile2="#D8D8EE";
+
+// Eingangsseite, Anmeldung
+$farbe_background="#FFFFFF";
+$farbe_text="#000000";
+$farbe_link="#0000FF";
+$farbe_vlink="#000080";
+$grafik_background="";
+
+
+// Fenster Raum, User, Einstellungen, Hilfe
+$farbe_mini_background="#FFFFFF";
+$farbe_mini_text="#000000";
+$farbe_mini_link="#0000FF";
+$farbe_mini_vlink="#000080";
+$grafik_mini_background="";
+
+// Chatfarben
+$farbe_chat_background1="#FFFFFF";		// Farben im Chat Frame Chatausgabe
+$farbe_chat_text1="#000000";
+$farbe_chat_link1="#0000FF";
+$farbe_chat_vlink1="#000080";
+$farbe_chat_background2="#E0E0FF";		// Farben im Chat Frame Eingabe
+$farbe_chat_text2="#000000";
+$farbe_chat_link2="#0000FF";
+$farbe_chat_vlink2="#000080";
+$farbe_chat_background3="#E0E0FF";		// Farbe im Chat Frame Unten
+$farbe_chat_text3="#000000";
+$farbe_chat_link3="#0000FF";
+$farbe_chat_vlink3="#000080";
+$grafik_background1="";				// Hintergrundgrafik im Chat Frame Chatausgabe
+$grafik_background2="";				// Hintergrundgrafik im Chat Frame Eingabe
+$grafik_background3="";				// Hintergrundgrafik im Chat Frame Unten
+
+
+// Layout 
+$farbe_text_weiss=0;				// 1=farbe_text bei Tabellenkopf immer weiß, 
+						// 0=farbe_text wird nicht überschrieben
+$farbe_user_fest=0;				// 1=Nickname wird in Userfarbe ausgegeben, 
+						// Textzeile ist immer system_farbe
+						// 0=Textzeile wird in Userfarbe ausgegeben
+$chat_eingabe_breite=80;			// Breite des Text-Eingabefelds des Chats
+$farbe_chat_user_groesse=12;			// Größe der Farbauswahlfelder
+
+$metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
+	"<meta name=\"AUTHOR\" content=\"%author%\">\n".
+	"<meta name=\"DESCRIPTION\" content=\"%description%\">\n".
+	"<meta name=\"KEYWORDS\" content=\"%keywords%\">\n".
+	"<meta name=\"LANGUAGE\" content=\"%metalanguage%\">\n".
+	"<meta name=\"DATE\" content=\"%date%\">\n".
+	"<meta name=\"expire\" content=\"%expire%\">\n".
+	"<meta name=\"ROBOTS\" content=\"%robots1%\">\n".
+	"<meta name=\"ROBOTS\" content=\"%robots2%\">\n";
+
+// Text für Startseite im Bereich NOFRAMES für Suchmaschinen                                     
+$noframes="%noframes%\n";
+
+$stylesheet="%style%";
+
+// Zusatztexte, die auf der Indexseite im <HEAD> ausgegeben werden, optional
+$zusatztext_kopf="";
+
+
+// Voreinstellung für Farben im Chat:
+$user_farbe         ="#0000AA";			// für User, Farbe mit #
+$system_farbe       ="000000";			// System, Farbe ohne #
+
+
+
+// Farben für den Text im Chat:
+$farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
+			"FF8888","004400","00BB00","44FF44","0000AA",
+			"4444FF","AAAAFF","FFA000","606000","A0A000",
+			"FF00FF","A000A0");
+
+
+// Zeichensatzgrößen
+$f1="<span style=\"font-size: small;\">";
+$f2="</span>"; 
+$f3="<span style=\"font-size: x-small;\">";
+$f4="</span>"; 
+
+
+// Sollen Gäste automatisch einen Namen zugewiesen bekommen?
+// 1= Ja, 0= Nein
+$gast_name_auto=0;
+
+
+// Soll ein anonymer Gast-Login möglich sein
+// 1= Ja, 0= Nein
+$gast_login="%gastlogin%";
+
+
+// Dürfen von einer IP beliebig viele (statt zwei) Gast-Logins möglich sein
+// 1= Ja, 0= Nein
+$gast_login_viele="%gastloginanzahl%";
+
+
+// Soll der Login via HTTP auf einen SSL-Server möglich sein? 
+$ssl_login=1;				// 1=ja, 0=nein
+
+// Leitet anfragen von HTTP auf HTTPS um
+$SSLRedirect = "1";
+  
+// Erlaubte Zeichen für Usernamen, leerer String -> keine Prüfung
+$check_name="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzöäüÖÄÜ0123456789-#+";
+
+
+// muss der erste Buchstabe des Namens großgeschrieben sein? 1=Ja, 0=Nein
+$upper_name="%uppername%";
+
+
+// Sollen auch private Nachrichten mitprotokolliert werden?
+// 1= Ja, 0= Nein
+$expire_privat=0;
+
+
+// Maximallänge der Raumnamen
+$raum_max=25;
+
+
+// Werbung - IVW-Pixel  
+// Beispiel für ivw:    <IMG SRC="http://www.mainpost.de/cgi-bin/ivw/CP/www.mainpost.de/oms_chat">; 
+// Beispiel für banner: http://www.mainpost.de/chat_banner.html 
+$ivw="";
+$banner="";
+
+
+// Werbungs-Kategorie
+$werbung_gruppe="mainCommunity.php";
+// $werbung_gruppe="mietchat";
+
+// default-fallback, falls nichts gefunden
+$werbung_default="default.php";
+
+// $werbung_art=1;
+// $werbung_inhalt="bla";
+
+
+// Sonstige Einstellungen
+$log="%log%";				// Verzeichnis für Logdateien 
+$datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
+$traceroute="/usr/bin/traceroute";	// Befehl für Traceroute
+
+// Disclaimer
+$disclaimer="<a href=\"http://www.mainchat.de/\" style=\"color:%farbe_text%;\">mainChat</a> ist ein ".
+	"kostenloser Service der <a href=\"http://www.mainchat.de/\" style=\"color:%farbe_text%;\">fidion GmbH</a>, ".
+	"die ausdrücklich nicht für die Inhalte dieser Site und des Chats haftet.";
+
+$chat_status_klein=1; // Statusmsgs des Chats kleiner ausgeben? 1=ja, 2=normal
+
+
+$show_spruch_owner="%showspruch%"; 				// admins zeigen, wer einen Spruch eingegeben hat? 1=ja 0=nein
+$adminfeatures="%adminfeatures%"; 				// Zusätzliche Adminfeatueres freischalten? 1=ja, 0=nein
+$lustigefeatures="%lustigefeatures%";				// Lustige Texte einschalten? 1=ja, 0=nein
+$erweitertefeatures="%erfeatures%";				// Erweiterte Funktionen freischalten (nur für Miet- und Kauflizenzen) 1=ja, 0=nein
+$communityfeatures="%comfeatures%";				// Communityfeatures
+$forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
+$punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
+$msgpopup=1;                                    		// Flüstern im Popup aktiv?
+
+$moderationsmodul="%modmodul%"; 				// Moderationsmodul freigeschalten? 1=ja, 0=nein
+$moderationsgroesse=280; 			// groesse des Moderationsframes...
+$moderationsexpire=30; 				// Anzahl minuten für moderierte Msgs, danach expire...
+$moderation_rueckwaerts=1; 			// neueste Nachrichten normalerweise unten (=0) sonst oben (=1)
+$moderation_grau="#808080"; 			// von anderen moderatoren belegte Nachrichten.
+$moderation_schwarz="#000000"; 			// freie oder eigene Nachrichten
+$farbe_moderationr_zeile1="#e0d0d0";
+$farbe_moderationr_zeile2="#d0c0c0";
+$farbe_moderationg_zeile1="#d0e0d0";
+$farbe_moderationg_zeile2="#c0d0c0";
+
+
+// Globale Voreinstellungen für Frames
+// $frame_online_size=150;				// Höhe des Frames frame_online in Pixel
+$frame_online_size=0;				// Höhe des Frames frame_online in Pixel
+$frame_links_size=150;				// Breite des linken Frames neben dem Chat Frames in Pixel
+$frame_size['def']['eingabe']=54;			// Höhe des Frames eingabe in Pixel
+$frame_size['def']['interaktiv']=60;		// Höhe des Frames interaktiv in Pixel
+$frame_size['def']['chatuserliste']=220;		// Breite des Frames user (rechts neben eingabe-Frame) in Pixel
+$frame_size['def']['interaktivforum']=130;		// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['def']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
+
+$frame_size['ie']['eingabe']=45;			// für IE
+$frame_size['ie']['interaktiv']=60;			// für IE
+$frame_size['ie']['chatuserliste']=220;		// für IE
+$frame_size['ie']['interaktivforum']=130;		// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['ie']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
+
+$frame_size['nswin']['eingabe']=50;			// für Netscape/Win
+$frame_size['nswin']['interaktiv']=60;		// für Netscape/Win
+$frame_size['nswin']['chatuserliste']=220;		// für Netscape/Win
+$frame_size['nswin']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['nswin']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
+
+$frame_size['linux']['eingabe']=60;			// für Linux
+$frame_size['linux']['interaktiv']=60;		// für Linux
+$frame_size['linux']['chatuserliste']=220;		// für Linux
+$frame_size['linux']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['linux']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
+
+$frame_size['solaris']['eingabe']=60;		// für Solaris
+$frame_size['solaris']['interaktiv']=60;		// für Solaris
+$frame_size['solaris']['chatuserliste']=220;	// für Solaris
+$frame_size['solaris']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['solaris']['messagesforum']=350;	// Breite des Frames messages-forum in Pixel
+
+// Optionale URL des obersten Frames.
+// Falls nicht definiert, wird der Frame bei der Darstellung übergangen
+// $frame_online="frame_online.php";		// URL oder Dateiname
+
+// Optionale URL des linken Frames.
+// Falls nicht definiert, wird der Frame bei der Darstellung übergangen
+$frame_links="%framelinks%";				// URL oder Dateiname
+
+// Soll ein bestehendes Frameset beim Login in den Chat stehen bleiben?
+// 1=ja, 0=nein
+$frameset_bleibt_stehen="%framesetbleibt%";
+
+
+// Smilies
+// Datei für die Darstellung der Auswahlseite
+// (für Text-Smilies smilies.php / für Grafik-Smilies smilies-grafik.php)
+// $smilies_datei="smilies.php";
+$smilies_datei="%smiliesdatei%";
+
+// Pfad der Grafiken für smilies-grafik.php
+// Muss für die Darstellung der Smilies als Grafiken definiert sein
+// Für Text-Smilies muss $smilies_pfad=""; definiert sein
+$smilies_pfad="%smiliespfad%";
+
+// Optional, Sollen die Smilie-Grafiken auf einer besonderen Hintergrundfarbe dargestellt werden?
+$smilies_hintergrund="%smiliesbg%";
+
+// Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
+$smilies_anzahl="%smiliesanzahl%";
+
+// Optional Konfigurationsdatei für Smilies
+// $smilies_config="deutsch.php-smilies-grafik.php";
+
+
+// Autoknebel
+$akdbase="mainchat";	// wie muss die DB heißen, damit der autoknebel funktioniert?
+
+// autoknebeltexte achtung preg_match -> incl /.../
+$ak[]="/mainfranken-chat.de/";
+$ak[]="/unterfranken-chat.de/";
+$ak[]="/chat-franken.de/";     
+$ak[]="/rhoen-chat.de/";
+$ak[]="/frankenchat/";
+$ak[]="/pwn3d/";
+$ak[]="/monetensepp/";
+$ak[]="/pwn3d!/";
+$ak[]="/supermaxflirt.de/";
+$ak[]="/girl1982.cc/";
+$ak[]="/janita.cc/";
+// Bedeutung:
+// nicht ad und nicht www|min (-> admin oder www .mainchat.de ok).
+// erschlägt also alles, was mit .mainchat.de läuft...
+// $ak[]="/(?:(?!ad)..|^.?)(?:(?!(www|min))...|^..?).mainchat.de/";
+$ak[]="/(?<!www|admin|admin|aushilfs|ct)\.mainchat\.de/";
+
+
+// Von welchen Domains ist keine Anmelung mehr möglich 
+// Speziell für anonyme "Wegwerfmailadressen"
+$domaingesperrtdbase="mainchat";        // wie muss die DB heißen, damit die Anmeldung verweigert wird.
+
+$domaingesperrt[]="/@trash-mail.de/";
+
+
+
+// Spezielle AGB, überschreibt die AGBs in der Sprachdatei
+// $extra_agb="";
+
+// AGB-Bestätigung kann mit $keine_agb=1 abgeschaltet werden
+$keine_agb=0;
+
+// Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird
+$def_was=array("Freunde","Neue Mail", "Antwort auf eigenes Posting");
+
+// Mindestanzahl der User in Raum, ab der Punkte gutgeschrieben werden
+$punkte_ab_user=5;
+
+// Punkte pro Postung im Forum
+$punkte_pro_posting=50;
+
+// Definition der Punkte für die Usergruppen
+$punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
+	6=>500000,7=>750000,8=>1000000,9=>5000000,10=>10000000);
+$punkte_grafik=array("<IMG SRC=\"pics/admingruppe",".gif\" WIDTH=12 HEIGHT=12 ALT=\"Usergruppe/Admin\" BORDER=0>",
+			"<IMG SRC=\"pics/gruppe",".gif\" WIDTH=12 HEIGHT=12 ALT=\"Usergruppe\" BORDER=0>");
+
+$chat_grafik['mail']="<IMG SRC=\"pics/mail.gif\" WIDTH=17 HEIGHT=12 ALT=\"E-Mail\" BORDER=0>";
+$chat_grafik['home']="<IMG SRC=\"pics/haeuschen.gif\" WIDTH=12 HEIGHT=12 ALT=\"Homepage\" BORDER=0>";
+$chat_grafik['geschlecht_weiblich'] = "&nbsp;<IMG SRC=\"pics/weiblich2.gif\" WIDTH=9 HEIGHT=12 ALT=\"weiblich\" BORDER=0>";
+$chat_grafik['geschlecht_maennlich'] = "&nbsp;<IMG SRC=\"pics/maennlich2.gif\" WIDTH=9 HEIGHT=12 ALT=\"maennlich\" BORDER=0>";
+$chat_grafik['forum_pfeil_rechts']="<img src=\"pics/forum/pfeilrechts.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"--->\">";
+$chat_grafik['forum_pfeil_links']="<img src=\"pics/forum/pfeillinks.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"<---\">";
+$chat_grafik['forum_pfeil_oben']="<img src=\"pics/forum/pfeiloben.gif\" width=\"20\" height=\"11\" alt=\"nach_oben\" border=\"0\">";
+$chat_grafik['forum_pfeil_unten']="<img src=\"pics/forum/pfeilunten.gif\" width=\"20\" height=\"11\" alt=\"nach_unten\" border=\"0\">";
+$chat_grafik['forum_antworten']="<IMG SRC=\"pics/forum/antworten.gif\" WIDTH=80 HEIGHT=14 ALT=\"Antworten\" BORDER=0>";
+$chat_grafik['forum_editieren']="<IMG SRC=\"pics/forum/editieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Bearbeiten\" BORDER=0>";
+$chat_grafik['forum_loeschen']="<IMG SRC=\"pics/forum/loeschen.gif\" WIDTH=80 HEIGHT=14 ALT=\"Loeschen\" BORDER=0>";
+$chat_grafik['forum_privat']="<IMG SRC=\"pics/forum/privat.gif\" WIDTH=80 HEIGHT=14 ALT=\"Privat_Antworten\" BORDER=0>";
+$chat_grafik['forum_zitieren']="<IMG SRC=\"pics/forum/zitieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Zitieren_und_Antworten\" BORDER=0>";
+$chat_grafik['forum_ordnerblau']="<IMG SRC=\"pics/forum/ordnerblau.gif\" WIDTH=14 HEIGHT=14 ALT=\"Neue_Beitraege\" BORDER=0>";
+$chat_grafik['forum_ordnerneu']="<IMG SRC=\"pics/forum/ordnerneu.gif\" WIDTH=14 HEIGHT=14 ALT=\"Keine_neuen_Beitraege\" BORDER=0>";
+$chat_grafik['forum_ordnervoll']="<IMG SRC=\"pics/forum/ordnervoll.gif\" WIDTH=14 HEIGHT=14 ALT=\"Mehr_als_10_Beitraege\" BORDER=0>";
+$chat_grafik['forum_themabearbeiten']="<IMG SRC=\"pics/forum/editieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Thema_bearbeiten\" BORDER=0>";
+$chat_grafik['forum_neuesthema']="<IMG SRC=\"pics/forum/neuesthema.gif\" WIDTH=80 HEIGHT=14 ALT=\"Neues_Thema\" BORDER=0>";
+$chat_grafik['forum_topthema']="<IMG SRC=\"pics/forum/threadtopposting.gif\" WIDTH=14 HEIGHT=14 ALT=\"Thread_TOP_Posting\" BORDER=0>";
+$chat_grafik['forum_threadgeschlossen']="<IMG SRC=\"pics/forum/threadgeschlossen.gif\" WIDTH=14 HEIGHT=14 ALT=\"Thread_geschlossen\" BORDER=0>";
+$chat_grafik['forum_verschieben']="<IMG SRC=\"pics/forum/verschieben.gif\" WIDTH=80 HEIGHT=14 ALT=\"Thread_verschieben\" BORDER=0>";
+$chat_grafik['forum_sperren']="<IMG SRC=\"pics/forum/sperren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Beitrag sperren\" BORDER=0>";
+
+//Einstellungen für das Forum
+
+//Farbe für Tabellenrahmen im gesamten Forum
+$farbe_tabellenrahmen = "#000000";
+
+//Farben für hervorhebungen
+$farbe_hervorhebung_forum = "#FF0000";
+$farbe_neuesposting_forum = "#009900";
+
+//Anzahl der Postings pro Seite auf Themenübersicht
+$anzahl_po_seite = 20;
+
+// Datenschutzhinweis anzeigen
+$zeige_datenschutz="%datenschutz%";
+
+// Zeit in Sekunden, nach der der User ohne Eingabe ausgeloggt wird
+// Nach 3/4 der Zeit wird eine Warnung ausgegeben
+// 0=Kein Logout
+$chat_timeout=3600; // 60 Minuten
+
+// Texte, die überschrieben werden können
+// $chattext['chatter']="Personen";	// Interaktiv
+// $chattext['chattern']="Personen";	// Interaktiv
+// $chattext['einzahl']="eine";		// Interaktiv
+
+// soll die e-mailadresse bei neu-usern überprüft werden ? 
+// 0 = nein / 1 = ja
+$pruefe_email=1;
+
+// user darf nur den chat betreten, wenn der referer stimmt
+// $chat_referer="http://www.wuff.net/fido/";
+// URL auf die der User geschickt werden soll um den Chat zu betreten
+// $chat_login_url="http://www.mainchat.de/";
+
+// Default Knebelzeit setzen (Minuten)
+$knebelzeit=5;
+
+// Default Nickwechselzeit drunter geht nix (Sekunden)
+$nickwechsel=30;
+
+// Import und Löschen der Userdaten 0 = nein / 1 = ja
+$userimport=0;
+
+// Maximale Anzahl der Tage wie lange ein User maximal auf der Blacklist 
+// steht
+$blacklistmaxdays=30;
+
+// Anzahl der Tage wie lange eine Raumsperre aufrecht erhalten wird
+$raumsperre=30;
+
+// Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im 
+// Raum tut
+// $raum_msg="Hallo!";
+
+// Eingabezeile mit reduzierten Menüknöpfen
+$eingabe_light="0";
+$eingabe_light_log="0";
+$eingabe_light_hilfe="0";
+$eingabe_light_farbe="0";
+
+// Smiliesauflistung im rechten Fenster aktivieren/dekativieren
+$smilies_aus="0";
+
+$ak2="/fidion\.cc/#/schnurzel/";
+
+// $homepage_extern="1";
+
+//Anzahl Punkte, die für das Anlegen eines Raum notwendig sind
+// $raumanlegenpunkte=1000;
+
+// Loginbox auf Eingangsseite abschalten
+// $keineloginbox=1;
+
+// Referer prüfen bevor Bilder auf Homepage gezeigt werden
+$check_np_referer="1";
+
+// Domains von Dialup Zugängen, User deren IP auf diese Domain auflösen werden nach 24 
+// wieder von der Blacklist entfernt da eine Sperrung einer dynamischen IP länger 
+// als 24h keinen Sinn macht. Es würden die falschen User gesperrt werden
+$sperre_dialup[]="dip.t-dialin.net";
+$sperre_dialup[]="arcor-ip.net";
+$sperre_dialup[]="t-ipconnect.de";
+
+// User darf sein Passwort & Nicknamen ändern (1=ja/0=nein)
+$einstellungen_aendern=1;
+
+// Logouts zum Debugging in Tabelle logouts mitloggen
+$logout_logging=0;
+
+// Geschlecht anzeigen im Chat. true erzeugt mehr Datenbankzugriffe, da zusätzliche Felder aus der userinfo geladen werden müssen
+$show_geschlecht = false;
+
+//Userhomepage String für externe Communities
+$homep_ext_link = "";
+
+// Ab dieser Punktzahl darf ein User den Chat trotz IP-Sperre betreten   
+// $loginwhileipsperre = 0 // deaktiviert das umgehen
+$loginwhileipsperre = 10000;
+
+
+// Soll bei der Anmeldung der User sich nicht einfach so anmelden können,
+// hier die Mailadresse der Person eintragen die die Anmeldung (Mailadresse) bestätigen.
+$anmeldung_nurmitbest = "";                                        
+
+// Mails werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
+$mailloescheauspapierkorb=14;                              
+
+// User kann Individuelle Eintrittsnachrichten benutzen
+$eintritt_individuell="1";
+
+// andere User sehen von wem die Eintrittsnachricht kommt
+$eintritt_useranzeige="0";
+
+// Auf Beitäge die Älter als x Monate sind kann man nicht antworten
+// $forum_thread_sperren = 0 deaktiviert dies 
+$forum_thread_sperren=6;
+
+// Setzt den Satz "zuletzt editiert am ... um ... von ..." nach dem Editieren nach jedem Beitrag
+$forum_aenderungsanzeige="1";
+
+// Begrenzt die Zahl der Anmeldungen, die pro E-Mailadresse erfolgen können (0 = deaktiv) 
+$begrenzung_anmeld_pro_mailadr=5;
+
+// User können sich eine Liste der Admins abrufen
+$adminlisteabrufbar="0";
+
+// Aktiviert das Umfragemodul (Bei aktiviertem $communityfeatures)
+// In Entwicklung, Funktionsfähig in einer zukünftigen Version
+$umfragefeatures="0";
+
+// Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
+$captcha_text=1;
+
+// Im Expire werden alle User gelöscht, die sich längere Zeit nicht eingeloggt haben
+// Angabe in Sekunden: default =26 Wochen =15724800 Sekunden
+$nicknamen_expire=15724800; // = 26 Wochen
+
+// Es können sich keine neuen User mehr registrieren
+$neuregistrierung_deaktivieren = "0";
+
+// Die Anzeige der RAUM Ein/Austrittsnachricht wird grundsätzlich deaktiviert
+// bzw nur in Kurzform angezeigt (ohne den Text "Eintrittsnachricht Raum", "Austrittsnachricht Raum")
+$raum_eintrittsnachricht_anzeige_deaktivieren = "0";
+$raum_eintrittsnachricht_kurzform = "0";
+$raum_austrittsnachricht_anzeige_deaktivieren = "0";
+$raum_austrittsnachricht_kurzform = "0";
+
+// Die Warnmeldung, das der sichere Modus aktiviert ist, wird nicht angezeigt
+$warnmeldung_sicherermodus_deaktivieren = "0";
+
+// Der Login von jedem User erfolgt automatisch im Sicheren Modus
+$loginimsicherenmodus = "0";
+
+// User können keine Räume anlegen und auch in keinen anderen Raum wechseln auser dem 1. Loginraum (Lobby)
+$single_room_verhalten = "0";
+
+// Die Anzeige wieviele User im Raum sind, bzw. wieviele im Chat sind, wird nicht mehr angezeigt
+$useronline_anzeige_deaktivieren = "0";
+
+// Deaktiviert rechts in der Userleiste das ansprechen per @ und >
+$userleiste_inaktiv_ansprechen = "0";  
+
+// Deaktiviert rechts in der Userleiste das Mailsymbol
+$userleiste_inaktiv_mailsymbol = "0";  
+
+// Deaktiviert rechts in der Userleiste das anklicken des Nicknamens
+$userleiste_inaktiv_userfunktionen = "0";  
+
+// Deaktiviert die Anzeige "User im Raum" beim Betreten des Raumes
+$unterdruecke_user_im_raum_anzeige = "0";
+
+// Deaktiviert autocomplete in der Chateingabe
+$eingabe_inaktiv_autocomplete = "0";
+
+?>
