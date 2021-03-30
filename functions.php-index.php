@@ -264,7 +264,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     $knebelzeit = NULL;
     // Aktuelle Userdaten aus Tabelle user lesen
     // Query muss mit Code in schreibe_db übereinstimmen
-    $query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away,u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
+    $query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
     $result = mysqli_query($mysqli_link, $query);
     if (!$result) {
         echo "Fehler beim Login: $query<BR>";
