@@ -468,8 +468,7 @@ function priv_msg(
     return ($back);
 }
 
-function system_msg($von_user, $von_user_id, $an_user, $farbe, $text)
-{
+function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
     // Schreibt privaten Text als Systemnachricht an User $an_user
     // $von_user wird nicht benutzt
     // $von_user_id ist Absender der Nachricht (normalerweise wie $an_user, notwendig für Spamschutz)

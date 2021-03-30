@@ -1830,37 +1830,37 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						// Frameset aufbauen
 						?>
 						<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size[$frame_type]['eingabe']; ?>,<?php echo $frame_size[$frame_type]['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
-						<frame src="<?php echo $frame_online;?>?http_host=$http_host" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-						<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
-							<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-							<?php
-							if (!isset($userframe_url)) {
+							<frame src="<?php echo $frame_online;?>?http_host=<?php echo $http_host; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+							<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
+								<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
+								<?php
+								if (!isset($userframe_url)) {
+									?>
+									<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
+									<?php
+								} else {
+									?>
+									<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
+									<?php
+								}
 								?>
-								<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
+							</frameset>
+							<frame src="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
+							<?php
+							if ($u_level == "M") {
+								?>
+								<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
+									<frame src="moderator.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
+									<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+								</frameset>
 								<?php
 							} else {
 								?>
-								<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
+								<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
 								<?php
 							}
 							?>
-						</frameset>
-						<frame src="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-						<?php
-						if ($u_level == "M") {
-							?>
-							<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
-								<frame src="moderator.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
-								<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-							</frameset>
-							<?php
-						} else {
-							?>
-							<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-							<?php
-						}
-						?>
-						<frame src="schreibe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
+							<frame src="schreibe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
 						</frameset>
 						<?php
 						echo "<noframes>\n"
@@ -2273,29 +2273,29 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			mysqli_free_result($result);
 			
 			// Frameset aufbauen
-			echo "<frameset rows=\"$frame_online_size,*," . $frame_size[$frame_type]['eingabe'] . "," . $frame_size[$frame_type]['interaktiv'] . ",1\" border=0 frameborder=0 framespacing=0>\n";
-			echo "<frame src=\"$frame_online?http_host=$http_host\" name=\"frame_online\" marginwidth=0 marginheight=0 scrolling=no>\n";
-			echo "<frameset cols=\"*," . $frame_size[$frame_type]['chatuserliste'] . "\" border=0 frameborder=0 framespacing=0>\n";
 			?>
-				<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-				<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
-			</frameset>
-			<frame src="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-			<?php
-			if ($u_level == "M") {
-				?>
-				<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
-				<frame src="moderator.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
-				<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+			<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size[$frame_type]['eingabe']; ?>,<?php echo $frame_size[$frame_type]['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
+				<frame src="<?php echo $frame_online;?>?http_host=<?php echo $http_host; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+				<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
+					<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
+					<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
 				</frameset>
+				<frame src="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
 				<?php
-			} else {
+				if ($u_level == "M") {
+					?>
+					<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
+					<frame src="moderator.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
+					<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+					</frameset>
+					<?php
+				} else {
+					?>
+					<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+					<?php
+				}
 				?>
-				<frame src="interaktiv.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-				<?php
-			}
-			?>
-			<frame src="schreibe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
+				<frame src="schreibe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
 			</frameset>
 			<?php
 			echo "<noframes>\n"
