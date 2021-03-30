@@ -360,8 +360,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     return ($o_id);
 }
 
-function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_backup)
-{
+function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_backup) {
     // User $u_id betritt Raum $raum (r_id)
     // Nachricht in Raum $raum wird erzeugt
     // Zeiger auf letzte Zeile wird zurückgeliefert
@@ -486,13 +485,11 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
         }
         
     } else {
-        
         // Gewählten Raum ermitteln
         $query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_id=$raum ";
         $result = mysqli_query($mysqli_link, $query4711);
         if ($result)
             $rows = mysqli_num_rows($result);
-        
     }
     
     if ($result && $rows == 1) {

@@ -1,7 +1,6 @@
 <?php
 
-function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
-{
+function nachricht_betrete($u_id, $r_id, $u_name, $r_name) {
     // Eintrittsnachricht in Raum schreiben
     // Aufruf mit Raum-Id, UserName, Raum-Name
     // liefert $back zurück
@@ -38,8 +37,9 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
     $text = preg_replace("|%nick%|i", $u_name, $text);
     $text = preg_replace("|%raum%|i", $r_name, $text);
     
-    if (strlen($text) == 0)
+    if (strlen($text) == 0) {
         $text = $u_name;
+    }
     
     // Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
     $back = 0;
@@ -47,7 +47,6 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
         $back = system_msg("", 0, $u_id, $u_farbe, "<B>&gt;&gt;&gt;</b> "
             . $text);
     } else {
-        
         // Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
         
         $sql = "SELECT count(c_id) as nummer FROM chat WHERE c_von_user = '' and c_typ='S' and c_raum = " . intval($r_id) . " and c_zeit > '"
@@ -55,8 +54,9 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name)
         $result = mysqli_query($mysqli_link, $sql);
         $num = mysqli_fetch_array($result);
         $num = $num['nummer'];
-        if ($num < 15)
+        if ($num < 15) {
             $back = global_msg($u_id, $r_id, "<B>&gt;&gt;&gt;</b> " . $text);
+        }
     }
     
     return $back;

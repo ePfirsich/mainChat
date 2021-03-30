@@ -192,8 +192,7 @@ function ist_online($user)
     }
 }
 
-function schreibe_moderiert($f)
-{
+function schreibe_moderiert($f) {
     // Schreibt Chattext in DB
     
     global $dbase;
@@ -238,12 +237,11 @@ function schreibe_moderation()
     }
 }
 
-function schreibe_chat($f)
-{
+function schreibe_chat($f) {
     // Schreibt Chattext in DB
     global $dbase, $mysqli_link;
     
-    // Schreiben falls text>0
+    // Schreiben falls text > 0
     if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
         // Falls Länge c_text mehr als 256 Zeichen, auf mehrere Zeilen aufteilen
         if (strlen($f['c_text']) > 256) {
@@ -369,8 +367,7 @@ function logout($o_id, $u_id, $info = "")
     }
 }
 
-function global_msg($u_id, $r_id, $text)
-{
+function global_msg($u_id, $r_id, $text) {
     // Schreibt Text $text in Raum $r_id an alle User
     // Art:           N: Normal
     //	              S: Systemnachricht
@@ -385,7 +382,7 @@ function global_msg($u_id, $r_id, $text)
     $f['c_typ'] = "S";
     $f['c_von_user_id'] = $u_id;
     $f['c_text'] = $text;
-    $f['c_an_user'] = "";
+    $f['c_an_user'] = 0;
     
     $back = schreibe_chat($f);
     
@@ -717,8 +714,7 @@ function iCrypt($passwort, $salt)
     return ($v_passwort);
 }
 
-function schreibe_db($db, $f, $id, $id_name)
-{
+function schreibe_db($db, $f, $id, $id_name) {
     // Assoziatives Array $f in DB $db schreiben 
     // Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
     // Sonderbehandlung für Passwörter
