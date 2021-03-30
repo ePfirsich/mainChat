@@ -272,7 +272,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	$eingabe_breite = 20;
 	
 	// Logintext definieren
-	$logintext = "<TABLE BORDER=0 CELLSPACING=0 WIDTH=100%><TR><TD><B>"
+	$logintext = "<table BORDER=0 CELLSPACING=0 WIDTH=100%><TR><TD><B>"
 		. $t['login8'] . "</B><BR>" . $f1
 		. "<INPUT TYPE=\"TEXT\" NAME=\"login\" VALUE=\"";
 	if (isset($login))
@@ -284,7 +284,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		. "<B><INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"" . $t['login10']
 		. "\"></B>\n"
 		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"login\">" . $f2
-		. "</TD>\n" . "</TR></TABLE>\n" . $t['login3'];
+		. "</TD>\n" . "</TR></table>\n" . $t['login3'];
 	
 	// SSL?
 	if (($ssl_login) || (isset($SSLRedirect) && $SSLRedirect == "1")) {
@@ -1455,11 +1455,14 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						. "// end hiding -->\n</script>\n";
 					echo "<DIV align=center>" . $f3
 						. str_replace("%farbe_text%", $farbe_text, $disclaimer)
-						. $f4 . "</DIV>\n</FORM>";
+						. $f4 . "</div>\n</form>";
 					
 					zeige_fuss();
 					
 				} else {
+					$captcha_text1 = filter_input(INPUT_POST, 'captcha_text1', FILTER_SANITIZE_STRING);
+					$captcha_text2 = filter_input(INPUT_POST, 'captcha_text2', FILTER_SANITIZE_STRING);
+					$ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
 					
 					if (($keine_agb == 1) && ($captcha_text == 0)) {
 						$u_agb = 'Y';
@@ -1472,8 +1475,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						$captcha_text1 = "999";
 					} // abweisen, falls leere eingabe
 					
-					if (($captcha_text == 1) && (isset($captcha_text2))
-						&& ($captcha_text2 != md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ) )) {
+					if ( ($captcha_text == 1) && (isset($captcha_text2)) && ($captcha_text2 != md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ) )) {
 						$los = "";
 					}
 					
@@ -1520,22 +1522,20 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 									<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['captcha1']; ?><br>
 								<?php
 								$aufgabe = mt_rand(1, 3);
-								if ($aufgabe == 1) // +
-	 {
+								if ($aufgabe == 1) { // +
 									$zahl1 = mt_rand(0, 99);
 									$zahl2 = mt_rand(0, 99 - $zahl1);
 									$ergebnis = $zahl1 + $zahl2;
-								} else if ($aufgabe == 2) // -
-	 {
+								} else if ($aufgabe == 2) { // -
 									$zahl1 = mt_rand(0, 99);
 									$zahl2 = mt_rand(0, $zahl1);
 									$ergebnis = $zahl1 - $zahl2;
-								} else // *
-	 {
+								} else { // *
 									$zahl1 = mt_rand(0, 10);
 									$zahl2 = mt_rand(0, 10);
 									$ergebnis = $zahl1 * $zahl2;
 								}
+								echo "Vorläufiges Ergebnis:" . $ergebnis . '<br>';
 								
 								echo $tzahl[$zahl1] . " " . $taufgabe[$aufgabe]
 									. " " . $tzahl[$zahl2]
@@ -1545,7 +1545,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 									//echo md5( $u_id . "code" . $ergebnis . "+" . date("Y-m-d h") );
 									?>
 										<input type="text" name="captcha_text1">
-										<input type="hidden" name="captcha_text2" VALUE="<?php echo md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ); ?>">
+										<input type="hidden" name="captcha_text2" value="<?php echo md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ); ?>">
+										<input type="hidden" name="ergebnis" value="<?php echo $ergebnis; ?>">
 									</td>
 								</tr>
 								<tr>
@@ -1557,19 +1558,20 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							<input type="hidden" name="login" value="<?php echo $login; ?>">
 							<input type="hidden" name="passwort" value="<?php echo $passwort; ?>">
 							<input type="hidden" name="eintritt" value="<?php echo $eintritt; ?>">
-							<input type="hidden" name="aktion" value="login"></form>
+							<input type="hidden" name="aktion" value="login">
+							</form>
 							<?php
 						} else {
 							?>
-							<TABLE BORDER="0" CELLPADDING="6" CELLSPACING="0">
-								<TR BGCOLOR="<?php echo $farbe_tabelle_kopf2; ?>">
-									<TD colsPAN="2"><?php echo $t['agb']; ?></TD>
-								</TR>
-								<TR BGCOLOR="<?php echo $farbe_tabelle_kopf; ?>">
-									<TD align="left"><?php echo $f1; ?><B><input type="SUBMIT" NAME="los" VALUE="<?php echo $t['login17']; ?>"></B></TD>
-									<TD align="right"><?php echo $f1; ?><input type="SUBMIT" NAME="los" VALUE="<?php echo $t['login18']; ?>"></TD>
-								</TR>
-							</TABLE>
+							<table>
+								<TR>
+									<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf2; ?>;"><?php echo $t['agb']; ?></td>
+								</tr>
+								<tr>
+									<td align="left" style="background-color:<?php echo $farbe_tabelle_kopf; ?>;"><?php echo $f1; ?><b><input type="SUBMIT" NAME="los" VALUE="<?php echo $t['login17']; ?>"></b></td>
+									<td align="right" style="background-color:<?php echo $farbe_tabelle_kopf; ?>;"><?php echo $f1; ?><input type="SUBMIT" NAME="los" VALUE="<?php echo $t['login18']; ?>"></td>
+								</tr>
+							</table>
 							<?php echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n"; ?>
 							<input type="hidden" name="login" value="<?php echo $login; ?>">
 							<input type="hidden" name="passwort" value="<?php echo $passwort; ?>">
@@ -2079,7 +2081,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			if (!isset($f['u_url']))
 				$f['u_url'] = "";
 			
-			$text = "<TABLE><TR><TD ALIGN=RIGHT><B>" . $t['neu10']
+			$text = "<table><TR><TD ALIGN=RIGHT><B>" . $t['neu10']
 				. "</B></TD>" . "<TD>" . $f1
 				. "<INPUT TYPE=\"TEXT\" NAME=\"f[u_name]\" VALUE=\"$f[u_name]\" SIZE=40>"
 				. $f2 . "</TD>" . "<TD><B>*</B>&nbsp;" . $f1 . $t['neu11']
@@ -2123,7 +2125,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$text .= "<INPUT TYPE=\"HIDDEN\" NAME=\"backarray\" VALUE=\""
 					. urlencode(urldecode($backarray)) . "\">";
 			$text .= "<B><INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\""
-				. $t['neu22'] . "\"></B>" . $f2 . "</TD>\n" . "</TR></TABLE>";
+				. $t['neu22'] . "\"></B>" . $f2 . "</TD>\n" . "</TR></table>";
 			if ($los != $t['neu22'])
 				echo $t['neu23'];
 			
@@ -2181,12 +2183,12 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					$titel = $backarray['titel'];
 				} else {
-					$text = $t['neu25'] . "<TABLE><TR><TD ALIGN=RIGHT><B>"
+					$text = $t['neu25'] . "<table><TR><TD ALIGN=RIGHT><B>"
 						. $t['neu26'] . "</B></TD>" . "<TD>" . $f1
 						. $f['u_name'] . $f2 . "</TD></TR>\n"
 						. "<TR><TD ALIGN=RIGHT><B>" . $t['neu27'] . "</B></TD>"
 						. "<TD>" . $f1 . $f['u_nick'] . $f2
-						. "</TD></TR></TABLE>\n" . $t['neu28']
+						. "</TD></TR></table>\n" . $t['neu28']
 						. "<FORM ACTION=\"$chat_file\" NAME=\"login\" METHOD=\"POST\">\n"
 						. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
 						. "<INPUT TYPE=\"HIDDEN\" NAME=\"login\" VALUE=\"$f[u_nick]\">\n"

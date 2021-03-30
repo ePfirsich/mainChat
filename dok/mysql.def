@@ -300,7 +300,7 @@ CREATE TABLE online (
   o_raum int(11) NOT NULL default '0',
   o_hash varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   o_timestamp timestamp NOT NULL,
-  o_ip varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+  o_ip varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
   o_who smallint(3) unsigned default NULL,
   o_aktiv timestamp NOT NULL default '00000000000000',
   o_chat_id int(11) unsigned NOT NULL default '0',
