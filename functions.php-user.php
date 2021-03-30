@@ -142,12 +142,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
     global $user_farbe, $farbe_text, $ist_online_raum, $chat_max_eingabe, $t, $ft0, $ft1, $communityfeatures;
     global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
     
-    // Welcher Browser wird benutzt? Breite der Eingabefelder einstellen
-    if (ist_netscape()) {
-        $eingabe_breite = 17;
-    } else {
-        $eingabe_breite = 29;
-    }
+    $eingabe_breite = 29;
     
     // User listen
     $query = "SELECT user.*,"

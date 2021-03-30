@@ -188,7 +188,7 @@ if ($u_id) {
         . $f4
         . "</td></tr><TR><TD ALIGN=\"CENTER\"><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=2><BR>\n";
     werbung('interaktiv', $werbung_gruppe);
-    echo "</TD></TR></TABLE></CENTER></FORM>\n" . "</body></html>";
+    echo "</TD></TR></TABLE></CENTER></FORM>\n";
     
 } else {
 	// User wird nicht gefunden. Login ausgeben
@@ -200,9 +200,8 @@ if ($u_id) {
 	<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
 	<?php
-	exit;
 }
 ?>
+</body>
+</html>

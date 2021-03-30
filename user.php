@@ -35,21 +35,17 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
     $raum_subquery = "AND r_id=$schau_raum";
 }
 
-// Welcher Browser wird benutzt? Breite der Eingabefelder einstellen
-if (ist_netscape()) {
-    $eingabe_breite = 18;
-} else {
-    $eingabe_breite = 31;
-}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel . "_Info"; ?></title>
+<meta charset="utf-8">
+<?php
+
+$eingabe_breite = 31;
 
 if ($aktion != "zeigalle" || $u_level != "S") {
-	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel . "_Info"; ?></title>
-	<meta charset="utf-8">
-	<?php
     if ($aktion == "chatuserliste") {
         echo "<meta http-equiv=\"REFRESH\" CONTENT=\"" . intval($timeout / 3)
             . "; URL=user.php?http_host=$http_host&id=$id&aktion=chatuserliste\">\n";
@@ -81,8 +77,8 @@ if ($aktion != "zeigalle" || $u_level != "S") {
     
     echo "  var stdparm='?http_host='+http_host+'&id='+id+'&schau_raum='+raum;\n"
         . "  var stdparm2='?http_host='+http_host+'&id='+id;\n";
-    if ($aktion != "chatuserliste") {
-	?>
+        if ($aktion != "chatuserliste") {
+        	?>
 	window.focus();
 	function resetinput() {
 	    document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
@@ -102,9 +98,9 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 
 	<?php
     }
-    echo "</SCRIPT>\n";
-    echo "<SCRIPT LANGUAGE=\"JavaScript\" src=\"jscript.js\"></script>\n";
     ?>
+    </script>
+    <script language="JavaScript" src="jscript.js"></script>
 	<style type="text/css">
 	<?php echo $stylesheet; ?>
 	body {
@@ -120,10 +116,14 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 		color:<?php echo $farbe_mini_vlink; ?>;
 	}
 	</style>
-	</head>
-	<body>
+
 	<?php
 }
+
+?>
+</head>
+<body>
+<?php
 
 // Login ok?
 if (strlen($u_id) != 0) {
@@ -268,7 +268,7 @@ if (strlen($u_id) != 0) {
                     echo $t['sonst47'];
                 }
             } else {
-                echo "<HTML><BODY>$t[sonst41]</BODY></HTML>\n";
+                echo "$t[sonst41]";
             }
         
         case "userimport":
@@ -297,7 +297,7 @@ if (strlen($u_id) != 0) {
                 echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
                 
             } else {
-                echo "<HTML><BODY>$t[sonst41]</BODY></HTML>\n";
+                echo "$t[sonst41]";
             }
             break;
         
@@ -315,7 +315,7 @@ if (strlen($u_id) != 0) {
                 echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
                 
             } else {
-                echo "<HTML><BODY>$t[sonst41]</BODY></HTML>\n";
+                echo "$t[sonst41]";
             }
             break;
         
@@ -339,7 +339,7 @@ if (strlen($u_id) != 0) {
                 echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
                 
             } else {
-                echo "<HTML><BODY>$t[sonst41]</BODY></HTML>\n";
+                echo "$t[sonst41]";
             }
             break;
         
@@ -355,7 +355,7 @@ if (strlen($u_id) != 0) {
                 $rows = mysqli_num_rows($result);
                 
                 if (!$result || mysqli_num_rows($result) == 0) {
-                    echo "<HTML><BODY><P>$t[sonst4]</P></BODY></HTML>\n";
+                    echo "<p>$t[sonst4]</p>";
                 } else {
                     
                     Header(
@@ -403,7 +403,7 @@ if (strlen($u_id) != 0) {
                     }
                 }
             } else {
-                echo "<HTML><BODY>$t[sonst41]</BODY></HTML>\n";
+                echo "$t[sonst41]";
             }
             break;
         
@@ -920,8 +920,10 @@ if (strlen($u_id) != 0) {
             } else { // array ist gefüllt -> Daten ausgeben
             
                 if ($aktion != "chatuserliste") {
-                    echo "<TABLE CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_kopf\">\n"
-                        . "<TR><TD><A HREF=\"#\" onClick=\"window.close();\">"
+                	?>
+                    <table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
+					<?php
+                        echo "<TR><TD><A HREF=\"#\" onClick=\"window.close();\">"
                         . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" WIDTH=\"15\" HEIGHT=\"13\" ALIGN=\"RIGHT\" BORDER=\"0\"></A>"
                         . "<FONT SIZE=\"-1\" COLOR=\"$farbe_text\"><B>$box</B></FONT>"
                         . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><BR>\n"

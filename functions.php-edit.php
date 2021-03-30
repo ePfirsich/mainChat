@@ -14,13 +14,8 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
     global $frame_size, $u_id, $communityfeatures, $punktefeatures;
     global $einstellungen_aendern, $eintritt_individuell;
     
-    if (ist_netscape()) {
-        $input_breite = 15;
-        $passwort_breite = 6;
-    } else {
-        $input_breite = 32;
-        $passwort_breite = 15;
-    }
+    $input_breite = 32;
+    $passwort_breite = 15;
     
     if (ist_online($f['u_id'])) {
         $box = $ft0 . str_replace("%user%", $f['u_nick'], $t['user_zeige20'])

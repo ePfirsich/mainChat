@@ -727,9 +727,13 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
             verlasse_chat($u_id, $u_name, $r_id);
             sleep(2);
             logout($o_id, $u_id, "/quit");
-            
-            echo "<HTML><BODY onLoad='javascript:parent.location.href=\"index.php?http_host=$http_host\";'>\n";
-            echo "</BODY></HTML>\n";
+            ?>
+            <!DOCTYPE html>
+            <html>
+            <body onLoad="javascript:parent.location.href="index.php?http_host=<?php  echo $http_host; ?>">
+            </body>
+            </html>
+            <?php
             exit;
             break;
         

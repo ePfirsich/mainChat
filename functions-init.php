@@ -114,7 +114,7 @@ if ( !file_exists($filenameConfig) ) {
 	
 	if (ini_get('output_buffering') >= 1) {
 		?>
-			<!DOCTYPE html>
+		<!DOCTYPE html>
 		<html>
 		<head>
 			<title>mainChat</title>
@@ -133,6 +133,5 @@ if ( !file_exists($filenameConfig) ) {
 	}
 	
 	$usleep = 50000;
-
 }
 ?>

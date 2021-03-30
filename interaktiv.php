@@ -232,23 +232,26 @@ if (isset($u_id) && $u_id) {
     if ($u_level != "M") {
         werbung('interaktiv', $werbung_gruppe);
     }
-    
-    echo "</TD></TR>\n" . "</TABLE></FORM>\n";
-    echo "</BODY></HTML>\n";
-    
+    ?>
+    </td>
+    </tr>
+    </table>
+    </form>
+
+    <?php
 } else {
 	// User wird nicht gefunden. Login ausgeben
 	?>
 	<!DOCTYPE html>
 	<html>
 	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
+		<title><?php echo $body_titel; ?></title>
+		<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
 	<?php
 	exit;
 }
 ?>
+</body>
+</html>

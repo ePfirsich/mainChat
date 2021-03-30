@@ -42,13 +42,8 @@ a:visited, a:active {
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if (ist_netscape()) {
-    $input_breite = 15;
-    $passwort_breite = 6;
-} else {
-    $input_breite = 32;
-    $passwort_breite = 15;
-}
+$input_breite = 32;
+$passwort_breite = 15;
 
 // Login ok?
 if (strlen($u_id) != 0) {

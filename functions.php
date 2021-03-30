@@ -903,7 +903,9 @@ function show_box($box, $text, $url = "", $width = "")
     }
     
     echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 $width BGCOLOR=\"$farbe_tabelle_kopf2\">\n";
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf\"><TD>";
+    ?>
+    <tr><td style="background-color:<?php echo $farbe_tabelle_kopf; ?>">
+    <?php
     if (strlen($url) > 0) {
         echo "<A HREF=\"$url\">$box>"
             . "<IMG SRC=/pics/button-x.gif WIDTH=15 HEIGHT=13 ALIGN=RIGHT BORDER=0>"
@@ -1510,19 +1512,6 @@ function chat_parse($text)
     $text = str_replace("###ausruf###", "!", $text);
     
     return $text;
-}
-
-function ist_netscape()
-{
-    // Browser auf Netscape 4.7x prüfen
-    global $HTTP_SERVER_VARS;
-    
-    if (preg_match('#mozilla/4\.7#i', $_SERVER["HTTP_USER_AGENT"])) {
-        return (true);
-    } else {
-        return (false);
-    }
-    
 }
 
 function gensalt($length)

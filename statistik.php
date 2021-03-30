@@ -4,7 +4,13 @@ $u_id = "";
 if (function_exists("id_lese"))
     id_lese($id);
 if (!$u_id) {
-    echo "<HTML><BODY><B>Fehler:</B> Diese Seite darf nur aus dem User-Menue als Admin aufgerufen werden!</BODY></HTML>\n";
+	?>
+    <html>
+    	<body>
+    		<b>Fehler:</b> Diese Seite darf nur aus dem User-Menue als Admin aufgerufen werden!
+    	</body>
+    </html>
+    <?php
     die();
 }
 
@@ -13,7 +19,7 @@ include("conf/" . $sprachconfig . "-statistik.php");
 
 // config-bereich
 
-$STAT_TITLE_BACK0 = $farbe_tabelle_kopf;// "#0078BE"; // Farben die für den Rahmen und den Hintergrund der Überschrift und    
+$STAT_TITLE_BACK0 = $farbe_tabelle_kopf;// "#0078BE"; // Farben die für den Rahmen und den Hintergrund der Überschrift und
 $STAT_TITLE_BACK1 = $farbe_tabelle_koerper; // des Menü verwendet werden sollen. 
 $STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel. 
 
@@ -27,11 +33,11 @@ $STAT_BAR_IMAGE_T = "14,2,pics/bar-t.gif";
 $STAT_BAR_IMAGE_M = "14,2,pics/bar-m.gif";
 $STAT_BAR_IMAGE_B = "14,2,pics/bar-b.gif";
 
-// Fontstart und Fontende die zum Anzeigen der unteren Beschriftung verwendet werden sollen.                                                                
+// Fontstart und Fontende die zum Anzeigen der unteren Beschriftung verwendet werden sollen.
 $STAT_BAR_FONTBEG1 = "<SMALL>";
 $STAT_BAR_FONTEND1 = "</SMALL>";
 
-// Fontstart und Fontende die zum Anzeigen der seitlichen Beschriftung wendet werden sollen.                                                     */
+// Fontstart und Fontende die zum Anzeigen der seitlichen Beschriftung wendet werden sollen.
 $STAT_BAR_FONTBEG2 = "<SMALL><B>";
 $STAT_BAR_FONTEND2 = "</B></SMALL>";
 

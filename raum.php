@@ -239,12 +239,7 @@ if (strlen($u_id) != 0) {
     
     $tabellenfuss = "</TD></TR></TABLE></TD></TR></TABLE>\n";
     
-    // Browser prüfen
-    if (ist_netscape()) {
-        $eingabe_breite = 30;
-    } else {
-        $eingabe_breite = 54;
-    }
+    $eingabe_breite = 54;
     
     // Auswahl
     switch ($aktion) {

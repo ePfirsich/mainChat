@@ -65,16 +65,9 @@ a:visited, a:active {
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-// Browser prüfen
-if (ist_netscape()) {
-    $eingabe_breite = 40;
-    $eingabe_breite1 = 49;
-    $eingabe_breite2 = 50;
-} else {
-    $eingabe_breite = 55;
-    $eingabe_breite1 = 87;
-    $eingabe_breite2 = 75;
-}
+$eingabe_breite = 55;
+$eingabe_breite1 = 87;
+$eingabe_breite2 = 75;
 
 if ($u_id && $communityfeatures && $u_level != "G") {
     

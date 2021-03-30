@@ -7,7 +7,15 @@ require("functions.php-func-chat_lese.php");
 id_lese($id);
 
 if ($u_farbe_bg != "" && $u_farbe_bg != "-")
-    $farbe_chat_background1 = $u_farbe_bg;
+	$farbe_chat_background1 = $u_farbe_bg;
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php
 
 // Userdaten gesetzt?
 if (strlen($u_id) > 0) {
@@ -27,11 +35,6 @@ if (strlen($u_id) > 0) {
     // auf die Startseite springen, da id_lese ein Problem damit hat
     $userfuerrefresh = urlencode($user_nick);
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	<meta http-equiv="REFRESH" CONTENT="<?php echo intval(15)
 	        . "; URL=messages-popup.php?http_host=$http_host&id=$id&user=$user&user_nick=$userfuerrefresh"; ?>">
 	<style type="text/css">
@@ -78,22 +81,21 @@ if (strlen($u_id) > 0) {
     if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, TRUE, $user)) {
         echo $t['chat_msg106'];
     }
-    
-    echo "</td></tr></table></td></tr></table></BODY></HTML>\n";
-    
+    ?>
+    </td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    </table>
+    <?php
 } else {
 	// User wird nicht gefunden. Login ausgeben
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
 	<?php
-	exit;
 }
 ?>
+</body>
+</html>

@@ -110,14 +110,8 @@ a:visited, a:active {
     // Unterscheidung Normal oder sicherer Modus
     if ($backup_chat || $u_backup) {
         
-        // Beim Netscape Eingabezeile schmäler setzen
-        if (ist_netscape()) {
-            $chat_eingabe_breite = floor($chat_eingabe_breite / 2) - 7;
-            $mindestbreite = 18;
-        } else {
-            $chat_eingabe_breite = $chat_eingabe_breite - 11;
-            $mindestbreite = 44;
-        }
+        $chat_eingabe_breite = $chat_eingabe_breite - 11;
+        $mindestbreite = 44;
         
         // Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
         if ($chat_eingabe_breite < $mindestbreite) {
@@ -139,13 +133,7 @@ a:visited, a:active {
         echo "</TD></TR>\n";
     } else {
         
-        // Beim Netscape Eingabezeile schmäler setzen
-        if (ist_netscape()) {
-            $chat_eingabe_breite = floor($chat_eingabe_breite / 2);
-            $mindestbreite = 25;
-        } else {
-            $mindestbreite = 55;
-        }
+        $mindestbreite = 55;
         
         // Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
         if ($chat_eingabe_breite < $mindestbreite)
@@ -269,8 +257,6 @@ a:visited, a:active {
     
 } else {
     echo "<BODY onLoad='parent.location.href=\"index.php?http_host=$http_host\"'>\n";
-    echo "</BODY></HTML>\n";
-    exit;
 }
 
 ?>

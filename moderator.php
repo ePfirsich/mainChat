@@ -5,14 +5,15 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
 id_lese($id);
 
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php
+
 if (strlen($u_id) > 0) {
-	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
-    <?php
     // Falls keine Texte zur Moderation gefunden wurden, nach 10 Sek reload
     if ($o_js) {
         $moderations_zeilen = anzahl_moderationstexte($o_raum);
@@ -102,7 +103,6 @@ if (strlen($u_id) > 0) {
                 }
                 echo "\n\n";
                 flush();
-                echo "</BODY></HTML>\n";
         }
     } else {
         echo $t[moderation1];
@@ -112,16 +112,10 @@ if (strlen($u_id) > 0) {
 } else {
 	// User wird nicht gefunden. Login ausgeben
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
 	<?php
-	exit;
 }
 ?>
+</body>
+</html>

@@ -486,7 +486,6 @@ function such_ergebnis()
     
 }
 ?>
-<HTML>
 <!DOCTYPE html>
 <html>
 <head>

@@ -114,12 +114,21 @@ function maske_forum($fo_id = 0)
         $button = $t['forum_button'];
         
     }
-    
-    echo "<form action=\"forum.php\" method=\"post\">";
-    echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>";
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
-    echo "<tr bgcolor=\"$farbe_tabelle_kopf\"><td colspan=\"2\"><DIV style=\"color:$farbe_text; font-weight:bold;\">$kopfzeile</td></tr>\n";
-    echo "</table></td></tr><tr><td>";
+    ?>
+    <form action="forum.php" method="post">";
+    <table style="width:760px;" style="background-color:<?php echo $farbe_tabellenrahmen; ?>">
+    <tr>
+    <td>
+    <table style="width:100%px;">
+    <tr>
+    <td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $kopfzeile; ?></td>
+    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <?php
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
     echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
     echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg1]</DIV> $f2</td>";
@@ -202,15 +211,20 @@ function forum_liste()
         while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
             //Neues Forum?
             if ($fo_id_last != $thema['fo_id']) {
-                if ($zeile > 0)
+            	if ($zeile > 0) {
                     echo "</table></td></tr></table><br>";
-                echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"></tr><td>\n";
-                echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-                echo "<tr bgcolor=\"$farbe_tabelle_kopf\">\n";
-                echo "<td width=\"1\"><img src=\"pics/fuell.gif\" width=\"1\" height=\"25\" border=\"0\"></td>\n";
-                echo "<td width=\"559\" colspan=\"2\"><table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-                echo "<tr><td>&nbsp;<DIV style=\"color:$farbe_text; font-weight:bold;\">&nbsp;&nbsp;"
-                    . htmlspecialchars($thema['fo_name'])
+            	}
+            	?>
+                <table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>"></tr><td>
+                <table style="width:100%;">
+                <tr>
+                <td style="width:1px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:1px; height:25px; border:0px;"></td>
+                <td style="width:559px; background-color:<?php echo $farbe_tabelle_kopf; ?>" colspan="2">
+                <table style="width:100%">
+                <tr>
+                <td>&nbsp;<div style="color:<?php echo $farbe_text; ?>; font-weight:bold;">&nbsp;&nbsp;
+    			<?php
+                echo htmlspecialchars($thema['fo_name'])
                     . "<a name=\"" . $thema['fo_id'] . "\"></a></DIV></td>";
                 if ($forum_admin) {
                     echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[conf_delete_forum]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
@@ -346,9 +360,17 @@ function maske_thema($th_id = 0)
     
     echo "<form action=\"forum.php\" method=\"post\">";
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>";
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
-    echo "<tr bgcolor=\"$farbe_tabelle_kopf\"><td colspan=\"2\"><DIV style=\"color:$farbe_text; font-weight:bold;\">$kopfzeile</td></tr>\n";
-    echo "</table></td></tr><tr><td>\n";
+    ?>
+    <table style="width:100%;">
+	    <tr>
+	    	<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>;font-weight:bold;"><?php echo $kopfzeile; ?></td>
+	    </tr>
+    </table>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <?php
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
     echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
     echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[thema_msg1]</DIV> $f2</td>";
@@ -485,19 +507,25 @@ function show_thema()
     $query = mysqli_query($mysqli_link, $sql);
     
     $th_name = show_pfad($th_id);
-    echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr bgcolor=\"$farbe_tabelle_kopf\">\n";
-    echo "<td width=\"30\"><img src=\"pics/fuell.gif\" width=\"30\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"20\"><img src=\"pics/fuell.gif\" width=\"20\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"340\"><img src=\"pics/fuell.gif\" width=\"340\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"170\"><img src=\"pics/fuell.gif\" width=\"170\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"120\"><img src=\"pics/fuell.gif\" width=\"120\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"40\"><img src=\"pics/fuell.gif\" width=\"40\" height=\"1\" border=\"0\"></td>\n";
-    echo "<td width=\"40\"><img src=\"pics/fuell.gif\" width=\"40\" height=\"1\" border=\"0\"></td></tr>\n";
-    
-    echo "<tr bgcolor=\"$farbe_tabelle_kopf\">\n";
-    echo "<td colspan=\"3\"><table width=\"390\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-    echo "<tr><td width=\"3\"><img src=\"pics/fuell.gif\" width=\"3\" height=\"30\" border=\"0\"></td><td ><DIV style=\"color:$farbe_text; font-weight:bold;\">&nbsp;&nbsp;$th_name</DIV></td>\n";
+    ?>
+    <table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+	    <tr>
+	    <td>
+	    <table style="width:100%">
+	    <tr>
+	    <td style="width:30px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:30px; height:1px; border:0px;"></td>
+	    <td style="width:20px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:20px; height:1px; border:0px;"></td>
+	    <td style="width:340px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:340px; height:1px; border:0px;"></td>
+	    <td style="width:170px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:170px; height:1px; border:0px;"></td>
+	    <td style="width:120px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:120px; height:1px; border:0px;"></td>
+	    <td style="width:40px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:40px; height:1px; border:0px;"></td>
+	    <td style="width:40px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:40px; height:1px; border:0px;"></td>
+	    </tr>
+	    <tr>
+    		<td colspan="3" style="background-color:<?php echo $farbe_tabelle_kopf; ?>">
+    			<table style="width:390px;">
+    <?php
+    echo "<tr><td width=\"3\"><img src=\"pics/fuell.gif\" width=\"3\" height=\"30\" border=\"0\"></td><td><DIV style=\"color:$farbe_text; font-weight:bold;\">&nbsp;&nbsp;$th_name</DIV></td>\n";
     
     $schreibrechte = pruefe_schreibrechte($th_id);
     if ($schreibrechte)
@@ -740,15 +768,28 @@ function maske_posting($mode)
     }
     echo "<form name=\"form\" action=\"forum.php\" method=\"post\">";
     show_pfad_posting($th_id, $titel);
-    echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>";
-    echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
-    echo "<tr bgcolor=\"$farbe_tabelle_kopf\"><td><DIV style=\"color:$farbe_text; font-weight:bold;\">$kopfzeile</DIV></td></tr>\n";
-    echo "</table></td></tr><tr><td>\n";
-    echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">\n";
-    echo "<tr><td width=\"200\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[posting_msg1]</DIV> $f2</td>";
-    echo "<td width=560><input type=\"text\" size=\"50\" name=\"po_titel\" value=\"$po_titel\"></td></tr>\n";
-    echo "<tr><td colspan=\"2\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[posting_msg2]<DIV style=\"color:$farbe_text; font-weight:bold;\"> $f2<br>"
-        . $f3
+    ?>
+    <table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+	    <tr>
+		    <td>
+			    <table style="width:100%;">
+				    <tr>
+				    	<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;\"><?php echo $kopfzeile; ?></div></td>
+				    </tr>
+			    </table>
+		    </td>
+	    </tr>
+	    <tr>
+    		<td>
+    			<table style="width:760px; background-color:<?php echo $farbe_tabelle_kopf2; ?>">
+    				<tr>
+    					<td style="width:200px;"><?php echo $f1; ?> <div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $t[posting_msg1]; ?></div> <?php echo $f2; ?></td>
+    					<td style="width:560px;"><input type="text" size="50" name="po_titel" value="<?php echo $po_titel; ?>"></td>
+    				</tr>
+    				<tr>
+    					<td colspan="2"><?php echo $f1; ?> <div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $t[posting_msg2]; ?><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"> <?php echo $f2; ?><br>
+    <?php
+    echo $f3
         . "<DIV style=\"color:$farbe_text; \">($t[desc_posting])</DIV>$f4</td></tr>\n";
     
     $link_smilies = "$smilies_datei?http_host=$http_host&id=$id";

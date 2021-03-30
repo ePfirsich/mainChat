@@ -61,9 +61,14 @@ $chat["datenschutz"] = filter_input(INPUT_POST, 'chat_datenschutz', FILTER_SANIT
 require("functions.php-install.php");
 $configdatei = "../conf/config.php";
 
-echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"8\" border=\"2\" bordercolor=\"#007ABE\" bgcolor=\"#E5E5E5\" style=\"font-family: Arial;\">\n";
-echo "<tr bgcolor=\"#007ABE\"><td><p style=\"font-size:20px;text-align:center;color:#ffffff;font-family:Arial;\"><b>mainChat Installation</b></p></td></tr><tr><td>\n";
-
+?>
+<table style="width:100%; border:2px; background-color:#E5E5E5; border-color:#007ABE; font-family: Arial;">
+	<tr>
+		<td style="background-color:#007ABE;"><p style="font-size:20px;text-align:center;color:#ffffff;font-family:Arial;"><b>mainChat Installation</b></p></td>
+	</tr>
+	<tr>
+		<td>
+<?php
 switch ($aktion) {
 	case "step_2":
 		if (!file_exists($configdatei)) {
@@ -77,8 +82,12 @@ switch ($aktion) {
 				|| ($chat["hackmail"] == ""
 					|| (!preg_match($regexemail, $chat["hackmail"])))
 				|| $chat["chatname"] == "") {
-				echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\" align=\"center\">\n"
-					. "<tr bgcolor=\"#007ABE\"><td colspan=\"2\" style=\"font-size:15px; text-align:center;color:#ffffff;\"><B>FEHLER</b></td></tr>\n";
+				?>
+				<table style="width:100%;" align="center">
+					<tr>
+						<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff; background-color:#007ABE;"><B>FEHLER</b></td>
+					</tr>
+				<?php
 				if ($chat["lobby"] == "")
 					echo "<tr style=\"color:#ff0000;font-weigth:bold;\"><td>Bitte tragen Sie ein Lobby Defaultraum ein!</td></tr>\n";
 				if ($chat["dbase"] == "")

@@ -774,7 +774,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
     }
     
     if ($ok) {
-        $body_tag = "<BODY $bg";
+        $body_tag = "<body $bg";
         if (is_array($farben)) {
             $body_tag .= " TEXT=\"$farben[text]\" " . "LINK=\"$farben[link]\" "
                 . "VLINK=\"$farben[vlink]\" " . "ALINK=\"$farben[vlink]\"";

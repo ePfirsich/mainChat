@@ -15,7 +15,7 @@ $t['login5'] = "<P><B>Leider ist der Account %u_nick% (%u_name%) derzeit gesperr
     . "Bitte wenden Sie sich an unseren <A HREF=\"MAILTO:" . $webmaster
     . "\">Webmaster</A>.</B></P><BR><BR>\n";
 $t['login6'] = "<H2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</H2>\n"
-    . "</NOFRAMES></BODY></HTML>\n";
+    . "</noframes></body></html>\n";
 $t['login7'] = "<P><B>Falsches Passwort oder Nickname eingegeben! Bitte versuchen Sie es neu:</B></P>\n";
 $t['login8'] = "Name/Nick:";
 $t['login9'] = "Passwort:";

@@ -14,6 +14,13 @@ $refresh_zeit = 600;
 // Systemnachrichten ausgeben
 $sysmsg = TRUE;
 
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php
 // Userdaten gesetzt?
 if ($u_id) {
     
@@ -28,11 +35,6 @@ if ($u_id) {
     if ($backup_chat || $u_backup) :
         // n-Zeilen ausgeben und nach Timeout neu laden
 		?>
-		<!DOCTYPE html>
-		<html>
-		<head>
-		<title><?php echo $body_titel; ?></title>
-		<meta charset="utf-8">
 		<meta http-equiv="expires" content="0">
 		<?php
 		echo "<meta http-equiv=\"REFRESH\" CONTENT=\"7; "
@@ -62,16 +64,8 @@ if ($u_id) {
 		<?php
         // Chatausgabe, $letzte_id ist global
         chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
-        
-        echo "</BODY></HTML>\n";
-    
     else :
 		?>
-		<!DOCTYPE html>
-		<html>
-		<head>
-		<title><?php echo $body_titel; ?></title>
-		<meta charset="utf-8">
 		<meta http-equiv="expires" content="0">
 		<?php
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
@@ -195,28 +189,18 @@ if ($u_id) {
         // Trigger für die Ausgabe der letzten 20 Nachrichten setzen
         $back = 20;
         
-        echo "<BODY onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n"
-            . "</body></html>";
+        echo "<body onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n";
         flush();
     
     endif;
     
 } else {
-
-	
-	
 	// Auf Chat-Eingangsseite leiten
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
 	<?php
-	exit;
 }
 ?>
+</body>
+</html>

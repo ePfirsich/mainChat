@@ -27,47 +27,46 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "")
     $fenster = str_replace("Ö", "", $fenster);
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . "_Home"; ?></title>
-<meta charset="utf-8">
-<script>
-        window.focus()
-        function win_reload(file,win_name) {
-                win_name.location.href=file;
-        }
-        function opener_reload(file,frame_number) {
-                opener.parent.frames[frame_number].location.href=file;
-        }
-        function neuesFenster(url,name) {
-                hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580");
-        }
-        function neuesFenster2(url) {
-                hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-        }
-</script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
-<body>
-<?php
+	?>
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<title><?php echo $body_titel . "_Home"; ?></title>
+	<meta charset="utf-8">
+	<script>
+	        window.focus()
+	        function win_reload(file,win_name) {
+	                win_name.location.href=file;
+	        }
+	        function opener_reload(file,frame_number) {
+	                opener.parent.frames[frame_number].location.href=file;
+	        }
+	        function neuesFenster(url,name) {
+	                hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580");
+	        }
+	        function neuesFenster2(url) {
+	                hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+	        }
+	</script>
+	<style type="text/css">
+	<?php echo $stylesheet; ?>
+	body {
+		background-color:<?php echo $farbe_mini_background; ?>;
+	<?php if(strlen($grafik_mini_background) > 0) { ?>
+		background-image:<?php echo $grafik_mini_background; ?>;
+	<?php } ?>
+	}
+	a, a:link {
+		color:<?php echo $farbe_mini_link; ?>;
+	}
+	a:visited, a:active {
+		color:<?php echo $farbe_mini_vlink; ?>;
+	}
+	</style>
+	</head>
+	<body>
+	<?php
 } else {
-    
     // Aufruf als home.php/USERNAME -> Redirekt auf home.php?USERNAME
     $u_id = "";
     $suchwort = $_SERVER["PATH_INFO"];
@@ -90,16 +89,9 @@ if (isset($u_id) && $u_id && $communityfeatures) {
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum);
     
-    // Browser prüfen
-    if (ist_netscape()) {
-        $eingabe_breite = 40;
-        $eingabe_breite1 = 49;
-        $eingabe_breite2 = 30;
-    } else {
-        $eingabe_breite = 55;
-        $eingabe_breite1 = 87;
-        $eingabe_breite2 = 50;
-    }
+    $eingabe_breite = 55;
+    $eingabe_breite1 = 87;
+    $eingabe_breite2 = 50;
     
     // Voreinstellungen
     $max_groesse = 30; // Maximale Bild- und Text größe in KB

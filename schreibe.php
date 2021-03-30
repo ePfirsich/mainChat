@@ -9,6 +9,14 @@ id_lese($id);
 // $raum_einstellungen und $ist_moderiert setzen
 raum_ist_moderiert($o_raum);
 
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title><?php echo $body_titel; ?></title>
+<meta charset="utf-8">
+<?php
+
 if (strlen($u_id) > 0) {
     
     // $chat_back gesetzt?
@@ -127,11 +135,6 @@ if (strlen($u_id) > 0) {
         
     }
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	<style type="text/css">
 	<?php echo $stylesheet; ?>
 	body {
@@ -166,9 +169,6 @@ if (strlen($u_id) > 0) {
             . "parent.moderator.location.href='moderator.php?http_host=$http_host&id=$id'"
             . "</SCRIPT>\n";
     }
-    
-    echo "</BODY></HTML>\n";
-    
 } else {
     
     echo "User nicht gefunden! ($id, $u_id, $u_name)<BR>";
@@ -176,17 +176,12 @@ if (strlen($u_id) > 0) {
 	
 	// User wird nicht gefunden. Login ausgeben
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
 	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-	</body>
-	</html>
+
 	<?php
-	exit;
 }
 
 ?>
+</body>
+</html>
