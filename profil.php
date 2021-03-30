@@ -20,7 +20,7 @@ $fenster = str_replace("ß", "", $fenster);
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Profil"; ?></title>
+<title><?php echo $body_titel . " - Profil"; ?></title>
 <meta charset="utf-8">
 <script>
         window.focus()

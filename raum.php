@@ -24,7 +24,7 @@ if (!isset($raumstatus['E'])) {
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Info"; ?></TITLE><meta charset="utf-8">
+<title><?php echo $body_titel . " - Info"; ?></TITLE><meta charset="utf-8">
 <script>
         window.focus()
 	function neuesFenster(url,name) {

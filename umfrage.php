@@ -22,7 +22,7 @@ $fenster = str_replace("ß", "", $fenster);
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Umfrage"; ?></title>
+<title><?php echo $body_titel . " - Umfrage"; ?></title>
 <meta charset="utf-8">
 <script>
         window.focus()

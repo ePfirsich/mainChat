@@ -17,7 +17,7 @@ if (isset($smiles_config) && $smilies_config
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Info"; ?></title>
+<title><?php echo $body_titel . " - Info"; ?></title>
 <meta charset="utf-8">
 <script>
 <?php

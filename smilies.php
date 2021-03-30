@@ -11,7 +11,7 @@ aktualisiere_online($u_id, $o_raum);
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Info"; ?></title>
+<title><?php echo $body_titel . " - Info"; ?></title>
 <meta charset="utf-8">
 <?php
 echo "<SCRIPT>\n";

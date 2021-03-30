@@ -489,7 +489,7 @@ function such_ergebnis()
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Info"; ?></title>
+<title><?php echo $body_titel . " - Info"; ?></title>
 <meta charset="utf-8">
 <script>
         window.focus()

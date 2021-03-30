@@ -15,7 +15,7 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Info"; ?></title>
+<title><?php echo $body_titel . " - Info"; ?></title>
 <meta charset="utf-8">
 <script>
         window.focus()

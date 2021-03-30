@@ -31,7 +31,7 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "")
 	<!DOCTYPE html>
 	<html>
 	<head>
-	<title><?php echo $body_titel . "_Home"; ?></title>
+	<title><?php echo $body_titel . " - Home"; ?></title>
 	<meta charset="utf-8">
 	<script>
 	        window.focus()

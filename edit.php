@@ -10,7 +10,7 @@ id_lese($id);
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Einstellungen"; ?></title>
+<title><?php echo $body_titel . " - Einstellungen"; ?></title>
 <meta charset="utf-8">
 <script>
         window.focus()

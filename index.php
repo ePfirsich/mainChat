@@ -1367,7 +1367,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 				// Login erfolgreich ?
-				
 				if ($u_level == "Z") {
 					
 					// User gesperrt -> Fehlermeldung ausgeben
@@ -1384,8 +1383,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					zeige_fuss();
 					
-				} elseif (false && $HTTP_COOKIE_VARS[MAINCHAT2] != "on"
-					&& ($u_level == "C" || $u_level == "S")) {
+				} elseif (false && $HTTP_COOKIE_VARS[MAINCHAT2] != "on" && ($u_level == "C" || $u_level == "S")) {
 					
 					// Der User ein Admin und es sind cookies gesetzt -> Fehlermeldung ausgeben
 					
@@ -1402,8 +1400,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					zeige_fuss();
 					
-				} elseif ($chat_max[$u_level] != 0
-					&& $onlineanzahl > $chat_max[$u_level]) {
+				} elseif ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 					
 					// Maximale Anzahl der User im Chat erreicht -> Fehlermeldung ausgeben
 					
@@ -1740,10 +1737,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						
 					}
 					
-					// Kopf ausgeben
 					?>
 					</head>
-					<body>
 					<?php
 					if ($communityfeatures && $eintritt == "forum") {
 						
@@ -1795,7 +1790,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						echo "<body " . $t['login6'];
 						die();
 					} else {
-						
 						// Chat betreten
 						betrete_chat($o_id, $u_id, $u_nick, $u_level,
 							$eintritt, $javascript, $u_backup);
@@ -1834,22 +1828,22 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						}
 						
 						// Frameset aufbauen
-						echo "<frameset rows=\"$frame_online_size,*," . $frame_size[$frame_type]['eingabe'] . "," . $frame_size[$frame_type]['interaktiv'] . ",1\" border=0 frameborder=0 framespacing=0>\n";
-						echo "<frame src=\"$frame_online?http_host=$http_host\" name=\"frame_online\" marginwidth=0 marginheight=0 scrolling=no>\n";
-						echo "<frameset cols=\"*," . $frame_size[$frame_type]['chatuserliste'] . "\" border=0 frameborder=0 framespacing=0>\n";
 						?>
-						<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-						<?php
-						if (!isset($userframe_url)) {
-							?>
-							<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
+						<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size[$frame_type]['eingabe']; ?>,<?php echo $frame_size[$frame_type]['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
+						<frame src="<?php echo $frame_online;?>?http_host=$http_host" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+						<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
+							<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
 							<?php
-						} else {
+							if (!isset($userframe_url)) {
+								?>
+								<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
+								<?php
+							} else {
+								?>
+								<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
+								<?php
+							}
 							?>
-							<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
-							<?php
-						}
-						?>
 						</frameset>
 						<frame src="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
 						<?php
@@ -1873,6 +1867,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							. "<!-- Browser/OS  $frame_type -->\n" . "<body "
 							. $t['login6'];
 					}
+					?>
+					<body>
+					<?php
 				}
 				
 			} elseif (!$login_ok) {

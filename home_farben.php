@@ -8,7 +8,7 @@ id_lese($id);
 <!DOCTYPE html>
 <html>
 <head>
-<title><?php echo $body_titel . "_Farben"; ?></title>
+<title><?php echo $body_titel . " - Farben"; ?></title>
 <meta charset="utf-8">
 <script>
 window.focus()
