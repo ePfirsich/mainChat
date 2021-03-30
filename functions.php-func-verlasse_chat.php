@@ -1,12 +1,11 @@
 <?php
 
-function verlasse_chat($u_id, $u_name, $raum)
-{
+function verlasse_chat($u_id, $u_name, $raum) {
     // user $u_id/$u_name verlässt $raum
     // Nachricht in Raum $raum wird erzeugt
     // Liefert ID des geschriebenen Datensatzes zurück
     
-    global $dbase, $chat, $system_farbe, $t, $lustigefeatures;
+	global $dbase, $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
     global $eintritt_individuell, $eintritt_useranzeige;
     $back = 0;
     
@@ -15,8 +14,7 @@ function verlasse_chat($u_id, $u_name, $raum)
         $text = $t['chat_msg102'];
         
         if ($eintritt_individuell == "1") {
-            $query = "SELECT `u_austritt` FROM `user` WHERE u_id = $u_id";
-            echo 'Query: ' . $query;
+            $query = "SELECT `u_austritt` FROM `user` WHERE `u_id` = $u_id";
             $result = mysqli_query($mysqli_link, $query);
             $row = mysqli_fetch_object($result);
             if (strlen($row->u_austritt) > 0) {
@@ -53,5 +51,4 @@ function verlasse_chat($u_id, $u_name, $raum)
     
     return ($back);
 }
-
 ?>

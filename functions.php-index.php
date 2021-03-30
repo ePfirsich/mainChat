@@ -5,8 +5,7 @@
 require_once("functions.php-func-verlasse_chat.php");
 require_once("functions.php-func-nachricht.php");
 
-function erzeuge_sequence($db, $id)
-{
+function erzeuge_sequence($db, $id) {
     //  Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
     
     global $dbase, $mysqli_link;
