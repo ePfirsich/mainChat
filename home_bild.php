@@ -71,7 +71,7 @@ if (!$mysqli_link) {
 }
 
 // Prüfe ob User existiert und NP aktiviert ist
-$query = "SELECT u_chathomepage FROM user WHERE u_id=$u_id ";
+$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
     if (mysqli_result($result, 0, "u_chathomepage") != 'J') {

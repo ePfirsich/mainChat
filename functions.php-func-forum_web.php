@@ -475,7 +475,7 @@ function show_thema()
         }
         
     } else {
-        $query = "SELECT u_forum_postingproseite FROM user WHERE u_id = '$u_id'";
+        $query = "SELECT `u_forum_postingproseite` FROM `user` WHERE `u_id` = '$u_id'";
         $result = mysqli_query($mysqli_link, $query);
         $a = mysqli_fetch_array($result);
         $anzahl_po_seite2 = $a['u_forum_postingproseite'];
@@ -1199,7 +1199,7 @@ function zeige_baum(
     }
     
     //vom user gelesene postings holen
-    $sql = "select u_gelesene_postings from user where u_id=$u_id";
+    $sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=$u_id";
     $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
         $gelesene = mysqli_result($query, 0, "u_gelesene_postings");

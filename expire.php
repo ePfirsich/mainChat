@@ -172,7 +172,7 @@ $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
     while ($row = mysqli_fetch_object($result)) {
         // User löschen
-        $result3 = mysqli_query($mysqli_link, "DELETE FROM user WHERE u_id=$row->u_id");
+        $result3 = mysqli_query($mysqli_link, "DELETE FROM `user` WHERE u_id=$row->u_id");
         
         // User-Ignore Einträge löschen
         $result3 = mysqli_query($mysqli_link, 
@@ -246,35 +246,35 @@ if ($zeit == "03:10") {
         }
     }
     if (strlen($besitzer) > 0) {
-        $query = "SELECT SQL_BUFFER_RESULT u_id, u_nick, u_login from user where (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-            . $nicknamen_expire . " " . " AND u_level!='Z' AND u_level!='S' "
+        $query = "SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, `u_login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
+            . $nicknamen_expire . " " . " AND `u_level` !='Z' AND `u_level` !='S' "
             . $besitzer;
     } else {
-        $query = "SELECT SQL_BUFFER_RESULT u_id, u_nick, u_login from user where (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-            . $nicknamen_expire . " " . " AND u_level!='Z' AND u_level!='S'";
+        $query = "SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, u_`login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
+            . $nicknamen_expire . " " . " AND `u_level` !='Z' AND `u_level` !='S'";
     }
     
     // Orginalquery ohne Raumbesitzer Expire wird nimmer benötigt
-    // $query="SELECT SQL_BUFFER_RESULT u_id from user where (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 15724800 AND u_level!='Z' AND u_level!='S'";
+    // $query="SELECT SQL_BUFFER_RESULT u_id FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 15724800 AND `u_level` !='Z' AND `u_level` !='S'";
     
     $result = mysqli_query($mysqli_link, $query);
     if ($result) {
         while ($row = mysqli_fetch_object($result)) {
             
-            // zur sicherheit vor versehentlichem löschen	
+            // zur sicherheit vor versehentlichem löschen
             if ($row->u_login == 0) {
                 continue;
             }
             
             // User löschen
-            $result3 = mysqli_query($mysqli_link, "DELETE FROM user WHERE u_id=$row->u_id");
+            $result3 = mysqli_query($mysqli_link, "DELETE FROM `user` WHERE `u_id`=$row->u_id");
             
             // User-Ignore Einträge löschen
             $result3 = mysqli_query($mysqli_link, 
-                "DELETE FROM iignore WHERE i_user_aktiv=$row->u_id OR i_user_passiv=$row->u_id");
+                "DELETE FROM iignore WHERE `i_user_aktiv`=$row->u_id OR `i_user_passiv`=$row->u_id");
             
             // Gesperrte Räume löschen
-            $query3 = "DELETE FROM sperre WHERE s_user=$row->u_id";
+            $query3 = "DELETE FROM `sperre` WHERE `s_user`=$row->u_id";
             $result3 = mysqli_query($mysqli_link, $query3);
             $i++;
         }

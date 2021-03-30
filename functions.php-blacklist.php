@@ -190,7 +190,7 @@ function loesche_blacklist($f_blacklistid)
     $query = "DELETE from blacklist WHERE f_blacklistid=$f_blacklistid";
     $result = mysqli_query($mysqli_link, $query);
     
-    $query = "SELECT u_nick FROM user where u_id=$f_blacklistid";
+    $query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_blacklistid";
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);

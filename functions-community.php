@@ -198,7 +198,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE)
             
             // es können maximal die punkte abgezogen werden, die man auch hat
             $result2 = mysqli_query($mysqli_link, 
-                "select u_punkte_gesamt, u_punkte_jahr, u_punkte_monat FROM user WHERE u_id=$u_id");
+                "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
             if ($result2 && mysqli_num_rows($result2) == 1) {
                 $row2 = mysqli_fetch_object($result2);
                 $p_gesamt = $row2->u_punkte_gesamt + $row->o_punkte;
@@ -226,7 +226,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE)
         unset($f);
         $f['u_punkte_gruppe'] = 0;
         $result = mysqli_query($mysqli_link, 
-            "select u_punkte_gesamt FROM user WHERE u_id=$u_id");
+            "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
         if ($result && mysqli_num_rows($result) == 1) {
         	$u_punkte_gesamt = mysqli_result($result, 0, 0);
             foreach ($punkte_gruppe as $key => $value) {
@@ -264,7 +264,7 @@ function punkte_offline($anzahl, $u_id)
         
         // es können maximal die punkte abgezogen werden, die man auch hat
         $result2 = mysqli_query($mysqli_link, 
-            "select u_punkte_gesamt, u_punkte_jahr, u_punkte_monat FROM user WHERE u_id=$u_id");
+            "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
         if ($result2 && mysqli_num_rows($result2) == 1) {
             $row2 = mysqli_fetch_object($result2);
             $p_gesamt = $row2->u_punkte_gesamt + $anzahl;
@@ -290,7 +290,7 @@ function punkte_offline($anzahl, $u_id)
     unset($f);
     $f['u_punkte_gruppe'] = 0;
     $result = mysqli_query($mysqli_link, 
-        "select u_punkte_gesamt,u_nick FROM user WHERE u_id=$u_id");
+        "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id");
     if ($result && mysqli_num_rows($result) == 1) {
     	$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
     	$u_nick = mysqli_result($result, 0, "u_nick");
@@ -632,7 +632,7 @@ function mail_sende($von, $an, $text, $betreff = "")
     }
     
     // Gesperrte User bekommen keine Chatmail Aktionen mehr
-    $query = "SELECT u_id FROM user WHERE u_id=" . intval($an) . " AND u_level='Z'";
+    $query = "SELECT `u_id` FROM `user` WHERE `u_id`=" . intval($an) . " AND u_level='Z'";
     $result = mysqli_query($mysqli_link, $query);
     $num = mysqli_num_rows($result);
     if ($num >= 1) {
@@ -717,7 +717,7 @@ function email_versende(
     $betreff = strip_tags(strtr($betreff, $trans));
     
     // Absender ermitteln
-    $query = "SELECT u_email,u_nick from user WHERE u_id=" . intval($von_user_id);
+    $query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $abrow = mysqli_fetch_object($result);
@@ -725,7 +725,7 @@ function email_versende(
     @mysqli_free_result($result);
     
     // Empfänger ermitteln und E-Mail versenden, Footer steht in $t[mail4]
-    $query = "SELECT u_adminemail,u_email,u_name,u_nick from user WHERE u_id=" . intval($an_user_id);
+    $query = "SELECT `u_adminemail`, `u_email,u_name`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_object($result);
@@ -903,7 +903,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
     global $mysqli_link, $t, $system_farbe;
     
     //schon gelesene Postings des Users holen
-    $sql = "select u_gelesene_postings from user where u_id = " . intval($an_u_id);
+    $sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
     $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
     	$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
@@ -1113,7 +1113,7 @@ function erzeuge_fuss($text)
     
     global $t, $u_id, $mysqli_link;
     
-    $query = "SELECT u_signatur,u_nick FROM user WHERE u_id=$u_id";
+    $query = "SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_object($result);

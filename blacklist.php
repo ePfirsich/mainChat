@@ -92,7 +92,7 @@ if ($admin && $u_id && $communityfeatures) {
         case "neu2":
         // Neuer Eintrag, 2. Schritt: Nick Prüfen
             $neuer_blacklist['u_nick'] = mysqli_real_escape_string($mysqli_link, $neuer_blacklist['u_nick']); // sec
-            $query = "SELECT u_id FROM user WHERE u_nick = '$neuer_blacklist[u_nick]'";
+            $query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$neuer_blacklist[u_nick]'";
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
             	$neuer_blacklist['u_id'] = mysqli_result($result, 0, 0);

@@ -145,10 +145,10 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
     $eingabe_breite = 29;
     
     // User listen
-    $query = "SELECT user.*,"
-        . "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS letzter_login,"
-        . "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS erster_login "
-        . "FROM user WHERE u_id=$user ";
+    $query = "SELECT `user`.*,"
+        . "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`,"
+        . "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` "
+        . "FROM `user` WHERE `u_id`=$user ";
     $result = mysqli_query($mysqli_link, $query);
     
     if ($result AND mysqli_num_rows($result) == 1) {
@@ -543,7 +543,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<INPUT TYPE=\"SUBMIT\" NAME=\"ein\" VALUE=\"Ändern!\">"
                 . "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><BR>";
             
-            $query = "SELECT u_chathomepage FROM user WHERE u_id = '$uu_id'";
+            $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
             $result = mysqli_query($mysqli_link, $query);
             $g = @mysqli_fetch_array($result);
             

@@ -179,7 +179,7 @@ function loesche_freund($f_freundid, $f_userid)
         . "(f_userid=$f_freundid AND f_freundid=$f_userid)";
     $result = mysqli_query($mysqli_link, $query);
     
-    $query = "SELECT u_nick FROM user where u_id=$f_freundid";
+    $query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_freundid";
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
@@ -343,7 +343,7 @@ function bestaetige_freund($f_userid, $freund)
     $freund = mysqli_real_escape_string($mysqli_link, $freund);
     $query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";
     mysqli_query($mysqli_link, $query);
-    $query = "SELECT u_nick FROM user where u_id='$f_userid'";
+    $query = "SELECT `u_nick` FROM `user` WHERE `u_id`='$f_userid'";
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);

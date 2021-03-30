@@ -379,7 +379,7 @@ if (strlen($u_id) != 0) {
             
             if ($communityfeatures && !$admin) {
                 
-                $result = mysqli_query($mysqli_link, "select u_punkte_gesamt FROM user WHERE u_id=$u_id");
+                $result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
                 if ($result && mysqli_num_rows($result) == 1) {
                 	$u_punkte_gesamt = mysqli_result($result, 0, 0);
                 }

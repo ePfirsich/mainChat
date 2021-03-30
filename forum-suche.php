@@ -225,7 +225,7 @@ function such_ergebnis()
     $maxpostingsprosuche = 1000;
     $titel = $t['ergebnis1'];
     
-    $sql = "select u_gelesene_postings from user where u_id=" . intval($u_id);
+    $sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
     $query = mysqli_query($mysqli_link, $sql);
     if (mysqli_num_rows($query) > 0)
     	$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
@@ -237,7 +237,7 @@ function such_ergebnis()
     $suche['username'] = coreCheckName($suche['username'], $check_name);
     unset($suche['u_id']);
     if (strlen($fehler) == 0 && $suche['username'] <> "") {
-        $sql = "SELECT u_id FROM user where u_nick = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
+        $sql = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
         $query = mysqli_query($mysqli_link, $sql);
         if (mysqli_num_rows($query) == 1) {
         	$suche['u_id'] = mysqli_result($query, 0, "u_id");

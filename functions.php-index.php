@@ -264,7 +264,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     $knebelzeit = NULL;
     // Aktuelle Userdaten aus Tabelle user lesen
     // Query muss mit Code in schreibe_db übereinstimmen
-    $query = "SELECT u_id,u_name,u_nick,u_level,u_farbe,u_zeilen,u_backup,u_farbe_bg,u_farbe_alle,u_farbe_priv,u_farbe_noise,u_farbe_sys,u_clearedit,u_away,u_email,u_adminemail,u_smilie,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_systemmeldungen,u_punkte_anzeigen FROM user WHERE u_id=$u_id";
+    $query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away,u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
     $result = mysqli_query($mysqli_link, $query);
     if (!$result) {
         echo "Fehler beim Login: $query<BR>";
@@ -289,7 +289,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
             $userdata_array[3] = "";
         
         // Hole Knebelzeit aus Usertabelle
-        $query = "SELECT u_knebel FROM user WHERE u_id=$u_id";
+        $query = "SELECT `u_knebel` FROM `user` WHERE `u_id`=$u_id";
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_object($result);
@@ -302,9 +302,9 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
     // ggf. Session löschen und neue Session schreiben
     
     // Tabellen online+user exklusiv locken
-    $query = "LOCK   TABLES online WRITE, user WRITE";
+    $query = "LOCK TABLES `online` WRITE, user WRITE";
     $result = mysqli_query($mysqli_link, $query);
-    $query = "DELETE FROM online WHERE o_user=$u_id";
+    $query = "DELETE FROM `online` WHERE o_user=$u_id";
     $result = mysqli_query($mysqli_link, $query);
     
     // User in in Tabelle online merken -> User ist online
@@ -770,7 +770,7 @@ function getsalt($feldname, $login)
     global $upgrade_password;
     
     $salt = "-9";
-    $query = "SELECT u_passwort FROM user WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' ";
+    $query = "SELECT `u_passwort` FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' ";
     $result = mysqli_query($mysqli_link, $query);
     
     if ($result && mysqli_num_rows($result) == 1) {
@@ -908,7 +908,7 @@ function auth_user($feldname, $login, $passwort)
             $v_passwort = crypt($passwort, $v_salt);
         }
         
-        $query = "SELECT * " . "FROM user WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND u_passwort='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+        $query = "SELECT * " . "FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort`='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $usergefunden = mysqli_result($result, 0, "u_id");
@@ -925,7 +925,7 @@ function auth_user($feldname, $login, $passwort)
             }
             
             // Neues PW ist nicht bekannt aber lt. oben richtig, daher neues $result erzeugen
-            $query = "SELECT * FROM user WHERE u_id = $usergefunden ";
+            $query = "SELECT * FROM `user` WHERE `u_id` = $usergefunden ";
             $result = mysqli_query($mysqli_link, $query);
             return ($result);
         } else {

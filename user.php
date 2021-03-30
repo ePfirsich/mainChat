@@ -242,7 +242,7 @@ if (strlen($u_id) != 0) {
                                 $f['u_name'] = $userd[1];
                                 $f['u_adminemail'] = $userd[2];
                                 $f['u_passwort'] = $userd[3];
-                                $query = "SELECT u_id FROM user where u_nick like '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
+                                $query = "SELECT `u_id` FROM `user` WHERE `u_nick` LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
                                 $result = mysqli_query($mysqli_link, $query);
                                 if ($result && mysqli_num_rows($result)) {
                                 	$ui_userid = mysqli_result($result, 0, 0);
@@ -323,7 +323,7 @@ if (strlen($u_id) != 0) {
         // User Löschen
             if ($u_level == "S") {
                 
-                $query = "DELETE FROM user where u_level != 'C' AND u_level != 'S'";
+                $query = "DELETE FROM `user` WHERE `u_level` != 'C' AND `u_level` != 'S'";
                 $result = mysqli_query($mysqli_link, $query);
                 if ($result) {
                     $ok = mysqli_affected_rows($mysqli_link) . " " . $ok = $t['sonst52'];
@@ -750,7 +750,7 @@ if (strlen($u_id) != 0) {
         case "adminliste":
             if ($adminlisteabrufbar && $u_level != "G") {
                 
-                $result = mysqli_query($mysqli_link, 'select * from user where u_level = "S" or u_level = "C" order by u_nick ');
+                $result = mysqli_query($mysqli_link, 'SELECT * FROM `user` WHERE `u_level` = "S" OR `u_level` = "C" ORDER BY `u_nick` ');
                 $anzahl = mysqli_num_rows($result);
                 
                 for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {

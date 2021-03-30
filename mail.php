@@ -109,7 +109,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             if (!isset($m_id))
                 $m_id = "";
             
-            $query = "SELECT u_id,u_level  FROM user WHERE u_nick = '$neue_email[an_nick]'";
+            $query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
             	$neue_email['m_an_uid'] = mysqli_result($result, 0, "u_id");
@@ -185,7 +185,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             
             // User-ID Prüfen
             $neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
-            $query = "SELECT u_nick FROM user WHERE u_id = $neue_email[m_an_uid]";
+            $query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $neue_email[m_an_uid]";
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
             	$an_nick = mysqli_result($result, 0, "u_nick");
@@ -269,7 +269,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             @mysqli_free_result($result);
             
             // Nick prüfen
-            $query = "SELECT u_id,u_nick FROM user WHERE u_id=" . $row->m_von_uid;
+            $query = "SELECT `u_id`, `u_nick` FROM `user` WHERE `u_id`=" . $row->m_von_uid;
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
                 

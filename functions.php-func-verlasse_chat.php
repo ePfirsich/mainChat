@@ -15,7 +15,8 @@ function verlasse_chat($u_id, $u_name, $raum)
         $text = $t['chat_msg102'];
         
         if ($eintritt_individuell == "1") {
-            $query = "SELECT u_austritt FROM user where u_id = $u_id";
+            $query = "SELECT `u_austritt` FROM `user` WHERE u_id = $u_id";
+            echo 'Query: ' . $query;
             $result = mysqli_query($mysqli_link, $query);
             $row = mysqli_fetch_object($result);
             if (strlen($row->u_austritt) > 0) {

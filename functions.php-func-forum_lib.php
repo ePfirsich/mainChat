@@ -699,8 +699,8 @@ function schreibe_posting()
         if ($forum_admin && $autor) {
             $autor = intval($autor);
             if (!preg_match("/[a-z]|[A-Z]/", $autor))
-                $sql = "select u_id from user where u_id=$autor";
-            else $sql = "select u_id from user where u_nick='$autor'";
+                $sql = "SELECT `u_id` FROM `user` WHERE `u_id`=$autor";
+            else $sql = "SELECT `u_id` FROM `user` WHERE `u_nick`='$autor'";
             $query = mysqli_query($mysqli_link, $sql);
             if (mysqli_num_rows($query) > 0)
                 $u_id_neu = mysqli_result($query, 0, "u_id");

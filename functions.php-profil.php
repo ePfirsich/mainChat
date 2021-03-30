@@ -46,7 +46,7 @@ function profil_editor($u_id, $u_nick, $f)
         $f['ui_typ'] = "";
     
     // Userdaten lesen
-    $query = "SELECT * FROM user WHERE u_id=$u_id";
+    $query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) == 1) {
         $userdata = mysqli_fetch_array($result);

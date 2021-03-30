@@ -814,11 +814,11 @@ function schreibe_db($db, $f, $id, $id_name) {
     if ($db == "user" && $id_name == "u_id") {
         // Kopie in Onlinedatenbank aktualisieren
         // Query muss mit dem Code in login() übereinstimmen
-        $query = "SELECT u_id,u_name,u_nick,u_level,u_farbe,u_zeilen,u_backup,u_farbe_bg,"
-            . "u_farbe_alle,u_farbe_priv,u_farbe_noise,u_farbe_sys,u_clearedit, "
-            . "u_away,u_email,u_adminemail,u_smilie,u_punkte_gesamt,u_punkte_gruppe, "
-            . "u_chathomepage,u_systemmeldungen,u_punkte_anzeigen "
-            . "FROM user WHERE u_id=$id";
+        $query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, "
+            . "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
+            . "`u_away`, `u_email`, `u_adminemail`, u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe,` "
+            . "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` "
+            . "FROM `user` WHERE `u_id`=$id";
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -1222,7 +1222,7 @@ function user(
     // Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
     if (!isset($user_punkte_anzeigen)
         || ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
-        $query = "SELECT u_punkte_anzeigen FROM user where u_id=" . intval($user_id);
+        $query = "SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id`=" . intval($user_id);
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
             $userdaten = mysqli_fetch_object($result);
@@ -1557,7 +1557,7 @@ function logout_debug($o_id, $info)
         @mysqli_free_result($result);
     }
     $result = mysqli_query($mysqli_link, 
-        "select u_login FROM user WHERE u_nick='$logout[lo_nick]'");
+        "SELECT `u_login` FROM `user` WHERE `u_nick`='$logout[lo_nick]'");
     if ($result && mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_array($result);
         $logout[lo_login] = $row[u_login];

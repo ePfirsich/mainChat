@@ -19,7 +19,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name) {
     
     // Nachricht auswählen
     if ($eintritt_individuell == "1") {
-        $query = "SELECT u_eintritt FROM user where u_id = $u_id";
+        $query = "SELECT `u_eintritt` FROM `user` WHERE `u_id` = $u_id";
         $result = mysqli_query($mysqli_link, $query);
         $row = mysqli_fetch_object($result);
         if (strlen($row->u_eintritt) > 0) {
@@ -82,7 +82,7 @@ function nachricht_verlasse($r_id, $u_name, $r_name)
     
     // Nachricht auswählen
     if ($eintritt_individuell == "1") {
-        $query = "SELECT u_austritt FROM user where u_nick = '" . mysqli_real_escape_string($mysqli_link, $u_name) . "'";
+        $query = "SELECT `u_austritt` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $u_name) . "'";
         $result = mysqli_query($mysqli_link, $query);
         $row = mysqli_fetch_object($result);
         if (strlen($row->u_austritt) > 0) {

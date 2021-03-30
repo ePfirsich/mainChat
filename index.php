@@ -405,7 +405,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	// Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
 	if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 		// test: ist user=admin -> dann nicht abweisen...
-		$query = "select u_nick,u_level from user where u_nick='"
+		$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='"
 			. mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
 			. "' AND (u_level in ('S','C'))";
 		$r = mysqli_query($mysqli_link, $query);
@@ -772,7 +772,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				</table>
 				<?php
 			} else if ($richtig && $u_id) {
-				$query = "SELECT u_adminemail, u_nick FROM user WHERE u_id = '$u_id' AND u_level = 'U' LIMIT 2";
+				$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' AND `u_level` = 'U' LIMIT 2";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
 					unset($f);
@@ -946,7 +946,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				
 				// wir prüfen ob User gesperrt ist
 				// entweder User = gesperrt
-				$query = "SELECT * FROM user WHERE ( (u_adminemail='$email') OR (u_email='$email') ) AND u_level='Z'";
+				$query = "SELECT * FROM `user` WHERE ( (`u_adminemail`='$email') OR (`u_email`='$email') ) AND `u_level`='Z'";
 				$result = mysqli_query($mysqli_link, $query);
 				$num = mysqli_num_rows($result);
 				$gesperrt = false;
@@ -980,7 +980,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				unset($teststring);
 				
 				if (($begrenzung_anmeld_pro_mailadr > 0) and (!$gesperrt)) {
-					$query = "select u_id from user WHERE u_adminemail = '$email'";
+					$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '$email'";
 					$result = mysqli_query($mysqli_link, $query);
 					$num = mysqli_num_rows($result);
 					if ($num >= $begrenzung_anmeld_pro_mailadr) {
@@ -1192,7 +1192,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						$i = 0;
 						while ($rows != 0 && $i < 100) {
 							$login = $t['login13'] . strval((mt_rand(1, 10000)) + 1);
-							$query4711 = "SELECT u_id FROM user WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $login) . "'";
+							$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, $login) . "'";
 							$result = mysqli_query($mysqli_link, $query4711);
 							$rows = mysqli_num_rows($result);
 							$i++;
@@ -1213,7 +1213,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$f['u_loginfehler'] = '';
 				
 				// Prüfung, ob dieser User bereits existiert
-				$query4711 = "SELECT u_id FROM user WHERE u_nick='$f[u_nick]'";
+				$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
 				$result = mysqli_query($mysqli_link, $query4711);
 				
 				if (mysqli_num_rows($result) == 0) {
@@ -2052,7 +2052,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 				// Gibts den Usernamen schon?
-				$query = "SELECT u_id FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
+				$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
 				
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
@@ -2129,7 +2129,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. registrierung
 			if ($ok) {
 				if ($begrenzung_anmeld_pro_mailadr > 0) {
-					$query = "select u_id from user WHERE u_adminemail = '" . mysqli_real_escape_string($mysqli_link, $f[u_adminemail]) . "'";
+					$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f[u_adminemail]) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					$num = mysqli_num_rows($result);
 					if ($num >= $begrenzung_anmeld_pro_mailadr) {
@@ -2256,7 +2256,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$frame_size[$frame_type][interaktiv] = $moderationsgroesse;
 			
 			// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-			$sql = "select u_frames from user where u_id = $u_id";
+			$sql = "SELECT `u_frames` FROM `user` WHERE `u_id` = $u_id";
 			$result = mysqli_query($mysqli_link, $sql);
 			if ($result && mysqli_num_rows($result) > 0) {
 				$u_frames = mysqli_result($result, 0, "u_frames");
@@ -2363,7 +2363,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			if (!isset($beichtstuhl) || !$beichtstuhl) {
 				
 				// Wie viele User sind in der DB?
-				$query = "SELECT count(u_id) FROM user WHERE u_level in ('A','C','G','M','S','U')";
+				$query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
 				if ($result) {

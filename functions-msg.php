@@ -396,7 +396,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 
                 // Falls keinen Empfänger gefunden, in Usertabelle nachsehen
                 if ($nick['u_nick'] == "") {
-                    $query = "SELECT u_nick,u_id from user WHERE u_nick='"
+                    $query = "SELECT `u_nick`, `u_id` FROM `user` WHERE `u_nick`='"
                     . mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
                     $result = mysqli_query($mysqli_link, $query);
                     if ($result && mysqli_num_rows($result) == 1) {
@@ -406,7 +406,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 }
                 
                 if ($nick['u_nick'] != "") {
-                    $query = "SELECT u_profil_historie FROM user WHERE u_nick = '$nick[u_nick]'";
+                    $query = "SELECT `u_profil_historie` FROM `user` WHERE `u_nick` = '$nick[u_nick]'";
                     $result = mysqli_query($mysqli_link, $query);
                     $bla = mysqli_fetch_array($result);
                     $uu_profil_historie = unserialize($bla[u_profil_historie]);
@@ -914,7 +914,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                     
                     if ($communityfeatures && !$admin && $raumanlegenpunkte) {
                         $result = mysqli_query($mysqli_link, 
-                            "select u_punkte_gesamt FROM user WHERE u_id=$u_id");
+                            "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
                         if ($result && mysqli_num_rows($result) == 1) {
                             $u_punkte_gesamt = mysqli_result($result, 0, 0);
                         }
@@ -1234,7 +1234,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
             } elseif ((strlen($chatzeile[1]) > 0)
                 && (coreCheckName($chatzeile[1], $check_name) != $u_name)) {
                 
-                $query = "SELECT u_nick_historie FROM user WHERE u_id = '$u_id'";
+                $query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
                 $result = mysqli_query($mysqli_link, $query);
                 $xyz = mysqli_fetch_array($result);
                 $nick_historie = unserialize($xyz['u_nick_historie']);
@@ -1305,7 +1305,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                         $t['chat_msg20'])));
                         } // Neuen Namen setzen und alte Nicknamen in DB speichern
                         
-                        $query = "SELECT u_nick_historie FROM user WHERE u_id = '$u_id'";
+                        $query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
                         $result = mysqli_query($mysqli_link, $query);
                         $xyz = mysqli_fetch_array($result);
                         $nick_historie = unserialize($xyz['u_nick_historie']);
@@ -1717,21 +1717,21 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                     else $sucheper = "=";
                     
                     if ((strcasecmp($chatzeile[1], "gast") == 0) && ($admin)) {
-                        // suche "/whois gast" zeigt alle Gäste und den  User gastwenn vorhanden
-                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') as login "
-                            . "FROM user WHERE (u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "') or (u_level = 'G') "
-                            . "ORDER BY u_nick,u_name limit $max_user_liste";
+                        // suche "/whois gast" zeigt alle Gäste und den User gast, wenn vorhanden
+                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` "
+                            . "FROM `user` WHERE (u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "') OR (u_level = 'G') "
+                            . "ORDER BY `u_nick`, `u_name` LIMIT $max_user_liste";
                     } else if (($admin) || ($u_level == "A")) {
                         // suche für Admins und Tempadmins zeigt alle User
-                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') as login "
-                            . "FROM user WHERE u_nick $sucheper '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' "
-                            . "ORDER BY u_nick,u_name limit $max_user_liste";
+                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` "
+                            . "FROM `user` WHERE u_nick $sucheper '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' "
+                            . "ORDER BY `u_nick`, `u_name` LIMIT $max_user_liste";
                     } else {
                         // suche für User zeigt die gesperrten nicht an
-                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') as login "
-                            . "FROM user WHERE u_nick $sucheper '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' "
-                            . "and u_level in ('A','C','G','M','S','U') "
-                            . "ORDER BY u_nick,u_name limit $max_user_liste";
+                        $query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` "
+                            . "FROM `user` WHERE u_nick $sucheper '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' "
+                            . "AND `u_level` in ('A','C','G','M','S','U') "
+                            . "ORDER BY `u_nick`, `u_name` LIMIT $max_user_liste";
                     }
                     
                     $result = @mysqli_query($mysqli_link, $query);
@@ -3245,7 +3245,7 @@ function ignore(
     
     $result = mysqli_query($mysqli_link, $query);
     
-    $query = "SELECT u_level FROM user WHERE u_id = '$i_user_passiv'";
+    $query = "SELECT u_level FROM `user` WHERE u_id = '$i_user_passiv'";
     $result2 = mysqli_query($mysqli_link, $query);
     $a = mysqli_fetch_array($result2);
     

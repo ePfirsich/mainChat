@@ -13,7 +13,7 @@ function formular_neue_email($neue_email, $m_id = "")
     
     // Nickname aus u_nick lesen und setzen
     if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
-        $query = "SELECT u_nick FROM user WHERE u_id = " . intval($neue_email[m_an_uid]);
+        $query = "SELECT `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) == 1) {
         	$an_nick = mysqli_result($result, 0, 0);

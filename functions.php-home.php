@@ -697,14 +697,14 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
     if ($u_id && $u_id <> -1) {
         
         // Aufruf als home.php?ui_userid=USERID
-        $query = "SELECT u_id,u_nick,u_chathomepage FROM user WHERE u_id=$u_id";
+        $query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$u_id";
         
     } elseif ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
         // Aufruf als home.php?USERNAME
         $tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($_SERVER['QUERY_STRING'])));
         $tempnick = coreCheckName($tempnick, $check_name);
         
-        $query = "SELECT u_id,u_nick,u_chathomepage FROM user WHERE u_nick = '"
+        $query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '"
             . $tempnick . "' and u_level in ('A','C','G','M','S','U')";
         if ($homepage_extern == "0")
             $query = "";

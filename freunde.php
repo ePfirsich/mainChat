@@ -122,14 +122,14 @@ if ($u_id && $communityfeatures) {
         case "neu2":
         // Neuer Freund, 2. Schritt: Nick Prüfen
             $neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
-            $query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund[u_nick]) . "'";
+            $query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund[u_nick]) . "'";
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) == 1) {
                 $neuer_freund['u_id'] = mysqli_result($result, 0, 0);
                 $neuer_freund['u_level'] = mysqli_result($result, 0, 1);
                 
                 $ignore = false;
-                $query2 = "SELECT * FROM iignore WHERE i_user_aktiv='$neuer_freund[u_id]' AND i_user_passiv = '$u_id'";
+                $query2 = "SELECT * FROM `iignore` WHERE `i_user_aktiv`='$neuer_freund[u_id]' AND `i_user_passiv` = '$u_id'";
                 $result2 = mysqli_query($mysqli_link, $query2);
                 $num = mysqli_num_rows($result2);
                 if ($num >= 1) {
@@ -169,7 +169,7 @@ if ($u_id && $communityfeatures) {
         
         case "admins":
         // Alle Admins (Status C und S) als Freund hinzufügen
-            $query = "SELECT u_id,u_nick,u_level FROM user WHERE u_level='S' OR u_level='C'";
+            $query = "SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_level`='S' OR `u_level`='C'";
             $result = mysqli_query($mysqli_link, $query);
             if ($result && mysqli_num_rows($result) > 0) {
                 while ($rows = mysqli_fetch_array($result)) {

@@ -60,7 +60,7 @@ if (isset($frame_online) && strlen($frame_online) == 0) {
 }
 
 // Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-$sql = "select u_frames from user where u_id = $u_id";
+$sql = "SELECT `u_frames` FROM `user` WHERE `u_id` = $u_id";
 $query = mysqli_query($mysqli_link, $sql);
 $u_frames = mysqli_result($query, 0, "u_frames");
 if ($u_frames) {

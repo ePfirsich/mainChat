@@ -179,7 +179,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
                 $ergebnis = array();
                 
                 // Wie viele User sind in der DB?
-                $query = "SELECT count(u_id) FROM user WHERE u_level in ('A','C','G','M','S','U')";
+                $query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
                 $result = mysqli_query($mysqli_link, $query);
                 $rows = mysqli_num_rows($result);
                 if ($result) {
@@ -271,14 +271,14 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
         default:
         // Anzahl der User abfragen
             if (isset($registriert) && $registriert == "j") {
-                $query = "SELECT count(u_id) as anzahl FROM user WHERE u_level IN ('A','C','G','M','S','U')";
+                $query = "SELECT COUNT(u_id) AS `anzahl` FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
                 $result = @mysqli_query($mysqli_link, $query);
                 if ($result && @mysqli_num_rows($result) > 0) {
                 	$anzahl = @mysqli_result($result, 0, "anzahl");
                     mysqli_free_result($result);
                 }
             } else {
-                $query = "SELECT count(o_id) as anzahl FROM online "
+                $query = "SELECT COUNT(o_id) AS `anzahl` FROM `online` "
                     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
                 $result = @mysqli_query($mysqli_link, $query);
                 if ($result && @mysqli_num_rows($result) > 0) {
