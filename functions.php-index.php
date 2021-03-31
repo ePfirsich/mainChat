@@ -710,7 +710,7 @@ function zeige_fuss() {
 	global $layout_fuss, $layout_include, $layout_parse;
 	global $f3, $f4, $mainchat_version;
 	?>
-	<div align="center"><?php echo  $f3 . $mainchat_version; ?><br><a href="https://github.com/netzhuffle/mainchat" target="_blank">mainChat Open Source</a><?php echo $f4; ?></div>
+	<div align="center"><?php echo  $f3 . $mainchat_version; ?> - <a href="https://github.com/ePfirsich/OpenMainChat" target="_blank">PHP7 Anpassung durch ePfirsich.de</a><?php echo $f4; ?></div>
 	<?php
 	if (strlen($layout_fuss) > 0 && !$layout_parse) {
 		if ($layout_include == 1) {

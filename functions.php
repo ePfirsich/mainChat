@@ -1,7 +1,7 @@
 <?php
 
 // Version / Copyright - nicht entfernen!
-$mainchat_version = "Open mainChat 5.0.9 (c) by fidion GmbH 1999-2012";
+$mainchat_version = "Open mainChat 7.0.0 (c) by fidion GmbH 1999-2012";
 $mainchat_email = "info@fidion.de";
 
 // HTTPS ja oder nein?

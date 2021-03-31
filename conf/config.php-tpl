@@ -290,9 +290,7 @@ $datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
 $traceroute="/usr/bin/traceroute";	// Befehl für Traceroute
 
 // Disclaimer
-$disclaimer="<a href=\"http://www.mainchat.de/\" style=\"color:%farbe_text%;\">mainChat</a> ist ein ".
-	"kostenloser Service der <a href=\"http://www.mainchat.de/\" style=\"color:%farbe_text%;\">fidion GmbH</a>, ".
-	"die ausdrücklich nicht für die Inhalte dieser Site und des Chats haftet.";
+$disclaimer="";
 
 $chat_status_klein=1; // Statusmsgs des Chats kleiner ausgeben? 1=ja, 2=normal
 
