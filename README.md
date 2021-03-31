@@ -1,12 +1,18 @@
 # OpenMainChat
 
-Dies ist der Versuch, den mainChat von  [netzhuffle](https://github.com/netzhuffle/mainchat) unter PHP7 laufähig zu machen.
+Dies ist der angepasste mainChat von [netzhuffle](https://github.com/netzhuffle/mainchat), damit der Chat unter PHP7 laufähig ist.
+Des Weiteren wurden hier viele optsiche Verbesserungen und eine Eumstellung auf HTML5.
 
 Wichtig
 ------------
-Dieser Stand ist aktuell unter keiner PHP-Version lauffähig, da die Anpassungen noch nicht abgeschlossen sind.
+Dieser Stand kann noch Fehler enthalten.
+Des Weiteren sind die optischen Anpassung und die Umstellung auf HTML5 noch nicht abgeschlossen.
 
 Installation
 ------------
 
 Eine Anleitung zur Installation findet sich unter /dok/LIESMICH.
+
+Sonstiges
+------------
+Weitere Mitarbeit ist hier gerne gesehen.
