@@ -6,13 +6,8 @@ require("functions.php-func-chat_lese.php");
 // Userdaten setzen
 id_lese($id);
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<?php
+$title = $body_titel;
+zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
 
 // Userdaten gesetzt?
 if (strlen($u_id) > 0) {
@@ -28,31 +23,16 @@ if (strlen($u_id) > 0) {
 	$fenster = str_replace("Ö", "", $fenster);
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
-	?>
-	<meta http-equiv="REFRESH" CONTENT="<?php echo intval($timeout / 3) . "; URL=messages-forum.php?http_host=$http_host&id=$id"; ?>">
-	<style type="text/css">
-	<?php echo $stylesheet; ?>
-	body {
-		background-color:<?php echo $farbe_background3; ?>;
-	<?php if(strlen($grafik_background3) > 0) { ?>
-		background-image:<?php echo $grafik_background3; ?>;
-	<?php } ?>
-	}
-	a, a:link {
-		color:<?php echo $farbe_chat_link3; ?>;
-	}
-	a:visited, a:active {
-		color:<?php echo $farbe_chat_vlink3; ?>;
-	}
-	</style>
-	<?php
-	echo "<SCRIPT>\n" . "function neuesFenster(url,name) {\n"
+	
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=messages-forum.php?http_host=' . $http_host . '&id=' . $id . '">\n';
+	$meta_refresh .= "<script>\n" . "function neuesFenster(url,name) {\n"
 		. "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=580\");\n"
 		. "}\n" . "function neuesFenster2(url) {\n"
 		. "hWnd=window.open(url,\"640_$fenster\",\"resizable=yes,scrollbars=yes,width=780,height=580\");\n"
-		. "}\n" . "</SCRIPT>\n";
+		. "}\n" . "</script>\n";
+	
+	zeige_header_ende($meta_refresh);
 	?>
-	</head>
 	<body>
 	<?php
 
@@ -90,8 +70,9 @@ if (strlen($u_id) > 0) {
 	<?php
 } else {
 	// User wird nicht gefunden. Login ausgeben
+	
+	zeige_header_ende();
 	?>
-	</head>
 	<body onLoad="javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>">
 	<?php
 }

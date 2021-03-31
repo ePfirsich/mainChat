@@ -24,10 +24,12 @@ if ( !file_exists($filenameConfig) ) {
 	<?php
 } else {
 	require $filenameConfig;
+	require_once("functions.php-html.php");
 	
 	// Liegt lokale Konfigurationsdatei "config.php-http_host" in "conf/" vor? Falls ja einbinden
-	if (!(isset($http_host)))
-	    $http_host = $_SERVER["HTTP_HOST"];
+	if (!(isset($http_host))) {
+		$http_host = $_SERVER["HTTP_HOST"];
+	}
 	$http_host = str_replace(":80", "", strtolower($http_host));
 	$http_host = str_replace(":8888", "", $http_host);
 	

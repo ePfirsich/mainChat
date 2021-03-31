@@ -244,13 +244,12 @@ if (strlen($u_id) > 0) {
     
 } else {
 	// User wird nicht gefunden. Login ausgeben
+	
+	$title = $body_titel;
+	zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink);
+	
+	zeige_header_ende();
 	?>
-	<!DOCTYPE html>
-	<html>
-	<head>
-	<title><?php echo $body_titel; ?></title>
-	<meta charset="utf-8">
-	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
 	</body>
 	</html>

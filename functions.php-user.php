@@ -203,7 +203,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<TR><TD><A HREF=\"javascript:window.close();\">"
                 . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
                 . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n"
-                . "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n"
+                . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
                 . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
                 . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
                 . "<TR><TD>";
@@ -217,7 +217,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                     . '&http_host=' . $http_host . '&user=' . $user
                     . '&user_nick=' . $uu_nick
                     . '" width=100% height=200 marginwidth=0 marginheight=0 hspace=0 vspace=0 frameborder=0></iframe>';
-                echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+                    ?>
+					<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+					<?php
             }
             
             echo "<INPUT NAME=\"text2\" SIZE=\"" . $eingabe_breite
@@ -251,7 +253,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             . "<TR><TD><A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n"
-            . "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n"
+            . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
             . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
             . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
             . "<TR><TD>";
@@ -519,14 +521,18 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         if ($admin) {
             $box = $ft0 . $t['user_zeige12'] . $ft1;
             
-            echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+            ?>
+			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+			<?php
             echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
             echo "<TR><TD>";
             echo "<A HREF=\"javascript:window.close();\">"
                 . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
                 . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-            echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
-            echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+            echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
+            ?>
+			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+			<?php
             echo "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
             echo "<TR><TD>";
             

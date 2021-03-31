@@ -108,10 +108,10 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE)
         // Alle Räume oder nur die Räume mit Usern zeigen
         if (($anzahl > 0) || $alle) {
             if ($row->r_id == $raum) {
-                echo "<OPTION SELECTED VALUE=\"$row->r_id\">$row->r_name ("
+                echo "<option selected value=\"$row->r_id\">$row->r_name ("
                     . $anzahl . $status . ")\n";
             } else {
-                echo "<OPTION VALUE=\"$row->r_id\">$row->r_name (" . $anzahl
+                echo "<option value=\"$row->r_id\">$row->r_name (" . $anzahl
                     . $status . ")\n";
             }
         }

@@ -9,13 +9,8 @@ id_lese($id);
 // $raum_einstellungen und $ist_moderiert setzen
 raum_ist_moderiert($o_raum);
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<?php
+$title = $body_titel;
+zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
 
 if (strlen($u_id) > 0) {
     
@@ -134,26 +129,11 @@ if (strlen($u_id) > 0) {
         }
         
     }
+
+	zeige_header_ende();
 	?>
-	<style type="text/css">
-	<?php echo $stylesheet; ?>
-	body {
-		background-color:<?php echo $farbe_background3; ?>;
-	<?php if(strlen($grafik_background3) > 0) { ?>
-		background-image:<?php echo $grafik_background3; ?>;
-	<?php } ?>
-	}
-	a, a:link {
-		color:<?php echo $farbe_chat_link3; ?>;
-	}
-	a:visited, a:active {
-		color:<?php echo $farbe_chat_vlink3; ?>;
-	}
-	</style>
-	</head>
 	<body>
 	<?php
-    
     // Timestamp im Datensatz aktualisieren
     aktualisiere_online($u_id, $o_raum);
     
@@ -170,18 +150,16 @@ if (strlen($u_id) > 0) {
             . "</SCRIPT>\n";
     }
 } else {
-    
+	// User wird nicht gefunden. Login ausgeben
+	
     echo "User nicht gefunden! ($id, $u_id, $u_name)<BR>";
     sleep(5);
 	
-	// User wird nicht gefunden. Login ausgeben
+	zeige_header_ende();
 	?>
-	</head>
 	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
-
 	<?php
 }
-
 ?>
 </body>
 </html>

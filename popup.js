@@ -1,6 +1,7 @@
 function w(line) {
 	document.write(line);
 }
+w('<!DOCTYPE html>');
 w('<html><head>');
 w('<style type="text/css">');
 w('.skin0{position:absolute; width:120px; border:1px solid #000000; background-color:#d0f0ff; font-family:Arial; line-height:12px; cursor:yellow; font-size:10px; z-index:100; visibility:hidden; }');

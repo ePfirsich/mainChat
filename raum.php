@@ -19,12 +19,9 @@ if (!isset($raumstatus['E'])) {
 	$raumstatus1['E'] = "Stiller Eingangsraum";
 }
 
-// Kopf ausgeben
+$title = $body_titel . ' - Info';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Info"; ?></TITLE><meta charset="utf-8">
 <script>
         window.focus()
 	function neuesFenster(url,name) {
@@ -34,22 +31,9 @@ if (!isset($raumstatus['E'])) {
         	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 	}
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Login ok?
@@ -67,7 +51,9 @@ if (strlen($u_id) != 0) {
     if ($u_level != "G")
         $text .= "| <A HREF=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
     show_box2($box, $text, "100%");
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
     
     if (isset($f['r_name'])) {
         // In Namen die Leerzeichen und ' und " entfernen
@@ -232,7 +218,7 @@ if (strlen($u_id) != 0) {
     $tabellenkopf .= "<A HREF=\"javascript:window.close();\">";
     $tabellenkopf .= "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" ";
     $tabellenkopf .= "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-    $tabellenkopf .= "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+    $tabellenkopf .= "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
     $tabellenkopf .= "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><BR>\n";
     $tabellenkopf .= "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
     $tabellenkopf .= "<TR><TD>";
@@ -332,8 +318,10 @@ if (strlen($u_id) != 0) {
                 echo "<A HREF=\"javascript:window.close();\">"
                     . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
                     . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-                echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
-                echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><BR>\n";
+                echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
+                ?>
+				<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>
+				<?php
                 echo "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
                 echo "<TR><TD>";
                 

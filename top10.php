@@ -18,13 +18,9 @@ $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
-// Kopf ausgeben
+$title = $body_titel . ' - Top 10';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Top10"; ?></title>
-<meta charset="utf-8">
 <script>
         window.focus()
         function win_reload(file,win_name) {
@@ -34,21 +30,6 @@ $fenster = str_replace("ß", "", $fenster);
                 opener.parent.frames[frame_number].location.href=file;
 }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
 <script>
 function neuesFenster(url) { 
         hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580"); 
@@ -57,7 +38,9 @@ function neuesFenster2(url) {
         hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 }
 </script>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Menue ausgeben
@@ -68,7 +51,9 @@ $text = "<A HREF=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">Top 10</
 $text .= "| <A HREF=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">Top 100</A>\n";
 $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">Hilfe</A>\n";
 show_box2($box, $text, "100%");
-echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+?>
+<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+<?php
 
 if ($erweitertefeatures) {
     switch ($aktion) {

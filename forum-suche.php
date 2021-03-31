@@ -50,7 +50,9 @@ function such_bereich()
     $select_breite = 250;
     $titel = $t['titel'];
     
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
     
     echo "<FORM NAME=\"suche_neu\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
@@ -210,12 +212,12 @@ function such_bereich()
         . $f1 . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[suche5]\">"
         . $f2 . "</TD></TR>\n" . "</TABLE></FORM>\n";
     
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
-    
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
 }
 
-function such_ergebnis()
-{
+function such_ergebnis() {
     global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
     global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $farbe_hervorhebung_forum, $farbe_link;
     global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
@@ -399,7 +401,9 @@ function such_ergebnis()
             $abfrage .= " ORDER BY po_ts DESC";
         }
         
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
         echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n";
         
@@ -481,34 +485,18 @@ function such_ergebnis()
         }
         echo "</TABLE>\n";
         
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
     }
-    
 }
+
+$title = $body_titel . ' - Info';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Info"; ?></title>
-<meta charset="utf-8">
 <script>
-        window.focus()
+	window.focus()
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
 <script>
 function neuesFenster(url) {
 	hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
@@ -523,7 +511,9 @@ function opener_reload(file,frame_number) {
 	opener.parent.frames[frame_number].location.href=file;
 }
 </script>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Timestamp im Datensatz aktualisieren
@@ -535,7 +525,9 @@ if (strlen($u_id) > 0) {
     $text = "<A HREF=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
     
     show_box2($box, $text, "100%");
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
     
     // Auswahl
     switch ($aktion) {

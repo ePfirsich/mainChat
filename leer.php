@@ -2,27 +2,11 @@
 
 include("functions.php");
 
+$title = $body_titel;
+zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
+
+zeige_header_ende();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_background3; ?>;
-<?php if(strlen($grafik_background3) > 0) { ?>
-	background-image:<?php echo $grafik_background3; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_chat_link3; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_chat_vlink3; ?>;
-}
-</style>
 <body>
 </body>
 </html>

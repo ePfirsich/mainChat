@@ -30,8 +30,10 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
     echo "<A HREF=\"javascript:window.close();\">"
         . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
         . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-    echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    echo "<span style=\"font-size: small; color:$farbe_text;\"><B>$box</B></span>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
     echo "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
     echo "<TR><TD COLSPAN=2>";
     

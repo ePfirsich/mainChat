@@ -14,36 +14,19 @@ if (isset($smilies_config) && file_exists("conf/" . $smilies_config)) {
     unset($smilietxt);
     require("conf/" . $smilies_config);
 }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Info"; ?></title>
-<meta charset="utf-8">
-<?php
-echo "<SCRIPT>\n";
+
+$title = $body_titel . ' - Info';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+
+echo "<script>\n";
 echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
 echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
-echo "</SCRIPT><SCRIPT src=\"jscript.js\"></script>\n";
+echo "</script><script src=\"jscript.js\"></script>\n";
 ?>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-<?php echo "a { text-decoration: none; font-weight:bold }"; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Login ok?

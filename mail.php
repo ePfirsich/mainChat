@@ -16,12 +16,10 @@ $fenster = str_replace("Ä", "", $fenster);
 $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
+
+$title = $body_titel . ' - Mail';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Mail"; ?></title>
-<meta charset="utf-8">
 <script>
         window.focus()
         function win_reload(file,win_name) {
@@ -44,22 +42,9 @@ $fenster = str_replace("ß", "", $fenster);
                 }
         }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Timestamp im Datensatz aktualisieren
@@ -90,14 +75,16 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         . "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#mail\">Hilfe</A>\n";
     
     show_box2($box, $text, "100%");
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
     
     switch ($aktion) {
         
         case "neu":
         // Formular für neue E-Mail ausgeben
             if (!isset($neue_email))
-                $neue_email = "";
+                $neue_email = array();
             formular_neue_email($neue_email);
             break;
         
@@ -224,7 +211,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 unset($neue_email);
                 
                 if (!isset($neue_email))
-                    $neue_email = "";
+                	$neue_email = array();
                 formular_neue_email($neue_email);
                 zeige_mailbox("normal", "");
                 

@@ -3,8 +3,8 @@
 // Sprachdefinition deutsch smilies-grafik.php
 // Die Befehle müssen mit & beginnen
 
-$t['sonst1'] = "REFRESH";
-$t['sonst2'] = "USERLISTE";
+$t['sonst1'] = "Refresh";
+$t['sonst2'] = "Userliste";
 
 $smilie["&mnormal"] = "mini-normal.gif";
 $smilietxt["&mnormal"] = "Normal-Mini";

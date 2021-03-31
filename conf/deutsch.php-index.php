@@ -1,8 +1,8 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['willkommen1'] = "<P><FONT SIZE=+1><B>Hallo %PHP_AUTH_USER%, willkommen im $chat!</B></FONT></P>\n";
-$t['willkommen2'] = "<P><FONT SIZE=+1><B>Willkommen im $chat!</B></FONT></P>\n";
+$t['willkommen1'] = "<P><span style=\"font-size: large\"><B>Hallo %PHP_AUTH_USER%, willkommen im $chat!</B></span></P>\n";
+$t['willkommen2'] = "<P><span style=\"font-size: large\"><B>Willkommen im $chat!</B></span></P>\n";
 
 $t['login1'] = "<B>Login mit sicherer HTTPS-Anmeldung</B>";
 $t['login2'] = "<B>neue HTTPS-Anmeldung</B>";
@@ -91,8 +91,7 @@ $t['neu24'] = "<P><B>Wir freuen uns, Sie als neues Mitglied im $chat begrüßen 
 $t['neu25'] = "<P>Sie wurden nun im $chat eingetragen!</P>\n";
 $t['neu26'] = "Vor- & Nachname";
 $t['neu27'] = "NickName";
-$t['neu28'] = "<P><B>Bitte merken Sie sich Ihr Passwort, "
-    . "denn ohne Passwort kommen Sie nicht mehr in den Chat....</B></P>\n";
+$t['neu28'] = "<P><B>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</B></P>\n";
 $t['neu29'] = "Weiter zum Chat";
 $t['neu30'] = "Eintrag abgeschlossen";
 $t['neu31'] = "Neu im $chat anmelden:";

@@ -13,12 +13,10 @@ if (isset($smiles_config) && $smilies_config
     unset($smilietxt);
     require("conf/" . $smilies_config);
 }
+
+$title = $body_titel . ' - Info';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Info"; ?></title>
-<meta charset="utf-8">
 <script>
 <?php
 echo "  var http_host='$http_host';\n";
@@ -37,23 +35,9 @@ function appendtext_opener( text ) {
      opener.parent.frames['forum'].document.forms['form'].elements['po_text'].focus();
 }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-<?php echo "a { text-decoration: none; font-weight:bold }"; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Login ok?

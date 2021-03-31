@@ -7,7 +7,6 @@
 <body>
 <?php
 
-
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);
 
 $chat = array();

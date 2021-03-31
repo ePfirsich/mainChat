@@ -4,16 +4,11 @@ require("functions.php");
 umask(700);
 set_time_limit(120);
 
+$title = $body_titel;
+zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink);
+
+zeige_header_ende();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<style type="text/css">
-<?php echo $stylesheet; ?>
-</style>
-</head>
 <body>
 <pre>
 <?php

@@ -4,12 +4,10 @@ require("functions.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
 id_lese($id);
+
+$title = $body_titel . ' - Farben';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Farben"; ?></title>
-<meta charset="utf-8">
 <script>
 window.focus()
 function colorsave() {
@@ -74,22 +72,9 @@ if ($bg == "Y") {
     }
 }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Timestamp im Datensatz aktualisieren

@@ -11,12 +11,9 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
     exit();
 }
 
+$title = $body_titel . ' - Info';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Info"; ?></title>
-<meta charset="utf-8">
 <script>
         window.focus()
         function win_reload(file,win_name) {
@@ -26,22 +23,9 @@ if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
                 opener.parent.frames[frame_number].location.href=file;
 }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_mini_background; ?>;
-<?php if(strlen($grafik_mini_background) > 0) { ?>
-	background-image:<?php echo $grafik_mini_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_mini_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_mini_vlink; ?>;
-}
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 // Timestamp im Datensatz aktualisieren
@@ -139,7 +123,9 @@ if ($zeige_datenschutz) {
 }
 if ($aktion != "logout") {
     show_box2($box, $text, "100%");
-    echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+    ?>
+	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+	<?php
 }
 
 switch ($aktion) {
@@ -152,7 +138,7 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         // Tabelle ausgeben
@@ -245,7 +231,9 @@ switch ($aktion) {
     // Erklärung zu den Sprüchen
         $box = $ft0 . $t['hilfe3'] . $ft1;
         show_box2($box, $hilfe_spruchtext, "100%");
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         
         // Liste mit Sprüchen ausgeben
         $box = $ft0 . $t['hilfe4'] . $ft1;
@@ -254,7 +242,7 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         // Sprüche in Array einlesen
@@ -308,13 +296,15 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
             . $legende . "</table><BR>\n"
             . "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><BR>\n";
-        "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         break;
     
     case "community":
@@ -324,11 +314,13 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo $hilfe_community . "\n";
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         break;
     
     case "agb":
@@ -342,11 +334,13 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo $t['agb'] . "\n";
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         break;
     
     case "privacy":
@@ -356,11 +350,13 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo $hilfe_privacy . "\n";
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
         break;
     
     case "chatiquette":
@@ -370,7 +366,7 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo "$chatiquette\n";
@@ -392,12 +388,13 @@ switch ($aktion) {
         echo "<A HREF=\"javascript:window.close();\">"
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
-        echo "<FONT SIZE=-1 COLOR=$farbe_text><B>$box</B></FONT>\n";
+        echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
         echo "</TD></TR></TABLE>\n";
         
         echo "$hilfe_uebersichtstext\n";
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
-    
+        ?>
+		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+		<?php
 }
 
 echo "<P>$t[hilfe7]</P>\n";

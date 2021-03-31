@@ -5,6 +5,7 @@ if (function_exists("id_lese"))
     id_lese($id);
 if (!$u_id) {
 	?>
+	<!DOCTYPE html>
     <html>
     	<body>
     		<b>Fehler:</b> Diese Seite darf nur aus dem User-Menue als Admin aufgerufen werden!
@@ -96,7 +97,9 @@ $msg = "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=m
     . "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=stunde\">"
     . $t['statistik2'] . "</a>]";
 show_box2($t['statistik1'], $msg, "100%");
-echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>";
+?>
+<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
+<?php
 
 switch ($type) {
     case "monat":

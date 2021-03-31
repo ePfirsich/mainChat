@@ -72,29 +72,12 @@ if ($u_frames) {
         }
     }
 }
-?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel; ?></title>
-<meta charset="utf-8">
-<style type="text/css">
-<?php echo $stylesheet; ?>
-body {
-	background-color:<?php echo $farbe_background; ?>;
-<?php if(strlen($grafik_background) > 0) { ?>
-	background-image:<?php echo $grafik_background; ?>;
-<?php } ?>
-}
-a, a:link {
-	color:<?php echo $farbe_chat_link; ?>;
-}
-a:visited, a:active {
-	color:<?php echo $farbe_chat_vlink; ?>;
-}
-</style>
-</head>
-<?php
+
+$title = $body_titel;
+zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_chat_link, $farbe_chat_vlink);
+
+zeige_header_ende();
+
 echo "<FRAMESET ROWS=\"$frame_online_size,*,5,"
     . $frame_size[$frame_type]['interaktivforum']
     . ",1\" border=0 frameborder=0 framespacing=0>\n";

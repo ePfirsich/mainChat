@@ -30,7 +30,7 @@ if ($url) {
 <head>
 <title>DEREFER</title>
 <meta charset="utf-8">
-<meta http-equiv="REFRESH" CONTENT="0; URL=<?php echo $url; ?>">
+<meta http-equiv="refresh" content="0; URL=<?php echo $url; ?>">
 <style type="text/css">
 <?php echo $stylesheet; ?>
 body {

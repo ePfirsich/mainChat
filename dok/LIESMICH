@@ -162,31 +162,6 @@ $ chmod u+rxw home_bild; chown www home_bild
 
 
 
-Installation eines Kostenlos/Mietchat-Packetes
-
-Falls der mainChat vorher als Kostenloser Chat / Mietchat lief, erhalten Sie 
-von uns / im Chatwizard den Dump der Datenbank und Ihre Konfigurationsdatei. 
-
-Den Dump finden Sie im Hauptverzeichnis unter dem Namen chats_IHRCHAT.dump. 
-IHRCHAT entspricht dem Namen Ihres Chats. Legen Sie die Datenbank an:
-
-$ mysqladmin create chats_IHRCHAT
-$ mysql chats_IHRCHAT < chats_IHRCHAT.dump
-
-Anschliessend installieren Sie den Chat normal wie oben beschrieben mit
-dem Installationsprogramm. 
-
-Sie finden im Verzeichnis conf/ Ihre Konfigurationsdatei unter dem Namen
-config.php-IHRCHAT.domain. Bennen Sie die Datei um. 
-
-Wenn Ihr Chat unter dem Namen chat.beispieldomain.de laufen soll, nennen Sie die
-Datei config.php-chat.beispieldomain.de. Fuer die Domain www.beispieldomain.de
-nennen Sie die Datei config.php-www.beispieldomain.de.  Auch wenn der mainChat
-unter www.beispoeldomain.de/mainchat/ laueft, ist config.php-www.beispieldomain.de
-korrekt.
-
-
-
 2. Konfiguration mainChat
 
 Ohne Aufruf des Installationsprogramms install.php müssen Sie die 
@@ -203,8 +178,6 @@ $mysqlhost	Name des Datenbankservers. Hier den Rechnernamen eintragen.
                 Bei lokaler Datenbank genügt "localhost".
 $mysqluser	Name des Datenbankusers.
 $webmaster	E-Mail Adresse der zuständigen Person. Bitte eintragen.
-
-$ivw		URL zum Zählmodul. Sollte angepaßt oder leer gelassen werden.
 
 
 Definition der Farben:

@@ -128,17 +128,16 @@ $beichtstuhl=0;
 
 
 // Zusatznachricht auf Chat-Eingangsseite bei Login
-// $zusatznachricht="<a href=\"http://www.php-accelerator.co.uk\" target=\"new\"><img src=\"pics/phpa.gif\" align=\"right\" ".
-// "width=100 height=38 alt=\"PHPA\" border=\"0\"></a>".
+// $zusatznachricht="Hier kann eine Zusatznachricht hinterlegt werden.";
 $zusatznachricht="";
 
 
 // Lobby (Defaultraum)
-$lobby="%lobby%"; 				
+$lobby="%lobby%";
 
 
 // Voreingestellter Eintrittsraum für Login (optional, kann von lobby abweichen)
-$eintrittsraum="Lobby"; 				
+$eintrittsraum="Lobby";
 
 
 // Anzahl der User, die in der Usersuche maximal angezeigt werden
@@ -160,8 +159,8 @@ $layout_parse="";
 // Grundfarben 
 
 // Tabellenfarben
-$farbe_tabelle_kopf="#A0A0FF";
-$farbe_tabelle_kopf2="#C0C0FF";
+$farbe_tabelle_kopf="#007ABE";
+$farbe_tabelle_kopf2="#85D4FF";
 $farbe_tabelle_koerper="#FFFFFF";
 $farbe_tabelle_zeile1="#E8E8FF";
 $farbe_tabelle_zeile2="#D8D8EE";
@@ -169,7 +168,7 @@ $farbe_tabelle_zeile2="#D8D8EE";
 // Eingangsseite, Anmeldung
 $farbe_background="#FFFFFF";
 $farbe_text="#000000";
-$farbe_link="#0000FF";
+$farbe_link="#000080";
 $farbe_vlink="#000080";
 $grafik_background="";
 
@@ -209,14 +208,14 @@ $chat_eingabe_breite=80;			// Breite des Text-Eingabefelds des Chats
 $farbe_chat_user_groesse=12;			// Größe der Farbauswahlfelder
 
 $metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
-	"<meta name=\"AUTHOR\" content=\"%author%\">\n".
-	"<meta name=\"DESCRIPTION\" content=\"%description%\">\n".
-	"<meta name=\"KEYWORDS\" content=\"%keywords%\">\n".
-	"<meta name=\"LANGUAGE\" content=\"%metalanguage%\">\n".
-	"<meta name=\"DATE\" content=\"%date%\">\n".
+	"<meta name=\"author\" content=\"%author%\">\n".
+	"<meta name=\"description\" content=\"%description%\">\n".
+	"<meta name=\"keywords\" content=\"%keywords%\">\n".
+	"<meta name=\"language\" content=\"%metalanguage%\">\n".
+	"<meta name=\"date\" content=\"%date%\">\n".
 	"<meta name=\"expire\" content=\"%expire%\">\n".
-	"<meta name=\"ROBOTS\" content=\"%robots1%\">\n".
-	"<meta name=\"ROBOTS\" content=\"%robots2%\">\n";
+	"<meta name=\"robots\" content=\"%robots1%\">\n".
+	"<meta name=\"robots\" content=\"%robots2%\">\n";
 
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen                                     
 $noframes="%noframes%\n";
@@ -244,7 +243,7 @@ $farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
 $f1="<span style=\"font-size: small;\">";
 $f2="</span>"; 
 $f3="<span style=\"font-size: x-small;\">";
-$f4="</span>"; 
+$f4="</span>";
 
 
 // Sollen Gäste automatisch einen Namen zugewiesen bekommen?
@@ -283,24 +282,6 @@ $expire_privat=0;
 
 // Maximallänge der Raumnamen
 $raum_max=25;
-
-
-// Werbung - IVW-Pixel  
-// Beispiel für ivw:    <IMG SRC="http://www.mainpost.de/cgi-bin/ivw/CP/www.mainpost.de/oms_chat">; 
-// Beispiel für banner: http://www.mainpost.de/chat_banner.html 
-$ivw="";
-$banner="";
-
-
-// Werbungs-Kategorie
-$werbung_gruppe="mainCommunity.php";
-// $werbung_gruppe="mietchat";
-
-// default-fallback, falls nichts gefunden
-$werbung_default="default.php";
-
-// $werbung_art=1;
-// $werbung_inhalt="bla";
 
 
 // Sonstige Einstellungen
@@ -630,7 +611,7 @@ $raum_austrittsnachricht_kurzform = "0";
 $warnmeldung_sicherermodus_deaktivieren = "0";
 
 // Der Login von jedem User erfolgt automatisch im Sicheren Modus
-$loginimsicherenmodus = "0";
+$loginimsicherenmodus = "1";
 
 // User können keine Räume anlegen und auch in keinen anderen Raum wechseln auser dem 1. Loginraum (Lobby)
 $single_room_verhalten = "0";

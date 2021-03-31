@@ -692,7 +692,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
 {
     // Zeigt die Homepage des Users u_id an
     
-    global $dbase, $mysqli_link, $argv, $argc, $ivw, $http_host, $id, $homepage_extern, $check_name;
+    global $dbase, $mysqli_link, $argv, $argc, $http_host, $id, $homepage_extern, $check_name;
     
     if ($u_id && $u_id <> -1) {
         
@@ -804,16 +804,6 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         
         echo "</TD></TR></TABLE>\n";
         
-        // IVW-Pixel ausgeben
-        if ($ivw) {
-            // In IVW Pixel <IMG SRC=> einfügen (opt)
-            if (!strpos($ivw, "<IMG")) {
-                $ivw = "<IMG SRC=\"$ivw\" ALT=\"\">\n";
-            }
-            ;
-            echo $ivw . "\n";
-        }
-        
         echo "</BODY>\n";
         
     } elseif ($u_chathomepage != "J") {
@@ -821,30 +811,13 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         echo "<body>"
             . "<P><B>Fehler: Dieser User hat keine Homepage!</B></P>";
         
-        // IVW-Pixel ausgeben
-        if ($ivw) {
-            // In IVW Pixel <IMG SRC=> einfügen (opt)
-            if (!strpos($ivw, "<IMG")) {
-                $ivw = "<IMG SRC=\"$ivw\" ALT=\"\">\n";
-            }
-            echo $ivw . "\n";
-        }
-        
         echo "</BODY>\n";
         
     } else {
         
         echo "<body>"
             . "<P><B>Fehler: Aufruf ohne gültige Parameter!</B></P>";
-        
-        // IVW-Pixel ausgeben
-        if ($ivw) {
-            // In IVW Pixel <IMG SRC=> einfügen (opt)
-            if (!strpos($ivw, "<IMG")) {
-                $ivw = "<IMG SRC=\"$ivw\" ALT=\"\">\n";
-            }
-            echo $ivw . "\n";
-        }
+
         echo "</BODY>\n";
         
     }

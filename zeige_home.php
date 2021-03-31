@@ -14,12 +14,9 @@ $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
+$title = $body_titel . ' - Home';
+zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-<title><?php echo $body_titel . " - Home"; ?></title>
-<meta charset="utf-8">
 <script>
         window.focus()
         function win_reload(file,win_name) {
@@ -35,10 +32,9 @@ $fenster = str_replace("ß", "", $fenster);
                 hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
         }
 </script>
-<style type="text/css">
-<?php echo $stylesheet; ?>
-</style>
-</head>
+<?php
+zeige_header_ende();
+?>
 <body>
 <?php
 
