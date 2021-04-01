@@ -61,7 +61,7 @@ if (strlen($u_id) != 0) {
         
         echo "\n\n<SCRIPT LANGUAGE=\"JavaScript\">\n"
             . "   var color         = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
-            . "   var fett          = new Array('$f1<B>','</B>$f2','$f3','$f4','$f1','$f2');\n"
+            . "   var fett          = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
             . "   var smilies_pfad  = '$smilies_pfad';\n"
             . "   var liste         = new Array(\n   "
             . @implode(",\n   ", $jsarr) . "   );\n"
@@ -83,7 +83,7 @@ if (strlen($u_id) != 0) {
                 $schalt = TRUE;
             }
             echo "<TR BGCOLOR=\"$farbe_tabelle\">"
-                . "<TD>$f1<B>$smilie_code</B>$f2</TD>" . "<TD>" . $f1
+                . "<TD>$f1<b>$smilie_code</b>$f2</TD>" . "<TD>" . $f1
                 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2
                 . "</TD>" . "<TD><IMG SRC=\"" . $smilies_pfad . $smilie_grafik
                 . "\"></TD>" . "</TR>\n";

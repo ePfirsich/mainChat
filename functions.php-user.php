@@ -39,7 +39,7 @@ function user_liste($larr, $anzahl)
     
     // Wartetext ausgeben
     if ($anzahl > 10)
-        echo $f1 . "<B>$t[sonst23] $anzahl $t[sonst36]</B><BR>\n" . $f2;
+        echo $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
     flush();
     
     if ($o_js) {
@@ -96,7 +96,7 @@ function user_liste($larr, $anzahl)
         
         echo "\n\n<SCRIPT LANGUAGE=\"JavaScript\">\n"
             . "   var color = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
-            . "   var fett  = new Array('$f1<B>','</B>$f2','$f3','$f4','$f1','$f2');\n"
+            . "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
             . "   var level = '$level';\n" . "   var level2 = '$level2';\n"
             . "   var padd  = '$CELLPADDING';\n"
             . "   var ggrafik = new Array('$punkte_grafik[0]','$punkte_grafik[1]','$punkte_grafik[2]','$punkte_grafik[3]');\n"
@@ -204,7 +204,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
                 . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n"
                 . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
-                . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+                . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
                 . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
                 . "<TR><TD>";
             
@@ -236,7 +236,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             
             // Fuß der Tabelle
             echo "</TD></TR></TABLE></TD></TR></FORM></TABLE>\n"
-                . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+                . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
         }
         
         // Kopf Tabelle Userinfo
@@ -254,39 +254,39 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
             . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n"
             . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
-            . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+            . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
             . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
             . "<TR><TD>";
         
         // Ausgabe in Tabelle
         echo "<TABLE BORDER=0 CELLPADDING=0>";
-        echo "<TR><TD VALIGN=TOP><B>" . $f1 . $t['user_zeige18'] . $f2
-            . "</B></TD><TD><B>" . user($user, $row, TRUE, FALSE);
+        echo "<TR><TD VALIGN=TOP><b>" . $f1 . $t['user_zeige18'] . $f2
+            . "</b></TD><TD><b>" . user($user, $row, TRUE, FALSE);
         
         if ($uu_away != "") {
-            echo $f1 . "<BR></b>($uu_away)<b>" . $f2;
+            echo $f1 . "<br></b>($uu_away)<b>" . $f2;
         }
         
-        echo "</B></TD></TR>\n";
+        echo "</b></TD></TR>\n";
         
         if ($admin) {
             // Name
             if (strlen($uu_name) > 0) {
-                echo "<TR><TD><B>" . $f1 . $t['user_zeige2'] . $f2
-                    . "</B></TD><TD><B>" . $f1 . "$uu_name" . $f2
-                    . "</B></TD></TR>\n";
+                echo "<TR><TD><b>" . $f1 . $t['user_zeige2'] . $f2
+                    . "</b></TD><TD><b>" . $f1 . "$uu_name" . $f2
+                    . "</b></TD></TR>\n";
             }
         }
         
         // Raum
         if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
-            echo "<TR><TD><B>" . $f1 . $t['user_zeige23'] . $f2
-                . "</B></TD><TD><B>" . $f1 . $o_row->r_name . "&nbsp;["
-                . $whotext[$o_row->o_who] . "]" . $f2 . "</B></TD></TR>\n";
+            echo "<TR><TD><b>" . $f1 . $t['user_zeige23'] . $f2
+                . "</b></TD><TD><b>" . $f1 . $o_row->r_name . "&nbsp;["
+                . $whotext[$o_row->o_who] . "]" . $f2 . "</b></TD></TR>\n";
         } elseif (isset($o_row) && $o_row->o_who) {
-            echo "<TR><TD>" . $f1 . "&nbsp;" . $f2 . "</TD>" . "<TD><B>" . $f1
+            echo "<TR><TD>" . $f1 . "&nbsp;" . $f2 . "</TD>" . "<TD><b>" . $f1
                 . "[" . $whotext[$o_row->o_who] . "]" . $f2
-                . "</B></TD></TR>\n";
+                . "</b></TD></TR>\n";
         }
         if (isset($onlinezeit) && $onlinezeit) {
             echo "<TR><TD>" . $f1 . $t['user_zeige33'] . $f2
@@ -376,7 +376,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         if ($uu_kommentar && $admin) {
             echo "<TR><TD VALIGN=TOP>" . $f1 . $t['user_zeige49'] . $f2
                 . "</TD><TD>" . $f3;
-            echo htmlspecialchars($uu_kommentar) . "<BR>\n";
+            echo htmlspecialchars($uu_kommentar) . "<br>\n";
             echo $f4 . "</TD></TR>\n";
         }
         
@@ -431,11 +431,11 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                         while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each(
                             $http_stuff)) {
                             if ($o_http_stuff_inhalt) {
-                                echo "<B>"
+                                echo "<b>"
                                     . htmlspecialchars($o_http_stuff_name)
-                                    . ":</B>&nbsp;"
+                                    . ":</b>&nbsp;"
                                     . htmlspecialchars($o_http_stuff_inhalt)
-                                    . "<BR>\n";
+                                    . "<br>\n";
                             }
                         }
                     }
@@ -467,16 +467,16 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         if ($u_level != "G") {
             $mlnk[1] = "schreibe.php?http_host=$http_host&id=$id&text=/ignore%20$uu_nick";
             $mlnk[2] = "schreibe.php?http_host=$http_host&id=$id&text=/einlad%20$uu_nick";
-            echo "<TR><TD VALIGN=TOP><B>" . $f1 . $t['user_zeige24'] . $f2
-                . "</B></TD><TD>" . $f1;
+            echo "<TR><TD VALIGN=TOP><b>" . $f1 . $t['user_zeige24'] . $f2
+                . "</b></TD><TD>" . $f1;
             if (!$beichtstuhl)
-                echo "[<A HREF=\"$mlnk[1]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<BR>\n";
-            echo "[<A HREF=\"$mlnk[2]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</A>]<BR>\n";
+                echo "[<A HREF=\"$mlnk[1]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<br>\n";
+            echo "[<A HREF=\"$mlnk[2]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</A>]<br>\n";
             if ($communityfeatures) {
                 $mlnk[8] = "mail.php?http_host=$http_host&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
                 $mlnk[9] = "schreibe.php?http_host=$http_host&id=$id&text=/freunde%20$uu_nick";
-                echo "[<A HREF=\"$mlnk[8]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</A>]<BR>\n"
-                    . "[<A HREF=\"$mlnk[9]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</A>]<BR>\n";
+                echo "[<A HREF=\"$mlnk[8]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</A>]<br>\n"
+                    . "[<A HREF=\"$mlnk[9]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</A>]<br>\n";
             }
             
         }
@@ -484,7 +484,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         // Adminmenue
         if ($admin) {
             $mlnk[7] = "user.php?http_host=$http_host&id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
-            echo "[<A HREF=\"$mlnk[7]\">" . $t['user_zeige34'] . "</A>]<BR>\n";
+            echo "[<A HREF=\"$mlnk[7]\">" . $t['user_zeige34'] . "</A>]<br>\n";
         }
         
         // Adminmenue
@@ -497,17 +497,17 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             $mlnk[5] = "schreibe.php?http_host=$http_host&id=$id&text=/kick%20$uu_nick";
             $mlnk[6] = "sperre.php?http_host=$http_host&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
                 . urlencode($o_row->o_name);
-            echo "[<A HREF=\"$mlnk[3]\">" . $t['user_zeige25'] . "</A>]<BR>\n"
-                . "[<A HREF=\"$mlnk[4]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</A>]<BR>\n"
-                . "[<A HREF=\"$mlnk[5]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</A>]<BR>\n"
-                . "[<A HREF=\"$mlnk[6]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</A>]<BR>\n";
-            echo "[<A HREF=\"$mlnk[8]\">" . $t['user_zeige47'] . "</A>]<BR>\n";
+            echo "[<A HREF=\"$mlnk[3]\">" . $t['user_zeige25'] . "</A>]<br>\n"
+                . "[<A HREF=\"$mlnk[4]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</A>]<br>\n"
+                . "[<A HREF=\"$mlnk[5]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</A>]<br>\n"
+                . "[<A HREF=\"$mlnk[6]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</A>]<br>\n";
+            echo "[<A HREF=\"$mlnk[8]\">" . $t['user_zeige47'] . "</A>]<br>\n";
         }
         
         // Adminmenue
         if ($admin && $communityfeatures) {
             $mlnk[10] = "blacklist.php?http_host=$http_host&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-            echo "[<A HREF=\"$mlnk[10]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</A>]<BR>\n";
+            echo "[<A HREF=\"$mlnk[10]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</A>]<br>\n";
             
         }
         
@@ -547,7 +547,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit\">\n"
                 . $f1
                 . "<INPUT TYPE=\"SUBMIT\" NAME=\"ein\" VALUE=\"Ändern!\">"
-                . "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><BR>";
+                . "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><br>";
             
             $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
             $result = mysqli_query($mysqli_link, $query);
@@ -559,7 +559,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             if ((($u_level == "C" || $u_level == "A")
                 && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z"))
                 || ($u_level == "S"))
-                echo "<BR><INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"$t[chat_msg110]\">";
+                echo "<br><INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"$t[chat_msg110]\">";
             echo "</FORM>\n";
         }
         

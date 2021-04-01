@@ -7,9 +7,9 @@
 
 set_time_limit(3);
 
-$userinfo_hilfe = "<B>Es wird eine transparente Grafik als JPG erzeugt, welche die aktuelle Zahl\nder User im Chat enthält. "
+$userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche die aktuelle Zahl\nder User im Chat enthält. "
 	. "Falls kein User im Chat ist, wird ein leeres JPG ausgegeben.\n\n"
-	. "Übergabeparameter:</B>\n" . " text   - Text nach der Zahl\n"
+	. "Übergabeparameter:</b>\n" . " text   - Text nach der Zahl\n"
 	. " size   - Größe in Punkt für die Schrift\n"
 	. " hrot   - Hintergrundfarbe Rotanteil\n"
 	. " hgruen - Hintergrundfarbe Grünanteil\n"
@@ -24,10 +24,10 @@ $userinfo_hilfe = "<B>Es wird eine transparente Grafik als JPG erzeugt, welche d
 	. " null=j  - Falls j, erfolgt bei \"0 User online\" eine Ausgabe. Ansonsten wird nur ein transparentes leeres JPG ausgegeben.\n"
 	. " text=j  - es wird statt einer Grafik die Anzahl der User als Text ausgegeben.\n\n"
 	. " jscript=j  - es wird statt einer Grafik die Anzahl der User als Text ausgegeben.\n\n"
-	. "<B>Beispiel 1:</B>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\"&gt;\n"
+	. "<b>Beispiel 1:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\"&gt;\n"
 	. "ergibt folgende Grafik:\n\n"
 	. "<IMG SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\">\n\n"
-	. "<B>Beispiel 2:</B>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
+	. "<b>Beispiel 2:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
 	. "ergibt folgende Grafik in Gelb für einen blauen Hintergrund:\n\n"
 	. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 BGCOLOR=\"#0000FF\"><TR><TD><IMG SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></TD></TR></TABLE>\n";
 

@@ -31,10 +31,10 @@ if (strlen($u_id) != 0) {
     $linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
     $linksmilies = "href=\"" . $smilies_datei
         . "?http_host=$http_host&id=$id\"";
-    echo "<CENTER><B>$r_name</B><BR>$f3<B>[<a onMouseOver=\"return(true)\" $linksmilies>"
+    echo "<CENTER><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
         . $t['sonst1'] . "</A>]&nbsp;"
         . "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-        . "</A>]</B>$f4<BR>"
+        . "</A>]</b>$f4<br>"
         . "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\" >\n";
     
     // Unterscheidung JavaScript an/aus
@@ -49,7 +49,7 @@ if (strlen($u_id) != 0) {
         
         echo "\n\n<SCRIPT LANGUAGE=\"JavaScript\">\n"
             . "   var color = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
-            . "   var fett  = new Array('$f1<B>','</B>$f2','$f3','$f4','$f1','$f2');\n"
+            . "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
             . "   var liste = new Array(\n   " . @implode(",\n   ", $jsarr)
             . "   );\n" . "   showsmilies(liste);\n" . "</SCRIPT>\n";
         
@@ -66,17 +66,17 @@ if (strlen($u_id) != 0) {
                 $farbe_tabelle = $farbe_tabelle_zeile2;
                 $schalt = TRUE;
             }
-            echo "<TR BGCOLOR=\"$farbe_tabelle\"><TD>$f1<B>$smilie_code</B>$f2</TD>"
+            echo "<TR BGCOLOR=\"$farbe_tabelle\"><TD>$f1<b>$smilie_code</b>$f2</TD>"
                 . "<TD>" . $f1 . str_replace(" ", "&nbsp;", $smilie_text) . $f2
                 . "</TD></TR>\n";
         }
     }
     
     echo "</TABLE>"
-        . "<B>$r_name</B><BR>$f3<B>[<a onMouseOver=\"return(true)\" $linksmilies>"
+        . "<b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
         . $t['sonst1'] . "</A>]&nbsp;"
         . "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-        . "</A>]</B>$f4</CENTER>";
+        . "</A>]</b>$f4</CENTER>";
     
 } else {
     echo "<P ALIGN=CENTER>$t[sonst15]</P>\n";

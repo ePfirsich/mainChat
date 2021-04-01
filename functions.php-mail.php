@@ -37,8 +37,8 @@ function formular_neue_email($neue_email, $m_id = "")
     
     if (!isset($neue_email['an_nick']))
         $neue_email['an_nick'] = "";
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Nickname:</B></TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Nickname:</b></TD><TD>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[an_nick]\" VALUE=\""
         . $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
         . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"WEITER\">" . $f2
@@ -125,7 +125,7 @@ function formular_neue_email2($neue_email, $m_id = "")
                 $email_bekannt = true;
             }
             
-            $email_select = "<B>Art des Mailversands:</B>&nbsp;<SELECT NAME=\"neue_email[typ]\">";
+            $email_select = "<b>Art des Mailversands:</b>&nbsp;<SELECT NAME=\"neue_email[typ]\">";
             if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
                 $email_select .= "<OPTION VALUE=\"0\">Mail in Chat-Mailbox\n";
                 if ($email_bekannt)
@@ -151,10 +151,10 @@ function formular_neue_email2($neue_email, $m_id = "")
             
             if (!isset($neue_email['m_betreff']))
                 $neue_email['m_betreff'] = "";
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>$titel "
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>$titel "
                 . user($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online,
-                    $row->login) . "</B>$email</DIV></TD></TR>\n"
-                . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD VALIGN=\"TOP\" align=\"right\"><B>Betreff:</B></TD><TD  COLSPAN=2>"
+                    $row->login) . "</b>$email</DIV></TD></TR>\n"
+                . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD VALIGN=\"TOP\" align=\"right\"><b>Betreff:</b></TD><TD  COLSPAN=2>"
                 . $f1
                 . "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[m_betreff]\" VALUE=\""
                 . $neue_email['m_betreff'] . "\" SIZE="
@@ -162,7 +162,7 @@ function formular_neue_email2($neue_email, $m_id = "")
                 . "
 				 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
                 . $f2 . "<input name=\"counter\" size=3></TD></TR>"
-                . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD VALIGN=\"TOP\" align=\"right\"><B>Ihr Text:</B></TD><TD COLSPAN=2>"
+                . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD VALIGN=\"TOP\" align=\"right\"><b>Ihr Text:</b></TD><TD COLSPAN=2>"
                 . $f1 . "<TEXTAREA COLS=" . ($eingabe_breite2)
                 . " ROWS=20 NAME=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
                 . $neue_email['m_text'] . "</TEXTAREA>\n" . $f2
@@ -173,7 +173,7 @@ function formular_neue_email2($neue_email, $m_id = "")
                 . $f2 . "</TD></TR>\n" . "</TABLE></FORM>\n";
             
         } else {
-            echo "<P><B>Fehler:</B> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
+            echo "<P><b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
         }
     }
 }
@@ -230,13 +230,13 @@ function zeige_mailbox($aktion, $zeilen)
         if ($anzahl == 0) {
             
             // Leere Mailbox
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$anzahl $titel $u_nick:</B></DIV></TD></TR>\n";
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$anzahl $titel $u_nick:</b></DIV></TD></TR>\n";
             "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD>&nbsp;</TD><TD align=\"left\">Ihre Mailbox ist leer.</TD></TR>";
             
         } else {
             
             // Mails anzeigen
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>$anzahl $titel $u_nick:</B></DIV></TD></TR>\n"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$anzahl $titel $u_nick:</b></DIV></TD></TR>\n"
                 . "<TR><TD>" . $f1 . "Löschen" . $f2 . "</TD><TD>" . $f1
                 . "von" . $f2 . "</TD><TD>" . $f1 . "Betreff" . $f2
                 . "</TD><TD>" . $f1 . "Datum" . $f2 . "</TD><TD>" . $f1
@@ -251,8 +251,8 @@ function zeige_mailbox($aktion, $zeilen)
                     . $row->m_id . "\">";
                 if ($row->m_status == "neu"
                     || $row->m_status == "neu/verschickt") {
-                    $auf = "<B>" . $f1;
-                    $zu = $f2 . "</B>";
+                    $auf = "<b>" . $f1;
+                    $zu = $f2 . "</b>";
                 } else {
                     $auf = $f1;
                     $zu = $f2;
@@ -319,28 +319,28 @@ function zeige_email($m_id)
         if ($row->u_nick == "NULL" || $row->u_nick == "") {
             $von_nick = "$chat";
         } else {
-            $von_nick = "<B>" . user($row->u_id, $row, TRUE, FALSE) . "</B>";
+            $von_nick = "<b>" . user($row->u_id, $row, TRUE, FALSE) . "</b>";
         }
         $row->m_text = str_replace("<ID>", $id, $row->m_text);
         $row->m_text = str_replace("<HTTP_HOST>", $http_host, $row->m_text);
         
         // Mail ausgeben
-        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=4><DIV style=\"color:$farbe_text;\"><B>Mail zeigen:</B></DIV></TD></TR>\n"
-            . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD ALIGN=\"RIGHT\"><B>"
-            . $f1 . "Von:" . $f2 . "</B></TD><TD COLSPAN=3 WIDTH=\"100%\">"
+        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=4><DIV style=\"color:$farbe_text;\"><b>Mail zeigen:</b></DIV></TD></TR>\n"
+            . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD ALIGN=\"RIGHT\"><b>"
+            . $f1 . "Von:" . $f2 . "</b></TD><TD COLSPAN=3 WIDTH=\"100%\">"
             . $von_nick . "</TD></TR>\n"
-            . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD ALIGN=\"RIGHT\"><B>"
-            . $f1 . "Am:" . $f2 . "</B></TD><TD COLSPAN=3>" . $f1 . $row->zeit
+            . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD ALIGN=\"RIGHT\"><b>"
+            . $f1 . "Am:" . $f2 . "</b></TD><TD COLSPAN=3>" . $f1 . $row->zeit
             . $f2 . "</TD></TR>\n"
-            . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD ALIGN=\"RIGHT\"><B>"
-            . $f1 . "Betreff:" . $f2 . "</B></TD><TD COLSPAN=3>" . $f1
+            . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD ALIGN=\"RIGHT\"><b>"
+            . $f1 . "Betreff:" . $f2 . "</b></TD><TD COLSPAN=3>" . $f1
             . htmlspecialchars($row->m_betreff) . $f2
             . "</TD></TR>\n"
-            . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD ALIGN=\"RIGHT\"><B>"
-            . $f1 . "Status:" . $f2 . "</B></TD><TD COLSPAN=3>" . $f1
+            . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD ALIGN=\"RIGHT\"><b>"
+            . $f1 . "Status:" . $f2 . "</b></TD><TD COLSPAN=3>" . $f1
             . $row->m_status . $f2 . "</TD></TR>\n"
             . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD>&nbsp;</TD><TD COLSPAN=3>"
-            . $f1 . str_replace("\n", "<BR>\n", $row->m_text)
+            . $f1 . str_replace("\n", "<br>\n", $row->m_text)
             . $f2 . "</TD></TR>\n";
         
         // Formular zur Löschen, Beantworten
@@ -410,7 +410,7 @@ function loesche_mail($m_id, $u_id)
         ;
         schreibe_db("mail", $f, $row->m_id, "m_id");
     } else {
-        echo "<P><B>Fehler:</B> Diese Mail nicht kann nicht gelöscht werden!</P>";
+        echo "<P><b>Fehler:</b> Diese Mail nicht kann nicht gelöscht werden!</P>";
     }
     @mysqli_free_result($result);
     

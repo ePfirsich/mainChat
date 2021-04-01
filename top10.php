@@ -144,8 +144,8 @@ if ($erweitertefeatures) {
     if (is_array($array_user)) {
         for ($i = 0; $i < $anzahl; $i++) {
             echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=2 CELLSPACING=0>\n"
-                . "<TR BGCOLOR=\"$bgcolor\"><TD WIDTH=\"4%\" align=\"right\"><B>"
-                . $f1 . ($i + 1) . $f2 . "</B></TD>";
+                . "<TR BGCOLOR=\"$bgcolor\"><TD WIDTH=\"4%\" align=\"right\"><b>"
+                . $f1 . ($i + 1) . $f2 . "</b></TD>";
             for ($j = 0; $j < 3; $j++) {
                 if (isset($array_user[$j]) && isset($array_user[$j][$i])
                     && $array_user[$j][$i]['punkte']) {
@@ -170,13 +170,13 @@ if ($erweitertefeatures) {
             
         }
     }
-    echo "<BR>\n";
+    echo "<br>\n";
 }
 
 if ($o_js || !$u_id) {
     echo $f1
         . "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-        . $f2 . "<BR>\n";
+        . $f2 . "<br>\n";
 }
 
 ?>

@@ -81,7 +81,7 @@ zeige_header_ende();
 aktualisiere_online($u_id, $o_raum);
 
 if ($u_id && $communityfeatures) {
-    echo "<center><b>Bitte wählen Sie die Farbe aus:</b><BR>"
+    echo "<center><b>Bitte wählen Sie die Farbe aus:</b><br>"
         . "<a href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor="
         . urlencode($oldcolor) . "&nix\">"
         . "<img src=\"pics/colors2.png\" ismap border=0></a>\n";
@@ -101,7 +101,7 @@ if ($u_id && $communityfeatures) {
     } else {
         echo "bg=" . urlencode($oldcolor) . "&nix\"\n";
     }
-    echo " height=25 width=135 border=0><BR>";
+    echo " height=25 width=135 border=0><br>";
     
     // Optional Auswahl einer Grafik statt der Farbe
     if ($mit_grafik) {
@@ -137,17 +137,17 @@ if ($u_id && $communityfeatures) {
             . "<TD>$f1<INPUT TYPE=\"TEXT\" NAME=\"setcolor\" VALUE=\"$setcolor\" SIZE=\"7\" MAXLENGTH=\"7\" onChange=\"Javascript:submit()\">"
             . "<INPUT TYPE=\"SUBMIT\" NAME=\"GO\" VALUE=\"GO\">$f2</TD></TR>\n"
             . "<TR><TD>" . $f1 . "oder transparent:" . $f2 . "</TD>"
-            . "<TD>$f1<B>[<A href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=0&nix\">"
-            . "wählen</A>]</B>$f2</TD></TR></TABLE>\n";
+            . "<TD>$f1<b>[<A href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=0&nix\">"
+            . "wählen</A>]</b>$f2</TD></TR></TABLE>\n";
         
     } else {
-        echo "<BR>";
+        echo "<br>";
     }
     
-    echo "<BR>" . $f1
-        . "<B>[<a href=\"javascript:colorsave();\">Farbe übernehmen</a>]\n"
+    echo "<br>" . $f1
+        . "<b>[<a href=\"javascript:colorsave();\">Farbe übernehmen</a>]\n"
         . "[<a href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=$oldcolor&$oldcolor&nix\">Reset</a>]\n"
-        . "[<a href=javascript:window.close();>nicht&nbsp;speichern</a>]</B>"
+        . "[<a href=javascript:window.close();>nicht&nbsp;speichern</a>]</b>"
         . $f2 . "</CENTER>\n";
 }
 ?>

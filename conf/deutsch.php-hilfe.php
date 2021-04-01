@@ -18,7 +18,7 @@ $t['menue8'] = "AGB";
 $t['menue9'] = "Datenschutz";
 
 $t['hilfe0'] = "Übersicht über alle Befehle im Chat";
-$t['hilfe1'] = "<B>Allgemeines Format:</B> /BEFEHL OPTION OPTION...";
+$t['hilfe1'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";
 $t['hilfe2'] = "<TH><DIV style=\"color:$farbe_text;\">Befehl</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Funktion</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Aliase</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Anmerkungen</DIV></TH>";
 $t['hilfe3'] = "Hilfe zu den voreingestellten Sprüchen";
 $t['hilfe4'] = "Übersicht über alle voreingestellten Sprüche";
@@ -29,11 +29,11 @@ $t['hilfe8'] = "Zusätzliche Befehle für Admins";
 $t['hilfe9'] = "Chatiquette";
 $t['hilfe10'] = "Legende";
 $t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Homepage";
-$t['hilfe12'] = "<B>Weitere Hilfe zu den Punkten</B>";
+$t['hilfe12'] = "<b>Weitere Hilfe zu den Punkten</b>";
 $t['hilfe13'] = "Datenschutzrichtlinien (Privacy Policy) der fidion GmbH, Betreiber des mainChats";
 $t['hilfe14'] = "Chat AGB";
 $t['hilfe15'] = "Automatischer Logout";
-$t['hilfe16'] = "<P>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</B></P>";
+$t['hilfe16'] = "<P>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</b></P>";
 
 $t['sonst1'] = "Fenster schließen";
 
@@ -62,9 +62,9 @@ $hilfe_befehlstext = array(
     "/uebergeberaum NAME\tÜbergibt den aktuellen Raum an den User NAME.\t/schenke\tNur für Admins oder Raumbesitzer",
     "/aendereraum STATUS\tÄndert den Status des aktuellen Raums auf offen, geschlossen oder moderiert.\t \tNur für Admins oder Raumbesitzer",
     "/loescheraum RAUM\tLöscht den angegebenen Raum\t \tNur für Admins oder Raumbesitzer",
-    "/zeige NAME\tGibt die Benutzerinformationen für den Benutzer NAME aus <BR>(% ist Joker).\t/whois",
-    "/wuerfel\tWürfel werfen\t/dice\t/wuerfel 2W6 <BR>wirft 2 sechseitige Würfel",
-    "/dicecheck\tPrüft Würfelwürfe auf Korrektheit\t/quiddice\t/dicecheck 2W6 <BR>prüft auf 2 sechseitige Würfel",
+    "/zeige NAME\tGibt die Benutzerinformationen für den Benutzer NAME aus <br>(% ist Joker).\t/whois",
+    "/wuerfel\tWürfel werfen\t/dice\t/wuerfel 2W6 <br>wirft 2 sechseitige Würfel",
+    "/dicecheck\tPrüft Würfelwürfe auf Korrektheit\t/quiddice\t/dicecheck 2W6 <br>prüft auf 2 sechseitige Würfel",
     "/suche NAME\tSucht alle Sprüche, die das Wort NAME enthalten\t/such\tGut geeignet, um einen Spruch passend zum Thema zu finden",
     "=spruch NAME ZUSATZ\tGibt einen vordefinierten Spruch aus (Siehe \"Liste aller Sprüche\")\t \tNAME und ZUSATZ ist optional und vom Spruch abhängig. Weitere Info vorhanden",
     "*TEXT*\tTEXT wird kursiv dargestellt\t \tWirkt in allen Texten, die öffentlich oder privat im Chat ausgegeben werden",
@@ -114,12 +114,12 @@ $hilfe_uebersichtstext = "<p><b>Erste Hilfe bei Problemen:</b><br>"
     . "Sie dieses bitte gegebenenfalls in Ihrem Browser ein.</p>"
     . "<p><b>Befehle:</b><br>"
     . "Die meisten Einstellungen können durch <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">"
-    . "<B>Befehle im Chat</B></A> oder direkt im "
-    . "Fenster (<A HREF=\"edit.php?http_host=$http_host&id=$id\"><B>Einstellungen</B></A>, "
-    . "<A HREF=\"raum.php?http_host=$http_host&id=$id\"><B>Räume</B></A>) verändert werden. Für die voreingestellten Sprüche, "
+    . "<b>Befehle im Chat</b></A> oder direkt im "
+    . "Fenster (<A HREF=\"edit.php?http_host=$http_host&id=$id\"><b>Einstellungen</b></A>, "
+    . "<A HREF=\"raum.php?http_host=$http_host&id=$id\"><b>Räume</b></A>) verändert werden. Für die voreingestellten Sprüche, "
     . "die im Chat abgerufen werden können, gibt es noch eine <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">"
-    . "<B>Übersicht</B></A>.</p>" . "<p><b>Liste:</b><br>"
-    . "Im Chat, wie auch im Fenster (<A HREF=\"edit.php?http_host=$http_host&id=$id\"><B>Userliste</B></A>), "
+    . "<b>Übersicht</b></A>.</p>" . "<p><b>Liste:</b><br>"
+    . "Im Chat, wie auch im Fenster (<A HREF=\"edit.php?http_host=$http_host&id=$id\"><b>Userliste</b></A>), "
     . "kann eine Liste aller in einem bestimmten "
     . "Raum chattenden User ausgegeben werden. Im Fenster ist es darüber hinaus möglich, "
     . "weitere Informationen abzufragen oder dem User eine private Nachricht zu schreiben.</p>"
@@ -254,11 +254,11 @@ informiert und der User muss mit entsprechenden Konsequenzen rechnen.
 </p>
 <b>Gründe zum Kicken sind: </b>
 <p>
-<BR>
+<br>
 <b>Pöbeleien.</b> Jemanden zu beleidigen, den man gar nicht kennt, ist wenig stilvoll und wird nicht geduldet. Bei extremen 
 Vorfällen (dies gilt auch für die Verbreitung nationalsozialistischen Gedankenguts oder von Sex-Urls) wird ohne Vorwarnung
 gekickt.
-<BR><BR>
+<br><br>
 <b>Schreiben</b> nur mit Großbuchstaben. Das bedeutet, auf die Realität bezogen, lautes Schreien und ist wenig erwünscht. 
 Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstellen. Ganze Sätze sollte man jedoch nicht betonen; das gilt als unfein. 
 </p>
@@ -279,13 +279,13 @@ $legende = "<tr bgcolor=#E8E8FF><td colspan=\"2\"><p><b>Wieviele Chat-Punkte erg
     . "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/haeuschen.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>Homepage des Users</td></tr>"
     . "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/mail.gif\" width=\"17\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>E-Mail des Users</td></tr>";
 
-$hilfe_community = "<BR>
+$hilfe_community = "<br>
 <TABLE ALIGN=RIGHT CELLPADDING=2 CELLSPACING=0 BORDER=0 BGCOLOR=$farbe_tabelle_kopf>
 " . $legende
     . "
 </table>
-<P><b><A NAME=\"punkte\">Punkte</A></b><BR>
-Unter dem Chat-Menüpunkt \"<B>USER</B>\" führt der Link zur User Top10/100 Liste. 
+<P><b><A NAME=\"punkte\">Punkte</A></b><br>
+Unter dem Chat-Menüpunkt \"<b>USER</b>\" führt der Link zur User Top10/100 Liste. 
 Alle angemeldeten User bekommen pro einzelnes im Chat geschriebenes Wort
 einen Punkt. Die Voraussetzung ist, dass jedes Wort mindestens vier Buchstaben hat
 und sich der User in einem öffentlichen, permanenten Raum mit mindestens 
@@ -293,29 +293,29 @@ und sich der User in einem öffentlichen, permanenten Raum mit mindestens
     . " Usern befindet. Für das
 erstmalige Ausfüllen des Profils bekommt jeder User 500 Punkte. Die Admins
 haben ferner die Möglichkeit, den Usern Punkte zu schenken oder abzuziehen.
-Dies geschieht mit den Befehlen \"<B>/lob Nickname Punktezahl</B>\" und \"<B>/tadel
-Nickname Punktezahl</B>\". Wenn Sie dem User Heinz also 100 Punkte schenken
-möchten, tippen Sie im Chat einfach \"/<B>lob Heinz 100</B>\" ein und schon bekommt
+Dies geschieht mit den Befehlen \"<b>/lob Nickname Punktezahl</b>\" und \"<b>/tadel
+Nickname Punktezahl</b>\". Wenn Sie dem User Heinz also 100 Punkte schenken
+möchten, tippen Sie im Chat einfach \"/<b>lob Heinz 100</b>\" ein und schon bekommt
 der User Heinz 100 Punkte gutgeschrieben. Beim Logout des Users werden die
 Punktezahlen jeweils aufaddiert und aktualisiert. Mit Klick auf den
 Menüpunkt Top10/100 kann jeder User Einblick in die Rangliste nehmen. Je
 nach Anzahl der Punke erhält jeder User (sowie auch die Admins) ein
-kleines Würfelsymbol, das seinem Nicknamen im Chat zugeordnet wird.<BR><BR>
-<B>Tipp 1:</B> Die Punkte werden meistens erst beim Logout aufs Userkonto gutgeschrieben,
-daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<BR>
-<B>Tipp 2:</B> Wer um Punkte bettelt, macht sich unbeliebt.<BR>
-<B>Tipp 3:</B> Wer in leeren Räumen Texte schreibt, um die Punkte nach oben zu
-treiben, hat schnell keine Punkte mehr.<BR><BR>
+kleines Würfelsymbol, das seinem Nicknamen im Chat zugeordnet wird.<br><br>
+<b>Tipp 1:</b> Die Punkte werden meistens erst beim Logout aufs Userkonto gutgeschrieben,
+daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<br>
+<b>Tipp 2:</b> Wer um Punkte bettelt, macht sich unbeliebt.<br>
+<b>Tipp 3:</b> Wer in leeren Räumen Texte schreibt, um die Punkte nach oben zu
+treiben, hat schnell keine Punkte mehr.<br><br>
 <b><A NAME=\"profil\">Profile</A></b><br>
-Unter dem Punkt \"<B>EINSTELLUNGEN</B>\" kann ebenfalls jeder Einblick in sein Profil
+Unter dem Punkt \"<b>EINSTELLUNGEN</b>\" kann ebenfalls jeder Einblick in sein Profil
 nehmen und es gegebenenfalls ändern. Hier kann der User Angaben über seine
 Anschrift, Telefon-, Handynummer, ICQ, Geburtsdatum, Geschlecht, Hobbys und
 vieles mehr hinterlassen. Diese Profile sind im Chat öffentlich abrufbar.
 Das Ausfüllen der Profile ist für die User freiwillig. Admins haben in Ihrem
 eigenen Profil noch die Möglichkeit, sich die Profile aller User ausgeben zu
-lassen.<BR><BR>
+lassen.<br><br>
 <b><A NAME=\"mail\">Chat-Mail</A></b><br>
-Die Chat-Mail (<B>MAIL</B>, <B>/mail</B>) ist eine im Chat integrierte Mailbox mit
+Die Chat-Mail (<b>MAIL</b>, <b>/mail</b>) ist eine im Chat integrierte Mailbox mit
 Weboberfläche. Im Chat selbst steht hinter jedem Nick ein Mailsymbol (blauer
 Briefumschlag). Somit kann jeder registrierte User im Chat anonym Mail
 empfangen, ohne seine echte Adresse herauszugeben. Um in das Mail-Menü zu
@@ -324,67 +324,67 @@ gelangen, klicken Sie in der unteren Chatleiste auf den Menüpunkt Mail. Nun
 Hier können Sie direkt alle Ihre empfangenen Nachrichten sehen und per Klick
 auf die Betreffzeile öffnen. Wenn Sie Nachrichten zum Löschen in den
 Papierkorb verschieben möchten, markieren Sie einfach die betreffende Mail
-durch Klick in das \"<B>Löschen</B>\"-Kästchen und klicken Sie dann auf den
-<B>Löschen</B>-Button rechts unter den Nachrichten.<BR>
+durch Klick in das \"<b>Löschen</b>\"-Kästchen und klicken Sie dann auf den
+<b>Löschen</b>-Button rechts unter den Nachrichten.<br>
 Gelöschte Nachrichten werden automatisch nach einer gewissen Zeit aus dem Papierkorb
-gelöscht. (Standardeinstellung 14 Tage, kann aber vom Chatbetreiber geändert werden)<BR><BR>
-<B>Im Mailmenü haben Sie nun folgende Auswahlmöglichkeiten:</B></P>
+gelöscht. (Standardeinstellung 14 Tage, kann aber vom Chatbetreiber geändert werden)<br><br>
+<b>Im Mailmenü haben Sie nun folgende Auswahlmöglichkeiten:</b></P>
 <UL>
 <li><I>Mailbox neu laden</I>
 <li><I>Neue Mail schreiben</I>
 <li><I>Papierkorb zeigen</I>
 <li><I>Papierkorb leeren</I>
 </ul><P>
-Um eine neue Mail zu verfassen, geben Sie unter dem Punkt \"<B>Neue Mail senden</B>\"
-in das Feld \"<B>Nickname</B>\" den Nicknamen des Users ein, dem Sie eine Nachricht
-zukommen lassen möchten und klicken Sie dann auf \"<B>weiter</B>\". Nun befinden Sie
+Um eine neue Mail zu verfassen, geben Sie unter dem Punkt \"<b>Neue Mail senden</b>\"
+in das Feld \"<b>Nickname</b>\" den Nicknamen des Users ein, dem Sie eine Nachricht
+zukommen lassen möchten und klicken Sie dann auf \"<b>weiter</b>\". Nun befinden Sie
 sich in der Texteingabe für Ihre Mail. Am Fuße der Box können Sie übrigens
 auswählen, ob Sie die Nachricht an die Chat-interne Mailbox des Users oder
 an seine reguläre E-Mail Adresse schicken möchten, sofern der User diese als
 öffentlich in seinem Chatprofil angegeben hat. Sind Betreff und Textfeld
 fertig ausgefüllt, verschicken Sie die Mail mit Klick auf den
-\"<B>Senden</B>\"-Button. Wenn Sie eine empfangene Mail löschen, so wird sie zuerst
+\"<b>Senden</b>\"-Button. Wenn Sie eine empfangene Mail löschen, so wird sie zuerst
 einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
-\"<B>Papierkorb zeigen</B>\" können Sie sich alle zum Löschen vorgesehenen Mails noch
+\"<b>Papierkorb zeigen</b>\" können Sie sich alle zum Löschen vorgesehenen Mails noch
 einmal anschauen. Wenn Sie nun sicher sind, dass sie auch alle im Papierkorb
-befindlichen Mails löschen wollen, klicken Sie auf \"<B>Papierkorb leeren</B>\".<BR><BR>
+befindlichen Mails löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
 <b><A NAME=\"freunde\">Freunde</A></b><br>
-Bei den Freunden (<B>EINSTELLUNGEN</B>, <B>/freunde</B>) können Sie einfach andere User im
+Bei den Freunden (<b>EINSTELLUNGEN</b>, <b>/freunde</b>) können Sie einfach andere User im
 Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
 man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat
-informiert. Die Freunde-Liste ruft der Chatter über den Punkt \"<B>USER</B>\" direkt
+informiert. Die Freunde-Liste ruft der Chatter über den Punkt \"<b>USER</b>\" direkt
 im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü
-befindet. Durch Klicken auf \"<B>meine Freunde</B>\" gelangt man nun auf die Liste
+befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
 und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
-selbst als Freund aufgenommen wurde.<BR><BR>
+selbst als Freund aufgenommen wurde.<br><br>
 <b><A NAME=\"aktionen\">Aktionen</A></b><br>
-Über den Menüpunkt \"<B>EINSTELLUNGEN</B>\" im Chat gelangen Sie zu den sogenannten
-\"<B>Aktionen</B>\". Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit
+Über den Menüpunkt \"<b>EINSTELLUNGEN</b>\" im Chat gelangen Sie zu den sogenannten
+\"<b>Aktionen</b>\". Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit
 welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. der Login
 oder Logout eines Freundes oder auch der Eingang einer neuen Mail. Wann Sie
 die Nachricht erhalten wollen, wählen Sie aus der obersten Zeile aus.
-Möglich ist der Empfang sofort wenn Sie online sind (<B>Sofort/Online</B>) (z.B.
+Möglich ist der Empfang sofort wenn Sie online sind (<b>Sofort/Online</b>) (z.B.
 Freund loggt ein/aus oder zu dem Moment, in dem Sie eine neue Mail
-erhalten), bei Ihrem Login in den Chat oder regelmäßig <B>alle 5 Minuten</B>
+erhalten), bei Ihrem Login in den Chat oder regelmäßig <b>alle 5 Minuten</b>
 (regelmäßige Information über die vorliegenden neuen Mails oder die
 Anwesendheit Ihrer Freunde im Chat) Die Benachrichtigungen, die Sie
 erhalten, wenn Sie nicht im Chat sind (offline), wählen Sie unter
-<B>Sofort/Offline</B> aus. Die Art der Nachricht ist einstellbar: so gibt es <B>keine</B>
-Benachrichtigung, <B>Chat-Mail</B> (chat-interne Mail), eine <B>E-Mail</B> an Ihre
-nicht-öffentliche E-Mail Adresse oder eine <B>OLM</B> (OnLineMessage, direkte
+<b>Sofort/Offline</b> aus. Die Art der Nachricht ist einstellbar: so gibt es <b>keine</b>
+Benachrichtigung, <b>Chat-Mail</b> (chat-interne Mail), eine <b>E-Mail</b> an Ihre
+nicht-öffentliche E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte
 Nachricht in Chat wie /msg). Zusätzlich sind auch Kombinationen von E-Mail
 und OLM sowie Chat-Mail und OLM möglich, wobei Sie in diesem Fall zwei
-Nachrichten erhalten.<BR><BR>
+Nachrichten erhalten.<br><br>
 <b><A NAME=\"home\">User-Homepages</A></b><br>
-Unter dem Punkt \"<B>EINSTELLUNGEN -> Homepage</B>\" kann ebenfalls jeder User mit
+Unter dem Punkt \"<b>EINSTELLUNGEN -> Homepage</b>\" kann ebenfalls jeder User mit
 wenigen Klicks seine eigene kleine Homepage erstellen, ohne jegliche
-HTML-Kenntnisse zu besitzen. Nach der \"<B>Freischaltung</B>\" der Homepage wird hinter dem 
-Nicknamen ein <B>Haus-Symbol</B> angezeigt, über das man sich die Homepage ansehen kann. In der 
-\"Suche nach Usern\" (<B>USER -> Suche</B>) ist die gezielte Suche nach Usern mit freigeschalteter Homepage
-möglich.<BR><BR>
-Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<BR>
-<B>http://" . $CHATHOSTNAME
-    . "home.php/NICKNAME</B><BR><BR>
+HTML-Kenntnisse zu besitzen. Nach der \"<b>Freischaltung</b>\" der Homepage wird hinter dem 
+Nicknamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der 
+\"Suche nach Usern\" (<b>USER -> Suche</b>) ist die gezielte Suche nach Usern mit freigeschalteter Homepage
+möglich.<br><br>
+Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
+<b>http://" . $CHATHOSTNAME
+    . "home.php/NICKNAME</b><br><br>
 Grundsätzlich immer dargestellt werden</P>
 <ul>
 <li><I>Nickname des Users</I>

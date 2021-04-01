@@ -89,10 +89,10 @@ if ($admin && $u_id && $communityfeatures) {
 				formular_neuer_blacklist($neuer_blacklist);
 				zeige_blacklist("normal", "", $sort);
 			} elseif ($neuer_blacklist['u_nick'] == "") {
-				echo "<B>Fehler:</B> Bitte geben Sie einen Nicknamen an!<BR>\n";
+				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
 				formular_neuer_blacklist($neuer_blacklist);
 			} else {
-				echo "<B>Fehler:</B> Der Nickname '$neuer_blacklist[u_nick]' existiert nicht!<BR>\n";
+				echo "<b>Fehler:</b> Der Nickname '$neuer_blacklist[u_nick]' existiert nicht!<br>\n";
 				formular_neuer_blacklist($neuer_blacklist);
 			}
 			@mysqli_free_result($result);
@@ -123,13 +123,13 @@ if ($admin && $u_id && $communityfeatures) {
 	}
 	
 } else {
-	echo "<P ALIGN=CENTER><B>Fehler:</B> Sie sind ausgelogt oder haben keine Berechtigung!</P>\n";
+	echo "<P ALIGN=CENTER><b>Fehler:</b> Sie sind ausgelogt oder haben keine Berechtigung!</P>\n";
 }
 
 if ($o_js || !$u_id) :
 	echo $f1
 		. "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-		. $f2 . "<BR>\n";
+		. $f2 . "<br>\n";
 endif;
 
 ?>

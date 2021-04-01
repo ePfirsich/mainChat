@@ -64,7 +64,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
         // Übernimmt Besitzrechte eines Raums
             if (!$admin) {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             } else {
@@ -131,7 +131,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                             $raumname = "[" . $whotext[2] . "]";
                         }
                         if (!$userdaten[u_away]) {
-                            $txt .= "<B>" . $raumname . ":</B> "
+                            $txt .= "<b>" . $raumname . ":</b> "
                                 . user($userdaten[u_id], $userdaten, TRUE,
                                     TRUE, "&nbsp;", $row->online, "", FALSE);
                         } else {
@@ -210,16 +210,16 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                 // falls eigener nick:
                                 if (strtolower($chatzeile[0]) == "/int") {
                                     system_msg("", $u_id, $u_id, $system_farbe,
-                                        "<B>"
+                                        "<b>"
                                             . user($u_id, $userdata, TRUE,
                                                 FALSE, "&nbsp;", "", "", FALSE)
-                                            . "&nbsp; ===== $t[chat_msg24] $t[chat_msg51]: =====</B> $txt");
+                                            . "&nbsp; ===== $t[chat_msg24] $t[chat_msg51]: =====</b> $txt");
                                 } else {
                                     system_msg("", $u_id, $u_id, $system_farbe,
-                                        "<B>"
+                                        "<b>"
                                             . user($u_id, $userdata, TRUE,
                                                 FALSE, "&nbsp;", "", "", FALSE)
-                                            . "&nbsp; $t[chat_msg24] $t[chat_msg50]: </B> $txt");
+                                            . "&nbsp; $t[chat_msg24] $t[chat_msg50]: </b> $txt");
                                 }
                             } else {
                                 priv_msg($u_name, $u_id, $row['o_user'],
@@ -254,7 +254,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                 unset($userdaten);
                                 $userdaten = ARRAY(u_id => $alt[o_user],
                                     u_nick => $alt[o_name]);
-                                $txt = "<BR><b>" . $hostname . "("
+                                $txt = "<br><b>" . $hostname . "("
                                     . $alt['o_ip'] . "):</b>";
                                 $txt .= "<br><b>" . $alt['r_name'] . " "
                                     . user($alt[o_user], $userdaten, $o_js,
@@ -280,7 +280,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                     }
                     if ($dupecount > 0) {
                         system_msg("", 0, $u_id, $system_farbe,
-                            "<BR>\n" . $t['chat_msg45']);
+                            "<br>\n" . $t['chat_msg45']);
                     } else {
                         system_msg("", 0, $u_id, $system_farbe,
                             $t['chat_msg46']);
@@ -293,7 +293,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
         case "/ip":
             if (!$admin) {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
                 break;
@@ -428,7 +428,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 
             } else {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             }
@@ -445,7 +445,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
         
             if (!$admin AND $u_level != "A") {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
                 break;
@@ -694,8 +694,8 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                             preg_replace('|_(.*?)_|', '<b>\1</b>',
                                 $spruchtmp[2]));
                         
-                        $txt = "<B>$t[chat_msg4] <I>" . $spruchtmp[0] . " "
-                            . $spruchtmp[1] . "</I></B> &lt;" . $spruchtmp[2]
+                        $txt = "<b>$t[chat_msg4] <I>" . $spruchtmp[0] . " "
+                            . $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2]
                             . "&gt;";
                         system_msg("", 0, $u_id, $system_farbe, $txt);
                     endif;
@@ -1216,7 +1216,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
             } else {
                 // Keine Berechtigung zur Ausgabe der gesperrten user
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             }
@@ -1228,7 +1228,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
         // Prüft und ändert Nicknamen
             if (!$einstellungen_aendern) {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             } elseif ((strlen($chatzeile[1]) > 0)
@@ -1737,7 +1737,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                     $result = @mysqli_query($mysqli_link, $query);
                     $rows = mysqli_num_rows($result);
                     
-                    $text = "<B>WHOIS $chatzeile[1]:</B><BR>\n";
+                    $text = "<b>WHOIS $chatzeile[1]:</b><br>\n";
                     while ($row = @mysqli_fetch_object($result)) {
                         $q2 = "SELECT r_name,o_ip,o_vhost,o_browser,o_id,o_who,"
                             . "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
@@ -1765,15 +1765,15 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                 $text .= "%adminemail%&nbsp;"
                                     . htmlspecialchars($row->u_adminemail)
                                     . ", ";
-                            $text .= "<B>[" . $whotext[$r->o_who] . "]</B>";
+                            $text .= "<b>[" . $whotext[$r->o_who] . "]</b>";
                             if ($r->o_who == 0)
                                 $text .= ", %raum%&nbsp;" . $r->r_name;
                             
                             if ($row->u_away) {
                                 $awaytext = htmlspecialchars($row->u_away);
-                                $awaytext = str_replace('&lt;b&gt;', '<B>',
+                                $awaytext = str_replace('&lt;b&gt;', '<b>',
                                     $awaytext);
-                                $awaytext = str_replace('&lt;/b&gt;', '</B>',
+                                $awaytext = str_replace('&lt;/b&gt;', '</b>',
                                     $awaytext);
                                 $awaytext = str_replace('&lt;i&gt;', '<I>',
                                     $awaytext);
@@ -1794,7 +1794,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                     . htmlspecialchars(
                                         ", ($r->o_ip($host_name), $r->o_vhost, $r->o_browser) ");
                             }
-                            $text = $text . "</B><br>\n";
+                            $text = $text . "</b><br>\n";
                             @mysqli_free_result($r2);
                         } else {
                             // User ist nicht online
@@ -1817,9 +1817,9 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                     . htmlspecialchars($row->u_adminemail) . ", ";
                             if ($row->u_away) {
                                 $awaytext = htmlspecialchars($row->u_away);
-                                $awaytext = str_replace('&lt;b&gt;', '<B>',
+                                $awaytext = str_replace('&lt;b&gt;', '<b>',
                                     $awaytext);
-                                $awaytext = str_replace('&lt;/b&gt;', '</B>',
+                                $awaytext = str_replace('&lt;/b&gt;', '</b>',
                                     $awaytext);
                                 $awaytext = str_replace('&lt;i&gt;', '<I>',
                                     $awaytext);
@@ -1922,7 +1922,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                             priv_msg($u_name, $u_id, $nick['u_id'], $u_farbe,
                                 $text, $userdata);
                             system_msg("", $u_id, $u_id, $system_farbe,
-                                "<B>$u_name $t[chat_msg24] $nick[u_nick]:</B> $text");
+                                "<b>$u_name $t[chat_msg24] $nick[u_nick]:</b> $text");
                         } else {
                             system_msg("", $u_id, $u_id, $system_farbe,
                                 str_replace('%nick%', $nick['u_nick'],
@@ -1983,7 +1983,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 $nick = user($fid[$i], 0, FALSE, FALSE, "");
                 priv_msg($u_name, $u_id, $fid[$i], $u_farbe, $text, $userdata);
                 system_msg("", $u_id, $u_id, $system_farbe,
-                    "<B>$u_name $t[chat_msg24] $nick:</B> $text");
+                    "<b>$u_name $t[chat_msg24] $nick:</b> $text");
             }
             
             break;
@@ -2013,7 +2013,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                             }
                         }
                         system_msg("", $u_id, $u_id, $system_farbe,
-                            "<B>$u_name $t[chat_msg78]:</B> $text");
+                            "<b>$u_name $t[chat_msg78]:</b> $text");
                     } else {
                         // Kein User online
                         system_msg("", $u_id, $u_id, $system_farbe,
@@ -2307,7 +2307,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 }
             } else {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             }
@@ -2400,7 +2400,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                 }
             } else {
                 system_msg("", 0, $u_id, $system_farbe,
-                    "<B>He $u_name!</B> "
+                    "<b>He $u_name!</b> "
                         . str_replace("%chatzeile%", $chatzeile[0],
                             $t['chat_msg1']));
             }
@@ -2785,12 +2785,12 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                         $o_dicecheck = mysqli_real_escape_string($mysqli_link, $chatzeile[1]);
                         mysqli_query($mysqli_link, "UPDATE online SET o_dicecheck = '$o_dicecheck' WHERE o_user = $u_id");
                         if (!isset($t['chat_dicecheck_msg0'])) {
-                            $t['chat_dicecheck_msg0'] = "<B>$chat:</B> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
+                            $t['chat_dicecheck_msg0'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
                         }
                         system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0] . " " . $chatzeile[1], $t['chat_dicecheck_msg0']));
                     } else {
                         if (!isset($t['chat_dicecheck_msg1'])) {
-                            $t['chat_dicecheck_msg1'] = "<B>$chat:</B> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
+                            $t['chat_dicecheck_msg1'] = "<b>$chat:</b> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
                         }
                         system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg1']));
                     }
@@ -2798,7 +2798,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                     $o_dicecheck = "";
                     mysqli_query($mysqli_link, "UPDATE online SET o_dicecheck = '' WHERE o_user = $u_id");
                     if (!isset($t['chat_dicecheck_msg2'])) {
-                        $t['chat_dicecheck_msg2'] = "<B>$chat:</B> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
+                        $t['chat_dicecheck_msg2'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
                     }
                     system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg2']));
                 }
@@ -2933,9 +2933,9 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
                                     "/^" . preg_quote($spruchname, "/")
                                         . "\t/i", $sp_text)) {
                                     $spruchtmp = preg_split("/\t/", $sp_text, 3);
-                                    $txt = "<SMALL><B>$t[chat_spruch4] <I>"
+                                    $txt = "<SMALL><b>$t[chat_spruch4] <I>"
                                         . $spruchtmp[0] . " " . $spruchtmp[1]
-                                        . "</I></B> &lt;" . $spruchtmp[2]
+                                        . "</I></b> &lt;" . $spruchtmp[2]
                                         . "&gt;</SMALL>";
                                     system_msg("", 0, $u_id, $system_farbe,
                                         $txt);
@@ -3294,7 +3294,7 @@ function ignore(
         mysqli_free_result($result);
         
     } else {
-        echo "Fataler Fehler bei ignore ($query)<BR>";
+        echo "Fataler Fehler bei ignore ($query)<br>";
     }
     
     // Kopie in Onlinedatenbank aktualisieren

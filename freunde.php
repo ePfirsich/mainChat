@@ -144,10 +144,10 @@ if ($u_id && $communityfeatures) {
                 }
                 
             } elseif ($neuer_freund['u_nick'] == "") {
-                echo "<B>Fehler:</B> Bitte geben Sie einen Nicknamen an!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
                 formular_neuer_freund($neuer_freund);
             } else {
-                echo "<B>Fehler:</B> Der Nickname '$neuer_freund[u_nick]' existiert nicht!<BR>\n";
+                echo "<b>Fehler:</b> Der Nickname '$neuer_freund[u_nick]' existiert nicht!<br>\n";
                 formular_neuer_freund($neuer_freund);
             }
             @mysqli_free_result($result);
@@ -217,7 +217,7 @@ if ($u_id && $communityfeatures) {
 if ($o_js || !$u_id) {
     echo $f1
         . "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-        . $f2 . "<BR>\n";
+        . $f2 . "<br>\n";
 }
 
 ?>

@@ -117,15 +117,15 @@ if ($u_id && $communityfeatures && $u_level != "G") {
     }
     
 } elseif ($u_level == "G") {
-    echo "<P><B>Fehler:</B> Als Gast stehen Ihnen die Umfragen nicht zur Verfügung.</P>";
+    echo "<P><b>Fehler:</b> Als Gast stehen Ihnen die Umfragen nicht zur Verfügung.</P>";
 } else {
-    echo "<P><B>Fehler:</B> Beim Aufruf dieser Seite ist ein Fehler aufgetreten.</P>";
+    echo "<P><b>Fehler:</b> Beim Aufruf dieser Seite ist ein Fehler aufgetreten.</P>";
 }
 
 if ($o_js || !$u_id) {
     echo "<BR />" . $f1
         . "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-        . $f2 . "<BR>\n";
+        . $f2 . "<br>\n";
 }
 
 ?>

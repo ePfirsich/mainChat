@@ -127,27 +127,27 @@ if ($u_id && $communityfeatures) {
 				$fehler .= "Die Handynummer ist ungültig (z.B.: 0170123456)<br>\n";
 			
 			if (strlen($f['ui_strasse']) > 100) {
-				$fehler .= "Die Straße ist länger als 100 Zeichen!<BR>\n";
+				$fehler .= "Die Straße ist länger als 100 Zeichen!<br>\n";
 			}
 			if (strlen($f['ui_ort']) > 100) {
-				$fehler .= "Der Ort ist länger als 100 Zeichen!<BR>\n";
+				$fehler .= "Der Ort ist länger als 100 Zeichen!<br>\n";
 			}
 			if (strlen($f['ui_land']) > 100) {
-				$fehler .= "Das Land ist länger als 100 Zeichen!<BR>\n";
+				$fehler .= "Das Land ist länger als 100 Zeichen!<br>\n";
 			}
 			if (strlen($f['ui_hobby']) > 255) {
-				$fehler .= "Die Hobbies sind länger als 255 Zeichen!<BR>\n";
+				$fehler .= "Die Hobbies sind länger als 255 Zeichen!<br>\n";
 			}
 			if (strlen($f['ui_beruf']) > 100) {
-				$fehler .= "Der Beruf ist länger als 100 Zeichen!<BR>\n";
+				$fehler .= "Der Beruf ist länger als 100 Zeichen!<br>\n";
 			}
 			if (strlen($f['ui_icq']) > 100) {
-				$fehler .= "Die ICQ-Nummer ist länger als 100 Zeichen!<BR>\n";
+				$fehler .= "Die ICQ-Nummer ist länger als 100 Zeichen!<br>\n";
 			}
 			
 			if ($fehler != "") {
-				echo "<P><B>Es sind folgende Fehler aufgetreten:</B><BR>$fehler\n"
-					. "<BR><B>Bitte korrieren Sie die Fehler!</P>\n";
+				echo "<P><b>Es sind folgende Fehler aufgetreten:</b><br>$fehler\n"
+					. "<br><b>Bitte korrieren Sie die Fehler!</P>\n";
 			} else {
 				
 				// Punkte gutschreiben?
@@ -168,14 +168,14 @@ if ($u_id && $communityfeatures) {
 				
 				// Datensatz schreiben
 				$f['ui_id'] = schreibe_db("userinfo", $f, $f['ui_id'], "ui_id");
-				echo "<P><B>Ihr Profil wurde gespeichert!</B></P>\n";
+				echo "<P><b>Ihr Profil wurde gespeichert!</b></P>\n";
 				
 			}
 			
 		} else {
 			
 			// Kein Recht die Daten zu schreiben!
-			echo "<P><B>Fehler:</B> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!</P>";
+			echo "<P><b>Fehler:</b> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!</P>";
 			
 		}
 		
@@ -187,9 +187,9 @@ if ($u_id && $communityfeatures) {
 		case "aendern":
 		// Neues Profil einrichten oder bestehendes Ändern
 			if ($profil_gefunden) {
-				echo "<P><B>Bestehendes Profil bearbeiten:</B></P>\n";
+				echo "<P><b>Bestehendes Profil bearbeiten:</b></P>\n";
 			} else {
-				echo "<P><B>Neues Profil anlegen:</B></P>";
+				echo "<P><b>Neues Profil anlegen:</b></P>";
 			}
 			
 			// Textkopf
@@ -199,31 +199,31 @@ if ($u_id && $communityfeatures) {
 					. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. "
 					. "Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie "
 					. "es in den Homepage-Einstellungen freigeben.</P>\n"
-					. "<P><B>Vielen Dank, dass Sie Ihr Profil ausfüllen!</B></P>\n";
+					. "<P><b>Vielen Dank, dass Sie Ihr Profil ausfüllen!</b></P>\n";
 			}
 			
 			// Editor ausgeben
 			if (!isset($f))
 				$f[] = "";
 			profil_editor($u_id, $u_nick, $f);
-			echo "<BR>\n";
+			echo "<br>\n";
 			break;
 		
 		case "zeigealle":
 		// Alle Profile listen
 			if (!$admin) {
-				echo "<P><B>Fehler:</B> Sie haben keine Berechtigung, die Profile zu lesen!</P>";
+				echo "<P><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</P>";
 			} else {
-				echo "<P><B>Alle Profile:</B></P><TABLE border=\"1\">\n"
+				echo "<P><b>Alle Profile:</b></P><TABLE border=\"1\">\n"
 					. "<TR><TH>Nick</TH><TH>Username</TH><TH>Straße</TH><TH>PLZ Ort</TH><TH>Land</TH><TH>Admin-EMail</TH><TH>E-Mail</TH><TH>URL</TH><TH>Geburt</TH><TH>Geschlecht</TH><TH>Fam. Stand</TH><TH>Typ</TH><TH>Beruf</TH><TH>Hobby</TH><TH>Tel</TH><TH>Fax</TH><TH>Handy</TH><TH>ICQ</TH></TR>";
 				
 				$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick,u_name";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
-						echo "<TR><TD><B>"
+						echo "<TR><TD><b>"
 							. htmlspecialchars($row->u_nick)
-							. "</B></TD><TD>"
+							. "</b></TD><TD>"
 							. htmlspecialchars($row->u_name)
 							. "</TD><TD>"
 							. htmlspecialchars($row->ui_strasse)
@@ -269,7 +269,7 @@ if ($u_id && $communityfeatures) {
 			break;
 		
 		default:
-			echo "<P><B>Fehler:</B> Aufruf mit ungültigen Parametern!</P>\n";
+			echo "<P><b>Fehler:</b> Aufruf mit ungültigen Parametern!</P>\n";
 		
 	}
 	
@@ -278,7 +278,7 @@ if ($u_id && $communityfeatures) {
 if ($o_js || !$u_id) :
 	echo $f1
 		. "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-		. $f2 . "<BR>\n";
+		. $f2 . "<br>\n";
 endif;
 
 ?>

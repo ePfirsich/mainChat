@@ -333,7 +333,7 @@ function anzahl_ungelesene3(&$arr_postings, $th_id)
         
         $result = mysqli_query($mysqli_link, $query);
         $num = mysqli_num_rows($result);
-        #if ($num == 1) print "<font color=white>$th_id: ".$query." $num</font><BR>";
+        #if ($num == 1) print "<font color=white>$th_id: ".$query." $num</font><br>";
         if ($num == 1) {
             #checke_posting($value);
         }
@@ -798,7 +798,7 @@ function schreibe_posting()
                                 where po_id = $thread";
             mysqli_query($mysqli_link, $sql);
             
-            #print "neue threadorder: $threadorder<BR>";
+            #print "neue threadorder: $threadorder<br>";
             
             //schliesslich noch die markierung des letzten in der Ebene entfernen
             $sql = "update posting
@@ -1029,11 +1029,11 @@ function loesche_posting()
             if ($po_u_id)
                 echo $t['forum_punkte2']
                     . punkte_offline($punkte_pro_posting * (-1), $po_u_id)
-                    . "<BR>";
+                    . "<br>";
         }
         @mysqli_free_result($result);
     }
-    echo "</DIV></TD></tr></table></td></tr></table><BR>\n";
+    echo "</DIV></TD></tr></table></td></tr></table><br>\n";
     
     reset($arr_delete);
     while (list($k, $v) = @each($arr_delete)) {

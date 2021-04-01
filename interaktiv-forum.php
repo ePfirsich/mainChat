@@ -133,13 +133,13 @@ if ($u_id) {
 	}
 	
 	if ($admin) {
-		echo "<BR>[<A HREF=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;"
+		echo "<br>[<A HREF=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;"
 			. "[<A HREF=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
-			. "[<A HREF=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]<BR>"
+			. "[<A HREF=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]<br>"
 			. "[<A HREF=\"$mlnk[11]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[11]');return(false)\">$t[menue5]</A>]&nbsp;"
 			. "[<A HREF=\"$mlnk[12]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</A>]&nbsp;";
 	} else {
-		echo "<BR>[<A HREF=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
+		echo "<br>[<A HREF=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
 			. "&nbsp;&nbsp;&nbsp;[<A HREF=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]&nbsp;"
 			. "&nbsp;&nbsp;&nbsp;[<A HREF=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;";
 	}
@@ -148,7 +148,7 @@ if ($u_id) {
 		&& (isset($useronline_anzeige_deaktivieren)
 			&& $useronline_anzeige_deaktivieren == "1"))) {
 		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt,
-			$t['forum_interaktiv_txt']) . $f2 . "<BR>\n";
+			$t['forum_interaktiv_txt']) . $f2 . "<br>\n";
 	}
 	
 	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
@@ -181,7 +181,7 @@ if ($u_id) {
 	
 	echo " <INPUT TYPE=\"SUBMIT\" NAME=\"raum_submit\" VALUE=\"$t[button]\">&nbsp;</NOBR><br>"
 		. $f4
-		. "</td></tr><TR><TD ALIGN=\"CENTER\"><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=2><BR>\n";
+		. "</td></tr><TR><TD ALIGN=\"CENTER\"><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=2><br>\n";
 	echo "</TD></TR></TABLE></CENTER></FORM>\n";
 	
 } else {

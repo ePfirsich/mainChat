@@ -85,9 +85,9 @@ zeige_header_ende();
 	// Link zum Abspeichern
 	if ($aktion != "abspeichern") {
 		echo "<CENTER>" . $f1
-			. "<B>[<A HREF=\"$PHP_SELF?id=$id&http_host=$http_host&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
-			. $t['sonst1'] . "</A>]</B>&nbsp;<B>[$umschalturl]</B>" . $f2
-			. "</CENTER><BR>\n";
+			. "<b>[<A HREF=\"$PHP_SELF?id=$id&http_host=$http_host&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
+			. $t['sonst1'] . "</A>]</b>&nbsp;<b>[$umschalturl]</b>" . $f2
+			. "</CENTER><br>\n";
 		flush();
 	}
 	

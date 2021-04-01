@@ -1,6 +1,6 @@
 <?php
 
-$STAT_TXT["0050"] = "<B>Übersicht</B>";
+$STAT_TXT["0050"] = "<b>Übersicht</b>";
 $STAT_TXT["0051"] = "[ ";
 $STAT_TXT["0052"] = " ]";
 $STAT_TXT["0053"] = "Anzeigen";

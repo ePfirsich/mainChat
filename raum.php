@@ -219,7 +219,7 @@ if (strlen($u_id) != 0) {
     $tabellenkopf .= "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" ";
     $tabellenkopf .= "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
     $tabellenkopf .= "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
-    $tabellenkopf .= "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><BR>\n";
+    $tabellenkopf .= "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n";
     $tabellenkopf .= "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
     $tabellenkopf .= "<TR><TD>";
     
@@ -328,11 +328,11 @@ if (strlen($u_id) != 0) {
                 // Raum zeigen
                 $row = mysqli_fetch_object($result);
                 echo "<TABLE WIDTH=100% BORDER=0 CELLSPACING=0><TR>\n";
-                echo "<TD><B>$t[sonst2] $row->r_name</B></TD></TR>\n";
-                echo "<TR><TD COLSPAN=2>" . $f1 . "<B>$t[sonst3]</B> "
+                echo "<TD><b>$t[sonst2] $row->r_name</b></TD></TR>\n";
+                echo "<TR><TD COLSPAN=2>" . $f1 . "<b>$t[sonst3]</b> "
                     . htmlspecialchars($row->r_topic) . $f2
                     . "</TD></TR>\n";
-                echo "<TR><TD COLSPAN=2>" . $f1 . "<B>$t[sonst7]</B> "
+                echo "<TR><TD COLSPAN=2>" . $f1 . "<b>$t[sonst7]</b> "
                     . htmlspecialchars($row->r_eintritt) . $f2
                     . "</TD></TR>\n";
                 echo "</TR></TABLE>\n";
@@ -398,13 +398,13 @@ if (strlen($u_id) != 0) {
                 . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n";
             echo "<TABLE WIDTH=100% BORDER=0 CELLSPACING=0 CELLPADDING=1>\n";
             
-            echo "<TR><TD><B>$t[sonst2]</B></TD>";
+            echo "<TR><TD><b>$t[sonst2]</b></TD>";
             echo "<TD>" . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"f[r_name]\" "
                 . "VALUE=\"$r_name\" SIZE=$eingabe_breite>" . $f2
                 . "</TD></TR>\n";
             
             // Status1 als Auswahl
-            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user5'] . "</B>" . $f2
+            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user5'] . "</b>" . $f2
                 . "</TD>" . "<TD>" . $f1 . "<SELECT NAME=\"f[r_status1]\">\n";
             
             $i = 0;
@@ -423,7 +423,7 @@ if (strlen($u_id) != 0) {
             echo "</SELECT>" . $f2 . "</TD></TR>\n";
             
             // Status2 als Auswahl
-            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user6'] . "</B>" . $f2
+            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user6'] . "</b>" . $f2
                 . "</TD>" . "<TD>" . $f1 . "<SELECT NAME=\"f[r_status2]\">\n";
             
             $i = 0;
@@ -442,7 +442,7 @@ if (strlen($u_id) != 0) {
             echo "</SELECT>" . $f2 . "</TD></TR>\n";
             
             if ($smilies_pfad && $erweitertefeatures) {
-                echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user7'] . "</B>" . $f2
+                echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
                     . "</TD><TD>" . $f1 . "<SELECT NAME=\"f[r_smilie]\">";
                 if ($r_smilie == "Y") {
                     echo "<OPTION SELECTED VALUE=\"Y\">$t[raum_user8]";
@@ -456,7 +456,7 @@ if (strlen($u_id) != 0) {
             
             if ($erweitertefeatures) {
                 // Punkte zum Betreten des Raumes
-                echo "<TR><TD>" . $f1 . "<B>$t[sonst14]</B>" . $f2 . "</TD>";
+                echo "<TR><TD>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</TD>";
                 echo "<TD>" . $f1
                     . "<INPUT TYPE=\"TEXT\" NAME=\"f[r_min_punkte]\" "
                     . "VALUE=\"$r_min_punkte\" SIZE=\"7\">" . $f2
@@ -479,17 +479,17 @@ if (strlen($u_id) != 0) {
                 $r_austritt = $rows->r_austritt;
             }
             
-            echo "<TR><TD>" . $f1 . "<B>" . $t['sonst3'] . "</B>" . $f2
+            echo "<TR><TD>" . $f1 . "<b>" . $t['sonst3'] . "</b>" . $f2
                 . "</TD>" . "<TD>" . $f1 . "<TEXTAREA rows=5 cols="
                 . ($eingabe_breite) . " NAME=\"f[r_topic]\">"
                 . $r_topic . "</TEXTAREA>" . $f2 . "</TD></TR>\n";
-            echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<B>" . $t['sonst7']
-                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+            echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<b>" . $t['sonst7']
+                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                 . "<TEXTAREA rows=5 cols=" . ($eingabe_breite)
                 . " NAME=\"f[r_eintritt]\">" . $r_eintritt
                 . "</TEXTAREA>" . $f2 . "</TD></TR>\n";
-            echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<B>" . $t['sonst8']
-                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+            echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<b>" . $t['sonst8']
+                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                 . "<TEXTAREA rows=5 cols=" . ($eingabe_breite)
                 . " NAME=\"f[r_austritt]\">" . $r_austritt
                 . "</TEXTAREA>" . $f2 . "</TD></TR>\n";
@@ -498,7 +498,7 @@ if (strlen($u_id) != 0) {
                 $r_werbung = "";
             }
             if ($admin && $erweitertefeatures) {
-                echo "<TR><TD>" . $f1 . "<B>" . $t['sonst12'] . "</B>" . $f2
+                echo "<TR><TD>" . $f1 . "<b>" . $t['sonst12'] . "</b>" . $f2
                     . "</TD>" . "<TD>" . $f1
                     . "<INPUT TYPE=\"TEXT\" NAME=\"f[r_werbung]\" VALUE=\""
                     . $r_werbung . "\" SIZE=$eingabe_breite>"
@@ -548,9 +548,9 @@ if (strlen($u_id) != 0) {
                             . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n";
                         echo "<TABLE WIDTH=100% BORDER=0 CELLSPACING=0 CELLPADDING=1>\n";
                         
-                        echo "<TR><TD><B>$t[sonst2]</B></TD>";
+                        echo "<TR><TD><b>$t[sonst2]</b></TD>";
                         if ($rows->r_name == $lobby) {
-                            echo "<TD><B>$rows->r_name</B>"
+                            echo "<TD><b>$rows->r_name</b>"
                                 . "<INPUT TYPE=\"HIDDEN\" NAME=\"f[r_name]\" "
                                 . "VALUE=\"$rows->r_name\" SIZE=$eingabe_breite>"
                                 . $f2 . "</TD></TR>\n";
@@ -560,13 +560,13 @@ if (strlen($u_id) != 0) {
                                 . "VALUE=\"$rows->r_name\" SIZE=$eingabe_breite>"
                                 . $f2 . "</TD></TR>\n";
                             
-                            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user2']
-                                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+                            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user2']
+                                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                                 . $rows->u_nick . $f2 . "</TD></TR>\n";
                             
                             // Status1 als Auswahl
-                            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user5']
-                                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+                            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user5']
+                                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                                 . "<SELECT NAME=\"f[r_status1]\">\n";
                             
                             $a = 0;
@@ -586,8 +586,8 @@ if (strlen($u_id) != 0) {
                             echo "</SELECT>" . $f2 . "</TD></TR>\n";
                             
                             // Status2 als Auswahl
-                            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user6']
-                                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+                            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user6']
+                                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                                 . "<SELECT NAME=\"f[r_status2]\">\n";
                             
                             $a = 0;
@@ -609,8 +609,8 @@ if (strlen($u_id) != 0) {
                         }
                         
                         if ($smilies_pfad && $erweitertefeatures) {
-                            echo "<TR><TD>" . $f1 . "<B>" . $t['raum_user7']
-                                . "</B>" . $f2 . "</TD><TD>" . $f1
+                            echo "<TR><TD>" . $f1 . "<b>" . $t['raum_user7']
+                                . "</b>" . $f2 . "</TD><TD>" . $f1
                                 . "<SELECT NAME=\"f[r_smilie]\">";
                             if ($rows->r_smilie == "Y") {
                                 echo "<OPTION SELECTED VALUE=\"Y\">$t[raum_user8]";
@@ -625,7 +625,7 @@ if (strlen($u_id) != 0) {
                         if ($erweitertefeatures && $rows->r_name != $lobby
                             && $rows->r_status1 != "L") {
                             // Punkte zum Betreten des Raumes ändern
-                            echo "<TR><TD>" . $f1 . "<B>$t[sonst14]</B>" . $f2
+                            echo "<TR><TD>" . $f1 . "<b>$t[sonst14]</b>" . $f2
                                 . "</TD>";
                             echo "<TD>" . $f1
                                 . "<INPUT TYPE=\"TEXT\" NAME=\"f[r_min_punkte]\" "
@@ -633,20 +633,20 @@ if (strlen($u_id) != 0) {
                                 . $f2 . "</TD></TR>\n";
                         }
                         
-                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<B>"
-                            . $t['sonst3'] . "</B>" . $f2 . "</TD>" . "<TD>"
+                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<b>"
+                            . $t['sonst3'] . "</b>" . $f2 . "</TD>" . "<TD>"
                             . $f1 . "<TEXTAREA rows=5 cols="
                             . ($eingabe_breite) . " NAME=\"f[r_topic]\">"
                             . $rows->r_topic . "</TEXTAREA>"
                             . $f2 . "</TD></TR>\n";
-                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<B>"
-                            . $t['sonst7'] . "</B>" . $f2 . "</TD>" . "<TD>"
+                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<b>"
+                            . $t['sonst7'] . "</b>" . $f2 . "</TD>" . "<TD>"
                             . $f1 . "<TEXTAREA rows=5 cols="
                             . ($eingabe_breite) . " NAME=\"f[r_eintritt]\">"
                             . $rows->r_eintritt . "</TEXTAREA>"
                             . $f2 . "</TD></TR>\n";
-                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<B>"
-                            . $t['sonst8'] . "</B>" . $f2 . "</TD>" . "<TD>"
+                        echo "<TR VALIGN=\"TOP\"><TD>" . $f1 . "<b>"
+                            . $t['sonst8'] . "</b>" . $f2 . "</TD>" . "<TD>"
                             . $f1 . "<TEXTAREA rows=5 cols="
                             . ($eingabe_breite) . " NAME=\"f[r_austritt]\">"
                             . $rows->r_austritt . "</TEXTAREA>"
@@ -654,8 +654,8 @@ if (strlen($u_id) != 0) {
                         
                         // Werbung für Frame
                         if ($admin && $erweitertefeatures) {
-                            echo "<TR><TD>" . $f1 . "<B>" . $t['sonst12']
-                                . "</B>" . $f2 . "</TD>" . "<TD>" . $f1
+                            echo "<TR><TD>" . $f1 . "<b>" . $t['sonst12']
+                                . "</b>" . $f2 . "</TD>" . "<TD>" . $f1
                                 . "<INPUT TYPE=\"TEXT\" NAME=\"f[r_werbung]\" VALUE=\""
                                 . $rows->r_werbung
                                 . "\" SIZE=$eingabe_breite>" . $f2
@@ -678,15 +678,15 @@ if (strlen($u_id) != 0) {
                         // Normalsterblicher
                         echo "<TABLE WIDTH=100% BORDER=0 CELLSPACING=0>\n";
                         if ($rows->r_name)
-                            echo "<TR><TD><B>$t[sonst2] $rows->r_name</B></TD></TR>\n";
+                            echo "<TR><TD><b>$t[sonst2] $rows->r_name</b></TD></TR>\n";
                         if ($rows->r_topic)
                             echo "<TR><TD COLSPAN=2>" . $f1
-                                . "<B>$t[sonst3]</B> "
+                                . "<b>$t[sonst3]</b> "
                                 . htmlspecialchars($rows->r_topic)
                                 . $f2 . "</TD></TR>\n";
                         if ($rows->r_eintritt)
                             echo "<TR><TD COLSPAN=2>" . $f1
-                                . "<B>$t[sonst7]</B> "
+                                . "<b>$t[sonst7]</b> "
                                 . htmlspecialchars($rows->r_eintritt) . $f2
                                 . "</TD></TR>\n";
                         echo "</TR></TABLE>\n";
@@ -727,16 +727,16 @@ if (strlen($u_id) != 0) {
                     if ($admin && $adminfeatures == 1) {
                         if (isset($extended) && ($extended == 1)) {
                             $rlink = "<CENTER>" . $f1
-                                . "<B><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order\">"
-                                . $t['menue7'] . "</A></B>" . $f2
+                                . "<b><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order\">"
+                                . $t['menue7'] . "</A></b>" . $f2
                                 . "</CENTER>\n";
                             echo "<script language=\"javascript\">\n"
                                 . "window.resizeTo(800,600); window.focus();"
                                 . "</script>\n";
                         } else {
                             $rlink = "<CENTER>" . $f1
-                                . "<B><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
-                                . $t['menue6'] . "</A></B>" . $f2
+                                . "<b><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
+                                . $t['menue6'] . "</A></b>" . $f2
                                 . "</CENTER>\n";
                         }
                         echo "$rlink<br>";

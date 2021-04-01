@@ -79,7 +79,7 @@ $t['missing_potitel'] = "<br>Geben Sie bitte einen Titel für das Posting an!";
 $t['missing_potext'] = "<br>Sie haben keinen Text für Ihr Posting eingegeben!";
 
 // Sonstiges
-$t['forum_gast'] = "<B>Fehler:</B> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich als registrierter User an.";
+$t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich als registrierter User an.";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 

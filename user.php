@@ -210,7 +210,7 @@ if (strlen($u_id) != 0) {
 						"r");
 					if ($file) {
 						
-						echo "import.....<BR><SMALL>";
+						echo "import.....<br><SMALL>";
 						$i = 1;
 						while (!feof($file)) {
 							$zeile = rtrim(fgets($file, 4096));
@@ -238,11 +238,11 @@ if (strlen($u_id) != 0) {
 									echo " Ok";
 								}
 								
-								echo "<BR>\n";
+								echo "<br>\n";
 								$i++;
 							}
 						}
-						echo "</SMALL><BR><BR>";
+						echo "</SMALL><br><br>";
 						
 						fclose($file);
 						unlink($HTTP_POST_FILES['userdatei']['tmp_name']);
@@ -418,7 +418,7 @@ if (strlen($u_id) != 0) {
 				if ($admin) {
 					
 					// Suchformular nach IP-Adressen
-					$text .= "<tr><TD colspan=2><BR>" . $f1 . $t['sonst30']
+					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><TD ALIGN=RIGHT>" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
 						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
@@ -601,7 +601,7 @@ if (strlen($u_id) != 0) {
 					
 					// Bei mehr als 1000 Ergebnissen Fehlermeldung ausgeben
 					if ($anzahl > 2000) {
-						echo "<B>$t[sonst24]</B><BR>";
+						echo "<b>$t[sonst24]</b><br>";
 					} else {
 						
 						// Mehrere User gefunden, als Tabelle ausgeben
@@ -676,7 +676,7 @@ if (strlen($u_id) != 0) {
 					}
 					
 					// Suchformular nach IP-Adressen
-					$text .= "<tr><TD colspan=2><BR>" . $f1 . $t['sonst30']
+					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><TD ALIGN=RIGHT>" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
 						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
@@ -919,12 +919,12 @@ if (strlen($u_id) != 0) {
 						echo "<tr><td><A href=\"#\" onClick=\"window.close();\">"
 						. "<img src=\"pics/button-x.gif\" ALT=\"schließen\" WIDTH=\"15\" HEIGHT=\"13\" ALIGN=\"RIGHT\" BORDER=\"0\"></a>"
 						. "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>"
-						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><BR>\n"
+						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n"
 						. "<TABLE CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_koerper\">"
-						. "<tr><td><B>" . $larr[0]['r_name'] . "</B><BR>"
+						. "<tr><td><b>" . $larr[0]['r_name'] . "</b><br>"
 						. ($larr[0]['r_topic'] ? $f1 . "Topic: "
-								. $larr[0]['r_topic'] . $f2 . "<BR>" : "")
-						. "<BR>";
+								. $larr[0]['r_topic'] . $f2 . "<br>" : "")
+						. "<br>";
 				} else {
 					$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
 					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
@@ -937,8 +937,8 @@ if (strlen($u_id) != 0) {
 						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>"
 							. $t['sonst20'] . "</a>]";
 					}
-					echo $f4 . "<BR>\n" . $f1 . $larr[0]['r_name'] . $f2
-						. "<BR>\n";
+					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2
+						. "<br>\n";
 				}
 				
 				// Userliste ausgeben
@@ -955,13 +955,13 @@ if (strlen($u_id) != 0) {
 				
 				if ($aktion == "chatuserliste") {
 					if ($rows > 15) {
-						echo "$f1<B>[<a onMouseOver=\"return(true)\" $linkuser>"
+						echo "$f1<b>[<a onMouseOver=\"return(true)\" $linkuser>"
 							. $t['sonst19'] . "</a>]";
 						if ($smilies_datei != "") {
 							echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>"
 								. $t['sonst20'] . "</a>]";
 						}
-						echo "</B>" . $f4 . "</center>\n";
+						echo "</b>" . $f4 . "</center>\n";
 					}
 				}
 				

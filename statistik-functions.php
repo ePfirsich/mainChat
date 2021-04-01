@@ -259,7 +259,7 @@ function statsPrintGraph($title, $text_l, $text_b)
         $t1 = strlen($text_l);
         
         while ($t0 < $t1) {
-            $msg .= substr($text_l, $t0, 1) . "<BR>";
+            $msg .= substr($text_l, $t0, 1) . "<br>";
             
             $t0++;
         }
@@ -274,18 +274,18 @@ function statsPrintGraph($title, $text_l, $text_b)
                 $msg .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"CENTER\">";
                 $msg .= $STAT_BAR_FONTBEG0;
                 $msg .= $v;
-                $msg .= "<BR>";
+                $msg .= "<br>";
                 
                 if (strlen($STAT_BAR_IMAGE_T) > 0)
                     $msg .= "<IMG " . coreMakeImage($STAT_BAR_IMAGE_T)
-                        . "><BR>";
+                        . "><br>";
                 
                 $msg .= "<IMG SRC=\"$img_p\" BORDER=\"0\" WIDTH=\"$img_w\" HEIGHT=\"$s\">";
-                $msg .= "<BR>";
+                $msg .= "<br>";
                 
                 if (strlen($STAT_BAR_IMAGE_B) > 0)
                     $msg .= "<IMG " . coreMakeImage($STAT_BAR_IMAGE_B)
-                        . "><BR>";
+                        . "><br>";
                 
                 $msg .= $STAT_BAR_FONTEND0;
                 $msg .= "</TD>\n";
@@ -304,7 +304,7 @@ function statsPrintGraph($title, $text_l, $text_b)
         $msg .= "<TD>&nbsp;</TD>\n";
         
         /* Unter Leiste mit den Beschriftungen der einzelnen Balken aus-	*/
-        /* geben.																													*/
+        /* geben.															*/
         
         reset($grapharray);
         

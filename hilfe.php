@@ -165,7 +165,7 @@ switch ($aktion) {
             if (!isset($spruchtmp[3]))
                 $spruchtmp[3] = "&nbsp;";
             echo "<TR BGCOLOR=\"$bgcolor\">" . "<TD>" . $f1
-                . "&nbsp;<B>$spruchtmp[0]</B>" . $f2 . "</TD>\n" . "<TD>" . $f1
+                . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</TD>\n" . "<TD>" . $f1
                 . "$spruchtmp[1]" . $f2 . "</TD>\n" . "<TD>" . $f1
                 . "$spruchtmp[2]" . $f2 . "</TD>\n" . "<TD>" . $f1
                 . "$spruchtmp[3]" . $f2 . "</TD>\n" . "</TR>";
@@ -207,7 +207,7 @@ switch ($aktion) {
                 if (!isset($spruchtmp[3]))
                     $spruchtmp[3] = "&nbsp;";
                 echo "<TR BGCOLOR=\"$bgcolor\">" . "<TD>" . $f1
-                    . "&nbsp;<B>$spruchtmp[0]</B>" . $f2 . "</TD>\n" . "<TD>"
+                    . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</TD>\n" . "<TD>"
                     . $f1 . "$spruchtmp[1]" . $f2 . "</TD>\n" . "<TD>" . $f1
                     . "$spruchtmp[2]" . $f2 . "</TD>\n" . "<TD>" . $f1
                     . "$spruchtmp[3]" . $f2 . "</TD>\n" . "</TR>";
@@ -269,9 +269,9 @@ switch ($aktion) {
                 preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
             
             echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0><TR BGCOLOR=\"$bgcolor\">"
-                . "<TD WIDTH=15%>" . $f1 . "&nbsp;<B>$spruchtmp[0]</B>" . $f2
+                . "<TD WIDTH=15%>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2
                 . "</TD>\n" . "<TD ALIGN=CENTER WIDTH=10%>" . $f1
-                . "<B>$spruchtmp[1]</B>" . $f2 . "</TD>\n" . "<TD WIDTH=75%>"
+                . "<b>$spruchtmp[1]</b>" . $f2 . "</TD>\n" . "<TD WIDTH=75%>"
                 . $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</TD>\n"
                 . "</TR></TABLE>\n";
             next($spruchliste);
@@ -300,8 +300,8 @@ switch ($aktion) {
         echo "</TD></TR></TABLE>\n";
         
         echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
-            . $legende . "</table><BR>\n"
-            . "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><BR>\n";
+            . $legende . "</table><br>\n"
+            . "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><br>\n";
         ?>
 		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 		<?php
@@ -370,7 +370,7 @@ switch ($aktion) {
         echo "</TD></TR></TABLE>\n";
         
         echo "$chatiquette\n";
-        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
         break;
     
     case "logout":
@@ -378,7 +378,7 @@ switch ($aktion) {
         $text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
         show_box2($box, $text, "100%");
         
-        echo "<BR><BR>";
+        echo "<br><br>";
         break;
     
     default;
@@ -401,7 +401,7 @@ echo "<P>$t[hilfe7]</P>\n";
 
 echo $f1
     . "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-    . $f2 . "<BR>\n";
+    . $f2 . "<br>\n";
 
 ?>
 </body>

@@ -39,8 +39,8 @@ $STAT_BAR_FONTBEG1 = "<SMALL>";
 $STAT_BAR_FONTEND1 = "</SMALL>";
 
 // Fontstart und Fontende die zum Anzeigen der seitlichen Beschriftung wendet werden sollen.
-$STAT_BAR_FONTBEG2 = "<SMALL><B>";
-$STAT_BAR_FONTEND2 = "</B></SMALL>";
+$STAT_BAR_FONTBEG2 = "<SMALL><b>";
+$STAT_BAR_FONTEND2 = "</b></SMALL>";
 
 // Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.
 $STAT_BAR_FONTBEG3 = "<span style=\"color:#FFFFFF; font-weight:bold;\">";

@@ -42,7 +42,7 @@ zeige_header_ende();
 $cache = "home_bild";
 
 if (!checkhash($hash, $ui_userid)) {
-    print "<B>Fehler!</B> Hash stimmt nicht!";
+    print "<b>Fehler!</b> Hash stimmt nicht!";
     exit;
 }
 

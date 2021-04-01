@@ -797,7 +797,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 					case "OLM":
 					// Onlinenachricht an u_id versenden
 						if ($i > 0)
-							$txt .= "<BR>";
+							$txt .= "<br>";
 						
 						$q2 = "SELECT r_name,o_id,o_who,"
 							. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "

@@ -46,7 +46,7 @@ function zeige_freunde($aktion, $zeilen)
         if ($anzahl == 0) {
             
             // Keine Freunde
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$u_nick $titel1 noch keine $titel2:</B><DIV style=\"color:$farbe_text;\"></TD></TR>\n";
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$u_nick $titel1 noch keine $titel2:</b><DIV style=\"color:$farbe_text;\"></TD></TR>\n";
             if ($aktion == "normal")
                 echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD>&nbsp;</TD><TD align=\"left\">Sie haben keine Freunde eingestellt.</TD></TR>";
             if ($aktion == "bestaetigen")
@@ -55,7 +55,7 @@ function zeige_freunde($aktion, $zeilen)
         } else {
             
             // Freunde anzeigen
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>$u_nick $titel1 $anzahl $titel2:</B></DIV></TD></TR>\n"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$u_nick $titel1 $anzahl $titel2:</b></DIV></TD></TR>\n"
                 . "<TR><TD WIDTH=\"5%\">" . $f1 . "Markieren" . $f2
                 . "</TD><TD WIDTH=\"35%\">" . $f1 . "Nickname" . $f2 . "</TD>"
                 . "<TD WIDTH=\"35%\">" . $f1 . "Info" . $f2
@@ -88,8 +88,8 @@ function zeige_freunde($aktion, $zeilen)
                     
                     // User gefunden -> Ausgeben
                     $row2 = mysqli_fetch_object($result2);
-                    $freund_nick = "<B>"
-                        . user($row2->u_id, $row2, TRUE, FALSE) . "</B>";
+                    $freund_nick = "<b>"
+                        . user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
                     
                 } else {
                     
@@ -102,12 +102,12 @@ function zeige_freunde($aktion, $zeilen)
                 
                 // Unterscheidung online ja/nein, Text ausgeben
                 if ($row2->o_id) {
-                    $txt = $freund_nick . "<BR>online&nbsp;"
+                    $txt = $freund_nick . "<br>online&nbsp;"
                         . gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
-                    $auf = "<B>" . $f1;
-                    $zu = $f2 . "</B>";
+                    $auf = "<b>" . $f1;
+                    $zu = $f2 . "</b>";
                 } else {
-                    $txt = $freund_nick . "<BR>Letzter&nbsp;Login:&nbsp;"
+                    $txt = $freund_nick . "<br>Letzter&nbsp;Login:&nbsp;"
                         . str_replace(" ", "&nbsp;", $row2->login);
                     $auf = $f1;
                     $zu = $f2;
@@ -168,7 +168,7 @@ function loesche_freund($f_freundid, $f_userid)
     global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
     
     if (!$f_userid || !$f_freundid) {
-        echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<BR>";
+        echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
         return (0);
     }
     $f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
@@ -183,7 +183,7 @@ function loesche_freund($f_freundid, $f_userid)
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
-        $back = "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr Ihr Freund.</P>";
+        $back = "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr Ihr Freund.</P>";
     }
     @mysqli_free_result($result);
     return ($back);
@@ -208,12 +208,12 @@ function formular_neuer_freund($neuer_freund)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Nickname:</B></TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Nickname:</b></TD><TD>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_freund[u_nick]\" VALUE=\""
         . $neuer_freund['u_nick'] . "\" SIZE=20>" . $f2
         . "</TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Infotext:</B></TD><TD>"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Infotext:</b></TD><TD>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_freund[f_text]\" VALUE=\""
         . htmlentities($neuer_freund['f_text'])
         . "\" SIZE=$eingabe_breite>" . "&nbsp;"
@@ -242,8 +242,8 @@ function formular_editieren($f_id, $f_text)
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"f_id\" VALUE=\"$f_id\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Infotext:</B></TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Infotext:</b></TD><TD>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"f_text\" VALUE=\""
         . htmlentities($f_text) . "\" SIZE=$eingabe_breite>"
         . "&nbsp;" . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"ÄNDERN\">"
@@ -258,7 +258,7 @@ function neuer_freund($f_userid, $freund)
     global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $chat, $system_farbe;
     
     if (!$freund['u_id'] || !$f_userid) {
-        echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<BR>";
+        echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<br>";
     } else {
         
         // Prüfen ob Freund bereits in Tabelle steht
@@ -272,12 +272,12 @@ function neuer_freund($f_userid, $freund)
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             
-            $back = "<P><B>Fehler:</B> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
+            $back = "<P><b>Fehler:</b> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
             
         } elseif ($freund['u_id'] == $f_userid) {
             
             // Eigener Freund ist verboten
-            $back = "<P><B>Fehler:</B> Sie können sich nicht selbst als Freund eintragen!</P>\n";
+            $back = "<P><b>Fehler:</b> Sie können sich nicht selbst als Freund eintragen!</P>\n";
         } else {
             
             // User ist noch kein Freund -> hinzufügen
@@ -313,7 +313,7 @@ function neuer_freund($f_userid, $freund)
                 #system_msg("",0,$f_userid,$system_farbe,$msg);
                 system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
             }
-            $back = "<B>Hinweis:</B> Sie bewerben sich nun bei '$freund[u_nick]' als Freund.";
+            $back = "<b>Hinweis:</b> Sie bewerben sich nun bei '$freund[u_nick]' als Freund.";
             
         }
         
@@ -331,7 +331,7 @@ function edit_freund($f_id, $f_text)
     $f['f_text'] = $f_text;
     schreibe_db("freunde", $f, $f_id, "f_id");
     
-    $back = "<B>Hinweis:</B> Der Freundestext wurde geändert.";
+    $back = "<b>Hinweis:</b> Der Freundestext wurde geändert.";
     
     return ($back);
 }
@@ -347,7 +347,7 @@ function bestaetige_freund($f_userid, $freund)
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
-        $back = "<P><B>Hinweis: </B>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";
+        $back = "<P><b>Hinweis: </b>Die Freundschaft mit '$f_nick' wurde bestätigt!</P>";
     }
     return ($back);
 }

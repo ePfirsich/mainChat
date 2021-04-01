@@ -43,12 +43,12 @@ function anzeige_umfragen_aktuell($adm = 0)
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Aktuelle Umfragen</B>"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>Aktuelle Umfragen</b>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
         } else {
             $bereich = '';
             $i = 0;
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Aktuelle Umfragen</B>";
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>Aktuelle Umfragen</b>";
             while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
@@ -57,11 +57,11 @@ function anzeige_umfragen_aktuell($adm = 0)
                             . "</TR></TD>";
                     }
                     
-                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>zum Thema: $row->um_bereich</B>"
-                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<B>Frage</B>" . $f2
-                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<B>Status</B>"
+                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>zum Thema: $row->um_bereich</b>"
+                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<b>Frage</b>" . $f2
+                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<b>Status</b>"
                         . $f2 . "</TD><TD WIDTH=\"15%\">" . $f1
-                        . "<B>endet</B>" . $f2 . "</TD></TR>";
+                        . "<b>endet</b>" . $f2 . "</TD></TR>";
                     $bereich = $row->um_bereich;
                 }
                 
@@ -102,12 +102,12 @@ function anzeige_umfragen_zukuenftig($adm = 0)
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Zukünftige Umfragen</B>"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>Zukünftige Umfragen</b>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
         } else {
             $bereich = '';
             $i = 0;
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Zukünftige Umfragen</B>";
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>Zukünftige Umfragen</b>";
             while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
@@ -116,11 +116,11 @@ function anzeige_umfragen_zukuenftig($adm = 0)
                             . "</TR></TD>";
                     }
                     
-                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>zum Thema: $row->um_bereich</B>"
-                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<B>Frage</B>" . $f2
-                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<B>Status</B>"
+                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>zum Thema: $row->um_bereich</b>"
+                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<b>Frage</b>" . $f2
+                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<b>Status</b>"
                         . $f2 . "</TD><TD WIDTH=\"15%\">" . $f1
-                        . "<B>startet</B>" . $f2 . "</TD></TR>";
+                        . "<b>startet</b>" . $f2 . "</TD></TR>";
                     $bereich = $row->um_bereich;
                 }
                 
@@ -158,12 +158,12 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
     if ($result) {
         $anzahl = mysqli_num_rows($result);
         if ($anzahl == 0) {
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>Abgeschlossene Umfragen</B>"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>Abgeschlossene Umfragen</b>"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=3 align=\"left\">Keine Umfrage vorhanden.</TD></TR>";
         } else {
             $bereich = '';
             $i = 0;
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>Abgeschlossene Umfragen</B>";
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>Abgeschlossene Umfragen</b>";
             while ($row = mysqli_fetch_object($result)) {
                 $i++;
                 if ($bereich <> $row->um_bereich) {
@@ -172,11 +172,11 @@ function anzeige_umfragen_abgeschlossen($adm = 0)
                             . "</TR></TD>";
                     }
                     
-                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><B>zum Thema: $row->um_bereich</B>"
-                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<B>Frage</B>" . $f2
-                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<B>Status</B>"
+                    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>zum Thema: $row->um_bereich</b>"
+                        . "<TR><TD WIDTH=\"70%\">" . $f1 . "<b>Frage</b>" . $f2
+                        . "</TD><TD WIDTH=\"15%\">" . $f1 . "<b>Status</b>"
                         . $f2 . "</TD><TD WIDTH=\"15%\">" . $f1
-                        . "<B>endete</B>" . $f2 . "</TD></TR>";
+                        . "<b>endete</b>" . $f2 . "</TD></TR>";
                     $bereich = $row->um_bereich;
                 }
                 

@@ -4,7 +4,7 @@
 function html_parse($privat, $text, $at_sonderbehandlung = 0)
 {
     // Filtert Text, ersetzt Smilies und ersetzt folgende Zeichen:
-    // _ in <B>
+    // _ in <b>
     // * in <I>
     // http(s)://###### oder www.###### in <A HREF="http(s)://###" TARGET=_new>http(s)://###</A>
     // E-Mail Adressen in A-Tag mit Mailto
@@ -94,7 +94,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
     $text = str_replace("|", "###strich###", $text);
     $text = str_replace("+", "###plus###", $text);
     
-    // jetzt nach nach italic und bold parsen...  * in <I>, $_ in <B>
+    // jetzt nach nach italic und bold parsen...  * in <I>, $_ in <b>
     if (substr_count($text, "http://") == 0 && substr_count($text, "https://") == 0 && substr_count($text, "www.") == 0
         && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $text)) {
         $text = preg_replace('|\*(.*?)\*|', '<i>\1</i>',

@@ -5,24 +5,24 @@ setlocale(LC_TIME, "de_DE");
 
 // Kurzer Hilfstext
 $hilfstext = array(
-    1 => "<B>/user RAUM -</B> listet alle User im Raum (*=alle Räume)",
-    "<B>/raum RAUM -</B> wechselt in RAUM (legt ggf. RAUM neu an), ohne Angabe von RAUM werden alle Räume gelistet",
-    "<B>/zeige NAME-</B> Gibt die Benutzerinformationen für NAME aus (%=Joker)",
-    "<B>/msg NAME TEXT -</B> TEXT an User NAME flüstern",
-    "<B>/me TEXT -</B> Spruch im Raum",
-    "<B>/weg TEXT-</B> setzt oder löscht einen ich-bin-nicht-da Text",
-    "<B>/nick NAME -</B> Setzt Nickname auf NAME",
-    "<B>/ignore NAME -</B> Ignoriert User NAME, ohne Angabe von NAME werden alle ignorierten User gezeigt",
-    "<B>/kick NAME -</B> Sperrt User NAME aus dem aktuellen Raum aus (oder Freigabe)",
-    "<B>/farbe RRGGBB -</B> Setzt neue Farbe auf RRGGBB, ohne Angabe von RRGGBB wird die aktuelle Farbe angezeigt",
-    "<B>/op TEXT -</B> ruft einem Admin um Hilfe",
-    "<B>/einlad NAME -</B> Läd User in eigene Raum ein oder zeigt die Einladungen",
-    "<B>/quit TEXT -</B> beendet chat mit den Worten TEXT",
-    "<B>/suche NAME -</B> Sucht alle Sprüche die das Wort NAME enthalten",
-    "<B>=spruch (NAME ZUSATZ optional) -</B> gibt vordefinierten Spruch aus",
-    "<B>*TEXT* -</B> Text ist kursiv", "<B>_TEXT_ -</B> Text ist fett",
-    "<B>USER direkt ansprechen -</B> USER: oder @USER ergibt [USER:]",
-    "<B>Für die ausführliche Hilfe mit allen Befehlen klicken Sie bitte auf [HILFE] unter der Eingabezeile.</B>");
+    1 => "<b>/user RAUM -</b> listet alle User im Raum (*=alle Räume)",
+    "<b>/raum RAUM -</b> wechselt in RAUM (legt ggf. RAUM neu an), ohne Angabe von RAUM werden alle Räume gelistet",
+    "<b>/zeige NAME-</b> Gibt die Benutzerinformationen für NAME aus (%=Joker)",
+    "<b>/msg NAME TEXT -</b> TEXT an User NAME flüstern",
+    "<b>/me TEXT -</b> Spruch im Raum",
+    "<b>/weg TEXT-</b> setzt oder löscht einen ich-bin-nicht-da Text",
+    "<b>/nick NAME -</b> Setzt Nickname auf NAME",
+    "<b>/ignore NAME -</b> Ignoriert User NAME, ohne Angabe von NAME werden alle ignorierten User gezeigt",
+    "<b>/kick NAME -</b> Sperrt User NAME aus dem aktuellen Raum aus (oder Freigabe)",
+    "<b>/farbe RRGGBB -</b> Setzt neue Farbe auf RRGGBB, ohne Angabe von RRGGBB wird die aktuelle Farbe angezeigt",
+    "<b>/op TEXT -</b> ruft einem Admin um Hilfe",
+    "<b>/einlad NAME -</b> Läd User in eigene Raum ein oder zeigt die Einladungen",
+    "<b>/quit TEXT -</b> beendet chat mit den Worten TEXT",
+    "<b>/suche NAME -</b> Sucht alle Sprüche die das Wort NAME enthalten",
+    "<b>=spruch (NAME ZUSATZ optional) -</b> gibt vordefinierten Spruch aus",
+    "<b>*TEXT* -</b> Text ist kursiv", "<b>_TEXT_ -</b> Text ist fett",
+    "<b>USER direkt ansprechen -</b> USER: oder @USER ergibt [USER:]",
+    "<b>Für die ausführliche Hilfe mit allen Befehlen klicken Sie bitte auf [HILFE] unter der Eingabezeile.</b>");
 
 // Texte Userlevel 
 $level['C'] = "ChatAdmin";
@@ -63,18 +63,18 @@ $whotext[2] = "FORUM";
 $gast_name = array(1 => "Urzel", "Murzel", "Hurzel", "Kurzel", "Wurzel",
     "Purzel");
 
-$hilfe_spruchtext = "<B>Format:</B> '=SPRUCH USER ZUSATZTEXT'<BR><BR>"
+$hilfe_spruchtext = "<b>Format:</b> '=SPRUCH USER ZUSATZTEXT'<br><br>"
     . "Je nach Typ muss USER (=Name eines Users im Chat) oder "
     . "ZUSATZTEXT (=freier Text) eingegeben werden:"
-    . "<UL><LI><B>Typ 0:</B> kein USER oder ZUSATZTEXT"
-    . "<LI><B>Typ 1:</B> nur USER oder stattdessen ZUSATZTEXT (je nach Sinn)"
-    . "<BR>Wenn ein USER angegeben wird, genügt <b>bob</b> um das per Nickergänzung auf <b>bobby</b> zu erweitern."
+    . "<UL><LI><b>Typ 0:</b> kein USER oder ZUSATZTEXT"
+    . "<LI><b>Typ 1:</b> nur USER oder stattdessen ZUSATZTEXT (je nach Sinn)"
+    . "<br>Wenn ein USER angegeben wird, genügt <b>bob</b> um das per Nickergänzung auf <b>bobby</b> zu erweitern."
     . "Wird die Nickergänzung nicht gewünscht, oder ist im ZUSATZTEXT ein Leerzeichen enthalten, muss der Text in \" gesetzt werden."
-    . "<LI><B>Typ 2:</B> USER und ZUSATZTEXT"
-    . "<BR>Hier kann auch USER und ZUSATZTEXT Leerzeichen enthalten, wenn der Text in \" gesetzt wird, oder alternativ das Leerzeichen durch ein + ersetzt wird."
-    . "</UL>In den Sprüchen wird immer <B>`0</B> durch den eigenen Nicknamen ersetzt. "
-    . "Zum weiteren Verständnis probieren Sie einfach die Sprüche aus.<BR><BR>"
+    . "<LI><b>Typ 2:</b> USER und ZUSATZTEXT"
+    . "<br>Hier kann auch USER und ZUSATZTEXT Leerzeichen enthalten, wenn der Text in \" gesetzt wird, oder alternativ das Leerzeichen durch ein + ersetzt wird."
+    . "</UL>In den Sprüchen wird immer <b>`0</b> durch den eigenen Nicknamen ersetzt. "
+    . "Zum weiteren Verständnis probieren Sie einfach die Sprüche aus.<br><br>"
     . "Um bestimmte Sprüche auszuwählen ist es am einfachsten, im Chat "
     . "mit dem /such Befehl und einem Stichwort nach dem gewünschten Spruch "
-    . "zu suchen.<BR>";
+    . "zu suchen.<br>";
 ?>

@@ -102,7 +102,7 @@ $t['chat_msg33'] = "<b>$chat:</b> Bitte geben Sie für die Suche mit /whois mind
 $t['chat_msg34'] = "<b>%user%</b> packt den Würfelbecher und wirft mit %wuerfel%: ";
 $t['chat_msg35'] = "<b>$chat:</b> Beispiel: <b>/dice 3W6</b> wirft drei sechsseitige Würfel.";
 $t['chat_msg36'] = "<b>Fehler: Spruch existiert schon: </b>";
-$t['chat_msg37'] = "<b>Fehler:</b> Aufruf mit <b>/spruch spruchname anzahl_parameter &lt;Spruch&gt;<BR>Beispiel:</b> /spruch lach 2 &lt;`0 lacht über `2 von `1.&gt;";
+$t['chat_msg37'] = "<b>Fehler:</b> Aufruf mit <b>/spruch spruchname anzahl_parameter &lt;Spruch&gt;<br>Beispiel:</b> /spruch lach 2 &lt;`0 lacht über `2 von `1.&gt;";
 $t['chat_msg38'] = "<b>Fehler: &lt;anzahl_parameter&gt;</b> muss zwischen 0 und 2 liegen.";
 $t['chat_msg39'] = "<b>Fehler:</b> Das Zeichen <b>`</b> darf nur als <b>`0</b>, <b>`1</b>, <b>`2</b> verwendet werden.";
 $t['chat_msg40'] = "<b>Spruch eingetragen.</b> Aufruf mit =%spruch%";
@@ -169,7 +169,7 @@ $t['chat_msg102'] = "<b>&lt;&lt;&lt;</b> '%user%' verlässt diesen Raum und den 
 $t['chat_msg103'] = "Sie werden von '%user%' ignoriert und dürfen ihm keine Mail schicken";
 $t['chat_msg104'] = "<b>$chat:</b> Mail wurde nicht verschickt: Mailbombing-Schutz aktiv!";
 $t['chat_msg105'] = "<b>$chat:</b> Mail kann NICHT verschickt werden: Dieser User hat seine Mailbox zugeschlossen!";
-$t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<BR>";
+$t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
 $t['chat_msg107'] = "<b>$chat:</b> Fehler! Sie dürfen Ihren Nicknamen nur alle %nickwechsel% Sekunden ändern!";
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem User daher keine privaten Nachrichten schicken";
@@ -190,15 +190,15 @@ $t['chat_msg123'] = "User war mit IP %ip% da %datum% ";
 
 $t['chat_spruch1'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt "
     . "es nicht als Typ 2 mit '%spruchname% USERNAME ZUSATZTEXT'. "
-    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<BR>"
-    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<BR><b>Typ <I>1</I>: "
-    . "'SPRUCHNAME USERNAME'</b> und bei<BR><b>Typ <I>2</I>: "
+    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
+    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
+    . "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
     . "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
 $t['chat_spruch2'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt "
     . "es nicht als Typ 1 mit '%spruchname% USERNAME'. "
-    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<BR>"
-    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<BR><b>Typ <I>1</I>: "
-    . "'SPRUCHNAME USERNAME'</b> und bei<BR><b>Typ <I>2</I>: "
+    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
+    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
+    . "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
     . "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
 $t['chat_spruch3'] = "<b>Fehler:</b> der Befehl oder Spruch '%spruchname%' "
     . "konnte nicht gefunden werden, %u_name%.";
@@ -220,10 +220,10 @@ $t['user_zeige7'] = "Homepage";
 $t['user_zeige8'] = "Level";
 $t['user_zeige9'] = "Letzter&nbsp;Login";
 $t['user_zeige10'] = "Farbe";
-$t['user_zeige11'] = "<b>Private Nachricht an %uu_nick%:</b><BR>";
+$t['user_zeige11'] = "<b>Private Nachricht an %uu_nick%:</b><br>";
 $t['user_zeige12'] = "<b>Admin-Menü:</b>";
 $t['user_zeige13'] = "<P>Userdaten von %uu_nick% bearbeiten:</P>";
-$t['user_zeige14'] = "<b>Chat-Modus (für Probleme):</b><BR>";
+$t['user_zeige14'] = "<b>Chat-Modus (für Probleme):</b><br>";
 $t['user_zeige15'] = "Sicher (bei Problemen)";
 $t['user_zeige16'] = "Normal";
 $t['user_zeige17'] = "Username";
@@ -290,7 +290,7 @@ $t['invite2'] = "In diesem Raum ist niemand eingeladen.";
 $t['invite3'] = "'%admin%' hat '%user%' in den Raum '%raum%' eingeladen.";
 $t['invite4'] = "'%admin%' hat '%user%' aus dem Raum '%raum%' ausgeladen.";
 $t['invite5'] = "<b>$chat:</b> '%admin%' hat Sie in den Raum '%raum%' eingeladen. Mit '<b>/raum %raum%</b>' gelangen Sie dorthin. Wenn Sie 60 Sekunden warten, können Sie über die <b>Raumauswahl</b> (Anderen Raum betreten) in den Raum wechseln.";
-$t['invite6'] = "<b>$chat:</b> Eine Beraterin läd Sie in das %raum% ein. Dort können Sie ein persönliches Beratungsgespräch unter vier Augen führen.<BR><BR>Mit '<b>/raum %raum%</b>' gelangen Sie dorthin. Wenn Sie 60 Sekunden warten, können Sie über die <b>Raumauswahl</b> (Anderen Raum betreten) in den Raum wechseln.";
+$t['invite6'] = "<b>$chat:</b> Eine Beraterin läd Sie in das %raum% ein. Dort können Sie ein persönliches Beratungsgespräch unter vier Augen führen.<br><br>Mit '<b>/raum %raum%</b>' gelangen Sie dorthin. Wenn Sie 60 Sekunden warten, können Sie über die <b>Raumauswahl</b> (Anderen Raum betreten) in den Raum wechseln.";
 
 $t['moderiert1'] = "<b>$chat:</b> Diese Funktion ist einem moderierten Raum nicht verfügbar, wenn ein Moderator anwesend ist.";
 $t['moderiert2'] = "<b>$chat:</b> Ihre Eingabe wurde an den Moderator weitergeleitet.";
@@ -343,7 +343,7 @@ $t['punkte21'] = "%user% wurden %punkte% Punkte gutgeschrieben!";
 $t['punkte22'] = "%user% wurden %punkte% Punkte abgezogen!";
 $t['punkte23'] = "Einem Gast können keine Punkte gutgeschrieben werden!";
 
-$t['warnung1'] = "<BR><b>Warnung:</b> %text%%user%.";
+$t['warnung1'] = "<br><b>Warnung:</b> %text%%user%.";
 $t['warnung2'] = "Sie haben den Chat in den <b>sicheren Modus</b> geschaltet. Dadurch vermindert sich die Qualität der Chatausgabe. Bitte verwenden Sie den "
     . "sicheren Modus nur, wenn Sie die Probleme durch Änderung Ihrer Proxy- oder Browsereinstellungen nicht beheben können";
 $t['warnung3'] = "Ihr Browser unterstützt <b>kein JavaScript</b> oder JavaScript ist abgeschaltet. Daher läuft der $chat im <b>sicheren Modus</b>, die Qualität "
@@ -353,15 +353,15 @@ $t['warnung3'] = "Ihr Browser unterstützt <b>kein JavaScript</b> oder JavaScrip
 //Texte für automatische generierung der Postings
 $t['kopfzeile'] = "{autor} schrieb am {date}";
 $t['gruss'] = "Mit freundlichen Grüßen";
-$t['betrete_forum1'] = "<BR><b>Willkommen im Forum, %u_nick%!</b>";
-$t['messages_forum1'] = "<b>Sie befinden sich im Forum.</b><BR>Derzeit liegen keine System- oder Privat-Nachrichten vor.<BR>";
+$t['betrete_forum1'] = "<br><b>Willkommen im Forum, %u_nick%!</b>";
+$t['messages_forum1'] = "<b>Sie befinden sich im Forum.</b><br>Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
 $t['betreff_new_posting'] = "Neue Antwort auf Ihr Posting %po_titel%";
 $t['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihr Posting <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
 $t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihr Posting %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
 $t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihr Posting <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
 
 // Sonstiges
-$t['userliste1'] = "<span class=\"textbold\">%raum_alt% (%user_im_raum% Chatter im Raum)</span><BR>\n<span class=\"text\">%nicks%</span><br>\n";
+$t['userliste1'] = "<span class=\"textbold\">%raum_alt% (%user_im_raum% Chatter im Raum)</span><br>\n<span class=\"text\">%nicks%</span><br>\n";
 $t['userliste2'] = "<span class=\"header3\">Gerade sind %anzahl_online% User online, insgesamt sind %anzahl_user% User angemeldet </span><br><br>\n%userliste%";
 
 // Hacking
@@ -378,7 +378,7 @@ $t['hack3'] = "<P>Sehr geehrter Hacker,</P>"
     . "<P>Ihre IP-Adresse und die Daten des gehackten Accounts haben wir gespeichert. "
     . "Wir werden mit diesen Daten direkt Anzeige erstatten. Nach dem der Staatsanwalt "
     . "bei Ihrem Provider Ihren Namen und Anschrift erhalten hat, wird er Sie kontaktieren.</P>"
-    . "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<BR>"
+    . "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<br>"
     . "<A HREF=\"MAILTO:$webmaster\">Ihr $chat Team</A></P><HR NOSHADE\n>";
 
 ?>

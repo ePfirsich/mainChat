@@ -32,7 +32,7 @@ for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
 	}
 }
 if (!(isset($mysqli_link))) {
-	echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<BR>";
+	echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<br>";
 	exit;
 }
 
@@ -870,7 +870,7 @@ function zerlege($daten)
 		$i = 0;
 		while ($j < $laenge) {
 			$fertig[] = substr($daten, $j, 255);
-			// system_msg("",0,1225,0,"<B>DEBUG:</B> $i,$j,'$fertig[$i]'");
+			// system_msg("",0,1225,0,"<b>DEBUG:</b> $i,$j,'$fertig[$i]'");
 			$j = $j + 255;
 			$i++;
 		}
@@ -1181,7 +1181,7 @@ function user(
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
 		
 	} else {
-		echo "<P><B>Fehler:</B> Falscher Aufruf von user() für User ";
+		echo "<P><b>Fehler:</b> Falscher Aufruf von user() für User ";
 		if (isset($zeige_user_id))
 			echo $zeige_user_id;
 		if (isset($userdaten['u_id']))
@@ -1206,7 +1206,7 @@ function user(
 	}
 	
 	if ($user_id != $zeige_user_id) {
-		echo "<P><B>Fehler: </B> $user_id!=$zeige_user_id</P>\n";
+		echo "<P><b>Fehler: </b> $user_id!=$zeige_user_id</P>\n";
 		return "";
 	}
 	
@@ -1300,8 +1300,8 @@ function user(
 		$text2 .= $trenner
 			. str_replace("%online%", gmdate("H:i:s", $online_zeit),
 				$t['chat_msg92']);
-		$fett1 = "<B>";
-		$fett2 = "</B>";
+		$fett1 = "<b>";
+		$fett2 = "</b>";
 	} elseif ($letzter_login && $letzter_login != "NULL" && $online) {
 		$text2 .= $trenner
 			. str_replace("%login%", $letzter_login, $t['chat_msg94']);
@@ -1344,7 +1344,7 @@ function chat_parse($text)
 	$text = str_replace("+", "###plus###", $text);
 	$text = str_replace("<br />", "<br>", $text);
 	
-	// jetzt nach nach italic und bold parsen...  * in <I>, $_ in <B>
+	// jetzt nach nach italic und bold parsen...  * in <I>, $_ in <b>
 	$text = preg_replace('|\*(.*?)\*|', '<i>\1</i>',
 		preg_replace('|_(.*?)_|', '<b>\1</b>', $text));
 	
@@ -1452,7 +1452,7 @@ function chat_parse($text)
 						. "\" target=\"_blank\">"
 						. preg_replace("!\\\\\\?!", "?", $txt2) . "</a>",
 					$txt[$j]);
-				// echo "\n<BR>####<BR>\n".$txt2."<BR>\n".urlencode(strtr($txt2,$trans))."<BR>\n".urldecode(urlencode(strtr($txt2,$trans)))."<BR>\n\n";
+				// echo "\n<br>####<br>\n".$txt2."<br>\n".urlencode(strtr($txt2,$trans))."<br>\n".urldecode(urlencode(strtr($txt2,$trans)))."<br>\n\n";
 				
 				$txt[$j] = str_replace("###ausruf###", "!", $txt[$j]);
 				$txt[$j] = str_replace("%23%23%23ausruf%23%23%23", "!",

@@ -77,28 +77,28 @@ function liste()
                     $ip_name = @gethostbyaddr($row->isip);
                     if ($ip_name == $row->isip) {
                         unset($ip_name);
-                        echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><B>"
-                            . $f1 . $row->isip . $f2 . "</B></TD>\n";
+                        echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><b>"
+                            . $f1 . $row->isip . $f2 . "</b></TD>\n";
                     } else {
-                        echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><B>"
+                        echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><b>"
                             . $f1 . $row->isip . "<br>(" . $ip_name . $f2
-                            . ")</B></TD>\n";
+                            . ")</b></TD>\n";
                     }
                 } else {
-                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><B>" . $f1
-                        . $isip . $f2 . "</B></TD>\n";
+                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
+                        . $isip . $f2 . "</b></TD>\n";
                 }
             } else {
                 flush();
                 $ip_name = gethostbyname($row->is_domain);
                 if ($ip_name == $row->is_domain) {
                     unset($ip_name);
-                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><B>" . $f1
-                        . $row->is_domain . $f2 . "</B></TD>\n";
+                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
+                        . $row->is_domain . $f2 . "</b></TD>\n";
                 } else {
-                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><B>" . $f1
+                    echo "<TR VALIGN=TOP BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
                         . $row->is_domain . "<br>(" . $ip_name
-                        . $f2 . ")</B></TD>\n";
+                        . $f2 . ")</b></TD>\n";
                 }
             }
             
@@ -122,23 +122,23 @@ function liste()
             echo "</small></TD>\n";
             
             if ($row->is_domain == "-GLOBAL-") {
-                echo "<TD>" . $f1 . "<B>\n";
+                echo "<TD>" . $f1 . "<b>\n";
                 echo "<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
                     . "[DEAKTIVIEREN]" . "</A>\n";
-                echo "</B>" . $f2 . "</TD>\n";
+                echo "</b>" . $f2 . "</TD>\n";
             } elseif ($row->is_domain == "-GAST-") {
-                echo "<TD>" . $f1 . "<B>\n";
+                echo "<TD>" . $f1 . "<b>\n";
                 echo "<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
                     . "[DEAKTIVIEREN]" . "</A>\n";
-                echo "</B>" . $f2 . "</TD>\n";
+                echo "</b>" . $f2 . "</TD>\n";
             } else {
                 echo "<TD>" . $f1
-                    . "<B>[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
+                    . "<b>[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
                     . "[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
                 if (isset($ip_name) && (strlen($ip_name) > 0)) {
                     echo "<br>[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
                 }
-                echo "</B>" . $f2 . "</TD>";
+                echo "</b>" . $f2 . "</TD>";
             }
             echo "</TR>\n";
             
@@ -443,7 +443,7 @@ if (strlen($u_id) > 0 && $admin) {
                     
                     echo "<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=1>\n";
                     
-                    echo "<TR><TD><B>$t[sonst19]</B></TD>";
+                    echo "<TR><TD><b>$t[sonst19]</b></TD>";
                     
                     // Infotext
                     echo "<TD>" . $f1
@@ -453,25 +453,25 @@ if (strlen($u_id) > 0 && $admin) {
                     
                     // Domain/IP-Adresse
                     if (strlen($row->is_domain) > 0) {
-                        echo "<TR><TD><B>$t[sonst11]</B></TD>";
+                        echo "<TR><TD><b>$t[sonst11]</b></TD>";
                         echo "<TD>" . $f1
                             . "<INPUT TYPE=\"TEXT\" NAME=\"f[is_domain]\" "
                             . "VALUE=\"$row->is_domain\" SIZE=24>\n";
                     } else {
-                        echo "<TR><TD><B>$t[sonst12]</B></TD>";
+                        echo "<TR><TD><b>$t[sonst12]</b></TD>";
                         echo "<TD>" . $f1
                             . "<INPUT TYPE=\"TEXT\" NAME=\"ip1\" "
-                            . "VALUE=\"$ip[0]\" SIZE=3 maxlength=3><B>.</B>"
+                            . "VALUE=\"$ip[0]\" SIZE=3 maxlength=3><b>.</b>"
                             . "<INPUT TYPE=\"TEXT\" NAME=\"ip2\" "
-                            . "VALUE=\"$ip[1]\" SIZE=3 maxlength=3><B>.</B>"
+                            . "VALUE=\"$ip[1]\" SIZE=3 maxlength=3><b>.</b>"
                             . "<INPUT TYPE=\"TEXT\" NAME=\"ip3\" "
-                            . "VALUE=\"$ip[2]\" SIZE=3 maxlength=3><B>.</B>"
+                            . "VALUE=\"$ip[2]\" SIZE=3 maxlength=3><b>.</b>"
                             . "<INPUT TYPE=\"TEXT\" NAME=\"ip4\" "
                             . "VALUE=\"$ip[3]\" SIZE=3 maxlength=3></TD></TR>\n";
                     }
                     
                     // Warnung ja/nein
-                    echo "<TR><TD><B>$t[sonst22]</B></TD><TD>" . $f1
+                    echo "<TR><TD><b>$t[sonst22]</b></TD><TD>" . $f1
                         . "<SELECT NAME=\"f[is_warn]\">";
                     if ($row->is_warn == "ja") {
                         echo "<OPTION SELECTED VALUE=\"ja\">$t[sonst20]";
@@ -483,7 +483,7 @@ if (strlen($u_id) > 0 && $admin) {
                     echo "</SELECT>";
                     
                     // Submitknopf
-                    echo "&nbsp;<B><INPUT TYPE=\"SUBMIT\" VALUE=\"$t[sonst13]\" NAME=\"eintragen\"></B>\n"
+                    echo "&nbsp;<b><INPUT TYPE=\"SUBMIT\" VALUE=\"$t[sonst13]\" NAME=\"eintragen\"></b>\n"
                         . $f2 . "</TD></TR>\n";
                     echo "</TABLE>\n";
                     echo "</TD></TR></TABLE></TD></TR></TABLE>\n";
@@ -544,26 +544,26 @@ if (strlen($u_id) > 0 && $admin) {
             echo "<TR><TD>";
             
             echo "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n";
-            echo $f1 . $t['sonst15'] . $f2 . "<BR>\n";
+            echo $f1 . $t['sonst15'] . $f2 . "<br>\n";
             echo "<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=1>\n";
             
-            echo "<TR><TD><B>$t[sonst19]</B></TD>";
+            echo "<TR><TD><b>$t[sonst19]</b></TD>";
             echo "<TD>" . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"f[is_infotext]\" "
                 . "VALUE=\"$f[is_infotext]\" SIZE=24>" . $f2 . "</TD></TR>\n";
-            echo "<TR><TD><B>$t[sonst11]</B></TD>";
+            echo "<TR><TD><b>$t[sonst11]</b></TD>";
             echo "<TD>" . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"f[is_domain]\" "
                 . "VALUE=\"$f[is_domain]\" SIZE=24>" . $f2 . "</TD></TR>\n";
-            echo "<TR><TD><B>$t[sonst12]</B></TD>";
+            echo "<TR><TD><b>$t[sonst12]</b></TD>";
             echo "<TD>" . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"ip1\" "
-                . "VALUE=\"$ip1\" SIZE=3 maxlength=3><B>.</B>"
+                . "VALUE=\"$ip1\" SIZE=3 maxlength=3><b>.</b>"
                 . "<INPUT TYPE=\"TEXT\" NAME=\"ip2\" "
-                . "VALUE=\"$ip2\" SIZE=3 maxlength=3><B>.</B>"
+                . "VALUE=\"$ip2\" SIZE=3 maxlength=3><b>.</b>"
                 . "<INPUT TYPE=\"TEXT\" NAME=\"ip3\" "
-                . "VALUE=\"$ip3\" SIZE=3 maxlength=3><B>.</B>"
+                . "VALUE=\"$ip3\" SIZE=3 maxlength=3><b>.</b>"
                 . "<INPUT TYPE=\"TEXT\" NAME=\"ip4\" "
                 . "VALUE=\"$ip4\" SIZE=3 maxlength=3>" . $f2 . "</TD></TR>\n";
             
-            echo "<TR><TD><B>$t[sonst22]</B></TD><TD>" . $f1
+            echo "<TR><TD><b>$t[sonst22]</b></TD><TD>" . $f1
                 . "<SELECT NAME=\"f[is_warn]\">";
             if (isset($f['is_warn']) && $f['is_warn'] == "ja") {
                 echo "<OPTION SELECTED VALUE=\"ja\">$t[sonst20]";
@@ -573,7 +573,7 @@ if (strlen($u_id) > 0 && $admin) {
                 echo "<OPTION SELECTED VALUE=\"nein\">$t[sonst21]";
             }
             echo "</SELECT>&nbsp;&nbsp;&nbsp;"
-                . "<B><INPUT TYPE=\"SUBMIT\" VALUE=\"$t[sonst13]\" NAME=\"eintragen\"></B>\n"
+                . "<b><INPUT TYPE=\"SUBMIT\" VALUE=\"$t[sonst13]\" NAME=\"eintragen\"></b>\n"
                 . $f2 . "</TD></TR>\n";
             echo "</TABLE>\n";
             echo "</TD></TR></TABLE></TD></TR></TABLE>\n";

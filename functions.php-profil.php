@@ -57,9 +57,9 @@ function profil_editor($u_id, $u_nick, $f)
     
     echo "<TABLE CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">\n";
     
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>Ihre Userdaten:</B></DIV></TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\">Nickname:</TD><TD colspan=2><B>"
-        . user($userdata['u_id'], $userdata, TRUE, FALSE) . "</B></TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>Ihre Userdaten:</b></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\">Nickname:</TD><TD colspan=2><b>"
+        . user($userdata['u_id'], $userdata, TRUE, FALSE) . "</b></TD><TD>"
         . $userdaten_bearbeiten . "</TD></TR>\n"
         . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD align=\"right\">Username:</TD><TD colspan=3>"
         . htmlspecialchars($userdata['u_name']) . "</TD></TR>\n";
@@ -104,7 +104,7 @@ function profil_editor($u_id, $u_nick, $f)
     
     $bgcolor = $farbe_tabelle_zeile1;
     echo "<TR><TD COLSPAN=5>&nbsp;</TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>Ihr neues Profil:</B></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>Ihr neues Profil:</b></DIV></TD></TR>\n"
         . "<TR BGCOLOR=\"$bgcolor\"><TD align=\"right\">Straße:</TD><TD colspan=3>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"f[ui_strasse]\" VALUE=\""
         . $f['ui_strasse'] . "\" SIZE=$eingabe_breite>" . $f2

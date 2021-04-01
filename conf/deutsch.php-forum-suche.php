@@ -44,9 +44,9 @@ $t['ergebnis6'] = "geschrieben am";
 $t['ergebnis7'] = "Autor";
 
 $t['fehler1'] = "Username enthält ungültige Zeichen.<br>";
-$t['fehler2'] = "Entweder Suchwörter oder Username muss bei dieser Zeitangabe angegeben werden.<BR>";
-$t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.<BR>";
-$t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.<BR>";
-$t['fehler5'] = "Falsches Board \/ Thema.<BR>";
+$t['fehler2'] = "Entweder Suchwörter oder Username muss bei dieser Zeitangabe angegeben werden.<br>";
+$t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.<br>";
+$t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.<br>";
+$t['fehler5'] = "Falsches Board \/ Thema.<br>";
 
 ?>

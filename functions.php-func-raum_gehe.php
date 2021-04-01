@@ -159,7 +159,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
                 unset($txt);
             
             if (strlen($alt->r_austritt) > 0) {
-                $txt = "<B>$txt</B> $alt->r_austritt<BR>";
+                $txt = "<b>$txt</b> $alt->r_austritt<br>";
             } else {
                 unset($txt);
             }
@@ -173,8 +173,8 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
             system_msg("", 0, $u_id, "", " ");
             system_msg("", 0, $u_id, "",
                 $txt
-                    . "<BR><TABLE WIDTH=100% BGCOLOR=\"$farbe_chat_background2\" BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD>"
-                    . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR></TD></TR></TABLE>\n");
+                    . "<br><TABLE WIDTH=100% BGCOLOR=\"$farbe_chat_background2\" BORDER=0 CELLPADDING=0 CELLSPACING=0><TR><TD>"
+                    . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br></TD></TR></TABLE>\n");
             
             // Raum betreten
             nachricht_betrete($u_id, $raum_neu, $u_name, $neu->r_name);
@@ -217,7 +217,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
                 unset($txt);
             }
             if (strlen($neu->r_topic) > 0) {
-                system_msg("", 0, $u_id, "", "<BR><B>$txt</B> $neu->r_topic");
+                system_msg("", 0, $u_id, "", "<br><b>$txt</b> $neu->r_topic");
             }
             
             // Eintrittsnachricht
@@ -233,10 +233,10 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen)
             if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
             } else if (strlen($neu->r_eintritt) > 0) {
                 system_msg("", 0, $u_id, "",
-                    "<BR><B>$txt $neu->r_eintritt, $u_name!</B><BR>");
+                    "<br><b>$txt $neu->r_eintritt, $u_name!</b><br>");
             } else {
                 system_msg("", 0, $u_id, "",
-                    "<BR><B>$txt</B> $t[betrete_chat2], $u_name!</B><BR>");
+                    "<br><b>$txt</b> $t[betrete_chat2], $u_name!</b><br>");
             }
             
             $raum = $raum_neu;

@@ -50,7 +50,7 @@ function kopf_forum($admin) {
 		$lnk[1] = "";
 	
 	echo "<center><table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
-	echo "<tr><td><B><a href=\"forum.php?id=$id&http_host=$http_host\">"
+	echo "<tr><td><b><a href=\"forum.php?id=$id&http_host=$http_host\">"
 		. $chat . "-Forum</A>" . $lnk[1] . "</b></td>\n";
 	echo "</table>\n";
 	
@@ -252,9 +252,9 @@ function forum_liste()
 				if ($forum_admin) {
 					echo "<td width=\"550\">";
 					echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">";
-					echo "<tr><td width=\"385\">$f1<B><A href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
+					echo "<tr><td width=\"385\">$f1<b><A href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
 						. htmlspecialchars($thema['th_name'])
-						. "</a></B>$f2<br>" . $f3 . " "
+						. "</a></b>$f2<br>" . $f3 . " "
 						. htmlspecialchars($thema['th_desc'])
 						. "$f4</td>";
 					echo "<td width=\"85\" align=\"center\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=thema_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[conf_delete_thema]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
@@ -267,9 +267,9 @@ function forum_liste()
 					
 				} else {
 					
-					echo "<td width=\"550\">$f1<B><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
+					echo "<td width=\"550\">$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
 						. htmlspecialchars($thema['th_name'])
-						. "$f2</a></B><br>" . $f3 . " "
+						. "$f2</a></b><br>" . $f3 . " "
 						. htmlspecialchars($thema['th_desc'])
 						. "$f4</td>\n";
 					
@@ -859,7 +859,7 @@ function verbuche_punkte($u_id)
 		echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
 		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" valign=\"bottom\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">"
 			. $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id)
-			. "</DIV></TD></tr></table></td></tr></table><BR>\n";
+			. "</DIV></TD></tr></table></td></tr></table><br>\n";
 	}
 }
 

@@ -66,7 +66,7 @@ if ($rows > 0) {
             fclose($handle);
             @chmod($r_name, 0700);
         } else {
-            echo "<P><B>Fehler:</B> Kann Logdatei '$r_name' nicht öffnen!</P>\n";
+            echo "<P><b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!</P>\n";
         }
         
         $loesche .= "$row->c_id";
@@ -113,7 +113,7 @@ if ($expire_privat) {
                 fclose($handle);
                 chmod($r_name, 0700);
             } else {
-                echo "<P><B>Fehler:</B> Kann Logdatei '" . $log
+                echo "<P><b>Fehler:</b> Kann Logdatei '" . $log
                     . "/chat_privatnachrichten' nicht öffnen!</P>\n";
             }
             
@@ -221,7 +221,7 @@ if ($zeit == "03:10") {
     }
     // User löschen, die länger als $nicknamen_expire (config.php default =26 Wochen (=15724800 Sekunden)) nicht online waren
     // und nicht auf gesperrt stehen (=Z) und kein Superuser sind (=S)
-    echo "<BR><B>Expire:</B> User ";
+    echo "<br><b>Expire:</b> User ";
     flush();
     
     // Baut den Query, für nicht mehr Expire RB, um
@@ -395,7 +395,7 @@ if ($zeit == "03:10") {
     $query = "REPAIR TABLE user,raum";
     mysqli_query($mysqli_link, $query);
     sleep(60);
-    echo " fertig<BR>";
+    echo " fertig<br>";
     flush();
 }
 ;

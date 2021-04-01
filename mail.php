@@ -127,15 +127,15 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
                     formular_neue_email2($neue_email, $m_id);
                 } else {
-                    echo "<P><B>Fehler:</B> An einen Gast, einen gesperrten User oder einen User, der Sie ignoriert kann "
+                    echo "<P><b>Fehler:</b> An einen Gast, einen gesperrten User oder einen User, der Sie ignoriert kann "
                         . "keine Mail verschickt werden!</P>\n";
                     formular_neue_email($neue_email, $m_id);
                 }
             } elseif ($neue_email['an_nick'] == "") {
-                echo "<P><B>Fehler:</B> Bitte geben Sie einen Nicknamen an!</P>\n";
+                echo "<P><b>Fehler:</b> Bitte geben Sie einen Nicknamen an!</P>\n";
                 formular_neue_email($neue_email, $m_id);
             } else {
-                echo "<P><B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!</P>\n";
+                echo "<P><b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!</P>\n";
                 formular_neue_email($neue_email, $m_id);
             }
             @mysqli_free_result($result);
@@ -150,11 +150,11 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             $neue_email['m_betreff'] = htmlspecialchars(
                 $neue_email['m_betreff']);
             if (strlen($neue_email['m_betreff']) < 1) {
-                echo "<B>Fehler:</B> Bitte geben Sie einen Betreff zum Versenden ein!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben Sie einen Betreff zum Versenden ein!<br>\n";
                 $ok = FALSE;
             }
             if (strlen($neue_email['m_betreff']) > 254) {
-                echo "<B>Fehler:</B> Bitte geben im Betreff weniger als 254 Zeichen ein!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben im Betreff weniger als 254 Zeichen ein!<br>\n";
                 $ok = FALSE;
             }
             
@@ -162,11 +162,11 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             $neue_email['m_text'] = chat_parse(
                 htmlspecialchars($neue_email['m_text']));
             if (strlen($neue_email['m_text']) < 4) {
-                echo "<B>Fehler:</B> Bitte geben Sie einen Text zum Versenden ein!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben Sie einen Text zum Versenden ein!<br>\n";
                 $ok = FALSE;
             }
             if (strlen($neue_email['m_text']) > 10000) {
-                echo "<B>Fehler:</B> Der Text ist zu lange!<BR>\n";
+                echo "<b>Fehler:</b> Der Text ist zu lange!<br>\n";
                 $ok = FALSE;
             }
             
@@ -177,7 +177,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
             if ($result && mysqli_num_rows($result) == 1) {
             	$an_nick = mysqli_result($result, 0, "u_nick");
             } else {
-                echo "<B>Fehler:</B> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!<BR>\n";
+                echo "<b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!<br>\n";
                 $ok = FALSE;
             }
             @mysqli_free_result($result);
@@ -193,7 +193,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                         $neue_email['m_betreff'], TRUE)) {
                         echo "<P>Ihre E-Mail an '$an_nick' wurde verschickt.</P>";
                     } else {
-                        echo "<P><B>Fehler: </B>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</P>";
+                        echo "<P><b>Fehler: </b>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</P>";
                     }
                 } else {
                     
@@ -203,7 +203,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                         echo "<P>Ihre Mail an '$an_nick' wurde verschickt.</P>";
                         $neue_email['m_id'] = $result[0];
                     } else {
-                        echo "<P><B>Fehler: </B>Ihre Mail an '$an_nick' wurde nicht verschickt.</P>";
+                        echo "<P><b>Fehler: </b>Ihre Mail an '$an_nick' wurde nicht verschickt.</P>";
                         echo "<P>$result[1]</P>";
                     }
                     
@@ -285,10 +285,10 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 formular_neue_email2($neue_email);
                 
             } elseif ($neue_email['an_nick'] == "") {
-                echo "<B>Fehler:</B> Bitte geben Sie einen Nicknamen an!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
                 formular_neue_email($neue_email);
             } else {
-                echo "<B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!<BR>\n";
+                echo "<b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!<br>\n";
                 formular_neue_email($neue_email);
             }
             @mysqli_free_result($result);
@@ -324,10 +324,10 @@ if ($u_id && $communityfeatures && $u_level != "G") {
                 formular_neue_email2($neue_email);
                 
             } elseif ($neue_email['an_nick'] == "") {
-                echo "<B>Fehler:</B> Bitte geben Sie einen Nicknamen an!<BR>\n";
+                echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
                 formular_neue_email($neue_email);
             } else {
-                echo "<B>Fehler:</B> Der Nickname '$neue_email[an_nick]' existiert nicht!<BR>\n";
+                echo "<b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!<br>\n";
                 formular_neue_email($neue_email);
             }
             @mysqli_free_result($result);
@@ -335,14 +335,14 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         
         case "zeige":
         // Eine Mail als Detailansicht zeigen
-            echo "<BR>";
+            echo "<br>";
             zeige_email($m_id);
             zeige_mailbox("normal", "");
             break;
         
         case "papierkorbleeren":
         // Mails mit Status geloescht löschen
-            echo "<BR>";
+            echo "<br>";
             $query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
             $result = mysqli_query($mysqli_link, $query);
             if (!isset($neue_email))
@@ -353,7 +353,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
         
         case "papierkorb":
         // Papierkorb zeigen
-            echo "<BR>";
+            echo "<br>";
             if (!isset($m_id))
                 $m_id = "";
             zeige_email($m_id);
@@ -389,15 +389,15 @@ if ($u_id && $communityfeatures && $u_level != "G") {
     }
     
 } elseif ($u_level == "G") {
-    echo "<P><B>Fehler:</B> Als Gast steht Ihnen die Mail-Funktion nicht zur Verfügung.</P>";
+    echo "<P><b>Fehler:</b> Als Gast steht Ihnen die Mail-Funktion nicht zur Verfügung.</P>";
 } else {
-    echo "<P><B>Fehler:</B> Beim Aufruf dieser Seite ist ein Fehler aufgetreten.</P>";
+    echo "<P><b>Fehler:</b> Beim Aufruf dieser Seite ist ein Fehler aufgetreten.</P>";
 }
 
 if ($o_js || !$u_id) {
     echo $f1
         . "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-        . $f2 . "<BR>\n";
+        . $f2 . "<br>\n";
 }
 
 ?>

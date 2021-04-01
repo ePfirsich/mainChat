@@ -201,14 +201,14 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		if ($result) {
 			$rows = mysqli_num_rows($result);
 		} else {
-			echo "<P><B>Datenbankfehler:</B> " . mysqli_error($mysqli_link) . ", "
+			echo "<P><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", "
 				. mysqli_errno($mysqli_link) . "</P>";
 			die();
 		}
 		if ($communityfeatures && $forumfeatures) {
-			$raeume = "<td><B>" . $t['login22'] . "</B><BR>";
+			$raeume = "<td><b>" . $t['login22'] . "</b><br>";
 		} else {
-			$raeume = "<td><B>" . $t['login12'] . "</B><BR>";
+			$raeume = "<td><b>" . $t['login12'] . "</b><br>";
 		}
 		$raeume .= $f1 . "<SELECT name=\"eintritt\">";
 		
@@ -246,16 +246,16 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	$eingabe_breite = 20;
 	
 	// Logintext definieren
-	$logintext = "<table BORDER=0 CELLSPACING=0 WIDTH=100%><tr><td><B>"	. $t['login8'] . "</B><BR>" . $f1 . "<input type=\"TEXT\" name=\"login\" value=\"";
+	$logintext = "<table BORDER=0 CELLSPACING=0 WIDTH=100%><tr><td><b>"	. $t['login8'] . "</b><br>" . $f1 . "<input type=\"TEXT\" name=\"login\" value=\"";
 	if (isset($login)) {
 		$logintext .= $login;
 	}
-	$logintext .= "\" SIZE=$eingabe_breite>" . $f2 . "</td>\n" . "<td><B>"
-		. $t['login9'] . "</B><BR>" . $f1
+	$logintext .= "\" SIZE=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
+		. $t['login9'] . "</b><br>" . $f1
 		. "<input type=\"PASSWORD\" name=\"passwort\" SIZE=$eingabe_breite>"
-		. $f2 . "</td>\n" . $raeume . "<td><BR>" . $f1
-		. "<B><input type=\"submit\" name=\"los\" value=\"" . $t['login10']
-		. "\"></B>\n"
+		. $f2 . "</td>\n" . $raeume . "<td><br>" . $f1
+		. "<b><input type=\"submit\" name=\"los\" value=\"" . $t['login10']
+		. "\"></b>\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"login\">" . $f2
 		. "</td>\n" . "</tr></table>\n" . $t['login3'];
 	
@@ -501,7 +501,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			zeige_kopf();
 			$chat_login_url = "<a href=\"$chat_logout_url\">$chat_logout_url</a>";
 			echo ("Sie werden nun auf $chat_logout_url weitergeleitet.");
-			// echo "chat_refer = $chat_referer<BR>HTTP_REFERER=$HTTP_SERVER_VARS[HTTP_REFERER] <BR>";
+			// echo "chat_refer = $chat_referer<br>HTTP_REFERER=$HTTP_SERVER_VARS[HTTP_REFERER] <br>";
 			zeige_fuss();
 			exit();
 		}
@@ -540,7 +540,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			<body>
 			<?php
 		zeige_kopf();
-		echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
+		echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
 			. "<A HREF=\"" . $chatserver
 			. "index.php?http_host=$http_host\">hier</A> neu an.</P>";
 		
@@ -577,7 +577,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				<body>
 				<?php
 				zeige_kopf();
-				echo "<P><B>Fehler:</B> Die URL ist nicht korrekt! Bitte melden Sie sich "
+				echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
 					. "<A HREF=\"" . mysqli_real_escape_string($mysqli_link, $chatserver)
 					. "index.php?http_host=" . mysqli_real_escape_string($mysqli_link, $http_host) . "\">hier</A> neu an.</P>";
 				$query = "DELETE FROM mail_check WHERE email = '$email'";
@@ -592,7 +592,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			<body>
 			<?php
 			zeige_kopf();
-			echo "<P><B>Fehler:</B> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
+			echo "<P><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
 				. "<A HREF=\"" . $chatserver
 				. "index.php?http_host=$http_host\">hier</A> neu an.</P>";
 			zeige_fuss();
@@ -1877,9 +1877,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				zeige_kopf();
 				unset($u_name);
 				unset($u_nick);
-				echo "<div style=\"text-align: center;\"><P><B>"
+				echo "<div style=\"text-align: center;\"><P><b>"
 					. str_replace("%login%", $login, $t['login20'])
-					. "</B></P>" . $f3
+					. "</b></P>" . $f3
 					. str_replace("%farbe_text%", $farbe_text, $disclaimer)
 					. $f4 . "</div>\n</form><br>";
 				zeige_fuss();
@@ -2053,7 +2053,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			$text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu10']
 				. "</td>" . "<td>" . $f1
 				. "<input type=\"TEXT\" name=\"f[u_name]\" value=\"$f[u_name]\" size=\"40\">"
-				. $f2 . "</td>" . "<td><B>*</B>&nbsp;" . $f1 . $t['neu11']
+				. $f2 . "</td>" . "<td><b>*</b>&nbsp;" . $f1 . $t['neu11']
 				. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12']
 				. "</td>" . "<td>" . $f1
 				. "<input type=\"TEXT\" name=\"f[u_nick]\" value=\"$f[u_nick]\" size=\"40\">"
@@ -2061,18 +2061,18 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				. "</td></tr>" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu14']
 				. "</td>" . "<td>" . $f1
 				. "<input type=\"PASSWORD\" name=\"f[u_passwort]\" value=\"$f[u_passwort]\" size=\"40\">"
-				. $f2 . "</td>" . "<td><B>*</B></td></tr>"
+				. $f2 . "</td>" . "<td><b>*</b></td></tr>"
 				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu15'] . "</td>"
 				. "<td>"
 				. "<input type=\"PASSWORD\" name=\"u_passwort2\" value=\"$f[u_passwort]\" size=\"40\">"
-				. $f2 . "</td>" . "<td><B>*</B>" . $f1 . $t['neu16'] . $f2
+				. $f2 . "</td>" . "<td><b>*</b>" . $f1 . $t['neu16'] . $f2
 				. "</td></tr>";
 			if (!isset($ro) || $ro == "") {
 				$text .= "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu17'] . "</td>"
 					. "<td>" . $f1
 					. "<input type=\"TEXT\" name=\"f[u_adminemail]\" value=\""
 					. (isset($f[u_adminemail]) ? $f[u_adminemail] : "")
-					. "\" size=\"40\">" . $f2 . "</td>" . "<td><B>*</B>&nbsp;"
+					. "\" size=\"40\">" . $f2 . "</td>" . "<td><b>*</b>&nbsp;"
 					. $f1 . $t['neu18'] . $f2 . "</td></tr>";
 			} else {
 				$text .= "<tr><td colsPAN=3>"
@@ -2092,8 +2092,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			if (!empty($backarray))
 				$text .= "<input type=\"hidden\" name=\"backarray\" value=\""
 					. urlencode(urldecode($backarray)) . "\">";
-			$text .= "<B><input type=\"submit\" name=\"los\" value=\""
-				. $t['neu22'] . "\"></B>" . $f2 . "</td>\n" . "</tr></table>";
+			$text .= "<b><input type=\"submit\" name=\"los\" value=\""
+				. $t['neu22'] . "\"></b>" . $f2 . "</td>\n" . "</tr></table>";
 			if ($los != $t['neu22'])
 				echo $t['neu23'];
 			
@@ -2148,8 +2148,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 								. $backarray['parameter'][$i] . ">\n";
 						}
 					}
-					$text .= "<B><input type=\"submit\" value=\""
-						. $backarray['submittext'] . "\"></B>\n</form>\n";
+					$text .= "<b><input type=\"submit\" value=\""
+						. $backarray['submittext'] . "\"></b>\n</form>\n";
 					$text = str_replace("{passwort}", $f['u_passwort'], $text);
 					$text = str_replace("{u_nick}", $f['u_nick'], $text);
 					
@@ -2402,7 +2402,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						str_replace("%chat%", $chat,
 							$ft0 . $t['default5'] . $ft1), $text, "100%",
 						false);
-					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
 				}
 				
 				if (!isset($unterdruecke_raeume))

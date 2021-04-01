@@ -20,12 +20,12 @@ $u_id = intval($u_id);
 
 if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3"
     && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6") {
-    echo "Fehlerhaftes 'feld' in home_bild.php'<BR>";
+    echo "Fehlerhaftes 'feld' in home_bild.php'<br>";
     exit;
 }
 
 if (!is_numeric($u_id)) {
-    echo "Fehlerhafte 'u_id' in 'home_bild.php'<BR>";
+    echo "Fehlerhafte 'u_id' in 'home_bild.php'<br>";
     exit;
 }
 
@@ -36,7 +36,7 @@ $http_host = str_replace("/", "", $http_host);
 $config = "config.php-" . $http_host;
 
 if ($http_host != "" && (!file_exists("conf/$config"))) {
-    echo "Fehlerhafter 'http_host' in 'home_bild.php'<BR>";
+    echo "Fehlerhafter 'http_host' in 'home_bild.php'<br>";
     exit;
 }
 
@@ -66,7 +66,7 @@ for ($c = 0; $c++ < 50 AND !$mysqli_link;) {
     usleep(200000);
 }
 if (!$mysqli_link) {
-    echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später nocheinmal!<BR>";
+    echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später nocheinmal!<br>";
     exit;
 }
 
@@ -75,11 +75,11 @@ $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
     if (mysqli_result($result, 0, "u_chathomepage") != 'J') {
-        echo "Nickpage dieses Users deaktiviert!<BR>";
+        echo "Nickpage dieses Users deaktiviert!<br>";
         exit;
     }
 } else {
-    echo "User ID nicht gefunden!<BR>";
+    echo "User ID nicht gefunden!<br>";
     exit;
 }
 @mysqli_free_result($result);

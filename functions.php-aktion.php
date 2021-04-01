@@ -30,7 +30,7 @@ function zeige_aktionen($aktion)
     }
     
     // Aktionen zeigen
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>$titel1 $u_nick $titel2:</B></DIV></TD></TR>\n"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$titel1 $u_nick $titel2:</b></DIV></TD></TR>\n"
         . "<TR><TD></TD>";
     
     $i = 0;
@@ -79,8 +79,8 @@ function zeige_aktionen($aktion)
     
     // Zeile der a_wann ausgeben
     foreach ($a_wann as $a_wann_eintrag) {
-        echo "<TD ALIGN=\"CENTER\"><B>" . $f1 . $a_wann_eintrag . $f2
-            . "</B></TD>\n";
+        echo "<TD ALIGN=\"CENTER\"><b>" . $f1 . $a_wann_eintrag . $f2
+            . "</b></TD>\n";
     }
     echo "</TR>\n";
     
@@ -88,8 +88,8 @@ function zeige_aktionen($aktion)
     $i = 0;
     foreach ($def_was as $def_was_eintrag) {
         
-        echo "<TR BGCOLOR=\"$bgcolor\"><TD ALIGN=\"RIGHT\"><B>" . $f1
-            . $def_was_eintrag . $f2 . "</B></TD>\n";
+        echo "<TR BGCOLOR=\"$bgcolor\"><TD ALIGN=\"RIGHT\"><b>" . $f1
+            . $def_was_eintrag . $f2 . "</b></TD>\n";
         foreach ($a_wann as $a_wann_eintrag) {
             
             echo "<TD ALIGN=\"CENTER\">" . $f3

@@ -188,7 +188,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$query = "UPDATE user SET u_login=NOW(),u_away='',u_loginfehler='' WHERE u_id=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
-		echo "Fehler beim Login: $query<BR>";
+		echo "Fehler beim Login: $query<br>";
 		exit;
 	}
 	
@@ -252,7 +252,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
-		echo "Fehler beim Login (iignore): $query<BR>";
+		echo "Fehler beim Login (iignore): $query<br>";
 		exit;
 	} else {
 		if (mysqli_num_rows($result) == 0) {
@@ -270,7 +270,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
-		echo "Fehler beim Login: $query<BR>";
+		echo "Fehler beim Login: $query<br>";
 		exit;
 	} else {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -521,7 +521,7 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
 	
 	// Topic vorhanden? ausgeben
 	if (strlen($r_topic) > 0) {
-		system_msg("", 0, $u_id, "", "<BR><B>$t[betrete_chat3] $r_name:</B> $r_topic");
+		system_msg("", 0, $u_id, "", "<br><b>$t[betrete_chat3] $r_name:</b> $r_topic");
 	}
 	
 	// Eintrittsnachricht
@@ -536,9 +536,9 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
 	
 	if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 	} else if (strlen($r_eintritt) > 0) {
-		system_msg("", 0, $u_id, "", "<BR><B>$txt $r_eintritt, $u_name!</B><BR>");
+		system_msg("", 0, $u_id, "", "<br><b>$txt $r_eintritt, $u_name!</b><br>");
 	} else {
-		system_msg("", 0, $u_id, "", "<BR><B>$txt</B> $t[betrete_chat2], $u_name!</B><BR>");
+		system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_name!</b><br>");
 	}
 	
 	// Wer ist alles im Raum?

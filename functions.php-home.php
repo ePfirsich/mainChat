@@ -21,34 +21,34 @@ function edit_home(
     // HP-Tabelle ausgeben
     
     echo "<TABLE BORDER=\"0\" HEIGHT=\"100%\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_zeile2\" CELLPADDING=5 CELLSPACING=0>"
-        . "<TR><TD COLSPAN=\"3\" BGCOLOR=\"$farbe_tabelle_zeile1\">$f1<B>Meine Homepage:</B>"
+        . "<TR><TD COLSPAN=\"3\" BGCOLOR=\"$farbe_tabelle_zeile1\">$f1<b>Meine Homepage:</b>"
         . $f2 . "</TD></TR>\n" . "<TR><TD VALIGN=\"TOP\" width=\"60%\">"
         . home_info($u_id, $u_nick, $farben, $aktion)
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_profil($u_id, $u_nick, $home, $farben, $aktion)
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
-        . "</TD>\n<TD><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=1><BR></TD><TD VALIGN=\"TOP\">"
+        . "</TD>\n<TD><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=1><br></TD><TD VALIGN=\"TOP\">"
         . home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion,
             $bilder)
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion,
             $bilder)
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion,
             $bilder)
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n"
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
         . "</TD></TR>\n"
-        . "</TABLE><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>"
+        . "</TABLE><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>"
         . "<TABLE BORDER=\"0\" WIDTH=\"100%\"  BGCOLOR=\"$farbe_tabelle_zeile2\" CELLPADDING=5 CELLSPACING=0>"
-        . "<TR><TD BGCOLOR=\"$farbe_tabelle_zeile1\" COLSPAN=\"2\">$f1<B>Homepage&nbsp;Einstellungen:</B>$f2</TD></TR>\n"
+        . "<TR><TD BGCOLOR=\"$farbe_tabelle_zeile1\" COLSPAN=\"2\">$f1<b>Homepage&nbsp;Einstellungen:</b>$f2</TD></TR>\n"
         . "<TR><TD VALIGN=\"TOP\">\n"
         . home_einstellungen($u_id, $u_nick, $home, $einstellungen)
         . "</TD><TD VALIGN=\"TOP\">"
         . home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
         . "</TD></TR></TABLE>\n"
-        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><BR>\n";
+        . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
     
 }
 
@@ -59,7 +59,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion)
     global $dbase, $http_host, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
     
     $url = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
-    $link = $f3 . "<B>[<A HREF=\"$url\">ÄNDERN</A>]</B>" . $f4;
+    $link = $f3 . "<b>[<A HREF=\"$url\">ÄNDERN</A>]</b>" . $f4;
     $text = "";
     
     if ($home['ui_userid']) {
@@ -169,7 +169,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion)
     
     // Farbwähler und Profil-Link ausgeben
     if ($aktion == "aendern") {
-        $text .= "<TR><TD colspan=4 align=\"right\">" . $link . "<BR>\n"
+        $text .= "<TR><TD colspan=4 align=\"right\">" . $link . "<br>\n"
             . home_farbe($u_id, $u_nick, $home, "profil", $farben['profil'])
             . "</TD></TR>\n";
     } else {
@@ -221,7 +221,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
         if ($aktion == "aendern") {
             $url = "edit.php?http_host=$http_host&id=$id";
             $userdaten_bearbeiten = $f3
-                . "<B>[<A HREF=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</B>"
+                . "<b>[<A HREF=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
                 . $f4;
         } else {
             $userdaten_bearbeiten = "&nbsp;";
@@ -234,26 +234,26 @@ function home_info($u_id, $u_nick, $farben, $aktion)
         }
         
         $text = "<TR><TD valign=\"TOP\" align=\"right\" WIDTH=20%>" . $f1
-            . "Nickname:" . $f2 . "</TD><TD colspan=3 WIDTH=\"80%\"><B>"
+            . "Nickname:" . $f2 . "</TD><TD colspan=3 WIDTH=\"80%\"><b>"
             . user($userdata['u_id'], $userdata, $links_an, FALSE)
-            . "</B></TD></TR>\n";
+            . "</b></TD></TR>\n";
         
         // Onlinezeit oder letzter Login		
         if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><B>"
+            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><b>"
                 . $f1
                 . str_replace("%online%", gmdate("H:i:s", $online_zeit),
-                    $t['chat_msg92']) . $f2 . "</B></TD></TR>\n";
+                    $t['chat_msg92']) . $f2 . "</b></TD></TR>\n";
         } else {
-            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><B>"
+            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><b>"
                 . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94'])
-                . $f2 . "</B></TD></TR>\n";
+                . $f2 . "</b></TD></TR>\n";
         }
         
         // Level
         $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
-            . $t['user_zeige8'] . ":" . $f2 . "</TD>" . "<TD colspan=3><B>"
-            . $f1 . $level[$userdata['u_level']] . $f2 . "</B></TD></TR>\n";
+            . $t['user_zeige8'] . ":" . $f2 . "</TD>" . "<TD colspan=3><b>"
+            . $f1 . $level[$userdata['u_level']] . $f2 . "</b></TD></TR>\n";
         
         // Punkte
         if ($userdata['u_punkte_gesamt']) {
@@ -265,12 +265,12 @@ function home_info($u_id, $u_nick, $farben, $aktion)
             }
             $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
                 . $t['user_zeige38'] . ":" . $f2 . "</TD>"
-                . "<TD colspan=3><B>" . $f1 . $userdata['u_punkte_gesamt']
+                . "<TD colspan=3><b>" . $f1 . $userdata['u_punkte_gesamt']
                 . "/" . $userdata['u_punkte_jahr'] . "/"
                 . $userdata['u_punkte_monat'] . "&nbsp;"
                 . str_replace("%jahr%", strftime("%Y", time()),
                     str_replace("%monat%", strftime("%B", time()),
-                        $t['user_zeige39'])) . $f2 . "</B></TD></TR>\n";
+                        $t['user_zeige39'])) . $f2 . "</b></TD></TR>\n";
         }
         
         // Farbwähler & Link auf Editor ausgeben
@@ -278,7 +278,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
             if (!isset($home))
                 $home = "";
             $text .= "<TR><TD colspan=4 align=\"right\">"
-                . $userdaten_bearbeiten . "<BR>\n"
+                . $userdaten_bearbeiten . "<br>\n"
                 . home_farbe($u_id, $u_nick, $home, "info", $farben['info'])
                 . "</TD></TR>\n";
         } else {
@@ -329,7 +329,7 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
     //	$stopwordarray=array("background","java","script","activex","embed","target","javascript");
     $stopwordarray = array("|background|i", "|java|i", "|script|i",
         "|activex|i", "|target|i", "|javascript|i");
-    $text = str_replace("\n", "<BR>\n", $text);
+    $text = str_replace("\n", "<br>\n", $text);
     
     foreach ($stopwordarray as $stopword) {
         // str_replace ist case sensitive, gefährlichen, wenn JavaScript geschrieben wird, oder Target, oder ActiveX
@@ -345,7 +345,7 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
     $text = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text);
     
     if ($aktion == "aendern") {
-        $text = "<TR><TD COLSPAN=4 VALIGN=\"TOP\">$f1<B>Ihr Text über sich selbst:</B>$f2<BR><TEXTAREA COLS="
+        $text = "<TR><TD COLSPAN=4 VALIGN=\"TOP\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
             . ($eingabe_breite2) . " ROWS=20 NAME=\"home[$feld]\">"
             . $home[$feld] . "</TEXTAREA></TD></TR>"
             . "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
@@ -386,34 +386,34 @@ function home_bild(
         $mime = $bilder[$feld]['b_mime'];
         
         if ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
-            $info = $f3 . "<BR>Info: " . $width . "x" . $height . " als "
+            $info = $f3 . "<br>Info: " . $width . "x" . $height . " als "
                 . $mime . $f4;
         }
         
         if (!isset($info))
             $info = "";
-        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\" ><IMG SRC=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" ALT=\"$u_nick\"><BR>"
+        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\" ><IMG SRC=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" ALT=\"$u_nick\"><br>"
             . $info . "</TD>";
         
         if ($aktion == "aendern") {
             $text .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"RIGHT\">" . $f3
-                . "<B>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</B>"
-                . $f4 . "<BR>"
+                . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
+                . $f4 . "<br>"
                 . home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
                 . "</TD>\n";
         } elseif ($aktion == "aendern_ohne_farbe") {
             $text .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"RIGHT\">" . $f3
-                . "<B>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</B>"
+                . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
                 . $f4 . "</TD>\n";
         }
         
     } elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
         
-        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\"><B>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</B><BR>"
+        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
             . "<INPUT TYPE=\"FILE\" NAME=\"$feld\" SIZE=\""
             . ($eingabe_breite / 8) . "\"></TD>";
-        $text .= "<TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">&nbsp;<BR>"
-            . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"GO\"><BR></TD>\n";
+        $text .= "<TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">&nbsp;<br>"
+            . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"GO\"><br></TD>\n";
         
     } else {
         
@@ -464,17 +464,17 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     if ($id) {
         $url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
         $text .= "<A HREF=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
-            . "<B>Schreibe mir doch eine Mail!</B>&nbsp;$chat_grafik[mail]</A><BR><BR>";
+            . "<b>Schreibe mir doch eine Mail!</b>&nbsp;$chat_grafik[mail]</A><br><br>";
     } else {
         #$text.="Ihr könnt mir eine Mail schicken, wenn Ihr euch vorher im ".
-        #	"<A HREF=\"index.html\">$chat anmeldet</A>.<BR><BR>\n";
+        #	"<A HREF=\"index.html\">$chat anmeldet</A>.<br><br>\n";
     }
     
     if ($userdata['u_url']) {
-        $text .= "Mehr&nbsp;über&nbsp;mich: <B><A HREF=\"redirect.php?url="
+        $text .= "Mehr&nbsp;über&nbsp;mich: <b><A HREF=\"redirect.php?url="
             . urlencode($userdata['u_url'])
             . "\" TARGET=\"_new\">" . $userdata['u_url']
-            . "</B></A><BR>\n";
+            . "</b></A><br>\n";
     }
     
     $text .= $f2 . "</TD>";
@@ -596,7 +596,7 @@ function home_farbe(
     $url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
         . urlencode($farbe);
     $link = $f3
-        . "<B>[<A HREF=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</B>"
+        . "<b>[<A HREF=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
         . $f4;
     
     return ($link);
@@ -656,7 +656,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
                 }
                 schreibe_db("bild", $f, $b_id, "b_id");
             } else {
-                echo "<P><B>Fehler: </B> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+                echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
             }
             
             // Bild löschen
@@ -672,12 +672,12 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
             }
             
         } else {
-            echo "<P><B>Fehler: </B> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+            echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
             unlink($ui_bild);
         }
         
     } elseif ($groesse >= ($max_groesse * 1024)) {
-        echo "<P><B>Fehler: </B> Das Bild muss kleiner als $max_groesse KB sein!</P>\n";
+        echo "<P><b>Fehler: </b> Das Bild muss kleiner als $max_groesse KB sein!</P>\n";
     }
 
     return ($home); // TODO: Wo wird $home definiert?
@@ -809,14 +809,14 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
     } elseif ($u_chathomepage != "J") {
         
         echo "<body>"
-            . "<P><B>Fehler: Dieser User hat keine Homepage!</B></P>";
+            . "<P><b>Fehler: Dieser User hat keine Homepage!</b></P>";
         
         echo "</BODY>\n";
         
     } else {
         
         echo "<body>"
-            . "<P><B>Fehler: Aufruf ohne gültige Parameter!</B></P>";
+            . "<P><b>Fehler: Aufruf ohne gültige Parameter!</b></P>";
 
         echo "</BODY>\n";
         

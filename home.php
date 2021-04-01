@@ -161,7 +161,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			// Prüfen & in DB schreiben
 			if (isset($home) && is_array($home)
 				&& strlen($home['ui_text']) > ($max_groesse * 1024)) {
-				echo "<P><B>Fehler: </B> Ihr Text ist grösser als $max_groesse!</P>";
+				echo "<P><b>Fehler: </b> Ihr Text ist grösser als $max_groesse!</P>";
 				unset($home['ui_text']);
 			}
 			
@@ -278,7 +278,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			} else {
 				
 				// Erst Profil anlegen
-				echo "<P><B>Hinweis: </B> Sie haben leider noch kein Profil angelegt. Das Profil "
+				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
 					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
 					. "Bitte klicken Sie <A HREF=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">"
 					. "weiter zur Anlage eines Profils</A>.</P>\n";
@@ -289,7 +289,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			if ($o_js || !$u_id)
 				echo $f1
 					. "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-					. $f2 . "<BR>\n";
+					. $f2 . "<br>\n";
 			
 			echo "</BODY>";
 			

@@ -178,7 +178,7 @@ zeige_header_ende();
 	}
 	
 	// Code funktioniert mit und ohne javascript
-	echo "<TR><TD></td><TD><B>" . $f1;
+	echo "<TR><TD></td><TD><b>" . $f1;
 	if (!isset($eingabe_light_hilfe) || !$eingabe_light_hilfe)
 		echo "[<a href=\"$mlnk[4]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[4]');return(false)\">$t[menue4]</a>]&nbsp;";
 	if (!isset($eingabe_light) || !$eingabe_light)
@@ -214,17 +214,17 @@ zeige_header_ende();
 	echo "&nbsp;&nbsp;";
 	if (isset($chat_logout_url)) {
 		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue6]</a>]&nbsp;"
-			. $f2 . "</B></td>";
+			. $f2 . "</b></td>";
 	} else {
 		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue6]</a>]&nbsp;"
-			. $f2 . "</B></td>";
+			. $f2 . "</b></td>";
 	}
 	
 	unset($aktraum);
 	
 	if ((!isset($eingabe_light) || !$eingabe_light)
 		&& (!isset($eingabe_light_farbe) || !$eingabe_light_farbe) && (!$admin)) {
-		echo "<td style=\"text-align: right;\"><span style=\"font-size: small; color:#" . $u_farbe . ";\"><B>$t[farbe2]</B>&nbsp;</span></td>";
+		echo "<td style=\"text-align: right;\"><span style=\"font-size: small; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
 		for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each(
 			$farbe_chat_user);) {
 			?>

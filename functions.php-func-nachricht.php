@@ -44,7 +44,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name) {
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
 	$back = 0;
 	if (raum_ist_moderiert($r_id)) {
-		$back = system_msg("", 0, $u_id, $u_farbe, "<B>&gt;&gt;&gt;</b> "
+		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&gt;&gt;&gt;</b> "
 			. $text);
 	} else {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
@@ -55,7 +55,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name) {
 		$num = mysqli_fetch_array($result);
 		$num = $num['nummer'];
 		if ($num < 15) {
-			$back = global_msg($u_id, $r_id, "<B>&gt;&gt;&gt;</b> " . $text);
+			$back = global_msg($u_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);
 		}
 	}
 	

@@ -84,7 +84,7 @@ switch ($aktion) {
 				?>
 				<table style="width:100%;" align="center">
 					<tr>
-						<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff; background-color:#007ABE;"><B>FEHLER</b></td>
+						<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff; background-color:#007ABE;"><b>FEHLER</b></td>
 					</tr>
 				<?php
 				if ($chat["lobby"] == "")

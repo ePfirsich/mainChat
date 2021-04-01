@@ -59,13 +59,13 @@ $chatserver_mysqlhost="adressbus.main.de";
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
-// $chat_offline="<P ALIGN=CENTER><B>Der $chat ist derzeit offline.</B></P>";
+// $chat_offline="<P ALIGN=CENTER><b>Der $chat ist derzeit offline.</b></P>";
 
 // Chat abschalten 1=ja/0=nein
 $chat_offline_kunde=0;
 
 // Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
-$chat_offline_kunde_txt="<P ALIGN=CENTER><B>Der $chat ist derzeit offline.</B></P>";
+$chat_offline_kunde_txt="<P ALIGN=CENTER><b>Der $chat ist derzeit offline.</b></P>";
 
 // Chat auf eine Maximalanzahl von Usern nach Level einschränken
 // Für Admins gilt C/S/M, für User U und für Gäste G
@@ -75,9 +75,9 @@ $chat_max['S']=0;
 $chat_max['G']=200;
 $chat_max['U']=200;
 $chat_max['M']=0;  
-$chat_max['zusatztext']="<P><B>Bitte benutzen Sie stattdessen ".
+$chat_max['zusatztext']="<P><b>Bitte benutzen Sie stattdessen ".
 "<A HREF=\"http://www.mainchat.de/\" TARGET=_new>http://www.mainchat.de/</A> oder ".
-" <A HREF=\"http://chat.mainchat.de/\" TARGET=_new>http://chat.mainchat.de/</A>.</B></P>";
+" <A HREF=\"http://chat.mainchat.de/\" TARGET=_new>http://chat.mainchat.de/</A>.</b></P>";
 
 // WebChat-Statistiken
 $webchatraumausgabe=1;			// Ausgabe mit Raum für Webchat 1=ja/0=nein

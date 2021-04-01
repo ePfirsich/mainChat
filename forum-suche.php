@@ -60,10 +60,10 @@ function such_bereich()
         . "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
         . "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
     
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
         . 
         // Suchtext
-        "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>$t[suche1]</B></TD><TD>"
+        "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>$t[suche1]</b></TD><TD>"
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"suche[text]\" VALUE=\""
         . htmlspecialchars($suche['text'])
         . "\" SIZE=$eingabe_breite>" . $f2 . "</TD></TR>\n";
@@ -405,7 +405,7 @@ function such_ergebnis() {
 		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 		<?php
         echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n";
+        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n";
         
         flush();
         $sql = $sql . " " . $abfrage;
@@ -413,7 +413,7 @@ function such_ergebnis() {
         
         $anzahl = mysqli_num_rows($query);
         
-        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\">$f1<B>$t[ergebnis2] $anzahl</B>";
+        echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\">$f1<b>$t[ergebnis2] $anzahl</b>";
         if ($anzahl > $maxpostingsprosuche) {
             echo "<font color=\"red\"><b> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</b></font>";
         }
@@ -421,9 +421,9 @@ function such_ergebnis() {
         if ($anzahl > 0) {
             
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD>" . $f1
-                . "<B>$t[ergebnis3]<BR>$t[ergebnis4]</B>" . $f2 . "</TD>";
-            echo "<TD>" . $f1 . "<B>$t[ergebnis6]</B>" . $f2 . "</TD>";
-            echo "<TD>" . $f1 . "<B>$t[ergebnis7]</B>" . $f2 . "</TD>";
+                . "<b>$t[ergebnis3]<br>$t[ergebnis4]</b>" . $f2 . "</TD>";
+            echo "<TD>" . $f1 . "<b>$t[ergebnis6]</b>" . $f2 . "</TD>";
+            echo "<TD>" . $f1 . "<b>$t[ergebnis7]</b>" . $f2 . "</TD>";
             echo "</TR>";
             
             $i = 0;
@@ -444,7 +444,7 @@ function such_ergebnis() {
                 else $col = $farbe_link;
                 
                 echo "<TR BGCOLOR=\"$bgcolor\"><TD>"
-                    . show_pfad_posting2($fund['po_th_id']) . "<BR>";
+                    . show_pfad_posting2($fund['po_th_id']) . "<br>";
                 $thread = vater_rekursiv($fund['po_id']);
                 echo $f1
                     . "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="

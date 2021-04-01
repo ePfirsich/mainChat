@@ -72,13 +72,13 @@ function zeige_blacklist($aktion, $zeilen, $sort)
         if ($anzahl == 0) {
             
             // Keine Blacklist-Einträge
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>Es gibt noch keine $titel:</B><DIV style=\"color:$farbe_text;\"></TD></TR>\n"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>Es gibt noch keine $titel:</b><DIV style=\"color:$farbe_text;\"></TD></TR>\n"
                 . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD>&nbsp;</TD><TD align=\"left\">Es sind keine Blacklist-Einträge vorhanden.</TD></TR>";
             
         } else {
             
             // Blacklist anzeigen
-            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><B>$titel: $anzahl</B></DIV></TD></TR>\n"
+            echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$titel: $anzahl</b></DIV></TD></TR>\n"
                 . "<TR><TD WIDTH=\"5%\">" . $f1 . "Löschen" . $f2
                 . "</TD><TD WIDTH=\"35%\">" . $f1 . "<A HREF=\"" . $blurl
                 . $usort . "\">Nickname</A>" . $f2 . "</TD>"
@@ -103,8 +103,8 @@ function zeige_blacklist($aktion, $zeilen, $sort)
                     
                     // User gefunden -> Ausgeben
                     $row2 = mysqli_fetch_object($result2);
-                    $blacklist_nick = "<B>"
-                        . user($row2->u_id, $row2, TRUE, FALSE) . "</B>";
+                    $blacklist_nick = "<b>"
+                        . user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
                     
                 } else {
                     
@@ -117,12 +117,12 @@ function zeige_blacklist($aktion, $zeilen, $sort)
                 
                 // Unterscheidung online ja/nein, Text ausgeben
                 if ($row2->o_id) {
-                    $txt = $blacklist_nick . "<BR>online&nbsp;"
+                    $txt = $blacklist_nick . "<br>online&nbsp;"
                         . gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
-                    $auf = "<B>" . $f1;
-                    $zu = $f2 . "</B>";
+                    $auf = "<b>" . $f1;
+                    $zu = $f2 . "</b>";
                 } else {
-                    $txt = $blacklist_nick . "<BR>Letzter&nbsp;Login:&nbsp;"
+                    $txt = $blacklist_nick . "<br>Letzter&nbsp;Login:&nbsp;"
                         . str_replace(" ", "&nbsp;", $row2->login);
                     $auf = $f1;
                     $zu = $f2;
@@ -181,7 +181,7 @@ function loesche_blacklist($f_blacklistid)
     global $u_id, $u_nick, $admin;
     
     if (!$admin || !$f_blacklistid) {
-        echo "Fehler beim Löschen des Blacklist-Eintrags $f_blacklistid!<BR>";
+        echo "Fehler beim Löschen des Blacklist-Eintrags $f_blacklistid!<br>";
         return (0);
     }
     
@@ -194,7 +194,7 @@ function loesche_blacklist($f_blacklistid)
     $result = mysqli_query($mysqli_link, $query);
     if ($result && mysqli_num_rows($result) != 0) {
     	$f_nick = mysqli_result($result, 0, 0);
-        echo "<P><B>Hinweis:</B> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
+        echo "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
     }
     @mysqli_free_result($result);
 }
@@ -223,13 +223,13 @@ function formular_neuer_blacklist($neuer_blacklist)
     if (!isset($neuer_blacklist['f_text']))
         $neuer_blacklist['f_text'] = "";
     
-    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><B>$titel</B></DIV></TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Nickname:</B></TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Nickname:</b></TD><TD>"
         . $f1
         . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[u_nick]\" VALUE=\""
         . htmlspecialchars($neuer_blacklist['u_nick'])
         . "\" SIZE=20>" . $f2 . "</TD></TR>\n"
-        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><B>Infotext:</B></TD><TD>"
+        . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>Infotext:</b></TD><TD>"
         . $f1
         . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[f_text]\" VALUE=\""
         . htmlspecialchars($neuer_blacklist['f_text'])
@@ -247,7 +247,7 @@ function neuer_blacklist($f_userid, $blacklist)
     global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
     
     if (!$blacklist['u_id'] || !$f_userid) {
-        echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<BR>";
+        echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<br>";
     } else {
         
         $blacklist['u_id'] = mysqli_real_escape_string($mysqli_link, $blacklist['u_id']); // sec
@@ -261,12 +261,12 @@ function neuer_blacklist($f_userid, $blacklist)
         $result = mysqli_query($mysqli_link, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             
-            echo "<P><B>Fehler:</B> '$blacklist[u_nick]' ist bereits in der Blackliste eingetragen!</P>\n";
+            echo "<P><b>Fehler:</b> '$blacklist[u_nick]' ist bereits in der Blackliste eingetragen!</P>\n";
             
         } elseif ($blacklist['u_id'] == $f_userid) {
             
             // Eigener Blacklist-Eintrag ist verboten
-            echo "<P><B>Fehler:</B> Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!</P>\n";
+            echo "<P><b>Fehler:</b> Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!</P>\n";
         } else {
             
             // User ist noch kein Blacklist-Eintrag -> hinzufügen
@@ -275,7 +275,7 @@ function neuer_blacklist($f_userid, $blacklist)
             $f['f_text'] = htmlspecialchars($blacklist['f_text']);
             schreibe_db("blacklist", $f, 0, "f_id");
             
-            echo "<P><B>Hinweis:</B> '$blacklist[u_nick]' ist jetzt in der Blacklist eingetragen.</P>";
+            echo "<P><b>Hinweis:</b> '$blacklist[u_nick]' ist jetzt in der Blacklist eingetragen.</P>";
             
         }
         
