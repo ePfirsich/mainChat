@@ -154,7 +154,7 @@ function formular_neue_email2($neue_email, $m_id = "")
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>$titel "
                 . user($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online,
                     $row->login) . "</b>$email</DIV></TD></TR>\n"
-                . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD VALIGN=\"TOP\" align=\"right\"><b>Betreff:</b></TD><TD  COLSPAN=2>"
+                . "<TR BGCOLOR=\"$farbe_tabelle_zeile2\"><TD style=\"vertical-align:top;\" align=\"right\"><b>Betreff:</b></TD><TD  COLSPAN=2>"
                 . $f1
                 . "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[m_betreff]\" VALUE=\""
                 . $neue_email['m_betreff'] . "\" SIZE="
@@ -162,7 +162,7 @@ function formular_neue_email2($neue_email, $m_id = "")
                 . "
 				 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
                 . $f2 . "<input name=\"counter\" size=3></TD></TR>"
-                . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD VALIGN=\"TOP\" align=\"right\"><b>Ihr Text:</b></TD><TD COLSPAN=2>"
+                . "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD style=\"vertical-align:top;\" align=\"right\"><b>Ihr Text:</b></TD><TD COLSPAN=2>"
                 . $f1 . "<TEXTAREA COLS=" . ($eingabe_breite2)
                 . " ROWS=20 NAME=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
                 . $neue_email['m_text'] . "</TEXTAREA>\n" . $f2

@@ -87,7 +87,7 @@ if ($u_id && $communityfeatures) {
 		$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
 	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</a>\n";
 	
-	show_box2($box, $text, "100%");
+	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 	<?php

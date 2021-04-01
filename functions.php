@@ -879,13 +879,11 @@ function zerlege($daten)
 
 function show_box($box, $text, $url = "", $width = "") {
 	// Gibt Tabelle mit Kopf und Inhalt aus 
-	global $farbe_text;
 	global $farbe_link;
 	global $farbe_vlink;
-	global $farbe_background;
 	global $farbe_tabelle_kopf;
+	global $farbe_tabelle_text_kopf;
 	global $farbe_tabelle_kopf2;
-	global $farbe_tabelle_koerper;
 	global $f1;
 	global $f2;
 	
@@ -893,56 +891,94 @@ function show_box($box, $text, $url = "", $width = "") {
 		$width = "width:" . $width . ";";
 	}
 	?>
+	
 	<table style="background-color:<?php echo $farbe_tabelle_kopf2; ?>; <?php echo $width; ?>">
-	<tr>
-	<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>">
-	<?php
-	if (strlen($url) > 0) {
-		?>
-		<a href="<?php echo $url; ?>"><?php echo $box; ?><img src=/pics/button-x.gif style="width:15px; height:13px; float: right; border:0px;"></a>
-		<?php
-	}
-	?>
-	<span style="color:<?php echo $farbe_text; ?>; font-weight: bold;"><?php echo $box; ?></span>
-	</td>
-	</tr>
-	<tr>
-	<td><?php echo $text; ?></td>
-	</tr>
+		<tr>
+			<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>; color:<?php echo $farbe_tabelle_text_kopf; ?>">
+			<?php
+			if (strlen($url) > 0) {
+				?>
+				<a href="<?php echo $url; ?>"><?php echo $box; ?><img src=/pics/button-x.gif style="width:15px; height:13px; float: right; border:0px;"></a>
+				<?php
+			}
+			?>
+			<span style="font-weight: bold;"><?php echo $box; ?></span>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo $text; ?></td>
+		</tr>
 	</table>
 	<?php
 }
 
-function show_box2($box, $text, $width = "", $button = TRUE) {
+function show_box2($box, $text, $button = TRUE) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus 
 	global $farbe_text;
 	global $farbe_link;
 	global $farbe_vlink;
-	global $farbe_background;
 	global $farbe_tabelle_kopf;
+	global $farbe_tabelle_text_kopf;
 	global $farbe_tabelle_koerper;
 	global $f1;
 	global $f2;
-	
-	if ($width) {
-		$width = "width:" . $width . ";";
-	}
+
 	$extra = "";
 	if ($button) {
 		$extra = "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
 	}
 	?>
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; <?php echo $width; ?>">
-	<tr>
-	<td><?php echo $extra; ?><span style="font-size: small; color:$farbe_text; font-weight: bold;"><?php echo $box; ?></span>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<table style="background-color:<?php echo $farbe_tabelle_koerper; ?>; <?php echo $width; ?>">
-	<tr>
-	<td><?php echo  $f1 . $text . $f2; ?></td>
-	</tr>
+	
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+		<tr>
+			<td style="color:<?php echo $farbe_tabelle_text_kopf; ?>"><span style="font-size: smaller; font-weight: bold;"><?php echo $box; ?></span><?php echo $extra; ?></td>
+		</tr>
+		<tr>
+			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;"><?php echo  $f1 . $text . $f2; ?></td>
+		</tr>
 	</table>
-	</td>
-	</tr>
+	<?php
+}
+
+function show_box_title($box) {
+	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+	global $farbe_tabelle_kopf;
+	global $farbe_tabelle_text_kopf;
+	global $f1;
+	global $f2;
+	?>
+	
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+		<tr>
+			<td>
+				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo  $f1 . $box . $f2; ?></span>
+				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
+			</td>
+		</tr>
+	</table>
+	<?php
+}
+
+function show_box_title_content($box, $text) {
+	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+	global $farbe_text;
+	global $farbe_tabelle_kopf;
+	global $farbe_tabelle_text_kopf;
+	global $farbe_tabelle_koerper;
+	global $f1;
+	global $f2;
+	?>
+	
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+		<tr>
+			<td>
+				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo   $box ?></span>
+				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;"><?php echo $text; ?></td>
+		</tr>
 	</table>
 	<?php
 }
@@ -1226,7 +1262,7 @@ function user(
 	
 	if ($link) {
 		$url = "user.php?http_host=$http_hosttag&id=$idtag&aktion=zeig&user=$user_id";
-		$text = "<A HREF=\"#\"  TARGET=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\">"
+		$text = "<a href=\"#\"  target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\">"
 			. $user_nick . "</A>";
 	} else {
 		$text = $user_nick;

@@ -285,7 +285,7 @@ $hilfe_community = "<br>
     . "
 </table>
 <P><b><A NAME=\"punkte\">Punkte</A></b><br>
-Unter dem Chat-Menüpunkt \"<b>USER</b>\" führt der Link zur User Top10/100 Liste. 
+Unter dem Chat-Menüpunkt \"<b>User</b>\" führt der Link zur User Top10/100 Liste. 
 Alle angemeldeten User bekommen pro einzelnes im Chat geschriebenes Wort
 einen Punkt. Die Voraussetzung ist, dass jedes Wort mindestens vier Buchstaben hat
 und sich der User in einem öffentlichen, permanenten Raum mit mindestens 

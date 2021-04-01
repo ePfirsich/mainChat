@@ -207,7 +207,7 @@ zeige_header_ende();
 	
 	if ((!isset($eingabe_light) || !$eingabe_light)
 		&& (!isset($eingabe_light_farbe) || !$eingabe_light_farbe) && (!$admin)) {
-		echo "<td style=\"text-align: right;\"><span style=\"font-size: small; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
+		echo "<td style=\"text-align: right;\"><span style=\"font-size: smaller; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
 		for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each(
 			$farbe_chat_user);) {
 			?>

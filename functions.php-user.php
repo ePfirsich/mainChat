@@ -201,7 +201,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
                 . "<FORM NAME=\"form\" METHOD=POST TARGET=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">"
                 . "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-                . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
+                . "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
                 . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
                 . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
                 . "<TR><TD>";
@@ -249,14 +249,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         
         echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
             . "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-            . "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
+            . "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
             . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
             . "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
             . "<TR><TD>";
         
         // Ausgabe in Tabelle
         echo "<TABLE BORDER=0 CELLPADDING=0>";
-        echo "<TR><TD VALIGN=TOP><b>" . $f1 . $t['user_zeige18'] . $f2
+        echo "<TR><TD style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2
             . "</b></TD><TD><b>" . user($user, $row, TRUE, FALSE);
         
         if ($uu_away != "") {
@@ -286,18 +286,18 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         }
         if (isset($onlinezeit) && $onlinezeit) {
             echo "<TR><TD>" . $f1 . $t['user_zeige33'] . $f2
-                . "</TD><TD VALIGN=BOTTOM>" . $f3
+                . "</TD><TD style=\"vertical-align:bottom;\">" . $f3
                 . gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['sonst27'] . $f4
                 . "</TD></TR>\n";
         } else {
             echo "<TR><TD>" . $f1 . $t['user_zeige9'] . $f2
-                . "</TD><TD VALIGN=TOP>" . $f1 . "$letzter_login" . $f2
+                . "</TD><TD style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
                 . "</TD></TR>\n";
         }
         
         if ($erster_login && $erster_login != "01.01.1970 01:00") {
             echo "<TR><TD>" . $f1 . $t['user_zeige32'] . $f2
-                . "</TD><TD VALIGN=TOP>" . $f1 . "$erster_login" . $f2
+                . "</TD><TD style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
                 . "</TD></TR>\n";
         }
         
@@ -310,7 +310,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 $uu_punkte_jahr = 0;
             }
             echo "<TR><TD>" . $f1 . $t['user_zeige38'] . $f2
-                . "</TD><TD VALIGN=TOP>" . $f3 . $uu_punkte_gesamt . "/"
+                . "</TD><TD style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
                 . $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
                 . str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2),
                     str_replace("%monat%",
@@ -370,7 +370,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             . "<TD BGCOLOR=\"#" . $uu_farbe . "\">&nbsp;</TD></TR>\n";
         
         if ($uu_kommentar && $admin) {
-            echo "<TR><TD VALIGN=TOP>" . $f1 . $t['user_zeige49'] . $f2
+            echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2
                 . "</TD><TD>" . $f3;
             echo htmlspecialchars($uu_kommentar) . "<br>\n";
             echo $f4 . "</TD></TR>\n";
@@ -378,11 +378,11 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         
         if ($admin) {
             if (is_array($uu_profil_historie)) {
-                echo "<TR><TD VALIGN=TOP>";
+                echo "<TR><TD style=\"vertical-align:top;\">";
                 
                 while (list($datum, $nick) = each($uu_profil_historie)) {
                     if (!isset($erstes)) {
-                        echo "<TR><TD VALIGN=TOP>" . $f1 . $t['sonst44'] . $f2
+                        echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
                             . "</TD><TD>" . $f3;
                         $erstes = TRUE;
                     } else {
@@ -397,9 +397,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             
             // IPs ausgeben
             if (isset($o_row) && $o_row->o_ip) {
-                echo "<TR><TD VALIGN=TOP>" . $f1 . $t['user_zeige4'] . $f2
+                echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
                     . "</TD><TD>" . $f3 . $host_name . $f4 . "</TD></TR>\n"
-                    . "<TR><TD VALIGN=TOP>" . $f1 . "IP" . $f2 . "</TD><TD>"
+                    . "<TR><TD style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</TD><TD>"
                     . $f3 . $o_row->o_ip . " " . $t['sonst28'] . $f4
                     . "</TD></TR>\n";
                 
@@ -412,16 +412,16 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                     }
                 }
                 
-                echo "<TR><TD VALIGN=TOP>" . $f1 . $t['user_zeige5'] . $f2
+                echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
                     . "</TD><TD>" . $f3 . htmlspecialchars($o_row->o_browser)
-                    . $f4 . "</TD></TR>\n" . "<TR><TD VALIGN=TOP>" . $f1
+                    . $f4 . "</TD></TR>\n" . "<TR><TD style=\"vertical-align:top;\">" . $f1
                     . $t['user_zeige22'] . $f2 . "</TD><TD>" . $f3
                     . "<a href=\"" . $serverprotokoll . "://" . $o_row->o_vhost
                     . "\" target=_new>$serverprotokoll://" . $o_row->o_vhost
                     . "</a>" . $f4 . "</TD></TR>\n";
                 
                 if ($o_http_stuff) {
-                    echo "<TR><TD VALIGN=TOP>" . $f1 . $t['user_zeige31'] . $f2
+                    echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2
                         . "</TD><TD>" . $f3;
                     if (is_array($http_stuff)) {
                         while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each(
@@ -441,7 +441,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             } elseif ($zeigeip == 1 && is_array($ip_historie)) {
                 while (list($datum, $ip_adr) = each($ip_historie)) {
                     if (!$erstes) {
-                        echo "<TR><TD VALIGN=TOP>" . $f1 . $t['sonst29'] . $f2
+                        echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
                             . "</TD><TD>" . $f3;
                         $erstes = TRUE;
                     } else {
@@ -463,7 +463,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         if ($u_level != "G") {
             $mlnk[1] = "schreibe.php?http_host=$http_host&id=$id&text=/ignore%20$uu_nick";
             $mlnk[2] = "schreibe.php?http_host=$http_host&id=$id&text=/einlad%20$uu_nick";
-            echo "<TR><TD VALIGN=TOP><b>" . $f1 . $t['user_zeige24'] . $f2
+            echo "<TR><TD style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
                 . "</b></TD><TD>" . $f1;
             if (!$beichtstuhl)
                 echo "[<A HREF=\"$mlnk[1]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<br>\n";
@@ -523,7 +523,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
             echo "<TR><TD>";
             echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
-            echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
+            echo "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n";
             ?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php

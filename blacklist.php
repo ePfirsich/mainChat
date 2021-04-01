@@ -59,7 +59,7 @@ if ($admin && $u_id && $communityfeatures) {
 		. "| <A HREF=\"blacklist.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Eintrag hinzufügen</A>\n"
 		. "| <A HREF=\"sperre.php?http_host=$http_host&id=$id\">Zugangssperren</A>\n";
 	
-	show_box2($box, $text, "100%");
+	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 	<?php

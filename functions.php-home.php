@@ -22,13 +22,13 @@ function edit_home(
     
     echo "<TABLE BORDER=\"0\" HEIGHT=\"100%\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_zeile2\" CELLPADDING=5 CELLSPACING=0>"
         . "<TR><TD COLSPAN=\"3\" BGCOLOR=\"$farbe_tabelle_zeile1\">$f1<b>Meine Homepage:</b>"
-        . $f2 . "</TD></TR>\n" . "<TR><TD VALIGN=\"TOP\" width=\"60%\">"
+        . $f2 . "</TD></TR>\n" . "<TR><TD style=\"vertical-align:top;\" width=\"60%\">"
         . home_info($u_id, $u_nick, $farben, $aktion)
         . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_profil($u_id, $u_nick, $home, $farben, $aktion)
         . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
         . home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
-        . "</TD>\n<TD><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=1><br></TD><TD VALIGN=\"TOP\">"
+        . "</TD>\n<TD><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=1><br></TD><TD style=\"vertical-align:top;\">"
         . home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion,
             $bilder)
         . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
@@ -43,9 +43,9 @@ function edit_home(
         . "</TABLE><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>"
         . "<TABLE BORDER=\"0\" WIDTH=\"100%\"  BGCOLOR=\"$farbe_tabelle_zeile2\" CELLPADDING=5 CELLSPACING=0>"
         . "<TR><TD BGCOLOR=\"$farbe_tabelle_zeile1\" COLSPAN=\"2\">$f1<b>Homepage&nbsp;Einstellungen:</b>$f2</TD></TR>\n"
-        . "<TR><TD VALIGN=\"TOP\">\n"
+        . "<TR><TD style=\"vertical-align:top;\">\n"
         . home_einstellungen($u_id, $u_nick, $home, $einstellungen)
-        . "</TD><TD VALIGN=\"TOP\">"
+        . "</TD><TD style=\"vertical-align:top;\">"
         . home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
         . "</TD></TR></TABLE>\n"
         . "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
@@ -75,14 +75,14 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion)
         
         // Profil ausgeben
         if ($ui_einstellungen["Straße"] && $home['ui_strasse'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\" WIDTH=20%>" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\" WIDTH=20%>" . $f1
                 . "Straße:" . $f2 . "</TD><TD colspan=3 WIDTH=80%>"
                 . htmlspecialchars($home['ui_strasse'])
                 . "</TD></TR>\n";
         
         if (($ui_einstellungen["Ort"] || $ui_einstellungen["PLZ"])
             && ($home['ui_plz'] || $home['ui_ort'])) {
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "Ort:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Ort:"
                 . $f2 . "</TD><TD colspan=3>";
             if ($ui_einstellungen["PLZ"])
                 $text .= htmlspecialchars($home['ui_plz'])
@@ -93,67 +93,67 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion)
         }
         
         if ($ui_einstellungen["Land"] && $home['ui_land'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "Land:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Land:"
                 . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_land'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Tel"] && $home['ui_tel'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Telefon:" . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_tel'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Handy"] && $home['ui_handy'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "Handy:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Handy:"
                 . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_handy'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Fax"] && $home['ui_fax'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Telefax" . $f2 . ":</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_fax'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["ICQ"] && $home['ui_icq'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "ICQ:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "ICQ:"
                 . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_icq'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Geburtsdatum"] && $home['ui_geburt'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Geburtsdatum:" . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_geburt'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Geschlecht"] && $home['ui_geschlecht'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Geschlecht:" . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_geschlecht'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Beziehung"] && $home['ui_beziehung'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Beziehung:" . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_beziehung'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Typ"] && $home['ui_typ'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "Typ:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Typ:"
                 . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_typ'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Beruf"] && $home['ui_beruf'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1 . "Beruf:"
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Beruf:"
                 . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_beruf'])
                 . "</TD></TR>\n";
         
         if ($ui_einstellungen["Hobbies"] && $home['ui_hobby'])
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . "Hobbies:" . $f2 . "</TD><TD colspan=3>"
                 . htmlspecialchars($home['ui_hobby'])
                 . "</TD></TR>\n";
@@ -233,25 +233,25 @@ function home_info($u_id, $u_nick, $farben, $aktion)
             $links_an = TRUE;
         }
         
-        $text = "<TR><TD valign=\"TOP\" align=\"right\" WIDTH=20%>" . $f1
+        $text = "<TR><TD style=\"vertical-align:top;\" align=\"right\" WIDTH=20%>" . $f1
             . "Nickname:" . $f2 . "</TD><TD colspan=3 WIDTH=\"80%\"><b>"
             . user($userdata['u_id'], $userdata, $links_an, FALSE)
             . "</b></TD></TR>\n";
         
         // Onlinezeit oder letzter Login		
         if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><b>"
+            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 style=\"vertical-align:top;\"><b>"
                 . $f1
                 . str_replace("%online%", gmdate("H:i:s", $online_zeit),
                     $t['chat_msg92']) . $f2 . "</b></TD></TR>\n";
         } else {
-            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 valign=\"TOP\"><b>"
+            $text .= "<TR><TD>&nbsp;</TD><TD colspan=3 style=\"vertical-align:top;\"><b>"
                 . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94'])
                 . $f2 . "</b></TD></TR>\n";
         }
         
         // Level
-        $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+        $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
             . $t['user_zeige8'] . ":" . $f2 . "</TD>" . "<TD colspan=3><b>"
             . $f1 . $level[$userdata['u_level']] . $f2 . "</b></TD></TR>\n";
         
@@ -263,7 +263,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
             if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
                 $userdata['u_punkte_jahr'] = 0;
             }
-            $text .= "<TR><TD valign=\"TOP\" align=\"right\">" . $f1
+            $text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
                 . $t['user_zeige38'] . ":" . $f2 . "</TD>"
                 . "<TD colspan=3><b>" . $f1 . $userdata['u_punkte_gesamt']
                 . "/" . $userdata['u_punkte_jahr'] . "/"
@@ -345,14 +345,14 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
     $text = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text);
     
     if ($aktion == "aendern") {
-        $text = "<TR><TD COLSPAN=4 VALIGN=\"TOP\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
+        $text = "<TR><TD COLSPAN=4 style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
             . ($eingabe_breite2) . " ROWS=20 NAME=\"home[$feld]\">"
             . $home[$feld] . "</TEXTAREA></TD></TR>"
-            . "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
+            . "<TR><TD style=\"vertical-align:top;\" ALIGN=\"RIGHT\">"
             . home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
             . "</TD></TR>";
     } else {
-        $text = "<TR><TD COLSPAN=4 VALIGN=\"TOP\">" . $text . "</TD></TR>";
+        $text = "<TR><TD COLSPAN=4 style=\"vertical-align:top;\">" . $text . "</TD></TR>";
     }
     
     if (is_array($farben) && strlen($farben['ui_text']) > 7) {
@@ -392,27 +392,27 @@ function home_bild(
         
         if (!isset($info))
             $info = "";
-        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\" ><IMG SRC=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" ALT=\"$u_nick\"><br>"
+        $text = "<TD ALIGN=\"CENTER\" style=\"vertical-align:top;\" ><IMG SRC=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" ALT=\"$u_nick\"><br>"
             . $info . "</TD>";
         
         if ($aktion == "aendern") {
-            $text .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"RIGHT\">" . $f3
+            $text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
                 . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
                 . $f4 . "<br>"
                 . home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
                 . "</TD>\n";
         } elseif ($aktion == "aendern_ohne_farbe") {
-            $text .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"RIGHT\">" . $f3
+            $text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
                 . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
                 . $f4 . "</TD>\n";
         }
         
     } elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
         
-        $text = "<TD ALIGN=\"CENTER\" VALIGN=\"TOP\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
+        $text = "<TD ALIGN=\"CENTER\" style=\"vertical-align:top;\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
             . "<INPUT TYPE=\"FILE\" NAME=\"$feld\" SIZE=\""
             . ($eingabe_breite / 8) . "\"></TD>";
-        $text .= "<TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">&nbsp;<br>"
+        $text .= "<TD style=\"vertical-align:top;\" ALIGN=\"RIGHT\">&nbsp;<br>"
             . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"GO\"><br></TD>\n";
         
     } else {
@@ -460,7 +460,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     $fenster = str_replace("Ü", "", $fenster);
     $fenster = str_replace("ß", "", $fenster);
     
-    $text = "<TD VALIGN=\"TOP\">" . $f1;
+    $text = "<TD style=\"vertical-align:top;\">" . $f1;
     if ($id) {
         $url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
         $text .= "<A HREF=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
@@ -479,7 +479,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     
     $text .= $f2 . "</TD>";
     if ($aktion == "aendern") {
-        $text .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"RIGHT\">"
+        $text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">"
             . home_farbe($u_id, $u_nick, $home, "aktionen", $farben['aktionen'])
             . "</TD>";
     }
@@ -783,7 +783,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         
         echo $body_tag
             . "<TABLE BORDER=\"0\" HEIGHT=\"100%\" WIDTH=\"100%\" CELLPADDING=0 CELLSPACING=0>"
-            . "<TR><TD VALIGN=\"TOP\" width=\"60%\">"
+            . "<TR><TD style=\"vertical-align:top;\" width=\"60%\">"
             . home_info($u_id, $row->u_nick, $farben, $aktion)
             . home_profil($u_id, $row->u_nick, $home, $farben, $aktion);
         
@@ -793,7 +793,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
         $txt = home_text($u_id, $row->u_nick, $home, "ui_text", $farben,
             $aktion);
         echo $txt;
-        echo "</TD>\n<TD VALIGN=\"TOP\" width=\"40%\">"
+        echo "</TD>\n<TD style=\"vertical-align:top;\" width=\"40%\">"
             . home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben,
                 $aktion, $bilder)
             . home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben,

@@ -61,7 +61,7 @@ if ($u_id && $communityfeatures) {
 		$text .= "| <A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</A>\n";
 	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#freunde\">Hilfe</A>\n";
 	
-	show_box2($box, $text, "100%");
+	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 	<?php

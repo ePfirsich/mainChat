@@ -135,7 +135,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				. "| <A HREF=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</A>\n"
 				. "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
 			
-			show_box2($box, $text, "100%");
+			show_box2($box, $text);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {

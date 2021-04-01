@@ -74,7 +74,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		. "<A HREF=\"mail.php?http_host=$http_host&id=$id&aktion=mailboxzu\">Mailbox zumachen</A>\n|\n"
 		. "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#mail\">Hilfe</A>\n";
 	
-	show_box2($box, $text, "100%");
+	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 	<?php

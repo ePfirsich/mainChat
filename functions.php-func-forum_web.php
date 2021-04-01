@@ -211,9 +211,9 @@ function forum_liste()
 				echo htmlspecialchars($thema['fo_name'])
 					. "<a name=\"" . $thema['fo_id'] . "\"></a></DIV></td>";
 				if ($forum_admin) {
-					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[conf_delete_forum]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
-					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_edit&fo_id=$thema[fo_id]\">$chat_grafik[forum_editieren]</a>&nbsp;</td>";
-					echo "<td style=\"color:$farbe_text;\" width=\"90\" align=\"right\" valign=\"middle\">&nbsp;<a href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&aktion=thema_neu\">$chat_grafik[forum_neuesthema]</a>&nbsp;</td>";
+					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[conf_delete_forum]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
+					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_edit&fo_id=$thema[fo_id]\">$chat_grafik[forum_editieren]</a>&nbsp;</td>";
+					echo "<td style=\"color:$farbe_text;\" width=\"90\" align=\"right\" style=\"vertical-align:middle;\">&nbsp;<a href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&aktion=thema_neu\">$chat_grafik[forum_neuesthema]</a>&nbsp;</td>";
 					echo "<td width=\"17\"><a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_up\">"
 						. $chat_grafik['forum_pfeil_oben']
 						. "</a><br><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"><br><a href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_down\">"
@@ -257,8 +257,8 @@ function forum_liste()
 						. "</a></b>$f2<br>" . $f3 . " "
 						. htmlspecialchars($thema['th_desc'])
 						. "$f4</td>";
-					echo "<td width=\"85\" align=\"center\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=thema_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[conf_delete_thema]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
-					echo "<td width=\"85\" align=\"center\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=thema_edit\">$chat_grafik[forum_themabearbeiten]</a>&nbsp;</td>";
+					echo "<td width=\"85\" align=\"center\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=thema_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[conf_delete_thema]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
+					echo "<td width=\"85\" align=\"center\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=thema_edit\">$chat_grafik[forum_themabearbeiten]</a>&nbsp;</td>";
 					echo "<td width=\"20\" align=\"center\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_up\">"
 						. $chat_grafik['forum_pfeil_oben']
 						. "</a><br><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"><br><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_down\">"
@@ -857,7 +857,7 @@ function verbuche_punkte($u_id)
 	if ($punktefeatures) {
 		echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
 		echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
-		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" valign=\"bottom\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">"
+		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">"
 			. $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id)
 			. "</DIV></TD></tr></table></td></tr></table><br>\n";
 	}
@@ -902,15 +902,15 @@ function navigation_posting(
 	
 	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
 		. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"
-		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" valign=\"bottom\" align=\"center\">\n";
+		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\" align=\"center\">\n";
 	
 	if ($last)
-		echo "<td width=\"50\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\">"
+		echo "<td width=\"50\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\">"
 			. $chat_grafik['forum_pfeil_links'] . "</a></td>\n";
 	else echo "<td width=\"50\" >&nbsp;</td>\n";
 	
 	if ($next)
-		echo "<td width=\"50\" valign=\"middle\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\">"
+		echo "<td width=\"50\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\">"
 			. $chat_grafik['forum_pfeil_rechts'] . "</a></td>\n";
 	else echo "<td width=\"50\" >&nbsp;</td>\n";
 	
@@ -968,7 +968,7 @@ function navigation_posting(
 	if ($forum_admin) {
 		echo "</tr>";
 		
-		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" valign=\"bottom\" align=\"center\">";
+		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\" align=\"center\">";
 		echo "<td width=\"50\" >&nbsp;</td>\n";
 		echo "<td width=\"50\" >&nbsp;</td>\n";
 		echo "<td width=\"170\" >&nbsp;</td>\n";

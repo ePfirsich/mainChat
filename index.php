@@ -2400,7 +2400,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					show_box2(
 						str_replace("%chat%", $chat,
-							$ft0 . $t['default5'] . $ft1), $text, "100%",
+							$ft0 . $t['default5'] . $ft1), $text,
 						false);
 					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
 				}

@@ -87,7 +87,7 @@ if (!$c) {
 }
 
 if ($fehler) {
-    show_box2($t['statistik1'], $msg, "100%");
+    show_box2($t['statistik1'], $msg);
     return;
 }
 
@@ -96,7 +96,7 @@ $msg = "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=m
     . $t['statistik3'] . "</a>]\n"
     . "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=stunde\">"
     . $t['statistik2'] . "</a>]";
-show_box2($t['statistik1'], $msg, "100%");
+show_box2($t['statistik1'], $msg);
 ?>
 <img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 <?php
@@ -208,7 +208,7 @@ switch ($type) {
             }
         }
         
-        show_box2($t['statistik3'], $msg, "100%");
+        show_box2($t['statistik3'], $msg);
         break;
     
     case "stunde":
@@ -237,7 +237,7 @@ switch ($type) {
                 $STAT_TXT["0103"]);
         }
         
-        show_box2($t['statistik2'], $msg, "100%");
+        show_box2($t['statistik2'], $msg);
         break;
 } // switch
 

@@ -10,15 +10,15 @@ function zeige_header_anfang($title, $hintergrundfarbe, $hintergrundgrafik, $lin
 	<title><?php echo $title; ?></title>
 	<meta charset="utf-8">
 	<?php echo $metatag; ?>
+	<link rel="stylesheet" href="<?php echo $stylesheet; ?>" type="text/css">
 	<style type="text/css">
-	<?php echo $stylesheet; ?>
 	body {
 		background-color:<?php echo $hintergrundfarbe; ?>;
 	<?php if(strlen($hintergrundgrafik) > 0) { ?>
 		background-image:<?php echo $hintergrundgrafik; ?>;
 	<?php } ?>
 	}
-	a, a:link {
+	a:link {
 		color:<?php echo $linkfarbe; ?>;
 	}
 	a:visited, a:active {

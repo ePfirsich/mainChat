@@ -1019,7 +1019,7 @@ function loesche_posting()
     // Punkte abziehen
     echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
         . "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"
-        . "<tr bgcolor=\"$farbe_tabelle_kopf2\" valign=\"bottom\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">";
+        . "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">";
     reset($arr_delete);
     while (list($k, $v) = @each($arr_delete)) {
         $sql = "select po_u_id from posting where po_id = " . intval($v);

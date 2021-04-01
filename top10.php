@@ -50,7 +50,7 @@ $box = $ft0 . "Menü Top10" . $ft1;
 $text = "<A HREF=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">Top 10</A>\n";
 $text .= "| <A HREF=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">Top 100</A>\n";
 $text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">Hilfe</A>\n";
-show_box2($box, $text, "100%");
+show_box2($box, $text);
 ?>
 <img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 <?php

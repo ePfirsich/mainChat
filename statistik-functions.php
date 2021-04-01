@@ -271,7 +271,7 @@ function statsPrintGraph($title, $text_l, $text_b)
             if ($v > 0) {
                 $s = intval($v * $h);
                 
-                $msg .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"CENTER\">";
+                $msg .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"CENTER\">";
                 $msg .= $STAT_BAR_FONTBEG0;
                 $msg .= $v;
                 $msg .= "<br>";
@@ -290,7 +290,7 @@ function statsPrintGraph($title, $text_l, $text_b)
                 $msg .= $STAT_BAR_FONTEND0;
                 $msg .= "</TD>\n";
             } else {
-                $msg .= "<TD VALIGN=\"BOTTOM\" ALIGN=\"CENTER\">";
+                $msg .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"CENTER\">";
                 $msg .= $STAT_BAR_FONTBEG0;
                 $msg .= $v;
                 $msg .= $STAT_BAR_FONTEND0;

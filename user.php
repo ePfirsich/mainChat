@@ -152,7 +152,7 @@ if (strlen($u_id) != 0) {
 		$text .= "</ul>";
 		
 		if ($aktion != "zeigalle" || $u_level != "S") {
-			show_box2($box, $text, "100%");
+			show_box2($box, $text);
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php
@@ -187,7 +187,7 @@ if (strlen($u_id) != 0) {
 		$box = $ft0 . $t['sonst3'] . " " . $trace . $ft1;
 		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf><tr><td>"
 			. "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-			. "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
+			. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
 			. "</td></tr></table>\n<PRE>" . $f1;
 		system("$traceroute $trace", $ergebnis);
 		echo $f2 . "</PRE>\n";
@@ -272,7 +272,7 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=\"2\" style=\"text-align: right;\">" . $f1
 					. "<input type=\"submit\" name=\"los\" VALUE=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
-				show_box2($box, $text, "100%");
+				show_box2($box, $text);
 				?>
 				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 				<?php
@@ -292,7 +292,7 @@ if (strlen($u_id) != 0) {
 					. " <A href=\"user.php?http_host=$http_host&id=$id&aktion=userloeschen2\">["
 					. $t['sonst50'] . "]</a>" . $f2 . "</td></tr>\n"
 					. "</table>\n";
-				show_box2($box, $text, "100%");
+				show_box2($box, $text);
 				?>
 				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 				<?php
@@ -318,7 +318,7 @@ if (strlen($u_id) != 0) {
 				$text = "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
 					. "<tr><TD colspan=2>" . $f1 . $ok . $f2 . "</td></tr>\n"
 					. "</table>\n";
-				show_box2($box, $text, "100%");
+				show_box2($box, $text);
 				?>
 				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 				<?php
@@ -464,7 +464,7 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
-				show_box2($box, $text, "100%");
+				show_box2($box, $text);
 				?>
 				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 				<?php
@@ -729,7 +729,7 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
-				show_box2($box, $text, "100%");
+				show_box2($box, $text);
 			}
 			
 			break;
@@ -911,7 +911,7 @@ if (strlen($u_id) != 0) {
 					<table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
 					<?php
 						echo "<tr><td><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>"
-						. "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>"
+						. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>"
 						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n"
 						. "<TABLE CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_koerper\">"
 						. "<tr><td><b>" . $larr[0]['r_name'] . "</b><br>"
@@ -975,7 +975,7 @@ if (strlen($u_id) != 0) {
 				<tr>
 				<td>
 				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
-				<span style="font-size: small; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
+				<span style="font-size: smaller; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
 				<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>
 				<table style="width:100%; background-color:<?php echo $farbe_tabelle_koerper; ?>">
 				<tr><td>

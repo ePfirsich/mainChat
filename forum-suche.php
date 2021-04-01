@@ -69,7 +69,7 @@ function such_bereich()
         . "\" SIZE=$eingabe_breite>" . $f2 . "</TD></TR>\n";
     
     // Suche in Board/Thema
-    echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" valign=\"top\">$t[suche2]</TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" style=\"vertical-align:top;\">$t[suche2]</TD><TD>"
         . $f1 . "<SELECT NAME=\"suche[thema]\" SIZE=\"1\" STYLE=\"width: "
         . $select_breite . "px;\">";
     
@@ -104,7 +104,7 @@ function such_bereich()
     @mysqli_free_result($query);
     
     // Sucheinstelung UND/ODER
-    echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" valign=\"top\">$t[suche3]</TD><TD>"
+    echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" style=\"vertical-align:top;\">$t[suche3]</TD><TD>"
         . $f1 . "<SELECT NAME=\"suche[modus]\" SIZE=\"1\" STYLE=\"width: "
         . $select_breite . "px;\">";
     echo "<OPTION ";
@@ -524,7 +524,7 @@ if (strlen($u_id) > 0) {
     $box = $ft0 . "$chat Menü" . $ft1;
     $text = "<A HREF=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
     
-    show_box2($box, $text, "100%");
+    show_box2($box, $text);
     ?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 	<?php
