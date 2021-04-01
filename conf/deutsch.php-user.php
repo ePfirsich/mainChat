@@ -27,8 +27,7 @@ $t['sonst8'] = "flüstert an";
 $t['sonst9'] = "<b>Den User gibt's nicht!</b>";
 $t['sonst10'] = "<b>Der User '%uu_nick%' ist nicht mehr online!</b>";
 $t['sonst11'] = "<b>Der User ist nicht mehr in diesem Raum!</b>";
-$t['sonst12'] = "Bitte auf den Usernamen klicken, um eine private "
-    . "Nachricht zu schreiben oder weitere Informationen zu erhalten";
+$t['sonst12'] = "Bitte auf den Usernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
 $t['sonst14'] = "Anderen Raum zur Ansicht zeigen";
 $t['sonst15'] = "Sie sind ausgeloggt";

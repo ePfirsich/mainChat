@@ -72,11 +72,11 @@ if ($u_id && $communityfeatures) {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1
-		. "<CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</CENTER>"
-		. $f2 . "<br>\n";
+	?>
+	<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t[sonst1]; ?></a>]</div>
+	<br>
+	<?php
 }
-
 ?>
 </body>
 </html>

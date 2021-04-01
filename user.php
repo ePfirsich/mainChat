@@ -405,12 +405,12 @@ if (strlen($u_id) != 0) {
 				
 				// Suchergebnis mit Formular ausgeben
 				$box = $ft0 . $t['sonst16'] . $ft1;
-				$text = "<FORM name=\"suche\" ACTION=\"user.php\" METHOD=POST>\n"
-					. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
-					. "<input type=\"hidden\" name=\"id\" VALUE=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" VALUE=\"$http_host\">\n"
-					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"suche\">\n"
-					. "<tr><TD colspan=2>" . $f1 . $t['sonst6'] . $f2
+				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
+					. "<TABLE>"
+					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
+					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "</td></tr>" . "<tr><TD colspan=2>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" VALUE=\"$suchtext\" SIZE=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
@@ -419,23 +419,23 @@ if (strlen($u_id) != 0) {
 					
 					// Suchformular nach IP-Adressen
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
-						. $f2 . "</td></tr>" . "<tr><TD ALIGN=RIGHT>" . $f1
+						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
 						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
-					$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst21']
+					$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst21']
 						. "</td>\n" . "<td>&nbsp;<SELECT name=\"f[level]\">\n"
-						. "<OPTION VALUE=\"\">$t[sonst22]\n";
+						. "<option value=\"\">$t[sonst22]\n";
 					
 					reset($level);
 					while (list($levelname, $levelbezeichnung) = each($level)) {
 						if ($levelname != "B") {
 							if ($f['level'] == $levelname) {
-								$text .= "<OPTION SELECTED VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option selected VALUE=\"$levelname\">$levelbezeichnung\n";
 							} else {
-								$text .= "<OPTION VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
 							}
 						}
 					}
@@ -445,25 +445,25 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Suche nach Neu & erstem Login
-				$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst32'] . $f2
+				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" VALUE=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
-					. "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst33'] . $f2
+					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" VALUE=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
-				$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst38']
+				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38']
 					. "</td>\n"
 					. "<td>&nbsp;<SELECT name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
-					$text .= "<OPTION VALUE=\"N\">$t[sonst22]\n"
-						. "<OPTION SELECTED VALUE=\"J\">$t[sonst39]\n";
+					$text .= "<option value=\"N\">$t[sonst22]\n"
+						. "<option selected VALUE=\"J\">$t[sonst39]\n";
 				} else {
-					$text .= "<OPTION SELECTED VALUE=\"N\">$t[sonst22]\n"
-						. "<OPTION VALUE=\"J\">$t[sonst39]\n";
+					$text .= "<option selected VALUE=\"N\">$t[sonst22]\n"
+						. "<option value=\"J\">$t[sonst39]\n";
 				}
 				$text .= "</SELECT>" . $f2 . "</td></tr>\n";
 				
@@ -651,11 +651,8 @@ if (strlen($u_id) != 0) {
 				
 				// Suchformular ausgeben
 				$box = $ft0 . $t['sonst17'] . $ft1;
-				$text = "<FORM name=\"suche\" ACTION=\"user.php\" METHOD=POST>\n"
-					. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
-					. "<input type=\"hidden\" name=\"id\" VALUE=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" VALUE=\"$http_host\">\n"
-					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"suche\">\n";
+				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
+					. "<table>";
 				if ($admin) {
 					$text .= "<tr><TD colspan=2>" . $f1 . $t['sonst25'] . $f2
 						. "</td></tr>";
@@ -665,6 +662,9 @@ if (strlen($u_id) != 0) {
 				}
 				
 				$text .= "<tr><TD colspan=2>" . $f1
+				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" VALUE=\"$suchtext\" SIZE=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
@@ -677,23 +677,23 @@ if (strlen($u_id) != 0) {
 					
 					// Suchformular nach IP-Adressen
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
-						. $f2 . "</td></tr>" . "<tr><TD ALIGN=RIGHT>" . $f1
+						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
 						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
-					$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst21']
+					$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst21']
 						. "</td>\n" . "<td>&nbsp;<SELECT name=\"f[level]\">\n"
-						. "<OPTION VALUE=\"\">$t[sonst22]\n";
+						. "<option value=\"\">$t[sonst22]\n";
 					
 					reset($level);
 					while (list($levelname, $levelbezeichnung) = each($level)) {
 						if ($levelname != "B") {
 							if ($f['level'] == $levelname) {
-								$text .= "<OPTION SELECTED VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option selected VALUE=\"$levelname\">$levelbezeichnung\n";
 							} else {
-								$text .= "<OPTION VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
 							}
 						}
 					}
@@ -710,27 +710,27 @@ if (strlen($u_id) != 0) {
 					$f['u_chathomepage'] = "";
 				
 				// Suche nach Neu & erstem login
-				$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst32'] . $f2
+				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" VALUE=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
-					. "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst33'] . $f2
+					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" VALUE=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
-				$text .= "<tr><TD ALIGN=RIGHT>" . $f1 . $t['sonst38']
+				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38'] . $f2
 					. "</td>\n"
-					. "<td>&nbsp;<SELECT name=\"f[u_chathomepage]\">\n";
+					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
-					$text .= "<OPTION VALUE=\"N\">$t[sonst22]\n"
-						. "<OPTION SELECTED VALUE=\"J\">$t[sonst39]\n";
+					$text .= "<option value=\"N\">$t[sonst22]\n"
+						. "<option selected VALUE=\"J\">$t[sonst39]\n";
 				} else {
-					$text .= "<OPTION SELECTED VALUE=\"N\">$t[sonst22]\n"
-						. "<OPTION VALUE=\"J\">$t[sonst39]\n";
+					$text .= "<option selected VALUE=\"N\">$t[sonst22]\n"
+						. "<option value=\"J\">$t[sonst39]\n";
 				}
-				$text .= "</SELECT>" . $f2 . "</td></tr>\n";
+				$text .= "</select></td></tr>\n";
 				
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
@@ -948,9 +948,11 @@ if (strlen($u_id) != 0) {
 					user_liste($larr, 0);
 				}
 				
-				if ($aktion != "chatuserliste")
-					echo "<P ALIGN=\"CENTER\">" . $f1 . $t['sonst12'] . $f2
-						. "</P>\n";
+				if ($aktion != "chatuserliste") {
+					?>
+					<p style="text-align:center;"><?php echo $f1 . $t['sonst12'] . $f2; ?></p>
+					<?php
+				}
 				echo "</td></tr></table></td></tr></table>\n";
 				
 				if ($aktion == "chatuserliste") {
@@ -980,7 +982,7 @@ if (strlen($u_id) != 0) {
 				<tr>
 				<td>
 				<a href="/" onClick="window.close(); return(false);"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; text-align: right; border:0px;"></a>
-				<span style="font-size: small; color:<?php echo $farbe_text; ?>; font-weight:bold;">$box</span>
+				<span style="font-size: small; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
 				<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>
 				<table style="width:100%; background-color:<?php echo $farbe_tabelle_koerper; ?>">
 				<tr><td>

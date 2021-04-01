@@ -49,10 +49,6 @@ $chat="%chatname%";                               // Name des Chats
 $body_titel=$chat;                              // Titel in den Seitenköpfen
 
 
-// Support für HEAP-Tabellen für chat und online (ab mysql 3.23.40 verwenden)
-$heap_tabellen=1;			 // 1=ja/0=nein
-
-
 // Dynamische Verteilung auf mehrere chat-Server ein/ausschalten
 $chatserver_dynamisch=0;		// 1=ja/0=nein
 $chatserver_mysqlhost="adressbus.main.de";
@@ -70,14 +66,14 @@ $chat_offline_kunde_txt="<P ALIGN=CENTER><b>Der $chat ist derzeit offline.</b></
 // Chat auf eine Maximalanzahl von Usern nach Level einschränken
 // Für Admins gilt C/S/M, für User U und für Gäste G
 // Kein Limit = 0
-$chat_max['C']=0;  
+$chat_max['C']=0;
 $chat_max['S']=0;
 $chat_max['G']=200;
 $chat_max['U']=200;
-$chat_max['M']=0;  
-$chat_max['zusatztext']="<P><b>Bitte benutzen Sie stattdessen ".
-"<A HREF=\"http://www.mainchat.de/\" TARGET=_new>http://www.mainchat.de/</A> oder ".
-" <A HREF=\"http://chat.mainchat.de/\" TARGET=_new>http://chat.mainchat.de/</A>.</b></P>";
+$chat_max['M']=0;
+$chat_max['zusatztext']="<p><b>Bitte benutzen Sie stattdessen ".
+"<a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a> oder ".
+" <a href=\"http://chat.mainchat.de/\" target=\"_blank\">http://chat.mainchat.de/</a>.</b></p>";
 
 // WebChat-Statistiken
 $webchatraumausgabe=1;			// Ausgabe mit Raum für Webchat 1=ja/0=nein
@@ -92,7 +88,7 @@ $webchatprivatraum="privat";
 // auf Ende zu klicken oder den Browser beendet. Der unterste Frame
 // wird 3x so oft neu geladen wie timeout dauert
 // Optimal sind 90 Sekunden
-$timeout=90;					
+$timeout=90;
 
 
 // Voreinstellung für Backup-Algorithmus
@@ -148,15 +144,12 @@ $max_user_liste=200;
 $layout_kopf="%layoutkopf%";				// Wird auf Indexseite oben eingefügt
 $layout_fuss="%layoutfuss%";				// Wird auf Indexseite an das Ende eingefügt
 
-$layout_include=0;				// 1= Datei wird mit include eingefügt (nur lokale Dateien)
-						// 0= Datei wird mit readfile eingefügt (auch externe Dateien)
-
 // Alle Pfade in den Layoutdateien auf folgende URL umrechnen
 // Falls URL
 $layout_parse="";
 
 
-// Grundfarben 
+// Grundfarben
 
 // Tabellenfarben
 $farbe_tabelle_kopf="#007ABE";
@@ -586,7 +579,7 @@ $adminlisteabrufbar="0";
 
 // Aktiviert das Umfragemodul (Bei aktiviertem $communityfeatures)
 // In Entwicklung, Funktionsfähig in einer zukünftigen Version
-$umfragefeatures="0";
+$umfragefeatures="1";
 
 // Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
 $captcha_text=1;
@@ -606,7 +599,7 @@ $raum_austrittsnachricht_anzeige_deaktivieren = "0";
 $raum_austrittsnachricht_kurzform = "0";
 
 // Die Warnmeldung, das der sichere Modus aktiviert ist, wird nicht angezeigt
-$warnmeldung_sicherermodus_deaktivieren = "0";
+$warnmeldung_sicherermodus_deaktivieren = "";
 
 // Der Login von jedem User erfolgt automatisch im Sicheren Modus
 $loginimsicherenmodus = "1";
@@ -618,13 +611,13 @@ $single_room_verhalten = "0";
 $useronline_anzeige_deaktivieren = "0";
 
 // Deaktiviert rechts in der Userleiste das ansprechen per @ und >
-$userleiste_inaktiv_ansprechen = "0";  
+$userleiste_inaktiv_ansprechen = "0";
 
 // Deaktiviert rechts in der Userleiste das Mailsymbol
-$userleiste_inaktiv_mailsymbol = "0";  
+$userleiste_inaktiv_mailsymbol = "0";
 
 // Deaktiviert rechts in der Userleiste das anklicken des Nicknamens
-$userleiste_inaktiv_userfunktionen = "0";  
+$userleiste_inaktiv_userfunktionen = "0";
 
 // Deaktiviert die Anzeige "User im Raum" beim Betreten des Raumes
 $unterdruecke_user_im_raum_anzeige = "0";

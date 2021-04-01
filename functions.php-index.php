@@ -682,15 +682,11 @@ function betrete_forum($o_id, $u_id, $u_name, $u_level)
 
 function zeige_kopf() {
 	// Gibt den HTML-Kopf auf der Eingangsseite aus
-	global $layout_kopf, $layout_include, $layout_parse;
+	global $layout_kopf, $layout_parse;
 	
 	if (strlen($layout_kopf) > 0 && !$layout_parse) {
 		// Direkt einlesen
-		if ($layout_include == 1) {
-			include($layout_kopf);
-		} else {
-			readfile($layout_kopf);
-		}
+		include($layout_kopf);
 	} elseif (strlen($layout_kopf) > 0 && $layout_parse) {
 		// Lesen und ersetzen
 		$fd = fopen($layout_kopf, "r");
@@ -707,17 +703,13 @@ function zeige_kopf() {
 
 function zeige_fuss() {
 	// Gibt den HTML-Fuss auf der Eingangsseite aus
-	global $layout_fuss, $layout_include, $layout_parse;
+	global $layout_fuss, $layout_parse;
 	global $f3, $f4, $mainchat_version;
 	?>
 	<div align="center"><?php echo  $f3 . $mainchat_version; ?> - <a href="https://github.com/ePfirsich/OpenMainChat" target="_blank">PHP7 Anpassung durch ePfirsich.de</a><?php echo $f4; ?></div>
 	<?php
 	if (strlen($layout_fuss) > 0 && !$layout_parse) {
-		if ($layout_include == 1) {
-			include($layout_fuss);
-		} else {
-			readfile($layout_fuss);
-		}
+		include($layout_fuss);
 	} elseif (strlen($layout_fuss) > 0 && $layout_parse) {
 		// Lesen und ersetzen
 		$fd = fopen($layout_fuss, "r");
