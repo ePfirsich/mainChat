@@ -111,7 +111,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=User-ID, u_name ist Nickname, u_level ist Level, hash_id ist Session-ID
-	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist AGB gelesen Y/N
+	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
 	global $dbase, $mysqli_link, $http_host, $HTTP_SERVER_VARS, $punkte_gruppe, $communityfeatures, $logout_logging;
 	

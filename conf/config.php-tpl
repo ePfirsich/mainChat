@@ -407,10 +407,10 @@ $domaingesperrt[]="/@trash-mail.de/";
 
 
 
-// Spezielle AGB, überschreibt die AGBs in der Sprachdatei
+// Spezielle Nutzungsbestimmungen, überschreibt die Nutzungsbestimmungen in der Sprachdatei
 // $extra_agb="";
 
-// AGB-Bestätigung kann mit $keine_agb=1 abgeschaltet werden
+// Nutzungsbestimmungen-Bestätigung kann mit $keine_agb=1 abgeschaltet werden
 $keine_agb=0;
 
 // Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird

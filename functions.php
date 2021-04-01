@@ -899,7 +899,7 @@ function show_box($box, $text, $url = "", $width = "") {
 	<?php
 	if (strlen($url) > 0) {
 		?>
-		echo "<a href="<?php echo $url; ?>"><?php echo $box; ?><img src=/pics/button-x.gif style="width:15px; height:13px; text-align: right; border:0px;"></a>
+		<a href="<?php echo $url; ?>"><?php echo $box; ?><img src=/pics/button-x.gif style="width:15px; height:13px; float: right; border:0px;"></a>
 		<?php
 	}
 	?>
@@ -929,7 +929,7 @@ function show_box2($box, $text, $width = "", $button = TRUE) {
 	}
 	$extra = "";
 	if ($button) {
-		$extra = "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; text-align: right; border:0px;\"></a>\n";
+		$extra = "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
 	}
 	?>
 	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; <?php echo $width; ?>">

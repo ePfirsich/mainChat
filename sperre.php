@@ -337,9 +337,7 @@ if (strlen($u_id) > 0 && $admin) {
                         . $row->is_ip . $ft1;
                     echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
                     echo "<TR><TD>";
-                    echo "<A HREF=\"javascript:window.close();\">"
-                        . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
-                        . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
+                    echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
                     echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
                     echo "</TD></TR></TABLE>\n<PRE>" . $f1;
                     
@@ -431,9 +429,7 @@ if (strlen($u_id) > 0 && $admin) {
                     $box = $ft0 . $t['sonst18'] . $ft1;
                     echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
                     echo "<TR><TD>";
-                    echo "<A HREF=\"javascript:window.close();\">"
-                        . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
-                        . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
+                    echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
                     echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
                     ?>
 					<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
@@ -533,9 +529,7 @@ if (strlen($u_id) > 0 && $admin) {
             $box = $ft0 . $t['sonst14'] . $ft1;
             echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
             echo "<TR><TD>";
-            echo "<A HREF=\"javascript:window.close();\">"
-                . "<IMG SRC=\"pics/button-x.gif\" ALT=\"schließen\" "
-                . "WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></A>\n";
+            echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
             echo "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n";
             ?>
 			<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>

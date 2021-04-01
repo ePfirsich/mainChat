@@ -285,7 +285,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		$abweisen = true;
 	}
 	
-	// Gastsperre aktiv? Wird beim Login und beim AGB Login ausgewertet
+	// Gastsperre aktiv? Wird beim Login und beim Nutzungsbestimmungen Login ausgewertet
 	$temp_gast_sperre = false;
 	// Wenn die dbase = "mainchat" und in Sperre = "-GAST-"
 	// dann Gastlogin gesperrt
@@ -1456,7 +1456,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						
 						// Nutzungsbestimmungen ausgeben
 						
-						// ggf. AGBs aus Sprachdatei mit extra AGBs aus config.php überschreiben
+						// ggf. Nutzungsbestimmungen aus Sprachdatei mit extra Nutzungsbestimmungen aus config.php überschreiben
 						if ((isset($extra_agb)) and ($extra_agb <> "")
 							and ($extra_agb <> "standard"))
 							$t['agb'] = $extra_agb;
@@ -1556,7 +1556,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						exit;
 						
 					} elseif ($los == $t['login17']) {
-						// AGBs wurden bestätigt
+						// Nutzungsbestimmungen wurden bestätigt
 						$u_agb = "Y";
 					} else {
 						$u_agb = "";

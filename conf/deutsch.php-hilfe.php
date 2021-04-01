@@ -14,7 +14,7 @@ $t['menue5'] = "Chatiquette";
 $t['menue6'] = "Legende";
 $t['menue7'] = "Punkte/Community/SMS";
 $t['menue7b'] = "Punkte/Community";
-$t['menue8'] = "AGB";
+$t['menue8'] = "Nutzungsbestimmungen";
 $t['menue9'] = "Datenschutz";
 
 $t['hilfe0'] = "Übersicht über alle Befehle im Chat";
@@ -24,14 +24,14 @@ $t['hilfe3'] = "Hilfe zu den voreingestellten Sprüchen";
 $t['hilfe4'] = "Übersicht über alle voreingestellten Sprüche";
 $t['hilfe5'] = "<TH WIDTH=15%><DIV style=\"color:$farbe_text;\">Spruch</DIV></TH><TH WIDTH=10%><DIV style=\"color:$farbe_text;\">Typ</DIV></TH><TH WIDTH=75%><DIV style=\"color:$farbe_text;\">Text</DIV></TH>";
 $t['hilfe6'] = "$chat Übersicht";
-$t['hilfe7'] = "Bei Fragen oder Anregungen wenden Sie sich bitte an <A HREF=\"MAILTO:$webmaster\">$webmaster</A>.";
+$t['hilfe7'] = "Bei Fragen oder Anregungen wenden Sie sich bitte an <a href=\"mailto:$webmaster\">$webmaster</a>.";
 $t['hilfe8'] = "Zusätzliche Befehle für Admins";
 $t['hilfe9'] = "Chatiquette";
 $t['hilfe10'] = "Legende";
 $t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Homepage";
 $t['hilfe12'] = "<b>Weitere Hilfe zu den Punkten</b>";
-$t['hilfe13'] = "Datenschutzrichtlinien (Privacy Policy) der fidion GmbH, Betreiber des mainChats";
-$t['hilfe14'] = "Chat AGB";
+$t['hilfe13'] = "Datenschutzrichtlinien (Datenschutzerklärung) der fidion GmbH, Betreiber des mainChats";
+$t['hilfe14'] = "Nutzungsbestimmungent";
 $t['hilfe15'] = "Automatischer Logout";
 $t['hilfe16'] = "<P>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</b></P>";
 
@@ -306,8 +306,8 @@ daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<br>
 <b>Tipp 2:</b> Wer um Punkte bettelt, macht sich unbeliebt.<br>
 <b>Tipp 3:</b> Wer in leeren Räumen Texte schreibt, um die Punkte nach oben zu
 treiben, hat schnell keine Punkte mehr.<br><br>
-<b><A NAME=\"profil\">Profile</A></b><br>
-Unter dem Punkt \"<b>EINSTELLUNGEN</b>\" kann ebenfalls jeder Einblick in sein Profil
+<b><a name=\"profil\">Profile</A></b><br>
+Unter dem Punkt \"<b>Einstellungen</b>\" kann ebenfalls jeder Einblick in sein Profil
 nehmen und es gegebenenfalls ändern. Hier kann der User Angaben über seine
 Anschrift, Telefon-, Handynummer, ICQ, Geburtsdatum, Geschlecht, Hobbys und
 vieles mehr hinterlassen. Diese Profile sind im Chat öffentlich abrufbar.
@@ -438,7 +438,7 @@ Die ehrenamtlichen Admins (Chatadmin, Superuser) des Chats genießen eine besond
 Vertrauensstellung, da sie Zugriff auf personenbezogene Daten, wie Ihren
 richtigen Name, Ihre Admin E-Mail Adresse und Ihre IP-Adressen mit Uhrzeit
 und Datum haben.  Diese Daten dürfen ausschließlich dazu genutzt werden,
-User, die gegen die Chat-AGBs verstoßen, zu identifizieren, aus dem Chat zu
+User, die gegen die Nutzungsbestimmungen verstoßen, zu identifizieren, aus dem Chat zu
 entfernen und auch dauerhaft auszusperren. Die Admins haben auch das Recht,
 zu diesen Zwecken einen Traceroute auf Ihren Rechner zu machen, den falsch
 konfigurierte \"Personal Firewalls\" eventuell als Angriff erkennen können.
@@ -448,7 +448,7 @@ Passwort lesen. Die Admin können allerdings die Passwörter der User auf
 besonderen Wunsch ändern und das neue Passwort an die hinterlegte 
 Admin-E-Mail Adresse schicken. Die Admin-E-Mail Adresse ist nur
 durch Admins änderbar. Die Admins sind verpflichtet, sich an diese
-Datenschutzbestimmungen und an die Chat-AGBs zu halten und keine
+Datenschutzbestimmungen und an die Nutzungsbestimmungen zu halten und keine
 personenbezogenen Daten an Dritte weiterzugeben.
 </P><P>
 Wir setzen im Chat prinzipiell keine Cookies. Falls Sie dennoch ein Cookie 

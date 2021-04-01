@@ -75,17 +75,17 @@ if ($u_id && $communityfeatures) {
 	@mysqli_free_result($result);
 	
 	// Menü als erstes ausgeben
-	$box = $ft0 . "Menü Profile" . $ft1;
-	$text = "<A HREF=\"edit.php?http_host=$http_host&id=$id\">Usereinstellungen ändern</A>\n";
-	$text .= "| <A HREF=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Homepage bearbeiten</A>\n";
+	$box = $ft0 . "Menü Profil" . $ft1;
+	$text = "<a href=\"edit.php?http_host=$http_host&id=$id\">Usereinstellungen ändern</a>\n";
+	$text .= "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Homepage bearbeiten</a>\n";
 	if ($u_level == "S") {
-		$text .= "| <A HREF=\"profil.php?http_host=$http_host&id=$id&aktion=zeigealle\">Alle Profile ausgeben</A>\n";
+		$text .= "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=zeigealle\">Alle Profile ausgeben</a>\n";
 	}
 	$ur1 = "user.php?http_host=$http_host&id=$id";
-	$text .= "| <A HREF=\"$ur1\" TARGET=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">User</A>\n";
+	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">User</a>\n";
 	if ($zeige_datenschutz)
-		$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</A>\n";
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</A>\n";
+		$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</a>\n";
 	
 	show_box2($box, $text, "100%");
 	?>

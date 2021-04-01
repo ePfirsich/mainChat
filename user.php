@@ -186,8 +186,7 @@ if (strlen($u_id) != 0) {
 		
 		$box = $ft0 . $t['sonst3'] . " " . $trace . $ft1;
 		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf><tr><td>"
-			. "<A href=\"#\" onClick=\"window.close();\">"
-			. "<img src=\"pics/button-x.gif\" ALT=\"schließen\" WIDTH=15 HEIGHT=13 ALIGN=\"RIGHT\" BORDER=0></a>\n"
+			. "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
 			. "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>\n"
 			. "</td></tr></table>\n<PRE>" . $f1;
 		system("$traceroute $trace", $ergebnis);
@@ -911,8 +910,7 @@ if (strlen($u_id) != 0) {
 					?>
 					<table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
 					<?php
-						echo "<tr><td><A href=\"#\" onClick=\"window.close();\">"
-						. "<img src=\"pics/button-x.gif\" ALT=\"schließen\" WIDTH=\"15\" HEIGHT=\"13\" ALIGN=\"RIGHT\" BORDER=\"0\"></a>"
+						echo "<tr><td><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>"
 						. "<span style=\"font-size: small; color:$farbe_text;\"><b>$box</b></span>"
 						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n"
 						. "<TABLE CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_koerper\">"
@@ -976,7 +974,7 @@ if (strlen($u_id) != 0) {
 				<table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
 				<tr>
 				<td>
-				<a href="/" onClick="window.close(); return(false);"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; text-align: right; border:0px;"></a>
+				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
 				<span style="font-size: small; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
 				<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>
 				<table style="width:100%; background-color:<?php echo $farbe_tabelle_koerper; ?>">

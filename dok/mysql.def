@@ -27,7 +27,7 @@
 # u_clearedit   	soll Editzeile gelöscht oder nur markiert werden?
 # u_away		away-Text des Benutzers
 # u_smilie		User will Smilie-Grafiken sehen Y/N
-# u_agb			User hat Chatregeln/AGB akzeptiert Y/N
+# u_agb			User hat Nutzungsbestimmungen akzeptiert Y/N
 # u_punkte_gesamt	Gesamtpunktzahl des Users
 # u_punkte_monat	Punktzahl des aktuellen Monats
 # u_punkte_jahr		Punktzahl des aktuellen Jahrs
