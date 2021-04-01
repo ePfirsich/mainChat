@@ -93,8 +93,8 @@ if ( !file_exists($filenameConfig) ) {
 	
 	// Falls Texte in Kopfzeilen weiß dargestellt werden sollen, Variable definieren
 	if ($farbe_text_weiss == 1) {
-	    $ft0 = "<FONT COLOR=\"#FFFFFF\">";
-	    $ft1 = "</FONT>";
+	    $ft0 = "<span style=\"color:#FFFFFF;\">";
+	    $ft1 = "</span>";
 	} else {
 	    $ft0 = "";
 	    $ft1 = "";

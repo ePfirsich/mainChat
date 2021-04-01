@@ -43,8 +43,8 @@ $STAT_BAR_FONTBEG2 = "<SMALL><B>";
 $STAT_BAR_FONTEND2 = "</B></SMALL>";
 
 // Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.
-$STAT_BAR_FONTBEG3 = "<FONT COLOR=\"#FFFFFF\"><B>";
-$STAT_BAR_FONTEND3 = "</B></FONT>";
+$STAT_BAR_FONTBEG3 = "<span style=\"color:#FFFFFF; font-weight:bold;\">";
+$STAT_BAR_FONTEND3 = "</span>";
 
 // Bitte ab hier nichts ändern!
 

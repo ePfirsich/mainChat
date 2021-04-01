@@ -303,24 +303,24 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                             if (!$erste_zeile) {
                                 $zanfang = "";
                             } else {
-                                $zanfang = $sm1 . "<FONT COLOR=\"$system_farbe\" TITLE=\"$row->c_zeit\">";
+                                $zanfang = $sm1 . "<span color:$system_farbe;\" title=\"$row->c_zeit\">";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $sm2 . $br;
+                                $zende = "</span>" . $sm2 . $br;
                             }
                         } else {
                             // an alle User
                             if (!$erste_zeile) {
                                 $zanfang = "";
                             } else {
-                                $zanfang = $sm1 . "<FONT COLOR=\"$system_farbe\" TITLE=\"$row->c_zeit\"><B>$chat:</B>&nbsp;";
+                                $zanfang = $sm1 . "<span style=\"color:$system_farbe;\" title=\"$row->c_zeit\"><B>$chat:</B>&nbsp;";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $sm2 . $br;
+                                $zende = "</span>" . $sm2 . $br;
                             }
                         }
                         break;
@@ -338,12 +338,12 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                             } else {
                                 $temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
                                 $temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
-                                $zanfang = "<FONT COLOR=\"" . $row->c_farbe . "\" TITLE=\"$row->c_zeit\"><B>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</B> ";
+                                $zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><B>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</B> ";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $br;
+                                $zende = "</font>" . $br;
                             }
                         } else {
                             if (!$erste_zeile) {
@@ -351,12 +351,12 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                             } else {
                                 $temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
                                 $temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
-                                $zanfang = $sm1 . "<FONT COLOR=\"$system_farbe\" TITLE=\"$row->c_zeit\"><B>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</B> ";
+                                $zanfang = $sm1 . "<span style=\"color:$system_farbe;\" title=\"$row->c_zeit\"><B>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</B> ";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $sm2 . $br;
+                                $zende = "</font>" . $sm2 . $br;
                             }
                         }
                         break;
@@ -405,23 +405,23 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                                     }
                                     $zanfang .= ";\"";
                                 }
-                                $zanfang .= "><I><FONT COLOR=\"$row->c_farbe\">&lt;";
+                                $zanfang .= "><i><span style=\"color:$row->c_farbe;\">&lt;";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "&gt;</FONT></I></SPAN>" . $br;
+                                $zende = "&gt;</span></i></SPAN>" . $br;
                             }
                         } else {
                             if (!$erste_zeile) {
                                 $zanfang = "";
                             } else {
-                                $zanfang = $sm1 . "<FONT COLOR=\"$system_farbe\" TITLE=\"$row->c_zeit\"><I>&lt;";
+                                $zanfang = $sm1 . "<span style=\"color:$system_farbe;\" title=\"$row->c_zeit\"><i>&lt;";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "&gt;</I></FONT>" . $sm2 . $br;
+                                $zende = "&gt;</i></span>" . $sm2 . $br;
                             }
                         }
                         break;
@@ -443,12 +443,12 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                             } else {
                                 $temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
                                 $temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
-                                $zanfang = "<FONT COLOR=\"" . $row->c_farbe . "\" TITLE=\"$row->c_zeit\"><B>" . $temp_von_user . ":</B> </FONT><FONT COLOR=\"$system_farbe\" TITLE=\"$row->c_zeit\"> ";
+                                $zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><B>" . $temp_von_user . ":</B> </span><span style=\"color:$system_farbe;\" title=\"$row->c_zeit\"> ";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $br;
+                                $zende = "</span>" . $br;
                             }
                         } else {
                             if (!$erste_zeile) {
@@ -456,12 +456,12 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
                             } else {
                                 $temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
                                 $temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
-                                $zanfang = "<FONT COLOR=\"" . $row->c_farbe . "\" TITLE=\"$row->c_zeit\">" . "<B>" . $temp_von_user . ":</B> ";
+                                $zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<B>" . $temp_von_user . ":</B> ";
                             }
                             if ($br == "") {
                                 $zende = "";
                             } else {
-                                $zende = "</FONT>" . $br;
+                                $zende = "</span>" . $br;
                             }
                         }
                 }
