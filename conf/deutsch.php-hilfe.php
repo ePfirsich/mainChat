@@ -349,7 +349,7 @@ einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
 einmal anschauen. Wenn Sie nun sicher sind, dass sie auch alle im Papierkorb
 befindlichen Mails löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
 <b><A NAME=\"freunde\">Freunde</A></b><br>
-Bei den Freunden (<b>EINSTELLUNGEN</b>, <b>/freunde</b>) können Sie einfach andere User im
+Bei den Freunden (<b>Einstellungen</b>, <b>/freunde</b>) können Sie einfach andere User im
 Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
 man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat
 informiert. Die Freunde-Liste ruft der Chatter über den Punkt \"<b>USER</b>\" direkt
@@ -358,7 +358,7 @@ befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Lis
 und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
 selbst als Freund aufgenommen wurde.<br><br>
 <b><A NAME=\"aktionen\">Aktionen</A></b><br>
-Über den Menüpunkt \"<b>EINSTELLUNGEN</b>\" im Chat gelangen Sie zu den sogenannten
+Über den Menüpunkt \"<b>Einstellungen</b>\" im Chat gelangen Sie zu den sogenannten
 \"<b>Aktionen</b>\". Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit
 welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. der Login
 oder Logout eines Freundes oder auch der Eingang einer neuen Mail. Wann Sie
@@ -376,7 +376,7 @@ Nachricht in Chat wie /msg). Zusätzlich sind auch Kombinationen von E-Mail
 und OLM sowie Chat-Mail und OLM möglich, wobei Sie in diesem Fall zwei
 Nachrichten erhalten.<br><br>
 <b><A NAME=\"home\">User-Homepages</A></b><br>
-Unter dem Punkt \"<b>EINSTELLUNGEN -> Homepage</b>\" kann ebenfalls jeder User mit
+Unter dem Punkt \"<b>Einstellungen -> Homepage</b>\" kann ebenfalls jeder User mit
 wenigen Klicks seine eigene kleine Homepage erstellen, ohne jegliche
 HTML-Kenntnisse zu besitzen. Nach der \"<b>Freischaltung</b>\" der Homepage wird hinter dem 
 Nicknamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der 
@@ -420,7 +420,7 @@ unter die personenbezogenen Daten. Ebenfalls ausgenommen ist die Darstellung
 Ihres Nicknamens, Ihrer öffentlichen E-Mail Adresse, Ihrer Punkte, Ihrer
 Onlinezeit und der Zeitpunkt des ersten und letzten Logins in den Chat.
 Falls Sie keine öffentliche E-Mail Adresse wünschen, löschen Sie diese in
-Ihren EINSTELLUNGEN.
+Ihren <b>Einstellungen</b>.
 </p><p>
 Wir speichern Ihre Daten auf eigenen Servern, auf die nur unsere
 Mitarbeiter Zugriff haben.  Bei Ihrem Login werden auf unseren Servern

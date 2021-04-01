@@ -163,12 +163,6 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
 				</td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Stylesheet (reines CSS):</td>
-				<td>
-					<textarea cols="30" rows="4" name="chat_style">td, small, p, b, i, font {font-family:Arial,Helvetica;}</textarea>
-				</td>
-			</tr>
 			<tr>
 				<td> Anonymer Gast-Login möglich:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["gastlogin"],'chat_gastlogin'); ?></td>

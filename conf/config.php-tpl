@@ -213,7 +213,8 @@ $metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen                                     
 $noframes="%noframes%\n";
 
-$stylesheet="%style%";
+// Datei für CSS-Anpassungen auf allen Seiten
+$stylesheet="style.css";
 
 // Zusatztexte, die auf der Indexseite im <HEAD> ausgegeben werden, optional
 $zusatztext_kopf="";

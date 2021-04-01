@@ -34,7 +34,6 @@ $chat["expire"] = filter_input(INPUT_POST, 'chat_expire', FILTER_SANITIZE_STRING
 $chat["robots1"] = filter_input(INPUT_POST, 'chat_robots1', FILTER_SANITIZE_STRING);
 $chat["robots2"] = filter_input(INPUT_POST, 'chat_robots2', FILTER_SANITIZE_STRING);
 $chat["noframes"] = filter_input(INPUT_POST, 'chat_noframes', FILTER_SANITIZE_STRING);
-$chat["style"] = filter_input(INPUT_POST, 'chat_style', FILTER_SANITIZE_STRING);
 $chat["gastlogin"] = filter_input(INPUT_POST, 'chat_gastlogin', FILTER_SANITIZE_STRING);
 $chat["gastloginanzahl"] = filter_input(INPUT_POST, 'chat_gastloginanzahl', FILTER_SANITIZE_STRING);
 $chat["uppername"] = filter_input(INPUT_POST, 'chat_uppername', FILTER_SANITIZE_STRING);
