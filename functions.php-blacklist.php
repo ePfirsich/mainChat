@@ -80,10 +80,10 @@ function zeige_blacklist($aktion, $zeilen, $sort)
             // Blacklist anzeigen
             echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$titel: $anzahl</b></DIV></TD></TR>\n"
                 . "<TR><TD WIDTH=\"5%\">" . $f1 . "Löschen" . $f2
-                . "</TD><TD WIDTH=\"35%\">" . $f1 . "<A HREF=\"" . $blurl
+                . "</TD><TD WIDTH=\"35%\">" . $f1 . "<a href=\"" . $blurl
                 . $usort . "\">Nickname</A>" . $f2 . "</TD>"
                 . "<TD WIDTH=\"35%\">" . $f1 . "Info" . $f2 . "</TD>"
-                . "<TD WIDTH=\"13%\" ALIGN=\"CENTER\">" . $f1 . "<A HREF=\""
+                . "<TD WIDTH=\"13%\" ALIGN=\"CENTER\">" . $f1 . "<a href=\""
                 . $blurl . $fsort . "\">Datum&nbsp;Eintrag</A>" . $f2
                 . "</TD>\n" . "<TD WIDTH=\"13%\" ALIGN=\"CENTER\">" . $f1
                 . "Eintrag&nbsp;von" . $f2 . "</TD></TR>\n";

@@ -123,20 +123,20 @@ function liste()
 			
 			if ($row->is_domain == "-GLOBAL-") {
 				echo "<TD>" . $f1 . "<b>\n";
-				echo "<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
+				echo "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
 					. "[DEAKTIVIEREN]" . "</A>\n";
 				echo "</b>" . $f2 . "</TD>\n";
 			} elseif ($row->is_domain == "-GAST-") {
 				echo "<TD>" . $f1 . "<b>\n";
-				echo "<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
+				echo "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
 					. "[DEAKTIVIEREN]" . "</A>\n";
 				echo "</b>" . $f2 . "</TD>\n";
 			} else {
 				echo "<TD>" . $f1
-					. "<b>[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
-					. "[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
+					. "<b>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
+					. "[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
 				if (isset($ip_name) && (strlen($ip_name) > 0)) {
-					echo "<br>[<A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
+					echo "<br>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
 				}
 				echo "</b>" . $f2 . "</TD>";
 			}
@@ -223,17 +223,17 @@ if (strlen($u_id) > 0 && $admin) {
 	}
 	
 	$box = $ft0 . "$chat Menü" . $ft1;
-	$text = "<A HREF=\"sperre.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
-		. "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
+	$text = "<a href=\"sperre.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
+		. "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
 	
 	if ($communityfeatures) {
 		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
+			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
 				. "Loginsperre: Deaktivieren" . "</A>\n";
 		} else {
-			$text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre1\">"
+			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre1\">"
 				. "Loginsperre: Aktivieren" . "</A>\n";
 		}
 		@mysqli_free_result($result);
@@ -241,15 +241,15 @@ if (strlen($u_id) > 0 && $admin) {
 		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
+			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
 				. "Loginsperre Gast: Deaktivieren" . "</A>\n";
 		} else {
-			$text .= "| <A HREF=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast1\">"
+			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast1\">"
 				. "Loginsperre Gast: Aktivieren" . "</A>\n";
 		}
 		@mysqli_free_result($result);
 		
-		$text .= "| <A HREF=\"blacklist.php?http_host=$http_host&id=$id&neuer_blacklist[u_nick]=$uname\">"
+		$text .= "| <a href=\"blacklist.php?http_host=$http_host&id=$id&neuer_blacklist[u_nick]=$uname\">"
 			. $zusatztxt . $t['menue3'] . "</A>\n";
 	}
 	
@@ -591,7 +591,7 @@ if (strlen($u_id) > 0 && $admin) {
 
 if ($o_js) {
 	echo $f1
-		. "<P ALIGN=CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+		. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
 		. $f2 . "\n";
 }
 

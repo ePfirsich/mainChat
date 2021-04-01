@@ -6,7 +6,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
     // Filtert Text, ersetzt Smilies und ersetzt folgende Zeichen:
     // _ in <b>
     // * in <I>
-    // http(s)://###### oder www.###### in <A HREF="http(s)://###" TARGET=_new>http(s)://###</A>
+    // http(s)://###### oder www.###### in <a href="http(s)://###" TARGET=_new>http(s)://###</A>
     // E-Mail Adressen in A-Tag mit Mailto
     // privat ist wahr bei privater Nachricht
     
@@ -166,7 +166,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
                         $txt[$j]);
                 }
                 
-                // www.###### in <A HREF="http://###" TARGET=_new>http://###</A>
+                // www.###### in <a href="http://###" TARGET=_new>http://###</A>
                 if (preg_match("/^www\..*\..*/", $txt[$j])) {
                     // sonderfall -> "?" in der URL -> dann "?" als Sonderzeichen behandeln...
                     $txt2 = preg_replace("!\?!", "\\?", $txt[$j]);
@@ -188,7 +188,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0)
                             . urlencode("http://$txt2")
                             . "\" target=_blank>http://$txt2</a>", $txt[$j]);
                 }
-                // http(s)://###### in <A HREF="http(s)://###" TARGET=_new>http(s)://###</A>
+                // http(s)://###### in <a href="http(s)://###" TARGET=_new>http(s)://###</A>
                 if (preg_match("!^https?://!", $txt[$j])) {
                     // Wort=URL mit http(s):// am Anfang? -> im text durch dummie ersetzen, im wort durch href.
                     // Zusatzproblematik.... könnte ein http-get-URL sein, mit "?" am Ende oder zwischendrin... urgs.

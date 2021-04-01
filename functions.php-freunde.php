@@ -135,7 +135,7 @@ function zeige_freunde($aktion, $zeilen)
                     . "</TD>" . "<TD>" . $auf . $infotext . $zu . "</TD>"
                     . "<TD ALIGN=\"CENTER\">" . $auf . $row->zeit . $zu
                     . "</TD>" . "<TD ALIGN=\"CENTER\">" . $auf
-                    . "<A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</A>"
+                    . "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</A>"
                     . $zu . "</TD>" . "</TR>\n";
                 
                 if (($i % 2) > 0) {

@@ -17,7 +17,7 @@ echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
 ?>
 function showsmilies( liste ) {
      for(var i=0; i<liste.length; i+=2) {
-         var rowdef = "<TD>&nbsp;"+fett[0]+"<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_opener(' "+liste[i]+" '); return(false)\">"+liste[i]+"</A>"+fett[1]+"&nbsp;</TD>";
+         var rowdef = "<TD>&nbsp;"+fett[0]+"<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_opener(' "+liste[i]+" '); return(false)\">"+liste[i]+"</A>"+fett[1]+"&nbsp;</TD>";
          rowdef += "<TD>"+fett[4]+liste[i+1]+fett[5]+"</TD>";
          document.write("<TR BGCOLOR=\""+color[i/2&1]+"\">"+rowdef+"</TR>\n");
      }

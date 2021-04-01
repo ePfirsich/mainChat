@@ -107,19 +107,19 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 
 // Menü als erstes ausgeben
 $box = $ft0 . $t['menue4'] . $ft1;
-$text = "<A HREF=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
-	. "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</A>\n"
-	. "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</A>\n";
+$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
+	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</A>\n"
+	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</A>\n";
 if ($communityfeatures) {
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</A>\n";
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</A>\n";
 }
-$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</A>\n";
+$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</A>\n";
 if ($erweitertefeatures) {
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</A>\n";
 }
 if ($zeige_datenschutz) {
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</A>\n";
 }
 if ($aktion != "logout") {
 	show_box2($box, $text);
@@ -287,7 +287,7 @@ switch ($aktion) {
 		
 		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
 			. $legende . "</table><br>\n"
-			. "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><br>\n";
+			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><br>\n";
 		?>
 		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 		<?php

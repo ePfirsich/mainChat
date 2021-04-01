@@ -133,7 +133,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	if ($noframes) {
 		echo $noframes . "\n";
 	} else {
-		echo "<P><DIV ALIGN=\"CENTER\"><A HREF=\"index.php\">weiter</A></DIV>\n";
+		echo "<P><DIV ALIGN=\"CENTER\"><a href=\"index.php\">weiter</A></DIV>\n";
 	}
 	?>
 	</noframes>
@@ -444,7 +444,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$txt = str_replace("%is_infotext%", $infotext, $txt);
 				while ($row2 = mysqli_fetch_object($result2)) {
 					$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$t_u_id";
-					$ah1 = "<A HREF=\"$ur1\" TARGET=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','"
+					$ah1 = "<a href=\"$ur1\" TARGET=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','"
 						. $t_u_nick . "'); return(false);\">";
 					$ah2 = "</A>";
 					system_msg("", 0, $row2->o_user, $system_farbe,
@@ -524,7 +524,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			$aktion = "";
 	} else if ($t['login14']) {
 		$login_titel = $ft0 . $t['default1']
-			. " [<A HREF=\"$chat_file?http_host=$http_host&aktion=neu\">"
+			. " [<a href=\"$chat_file?http_host=$http_host&aktion=neu\">"
 			. $ft0 . $t['login14'] . $ft1 . "</A>]" . $ft1;
 	} else {
 		$login_titel = $ft0 . $t['default1'] . $ft1;
@@ -541,7 +541,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			<?php
 		zeige_kopf();
 		echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
-			. "<A HREF=\"" . $chatserver
+			. "<a href=\"" . $chatserver
 			. "index.php?http_host=$http_host\">hier</A> neu an.</P>";
 		
 		zeige_fuss();
@@ -578,7 +578,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				<?php
 				zeige_kopf();
 				echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
-					. "<A HREF=\"" . mysqli_real_escape_string($mysqli_link, $chatserver)
+					. "<a href=\"" . mysqli_real_escape_string($mysqli_link, $chatserver)
 					. "index.php?http_host=" . mysqli_real_escape_string($mysqli_link, $http_host) . "\">hier</A> neu an.</P>";
 				$query = "DELETE FROM mail_check WHERE email = '$email'";
 				mysqli_query($mysqli_link, $query);
@@ -593,7 +593,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			<?php
 			zeige_kopf();
 			echo "<P><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
-				. "<A HREF=\"" . $chatserver
+				. "<a href=\"" . $chatserver
 				. "index.php?http_host=$http_host\">hier</A> neu an.</P>";
 			zeige_fuss();
 			exit;
@@ -1406,7 +1406,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					if ($gast_login && $communityfeatures && $forumfeatures) {
-						$titel = $login_titel . "[<A HREF=\""
+						$titel = $login_titel . "[<a href=\""
 							. $_SERVER['PHP_SELF']
 							. "?http_host=$http_host&id=$id&aktion=login&"
 							. $t['login10'] . "=los&eintritt=forum\">" . $ft0
@@ -1416,7 +1416,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					if ($einstellungen_aendern) {
-						$titel .= "[<A HREF=\"" . $_SERVER['PHP_SELF']
+						$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
 							. "?http_host=$http_host&aktion=passwort_neu\">"
 							. $ft0 . $t['login27'] . $ft1 . "</A>]";
 					}
@@ -1600,7 +1600,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							$txt = str_replace("%is_infotext%", $infotext, $txt);
 							while ($row2 = mysqli_fetch_object($result2)) {
 								$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$u_id";
-								$ah1 = "<A HREF=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
+								$ah1 = "<a href=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
 								$ah2 = "</A>";
 								system_msg("", 0, $row2->o_user, $system_farbe,
 									str_replace("%u_nick%",
@@ -1700,7 +1700,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 								$t['default7']);
 							while ($row2 = mysqli_fetch_object($result2)) {
 								$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$u_id";
-								$ah1 = "<A HREF=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
+								$ah1 = "<a href=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
 								$ah2 = "</A>";
 								system_msg("", 0, $row2->o_user, $system_farbe,
 									str_replace("%u_nick%",
@@ -1915,7 +1915,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 				if ($gast_login && $communityfeatures && $forumfeatures) {
-					$titel = $login_titel . "[<A HREF=\""
+					$titel = $login_titel . "[<a href=\""
 						. $_SERVER['PHP_SELF']
 						. "?http_host=$http_host&id=&aktion=login&"
 						. $t['login10'] . "=los&eintritt=forum\">" . $ft0
@@ -1925,7 +1925,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 				if ($einstellungen_aendern) {
-					$titel .= "[<A HREF=\"" . $_SERVER['PHP_SELF']
+					$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
 						. "?http_host=$http_host&aktion=passwort_neu\">" . $ft0
 						. $t['login27'] . $ft1 . "</A>]";
 				}
@@ -2317,7 +2317,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			if ($gast_login && $communityfeatures && $forumfeatures) {
 				if (!isset($id))
 					$id = "";
-				$titel = $login_titel . "[<A HREF=\"" . $_SERVER['PHP_SELF']
+				$titel = $login_titel . "[<a href=\"" . $_SERVER['PHP_SELF']
 					. "?http_host=$http_host&id=$id&aktion=login&"
 					. $t['login10'] . "=los&eintritt=forum\">" . $ft0
 					. $t['login23'] . $ft1 . "</A>]";
@@ -2326,7 +2326,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			}
 			
 			if ($einstellungen_aendern) {
-				$titel .= "[<A HREF=\"" . $_SERVER['PHP_SELF']
+				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
 					. "?http_host=$http_host&aktion=passwort_neu\">" . $ft0
 					. $t['login27'] . $ft1 . "</A>]";
 			}

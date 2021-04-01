@@ -323,7 +323,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             if (strlen($uu_adminemail) > 0) {
                 echo "<TR><TD>" . $f1 . $t['user_zeige3'] . $f2 . "</TD><TD>"
                     . $f3
-                    . "<A HREF=\"MAILTO:$uu_adminemail\">$uu_adminemail</A>"
+                    . "<a href=\"MAILTO:$uu_adminemail\">$uu_adminemail</A>"
                     . $f4 . "</TD></TR>\n";
             }
         }
@@ -344,22 +344,22 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             $url = "mail.php?aktion=neu2&neue_email[an_nick]="
                 . URLENCODE($uu_nick) . "&id=" . $id;
             echo "<TR><TD>" . $f1 . $t['user_zeige6'] . $f2 . "</TD><TD>" . $f3
-                . "<A HREF=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</A>";
+                . "<a href=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</A>";
             $f4 . "</TD></TR>\n";
         } elseif (strlen($uu_email) > 0) {
             echo "<TR><TD>" . $f1 . $t['user_zeige6'] . $f2 . "</TD><TD>" . $f3
-                . "<A HREF=\"MAILTO:$uu_email\">$uu_email</A>" . $f4
+                . "<a href=\"MAILTO:$uu_email\">$uu_email</A>" . $f4
                 . "</TD></TR>\n";
         }
         
         if ($communityfeatures && $uu_chathomepage == "J") {
             $url = "home.php?ui_userid=$uu_id&id=" . $id;
             echo "<TR><TD>" . $f1 . $t['user_zeige7'] . $f2 . "</TD><TD>" . $f3
-                . "<A HREF=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+                . "<a href=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
             $f4 . "</TD></TR>\n";
         } elseif (strlen($uu_url) > 0) {
             echo "<TR><TD>" . $f1 . $t['user_zeige7'] . $f2 . "</TD><TD>" . $f3
-                . "<A HREF=\"$uu_url\" TARGET=\"_new\">$uu_url</A>" . $f4
+                . "<a href=\"$uu_url\" TARGET=\"_new\">$uu_url</A>" . $f4
                 . "</TD></TR>\n";
         }
         
@@ -466,13 +466,13 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             echo "<TR><TD style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
                 . "</b></TD><TD>" . $f1;
             if (!$beichtstuhl)
-                echo "[<A HREF=\"$mlnk[1]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<br>\n";
-            echo "[<A HREF=\"$mlnk[2]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</A>]<br>\n";
+                echo "[<a href=\"$mlnk[1]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<br>\n";
+            echo "[<a href=\"$mlnk[2]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</A>]<br>\n";
             if ($communityfeatures) {
                 $mlnk[8] = "mail.php?http_host=$http_host&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
                 $mlnk[9] = "schreibe.php?http_host=$http_host&id=$id&text=/freunde%20$uu_nick";
-                echo "[<A HREF=\"$mlnk[8]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</A>]<br>\n"
-                    . "[<A HREF=\"$mlnk[9]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</A>]<br>\n";
+                echo "[<a href=\"$mlnk[8]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</A>]<br>\n"
+                    . "[<a href=\"$mlnk[9]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</A>]<br>\n";
             }
             
         }
@@ -480,7 +480,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
         // Adminmenue
         if ($admin) {
             $mlnk[7] = "user.php?http_host=$http_host&id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
-            echo "[<A HREF=\"$mlnk[7]\">" . $t['user_zeige34'] . "</A>]<br>\n";
+            echo "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</A>]<br>\n";
         }
         
         // Adminmenue
@@ -493,17 +493,17 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
             $mlnk[5] = "schreibe.php?http_host=$http_host&id=$id&text=/kick%20$uu_nick";
             $mlnk[6] = "sperre.php?http_host=$http_host&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
                 . urlencode($o_row->o_name);
-            echo "[<A HREF=\"$mlnk[3]\">" . $t['user_zeige25'] . "</A>]<br>\n"
-                . "[<A HREF=\"$mlnk[4]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</A>]<br>\n"
-                . "[<A HREF=\"$mlnk[5]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</A>]<br>\n"
-                . "[<A HREF=\"$mlnk[6]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</A>]<br>\n";
-            echo "[<A HREF=\"$mlnk[8]\">" . $t['user_zeige47'] . "</A>]<br>\n";
+            echo "[<a href=\"$mlnk[3]\">" . $t['user_zeige25'] . "</A>]<br>\n"
+                . "[<a href=\"$mlnk[4]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</A>]<br>\n"
+                . "[<a href=\"$mlnk[5]\" TARGET=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</A>]<br>\n"
+                . "[<a href=\"$mlnk[6]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</A>]<br>\n";
+            echo "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</A>]<br>\n";
         }
         
         // Adminmenue
         if ($admin && $communityfeatures) {
             $mlnk[10] = "blacklist.php?http_host=$http_host&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-            echo "[<A HREF=\"$mlnk[10]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</A>]<br>\n";
+            echo "[<a href=\"$mlnk[10]\" TARGET=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</A>]<br>\n";
             
         }
         

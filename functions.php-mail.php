@@ -120,7 +120,7 @@ function formular_neue_email2($neue_email, $m_id = "")
             // E-Mail Adresse vorhanden?
             $email_bekannt = false;
             if (strlen($row->u_email) > 0) {
-                $email = $f1 . " (E-Mail: <A HREF=\"MAILTO:$row->u_email\">"
+                $email = $f1 . " (E-Mail: <a href=\"MAILTO:$row->u_email\">"
                     . htmlspecialchars($row->u_email) . "</A>)" . $f2;
                 $email_bekannt = true;
             }
@@ -246,7 +246,7 @@ function zeige_mailbox($aktion, $zeilen)
             $bgcolor = $farbe_tabelle_zeile1;
             while ($row = mysqli_fetch_object($result)) {
                 
-                $url = "<A HREF=\"" . $PHP_SELF
+                $url = "<a href=\"" . $PHP_SELF
                     . "?id=$id&http_host=$http_host&aktion=zeige&m_id="
                     . $row->m_id . "\">";
                 if ($row->m_status == "neu"

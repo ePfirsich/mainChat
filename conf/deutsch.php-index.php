@@ -12,7 +12,7 @@ $t['login4'] = "<P><b>Der Chat ist im Moment aus technischen Gründen geschlosse
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
 	. "Sie es später wieder.</b></P><br><br>\n";
 $t['login5'] = "<P><b>Leider ist der Account %u_nick% (%u_name%) derzeit gesperrt.\n"
-	. "Bitte wenden Sie sich an unseren <A HREF=\"MAILTO:" . $webmaster
+	. "Bitte wenden Sie sich an unseren <a href=\"MAILTO:" . $webmaster
 	. "\">Webmaster</A>.</b></P><br><br>\n";
 $t['login6'] = "<H2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</H2>\n"
 	. "</noframes></body></html>\n";
@@ -45,7 +45,7 @@ $t['login24'] = "<P><b>Der Login ist leider nicht möglich!</b></P>"
 $t['login25'] = "<P><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
 	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
 	. "Sie einen Browser mit aktivieren Cookies "
-	. "</P><P>[<A HREF=\"%url%\">weiter zur Loginseite</A>]</P>";
+	. "</P><P>[<a href=\"%url%\">weiter zur Loginseite</A>]</P>";
 $t['login26'] = "Lieber Chatter, um diesen Chat zu betreten, müssen Sie ihn über die Webseite %webseite% betreten.";
 $t['login27'] = "Passwort vergessen?";
 

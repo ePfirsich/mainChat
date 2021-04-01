@@ -83,8 +83,7 @@ function mysqli_result($res,$row=0,$col=0){
 	return false;
 }
 
-function onlinezeit($onlinezeit)
-{
+function onlinezeit($onlinezeit) {
 	// Alternative zu gmdate("H:i:s", $onlinezeit), jedoch geht hier Std > 24
 	$zeit = ":" . substr("00" . ($onlinezeit % 60), -2); // Sekunden
 	$onlinezeit = floor($onlinezeit / 60);
@@ -94,8 +93,7 @@ function onlinezeit($onlinezeit)
 	return ($zeit);
 }
 
-function raum_user($r_id, $u_id, $id)
-{
+function raum_user($r_id, $u_id, $id) {
 	// Gibt die User im Raum r_id im Text an $u_id aus
 	
 	global $timeout, $dbase, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
@@ -161,8 +159,7 @@ function raum_user($r_id, $u_id, $id)
 	
 }
 
-function ist_online($user)
-{
+function ist_online($user) {
 	// Prüft ob User noch online ist
 	// liefert 1 oder 0 zurück
 	
@@ -204,8 +201,7 @@ function schreibe_moderiert($f) {
 	return ($back);
 }
 
-function schreibe_moderation()
-{
+function schreibe_moderation() {
 	global $u_id;
 	global $dbase;
 	global $mysqli_link;
@@ -275,14 +271,14 @@ function schreibe_chat($f) {
 	return ($back);
 }
 
-function logout($o_id, $u_id, $info = "")
-{
+function logout($o_id, $u_id, $info = "") {
 	// Logout aus dem Gesamtsystem
 	
 	global $dbase, $u_farbe, $mysqli_link, $communityfeatures, $logout_logging;
 	
-	if ($logout_logging)
+	if ($logout_logging) {
 		logout_debug($o_id, $info);
+	}
 	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
@@ -390,12 +386,10 @@ function global_msg($u_id, $r_id, $text) {
 			. "WHERE o_user=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 	}
-	
 	return ($back);
 }
 
-function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text)
-{
+function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	// Schreibt Text in Raum r_id
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
@@ -486,8 +480,7 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	return ($back);
 }
 
-function aktualisiere_online($u_id, $o_raum)
-{
+function aktualisiere_online($u_id, $o_raum) {
 	// Timestamp im Datensatz aktualisieren -> User gilt als online
 	global $dbase, $mysqli_link;
 	// sec ??
@@ -496,8 +489,7 @@ function aktualisiere_online($u_id, $o_raum)
 	@mysqli_free_result($result);
 }
 
-function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
-{
+function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") {
 	// Vergleicht Hash-Wert mit IP und Browser des Users
 	// Liefert User- und Online-Variable
 	
@@ -579,7 +571,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
 			$o_id = "";
 			$u_level = "";
 			$admin = 0;
-			
 		}
 	} else {
 		
@@ -618,7 +609,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
 	if (false && $erweitertefeatures && $admin) {
 		
 		if ($HTTP_COOKIE_VARS["MAINCHAT" . $u_nick] != md5($o_id . $id . "42")) {
-			
 			// Erfolgreicher Hackversuch -> Mail verschicken
 			
 			$http_stuff = $_SERVER;
@@ -681,8 +671,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "")
 	}
 }
 
-function iCrypt($passwort, $salt)
-{
+function iCrypt($passwort, $salt) {
 	
 	global $crypted_password_extern, $upgrade_password;
 	
@@ -855,8 +844,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	return ($id);
 }
 
-function zerlege($daten)
-{
+function zerlege($daten) {
 	// Zerlegt $daten in 255byte-Häppchen und liefert diese in einem Array zurück
 	
 	$i = 0;
@@ -892,9 +880,9 @@ function show_box($box, $text, $url = "", $width = "") {
 	}
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf2; ?>; <?php echo $width; ?>">
+	<table style="background-color:<?php echo $farbe_tabelle_kopf2; ?>; <?php echo $width; ?>" class="farbe_tabelle_kopf2">
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>; color:<?php echo $farbe_tabelle_text_kopf; ?>">
+			<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>; color:<?php echo $farbe_tabelle_text_kopf; ?>" class="farbe_tabelle_kopf">
 			<?php
 			if (strlen($url) > 0) {
 				?>
@@ -929,12 +917,12 @@ function show_box2($box, $text, $button = TRUE) {
 	}
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%;" class="farbe_tabelle_kopf">
 		<tr>
 			<td style="color:<?php echo $farbe_tabelle_text_kopf; ?>"><span style="font-size: smaller; font-weight: bold;"><?php echo $box; ?></span><?php echo $extra; ?></td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;"><?php echo  $f1 . $text . $f2; ?></td>
+			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;" class="farbe_tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -948,7 +936,7 @@ function show_box_title($box) {
 	global $f2;
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%" class="farbe_tabelle_kopf">
 		<tr>
 			<td>
 				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo  $f1 . $box . $f2; ?></span>
@@ -969,7 +957,7 @@ function show_box_title_content($box, $text) {
 	global $f2;
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%">
+	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%;" class="farbe_tabelle_kopf">
 		<tr>
 			<td>
 				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo   $box ?></span>
@@ -977,7 +965,7 @@ function show_box_title_content($box, $text) {
 			</td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;"><?php echo $text; ?></td>
+			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;" class="farbe_tabelle_koerper"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -1285,7 +1273,7 @@ function user(
 	
 	if (!$extra_kompakt && $link) {
 		$url = "hilfe.php?http_host=$http_hosttag&aktion=legende&id=$idtag";
-		$grafikurl1 = "<A HREF=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
+		$grafikurl1 = "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
 		$grafikurl2 = "</A>";
 	} else {
 		$grafikurl1 = "";
@@ -1310,11 +1298,11 @@ function user(
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
-				. "<A HREF=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		} elseif ($user_chathomepage == "J") {
 			$url = "home.php?http_host=$http_hosttag&ui_userid=$user_id&id=$idtag";
 			$text2 .= "&nbsp;"
-				. "<A HREF=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		}
 	}
 	
@@ -1323,7 +1311,7 @@ function user(
 		$url = "mail.php?http_host=$http_hosttag&aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
-			. "<A HREF=\"#\" TARGET=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"
+			. "<a href=\"#\" TARGET=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"
 			. $chat_grafik['mail'] . "</A>";
 	} elseif (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
@@ -1358,7 +1346,7 @@ function user(
 function chat_parse($text)
 {
 	// Filtert Text und ersetzt folgende Zeichen:
-	// http://###### oder www.###### in <A HREF="http://###" TARGET=_new>http://###</A>
+	// http://###### oder www.###### in <a href="http://###" TARGET=_new>http://###</A>
 	// E-Mail Adressen in A-Tag mit Mailto
 	
 	global $admin, $sprachconfig, $u_id, $u_level;
@@ -1418,7 +1406,7 @@ function chat_parse($text)
 				$txt[$j] = str_replace($txt[$j], $rep, $txt[$j]);
 			}
 			
-			// www.###### in <A HREF="http://###" TARGET=_new>http://###</A>
+			// www.###### in <a href="http://###" TARGET=_new>http://###</A>
 			if (preg_match("/^www\..*\..*/i", $txt[$j])) {
 				// sonderfall -> "?" in der URL -> dann "?" als Sonderzeichen behandeln...
 				$txt2 = preg_replace("!\?!", "\\?", $txt[$j]);
@@ -1457,7 +1445,7 @@ function chat_parse($text)
 					$txt[$j]);
 				
 			}
-			// http://###### in <A HREF="http://###" TARGET=_new>http://###</A>
+			// http://###### in <a href="http://###" TARGET=_new>http://###</A>
 			if (preg_match("!^https?://!", $txt[$j])) {
 				// Wort=URL mit http:// am Anfang? -> im text durch dummie ersetzen, im wort durch href.
 				// Zusatzproblematik.... könnte ein http-get-URL sein, mit "?" am Ende oder zwischendrin... urgs.

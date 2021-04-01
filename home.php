@@ -130,10 +130,10 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			
 			// Menü als erstes ausgeben
 			$box = $ft0 . "Menü Freunde" . $ft1;
-			$text = "<A HREF=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</A>\n"
-				. "| <A HREF=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</A>\n"
-				. "| <A HREF=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</A>\n"
-				. "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
+			$text = "<a href=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</A>\n"
+				. "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</A>\n"
+				. "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</A>\n"
+				. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
 			
 			show_box2($box, $text);
 			
@@ -280,7 +280,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				// Erst Profil anlegen
 				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
 					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
-					. "Bitte klicken Sie <A HREF=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">"
+					. "Bitte klicken Sie <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">"
 					. "weiter zur Anlage eines Profils</A>.</P>\n";
 				
 			}

@@ -54,12 +54,12 @@ if ($u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = $ft0 . "Menü Freunde" . $ft1;
-	$text = "<A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=\">Meine Freunde listen</A>\n"
-		. "| <A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Freund hinzufügen</A>\n"
-		. "| <A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=bestaetigen\">Freundschaften bestaetigen</A>\n";
+	$text = "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=\">Meine Freunde listen</A>\n"
+		. "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Freund hinzufügen</A>\n"
+		. "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=bestaetigen\">Freundschaften bestaetigen</A>\n";
 	if ($admin)
-		$text .= "| <A HREF=\"freunde.php?http_host=$http_host&id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</A>\n";
-	$text .= "| <A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#freunde\">Hilfe</A>\n";
+		$text .= "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#freunde\">Hilfe</A>\n";
 	
 	show_box2($box, $text);
 	?>

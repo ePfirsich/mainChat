@@ -76,7 +76,7 @@ function genlist(liste, aktion) {
 
 		if ((liste[i])
 				&& (inaktiv_userfunktionen != "1" || aktion != "chatuserliste")) {
-			var dlink = "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"userdetails("
+			var dlink = "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"userdetails("
 					+ liste[i]
 					+ ")\">"
 					+ (liste[i + 5] ? "(" + liste[i + 2] + ")" : liste[i + 2])
@@ -96,14 +96,14 @@ function genlist(liste, aktion) {
 		if ((liste[i + 7] != 0) && communityfeatures == 1) {
 			var url = "hilfe.php" + stdparm2 + "&aktion=legende";
 			if ((liste[i + 6] == "C") || (liste[i + 6] == "S")) {
-				nlink += "&nbsp;<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+				nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 						+ url
 						+ "','640_"
 						+ u_nick
 						+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
 						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "</A>";
 			} else {
-				nlink += "&nbsp;<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+				nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 						+ url
 						+ "','640_"
 						+ u_nick
@@ -114,7 +114,7 @@ function genlist(liste, aktion) {
 
 		if ((homep_ext_link != "") && (liste[i + 6] != "G")) {
 			var url = homep_ext_link + liste[i + 2];
-			nlink += "&nbsp;<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 					+ url
 					+ "','640_"
 					+ u_nick
@@ -122,7 +122,7 @@ function genlist(liste, aktion) {
 					+ hgrafik + "</A>";
 		} else if ((liste[i + 1] == "J") && communityfeatures == 1) {
 			var url = "home.php" + stdparm2 + "&ui_userid=" + liste[i];
-			nlink += "&nbsp;<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 					+ url
 					+ "','640_"
 					+ u_nick
@@ -135,7 +135,7 @@ function genlist(liste, aktion) {
 			var nick = liste[i + 2].replace('/+/', "%2b");
 			var url = "mail.php" + stdparm2
 					+ "&aktion=neu2&neue_email[an_nick]=" + nick;
-			nlink += "&nbsp;<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 					+ url
 					+ "','640_"
 					+ u_nick
@@ -149,32 +149,32 @@ function genlist(liste, aktion) {
 			if ((level == "admin"))
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
 						+ liste[i + 2] + "'); return(false)\">G</A>" + fett[1]
 						+ "</TD>";
 			if ((level == "admin") || (level == "owner"))
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
 						+ liste[i + 2] + "'); return(false)\">K</A>" + fett[1]
 						+ "</TD>";
 			if ((level == "admin")
 					&& (liste[i + 3] != "" || liste[i + 4] != ""))
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
 						+ liste[i + 3] + "','" + liste[i + 4] + "','"
 						+ liste[i + 2] + "'); return(false)\">S</A>" + fett[1]
 						+ "</TD><TD>&nbsp;</TD>";
 			if (inaktiv_ansprechen != "1") {
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
 						+ liste[i + 2] + " '); return(false)\">@</A>" + fett[1]
 						+ "</TD>";
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
 						+ liste[i + 2] + " '); return(false)\">&gt;</A>"
 						+ fett[1] + "</TD>";
 			}
@@ -182,7 +182,7 @@ function genlist(liste, aktion) {
 			if ((level == "admin") || (level == "owner"))
 				rowdef += "<TD>"
 						+ fett[0]
-						+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
+						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
 						+ liste[i + 2] + "'); return(false)\">E</A>" + fett[1]
 						+ "</TD><TD>&nbsp;</TD>";
 		}
@@ -205,7 +205,7 @@ function showsmilies(liste) {
 	for ( var i = 0; i < liste.length; i += 2) {
 		var rowdef = "<TD>&nbsp;"
 				+ fett[0]
-				+ "<A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
+				+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
 				+ liste[i] + " '); return(false)\">" + liste[i] + "</A>"
 				+ fett[1] + "&nbsp;</TD>";
 		rowdef += "<TD>" + fett[4] + liste[i + 1] + fett[5] + "</TD>";
@@ -216,7 +216,7 @@ function showsmilies(liste) {
 
 function showsmiliegrafiken(liste) {
 	for ( var i = 0; i < liste.length; i += 3) {
-		var rowdef = "<TD ALIGN=CENTER><A HREF=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
+		var rowdef = "<TD ALIGN=CENTER><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
 				+ liste[i]
 				+ " '); return(false)\"><IMG SRC=\""
 				+ smilies_pfad

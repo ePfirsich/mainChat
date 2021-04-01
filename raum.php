@@ -47,9 +47,9 @@ if (strlen($u_id) != 0) {
 		$rraum = "&schau_raum=$raum";
 	else $rraum = "";
 	
-	$text = "<A HREF=\"raum.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
+	$text = "<a href=\"raum.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
 	if ($u_level != "G")
-		$text .= "| <A HREF=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
+		$text .= "| <a href=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
 	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
@@ -701,7 +701,7 @@ if (strlen($u_id) != 0) {
 					if ($admin && $adminfeatures == 1) {
 						if (isset($extended) && ($extended == 1)) {
 							$rlink = "<CENTER>" . $f1
-								. "<b><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order\">"
+								. "<b><a href=\"raum.php?http_host=$http_host&id=$id&order=$order\">"
 								. $t['menue7'] . "</A></b>" . $f2
 								. "</CENTER>\n";
 							$text .= "<script language=\"javascript\">\n"
@@ -709,7 +709,7 @@ if (strlen($u_id) != 0) {
 								. "</script>\n";
 						} else {
 							$rlink = "<CENTER>" . $f1
-								. "<b><A HREF=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
+								. "<b><a href=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
 								. $t['menue6'] . "</A></b>" . $f2
 								. "</CENTER>\n";
 						}
@@ -721,11 +721,11 @@ if (strlen($u_id) != 0) {
 					$text .= "<tr><td><small><b>" . $rlink . "</b></small></td>";
 					if ($admin || TRUE) {
 						$text .= "<td>&nbsp;</td>";
-						$rlink = "<A HREF=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">S</A>";
+						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">S</A>";
 						$text .= "<td><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-						$rlink = "<A HREF=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">S</A>";
+						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">S</A>";
 						$text .= "<td><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-						$rlink = "<A HREF=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">"
+						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">"
 							. $t['raum_user2'] . "</A>";
 						$text .= "<td><small><b>" . $rlink . "</b></small></td><TD>&nbsp</TD>";
 						if (isset($extended) && $extended) {
@@ -765,7 +765,7 @@ if (strlen($u_id) != 0) {
 							|| $row['r_status1'] == "m" || $uu_id == $u_id
 							|| $admin) {
 							
-							$rlink = "<A HREF=\"raum.php?http_host=$http_host&id=$id&aktion=edit&raum="
+							$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&aktion=edit&raum="
 								. $row['r_id'] . "\">" . $row['r_name']
 								. "</A>";
 							
@@ -776,7 +776,7 @@ if (strlen($u_id) != 0) {
 							} else {
 								$anzahl = 0;
 							}
-							$ulink = "<A HREF=\"user.php?http_host=$http_host&id=$id&schau_raum="
+							$ulink = "<a href=\"user.php?http_host=$http_host&id=$id&schau_raum="
 								. $row['r_id'] . "\">$anzahl</A>";
 							
 							$text .= "<tr bgcolor=$bgcolor><td>$b1" . $rlink
@@ -854,7 +854,7 @@ if (strlen($u_id) != 0) {
 	
 	if ($o_js) {
 		echo $f1
-			. "<P ALIGN=CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+			. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
 			. $f2 . "\n";
 	}
 	

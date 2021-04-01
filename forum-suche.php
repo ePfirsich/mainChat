@@ -522,7 +522,7 @@ aktualisiere_online($u_id, $o_raum);
 if (strlen($u_id) > 0) {
     // Menü als erstes ausgeben
     $box = $ft0 . "$chat Menü" . $ft1;
-    $text = "<A HREF=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
+    $text = "<a href=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
     
     show_box2($box, $text);
     ?>
@@ -545,7 +545,7 @@ if (strlen($u_id) > 0) {
 
 if ($o_js) {
     echo $f1
-        . "<P ALIGN=CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+        . "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
         . $f2 . "\n";
 }
 

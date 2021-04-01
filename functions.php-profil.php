@@ -52,7 +52,7 @@ function profil_editor($u_id, $u_nick, $f)
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
 		$url = "edit.php?http_host=$http_host&id=$id";
-		$userdaten_bearbeiten = "\n[<A HREF=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
+		$userdaten_bearbeiten = "\n[<a href=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
 	}
 	
 	echo "<TABLE CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">\n";
@@ -85,7 +85,7 @@ function profil_editor($u_id, $u_nick, $f)
 		}
 	}
 	if ($userdata['u_url']) {
-		echo "<TR BGCOLOR=\"$bgcolor\"><TD align=\"right\">Homepage:</TD><TD colspan=3><A HREF=\""
+		echo "<TR BGCOLOR=\"$bgcolor\"><TD align=\"right\">Homepage:</TD><TD colspan=3><a href=\""
 			. htmlspecialchars($userdata['u_url'])
 			. "\" TARGET=\"_new\">"
 			. htmlspecialchars($userdata['u_url'])

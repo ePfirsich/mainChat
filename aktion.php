@@ -31,7 +31,7 @@ if ($u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = $ft0 . "Menü Aktionen" . $ft1;
-	$text = "<A HREF=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
+	$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
 	show_box2($box, $text);
 	?>
 	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>

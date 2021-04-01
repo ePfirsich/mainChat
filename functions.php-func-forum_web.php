@@ -42,7 +42,7 @@ function kopf_forum($admin) {
 	
 	if (($admin) && (!$aktion)) {
 		$lnk[1] = $f1
-			. "&nbsp;[<A HREF=\"forum.php?http_host=$http_host&id=$id&aktion=forum_neu\">$menue[1]</A>]"
+			. "&nbsp;[<a href=\"forum.php?http_host=$http_host&id=$id&aktion=forum_neu\">$menue[1]</A>]"
 			. $f2;
 	}
 	
@@ -788,7 +788,7 @@ function maske_posting($mode)
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	echo "<tr><td colspan=\"2\"><A HREF=\"$link_smilies\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$link_smilies');return(false)\">$f3 <DIV style=\"color:$farbe_text; \">$t[smilies]</DIV> $f4</A></td></tr>\n";
+	echo "<tr><td colspan=\"2\"><a href=\"$link_smilies\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$link_smilies');return(false)\">$f3 <DIV style=\"color:$farbe_text; \">$t[smilies]</DIV> $f4</A></td></tr>\n";
 	echo "<tr><td colspan=\"2\" align=\"center\"><textarea name=\"po_text\" rows=\"15\" cols=\"95\"  wrap=physical>$po_text</textarea></td></tr>\n";
 	if ($forum_admin && ($mode == "edit")) {
 		

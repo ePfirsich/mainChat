@@ -116,15 +116,15 @@ if ($u_id) {
 	
 	echo $f1 . "<b>";
 	if (!isset($eingabe_light_hilfe) || !$eingabe_light_hilfe)
-		echo "[<A HREF=\"$mlnk[1]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue4]</A>]&nbsp;";
-	echo "[<A HREF=\"$mlnk[3]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue2]</A>]&nbsp;";
+		echo "[<a href=\"$mlnk[1]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue4]</A>]&nbsp;";
+	echo "[<a href=\"$mlnk[3]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue2]</A>]&nbsp;";
 	
 	if ($o_js)
-		echo "[<A HREF=\"$mlnk[6]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[6]');return(false)\">$t[menue9]</A>]&nbsp;";
+		echo "[<a href=\"$mlnk[6]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[6]');return(false)\">$t[menue9]</A>]&nbsp;";
 	
 	if (!isset($eingabe_light_log) || !$eingabe_light_log)
-		echo "[<A HREF=\"$mlnk[8]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[8]');return(false)\">$t[menue7]</A>]&nbsp;";
-	echo "[<A HREF=\"$mlnk[7]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[7]');return(false)\">$t[menue10]</A>]&nbsp;";
+		echo "[<a href=\"$mlnk[8]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[8]');return(false)\">$t[menue7]</A>]&nbsp;";
+	echo "[<a href=\"$mlnk[7]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[7]');return(false)\">$t[menue10]</A>]&nbsp;";
 	
 	if ((isset($chat_logout_url)) && ($chat_logout_url)) {
 		$logouttarget = "_top";
@@ -133,15 +133,15 @@ if ($u_id) {
 	}
 	
 	if ($admin) {
-		echo "<br>[<A HREF=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;"
-			. "[<A HREF=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
-			. "[<A HREF=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]<br>"
-			. "[<A HREF=\"$mlnk[11]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[11]');return(false)\">$t[menue5]</A>]&nbsp;"
-			. "[<A HREF=\"$mlnk[12]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</A>]&nbsp;";
+		echo "<br>[<a href=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;"
+			. "[<a href=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
+			. "[<a href=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]<br>"
+			. "[<a href=\"$mlnk[11]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[11]');return(false)\">$t[menue5]</A>]&nbsp;"
+			. "[<a href=\"$mlnk[12]\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</A>]&nbsp;";
 	} else {
-		echo "<br>[<A HREF=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
-			. "&nbsp;&nbsp;&nbsp;[<A HREF=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]&nbsp;"
-			. "&nbsp;&nbsp;&nbsp;[<A HREF=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;";
+		echo "<br>[<a href=\"$mlnk[4]\" TARGET=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</A>]&nbsp;"
+			. "&nbsp;&nbsp;&nbsp;[<a href=\"$mlnk[13]\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</A>]&nbsp;"
+			. "&nbsp;&nbsp;&nbsp;[<a href=\"$mlnk[5]\" onMouseOver=\"return(true)\" TARGET=\"$logouttarget\">$t[menue6]</A>]&nbsp;";
 	}
 	echo "</b><br><br>\n";
 	if (!(($u_level == 'U' || $level == 'G')

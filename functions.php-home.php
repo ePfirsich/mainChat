@@ -59,7 +59,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion)
     global $dbase, $http_host, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
     
     $url = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
-    $link = $f3 . "<b>[<A HREF=\"$url\">ÄNDERN</A>]</b>" . $f4;
+    $link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</A>]</b>" . $f4;
     $text = "";
     
     if ($home['ui_userid']) {
@@ -221,7 +221,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
         if ($aktion == "aendern") {
             $url = "edit.php?http_host=$http_host&id=$id";
             $userdaten_bearbeiten = $f3
-                . "<b>[<A HREF=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
+                . "<b>[<a href=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
                 . $f4;
         } else {
             $userdaten_bearbeiten = "&nbsp;";
@@ -397,13 +397,13 @@ function home_bild(
         
         if ($aktion == "aendern") {
             $text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
-                . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
+                . "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
                 . $f4 . "<br>"
                 . home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
                 . "</TD>\n";
         } elseif ($aktion == "aendern_ohne_farbe") {
             $text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
-                . "<b>[<A HREF=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
+                . "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
                 . $f4 . "</TD>\n";
         }
         
@@ -463,15 +463,15 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     $text = "<TD style=\"vertical-align:top;\">" . $f1;
     if ($id) {
         $url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
-        $text .= "<A HREF=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
+        $text .= "<a href=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
             . "<b>Schreibe mir doch eine Mail!</b>&nbsp;$chat_grafik[mail]</A><br><br>";
     } else {
         #$text.="Ihr könnt mir eine Mail schicken, wenn Ihr euch vorher im ".
-        #	"<A HREF=\"index.html\">$chat anmeldet</A>.<br><br>\n";
+        #	"<a href=\"index.html\">$chat anmeldet</A>.<br><br>\n";
     }
     
     if ($userdata['u_url']) {
-        $text .= "Mehr&nbsp;über&nbsp;mich: <b><A HREF=\"redirect.php?url="
+        $text .= "Mehr&nbsp;über&nbsp;mich: <b><a href=\"redirect.php?url="
             . urlencode($userdata['u_url'])
             . "\" TARGET=\"_new\">" . $userdata['u_url']
             . "</b></A><br>\n";
@@ -596,7 +596,7 @@ function home_farbe(
     $url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
         . urlencode($farbe);
     $link = $f3
-        . "<b>[<A HREF=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
+        . "<b>[<a href=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
         . $f4;
     
     return ($link);

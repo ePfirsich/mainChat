@@ -932,7 +932,7 @@ if (strlen($u_id) != 0) {
 // Fuß
 if ($o_js) {
 	echo $f1
-		. "<P ALIGN=CENTER>[<A HREF=\"javascript:window.close();\">$t[sonst2]</A>]</P>"
+		. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst2]</A>]</P>"
 		. $f2 . "\n";
 }
 

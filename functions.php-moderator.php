@@ -31,7 +31,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
                 $r = $farbe_moderationr_zeile2;
             }
             echo "<td align=left><small>";
-            echo "<A HREF=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?http_host=$http_host&id=$id&text=";
+            echo "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?http_host=$http_host&id=$id&text=";
             echo urlencode($row->c_text);
             echo "'; return(false);\">";
             echo "$row->c_text</a></small></td><td align=right><small>";
