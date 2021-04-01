@@ -31,7 +31,7 @@ $t['hilfe10'] = "Legende";
 $t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Homepage";
 $t['hilfe12'] = "<b>Weitere Hilfe zu den Punkten</b>";
 $t['hilfe13'] = "Datenschutzrichtlinien (Datenschutzerklärung) der fidion GmbH, Betreiber des mainChats";
-$t['hilfe14'] = "Nutzungsbestimmungent";
+$t['hilfe14'] = "Nutzungsbestimmungen";
 $t['hilfe15'] = "Automatischer Logout";
 $t['hilfe16'] = "<P>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</b></P>";
 
