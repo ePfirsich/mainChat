@@ -92,7 +92,7 @@ if (strlen($u_id) != 0) {
 	echo "</TABLE></CENTER>";
 	
 } else {
-	echo "<P ALIGN=CENTER>$t[sonst15]</P>\n";
+	echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";
 }
 
 ?>

@@ -97,7 +97,7 @@ if (strlen($u_id) != 0) {
         . "</A>]</b>$f4</CENTER>";
     
 } else {
-    echo "<P ALIGN=CENTER>$t[sonst15]</P>\n";
+    echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";
 }
 
 ?>

@@ -926,13 +926,13 @@ if (strlen($u_id) != 0) {
 	}
 	
 } else {
-	echo "<P ALIGN=CENTER>$t[sonst1]</P>\n";
+	echo "<p style=\"text-align:center;\">$t[sonst1]</p>\n";
 }
 
 // Fuß
 if ($o_js) {
 	echo $f1
-		. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst2]</A>]</P>"
+		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst2]</a>]</p>"
 		. $f2 . "\n";
 }
 

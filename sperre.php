@@ -156,7 +156,7 @@ function liste()
 		echo "</TABLE>\n";
 		
 	} else {
-		echo "<P ALIGN=CENTER>$t[sonst4]</P>\n";
+		echo "<p style=\"text-align:center;\">$t[sonst4]</p>\n";
 	}
 	mysqli_free_result($result);
 	
@@ -586,12 +586,12 @@ if (strlen($u_id) > 0 && $admin) {
 	}
 	
 } else {
-	echo "<P ALIGN=CENTER>$t[sonst16]</P>\n";
+	echo "<p style=\"text-align:center;\">$t[sonst16]</p>\n";
 }
 
 if ($o_js) {
 	echo $f1
-		. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
 		. $f2 . "\n";
 }
 

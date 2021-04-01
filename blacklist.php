@@ -123,7 +123,7 @@ if ($admin && $u_id && $communityfeatures) {
 	}
 	
 } else {
-	echo "<P ALIGN=CENTER><b>Fehler:</b> Sie sind ausgelogt oder haben keine Berechtigung!</P>\n";
+	echo "<p style=\"text-align:center;\"><b>Fehler:</b> Sie sind ausgelogt oder haben keine Berechtigung!</p>\n";
 }
 
 if ($o_js || !$u_id) {

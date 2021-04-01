@@ -540,12 +540,12 @@ if (strlen($u_id) > 0) {
             such_bereich();
     }
 } else {
-    echo "<P ALIGN=CENTER>$t[sonst2]</P>\n";
+    echo "<p style=\"text-align:center;\">$t[sonst2]</p>\n";
 }
 
 if ($o_js) {
     echo $f1
-        . "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+        . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
         . $f2 . "\n";
 }
 

@@ -854,12 +854,12 @@ if (strlen($u_id) != 0) {
 	
 	if ($o_js) {
 		echo $f1
-			. "<P ALIGN=CENTER>[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</P>"
+			. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</p>"
 			. $f2 . "\n";
 	}
 	
 } else {
-	echo "<P ALIGN=CENTER>$t[sonst11]</P>\n";
+	echo "<p style=\"text-align:center;\">$t[sonst11]</p>\n";
 }
 
 ?>

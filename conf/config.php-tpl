@@ -55,13 +55,13 @@ $chatserver_mysqlhost="adressbus.main.de";
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
-// $chat_offline="<P ALIGN=CENTER><b>Der $chat ist derzeit offline.</b></P>";
+// $chat_offline="<p style=\"text-align:center;\"><b>Der $chat ist derzeit offline.</b></p>";
 
 // Chat abschalten 1=ja/0=nein
 $chat_offline_kunde=0;
 
 // Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
-$chat_offline_kunde_txt="<P ALIGN=CENTER><b>Der $chat ist derzeit offline.</b></P>";
+$chat_offline_kunde_txt="<p style=\"text-align:center;\"><b>Der $chat ist derzeit offline.</b></p>";
 
 // Chat auf eine Maximalanzahl von Usern nach Level einschränken
 // Für Admins gilt C/S/M, für User U und für Gäste G
