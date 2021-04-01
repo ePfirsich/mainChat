@@ -1507,7 +1507,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 									$zahl2 = mt_rand(0, 10);
 									$ergebnis = $zahl1 * $zahl2;
 								}
-								echo "Vorläufiges Ergebnis:" . $ergebnis . '<br>';
 								
 								echo $tzahl[$zahl1] . " " . $taufgabe[$aufgabe]
 									. " " . $tzahl[$zahl2]
