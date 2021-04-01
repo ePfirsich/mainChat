@@ -353,8 +353,10 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$result = mysqli_query($mysqli_link, $query);
 	
 	// Bei Admins Cookie setzen zur Überprüfung der Session
-	if ($userdata['u_level'] == "C" || $userdata['u_level'] == "S") {
-		setcookie("MAINCHAT" . $userdata['u_nick'], md5($o_id . $hash_id . "42"), 0, "/");
+	if (false && ( $userdata['u_level'] == "C" || $userdata['u_level'] == "S") ) {
+		$cookie_name = "MAINCHAT" . $userdata['u_nick'];
+		$cookie_inhalt = md5($o_id . $hash_id . "42");
+		setcookie($cookie_name, $cookie_inhalt, 0, "/");
 	}
 	
 	if ($logout_logging)

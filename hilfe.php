@@ -399,7 +399,7 @@ switch ($aktion) {
 
 echo "<P>$t[hilfe7]</P>\n";
 ?>
-<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t[sonst1]; ?></a>]</div>
+<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
 <br>
 </body>
 </html>

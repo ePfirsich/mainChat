@@ -396,7 +396,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 
 if ($o_js || !$u_id) {
 	?>
-	<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t[sonst1]; ?></a>]</div>
+	<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
 	<br>
 	<?php
 }
