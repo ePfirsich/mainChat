@@ -577,10 +577,6 @@ $begrenzung_anmeld_pro_mailadr=5;
 // User können sich eine Liste der Admins abrufen
 $adminlisteabrufbar="0";
 
-// Aktiviert das Umfragemodul (Bei aktiviertem $communityfeatures)
-// In Entwicklung, Funktionsfähig in einer zukünftigen Version
-$umfragefeatures="1";
-
 // Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
 $captcha_text=1;
 

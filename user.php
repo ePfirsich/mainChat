@@ -149,11 +149,6 @@ if (strlen($u_id) != 0) {
 			$url = "href=\"$ur1\" TARGET=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			$text .= "<li><a $url>$t[menue9]</a>\n";
 		}
-		if ($communityfeatures && $umfragefeatures && $admin) {
-			$ur1 = "umfrage.php?http_host=$http_host&id=$id&adminuebersicht=1";
-			$url = "href=\"$ur1\" TARGET=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-			$text .= "<li><a $url>$t[menue13]</a>\n";
-		}
 		$text .= "</ul>";
 		
 		if ($aktion != "zeigalle" || $u_level != "S") {

@@ -145,25 +145,11 @@ zeige_header_ende();
 	$mlnk[10] = "mail.php?http_host=$http_host&id=$id";
 	$mlnk[11] = "index-forum.php?http_host=$http_host&id=$id";
 	$mlnk[12] = "blacklist.php?http_host=$http_host&id=$id";
-	$mlnk[13] = "umfrage.php?http_host=$http_host&id=$id";
 	
 	if ($admin) {
 		$eingabe_light = 0;
 		$eingabe_light_log = 0;
 		$eingabe_light_hilfe = 0;
-	}
-	
-	$umfrageanzeigen = 0;
-	if ($umfragefeatures && $communityfeatures) {
-		// Sind Umfragen vorhanden, nur dann umfragen anzeigen
-		$query = "SELECT um_id FROM umfrage " . "WHERE um_start <= '"
-			. date('Y-m-d H:i:s') . "'" . "  and um_ende >= '"
-			. date('Y-m-d H:i:s') . "'";
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$umfrageanzeigen = 1;
-			mysqli_free_result($result);
-		}
 	}
 	
 	if ($forumfeatures && $communityfeatures) {
@@ -194,9 +180,6 @@ zeige_header_ende();
 			&& (!isset($beichtstuhl) || !$beichtstuhl || $admin)
 			&& ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin))
 			echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue11]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if ($umfrageanzeigen && (!$beichtstuhl || $admin))
-			echo "[<a href=\"$mlnk[13]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</a>]&nbsp;";
 	if (!isset($eingabe_light) || !$eingabe_light)
 		if (!isset($beichtstuhl) || !$beichtstuhl || $admin)
 			echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue3]</a>]&nbsp;";
