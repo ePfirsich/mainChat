@@ -93,7 +93,7 @@ if ($u_id && $communityfeatures) {
 	<?php
 	
 	// Profil prüfen und ggf. neu eintragen
-	if ($los == "EINTRAGEN" && $f['ui_userid']) {
+	if ($los == "Eintragen" && $f['ui_userid']) {
 		
 		// Schreibrechte?
 		if ($f['ui_userid'] == $u_id || $admin) {
@@ -193,7 +193,7 @@ if ($u_id && $communityfeatures) {
 			}
 			
 			// Textkopf
-			if ($los != "EINTRAGEN") {
+			if ($los != "Eintragen") {
 				echo "<P>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen "
 					. "Angaben aus. Falls Sie die eine oder andere Information über sich "
 					. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. "

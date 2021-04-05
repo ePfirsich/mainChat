@@ -11,7 +11,7 @@ function zeige_aktionen($aktion)
     global $farbe_text, $forumfeatures;
     
     $query = "SELECT * from aktion " . "WHERE a_user=$u_id ";
-    $button = "EINTRAGEN";
+    $button = "Eintragen";
     $titel1 = "Für";
     $titel2 = "sind folgende Aktionen eingetragen";
     

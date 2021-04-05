@@ -248,7 +248,7 @@ function profil_editor($u_id, $u_nick, $f)
 		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">"
 		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">"
 		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"neu\">"
-		. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"EINTRAGEN\">" . $f2
+		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 		. "</TD></TR>\n" . "</TABLE>\n";
 	
 }

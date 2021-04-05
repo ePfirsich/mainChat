@@ -217,7 +217,7 @@ function formular_neuer_freund($neuer_freund)
         . $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_freund[f_text]\" VALUE=\""
         . htmlentities($neuer_freund['f_text'])
         . "\" SIZE=$eingabe_breite>" . "&nbsp;"
-        . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"EINTRAGEN\">" . $f2
+        . "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
         . "</TD></TR>\n" . "</TABLE></FORM>\n";
     
 }

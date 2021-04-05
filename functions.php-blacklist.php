@@ -234,7 +234,7 @@ function formular_neuer_blacklist($neuer_blacklist)
         . "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[f_text]\" VALUE=\""
         . htmlspecialchars($neuer_blacklist['f_text'])
         . "\" SIZE=$eingabe_breite>" . "&nbsp;"
-        . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"EINTRAGEN\">" . $f2
+        . "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
         . "</TD></TR>\n" . "</TABLE></FORM>\n";
     
 }
