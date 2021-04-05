@@ -94,7 +94,7 @@ function user_liste($larr, $anzahl)
             } else $jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
         }
         
-        echo "\n\n<SCRIPT LANGUAGE=\"JavaScript\">\n"
+        echo "\n\n<script language=\"JavaScript\">\n"
             . "   var color = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
             . "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
             . "   var level = '$level';\n" . "   var level2 = '$level2';\n"
@@ -109,8 +109,8 @@ function user_liste($larr, $anzahl)
             . "   var show_geschlecht = '$show_geschlecht';\n"
             . "   genlist(liste,'$aktion');\n" . 
             //			     "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
-            "</SCRIPT>\n";
-        echo "<SCRIPT LANGUAGE=\"JavaScript\" src=\"popup.js\"></script>\n";
+            "</script>\n";
+        echo "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
     } else { // kein javascript verfügbar
     
         for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
@@ -228,9 +228,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
                 . "<INPUT NAME=\"id\" VALUE=\"$id\" TYPE=\"HIDDEN\">"
                 . "<INPUT NAME=\"privat\" VALUE=\"$uu_nick\" TYPE=\"HIDDEN\">"
                 . "<INPUT TYPE=\"SUBMIT\" VALUE=\"Go!\">" . $f2
-                . "\n<SCRIPT LANGUAGE=\"JavaScript\">\n\n"
+                . "\n<script language=\"JavaScript\">\n\n"
                 . "document.forms['form'].elements['text2'].focus();\n"
-                . "\n</SCRIPT>\n\n\n";
+                . "\n</script>\n\n\n";
             
             // Fuß der Tabelle
             echo "</TD></TR></TABLE></TD></TR></FORM></TABLE>\n"

@@ -427,31 +427,31 @@ $punkte_pro_posting=50;
 // Definition der Punkte für die Usergruppen
 $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 	6=>500000,7=>750000,8=>1000000,9=>5000000,10=>10000000);
-$punkte_grafik=array("<IMG SRC=\"pics/admingruppe",".gif\" WIDTH=12 HEIGHT=12 ALT=\"Usergruppe/Admin\" BORDER=0>",
-			"<IMG SRC=\"pics/gruppe",".gif\" WIDTH=12 HEIGHT=12 ALT=\"Usergruppe\" BORDER=0>");
+$punkte_grafik=array("<img src=\"pics/admingruppe",".gif\"style=\"width:12px; height:12px; border:0px;\" alt =\"Usergruppe/Admin\">",
+			"<img src=\"pics/gruppe",".gif\"style=\"width:12px; height:12px; border:0px;\" alt =\"Usergruppe\">");
 
-$chat_grafik['mail']="<IMG SRC=\"pics/mail.gif\" WIDTH=17 HEIGHT=12 ALT=\"E-Mail\" BORDER=0>";
-$chat_grafik['home']="<IMG SRC=\"pics/haeuschen.gif\" WIDTH=12 HEIGHT=12 ALT=\"Homepage\" BORDER=0>";
-$chat_grafik['geschlecht_weiblich'] = "&nbsp;<IMG SRC=\"pics/weiblich2.gif\" WIDTH=9 HEIGHT=12 ALT=\"weiblich\" BORDER=0>";
-$chat_grafik['geschlecht_maennlich'] = "&nbsp;<IMG SRC=\"pics/maennlich2.gif\" WIDTH=9 HEIGHT=12 ALT=\"maennlich\" BORDER=0>";
+$chat_grafik['mail']="<img src=\"pics/mail.gif\"style=\"width:17px; height:12px; border:0px;\" alt =\"E-Mail\">";
+$chat_grafik['home']="<img src=\"pics/haeuschen.gif\"style=\"width:12px; height:12px; border:0px;\" alt =\"Homepage\">";
+$chat_grafik['geschlecht_weiblich'] = "&nbsp;<img src=\"pics/weiblich2.gif\"style=\"width:9px; height:12px; border:0px;\" alt =\"weiblich\">";
+$chat_grafik['geschlecht_maennlich'] = "&nbsp;<img src=\"pics/maennlich2.gif\"style=\"width:9px; height:12px; border:0px;\" alt =\"maennlich\">";
 $chat_grafik['forum_pfeil_rechts']="<img src=\"pics/forum/pfeilrechts.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"--->\">";
 $chat_grafik['forum_pfeil_links']="<img src=\"pics/forum/pfeillinks.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"<---\">";
 $chat_grafik['forum_pfeil_oben']="<img src=\"pics/forum/pfeiloben.gif\" width=\"20\" height=\"11\" alt=\"nach_oben\" border=\"0\">";
 $chat_grafik['forum_pfeil_unten']="<img src=\"pics/forum/pfeilunten.gif\" width=\"20\" height=\"11\" alt=\"nach_unten\" border=\"0\">";
-$chat_grafik['forum_antworten']="<IMG SRC=\"pics/forum/antworten.gif\" WIDTH=80 HEIGHT=14 ALT=\"Antworten\" BORDER=0>";
-$chat_grafik['forum_editieren']="<IMG SRC=\"pics/forum/editieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Bearbeiten\" BORDER=0>";
-$chat_grafik['forum_loeschen']="<IMG SRC=\"pics/forum/loeschen.gif\" WIDTH=80 HEIGHT=14 ALT=\"Loeschen\" BORDER=0>";
-$chat_grafik['forum_privat']="<IMG SRC=\"pics/forum/privat.gif\" WIDTH=80 HEIGHT=14 ALT=\"Privat_Antworten\" BORDER=0>";
-$chat_grafik['forum_zitieren']="<IMG SRC=\"pics/forum/zitieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Zitieren_und_Antworten\" BORDER=0>";
-$chat_grafik['forum_ordnerblau']="<IMG SRC=\"pics/forum/ordnerblau.gif\" WIDTH=14 HEIGHT=14 ALT=\"Neue_Beitraege\" BORDER=0>";
-$chat_grafik['forum_ordnerneu']="<IMG SRC=\"pics/forum/ordnerneu.gif\" WIDTH=14 HEIGHT=14 ALT=\"Keine_neuen_Beitraege\" BORDER=0>";
-$chat_grafik['forum_ordnervoll']="<IMG SRC=\"pics/forum/ordnervoll.gif\" WIDTH=14 HEIGHT=14 ALT=\"Mehr_als_10_Beitraege\" BORDER=0>";
-$chat_grafik['forum_themabearbeiten']="<IMG SRC=\"pics/forum/editieren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Thema_bearbeiten\" BORDER=0>";
-$chat_grafik['forum_neuesthema']="<IMG SRC=\"pics/forum/neuesthema.gif\" WIDTH=80 HEIGHT=14 ALT=\"Neues_Thema\" BORDER=0>";
-$chat_grafik['forum_topthema']="<IMG SRC=\"pics/forum/threadtopposting.gif\" WIDTH=14 HEIGHT=14 ALT=\"Thread_TOP_Posting\" BORDER=0>";
-$chat_grafik['forum_threadgeschlossen']="<IMG SRC=\"pics/forum/threadgeschlossen.gif\" WIDTH=14 HEIGHT=14 ALT=\"Thread_geschlossen\" BORDER=0>";
-$chat_grafik['forum_verschieben']="<IMG SRC=\"pics/forum/verschieben.gif\" WIDTH=80 HEIGHT=14 ALT=\"Thread_verschieben\" BORDER=0>";
-$chat_grafik['forum_sperren']="<IMG SRC=\"pics/forum/sperren.gif\" WIDTH=80 HEIGHT=14 ALT=\"Beitrag sperren\" BORDER=0>";
+$chat_grafik['forum_antworten']="<img src=\"pics/forum/antworten.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Antworten\">";
+$chat_grafik['forum_editieren']="<img src=\"pics/forum/editieren.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Bearbeiten\">";
+$chat_grafik['forum_loeschen']="<img src=\"pics/forum/loeschen.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Loeschen\">";
+$chat_grafik['forum_privat']="<img src=\"pics/forum/privat.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Privat_Antworten\">";
+$chat_grafik['forum_zitieren']="<img src=\"pics/forum/zitieren.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Zitieren_und_Antworten\">";
+$chat_grafik['forum_ordnerblau']="<img src=\"pics/forum/ordnerblau.gif\"style=\"width:14px; height:14px; border:0px;\" alt =\"Neue_Beitraege\">";
+$chat_grafik['forum_ordnerneu']="<img src=\"pics/forum/ordnerneu.gif\"style=\"width:14px; height:14px; border:0px;\" alt =\"Keine_neuen_Beitraege\">";
+$chat_grafik['forum_ordnervoll']="<img src=\"pics/forum/ordnervoll.gif\"style=\"width:14px; height:14px; border:0px;\" alt =\"Mehr_als_10_Beitraege\">";
+$chat_grafik['forum_themabearbeiten']="<img src=\"pics/forum/editieren.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Thema_bearbeiten\">";
+$chat_grafik['forum_neuesthema']="<img src=\"pics/forum/neuesthema.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Neues_Thema\">";
+$chat_grafik['forum_topthema']="<img src=\"pics/forum/threadtopposting.gif\"style=\"width:14px; height:14px; border:0px;\" alt =\"Thread_TOP_Posting\">";
+$chat_grafik['forum_threadgeschlossen']="<img src=\"pics/forum/threadgeschlossen.gif\"style=\"width:14px; height:14px; border:0px;\" alt =\"Thread_geschlossen\">";
+$chat_grafik['forum_verschieben']="<img src=\"pics/forum/verschieben.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Thread_verschieben\">";
+$chat_grafik['forum_sperren']="<img src=\"pics/forum/sperren.gif\"style=\"width:80px; height:14px; border:0px;\" alt =\"Beitrag sperren\">";
 
 //Einstellungen für das Forum
 
