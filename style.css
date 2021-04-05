@@ -1,3 +1,12 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
+
+.farbe_tabelle_kopf a, .farbe_tabelle_kopf a:link, .farbe_tabelle_kopf a:visited {
+	color:#ffffff;
+	text-decoration:none;
+}
+. farbe_tabelle_kopf a:hover {
+	color:#ffffff;
+	text-decoration:none;
+}
