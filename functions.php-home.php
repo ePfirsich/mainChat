@@ -221,7 +221,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
         if ($aktion == "aendern") {
             $url = "edit.php?http_host=$http_host&id=$id";
             $userdaten_bearbeiten = $f3
-                . "<b>[<a href=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
+                . "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
                 . $f4;
         } else {
             $userdaten_bearbeiten = "&nbsp;";
@@ -463,7 +463,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     $text = "<TD style=\"vertical-align:top;\">" . $f1;
     if ($id) {
         $url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
-        $text .= "<a href=\"$url\" TARGET=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
+        $text .= "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
             . "<b>Schreibe mir doch eine Mail!</b>&nbsp;$chat_grafik[mail]</A><br><br>";
     } else {
         #$text.="Ihr könnt mir eine Mail schicken, wenn Ihr euch vorher im ".
@@ -473,7 +473,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
     if ($userdata['u_url']) {
         $text .= "Mehr&nbsp;über&nbsp;mich: <b><a href=\"redirect.php?url="
             . urlencode($userdata['u_url'])
-            . "\" TARGET=\"_new\">" . $userdata['u_url']
+            . "\" target=\"_blank\">" . $userdata['u_url']
             . "</b></A><br>\n";
     }
     
@@ -596,7 +596,7 @@ function home_farbe(
     $url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
         . urlencode($farbe);
     $link = $f3
-        . "<b>[<a href=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
+        . "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
         . $f4;
     
     return ($link);
@@ -685,7 +685,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
 
 function home_url_parse($tag, $url)
 {
-    return ("$tag=\"redirect.php?url=" . urlencode($url) . "\" TARGET=\"_new\"");
+    return ("$tag=\"redirect.php?url=" . urlencode($url) . "\" target=\"_blank\"");
 }
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "")

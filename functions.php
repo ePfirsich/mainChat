@@ -1240,7 +1240,7 @@ function user(
 	
 	if (!$extra_kompakt && $link) {
 		$url = "hilfe.php?http_host=$http_hosttag&aktion=legende&id=$idtag";
-		$grafikurl1 = "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
+		$grafikurl1 = "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
 		$grafikurl2 = "</A>";
 	} else {
 		$grafikurl1 = "";
@@ -1265,11 +1265,11 @@ function user(
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
-				. "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		} elseif ($user_chathomepage == "J") {
 			$url = "home.php?http_host=$http_hosttag&ui_userid=$user_id&id=$idtag";
 			$text2 .= "&nbsp;"
-				. "<a href=\"#\" TARGET=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		}
 	}
 	
@@ -1278,7 +1278,7 @@ function user(
 		$url = "mail.php?http_host=$http_hosttag&aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
-			. "<a href=\"#\" TARGET=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"
+			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"
 			. $chat_grafik['mail'] . "</A>";
 	} elseif (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
@@ -1313,7 +1313,7 @@ function user(
 function chat_parse($text)
 {
 	// Filtert Text und ersetzt folgende Zeichen:
-	// http://###### oder www.###### in <a href="http://###" TARGET=_new>http://###</A>
+	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</A>
 	// E-Mail Adressen in A-Tag mit Mailto
 	
 	global $admin, $sprachconfig, $u_id, $u_level;
@@ -1373,7 +1373,7 @@ function chat_parse($text)
 				$txt[$j] = str_replace($txt[$j], $rep, $txt[$j]);
 			}
 			
-			// www.###### in <a href="http://###" TARGET=_new>http://###</A>
+			// www.###### in <a href="http://###" target=_blank>http://###</A>
 			if (preg_match("/^www\..*\..*/i", $txt[$j])) {
 				// sonderfall -> "?" in der URL -> dann "?" als Sonderzeichen behandeln...
 				$txt2 = preg_replace("!\?!", "\\?", $txt[$j]);
@@ -1412,7 +1412,7 @@ function chat_parse($text)
 					$txt[$j]);
 				
 			}
-			// http://###### in <a href="http://###" TARGET=_new>http://###</A>
+			// http://###### in <a href="http://###" target=_blank>http://###</A>
 			if (preg_match("!^https?://!", $txt[$j])) {
 				// Wort=URL mit http:// am Anfang? -> im text durch dummie ersetzen, im wort durch href.
 				// Zusatzproblematik.... könnte ein http-get-URL sein, mit "?" am Ende oder zwischendrin... urgs.

@@ -444,7 +444,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$txt = str_replace("%is_infotext%", $infotext, $txt);
 				while ($row2 = mysqli_fetch_object($result2)) {
 					$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$t_u_id";
-					$ah1 = "<a href=\"$ur1\" TARGET=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','"
+					$ah1 = "<a href=\"$ur1\" target=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','"
 						. $t_u_nick . "'); return(false);\">";
 					$ah2 = "</A>";
 					system_msg("", 0, $row2->o_user, $system_farbe,
@@ -1401,7 +1401,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"POST\">"
 							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 					} else {
-						echo "<FORM ACTION=\"$chat_file\" TARGET=\"topframe\" name=\"form1\" method=\"POST\">"
+						echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"POST\">"
 							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 					}
 					
@@ -1606,7 +1606,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							$txt = str_replace("%is_infotext%", $infotext, $txt);
 							while ($row2 = mysqli_fetch_object($result2)) {
 								$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$u_id";
-								$ah1 = "<a href=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
+								$ah1 = "<a href=\"$ur1\" target=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
 								$ah2 = "</A>";
 								system_msg("", 0, $row2->o_user, $system_farbe,
 									str_replace("%u_nick%",
@@ -1706,7 +1706,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 								$t['default7']);
 							while ($row2 = mysqli_fetch_object($result2)) {
 								$ur1 = "user.php?http_host=<HTTP_HOST>&id=<ID>&aktion=zeig&user=$u_id";
-								$ah1 = "<a href=\"$ur1\" TARGET=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
+								$ah1 = "<a href=\"$ur1\" target=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
 								$ah2 = "</A>";
 								system_msg("", 0, $row2->o_user, $system_farbe,
 									str_replace("%u_nick%",
@@ -1916,7 +1916,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"POST\">"
 						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				} else {
-					echo "<FORM ACTION=\"$chat_file\" TARGET=\"topframe\" name=\"form1\" method=\"POST\">"
+					echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"POST\">"
 						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				}
 				

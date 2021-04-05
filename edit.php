@@ -90,16 +90,16 @@ if (strlen($u_id) != 0) {
 	$box = $ft0 . $t['menue4'] . $ft1;
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
-		$url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text = "<A $url>$t[menue7]</A>\n";
 		$ur1 = "home.php?http_host=$http_host&id=$id&aktion=aendern";
-		$url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <A $url>$t[menue10]</A>\n";
 		$ur1 = "freunde.php?http_host=$http_host&id=$id";
-		$url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <A $url>$t[menue9]</A>\n";
 		$ur1 = "aktion.php?http_host=$http_host&id=$id";
-		$url = "HREF=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <A $url>$t[menue8]</A>\n";
 	}
 	if (isset($text) && $text) {

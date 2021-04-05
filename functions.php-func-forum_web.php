@@ -788,7 +788,7 @@ function maske_posting($mode)
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	echo "<tr><td colspan=\"2\"><a href=\"$link_smilies\" TARGET=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$link_smilies');return(false)\">$f3 <DIV style=\"color:$farbe_text; \">$t[smilies]</DIV> $f4</A></td></tr>\n";
+	echo "<tr><td colspan=\"2\"><a href=\"$link_smilies\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$link_smilies');return(false)\">$f3 <DIV style=\"color:$farbe_text; \">$t[smilies]</DIV> $f4</A></td></tr>\n";
 	echo "<tr><td colspan=\"2\" align=\"center\"><textarea name=\"po_text\" rows=\"15\" cols=\"95\"  wrap=physical>$po_text</textarea></td></tr>\n";
 	if ($forum_admin && ($mode == "edit")) {
 		
@@ -948,7 +948,7 @@ function navigation_posting(
 		$pfenster = str_replace("ß", "", $pfenster);
 		
 		$mailurl = "mail.php?aktion=antworten_forum&id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
-		echo "<td width=\"50\" ><a href=\"$mailurl\" TARGET=\"640_$pfenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mailurl'); return(false)\">"
+		echo "<td width=\"50\" ><a href=\"$mailurl\" target=\"640_$pfenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mailurl'); return(false)\">"
 			. $chat_grafik['forum_privat'] . "</a></td>";
 	} else {
 		echo "<td width=\"50\" >&nbsp;</td>\n";

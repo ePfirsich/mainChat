@@ -51,7 +51,7 @@ function profil_editor($u_id, $u_nick, $f) {
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
 		$url = "edit.php?http_host=$http_host&id=$id";
-		$userdaten_bearbeiten = "\n[<a href=\"$url\" TARGET=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
+		$userdaten_bearbeiten = "\n[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
 	}
 	
 	?>

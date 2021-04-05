@@ -128,12 +128,12 @@ if (strlen($u_id) != 0) {
 		if ($communityfeatures && $u_level != "G") {
 			if ($punktefeatures) {
 				$ur1 = "top10.php?http_host=$http_host&id=$id";
-				$url = "href=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+				$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
 			$ur1 = "freunde.php?http_host=$http_host&id=$id";
-			$url = "href=\"$ur1\" TARGET=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+			$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
 		//	if ($admin && $erweitertefeatures) {
@@ -146,7 +146,7 @@ if (strlen($u_id) != 0) {
 		}
 		if ($erweitertefeatures && $admin) {
 			$ur1 = "user.php?http_host=$http_host&id=$id&aktion=statistik";
-			$url = "href=\"$ur1\" TARGET=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+			$url = "href=\"$ur1\" target=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			$text .= "<li><a $url>$t[menue9]</a>\n";
 		}
 		$text .= "</ul>";
