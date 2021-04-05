@@ -106,7 +106,7 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 }
 
 // Menü als erstes ausgeben
-$box = $ft0 . $t['menue4'] . $ft1;
+$box = $t['menue4'];
 $text = "<a href=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
 	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</A>\n"
 	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</A>\n";
@@ -123,18 +123,15 @@ if ($zeige_datenschutz) {
 }
 if ($aktion != "logout") {
 	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 }
 
 switch ($aktion) {
 	
 	case "befehle":
 	// Erklärung zu den Befehlen
-		$box = $ft0 . $t['hilfe0'] . $ft1;
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text = '';
+		$box = $t['hilfe0'];
 		
 		// Tabelle ausgeben
 		reset($hilfe_befehlstext);
@@ -142,27 +139,37 @@ switch ($aktion) {
 		$i = 0;
 		$bgcolor = $farbe_tabelle_zeile1;
 		
-		// Tablelle ausgeben
-		echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>\n";
-		echo "<TR><TD COLSPAN=4 ALIGN=CENTER>$t[hilfe1]</CENTER></TD></TR>";
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\">$t[hilfe2]</TR>\n";
+		$text .= "<div style=\"text-align:center;\">$t[hilfe1]</div>";
+		// Befehle für alle User
+		$text .= "<table class=\"tabelle_kopf\">\n";
+		$text .= "<tr>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe19]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe20]</td>";
+		$text .= "</tr>\n";
 		
 		while ($i < $anzahl) {
 			$spname = key($hilfe_befehlstext);
 			$spruchtmp = preg_split("/\t/", $hilfe_befehlstext[$spname], 4);
-			if (!isset($spruchtmp[0]))
+			if (!isset($spruchtmp[0])) {
 				$spruchtmp[0] = "&nbsp;";
-			if (!isset($spruchtmp[1]))
+			}
+			if (!isset($spruchtmp[1])) {
 				$spruchtmp[1] = "&nbsp;";
-			if (!isset($spruchtmp[2]))
+			}
+			if (!isset($spruchtmp[2])) {
 				$spruchtmp[2] = "&nbsp;";
-			if (!isset($spruchtmp[3]))
+			}
+			if (!isset($spruchtmp[3])) {
 				$spruchtmp[3] = "&nbsp;";
-			echo "<TR BGCOLOR=\"$bgcolor\">" . "<TD>" . $f1
-				. "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</TD>\n" . "<TD>" . $f1
-				. "$spruchtmp[1]" . $f2 . "</TD>\n" . "<TD>" . $f1
-				. "$spruchtmp[2]" . $f2 . "</TD>\n" . "<TD>" . $f1
-				. "$spruchtmp[3]" . $f2 . "</TD>\n" . "</TR>";
+			}
+			$text .= "<tr>"
+				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
+				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
+				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
+				. "</tr>";
 			next($hilfe_befehlstext);
 			
 			// Farben umschalten
@@ -174,7 +181,7 @@ switch ($aktion) {
 			
 			$i++;
 		}
-		echo "</TABLE>\n";
+		$text .= "</table>\n";
 		
 		if ($admin && $hilfe_befehlstext_admin_ok == 1) {
 			
@@ -183,28 +190,38 @@ switch ($aktion) {
 			$i = 0;
 			$bgcolor = $farbe_tabelle_zeile1;
 			
-			// Tablelle ausgeben
-			echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>\n";
-			echo "<TR><TD COLSPAN=4 ALIGN=CENTER><b>$t[hilfe8]</b></CENTER></TD></TR>";
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\">$t[hilfe2]</TR>\n";
+			$text .= "<br>";
+			$text .= "<div style=\"text-align:center;\">$t[hilfe8]</div>";
+			// Befehle für Admins
+			$text .= "<table class=\"tabelle_kopf\">\n";
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe19]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe20]</td>";
 			
 			while ($i < $anzahl) {
 				$spname = key($hilfe_befehlstext_admin);
 				$spruchtmp = preg_split("/\t/",
 					$hilfe_befehlstext_admin[$spname], 4);
-				if (!isset($spruchtmp[0]))
+				if (!isset($spruchtmp[0])) {
 					$spruchtmp[0] = "&nbsp;";
-				if (!isset($spruchtmp[1]))
+				}
+				if (!isset($spruchtmp[1])) {
 					$spruchtmp[1] = "&nbsp;";
-				if (!isset($spruchtmp[2]))
+				}
+				if (!isset($spruchtmp[2])) {
 					$spruchtmp[2] = "&nbsp;";
-				if (!isset($spruchtmp[3]))
+				}
+				if (!isset($spruchtmp[3])) {
 					$spruchtmp[3] = "&nbsp;";
-				echo "<TR BGCOLOR=\"$bgcolor\">" . "<TD>" . $f1
-					. "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</TD>\n" . "<TD>"
-					. $f1 . "$spruchtmp[1]" . $f2 . "</TD>\n" . "<TD>" . $f1
-					. "$spruchtmp[2]" . $f2 . "</TD>\n" . "<TD>" . $f1
-					. "$spruchtmp[3]" . $f2 . "</TD>\n" . "</TR>";
+				}
+				$text .= "<tr>"
+					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
+					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
+					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
+					. "</tr>";
 				next($hilfe_befehlstext_admin);
 				
 				// Farben umschalten
@@ -216,24 +233,23 @@ switch ($aktion) {
 				
 				$i++;
 			}
-			echo "</TABLE>\n";
+			$text .= "</table>\n";
 		}
+		
+		show_box_title_content($box,$text);
 		
 		break;
 	
 	case "sprueche":
 	// Erklärung zu den Sprüchen
-		$box = $ft0 . $t['hilfe3'] . $ft1;
+		$text = '';
+		$box = $t['hilfe3'];
 		show_box2($box, $hilfe_spruchtext);
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
 		// Liste mit Sprüchen ausgeben
-		$box = $ft0 . $t['hilfe4'] . $ft1;
-		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$box = $t['hilfe4'];
 		
 		// Sprüche in Array einlesen
 		$spruchliste = file("conf/$datei_spruchliste");
@@ -243,9 +259,13 @@ switch ($aktion) {
 		$i = 0;
 		$bgcolor = $farbe_tabelle_zeile1;
 		
-		// Tablelle ausgeben
-		echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0><TR BGCOLOR=\"$farbe_tabelle_kopf2\">"
-			. "$t[hilfe5]</TR></TABLE>\n";
+		// Sprüche ausgeben
+		$text .= "<table class=\"tabelle_kopf\">\n";
+		$text .= "<tr>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe21]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:center;\">$t[hilfe22]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe23]</td>";
+		$text .= "</tr>\n";
 		
 		while ($i < $anzahl) {
 			$spname = key($spruchliste);
@@ -258,12 +278,11 @@ switch ($aktion) {
 			$spruchtmp[2] = preg_replace('|\*(.*?)\*|', '<i>\1</i>',
 				preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
 			
-			echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0><TR BGCOLOR=\"$bgcolor\">"
-				. "<TD WIDTH=15%>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2
-				. "</TD>\n" . "<TD ALIGN=CENTER WIDTH=10%>" . $f1
-				. "<b>$spruchtmp[1]</b>" . $f2 . "</TD>\n" . "<TD WIDTH=75%>"
-				. $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</TD>\n"
-				. "</TR></TABLE>\n";
+			$text .= "<tr>"
+				. "<td style=\"background-color:$bgcolor; width:15%;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+				. "<td style=\"background-color:$bgcolor; width:10%; text-align:center;\">" . $f1 . "<b>$spruchtmp[1]</b>" . $f2 . "</td>\n"
+				. "<td style=\"background-color:$bgcolor; width:75%;\">" . $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</td>\n"
+				. "</tr>\n";
 			next($spruchliste);
 			
 			// Farben umschalten
@@ -276,75 +295,80 @@ switch ($aktion) {
 			$i++;
 		}
 		
-		echo "</TABLE>\n";
+		$text .= "</table>\n";
+		
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "legende":
-		$box = $ft0 . $t['hilfe10'] . $ft1;
+	// Legende
+		$text = '';
+		$box = $t['hilfe10'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
-		
-		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
+		$text .= "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
 			. $legende . "</table><br>\n"
 			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><br>\n";
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+		
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "community":
-		$box = $ft0 . $t['hilfe11'] . $ft1;
+	// Punkte/Community
+		$text = '';
+		$box = $t['hilfe11'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text .= $hilfe_community . "\n";
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
-		echo $hilfe_community . "\n";
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "agb":
+	// Nutzungsbestimmungen
+		$text = '';
 		include("conf/" . $sprachconfig . "-index.php");
 		if (isset($extra_agb) and ($extra_agb <> "")
 			and ($extra_agb <> "standard"))
 			$t['agb'] = $extra_agb;
-		$box = $ft0 . $t['hilfe14'] . $ft1;
+		$box = $t['hilfe14'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text .= $t['agb'] . "\n";
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
-		echo $t['agb'] . "\n";
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "privacy":
-		$box = $ft0 . $t['hilfe13'] . $ft1;
+	// Datenschutz
+		$text = '';
+		$box = $t['hilfe13'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text .=  $hilfe_privacy . "\n";
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
-		echo $hilfe_privacy . "\n";
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "chatiquette":
-		$box = $ft0 . $t['hilfe9'] . $ft1;
+	// Chatiquette
+		$text = '';
+		$box = $t['hilfe9'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text .= "$chatiquette\n";
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
-		echo "$chatiquette\n";
-		echo "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
+		show_box_title_content($box,$text);
+		
 		break;
 	
 	case "logout":
-		$box = $ft0 . $t['hilfe15'] . $ft1;
+		$box = $t['hilfe15'];
 		$text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
 		show_box2($box, $text);
 		
@@ -352,21 +376,17 @@ switch ($aktion) {
 		break;
 	
 	default;
-		$box = $ft0 . $t['hilfe6'] . $ft1;
+	// Übersicht
+		$text = '';
+		$box = $t['hilfe6'];
 		
-		// Überschrift anzeigen
-		show_box_title($box);
+		$text .= $hilfe_uebersichtstext;
+		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
-		echo $hilfe_uebersichtstext;
-		?>
-
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		show_box_title_content($box,$text);
 }
 ?>
-
-<P><?php echo $t['hilfe7']; ?></p>
-
+<br>
 <div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
 <br>
 </body>

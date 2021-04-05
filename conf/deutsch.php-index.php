@@ -1,8 +1,9 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['willkommen1'] = "<P><span style=\"font-size: large\"><b>Hallo %PHP_AUTH_USER%, willkommen im $chat!</b></span></P>\n";
-$t['willkommen2'] = "<P><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></P>\n";
+$t['willkommen1'] = "<p><span style=\"font-size: large\"><b>Hallo %PHP_AUTH_USER%, willkommen im $chat!</b></span></p>\n";
+$t['willkommen2'] = "<p><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></p>\n";
+$t['willkommen3'] = "Willkommen im $chat!";
 
 $t['login1'] = "<b>Login mit sicherer HTTPS-Anmeldung</b>";
 $t['login2'] = "<b>neue HTTPS-Anmeldung</b>";
@@ -161,8 +162,7 @@ $t['default10'] = "Community-Bereich ";
 $t['ipsperre1'] = "Info an alle Admins: User %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['agb'] = "<p><b>Nutzungsbestimmungen $chat:</b></p>"
-	. "<ol><li>Wir bitten alle User im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$t['agb'] = "<ol><li>Wir bitten alle User im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. "
 	. "Pro Mitglied ist nur ein Account zulässig.</li>"

@@ -221,14 +221,13 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
 	
 	// Einstellungen für Fenstergrößen
 	if ($u_level != "G") {
-		$text .= "<TR><TD COLSPAN=2><HR SIZE=2 NOSHADE>" . $f1 . "<b>"
-			. $t['user_zeige43'] . "</b>\n" . $f2 . "</TD></TR>\n";
+		$text .= "<tr><TD colspan=\"2\"><hr size=\"2\" noshade>" . $f1 . "<b>" . $t['user_zeige43'] . "</b>\n" . $f2 . "</td></tr>\n";
 		foreach ($frame_size['def'] as $key => $val) {
-			$text .= "<TR><TD>" . $f1 . "<b>" . $t[$key] . "</b>\n" . $f2
-				. "</TD><TD>" . $f1
-				. "<INPUT TYPE=\"TEXT\" NAME=\"size[$key]\" SIZE=4 VALUE=$size[$key]>&nbsp;"
+			$text .= "<tr><td>" . $f1 . "<b>" . $t[$key] . "</b>\n" . $f2
+				. "</td><td>" . $f1
+				. "<input type=\"text\" name=\"size[$key]\" size=\"4\" value=\"$size[$key]\">&nbsp;"
 				. str_replace("%vor%", $val, $t['user_zeige42']) . $f2
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
 		}
 	}
 	
@@ -243,7 +242,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
 		if ($communityfeatures) {
 			$url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
 				. urlencode($f['u_farbe']);
-			$link = "<b>[<a href=\"$url\" TARGET=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
+			$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
 		}
 		$text .= "<TR><TD COLSPAN=2><HR SIZE=2 NOSHADE></TD></TR>"
 			. "<TR><TD>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
@@ -275,7 +274,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
 	// Farbenliste & aktuelle Farbe
 	
 	if ($f['u_id'] == $u_id) {
-		$text .= "\n<HR SIZE=2 NOSHADE><TABLE><TD COLSPAN=2><b>"
+		$text .= "\n<HR SIZE=2 NOSHADE><TABLE><tr><TD COLSPAN=2><b>"
 			. $t['user_zeige10'] . "&nbsp;</b></TD>" . "<TD BGCOLOR=\"#"
 			. $f['u_farbe'] . "\">&nbsp;&nbsp;&nbsp;</TD>" . "</TR></TABLE>";
 		$text .= "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0><TR>\n";

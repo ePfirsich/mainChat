@@ -867,22 +867,18 @@ function zerlege($daten) {
 
 function show_box($box, $text, $url = "", $width = "") {
 	// Gibt Tabelle mit Kopf und Inhalt aus 
-	global $farbe_link;
-	global $farbe_vlink;
 	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_text_kopf;
-	global $farbe_tabelle_kopf2;
-	global $f1;
-	global $f2;
+	global $farbe_tabelle_koerper;
 	
 	if (strlen($width) > 0) {
 		$width = "width:" . $width . ";";
 	}
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf2; ?>; <?php echo $width; ?>" class="farbe_tabelle_kopf2">
+	<table class="tabelle_kopf">
+	
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>; color:<?php echo $farbe_tabelle_text_kopf; ?>" class="farbe_tabelle_kopf">
+			<td class="tabelle_kopfzeile">
 			<?php
 			if (strlen($url) > 0) {
 				?>
@@ -894,7 +890,7 @@ function show_box($box, $text, $url = "", $width = "") {
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo $text; ?></td>
+			<td class="tabelle_koerper_login"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -902,11 +898,7 @@ function show_box($box, $text, $url = "", $width = "") {
 
 function show_box2($box, $text, $button = TRUE) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus 
-	global $farbe_text;
-	global $farbe_link;
-	global $farbe_vlink;
 	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_text_kopf;
 	global $farbe_tabelle_koerper;
 	global $f1;
 	global $f2;
@@ -917,31 +909,12 @@ function show_box2($box, $text, $button = TRUE) {
 	}
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%;" class="farbe_tabelle_kopf">
+	<table class="tabelle_kopf">
 		<tr>
-			<td style="color:<?php echo $farbe_tabelle_text_kopf; ?>"><span style="font-size: smaller; font-weight: bold;"><?php echo $box; ?></span><?php echo $extra; ?></td>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?><?php echo $extra; ?></td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;" class="farbe_tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
-		</tr>
-	</table>
-	<?php
-}
-
-function show_box_title($box) {
-	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_text_kopf;
-	global $f1;
-	global $f2;
-	?>
-	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%" class="farbe_tabelle_kopf">
-		<tr>
-			<td>
-				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo  $f1 . $box . $f2; ?></span>
-				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
-			</td>
+			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -949,23 +922,17 @@ function show_box_title($box) {
 
 function show_box_title_content($box, $text) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $farbe_text;
 	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_text_kopf;
 	global $farbe_tabelle_koerper;
-	global $f1;
-	global $f2;
 	?>
 	
-	<table style="background-color:<?php echo $farbe_tabelle_kopf; ?>; width:100%;" class="farbe_tabelle_kopf">
+	<table class="tabelle_kopf">
 		<tr>
-			<td>
-				<span style="font-size: smaller; color:<?php echo $farbe_tabelle_text_kopf; ?>; font-weight: bold;"><?php echo   $box ?></span>
-				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
+			<td class="tabelle_kopfzeile"><?php echo $box ?> <a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
 			</td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_koerper; ?>; color:<?php echo $farbe_text; ?>; padding-left:2px; padding-right:2px;" class="farbe_tabelle_koerper"><?php echo $text; ?></td>
+			<td class="tabelle_koerper"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php

@@ -153,7 +153,6 @@ $layout_parse="";
 
 // Tabellenfarben
 $farbe_tabelle_kopf="#007ABE";
-$$farbe_tabelle_text_kopf="#ffffff";
 $farbe_tabelle_kopf2="#85D4FF";
 $farbe_tabelle_koerper="#FFFFFF";
 $farbe_tabelle_zeile1="#E8E8FF";

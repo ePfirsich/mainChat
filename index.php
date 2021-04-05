@@ -1486,12 +1486,15 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						
 						if ($captcha_text == 1) {
 							?>
-							<table>
+							<table class="tabelle_kopf">
 								<tr>
-								<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['agb']; ?></td>
+									<td colspan="2" class="tabelle_kopfzeile"><?php echo $t['willkommen3']; ?></td>
 								</tr>
 								<tr>
-									<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['captcha1']; ?><br>
+									<td colspan="2" class="tabelle_koerper_login"><?php echo $t['agb']; ?></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="tabelle_koerper_login"><?php echo $t['captcha1']; ?><br>
 								<?php
 								$aufgabe = mt_rand(1, 3);
 								if ($aufgabe == 1) { // +
@@ -1521,8 +1524,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 									</td>
 								</tr>
 								<tr>
-									<td align="left" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $f1; ?><b><input type="submit" name="los" value="<?php echo $t['login17']; ?>"></b></td>
-									<td align="right" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $f1; ?><input type="submit" name="los" value="<?php echo $t['login18']; ?>"></td>
+									<td align="left" class="tabelle_koerper_login"><?php echo $f1; ?><b><input type="submit" name="los" value="<?php echo $t['login17']; ?>"></b></td>
+									<td align="right" class="tabelle_koerper_login"><?php echo $f1; ?><input type="submit" name="los" value="<?php echo $t['login18']; ?>"></td>
 								</tr>
 							</table>
 							<?php echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n"; ?>
@@ -1534,13 +1537,16 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							<?php
 						} else {
 							?>
-							<table>
+							<table class="tabelle_kopf">
 								<tr>
-									<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf2; ?>;"><?php echo $t['agb']; ?></td>
+									<td colspan="2" class="tabelle_kopfzeile"><?php echo $t['willkommen3']; ?></td>
 								</tr>
 								<tr>
-									<td align="left" style="background-color:<?php echo $farbe_tabelle_kopf; ?>;"><?php echo $f1; ?><b><input type="submit" name="los" value="<?php echo $t['login17']; ?>"></b></td>
-									<td align="right" style="background-color:<?php echo $farbe_tabelle_kopf; ?>;"><?php echo $f1; ?><input type="submit" name="los" value="<?php echo $t['login18']; ?>"></td>
+									<td colspan="2" class="tabelle_koerper_login"><?php echo $t['agb']; ?></td>
+								</tr>
+								<tr>
+									<td align="left" class="tabelle_koerper_login"><?php echo $f1; ?><b><input type="submit" name="los" value="<?php echo $t['login17']; ?>"></b></td>
+									<td align="right" class="tabelle_koerper_login"><?php echo $f1; ?><input type="submit" name="los" value="<?php echo $t['login18']; ?>"></td>
 								</tr>
 							</table>
 							<?php echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n"; ?>
@@ -2399,8 +2405,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					show_box2(
-						str_replace("%chat%", $chat,
-							$ft0 . $t['default5'] . $ft1), $text,
+						str_replace("%chat%", $chat, $ft0 . $t['default5'] . $ft1), $text,
 						false);
 					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
 				}

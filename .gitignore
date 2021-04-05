@@ -4,6 +4,5 @@
 .buildpath
 /conf/config.php
 /ext/functions.php-www*
-/seitenkoepfe/*
 /logs/*
 tests/_output/*

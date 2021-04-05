@@ -42,7 +42,7 @@ if (strlen($u_id) != 0) {
 	aktualisiere_online($u_id, $o_raum);
 	
 	// Menü als erstes ausgeben
-	$box = $ft0 . $t['menue5'] . $ft1;
+	$box = $t['menue5'];
 	if (isset($raum))
 		$rraum = "&schau_raum=$raum";
 	else $rraum = "";
@@ -238,9 +238,7 @@ if (strlen($u_id) != 0) {
 					
 					// Raum ist nicht Lobby -> Löschen
 					if ($f['r_id'] == $lobby_id) {
-						echo "<P>"
-							. str_replace("%r_name%", $row->r_name,
-								$t['fehler12']) . "</P>\n";
+						echo "<p>" . str_replace("%r_name%", $row->r_name, $t['fehler12']) . "</p>\n";
 					} else {
 						
 						// Raum schließen
@@ -280,7 +278,7 @@ if (strlen($u_id) != 0) {
 				} else {
 					echo "<P>"
 						. str_replace("%r_name%", $row->r_name, $t['fehler5'])
-						. "</P>\n";
+						. "</p>\n";
 				}
 				
 				mysqli_free_result($result);
@@ -292,13 +290,14 @@ if (strlen($u_id) != 0) {
 		
 		case "loesch":
 		// Raum löschen
+			$text = '';
 			$query = "SELECT raum.*,u_id FROM raum left join user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
 			
 			$result = mysqli_query($mysqli_link, $query);
 			
 			if ($result AND mysqli_num_rows($result) > 0) {
 				// Kopf Tabelle
-				$box = $ft0 . $t['sonst6'] . $ft1;
+				$box = $t['sonst6'];
 				
 				// Raum zeigen
 				$row = mysqli_fetch_object($result);
@@ -311,7 +310,7 @@ if (strlen($u_id) != 0) {
 				$text .= "<TR><TD COLSPAN=2>" . $f1 . "<b>$t[sonst7]</b> "
 					. htmlspecialchars($row->r_eintritt) . $f2
 					. "</TD></TR>\n";
-				$text .= "</TR></TABLE>\n";
+				$text .= "</TABLE>\n";
 				
 				// Formular löschen
 				$text .= "<P>$t[fehler7]</P>\n";
@@ -337,6 +336,7 @@ if (strlen($u_id) != 0) {
 		
 		case "neu":
 		// Raum neu anlegen, Voreinstellungen
+			$text = '';
 			$r_status1 = "O";
 			$r_status2 = "T";
 			$r_smilie = "Y";
@@ -370,7 +370,7 @@ if (strlen($u_id) != 0) {
 				$r_name = "NeuerRaum";
 			}
 			
-			$box = $ft0 . $t['menue2'] . $ft1;
+			$box = $t['menue2'];
 				
 			// Raum neu anlegen, Eingabeformular
 			$text .= "<FORM NAME=\"$r_name\" ACTION=\"raum.php\" METHOD=POST>\n";
@@ -499,6 +499,7 @@ if (strlen($u_id) != 0) {
 			// kein eigener Fall, wird in default abgehandelt. 
 		default;
 		// Alle Räume
+			$text = '';
 			if (!isset($order))
 				$order = "r_name";
 			
@@ -715,39 +716,40 @@ if (strlen($u_id) != 0) {
 						}
 						$text .= "$rlink<br>";
 					}
-					$text .= "<table style=\"width:100%; background-color:$farbe_tabelle_koerper;\">\n";
-					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_name\">"
-						. $t['sonst2'] . "</A>";
-					$text .= "<tr><td><small><b>" . $rlink . "</b></small></td>";
-					if ($admin || TRUE) {
-						$text .= "<td>&nbsp;</td>";
-						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">S</A>";
-						$text .= "<td><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">S</A>";
-						$text .= "<td><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-						$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">"
-							. $t['raum_user2'] . "</A>";
-						$text .= "<td><small><b>" . $rlink . "</b></small></td><TD>&nbsp</TD>";
-						if (isset($extended) && $extended) {
-							if ($smilies_pfad && $erweitertefeatures) {
-								$rlink = $t['raum_user10'];
-								$text .= "<td><small><b>" . $rlink . "</b></small></td>";
-							}
-							
-							if ($erweitertefeatures) {
-								$rlink = $t['sonst14'];
-								$text .= "<td><small><b>" . $rlink . "</b></small></td>";
-							}
-							
-							$rlink = $t['sonst3'];
-							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
-							$rlink = $t['sonst7'];
-							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
-							$rlink = $t['sonst8'];
+					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
+					$text .= "<table class=\"tabelle_kopf\">\n";
+					$text .= "<tr><td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b></small></td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">&nbsp;</td>";
+					
+					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">Status</a>";
+					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
+					
+					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">Art</a>";
+					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
+					
+					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
+					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b></small></td><td>&nbsp</td>";
+					
+					if (isset($extended) && $extended) {
+						if ($smilies_pfad && $erweitertefeatures) {
+							$rlink = $t['raum_user10'];
 							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
 						}
+						
+						if ($erweitertefeatures) {
+							$rlink = $t['sonst14'];
+							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						}
+						
+						$rlink = $t['sonst3'];
+						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						$rlink = $t['sonst7'];
+						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						$rlink = $t['sonst8'];
+						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
 					}
-					echo "</tr>\n";
+					
+					$text .= "</tr>\n";
 					$i = 1;
 					$bgcolor = $farbe_tabelle_zeile1;
 					while ($row = mysqli_fetch_array($result)) {

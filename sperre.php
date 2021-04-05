@@ -5,9 +5,7 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
-function liste()
-{
-	
+function liste() {
 	global $farbe_tabelle_zeile1;
 	global $farbe_tabelle_zeile2;
 	global $farbe_text;
@@ -23,6 +21,8 @@ function liste()
 	global $mysqli_link;
 	
 	$sperr = "";
+	$text = '';
+	
 	for ($i = 0; $i < count($sperre_dialup); $i++) {
 		if ($sperr != "")
 			$sperr .= " OR ";
@@ -52,9 +52,9 @@ function liste()
 		$bgcolor = $farbe_tabelle_zeile1;
 		
 		// Kopf Tabelle
-		$box = $ft0 . $t['sonst2'] . $ft1;
-		echo "<TABLE CELLPADDING=4 CELLSPACING=0 BORDER=0 WIDTH=100%>\n";
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\">$t[sonst3]</TR>\n";
+		// $box = $ft0 . $t['sonst2'] . $ft1; Wird nicht verwendet?
+		$text .= "<TABLE CELLPADDING=4 CELLSPACING=0 BORDER=0 WIDTH=100%>\n";
+		$text .= "<TR BGCOLOR=\"$farbe_tabelle_kopf2\">$t[sonst3]</TR>\n";
 		
 		while ($i < $rows) {
 			// Ausgabe in Tabelle
@@ -77,15 +77,15 @@ function liste()
 					$ip_name = @gethostbyaddr($row->isip);
 					if ($ip_name == $row->isip) {
 						unset($ip_name);
-						echo "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>"
+						$text .= "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>"
 							. $f1 . $row->isip . $f2 . "</b></TD>\n";
 					} else {
-						echo "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>"
+						$text .= "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>"
 							. $f1 . $row->isip . "<br>(" . $ip_name . $f2
 							. ")</b></TD>\n";
 					}
 				} else {
-					echo "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
+					$text .= "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
 						. $isip . $f2 . "</b></TD>\n";
 				}
 			} else {
@@ -93,54 +93,54 @@ function liste()
 				$ip_name = gethostbyname($row->is_domain);
 				if ($ip_name == $row->is_domain) {
 					unset($ip_name);
-					echo "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
+					$text .= "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
 						. $row->is_domain . $f2 . "</b></TD>\n";
 				} else {
-					echo "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
+					$text .= "<TR style=\"vertical-align:top;\" BGCOLOR=\"$bgcolor\"><TD><b>" . $f1
 						. $row->is_domain . "<br>(" . $ip_name
 						. $f2 . ")</b></TD>\n";
 				}
 			}
 			
 			// Infotext
-			echo "<TD>" . $f1 . $row->is_infotext . "&nbsp;"
+			$text .= "<TD>" . $f1 . $row->is_infotext . "&nbsp;"
 				. $f2 . "</TD>\n";
 			
 			// Nur Warnung ja/nein
 			if ($row->is_warn == "ja") {
-				echo "<TD style=\"vertical-align:middle;\">" . $f3 . $t['sonst20'] . $f4
+				$text .= "<TD style=\"vertical-align:middle;\">" . $f3 . $t['sonst20'] . $f4
 					. "</TD>\n";
 			} else {
-				echo "<TD style=\"vertical-align:middle;\">" . $f3 . $t['sonst21'] . $f4
+				$text .= "<TD style=\"vertical-align:middle;\">" . $f3 . $t['sonst21'] . $f4
 					. "</TD>\n";
 			}
 			
 			// User und Datum
-			echo "<TD><small>$row->u_nick<br>\n";
-			echo date("d.m.y", $row->zeit) . "&nbsp;";
-			echo date("H:i:s", $row->zeit) . "&nbsp;";
-			echo "</small></TD>\n";
+			$text .= "<TD><small>$row->u_nick<br>\n";
+			$text .= date("d.m.y", $row->zeit) . "&nbsp;";
+			$text .= date("H:i:s", $row->zeit) . "&nbsp;";
+			$text .= "</small></TD>\n";
 			
 			if ($row->is_domain == "-GLOBAL-") {
-				echo "<TD>" . $f1 . "<b>\n";
-				echo "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
+				$text .= "<TD>" . $f1 . "<b>\n";
+				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
 					. "[DEAKTIVIEREN]" . "</A>\n";
-				echo "</b>" . $f2 . "</TD>\n";
+					$text .= "</b>" . $f2 . "</TD>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				echo "<TD>" . $f1 . "<b>\n";
-				echo "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
+				$text .= "<TD>" . $f1 . "<b>\n";
+				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
 					. "[DEAKTIVIEREN]" . "</A>\n";
 				echo "</b>" . $f2 . "</TD>\n";
 			} else {
-				echo "<TD>" . $f1
+				$text .= "<TD>" . $f1
 					. "<b>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
 					. "[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
 				if (isset($ip_name) && (strlen($ip_name) > 0)) {
-					echo "<br>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
+					$text .= "<br>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
 				}
-				echo "</b>" . $f2 . "</TD>";
+				$text .= "</b>" . $f2 . "</TD>";
 			}
-			echo "</TR>\n";
+			$text .= "</TR>\n";
 			
 			// Farben umschalten
 			if (($i % 2) > 0) {
@@ -153,11 +153,14 @@ function liste()
 			
 		}
 		
-		echo "</TABLE>\n";
+		$text .= "</table>\n";
 		
 	} else {
-		echo "<p style=\"text-align:center;\">$t[sonst4]</p>\n";
+		$text .= "<p style=\"text-align:center;\">$t[sonst4]</p>\n";
 	}
+	
+	return $text;
+	
 	mysqli_free_result($result);
 	
 }
@@ -222,7 +225,7 @@ if (strlen($u_id) > 0 && $admin) {
 		$uname = "";
 	}
 	
-	$box = $ft0 . "$chat Menü" . $ft1;
+	$box = "$chat Menü";
 	$text = "<a href=\"sperre.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
 		. "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
 	
@@ -321,10 +324,12 @@ if (strlen($u_id) > 0 && $admin) {
 	switch ($aktion) {
 		
 		case "trace":
+		// Traceroute
+		$text = '';
+		
 		// ID gesetzt?
 			if (strlen($is_id) > 0) {
-				$query = "SELECT is_infotext,is_domain,is_ip FROM ip_sperre "
-					. "WHERE is_id=" . intval($is_id);
+				$query = "SELECT is_infotext,is_domain,is_ip FROM ip_sperre WHERE is_id=" . intval($is_id);
 				
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
@@ -333,17 +338,13 @@ if (strlen($u_id) > 0 && $admin) {
 					// Zeile lese
 					$row = mysqli_fetch_object($result);
 					
-					$box = $ft0 . $t['sonst17'] . " " . $row->is_domain
-						. $row->is_ip . $ft1;
-					
-					// Überschrift anzeigen
-					show_box_title($box);
+					$box = $t['sonst17'] . " " . $row->is_domain
+						. $row->is_ip;
 
-					echo "<PRE>" . $f1;
+					echo "<pre>" . $f1;
 					
 					if (!file_exists($traceroute)) {
-						system_msg("", 0, $u_id, $system_farbe,
-							"<b>config anpassen \$traceroute</b>");
+						system_msg("", 0, $u_id, $system_farbe, "<b>config anpassen \$traceroute</b>");
 					}
 					
 					if (strlen($row->is_domain) > 0) {
@@ -352,18 +353,20 @@ if (strlen($u_id) > 0 && $admin) {
 						system("$traceroute $row->is_ip", $ergebnis);
 					}
 					
-					echo $f2 . "</PRE>\n";
+					$text .= $f2 . "</pre>\n";
 					
 				} else {
-					echo "<P>$t[sonst9]</P>\n";
+					$text .= "<p>$t[sonst9]</p>\n";
 				}
 				mysqli_free_result($result);
 			}
 			
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
-			liste();
+			$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+			
+			$text .= liste();
+			
+			show_box_title_content($box,$text);
+			
 			break;
 		
 		case "loeschen":

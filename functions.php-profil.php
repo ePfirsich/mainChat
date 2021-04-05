@@ -57,7 +57,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	?>
 	<table>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_kopf2;?>;" colspan="5" class="farbe_tabelle_kopf"><div style="color:<?php echo $farbe_text; ?>"><b>Ihre Userdaten:</b></div></td>
+			<td class="tabelle_kopfzeile" colspan="5">Ihre Userdaten:</td>
 		</tr>
 		<tr>
 			<td style="background-color:<?php echo $farbe_tabelle_zeile1;?>; text-align:right;">Nickname:</td>
@@ -125,7 +125,7 @@ function profil_editor($u_id, $u_nick, $f) {
 			<td colspan="5">&nbsp;</td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo $farbe_tabelle_kopf2;?>;" colspan="5"><div style="color:<?php echo $farbe_text; ?>"><b>Ihr neues Profil:</b></div></td>
+			<td class="tabelle_kopfzeile" colspan="5">Ihr neues Profil:</td>
 		</tr>
 		<tr>
 			<td style="background-color:<?php echo $bgcolor;?>; text-align:right;">Straße:</td>
