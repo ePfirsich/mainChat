@@ -2,11 +2,32 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Linkfarbe allgemein */ 
+a, a:link, a:visited {
+	color:#0000FF;
+	text-decoration:none;
+}
+a:hover {
+	color:#0000FF;
+	text-decoration:none;
+}
+
+/* Linkfarbe Tabelle - Kopf */ 
 .farbe_tabelle_kopf a, .farbe_tabelle_kopf a:link, .farbe_tabelle_kopf a:visited {
 	color:#ffffff;
 	text-decoration:none;
 }
 . farbe_tabelle_kopf a:hover {
 	color:#ffffff;
+	text-decoration:none;
+}
+
+/* Linkfarbe Tabelle - Körper */ 
+.farbe_tabelle_koerper a, .farbe_tabelle_koerper a:link, .farbe_tabelle_koerper a:visited {
+	color:#000000;
+	text-decoration:none;
+}
+. farbe_tabelle_koerper a:hover {
+	color:#000000;
 	text-decoration:none;
 }

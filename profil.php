@@ -199,7 +199,7 @@ if ($u_id && $communityfeatures) {
 					. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. "
 					. "Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie "
 					. "es in den Homepage-Einstellungen freigeben.</P>\n"
-					. "<P><b>Vielen Dank, dass Sie Ihr Profil ausfüllen!</b></P>\n";
+					. "<p><b>Vielen Dank, dass Sie Ihr Profil ausfüllen!</b></p>\n";
 			}
 			
 			// Editor ausgeben
@@ -212,7 +212,7 @@ if ($u_id && $communityfeatures) {
 		case "zeigealle":
 		// Alle Profile listen
 			if (!$admin) {
-				echo "<P><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</P>";
+				echo "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
 			} else {
 				echo "<P><b>Alle Profile:</b></P><TABLE border=\"1\">\n"
 					. "<TR><TH>Nick</TH><TH>Username</TH><TH>Straße</TH><TH>PLZ Ort</TH><TH>Land</TH><TH>Admin-EMail</TH><TH>E-Mail</TH><TH>URL</TH><TH>Geburt</TH><TH>Geschlecht</TH><TH>Fam. Stand</TH><TH>Typ</TH><TH>Beruf</TH><TH>Hobby</TH><TH>Tel</TH><TH>Fax</TH><TH>Handy</TH><TH>ICQ</TH></TR>";
