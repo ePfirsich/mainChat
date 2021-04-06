@@ -2,7 +2,7 @@
 
 // Sprachdefinition deutsch smilies.php
 
-$t['sonst1'] = "Refresh";
+$t['sonst1'] = "Aktualisieren";
 $t['sonst2'] = "Userliste";
 
 $smilie["%-)"] = "Zu lange gechattet";

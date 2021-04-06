@@ -368,9 +368,6 @@ $smilies_datei="%smiliesdatei%";
 // Für Text-Smilies muss $smilies_pfad=""; definiert sein
 $smilies_pfad="%smiliespfad%";
 
-// Optional, Sollen die Smilie-Grafiken auf einer besonderen Hintergrundfarbe dargestellt werden?
-$smilies_hintergrund="%smiliesbg%";
-
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
 $smilies_anzahl="%smiliesanzahl%";
 

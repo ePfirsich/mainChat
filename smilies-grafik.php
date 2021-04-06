@@ -31,27 +31,17 @@ zeige_header_ende();
 <?php
 // Login ok?
 if (strlen($u_id) != 0) {
-	// Farben einstellen
-	if ($smilies_hintergrund) {
-		$farbe_tabelle_zeile1 = $smilies_hintergrund;
-		$farbe_tabelle_zeile2 = $smilies_hintergrund;
-	}
 	
-	if (!isset($r_name))
-		$r_name = "";
 	// Menue ausgeben, Tabelle aufbauen
 	$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
-	$linksmilies = "href=\"" . $smilies_datei
-		. "?http_host=$http_host&id=$id\"";
-	echo "<CENTER><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
-		. $t['sonst1'] . "</A>]&nbsp;"
-		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-		. "</A>]</b>$f4<br>"
-		. "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"3\" >\n";
+	$linksmilies = "href=\"" . $smilies_datei . "?http_host=$http_host&id=$id\"";
+	
+	echo "<div style=\"text-align:center;\">$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst1'] . "</a>]&nbsp;"
+		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2<br>"
+		. "<table style=\"width:100%; border:0px;\">\n";
 	
 	// Unterscheidung JavaScript an/aus
 	if ($o_js) {
-		
 		// Array mit Smilies einlesen, Tabelle in Javascript ausgeben
 		reset($smilie);
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
@@ -59,7 +49,7 @@ if (strlen($u_id) != 0) {
 				. str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . "'";
 		}
 		
-		echo "\n\n<SCRIPT LANGUAGE=\"JavaScript\">\n"
+		echo "\n\n<script language=\"JavaScript\">\n"
 			. "   var color		 = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
 			. "   var fett		  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
 			. "   var smilies_pfad  = '$smilies_pfad';\n"
@@ -67,34 +57,30 @@ if (strlen($u_id) != 0) {
 			. @implode(",\n   ", $jsarr) . "   );\n"
 			. "   showsmiliegrafiken(liste);\n" . 
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
-			"</SCRIPT>\n";
+			"</script>\n";
 		
 	} else { // kein javascript verfügbar
-	
 	// Array mit Smilies einlesen, HTML-Tabelle ausgeben
 		reset($smilie);
-		$schalt = TRUE;
+		$zahl = 0;
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
-			if ($schalt) {
+			if ( $zahl % 2 != 0 ) {
 				$farbe_tabelle = $farbe_tabelle_zeile1;
-				$schalt = FALSE;
 			} else {
 				$farbe_tabelle = $farbe_tabelle_zeile2;
-				$schalt = TRUE;
 			}
-			echo "<TR BGCOLOR=\"$farbe_tabelle\">"
-				. "<TD>$f1<b>$smilie_code</b>$f2</TD>" . "<TD>" . $f1
-				. str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2
-				. "</TD>" . "<TD><IMG SRC=\"" . $smilies_pfad . $smilie_grafik
-				. "\"></TD>" . "</TR>\n";
+			echo "<tr>"
+				. "<td style=\"background-color:$farbe_tabelle;\">$f1<b>$smilie_code</b>$f2</TD>"
+				. "<td style=\"background-color:$farbe_tabelle;\">" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</TD>"
+				. "<td style=\"background-color:$farbe_tabelle;\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"\"></TD>"
+				. "</tr>\n";
+			$zahl++;
 		}
 	}
 	
-	echo "</TABLE>"
-		. "<b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
-		. $t['sonst1'] . "</A>]&nbsp;"
-		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-		. "</A>]</b>$f4</CENTER>";
+	echo "</table>"
+		. "$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst1'] . "</a>]&nbsp;"
+		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2</div>";
 	
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";
