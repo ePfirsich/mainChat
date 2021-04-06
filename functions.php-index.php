@@ -547,8 +547,9 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
 	raum_user($r_id, $u_id, $hash_id);
 	
 	// Hat der User sein Profil ausgefüllt?
-	if ($communityfeatures && $u_level != "G")
+	if ($communityfeatures && $u_level != "G") {
 		profil_neu($u_id, $u_name, $hash_id);
+	}
 	
 	$http_te = "";
 	if (isset($_SERVER['HTTP_TE']))

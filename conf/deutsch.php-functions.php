@@ -300,7 +300,7 @@ $t['moderiertdel2'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht:
 $t['moderiertdel3'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht: Wir können leider nicht alle Fragen in der kurzen Zeit beantworten.";
 $t['moderiertdel4'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht.";
 
-$t['profil1'] = "<b>$chat:</b> Sie haben Ihr <A %link%>Profil</A> noch nicht ausgefüllt! Bitte klicken Sie &gt&gt<A %link%>HIER</A>&lt&lt";
+$t['profil1'] = "<b>$chat:</b> Sie haben Ihr <a %link%>Profil</a> noch nicht ausgefüllt! Bitte klicken Sie &gt&gt<a %link%>HIER</a>&lt&lt";
 
 $t['mail1'] = "<b>$chat:</b> Sie haben neue Mail. <A %link%>Gleich lesen?</A>";
 $t['mail2'] = " Mail von '%nick%' am %zeit%: %betreff%";

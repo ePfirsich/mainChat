@@ -50,15 +50,14 @@ if ( !file_exists($filenameConfig) ) {
 	// Wenn zwingend SSL, dann ... 
 	if (isset($SSLRedirect) && $SSLRedirect == "1") {
 		// ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen
-		if (!((isset($_SERVER["HTTPS"])
-			&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
+		if (!((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
 			$url = 'https://' . $_SERVER["HTTP_HOST"] . '/index.php';
 			if (!headers_sent())
 				header('Location: ' . $url);
 			die();
 		}
 		// ... für alle Ausgaben einmalig Protokollvariable
-	 else {
+		 else {
 			$serverprotokoll = 'https';
 		}
 	}

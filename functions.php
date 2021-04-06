@@ -1,5 +1,4 @@
 <?php
-
 // Version / Copyright - nicht entfernen!
 $mainchat_version = "Open mainChat 7.0.0 (c) by <a href=\"https://www.fidion.de/\" target=\"_blank\">fidion GmbH</a> 1999-2012";
 $mainchat_email = "info@fidion.de";
@@ -18,10 +17,12 @@ Header("Pragma: no-cache");
 Header("Cache-Control: no-cache");
 
 // Variable initialisieren, einbinden, Community-Funktionen laden
-if (!(isset($functions_init_geladen)))
+if (!(isset($functions_init_geladen))) {
 	require_once "functions-init.php";
-if ($communityfeatures)
+}
+if ($communityfeatures) {
 	require_once "functions-community.php";
+}
 
 // DB-Connect, ggf. 3 mal versuchen
 for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
@@ -31,6 +32,7 @@ for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
 		mysqli_select_db($mysqli_link, $dbase);
 	}
 }
+
 if (!(isset($mysqli_link))) {
 	echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<br>";
 	exit;

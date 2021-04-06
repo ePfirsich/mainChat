@@ -88,8 +88,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM")
 	
 }
 
-function profil_neu($u_id, $u_nick, $id)
-{
+function profil_neu($u_id, $u_nick, $id) {
 	// Hat der User sein Profil ausgefüllt?
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Users
@@ -110,16 +109,14 @@ function profil_neu($u_id, $u_nick, $id)
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=neu";
-		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster2('$ur1'); return(false);\"";
-		system_msg("", 0, $u_id, $system_farbe,
-			str_replace("%link%", $url, $t['profil1']));
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster2('$ur1'); return(false);\"";
+		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
 	@mysqli_free_result($result);
 	
 }
 
-function autoselect($name, $voreinstellung, $tabelle, $feld)
-{
+function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	// Erzeugt Select-Feld aus der Datenbank
 	// $name=Name der Auswahl
 	// $voreinstellung=Voreinstellung der Auswahl

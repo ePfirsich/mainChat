@@ -24,7 +24,7 @@ if (strlen($u_id) > 0) {
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=messages-forum.php?http_host=' . $http_host . '&id=' . $id . '">\n';
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=messages-forum.php?http_host=' . $http_host . '&id=' . $id . '">';
 	$meta_refresh .= "<script>\n" . "function neuesFenster(url,name) {\n"
 		. "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=580\");\n"
 		. "}\n" . "function neuesFenster2(url) {\n"

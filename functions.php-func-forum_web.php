@@ -2,7 +2,6 @@
 
 //Kopf fuer das Forum
 function kopf_forum($admin) {
-	
 	global $http_host, $id, $u_nick, $menue;
 	global $f1, $f2, $farbe_chat_background1, $grafik_background1, $farbe_chat_text1, $farbe_chat_link1;
 	global $farbe_chat_vlink1, $stylesheet, $chat, $body_titel;
@@ -41,9 +40,7 @@ function kopf_forum($admin) {
 	// zeige_kopf();
 	
 	if (($admin) && (!$aktion)) {
-		$lnk[1] = $f1
-			. "&nbsp;[<a href=\"forum.php?http_host=$http_host&id=$id&aktion=forum_neu\">$menue[1]</A>]"
-			. $f2;
+		$lnk[1] = $f1 . "&nbsp;[<a href=\"forum.php?http_host=$http_host&id=$id&aktion=forum_neu\">$menue[1]</a>]" . $f2;
 	}
 	
 	if (!isset($lnk[1]))
@@ -74,9 +71,7 @@ function show_missing($missing)
 }
 
 //Eingabemaske für neues Forum
-function maske_forum($fo_id = 0)
-{
-	
+function maske_forum($fo_id = 0) {
 	global $id, $http_host, $mysqli_link;
 	global $f1, $f2, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
 	global $t, $farbe_text;
@@ -93,30 +88,22 @@ function maske_forum($fo_id = 0)
 		$button = $t['forum_edit_button'];
 		
 	} else {
-		
 		$kopfzeile = $t['forum_neu'];
 		$button = $t['forum_button'];
 		
 	}
 	?>
-	<form action="forum.php" method="post">";
-	<table style="width:760px;" style="background-color:<?php echo $farbe_tabellenrahmen; ?>">
-	<tr>
-	<td>
-	<table style="width:100%px;">
-	<tr>
-	<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $kopfzeile; ?></td>
-	</tr>
-	</table>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<?php
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
-	echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-	echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg1]</DIV> $f2</td>";
-	echo "<td width=500><input type=\"text\" size=\"50\" name=\"fo_name\" value=\"$fo_name\"></td></tr>";
+	<form action="forum.php" method="post">
+	<table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+		<tr>
+			<td class="tabelle_kopfzeile"><?php echo $kopfzeile; ?></td>
+		</tr>
+		<tr>
+			<td>
+			<?php
+			echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
+			echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg1]</DIV> $f2</td>";
+			echo "<td width=500><input type=\"text\" size=\"50\" name=\"fo_name\" value=\"$fo_name\"></td></tr>";
 	
 	// Forumsrechte für Gast einstellen
 	echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg3]</DIV> $f2</td>";
@@ -220,12 +207,9 @@ function forum_liste()
 						. $chat_grafik['forum_pfeil_unten'] . "</a></td>\n";
 				}
 				echo "</tr></table></td>\n";
-				echo "<td width=\"67\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">"
-					. $t['anzbeitraege'] . "</DIV>$f2</td>\n";
-				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">"
-					. $t['anzthreads'] . "</DIV>$f2</td>\n";
-				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">"
-					. $t['anzreplys'] . "</DIV>$f2</td>\n";
+				echo "<td width=\"67\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzbeitraege'] . "</DIV>$f2</td>\n";
+				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzthreads'] . "</DIV>$f2</td>\n";
+				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzreplys'] . "</DIV>$f2</td>\n";
 				echo "</tr>\n";
 				echo "<tr bgcolor=\"$farbe_tabellenrahmen\"><td colspan=\"6\"><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"></td></tr>\n";
 			}
@@ -1168,9 +1152,7 @@ function zeige_baum(
 	&$postings,
 	$thread,
 	$highlight = 0,
-	$zeige_top = FALSE)
-{
-	
+	$zeige_top = FALSE) {
 	global $mysqli_link, $f1, $f2, $f3, $f4, $seite, $th_id;
 	global $farbe_hervorhebung_forum, $farbe_neuesposting_forum, $farbe_link;
 	global $id, $u_id, $http_host, $o_js, $forum_admin;
@@ -1350,5 +1332,3 @@ function zeige_baum(
 	echo "</table>";
 }
 ?>
-</body>
-</html>
