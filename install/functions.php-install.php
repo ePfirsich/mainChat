@@ -264,10 +264,6 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Einstellungen für das Forum</span></td>
 			</tr>
 			<tr>
-				<td> Datenschutzhinweis anzeigen:</td>
-				<td><?php echo checkFormularRadioButton('1',$chat["datenschutz"],'chat_datenschutz'); ?></td>
-			</tr>
-			<tr>
 				<td colspan="2">Mit * gekennzeichnete Felder sind Pflichtfelder</td>
 			</tr>
 			<tr>

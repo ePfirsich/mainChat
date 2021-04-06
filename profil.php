@@ -83,8 +83,7 @@ if ($u_id && $communityfeatures) {
 	}
 	$ur1 = "user.php?http_host=$http_host&id=$id";
 	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">User</a>\n";
-	if ($zeige_datenschutz)
-		$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
 	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</a>\n";
 	
 	show_box2($box, $text);

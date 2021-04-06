@@ -53,7 +53,6 @@ $chat["framesetbleibt"] = filter_input(INPUT_POST, 'chat_framesetbleibt', FILTER
 $chat["smiliesdatei"] = filter_input(INPUT_POST, 'chat_smiliesdatei', FILTER_SANITIZE_STRING);
 $chat["smiliespfad"] = filter_input(INPUT_POST, 'chat_smiliespfad', FILTER_SANITIZE_STRING);
 $chat["smiliesanzahl"] = filter_input(INPUT_POST, 'chat_smiliesanzahl', FILTER_SANITIZE_STRING);
-$chat["datenschutz"] = filter_input(INPUT_POST, 'chat_datenschutz', FILTER_SANITIZE_STRING);
 
 require("functions.php-install.php");
 $configdatei = "../conf/config.php";

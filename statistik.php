@@ -49,9 +49,10 @@ $STAT_BAR_FONTEND3 = "</span>";
 // Bitte ab hier nichts ändern!
 
 // nur admins dürfen Statistik ansehen...
-if (!$admin || !$erweitertefeatures)
-    return;
-
+if (!$admin || !$erweitertefeatures) {
+	return;
+}
+	
 $c = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
 if ($c) {
     mysqli_set_charset($mysqli_link, "utf8mb4");

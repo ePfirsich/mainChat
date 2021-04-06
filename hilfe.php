@@ -101,20 +101,16 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 
 // Menü als erstes ausgeben
 $box = $t['menue4'];
-$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
-	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</A>\n"
-	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</A>\n";
+$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n"
+	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</a>\n"
+	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</a>\n";
 if ($communityfeatures) {
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</A>\n";
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</A>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</a>\n";
+	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</a>\n";
 }
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</A>\n";
-if ($erweitertefeatures) {
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</A>\n";
-}
-if ($zeige_datenschutz) {
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</A>\n";
-}
+$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</a>\n";
+$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</a>\n";
+$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</a>\n";
 if ($aktion != "logout") {
 	show_box2($box, $text);
 	echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
@@ -302,7 +298,7 @@ switch ($aktion) {
 		
 		$text .= "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
 			. $legende . "</table><br>\n"
-			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</A><br>\n";
+			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br>\n";
 		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 		
 		show_box_title_content($box,$text);
