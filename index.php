@@ -1443,11 +1443,14 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					if (($temp_gast_sperre) && ($u_level == 'G')) {
 						$captcha_text1 = "999";
 					} // abweisen, falls Gastsperre aktiv
-					if ((isset($captcha_text1)) and ($captcha_text1 == "")) {
+					
+					if ( isset($captcha_text1) && ($captcha_text1 == "")) {
 						$captcha_text1 = "999";
+					
 					} // abweisen, falls leere eingabe
 					
-					if ( ($captcha_text == 1) && (isset($captcha_text2)) && ($captcha_text2 != md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ) )) {
+					// Prüfen, ob alles korrekt eingegeben wurde.
+					if ( ($captcha_text == 1) && (isset($captcha_text2)) && ( $captcha_text2 != md5( $u_id . "+code+" . $captcha_text1 . "+" . date("Y-m-d h") ) )) {
 						$los = "";
 					}
 					
@@ -1569,7 +1572,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					// User in Blacklist überprüfen
-					// in den kostenlosen Chats konnte es sein, das die Tabelle nicht vorhanden ist
 					$query2 = "SELECT f_text from blacklist where f_blacklistid=$u_id";
 					$result2 = mysqli_query($mysqli_link, $query2);
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
@@ -1582,7 +1584,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					// Bei Login dieses Users alle Admins (online, nicht Temp) warnen
 					if ($warnung) {
-						
 						if ($eintritt == 'forum') {
 							$raumname = " (" . $whotext[2] . ")";
 						} else {

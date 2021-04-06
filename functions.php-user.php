@@ -227,7 +227,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 				. "<INPUT NAME=\"http_host\" VALUE=\"$http_host\" TYPE=\"HIDDEN\">"
 				. "<INPUT NAME=\"id\" VALUE=\"$id\" TYPE=\"HIDDEN\">"
 				. "<INPUT NAME=\"privat\" VALUE=\"$uu_nick\" TYPE=\"HIDDEN\">"
-				. "<INPUT TYPE=\"SUBMIT\" VALUE=\"Go!\">" . $f2
+				. "<input type=\"SUBMIT\" VALUE=\"Go!\">" . $f2
 				. "\n<script language=\"JavaScript\">\n\n"
 				. "document.forms['form'].elements['text2'].focus();\n"
 				. "\n</script>\n\n\n";
@@ -532,28 +532,28 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			
 			echo "<FORM NAME=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
-				. "\n" . "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$uu_id\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_name]\" VALUE=\"$uu_name\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_nick]\" VALUE=\"$uu_nick\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"zeige_loesch\" VALUE=\"1\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit\">\n"
+				. "\n" . "<input type=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$uu_id\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"f[u_name]\" VALUE=\"$uu_name\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"f[u_nick]\" VALUE=\"$uu_nick\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"zeige_loesch\" VALUE=\"1\">\n"
+				. "<input type=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit\">\n"
 				. $f1
-				. "<INPUT TYPE=\"SUBMIT\" NAME=\"ein\" VALUE=\"Ändern!\">"
-				. "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><br>";
+				. "<input type=\"SUBMIT\" NAME=\"ein\" VALUE=\"Ändern!\">"
+				. "<input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><br>";
 			
 			$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 			$result = mysqli_query($mysqli_link, $query);
 			$g = @mysqli_fetch_array($result);
 			
 			if ($g['u_chathomepage'] == "J")
-				echo "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Homepage löschen!\">"
+				echo "<input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Homepage löschen!\">"
 					. $f2;
 			if ((($u_level == "C" || $u_level == "A")
 				&& ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z"))
 				|| ($u_level == "S"))
-				echo "<br><INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"$t[chat_msg110]\">";
+				echo "<br><input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"$t[chat_msg110]\">";
 			echo "</FORM>\n";
 		}
 		
