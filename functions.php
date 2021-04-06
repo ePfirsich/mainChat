@@ -718,7 +718,6 @@ function schreibe_db($db, $f, $id, $id_name) {
 	$id == intval($id);
 	
 	if (strlen($id) == 0 || $id == 0) {
-		
 		// ID generieren
 		if ($db == "online" || $db == "chat") {
 			// ID aus sequence verwenden
@@ -1005,8 +1004,7 @@ function raum_ist_moderiert($raum) {
 	return $moderiert;
 }
 
-function debug($text = "", $rundung = 3)
-{
+function debug($text = "", $rundung = 3) {
 	
 	static $zeit;
 	static $durchlauf;
@@ -1030,8 +1028,7 @@ function debug($text = "", $rundung = 3)
 	return ($erg);
 }
 
-function warnung($u_id, $u_nick, $art)
-{
+function warnung($u_id, $u_nick, $art) {
 	// Gibt eine Warnung im Chat an den User $u_id/$u_nick aus
 	global $t, $system_farbe, $warnmeldung_sicherermodus_deaktivieren;
 	
@@ -1310,8 +1307,7 @@ function user(
 	return ($fett1 . $text . $fett2);
 }
 
-function chat_parse($text)
-{
+function chat_parse($text) {
 	// Filtert Text und ersetzt folgende Zeichen:
 	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</A>
 	// E-Mail Adressen in A-Tag mit Mailto
