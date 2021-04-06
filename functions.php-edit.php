@@ -219,7 +219,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// Einstellungen für Fenstergrößen
 	if ($u_level != "G") {
 		$text .= "<tr><TD colspan=\"2\"><hr size=\"2\" noshade>" . $f1 . "<b>" . $t['user_zeige43'] . "</b>\n" . $f2 . "</td></tr>\n";
-		foreach ($frame_size['def'] as $key => $val) {
+		foreach ($frame_size as $key => $val) {
 			$text .= "<tr><td>" . $f1 . "<b>" . $t[$key] . "</b>\n" . $f2
 				. "</td><td>" . $f1
 				. "<input type=\"text\" name=\"size[$key]\" size=\"4\" value=\"$size[$key]\">&nbsp;"

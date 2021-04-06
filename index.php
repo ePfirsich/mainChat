@@ -1725,20 +1725,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						// Login ins Forum
 						betrete_forum($o_id, $u_id, $u_nick, $u_level);
 						
-						// Frame-Einstellungen für Browser definieren
-						$user_agent = strtolower($HTTP_USER_AGENT);
-						if (preg_match("/linux/", $user_agent)) {
-							$frame_type = "linux";
-						} elseif (preg_match("/solaris/", $user_agent)) {
-							$frame_type = "solaris";
-						} elseif (preg_match("/msie/", $user_agent)) {
-							$frame_type = "ie";
-						} elseif (preg_match('#mozilla/4\.7#i', $user_agent)) {
-							$frame_type = "nswin";
-						} else {
-							$frame_type = "def";
-						}
-						
 						// Obersten Frame definieren
 						if (!isset($frame_online)) {
 							$frame_online = "frame_online.php";
@@ -1747,19 +1733,20 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
 						if (is_array($u_frames)) {
 							foreach ($u_frames as $key => $val) {
-								if ($val)
-									$frame_size[$frame_type][$key] = $val;
+								if ($val) {
+									$frame_size[$key] = $val;
+								}
 							}
 						}
 						
 						echo "<frameset rows=\"$frame_online_size,*,5,"
-							. $frame_size[$frame_type]['interaktivforum']
+							. $frame_size['interaktivforum']
 							. ",1\" border=0 frameborder=0 framespacing=0>\n";
 						echo "<frame src=\"$frame_online?http_host=$http_host\" name=\"frame_online\" marginwidth=0 marginheight=0 scrolling=no>\n";
 						echo "<frame src=\"forum.php?http_host=$http_host&id=$hash_id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=AUTO>\n";
 						echo "<frame src=\"leer.php?http_host=$http_host\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=no>\n";
 						echo "<frameset cols=\"*,"
-							. $frame_size[$frame_type]['messagesforum']
+							. $frame_size['messagesforum']
 							. "\" border=0 frameborder=0 framespacing=0>\n";
 						echo "<frame src=\"messages-forum.php?http_host=$http_host&id=$hash_id\" name=\"messages\" marginwidth=0 marginheight=0 scrolling=AUTO>\n";
 						echo "<frame src=\"interaktiv-forum.php?http_host=$http_host&id=$hash_id\" name=\"interaktiv\" marginwidth=0 marginheight=0 scrolling=no>\n";
@@ -1775,27 +1762,13 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							$eintritt, $javascript, $u_backup);
 						$back = 1;
 						
-						// Frame-Einstellungen für Browser definieren
-						$user_agent = strtolower($_SERVER["HTTP_USER_AGENT"]);
-						if (preg_match("/linux/", $user_agent)) {
-							$frame_type = "linux";
-						} elseif (preg_match("/solaris/", $user_agent)) {
-							$frame_type = "solaris";
-						} elseif (preg_match("/msie/", $user_agent)) {
-							$frame_type = "ie";
-						} elseif (preg_match('#mozilla/4\.7#i', $user_agent)) {
-							$frame_type = "nswin";
-						} else {
-							$frame_type = "def";
-						}
-						
 						// Obersten Frame definieren
 						if (!isset($frame_online) || $frame_online == "") {
 							$frame_online = "frame_online.php";
 						}
 						if ($u_level == "M") {
-							$frame_size[$frame_type]['interaktiv'] = $moderationsgroesse;
-							$frame_size[$frame_type]['eingabe'] = $frame_size[$frame_type]['eingabe']
+							$frame_size['interaktiv'] = $moderationsgroesse;
+							$frame_size['eingabe'] = $frame_size['eingabe']
 								* 2;
 						}
 						
@@ -1803,15 +1776,15 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						if (is_array($u_frames)) {
 							foreach ($u_frames as $key => $val) {
 								if ($val)
-									$frame_size[$frame_type][$key] = $val;
+									$frame_size[$key] = $val;
 							}
 						}
 						
 						// Frameset aufbauen
 						?>
-						<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size[$frame_type]['eingabe']; ?>,<?php echo $frame_size[$frame_type]['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
+						<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size['eingabe']; ?>,<?php echo $frame_size['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
 							<frame src="<?php echo $frame_online;?>?http_host=<?php echo $http_host; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-							<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
+							<frameset cols="*,<?php echo $frame_size['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
 								<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
 								<?php
 								if (!isset($userframe_url)) {
@@ -1844,7 +1817,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						</frameset>
 						<?php
 						echo "<noframes>\n"
-							. "<!-- Browser/OS  $frame_type -->\n" . "<body "
+							. "<!-- Browser/OS -->\n" . "<body "
 							. $t['login6'];
 					}
 					?>
@@ -2216,20 +2189,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum,
 				$o_js, $u_backup);
 			
-			// Frame-Einstellungen für Browser definieren
-			$user_agent = strtolower($HTTP_USER_AGENT);
-			if (preg_match("/linux/", $user_agent)) {
-				$frame_type = "linux";
-			} elseif (preg_match("/solaris/", $user_agent)) {
-				$frame_type = "solaris";
-			} elseif (preg_match("/msie/", $user_agent)) {
-				$frame_type = "ie";
-			} elseif (preg_match('#mozilla/4\.7#i', $user_agent)) {
-				$frame_type = "nswin";
-			} else {
-				$frame_type = "def";
-			}
-			
 			// Obersten Frame definieren
 			if (!isset($frame_online))
 				$frame_online = "";
@@ -2237,7 +2196,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				$frame_online = "frame_online.php";
 			}
 			if ($u_level == "M")
-				$frame_size[$frame_type][interaktiv] = $moderationsgroesse;
+				$frame_size[interaktiv] = $moderationsgroesse;
 			
 			// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
 			$sql = "SELECT `u_frames` FROM `user` WHERE `u_id` = $u_id";
@@ -2250,7 +2209,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				if (is_array($u_frames)) {
 					foreach ($u_frames as $key => $val) {
 						if ($val)
-							$frame_size[$frame_type][$key] = $val;
+							$frame_size[$key] = $val;
 					}
 				}
 			}
@@ -2258,9 +2217,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			
 			// Frameset aufbauen
 			?>
-			<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size[$frame_type]['eingabe']; ?>,<?php echo $frame_size[$frame_type]['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
+			<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size['eingabe']; ?>,<?php echo $frame_size['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
 				<frame src="<?php echo $frame_online;?>?http_host=<?php echo $http_host; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-				<frameset cols="*,<?php echo $frame_size[$frame_type]['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
+				<frameset cols="*,<?php echo $frame_size['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
 					<frame src="chat.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
 					<frame src="user.php?http_host=<?php echo $http_host; ?>&id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
 				</frameset>
@@ -2283,7 +2242,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			</frameset>
 			<?php
 			echo "<noframes>\n"
-				. "<!-- Browser/OS  $frame_type -->\n" . "<body "
+				. "<!-- Browser/OS -->\n" . "<body "
 				. $t['login6'];
 			
 			break;

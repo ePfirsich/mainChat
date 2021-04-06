@@ -210,11 +210,12 @@ $metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
 	"<meta name=\"robots\" content=\"%robots1%\">\n".
 	"<meta name=\"robots\" content=\"%robots2%\">\n";
 
-// Text für Startseite im Bereich NOFRAMES für Suchmaschinen                                     
+// Text für Startseite im Bereich NOFRAMES für Suchmaschinen
 $noframes="%noframes%\n";
 
 // Datei für CSS-Anpassungen auf allen Seiten
 $stylesheet="style.css";
+
 
 // Zusatztexte, die auf der Indexseite im <HEAD> ausgegeben werden, optional
 $zusatztext_kopf="";
@@ -256,7 +257,7 @@ $gast_login_viele="%gastloginanzahl%";
 
 
 // Soll der Login via HTTP auf einen SSL-Server möglich sein? 
-$ssl_login=1;				// 1=ja, 0=nein
+$ssl_login=0;				// 1=ja, 0=nein
 
 // Leitet anfragen von HTTP auf HTTPS um
 $SSLRedirect = "1";
@@ -291,12 +292,12 @@ $chat_status_klein=1; // Statusmsgs des Chats kleiner ausgeben? 1=ja, 2=normal
 
 $show_spruch_owner="%showspruch%"; 				// admins zeigen, wer einen Spruch eingegeben hat? 1=ja 0=nein
 $adminfeatures="%adminfeatures%"; 				// Zusätzliche Adminfeatueres freischalten? 1=ja, 0=nein
-$lustigefeatures="%lustigefeatures%";				// Lustige Texte einschalten? 1=ja, 0=nein
+$lustigefeatures="%lustigefeatures%";			// Lustige Texte einschalten? 1=ja, 0=nein
 $erweitertefeatures="%erfeatures%";				// Erweiterte Funktionen freischalten? 1=ja, 0=nein
 $communityfeatures="%comfeatures%";				// Communityfeatures
 $forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
 $punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
-$msgpopup=1;                                    		// Flüstern im Popup aktiv?
+$msgpopup=1;									// Flüstern im Popup aktiv?
 
 $moderationsmodul="%modmodul%"; 				// Moderationsmodul freigeschalten? 1=ja, 0=nein
 $moderationsgroesse=280; 			// groesse des Moderationsframes...
@@ -311,38 +312,15 @@ $farbe_moderationg_zeile2="#c0d0c0";
 
 
 // Globale Voreinstellungen für Frames
-// $frame_online_size=150;				// Höhe des Frames frame_online in Pixel
-$frame_online_size=0;				// Höhe des Frames frame_online in Pixel
-$frame_links_size=150;				// Breite des linken Frames neben dem Chat Frames in Pixel
-$frame_size['def']['eingabe']=54;			// Höhe des Frames eingabe in Pixel
-$frame_size['def']['interaktiv']=60;		// Höhe des Frames interaktiv in Pixel
-$frame_size['def']['chatuserliste']=220;		// Breite des Frames user (rechts neben eingabe-Frame) in Pixel
-$frame_size['def']['interaktivforum']=130;		// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['def']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
+// $frame_online_size=150;					// Höhe des Frames frame_online in Pixel
+$frame_online_size=0;						// Höhe des Frames frame_online in Pixel
+$frame_links_size=150;						// Breite des linken Frames neben dem Chat Frames in Pixel
+$frame_size['eingabe']=54;			// Höhe des Frames eingabe in Pixel
+$frame_size['interaktiv']=60;		// Höhe des Frames interaktiv in Pixel
+$frame_size['chatuserliste']=220;	// Breite des Frames user (rechts neben eingabe-Frame) in Pixel
+$frame_size['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
+$frame_size['messagesforum']=350;	// Breite des Frames messages-forum in Pixel
 
-$frame_size['ie']['eingabe']=45;			// für IE
-$frame_size['ie']['interaktiv']=60;			// für IE
-$frame_size['ie']['chatuserliste']=220;		// für IE
-$frame_size['ie']['interaktivforum']=130;		// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['ie']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
-
-$frame_size['nswin']['eingabe']=50;			// für Netscape/Win
-$frame_size['nswin']['interaktiv']=60;		// für Netscape/Win
-$frame_size['nswin']['chatuserliste']=220;		// für Netscape/Win
-$frame_size['nswin']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['nswin']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
-
-$frame_size['linux']['eingabe']=60;			// für Linux
-$frame_size['linux']['interaktiv']=60;		// für Linux
-$frame_size['linux']['chatuserliste']=220;		// für Linux
-$frame_size['linux']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['linux']['messagesforum']=350;		// Breite des Frames messages-forum in Pixel
-
-$frame_size['solaris']['eingabe']=60;		// für Solaris
-$frame_size['solaris']['interaktiv']=60;		// für Solaris
-$frame_size['solaris']['chatuserliste']=220;	// für Solaris
-$frame_size['solaris']['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['solaris']['messagesforum']=350;	// Breite des Frames messages-forum in Pixel
 
 // Optionale URL des obersten Frames.
 // Falls nicht definiert, wird der Frame bei der Darstellung übergangen

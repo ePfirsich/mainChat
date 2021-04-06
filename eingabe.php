@@ -77,16 +77,16 @@ zeige_header_ende();
 	$i = 0;
 	echo "<FORM NAME=\"form\" METHOD=POST target=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 	
-	echo "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0><TR>"
-		. "<TD>&nbsp;</td><TD COLSPAN=" . (count($farbe_chat_user) + 3) . ">";
+	echo "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0><tr>"
+		. "<td>&nbsp;</td><TD COLSPAN=" . (count($farbe_chat_user) + 3) . ">";
 	
 	// Typ Eingabefeld für Chateingabe setzen
 	if ($u_level == "M") {
 		$text2_typ = "<TEXTAREA ROWS=\"4\" NAME=\"text2\" COLS=\""
 			. $chat_eingabe_breite . "\"></TEXTAREA>";
 	} else {
-		$text2_typ = "<INPUT TYPE=\"TEXT\" NAME=\"text2\" maxlength=\""
-			. ($chat_max_eingabe - 1) . "\" VALUE=\"\" SIZE=\""
+		$text2_typ = "<input type=\"TEXT\" NAME=\"text2\" maxlength=\""
+			. ($chat_max_eingabe - 1) . "\" value=\"\" SIZE=\""
 			. $chat_eingabe_breite . "\""
 			. (isset($eingabe_inaktiv_autocomplete) && $eingabe_inaktiv_autocomplete == "1" ? "autocomplete=\"off\"" : "")
 			. ">";
@@ -103,34 +103,35 @@ zeige_header_ende();
 			$chat_eingabe_breite = $mindestbreite;
 		}
 		
-		echo $text2_typ . "<INPUT NAME=\"text\" VALUE=\"\" TYPE=\"HIDDEN\">"
-			. "<SELECT NAME=\"user_chat_back\">\n";
+		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
+			. "<select name=\"user_chat_back\">\n";
 		for ($i = 5; $i < 40; $i++) {
-			echo "<OPTION " . ($chat_back == $i ? "SELECTED" : "")
-				. " VALUE=\"$i\">$i&nbsp;$t[eingabe1]\n";
+			echo "<option " . ($chat_back == $i ? "selected" : "")
+				. " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
 		}
-		echo "</SELECT>"
-			. "<INPUT NAME=\"http_host\" VALUE=\"$http_host\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"id\" VALUE=\"$id\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"u_backup\" VALUE=\"$u_backup\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"u_level\" VALUE=\"$u_level\" TYPE=\"HIDDEN\">"
-			. $f1 . "<INPUT TYPE=\"SUBMIT\" VALUE=\"Go!\">" . $f2;
-		echo "</td></TR>\n";
+		echo "</select>"
+			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
+			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
+			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+		echo "</td></tr>\n";
 	} else {
 		
 		$mindestbreite = 55;
 		
-		// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
+		// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindestbreite setzen
 		if ($chat_eingabe_breite < $mindestbreite)
 			$chat_eingabe_breite = $mindestbreite;
 		
-		echo $text2_typ . "<INPUT NAME=\"text\" VALUE=\"\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"id\" VALUE=\"$id\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"http_host\" VALUE=\"$http_host\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"u_backup\" VALUE=\"$u_backup\" TYPE=\"HIDDEN\">"
-			. "<INPUT NAME=\"u_level\" VALUE=\"$u_level\" TYPE=\"HIDDEN\">"
-			. $f1 . "<INPUT TYPE=\"SUBMIT\" VALUE=\"Go!\">" . $f2;
-		echo "</td></TR>\n";
+		echo $text2_typ 
+			. "<input name=\"text\" value=\"\" type=\"hidden\">"
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
+			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
+			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
+			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+		echo "</td></tr>\n";
 	}
 	
 	$mlnk[4] = "hilfe.php?http_host=$http_host&id=$id";
@@ -158,7 +159,7 @@ zeige_header_ende();
 	}
 	
 	// Code funktioniert mit und ohne javascript
-	echo "<TR><TD></td><TD><b>" . $f1;
+	echo "<tr><td></td><td><b>" . $f1;
 	echo "[<a href=\"$mlnk[4]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[4]');return(false)\">$t[menue4]</a>]&nbsp;";
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue1]</a>]&nbsp;"
