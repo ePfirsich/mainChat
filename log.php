@@ -22,11 +22,6 @@ if ($aktion == "abspeichern") {
 // Userdaten setzen
 id_lese($id);
 
-if (isset($eingabe_light_log) && ($eingabe_light_log == "1") && (!$admin)) {
-	echo "Sorry, deaktiviert";
-	exit();
-}
-
 // Userdaten gesetzt?
 if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren

@@ -146,12 +146,6 @@ zeige_header_ende();
 	$mlnk[11] = "index-forum.php?http_host=$http_host&id=$id";
 	$mlnk[12] = "blacklist.php?http_host=$http_host&id=$id";
 	
-	if ($admin) {
-		$eingabe_light = 0;
-		$eingabe_light_log = 0;
-		$eingabe_light_hilfe = 0;
-	}
-	
 	if ($forumfeatures && $communityfeatures) {
 		// Raumstatus lesen, für Temporär, damit FORUM nicht angezeigt wird
 		
@@ -165,35 +159,33 @@ zeige_header_ende();
 	
 	// Code funktioniert mit und ohne javascript
 	echo "<TR><TD></td><TD><b>" . $f1;
-	if (!isset($eingabe_light_hilfe) || !$eingabe_light_hilfe)
-		echo "[<a href=\"$mlnk[4]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[4]');return(false)\">$t[menue4]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if (!isset($beichtstuhl) || !$beichtstuhl || $admin)
-			echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue1]</a>]&nbsp;"
-				. "[<a href=\"$mlnk[2]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[2]');return(false)\">$t[menue2]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if ($communityfeatures
-			&& (!isset($beichtstuhl) || !$beichtstuhl || $admin))
-			echo "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[10]');return(false)\">$t[menue10]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if ($forumfeatures && $communityfeatures
-			&& (!isset($beichtstuhl) || !$beichtstuhl || $admin)
-			&& ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin))
-			echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue11]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if (!isset($beichtstuhl) || !$beichtstuhl || $admin)
-			echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue3]</a>]&nbsp;";
-	if (!isset($eingabe_light) || !$eingabe_light)
-		if ($admin)
-			echo "[<a href=\"$mlnk[5]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[5]');return(false)\">$t[menue5]</a>]&nbsp;";
-	if ($admin && $communityfeatures)
+	echo "[<a href=\"$mlnk[4]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[4]');return(false)\">$t[menue4]</a>]&nbsp;";
+	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
+		echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue1]</a>]&nbsp;"
+			. "[<a href=\"$mlnk[2]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[2]');return(false)\">$t[menue2]</a>]&nbsp;";
+	}
+	if ($communityfeatures && $u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
+		echo "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[10]');return(false)\">$t[menue10]</a>]&nbsp;";
+	}
+	if ($forumfeatures && $communityfeatures && (!isset($beichtstuhl) || !$beichtstuhl || $admin) && ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin)) {
+		echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue11]</a>]&nbsp;";
+	}
+	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
+		echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue3]</a>]&nbsp;";
+	}
+	if ($admin) {
+		echo "[<a href=\"$mlnk[5]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[5]');return(false)\">$t[menue5]</a>]&nbsp;";
+	}
+	if ($admin && $communityfeatures) {
 		echo "[<a href=\"$mlnk[12]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</a>]&nbsp;";
-	if ($u_level == "M")
+	}
+	if ($u_level == "M") {
 		echo "[<a href=\"$mlnk[8]\" target=\"$fenster\" onClick=\"neuesFenster2('$mlnk[8]');return(false)\">$t[menue8]</a>]&nbsp;";
-	if (!isset($eingabe_light_log) || !$eingabe_light_log)
-		echo "[<a href=\"$mlnk[7]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[7]');return(false)\">$t[menue7]</a>]&nbsp;";
-	if ($o_js)
+	}
+	echo "[<a href=\"$mlnk[7]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[7]');return(false)\">$t[menue7]</a>]&nbsp;";
+	if ($o_js) {
 		echo "[<a href=\"$mlnk[9]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[9]');return(false)\">$t[menue9]</a>]&nbsp;";
+	}
 	echo "&nbsp;&nbsp;";
 	if (isset($chat_logout_url)) {
 		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue6]</a>]&nbsp;"
@@ -205,26 +197,21 @@ zeige_header_ende();
 	
 	unset($aktraum);
 	
-	if ((!isset($eingabe_light) || !$eingabe_light)
-		&& (!isset($eingabe_light_farbe) || !$eingabe_light_farbe) && (!$admin)) {
-		echo "<td style=\"text-align: right;\"><span style=\"font-size: smaller; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
-		for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each(
-			$farbe_chat_user);) {
-			?>
-			<td style="background-color:#<?php echo $ufarbe; ?>">
-				<a onMouseOver="return(true)" href="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">
-					<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
-				</a>
-			</td>
-			<?php
-		}
+	echo "<td style=\"text-align: right;\"><span style=\"font-size: smaller; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
+	for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each(
+		$farbe_chat_user);) {
 		?>
-		<td>
-			<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
+		<td style="background-color:#<?php echo $ufarbe; ?>">
+			<a onMouseOver="return(true)" href="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">
+				<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
+			</a>
 		</td>
 		<?php
 	}
 	?>
+	<td>
+		<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
+	</td>
 	</tr>
 	</table>
 	</form>

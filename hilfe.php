@@ -5,12 +5,6 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
 id_lese($id);
 
-if (isset($eingabe_light_hilfe) && $eingabe_light_hilfe == "1"
-	&& ($reset <> "1") && (!$admin)) {
-	echo "Sorry, deaktiviert";
-	exit();
-}
-
 $title = $body_titel . ' - Info';
 zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
 ?>

@@ -503,12 +503,6 @@ $raumsperre=30;
 // Raum tut
 // $raum_msg="Hallo!";
 
-// Eingabezeile mit reduzierten Menüknöpfen
-$eingabe_light="0";
-$eingabe_light_log="0";
-$eingabe_light_hilfe="0";
-$eingabe_light_farbe="0";
-
 // Smiliesauflistung im rechten Fenster aktivieren/dekativieren
 $smilies_aus="0";
 
