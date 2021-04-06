@@ -87,7 +87,7 @@ if (strlen($u_id) != 0) {
 			. "</SCRIPT>\n";
 	}
 	
-	$box = $ft0 . $t['menue4'] . $ft1;
+	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
 		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";

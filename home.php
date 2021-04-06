@@ -129,7 +129,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			// Homepage für User $u_id bearbeiten
 			
 			// Menü als erstes ausgeben
-			$box = $ft0 . "Menü Freunde" . $ft1;
+			$box = "Menü Freunde";
 			$text = "<a href=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</A>\n"
 				. "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</A>\n"
 				. "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</A>\n"

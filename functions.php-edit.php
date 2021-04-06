@@ -3,14 +3,13 @@
 require_once("functions.php-func-verlasse_chat.php");
 require_once("functions.php-func-nachricht.php");
 
-function user_edit($f, $admin, $u_level, $size = ARRAY())
-{
+function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// $f = Ass. Array mit Userdaten
 	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
 	global $id, $http_host, $level, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_koerper;
 	global $farbe_chat_user, $farbe_chat_user_groesse, $farbe_text, $user_farbe;
-	global $t, $ft0, $ft1, $backup_chat, $smilies_pfad, $erweitertefeatures;
+	global $t, $backup_chat, $smilies_pfad, $erweitertefeatures;
 	global $frame_size, $u_id, $communityfeatures, $punktefeatures;
 	global $einstellungen_aendern, $eintritt_individuell;
 	
@@ -18,11 +17,9 @@ function user_edit($f, $admin, $u_level, $size = ARRAY())
 	$passwort_breite = 15;
 	
 	if (ist_online($f['u_id'])) {
-		$box = $ft0 . str_replace("%user%", $f['u_nick'], $t['user_zeige20'])
-			. $ft1;
+		$box = str_replace("%user%", $f['u_nick'], $t['user_zeige20']);
 	} else {
-		$box = $ft0 . str_replace("%user%", $f['u_nick'], $t['user_zeige21'])
-			. $ft1;
+		$box = str_replace("%user%", $f['u_nick'], $t['user_zeige21']);
 	}
 	
 	$text = '';

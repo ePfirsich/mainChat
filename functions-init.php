@@ -45,32 +45,32 @@ if ( !file_exists($filenameConfig) ) {
 	$chat_file = str_replace("html", "php", $chat_file);
 	$chat_url = dirname($phpself);
 	if (substr($chat_url, -1) != "/")
-	    $chat_url .= "/";
+		$chat_url .= "/";
 	
 	// Wenn zwingend SSL, dann ... 
 	if (isset($SSLRedirect) && $SSLRedirect == "1") {
-	    // ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen
-	    if (!((isset($_SERVER["HTTPS"])
-	        && ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
-	        $url = 'https://' . $_SERVER["HTTP_HOST"] . '/index.php';
-	        if (!headers_sent())
-	            header('Location: ' . $url);
-	        die();
-	    }
-	    // ... für alle Ausgaben einmalig Protokollvariable
+		// ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen
+		if (!((isset($_SERVER["HTTPS"])
+			&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
+			$url = 'https://' . $_SERVER["HTTP_HOST"] . '/index.php';
+			if (!headers_sent())
+				header('Location: ' . $url);
+			die();
+		}
+		// ... für alle Ausgaben einmalig Protokollvariable
 	 else {
-	        $serverprotokoll = 'https';
-	    }
+			$serverprotokoll = 'https';
+		}
 	}
 	// Wenn SSL aber nicht zwingend, für alle Ausgaben einmalig Protokollvariable
 	 else if (((isset($_SERVER["HTTPS"])
-	    && ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))
-	    || $ssl_login) {
-	    $serverprotokoll = 'https';
+		&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))
+		|| $ssl_login) {
+		$serverprotokoll = 'https';
 	}
 	// default Protokoll
 	 else {
-	    $serverprotokoll = 'http';
+		$serverprotokoll = 'http';
 	}
 	
 	// Zentrale Sprachdatei einbinden
@@ -82,22 +82,22 @@ if ( !file_exists($filenameConfig) ) {
 	// Liegen lokale Functionen "functions.php-$chat_file" vor? Falls ja einbinden
 	$functions = "functions.php-" . $chat_file;
 	if (file_exists("$functions")) {
-	    require "$functions";
+		require "$functions";
 	}
 	
 	// Liegt lokale Sprachdatei "$sprachconfig-$chat_file" vor? Falls ja einbinden
 	$config = $sprachconfig . "-" . $chat_file;
 	if (file_exists("conf/$config")) {
-	    require "conf/$config";
+		require "conf/$config";
 	}
 	
 	// Falls Texte in Kopfzeilen weiß dargestellt werden sollen, Variable definieren
 	if ($farbe_text_weiss == 1) {
-	    $ft0 = "<span style=\"color:#FFFFFF;\">";
-	    $ft1 = "</span>";
+		$ft0 = "<span style=\"color:#FFFFFF;\">";
+		$ft1 = "</span>";
 	} else {
-	    $ft0 = "";
-	    $ft1 = "";
+		$ft0 = "";
+		$ft1 = "";
 	}
 	
 	// Globales

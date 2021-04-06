@@ -66,7 +66,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	$result2 = mysqli_query($mysqli_link, $query2);
 	
 	// Menü als erstes ausgeben
-	$box = $ft0 . "Menü Mail" . $ft1;
+	$box = "Menü Mail";
 	$text = "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=\">Mailbox neu laden</A>\n|\n"
 		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=neu\">Neue Mail schreiben</A>\n|\n"
 		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorb\">Papierkorb zeigen</A>\n|\n"

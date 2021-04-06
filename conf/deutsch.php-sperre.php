@@ -8,7 +8,7 @@ $t['menue3'] = "Blacklist";
 
 $t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Übersicht über alle Zugangssperren";
-$t['sonst3'] = "<TH><DIV style=\"color:$farbe_text;\">Adresse</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Info</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Art</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Eintrag</DIV></TH><TH><DIV style=\"color:$farbe_text;\">Aktion</DIV></TH>";
+
 $t['sonst4'] = "<b>Keine Zugangssperren definiert.</b>";
 $t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
 $t['sonst6'] = "<b>Fehler:</b> Bitte als Domain mindestens 5 Zeichen ausfüllen!";
@@ -28,4 +28,10 @@ $t['sonst19'] = "Grund der Sperre (opt):";
 $t['sonst20'] = "WARNUNG";
 $t['sonst21'] = "SPERRE";
 $t['sonst22'] = "Art (Warnung sperrt nicht):";
+
+$t['sonst23'] = "Adresse";
+$t['sonst24'] = "Info";
+$t['sonst25'] = "Art";
+$t['sonst26'] = "Eintrag";
+$t['sonst27'] = "Aktion";
 ?>

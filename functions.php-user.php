@@ -5,9 +5,7 @@
 require_once("functions.php-func-html_parse.php");
 require_once("functions.php-func-raeume_auswahl.php");
 
-function user_liste($larr, $anzahl)
-{
-	
+function user_liste($larr, $anzahl) {
 	// Gibt Userliste $larr als Tabelle aus
 	
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;

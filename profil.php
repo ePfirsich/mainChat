@@ -75,7 +75,7 @@ if ($u_id && $communityfeatures) {
 	@mysqli_free_result($result);
 	
 	// Menü als erstes ausgeben
-	$box = $ft0 . "Menü Profil" . $ft1;
+	$box = "Menü Profil";
 	$text = "<a href=\"edit.php?http_host=$http_host&id=$id\">Usereinstellungen ändern</a>\n";
 	$text .= "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Homepage bearbeiten</a>\n";
 	if ($u_level == "S") {
