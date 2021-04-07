@@ -31,8 +31,8 @@ $t['thema_button'] = "Thema anlegen";
 $t['thema_button_edit'] = "Thema speichern";
 
 //Texte für Liste der Foren
-$t['anzthreads'] = "Anzahl Threads";
-$t['anzreplys'] = "Anzahl Replies";
+$t['anzthreads'] = "Anzahl Themen";
+$t['anzreplys'] = "Anzahl Antworten";
 $t['anzbeitraege'] = "Neue Beiträge";
 
 //Texte für Beschreibungen der Folder
@@ -41,56 +41,56 @@ $t['desc_redfolder'] = "Neue Beiträge seit Ihrem letzten Besuch.";
 $t['desc_burningfolder'] = "Mehr als 10 Beiträge";
 $t['desc_burningredfolder'] = "Mehr als 10 Beiträge";
 $t['desc_topposting'] = "Beiträge dieser Kategorie stehen im jeweiligen Thema immer ganz oben.";
-$t['desc_threadgeschlossen'] = "Dieser Thread ist geschlossen. Hier können keine Antworten mehr erfolgen.";
+$t['desc_threadgeschlossen'] = "Dieses Thema ist geschlossen. Hier können keine Antworten mehr erfolgen.";
 
-//Texte für Posting-Liste
-$t['neuer_thread'] = "Neuen Thread starten";
-$t['alles_gelesen'] = "Alle Postings als gelesen markieren";
+//Texte für Beitrags-Liste
+$t['neuer_thread'] = "Neuen Beitrag starten";
+$t['alles_gelesen'] = "Alle Beiträge als gelesen markieren";
 $t['autor'] = "von&nbsp;";
-$t['datum'] = "Geschrieben&nbsp;am&nbsp;";
-$t['letztes_posting'] = "Letztes&nbsp;Posting&nbsp;am";
+$t['datum'] = "Geschrieben am ";
+$t['letztes_posting'] = "Letzter&nbsp;Beitrag&nbsp;am";
 $t['anzneue'] = "Ungelesen";
-$t['thread_alles_gelesen'] = "Alle Postings dieses Threads als gelesen markieren";
+$t['thread_alles_gelesen'] = "Alle Beiträge dieses Themas als gelesen markieren";
 
-//Texte für Maske Posting
-$t['neuer_thread_button'] = "Posting anlegen";
-$t['edit_button'] = "Posting editieren";
-$t['posting_msg1'] = "Name des Postings:";
-$t['posting_msg2'] = "Posting:";
+//Texte für Maske Beiträge
+$t['neuer_thread_button'] = "Beitrag anlegen";
+$t['edit_button'] = "Beitrag editieren";
+$t['posting_msg1'] = "Titel:";
+$t['posting_msg2'] = "Beitrag:";
 $t['posting_msg3'] = "Autor:";
 $t['posting_msg4'] = "(Nick oder User_ID)";
 $t['page'] = "Seite";
 $t['last'] = "vorheriger";
 $t['next'] = "nächster";
 $t['reply'] = "Re:";
-$t['desc_posting'] = "Bitte keine HTML-Tags im Posting verwenden, diese werden bei der Darstellung des Postings nicht berücksichtigt. Das Posting wird automatisch passend formatiert, wobei Zeilenumbrüche berücksichtigt werden.";
+$t['desc_posting'] = "Bitte keine HTML-Tags im Beitrag verwenden, diese werden bei der Darstellung des Beitrags nicht berücksichtigt. Der Beitrag wird automatisch passend formatiert, wobei Zeilenumbrüche berücksichtigt werden.";
 $t['smilies'] = "Smilies zum Einfügen anzeigen";
 
-//Text für Bestätigung zum Löschen eines Postings, Themas, Forums
-$t['conf_delete'] = "Wollen Sie dieses Posting wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESES POSTING gelöscht!!!!";
-$t['conf_delete_forum'] = "Wollen Sie das komplette Forum mit ALLEN THEMEN UND POSTINGS löschen???";
-$t['conf_delete_thema'] = "Wollen Sie das komplette Thema mit ALLEN POSTINGS löschen???";
+//Text für Bestätigung zum Löschen eines Beitrags, Themas, Forums
+$t['conf_delete'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!!!!";
+$t['conf_delete_forum'] = "Wollen Sie das komplette Forum mit ALLEN Themen und Beiträge löschen???";
+$t['conf_delete_thema'] = "Wollen Sie das komplette Thema mit ALLEN Beiträge löschen???";
 
 //Texte für fehlende Eingaben
 $t['missing_foname'] = "Kein Name für das Forum angegeben";
 $t['missing_thname'] = "<br>Kein Name für das Thema angegeben";
 $t['missing_thdesc'] = "<br>Keine Beschreibung für das Thema angegeben";
-$t['missing_potitel'] = "<br>Geben Sie bitte einen Titel für das Posting an!";
-$t['missing_potext'] = "<br>Sie haben keinen Text für Ihr Posting eingegeben!";
+$t['missing_potitel'] = "<br>Geben Sie bitte einen Titel für den Beitrag an!";
+$t['missing_potext'] = "<br>Sie haben keinen Text für Ihren Beitrag eingegeben!";
 
 // Sonstiges
 $t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich als registrierter User an.";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 
-$t['forum_postingsproseite'] = "Anzeige Postings pro Seite: ";
+$t['forum_postingsproseite'] = "Anzeige Beiträge pro Seite: ";
 $t['speichern'] = "Speichern";
 $t['leserechte'] = "<P>Fehler! Sie haben keine Leserechte in diesem Forum!</P>";
 $t['schreibrechte'] = "<P>Fehler! Sie haben keine Schreibrechte für dieses Forum!</P>";
 $t['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 
 //Texte fürs Verschieben
-$t['verschieben1'] = "Verschiebe Thread: ";
+$t['verschieben1'] = "Verschiebe Thema: ";
 $t['verschieben2'] = "vom Thema: ";
 $t['verschieben3'] = "nach Thema: ";
 $t['verschieben4'] = "VERSCHIEBEN";

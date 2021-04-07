@@ -32,7 +32,7 @@ if (!$darf_forum) {
 //Userdaten u_gelesene_postings bereinigen
 bereinige_u_gelesene_postings($u_id);
 
-//Bereinige Anzahl Threads und Antworten wenn ein SU das Forum betritt
+//Bereinige Anzahl Themen und Antworten wenn ein SU das Forum betritt
 if ($u_level == "S") {
 	bereinige_anz_in_thema();
 }

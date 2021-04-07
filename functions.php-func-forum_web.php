@@ -60,7 +60,6 @@ function fuss_forum() {
 	?>
 	<br>
 	<br>
-	</center>
 	</body>
 	</html>
 	<?php
@@ -176,7 +175,7 @@ function maske_forum($fo_id = 0) {
 function forum_liste() {
 	global $mysqli_link;
 	global $id, $http_host, $forum_admin, $chat_grafik, $farbe_text;
-	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_kopf2;
+	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
 	global $farbe_tabellenrahmen, $u_level;
 	
 	$sql = "select fo_id, fo_name, fo_order, fo_admin,
@@ -262,7 +261,7 @@ function forum_liste() {
 					$folder = $chat_grafik['forum_ordnervoll'];
 				}
 				
-				echo "<td width=\"30\" align=\"center\" $farbe>$folder</td>";
+				echo "<td width=\"30\" style=\"text-align:center;\" $farbe>$folder</td>";
 				if ($forum_admin) {
 					?>
 					<td style="width:550px;" <?php echo $farbe; ?>>
@@ -317,26 +316,33 @@ function forum_liste() {
 //Zeigt Erklärung der verschiedenen Folder an
 function show_icon_description($mode) {
 	global $t, $f3, $f4, $chat_grafik;
-	
-	echo "<br><table style=\"width:900px;\">\n";
-	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_ordnerneu]</td>\n";
-	echo "<td style=\"width:740px;\">$f3 = $t[desc_folder] " . "$f4</td></tr>";
-	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_ordnerblau]</td>\n";
-	echo "<td style=\"width:740px;\">$f3 = $t[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $t[desc_burningredfolder])$f4</td></tr>";
-	
-	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_topthema]</td>\n";
-	echo "<td style=\"width:740px;\">$f3 = $t[desc_topposting] $f4</td></tr>";
-	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_threadgeschlossen]</td>\n";
-	echo "<td style=\"width:740px;\">$f3 = $t[desc_threadgeschlossen] $f4</td></tr>";
-	
-	echo "</table>";
-	
+	?>
+	<br>
+	<table style="width:900px; margin:auto;">
+		<tr>
+			<td style="width:20px; text-align:center;"><?php echo $chat_grafik['forum_ordnerneu']; ?></td>
+			<td><?php echo "$f3 = $t[desc_folder] $f4"; ?></td>
+		</tr>
+		<tr>
+			<td style="text-align:center;"><?php echo $chat_grafik['forum_ordnerblau']; ?></td>
+			<td><?php echo "$f3 = $t[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $t[desc_burningredfolder])$f4"; ?></td>
+		</tr>
+		<tr>
+			<td style="text-align:center;"><?php echo $chat_grafik['forum_topthema']; ?></td>
+			<td><?php echo "$f3 = $t[desc_topposting] $f4"; ?></td>
+		</tr>
+		<tr>
+			<td style="width:20px; text-align:center;"><?php echo $chat_grafik['forum_threadgeschlossen']; ?></td>
+			<td><?php echo "$f3 = $t[desc_threadgeschlossen] $f4"; ?></td>
+		</tr>
+	</table>
+	<?php
 }
 
 //Eingabemaske für Thema
 function maske_thema($th_id = 0) {
 	global $id, $http_host, $fo_id, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $f1, $f2, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
 	global $t, $chat_grafik, $farbe_text;
 	
 	if ($th_id > 0) {
@@ -421,54 +427,56 @@ function maske_thema($th_id = 0) {
 }
 
 //Zeigt Pfad und Seiten in Themaliste an
-function show_pfad($th_id)
-{
-	
+function show_pfad($th_id) {
 	global $mysqli_link, $f3, $f4, $id, $http_host, $thread, $anzahl_po_seite;
 	global $seite, $t, $farbe_vlink, $farbe_hervorhebung_forum;
 	
 	//Infos über Forum und Thema holen
-	$sql = "select fo_id, fo_name, th_name, th_anzthreads
-				from forum, thema
-				where th_id = " . intval($th_id) . "
-				and fo_id = th_fo_id";
+	$sql = "SELECT fo_id, fo_name, th_name, th_anzthreads
+				FROM forum, thema
+				WHERE th_id = " . intval($th_id) . "
+				AND fo_id = th_fo_id";
 	$query = mysqli_query($mysqli_link, $sql);
 	$fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
 	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 	$th_anzthreads = mysqli_result($query, 0, "th_anzthreads");
 	@mysqli_free_result($query);
-	
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-	echo "<tr><td>$f3<a href=\"forum.php?id=$id&http_host=$http_host#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a>$f4</td>\n";
-	
-	if (!$anzahl_po_seite || $anzahl_po_seite == 0)
-		$anzahl_po_seite = 20;
-	$anz_seiten = ceil(($th_anzthreads / $anzahl_po_seite));
-	if ($anz_seiten > 1) {
-		echo "<td align=\"right\">$f3 $t[page] ";
-		for ($page = 1; $page <= $anz_seiten; $page++) {
-			
-			if ($page == $seite)
-				$col = $farbe_hervorhebung_forum;
-			else $col = $farbe_vlink;
-			echo "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&aktion=show_thema&seite=$page\"><font color=\"$col\">$page</font></a> ";
+	?>
+	<table style="width:900px; margin:auto;">
+		<tr>
+			<td><?php echo $f3; ?><a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>#<?php echo $fo_id; ?>"><?php echo $fo_name; ?></a> > <a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $th_id; ?>&show_tree=<?php echo $thread; ?>&aktion=show_thema&seite=<?php echo $seite; ?>"><?php echo $th_name; ?></a><?php echo $f4; ?></td>
+		<?php
+		if (!$anzahl_po_seite || $anzahl_po_seite == 0)
+			$anzahl_po_seite = 20;
+		$anz_seiten = ceil(($th_anzthreads / $anzahl_po_seite));
+		if ($anz_seiten > 1) {
+			echo "<td style=\"text-align:right;\">$f3 $t[page] ";
+			for ($page = 1; $page <= $anz_seiten; $page++) {
+				
+				if ($page == $seite) {
+					$col = $farbe_hervorhebung_forum;
+				} else {
+					$col = $farbe_vlink;
+				}
+				echo "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&aktion=show_thema&seite=$page\"><font color=\"$col\">$page</font></a> ";
+			}
+			echo "$f4</td></tr>\n";
+		} else {
+			echo "</tr>\n";
 		}
-		echo "$f4</td></tr>\n";
-	} else {
-		echo "</tr>\n";
-	}
-	echo "<tr><td<><img src=\"pics/fuell.gif\" width=\"1\" height=\"2\" border=\"0\"></td></tr>";
-	echo "</table>\n";
+		?>
+	</table>
+	<?php
 	
 	return $th_name;
 }
 
-//Zeigt ein Thema mit allen Postings an
+//Zeigt ein Thema mit allen Beiträgen an
 function show_thema() {
 	global $mysqli_link;
 	global $id, $http_host, $o_js, $forum_admin, $th_id, $show_tree, $seite, $farbe_link;
-	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
 	global $anzahl_po_seite, $chat_grafik, $farbe_text;
 	global $admin, $anzahl_po_seite2, $u_id, $u_level;
 	
@@ -518,173 +526,166 @@ function show_thema() {
 	?>
 	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
 		<tr>
-		<td>
-		<table style="width:100%">
-		<tr>
-		<td style="width:30px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:30px; height:1px; border:0px;"></td>
-		<td style="width:20px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:20px; height:1px; border:0px;"></td>
-		<td style="width:340px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:340px; height:1px; border:0px;"></td>
-		<td style="width:170px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:170px; height:1px; border:0px;"></td>
-		<td style="width:120px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:120px; height:1px; border:0px;"></td>
-		<td style="width:40px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:40px; height:1px; border:0px;"></td>
-		<td style="width:40px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:40px; height:1px; border:0px;"></td>
+			<td colspan="6" class="tabelle_kopfzeile"><?php echo $th_name; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile">
+				<?php
+				$schreibrechte = pruefe_schreibrechte($th_id);
+				if ($schreibrechte) {
+					?>
+					<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $th_id; ?>&po_vater_id=0&aktion=thread_neu"><?php echo $t['neuer_thread']; ?></a><br>
+					<?php
+				} else {
+					echo $f3 . $t[nur_leserechte] . $f4; ?><br>
+					<?php
+				}
+				?>
+			</td>
 		</tr>
 		<tr>
-			<td colspan="3" style="background-color:<?php echo $farbe_tabelle_kopf; ?>">
-				<table style="width:390px;">
-	<?php
-	echo "<tr><td width=\"3\"><img src=\"pics/fuell.gif\" width=\"3\" height=\"30\" border=\"0\"></td><td><DIV style=\"color:$farbe_text; font-weight:bold;\">&nbsp;&nbsp;$th_name</DIV></td>\n";
-	
-	$schreibrechte = pruefe_schreibrechte($th_id);
-	if ($schreibrechte)
-		echo "<td width=\"100\" align=\"center\">$f3<a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=0&aktion=thread_neu\">$t[neuer_thread]</a>$f4</td>";
-	else {
-		echo "<td width=\"100\" align=\"center\">$f3$t[nur_leserechte]$f4</td>";
-	}
-	echo "<td width=\"100\" align=\"center\">$f3<a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host"
-		. "&th_id=$th_id&aktion=thema_alles_gelesen\">$t[alles_gelesen]</a>$f4</td>";
-	echo "</tr></table></td>\n";
-	echo "<td>$f3<DIV style=\"color:$farbe_text; \">$t[autor]</DIV>$f4</td>\n";
-	echo "<td align=\"center\">$f3<DIV style=\"color:$farbe_text; \">$t[datum]<br>$t[letztes_posting]</DIV>$f4</td>\n";
-	echo "<td align=\"center\">$f3<DIV style=\"color:$farbe_text; \">$t[anzreplys]</DIV>$f4</td>\n";
-	echo "<td align=\"center\">$f3<DIV style=\"color:$farbe_text; \">$t[anzneue]</DIV>$f4</td></tr>\n";
-	echo "<tr bgcolor=\"$farbe_tabellenrahmen\"><td colspan=\"7\"><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"></td></tr>\n";
-	
-	$zeile = 0;
-	while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-		set_time_limit(0);
-		
-		if ($zeile % 2) {
-			$farbe = 'class="tabelle_zeile1"';
-		} else {
-			$farbe = 'class="tabelle_zeile2"';
-		}
-		
-		if ($posting['po_threadorder'] == "0") {
-			$anzreplys = 0;
-			$icon = "<img src=\"pics/forum/o.gif\" width=\"20\" height=\"25\" border=\"0\">";
-			$arr_postings = array($posting['po_id']);
-		} else {
-			$arr_postings = explode(",", $posting['po_threadorder']);
-			$anzreplys = count($arr_postings);
-			//Erstes Posting mit beruecksichtigen
-			$arr_postings[] = $posting['po_id'];
-			if ($show_tree == $posting['po_id'])
-				$icon = "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&aktion=show_thema&seite=$seite\"><img src=\"pics/forum/m.gif\" width=\"20\" height=\"25\" border=\"0\"></a>";
-			else $icon = "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$posting[po_id]&aktion=show_thema&seite=$seite\"><img src=\"pics/forum/p.gif\" width=\"20\" height=\"25\" border=\"0\"></a>";
-		}
-		
-		$ungelesene = anzahl_ungelesene($arr_postings, $th_id);
-		
-		array_pop($arr_postings);
-		
-		if ($ungelesene === 0) {
-			if ($posting['po_topposting'] == 'Y') // Topposting 
- {
-				$folder = $chat_grafik['forum_topthema'];
-			} elseif ($posting['po_threadgesperrt'] == 'Y') // Geschlossener Thread
- {
-				$folder = $chat_grafik['forum_threadgeschlossen'];
-			} else {
-				$folder = $chat_grafik['forum_ordnerneu'];
-			}
-		} elseif ($ungelesene < 11)
-			$folder = $chat_grafik['forum_ordnerblau'];
-		else $folder = $chat_grafik['forum_ordnervoll'];
-		
-		if ($ungelesene != 0) {
-			$coli = "<font color=red>";
-			$colo = "</font>";
-		} else {
-			$coli = "";
-			$colo = "";
-		}
-		
-		echo "<tr><td align=\"center\" $farbe>$folder</nobr></td>\n";
-		echo "<td align=\"center\" $farbe>$icon</td>\n";
-		
-		if ($posting['po_gesperrt'] == 'Y' and !$forum_admin) {
-			echo "<td $farbe>&nbsp;<b><font size=\"-1\" color=\"$farbe_link\">"
-				. substr($posting['po_titel'], 0, 40)
-				. "</font> <font size=\"-1\" color=\"red\">(gesperrt)</font></b></td>\n";
-		} elseif ($posting['po_gesperrt'] == 'Y' and $forum_admin) {
-			echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
-				. substr($posting['po_titel'], 0, 40)
-				. "</a></b>$f2  <font size=\"-1\" color=\"red\"><b>(gesperrt)</b></font></td>\n";
-		} else {
-			echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
-				. substr($posting['po_titel'], 0, 40)
-				. "</a></b>$f2</td>\n";
-		}
-		
-		if (!$posting['u_nick']) {
-			echo "<td $farbe>$f3<b>Nobody</b>$f4</td>\n";
-		} else {
+			<td colspan="3" class="tabelle_kopfzeile">
+				<?php echo $f3; ?><a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $th_id; ?>&aktion=thema_alles_gelesen"><?php echo $t['alles_gelesen']; ?></a><?php echo $f4; ?>
+			</td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['autor'] . $f4; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['datum']; ?><br><?php echo $t['letztes_posting'] . $f4; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['anzreplys'] . $f4; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['anzneue'] . $f4; ?></td>
+		</tr>
+		<?php
+		$zeile = 0;
+		while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+			set_time_limit(0);
 			
-			$userdata = array();
-			$userdata['u_id'] = $posting['po_u_id'];
-			$userdata['u_nick'] = $posting['u_nick'];
-			$userdata['u_level'] = $posting['u_level'];
-			$userdata['u_punkte_gesamt'] = $posting['u_punkte_gesamt'];
-			$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
-			$userdata['u_chathomepage'] = $posting['u_chathomepage'];
-			$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE,
-				"&nbsp;", "", "", TRUE, FALSE, 29);
-			if ($posting['u_level'] == 'Z') {
-				echo "<td $farbe>$f1 $userdata[u_nick] $f2</td>\n";
+			if ($zeile % 2) {
+				$farbe = 'class="tabelle_zeile1"';
 			} else {
-				echo "<td $farbe>$f1 $userlink $f2</td>\n";
+				$farbe = 'class="tabelle_zeile2"';
 			}
+			
+			if ($posting['po_threadorder'] == "0") {
+				$anzreplys = 0;
+				$icon = "<img src=\"pics/forum/o.gif\" width=\"20\" height=\"25\" border=\"0\">";
+				$arr_postings = array($posting['po_id']);
+			} else {
+				$arr_postings = explode(",", $posting['po_threadorder']);
+				$anzreplys = count($arr_postings);
+				//Ersten Beitrag mit beruecksichtigen
+				$arr_postings[] = $posting['po_id'];
+				if ($show_tree == $posting['po_id'])
+					$icon = "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&aktion=show_thema&seite=$seite\"><img src=\"pics/forum/m.gif\" width=\"20\" height=\"25\" border=\"0\"></a>";
+				else $icon = "<a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$posting[po_id]&aktion=show_thema&seite=$seite\"><img src=\"pics/forum/p.gif\" width=\"20\" height=\"25\" border=\"0\"></a>";
+			}
+			
+			$ungelesene = anzahl_ungelesene($arr_postings, $th_id);
+			
+			array_pop($arr_postings);
+			
+			if ($ungelesene === 0) {
+				if ($posting['po_topposting'] == 'Y') { // Topposting 
+					$folder = $chat_grafik['forum_topthema'];
+				} elseif ($posting['po_threadgesperrt'] == 'Y') { // Geschlossenes Thema
+					$folder = $chat_grafik['forum_threadgeschlossen'];
+				} else {
+					$folder = $chat_grafik['forum_ordnerneu'];
+				}
+			} elseif ($ungelesene < 11)
+				$folder = $chat_grafik['forum_ordnerblau'];
+			else $folder = $chat_grafik['forum_ordnervoll'];
+			
+			if ($ungelesene != 0) {
+				$coli = "<font color=red>";
+				$colo = "</font>";
+			} else {
+				$coli = "";
+				$colo = "";
+			}
+			
+			echo "<tr><td style=\"text-align:center;\" $farbe>$folder</nobr></td>\n";
+			echo "<td style=\"text-align:center;\" $farbe>$icon</td>\n";
+			
+			if ($posting['po_gesperrt'] == 'Y' and !$forum_admin) {
+				echo "<td $farbe>&nbsp;<b><font size=\"-1\" color=\"$farbe_link\">"
+					. substr($posting['po_titel'], 0, 40)
+					. "</font> <font size=\"-1\" color=\"red\">(gesperrt)</font></b></td>\n";
+			} elseif ($posting['po_gesperrt'] == 'Y' and $forum_admin) {
+				echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
+					. substr($posting['po_titel'], 0, 40)
+					. "</a></b>$f2  <font size=\"-1\" color=\"red\"><b>(gesperrt)</b></font></td>\n";
+			} else {
+				echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
+					. substr($posting['po_titel'], 0, 40)
+					. "</a></b>$f2</td>\n";
+			}
+			
+			if (!$posting['u_nick']) {
+				echo "<td $farbe>$f3<b>Nobody</b>$f4</td>\n";
+			} else {
+				
+				$userdata = array();
+				$userdata['u_id'] = $posting['po_u_id'];
+				$userdata['u_nick'] = $posting['u_nick'];
+				$userdata['u_level'] = $posting['u_level'];
+				$userdata['u_punkte_gesamt'] = $posting['u_punkte_gesamt'];
+				$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
+				$userdata['u_chathomepage'] = $posting['u_chathomepage'];
+				$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE,
+					"&nbsp;", "", "", TRUE, FALSE, 29);
+				if ($posting['u_level'] == 'Z') {
+					echo "<td $farbe>$f1 $userdata[u_nick] $f2</td>\n";
+				} else {
+					echo "<td $farbe>$f1 $userlink $f2</td>\n";
+				}
+			}
+			
+			if ($posting['po_date2'] == '01.01.70'
+				|| $posting['po_date'] == $posting['po_date2']) {
+				$date2 = "";
+			} else {
+				$date2 = "$f3; " . substr($posting['po_date2'], 0, 5) . "$f4";
+			}
+			echo "<td style=\"text-align:center;\" $farbe>$f3$posting[po_date]$f4$date2</td>\n";
+			echo "<td style=\"text-align:center;\" $farbe>$f3$anzreplys$f4</td>\n";
+			echo "<td style=\"text-align:center;\" $farbe>$f3$coli$ungelesene$colo$f4</td></tr>\n";
+			
+			if (($show_tree == $posting['po_id'])
+				&& ($posting['po_threadorder'] != "0")) {
+				echo "<tr><td $farbe>&nbsp;</td><td colspan=\"6\" $farbe>\n";
+				zeige_baum($arr_postings, $posting['po_threadorder'],
+					$posting['po_id']);
+				echo "</td></tr>\n";
+			}
+			
+			$zeile++;
+			
 		}
-		
-		if ($posting['po_date2'] == '01.01.70'
-			|| $posting['po_date'] == $posting['po_date2']) {
-			$date2 = "";
-		} else {
-			$date2 = "$f3; " . substr($posting['po_date2'], 0, 5) . "$f4";
-		}
-		echo "<td align=\"center\" $farbe>$f3$posting[po_date]$f4$date2</td>\n";
-		echo "<td align=\"center\" $farbe>$f3$anzreplys$f4</td>\n";
-		echo "<td align=\"center\" $farbe>$f3$coli$ungelesene$colo$f4</td></tr>\n";
-		
-		if (($show_tree == $posting['po_id'])
-			&& ($posting['po_threadorder'] != "0")) {
-			echo "<tr><td $farbe>&nbsp;</td><td colspan=\"6\" $farbe>\n";
-			zeige_baum($arr_postings, $posting['po_threadorder'],
-				$posting['po_id']);
-			echo "</td></tr>\n";
-		}
-		
-		$zeile++;
-		
-	}
+		?>
 	
-	echo "</table></td></tr></table>";
-	
+	</table>
+	<?php
 	show_pfad($th_id);
 	show_icon_description("thema");
-	
-	echo "<br><table width=\"900\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n";
-	echo "<tr><td>";
-	echo "<form action=\"forum.php\">\n";
-	echo "$t[forum_postingsproseite] <input name=\"anzahl_po_seite2\" size=\"3\" maxlength=\"4\" value=\"$anzahl_po_seite\">\n";
-	echo "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-	echo "<input type=\"hidden\" name=\"aktion\" value=\"show_thema\">\n";
-	echo "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
-	echo "<input type=\"submit\" value=\"$t[speichern]\">\n";
-	echo "</form>\n";
-	echo "</td></tr>\n";
-	echo "</table>\n";
-	
+	?>
+	<br>
+	<table style="width:900px; margin:auto;">
+		<tr>
+			<td>
+				<form action="forum.php">
+				<?php echo $t['forum_postingsproseite']; ?> <input name="anzahl_po_seite2" size="3" maxlength="4" value="<?php echo $anzahl_po_seite; ?>">
+				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+				<input type="hidden" name="id" value="<?php echo $id; ?>">
+				<input type="hidden" name="aktion" value="show_thema">
+				<input type="hidden" name="th_id" value="<?php echo $th_id; ?>">
+				<input type="submit" value="<?php echo $t['speichern']; ?>">
+				</form>
+			</td>
+		</tr>
+	</table>
+	<?php
 }
 
-//Maske zum Eingeben/Editieren/Quoten von Postings
-function maske_posting($mode)
-{
-	
+//Maske zum Eingeben/Editieren/Quoten von Beiträgen
+function maske_posting($mode) {
 	global $id, $u_id, $http_host, $th_id, $po_id, $po_vater_id, $po_tiefe, $mysqli_link, $po_titel, $po_text, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen, $farbe_text;
+	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $farbe_tabellenrahmen, $farbe_text;
 	global $t, $mysqli_link;
 	global $forum_admin, $u_nick, $smilies_datei;
 	
@@ -778,52 +779,47 @@ function maske_posting($mode)
 	echo "<form name=\"form\" action=\"forum.php\" method=\"post\">";
 	show_pfad_posting($th_id, $titel);
 	?>
-	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
 		<tr>
-			<td>
-				<table style="width:100%;">
-					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;\"><?php echo $kopfzeile; ?></div></td>
-					</tr>
-				</table>
+			<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
+		</tr>
+		<tr>
+			<td style="width:200px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['posting_msg1']; ?><?php echo $f2; ?></td>
+			<td style="width:560px;" class="tabelle_koerper_login"><input type="text" size="50" name="po_titel" value="<?php echo $po_titel; ?>"></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['posting_msg2']; ?><?php echo $f2; ?><br>
+				<?php
+				echo $f3 . "($t[desc_posting])$f4\n";
+				
+				$link_smilies = "$smilies_datei?http_host=$http_host&id=$id";
+				
+				$fenster = str_replace("+", "", $u_nick);
+				$fenster = str_replace("-", "", $fenster);
+				$fenster = str_replace("ä", "", $fenster);
+				$fenster = str_replace("ö", "", $fenster);
+				$fenster = str_replace("ü", "", $fenster);
+				$fenster = str_replace("Ä", "", $fenster);
+				$fenster = str_replace("Ö", "", $fenster);
+				$fenster = str_replace("Ü", "", $fenster);
+				$fenster = str_replace("ß", "", $fenster);
+				?><br>
+				<a href="<?php echo $link_smilies; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $link_smilies; ?>');return(false)"><?php echo $f3 . $t['smilies'] . $f4; ?></a>
 			</td>
 		</tr>
 		<tr>
-			<td>
-				<table style="width:900px; background-color:<?php echo $farbe_tabelle_kopf2; ?>">
-					<tr>
-						<td style="width:200px;"><?php echo $f1; ?> <div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $t[posting_msg1]; ?></div> <?php echo $f2; ?></td>
-						<td style="width:560px;"><input type="text" size="50" name="po_titel" value="<?php echo $po_titel; ?>"></td>
-					</tr>
-					<tr>
-						<td colspan="2"><?php echo $f1; ?> <div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $t[posting_msg2]; ?><div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"> <?php echo $f2; ?><br>
-	<?php
-	echo $f3
-		. "<DIV style=\"color:$farbe_text; \">($t[desc_posting])</DIV>$f4</td></tr>\n";
-	
-	$link_smilies = "$smilies_datei?http_host=$http_host&id=$id";
-	
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
-	echo "<tr><td colspan=\"2\"><a href=\"$link_smilies\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$link_smilies');return(false)\">$f3 <DIV style=\"color:$farbe_text; \">$t[smilies]</DIV> $f4</A></td></tr>\n";
-	echo "<tr><td colspan=\"2\" align=\"center\"><textarea name=\"po_text\" rows=\"15\" cols=\"95\"  wrap=physical>$po_text</textarea></td></tr>\n";
+			<td colspan="2" style="text-align:center;" class="tabelle_koerper_login"><textarea name="po_text" rows="15" cols="95" wrap="physical"><?php echo $po_text; ?></textarea></td>
+		</tr>
+			<?php
 	if ($forum_admin && ($mode == "edit")) {
 		
-		echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[posting_msg3]</DIV> $f2<br>$f3 <DIV style=\"color:$farbe_text; \">$t[posting_msg4]</DIV> $f4</td>\n";
-		echo "<td><input type=\"text\" size=\"20\" name=\"autor\" value=\"$autor\"></td></tr>\n";
+		echo "<tr><td style=\"font-weight:bold;\" class=\"tabelle_koerper_login\">$f1 $t[posting_msg3] $f2<br>$f3 $t[posting_msg4] $f4</td>\n";
+		echo "<td class=\"tabelle_koerper_login\"><input type=\"text\" size=\"20\" name=\"autor\" value=\"$autor\"></td></tr>\n";
 		
 		// Nur im Obersten Vater die TOP und gesperrt einstellungen ändern lassen
 		if ($po_id == $thread) {
-			echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">Thread gesperrt</DIV>$f2</td>\n";
-			echo "<td><SELECT NAME=\"po_threadgesperrt\"><OPTION ";
+			echo "<tr><td style=\"color:$farbe_text; font-weight:bold;\" class=\"tabelle_koerper_login\">$f1 Thema gesperrt$f2</td>\n";
+			echo "<td class=\"tabelle_koerper_login\"><SELECT NAME=\"po_threadgesperrt\"><OPTION ";
 			if ($po_threadgesperrt == 'Y')
 				echo "SELECTED ";
 			echo "VALUE=\"Y\">Ja</OPTION><OPTION ";
@@ -831,8 +827,8 @@ function maske_posting($mode)
 				echo "SELECTED ";
 			echo "VALUE=\"N\">Nein</SELECT></td></tr>\n";
 			
-			echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">TOP Posting</DIV>$f2</td>\n";
-			echo "<td><SELECT NAME=\"po_topposting\"><OPTION ";
+			echo "<tr><td style=\"color:$farbe_text; font-weight:bold;\" class=\"tabelle_koerper_login\">$f1 TOP Beiträge$f2</td>\n";
+			echo "<td class=\"tabelle_koerper_login\"><SELECT NAME=\"po_topposting\"><OPTION ";
 			if ($po_topposting == 'Y')
 				echo "SELECTED ";
 			echo "VALUE=\"Y\">Ja</OPTION><OPTION ";
@@ -842,8 +838,12 @@ function maske_posting($mode)
 		}
 		
 	}
-	echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"$button\"></td></tr>\n";
-	echo "</table></td></tr></table>";
+	?>
+	<tr>
+		<td colspan="2" style="text-align:right;" class="tabelle_koerper_login"><input type="submit" value="<?php echo $button; ?>"></td>
+	</tr>
+	</table>
+	<?php
 	show_pfad_posting($th_id, $titel);
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 	echo "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
@@ -873,22 +873,23 @@ function maske_posting($mode)
 }
 
 //Zeigt die gutgeschriebenen Punkte an
-function verbuche_punkte($u_id)
-{
-	
+function verbuche_punkte($u_id) {
 	global $t, $punkte_pro_posting, $farbe_tabellenrahmen, $farbe_tabelle_kopf2, $farbe_text;
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
-		echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
-		echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
-		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">"
-			. $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id)
-			. "</DIV></TD></tr></table></td></tr></table><br>\n";
+		?>
+		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+			<tr>
+				<td class="tabelle_koerper_login" style="font-weight:bold;"><?php echo $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id); ?></td>
+			</tr>
+		</table>
+		<br>
+		<?php
 	}
 }
 
-//Zeigt Pfad in Posting an
+//Zeigt Pfad in Beiträgen an
 function show_pfad_posting($th_id, $po_titel)
 {
 	
@@ -903,122 +904,121 @@ function show_pfad_posting($th_id, $po_titel)
 	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 	@mysqli_free_result($query);
-	
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
-	echo "<tr><td>$f3<a href=\"forum.php?id=$id&http_host=$http_host#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a> > $po_titel $f4</td></tr>\n";
-	echo "<tr><td><img src=\"pics/fuell.gif\" width=\"1\" height=\"2\" border=\"0\"></td></tr>";
-	echo "</table>\n";
+	?>
+	<table style="width:900px; margin:auto;">
+		<tr>
+			<td><?php echo $f3; ?><a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>#<?php echo $fo_id; ?>"><?php echo $fo_name; ?></a> > <a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $th_id; ?>&show_tree=<?php echo $thread; ?>&aktion=show_thema&seite=<?php echo $seite; ?>"><?php echo $th_name; ?></a> > <?php echo $po_titel . $f4; ?></td>
+			</tr>
+	</table>
+	<?php
 	
 }
 
-//gibt Navigation für Posting aus
+//gibt Navigation für Beiträge aus
 function navigation_posting(
 	$last,
 	$next,
 	$po_u_id,
 	$th_id,
 	$user_nick = "",
-	$thread_gelesen_zeigen = FALSE)
-{
-	
+	$thread_gelesen_zeigen = FALSE) {
 	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $t, $seite, $farbe_tabellenrahmen;
 	global $id, $http_host, $po_id, $u_id, $thread, $forum_admin, $chat_grafik, $farbe_text;
 	global $u_level;
-	
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
-		. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"
-		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\" align=\"center\">\n";
-	
-	if ($last)
-		echo "<td width=\"50\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\">"
-			. $chat_grafik['forum_pfeil_links'] . "</a></td>\n";
-	else echo "<td width=\"50\" >&nbsp;</td>\n";
-	
-	if ($next)
-		echo "<td width=\"50\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\">"
-			. $chat_grafik['forum_pfeil_rechts'] . "</a></td>\n";
-	else echo "<td width=\"50\" >&nbsp;</td>\n";
-	
-	if ($thread_gelesen_zeigen) {
-		echo "<td width=\"170\" align=\"center\">$f3<a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host"
-			. "&th_id=$th_id&thread=$thread&aktion=thread_alles_gelesen&seite=$seite\">$t[thread_alles_gelesen]</a>$f4</td>";
-	} else {
-		echo "<td width=\"170\">&nbsp;</td>\n";
-	}
-	
-	echo "<td width=\"210\">&nbsp;</td>\n";
-	
-	$threadgesperrt = ist_thread_gesperrt($thread);
-	$schreibrechte = pruefe_schreibrechte($th_id);
-	//darf user posting bearbeiten
-	//entweder eigenes posting oder forum_admin
-	if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin))
-		&& ($schreibrechte))
-		echo "<td width=\"50\" ><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\">"
-			. $chat_grafik['forum_editieren'] . "</a></td>";
-	else echo "<td width=\"50\" >&nbsp;</td>\n";
-	
-	// Privat antworten
-	if ($user_nick && $schreibrechte) {
-		
-		// Beim Target die Sonderzeichen rausamachen
-		$pfenster = str_replace("+", "", $user_nick);
-		$pfenster = str_replace("-", "", $pfenster);
-		$pfenster = str_replace("ä", "", $pfenster);
-		$pfenster = str_replace("ö", "", $pfenster);
-		$pfenster = str_replace("ü", "", $pfenster);
-		$pfenster = str_replace("Ä", "", $pfenster);
-		$pfenster = str_replace("Ö", "", $pfenster);
-		$pfenster = str_replace("Ü", "", $pfenster);
-		$pfenster = str_replace("ß", "", $pfenster);
-		
-		$mailurl = "mail.php?aktion=antworten_forum&id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
-		echo "<td width=\"50\" ><a href=\"$mailurl\" target=\"640_$pfenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mailurl'); return(false)\">"
-			. $chat_grafik['forum_privat'] . "</a></td>";
-	} else {
-		echo "<td width=\"50\" >&nbsp;</td>\n";
-	}
-	
-	if ($schreibrechte && !$threadgesperrt) {
-		echo "<td width=\"50\" ><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=answer&seite=$seite\">"
-			. $chat_grafik['forum_antworten'] . "</a></td>";
-		echo "<td width=\"50\" ><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=reply&seite=$seite\">"
-			. $chat_grafik['forum_zitieren'] . "</a></td>";
-	} else {
-		echo "<td width=\"50\" >&nbsp;</td>\n";
-		echo "<td width=\"50\" >&nbsp;</td>\n";
-	}
-	
-	//nur forum-admins duerfen postings loeschen
-	if ($forum_admin) {
-		echo "</tr>";
-		
-		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\" align=\"center\">";
-		echo "<td width=\"50\" >&nbsp;</td>\n";
-		echo "<td width=\"50\" >&nbsp;</td>\n";
-		echo "<td width=\"170\" >&nbsp;</td>\n";
-		echo "<td width=\"210\" >&nbsp;</td>\n";
-		
-		echo "<td width=\"50\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\">"
-			. $chat_grafik['forum_sperren'] . "</a></td>";
-		echo "<td width=\"50\"><a onClick=\"return ask('$t[conf_delete]')\" href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\">"
-			. $chat_grafik['forum_loeschen'] . "</a></td>";
-		if ($po_id == $thread) {
-			echo "<td width=\"50\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\">"
-				. $chat_grafik['forum_verschieben'] . "</a></td>";
+	?>
+	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<tr>
+		<?php
+		if ($last) {
+			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\">"
+				. $chat_grafik['forum_pfeil_links'] . "</a></td>\n";
 		} else {
-			echo "<td width=\"50\" >&nbsp;</td>\n";
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
 		}
-		echo "<td></td>";
-	}
 	
-	echo "</tr></table></td></tr></table>";
+		if ($next) {
+			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\">"
+			. $chat_grafik['forum_pfeil_rechts'] . "</a></td>\n";
+		} else {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+		}
+	
+		if ($thread_gelesen_zeigen) {
+			echo "<td style=\"width:170px; text-align:center;\" class=\"tabelle_kopfzeile\">$f3<a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host" . "&th_id=$th_id&thread=$thread&aktion=thread_alles_gelesen&seite=$seite\">$t[thread_alles_gelesen]</a>$f4</td>";
+		} else {
+			echo "<td style=\"width:170px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+		}
+		
+		echo "<td style=\"width:210px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+	
+		$threadgesperrt = ist_thread_gesperrt($thread);
+		$schreibrechte = pruefe_schreibrechte($th_id);
+		//darf user posting bearbeiten
+		//entweder eigenes posting oder forum_admin
+		if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\">"
+			. $chat_grafik['forum_editieren'] . "</a></td>";
+		} else {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+		}
+	
+		// Privat antworten
+		if ($user_nick && $schreibrechte) {
+			
+			// Beim Target die Sonderzeichen rausamachen
+			$pfenster = str_replace("+", "", $user_nick);
+			$pfenster = str_replace("-", "", $pfenster);
+			$pfenster = str_replace("ä", "", $pfenster);
+			$pfenster = str_replace("ö", "", $pfenster);
+			$pfenster = str_replace("ü", "", $pfenster);
+			$pfenster = str_replace("Ä", "", $pfenster);
+			$pfenster = str_replace("Ö", "", $pfenster);
+			$pfenster = str_replace("Ü", "", $pfenster);
+			$pfenster = str_replace("ß", "", $pfenster);
+			
+			$mailurl = "mail.php?aktion=antworten_forum&id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"$mailurl\" target=\"640_$pfenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mailurl'); return(false)\">" . $chat_grafik['forum_privat'] . "</a></td>";
+		} else {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+		}
+	
+		if ($schreibrechte && !$threadgesperrt) {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=answer&seite=$seite\">" . $chat_grafik['forum_antworten'] . "</a></td>";
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=reply&seite=$seite\">" . $chat_grafik['forum_zitieren'] . "</a></td>";
+		} else {
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+		}
+	
+		//nur forum-admins duerfen postings loeschen
+		if ($forum_admin) {
+			echo "</tr>";
+			
+			echo "<tr>";
+			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			
+			echo "<td class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\">" . $chat_grafik['forum_sperren'] . "</a></td>";
+			echo "<td class=\"tabelle_kopfzeile\"><a onClick=\"return ask('$t[conf_delete]')\" href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\">" . $chat_grafik['forum_loeschen'] . "</a></td>";
+			if ($po_id == $thread) {
+				echo "<td class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\">"
+					. $chat_grafik['forum_verschieben'] . "</a></td>";
+			} else {
+				echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			}
+			echo "<td class=\"tabelle_kopfzeile\"></td>";
+		}
+		?>
+	</tr>
+	</table>
+	<?php
 	
 }
 
-// Verschiebe Posting
-function verschiebe_posting()
-{
+// Verschiebe Beitrag
+function verschiebe_posting() {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
 	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
 	global $t, $o_js, $th_id, $fo_id;
@@ -1044,43 +1044,52 @@ function verschiebe_posting()
 	$sql = "SELECT fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
 		. "WHERE th_name <> 'dummy-thema' " . "ORDER BY fo_order, th_order ";
 	$query = mysqli_query($mysqli_link, $sql);
-	
-	echo "<form action=\"forum.php\" method=\"post\">";
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\">\n";
-	echo "<tr><td><table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr><td class=\"tabelle_zeile1\"><b>$t[verschieben1]\"$row->po_titel\"</b></td></tr>";
-	echo "</table></td></tr>";
-	echo "<tr><td><table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr><td class=\"tabelle_zeile1\">" . $f1
-		. $t['verschieben2'] . $f2 . "</td><td>" . $row2->fo_name . " > "
-		. $row2->th_name . "</td></tr>";
-	echo "<tr><td class=\"tabelle_zeile1\">" . $f1
-		. $t['verschieben3'] . $f2 . "</td><td>";
-	echo "<SELECT NAME=\"verschiebe_nach\" SIZE=\"1\">";
-	while ($row3 = mysqli_fetch_object($query)) {
-		echo "<OPTION ";
-		if ($row3->th_id == $th_id)
-			echo "SELECTED ";
-		echo "VALUE=\"$row3->th_id\">$row3->fo_name > $row3->th_name </OPTION>";
-	}
-	echo "</SELECT></td></tr>\n";
-	@mysqli_free_result($query);
-	echo "<tr><td align=\"center\" colspan=\"2\" class=\"tabelle_zeile1\"><INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[verschieben4]\"></td></tr>";
-	echo "</table></td></tr>";
-	echo "</table>";
-	
-	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-	echo "<input type=\"hidden\" name=\"thread_verschiebe\" value=\"$thread\">";
-	echo "<input type=\"hidden\" name=\"seite\" value=\"$seite\">";
-	echo "<input type=\"hidden\" name=\"verschiebe_von\" value=\"$th_id\">";
-	echo "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
-	echo "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
-	echo "<input type=\"hidden\" name=\"aktion\" value=\"verschiebe_posting_ausfuehren\">";
-	echo "</form>\n";
-	
+	?>
+	<form action="forum.php" method="post">
+		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+			<tr>
+				<td class="tabelle_kopfzeile" style="font-weight:bold;" colspan="2"><?php echo $t['verschieben1']; ?> <?php echo $row->po_titel; ?></td>
+			</tr>
+			<tr>
+				<td class="tabelle_koerper_login"><?php echo $f1 . $t['verschieben2'] . $f2; ?></td>
+				<td class="tabelle_koerper_login"><?php echo $row2->fo_name . " > " . $row2->th_name; ?></td>
+			</tr>
+			<tr>
+				<td class="tabelle_koerper_login"><?php echo $f1 . $t['verschieben3'] . $f2; ?></td>
+				<td class="tabelle_koerper_login">
+					<select name="verschiebe_nach" size="1">
+						<?php
+						while ($row3 = mysqli_fetch_object($query)) {
+							echo "<option ";
+							if ($row3->th_id == $th_id) {
+								echo "selected ";
+							}
+							echo "value=\"$row3->th_id\">$row3->fo_name > $row3->th_name </option>";
+						}
+						?>
+					</select>
+				</td>
+			</tr>
+			<?php
+			@mysqli_free_result($query);
+			?>
+			<tr>
+				<td style="text-align:center;" colspan="2" class="tabelle_koerper_login"><INPUT TYPE="SUBMIT" NAME="los" VALUE="<?php echo $t['verschieben4']; ?>"></td>
+			</tr>
+		</table>
+		
+		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="hidden" name="thread_verschiebe" value="<?php echo $thread; ?>">
+		<input type="hidden" name="seite" value="<?php echo $seite; ?>">
+		<input type="hidden" name="verschiebe_von" value="<?php echo $th_id; ?>">
+		<input type="hidden" name="http_host" value="<?php $http_host; ?>">
+		<input type="hidden" name="fo_id" value="<?php $fo_id; ?>">
+		<input type="hidden" name="aktion" value="verschiebe_posting_ausfuehren">
+	</form>
+	<?php
 }
 
-//zeigt Posting an
+//zeigt Beitrag an
 function show_posting() {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
 	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
@@ -1104,7 +1113,7 @@ function show_posting() {
 	$po_gesperrt = $row->po_gesperrt;
 	
 	if ($po_gesperrt == 'Y' and !$forum_admin) {
-		echo ('Posting gesperrt');
+		echo ('Beitrag gesperrt');
 		return;
 	}
 	
@@ -1128,7 +1137,7 @@ function show_posting() {
 	if ($po_threadorder == "0") { //keine Antwort
 		$last = 0;
 		$next = 0;
-	} else if ($po_id == $thread) { //root des Threads wird angezeigt
+	} else if ($po_id == $thread) { //root des Themas wird angezeigt
 		$last = 0;
 		$postingorder = explode(",", $po_threadorder);
 		$next = $postingorder[0];
@@ -1157,35 +1166,46 @@ function show_posting() {
 	
 	show_pfad_posting($th_id, $po_titel);
 	navigation_posting($last, $next, $po_u_id, $th_id, $row->u_nick, TRUE);
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
-	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr><td class=\"tabelle_zeile1\"><b>$po_titel</b>";
-	if ($po_gesperrt == 'Y') {
-		echo " <b><font color=\"red\">(Posting gesperrt)</font></b>";
-	}
-	echo "</td></tr>";
-	echo "<tr><td class=\"tabelle_zeile1\">" . $f1 . $t['datum']
-		. $po_date . " " . $t['autor'] . $autor . $f2 . "</td></tr>";
-	echo "</table></td></tr>";
-	echo "<tr><td>\n";
-	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr><td class=\"tabelle_zeile1\">$f1" . $po_text
-		. "$f2</td></tr>";
-	if ($po_threadorder == "0") {
-		echo "</table></td></tr></table>";
-	} else {
-		echo "</table></td></tr><tr><td>";
-		echo "<table  width=\"900\">\n";
-		echo "<tr><td align=\"center\" class=\"tabelle_zeile1\">";
-		reset($postingorder);
-		zeige_baum($postingorder, $po_threadorder, $thread, $po_id, TRUE);
-		echo "</td></tr></table></td></tr></table>";
-	}
+	?>
+	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<tr>
+			<td class="tabelle_zeile1"><b><?php echo $po_titel; ?></b>
+			<?php
+			if ($po_gesperrt == 'Y') {
+				echo " <span style=\"color:#ff0000; font-weight:bold;\">(Beitrag gesperrt)</span>";
+			}
+			?>
+			</td>
+		</tr>
+		<tr>
+			<td class="tabelle_zeile1"><?php echo $f1 . $t['datum'] . $po_date . " " . $t['autor'] . $autor . $f2; ?></td>
+		</tr>
+		<tr>
+			<td class="tabelle_zeile1"><?php echo $f1 . $po_text . $f2; ?></td>
+		</tr>
+		<?php
+		if ($po_threadorder == "0") {
+			// nothing
+		} else {
+			?>
+			<tr>
+				<td>
+				<?php
+				reset($postingorder);
+				zeige_baum($postingorder, $po_threadorder, $thread, $po_id, TRUE);
+				?>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
+	</table>
+	<?php
 	navigation_posting($last, $next, $po_u_id, $th_id, $row->u_nick, TRUE);
 	show_pfad_posting($th_id, $po_titel);
 }
 
-//Zeigt Threadbaum 
+//Zeigt Themabaum 
 function zeige_baum(
 	&$postings_array,
 	&$postings,
@@ -1254,15 +1274,15 @@ function zeige_baum(
 		
 		if (isset($po_wahlfrei[$thread]->u_email)
 			&& $po_wahlfrei[$thread]->u_email)
-			echo "<td align=\"center\"><b>$f3<a href=\"mailto:"
+			echo "<td style=\"text-align:center;\"><b>$f3<a href=\"mailto:"
 				. $po_wahlfrei[$thread]->u_email . "\">"
 				. $po_wahlfrei[$thread]->autor . "$f4</b></a></td>\n";
 		else if (isset($po_wahlfrei[$thread]->autor)
 			&& $po_wahlfrei[$thread]->autor)
-			echo "<td align=\"center\"><b>$f3" . $po_wahlfrei[$thread]->autor
+			echo "<td style=\"text-align:center;\"><b>$f3" . $po_wahlfrei[$thread]->autor
 				. "$f4</b></td>\n";
-		else echo "<td align=\"center\"><b>$f3" . "$f4</b></td>\n";
-		echo "<td align=\"center\"><b>$f3" . $po_wahlfrei[$thread]->po_date
+		else echo "<td style=\"text-align:center;\"><b>$f3" . "$f4</b></td>\n";
+		echo "<td style=\"text-align:center;\"><b>$f3" . $po_wahlfrei[$thread]->po_date
 			. "$f4</b></td>\n";
 		echo "<td>&nbsp;</td></tr>\n";
 		
@@ -1364,7 +1384,7 @@ function zeige_baum(
 			}
 		}
 		
-		echo "<td align=\"center\"><b>$f3" . $po_wahlfrei[$v]->po_date
+		echo "<td style=\"text-align:center;\"><b>$f3" . $po_wahlfrei[$v]->po_date
 			. "$f4</b></td>\n";
 		echo "<td colspan=\"2\">&nbsp;</td></tr>\n";
 	}

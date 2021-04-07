@@ -350,15 +350,15 @@ $t['warnung3'] = "Ihr Browser unterstützt <b>kein JavaScript</b> oder JavaScrip
     . "der Chatausgabe ist vermindert und viele Funktionen im $chat sind abgeschaltet. Bitte aktivieren Sie "
     . "JavaScript, falls Ihr Browser dies zuläßt";
 
-//Texte für automatische generierung der Postings
+//Texte für automatische generierung des Beitrags
 $t['kopfzeile'] = "{autor} schrieb am {date}";
 $t['gruss'] = "Mit freundlichen Grüßen";
 $t['betrete_forum1'] = "<br><b>Willkommen im Forum, %u_nick%!</b>";
 $t['messages_forum1'] = "<b>Sie befinden sich im Forum.</b><br>Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
-$t['betreff_new_posting'] = "Neue Antwort auf Ihr Posting %po_titel%";
-$t['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihr Posting <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
-$t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihr Posting %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
-$t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihr Posting <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
+$t['betreff_new_posting'] = "Neue Antwort auf Ihren Beitrag %po_titel%";
+$t['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
+$t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
+$t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
 
 // Sonstiges
 $t['userliste1'] = "<span class=\"textbold\">%raum_alt% (%user_im_raum% Chatter im Raum)</span><br>\n<span class=\"text\">%nicks%</span><br>\n";

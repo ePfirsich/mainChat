@@ -1,7 +1,7 @@
 <?php
 function suche_vaterposting($poid)
 {
-	// Diese Funktion sucht das Vaterposting des übergebenen Postings
+	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
 	$query = "SELECT po_vater_id FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
 	list($vp) = mysqli_fetch_array($result);
@@ -10,7 +10,7 @@ function suche_vaterposting($poid)
 
 function suche_threadord($poid)
 {
-	// Diese Funktion sucht die Threadorder des Vaterpostings
+	// Diese Funktion sucht die Themenorder des Vaterpostings
 	$query = "SELECT po_threadorder FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
 	list($to) = mysqli_fetch_array($result);
@@ -387,11 +387,11 @@ function aktion(
 				if (isset($a_was["Neue Mail"]["E-Mail"]))
 					mail_neu($an_u_id, $u_nick, $id, "E-Mail");
 				
-				if (isset($a_was["Antwort auf eigenes Posting"]["OLM"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
 					postings_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Antwort auf eigenes Posting"]["Chat-Mail"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
 					postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Antwort auf eigenes Posting"]["E-Mail"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
 					postings_neu($an_u_id, $u_nick, $id, "E-Mail");
 				
 				// Merken, wann zuletzt die Aktionen ausgeführt wurden
@@ -416,11 +416,11 @@ function aktion(
 				if (isset($a_was["Neue Mail"]["E-Mail"]))
 					mail_neu($an_u_id, $u_nick, $id, "E-Mail");
 				
-				if (isset($a_was["Antwort auf eigenes Posting"]["OLM"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
 					postings_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Antwort auf eigenes Posting"]["Chat-Mail"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
 					postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Antwort auf eigenes Posting"]["E-Mail"]))
+				if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
 					postings_neu($an_u_id, $u_nick, $id, "E-Mail");
 			
 		}
@@ -481,7 +481,7 @@ function aktion_sende(
 					// Nachricht versenden
 					system_msg("", 0, $an_u_id, $system_farbe, $txt);
 					break;
-				case "Antwort auf eigenes Posting":
+				case "Antwort auf eigenen Beitrag":
 					$text = str_replace("%po_titel%", $inhalt['po_titel'],
 						$t['msg_new_posting_olm']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
@@ -529,7 +529,7 @@ function aktion_sende(
 				case "Neue Mail":
 				// Eine neue Chat-Mail kann keine Chat-Mail auslösen
 					break;
-				case "Antwort auf eigenes Posting":
+				case "Antwort auf eigenen Beitrag":
 					$betreff = str_replace("%po_titel%", $inhalt['po_titel'],
 						$t['betreff_new_posting']);
 					$text = str_replace("%po_titel%", $inhalt['po_titel'],
@@ -586,7 +586,7 @@ function aktion_sende(
 					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'],
 						$t['mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
 					break;
-				case "Antwort auf eigenes Posting":
+				case "Antwort auf eigenen Beitrag":
 					$betreff = str_replace("%po_titel%", $inhalt['po_titel'],
 						$t['betreff_new_posting']);
 					$text = str_replace("%po_titel%", $inhalt['po_titel'],
@@ -891,14 +891,14 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 	@mysqli_free_result($result);
 }
 
-//prüft ob neue Antworten auf eigene Postings 
+//prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
 function postings_neu($an_u_id, $u_nick, $id, $nachricht)
 {
 	
 	global $mysqli_link, $t, $system_farbe;
 	
-	//schon gelesene Postings des Users holen
+	//schon gelesene Beiträge des Users holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
 	$query = mysqli_query($mysqli_link, $sql);
 	if (mysqli_num_rows($query) > 0)
@@ -906,9 +906,9 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
 	$u_gelesene = unserialize($gelesene);
 	@mysqli_free_result($query);
 	
-	//alle eigenen Postings des Users mit allen Antworten 
-	//und dem Threadbaum holen
-	//die RegExp matcht auf die Posting-ID im Feld Threadorder
+	//alle eigenen Beiträge des Users mit allen Antworten 
+	//und dem Themenbaum holen
+	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
 	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
 	
@@ -1066,7 +1066,7 @@ function erzeuge_baum($threadorder, $po_id, $thread)
 	
 	$in_stat = $thread . "," . $threadorder;
 	
-	//erst mal alle postings des Threads holen
+	//erst mal alle Beiträge des Themas holen
 	$sql = "select po_id, po_titel, po_vater_id
 				from posting
 				where po_id in ($in_stat)";
@@ -1081,7 +1081,7 @@ function erzeuge_baum($threadorder, $po_id, $thread)
 	}
 	
 	$arr_baum = array();
-	//vom Posting ausgehend zurück zur Wurzel
+	//vom Beitrag ausgehend zurück zur Wurzel
 	array_unshift($arr_baum, $po_id);
 	
 	$vater = $arr_postings[$po_id]['vater'];
@@ -1105,7 +1105,7 @@ function erzeuge_baum($threadorder, $po_id, $thread)
 
 function erzeuge_fuss($text)
 {
-	//generiert den Fuss eines Postings (Signatur)
+	//generiert den Fuss eines Beitrags (Signatur)
 	
 	global $t, $u_id, $mysqli_link;
 	

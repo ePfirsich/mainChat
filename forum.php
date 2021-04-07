@@ -14,7 +14,7 @@ if (strlen($u_id) > 0) {
 	$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' " . "WHERE o_user=" . intval($u_id);
 	$result = mysqli_query($mysqli_link, $query);
 	
-	//gelesene Postings lesen
+	//gelesene Beiträge lesen
 	lese_gelesene_postings($u_id);
 	
 	//Admin fuer Forum darf kein Temp-Admin sein
@@ -125,7 +125,7 @@ if (strlen($u_id) > 0) {
 			forum_liste();
 			break;
 		
-		//Aktionen, die ein Posting betreffen
+		//Aktionen, die einen Beitrag betreffen
 		case "thread_neu":
 			$schreibrechte = pruefe_schreibrechte($th_id);
 			

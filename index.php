@@ -708,16 +708,16 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					?>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['pwneu2']; ?></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['pwneu2']; ?></td>
 						<td><input type=hidden name="nickname" width="50" value="<?php echo $nickname; ?>"><?php echo $nickname; ?></td>
 					</tr>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['pwneu3']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input type=hidden name="email" width="50" value="<?php echo $email; ?>"><?php echo $email; ?></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['pwneu3']; ?></td>
+						<td class="tabelle_kopfzeile"><input type=hidden name="email" width="50" value="<?php echo $email; ?>"><?php echo $email; ?></td>
 					</tr>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['pwneu10']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['pwneu10']; ?></td>
+						<td class="tabelle_kopfzeile"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
 					</tr>
 					<?php
 				} else {
@@ -727,12 +727,12 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						$email = "";
 					?>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['pwneu2']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="nickname" width="50" value="<?php echo $nickname; ?>"></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['pwneu2']; ?></td>
+						<td class="tabelle_kopfzeile"><input name="nickname" width="50" value="<?php echo $nickname; ?>"></td>
 					</tr>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['pwneu3']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="email" width="50" value="<?php echo $email; ?>"></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['pwneu3']; ?></td>
+						<td class="tabelle_kopfzeile"><input name="email" width="50" value="<?php echo $email; ?>"></td>
 					</tr>
 					<?php
 				}
@@ -740,7 +740,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 					<input type="hidden" name="aktion" value="passwort_neu">
 					<tr>
-						<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input type=submit value="Absenden"></td>
+						<td colspan="2" class="tabelle_kopfzeile"><input type=submit value="Absenden"></td>
 					</tr>
 				</form>
 				</table>
@@ -829,17 +829,17 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				<form action="index.php">
 					<table>
 						<tr>
-							<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['neu49']; ?></td>
+							<td class="tabelle_kopfzeile"><?php echo $t['neu49']; ?></td>
 							<td><input name="email" width="50" value="<?php echo $email; ?>"></td>
 						</tr>
 						<tr>
-							<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['neu43']; ?></td>
-							<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
+							<td class="tabelle_kopfzeile"><?php echo $t['neu43']; ?></td>
+							<td class="tabelle_kopfzeile"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
 						</tr>
 						<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 						<input type="hidden" name="aktion" value="neubestaetigen">
 						<tr>
-							<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input type="submit" value="Absenden"></td>
+							<td colspan="2" class="tabelle_kopfzeile"><input type="submit" value="Absenden"></td>
 						</tr>
 					</table>
 				</form>
@@ -861,17 +861,17 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			<form action="index.php">
 				<table>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['neu17']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="email" width="50"></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['neu17']; ?></td>
+						<td class="tabelle_kopfzeile"><input name="email" width="50"></td>
 					</tr>
 					<tr>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><?php echo $t['neu43']; ?></td>
-						<td style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input name="hash" width="50"></td>
+						<td class="tabelle_kopfzeile"><?php echo $t['neu43']; ?></td>
+						<td class="tabelle_kopfzeile"><input name="hash" width="50"></td>
 					</tr>
 					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 					<input type="hidden" name="aktion" value="neu">
 					<tr>
-						<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><input type=submit value="Absenden"></td>
+						<td colspan="2" class="tabelle_kopfzeile"><input type=submit value="Absenden"></td>
 					</tr>
 				</table>
 			</form>
@@ -2351,7 +2351,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 							mysqli_free_result($result);
 						}
 						
-						// Anzahl Postings 
+						// Anzahl Beiträge 
 						$query = "select count(po_id) from posting";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result AND mysqli_num_rows($result) > 0) {

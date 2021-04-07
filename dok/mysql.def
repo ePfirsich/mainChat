@@ -34,7 +34,7 @@
 # u_punkte_datum_monat	Monat, auf die sich u_punkte_monat bezieht
 # u_punkte_datum_jahr	Jahr, auf die sich u_punkte_datum_jahr bezieht
 # u_punkte_gruppe	Grafik-Symbol für die Punktegruppe
-# u_gelesene_postings	ID der gelesenen Postings im Forum
+# u_gelesene_postings	ID der gelesenen Beiträge im Forum
 # u_frames		Voreinstellungen für Frameset (opt)
 # u_chathomepage	Chathomepage freigeschalten J/N
 # u_eintritt		Eintrittstext
@@ -45,7 +45,7 @@
 # u_nick_historie	Nickwechsel Historie
 # u_profil_historie	Admin-Änderungen am Profil-Historie
 # u_kommentar		Kommentar, warum ein User gesperrt wurde
-# u_forum_postingproseite	Anzahl der Postings, die pro Seite im Forum angezeigt werden sollen
+# u_forum_postingproseite	Anzahl der Beiträge, die pro Seite im Forum angezeigt werden sollen
 # u_punkte_anzeigen	User will seinen PunkteWürfel zeigen Y/N
 # u_systemmeldungen	User will System Login/Logout Nachrichten sehen
 # u_knebel		Speichert die Restknebelzeit falls vorhanden 
