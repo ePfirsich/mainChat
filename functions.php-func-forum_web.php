@@ -78,7 +78,7 @@ function show_missing($missing)
 //Eingabemaske für neues Forum
 function maske_forum($fo_id = 0) {
 	global $id, $http_host, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $f1, $f2, $farbe_tabelle_kopf2;
 	global $t, $farbe_text;
 	
 	if ($fo_id > 0) {
@@ -99,7 +99,7 @@ function maske_forum($fo_id = 0) {
 	}
 	?>
 	<form action="forum.php" method="post">
-		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<table class="tabelle_gerust">
 			<tr>
 				<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
 			</tr>
@@ -176,7 +176,7 @@ function forum_liste() {
 	global $mysqli_link;
 	global $id, $http_host, $forum_admin, $chat_grafik, $farbe_text;
 	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
-	global $farbe_tabellenrahmen, $u_level;
+	global $u_level;
 	
 	$sql = "select fo_id, fo_name, fo_order, fo_admin,
 				th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings
@@ -202,7 +202,7 @@ function forum_liste() {
 					echo "</table></td></tr></table><br>";
 				}
 				?>
-				<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+				<table class="tabelle_gerust">
 					<tr>
 						<td class="tabelle_kopfzeile" colspan="2">
 							<table style="width:100%">
@@ -342,7 +342,7 @@ function show_icon_description($mode) {
 //Eingabemaske für Thema
 function maske_thema($th_id = 0) {
 	global $id, $http_host, $fo_id, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $f1, $f2, $farbe_tabelle_kopf2;
 	global $t, $chat_grafik, $farbe_text;
 	
 	if ($th_id > 0) {
@@ -367,7 +367,7 @@ function maske_thema($th_id = 0) {
 	}
 	?>
 	<form action="forum.php" method="post">
-		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<table class="tabelle_gerust">
 			<tr>
 				<td class="tabelle_kopfzeile" colspan="2"><?php echo $t['thema_neu']; ?></td>
 			</tr>
@@ -476,7 +476,7 @@ function show_pfad($th_id) {
 function show_thema() {
 	global $mysqli_link;
 	global $id, $http_host, $o_js, $forum_admin, $th_id, $show_tree, $seite, $farbe_link;
-	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
 	global $anzahl_po_seite, $chat_grafik, $farbe_text;
 	global $admin, $anzahl_po_seite2, $u_id, $u_level;
 	
@@ -524,7 +524,7 @@ function show_thema() {
 	
 	$th_name = show_pfad($th_id);
 	?>
-	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+	<table class="tabelle_gerust">
 		<tr>
 			<td colspan="6" class="tabelle_kopfzeile"><?php echo $th_name; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile">
@@ -685,7 +685,7 @@ function show_thema() {
 //Maske zum Eingeben/Editieren/Quoten von Beiträgen
 function maske_posting($mode) {
 	global $id, $u_id, $http_host, $th_id, $po_id, $po_vater_id, $po_tiefe, $mysqli_link, $po_titel, $po_text, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $farbe_tabellenrahmen, $farbe_text;
+	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $farbe_text;
 	global $t, $mysqli_link;
 	global $forum_admin, $u_nick, $smilies_datei;
 	
@@ -779,7 +779,7 @@ function maske_posting($mode) {
 	echo "<form name=\"form\" action=\"forum.php\" method=\"post\">";
 	show_pfad_posting($th_id, $titel);
 	?>
-	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+	<table class="tabelle_gerust">
 		<tr>
 			<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
 		</tr>
@@ -874,12 +874,12 @@ function maske_posting($mode) {
 
 //Zeigt die gutgeschriebenen Punkte an
 function verbuche_punkte($u_id) {
-	global $t, $punkte_pro_posting, $farbe_tabellenrahmen, $farbe_tabelle_kopf2, $farbe_text;
+	global $t, $punkte_pro_posting, $farbe_tabelle_kopf2, $farbe_text;
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
 		?>
-		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<table class="tabelle_gerust">
 			<tr>
 				<td class="tabelle_koerper_login" style="font-weight:bold;"><?php echo $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id); ?></td>
 			</tr>
@@ -922,11 +922,11 @@ function navigation_posting(
 	$th_id,
 	$user_nick = "",
 	$thread_gelesen_zeigen = FALSE) {
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $t, $seite, $farbe_tabellenrahmen;
+	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $t, $seite;
 	global $id, $http_host, $po_id, $u_id, $thread, $forum_admin, $chat_grafik, $farbe_text;
 	global $u_level;
 	?>
-	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+	<table class="tabelle_gerust">
 		<tr>
 		<?php
 		if ($last) {
@@ -1020,7 +1020,7 @@ function navigation_posting(
 // Verschiebe Beitrag
 function verschiebe_posting() {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
+	global $f1, $f2, $f3, $f4;
 	global $t, $o_js, $th_id, $fo_id;
 	
 	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
@@ -1046,7 +1046,7 @@ function verschiebe_posting() {
 	$query = mysqli_query($mysqli_link, $sql);
 	?>
 	<form action="forum.php" method="post">
-		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+		<table class="tabelle_gerust">
 			<tr>
 				<td class="tabelle_kopfzeile" style="font-weight:bold;" colspan="2"><?php echo $t['verschieben1']; ?> <?php echo $row->po_titel; ?></td>
 			</tr>
@@ -1092,7 +1092,7 @@ function verschiebe_posting() {
 //zeigt Beitrag an
 function show_posting() {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
+	global $f1, $f2, $f3, $f4;
 	global $t, $o_js, $forum_admin;
 	
 	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
@@ -1167,7 +1167,7 @@ function show_posting() {
 	show_pfad_posting($th_id, $po_titel);
 	navigation_posting($last, $next, $po_u_id, $th_id, $row->u_nick, TRUE);
 	?>
-	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+	<table class="tabelle_gerust">
 		<tr>
 			<td class="tabelle_zeile1"><b><?php echo $po_titel; ?></b>
 			<?php

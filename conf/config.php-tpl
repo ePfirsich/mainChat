@@ -415,9 +415,6 @@ $chat_grafik['forum_sperren']="<img src=\"pics/forum/sperren.gif\" style=\"width
 
 //Einstellungen für das Forum
 
-//Farbe für Tabellenrahmen im gesamten Forum
-$farbe_tabellenrahmen = "#000000";
-
 //Farben für hervorhebungen
 $farbe_hervorhebung_forum = "#FF0000";
 $farbe_neuesposting_forum = "#009900";

@@ -864,7 +864,7 @@ function hole_letzten($root_id, $new_po_id) {
 function loesche_posting() {
 	global $mysqli_link, $th_id, $po_id, $thread;
 	global $arr_delete;
-	global $farbe_tabellenrahmen, $farbe_tabelle_kopf2, $punkte_pro_posting, $t, $farbe_text;
+	global $farbe_tabelle_kopf2, $punkte_pro_posting, $t, $farbe_text;
 	
 	$arr_delete = array();
 	
@@ -979,8 +979,9 @@ function loesche_posting() {
 	mysqli_query($mysqli_link, $sql);
 	
 	// Punkte abziehen
-	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
-		. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"
+	?>
+	<table class="tabelle_gerust">
+		<?
 		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<td style=\"font-weight:bold;\">";
 	reset($arr_delete);
 	while (list($k, $v) = @each($arr_delete)) {
@@ -995,7 +996,7 @@ function loesche_posting() {
 		}
 		@mysqli_free_result($result);
 	}
-	echo "</TD></tr></table></td></tr></table><br>\n";
+	echo "</td></tr></table><br>\n";
 	
 	reset($arr_delete);
 	while (list($k, $v) = @each($arr_delete)) {

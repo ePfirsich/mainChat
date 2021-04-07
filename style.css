@@ -121,3 +121,14 @@ body {
 .moderator_schwarz {
 	color:#000000;
 }
+
+
+/* --------------------------------------------------------------------------------------------- */
+/* Tabelle Gerüst */ 
+.tabelle_gerust {
+	background-color:#000000;
+	margin:auto;
+	width:900px;
+}
+
+
