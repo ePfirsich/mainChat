@@ -8,7 +8,7 @@ function zeige_aktionen($aktion)
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	global $farbe_tabelle_kopf2, $def_was, $eingabe_breite;
-	global $farbe_text, $forumfeatures;
+	global $forumfeatures;
 	
 	$query = "SELECT * from aktion " . "WHERE a_user=$u_id ";
 	$button = "Eintragen";
@@ -30,7 +30,7 @@ function zeige_aktionen($aktion)
 	}
 	
 	// Aktionen zeigen
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$titel1 $u_nick $titel2:</b></DIV></TD></TR>\n"
+	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
 		. "<TR><TD></TD>";
 	
 	$i = 0;

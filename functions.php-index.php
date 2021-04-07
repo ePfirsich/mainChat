@@ -43,12 +43,11 @@ function erzeuge_sequence($db, $id) {
 	@mysqli_free_result($result);
 }
 
-function show_who_is_online($result)
-{
+function show_who_is_online($result) {
 	// Funktion gibt Liste der Räume mit Usern aus
 	// $result ist gültiges Ergebnis einer Query, die o_userdata* und r_name enthalten muss
 	
-	global $ft0, $ft1, $t, $whotext;
+	global $t, $whotext;
 	
 	$text = "";
 	$r_name_alt = "";
@@ -82,7 +81,7 @@ function show_who_is_online($result)
 				} else {
 					// Nur offene, permanente Räume zeigen
 					if ($zeigen_alt) {
-						show_box2(str_replace("%raum%", $r_name_alt, $ft0 . $t['default4'] . $ft1), $text, false);
+						show_box2(str_replace("%raum%", $r_name_alt, $t['default4']), $text, false);
 						?>
 						<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 						<?php
@@ -97,7 +96,7 @@ function show_who_is_online($result)
 			}
 		}
 		if ($zeigen_alt) {
-			show_box2(str_replace("%raum%", $r_name_alt, $ft0 . $t['default4'] . $ft1), $text, false);
+			show_box2(str_replace("%raum%", $r_name_alt, $t['default4']), $text, false);
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php

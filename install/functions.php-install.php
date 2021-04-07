@@ -128,7 +128,7 @@ function step_1($chat) {
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Description:</td>
-				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat http://www.mainchat.de - Die HTML-Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
+				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die HTML-Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Keywords:</td><td><textarea cols="30" rows="3" name="chat_keywords"><?php echo checkFormularInputFeld('Chat Community HTML kostenlos frei openSource, Smilies',$chat["keywords"]) ?></textarea></td>
@@ -153,11 +153,11 @@ function step_1($chat) {
 			<tr>
 				<td colspan="2">
 					<textarea cols="80" rows="5" name="chat_noframes">
-<p><span style="font-weight:bold;">mainChat</span> ist die schnelle HTML Chat Community in PHP von der <span style="font-weight:bold;"><a href="http://www.fidion.de/">fidion GmbH</A></span> in Würzburg.
+<p><span style="font-weight:bold;">mainChat</span> ist die schnelle HTML Chat Community in PHP.
 Er wird mittlerweile auf <a href="https://github.com/netzhuffle/mainchat">Github</a> kostenlos zum Download angeboten.<br>
 Eine Version, die unter PHP7 lauffähig ist, ist ebenfalls unter <a href="https://github.com/ePfirsich/OpenMainChat">Github</a> zum Download verfügbar.<br>
 <span style="font-weight:bold;">Features:</span> Mail, Forum, Punkte, beliebig viele Räume und User, IRC-Befehle, Multihoming, SSL, 
-Support für Webchat.de, Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
+Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
 Freunde, User-Homepages, Profile, Privatnachrichten, öffentliche Nachrichten, Mehrsprachig, 
 vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schutz und vieles mehr.</p>
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>

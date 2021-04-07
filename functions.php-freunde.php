@@ -3,7 +3,6 @@
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
 	global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_text;
 	
 	$text = '';
 	
@@ -191,7 +190,6 @@ function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;

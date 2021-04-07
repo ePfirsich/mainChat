@@ -4,7 +4,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für Nicknamen zum Versand einer Mail aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text, $farbe_tabelle_kopf2, $PHP_SELF;
+	global $farbe_tabelle_kopf2, $PHP_SELF;
 	
 	if (!$eingabe_breite)
 		$eingabe_breite = 30;
@@ -35,7 +35,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	
 	if (!isset($neue_email['an_nick']))
 		$neue_email['an_nick'] = "";
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
 		. "<TR><TD align=\"right\" class=\"tabelle_zeile1\"><b>Nickname:</b></TD><TD class=\"tabelle_zeile1\">"
 		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[an_nick]\" VALUE=\""
 		. $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
@@ -48,7 +48,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
 	global $id, $http_host, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $PHP_SELF;
+	global $farbe_tabelle_kopf2, $PHP_SELF;
 	global $u_punkte_gesamt;
 	
 	if (!$eingabe_breite1)
@@ -147,9 +147,9 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			
 			if (!isset($neue_email['m_betreff']))
 				$neue_email['m_betreff'] = "";
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>$titel "
+			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>$titel "
 				. user($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online,
-					$row->login) . "</b>$email</DIV></TD></TR>\n"
+					$row->login) . "</b>$email</TD></TR>\n"
 				. "<tr><TD style=\"vertical-align:top;\" align=\"right\" class =\"tabelle_zeile2\"><b>Betreff:</b></TD><TD COLSPAN=2 class =\"tabelle_zeile2\">"
 				. $f1
 				. "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[m_betreff]\" VALUE=\""
@@ -178,7 +178,7 @@ function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Mails in der Übersicht an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $PHP_SELF, $chat;
+	global $farbe_tabelle_kopf2, $PHP_SELF, $chat;
 	
 	if (!$eingabe_breite)
 		$eingabe_breite = 30;
@@ -224,13 +224,13 @@ function zeige_mailbox($aktion, $zeilen) {
 		if ($anzahl == 0) {
 			
 			// Leere Mailbox
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$anzahl $titel $u_nick:</b></DIV></TD></TR>\n";
+			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$anzahl $titel $u_nick:</b></TD></TR>\n";
 			"<TR><TD class=\"tabelle_zeile1\">&nbsp;</TD><TD align=\"left\" class=\"tabelle_zeile1\">Ihre Mailbox ist leer.</TD></TR>";
 			
 		} else {
 			
 			// Mails anzeigen
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$anzahl $titel $u_nick:</b></DIV></TD></TR>\n"
+			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$anzahl $titel $u_nick:</b></TD></TR>\n"
 				. "<TR><TD>" . $f1 . "Löschen" . $f2 . "</TD><TD>" . $f1
 				. "von" . $f2 . "</TD><TD>" . $f1 . "Betreff" . $f2
 				. "</TD><TD>" . $f1 . "Datum" . $f2 . "</TD><TD>" . $f1
@@ -293,7 +293,7 @@ function zeige_email($m_id)
 	// Zeigt die Mail im Detail an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $PHP_SELF, $chat;
+	global $farbe_tabelle_kopf2, $PHP_SELF, $chat;
 	
 	if (!$eingabe_breite)
 		$eingabe_breite = 30;
@@ -319,7 +319,7 @@ function zeige_email($m_id)
 		$row->m_text = str_replace("<HTTP_HOST>", $http_host, $row->m_text);
 		
 		// Mail ausgeben
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=4><DIV style=\"color:$farbe_text;\"><b>Mail zeigen:</b></DIV></TD></TR>\n"
+		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=4><b>Mail zeigen:</b></TD></TR>\n"
 			. "<TR><TD ALIGN=\"RIGHT\" class=\"tabelle_zeile1\"><b>"
 			. $f1 . "Von:" . $f2 . "</b></TD><TD COLSPAN=3 WIDTH=\"100%\" class=\"tabelle_zeile1\">"
 			. $von_nick . "</TD></TR>\n"

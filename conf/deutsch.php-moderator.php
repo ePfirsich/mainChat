@@ -24,22 +24,21 @@ $t['mod_ok'] = "ok";
 $t['mod_limit'] = "Alle zeigen";
 $t['mod_nein'] = "nein";
 
-$t['moderation1'] = "<font><b>Willkommen im Moderationsmodul des mainChat!</b></font>";
-$t['moderation2'] = "<br><font size=-1>In diesem Frame sehen Sie die Eingaben der User.</font>";
-$t['moderation3'] = "<br><font size=-1>Klicken Sie bei der Eingabe einfach auf die entsprechenden Buttons, um eine Aktion auszulösen.</font>";
+$t['moderation1'] = "<b>Willkommen im Moderationsmodul des mainChat!</b>";
+$t['moderation2'] = "<br><span style=\"font-size: smaller;\">In diesem Frame sehen Sie die Eingaben der User.</span>";
+$t['moderation3'] = "<br><span style=\"font-size: smaller;\">Klicken Sie bei der Eingabe einfach auf die entsprechenden Buttons, um eine Aktion auszulösen.</span>";
 $t['moderation4'] = "<table cellpadding=1 cellspacing=0 border=0>"
-    . "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird zum Beantworten reserviert.</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_2g\"><img src=\"pics/nope.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2g\"><small>die Frage wird wieder für andere Moderatoren freigegeben.</td></tr>"
-    . "<tr><td><small><b>" . $t['mod2']
-    . "</b>:</td><td><small>Inhalt der Frage</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird unkommentiert an den Chat durchgereicht.</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_2r\"><img src=\"pics/wdh.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2r\"><small>Diese Frage wurde (sinngemäß) bereits gestellt.</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_1r\"><img src=\"pics/smile.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1r\"><small>Bitte formulieren Sie ihren Beitrag etwas freundlicher.</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_2r\"><img src=\"pics/time.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2r\"><small>Leider können wir in der kurzen Zeit nicht alle Fragen beantworten.</td></tr>"
-    . "<tr><td class=\"tabelle_zeile_moderator_1r\"><img src=\"pics/nope.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1r\"><small>Die Frage wurde gelöscht.</td></tr>"
-    . "</table>";
+	. "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird zum Beantworten reserviert.</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_2g\"><img src=\"pics/nope.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2g\"><small>die Frage wird wieder für andere Moderatoren freigegeben.</td></tr>"
+	. "<tr><td><small><b>" . $t['mod2']
+	. "</b>:</td><td><small>Inhalt der Frage</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird unkommentiert an den Chat durchgereicht.</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_2r\"><img src=\"pics/wdh.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2r\"><small>Diese Frage wurde (sinngemäß) bereits gestellt.</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_1r\"><img src=\"pics/smile.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1r\"><small>Bitte formulieren Sie ihren Beitrag etwas freundlicher.</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_2r\"><img src=\"pics/time.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2r\"><small>Leider können wir in der kurzen Zeit nicht alle Fragen beantworten.</td></tr>"
+	. "<tr><td class=\"tabelle_zeile_moderator_1r\"><img src=\"pics/nope.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1r\"><small>Die Frage wurde gelöscht.</td></tr>"
+	. "</table>";
 
-$t['moderation8'] = "<br><font size=-1>Dieses Modul ist nur in der kommerziellen Version erhältlich."
-    . "<br>Weitere Informationen finden Sie <a href=http://www.mainchat.de/lizenz.html target=_blank>hier</a>.</font>";
+$t['moderation8'] = "<br><span style=\"font-size: smaller;\">Das Moderationsmodul ist derzeit deaktiviert.";
 
 ?>

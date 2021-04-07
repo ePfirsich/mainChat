@@ -43,7 +43,7 @@ function vater_rekursiv($vater)
 function such_bereich()
 {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text, $farbe_tabelle_kopf2;
+	global $farbe_tabelle_kopf2;
 	global $suche, $t;
 	
 	$eingabe_breite = 50;
@@ -60,7 +60,7 @@ function such_bereich()
 		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
 		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
 	
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
 		. 
 		// Suchtext
 		"<tr><TD align=\"right\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></TD><TD class=\"tabelle_zeile1\">"
@@ -219,7 +219,7 @@ function such_bereich()
 
 function such_ergebnis() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $farbe_hervorhebung_forum, $farbe_link;
+	global $farbe_tabelle_kopf2, $farbe_hervorhebung_forum, $farbe_link;
 	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
 	
 	$eingabe_breite = 50;
@@ -262,7 +262,7 @@ function such_ergebnis() {
 		$fehler .= $t['fehler5'];
 	
 	if (strlen($fehler) > 0) {
-		echo "<p><center><b><font color=\"$farbe_hervorhebung_forum\">$fehler</font></b></center></p>";
+		echo "<p><center><span style=\"color:$farbe_hervorhebung_forum; font-weight:bold;\">$fehler</span></center></p>";
 	} else {
 		$querytext = "";
 		$querybetreff = "";
@@ -405,7 +405,7 @@ function such_ergebnis() {
 		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 		<?php
 		echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n";
+		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>$titel</b></TD></TR>\n";
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
@@ -413,11 +413,11 @@ function such_ergebnis() {
 		
 		$anzahl = mysqli_num_rows($query);
 		
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><DIV style=\"color:$farbe_text;\">$f1<b>$t[ergebnis2] $anzahl</b>";
+		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3>$f1<b>$t[ergebnis2] $anzahl</b>";
 		if ($anzahl > $maxpostingsprosuche) {
-			echo "<font color=\"red\"><b> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</b></font>";
+			echo "<span style=\"color:#ff0000; font-weight: bold;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
 		}
-		echo "$f2</DIV></TD></TR>\n";
+		echo "$f2</TD></TR>\n";
 		if ($anzahl > 0) {
 			
 			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD>" . $f1
@@ -452,10 +452,10 @@ function such_ergebnis() {
 					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="
 					. $fund['po_th_id'] . "&po_id=" . $fund['po_id']
 					. "&thread=" . $thread
-					. "&aktion=show_posting&seite=1',1); return(false);\"><font size=-1 color=\"$col\">"
-					. $fund['po_titel'] . "</font></a>";
+					. "&aktion=show_posting&seite=1',1); return(false);\">< span style=\"font-size: smaller; color:$col; \">"
+					. $fund['po_titel'] . "</span></a>";
 				if ($fund['po_gesperrt'] == 'Y')
-					echo " <font color=\"red\">(gesperrt)</font>";
+					echo " <span style=\"color:#ff0000;\">(gesperrt)</span>";
 				echo $f2 . "</b></td>";
 				
 				echo "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
@@ -523,7 +523,7 @@ aktualisiere_online($u_id, $o_raum);
 
 if (strlen($u_id) > 0) {
 	// Menü als erstes ausgeben
-	$box = $ft0 . "$chat Menü" . $ft1;
+	$box = "$chat Menü";
 	$text = "<a href=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
 	
 	show_box2($box, $text);

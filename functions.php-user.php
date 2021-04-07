@@ -9,19 +9,22 @@ function user_liste($larr, $anzahl) {
 	// Gibt Userliste $larr als Tabelle aus
 	
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
-	global $ft0, $ft1, $f1, $f2, $f3, $f4, $homep_ext_link;
+	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $CELLPADDING, $punkte_grafik, $leveltext, $chat_grafik;
 	
 	// Array mit oder ohne Javascript ausgeben
 	// Kopf Tabelle
-	$box = $ft0 . $t['sonst18'] . $ft1;
+	$box = $t['sonst18'];
 	
-	if (!isset($larr[0]['r_name']))
+	if (!isset($larr[0]['r_name'])) {
 		$larr[0]['r_name'] = "";
-	if (!isset($larr[0]['r_besitzer']))
+	}
+	if (!isset($larr[0]['r_besitzer'])) {
 		$larr[0]['r_besitzer'] = "";
-	if (!isset($larr[0]['r_topic']))
+	}
+	if (!isset($larr[0]['r_topic'])) {
 		$larr[0]['r_topic'] = "";
+	}
 	
 	$r_name = $larr[0]['r_name'];
 	$r_besitzer = $larr[0]['r_besitzer'];
@@ -141,7 +144,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
 	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_koerper;
-	global $user_farbe, $farbe_text, $ist_online_raum, $chat_max_eingabe, $t, $ft0, $ft1, $communityfeatures;
+	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
 	
 	$eingabe_breite = 29;
@@ -197,13 +200,12 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		
 		// Kopf Tabelle "Private Nachricht"
 		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
-			$box = $ft0
-				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']) . $ft1;
+			$box = str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']);
 			
 			echo "<table class=\"tabelle_kopf\">\n"
 				. "<FORM NAME=\"form\" METHOD=POST target=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">"
 				. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-				. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
+				. "<span style=\"font-size: smaller;\"><b>$box</b></span>\n"
 				. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
 				. "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
 				. "<TR><TD>";
@@ -242,16 +244,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		// Kopf Tabelle Userinfo
 		
 		if (isset($onlinezeit) && $onlinezeit) {
-			$box = $ft0 . str_replace("%user%", $uu_nick, $t['user_zeige20'])
-				. $ft1;
+			$box = str_replace("%user%", $uu_nick, $t['user_zeige20']);
 		} else {
-			$box = $ft0 . str_replace("%user%", $uu_nick, $t['user_zeige21'])
-				. $ft1;
+			$box = str_replace("%user%", $uu_nick, $t['user_zeige21']);
 		}
 		
 		echo "<table class=\"tabelle_kopf\">\n"
 			. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-			. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
+			. "<span style=\"font-size: smaller;\"><b>$box</b></span>\n"
 			. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
 			. "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
 			. "<TR><TD>";
@@ -517,7 +517,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		
 		// Admin-Menü 3
 		if ($admin) {
-			$box = $ft0 . $t['user_zeige12'] . $ft1;
+			$box = $t['user_zeige12'];
 			
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
@@ -525,7 +525,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			echo "<table class=\"tabelle_kopf\">\n";
 			echo "<TR><TD>";
 			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
-			echo "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n";
+			echo "<span style=\"font-size: smaller;\"><b>$box</b></span>\n";
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php

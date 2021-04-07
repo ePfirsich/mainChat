@@ -515,7 +515,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	// Titeltext der Loginbox setzen, Link auf Registrierung optional ausgeben
 	
 	if ($neuregistrierung_deaktivieren) {
-		$login_titel = $ft0 . $t['default1'] . $ft1;
+		$login_titel = $t['default1'];
 		if ($aktion == "neu")
 			$aktion = "";
 		if ($aktion == "neu2")
@@ -523,11 +523,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		if ($aktion == "mailcheckm")
 			$aktion = "";
 	} else if ($t['login14']) {
-		$login_titel = $ft0 . $t['default1']
-			. " [<a href=\"$chat_file?http_host=$http_host&aktion=neu\">"
-			. $ft0 . $t['login14'] . $ft1 . "</A>]" . $ft1;
+		$login_titel = $t['default1'] . " [<a href=\"$chat_file?http_host=$http_host&aktion=neu\">" . $t['login14'] . "</a>]";
 	} else {
-		$login_titel = $ft0 . $t['default1'] . $ft1;
+		$login_titel = $t['default1'];
 	}
 	
 	if (!isset($chatserver) || $chatserver == "") {
@@ -696,7 +694,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					} else {
 						echo $t['pwneu1'];
 					}
-					echo "<p><font color=\"red\"><b>$fehlermeldung</b></font></p>\n";
+					echo "<p style=\"color:#ff0000; font-weight:bold;\">$fehlermeldung</p>\n";
 				}
 				echo "<form action=\"index.php\">\n"
 					. "<table border=0 cellpadding=5 cellspacing=0>\n";
@@ -823,7 +821,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				// Formular für die Freischaltung/Bestätigung der Mailadress
 				echo "<p>" . $t['neu50'] . "</p>";
 				if ($fehlermeldung) {
-					echo "<p><font color=\"red\"><b>$fehlermeldung</b></font></p>\n";
+					echo "<p style=\"color:#ff0000; font-weight:bold;\">$fehlermeldung</p>\n";
 				}
 				?>
 				<form action="index.php">
@@ -1123,9 +1121,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					// Disclaimer ausgeben
 					show_box($login_titel, $logintext, "", "100%");
-					echo "<div style=\"text-align: center;\">" . $f3
-						. str_replace("%farbe_text%", $farbe_text, $disclaimer)
-						. $f4 . "</div>\n</form><br>";
+					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 					zeige_fuss();
 					exit;
 					
@@ -1409,8 +1405,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						$titel = $login_titel . "[<a href=\""
 							. $_SERVER['PHP_SELF']
 							. "?http_host=$http_host&id=$id&aktion=login&"
-							. $t['login10'] . "=los&eintritt=forum\">" . $ft0
-							. $t['login23'] . $ft1 . "</A>]";
+							. $t['login10'] . "=los&eintritt=forum\">"
+							. $t['login23'] . "</a>]";
 					} else {
 						$titel = $login_titel;
 					}
@@ -1418,16 +1414,14 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					if ($einstellungen_aendern) {
 						$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
 							. "?http_host=$http_host&aktion=passwort_neu\">"
-							. $ft0 . $t['login27'] . $ft1 . "</A>]";
+							. $t['login27'] . "</a>]";
 					}
 					
 					// Box und Disclaimer ausgeben
 					show_box($titel, $logintext, "", "100%");
 					echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
 						. "// end hiding -->\n</script>\n";
-					echo "<div style=\"text-align: center;\">" . $f3
-						. str_replace("%farbe_text%", $farbe_text, $disclaimer)
-						. $f4 . "</div>\n</form><br>";
+					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 					
 					zeige_fuss();
 					
@@ -1857,11 +1851,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				zeige_kopf();
 				unset($u_name);
 				unset($u_nick);
-				echo "<div style=\"text-align: center;\"><P><b>"
-					. str_replace("%login%", $login, $t['login20'])
-					. "</b></P>" . $f3
-					. str_replace("%farbe_text%", $farbe_text, $disclaimer)
-					. $f4 . "</div>\n</form><br>";
+				echo "<div style=\"text-align: center;\"><P><b>" . str_replace("%login%", $login, $t['login20']) . "</b></P>" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 				zeige_fuss();
 				
 			} else {
@@ -1898,26 +1888,23 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					$titel = $login_titel . "[<a href=\""
 						. $_SERVER['PHP_SELF']
 						. "?http_host=$http_host&id=&aktion=login&"
-						. $t['login10'] . "=los&eintritt=forum\">" . $ft0
-						. $t['login23'] . $ft1 . "</A>]";
+						. $t['login10'] . "=los&eintritt=forum\">"
+						. $t['login23'] . "</a>]";
 				} else {
 					$titel = $login_titel;
 				}
 				
 				if ($einstellungen_aendern) {
 					$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
-						. "?http_host=$http_host&aktion=passwort_neu\">" . $ft0
-						. $t['login27'] . $ft1 . "</A>]";
+						. "?http_host=$http_host&aktion=passwort_neu\">"
+						. $t['login27'] . "</a>]";
 				}
 				
 				// Box und Disclaimer ausgeben
 				if (!isset($keineloginbox) || !$keineloginbox)
 					show_box($titel, $logintext, "", "100%");
-				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
-					. "// end hiding -->\n</script>\n";
-				echo "<div style=\"text-align: center;\">" . $f3
-					. str_replace("%farbe_text%", $farbe_text, $disclaimer)
-					. $f4 . "</div>\n</form><br>";
+				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
+				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 				
 				zeige_fuss();
 				
@@ -2103,7 +2090,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				<form action="<?php echo $chat_file; ?>" name="form1" method="POST">
 					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 					<?php
-					$titel = $ft0 . $t['neu31'] . $ft1;
+					$titel = $t['neu31'];
 					show_box($titel, $text, "", "");
 					?>
 				</form>
@@ -2285,26 +2272,23 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					$id = "";
 				$titel = $login_titel . "[<a href=\"" . $_SERVER['PHP_SELF']
 					. "?http_host=$http_host&id=$id&aktion=login&"
-					. $t['login10'] . "=los&eintritt=forum\">" . $ft0
-					. $t['login23'] . $ft1 . "</A>]";
+					. $t['login10'] . "=los&eintritt=forum\">"
+					. $t['login23'] . "</a>]";
 			} else {
 				$titel = $login_titel;
 			}
 			
 			if ($einstellungen_aendern) {
 				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
-					. "?http_host=$http_host&aktion=passwort_neu\">" . $ft0
-					. $t['login27'] . $ft1 . "</A>]";
+					. "?http_host=$http_host&aktion=passwort_neu\">"
+					. $t['login27'] . "</a>]";
 			}
 			
 			// Box und Disclaimer ausgeben
 			if (!isset($keineloginbox))
 				show_box($titel, $logintext, "", "100%");
-			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
-				. "// end hiding -->\n</script>\n";
-			echo "<div style=\"text-align: center;\">" . $f3
-				. str_replace("%farbe_text%", $farbe_text, $disclaimer) . $f4
-				. "</div>\n</form><br>";
+			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
+			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 			
 			if (!isset($beichtstuhl) || !$beichtstuhl) {
 				
@@ -2365,7 +2349,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					show_box2(
-						str_replace("%chat%", $chat, $ft0 . $t['default5'] . $ft1), $text,
+						str_replace("%chat%", $chat, $t['default5']), $text,
 						false);
 					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
 				}

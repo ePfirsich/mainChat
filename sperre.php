@@ -6,7 +6,6 @@ require("functions.php");
 id_lese($id);
 
 function liste() {
-	global $farbe_text;
 	global $dbase, $t;
 	global $f1, $f2, $f3, $f4;
 	global $id, $http_host;

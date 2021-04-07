@@ -45,7 +45,11 @@ a:visited, a:active {
 </style>
 </head>
 <body>
-<table width="100%" height="100%" border="0"><tr><td align="center"><a href="<?php echo $url; ?>"><font face="Arial, Helvetica, sans-serif" size="2" color="#666666">Einen Moment bitte, die angeforderte Seite wird geladen...</font></a></td></tr></table>
+	<table style="width:100%; height:100%;">
+		<tr>
+			<td align="center"><a href="<?php echo $url; ?>">Einen Moment bitte, die angeforderte Seite wird geladen...</a></td>
+		</tr>
+	</table>
 </body>
 </html>
 <?php

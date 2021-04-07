@@ -368,8 +368,8 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			break;
 		
 		case "mailboxzu":
-		// Formular zum Weiterleitej einer Mail ausgeben
-			echo "<font face=\"Arial\">Schliesse nun Ihre Mailbox!</font>";
+		// Formular zum Weiterleiten einer Mail ausgeben
+			echo "Schliesse nun Ihre Mailbox!";
 			$betreff = "MAILBOX IST ZU";
 			$nachricht = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Mails empfangen möchten!";
 			$result = mail_sende($u_id, $u_id, $nachricht, $betreff);

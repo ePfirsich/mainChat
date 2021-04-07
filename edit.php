@@ -143,7 +143,7 @@ if (strlen($u_id) != 0) {
 			echo "<table class=\"tabelle_kopf\">\n";
 			echo "<TR><TD COLSPAN=2>";
 			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
-			echo "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span\n";
+			echo "<span style=\"font-size: smaller;\"><b>$box</b></span\n";
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php
@@ -777,7 +777,7 @@ if (strlen($u_id) != 0) {
 			} elseif (isset($eingabe) && $eingabe == "Homepage löschen!"
 				&& $admin) {
 				if ($aktion3 == "loeschen") {
-					echo "<font face=\"Arial\">Homepage wurde gelöscht!</font>";
+					echo "Homepage wurde gelöscht!";
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f[u_id]);
 					mysqli_query($mysqli_link, $query);
 					

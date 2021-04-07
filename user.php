@@ -116,7 +116,7 @@ if (strlen($u_id) != 0) {
 	
 	if ($aktion != "chatuserliste" && $aktion != "statistik") {
 		// Menü als erstes ausgeben, falls nicht Spezialfall im Chatwindow oder statistikfenster.
-		$box = $ft0 . $t['sonst2'] . $ft1;
+		$box = $t['sonst2'];
 		$text .= "<ul style=\"list-style-type: none; padding:0px;\">";
 		$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
 		if ($u_level != "G") {
@@ -184,13 +184,13 @@ if (strlen($u_id) != 0) {
 				"<b>config anpassen \$traceroute</b>");
 		}
 		
-		$box = $ft0 . $t['sonst3'] . " " . $trace . $ft1;
+		$box = $t['sonst3'] . " " . $trace;
 		?>
 		<table class="tabelle_kopf">
 			<tr>
 				<td>
 					<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
-					<span style="font-size: smaller; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
+					<span style="font-size: smaller; font-weight:bold;"><?php echo $box; ?></span>
 				</td>
 			</tr>
 		</table>
@@ -263,7 +263,7 @@ if (strlen($u_id) != 0) {
 		// Formular ausgeben
 			if ($u_level == "S") {
 				
-				$box = $ft0 . $t['sonst45'] . $ft1;
+				$box = $t['sonst45'];
 				$text = "<FORM name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
 					. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
 					. "<input type=\"hidden\" name=\"id\" VALUE=\"$id\">\n"
@@ -294,7 +294,7 @@ if (strlen($u_id) != 0) {
 		// User Löschen
 			if ($u_level == "S") {
 				
-				$box = $ft0 . $t['sonst51'] . $ft1;
+				$box = $t['sonst51'];
 				$text = "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
 					. "<tr><TD colspan=2>" . $f1 . $t['sonst49']
 					. " <A href=\"user.php?http_host=$http_host&id=$id&aktion=userloeschen2\">["
@@ -322,7 +322,7 @@ if (strlen($u_id) != 0) {
 					$ok = $t['sonst53'];
 				}
 				
-				$box = $ft0 . $t['sonst51'] . $ft1;
+				$box = $t['sonst51'];
 				$text = "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
 					. "<tr><TD colspan=2>" . $f1 . $ok . $f2 . "</td></tr>\n"
 					. "</table>\n";
@@ -406,7 +406,7 @@ if (strlen($u_id) != 0) {
 				|| (isset($suchtext_eingabe) && $suchtext_eingabe == "Go!")) {
 				
 				// Suchergebnis mit Formular ausgeben
-				$box = $ft0 . $t['sonst16'] . $ft1;
+				$box = $t['sonst16'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
 					. "<TABLE>"
 					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
@@ -652,7 +652,7 @@ if (strlen($u_id) != 0) {
 			} else {
 				
 				// Suchformular ausgeben
-				$box = $ft0 . $t['sonst17'] . $ft1;
+				$box = $t['sonst17'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
 					. "<table>";
 				if ($admin) {
@@ -903,8 +903,8 @@ if (strlen($u_id) != 0) {
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) != 0)
 					$r_name = mysqli_result($result, 0, 0);
-				echo "<P>" . str_replace("%r_name%", $r_name, $t['sonst13'])
-					. "</P>\n";
+				echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13'])
+					. "</p>\n";
 				
 			} elseif (!$rows && $schau_raum < 0) {
 				
@@ -919,7 +919,7 @@ if (strlen($u_id) != 0) {
 					<table class="tabelle_kopf">
 					<?php
 						echo "<tr><td><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>"
-						. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>"
+						. "<span style=\"font-size: smaller;"><b>$box</b></span>"
 						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n"
 						. "<TABLE CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_koerper\">"
 						. "<tr><td><b>" . $larr[0]['r_name'] . "</b><br>"
@@ -977,13 +977,13 @@ if (strlen($u_id) != 0) {
 				?>
 				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 				<?php
-				$box = $ft0 . $t['sonst14'] . $ft1;
+				$box = $t['sonst14'];
 				?>
 				<table class="tabelle_kopf">
 				<tr>
 				<td>
 				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
-				<span style="font-size: smaller; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
+				<span style="font-size: smaller; font-weight:bold;"><?php echo $box; ?></span>
 				<img src="pics/fuell.gif" alt="" style="width:1px; height:13px;"><br>
 				<table style="width:100%; background-color:<?php echo $farbe_tabelle_koerper; ?>">
 				<tr><td>

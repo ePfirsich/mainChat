@@ -1,7 +1,6 @@
 <?php
 
-function zeige_moderations_antworten($o_raum, $answer = "")
-{
+function zeige_moderations_antworten($o_raum, $answer = "") {
 	global $t;
 	global $id;
 	global $dbase, $mysqli_link;
@@ -10,7 +9,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
 	
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
 	$result = mysqli_query($mysqli_link, $query);
-	echo "<table width=100% border=0 cellpadding=0 cellspacing=0>";
+	echo "<table style=\"width:100%;\">";
 	if ($result > 0) {
 		$i = 0;
 		while ($row = mysqli_fetch_object($result)) {
@@ -36,7 +35,7 @@ function zeige_moderations_antworten($o_raum, $answer = "")
 	echo "</table>";
 	echo "<br><center>";
 	echo "<form>";
-	echo "<font>" . $t['mod11'] . "</font><br>";
+	echo $t['mod11'] . "<br>";
 	echo "<input type=hidden name=id value=$id>";
 	echo "<input type=hidden name=http_host value=$http_host>";
 	echo "<input type=hidden name=mode value=answernew>";
@@ -68,7 +67,7 @@ function bearbeite_moderationstexte($o_raum)
 	global $system_farbe;
 	
 	if (is_array($action)) {
-		echo "<font><small>";
+		echo "<small>";
 		$a = 0;
 		reset($action);
 		// erst mal die Datensätze reservieren...
@@ -158,7 +157,7 @@ function bearbeite_moderationstexte($o_raum)
 			next($action);
 			$a++;
 		}
-		echo "</small></font>";
+		echo "</small>";
 	}
 }
 

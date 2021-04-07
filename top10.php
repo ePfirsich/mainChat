@@ -71,14 +71,14 @@ if ($erweitertefeatures) {
 	$bgcolor = 'class="tabelle_zeile1"';
 	echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=2 CELLSPACING=0>\n"
 		. "<TR BGCOLOR=\"$farbe_tabelle_kopf2\" align=\"left\"><TD WIDTH=\"4%\">&nbsp;</TD>"
-		. "<TD WIDTH=\"32%\"colspan=2><DIV style=\"color:$farbe_text; font-weight:bold;\">"
+		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
 		. "&nbsp;&nbsp;&nbsp;&nbsp;Punkte " . strftime("%B", time())
-		. "</DIV></TD>"
-		. "<TD WIDTH=\"32%\" colspan=2><DIV style=\"color:$farbe_text; font-weight:bold;\">"
+		. "</TD>"
+		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
 		. "&nbsp;&nbsp;&nbsp;&nbsp;Punkte " . strftime("%Y", time())
-		. "</DIV></TD>"
-		. "<TD WIDTH=\"32%\" colspan=2><DIV style=\"color:$farbe_text; font-weight:bold;\">"
-		. "&nbsp;&nbsp;&nbsp;&nbsp;Gesamtpunkte</DIV></TD></TR></TABLE>\n";
+		. "</TD>"
+		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
+		. "&nbsp;&nbsp;&nbsp;&nbsp;Gesamtpunkte</TD></TR></TABLE>\n";
 	
 	// im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
 	$query = "select * from top10cache where t_eintrag=1 "
@@ -144,8 +144,8 @@ if ($erweitertefeatures) {
 	if (is_array($array_user)) {
 		for ($i = 0; $i < $anzahl; $i++) {
 			echo "<TABLE WIDTH=100%>\n"
-				. "<tr><td WIDTH=\"4%\" align=\"right\" $bgcolor><b>"
-				. $f1 . ($i + 1) . $f2 . "</b></td>";
+				. "<tr><td WIDTH=\"4%\" align=\"right\" $bgcolor  style=\"font-weight:bold;\">"
+				. $f1 . ($i + 1) . $f2 . "</td>";
 			for ($j = 0; $j < 3; $j++) {
 				if (isset($array_user[$j]) && isset($array_user[$j][$i])
 					&& $array_user[$j][$i]['punkte']) {

@@ -343,7 +343,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							if ($br == "") {
 								$zende = "";
 							} else {
-								$zende = "</font>" . $br;
+								$zende = "</span>" . $br;
 							}
 						} else {
 							if (!$erste_zeile) {
@@ -356,7 +356,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							if ($br == "") {
 								$zende = "";
 							} else {
-								$zende = "</font>" . $sm2 . $br;
+								$zende = "</span>" . $sm2 . $br;
 							}
 						}
 						break;

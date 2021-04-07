@@ -4,7 +4,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2;
+	global $farbe_tabelle_kopf2;
 	global $blacklistmaxdays;
 	
 	$blurl = $PHP_SELF . "?id=$id&http_host=$http_host&aktion=&sort=";
@@ -70,13 +70,13 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		if ($anzahl == 0) {
 			
 			// Keine Blacklist-Einträge
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>Es gibt noch keine $titel:</b><DIV style=\"color:$farbe_text;\"></TD></TR>\n"
+			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>Es gibt noch keine $titel:</b></TD></TR>\n"
 				. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td align=\"left\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</TD></TR>";
 			
 		} else {
 			
 			// Blacklist anzeigen
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><DIV style=\"color:$farbe_text;\"><b>$titel: $anzahl</b></DIV></TD></TR>\n"
+			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$titel: $anzahl</b></TD></TR>\n"
 				. "<TR><TD WIDTH=\"5%\">" . $f1 . "Löschen" . $f2
 				. "</TD><TD WIDTH=\"35%\">" . $f1 . "<a href=\"" . $blurl
 				. $usort . "\">Nickname</A>" . $f2 . "</TD>"
@@ -203,7 +203,7 @@ function formular_neuer_blacklist($neuer_blacklist)
 	// Gibt Formular für Nicknamen zum Hinzufügen als Blacklist-Eintrag aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text, $farbe_tabelle_kopf2;
+	global $farbe_tabelle_kopf2;
 	
 	if (!$eingabe_breite)
 		$eingabe_breite = 30;
@@ -221,7 +221,7 @@ function formular_neuer_blacklist($neuer_blacklist)
 	if (!isset($neuer_blacklist['f_text']))
 		$neuer_blacklist['f_text'] = "";
 	
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
+	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
 		. "<tr><TD align=\"right\" class=\"tabelle_zeile1\"><b>Nickname:</b></TD><TD class=\"tabelle_zeile1\">"
 		. $f1
 		. "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[u_nick]\" VALUE=\""

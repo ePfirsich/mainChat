@@ -321,7 +321,7 @@ function anzahl_ungelesene3(&$arr_postings, $th_id) {
 		
 		$result = mysqli_query($mysqli_link, $query);
 		$num = mysqli_num_rows($result);
-		#if ($num == 1) print "<font color=white>$th_id: ".$query." $num</font><br>";
+		#if ($num == 1) print "$th_id: ".$query." $num<br>";
 		if ($num == 1) {
 			#checke_posting($value);
 		}
@@ -864,7 +864,7 @@ function hole_letzten($root_id, $new_po_id) {
 function loesche_posting() {
 	global $mysqli_link, $th_id, $po_id, $thread;
 	global $arr_delete;
-	global $farbe_tabelle_kopf2, $punkte_pro_posting, $t, $farbe_text;
+	global $farbe_tabelle_kopf2, $punkte_pro_posting;
 	
 	$arr_delete = array();
 	

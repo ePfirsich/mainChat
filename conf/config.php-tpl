@@ -55,13 +55,13 @@ $chatserver_mysqlhost="adressbus.main.de";
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
-// $chat_offline="<p style=\"text-align:center;\"><b>Der $chat ist derzeit offline.</b></p>";
+// $chat_offline="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
 
 // Chat abschalten 1=ja/0=nein
 $chat_offline_kunde=0;
 
 // Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
-$chat_offline_kunde_txt="<p style=\"text-align:center;\"><b>Der $chat ist derzeit offline.</b></p>";
+$chat_offline_kunde_txt="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
 
 // Chat auf eine Maximalanzahl von Usern nach Level einschränken
 // Für Admins gilt C/S/M, für User U und für Gäste G
@@ -71,9 +71,8 @@ $chat_max['S']=0;
 $chat_max['G']=200;
 $chat_max['U']=200;
 $chat_max['M']=0;
-$chat_max['zusatztext']="<p><b>Bitte benutzen Sie stattdessen ".
-"<a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a> oder ".
-" <a href=\"http://chat.mainchat.de/\" target=\"_blank\">http://chat.mainchat.de/</a>.</b></p>";
+$chat_max['zusatztext']="<p style=\"font-weight:bold;\">Bitte benutzen Sie stattdessen ".
+"<a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a>.</p>";
 
 // WebChat-Statistiken
 $webchatraumausgabe=1;			// Ausgabe mit Raum für Webchat 1=ja/0=nein
@@ -158,7 +157,6 @@ $farbe_tabelle_zeile2="#D8D8EE";
 
 // Eingangsseite, Anmeldung
 $farbe_background="#FFFFFF";
-$farbe_text="#000000";
 $farbe_link="#000080";
 $farbe_vlink="#000080";
 $grafik_background="";
@@ -349,8 +347,6 @@ $smilies_anzahl="%smiliesanzahl%";
 $akdbase="mainchat";	// wie muss die DB heißen, damit der autoknebel funktioniert?
 
 // autoknebeltexte achtung preg_match -> incl /.../
-$ak[]="/mainfranken-chat.de/";
-$ak[]="/unterfranken-chat.de/";
 $ak[]="/chat-franken.de/";
 $ak[]="/rhoen-chat.de/";
 $ak[]="/frankenchat/";
