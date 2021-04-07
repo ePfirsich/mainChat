@@ -185,12 +185,20 @@ if (strlen($u_id) != 0) {
 		}
 		
 		$box = $ft0 . $t['sonst3'] . " " . $trace . $ft1;
-		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf><tr><td>"
-			. "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-			. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
-			. "</td></tr></table>\n<PRE>" . $f1;
+		?>
+		<table class="tabelle_kopf">
+			<tr>
+				<td>
+					<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
+					<span style="font-size: smaller; color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $box; ?></span>
+				</td>
+			</tr>
+		</table>
+		<pre>
+		<?php
+		echo $f1;
 		system("$traceroute $trace", $ergebnis);
-		echo $f2 . "</PRE>\n";
+		echo $f2 . "</pre>\n";
 	}
 	
 	// Auswahl
@@ -908,7 +916,7 @@ if (strlen($u_id) != 0) {
 			
 				if ($aktion != "chatuserliste") {
 					?>
-					<table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
+					<table class="tabelle_kopf">
 					<?php
 						echo "<tr><td><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>"
 						. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>"
@@ -971,7 +979,7 @@ if (strlen($u_id) != 0) {
 				<?php
 				$box = $ft0 . $t['sonst14'] . $ft1;
 				?>
-				<table style="width:100%; background-color:<?php echo $farbe_tabelle_kopf; ?>">
+				<table class="tabelle_kopf">
 				<tr>
 				<td>
 				<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>

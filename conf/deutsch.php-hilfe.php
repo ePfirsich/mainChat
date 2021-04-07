@@ -286,7 +286,7 @@ $legende = "<tr bgcolor=#E8E8FF><td colspan=\"2\"><p><b>Wieviele Chat-Punkte erg
 	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/mail.gif\" width=\"17\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>E-Mail des Users</td></tr>";
 
 $hilfe_community = "<br>
-<TABLE ALIGN=RIGHT CELLPADDING=2 CELLSPACING=0 BORDER=0 BGCOLOR=$farbe_tabelle_kopf>
+<table class=\"tabelle_kopf\">
 " . $legende
 	. "
 </table>

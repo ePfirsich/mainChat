@@ -6,13 +6,7 @@ require("functions.php");
 id_lese($id);
 
 function liste() {
-	global $farbe_tabelle_zeile1;
-	global $farbe_tabelle_zeile2;
 	global $farbe_text;
-	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_kopf1;
-	global $farbe_tabelle_kopf2;
-	global $farbe_tabelle_koerper;
 	global $dbase, $t;
 	global $f1, $f2, $f3, $f4;
 	global $id, $http_host;
@@ -49,7 +43,7 @@ function liste() {
 	
 	if ($rows > 0) {
 		$i = 0;
-		$bgcolor = $farbe_tabelle_zeile1;
+		$bgcolor = 'class="tabelle_zeile1"';
 		
 		// Kopf Tabelle
 		// $box = $t['sonst2']; Wird nicht verwendet?
@@ -83,15 +77,15 @@ function liste() {
 					$ip_name = @gethostbyaddr($row->isip);
 					if ($ip_name == $row->isip) {
 						unset($ip_name);
-						$text .= "<tr><td style=\"background-color:$bgcolor;\"><b>"
+						$text .= "<tr><td $bgcolor><b>"
 							. $f1 . $row->isip . $f2 . "</b></td>\n";
 					} else {
-						$text .= "<tr><td style=\"background-color:$bgcolor;\"><b>"
+						$text .= "<tr><td $bgcolor><b>"
 							. $f1 . $row->isip . "<br>(" . $ip_name . $f2
 							. ")</b></td>\n";
 					}
 				} else {
-					$text .= "<tr><td style=\"background-color:$bgcolor;\"><b>" . $f1
+					$text .= "<tr><td $bgcolor><b>" . $f1
 						. $isip . $f2 . "</b></td>\n";
 				}
 			} else {
@@ -99,45 +93,45 @@ function liste() {
 				$ip_name = gethostbyname($row->is_domain);
 				if ($ip_name == $row->is_domain) {
 					unset($ip_name);
-					$text .= "<tr><td style=\"background-color:$bgcolor;\"><b>" . $f1
+					$text .= "<tr><td $bgcolor><b>" . $f1
 						. $row->is_domain . $f2 . "</b></td>\n";
 				} else {
-					$text .= "<tr><td style=\"background-color:$bgcolor;\"><b>" . $f1
+					$text .= "<tr><td $bgcolor><b>" . $f1
 						. $row->is_domain . "<br>(" . $ip_name
 						. $f2 . ")</b></td>\n";
 				}
 			}
 			
 			// Infotext
-			$text .= "<td style=\"background-color:$bgcolor;\">" . $f1 . $row->is_infotext . "&nbsp;"
+			$text .= "<td $bgcolor>" . $f1 . $row->is_infotext . "&nbsp;"
 				. $f2 . "</td>\n";
 			
 			// Nur Warnung ja/nein
 			if ($row->is_warn == "ja") {
-				$text .= "<td style=\"background-color:$bgcolor; vertical-align:middle;\">" . $f3 . $t['sonst20'] . $f4 . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $f3 . $t['sonst20'] . $f4 . "</td>\n";
 			} else {
-				$text .= "<td style=\"background-color:$bgcolor; vertical-align:middle;\">" . $f3 . $t['sonst21'] . $f4 . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $f3 . $t['sonst21'] . $f4 . "</td>\n";
 			}
 			
 			// Eintrag - User und Datum
-			$text .= "<td style=\"background-color:$bgcolor;\"><small>$row->u_nick<br>\n";
+			$text .= "<td $bgcolor><small>$row->u_nick<br>\n";
 			$text .= date("d.m.y", $row->zeit) . "&nbsp;";
 			$text .= date("H:i:s", $row->zeit) . "&nbsp;";
 			$text .= "</small></td>\n";
 			
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
-				$text .= "<td style=\"background-color:$bgcolor;\">" . $f1 . "<b>\n";
+				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
 				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
 					. "[DEAKTIVIEREN]" . "</a>\n";
 					$text .= "</b>" . $f2 . "</td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				$text .= "<td style=\"background-color:$bgcolor;\">" . $f1 . "<b>\n";
+				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
 				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
 					. "[DEAKTIVIEREN]" . "</a>\n";
 				echo "</b>" . $f2 . "</td>\n";
 			} else {
-				$text .= "<td style=\"background-color:$bgcolor;\">" . $f1
+				$text .= "<td $bgcolor>" . $f1
 					. "<b>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
 					. "[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
 				if (isset($ip_name) && (strlen($ip_name) > 0)) {
@@ -149,9 +143,9 @@ function liste() {
 			
 			// Farben umschalten
 			if (($i % 2) > 0) {
-				$bgcolor = $farbe_tabelle_zeile1;
+				$bgcolor = 'class="tabelle_zeile1"';
 			} else {
-				$bgcolor = $farbe_tabelle_zeile2;
+				$bgcolor = 'class="tabelle_zeile2"';
 			}
 			
 			$i++;

@@ -127,7 +127,7 @@ switch ($aktion) {
 		reset($hilfe_befehlstext);
 		$anzahl = count($hilfe_befehlstext);
 		$i = 0;
-		$bgcolor = $farbe_tabelle_zeile1;
+		$bgcolor = 'class="tabelle_zeile1"';
 		
 		$text .= "<div style=\"text-align:center;\">$t[hilfe1]</div>";
 		// Befehle für alle User
@@ -155,18 +155,18 @@ switch ($aktion) {
 				$spruchtmp[3] = "&nbsp;";
 			}
 			$text .= "<tr>"
-				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
-				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
-				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
-				. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
+				. "<td $bgcolor>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+				. "<td $bgcolor>" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
+				. "<td $bgcolor>" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
+				. "<td $bgcolor>" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
 				. "</tr>";
 			next($hilfe_befehlstext);
 			
 			// Farben umschalten
 			if (($i % 2) > 0) {
-				$bgcolor = $farbe_tabelle_zeile1;
+				$bgcolor = 'class="tabelle_zeile1"';
 			} else {
-				$bgcolor = $farbe_tabelle_zeile2;
+				$bgcolor = 'class="tabelle_zeile2"';
 			}
 			
 			$i++;
@@ -178,7 +178,7 @@ switch ($aktion) {
 			reset($hilfe_befehlstext_admin);
 			$anzahl = count($hilfe_befehlstext_admin);
 			$i = 0;
-			$bgcolor = $farbe_tabelle_zeile1;
+			$bgcolor = 'class="tabelle_zeile1"';
 			
 			$text .= "<br>";
 			$text .= "<div style=\"text-align:center;\">$t[hilfe8]</div>";
@@ -207,18 +207,18 @@ switch ($aktion) {
 					$spruchtmp[3] = "&nbsp;";
 				}
 				$text .= "<tr>"
-					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
-					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
-					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
-					. "<td style=\"background-color:$bgcolor;\">" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
+					. "<td $bgcolor>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+					. "<td $bgcolor>" . $f1 . "$spruchtmp[1]" . $f2 . "</td>\n"
+					. "<td $bgcolor>" . $f1 . "$spruchtmp[2]" . $f2 . "</td>\n"
+					. "<td $bgcolor>" . $f1 . "$spruchtmp[3]" . $f2 . "</td>\n"
 					. "</tr>";
 				next($hilfe_befehlstext_admin);
 				
 				// Farben umschalten
 				if (($i % 2) > 0) {
-					$bgcolor = $farbe_tabelle_zeile1;
+					$bgcolor = 'class="tabelle_zeile1"';
 				} else {
-					$bgcolor = $farbe_tabelle_zeile2;
+					$bgcolor = 'class="tabelle_zeile2"';
 				}
 				
 				$i++;
@@ -247,7 +247,7 @@ switch ($aktion) {
 		reset($spruchliste);
 		$anzahl = count($spruchliste);
 		$i = 0;
-		$bgcolor = $farbe_tabelle_zeile1;
+		$bgcolor = 'class="tabelle_zeile1"';
 		
 		// Sprüche ausgeben
 		$text .= "<table class=\"tabelle_kopf\">\n";
@@ -269,17 +269,17 @@ switch ($aktion) {
 				preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
 			
 			$text .= "<tr>"
-				. "<td style=\"background-color:$bgcolor; width:15%;\">" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
-				. "<td style=\"background-color:$bgcolor; width:10%; text-align:center;\">" . $f1 . "<b>$spruchtmp[1]</b>" . $f2 . "</td>\n"
-				. "<td style=\"background-color:$bgcolor; width:75%;\">" . $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</td>\n"
+				. "<td style=\"width:15%;\" $bgcolor>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
+				. "<td style=\"width:10%; text-align:center;\" $bgcolor>" . $f1 . "<b>$spruchtmp[1]</b>" . $f2 . "</td>\n"
+				. "<td style=\"width:75%;\" $bgcolor>" . $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</td>\n"
 				. "</tr>\n";
 			next($spruchliste);
 			
 			// Farben umschalten
 			if (($i % 2) > 0) {
-				$bgcolor = $farbe_tabelle_zeile1;
+				$bgcolor = 'class="tabelle_zeile1"';
 			} else {
-				$bgcolor = $farbe_tabelle_zeile2;
+				$bgcolor = 'class="tabelle_zeile2"';
 			}
 			
 			$i++;
@@ -296,7 +296,7 @@ switch ($aktion) {
 		$text = '';
 		$box = $t['hilfe10'];
 		
-		$text .= "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
+		$text .= "<table class=\"tabelle_kopf\">\n"
 			. $legende . "</table><br>\n"
 			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br>\n";
 		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";

@@ -20,14 +20,13 @@ include("conf/" . $sprachconfig . "-statistik.php");
 
 // config-bereich
 
-$STAT_TITLE_BACK0 = $farbe_tabelle_kopf;// "#0078BE"; // Farben die für den Rahmen und den Hintergrund der Überschrift und
 $STAT_TITLE_BACK1 = $farbe_tabelle_koerper; // des Menü verwendet werden sollen. 
 $STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel. 
 
 // Hintergründe die für die Statistiktabelle verwendet werden  
 $STAT_BAR_BACK0 = "#E5E5E5";
 $STAT_BAR_BACK1 = "#BDC6D5";
-$STAT_BAR_BACK2 = $farbe_tabelle_kopf;
+$STAT_BAR_BACK2 = "#007ABE";
 
 // Images aus denen ein Balken für die Statistik zusammengesetzt werden soll
 $STAT_BAR_IMAGE_T = "14,2,pics/bar-t.gif";

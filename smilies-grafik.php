@@ -50,7 +50,7 @@ if (strlen($u_id) != 0) {
 		}
 		
 		echo "\n\n<script language=\"JavaScript\">\n"
-			. "   var color		 = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
+			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
 			. "   var fett		  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
 			. "   var smilies_pfad  = '$smilies_pfad';\n"
 			. "   var liste		 = new Array(\n   "
@@ -65,14 +65,14 @@ if (strlen($u_id) != 0) {
 		$zahl = 0;
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
 			if ( $zahl % 2 != 0 ) {
-				$farbe_tabelle = $farbe_tabelle_zeile1;
+				$farbe_tabelle = 'class="tabelle_zeile1"';
 			} else {
-				$farbe_tabelle = $farbe_tabelle_zeile2;
+				$farbe_tabelle = 'class="tabelle_zeile2"';
 			}
 			echo "<tr>"
-				. "<td style=\"background-color:$farbe_tabelle;\">$f1<b>$smilie_code</b>$f2</TD>"
-				. "<td style=\"background-color:$farbe_tabelle;\">" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</TD>"
-				. "<td style=\"background-color:$farbe_tabelle;\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"\"></TD>"
+				. "<td $farbe_tabelle>$f1<b>$smilie_code</b>$f2</TD>"
+				. "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</TD>"
+				. "<td $farbe_tabelle><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"\"></TD>"
 				. "</tr>\n";
 			$zahl++;
 		}

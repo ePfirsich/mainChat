@@ -7,7 +7,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// $f = Ass. Array mit Userdaten
 	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
-	global $id, $http_host, $level, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_koerper;
+	global $id, $http_host, $level, $f1, $f2, $f3, $f4, $farbe_tabelle_koerper;
 	global $farbe_chat_user, $farbe_chat_user_groesse, $farbe_text, $user_farbe;
 	global $t, $backup_chat, $smilies_pfad, $erweitertefeatures;
 	global $frame_size, $u_id, $communityfeatures, $punktefeatures;

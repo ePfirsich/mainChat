@@ -751,7 +751,7 @@ if (strlen($u_id) != 0) {
 					
 					$text .= "</tr>\n";
 					$i = 1;
-					$bgcolor = $farbe_tabelle_zeile1;
+					$bgcolor = 'class="tabelle_zeile1"';
 					while ($row = mysqli_fetch_array($result)) {
 						$uu_id = $row['u_id'];
 						if ($row['r_status2'] == "P") {
@@ -781,65 +781,51 @@ if (strlen($u_id) != 0) {
 							$ulink = "<a href=\"user.php?http_host=$http_host&id=$id&schau_raum="
 								. $row['r_id'] . "\">$anzahl</A>";
 							
-							$text .= "<tr bgcolor=$bgcolor><td>$b1" . $rlink
-								. "$b2</td>";
-							$text .= "<td align=right>$b1" . $ulink
-								. "$b2&nbsp;</td>";
+							$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
+							$text .= "<td style=\"text-align:right;\" $bgcolor>$b1" . $ulink . "$b2&nbsp;</td>";
 							
-							if ($admin || TRUE) {
-								$text .= "<td>$b1"
-									. substr($raumstatus1[$row['r_status1']],
-										0, 1) . "$b2&nbsp;</td>";
-								$text .= "<td>$b1"
-									. substr($raumstatus2[$row['r_status2']],
-										0, 1) . "$b2&nbsp;</td>";
-								$text .= "<td>$b1"
-									. user($row['u_id'], $row, TRUE, FALSE,
-										"$b2</td><td align=RIGHT>$b1") . $b2
-									. "</td>";
-								if ((isset($extended)) && ($extended)) {
-									
-									if ($smilies_pfad && $erweitertefeatures) {
-										if ($row['r_smilie'] == "Y") {
-											$r_smilie = $t['raum_user8'];
-										} else {
-											$r_smilie = $t['raum_user9'];
-										}
-										$text .= "<td>$b1" . $r_smilie . "&nbsp;$b2</td>";
+							$text .= "<td $bgcolor>$b1". substr($raumstatus1[$row['r_status1']], 0, 1) . "$b2&nbsp;</td>";
+							$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
+							$text .= "<td $bgcolor>$b1" . user($row['u_id'], $row, TRUE, FALSE, "$b2</td><td style=\"text-align:right;\" $bgcolor>$b1") . $b2 . "</td>";
+							if ((isset($extended)) && ($extended)) {
+								if ($smilies_pfad && $erweitertefeatures) {
+									if ($row['r_smilie'] == "Y") {
+										$r_smilie = $t['raum_user8'];
+									} else {
+										$r_smilie = $t['raum_user9'];
 									}
-									
-									if ($erweitertefeatures) {
-										$text .= "<td>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
-									}
-									
-									$temp = htmlspecialchars($row['r_topic']);
-									$temp = str_replace('&amp;lt;', '<', $temp);
-									$temp = str_replace('&amp;gt;', '>', $temp);
-									$temp = str_replace('&amp;quot;', '"',
-										$temp);
-									$text .= "<td>$b1" . $temp . "&nbsp;$b2</td>";
-									
-									$temp = htmlspecialchars($row['r_eintritt']);
-									$temp = str_replace('&amp;lt;', '<', $temp);
-									$temp = str_replace('&amp;gt;', '>', $temp);
-									$temp = str_replace('&amp;quot;', '"',
-										$temp);
-									$text .= "<td>$b1" . $temp . "&nbsp;$b2</td>";
-									
-									$temp = htmlspecialchars($row['r_austritt']);
-									$temp = str_replace('&amp;lt;', '<', $temp);
-									$temp = str_replace('&amp;gt;', '>', $temp);
-									$temp = str_replace('&amp;quot;', '"',
-										$temp);
-									$text .= "<td>$b1" . $temp . "&nbsp;$b2</td>";
+									$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
 								}
+								
+								if ($erweitertefeatures) {
+									$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
+								}
+								
+								$temp = htmlspecialchars($row['r_topic']);
+								$temp = str_replace('&amp;lt;', '<', $temp);
+								$temp = str_replace('&amp;gt;', '>', $temp);
+								$temp = str_replace('&amp;quot;', '"', $temp);
+								$text .= "<td $bgcolor>$b1" . $temp . "&nbsp;$b2</td>";
+								
+								$temp = htmlspecialchars($row['r_eintritt']);
+								$temp = str_replace('&amp;lt;', '<', $temp);
+								$temp = str_replace('&amp;gt;', '>', $temp);
+								$temp = str_replace('&amp;quot;', '"', $temp);
+								$text .= "<td $bgcolor>$b1" . $temp . "&nbsp;$b2</td>";
+								
+								$temp = htmlspecialchars($row['r_austritt']);
+								$temp = str_replace('&amp;lt;', '<', $temp);
+								$temp = str_replace('&amp;gt;', '>', $temp);
+								$temp = str_replace('&amp;quot;', '"', $temp);
+								$text .= "<td $bgcolor>$b1" . $temp . "&nbsp;$b2</td>";
 							}
+								
 							$text .= "</tr>\n";
 							$i++;
 							if (($i % 2) > 0) {
-								$bgcolor = $farbe_tabelle_zeile1;
+								$bgcolor = 'class="tabelle_zeile1"';
 							} else {
-								$bgcolor = $farbe_tabelle_zeile2;
+								$bgcolor = 'class="tabelle_zeile2"';
 							}
 						}
 					}

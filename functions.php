@@ -868,8 +868,6 @@ function zerlege($daten) {
 
 function show_box($box, $text, $url = "", $width = "") {
 	// Gibt Tabelle mit Kopf und Inhalt aus 
-	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_koerper;
 	
 	if (strlen($width) > 0) {
 		$width = "width:" . $width . ";";
@@ -899,8 +897,6 @@ function show_box($box, $text, $url = "", $width = "") {
 
 function show_box2($box, $text, $button = TRUE) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus 
-	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_koerper;
 	global $f1;
 	global $f2;
 
@@ -923,8 +919,6 @@ function show_box2($box, $text, $button = TRUE) {
 
 function show_box_title_content($box, $text) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $farbe_tabelle_kopf;
-	global $farbe_tabelle_koerper;
 	?>
 	
 	<table class="tabelle_kopf">

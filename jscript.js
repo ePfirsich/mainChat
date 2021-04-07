@@ -147,32 +147,32 @@ function genlist(liste, aktion) {
 
 		if (aktion == "chatuserliste") {
 			if ((level == "admin"))
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
 						+ liste[i + 2] + "'); return(false)\">G</A>" + fett[1]
 						+ "</TD>";
 			if ((level == "admin") || (level == "owner"))
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
 						+ liste[i + 2] + "'); return(false)\">K</A>" + fett[1]
 						+ "</TD>";
 			if ((level == "admin")
 					&& (liste[i + 3] != "" || liste[i + 4] != ""))
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
 						+ liste[i + 3] + "','" + liste[i + 4] + "','"
 						+ liste[i + 2] + "'); return(false)\">S</A>" + fett[1]
-						+ "</TD><TD>&nbsp;</TD>";
+						+ "</TD><TD class=\"" + color[color_index] + "\">&nbsp;</TD>";
 			if (inaktiv_ansprechen != "1") {
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
 						+ liste[i + 2] + " '); return(false)\">@</A>" + fett[1]
 						+ "</TD>";
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
 						+ liste[i + 2] + " '); return(false)\">&gt;</A>"
@@ -180,22 +180,22 @@ function genlist(liste, aktion) {
 			}
 		} else {
 			if ((level == "admin") || (level == "owner"))
-				rowdef += "<TD>"
+				rowdef += "<TD class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
 						+ liste[i + 2] + "'); return(false)\">E</A>" + fett[1]
-						+ "</TD><TD>&nbsp;</TD>";
+						+ "</TD><TD class=\"" + color[color_index] + "\">&nbsp;</TD>";
 		}
 
-		rowdef += "<TD WIDTH=\"90%\">" + nlink + "</TD>";
+		rowdef += "<td WIDTH=\"90%\" class=\"" + color[color_index] + "\">" + nlink + "</TD>";
 
 		if (color_index == "0")
 			color_index = 1;
 		else
 			color_index = 0;
 
-		document.write("<TR BGCOLOR=\"" + color[color_index] + "\">" + rowdef
-				+ "</TR>\n");
+		document.write("<tr>" + rowdef
+				+ "</tr>\n");
 
 	}
 	document.write("</TABLE>\n");
@@ -203,30 +203,30 @@ function genlist(liste, aktion) {
 
 function showsmilies(liste) {
 	for ( var i = 0; i < liste.length; i += 2) {
-		var rowdef = "<TD>&nbsp;"
+		var rowdef = "<td class=\"" + color[i / 2 & 1] + "\">&nbsp;"
 				+ fett[0]
 				+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
-				+ liste[i] + " '); return(false)\">" + liste[i] + "</A>"
-				+ fett[1] + "&nbsp;</TD>";
-		rowdef += "<TD>" + fett[4] + liste[i + 1] + fett[5] + "</TD>";
-		document.write("<TR BGCOLOR=\"" + color[i / 2 & 1] + "\">" + rowdef
-				+ "</TR>\n");
+				+ liste[i] + " '); return(false)\">" + liste[i] + "</a>"
+				+ fett[1] + "&nbsp;</td>";
+		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">" + fett[4] + liste[i + 1] + fett[5] + "</td>";
+		document.write("<tr>" + rowdef
+				+ "</tr>\n");
 	}
 }
 
 function showsmiliegrafiken(liste) {
 	for ( var i = 0; i < liste.length; i += 3) {
-		var rowdef = "<TD ALIGN=CENTER><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
+		var rowdef = "<td style=\"text-align:center;\" class=\"" + color[i / 2 & 1] + "\"><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
 				+ liste[i]
 				+ " '); return(false)\"><IMG SRC=\""
 				+ smilies_pfad
 				+ liste[i + 1]
-				+ "\" BORDER=0 ALT=\""
+				+ "\" border=\"0\" ALT=\""
 				+ liste[i]
-				+ "\"></A></TD>";
-		rowdef += "<TD>" + fett[4] + liste[i + 2] + fett[5] + "</TD>";
-		document.write("<TR BGCOLOR=\"" + color[i / 2 & 1] + "\">" + rowdef
-				+ "</TR>\n");
+				+ "\"></a></td>";
+		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">" + fett[4] + liste[i + 2] + fett[5] + "</td>";
+		document.write("<tr>" + rowdef
+				+ "</tr>\n");
 	}
 }
 

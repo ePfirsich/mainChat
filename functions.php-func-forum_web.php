@@ -43,21 +43,27 @@ function kopf_forum($admin) {
 		$lnk[1] = $f1 . "&nbsp;[<a href=\"forum.php?http_host=$http_host&id=$id&aktion=forum_neu\">$menue[1]</a>]" . $f2;
 	}
 	
-	if (!isset($lnk[1]))
+	if (!isset($lnk[1])) {
 		$lnk[1] = "";
-	
-	echo "<center><table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
-	echo "<tr><td><b><a href=\"forum.php?id=$id&http_host=$http_host\">"
-		. $chat . "-Forum</A>" . $lnk[1] . "</b></td>\n";
-	echo "</table>\n";
-	
+	}
+	?>
+	<table style="width:900px; margin:auto;">
+		<tr>
+			<td><b><a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>"><?php echo $chat; ?>-Forum</a><?php echo $lnk[1]; ?></b></td>
+		</tr>
+	</table>
+	<?php
 }
 
 //Fuss für das Forum
-function fuss_forum()
-{
-	echo "<br><br></center>";
-	// zeige_fuss();
+function fuss_forum() {
+	?>
+	<br>
+	<br>
+	</center>
+	</body>
+	</html>
+	<?php
 }
 
 //Zeigt fehlende Eingaben an
@@ -73,7 +79,7 @@ function show_missing($missing)
 //Eingabemaske für neues Forum
 function maske_forum($fo_id = 0) {
 	global $id, $http_host, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
+	global $f1, $f2, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
 	global $t, $farbe_text;
 	
 	if ($fo_id > 0) {
@@ -94,73 +100,84 @@ function maske_forum($fo_id = 0) {
 	}
 	?>
 	<form action="forum.php" method="post">
-	<table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $kopfzeile; ?></td>
-		</tr>
-		<tr>
-			<td>
+		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+			<tr>
+				<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
+			</tr>
+			<tr>
+				<td style="width:260px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_msg1']; ?><?php echo $f2; ?></td>
+				<td class="tabelle_koerper_login"><input type="text" size="50" name="fo_name" value="<?php echo $fo_name; ?>"></td>
+			</tr>
 			<?php
-			echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
-			echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg1]</DIV> $f2</td>";
-			echo "<td width=500><input type=\"text\" size=\"50\" name=\"fo_name\" value=\"$fo_name\"></td></tr>";
-	
-	// Forumsrechte für Gast einstellen
-	echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg3]</DIV> $f2</td>";
-	if (($fo_admin & 8) == 8) {
-		$selg1 = "SELECTED";
-		$selg2 = "";
-	}
-	if (($fo_admin & 16) == 16) {
-		$selg1 = "";
-		$selg2 = "SELECTED";
-	}
-	
-	echo "<td><select size=\"1\" name=\"fo_gast\">";
-	echo "<option value=\"0\">$t[forum_msg7]\n";
-	echo "<option value=\"8\" $selg1>$t[forum_msg5]\n";
-	echo "<option value=\"24\" $selg2>$t[forum_msg6]\n";
-	echo "</select></td></tr>\n";
-	
-	if (($fo_admin & 2) == 2) {
-		$selu1 = "SELECTED";
-		$selu2 = "";
-	}
-	if (($fo_admin & 4) == 4) {
-		$selu1 = "";
-		$selu2 = "SELECTED";
-	}
-	// Forumsrechte für einen User einstellen
-	echo "<tr><td>$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[forum_msg4]</DIV> $f2</td>";
-	echo "<td><select size=\"1\" name=\"fo_user\">";
-	echo "<option value=\"0\">$t[forum_msg7]\n";
-	echo "<option value=\"2\" $selu1>$t[forum_msg5]\n";
-	echo "<option value=\"6\" $selu2>$t[forum_msg6]\n";
-	echo "</select></td></tr>\n";
-	
-	echo "<tr style=\"color:$farbe_text;\"><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"$button\"></td></tr>";
-	echo "</table></td></tr></table>\n";
-	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-	echo "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
-	if ($fo_id > 0) {
-		echo "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
-		echo "<input type=\"hidden\" name=\"aktion\" value=\"forum_editieren\">";
-	} else {
-		echo "<input type=\"hidden\" name=\"aktion\" value=\"forum_anlegen\">";
-	}
-	
-	echo "</form>\n";
-	
+			// Forumsrechte für Gast einstellen
+			if (($fo_admin & 8) == 8) {
+				$selg1 = "SELECTED";
+				$selg2 = "";
+			}
+			if (($fo_admin & 16) == 16) {
+				$selg1 = "";
+				$selg2 = "SELECTED";
+			}
+			?>
+			<tr>
+				<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_msg3']; ?><?php echo $f2; ?></td>
+				<td class="tabelle_koerper_login">
+					<select size="1" name="fo_gast">
+						<?php
+						echo "<option value=\"0\">$t[forum_msg7]\n";
+						echo "<option value=\"8\" $selg1>$t[forum_msg5]\n";
+						echo "<option value=\"24\" $selg2>$t[forum_msg6]\n";
+						?>
+					</select>
+				</td>
+			</tr>
+			<?php
+			// Forumsrechte für einen User einstellen
+			if (($fo_admin & 2) == 2) {
+				$selu1 = "selected";
+				$selu2 = "";
+			}
+			if (($fo_admin & 4) == 4) {
+				$selu1 = "";
+				$selu2 = "selected";
+			}
+			?>
+			<tr>
+				<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_msg4']; ?><?php echo $f2; ?></td>
+				<td class="tabelle_koerper_login">
+					<select size="1" name="fo_user">
+						<?php
+						echo "<option value=\"0\">$t[forum_msg7]\n";
+						echo "<option value=\"2\" $selu1>$t[forum_msg5]\n";
+						echo "<option value=\"6\" $selu2>$t[forum_msg6]\n";
+						?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align:right;" class="tabelle_koerper_login"><input type="submit" value="<?php echo $button; ?>"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+		<?php
+		if ($fo_id > 0) {
+			echo "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
+			echo "<input type=\"hidden\" name=\"aktion\" value=\"forum_editieren\">";
+		} else {
+			echo "<input type=\"hidden\" name=\"aktion\" value=\"forum_anlegen\">";
+		}
+		?>
+	</form>
+	<?php
 }
 
 //gibt Liste aller Foren mit Themen aus
-function forum_liste()
-{
-	
+function forum_liste() {
 	global $mysqli_link;
 	global $id, $http_host, $forum_admin, $chat_grafik, $farbe_text;
 	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_kopf2;
-	global $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $farbe_tabellenrahmen, $u_level;
+	global $farbe_tabellenrahmen, $u_level;
 	
 	$sql = "select fo_id, fo_name, fo_order, fo_admin,
 				th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings
@@ -186,125 +203,143 @@ function forum_liste()
 					echo "</table></td></tr></table><br>";
 				}
 				?>
-				<table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>"></tr><td>
-				<table style="width:100%;">
-				<tr>
-				<td style="width:1px; background-color:<?php echo $farbe_tabelle_kopf; ?>"><img src="pics/fuell.gif" style="width:1px; height:25px; border:0px;"></td>
-				<td style="width:559px; background-color:<?php echo $farbe_tabelle_kopf; ?>" colspan="2">
-				<table style="width:100%">
-				<tr>
-				<td>&nbsp;<div style="color:<?php echo $farbe_text; ?>; font-weight:bold;">&nbsp;&nbsp;
+				<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+					<tr>
+						<td class="tabelle_kopfzeile" colspan="2">
+							<table style="width:100%">
+								<tr>
+								<td style="font-weight:bold;">&nbsp;&nbsp;&nbsp;
+								<?php
+								echo htmlspecialchars($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>";
+								if ($forum_admin) {
+									?>
+									<td style="width:85px; text-align:right; vertical-align:middle;">
+										<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&aktion=forum_delete&fo_id=<?php echo $thema['fo_id']; ?>" onClick="return ask('<?php echo $t['conf_delete_forum']; ?>')"><?php echo $chat_grafik['forum_loeschen']; ?></a>&nbsp;
+									</td>
+									<td style="width:85px; text-align:right; vertical-align:middle;">
+										<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&aktion=forum_edit&fo_id=<?php echo $thema['fo_id']; ?>"><?php echo $chat_grafik['forum_editieren']; ?></a>&nbsp;
+									</td>
+									<td style="width:90px; text-align:right; vertical-align:middle;">
+										&nbsp;<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&fo_id=<?php echo $thema['fo_id']; ?>&aktion=thema_neu"><?php echo $chat_grafik['forum_neuesthema']; ?></a>&nbsp;
+									</td>
+									<td style="width:17px;">
+										<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_up"><?php echo $chat_grafik['forum_pfeil_oben']; ?></a><br>
+										<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
+										<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_down"><?php echo $chat_grafik['forum_pfeil_unten']; ?></a>
+									</td>
+									<?php
+								}
+								?>
+								</tr>
+							</table>
+						</td>
+						<td class="tabelle_kopfzeile" style="width:67px; text-align:center;"><?php echo $f1 . $t['anzbeitraege'] . $f2; ?></td>
+						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"><?php echo $f1 . $t['anzthreads'] . $f2; ?></td>
+						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"><?php echo $f1 . $t['anzreplys'] . $f2; ?></td>
+					</tr>
 				<?php
-				echo htmlspecialchars($thema['fo_name'])
-					. "<a name=\"" . $thema['fo_id'] . "\"></a></DIV></td>";
-				if ($forum_admin) {
-					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[conf_delete_forum]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
-					echo "<td style=\"color:$farbe_text;\" width=\"85\" align=\"right\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=forum_edit&fo_id=$thema[fo_id]\">$chat_grafik[forum_editieren]</a>&nbsp;</td>";
-					echo "<td style=\"color:$farbe_text;\" width=\"90\" align=\"right\" style=\"vertical-align:middle;\">&nbsp;<a href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&aktion=thema_neu\">$chat_grafik[forum_neuesthema]</a>&nbsp;</td>";
-					echo "<td width=\"17\"><a style=\"color:$farbe_text;\" href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_up\">"
-						. $chat_grafik['forum_pfeil_oben']
-						. "</a><br><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"><br><a href=\"forum.php?id=$id&http_host=$http_host&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_down\">"
-						. $chat_grafik['forum_pfeil_unten'] . "</a></td>\n";
-				}
-				echo "</tr></table></td>\n";
-				echo "<td width=\"67\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzbeitraege'] . "</DIV>$f2</td>\n";
-				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzthreads'] . "</DIV>$f2</td>\n";
-				echo "<td width=\"66\" align=\"center\">$f1<DIV style=\"color:$farbe_text; font-weight:bold;\">" . $t['anzreplys'] . "</DIV>$f2</td>\n";
-				echo "</tr>\n";
-				echo "<tr bgcolor=\"$farbe_tabellenrahmen\"><td colspan=\"6\"><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"></td></tr>\n";
 			}
-			if ($zeile % 2)
-				$farbe = $farbe_tabelle_zeile1;
-			else $farbe = $farbe_tabelle_zeile2;
+			if ($zeile % 2) {
+				$farbe = 'class="tabelle_zeile1"';
+			} else {
+				$farbe = 'class="tabelle_zeile2"';
+			}
 			if ($thema['th_name'] != "dummy-thema") {
-				
-				if ($thema['th_postings'])
+				if ($thema['th_postings']) {
 					$arr_posting = explode(",", $thema['th_postings']);
-				else $arr_posting = array();
+				} else {
+					$arr_posting = array();
+				}
 				$ungelesene = anzahl_ungelesene3($arr_posting, $thema['th_id']);
 				
-				echo "<tr bgcolor=$farbe>";
-				echo "<td width=\"1\"><img src=\"pics/fuell.gif\" width=\"1\" height=\"30\" border=\"0\"></td>\n";
+				echo "<tr>";
 				
-				if ($ungelesene == 0)
+				if ($ungelesene == 0) {
 					$folder = $chat_grafik['forum_ordnerneu'];
-				else if ($ungelesene < 11)
+				} else if ($ungelesene < 11) {
 					$folder = $chat_grafik['forum_ordnerblau'];
-				else $folder = $chat_grafik['forum_ordnervoll'];
-				
-				echo "<td width=\"30\" align=\"center\">$folder</td>";
-				if ($forum_admin) {
-					echo "<td width=\"550\">";
-					echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">";
-					echo "<tr><td width=\"385\">$f1<b><A href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
-						. htmlspecialchars($thema['th_name'])
-						. "</a></b>$f2<br>" . $f3 . " "
-						. htmlspecialchars($thema['th_desc'])
-						. "$f4</td>";
-					echo "<td width=\"85\" align=\"center\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&aktion=thema_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[conf_delete_thema]')\">$chat_grafik[forum_loeschen]</a>&nbsp;</td>";
-					echo "<td width=\"85\" align=\"center\" style=\"vertical-align:middle;\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=thema_edit\">$chat_grafik[forum_themabearbeiten]</a>&nbsp;</td>";
-					echo "<td width=\"20\" align=\"center\"><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_up\">"
-						. $chat_grafik['forum_pfeil_oben']
-						. "</a><br><img src=\"pics/fuell.gif\" width=\"1\" height=\"1\" border=\"0\"><br><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_down\">"
-						. $chat_grafik['forum_pfeil_unten']
-						. "</td></tr></table></td>\n";
-					
 				} else {
-					
-					echo "<td width=\"550\">$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$thema[th_id]&aktion=show_thema\">"
-						. htmlspecialchars($thema['th_name'])
-						. "$f2</a></b><br>" . $f3 . " "
-						. htmlspecialchars($thema['th_desc'])
-						. "$f4</td>\n";
-					
+					$folder = $chat_grafik['forum_ordnervoll'];
 				}
 				
-				echo "<td align=\"center\">$f1 $ungelesene $f2</td>\n";
-				echo "<td align=\"center\">$f1 $thema[th_anzthreads] $f2</td>\n";
-				echo "<td align=\"center\">$f1 $thema[th_anzreplys] $f2</td>\n";
-				echo "</tr>";
+				echo "<td width=\"30\" align=\"center\" $farbe>$folder</td>";
+				if ($forum_admin) {
+					?>
+					<td style="width:550px;" <?php echo $farbe; ?>>
+						<table style="width:100%;">
+							<tr>
+								<td style="width:385px; font-weight:bold;">
+									<?php echo $f1; ?>
+									<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=show_thema">
+									<?php echo htmlspecialchars($thema['th_name']) . "</a>$f2<br>" . $f3 . " " . htmlspecialchars($thema['th_desc']) . $f4; ?>
+								</td>
+								<td style="width:85px; text-align:center; vertical-align:middle;\">
+									<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&aktion=thema_delete&th_id=<?php echo $thema['th_id']; ?>" onClick="return ask('<?php echo $t['conf_delete_thema']; ?>')"><?php echo $chat_grafik['forum_loeschen']; ?></a>
+								</td>
+								<td style="width:85px; text-align:center; vertical-align:middle;">
+									<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=thema_edit"><?php echo $chat_grafik['forum_themabearbeiten']; ?></a>
+								</td>
+								<td style="width:20px; text-align:center;">
+									<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_up"><?php echo $chat_grafik['forum_pfeil_oben']; ?></a><br>
+									<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
+									<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_down"><?php echo $chat_grafik['forum_pfeil_unten']; ?></a>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<?php
+				} else {
+					?>
+					<td style="width:550px; font-weight:bold;" <?php echo $farbe; ?>>
+						<?php echo $f1; ?>
+						<a href="forum.php?id=<?php echo $id; ?>&http_host=<?php echo $http_host; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=show_thema"><?php echo htmlspecialchars($thema['th_name']) . $f2; ?></a><br>
+						<?php echo $f3 . " " . htmlspecialchars($thema['th_desc']) . $f4; ?></td>
+					<?php
+				}
+				?>
+				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $ungelesene . $f2; ?></td>
+				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $thema['th_anzthreads'] . $f2; ?></td>
+				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $thema['th_anzreplys'] . $f2; ?></td>
+				</tr>
+				<?php
 			}
 			$fo_id_last = $thema['fo_id'];
 			$zeile++;
 		}
 	}
-	echo "</table></td></tr></table>";
+	?>
+	</table>
+	<?php
 	show_icon_description("forum");
 	@mysqli_free_result($query);
 }
 
 //Zeigt Erklärung der verschiedenen Folder an
-function show_icon_description($mode)
-{
-	
+function show_icon_description($mode) {
 	global $t, $f3, $f4, $chat_grafik;
 	
-	echo "<br><table width=\"760\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n";
-	echo "<tr><td width=\"20\" align=\"center\">$chat_grafik[forum_ordnerneu]</td>\n";
-	echo "<td width=\"740\">$f3 = $t[desc_folder] ";
-	echo "$f4</td></tr>";
-	echo "<tr><td width=\"20\" align=\"center\">$chat_grafik[forum_ordnerblau]</td>\n";
-	echo "<td width=\"740\">$f3 = $t[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $t[desc_burningredfolder])$f4</td></tr>";
+	echo "<br><table style=\"width:900px;\">\n";
+	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_ordnerneu]</td>\n";
+	echo "<td style=\"width:740px;\">$f3 = $t[desc_folder] " . "$f4</td></tr>";
+	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_ordnerblau]</td>\n";
+	echo "<td style=\"width:740px;\">$f3 = $t[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $t[desc_burningredfolder])$f4</td></tr>";
 	
-	echo "<tr><td width=\"20\" align=\"center\">$chat_grafik[forum_topthema]</td>\n";
-	echo "<td width=\"740\">$f3 = $t[desc_topposting] $f4</td></tr>";
-	echo "<tr><td width=\"20\" align=\"center\">$chat_grafik[forum_threadgeschlossen]</td>\n";
-	echo "<td width=\"740\">$f3 = $t[desc_threadgeschlossen] $f4</td></tr>";
+	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_topthema]</td>\n";
+	echo "<td style=\"width:740px;\">$f3 = $t[desc_topposting] $f4</td></tr>";
+	echo "<tr><td style=\"width:20px; text-align:center;\">$chat_grafik[forum_threadgeschlossen]</td>\n";
+	echo "<td style=\"width:740px;\">$f3 = $t[desc_threadgeschlossen] $f4</td></tr>";
 	
 	echo "</table>";
 	
 }
 
 //Eingabemaske für Thema
-function maske_thema($th_id = 0)
-{
-	
+function maske_thema($th_id = 0) {
 	global $id, $http_host, $fo_id, $mysqli_link;
 	global $f1, $f2, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
 	global $t, $chat_grafik, $farbe_text;
 	
 	if ($th_id > 0) {
-		
 		$sql = "select th_name, th_desc from thema where th_id=" . intval($th_id);
 		$query = mysqli_query($mysqli_link, $sql);
 		$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
@@ -313,69 +348,76 @@ function maske_thema($th_id = 0)
 		
 		$kopfzeile = $chat_grafik['forum_themabearbeiten'];
 		$button = $t['thema_button_edit'];
-		
 	} else {
-		
 		$kopfzeile = $chat_grafik['forum_neuesthema'];
 		$button = $t['thema_button'];
-		
 	}
 	
-	if (!isset($th_name))
+	if (!isset($th_name)) {
 		$th_name = "";
-	if (!isset($th_desc))
+	}
+	if (!isset($th_desc)) {
 		$th_desc = "";
-	
-	echo "<form action=\"forum.php\" method=\"post\">";
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>";
+	}
 	?>
-	<table style="width:100%;">
-		<tr>
-			<td colspan="2" style="background-color:<?php echo $farbe_tabelle_kopf; ?>"><div style="color:<?php echo $farbe_text; ?>;font-weight:bold;"><?php echo $kopfzeile; ?></td>
-		</tr>
-	</table>
-	</td>
-	</tr>
-	<tr>
-	<td>
-	<?php
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\" bgcolor=\"$farbe_tabelle_kopf2\">";
-	echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
-	echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[thema_msg1]</DIV> $f2</td>";
-	echo "<td width=500><input type=\"text\" size=\"40\" name=\"th_name\" value=\"$th_name\"></td></tr>\n";
-	echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[thema_msg2]</DIV> $f2</td>";
-	echo "<td width=500><textarea name=\"th_desc\" rows=\"3\" cols=\"90\">$th_desc</textarea></td></tr>\n";
-	if ($th_id > 0) {
-		echo "<tr><td width=\"260\">$f1 <DIV style=\"color:$farbe_text; font-weight:bold;\">$t[thema_msg3]</DIV> $f2</td>";
-		echo "<td width=500>";
-		echo "<input type=\"checkbox\" name=\"th_forumwechsel\" value=\"Y\">";
-		
-		$sql = "SELECT fo_id, fo_name FROM forum ORDER BY fo_order ";
-		$query = mysqli_query($mysqli_link, $sql);
-		echo "<SELECT NAME=\"th_verschiebe_nach\" SIZE=\"1\">";
-		while ($row = mysqli_fetch_object($query)) {
-			echo "<OPTION ";
-			if ($row->fo_id == $fo_id)
-				echo "SELECTED ";
-			echo "VALUE=\"$row->fo_id\">$row->fo_name </OPTION>";
+	<form action="forum.php" method="post">
+		<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
+			<tr>
+				<td class="tabelle_kopfzeile" colspan="2"><?php echo $t['thema_neu']; ?></td>
+			</tr>
+			</tr>
+			<tr>
+				<td style="width:300px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg1']; ?><?php echo $f2; ?></td>
+				<td class="tabelle_koerper_login"><input type="text" size="40" name="th_name" value="<?php echo $th_name; ?>"></td>
+			</tr>
+			<tr>
+				<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg2']; ?><?php echo $f2; ?></td>
+				<td class="tabelle_koerper_login"><textarea name="th_desc" rows="3" cols="90"><?php echo $th_desc; ?></textarea></td></tr>
+			<?php
+			if ($th_id > 0) {
+				?>
+				<tr>
+					<td style="font-weigh:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg3']; ?><?php echo $f2; ?></td>
+					<td class="tabelle_koerper_login">
+						<input type="checkbox" name="th_forumwechsel" value="Y">
+						<?php 
+						$sql = "SELECT fo_id, fo_name FROM forum ORDER BY fo_order ";
+						$query = mysqli_query($mysqli_link, $sql);
+						?>
+						<select name="th_verschiebe_nach" size="1">
+							<?php
+							while ($row = mysqli_fetch_object($query)) {
+								echo "<option ";
+								if ($row->fo_id == $fo_id) {
+									echo "selected ";
+								}
+								echo "value=\"$row->fo_id\">$row->fo_name </option>";
+							}
+							?>
+						</select>
+					</td>
+				</tr>
+				<?php
+				@mysqli_free_result($query);
+			}
+			?>
+			<tr>
+				<td colspan="2" align="right" class="tabelle_koerper_login"><input type="submit" value="<?php echo $button; ?>"></td>
+			</tr>
+		</table>
+		<input type="hidden" name="id" value="<?php echo $id; ?>">
+		<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+		<input type="hidden" name="fo_id" value="<?php echo $fo_id; ?>">
+		<?php
+		if ($th_id > 0) {
+			echo "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
+			echo "<input type=\"hidden\" name=\"aktion\" value=\"thema_editieren\">";
+		} else {
+			echo "<input type=\"hidden\" name=\"aktion\" value=\"thema_anlegen\">";
 		}
-		echo "</SELECT></td></tr>\n";
-		@mysqli_free_result($query);
-		
-		echo "</td></tr>\n";
-	}
-	echo "<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"$button\"></td></tr>\n";
-	echo "</table></td></tr></table>";
-	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-	echo "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
-	echo "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
-	if ($th_id > 0) {
-		echo "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
-		echo "<input type=\"hidden\" name=\"aktion\" value=\"thema_editieren\">";
-	} else {
-		echo "<input type=\"hidden\" name=\"aktion\" value=\"thema_anlegen\">";
-	}
-	echo "</form>";
+		?>
+	</form>
+	<?php
 }
 
 //Zeigt Pfad und Seiten in Themaliste an
@@ -397,7 +439,7 @@ function show_pfad($th_id)
 	$th_anzthreads = mysqli_result($query, 0, "th_anzthreads");
 	@mysqli_free_result($query);
 	
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
+	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
 	echo "<tr><td>$f3<a href=\"forum.php?id=$id&http_host=$http_host#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a>$f4</td>\n";
 	
 	if (!$anzahl_po_seite || $anzahl_po_seite == 0)
@@ -423,13 +465,11 @@ function show_pfad($th_id)
 }
 
 //Zeigt ein Thema mit allen Postings an
-function show_thema()
-{
-	
+function show_thema() {
 	global $mysqli_link;
 	global $id, $http_host, $o_js, $forum_admin, $th_id, $show_tree, $seite, $farbe_link;
 	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_kopf2, $farbe_tabellenrahmen;
-	global $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $anzahl_po_seite, $chat_grafik, $farbe_text;
+	global $anzahl_po_seite, $chat_grafik, $farbe_text;
 	global $admin, $anzahl_po_seite2, $u_id, $u_level;
 	
 	if ($anzahl_po_seite2) {
@@ -476,7 +516,7 @@ function show_thema()
 	
 	$th_name = show_pfad($th_id);
 	?>
-	<table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>; margin:auto;">
 		<tr>
 		<td>
 		<table style="width:100%">
@@ -512,12 +552,13 @@ function show_thema()
 	
 	$zeile = 0;
 	while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-		
 		set_time_limit(0);
 		
-		if ($zeile % 2)
-			$farbe = $farbe_tabelle_zeile1;
-		else $farbe = $farbe_tabelle_zeile2;
+		if ($zeile % 2) {
+			$farbe = 'class="tabelle_zeile1"';
+		} else {
+			$farbe = 'class="tabelle_zeile2"';
+		}
 		
 		if ($posting['po_threadorder'] == "0") {
 			$anzreplys = 0;
@@ -559,25 +600,25 @@ function show_thema()
 			$colo = "";
 		}
 		
-		echo "<tr bgcolor=\"$farbe\"><td align=\"center\">$folder</nobr></td>\n";
-		echo "<td align=\"center\">$icon</td>\n";
+		echo "<tr><td align=\"center\" $farbe>$folder</nobr></td>\n";
+		echo "<td align=\"center\" $farbe>$icon</td>\n";
 		
 		if ($posting['po_gesperrt'] == 'Y' and !$forum_admin) {
-			echo "<td>&nbsp;<b><font size=\"-1\" color=\"$farbe_link\">"
+			echo "<td $farbe>&nbsp;<b><font size=\"-1\" color=\"$farbe_link\">"
 				. substr($posting['po_titel'], 0, 40)
 				. "</font> <font size=\"-1\" color=\"red\">(gesperrt)</font></b></td>\n";
 		} elseif ($posting['po_gesperrt'] == 'Y' and $forum_admin) {
-			echo "<td>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
+			echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
 				. substr($posting['po_titel'], 0, 40)
 				. "</a></b>$f2  <font size=\"-1\" color=\"red\"><b>(gesperrt)</b></font></td>\n";
 		} else {
-			echo "<td>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
+			echo "<td $farbe>&nbsp;$f1<b><a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
 				. substr($posting['po_titel'], 0, 40)
 				. "</a></b>$f2</td>\n";
 		}
 		
 		if (!$posting['u_nick']) {
-			echo "<td>$f3<b>Nobody</b>$f4</td>\n";
+			echo "<td $farbe>$f3<b>Nobody</b>$f4</td>\n";
 		} else {
 			
 			$userdata = array();
@@ -590,9 +631,9 @@ function show_thema()
 			$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE,
 				"&nbsp;", "", "", TRUE, FALSE, 29);
 			if ($posting['u_level'] == 'Z') {
-				echo "<td>$f1 $userdata[u_nick] $f2</td>\n";
+				echo "<td $farbe>$f1 $userdata[u_nick] $f2</td>\n";
 			} else {
-				echo "<td>$f1 $userlink $f2</td>\n";
+				echo "<td $farbe>$f1 $userlink $f2</td>\n";
 			}
 		}
 		
@@ -602,13 +643,13 @@ function show_thema()
 		} else {
 			$date2 = "$f3; " . substr($posting['po_date2'], 0, 5) . "$f4";
 		}
-		echo "<td align=\"center\">$f3$posting[po_date]$f4$date2</td>\n";
-		echo "<td align=\"center\">$f3$anzreplys$f4</td>\n";
-		echo "<td align=\"center\">$f3$coli$ungelesene$colo$f4</td></tr>\n";
+		echo "<td align=\"center\" $farbe>$f3$posting[po_date]$f4$date2</td>\n";
+		echo "<td align=\"center\" $farbe>$f3$anzreplys$f4</td>\n";
+		echo "<td align=\"center\" $farbe>$f3$coli$ungelesene$colo$f4</td></tr>\n";
 		
 		if (($show_tree == $posting['po_id'])
 			&& ($posting['po_threadorder'] != "0")) {
-			echo "<tr bgcolor=\"$farbe\"><td>&nbsp;</td><td colspan=\"6\">\n";
+			echo "<tr><td $farbe>&nbsp;</td><td colspan=\"6\" $farbe>\n";
 			zeige_baum($arr_postings, $posting['po_threadorder'],
 				$posting['po_id']);
 			echo "</td></tr>\n";
@@ -623,7 +664,7 @@ function show_thema()
 	show_pfad($th_id);
 	show_icon_description("thema");
 	
-	echo "<br><table width=\"760\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n";
+	echo "<br><table width=\"900\" cellspacing=\"0\" cellpadding=\"2\" border=\"0\">\n";
 	echo "<tr><td>";
 	echo "<form action=\"forum.php\">\n";
 	echo "$t[forum_postingsproseite] <input name=\"anzahl_po_seite2\" size=\"3\" maxlength=\"4\" value=\"$anzahl_po_seite\">\n";
@@ -737,7 +778,7 @@ function maske_posting($mode)
 	echo "<form name=\"form\" action=\"forum.php\" method=\"post\">";
 	show_pfad_posting($th_id, $titel);
 	?>
-	<table style="width:760px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
+	<table style="width:900px; background-color:<?php echo $farbe_tabellenrahmen; ?>">
 		<tr>
 			<td>
 				<table style="width:100%;">
@@ -749,7 +790,7 @@ function maske_posting($mode)
 		</tr>
 		<tr>
 			<td>
-				<table style="width:760px; background-color:<?php echo $farbe_tabelle_kopf2; ?>">
+				<table style="width:900px; background-color:<?php echo $farbe_tabelle_kopf2; ?>">
 					<tr>
 						<td style="width:200px;"><?php echo $f1; ?> <div style="color:<?php echo $farbe_text; ?>; font-weight:bold;"><?php echo $t[posting_msg1]; ?></div> <?php echo $f2; ?></td>
 						<td style="width:560px;"><input type="text" size="50" name="po_titel" value="<?php echo $po_titel; ?>"></td>
@@ -839,7 +880,7 @@ function verbuche_punkte($u_id)
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
-		echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
+		echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
 		echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">";
 		echo "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<TD><DIV style=\"color:$farbe_text; font-weight:bold;\">"
 			. $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id)
@@ -863,7 +904,7 @@ function show_pfad_posting($th_id, $po_titel)
 	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 	@mysqli_free_result($query);
 	
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
+	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
 	echo "<tr><td>$f3<a href=\"forum.php?id=$id&http_host=$http_host#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a> > $po_titel $f4</td></tr>\n";
 	echo "<tr><td><img src=\"pics/fuell.gif\" width=\"1\" height=\"2\" border=\"0\"></td></tr>";
 	echo "</table>\n";
@@ -884,7 +925,7 @@ function navigation_posting(
 	global $id, $http_host, $po_id, $u_id, $thread, $forum_admin, $chat_grafik, $farbe_text;
 	global $u_level;
 	
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
+	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n"
 		. "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">"
 		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\" align=\"center\">\n";
 	
@@ -979,7 +1020,7 @@ function navigation_posting(
 function verschiebe_posting()
 {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_zeile1, $farbe_tabellenrahmen;
+	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
 	global $t, $o_js, $th_id, $fo_id;
 	
 	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
@@ -1005,15 +1046,15 @@ function verschiebe_posting()
 	$query = mysqli_query($mysqli_link, $sql);
 	
 	echo "<form action=\"forum.php\" method=\"post\">";
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\">\n";
+	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\">\n";
 	echo "<tr><td><table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td><b>$t[verschieben1]\"$row->po_titel\"</b></td></tr>";
+	echo "<tr><td class=\"tabelle_zeile1\"><b>$t[verschieben1]\"$row->po_titel\"</b></td></tr>";
 	echo "</table></td></tr>";
 	echo "<tr><td><table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td>" . $f1
+	echo "<tr><td class=\"tabelle_zeile1\">" . $f1
 		. $t['verschieben2'] . $f2 . "</td><td>" . $row2->fo_name . " > "
 		. $row2->th_name . "</td></tr>";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td>" . $f1
+	echo "<tr><td class=\"tabelle_zeile1\">" . $f1
 		. $t['verschieben3'] . $f2 . "</td><td>";
 	echo "<SELECT NAME=\"verschiebe_nach\" SIZE=\"1\">";
 	while ($row3 = mysqli_fetch_object($query)) {
@@ -1024,7 +1065,7 @@ function verschiebe_posting()
 	}
 	echo "</SELECT></td></tr>\n";
 	@mysqli_free_result($query);
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td align=\"center\" colspan=\"2\"><INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[verschieben4]\"></td></tr>";
+	echo "<tr><td align=\"center\" colspan=\"2\" class=\"tabelle_zeile1\"><INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[verschieben4]\"></td></tr>";
 	echo "</table></td></tr>";
 	echo "</table>";
 	
@@ -1040,11 +1081,9 @@ function verschiebe_posting()
 }
 
 //zeigt Posting an
-function show_posting()
-{
-	
+function show_posting() {
 	global $id, $http_host, $mysqli_link, $po_id, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_zeile1, $farbe_tabellenrahmen;
+	global $f1, $f2, $f3, $f4, $farbe_tabellenrahmen;
 	global $t, $o_js, $forum_admin;
 	
 	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
@@ -1118,26 +1157,26 @@ function show_posting()
 	
 	show_pfad_posting($th_id, $po_titel);
 	navigation_posting($last, $next, $po_u_id, $th_id, $row->u_nick, TRUE);
-	echo "<table width=\"760\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
+	echo "<table width=\"900\" cellspacing=\"0\" cellpadding=\"1\" border=\"0\" bgcolor=\"$farbe_tabellenrahmen\"><tr><td>\n";
 	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td><b>$po_titel</b>";
+	echo "<tr><td class=\"tabelle_zeile1\"><b>$po_titel</b>";
 	if ($po_gesperrt == 'Y') {
 		echo " <b><font color=\"red\">(Posting gesperrt)</font></b>";
 	}
 	echo "</td></tr>";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td>" . $f1 . $t['datum']
+	echo "<tr><td class=\"tabelle_zeile1\">" . $f1 . $t['datum']
 		. $po_date . " " . $t['autor'] . $autor . $f2 . "</td></tr>";
 	echo "</table></td></tr>";
 	echo "<tr><td>\n";
 	echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\">\n";
-	echo "<tr bgcolor=\"$farbe_tabelle_zeile1\"><td>$f1" . $po_text
+	echo "<tr><td class=\"tabelle_zeile1\">$f1" . $po_text
 		. "$f2</td></tr>";
 	if ($po_threadorder == "0") {
 		echo "</table></td></tr></table>";
 	} else {
 		echo "</table></td></tr><tr><td>";
-		echo "<table  width=\"760\" cellspacing=\"0\" cellpadding=\"5\" border=\"0\" bgcolor=\"$farbe_tabelle_zeile1\">\n";
-		echo "<tr><td align=\"center\">";
+		echo "<table  width=\"900\">\n";
+		echo "<tr><td align=\"center\" class=\"tabelle_zeile1\">";
 		reset($postingorder);
 		zeige_baum($postingorder, $po_threadorder, $thread, $po_id, TRUE);
 		echo "</td></tr></table></td></tr></table>";

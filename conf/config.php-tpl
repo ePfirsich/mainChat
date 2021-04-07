@@ -155,7 +155,6 @@ $layout_parse="";
 $farbe_tabelle_kopf="#007ABE";
 $farbe_tabelle_kopf2="#85D4FF";
 $farbe_tabelle_koerper="#FFFFFF";
-$farbe_tabelle_zeile1="#E8E8FF";
 $farbe_tabelle_zeile2="#D8D8EE";
 
 // Eingangsseite, Anmeldung
@@ -299,16 +298,10 @@ $forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
 $punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
 $msgpopup=1;									// Flüstern im Popup aktiv?
 
-$moderationsmodul="%modmodul%"; 				// Moderationsmodul freigeschalten? 1=ja, 0=nein
+$moderationsmodul="%modmodul%"; 	// Moderationsmodul freigeschalten? 1=ja, 0=nein
 $moderationsgroesse=280; 			// groesse des Moderationsframes...
 $moderationsexpire=30; 				// Anzahl minuten für moderierte Msgs, danach expire...
 $moderation_rueckwaerts=1; 			// neueste Nachrichten normalerweise unten (=0) sonst oben (=1)
-$moderation_grau="#808080"; 			// von anderen moderatoren belegte Nachrichten.
-$moderation_schwarz="#000000"; 			// freie oder eigene Nachrichten
-$farbe_moderationr_zeile1="#e0d0d0";
-$farbe_moderationr_zeile2="#d0c0c0";
-$farbe_moderationg_zeile1="#d0e0d0";
-$farbe_moderationg_zeile2="#c0d0c0";
 
 
 // Globale Voreinstellungen für Frames
@@ -359,15 +352,9 @@ $akdbase="mainchat";	// wie muss die DB heißen, damit der autoknebel funktionie
 // autoknebeltexte achtung preg_match -> incl /.../
 $ak[]="/mainfranken-chat.de/";
 $ak[]="/unterfranken-chat.de/";
-$ak[]="/chat-franken.de/";     
+$ak[]="/chat-franken.de/";
 $ak[]="/rhoen-chat.de/";
 $ak[]="/frankenchat/";
-$ak[]="/pwn3d/";
-$ak[]="/monetensepp/";
-$ak[]="/pwn3d!/";
-$ak[]="/supermaxflirt.de/";
-$ak[]="/girl1982.cc/";
-$ak[]="/janita.cc/";
 // Bedeutung:
 // nicht ad und nicht www|min (-> admin oder www .mainchat.de ok).
 // erschlägt also alles, was mit .mainchat.de läuft...
@@ -408,10 +395,10 @@ $chat_grafik['mail']="<img src=\"pics/mail.gif\" style=\"width:17px; height:12px
 $chat_grafik['home']="<img src=\"pics/haeuschen.gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Homepage\">";
 $chat_grafik['geschlecht_weiblich'] = "&nbsp;<img src=\"pics/weiblich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"weiblich\">";
 $chat_grafik['geschlecht_maennlich'] = "&nbsp;<img src=\"pics/maennlich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"maennlich\">";
-$chat_grafik['forum_pfeil_rechts']="<img src=\"pics/forum/pfeilrechts.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"--->\">";
-$chat_grafik['forum_pfeil_links']="<img src=\"pics/forum/pfeillinks.gif\" width=\"15\" height=\"12\" border=\"0\" alt=\"<---\">";
-$chat_grafik['forum_pfeil_oben']="<img src=\"pics/forum/pfeiloben.gif\" width=\"20\" height=\"11\" alt=\"nach_oben\" border=\"0\">";
-$chat_grafik['forum_pfeil_unten']="<img src=\"pics/forum/pfeilunten.gif\" width=\"20\" height=\"11\" alt=\"nach_unten\" border=\"0\">";
+$chat_grafik['forum_pfeil_rechts']="<img src=\"pics/forum/pfeilrechts.gif\" style=\"width:15px; height:12px; border:0px;\" alt=\"--->\">";
+$chat_grafik['forum_pfeil_links']="<img src=\"pics/forum/pfeillinks.gif\" style=\"width:15px; height:12px; border:0px;\" alt=\"<---\">";
+$chat_grafik['forum_pfeil_oben']="<img src=\"pics/forum/pfeiloben.gif\" style=\"width:20px; height:11px; border:0px;\" alt=\"nach_oben\">";
+$chat_grafik['forum_pfeil_unten']="<img src=\"pics/forum/pfeilunten.gif\" style=\"width:20px; height:11px; border:0px;\" alt=\"nach_unten\">";
 $chat_grafik['forum_antworten']="<img src=\"pics/forum/antworten.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Antworten\">";
 $chat_grafik['forum_editieren']="<img src=\"pics/forum/editieren.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Bearbeiten\">";
 $chat_grafik['forum_loeschen']="<img src=\"pics/forum/loeschen.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Loeschen\">";

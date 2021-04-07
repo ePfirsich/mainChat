@@ -140,7 +140,7 @@ if (strlen($u_id) != 0) {
 	switch ($aktion) {
 		
 		case "andereadminmail":
-			echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
+			echo "<table class=\"tabelle_kopf\">\n";
 			echo "<TR><TD COLSPAN=2>";
 			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
 			echo "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span\n";

@@ -3,7 +3,7 @@
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
 	global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
+	global $farbe_text;
 	
 	$text = '';
 	
@@ -64,7 +64,7 @@ function zeige_freunde($aktion, $zeilen) {
 				."</tr>\n";
 			
 			$i = 0;
-			$bgcolor = $farbe_tabelle_zeile1;
+			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
 				// User aus DB lesen
 				if ($row->f_userid != $u_id) {
@@ -126,24 +126,24 @@ function zeige_freunde($aktion, $zeilen) {
 				}
 				
 				$text .= "<tr>"
-					."<td style=\"background-color:$bgcolor; text-align:center;\">" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>"
-					. "<td style=\"background-color:$bgcolor;\">" . $auf . $txt . $zu . "</td>"
-					. "<td style=\"background-color:$bgcolor;\">" . $auf . $infotext . $zu . "</td>"
-					. "<td style=\"background-color:$bgcolor; text-align:center;\">" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"background-color:$bgcolor; text-align:center;\">" . $auf . "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
+					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>"
+					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
+					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
 					. "</tr>\n";
 				
 				if (($i % 2) > 0) {
-					$bgcolor = $farbe_tabelle_zeile1;
+					$bgcolor = 'class="tabelle_zeile1"';
 				} else {
-					$bgcolor = $farbe_tabelle_zeile2;
+					$bgcolor = 'class="tabelle_zeile2"';
 				}
 				$i++;
 			}
 			
 			$text .= "<tr>"
-				."<td style=\"background-color:$bgcolor;\" colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">" . $f1 . " Alle Auswählen" . $f2 . "</td>\n";
-			$text .= "<td style=\"background-color:$bgcolor; text-align:right;\" colspan=\"3\">" . $f1;
+				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">" . $f1 . " Alle Auswählen" . $f2 . "</td>\n";
+			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">" . $f1;
 			if ($aktion == "bestaetigen") {
 				$text .= "<input type=\"submit\" name=\"los\" value=\"$button2\">";
 			}
@@ -191,7 +191,7 @@ function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
+	global $farbe_text;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;

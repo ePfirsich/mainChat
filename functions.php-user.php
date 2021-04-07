@@ -9,7 +9,7 @@ function user_liste($larr, $anzahl) {
 	// Gibt Userliste $larr als Tabelle aus
 	
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
-	global $ft0, $ft1, $f1, $f2, $f3, $f4, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $homep_ext_link;
+	global $ft0, $ft1, $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $CELLPADDING, $punkte_grafik, $leveltext, $chat_grafik;
 	
 	// Array mit oder ohne Javascript ausgeben
@@ -93,7 +93,7 @@ function user_liste($larr, $anzahl) {
 		}
 		
 		echo "\n\n<script language=\"JavaScript\">\n"
-			. "   var color = new Array('$farbe_tabelle_zeile1','$farbe_tabelle_zeile2');\n"
+			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
 			. "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
 			. "   var level = '$level';\n" . "   var level2 = '$level2';\n"
 			. "   var padd  = '$CELLPADDING';\n"
@@ -112,6 +112,12 @@ function user_liste($larr, $anzahl) {
 	} else { // kein javascript verfügbar
 	
 		for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
+			if ( $k % 2 != 0 ) {
+				$farbe_tabelle = 'class="tabelle_zeile1"';
+			} else {
+				$farbe_tabelle = 'class="tabelle_zeile2"';
+			}
+			
 			if ($v['u_away']) {
 				$user = "("
 					. user($v['u_id'], $v, TRUE, FALSE, $trenner = "</TD><TD>")
@@ -121,9 +127,7 @@ function user_liste($larr, $anzahl) {
 					$trenner = "</TD><TD>");
 			}
 			;
-			$trow .= "<TR BGCOLOR=\""
-				. ($k & 1 ? $farbe_tabelle_zeile1 : $farbe_tabelle_zeile2)
-				. "\">" . "<TD>" . $f1 . $user . $f2 . "</TD></TR>";
+			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
 		} // END-OF-FOR
 		echo "<TABLE BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</TABLE>\n";
 		
@@ -136,7 +140,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 	// $user = ID des Users
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf, $farbe_tabelle_koerper;
+	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_koerper;
 	global $user_farbe, $farbe_text, $ist_online_raum, $chat_max_eingabe, $t, $ft0, $ft1, $communityfeatures;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
 	
@@ -196,7 +200,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			$box = $ft0
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']) . $ft1;
 			
-			echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
+			echo "<table class=\"tabelle_kopf\">\n"
 				. "<FORM NAME=\"form\" METHOD=POST target=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">"
 				. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
 				. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
@@ -245,7 +249,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 				. $ft1;
 		}
 		
-		echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n"
+		echo "<table class=\"tabelle_kopf\">\n"
 			. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
 			. "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n"
 			. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
@@ -518,7 +522,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			?>
 			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 			<?php
-			echo "<TABLE CELLPADDING=2 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=$farbe_tabelle_kopf>\n";
+			echo "<table class=\"tabelle_kopf\">\n";
 			echo "<TR><TD>";
 			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
 			echo "<span style=\"font-size: smaller; color:$farbe_text;\"><b>$box</b></span>\n";

@@ -43,7 +43,7 @@ function vater_rekursiv($vater)
 function such_bereich()
 {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2;
+	global $farbe_text, $farbe_tabelle_kopf2;
 	global $suche, $t;
 	
 	$eingabe_breite = 50;
@@ -63,13 +63,13 @@ function such_bereich()
 	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><DIV style=\"color:$farbe_text;\"><b>$titel</b></DIV></TD></TR>\n"
 		. 
 		// Suchtext
-		"<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\"><b>$t[suche1]</b></TD><TD>"
+		"<tr><TD align=\"right\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></TD><TD class=\"tabelle_zeile1\">"
 		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"suche[text]\" VALUE=\""
 		. htmlspecialchars($suche['text'])
 		. "\" SIZE=$eingabe_breite>" . $f2 . "</TD></TR>\n";
 	
 	// Suche in Board/Thema
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" style=\"vertical-align:top;\">$t[suche2]</TD><TD>"
+	echo "<tr><TD align=\"right\" style=\"vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</TD><TD class=\"tabelle_zeile1\">"
 		. $f1 . "<SELECT NAME=\"suche[thema]\" SIZE=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	
@@ -104,7 +104,7 @@ function such_bereich()
 	@mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\" style=\"vertical-align:top;\">$t[suche3]</TD><TD>"
+	echo "<TR><TD align=\"right\" style=\"vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</TD><TD class=\"tabelle_zeile1\">"
 		. $f1 . "<SELECT NAME=\"suche[modus]\" SIZE=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	echo "<OPTION ";
@@ -118,7 +118,7 @@ function such_bereich()
 	echo "</SELECT></TD></TR>\n";
 	
 	// Sucheinstellung Betreff/Text
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD></TD><TD>" . $f1
+	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
 		. "<SELECT NAME=\"suche[ort]\" SIZE=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	echo "<OPTION ";
@@ -136,7 +136,7 @@ function such_bereich()
 	echo "</SELECT></TD></TR>\n";
 	
 	// Sucheinstellung Zeit
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD></TD><TD>" . $f1
+	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
 		. "<SELECT NAME=\"suche[zeit]\" SIZE=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	echo "<OPTION ";
@@ -174,7 +174,7 @@ function such_bereich()
 	echo "</SELECT></TD></TR>\n";
 	
 	// Sucheinstellung Sortierung
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD></TD><TD>" . $f1
+	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
 		. "<SELECT NAME=\"suche[sort]\" SIZE=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	echo "<OPTION ";
@@ -204,11 +204,11 @@ function such_bereich()
 	echo "</SELECT></TD></TR>\n";
 	
 	// nur von User
-	echo "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD align=\"right\">$t[suche4]</TD><TD>"
+	echo "<TR><TD align=\"right\" class=\"tabelle_zeile1\">$t[suche4]</TD><TD class=\"tabelle_zeile1\">"
 		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"suche[username]\" VALUE=\""
 		. htmlspecialchars($suche['username'])
 		. "\" SIZE=\"20\">" . $f2 . "</TD></TR>\n"
-		. "<TR BGCOLOR=\"$farbe_tabelle_zeile1\"><TD COLSPAN=\"2\" align=\"center\">"
+		. "<TR><TD COLSPAN=\"2\" align=\"center\" class=\"tabelle_zeile1\">"
 		. $f1 . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[suche5]\">"
 		. $f2 . "</TD></TR>\n" . "</TABLE></FORM>\n";
 	
@@ -219,7 +219,7 @@ function such_bereich()
 
 function such_ergebnis() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
-	global $farbe_text, $farbe_tabelle_kopf2, $farbe_tabelle_zeile1, $farbe_tabelle_zeile2, $farbe_hervorhebung_forum, $farbe_link;
+	global $farbe_text, $farbe_tabelle_kopf2, $farbe_hervorhebung_forum, $farbe_link;
 	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
 	
 	$eingabe_breite = 50;
@@ -424,27 +424,29 @@ function such_ergebnis() {
 				. "<b>$t[ergebnis3]<br>$t[ergebnis4]</b>" . $f2 . "</TD>";
 			echo "<TD>" . $f1 . "<b>$t[ergebnis6]</b>" . $f2 . "</TD>";
 			echo "<TD>" . $f1 . "<b>$t[ergebnis7]</b>" . $f2 . "</TD>";
-			echo "</TR>";
+			echo "</tr>";
 			
 			$i = 0;
 			while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 				$i++;
 				
-				if ($i > $maxpostingsprosuche)
+				if ($i > $maxpostingsprosuche) {
 					break;
+				}
 				
-				if (($i % 2) > 0) :
-					$bgcolor = $farbe_tabelle_zeile1;
-				else :
-					$bgcolor = $farbe_tabelle_zeile2;
-				endif;
+				if (($i % 2) > 0) {
+					$bgcolor = 'class="tabelle_zeile1"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile2"';
+				}
 				
-				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']]))
+				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
 					$col = $farbe_neuesposting_forum;
-				else $col = $farbe_link;
+				} else {
+					$col = $farbe_link;
+				}
 				
-				echo "<TR BGCOLOR=\"$bgcolor\"><TD>"
-					. show_pfad_posting2($fund['po_th_id']) . "<br>";
+				echo "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
 				$thread = vater_rekursiv($fund['po_id']);
 				echo $f1
 					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="
@@ -454,12 +456,12 @@ function such_ergebnis() {
 					. $fund['po_titel'] . "</font></a>";
 				if ($fund['po_gesperrt'] == 'Y')
 					echo " <font color=\"red\">(gesperrt)</font>";
-				echo $f2 . "</b></TD>";
+				echo $f2 . "</b></td>";
 				
-				echo "<TD>" . $f1 . $fund['po_zeit'] . $f2 . "</TD>";
+				echo "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
 				
 				if (!$fund['u_nick']) {
-					echo "<td>$f3<b>Nobody</b>$f4</td>\n";
+					echo "<td $bgcolor>$f3<b>Nobody</b>$f4</td>\n";
 				} else {
 					
 					$userdata = array();
@@ -472,18 +474,18 @@ function such_ergebnis() {
 					$userlink = user($fund['po_u_id'], $userdata, $o_js, FALSE,
 						"&nbsp;", "", "", TRUE, FALSE, 29);
 					if ($fund['u_level'] == 'Z') {
-						echo "<td>$f1 $userdata[u_nick] $f2</td>\n";
+						echo "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
 					} else {
-						echo "<td>$f1 $userlink $f2</td>\n";
+						echo "<td $bgcolor>$f1 $userlink $f2</td>\n";
 					}
 				}
 				
-				echo "</TR>";
+				echo "</tr>";
 			}
 			@mysqli_free_result($query);
 			
 		}
-		echo "</TABLE>\n";
+		echo "</table>\n";
 		
 		?>
 		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>

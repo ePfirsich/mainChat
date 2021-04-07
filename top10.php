@@ -68,7 +68,7 @@ if ($erweitertefeatures) {
 			$anzahl = 10;
 	}
 	
-	$bgcolor = $farbe_tabelle_zeile1;
+	$bgcolor = 'class="tabelle_zeile1"';
 	echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=2 CELLSPACING=0>\n"
 		. "<TR BGCOLOR=\"$farbe_tabelle_kopf2\" align=\"left\"><TD WIDTH=\"4%\">&nbsp;</TD>"
 		. "<TD WIDTH=\"32%\"colspan=2><DIV style=\"color:$farbe_text; font-weight:bold;\">"
@@ -143,29 +143,29 @@ if ($erweitertefeatures) {
 	// Array als Tabelle ausgeben
 	if (is_array($array_user)) {
 		for ($i = 0; $i < $anzahl; $i++) {
-			echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=2 CELLSPACING=0>\n"
-				. "<TR BGCOLOR=\"$bgcolor\"><TD WIDTH=\"4%\" align=\"right\"><b>"
-				. $f1 . ($i + 1) . $f2 . "</b></TD>";
+			echo "<TABLE WIDTH=100%>\n"
+				. "<tr><td WIDTH=\"4%\" align=\"right\" $bgcolor><b>"
+				. $f1 . ($i + 1) . $f2 . "</b></td>";
 			for ($j = 0; $j < 3; $j++) {
 				if (isset($array_user[$j]) && isset($array_user[$j][$i])
 					&& $array_user[$j][$i]['punkte']) {
 					$array_user[$j][$i]['u_punkte_anzeigen'] = 'Y';
-					echo "<TD WIDTH=\"8%\" align=\"right\">" . $f1
+					echo "<td WIDTH=\"8%\" align=\"right\" $bgcolor>" . $f1
 						. $array_user[$j][$i]['punkte'] . $f2
-						. "</TD><TD  WIDTH=\"24%\">" . $f1
+						. "</td><td  WIDTH=\"24%\" $bgcolor>" . $f1
 						. user($array_user[$j][$i]['u_id'],
-							$array_user[$j][$i], TRUE) . $f2 . "</TD>\n";
+							$array_user[$j][$i], TRUE) . $f2 . "</td>\n";
 				} else {
-					echo "<TD WIDTH=\"32%\" colspan=2>" . $f1 . "&nbsp;" . $f2
-						. "</TD>\n";
+					echo "<td WIDTH=\"32%\" colspan=2 $bgcolor>" . $f1 . "&nbsp;" . $f2
+						. "</td>\n";
 				}
 			}
-			echo "</TR></TABLE>\n";
+			echo "</tr></table>\n";
 			flush();
 			if (($i % 2) > 0) {
-				$bgcolor = $farbe_tabelle_zeile1;
+				$bgcolor = 'class="tabelle_zeile1"';
 			} else {
-				$bgcolor = $farbe_tabelle_zeile2;
+				$bgcolor = 'class="tabelle_zeile2"';
 			}
 			
 		}
