@@ -718,17 +718,17 @@ if (strlen($u_id) != 0) {
 					}
 					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
 					$text .= "<table class=\"tabelle_kopf\">\n";
-					$text .= "<tr><td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b></small></td>";
-					$text .= "<td class=\"tabelle_kopfzeile\">&nbsp;</td>";
+					$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
+					$text .= "<td class=\"tabelle_koerper_login\">&nbsp;</td>";
 					
 					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">Status</a>";
-					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
+					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 					
 					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">Art</a>";
-					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
+					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 					
 					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
-					$text .= "<td class=\"tabelle_kopfzeile\"><small><b>" . $rlink . "</b></small></td><td>&nbsp</td>";
+					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td><td class=\"tabelle_koerper_login\">&nbsp</td>";
 					
 					if (isset($extended) && $extended) {
 						if ($smilies_pfad && $erweitertefeatures) {

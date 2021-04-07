@@ -981,23 +981,28 @@ function loesche_posting() {
 	// Punkte abziehen
 	?>
 	<table class="tabelle_gerust">
-		<?
-		. "<tr bgcolor=\"$farbe_tabelle_kopf2\" style=\"vertical-align:bottom;\">\n<td style=\"font-weight:bold;\">";
-	reset($arr_delete);
-	while (list($k, $v) = @each($arr_delete)) {
-		$sql = "select po_u_id from posting where po_id = " . intval($v);
-		$result = mysqli_query($mysqli_link, $sql);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$po_u_id = mysqli_result($result, 0, 0);
-			if ($po_u_id)
-				echo $t['forum_punkte2']
-					. punkte_offline($punkte_pro_posting * (-1), $po_u_id)
-					. "<br>";
-		}
-		@mysqli_free_result($result);
-	}
-	echo "</td></tr></table><br>\n";
-	
+		<tr>
+			<td style="font-weight:bold; background-color:<?php echo $farbe_tabelle_kopf2; ?>; vertical-align:bottom;">
+			<?
+			reset($arr_delete);
+			while (list($k, $v) = @each($arr_delete)) {
+				$sql = "select po_u_id from posting where po_id = " . intval($v);
+				$result = mysqli_query($mysqli_link, $sql);
+				if ($result && mysqli_num_rows($result) == 1) {
+					$po_u_id = mysqli_result($result, 0, 0);
+					if ($po_u_id)
+						echo $t['forum_punkte2']
+							. punkte_offline($punkte_pro_posting * (-1), $po_u_id)
+							. "<br>";
+				}
+				@mysqli_free_result($result);
+			}
+			?>
+			</td>
+		</tr>
+	</table>
+	<br>
+	<?php
 	reset($arr_delete);
 	while (list($k, $v) = @each($arr_delete)) {
 		$sql = "delete from posting where po_id = " . intval($v);

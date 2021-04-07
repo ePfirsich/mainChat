@@ -195,9 +195,9 @@ if (isset($u_id) && $u_id) {
 		<?php
 		// Admin sehen alle Räume, andere User nur die offenen
 		if ($admin) {
-			raeume_auswahl($o_raum, TRUE, TRUE);
+			echo raeume_auswahl($o_raum, TRUE, TRUE);
 		} else {
-			raeume_auswahl($o_raum, FALSE, TRUE);
+			echo raeume_auswahl($o_raum, FALSE, TRUE);
 		}
 		?>
 		</select>

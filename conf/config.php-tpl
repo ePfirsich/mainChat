@@ -188,8 +188,6 @@ $grafik_background3="";				// Hintergrundgrafik im Chat Frame Unten
 
 
 // Layout 
-$farbe_text_weiss=0;				// 1=farbe_text bei Tabellenkopf immer weiß, 
-						// 0=farbe_text wird nicht überschrieben
 $farbe_user_fest=0;				// 1=Nickname wird in Userfarbe ausgegeben, 
 						// Textzeile ist immer system_farbe
 						// 0=Textzeile wird in Userfarbe ausgegeben
