@@ -4,7 +4,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für Nicknamen zum Versand einer Mail aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_tabelle_kopf2, $PHP_SELF;
+	global $PHP_SELF;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -50,7 +50,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
 	global $id, $http_host, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $u_id;
-	global $farbe_tabelle_kopf2, $PHP_SELF;
+	global $PHP_SELF;
 	global $u_punkte_gesamt;
 	
 	if (!$eingabe_breite1)
@@ -182,7 +182,7 @@ function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Mails in der Übersicht an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_tabelle_kopf2, $PHP_SELF, $chat;
+	global $PHP_SELF, $chat;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -297,7 +297,7 @@ function zeige_email($m_id) {
 	// Zeigt die Mail im Detail an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_tabelle_kopf2, $PHP_SELF, $chat, $t;
+	global $PHP_SELF, $chat, $t;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
