@@ -6,7 +6,7 @@ require("functions.php");
 id_lese($id);
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
+zeige_header_anfang($title, 'chatunten');
 
 if (strlen($u_id) > 0) {
 	$meta_refresh = '';

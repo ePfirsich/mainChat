@@ -54,7 +54,7 @@ if ($u_id) {
 	
 	
 	$title = $body_titel;
-	zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+	zeige_header_anfang($title, 'mini');
 	?>
 	<script>
 	function neuesFenster(url) {
@@ -186,7 +186,7 @@ if ($u_id) {
 	// User wird nicht gefunden. Login ausgeben
 	
 	$title = $body_titel;
-	zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink);
+	zeige_header_anfang($title, 'login');
 
 	zeige_header_ende();
 	?>

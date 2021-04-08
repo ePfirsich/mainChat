@@ -61,7 +61,7 @@ if ($u_frames) {
 }
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_chat_link, $farbe_chat_vlink);
+zeige_header_anfang($title, 'login');
 
 zeige_header_ende();
 

@@ -18,7 +18,7 @@ $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
 $title = $body_titel . ' - Profil';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <script>
 	window.focus()

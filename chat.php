@@ -15,17 +15,13 @@ $refresh_zeit = 600;
 $sysmsg = TRUE;
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_chat_background1, $grafik_background1, $farbe_chat_link1, $farbe_chat_vlink1);
+zeige_header_anfang($title, 'chatausgabe');
 
 // Userdaten gesetzt?
 if ($u_id) {
 	
 	// Timestamp im Datensatz aktualisieren -> User im Chat / o_who=0
 	aktualisiere_online($u_id, $o_raum, 0);
-	
-	// eigene Farbe für BG gesetzt? dann die nehmen.
-	if ($u_farbe_bg != "" && $u_farbe_bg != "-")
-		$farbe_chat_background1 = $u_farbe_bg;
 	
 	// Algorithmus wählen
 	if ($backup_chat || $u_backup) :

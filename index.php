@@ -12,7 +12,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	require_once("functions-init.php");
 	
 	$title = $body_titel;
-	zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_chat_link, $farbe_chat_vlink, $zusatztext_kopf);
+	zeige_header_anfang($title, 'login', $zusatztext_kopf);
 	
 	// Backdoorschutz über den HTTP_REFERER
 	if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"]) && $aktion != "neu") {
@@ -152,7 +152,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		$body_titel = 'mainChat';
 	}
 	$title = $body_titel;
-	zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink, $zusatztext_kopf);
+	zeige_header_anfang($title, 'login', $zusatztext_kopf);
 
 	// Backdoorschutz über den HTTP_REFERER - wir prüfen ob bei gesetztem HTTP_HOST ob die index.php in eigenem Frameset läuft sonst => Fehler
 	if (isset($chat_referer) && $chat_referer != "") {

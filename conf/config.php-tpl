@@ -92,7 +92,7 @@ $timeout=90;
 
 // Voreinstellung für Backup-Algorithmus
 // Anzahl der Zeilen pro Seite
-$chat_back=10;
+$chat_back=30;
 
 
 // Einstellungen für die Eingabe im Chat (Spam-Schutz)
@@ -157,9 +157,6 @@ $farbe_tabelle_zeile2="#D8D8EE";
 
 // Eingangsseite, Anmeldung
 $farbe_background="#FFFFFF";
-$farbe_link="#000080";
-$farbe_vlink="#000080";
-$grafik_background="";
 
 
 // Fenster Raum, User, Einstellungen, Hilfe
@@ -167,24 +164,6 @@ $farbe_mini_background="#FFFFFF";
 $farbe_mini_text="#000000";
 $farbe_mini_link="#0000FF";
 $farbe_mini_vlink="#000080";
-$grafik_mini_background="";
-
-// Chatfarben
-$farbe_chat_background1="#FFFFFF";		// Farben im Chat Frame Chatausgabe
-$farbe_chat_text1="#000000";
-$farbe_chat_link1="#0000FF";
-$farbe_chat_vlink1="#000080";
-$farbe_chat_background2="#E0E0FF";		// Farben im Chat Frame Eingabe
-$farbe_chat_text2="#000000";
-$farbe_chat_link2="#0000FF";
-$farbe_chat_vlink2="#000080";
-$farbe_chat_background3="#E0E0FF";		// Farbe im Chat Frame Unten
-$farbe_chat_text3="#000000";
-$farbe_chat_link3="#0000FF";
-$farbe_chat_vlink3="#000080";
-$grafik_background1="";				// Hintergrundgrafik im Chat Frame Chatausgabe
-$grafik_background2="";				// Hintergrundgrafik im Chat Frame Eingabe
-$grafik_background3="";				// Hintergrundgrafik im Chat Frame Unten
 
 
 // Layout 
@@ -206,9 +185,6 @@ $metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
 
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen
 $noframes="%noframes%\n";
-
-// Datei für CSS-Anpassungen auf allen Seiten
-$stylesheet="style.css";
 
 
 // Zusatztexte, die auf der Indexseite im <HEAD> ausgegeben werden, optional

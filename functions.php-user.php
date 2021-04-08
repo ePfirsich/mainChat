@@ -7,10 +7,11 @@ require_once("functions.php-func-raeume_auswahl.php");
 
 function user_liste($larr, $anzahl) {
 	// Gibt Userliste $larr als Tabelle aus
-	
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $CELLPADDING, $punkte_grafik, $leveltext, $chat_grafik;
+	
+	$text = '';
 	
 	// Array mit oder ohne Javascript ausgeben
 	// Kopf Tabelle
@@ -40,7 +41,7 @@ function user_liste($larr, $anzahl) {
 	
 	// Wartetext ausgeben
 	if ($anzahl > 10)
-		echo $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
+		$text .= $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
 	flush();
 	
 	if ($o_js) {
@@ -95,7 +96,7 @@ function user_liste($larr, $anzahl) {
 			} else $jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
 		}
 		
-		echo "\n\n<script language=\"JavaScript\">\n"
+		$text .= "\n\n<script language=\"JavaScript\">\n"
 			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
 			. "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
 			. "   var level = '$level';\n" . "   var level2 = '$level2';\n"
@@ -111,7 +112,7 @@ function user_liste($larr, $anzahl) {
 			. "   genlist(liste,'$aktion');\n" . 
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
-		echo "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
+		$text .= "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
 	} else { // kein javascript verfügbar
 	
 		for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
@@ -123,27 +124,26 @@ function user_liste($larr, $anzahl) {
 			
 			if ($v['u_away']) {
 				$user = "("
-					. user($v['u_id'], $v, TRUE, FALSE, $trenner = "</TD><TD>")
+					. user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>")
 					. ")";
 			} else {
 				$user = user($v['u_id'], $v, TRUE, FALSE,
-					$trenner = "</TD><TD>");
+					$trenner = "</td><td>");
 			}
 			;
 			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
 		} // END-OF-FOR
-		echo "<TABLE BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</TABLE>\n";
+		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</table>\n";
 		
 	}
-	
+	return $text;
 }
 
-function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
-{
+function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Users
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4, $farbe_tabelle_koerper;
+	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
 	
@@ -201,21 +201,15 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		// Kopf Tabelle "Private Nachricht"
 		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
 			$box = str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']);
+			$text = '';
 			
-			echo "<table class=\"tabelle_kopf\">\n"
-				. "<FORM NAME=\"form\" METHOD=POST target=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">"
-				. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-				. "<span style=\"font-size: smaller;\"><b>$box</b></span>\n"
-				. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
-				. "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
-				. "<TR><TD>";
+			$text .= "<form name=\"form\" method=\"POST\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 			
 			// Eingabeformular für private Nachricht ausgeben
-			
-			echo $f1;
+			$text .= $f1;
 			
 			if ($msgpopup) {
-				echo '<iframe src="messages-popup.php?id=' . $id
+				$text .= '<iframe src="messages-popup.php?id=' . $id
 					. '&http_host=' . $http_host . '&user=' . $user
 					. '&user_nick=' . $uu_nick
 					. '" width=100% height=200 marginwidth=0 marginheight=0 hspace=0 vspace=0 frameborder=0></iframe>';
@@ -224,83 +218,77 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 					<?php
 			}
 			
-			echo "<INPUT NAME=\"text2\" SIZE=\"" . $eingabe_breite
+			$text .= "<INPUT name=\"text2\" SIZE=\"" . $eingabe_breite
 				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
-				. "\" VALUE=\"\" TYPE=\"TEXT\">"
-				. "<INPUT NAME=\"text\" VALUE=\"\" TYPE=\"HIDDEN\">"
-				. "<INPUT NAME=\"http_host\" VALUE=\"$http_host\" TYPE=\"HIDDEN\">"
-				. "<INPUT NAME=\"id\" VALUE=\"$id\" TYPE=\"HIDDEN\">"
-				. "<INPUT NAME=\"privat\" VALUE=\"$uu_nick\" TYPE=\"HIDDEN\">"
-				. "<input type=\"SUBMIT\" VALUE=\"Go!\">" . $f2
+				. "\" value=\"\" TYPE=\"TEXT\">"
+				. "<INPUT name=\"text\" value=\"\" TYPE=\"hidden\">"
+				. "<INPUT name=\"http_host\" value=\"$http_host\" TYPE=\"hidden\">"
+				. "<INPUT name=\"id\" value=\"$id\" TYPE=\"hidden\">"
+				. "<INPUT name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"
+				. "<input type=\"submit\" value=\"Go!\">" . $f2
 				. "\n<script language=\"JavaScript\">\n\n"
 				. "document.forms['form'].elements['text2'].focus();\n"
 				. "\n</script>\n\n\n";
 			
-			// Fuß der Tabelle
-			echo "</TD></TR></TABLE></TD></TR></FORM></TABLE>\n"
-				. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
+			$text .= "</form>";
+			
+			// Box anzeigen
+			show_box_title_content($box, $text);
+			echo '<br>';
 		}
 		
 		// Kopf Tabelle Userinfo
-		
+		$text = '';
 		if (isset($onlinezeit) && $onlinezeit) {
 			$box = str_replace("%user%", $uu_nick, $t['user_zeige20']);
 		} else {
 			$box = str_replace("%user%", $uu_nick, $t['user_zeige21']);
 		}
 		
-		echo "<table class=\"tabelle_kopf\">\n"
-			. "<TR><TD><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n"
-			. "<span style=\"font-size: smaller;\"><b>$box</b></span>\n"
-			. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
-			. "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n"
-			. "<TR><TD>";
-		
 		// Ausgabe in Tabelle
-		echo "<TABLE BORDER=0 CELLPADDING=0>";
-		echo "<TR><TD style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2
-			. "</b></TD><TD><b>" . user($user, $row, TRUE, FALSE);
+		$text .= "<table>";
+		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td><b>" . user($user, $row, TRUE, FALSE);
 		
 		if ($uu_away != "") {
-			echo $f1 . "<br></b>($uu_away)<b>" . $f2;
+			$text .= $f1 . "<br></b>($uu_away)<b>" . $f2;
 		}
 		
-		echo "</b></TD></TR>\n";
+		$text .= "</b></td></tr>\n";
 		
 		if ($admin) {
 			// Name
 			if (strlen($uu_name) > 0) {
-				echo "<TR><TD><b>" . $f1 . $t['user_zeige2'] . $f2
-					. "</b></TD><TD><b>" . $f1 . "$uu_name" . $f2
-					. "</b></TD></TR>\n";
+				$text .= "<tr><td><b>" . $f1 . $t['user_zeige2'] . $f2
+					. "</b></td><td><b>" . $f1 . "$uu_name" . $f2
+					. "</b></td></tr>\n";
 			}
 		}
 		
 		// Raum
 		if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
-			echo "<TR><TD><b>" . $f1 . $t['user_zeige23'] . $f2
-				. "</b></TD><TD><b>" . $f1 . $o_row->r_name . "&nbsp;["
-				. $whotext[$o_row->o_who] . "]" . $f2 . "</b></TD></TR>\n";
+			$text .= "<tr><td><b>" . $f1 . $t['user_zeige23'] . $f2
+				. "</b></td><td><b>" . $f1 . $o_row->r_name . "&nbsp;["
+				. $whotext[$o_row->o_who] . "]" . $f2 . "</b></td></tr>\n";
 		} elseif (isset($o_row) && $o_row->o_who) {
-			echo "<TR><TD>" . $f1 . "&nbsp;" . $f2 . "</TD>" . "<TD><b>" . $f1
+			$text .= "<tr><td>" . $f1 . "&nbsp;" . $f2 . "</td>" . "<td><b>" . $f1
 				. "[" . $whotext[$o_row->o_who] . "]" . $f2
-				. "</b></TD></TR>\n";
+				. "</b></td></tr>\n";
 		}
 		if (isset($onlinezeit) && $onlinezeit) {
-			echo "<TR><TD>" . $f1 . $t['user_zeige33'] . $f2
-				. "</TD><TD style=\"vertical-align:bottom;\">" . $f3
+			$text .= "<tr><td>" . $f1 . $t['user_zeige33'] . $f2
+				. "</td><td style=\"vertical-align:bottom;\">" . $f3
 				. gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['sonst27'] . $f4
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
 		} else {
-			echo "<TR><TD>" . $f1 . $t['user_zeige9'] . $f2
-				. "</TD><TD style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
-				. "</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige9'] . $f2
+				. "</td><td style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
+				. "</td></tr>\n";
 		}
 		
 		if ($erster_login && $erster_login != "01.01.1970 01:00") {
-			echo "<TR><TD>" . $f1 . $t['user_zeige32'] . $f2
-				. "</TD><TD style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
-				. "</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige32'] . $f2
+				. "</td><td style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
+				. "</td></tr>\n";
 		}
 		
 		// Punkte
@@ -311,27 +299,26 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			if ($row->u_punkte_datum_jahr != date("Y", time())) {
 				$uu_punkte_jahr = 0;
 			}
-			echo "<TR><TD>" . $f1 . $t['user_zeige38'] . $f2
-				. "</TD><TD style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
+			$text .= "<tr><td>" . $f1 . $t['user_zeige38'] . $f2
+				. "</td><td style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
 				. $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
 				. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2),
 					str_replace("%monat%",
 						substr(strftime("%B", time()), 0, 3),
-						$t['user_zeige39'])) . $f4 . "</TD></TR>\n";
+						$t['user_zeige39'])) . $f4 . "</td></tr>\n";
 		}
 		
 		if ($admin) {
 			// Admin E-Mail
 			if (strlen($uu_adminemail) > 0) {
-				echo "<TR><TD>" . $f1 . $t['user_zeige3'] . $f2 . "</TD><TD>"
+				$text .= "<tr><td>" . $f1 . $t['user_zeige3'] . $f2 . "</td><td>"
 					. $f3
-					. "<a href=\"MAILTO:$uu_adminemail\">$uu_adminemail</A>"
-					. $f4 . "</TD></TR>\n";
+					. "<a href=\"MAILTO:$uu_adminemail\">$uu_adminemail</a>"
+					. $f4 . "</td></tr>\n";
 			}
 		}
 		
 		if ($communityfeatures) {
-			
 			// Nickname Sonderzeichen raus für target
 			$fenster = str_replace("+", "", $uu_nick);
 			$fenster = str_replace("-", "", $fenster);
@@ -345,91 +332,91 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			
 			$url = "mail.php?aktion=neu2&neue_email[an_nick]="
 				. URLENCODE($uu_nick) . "&id=" . $id;
-			echo "<TR><TD>" . $f1 . $t['user_zeige6'] . $f2 . "</TD><TD>" . $f3
-				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</A>";
-			$f4 . "</TD></TR>\n";
+				$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
+				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</a>";
+			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_email) > 0) {
-			echo "<TR><TD>" . $f1 . $t['user_zeige6'] . $f2 . "</TD><TD>" . $f3
-				. "<a href=\"MAILTO:$uu_email\">$uu_email</A>" . $f4
-				. "</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
+				. "<a href=\"MAILTO:$uu_email\">$uu_email</a>" . $f4
+				. "</td></tr>\n";
 		}
 		
 		if ($communityfeatures && $uu_chathomepage == "J") {
 			$url = "home.php?ui_userid=$uu_id&id=" . $id;
-			echo "<TR><TD>" . $f1 . $t['user_zeige7'] . $f2 . "</TD><TD>" . $f3
-				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
-			$f4 . "</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3
+				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</a>";
+			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_url) > 0) {
-			echo "<TR><TD>" . $f1 . $t['user_zeige7'] . $f2 . "</TD><TD>" . $f3
-				. "<a href=\"$uu_url\" target=\"_blank\">$uu_url</A>" . $f4
-				. "</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3
+				. "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4
+				. "</td></tr>\n";
 		}
 		
-		echo "<TR><TD>" . $f1 . $t['user_zeige8'] . $f2 . "</TD><TD>" . $f1
-			. "$level[$uu_level]" . $f2 . "</TD></TR>\n";
+		$text .= "<tr><td>" . $f1 . $t['user_zeige8'] . $f2 . "</td><td>" . $f1
+			. "$level[$uu_level]" . $f2 . "</td></tr>\n";
 		
-		echo "<TR><TD>" . $f1 . $t['user_zeige10'] . $f2 . "</TD>"
-			. "<TD BGCOLOR=\"#" . $uu_farbe . "\">&nbsp;</TD></TR>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige10'] . $f2 . "</td>"
+			. "<td BGCOLOR=\"#" . $uu_farbe . "\">&nbsp;</td></tr>\n";
 		
 		if ($uu_kommentar && $admin) {
-			echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2
-				. "</TD><TD>" . $f3;
-			echo htmlspecialchars($uu_kommentar) . "<br>\n";
-			echo $f4 . "</TD></TR>\n";
+			$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2
+				. "</td><td>" . $f3;
+			$text .= htmlspecialchars($uu_kommentar) . "<br>\n";
+			$text .= $f4 . "</td></tr>\n";
 		}
 		
 		if ($admin) {
 			if (is_array($uu_profil_historie)) {
-				echo "<TR><TD style=\"vertical-align:top;\">";
+				$text .= "<tr><td style=\"vertical-align:top;\">";
 				
 				while (list($datum, $nick) = each($uu_profil_historie)) {
 					if (!isset($erstes)) {
-						echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
-							. "</TD><TD>" . $f3;
+						$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
+							. "</td><td>" . $f3;
 						$erstes = TRUE;
 					} else {
-						echo "<TR><TD></TD><TD>" . $f3;
+						$text .= "<tr><td></td><td>" . $f3;
 					}
-					echo $nick . "&nbsp;("
+					$text .= $nick . "&nbsp;("
 						. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
-						. ")" . $f4 . "</TD></TR>\n";
+						. ")" . $f4 . "</td></tr>\n";
 				}
-				echo "</TR>";
+				$text .= "</tr>";
 			}
 			
 			// IPs ausgeben
 			if (isset($o_row) && $o_row->o_ip) {
-				echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
-					. "</TD><TD>" . $f3 . $host_name . $f4 . "</TD></TR>\n"
-					. "<TR><TD style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</TD><TD>"
+				$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
+					. "</td><td>" . $f3 . $host_name . $f4 . "</td></tr>\n"
+					. "<tr><td style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</td><td>"
 					. $f3 . $o_row->o_ip . " " . $t['sonst28'] . $f4
-					. "</TD></TR>\n";
+					. "</td></tr>\n";
 				
 				if ($zeigeip == 1 && is_array($ip_historie)) {
 					while (list($datum, $ip_adr) = each($ip_historie)) {
-						echo "<TR><TD></TD><TD>" . $f3 . $ip_adr . "&nbsp;("
+						$text .= "<tr><td></td><td>" . $f3 . $ip_adr . "&nbsp;("
 							. str_replace(" ", "&nbsp;",
 								date("d.m.y H:i", $datum)) . ")" . $f4
-							. "</TD></TR>\n";
+							. "</td></tr>\n";
 					}
 				}
 				
-				echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
-					. "</TD><TD>" . $f3 . htmlspecialchars($o_row->o_browser)
-					. $f4 . "</TD></TR>\n" . "<TR><TD style=\"vertical-align:top;\">" . $f1
-					. $t['user_zeige22'] . $f2 . "</TD><TD>" . $f3
+				$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
+					. "</td><td>" . $f3 . htmlspecialchars($o_row->o_browser)
+					. $f4 . "</td></tr>\n" . "<tr><td style=\"vertical-align:top;\">" . $f1
+					. $t['user_zeige22'] . $f2 . "</td><td>" . $f3
 					. "<a href=\"" . $serverprotokoll . "://" . $o_row->o_vhost
 					. "\" target=_blank>$serverprotokoll://" . $o_row->o_vhost
-					. "</a>" . $f4 . "</TD></TR>\n";
+					. "</a>" . $f4 . "</td></tr>\n";
 				
 				if ($o_http_stuff) {
-					echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2
-						. "</TD><TD>" . $f3;
+					$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2
+						. "</td><td>" . $f3;
 					if (is_array($http_stuff)) {
 						while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each(
 							$http_stuff)) {
 							if ($o_http_stuff_inhalt) {
-								echo "<b>"
+								$text .= "<b>"
 									. htmlspecialchars($o_http_stuff_name)
 									. ":</b>&nbsp;"
 									. htmlspecialchars($o_http_stuff_inhalt)
@@ -437,21 +424,21 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 							}
 						}
 					}
-					echo $f4 . "</TD></TR>\n";
+					echo $f4 . "</td></tr>\n";
 				}
 				
 			} elseif ($zeigeip == 1 && is_array($ip_historie)) {
 				while (list($datum, $ip_adr) = each($ip_historie)) {
 					if (!$erstes) {
-						echo "<TR><TD style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
-							. "</TD><TD>" . $f3;
+						$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
+							. "</td><td>" . $f3;
 						$erstes = TRUE;
 					} else {
-						echo "<TR><TD></TD><TD>" . $f3;
+						$text .= "<tr><td></td><td>" . $f3;
 					}
-					echo $ip_adr . "&nbsp;("
+					$text .= $ip_adr . "&nbsp;("
 						. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
-						. ")" . $f4 . "</TD></TR>\n";
+						. ")" . $f4 . "</td></tr>\n";
 				}
 			}
 			
@@ -465,16 +452,17 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		if ($u_level != "G") {
 			$mlnk[1] = "schreibe.php?http_host=$http_host&id=$id&text=/ignore%20$uu_nick";
 			$mlnk[2] = "schreibe.php?http_host=$http_host&id=$id&text=/einlad%20$uu_nick";
-			echo "<TR><TD style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
-				. "</b></TD><TD>" . $f1;
-			if (!$beichtstuhl)
-				echo "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</A>]<br>\n";
-			echo "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</A>]<br>\n";
+			$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
+				. "</b></td><td>" . $f1;
+			if (!$beichtstuhl) {
+				$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
+			}
+			$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
 			if ($communityfeatures) {
 				$mlnk[8] = "mail.php?http_host=$http_host&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 				$mlnk[9] = "schreibe.php?http_host=$http_host&id=$id&text=/freunde%20$uu_nick";
-				echo "[<a href=\"$mlnk[8]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</A>]<br>\n"
-					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</A>]<br>\n";
+				$text .= "[<a href=\"$mlnk[8]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</a>]<br>\n"
+					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
 			}
 			
 		}
@@ -482,7 +470,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 		// Adminmenue
 		if ($admin) {
 			$mlnk[7] = "user.php?http_host=$http_host&id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
-			echo "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</A>]<br>\n";
+			$text .= "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
@@ -495,72 +483,62 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip)
 			$mlnk[5] = "schreibe.php?http_host=$http_host&id=$id&text=/kick%20$uu_nick";
 			$mlnk[6] = "sperre.php?http_host=$http_host&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
 				. urlencode($o_row->o_name);
-			echo "[<a href=\"$mlnk[3]\">" . $t['user_zeige25'] . "</A>]<br>\n"
-				. "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</A>]<br>\n"
-				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</A>]<br>\n"
-				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</A>]<br>\n";
-			echo "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</A>]<br>\n";
+			$text .= "[<a href=\"$mlnk[3]\">" . $t['user_zeige25'] . "</a>]<br>\n"
+				. "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
+				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
+				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</a>]<br>\n";
+			$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
 		if ($admin && $communityfeatures) {
 			$mlnk[10] = "blacklist.php?http_host=$http_host&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-			echo "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</A>]<br>\n";
+			$text .= "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
 		
 		// Tabellenende
-		echo "$f2</TD></TR></TABLE>\n";
+		$text .= "$f2</td></tr></table>\n";
 		
-		// Fuß der Tabelle
-		echo "</TD></TR></TABLE></TD></TR></TABLE>\n";
+		// Box anzeigen
+		show_box_title_content($box, $text);
 		
 		// Admin-Menü 3
 		if ($admin) {
+			$text = '';
 			$box = $t['user_zeige12'];
+			echo '<br>';
 			
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
-			echo "<table class=\"tabelle_kopf\">\n";
-			echo "<TR><TD>";
-			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
-			echo "<span style=\"font-size: smaller;\"><b>$box</b></span>\n";
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
-			echo "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
-			echo "<TR><TD>";
-			
-			echo "<FORM NAME=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n" . $f1
+			$text .= "<form name=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
-				. "\n" . "<input type=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$uu_id\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"f[u_name]\" VALUE=\"$uu_name\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"f[u_nick]\" VALUE=\"$uu_nick\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"zeige_loesch\" VALUE=\"1\">\n"
-				. "<input type=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit\">\n"
+				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$uu_id\">\n"
+				. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$uu_name\">\n"
+				. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$uu_nick\">\n"
+				. "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n"
 				. $f1
-				. "<input type=\"SUBMIT\" NAME=\"ein\" VALUE=\"Ändern!\">"
-				. "<input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\"><br>";
+				. "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">"
+				. "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
 			
 			$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 			$result = mysqli_query($mysqli_link, $query);
 			$g = @mysqli_fetch_array($result);
 			
-			if ($g['u_chathomepage'] == "J")
-				echo "<input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Homepage löschen!\">"
-					. $f2;
-			if ((($u_level == "C" || $u_level == "A")
-				&& ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z"))
-				|| ($u_level == "S"))
-				echo "<br><input type=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"$t[chat_msg110]\">";
-			echo "</FORM>\n";
+			if ($g['u_chathomepage'] == "J") {
+				$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
+			}
+			if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
+				$text .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
+			}
+			$text .= "</form>\n";
+			
+
 		}
 		
-		// Fuß der Tabelle
-		echo "</TD></TR></TABLE></TD></TR></TABLE>\n";
+		// Box anzeigen
+		show_box_title_content($box, $text);
 		
 		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Nickname: $uu_nick)
 		

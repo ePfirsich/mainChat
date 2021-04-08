@@ -7,7 +7,7 @@ require("functions.php-func-chat_lese.php");
 id_lese($id);
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
+zeige_header_anfang($title, 'chatunten');
 
 // Userdaten gesetzt?
 if (strlen($u_id) > 0) {
@@ -39,35 +39,11 @@ if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum, 2);
 	
-	// eigene Farbe für BG gesetzt? dann die nehmen.
-	if ($u_farbe_bg != "" && $u_farbe_bg != "-")
-		$farbe_chat_background1 = $u_farbe_bg;
-	
-	if (strlen($grafik_background1) > 0) {
-		$table_option = "BACKGROUND=\"$grafik_background1\"";
-	} else {
-		$table_option = "BGCOLOR=\"$farbe_chat_background1\"";
+	// Aktuelle Privat- und Systemnachrichten oder Statusmeldung ausgeben
+	if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, TRUE)) {
+		echo $f1 . $t['messages_forum1'] . $f2 . "\n";
 	}
-	?>
-	<table style="width:100%;">
-		<tr>
-			<td>
-				<table <?php echo $table_option; ?> style="width:100%;">
-					<tr>
-						<td>
-						<?php
-						// Aktuelle Privat- und Systemnachrichten oder Statusmeldung ausgeben
-						if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, TRUE)) {
-							echo $f1 . $t['messages_forum1'] . $f2 . "\n";
-						}
-						?>
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-	<?php
+
 } else {
 	// User wird nicht gefunden. Login ausgeben
 	

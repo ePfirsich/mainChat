@@ -5,7 +5,7 @@
 require("functions.php");
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_background3, $grafik_background3, $farbe_chat_link3, $farbe_chat_vlink3);
+zeige_header_anfang($title, 'chatunten');
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
 id_lese($id);

@@ -27,7 +27,7 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "") || (isset($_SERVER["Q
 	$fenster = str_replace("ß", "", $fenster);
 	
 	$title = $body_titel . ' - Home';
-	zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+	zeige_header_anfang($title, 'mini');
 	?>
 	<script>
 		window.focus()
@@ -306,8 +306,8 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			<head>
 			<title>DEREFER</title>
 			<meta charset="utf-8">
+			<link rel="stylesheet" href="css/style.css" type="text/css">
 			<style type="text/css">
-			<?php echo $stylesheet; ?>
 			body {
 				background-color:#ffffff;
 			}

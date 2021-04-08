@@ -5,7 +5,7 @@ umask(700);
 set_time_limit(120);
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink);
+zeige_header_anfang($title, 'login');
 
 zeige_header_ende();
 ?>

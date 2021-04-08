@@ -219,7 +219,7 @@ function such_bereich()
 
 function such_ergebnis() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
-	global $farbe_tabelle_kopf2, $farbe_hervorhebung_forum, $farbe_link;
+	global $farbe_tabelle_kopf2, $farbe_hervorhebung_forum;
 	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
 	
 	$eingabe_breite = 50;
@@ -441,9 +441,9 @@ function such_ergebnis() {
 				}
 				
 				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
-					$col = $farbe_neuesposting_forum;
+					$col = "color:$farbe_neuesposting_forum;";
 				} else {
-					$col = $farbe_link;
+					$col = '';
 				}
 				
 				echo "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
@@ -452,7 +452,7 @@ function such_ergebnis() {
 					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="
 					. $fund['po_th_id'] . "&po_id=" . $fund['po_id']
 					. "&thread=" . $thread
-					. "&aktion=show_posting&seite=1',1); return(false);\">< span style=\"font-size: smaller; color:$col; \">"
+					. "&aktion=show_posting&seite=1',1); return(false);\">< span style=\"font-size: smaller; $col; \">"
 					. $fund['po_titel'] . "</span></a>";
 				if ($fund['po_gesperrt'] == 'Y')
 					echo " <span style=\"color:#ff0000;\">(gesperrt)</span>";
@@ -494,7 +494,7 @@ function such_ergebnis() {
 }
 
 $title = $body_titel . ' - Info';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <script>
 	window.focus()

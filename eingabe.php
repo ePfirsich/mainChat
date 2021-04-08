@@ -40,7 +40,7 @@ if ($u_id) {
 	$fenster = str_replace("ß", "", $fenster);
 
 $title = $body_titel;
-zeige_header_anfang($title, $farbe_chat_background2, $grafik_background2, $farbe_chat_link2, $farbe_chat_vlink2);
+zeige_header_anfang($title, 'chateingabe');
 ?>
 <script>
 function resetinput() {
@@ -102,7 +102,6 @@ zeige_header_ende();
 		if ($chat_eingabe_breite < $mindestbreite) {
 			$chat_eingabe_breite = $mindestbreite;
 		}
-		
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<select name=\"user_chat_back\">\n";
 		for ($i = 5; $i < 40; $i++) {
@@ -199,8 +198,7 @@ zeige_header_ende();
 	unset($aktraum);
 	
 	echo "<td style=\"text-align: right;\"><span style=\"font-size: smaller; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
-	for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each(
-		$farbe_chat_user);) {
+	for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each($farbe_chat_user);) {
 		?>
 		<td style="background-color:#<?php echo $ufarbe; ?>">
 			<a onMouseOver="return(true)" href="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">

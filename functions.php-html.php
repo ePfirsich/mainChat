@@ -1,8 +1,8 @@
 <?php
 
-function zeige_header_anfang($title, $hintergrundfarbe, $hintergrundgrafik, $linkfarbe, $linkfarbe_aktive, $zusatz_header = '') {
+function zeige_header_anfang($title, $stylesheet, $zusatz_header = '') {
 	// Gibt den HTML-Header auf der Eingangsseite
-	global $metatag, $stylesheet;
+	global $metatag;
 	?>
 	<!DOCTYPE html>
 	<html>
@@ -10,7 +10,12 @@ function zeige_header_anfang($title, $hintergrundfarbe, $hintergrundgrafik, $lin
 	<title><?php echo $title; ?></title>
 	<meta charset="utf-8">
 	<?php echo $metatag; ?>
-	<link rel="stylesheet" href="<?php echo $stylesheet; ?>" type="text/css">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+	<link rel="stylesheet" href="css/<?php echo $stylesheet; ?>.css" type="text/css">
+	
+	
+	
+	
 	<style type="text/css">
 	body {
 		background-color:<?php echo $hintergrundfarbe; ?>;
@@ -25,6 +30,10 @@ function zeige_header_anfang($title, $hintergrundfarbe, $hintergrundgrafik, $lin
 		color:<?php echo $linkfarbe_aktive; ?>;
 	}
 	</style>
+	
+	
+	
+	
 	<?php
 	if($zusatz_header != '') {
 		echo $zusatz_header;

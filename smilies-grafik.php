@@ -16,7 +16,7 @@ if (isset($smilies_config) && file_exists("conf/" . $smilies_config)) {
 }
 
 $title = $body_titel . ' - Info';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 
 echo "<script>\n";
 echo "  var http_host='$http_host';\n";

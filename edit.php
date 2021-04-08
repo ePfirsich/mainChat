@@ -7,7 +7,7 @@ require("functions-msg.php");
 id_lese($id);
 
 $title = $body_titel . ' - Einstellungen';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <script>
 		window.focus()
@@ -140,35 +140,19 @@ if (strlen($u_id) != 0) {
 	switch ($aktion) {
 		
 		case "andereadminmail":
-			echo "<table class=\"tabelle_kopf\">\n";
-			echo "<TR><TD COLSPAN=2>";
-			echo "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>\n";
-			echo "<span style=\"font-size: smaller;\"><b>$box</b></span\n";
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
-			echo "<TABLE CELLPADDING=5 CELLSPACING=0 BORDER=0 WIDTH=100% BGCOLOR=\"$farbe_tabelle_koerper\">\n";
-			echo "<TR><TD COLSPAN=2>";
+			$text = '';
+			$box = $t['edit20'];
 			
-			echo "<FORM NAME=\"$u_nick\" ACTION=\"edit.php\" METHOD=POST>\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$u_id\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit2\">\n";
+			$text .= "<form name=\"$u_nick\" action=\"edit.php\" method=\"POST\">\n"
+				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$u_id\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"edit2\">\n";
 			
-			echo "<TABLE BORDER=0 CELLPADDING=0 WIDTH=100%>";
 			
-			echo "<TR><TD COLSPAN=2>" . $f1
-				. "Sie können hier Ihren Username und die Interne E-Mailadresse abändern.<br><br>"
-				. "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neues Passwort an "
-				. "Ihre neue E-Mailadresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
-				. "einloggen und ggf. Ihr Passwort wieder anpassen.<br><br>"
-				. "\n" . $f2 . "</TD></TR>\n";
+			$text .= $f1 . $t['edit21'] . "<br><br>" . $t['edit22'] . "<br><br>" . "\n" . $f2;
 			
-			echo "<TR><TD COLSPAN=2>" . $f1 . "<b>" . $t['user_zeige17']
-				. "</b><br>\n" . $f2
-				. "<INPUT TYPE=\"TEXT\" VALUE=\"$u_name\" NAME=\"f[u_name]\" SIZE=$input_breite>"
-				. "</TD></TR>\n";
+			$text .= $f1 . "<b>" . $t['user_zeige17'] . "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\"$u_name\" name=\"f[u_name]\" SIZE=$input_breite>";
 			
 			$query = "SELECT `user`.* " . "FROM `user` WHERE `u_id`=$u_id ";
 			$result = mysqli_query($mysqli_link, $query);
@@ -179,18 +163,15 @@ if (strlen($u_id) != 0) {
 				$u_adminemail = $row->u_adminemail;
 				mysqli_free_result($result);
 				
-				echo "<TR><TD COLSPAN=2>" . $f1 . "<b>" . $t['user_zeige3']
-					. "</b><br>\n" . $f2
-					. "<INPUT TYPE=\"TEXT\" VALUE=\"$u_adminemail\" NAME=\"f[u_adminemail]\" SIZE=$input_breite>"
-					. "</TD></TR>\n";
+				$text .= "<br><br>" . $f1 . "<b>" . $t['user_zeige3'] . "</b><br>\n" . $f2 . "<input type=\"text\" value=\"$u_adminemail\" name=\"f[u_adminemail]\" size=$input_breite>";
 			}
+			$text .= '<br>';
 			
-			echo "</TABLE>\n";
-			echo $f1
-				. "<br><INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Ändern!\">"
-				. $f2;
-			echo "</FORM>\n";
-			echo "</TD></TR></TABLE></TD></TR></TABLE>\n";
+			$text .= $f1 . "<br><input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">" . $f2;
+			$text .= "</form>\n";
+			
+			// Box anzeigen
+			show_box_title_content($box, $text);
 			
 			break;
 		
@@ -726,18 +707,18 @@ if (strlen($u_id) != 0) {
 					echo "<P><b>"
 						. str_replace("%u_nick%", $f['u_nick'], $t['edit13'])
 						. "</b></P>\n";
-					echo "<FORM NAME=\"$f[u_nick]\" ACTION=\"edit.php\" METHOD=POST>\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$f[u_id]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_name]\" VALUE=\"$f[u_name]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_nick]\" VALUE=\"$f[u_nick]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"loesche\">\n";
+					echo "<form name=\"$f[u_nick]\" action=\"edit.php\" METHOD=POST>\n"
+						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
+						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
+						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
+						. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 					echo $f1
-						. "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Löschen!\">";
-					echo "&nbsp;<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Abbrechen\">"
+						. "<input type=\"SUBMIT\" name=\"eingabe\" value=\"Löschen!\">";
+					echo "&nbsp;<input type=\"SUBMIT\" name=\"eingabe\" value=\"Abbrechen\">"
 						. $f2;
-					echo "</FORM>\n";
+					echo "</form>\n";
 				} else {
 					echo "<P><b>"
 						. str_replace("%u_nick%", $f['u_nick'], $t['edit14'])
@@ -787,16 +768,16 @@ if (strlen($u_id) != 0) {
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f[u_id]);
 					mysqli_query($mysqli_link, $query);
 				} else {
-					echo "<FORM NAME=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_id]\" VALUE=\"$f[u_id]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_name]\" VALUE=\"$f[u_name]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"f[u_nick]\" VALUE=\"$f[u_nick]\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"edit\">\n"
-						. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion3\" VALUE=\"loeschen\">\n"
-						. "<INPUT TYPE=\"SUBMIT\" NAME=\"eingabe\" VALUE=\"Homepage löschen!\">"
-						. $f2 . "</FORM>\n";
+					echo "<form name=\"edit\" action=\"edit.php\" METHOD=POST>\n"
+						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
+						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
+						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
+						. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n"
+						. "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n"
+						. "<input type=\"SUBMIT\" name=\"eingabe\" value=\"Homepage löschen!\">"
+						. $f2 . "</form>\n";
 					
 				}
 			} elseif (isset($eingabe) && $eingabe == $t['chat_msg110']

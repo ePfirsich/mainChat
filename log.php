@@ -39,7 +39,7 @@ if (strlen($u_id) > 0) {
 	$fenster = str_replace("ß", "", $fenster);
 
 	$title = $body_titel . ' - Log';
-	zeige_header_anfang($title, $farbe_chat_background1, $grafik_background1, $farbe_chat_link1, $farbe_chat_vlink1);
+	zeige_header_anfang($title, 'chatausgabe');
 ?>
 <script>
 		window.focus()

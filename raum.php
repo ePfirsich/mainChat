@@ -20,7 +20,7 @@ if (!isset($raumstatus['E'])) {
 }
 
 $title = $body_titel . ' - Räume';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <script>
 		window.focus()
@@ -677,6 +677,7 @@ if (strlen($u_id) != 0) {
 				mysqli_free_result($result);
 			} else {
 				$text = '';
+				$box = $t['sonst15'];
 				// Liste der Räume mit der Anzahl der User aufstellen
 				$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
 					. "LEFT JOIN online ON r_id=o_raum "
@@ -711,7 +712,7 @@ if (strlen($u_id) != 0) {
 						} else {
 							$rlink = "<CENTER>" . $f1
 								. "<b><a href=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
-								. $t['menue6'] . "</A></b>" . $f2
+								. $t['menue6'] . "</a></b>" . $f2
 								. "</CENTER>\n";
 						}
 						$text .= "$rlink<br>";

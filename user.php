@@ -36,7 +36,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 }
 
 $title = $body_titel . ' - Info';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 
 $eingabe_breite = 31;
 
@@ -153,9 +153,6 @@ if (strlen($u_id) != 0) {
 		
 		if ($aktion != "zeigalle" || $u_level != "S") {
 			show_box2($box, $text);
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
 		}
 	}
 	
@@ -644,7 +641,7 @@ if (strlen($u_id) != 0) {
 						$rows = count($larr);
 						$CELLPADDING = (($aktion == "chatuserliste"
 							OR $rows > 15) ? 0 : 3);
-						user_liste($larr, $rows);
+						echo user_liste($larr, $rows);
 					}
 					
 				}
@@ -776,7 +773,7 @@ if (strlen($u_id) != 0) {
 				$rows = count($larr);
 				$CELLPADDING = (($aktion == "chatuserliste" OR $rows > 15) ? 0
 					: 3);
-				user_liste($larr, $rows);
+				echo user_liste($larr, $rows);
 			}
 			
 			break;
@@ -915,24 +912,47 @@ if (strlen($u_id) != 0) {
 			} else { // array ist gefüllt -> Daten ausgeben
 			
 				if ($aktion != "chatuserliste") {
+					$box = $t['sonst54'];
+					$text = '';
+					echo '<br>';
+					
+					$text .= "<b>" . $larr[0]['r_name'] . "</b><br>"
+					. ($larr[0]['r_topic'] ? $f1 . "Topic: "
+							. $larr[0]['r_topic'] . $f2 . "<br>" : "")
+					. "<br>";
+					
+					// Userliste ausgeben
+					$text .= user_liste($larr, $rows);
+					
+					$text .= "<p style=\"text-align:center;\">" . $f1 . $t['sonst12'] . $f2 . "</p>";
+					
+					show_box_title_content($box, $text);
+					
+					// Raumauswahl
 					?>
-					<table class="tabelle_kopf">
+					<br>
 					<?php
-						echo "<tr><td><a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>"
-						. "<span style=\"font-size: smaller;\"><b>$box</b></span>"
-						. "<img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=13><br>\n"
-						. "<TABLE CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" BGCOLOR=\"$farbe_tabelle_koerper\">"
-						. "<tr><td><b>" . $larr[0]['r_name'] . "</b><br>"
-						. ($larr[0]['r_topic'] ? $f1 . "Topic: "
-								. $larr[0]['r_topic'] . $f2 . "<br>" : "")
-						. "<br>";
+					$text = '';
+					$box = $t['sonst14'];
+					
+					$text .= "<form name=\"raum\" action=\"user.php\" method=\"POST\">";
+					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
+					$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+					$text .= $f1;
+					$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
+					if ($admin) {
+						$text .= raeume_auswahl($schau_raum, TRUE, FALSE, FALSE);
+					} else {
+						$text .= raeume_auswahl($schau_raum, FALSE, FALSE, FALSE);
+					}
+					$text .= "</select>";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Go!\">";
+					$text .= $f2;
+					$text .= "</form>";
+					
+					// Box anzeigen
+					show_box_title_content($box, $text);
 						
-						// Userliste ausgeben
-						user_liste($larr, $rows);
-						
-						?>
-						<p style="text-align:center;"><?php echo $f1 . $t['sonst12'] . $f2; ?></p>
-						<?php
 				} else {
 					$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
 					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
@@ -949,12 +969,8 @@ if (strlen($u_id) != 0) {
 						. "<br>\n";
 					
 					// Userliste ausgeben
-					user_liste($larr, 0);
-				}
+					echo user_liste($larr, 0);
 				
-				echo "</td></tr></table></td></tr></table>\n";
-				
-				if ($aktion == "chatuserliste") {
 					if ($rows > 15) {
 						echo "$f1<b>[<a onMouseOver=\"return(true)\" $linkuser>"
 							. $t['sonst19'] . "</a>]";
@@ -968,35 +984,6 @@ if (strlen($u_id) != 0) {
 				
 			}
 			
-			// Raumauswahl
-			
-			if ($aktion != "chatuserliste") {
-				// Kopf Tabelle
-				?>
-				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-				<?php
-				$text = '';
-				$box = $t['sonst14'];
-				
-				$text .= "<form name=\"raum\" action=\"user.php\" method=\"POST\">";
-				$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-				$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
-				$text .= $f1;
-				$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
-				if ($admin) {
-					$text .= raeume_auswahl($schau_raum, TRUE, FALSE, FALSE);
-				} else {
-					$text .= raeume_auswahl($schau_raum, FALSE, FALSE, FALSE);
-				}
-				$text .= "</select>";
-				$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Go!\">";
-				$text .= $f2;
-				$text .= "</form>";
-				
-				// Box anzeigen
-				show_box_title_content($box, $text);
-			}
-		
 	}
 	
 } else {

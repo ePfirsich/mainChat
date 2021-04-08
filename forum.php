@@ -246,7 +246,7 @@ if (strlen($u_id) > 0) {
 	// User wird nicht gefunden. Login ausgeben
 	
 	$title = $body_titel;
-	zeige_header_anfang($title, $farbe_background, $grafik_background, $farbe_link, $farbe_vlink);
+	zeige_header_anfang($title, 'login');
 	
 	zeige_header_ende();
 	?>

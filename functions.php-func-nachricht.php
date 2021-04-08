@@ -4,7 +4,7 @@ function nachricht_betrete($u_id, $r_id, $u_name, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, UserName, Raum-Name
 	// liefert $back zurück
-	global $mysqli_link, $farbe_chat_background2, $nachricht_b, $lustigefeatures, $u_farbe;
+	global $mysqli_link, $nachricht_b, $lustigefeatures, $u_farbe;
 	global $eintritt_individuell, $eintritt_useranzeige;
 	
 	// Nachricht Standard

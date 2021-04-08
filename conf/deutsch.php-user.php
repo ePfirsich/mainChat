@@ -70,6 +70,7 @@ $t['sonst50'] = "Ja";
 $t['sonst51'] = "User löschen";
 $t['sonst52'] = "User gelöscht.";
 $t['sonst53'] = "Es ist ein Fehler aufgetreten.";
+$t['sonst54'] = "Räume";
 
 $t['statistik1'] = "Chat-Statistiken";
 $t['statistik2'] = "Chat-Statistik nach Stunden";

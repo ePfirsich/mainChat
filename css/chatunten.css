@@ -1,0 +1,11 @@
+body {
+	color:#000000;
+	background-color:#85D4FF;
+	/* background-image:test.png; */
+}
+a:link {
+	color:#0000FF;
+}
+a:visited, a:active {
+	color:#000080;
+}

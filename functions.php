@@ -494,9 +494,9 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Users
 	// Liefert User- und Online-Variable
 	
-	global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_backup, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen;
+	global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_backup, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
 	global $admin, $dbase, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
-	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit;
+	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
@@ -550,8 +550,9 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			}
 			
 			// Usereinstellungen überschreiben Default-Einstellungen
-			if ($u_zeilen)
+			if ($u_zeilen) {
 				$chat_back = $u_zeilen;
+			}
 			
 			// ChatAdmin oder Superuser oder moderator?
 			if ($u_level == "S" || $u_level == "C"

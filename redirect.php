@@ -31,8 +31,8 @@ if ($url) {
 <title>DEREFER</title>
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="0; URL=<?php echo $url; ?>">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 <style type="text/css">
-<?php echo $stylesheet; ?>
 body {
 	background-color:#ffffff;
 }

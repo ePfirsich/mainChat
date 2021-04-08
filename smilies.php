@@ -9,7 +9,7 @@ id_lese($id);
 aktualisiere_online($u_id, $o_raum);
 
 $title = $body_titel . ' - Info';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <?php
 echo "<script>\n";

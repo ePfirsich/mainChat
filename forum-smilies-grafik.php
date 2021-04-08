@@ -15,7 +15,7 @@ if (isset($smiles_config) && $smilies_config
 }
 
 $title = $body_titel . ' - Info';
-zeige_header_anfang($title, $farbe_mini_background, $grafik_mini_background, $farbe_mini_link, $farbe_mini_vlink);
+zeige_header_anfang($title, 'mini');
 ?>
 <script>
 <?php
