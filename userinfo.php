@@ -98,7 +98,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 	<body>
 	<pre>
 	<?php
-	echo "userinfo.php - (C) by fidion GmbH 1999-2012\n\n" . $userinfo_hilfe . "\n</pre>";
+	echo "userinfo.php - (C) by fidion GmbH 1999-2018\n\n" . $userinfo_hilfe . "\n</pre>";
 	?>
 	</body>
 	</html>
