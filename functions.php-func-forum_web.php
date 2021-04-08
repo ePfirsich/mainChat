@@ -75,7 +75,7 @@ function show_missing($missing) {
 //Eingabemaske für neues Forum
 function maske_forum($fo_id = 0) {
 	global $id, $http_host, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf2;
+	global $f1, $f2;
 	global $t;
 	
 	if ($fo_id > 0) {
@@ -172,7 +172,7 @@ function maske_forum($fo_id = 0) {
 function forum_liste() {
 	global $mysqli_link;
 	global $id, $http_host, $forum_admin, $chat_grafik;
-	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
+	global $t, $f1, $f2, $f3, $f4;
 	global $u_level;
 	
 	$sql = "select fo_id, fo_name, fo_order, fo_admin,
@@ -339,7 +339,7 @@ function show_icon_description($mode) {
 //Eingabemaske für Thema
 function maske_thema($th_id = 0) {
 	global $id, $http_host, $fo_id, $mysqli_link;
-	global $f1, $f2, $farbe_tabelle_kopf2;
+	global $f1, $f2;
 	global $t, $chat_grafik;
 	
 	if ($th_id > 0) {
@@ -473,7 +473,7 @@ function show_pfad($th_id) {
 function show_thema() {
 	global $mysqli_link;
 	global $id, $http_host, $o_js, $forum_admin, $th_id, $show_tree, $seite;
-	global $t, $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
+	global $t, $f1, $f2, $f3, $f4;
 	global $anzahl_po_seite, $chat_grafik;
 	global $admin, $anzahl_po_seite2, $u_id, $u_level;
 	
@@ -682,7 +682,7 @@ function show_thema() {
 //Maske zum Eingeben/Editieren/Quoten von Beiträgen
 function maske_posting($mode) {
 	global $id, $u_id, $http_host, $th_id, $po_id, $po_vater_id, $po_tiefe, $mysqli_link, $po_titel, $po_text, $thread, $seite;
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2;
+	global $f1, $f2, $f3, $f4;
 	global $t, $mysqli_link;
 	global $forum_admin, $u_nick, $smilies_datei;
 	
@@ -871,7 +871,7 @@ function maske_posting($mode) {
 
 //Zeigt die gutgeschriebenen Punkte an
 function verbuche_punkte($u_id) {
-	global $t, $punkte_pro_posting, $farbe_tabelle_kopf2;
+	global $t, $punkte_pro_posting;
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
@@ -919,7 +919,7 @@ function navigation_posting(
 	$th_id,
 	$user_nick = "",
 	$thread_gelesen_zeigen = FALSE) {
-	global $f1, $f2, $f3, $f4, $farbe_tabelle_kopf2, $t, $seite;
+	global $f1, $f2, $f3, $f4, $t, $seite;
 	global $id, $http_host, $po_id, $u_id, $thread, $forum_admin, $chat_grafik;
 	global $u_level;
 	?>

@@ -102,7 +102,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				$neue_email['m_an_uid'] = mysqli_result($result, 0, "u_id");
 				
 				$ignore = false;
-				$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email[m_an_uid]) . "' AND i_user_passiv = '$u_id'";
+				$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email['m_an_uid']) . "' AND i_user_passiv = '$u_id'";
 				$result2 = mysqli_query($mysqli_link, $query2);
 				$num = mysqli_num_rows($result2);
 				if ($num >= 1) {
@@ -110,7 +110,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				}
 				
 				$boxzu = false;
-				$query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email[m_an_uid]) . "' AND m_an_uid='" . intval($neue_email[m_an_uid]) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
+				$query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email['m_an_uid']) . "' AND m_an_uid='" . intval($neue_email['m_an_uid']) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
 				$result2 = mysqli_query($mysqli_link, $query);
 				$num = mysqli_num_rows($result2);
 				if ($num >= 1) {
@@ -210,9 +210,11 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				}
 				unset($neue_email);
 				
-				if (!isset($neue_email))
+				if (!isset($neue_email)) {
 					$neue_email = array();
+				}
 				formular_neue_email($neue_email);
+				echo '<br>';
 				zeige_mailbox("normal", "");
 				
 			} else {
@@ -335,7 +337,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		
 		case "zeige":
 		// Eine Mail als Detailansicht zeigen
-			echo "<br>";
 			zeige_email($m_id);
 			zeige_mailbox("normal", "");
 			break;
@@ -345,25 +346,28 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			echo "<br>";
 			$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
 			$result = mysqli_query($mysqli_link, $query);
-			if (!isset($neue_email))
+			if (!isset($neue_email)) {
 				$neue_email[] = "";
+			}
 			formular_neue_email($neue_email);
+			echo '<br>';
 			zeige_mailbox("normal", "");
 			break;
 		
 		case "papierkorb":
 		// Papierkorb zeigen
-			echo "<br>";
-			if (!isset($m_id))
-				$m_id = "";
+			if (!isset($m_id)) {
+					$m_id = "";
+			}
 			zeige_email($m_id);
 			zeige_mailbox("geloescht", "");
 			break;
 		
 		case "weiterleiten":
 		// Formular zum Weiterleitej einer Mail ausgeben
-			if (!isset($neue_email))
+			if (!isset($neue_email)) {
 				$neue_email[] = "";
+			}
 			formular_neue_email($neue_email, $m_id);
 			break;
 		
@@ -378,13 +382,16 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			if (!isset($m_id))
 				$m_id = "";
 			formular_neue_email($neue_email, $m_id);
+			echo '<br>';
 			zeige_mailbox("normal", "");
 			break;
 		
 		default:
-			if (!isset($neue_email))
+			if (!isset($neue_email)) {
 				$neue_email[] = "";
+			}
 			formular_neue_email($neue_email);
+			echo '<br>';
 			zeige_mailbox("normal", "");
 	}
 	
@@ -395,10 +402,9 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 }
 
 if ($o_js || !$u_id) {
-	?>
-	<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
-	<br>
-	<?php
+	echo $f1
+	. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
+	. $f2 . "\n";
 }
 ?>
 </body>

@@ -375,9 +375,9 @@ switch ($aktion) {
 		
 		show_box_title_content($box,$text);
 }
+
+echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
 ?>
-<br>
-<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
 <br>
 </body>
 </html>

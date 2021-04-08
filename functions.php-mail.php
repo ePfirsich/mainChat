@@ -6,42 +6,44 @@ function formular_neue_email($neue_email, $m_id = "") {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	global $farbe_tabelle_kopf2, $PHP_SELF;
 	
-	if (!$eingabe_breite)
+	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
+	}
 	
 	// Nickname aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
-		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
+		$query = "select `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, 0);
-			if (strlen($an_nick) > 0)
+			if (strlen($an_nick) > 0) {
 				$neue_email['an_nick'] = $an_nick;
+			}
 		}
 	}
 	
 	if ($m_id) {
-		$titel = "Mail weiterleiten an:";
+		$box = "Mail weiterleiten an:";
 	} else {
-		$titel = "Neue Mail senden:";
+		$box = "Neue Mail senden:";
 	}
+	$text = '';
 	
-	echo "<FORM NAME=\"mail_neu\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"neu2\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"m_id\" VALUE=\"$m_id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
+	$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" METHOD=POST>\n"
+		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
+		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n"
+		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 	
-	if (!isset($neue_email['an_nick']))
-		$neue_email['an_nick'] = "";
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
-		. "<TR><TD align=\"right\" class=\"tabelle_zeile1\"><b>Nickname:</b></TD><TD class=\"tabelle_zeile1\">"
-		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[an_nick]\" VALUE=\""
-		. $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
-		. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"WEITER\">" . $f2
-		. "</TD></TR>\n" . "</TABLE></FORM>\n";
+	if (!isset($neue_email['an_nick'])) {
+	$neue_email['an_nick'] = "";
+	}
+	$text .= "<b>Nickname:</b> "
+		. $f1 . "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
+		. "<input type=\"submit\" name=\"los\" value=\"WEITER\">" . $f2;
 	
+	// Box anzeigen
+	show_box_title_content($box, $text);
 }
 
 function formular_neue_email2($neue_email, $m_id = "") {
@@ -65,11 +67,11 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	</script>
 	';
 	
+	$text = '';
 	if ($m_id) {
-		
 		// Alte Mail lesen und als Kopie in Formular schreiben
-		$titel = "Mail weiterleiten an";
-		$query = "SELECT m_betreff,m_text from mail "
+		$box = "Mail weiterleiten an";
+		$query = "select m_betreff,m_text from mail "
 			. "where m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -93,7 +95,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 		
 	} else {
 		// Neue Mail versenden
-		$titel = "Neue Mail an";
+		$box = "Neue Mail an";
 	}
 	
 	// Signatur anfügen
@@ -102,11 +104,11 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	
 	// Userdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
-		$query = "SELECT u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, "
+		$query = "select u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, "
 			. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
 			. "from user left join online on o_user=u_id "
-			. "WHERE u_id = $neue_email[m_an_uid]";
+			. "WHERE u_id = ".$neue_email['m_an_uid']." ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
@@ -116,57 +118,59 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			// E-Mail Adresse vorhanden?
 			$email_bekannt = false;
 			if (strlen($row->u_email) > 0) {
-				$email = $f1 . " (E-Mail: <a href=\"MAILTO:$row->u_email\">"
+				$email = $f1 . " (E-Mail: <a href=\"mailto:$row->u_email\">"
 					. htmlspecialchars($row->u_email) . "</A>)" . $f2;
 				$email_bekannt = true;
 			}
 			
-			$email_select = "<b>Art des Mailversands:</b>&nbsp;<SELECT NAME=\"neue_email[typ]\">";
+			$email_select = "<b>Art des Mailversands:</b>&nbsp;<select name=\"neue_email[typ]\">";
 			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
-				$email_select .= "<OPTION VALUE=\"0\">Mail in Chat-Mailbox\n";
+				$email_select .= "<option value=\"0\">Mail in Chat-Mailbox\n";
 				if ($email_bekannt)
-					$email_select .= "<OPTION SELECTED VALUE=\"1\">E-Mail an "
+					$email_select .= "<option selected value=\"1\">E-Mail an "
 						. $row->u_email . "\n";
 			} else {
-				$email_select .= "<OPTION SELECTED VALUE=\"0\">Mail in Chat-Mailbox\n";
+				$email_select .= "<option selected value=\"0\">Mail in Chat-Mailbox\n";
 				if ($email_bekannt)
-					$email_select .= "<OPTION VALUE=\"1\">E-Mail an "
+					$email_select .= "<option value=\"1\">E-Mail an "
 						. $row->u_email . "\n";
 			}
-			$email_select .= "</SELECT>\n";
+			$email_select .= "</select>\n";
 			
-			echo "<FORM NAME=\"mail_neu\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"neu3\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-				. "<INPUT TYPE=\"HIDDEN\" NAME=\"neue_email[m_an_uid]\" VALUE=\"$neue_email[m_an_uid]\">\n"
-				. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
+			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" METHOD=POST>\n"
+				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
+				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"
+				. "<table style=\"width:100%;\">";
 			
-			if ($row->o_id == "" || $row->o_id == "NULL")
+			if ($row->o_id == "" || $row->o_id == "NULL") {
 				$row->online = "";
+				}
 			
-			if (!isset($neue_email['m_betreff']))
+			if (!isset($neue_email['m_betreff'])) {
 				$neue_email['m_betreff'] = "";
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>$titel "
-				. user($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online,
-					$row->login) . "</b>$email</TD></TR>\n"
-				. "<tr><TD style=\"vertical-align:top;\" align=\"right\" class =\"tabelle_zeile2\"><b>Betreff:</b></TD><TD COLSPAN=2 class =\"tabelle_zeile2\">"
+				}
+			$text .= "<tr><td style=\"vertical-align:top;\" align=\"right\" class =\"tabelle_zeile2\"><b>Betreff:</b></td><td colspan=2 class =\"tabelle_zeile2\">"
 				. $f1
-				. "<INPUT TYPE=\"TEXT\" NAME=\"neue_email[m_betreff]\" VALUE=\""
+				. "<input type=\"TEXT\" name=\"neue_email[m_betreff]\" value=\""
 				. $neue_email['m_betreff'] . "\" SIZE="
 				. ($eingabe_breite1)
 				. "
 				 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-				. $f2 . "<input name=\"counter\" size=3></TD></TR>"
-				. "<TR><TD style=\"vertical-align:top;\" align=\"right\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></TD><TD COLSPAN=2 class=\"tabelle_zeile1\">"
+				. $f2 . "<input name=\"counter\" size=3></td></tr>"
+				. "<tr><td style=\"vertical-align:top;\" align=\"right\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
 				. $f1 . "<TEXTAREA COLS=" . ($eingabe_breite2)
-				. " ROWS=20 NAME=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
+				. " ROWS=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 				. $neue_email['m_text'] . "</TEXTAREA>\n" . $f2
-				. "</TD></TR>"
-				. "<TR><TD class=\"tabelle_zeile2\">&nbsp;</TD><TD class=\"tabelle_zeile2\">$email_select</TD>"
-				. "<TD ALIGN=\"right\" class=\"tabelle_zeile2\">" . $f1
-				. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"VERSENDEN\">"
-				. $f2 . "</TD></TR>\n" . "</TABLE></FORM>\n";
+				. "</td></tr>"
+				. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
+				. "<td ALIGN=\"right\" class=\"tabelle_zeile2\">" . $f1
+				. "<input type=\"SUBMIT\" name=\"los\" value=\"VERSENDEN\">"
+				. $f2 . "</td></tr>\n" . "</table></form>\n";
+			
+			// Box anzeigen
+			show_box_title_content($box, $text);
 			
 		} else {
 			echo "<P><b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
@@ -180,12 +184,13 @@ function zeige_mailbox($aktion, $zeilen) {
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	global $farbe_tabelle_kopf2, $PHP_SELF, $chat;
 	
-	if (!$eingabe_breite)
+	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
+	}
 	
 	switch ($aktion) {
 		case "alle";
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
+			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
 				. "WHERE m_an_uid=$u_id order by m_zeit desc";
 			$button = "LÖSCHEN";
@@ -193,7 +198,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			break;
 		
 		case "geloescht":
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
+			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
 				. "WHERE m_an_uid=$u_id AND m_status='geloescht' "
 				. "order by m_zeit desc";
@@ -203,7 +208,7 @@ function zeige_mailbox($aktion, $zeilen) {
 		
 		case "normal":
 		default;
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
+			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
 				. "WHERE m_an_uid=$u_id AND m_status!='geloescht' "
 				. "order by m_zeit desc";
@@ -211,30 +216,28 @@ function zeige_mailbox($aktion, $zeilen) {
 			$titel = "Mails in der Mailbox für";
 	}
 	
-	echo "<FORM NAME=\"mailbox\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"loesche\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-	
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result) {
-		
 		$anzahl = mysqli_num_rows($result);
+		$text = '';
+		$box = "$anzahl $titel $u_nick:";
+		
+		$text .= "<form name=\"mailbox\" action=\"$PHP_SELF\" method=\"POST\">\n"
+				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
+				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+		
 		if ($anzahl == 0) {
-			
 			// Leere Mailbox
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$anzahl $titel $u_nick:</b></TD></TR>\n";
-			"<TR><TD class=\"tabelle_zeile1\">&nbsp;</TD><TD align=\"left\" class=\"tabelle_zeile1\">Ihre Mailbox ist leer.</TD></TR>";
+			$text .=  "Ihre Mailbox ist leer.";
 			
 		} else {
-			
 			// Mails anzeigen
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$anzahl $titel $u_nick:</b></TD></TR>\n"
-				. "<TR><TD>" . $f1 . "Löschen" . $f2 . "</TD><TD>" . $f1
-				. "von" . $f2 . "</TD><TD>" . $f1 . "Betreff" . $f2
-				. "</TD><TD>" . $f1 . "Datum" . $f2 . "</TD><TD>" . $f1
-				. "Status" . $f2 . "</TD></TR>\n";
+			$text .= "<table style=\"width:100%;\">\n"
+				. "<tr><td style=\"font-weight:bold;\">" . $f1 . "Löschen" . $f2 . "</td><td style=\"font-weight:bold;\">" . $f1
+				. "von" . $f2 . "</td><td style=\"font-weight:bold;\">" . $f1 . "Betreff" . $f2
+				. "</td><td style=\"font-weight:bold;\">" . $f1 . "Datum" . $f2 . "</td><td style=\"font-weight:bold;\">" . $f1
+				. "Status" . $f2 . "</td></tr>\n";
 			
 			$i = 0;
 			$bgcolor = 'class="tabelle_zeile1"';
@@ -258,12 +261,12 @@ function zeige_mailbox($aktion, $zeilen) {
 					$von_nick = $row->u_nick;
 				}
 				
-				echo "<tr><TD ALIGN=\"CENTER\" $bgcolor>" . $auf
-					. "<INPUT TYPE=\"CHECKBOX\" NAME=\"loesche_email[]\" VALUE=\""
-					. $row->m_id . "\"></td>" . "<td $bgcolor>" . $auf . $url
-					. $von_nick . "</a>" . $zu . "</td>" . "<td WIDTH=\"50%\" $bgcolor>"
+				$text .= "<tr><td style=\"text-align:center;\" $bgcolor>" . $auf
+					. "<input type=\"checkbox\" name=\"loesche_email[]\" value=\""
+					. $row->m_id . "\">" . $zu . "</td>" . "<td $bgcolor>" . $auf . $url
+					. $von_nick . "</a>" . $zu . "</td>" . "<td style=\"width:50%;\" $bgcolor>"
 					. $auf . $url
-					. htmlspecialchars($row->m_betreff) . "</A>"
+					. htmlspecialchars($row->m_betreff) . "</a>"
 					. $zu . "</td>" . "<td $bgcolor>" . $auf . $row->zeit . $zu
 					. "</td>" . "<td $bgcolor>" . $auf . $row->m_status . $zu . "</td>"
 					. "</tr>\n";
@@ -276,31 +279,31 @@ function zeige_mailbox($aktion, $zeilen) {
 				$i++;
 			}
 			
-			echo "<tr><td $bgcolor><INPUT TYPE=\"checkbox\" onClick=\"toggle(this.checked)\">"
-				. $f1 . " Alle Auswählen" . $f2 . "</TD>\n"
+			$text .= "<tr><td $bgcolor><input type=\"checkbox\" onClick=\"toggle(this.checked)\">"
+				. $f1 . " Alle Auswählen" . $f2 . "</td>\n"
 				. "<td ALIGN=\"right\" $bgcolor colspan=\"4\">" . $f1
-				. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$button\">"
-				. $f2 . "</td></tr>\n";
+				. "<input type=\"SUBMIT\" name=\"los\" value=\"$button\">"
+				. $f2 . "</td></tr></table>\n";
 		}
 		
-		echo "</TABLE></FORM>\n";
+		$text .= "</form>\n";
+		
+		// Box anzeigen
+		show_box_title_content($box, $text);
 	}
 }
 
-function zeige_email($m_id)
-{
-	
+function zeige_email($m_id) {
 	// Zeigt die Mail im Detail an
 	
 	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_tabelle_kopf2, $PHP_SELF, $chat;
+	global $farbe_tabelle_kopf2, $PHP_SELF, $chat, $t;
 	
-	if (!$eingabe_breite)
+	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
+	}
 	
-	echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-	
-	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
+	$query = "select mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
 		. "WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " order by m_zeit desc";
 	$result = mysqli_query($mysqli_link, $query);
@@ -318,51 +321,54 @@ function zeige_email($m_id)
 		$row->m_text = str_replace("<ID>", $id, $row->m_text);
 		$row->m_text = str_replace("<HTTP_HOST>", $http_host, $row->m_text);
 		
+		$text = '';
+		$box = $t['sonst2'];
+		
 		// Mail ausgeben
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=4><b>Mail zeigen:</b></TD></TR>\n"
-			. "<TR><TD ALIGN=\"RIGHT\" class=\"tabelle_zeile1\"><b>"
-			. $f1 . "Von:" . $f2 . "</b></TD><TD COLSPAN=3 WIDTH=\"100%\" class=\"tabelle_zeile1\">"
-			. $von_nick . "</TD></TR>\n"
-			. "<TR><TD ALIGN=\"RIGHT\" class=\"tabelle_zeile2\"><b>"
-			. $f1 . "Am:" . $f2 . "</b></TD><TD COLSPAN=3 class=\"tabelle_zeile2\">" . $f1 . $row->zeit
-			. $f2 . "</TD></TR>\n"
-			. "<TR><TD ALIGN=\"RIGHT\" class=\"tabelle_zeile1\"><b>"
-			. $f1 . "Betreff:" . $f2 . "</b></TD><TD COLSPAN=3 class=\"tabelle_zeile1\">" . $f1
+		$text .= "<table style=\"width:100%;\">";
+		$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>"
+			. $f1 . "Von:" . $f2 . "</b></td><td colspan=3 class=\"tabelle_zeile1\">"
+			. $von_nick . "</td></tr>\n"
+			. "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>"
+			. $f1 . "Am:" . $f2 . "</b></td><td colspan=3 class=\"tabelle_zeile2\">" . $f1 . $row->zeit
+			. $f2 . "</td></tr>\n"
+			. "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>"
+			. $f1 . "Betreff:" . $f2 . "</b></td><td colspan=3 class=\"tabelle_zeile1\">" . $f1
 			. htmlspecialchars($row->m_betreff) . $f2
-			. "</TD></TR>\n"
-			. "<TR><TD ALIGN=\"RIGHT\" class=\"tabelle_zeile2\"><b>"
-			. $f1 . "Status:" . $f2 . "</b></TD><TD COLSPAN=3 class=\"tabelle_zeile2\">" . $f1
-			. $row->m_status . $f2 . "</TD></TR>\n"
-			. "<TR><TD class=\"tabelle_zeile1\">&nbsp;</TD><TD COLSPAN=3 class=\"tabelle_zeile1\">"
+			. "</td></tr>\n"
+			. "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>"
+			. $f1 . "Status:" . $f2 . "</b></td><td colspan=3 class=\"tabelle_zeile2\">" . $f1
+			. $row->m_status . $f2 . "</td></tr>\n"
+			. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td colspan=3 class=\"tabelle_zeile1\">"
 			. $f1 . str_replace("\n", "<br>\n", $row->m_text)
-			. $f2 . "</TD></TR>\n";
+			. $f2 . "</td></tr>\n";
 		
 		// Formular zur Löschen, Beantworten
-		echo "<TR><TD class=\"tabelle_zeile1\">&nbsp;</TD>"
-			. "<FORM NAME=\"mail_antworten\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-			. "<TD ALIGN=\"left\" class=\"tabelle_zeile1\">" . $f1
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"m_id\" VALUE=\"" . $row->m_id . "\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"antworten\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-			. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"ANTWORTEN\">" . $f2 . "</TD></FORM>\n"
-			. "<FORM NAME=\"mail_antworten\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-			. "<TD ALIGN=\"center\" class=\"tabelle_zeile1\">" . $f1
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"m_id\" VALUE=\"" . $row->m_id . "\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"weiterleiten\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-			. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"WEITERLEITEN\">" . $f2 . "</TD></FORM>\n"
-			. "<FORM NAME=\"mail_loeschen\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-			. "<TD ALIGN=\"right\" class=\"tabelle_zeile1\">" . $f1
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"loesche_email\" VALUE=\"" . $row->m_id . "\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"loesche\">\n"
-			. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-			. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"LÖSCHEN\">" . $f2
-			. "</TD></FORM></TR>\n";
+		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
+			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
+			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
+			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+			. "<input type=\"SUBMIT\" name=\"los\" value=\"ANTWORTEN\">" . $f2 . "</form></td>\n"
+			. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
+			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
+			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+			. "<input type=\"SUBMIT\" name=\"los\" value=\"WEITERLEITEN\">" . $f2 . "</form></td>\n"
+			. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
+			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
+			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+			. "<input type=\"SUBMIT\" name=\"los\" value=\"LÖSCHEN\">" . $f2
+			. "</form></td></tr>\n";
 		
-		echo "</table>\n";
+		$text .= "</table>\n";
+		
+		// Box anzeigen
+		show_box_title_content($box, $text);
 		
 		if ($row->m_status != "geloescht") {
 			// E-Mail auf gelesen setzen
@@ -374,14 +380,13 @@ function zeige_email($m_id)
 	}
 }
 
-function loesche_mail($m_id, $u_id)
-{
+function loesche_mail($m_id, $u_id) {
 	
 	// Löscht eine Mail der ID m_id
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	
-	$query = "SELECT m_zeit,m_id,m_status FROM mail "
+	$query = "select m_zeit,m_id,m_status FROM mail "
 		. "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {

@@ -287,10 +287,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			@mysqli_free_result($result);
 			
 			if ($o_js || !$u_id) {
-				?>
-				<div style="text-align:center;">[<a href="javascript:window.close();"><?php echo $t['sonst1']; ?></a>]</div>
-				<br>
-				<?php
+				echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
 			}
 			
 			break;

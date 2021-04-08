@@ -842,9 +842,7 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($o_js) {
-		echo $f1
-			. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</A>]</p>"
-			. $f2 . "\n";
+		echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
 	}
 	
 } else {

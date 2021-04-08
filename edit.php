@@ -916,7 +916,6 @@ if ($o_js) {
 		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst2]</a>]</p>"
 		. $f2 . "\n";
 }
-
 ?>
 </body>
 </html>
