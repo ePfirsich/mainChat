@@ -834,7 +834,7 @@ if (strlen($u_id) != 0) {
 				
 				if ($admin && strlen($f['u_id']) > 0) {
 					// Jeden User anzeigen
-					$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($f[u_id]);
+					$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($f['u_id']);
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
 					
