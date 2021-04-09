@@ -29,7 +29,7 @@ $userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche d
 	. "<IMG SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\">\n\n"
 	. "<b>Beispiel 2:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
 	. "ergibt folgende Grafik in Gelb für einen blauen Hintergrund:\n\n"
-	. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 BGCOLOR=\"#0000FF\"><TR><TD><IMG SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></TD></TR></TABLE>\n";
+	. "<table><TR><td style=\"background-color:#0000ff;\"><img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></td></tr></table>\n";
 
 // Falls ?hilfe übergeben wurde, Hilfe anzeigen
 
@@ -125,29 +125,29 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					. "ORDER BY r_name";
 				
 				$result = mysqli_query($mysqli_link, $query);
-				$raeume = "<SELECT NAME=\"eintritt\">";
+				$raeume = "<SELECT name=\"eintritt\">";
 				
 				$i = 0;
 				if ($communityfeatures && $forumfeatures)
 					$raeume = $raeume
-						. "<OPTION VALUE=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+						. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
 						if ((!isset($eintritt)
 							AND $row->r_name == $eintrittsraum)
 							|| (isset($eintritt) AND $row->r_id == $eintritt)) {
 							$raeume = $raeume
-								. "<OPTION SELECTED VALUE=\"$row->r_id\">$row->r_name\n";
+								. "<option selected VALUE=\"$row->r_id\">$row->r_name\n";
 						} else {
 							$raeume = $raeume
-								. "<OPTION VALUE=\"$row->r_id\">$row->r_name\n";
+								. "<option value=\"$row->r_id\">$row->r_name\n";
 						}
 						$i++;
 					}
 				}
 				if ($communityfeatures && $forumfeatures)
 					$raeume = $raeume
-						. "<OPTION VALUE=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+						. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 				$raeume = $raeume . "</SELECT>\n";
 				@mysqli_free_result($result);
 			} else {
@@ -160,7 +160,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					$lobby_id = mysqli_result($result, 0, "r_id");
 				}
 				@mysqli_free_result($result);
-				$raeume = "<INPUT TYPE=HIDDEN NAME=\"eintritt\" VALUE=$lobby_id>\n";
+				$raeume = "<input type=hidden name=\"eintritt\" VALUE=$lobby_id>\n";
 			}
 			
 			echo $raeume;

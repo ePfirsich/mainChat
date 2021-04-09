@@ -14,11 +14,11 @@ function zeige_aktionen($aktion) {
 	$titel1 = "Für";
 	$titel2 = "sind folgende Aktionen eingetragen";
 	
-	echo "<FORM NAME=\"freund_loeschen\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"eintragen\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=4 CELLSPACING=0>";
+	echo "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		. "<input type=\"hidden\" name=\"id\"value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\"value=\"eintragen\">\n"
+		. "<input type=\"hidden\" name=\"http_host\"value=\"$http_host\">\n"
+		. "<table style=\"width:100%;\">";
 	
 	// Einstellungen aus Datenbank lesen 
 	$result = mysqli_query($mysqli_link, $query);
@@ -29,8 +29,8 @@ function zeige_aktionen($aktion) {
 	}
 	
 	// Aktionen zeigen
-	echo "<TR BGCOLOR=\"#85D4FF\"><TD COLSPAN=5>XXX<b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
-		. "<TR><TD></TD>";
+	echo "<tr><td style=\"background-color:#85D4FF;\" colspan=5>XXX<b>$titel1 $u_nick $titel2:</b></td></tr>\n"
+		. "<tr><td></td>";
 	
 	$i = 0;
 	$bgcolor = 'class="tabelle_zeile1"';
@@ -78,20 +78,20 @@ function zeige_aktionen($aktion) {
 	
 	// Zeile der a_wann ausgeben
 	foreach ($a_wann as $a_wann_eintrag) {
-		echo "<TD ALIGN=\"CENTER\"><b>" . $f1 . $a_wann_eintrag . $f2
-			. "</b></TD>\n";
+		echo "<td style=\"text-align:center;\"><b>" . $f1 . $a_wann_eintrag . $f2
+			. "</b></td>\n";
 	}
-	echo "</TR>\n";
+	echo "</tr>\n";
 	
 	// Tabelle zeilenweise ausgeben
 	$i = 0;
 	foreach ($def_was as $def_was_eintrag) {
 		
 		echo "<tr><td style=\"text-align:right;\" $bgcolor><b>" . $f1
-			. $def_was_eintrag . $f2 . "</b></TD>\n";
+			. $def_was_eintrag . $f2 . "</b></td>\n";
 		foreach ($a_wann as $a_wann_eintrag) {
 			echo "<td style=\"text-align:center;\" $bgcolor>" . $f3
-				. "<SELECT NAME=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
+				. "<select name=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
 			
 			// Zwischen offline/online unterscheiden
 			if ($a_wann_eintrag == "Sofort/Offline") {
@@ -106,18 +106,18 @@ function zeige_aktionen($aktion) {
 				if (isset($was[$def_was_eintrag][$a_wann_eintrag])
 					&& $was[$def_was_eintrag][$a_wann_eintrag]['a_wie']
 						== $auswahl) {
-					echo "<OPTION SELECTED VALUE=\""
+					echo "<option selectedvalue=\""
 						. $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|"
 						. $auswahl . "\">" . str_replace(",", "+", $auswahl)
 						. "\n";
 				} else {
-					echo "<OPTION VALUE=\""
+					echo "<option value=\""
 						. (isset($was[$def_was_eintrag][$a_wann_eintrag]) ? $was[$def_was_eintrag][$a_wann_eintrag]['a_id']
 							: "") . "|" . $auswahl . "\">"
 						. str_replace(",", " + ", $auswahl) . "\n";
 				}
 			}
-			echo "</SELECT>" . $f4 . "</TD>\n";
+			echo "</select>" . $f4 . "</td>\n";
 			
 		}
 		echo "</tr>\n";
@@ -131,7 +131,7 @@ function zeige_aktionen($aktion) {
 	}
 	
 	echo "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
-		. $f1 . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$button\">" . $f2
+		. $f1 . "<input type=\"submit\" name=\"los\"value=\"$button\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
 }

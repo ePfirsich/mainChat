@@ -356,7 +356,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			. "$level[$uu_level]" . $f2 . "</td></tr>\n";
 		
 			$text .= "<tr><td>" . $f1 . $t['user_zeige10'] . $f2 . "</td>"
-			. "<td BGCOLOR=\"#" . $uu_farbe . "\">&nbsp;</td></tr>\n";
+			. "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
 		
 		if ($uu_kommentar && $admin) {
 			$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2

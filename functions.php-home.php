@@ -498,8 +498,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 	return ($text);
 }
 
-function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
-{
+function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	// Einstellungen für den Hintergrund
 	global $f1, $f2, $f3, $f4;
 	

@@ -270,23 +270,23 @@ Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstel
 </p>
 ";
 
-$legende = "<tr bgcolor=#E8E8FF><td colspan=\"2\"><p><b>Wieviele Chat-Punkte ergeben welchen Würfel?</b> </p></td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/gruppe1.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 1.000 - 9.999 Punkte</td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/gruppe2.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 10.000 - 99.999 Punkte</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/gruppe3.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 100.000 - 199.999 Punkte</td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/gruppe4.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 200.000 - 299.999 Punkte</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/gruppe5.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 300.000 - 499.999 Punkte</td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/gruppe6.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 500.000 - 749.999 Punkte</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/gruppe7.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 750.000 - 999.999 Punkte</td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/gruppe8.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 1.000.000 - 4.999.999 Punkte</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/gruppe9.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: 5.000.000 - 9.999.999 Punkte</td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/gruppe10.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>User: ab 10.000.000 Punkten</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td colspan=\"2\"><p><b>Weitere Symbole:</b> </p></td></tr>"
-	. "<tr bgcolor=#E8E8FF><td>&nbsp;<img src=\"pics/haeuschen.gif\" width=\"12\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>Homepage des Users</td></tr>"
-	. "<tr bgcolor=#D8D8EE><td>&nbsp;<img src=\"pics/mail.gif\" width=\"17\" height=\"12\" alt=\"\" border=\"0\"><br></td><td>E-Mail des Users</td></tr>";
+$legende = "<tr><td colspan=\"2\" class=\"tabelle_zeile1\" style=\"padding: 5px; font-weight:bold;\">Wieviele Chat-Punkte ergeben welchen Würfel?</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe1.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">User: 1.000 - 9.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe2.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">User: 10.000 - 99.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe3.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">User: 100.000 - 199.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe4.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">User: 200.000 - 299.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe5.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">User: 300.000 - 499.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe6.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">User: 500.000 - 749.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe7.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">User: 750.000 - 999.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe8.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">User: 1.000.000 - 4.999.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe9.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">User: 5.000.000 - 9.999.999 Punkte</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe10.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">User: ab 10.000.000 Punkten</td></tr>"
+	. "<tr><td colspan=\"2\" class=\"tabelle_zeile2\" style=\"padding: 5px; font-weight:bold;\">Weitere Symbole:</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/haeuschen.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">Homepage des Users</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/mail.gif\" style=\"width:17px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">E-Mail des Users</td></tr>";
 
 $hilfe_community = "<br>
-<table class=\"tabelle_kopf\">
+<table style=\"float:right;\">
 " . $legende
 	. "
 </table>

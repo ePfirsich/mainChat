@@ -298,8 +298,7 @@ switch ($aktion) {
 		
 		$text .= "<table class=\"tabelle_kopf\">\n"
 			. $legende . "</table><br>\n"
-			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br>\n";
-		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br><br>\n";
 		
 		show_box_title_content($box,$text);
 		
