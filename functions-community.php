@@ -17,8 +17,7 @@ function suche_threadord($poid)
 	return ($to);
 }
 
-function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM")
-{
+function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// Hat der User neue Chat-Mail?
 	// $u_id ist die ID des des Users
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
@@ -47,7 +46,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM")
 		// Sonderfall OLM: "Sie haben neue Mail..." ausgeben.
 		if ($nachricht == "OLM") {
 			$ur1 = "mail.php?http_host=$http_host&id=$id&aktion=";
-			$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+			$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			system_msg("", 0, $u_id, $system_farbe,
 				str_replace("%link%", $url, $t['mail1']));
 		}

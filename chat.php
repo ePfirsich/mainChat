@@ -24,7 +24,7 @@ if ($u_id) {
 	aktualisiere_online($u_id, $o_raum, 0);
 	
 	// Algorithmus wählen
-	if ($backup_chat || $u_backup) :
+	if ($backup_chat || $u_backup) {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		?>
 		<meta http-equiv="expires" content="0">
@@ -40,7 +40,7 @@ if ($u_id) {
 
 		// Chatausgabe, $letzte_id ist global
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
-	else :
+	} else {
 		$meta_refresh = "<meta http-equiv=\"expires\" content=\"0\">";
 		$meta_refresh .= "<script language=JavaScript>\n"
 			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
@@ -71,17 +71,17 @@ if ($u_id) {
 		ignore_user_abort(FALSE);
 		
 		// 1 Sek pro Durchlauf fest eingestellt
-		if ($erweitertefeatures && FALSE) :
+		if ($erweitertefeatures && FALSE) {
 			// Für 0,2 Sek pro Durchlauf
 			$durchlaeufe = $refresh_zeit * 5;
 			$zeige_userliste = 500;
-		else :
+		} else {
 			// Für 1 Sek pro Durchlauf
 			$durchlaeufe = $refresh_zeit;
 			$zeige_userliste = 100;
-		endif;
+		}
 		
-		while ($j < ($durchlaeufe) && !$beende_prozess) :
+		while ($j < ($durchlaeufe) && !$beende_prozess) {
 			// Raum merken
 			$o_raum_alt = $o_raum;
 			
@@ -106,26 +106,26 @@ if ($u_id) {
 			
 			// Falls nach mehr als 100 sek. keine Ausgabe erfolgt, Userliste anzeigen
 			// Nach > 120 Sekunden schlagen bei einigen Browsern Timeouts zu ;)
-			if ($i > $zeige_userliste) :
+			if ($i > $zeige_userliste) {
 				if (isset($raum_msg) && $raum_msg != "AUS") {
 					system_msg("", 0, $u_id, $system_farbe, $raum_msg);
 				} else {
 					raum_user($o_raum, $u_id, "");
 				}
 				$i = 0;
-			endif;
+			}
 			
 			// Raumwechsel?
-			if (($back == 0) && ($o_raum != $o_raum_alt)) :
+			if (($back == 0) && ($o_raum != $o_raum_alt)) {
 				// Trigger für die letzten Nachrichten setzen
 				$back = 1;
-			endif;
+			}
 			
 			// Chatausgabe, $letzte_id ist global
 			// Falls Result=wahr wurde Text ausgegeben, Timer für Userliste zurücksetzen
-			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back)) :
+			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back)) {
 				$i = 0;
-			endif;
+			}
 			
 			// Trigger zurücksetzen
 			$back = 0;
@@ -138,12 +138,11 @@ if ($u_id) {
 			endif;
 			
 			// Ausloggen falls Browser abgebrochen hat
-			if (connection_status() != 0) :
+			if (connection_status() != 0) {
 				// Verbindung wurde abgebrochen -> Schleife verlassen
 				$beende_prozess = TRUE;
-			endif;
-			
-		endwhile;
+			}
+		}
 		
 		// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
 		$back = 20;
@@ -151,7 +150,7 @@ if ($u_id) {
 		echo "<body onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n";
 		flush();
 	
-	endif;
+	}
 	
 } else {
 	zeige_header_ende();

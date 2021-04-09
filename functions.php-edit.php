@@ -46,7 +46,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 		$text .= "<option selectED value=\"0\">$t[user_zeige16]";
 	}
 	
-	$text .= "</select><input type=\"SUBMIT\" name=\"eingabe\" value=\"Ändern!\">"
+	$text .= "</select><input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">"
 		. $f2 . "<HR SIZE=2 NOSHADE></td></tr>\n";
 	
 	// Nur für Admins

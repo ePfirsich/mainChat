@@ -105,8 +105,7 @@ function show_who_is_online($result) {
 	}
 }
 
-function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt)
-{
+function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=User-ID, u_name ist Nickname, u_level ist Level, hash_id ist Session-ID

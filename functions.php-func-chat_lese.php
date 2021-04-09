@@ -1,7 +1,6 @@
 <?php
 
-function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = FALSE, $nur_privat_user = "")
-{
+function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = FALSE, $nur_privat_user = "") {
 	// Gibt Text gefiltert aus
 	// $raum = ID des aktuellen Raums
 	// $u_id = ID des aktuellen Users
@@ -28,12 +27,14 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	$qquery = "";
 	
 	// Optional keine Systemnachrichten
-	if (!$sysmsg)
+	if (!$sysmsg) {
 		$qquery .= " AND c_typ!='S'";
+	}
 	
 	// Optional keine öffentlichen oder versteckten Nachrichten
-	if ($nur_privat)
+	if ($nur_privat) {
 		$qquery .= " AND c_typ!='H' AND c_typ!='N'";
+	}
 	
 	if ($nur_privat_user) {
 		#echo "nur_privat_user ist gesetzt! $nur_privat_user | $u_id";
@@ -44,7 +45,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		#print htmlentities($qquery);
 	}
 	if ($back == 1) {
-		
 		// o_chat_id lesen
 		$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
 		$result = mysqli_query($mysqli_link, $query);

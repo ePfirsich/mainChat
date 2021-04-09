@@ -25,8 +25,9 @@ if ($u_id) {
 	}
 	
 	// Default für Farbe setzen, falls undefiniert
-	if (!isset($u_farbe))
+	if (!isset($u_farbe)) {
 		$u_farbe = $user_farbe;
+	}
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -75,18 +76,18 @@ zeige_header_ende();
 	// Eingabeformular mit Menu und Farbauswahl
 	reset($farbe_chat_user);
 	$i = 0;
-	echo "<FORM NAME=\"form\" METHOD=POST target=\"schreibe\" ACTION=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+	echo "<form name=\"form\" method=\"POST\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 	
-	echo "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0><tr>"
-		. "<td>&nbsp;</td><TD COLSPAN=" . (count($farbe_chat_user) + 3) . ">";
+	echo "<table style=\"border-collapse:collapse;\"><tr>"
+		. "<td>&nbsp;</td><td colspan=" . (count($farbe_chat_user) + 3) . ">";
 	
 	// Typ Eingabefeld für Chateingabe setzen
 	if ($u_level == "M") {
-		$text2_typ = "<TEXTAREA ROWS=\"4\" NAME=\"text2\" COLS=\""
-			. $chat_eingabe_breite . "\"></TEXTAREA>";
+		$text2_typ = "<textarea rows=\"4\" name=\"text2\" cols=\""
+			. $chat_eingabe_breite . "\"></textarea>";
 	} else {
-		$text2_typ = "<input type=\"TEXT\" NAME=\"text2\" maxlength=\""
-			. ($chat_max_eingabe - 1) . "\" value=\"\" SIZE=\""
+		$text2_typ = "<input type=\"text\" name=\"text2\" maxlength=\""
+			. ($chat_max_eingabe - 1) . "\" value=\"\" size=\""
 			. $chat_eingabe_breite . "\""
 			. (isset($eingabe_inaktiv_autocomplete) && $eingabe_inaktiv_autocomplete == "1" ? "autocomplete=\"off\"" : "")
 			. ">";
@@ -216,7 +217,7 @@ zeige_header_ende();
 	</form>
 	<?php
 } else {
-	echo "<BODY onLoad='parent.location.href=\"index.php?http_host=$http_host\"'>\n";
+	echo "<vody onLoad='parent.location.href=\"index.php?http_host=$http_host\"'>\n";
 }
 
 ?>

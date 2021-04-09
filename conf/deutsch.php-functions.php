@@ -302,7 +302,7 @@ $t['moderiertdel4'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht.
 
 $t['profil1'] = "<b>$chat:</b> Sie haben Ihr <a %link%>Profil</a> noch nicht ausgefüllt! Bitte klicken Sie &gt&gt<a %link%>HIER</a>&lt&lt";
 
-$t['mail1'] = "<b>$chat:</b> Sie haben neue Mail. <A %link%>Gleich lesen?</A>";
+$t['mail1'] = "<b>$chat:</b> Sie haben neue Mails. <A %link%>Gleich lesen?</A>";
 $t['mail2'] = " Mail von '%nick%' am %zeit%: %betreff%";
 $t['mail3'] = "[Mail-Weiterleitung aus dem $chat]\n\n";
 $t['mail4'] = "\n  Eine Mail aus dem $chat http://" . $HTTP_HOST;

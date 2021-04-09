@@ -250,9 +250,9 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	if (isset($login)) {
 		$logintext .= $login;
 	}
-	$logintext .= "\" SIZE=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
+	$logintext .= "\" size=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
 		. $t['login9'] . "</b><br>" . $f1
-		. "<input type=\"PASSWORD\" name=\"passwort\" SIZE=$eingabe_breite>"
+		. "<input type=\"password\" name=\"passwort\" size=$eingabe_breite>"
 		. $f2 . "</td>\n" . $raeume . "<td><br>" . $f1
 		. "<b><input type=\"submit\" name=\"los\" value=\"" . $t['login10']
 		. "\"></b>\n"
