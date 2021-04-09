@@ -1,13 +1,12 @@
 <?php
 
-function zeige_aktionen($aktion)
-{
+function zeige_aktionen($aktion) {
 	
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_tabelle_kopf2, $def_was, $eingabe_breite;
+	global $def_was, $eingabe_breite;
 	global $forumfeatures;
 	
 	$query = "SELECT * from aktion " . "WHERE a_user=$u_id ";
@@ -30,7 +29,7 @@ function zeige_aktionen($aktion)
 	}
 	
 	// Aktionen zeigen
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5>XXX<b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
+	echo "<TR BGCOLOR=\"#85D4FF\"><TD COLSPAN=5>XXX<b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
 		. "<TR><TD></TD>";
 	
 	$i = 0;

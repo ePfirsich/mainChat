@@ -151,7 +151,6 @@ $layout_parse="";
 // Grundfarben
 
 // Tabellenfarben
-$farbe_tabelle_kopf2="#85D4FF";
 $farbe_tabelle_koerper="#FFFFFF";
 $farbe_tabelle_zeile2="#D8D8EE";
 

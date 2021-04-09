@@ -38,7 +38,6 @@ function vater_rekursiv($vater) {
 
 function such_bereich() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_tabelle_kopf2;
 	global $suche, $t;
 	
 	$eingabe_breite = 50;
@@ -232,7 +231,7 @@ function such_bereich() {
 
 function such_ergebnis() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
-	global $farbe_tabelle_kopf2, $farbe_hervorhebung_forum;
+	global $farbe_hervorhebung_forum;
 	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
 	
 	$eingabe_breite = 50;
