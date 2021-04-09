@@ -42,15 +42,15 @@ if ($erweitertefeatures) {
 if (isset($reset) && $reset && $o_js) {
 	if (isset($forum) && $forum) {
 		
-		echo "<SCRIPT>";
+		echo "<script>";
 		if ($frame_online != "")
 			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
 		echo "opener_reload('forum.php?http_host=$http_host&id=$id','1');\n"
 			. "opener_reload('messages-forum.php?http_host=$http_host&id=$id','3');\n"
 			. "opener_reload('interaktiv-forum.php?http_host=$http_host&id=$id','4');\n"
-			. "window.close();\n" . "</SCRIPT>\n";
+			. "window.close();\n" . "</script>\n";
 	} elseif ($u_level == "M") {
-		echo "<SCRIPT>";
+		echo "<script>";
 		if ($frame_online != "")
 			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
 		echo "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1');\n";
@@ -62,9 +62,9 @@ if (isset($reset) && $reset && $o_js) {
 		echo "opener_reload('eingabe.php?http_host=$http_host&id=$id','3');\n"
 			. "opener_reload('moderator.php?http_host=$http_host&id=$id','4');\n"
 			. "opener_reload('interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum','5');\n"
-			. "window.close();\n" . "</SCRIPT>\n";
+			. "window.close();\n" . "</script>\n";
 	} else {
-		echo "<SCRIPT>";
+		echo "<script>";
 		if (isset($frame_online) && $frame_online != "")
 			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
 		echo "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1');\n";
@@ -75,7 +75,7 @@ if (isset($reset) && $reset && $o_js) {
 		}
 		echo "opener_reload('eingabe.php?http_host=$http_host&id=$id','3');\n"
 			. "opener_reload('interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum','4');\n"
-			. "window.close();\n" . "</SCRIPT>\n";
+			. "window.close();\n" . "</script>\n";
 	}
 }
 
@@ -92,10 +92,10 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 	if ($f['u_backup'] == 1)
 		warnung($u_id, $u_nick, "sicherer_modus");
 	if ($o_js) {
-		echo "<SCRIPT LANGUAGE=JavaScript>"
+		echo "<script LANGUAGE=JavaScript>"
 			. "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1')\n"
 			. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
-			. "</SCRIPT>\n";
+			. "</script>\n";
 	}
 }
 

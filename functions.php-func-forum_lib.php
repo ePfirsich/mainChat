@@ -864,7 +864,7 @@ function hole_letzten($root_id, $new_po_id) {
 function loesche_posting() {
 	global $mysqli_link, $th_id, $po_id, $thread;
 	global $arr_delete;
-	global $farbe_tabelle_kopf2, $punkte_pro_posting;
+	global $punkte_pro_posting;
 	
 	$arr_delete = array();
 	
@@ -982,7 +982,7 @@ function loesche_posting() {
 	?>
 	<table class="tabelle_gerust">
 		<tr>
-			<td style="font-weight:bold; background-color:<?php echo $farbe_tabelle_kopf2; ?>; vertical-align:bottom;">
+			<td style="font-weight:bold; vertical-align:bottom;" class="tabelle_koerper_login">
 			<?
 			reset($arr_delete);
 			while (list($k, $v) = @each($arr_delete)) {

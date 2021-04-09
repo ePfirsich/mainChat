@@ -1,5 +1,4 @@
 <?php
-
 require("functions.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
@@ -46,10 +45,10 @@ zeige_header_ende();
 // Menue ausgeben
 
 // Menü als erstes ausgeben
-$box = "Menü Top10";
-$text = "<a href=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">Top 10</A>\n";
-$text .= "| <a href=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">Top 100</A>\n";
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">Hilfe</A>\n";
+$box = $t['menue1'];
+$text = "<a href=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">".$t['menue2']."</a>\n";
+$text .= "| <a href=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">".$t['menue3']."</a>\n";
+$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">".$t['menue4']."</a>\n";
 show_box2($box, $text);
 ?>
 <img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
@@ -69,16 +68,13 @@ if ($erweitertefeatures) {
 	}
 	
 	$bgcolor = 'class="tabelle_zeile1"';
-	echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=2 CELLSPACING=0>\n"
-		. "<TR BGCOLOR=\"$farbe_tabelle_kopf2\" align=\"left\"><TD WIDTH=\"4%\">&nbsp;</TD>"
-		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
-		. "&nbsp;&nbsp;&nbsp;&nbsp;Punkte " . strftime("%B", time())
-		. "</TD>"
-		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
-		. "&nbsp;&nbsp;&nbsp;&nbsp;Punkte " . strftime("%Y", time())
-		. "</TD>"
-		. "<TD WIDTH=\"32%\" style=\"font-weight:bold;\" colspan=2>"
-		. "&nbsp;&nbsp;&nbsp;&nbsp;Gesamtpunkte</TD></TR></TABLE>\n";
+	echo "<table class=\"tabelle_kopf\">\n"
+		. "<tr>"
+		. "<td class=\"tabelle_kopfzeile\" style=\"width:4%;\">&nbsp;</td>"
+		. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top1'] ." " . strftime("%B", time()) . "</td>"
+		. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top1'] ." " . strftime("%Y", time()) . "</td>"
+		. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top2'] ."</td>"
+		. "</tr>\n";
 	
 	// im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
 	$query = "select * from top10cache where t_eintrag=1 "
@@ -143,24 +139,18 @@ if ($erweitertefeatures) {
 	// Array als Tabelle ausgeben
 	if (is_array($array_user)) {
 		for ($i = 0; $i < $anzahl; $i++) {
-			echo "<TABLE WIDTH=100%>\n"
-				. "<tr><td WIDTH=\"4%\" align=\"right\" $bgcolor  style=\"font-weight:bold;\">"
-				. $f1 . ($i + 1) . $f2 . "</td>";
+			echo "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $f1 . ($i + 1) . $f2 . "</td>";
 			for ($j = 0; $j < 3; $j++) {
 				if (isset($array_user[$j]) && isset($array_user[$j][$i])
 					&& $array_user[$j][$i]['punkte']) {
 					$array_user[$j][$i]['u_punkte_anzeigen'] = 'Y';
-					echo "<td WIDTH=\"8%\" align=\"right\" $bgcolor>" . $f1
-						. $array_user[$j][$i]['punkte'] . $f2
-						. "</td><td  WIDTH=\"24%\" $bgcolor>" . $f1
-						. user($array_user[$j][$i]['u_id'],
-							$array_user[$j][$i], TRUE) . $f2 . "</td>\n";
+					echo "<td style=\"width:8%; text-align:right;\" $bgcolor>" . $f1 . $array_user[$j][$i]['punkte'] . $f2 . "</td>"
+						."<td style=\"width:24%\" $bgcolor>" . $f1 . user($array_user[$j][$i]['u_id'], $array_user[$j][$i], trUE) . $f2 . "</td>\n";
 				} else {
-					echo "<td WIDTH=\"32%\" colspan=2 $bgcolor>" . $f1 . "&nbsp;" . $f2
-						. "</td>\n";
+					echo "<td style=\"width:32%;\" colspan=\"2\" $bgcolor>" . $f1 . "&nbsp;" . $f2 . "</td>\n";
 				}
 			}
-			echo "</tr></table>\n";
+			echo "</tr>\n";
 			flush();
 			if (($i % 2) > 0) {
 				$bgcolor = 'class="tabelle_zeile1"';
@@ -170,7 +160,8 @@ if ($erweitertefeatures) {
 			
 		}
 	}
-	echo "<br>\n";
+	
+	echo "</table>";
 }
 
 if ($o_js || !$u_id) {
