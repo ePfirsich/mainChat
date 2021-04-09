@@ -347,9 +347,8 @@ if (strlen($u_id) != 0) {
 				if (!$result || mysqli_num_rows($result) == 0) {
 					echo "<p>$t[sonst4]</p>";
 				} else {
-					
-					Header(
-						"Content-Disposition: attachment; filename=\"mainChat-Export.xls\"");
+					/*
+					Header("Content-Disposition: attachment; filename=\"mainChat-Export.xls\"");
 					Header("Pragma: no-cache");
 					Header("Expires: 0");
 					Header("ETag: 900aa-551-3c45620d");
@@ -357,6 +356,7 @@ if (strlen($u_id) != 0) {
 					Header("Keep-Alive: timeout=15, max=100");
 					Header("Connection: Keep-Alive");
 					Header("Content-Type: application/vnd.ms-excel");
+					*/
 					
 					if ($erweitertefeatures) {
 						echo $t['sonst26'];

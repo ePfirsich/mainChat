@@ -36,17 +36,17 @@ $t['option18'] = "Sortierung nach Betreff - Aufsteigend";
 $t['option19'] = "Sortierung nach Autor - Absteigend";
 $t['option20'] = "Sortierung nach Autor - Aufsteigend";
 
-$t['ergebnis1'] = "Suchergebnis";
+$t['ergebnis1'] = "Suchergebnisse";
 $t['ergebnis2'] = "Beiträge gefunden:";
 $t['ergebnis3'] = "Thema";
 $t['ergebnis4'] = "Betreff";
 $t['ergebnis6'] = "geschrieben am";
 $t['ergebnis7'] = "Autor";
 
-$t['fehler1'] = "Username enthält ungültige Zeichen.<br>";
-$t['fehler2'] = "Entweder Suchwörter oder Username muss bei dieser Zeitangabe angegeben werden.<br>";
-$t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.<br>";
-$t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.<br>";
-$t['fehler5'] = "Falsches Board \/ Thema.<br>";
+$t['fehler1'] = "Username enthält ungültige Zeichen.";
+$t['fehler2'] = "Entweder Suchwörter oder Username muss bei dieser Zeitangabe angegeben werden.";
+$t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.";
+$t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.";
+$t['fehler5'] = "Falsches Board \/ Thema.";
 
 ?>

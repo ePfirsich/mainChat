@@ -6,28 +6,24 @@ require("functions.php-func-forum_lib.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
-function show_pfad_posting2($th_id)
-{
-	
+function show_pfad_posting2($th_id) {
 	global $mysqli_link, $f1, $f2, $f3, $f4, $id, $http_host, $thread;
 	//Infos über Forum und Thema holen
-	$sql = "select fo_id, fo_name, th_name
-				from forum, thema
-				where th_id = " . intval($th_id) . "
-				and fo_id = th_fo_id";
+	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum`, `thema` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
+	
 	$query = mysqli_query($mysqli_link, $sql);
 	$fo_id = mysqli_result($query, 0, "fo_id");
-	$fo_name = htmlspecialchars($query, 0, "fo_name");
-	$th_name = htmlspecialchars($query, 0, "th_name");
+	$fo_name = htmlspecialchars( mysqli_result($query, 0, "fo_name") );
+	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	@mysqli_free_result($query);
 	
 	return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
 	
 }
 
-function vater_rekursiv($vater)
-{
-	$query = "SELECT po_id, po_vater_id FROM posting WHERE po_id = " . intval($vater);
+function vater_rekursiv($vater) {
+	global $mysqli_link;
+	$query = "SELECT `po_id`, `po_vater_id` FROM posting WHERE `po_id` = " . intval($vater);
 	$result = mysqli_query($mysqli_link, $query);
 	$a = mysqli_fetch_array($result);
 	if (mysqli_num_rows($result) <> 1) {
@@ -40,181 +36,198 @@ function vater_rekursiv($vater)
 	}
 }
 
-function such_bereich()
-{
+function such_bereich() {
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	global $farbe_tabelle_kopf2;
 	global $suche, $t;
 	
 	$eingabe_breite = 50;
 	$select_breite = 250;
-	$titel = $t['titel'];
 	
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	$box = $t['titel'];
+	$text = '';
 	
-	echo "<FORM NAME=\"suche_neu\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"suche\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
 	
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
-		. 
-		// Suchtext
-		"<tr><TD align=\"right\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></TD><TD class=\"tabelle_zeile1\">"
-		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"suche[text]\" VALUE=\""
+	$text = "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
+		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+		. "<table style=\"width:100%;\">";
+	
+	// Suchtext
+	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
+		. $f1 . "<input type=\"TEXT\" name=\"suche[text]\" value=\""
 		. htmlspecialchars($suche['text'])
-		. "\" SIZE=$eingabe_breite>" . $f2 . "</TD></TR>\n";
+		. "\" size=$eingabe_breite>" . $f2 . "</td></tr>\n";
 	
 	// Suche in Board/Thema
-	echo "<tr><TD align=\"right\" style=\"vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</TD><TD class=\"tabelle_zeile1\">"
-		. $f1 . "<SELECT NAME=\"suche[thema]\" SIZE=\"1\" STYLE=\"width: "
+	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
+		. $f1 . "<select name=\"suche[thema]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	
 	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
 		. "WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = mysqli_query($mysqli_link, $sql);
 	$themaalt = "";
-	echo "<OPTION ";
-	if (substr($suche['thema'], 0, 1) <> "B")
-		echo "SELECTED ";
-	echo "VALUE=\"ALL\">$t[option1]</OPTION>";
+	$text .= "<option ";
+	if (substr($suche['thema'], 0, 1) <> "B") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"ALL\">$t[option1]</option>";
 	while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		if (pruefe_leserechte($thema['th_id'])) {
 			if ($themaalt <> $thema['fo_name']) {
-				echo "<OPTION ";
-				if ($suche['thema'] == "B" . $thema['fo_id'])
-					echo "SELECTED ";
-				echo "VALUE=\"B" . $thema['fo_id'] . "\">" . $thema['fo_name']
-					. "</OPTION>";
+				$text .= "<option ";
+				if ($suche['thema'] == "B" . $thema['fo_id']) {
+					$text .= "selected ";
+				}
+				$text .= "value=\"B" . $thema['fo_id'] . "\">" . $thema['fo_name']
+					. "</option>";
 				$themaalt = $thema['fo_name'];
 			}
-			echo "<OPTION ";
+			$text .= "<option ";
 			if ($suche['thema']
-				== "B" . $thema['fo_id'] . "T" . $thema['th_id'])
-				echo "SELECTED ";
-			echo "VALUE=\"B" . $thema['fo_id'] . "T" . $thema['th_id']
+				== "B" . $thema['fo_id'] . "T" . $thema['th_id']) {
+					$text .= "selected ";
+				}
+				$text .= "value=\"B" . $thema['fo_id'] . "T" . $thema['th_id']
 				. "\">&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;" . $thema['th_name']
-				. "</OPTION>";
+				. "</option>";
 		}
 	}
-	echo "</SELECT></TD></TR>\n";
+	$text .= "</select></td></tr>\n";
 	@mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	echo "<TR><TD align=\"right\" style=\"vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</TD><TD class=\"tabelle_zeile1\">"
-		. $f1 . "<SELECT NAME=\"suche[modus]\" SIZE=\"1\" STYLE=\"width: "
+	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\">"
+		. $f1 . "<select name=\"suche[modus]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
-	echo "<OPTION ";
-	if ($suche['modus'] <> "O")
-		echo "SELECTED ";
-	echo "VALUE=\"A\">$t[option2]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['modus'] == "O")
-		echo "SELECTED ";
-	echo "VALUE=\"O\">$t[option3]</OPTION>";
-	echo "</SELECT></TD></TR>\n";
+	$text .= "<option ";
+	if ($suche['modus'] <> "O") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"A\">$t[option2]</option>";
+	$text .= "<option ";
+	if ($suche['modus'] == "O") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"O\">$t[option3]</option>";
+	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Betreff/Text
-	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
-		. "<SELECT NAME=\"suche[ort]\" SIZE=\"1\" STYLE=\"width: "
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
+		. "<select name=\"suche[ort]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
-	echo "<OPTION ";
-	if ($suche['ort'] <> "B" && $suche['ort'] <> "T")
-		echo "SELECTED ";
-	echo "VALUE=\"V\">$t[option4]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['ort'] == "B")
-		echo "SELECTED ";
-	echo "VALUE=\"B\">$t[option5]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['ort'] == "T")
-		echo "SELECTED ";
-	echo "VALUE=\"T\">$t[option6]</OPTION>";
-	echo "</SELECT></TD></TR>\n";
+		$text .= "<option ";
+	if ($suche['ort'] <> "B" && $suche['ort'] <> "T") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"V\">$t[option4]</option>";
+	$text .= "<option ";
+	if ($suche['ort'] == "B") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B\">$t[option5]</option>";
+	$text .= "<option ";
+	if ($suche['ort'] == "T") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"T\">$t[option6]</option>";
+	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Zeit
-	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
-		. "<SELECT NAME=\"suche[zeit]\" SIZE=\"1\" STYLE=\"width: "
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
+		. "<select name=\"suche[zeit]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
-	echo "<OPTION ";
-	if (substr($suche['zeit'], 0, 1) <> "B")
-		echo "SELECTED ";
-	echo "VALUE=\"ALL\">$t[option7]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B1")
-		echo "SELECTED ";
-	echo "VALUE=\"B1\">$t[option8]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B7")
-		echo "SELECTED ";
-	echo "VALUE=\"B7\">$t[option9]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B14")
-		echo "SELECTED ";
-	echo "VALUE=\"B14\">$t[option10]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B30")
-		echo "SELECTED ";
-	echo "VALUE=\"B30\">$t[option11]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B90")
-		echo "SELECTED ";
-	echo "VALUE=\"B90\">$t[option12]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B180")
-		echo "SELECTED ";
-	echo "VALUE=\"B180\">$t[option13]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['zeit'] == "B365")
-		echo "SELECTED ";
-	echo "VALUE=\"B365\">$t[option14]</OPTION>";
-	echo "</SELECT></TD></TR>\n";
+		$text .= "<option ";
+	if (substr($suche['zeit'], 0, 1) <> "B") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"ALL\">$t[option7]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B1") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B1\">$t[option8]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B7") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B7\">$t[option9]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B14") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B14\">$t[option10]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B30") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B30\">$t[option11]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B90") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B90\">$t[option12]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B180") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B180\">$t[option13]</option>";
+	$text .= "<option ";
+	if ($suche['zeit'] == "B365") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"B365\">$t[option14]</option>";
+	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Sortierung
-	echo "<TR><TD class=\"tabelle_zeile1\"></TD><TD class=\"tabelle_zeile1\">" . $f1
-		. "<SELECT NAME=\"suche[sort]\" SIZE=\"1\" STYLE=\"width: "
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
+		. "<select name=\"suche[sort]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
-	echo "<OPTION ";
-	if (substr($suche['sort'], 0, 1) <> "S")
-		echo "SELECTED ";
-	echo "VALUE=\"DEFAULT\">$t[option15]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['sort'] == "SZA")
-		echo "SELECTED ";
-	echo "VALUE=\"SZA\">$t[option16]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['sort'] == "SBA")
-		echo "SELECTED ";
-	echo "VALUE=\"SBA\">$t[option17]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['sort'] == "SBD")
-		echo "SELECTED ";
-	echo "VALUE=\"SBD\">$t[option18]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['sort'] == "SAA")
-		echo "SELECTED ";
-	echo "VALUE=\"SAA\">$t[option19]</OPTION>";
-	echo "<OPTION ";
-	if ($suche['sort'] == "SAD")
-		echo "SELECTED ";
-	echo "VALUE=\"SAD\">$t[option20]</OPTION>";
-	echo "</SELECT></TD></TR>\n";
+	$text .= "<option ";
+	if (substr($suche['sort'], 0, 1) <> "S") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"DEFAULT\">$t[option15]</option>";
+	$text .= "<option ";
+	if ($suche['sort'] == "SZA") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"SZA\">$t[option16]</option>";
+	$text .= "<option ";
+	if ($suche['sort'] == "SBA") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"SBA\">$t[option17]</option>";
+	$text .= "<option ";
+	if ($suche['sort'] == "SBD") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"SBD\">$t[option18]</option>";
+	$text .= "<option ";
+	if ($suche['sort'] == "SAA") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"SAA\">$t[option19]</option>";
+	$text .= "<option ";
+	if ($suche['sort'] == "SAD") {
+		$text .= "selected ";
+	}
+	$text .= "value=\"SAD\">$t[option20]</option>";
+	$text .= "</select></td></tr>\n";
 	
 	// nur von User
-	echo "<TR><TD align=\"right\" class=\"tabelle_zeile1\">$t[suche4]</TD><TD class=\"tabelle_zeile1\">"
-		. $f1 . "<INPUT TYPE=\"TEXT\" NAME=\"suche[username]\" VALUE=\""
+	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td><td class=\"tabelle_zeile1\">"
+		. $f1 . "<input type=\"TEXT\" name=\"suche[username]\" value=\""
 		. htmlspecialchars($suche['username'])
-		. "\" SIZE=\"20\">" . $f2 . "</TD></TR>\n"
-		. "<TR><TD COLSPAN=\"2\" align=\"center\" class=\"tabelle_zeile1\">"
-		. $f1 . "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$t[suche5]\">"
-		. $f2 . "</TD></TR>\n" . "</TABLE></FORM>\n";
+		. "\" size=\"20\">" . $f2 . "</td></tr>\n"
+		. "<tr><td colspan=\"2\" align=\"center\" class=\"tabelle_zeile1\">"
+		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">"
+		. $f2 . "</td></tr>\n" . "</table></form>\n";
 	
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	// Box anzeigen
+	show_box_title_content($box, $text);
 }
 
 function such_ergebnis() {
@@ -225,7 +238,7 @@ function such_ergebnis() {
 	$eingabe_breite = 50;
 	$select_breite = 250;
 	$maxpostingsprosuche = 1000;
-	$titel = $t['ergebnis1'];
+	$box = $t['ergebnis1'];
 	
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
 	$query = mysqli_query($mysqli_link, $sql);
@@ -262,7 +275,7 @@ function such_ergebnis() {
 		$fehler .= $t['fehler5'];
 	
 	if (strlen($fehler) > 0) {
-		echo "<p><center><span style=\"color:$farbe_hervorhebung_forum; font-weight:bold;\">$fehler</span></center></p>";
+		echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold; text-align:center;\">$fehler</p>";
 	} else {
 		$querytext = "";
 		$querybetreff = "";
@@ -328,9 +341,9 @@ function such_ergebnis() {
 			if (pruefe_leserechte($thema['th_id'])) {
 				if ($suche['thema'] == "ALL") {
 					if (strlen($boards) == 0) {
-						$boards = "po_th_id = " . intval($thema[th_id]);
+						$boards = "po_th_id = " . intval($thema['th_id']);
 					} else {
-						$boards .= " OR po_th_id = " . intval($thema[th_id]);
+						$boards .= " OR po_th_id = " . intval($thema['th_id']);
 					}
 				} else if (preg_match("/^B([0-9])+T([0-9])+$/i",
 					$suche['thema'])) {
@@ -401,11 +414,8 @@ function such_ergebnis() {
 			$abfrage .= " ORDER BY po_ts DESC";
 		}
 		
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
-		echo "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3><b>$titel</b></TD></TR>\n";
+		$text = '';
+		$text .= "<table style=\"width:100%;\">";
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
@@ -413,18 +423,18 @@ function such_ergebnis() {
 		
 		$anzahl = mysqli_num_rows($query);
 		
-		echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=3>$f1<b>$t[ergebnis2] $anzahl</b>";
+		$text .= "<tr><td colspan=\"3\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$f1 $t[ergebnis2] $anzahl";
 		if ($anzahl > $maxpostingsprosuche) {
-			echo "<span style=\"color:#ff0000; font-weight: bold;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
+			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
 		}
-		echo "$f2</TD></TR>\n";
+		$text .= "$f2</td></tr>\n";
 		if ($anzahl > 0) {
 			
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD>" . $f1
-				. "<b>$t[ergebnis3]<br>$t[ergebnis4]</b>" . $f2 . "</TD>";
-			echo "<TD>" . $f1 . "<b>$t[ergebnis6]</b>" . $f2 . "</TD>";
-			echo "<TD>" . $f1 . "<b>$t[ergebnis7]</b>" . $f2 . "</TD>";
-			echo "</tr>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1
+				. "<b>$t[ergebnis3]<br>$t[ergebnis4]</b>" . $f2 . "</td>";
+			$text .= "<td class=\"tabelle_koerper\">" . $f1 . "<b>$t[ergebnis6]</b>" . $f2 . "</td>";
+			$text .= "<td class=\"tabelle_koerper\">" . $f1 . "<b>$t[ergebnis7]</b>" . $f2 . "</td>";
+			$text .= "</tr>";
 			
 			$i = 0;
 			while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -446,22 +456,23 @@ function such_ergebnis() {
 					$col = '';
 				}
 				
-				echo "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
+				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
 				$thread = vater_rekursiv($fund['po_id']);
-				echo $f1
+				$text .= $f1
 					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="
 					. $fund['po_th_id'] . "&po_id=" . $fund['po_id']
 					. "&thread=" . $thread
-					. "&aktion=show_posting&seite=1',1); return(false);\">< span style=\"font-size: smaller; $col; \">"
+					. "&aktion=show_posting&seite=1',1); return(false);\"><span style=\"font-size: smaller; $col \">"
 					. $fund['po_titel'] . "</span></a>";
-				if ($fund['po_gesperrt'] == 'Y')
-					echo " <span style=\"color:#ff0000;\">(gesperrt)</span>";
-				echo $f2 . "</b></td>";
+				if ($fund['po_gesperrt'] == 'Y') {
+					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
+				}
+				$text .= $f2 . "</b></td>";
 				
-				echo "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
+				$text .= "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
 				
 				if (!$fund['u_nick']) {
-					echo "<td $bgcolor>$f3<b>Nobody</b>$f4</td>\n";
+					$text .= "<td $bgcolor>$f3<b>Nobody</b>$f4</td>\n";
 				} else {
 					
 					$userdata = array();
@@ -472,24 +483,23 @@ function such_ergebnis() {
 					$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
 					$userdata['u_chathomepage'] = $fund['u_chathomepage'];
 					$userlink = user($fund['po_u_id'], $userdata, $o_js, FALSE,
-						"&nbsp;", "", "", TRUE, FALSE, 29);
+						"&nbsp;", "", "", trUE, FALSE, 29);
 					if ($fund['u_level'] == 'Z') {
-						echo "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
+						$text .= "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
 					} else {
-						echo "<td $bgcolor>$f1 $userlink $f2</td>\n";
+						$text .= "<td $bgcolor>$f1 $userlink $f2</td>\n";
 					}
 				}
 				
-				echo "</tr>";
+				$text .= "</tr>";
 			}
 			@mysqli_free_result($query);
 			
 		}
-		echo "</table>\n";
+		$text .= "</table>\n";
 		
-		?>
-		<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-		<?php
+		// Box anzeigen
+		show_box_title_content($box, $text);
 	}
 }
 
@@ -535,6 +545,7 @@ if (strlen($u_id) > 0) {
 	switch ($aktion) {
 		case "suche":
 			such_bereich();
+			echo '<br>';
 			flush();
 			such_ergebnis();
 			break;

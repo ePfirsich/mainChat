@@ -30,7 +30,7 @@ function zeige_aktionen($aktion)
 	}
 	
 	// Aktionen zeigen
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
+	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5>XXX<b>$titel1 $u_nick $titel2:</b></TD></TR>\n"
 		. "<TR><TD></TD>";
 	
 	$i = 0;

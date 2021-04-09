@@ -75,6 +75,6 @@ $t['sonst54'] = "Räume";
 $t['statistik1'] = "Chat-Statistiken";
 $t['statistik2'] = "Chat-Statistik nach Stunden";
 $t['statistik3'] = "Chat-Statistik nach Monaten";
-$t['statistik4'] = "Es ist ein Fehler beim Datenbankconnect aufgetreten.";
+$t['statistik4'] = "Es ist ein Fehler bei der Datenbankverbindung aufgetreten.";
 $t['statistik5'] = "Für diesen Chat werden keine Statistiken gespeichert.";
 ?>

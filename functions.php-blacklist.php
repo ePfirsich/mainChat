@@ -70,7 +70,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 			// Keine Blacklist-Einträge
 			$box = $t['blacklist1'];
 			
-			$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td style=\"text-align:left;\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</td></tr>";
+			$text .= "<tr><td style=\"text-align:left;\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</td></tr>";
 			
 		} else {
 			// Blacklist anzeigen

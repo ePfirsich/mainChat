@@ -1186,7 +1186,7 @@ function show_posting() {
 		} else {
 			?>
 			<tr>
-				<td>
+				<td class="tabelle_zeile1">
 				<?php
 				reset($postingorder);
 				zeige_baum($postingorder, $po_threadorder, $thread, $po_id, TRUE);
@@ -1243,7 +1243,7 @@ function zeige_baum(
 	}
 	@mysqli_free_result($query);
 	
-	echo "<table width=\"730\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">\n";
+	echo "<table style=\"width:730px;\">\n";
 	
 	if ($zeige_top) {
 		if ($thread == $highlight) {
