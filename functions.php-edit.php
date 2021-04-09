@@ -269,16 +269,14 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// Farbenliste & aktuelle Farbe
 	
 	if ($f['u_id'] == $u_id) {
-		$text .= "\n<HR SIZE=2 NOSHADE><table><tr><td COLSPAN=2><b>"
-			. $t['user_zeige10'] . "&nbsp;</b></td>" . "<td BGCOLOR=\"#"
-			. $f['u_farbe'] . "\">&nbsp;&nbsp;&nbsp;</td>" . "</tr></table>";
-		$text .= "<table BORDER=0 CELLPADDING=0 CELLSPACING=0><tr>\n";
+		$text .= "\n<HR SIZE=2 NOSHADE><table><tr><td colspan=\"2\"><b>"
+			. $t['user_zeige10'] . "&nbsp;</b></td>" . "<td style=\"background-color:#". $f['u_farbe'] . ";\">&nbsp;&nbsp;&nbsp;</td>" . "</tr></table>";
+		$text .= "<table style=\"border-collapse: collapse;\"><tr>\n";
 		foreach ($farbe_chat_user as $key => $val) {
 			$text .= "<td WIDTH=$farbe_chat_user_groesse " . "BGCOLOR=\"#" . $val
 				. "\">"
 				. "<a href=\"edit.php?http_host=$http_host&id=$id&aktion=edit&f[u_id]=$f[u_id]&farbe=$val\">"
-				. "<IMG SRC=\"pics/fuell.gif\" WIDTH=$farbe_chat_user_groesse "
-				. "HEIGHT=$farbe_chat_user_groesse ALT=\"\" BORDER=0></A></td>\n";
+				. "<img src=\"pics/fuell.gif\" style=\"width:" . $farbe_chat_user_groesse . "px; height:" . $farbe_chat_user_groesse . "; border:0px;\" alt=\"\"></a></td>\n";
 		}
 		$text .= "</tr></table>\n";
 	}
