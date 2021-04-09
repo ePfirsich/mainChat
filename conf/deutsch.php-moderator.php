@@ -24,10 +24,10 @@ $t['mod_ok'] = "ok";
 $t['mod_limit'] = "Alle zeigen";
 $t['mod_nein'] = "nein";
 
-$t['moderation1'] = "<b>Willkommen im Moderationsmodul des mainChat!</b>";
+$t['moderation1'] = "<b>Willkommen im Moderationsmodul!</b>";
 $t['moderation2'] = "<br><span style=\"font-size: smaller;\">In diesem Frame sehen Sie die Eingaben der User.</span>";
 $t['moderation3'] = "<br><span style=\"font-size: smaller;\">Klicken Sie bei der Eingabe einfach auf die entsprechenden Buttons, um eine Aktion auszulösen.</span>";
-$t['moderation4'] = "<table cellpadding=1 cellspacing=0 border=0>"
+$t['moderation4'] = "<table cellpadding=1 cellspacing=0 border=0 style=\"margin:auto;\">"
 	. "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird zum Beantworten reserviert.</td></tr>"
 	. "<tr><td class=\"tabelle_zeile_moderator_2g\"><img src=\"pics/nope.gif\" height=20 width=20></td><td class=\"tabelle_zeile_moderator_2g\"><small>die Frage wird wieder für andere Moderatoren freigegeben.</td></tr>"
 	. "<tr><td><small><b>" . $t['mod2']

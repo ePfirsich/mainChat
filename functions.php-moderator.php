@@ -273,6 +273,7 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		echo "<center>";
 		echo "<input type=text name=limit value=$limit size=5>\n";
 		echo "<input type=submit name=ok value=" . $t['mod_ok'] . ">\n";
+		echo "</center>";
 		echo "</form>\n";
 	}
 	return $rows;
