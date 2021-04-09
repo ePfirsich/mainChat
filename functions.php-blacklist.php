@@ -3,8 +3,7 @@
 function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $farbe_tabelle_kopf2;
+	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
 	$blurl = $PHP_SELF . "?id=$id&http_host=$http_host&aktion=&sort=";
@@ -48,7 +47,6 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				. "from blacklist left join user on f_blacklistid=u_id "
 				. "order by $qsort";
 			$button = "LÖSCHEN";
-			$titel = "Blacklist-Einträge";
 			
 			// blacklist-expire
 			if ($blacklistmaxdays) {
@@ -57,34 +55,35 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 			}
 	}
 	
-	echo "<FORM NAME=\"blacklist_loeschen\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"loesche\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
-	
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result) {
+		$text = '';
+		
+		$text .= "<form name=\"blacklist_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
+			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+			. "<table style=\"width:100%;\">";
 		
 		$anzahl = mysqli_num_rows($result);
 		if ($anzahl == 0) {
-			
 			// Keine Blacklist-Einträge
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>Es gibt noch keine $titel:</b></TD></TR>\n"
-				. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td align=\"left\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</TD></TR>";
+			$box = $t['blacklist1'];
+			
+			$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td style=\"text-align:left;\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</td></tr>";
 			
 		} else {
-			
 			// Blacklist anzeigen
-			echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=5><b>$titel: $anzahl</b></TD></TR>\n"
-				. "<TR><TD WIDTH=\"5%\">" . $f1 . "Löschen" . $f2
-				. "</TD><TD WIDTH=\"35%\">" . $f1 . "<a href=\"" . $blurl
-				. $usort . "\">Nickname</A>" . $f2 . "</TD>"
-				. "<TD WIDTH=\"35%\">" . $f1 . "Info" . $f2 . "</TD>"
-				. "<TD WIDTH=\"13%\" ALIGN=\"CENTER\">" . $f1 . "<a href=\""
-				. $blurl . $fsort . "\">Datum&nbsp;Eintrag</A>" . $f2
-				. "</TD>\n" . "<TD WIDTH=\"13%\" ALIGN=\"CENTER\">" . $f1
-				. "Eintrag&nbsp;von" . $f2 . "</TD></TR>\n";
+			$box = $t['blacklist2'] . $anzahl;
+			
+			$text .= "<tr><td style=\"width:5%;\">" . $f1 . "Löschen" . $f2
+				. "</td><td style=\"width:35%;\">" . $f1 . "<a href=\"" . $blurl
+				. $usort . "\">Nickname</a>" . $f2 . "</td>"
+				. "<td style=\"width:35%;\">" . $f1 . "Info" . $f2 . "</td>"
+				. "<td style=\"width:13%;\" style=\"text-align:center;\">" . $f1 . "<a href=\""
+				. $blurl . $fsort . "\">Datum&nbsp;Eintrag</a>" . $f2
+				. "</td>\n" . "<td style=\"width:13%;\" style=\"text-align:center;\">" . $f1
+				. "Eintrag&nbsp;von" . $f2 . "</td></tr>\n";
 			
 			$i = 0;
 			$bgcolor = 'class="tabelle_zeile1"';
@@ -141,10 +140,10 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 					$admin_nick = "";
 				}
 				
-				echo "<tr><td style=\"text-align:center;\" $bgcolor>" . $auf
-					. "<INPUT TYPE=\"CHECKBOX\" NAME=\"f_blacklistid[]\" VALUE=\""
+				$text .= "<tr><td style=\"text-align:center;\" $bgcolor>" . $auf
+					. "<input type=\"checkbox\" name=\"f_blacklistid[]\" value=\""
 					. $row->f_blacklistid . "\"></td>"
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"f_nick[]\" VALUE=\""
+					. "<input type=\"hidden\" name=\"f_nick[]\" value=\""
 					. $row2->u_nick . "\"></td>" . "<td $bgcolor>" . $auf . $txt . $zu
 					. "</td>" . "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu
@@ -159,19 +158,21 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				$i++;
 			}
 			
-			echo "<tr><td $bgcolor colspan=\"2\"><INPUT TYPE=\"checkbox\" onClick=\"toggle(this.checked)\">"
+			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">"
 				. $f1 . " Alle Auswählen" . $f2 . "</td>\n"
 				. "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">" . $f1
-				. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"$button\">"
+				. "<input type=\"submit\" name=\"los\" value=\"$button\">"
 				. $f2 . "</td></tr>\n";
 		}
 		
-		echo "</TABLE></FORM>\n";
+		$text .= "</table></form>\n";
+		
+		// Box anzeigen
+		show_box_title_content($box, $text);
 	}
 }
 
-function loesche_blacklist($f_blacklistid)
-{
+function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $f_blacklistid User-ID des Blacklist-Eintrags
 	
@@ -197,49 +198,44 @@ function loesche_blacklist($f_blacklistid)
 	@mysqli_free_result($result);
 }
 
-function formular_neuer_blacklist($neuer_blacklist)
-{
-	
+function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Blacklist-Eintrag aus
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $farbe_tabelle_kopf2;
 	
-	if (!$eingabe_breite)
+	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
+	}
 	
-	$titel = "Neuen Blacklist-Eintrag hinzufügen:";
+	$box = "Neuen Blacklist-Eintrag hinzufügen:";
+	$text = '';
 	
-	echo "<FORM NAME=\"blacklist_neu\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"neu2\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<TABLE WIDTH=100% BORDER=0 CELLPADDING=3 CELLSPACING=0>";
+	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
+		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+		. "<table style=\"width:100%;\">";
 	
-	if (!isset($neuer_blacklist['u_nick']))
+	if (!isset($neuer_blacklist['u_nick'])) {
 		$neuer_blacklist['u_nick'] = "";
-	if (!isset($neuer_blacklist['f_text']))
+	}
+	if (!isset($neuer_blacklist['f_text'])) {
 		$neuer_blacklist['f_text'] = "";
+	}
 	
-	echo "<TR BGCOLOR=\"$farbe_tabelle_kopf2\"><TD COLSPAN=2><b>$titel</b></TD></TR>\n"
-		. "<tr><TD align=\"right\" class=\"tabelle_zeile1\"><b>Nickname:</b></TD><TD class=\"tabelle_zeile1\">"
-		. $f1
-		. "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[u_nick]\" VALUE=\""
-		. htmlspecialchars($neuer_blacklist['u_nick'])
-		. "\" SIZE=20>" . $f2 . "</TD></TR>\n"
-		. "<TR><TD align=\"right\" class=\"tabelle_zeile1\"><b>Infotext:</b></TD><TD class=\"tabelle_zeile1\">"
-		. $f1
-		. "<INPUT TYPE=\"TEXT\" NAME=\"neuer_blacklist[f_text]\" VALUE=\""
-		. htmlspecialchars($neuer_blacklist['f_text'])
-		. "\" SIZE=$eingabe_breite>" . "&nbsp;"
-		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
-		. "</TD></TR>\n" . "</TABLE></FORM>\n";
+	$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">"."Nickname:</td>"
+			. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[u_nick]\" value=\"" . htmlspecialchars($neuer_blacklist['u_nick']) . "\" size=20>" . $f2 . "</td></tr>\n"
+			. "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">Infotext:</td>"
+			. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[f_text]\" value=\"" . htmlspecialchars($neuer_blacklist['f_text'])
+			. "\" size=$eingabe_breite>" . "&nbsp;"
+			. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
+			. "</td></tr>\n" . "</table></form>\n";
 	
+	// Box anzeigen
+	show_box_title_content($box, $text);
 }
 
-function neuer_blacklist($f_userid, $blacklist)
-{
-	
+function neuer_blacklist($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
 	
 	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;

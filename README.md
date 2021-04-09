@@ -7,7 +7,7 @@ Wichtig
 ------------
 Dieser Stand kann noch Fehler enthalten.
 Des Weiteren sind die optischen Anpassung und die Umstellung auf HTML5 noch nicht abgeschlossen.
-Ein produtiver Einsatz wird mit dieser Version noch nicht empfohlen, da es noch zu viele grpße Änderungen geben wird.
+Ein produtiver Einsatz wird mit dieser Version noch nicht empfohlen, da es noch zu viele große Änderungen geben wird.
 
 Installation
 ------------

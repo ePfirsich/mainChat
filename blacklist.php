@@ -87,6 +87,7 @@ if ($admin && $u_id && $communityfeatures) {
 				unset($neuer_blacklist);
 				$neuer_blacklist[] = "";
 				formular_neuer_blacklist($neuer_blacklist);
+				echo '<br>';
 				zeige_blacklist("normal", "", $sort);
 			} elseif ($neuer_blacklist['u_nick'] == "") {
 				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
@@ -114,11 +115,13 @@ if ($admin && $u_id && $communityfeatures) {
 			}
 			
 			formular_neuer_blacklist($neuer_blacklist);
+			echo '<br>';
 			zeige_blacklist("normal", "", $sort);
 			break;
 		
 		default:
 			formular_neuer_blacklist($neuer_blacklist);
+			echo '<br>';
 			zeige_blacklist("normal", "", $sort);
 	}
 	
