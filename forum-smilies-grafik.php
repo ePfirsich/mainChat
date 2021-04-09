@@ -14,7 +14,7 @@ if (isset($smiles_config) && $smilies_config
 	require("conf/" . $smilies_config);
 }
 
-$title = $body_titel . ' - Info';
+$title = $body_titel . ' - Smilies';
 zeige_header_anfang($title, 'mini');
 ?>
 <script>

@@ -2,8 +2,7 @@
 $coreroot = ".";
 
 // Wandelt eine Background-Variable in den entsprechenden HTML-Source (bgcolor, background) um.
-function coreMakeBackground($back)
-{
+function coreMakeBackground($back) {
 	$backc = trim(strtok("$back", ":"));
 	$backp = trim(strtok(":"));
 	
@@ -16,8 +15,7 @@ function coreMakeBackground($back)
 }
 
 // Wandelt eine Image-Variable in den entsprechenden HTML-Source (Src, Width, Height) um.
-function coreMakeImage($image)
-{
+function coreMakeImage($image) {
 	$img_w = strtok("$image", ",");
 	$img_h = strtok(",");
 	$img_p = strtok(",");
@@ -25,8 +23,7 @@ function coreMakeImage($image)
 	return ("SRC=\"$img_p\" WIDTH=\"$img_w\" HEIGHT=\"$img_h\"");
 }
 
-function statsOverview($v = "%")
-{
+function statsOverview($v = "%") {
 	global $STAT_DB_HOST;
 	global $STAT_DB_USER;
 	global $STAT_DB_PASS;
@@ -124,13 +121,12 @@ function statsOverview($v = "%")
 				$j++;
 			}
 			
-			echo ("</TABLE>\n");
+			echo ("</table>\n");
 		}
 	}
 }
 
-function statsResetMonth($year, $month)
-{
+function statsResetMonth($year, $month) {
 	global $grapharray;
 	
 	unset($grapharray);
@@ -149,8 +145,7 @@ function statsResetMonth($year, $month)
 	}
 }
 
-function statsResetHours($zeit, $hours)
-{
+function statsResetHours($zeit, $hours) {
 	global $grapharray;
 	
 	unset($grapharray);
@@ -171,8 +166,7 @@ function statsResetHours($zeit, $hours)
 	}
 }
 
-function statsPrintGraph($title, $text_l, $text_b)
-{
+function statsPrintGraph($title, $text_l, $text_b) {
 	global $grapharray;
 	global $STAT_TXT;
 	global $STAT_BAR_HEIGHT;
@@ -197,8 +191,7 @@ function statsPrintGraph($title, $text_l, $text_b)
 		$img_h = trim(strtok(","));
 		$img_p = trim(strtok(","));
 		
-		/* Als erstes wird der größte Eintrag im Array und einige Werte	*/
-		/* ermittelt.																										*/
+		/* Als erstes wird der größte Eintrag im Array und einige Werte ermittelt. */
 		
 		$b = 0;
 		$h = 0;
@@ -303,8 +296,7 @@ function statsPrintGraph($title, $text_l, $text_b)
 		$msg .= "<TR" . coreMakeBackground($STAT_BAR_BACK1) . ">\n";
 		$msg .= "<TD>&nbsp;</TD>\n";
 		
-		/* Unter Leiste mit den Beschriftungen der einzelnen Balken aus-	*/
-		/* geben.															*/
+		/* Unter Leiste mit den Beschriftungen der einzelnen Balken ausgeben. */
 		
 		reset($grapharray);
 		

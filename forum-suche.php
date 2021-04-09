@@ -502,7 +502,7 @@ function such_ergebnis() {
 	}
 }
 
-$title = $body_titel . ' - Info';
+$title = $body_titel . ' - Forum-Suche';
 zeige_header_anfang($title, 'mini');
 ?>
 <script>

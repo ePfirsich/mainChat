@@ -8,7 +8,7 @@ id_lese($id);
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-$title = $body_titel . ' - Info';
+$title = $body_titel . ' - Smilies';
 zeige_header_anfang($title, 'mini');
 ?>
 <?php

@@ -35,7 +35,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 	$raum_subquery = "AND r_id=$schau_raum";
 }
 
-$title = $body_titel . ' - Info';
+$title = $body_titel . ' - User';
 zeige_header_anfang($title, 'mini');
 
 $eingabe_breite = 31;

@@ -6,7 +6,7 @@ require("conf/deutsch.php-smilies.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
-$title = $body_titel . ' - Info';
+$title = $body_titel . ' - Smilies';
 zeige_header_anfang($title, 'mini');
 ?>
 <script>
