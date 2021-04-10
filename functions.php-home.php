@@ -7,8 +7,7 @@ function edit_home(
 	$einstellungen,
 	$farben,
 	$bilder,
-	$aktion)
-{
+	$aktion) {
 	// Editor für die eigene Homepage im Chat
 	// u_id = User-Id
 	// home = Array des Userprofiles mit Einstellungen
@@ -51,8 +50,7 @@ function edit_home(
 	
 }
 
-function home_profil($u_id, $u_nick, $home, $farben, $aktion)
-{
+function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	// Zeigt die Userinfos im Profil an
 	
 	global $dbase, $http_host, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;

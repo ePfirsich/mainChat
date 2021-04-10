@@ -124,27 +124,26 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	
 	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t, $http_host;
 	
-	$query = "SHOW COLUMNS FROM $tabelle like '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
+	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
 		$felder = explode(",", $txt);
-		echo "<SELECT NAME=\"$name\">\n";
+		echo "<select name=\"$name\">\n";
 		while (list($key, $set_name) = each($felder)) {
 			$set_name = substr($set_name, 1, -1);
 			if ($set_name == $voreinstellung) {
-				echo "<OPTION SELECTED VALUE=$set_name>$set_name\n";
+				echo "<option selected value=$set_name>$set_name\n";
 			} else {
-				echo "<OPTION VALUE=$set_name>$set_name\n";
+				echo "<option value=\"$set_name\">$set_name\n";
 			}
 		}
-		echo "</SELECT>\n";
+		echo "</select>\n";
 	}
 	mysqli_free_result($result);
 }
 
-function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE)
-{
+function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Users $o_id/$u_id
 	// Dieser User muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben

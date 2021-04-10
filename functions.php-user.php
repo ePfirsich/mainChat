@@ -32,16 +32,20 @@ function user_liste($larr, $anzahl) {
 	$r_topic = $larr[0]['r_topic'];
 	$level = "user";
 	$level2 = "user";
-	if ($r_besitzer == $u_id && $adminfeatures)
+	if ($r_besitzer == $u_id && $adminfeatures) {
 		$level = "owner";
-	if (($admin || $u_level == "A") && $adminfeatures)
+	}
+	if (($admin || $u_level == "A") && $adminfeatures) {
 		$level = "admin";
-	if (($u_level == "C" || $u_level == "S") && $adminfeatures)
+	}
+	if (($u_level == "C" || $u_level == "S") && $adminfeatures) {
 		$level2 = "admin";
+	}
 	
 	// Wartetext ausgeben
-	if ($anzahl > 10)
+	if ($anzahl > 10) {
 		$text .= $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
+		}
 	flush();
 	
 	if ($o_js) {
@@ -95,7 +99,6 @@ function user_liste($larr, $anzahl) {
 				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]','$geschlecht' ";
 			} else $jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
 		}
-		
 		$text .= "\n\n<script language=\"JavaScript\">\n"
 			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
 			. "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
@@ -133,7 +136,7 @@ function user_liste($larr, $anzahl) {
 			;
 			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
 		} // END-OF-FOR
-		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</table>\n";
+		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\" XXX>$trow</table>\n";
 		
 	}
 	return $text;

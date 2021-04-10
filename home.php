@@ -159,9 +159,8 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			}
 			
 			// Prüfen & in DB schreiben
-			if (isset($home) && is_array($home)
-				&& strlen($home['ui_text']) > ($max_groesse * 1024)) {
-				echo "<P><b>Fehler: </b> Ihr Text ist grösser als $max_groesse!</P>";
+			if (isset($home) && is_array($home) && strlen($home['ui_text']) > ($max_groesse * 1024)) {
+				echo "<p><b>Fehler: </b> Ihr Text ist grösser als $max_groesse!</p>";
 				unset($home['ui_text']);
 			}
 			

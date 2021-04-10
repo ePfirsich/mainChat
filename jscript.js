@@ -57,8 +57,7 @@ function refresh() {
 
 function genlist(liste, aktion) {
 	document
-			.write("<TABLE style=\"width:100%;\" CELLPADDING=\""
-					+ padd + "\">\n");
+			.write("<TABLE style=\"width:100%;\" class=\"tabelle_gerust\">\n");
 
 	var interval = 9;
 	var color_index = 1;
@@ -80,7 +79,7 @@ function genlist(liste, aktion) {
 					+ liste[i]
 					+ ")\">"
 					+ (liste[i + 5] ? "(" + liste[i + 2] + ")" : liste[i + 2])
-					+ "</A>" + tgegrafik;
+					+ "<a>" + tgegrafik;
 		} else {
 			var dlink = (liste[i + 5] ? "(" + liste[i + 2] + ")" : liste[i + 2])
 					+ tgegrafik;
@@ -101,14 +100,14 @@ function genlist(liste, aktion) {
 						+ "','640_"
 						+ u_nick
 						+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "</A>";
+						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "<a>";
 			} else {
 				nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
 						+ url
 						+ "','640_"
 						+ u_nick
 						+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "</A>";
+						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "<a>";
 			}
 		}
 
@@ -119,7 +118,7 @@ function genlist(liste, aktion) {
 					+ "','640_"
 					+ u_nick
 					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "</A>";
+					+ hgrafik + "<a>";
 		} else if ((liste[i + 1] == "J") && communityfeatures == 1) {
 			var url = "home.php" + stdparm2 + "&ui_userid=" + liste[i];
 			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
@@ -127,7 +126,7 @@ function genlist(liste, aktion) {
 					+ "','640_"
 					+ u_nick
 					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "</A>";
+					+ hgrafik + "<a>";
 		}
 
 		if ((communityfeatures == 1) && (liste[i + 6] != "G")
@@ -140,7 +139,7 @@ function genlist(liste, aktion) {
 					+ "','640_"
 					+ u_nick
 					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ mgrafik + "</A>";
+					+ mgrafik + "<a>";
 		}
 
 		var rowdef = "";
@@ -150,13 +149,13 @@ function genlist(liste, aktion) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
-						+ liste[i + 2] + "'); return(false)\">G</A>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">G<a>" + fett[1]
 						+ "</td>";
 			if ((level == "admin") || (level == "owner"))
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
-						+ liste[i + 2] + "'); return(false)\">K</A>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">K<a>" + fett[1]
 						+ "</td>";
 			if ((level == "admin")
 					&& (liste[i + 3] != "" || liste[i + 4] != ""))
@@ -164,18 +163,18 @@ function genlist(liste, aktion) {
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
 						+ liste[i + 3] + "','" + liste[i + 4] + "','"
-						+ liste[i + 2] + "'); return(false)\">S</A>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">S<a>" + fett[1]
 						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
 			if (inaktiv_ansprechen != "1") {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
-						+ liste[i + 2] + " '); return(false)\">@</A>" + fett[1]
+						+ liste[i + 2] + " '); return(false)\">@<a>" + fett[1]
 						+ "</td>";
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
-						+ liste[i + 2] + " '); return(false)\">&gt;</A>"
+						+ liste[i + 2] + " '); return(false)\">&gt;<a>"
 						+ fett[1] + "</td>";
 			}
 		} else {
@@ -183,7 +182,7 @@ function genlist(liste, aktion) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
-						+ liste[i + 2] + "'); return(false)\">E</A>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">E<a>" + fett[1]
 						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
 		}
 

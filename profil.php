@@ -100,46 +100,46 @@ if ($u_id && $communityfeatures) {
 			$fehler = "";
 			
 			// Prüfungen
-			if ($f['ui_plz'] != ""
-				&& !preg_match("/^[0-9]{4,5}$/i", $f['ui_plz']))
+			if ($f['ui_plz'] != "" && !preg_match("/^[0-9]{4,5}$/i", $f['ui_plz'])) {
 				$fehler .= "Die Postleitzahl ist ungültig (z.B.: 97074)<br>\n";
+			}
 			
-			if ($f['ui_geburt'] != ""
-				&& !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i",
-					$f['ui_geburt']))
+			if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
 				$fehler .= "Das Geburtsdatum ist ungültig (z.B.: 24.01.1969)<br>\n";
+			}
 			
-			if ($f['ui_tel'] != ""
-				&& !preg_match(
-					"/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i",
-					$f['ui_tel']))
+			if ($f['ui_tel'] != "" && !preg_match("/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i", $f['ui_tel'])) {
 				$fehler .= "Die Telefonnummer ist ungültig (z.B.: 0049-931-123456 oder 0931/123456)<br>\n";
+			}
 			
-			if ($f['ui_fax'] != ""
-				&& !preg_match(
-					"/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i",
-					$f['ui_fax']))
+			if ($f['ui_fax'] != "" && !preg_match("/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i", $f['ui_fax'])) {
 				$fehler .= "Die Faxnummer ist ungültig (z.B.: 0049-931-123456 oder 0931/123456)<br>\n";
+			}
 			
-			if ($f['ui_handy'] != ""
-				&& !preg_match("/^01([0-9]{9,11})$/i", $f['ui_handy']))
+			if ($f['ui_handy'] != "" && !preg_match("/^01([0-9]{9,11})$/i", $f['ui_handy'])) {
 				$fehler .= "Die Handynummer ist ungültig (z.B.: 0170123456)<br>\n";
+			}
 			
 			if (strlen($f['ui_strasse']) > 100) {
 				$fehler .= "Die Straße ist länger als 100 Zeichen!<br>\n";
 			}
+			
 			if (strlen($f['ui_ort']) > 100) {
 				$fehler .= "Der Ort ist länger als 100 Zeichen!<br>\n";
 			}
+			
 			if (strlen($f['ui_land']) > 100) {
 				$fehler .= "Das Land ist länger als 100 Zeichen!<br>\n";
 			}
+			
 			if (strlen($f['ui_hobby']) > 255) {
 				$fehler .= "Die Hobbies sind länger als 255 Zeichen!<br>\n";
 			}
+			
 			if (strlen($f['ui_beruf']) > 100) {
 				$fehler .= "Der Beruf ist länger als 100 Zeichen!<br>\n";
 			}
+			
 			if (strlen($f['ui_icq']) > 100) {
 				$fehler .= "Die ICQ-Nummer ist länger als 100 Zeichen!<br>\n";
 			}
@@ -148,6 +148,27 @@ if ($u_id && $communityfeatures) {
 				echo "<P><b>Es sind folgende Fehler aufgetreten:</b><br>$fehler\n"
 					. "<br><b>Bitte korrieren Sie die Fehler!</P>\n";
 			} else {
+				
+				
+				$query = "SELECT ui_text,ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
+				$result = mysqli_query($mysqli_link, $query);
+				if ($result && mysqli_num_rows($result) == 1) {
+					
+					// Userprofil aus DB lesen
+					$home = mysqli_fetch_array($result);
+					if ($home['ui_farbe']) {
+						$farbentemp = unserialize($home['ui_farbe']);
+						if (is_array($farbentemp))
+							$farben = $farbentemp;
+					}
+				//echo 'ui_text:' . $home['ui_text'] . '<br>';
+				//echo 'ui_farbe:' . $home['ui_farbe'] . '<br>';
+				$f['ui_text'] = $home['ui_text'];
+				$f['ui_farbe'] = $home['ui_farbe'];
+				} else {
+					$f['ui_text'] = '';
+					$f['ui_farbe'] = '';
+				}
 				
 				// Punkte gutschreiben?
 				if (!$profil_gefunden && strlen($f['ui_ort']) > 2
