@@ -49,18 +49,18 @@ function statsOverview($v = "%") {
 		$o = @mysqli_num_rows($r1);
 		
 		if ($o > 0) {
-			echo ("<TABLE BORDER=\"0\" CELLPADDING=\"1\" CELLSPACING=\"1\">\n");
-			echo ("<TR>\n");
-			echo ("<TD" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+			echo ("<table style=\"width:100%;\">\n");
+			echo ("<tr>\n");
+			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
 				. $STAT_TITLE_FONTBEG2 . $STAT_TXT["0054"]
-				. $STAT_TITLE_FONTEND2 . "</TD>\n");
-			echo ("<TD" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " ALIGN=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
-				. $STAT_TXT["0055"] . $STAT_TITLE_FONTEND2 . "</TD>\n");
-			echo ("<TD" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " ALIGN=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
-				. $STAT_TXT["0056"] . $STAT_TITLE_FONTEND2 . "</TD>\n");
-			echo ("</TR>\n");
+				. $STAT_TITLE_FONTEND2 . "</td>\n");
+			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
+				. " align=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
+				. $STAT_TXT["0055"] . $STAT_TITLE_FONTEND2 . "</td>\n");
+			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
+				. " align=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
+				. $STAT_TXT["0056"] . $STAT_TITLE_FONTEND2 . "</td>\n");
+			echo ("</tr>\n");
 			
 			while ($j < $o) {
 				$c_host = @mysqli_result($r1, $j, "c_host");
@@ -97,25 +97,25 @@ function statsOverview($v = "%") {
 					if ($c_host == "")
 						$c_host = $STAT_TXT["0080"];
 					
-					echo ("<TR>\n");
-					echo ("<TD>");
+					echo ("<tr>\n");
+					echo ("<td>");
 					echo ($STAT_TITLE_FONTBEG0);
 					echo ($c_host);
 					echo ($STAT_TITLE_FONTEND0);
-					echo ("</TD>\n");
+					echo ("</td>\n");
 					
-					echo ("<TD ALIGN=\"RIGHT\">");
+					echo ("<td align=\"RIGHT\">");
 					echo ($STAT_TITLE_FONTBEG0);
 					echo ($u);
 					echo ($STAT_TITLE_FONTEND0);
-					echo ("</TD>\n");
+					echo ("</td>\n");
 					
-					echo ("<TD ALIGN=\"RIGHT\">");
+					echo ("<td align=\"RIGHT\">");
 					echo ($STAT_TITLE_FONTBEG0);
 					echo ("&nbsp;&nbsp;" . $m . "/" . $y);
 					echo ($STAT_TITLE_FONTEND0);
-					echo ("</TD>\n");
-					echo ("</TR>\n");
+					echo ("</td>\n");
+					echo ("</tr>\n");
 				}
 				
 				$j++;
@@ -225,27 +225,26 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$d = intval($t / $u);
 		else $d = 0;
 		
-		/* Linke Beschriftung und die Tabelle mit den Balken anzeigen	*/
-		/* lassen.														*/
+		/* Linke Beschriftung und die Tabelle mit den Balken anzeigen lassen. */
 		
 		reset($grapharray);
 		
-		$msg .= "<DIV ALIGN=\"CENTER\">\n";
-		$msg .= "<TABLE BORDER=\"0\" CELLPADDING=\"2\" CELLSPACING=\"0\">\n";
+		$msg .= "<div align=\"center\">\n";
+		$msg .= "<table style=\"width:100%;\">\n";
 		
 		if ($title != "") {
-			$msg .= "<TR>\n";
-			$msg .= "<TD" . coreMakeBackground($STAT_BAR_BACK2)
-				. " COLSPAN=\"$c\" ALIGN=\"CENTER\">";
+			$msg .= "<tr>\n";
+			$msg .= "<td" . coreMakeBackground($STAT_BAR_BACK2)
+				. " colspan=\"$c\" align=\"center\">";
 			$msg .= $STAT_BAR_FONTBEG3;
 			$msg .= $title;
 			$msg .= $STAT_BAR_FONTEND3;
-			$msg .= "</TD>\n";
-			$msg .= "</TR>\n";
+			$msg .= "</td>\n";
+			$msg .= "</tr>\n";
 		}
 		
 		$msg .= "<TR" . coreMakeBackground($STAT_BAR_BACK0) . ">\n";
-		$msg .= "<TD" . coreMakeBackground($STAT_BAR_BACK1) . ">";
+		$msg .= "<td" . coreMakeBackground($STAT_BAR_BACK1) . ">";
 		$msg .= $STAT_BAR_FONTBEG2;
 		
 		$t0 = 0;
@@ -258,73 +257,73 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		}
 		
 		$msg .= $STAT_BAR_FONTEND2;
-		$msg .= "</TD>\n";
+		$msg .= "</td>\n";
 		
 		while (list($i, $v) = each($grapharray)) {
 			if ($v > 0) {
 				$s = intval($v * $h);
 				
-				$msg .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"CENTER\">";
+				$msg .= "<td style=\"vertical-align:bottom;\" align=\"center\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= "<br>";
 				
 				if (strlen($STAT_BAR_IMAGE_T) > 0)
-					$msg .= "<IMG " . coreMakeImage($STAT_BAR_IMAGE_T)
+					$msg .= "<img " . coreMakeImage($STAT_BAR_IMAGE_T)
 						. "><br>";
 				
-				$msg .= "<IMG SRC=\"$img_p\" BORDER=\"0\" WIDTH=\"$img_w\" HEIGHT=\"$s\">";
+				$msg .= "<img src=\"$img_p\" style=\"width:".$img_w."px; height:".$s."px; border:0px;\">";
 				$msg .= "<br>";
 				
 				if (strlen($STAT_BAR_IMAGE_B) > 0)
-					$msg .= "<IMG " . coreMakeImage($STAT_BAR_IMAGE_B)
+					$msg .= "<img " . coreMakeImage($STAT_BAR_IMAGE_B)
 						. "><br>";
 				
 				$msg .= $STAT_BAR_FONTEND0;
-				$msg .= "</TD>\n";
+				$msg .= "</td>\n";
 			} else {
-				$msg .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"CENTER\">";
+				$msg .= "<td style=\"vertical-align:bottom;\" align=\"center\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= $STAT_BAR_FONTEND0;
-				$msg .= "</TD>\n";
+				$msg .= "</td>\n";
 			}
 		}
 		
-		$msg .= "<TD>&nbsp;</TD>\n";
-		$msg .= "</TR>\n";
+		$msg .= "<td>&nbsp;</td>\n";
+		$msg .= "</tr>\n";
 		$msg .= "<TR" . coreMakeBackground($STAT_BAR_BACK1) . ">\n";
-		$msg .= "<TD>&nbsp;</TD>\n";
+		$msg .= "<td>&nbsp;</td>\n";
 		
 		/* Unter Leiste mit den Beschriftungen der einzelnen Balken ausgeben. */
 		
 		reset($grapharray);
 		
 		while (list($i, $v) = each($grapharray)) {
-			$msg .= "<TD>";
+			$msg .= "<td>";
 			$msg .= $STAT_BAR_FONTBEG1;
 			$msg .= $i;
 			$msg .= $STAT_BAR_FONREND1;
-			$msg .= "</TD>\n";
+			$msg .= "</td>\n";
 		}
 		
-		$msg .= "<TD>";
+		$msg .= "<td>";
 		$msg .= $STAT_BAR_FONTBEG2;
 		$msg .= $text_b;
 		$msg .= $STAT_BAR_FONREND2;
-		$msg .= "</TD>\n";
-		$msg .= "</TR>\n";
-		$msg .= "</TABLE>\n";
+		$msg .= "</td>\n";
+		$msg .= "</tr>\n";
+		$msg .= "</table>\n";
 		
 		/* Durchschnittliche Anzahl der Benutzer und höchste Anzahl der	*/
 		/* Benutzer ausgeben. */
 		
-		$msg .= "<P ALIGN=\"CENTER\">";
+		$msg .= "<P align=\"center\">";
 		$msg .= $STAT_BAR_FONTBEG0;
 		$msg .= $STAT_TXT["0100"] . " $d - " . $STAT_TXT["0101"] . " $b";
 		$msg .= $STAT_BAR_FONTEND0;
-		$msg .= "</P>\n";
-		$msg .= "</DIV>\n";
+		$msg .= "</p>\n";
+		$msg .= "</div>\n";
 	}
 	
 	unset($grapharray);

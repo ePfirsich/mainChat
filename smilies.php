@@ -31,11 +31,11 @@ if (strlen($u_id) != 0) {
 	$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
 	$linksmilies = "href=\"" . $smilies_datei
 		. "?http_host=$http_host&id=$id\"";
-	echo "<CENTER><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
+	echo "<div style=\"text-align:center;\"><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
 		. $t['sonst1'] . "</A>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-		. "</A>]</b>$f4<br>"
-		. "<TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\" >\n";
+		. "</a>]</b>$f4<br>"
+		. "<table style=\"width:100%; border:0px;\">\n";
 	
 	// Unterscheidung JavaScript an/aus
 	if ($o_js) {
@@ -66,17 +66,17 @@ if (strlen($u_id) != 0) {
 				$farbe_tabelle = 'class="tabelle_zeile2"';
 				$schalt = TRUE;
 			}
-			echo "<TR><TD $farbe_tabelle>$f1<b>$smilie_code</b>$f2</TD>"
-				. "<TD $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilie_text) . $f2
-				. "</TD></TR>\n";
+			echo "<tr><td $farbe_tabelle>$f1<b>$smilie_code</b>$f2</TD>"
+				. "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilie_text) . $f2
+				. "</td></tr>\n";
 		}
 	}
 	
-	echo "</TABLE>"
+	echo "</table>"
 		. "<b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
 		. $t['sonst1'] . "</A>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
-		. "</A>]</b>$f4</CENTER>";
+		. "</a>]</b>$f4</div>";
 	
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";

@@ -121,32 +121,32 @@ switch ($type) {
 		
 		$msg = "";
 		$msg .= "<center>\n";
-		$msg .= "<TABLE BORDER=\"0\" CELLPADDING=\"2\" CELLSPACING=\"0\">\n";
-		$msg .= "<FORM name=form ACTION=\"$PHP_SELF\" METHOD=\"POST\">\n";
-		$msg .= "<INPUT TYPE=\"HIDDEN\" NAME=\"type\" VALUE=\"$type\">\n";
-		$msg .= "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"$aktion\">\n";
-		$msg .= "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n";
-		$msg .= "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n";
-		$msg .= "<INPUT TYPE=\"HIDDEN\" NAME=\"page\" VALUE=\"chat-month\">\n";
-		$msg .= "<TR>\n";
+		$msg .= "<table style=\"width:100%;\">\n";
+		$msg .= "<FORM name=\"form\" action=\"$PHP_SELF\" method=\"POST\">\n";
+		$msg .= "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
+		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
+		$msg .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
+		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
+		$msg .= "<tr>\n";
 		$msg .= "<TD" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
 		$msg .= $STAT_TXT["0061"];
-		$msg .= $STAT_TITLE_FONTEND0 . "</TD>\n";
+		$msg .= $STAT_TITLE_FONTEND0 . "</td>\n";
 		$msg .= "<TD" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
-		$msg .= "<SELECT NAME=\"m\" onchange='form.submit();'>\n";
+		$msg .= "<select name=\"m\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($STAT_MONTH_TXT)) {
 			if ($i == $m)
-				$msg .= "<OPTION VALUE=\"$i\" SELECTED>$n\n";
-			else $msg .= "<OPTION VALUE=\"$i\">$n\n";
+				$msg .= "<option value=\"$i\" SELECTED>$n\n";
+			else $msg .= "<option value=\"$i\">$n\n";
 			
 		}
 		
-		$msg .= "</SELECT>\n";
+		$msg .= "</select>\n";
 		// Auswahlbox Jahr  
-		$msg .= "<SELECT NAME=\"y\">\n";
+		$msg .= "<select name=\"y\">\n";
 		
 		$i = 0;
 		
@@ -154,20 +154,20 @@ switch ($type) {
 			$n = (date("Y", time()) - $i);
 			
 			if ($n == $y)
-				$msg .= "<OPTION VALUE=\"$n\" SELECTED>$n\n";
-			else $msg .= "<OPTION VALUE=\"$n\">$n\n";
+				$msg .= "<option value=\"$n\" SELECTED>$n\n";
+			else $msg .= "<option value=\"$n\">$n\n";
 			
 			$i++;
 		}
 		
-		$msg .= "</SELECT>\n";
+		$msg .= "</select>\n";
 		$msg .= $STAT_TITLE_FONTEND0;
-		$msg .= "<INPUT TYPE=\"SUBMIT\" VALUE=\"" . $STAT_TXT["0053"] . "\">\n";
-		$msg .= "</TD>\n";
-		$msg .= "</TR>\n";
-		$msg .= "</FORM>\n";
-		$msg .= "</TABLE>\n";
-		$msg .= "</CENTER>\n";
+		$msg .= "<input type=\"submit\" value=\"" . $STAT_TXT["0053"] . "\">\n";
+		$msg .= "</td>\n";
+		$msg .= "</tr>\n";
+		$msg .= "</form>\n";
+		$msg .= "</table>\n";
+		$msg .= "</center>\n";
 		
 		// Statistiken einzeln nach Monaten
 		

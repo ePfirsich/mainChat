@@ -13,11 +13,13 @@ function zeige_aktionen($aktion) {
 	$button = "Eintragen";
 	$titel1 = "Für";
 	$titel2 = "sind folgende Aktionen eingetragen";
+	$box = "$titel1 $u_nick $titel2:";
+	$text = '';
 	
-	echo "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
-		. "<input type=\"hidden\" name=\"id\"value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\"value=\"eintragen\">\n"
-		. "<input type=\"hidden\" name=\"http_host\"value=\"$http_host\">\n"
+	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"eintragen\">\n"
+		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<table style=\"width:100%;\">";
 	
 	// Einstellungen aus Datenbank lesen 
@@ -29,8 +31,7 @@ function zeige_aktionen($aktion) {
 	}
 	
 	// Aktionen zeigen
-	echo "<tr><td style=\"background-color:#85D4FF;\" colspan=5>XXX<b>$titel1 $u_nick $titel2:</b></td></tr>\n"
-		. "<tr><td></td>";
+	$text .= "<tr><td></td>";
 	
 	$i = 0;
 	$bgcolor = 'class="tabelle_zeile1"';
@@ -78,19 +79,18 @@ function zeige_aktionen($aktion) {
 	
 	// Zeile der a_wann ausgeben
 	foreach ($a_wann as $a_wann_eintrag) {
-		echo "<td style=\"text-align:center;\"><b>" . $f1 . $a_wann_eintrag . $f2
-			. "</b></td>\n";
+		$text .= "<td style=\"text-align:center;\"><b>" . $f1 . $a_wann_eintrag . $f2 . "</b></td>\n";
 	}
-	echo "</tr>\n";
+	$text .= "</tr>\n";
 	
 	// Tabelle zeilenweise ausgeben
 	$i = 0;
 	foreach ($def_was as $def_was_eintrag) {
 		
-		echo "<tr><td style=\"text-align:right;\" $bgcolor><b>" . $f1
-			. $def_was_eintrag . $f2 . "</b></td>\n";
+		$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $f1
+			. $def_was_eintrag . $f2 . "</td>\n";
 		foreach ($a_wann as $a_wann_eintrag) {
-			echo "<td style=\"text-align:center;\" $bgcolor>" . $f3
+			$text .= "<td style=\"text-align:center;\" $bgcolor>" . $f3
 				. "<select name=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
 			
 			// Zwischen offline/online unterscheiden
@@ -102,25 +102,19 @@ function zeige_aktionen($aktion) {
 			
 			// Nachrichtentypen einzeln als Auswahl ausgeben
 			foreach ($wie as $auswahl) {
-				
-				if (isset($was[$def_was_eintrag][$a_wann_eintrag])
-					&& $was[$def_was_eintrag][$a_wann_eintrag]['a_wie']
-						== $auswahl) {
-					echo "<option selectedvalue=\""
-						. $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|"
-						. $auswahl . "\">" . str_replace(",", "+", $auswahl)
-						. "\n";
+				if (isset($was[$def_was_eintrag][$a_wann_eintrag]) && $was[$def_was_eintrag][$a_wann_eintrag]['a_wie'] == $auswahl) {
+					$text .= "<option selectedvalue=\"" . $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|" . $auswahl . "\">" . str_replace(",", "+", $auswahl) . "\n";
 				} else {
-					echo "<option value=\""
+					$text .= "<option value=\""
 						. (isset($was[$def_was_eintrag][$a_wann_eintrag]) ? $was[$def_was_eintrag][$a_wann_eintrag]['a_id']
 							: "") . "|" . $auswahl . "\">"
 						. str_replace(",", " + ", $auswahl) . "\n";
 				}
 			}
-			echo "</select>" . $f4 . "</td>\n";
+			$text .= "</select>" . $f4 . "</td>\n";
 			
 		}
-		echo "</tr>\n";
+		$text .= "</tr>\n";
 		
 		if (($i % 2) > 0) {
 			$bgcolor = 'class="tabelle_zeile1"';
@@ -130,21 +124,22 @@ function zeige_aktionen($aktion) {
 		$i++;
 	}
 	
-	echo "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
-		. $f1 . "<input type=\"submit\" name=\"los\"value=\"$button\">" . $f2
+	$text .= "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
+		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$button\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
+	// Box anzeigen
+	show_box_title_content($box, $text);
 }
 
-function eintrag_aktionen($aktion_datensatz)
-{
+function eintrag_aktionen($aktion_datensatz) {
 	
 	// Array mit definierten Aktionen in die DB schreiben
 	
-	global $def_was, $dbase, $u_id, $u_nick, $mysqli_link;
+	global $def_was, $dbase, $u_id, $u_nick, $mysqli_link, $t;
 	
 	// Alle möglichen a_wann in Array lesen
-	$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
+	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = str_replace("'", "",
@@ -153,9 +148,7 @@ function eintrag_aktionen($aktion_datensatz)
 	}
 	
 	foreach ($def_was as $def_was_eintrag) {
-		
 		foreach ($a_wann as $a_wann_eintrag) {
-			
 			// In aktion_datensatz stehen ID und Wert als a_id|a_wie
 			$temp = explode("|",
 				$aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]);

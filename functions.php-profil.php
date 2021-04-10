@@ -54,19 +54,20 @@ function profil_editor($u_id, $u_nick, $f) {
 	}
 	
 	?>
+	<form name="profil" action="profil.php" method="POST">
 	<table>
 		<tr>
 			<td class="tabelle_kopfzeile" colspan="5">Ihre Userdaten:</td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo 'class="tabelle_zeile1"';?>; text-align:right;">Nickname:</td>
-			<td style="background-color:<?php echo 'class="tabelle_zeile1"';?>;" colspan="2"><b><?php echo user($userdata['u_id'], $userdata, TRUE, FALSE); ?></b></td>
-			<td style="background-color:<?php echo 'class="tabelle_zeile1"';?>;"><?php echo $userdaten_bearbeiten; ?></td>
+			<td class="tabelle_zeile1" style="text-align:right;">Nickname:</td>
+			<td class="tabelle_zeile1" colspan="2"><b><?php echo user($userdata['u_id'], $userdata, TRUE, FALSE); ?></b></td>
+			<td class="tabelle_zeile1"><?php echo $userdaten_bearbeiten; ?></td>
 		</tr>
 		<tr>
-			<td style="background-color:<?php echo 'class="tabelle_zeile2"';?>; text-align:right;">Username:</td>
-			<td style="background-color:<?php echo 'class="tabelle_zeile2"';?>;" colspan="2"><?php echo htmlspecialchars($userdata['u_name']); ?></td>
-			<td style="background-color:<?php echo 'class="tabelle_zeile2"';?>;">&nbsp;</td>
+			<td class="tabelle_zeile2" style="text-align:right;">Username:</td>
+			<td class="tabelle_zeile2" colspan="2"><?php echo htmlspecialchars($userdata['u_name']); ?></td>
+			<td class="tabelle_zeile2">&nbsp;</td>
 		</tr>
 		<?php
 		$bgcolor = 'class="tabelle_zeile1"';
@@ -111,7 +112,7 @@ function profil_editor($u_id, $u_nick, $f) {
 		}
 		?>
 		<tr>
-			<td><form name="profil" action="profil.php" method="POST">
+			<td>
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
 				<input type="hidden" name="aktion" value="neu">
 				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
@@ -298,6 +299,7 @@ function profil_editor($u_id, $u_nick, $f) {
 			</td>
 		</tr>
 	</table>
+	</form>
 	<?php
 }
 

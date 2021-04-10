@@ -57,7 +57,7 @@ function refresh() {
 
 function genlist(liste, aktion) {
 	document
-			.write("<TABLE WIDTH=\"100%\" BORDER=\"0\" CELLSPACING=\"0\" CELLPADDING=\""
+			.write("<TABLE style=\"width:100%;\" CELLPADDING=\""
 					+ padd + "\">\n");
 
 	var interval = 9;
@@ -147,47 +147,47 @@ function genlist(liste, aktion) {
 
 		if (aktion == "chatuserliste") {
 			if ((level == "admin"))
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
 						+ liste[i + 2] + "'); return(false)\">G</A>" + fett[1]
-						+ "</TD>";
+						+ "</td>";
 			if ((level == "admin") || (level == "owner"))
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
 						+ liste[i + 2] + "'); return(false)\">K</A>" + fett[1]
-						+ "</TD>";
+						+ "</td>";
 			if ((level == "admin")
 					&& (liste[i + 3] != "" || liste[i + 4] != ""))
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
 						+ liste[i + 3] + "','" + liste[i + 4] + "','"
 						+ liste[i + 2] + "'); return(false)\">S</A>" + fett[1]
-						+ "</TD><TD class=\"" + color[color_index] + "\">&nbsp;</TD>";
+						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
 			if (inaktiv_ansprechen != "1") {
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
 						+ liste[i + 2] + " '); return(false)\">@</A>" + fett[1]
-						+ "</TD>";
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+						+ "</td>";
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
 						+ liste[i + 2] + " '); return(false)\">&gt;</A>"
-						+ fett[1] + "</TD>";
+						+ fett[1] + "</td>";
 			}
 		} else {
 			if ((level == "admin") || (level == "owner"))
-				rowdef += "<TD class=\"" + color[color_index] + "\">"
+				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
 						+ liste[i + 2] + "'); return(false)\">E</A>" + fett[1]
-						+ "</TD><TD class=\"" + color[color_index] + "\">&nbsp;</TD>";
+						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
 		}
 
-		rowdef += "<td WIDTH=\"90%\" class=\"" + color[color_index] + "\">" + nlink + "</TD>";
+		rowdef += "<td WIDTH=\"90%\" class=\"" + color[color_index] + "\">" + nlink + "</td>";
 
 		if (color_index == "0")
 			color_index = 1;
@@ -198,7 +198,7 @@ function genlist(liste, aktion) {
 				+ "</tr>\n");
 
 	}
-	document.write("</TABLE>\n");
+	document.write("</table>\n");
 }
 
 function showsmilies(liste) {
@@ -218,7 +218,7 @@ function showsmiliegrafiken(liste) {
 	for ( var i = 0; i < liste.length; i += 3) {
 		var rowdef = "<td style=\"text-align:center;\" class=\"" + color[i / 2 & 1] + "\"><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
 				+ liste[i]
-				+ " '); return(false)\"><IMG SRC=\""
+				+ " '); return(false)\"><img src=\""
 				+ smilies_pfad
 				+ liste[i + 1]
 				+ "\" border=\"0\" ALT=\""

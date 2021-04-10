@@ -509,7 +509,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$box = $t['user_zeige12'];
 			echo '<br>';
 			
-			$text .= "<form name=\"edit\" ACTION=\"edit.php\" METHOD=POST>\n" . $f1
+			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"POST\">\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
 				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -532,7 +532,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
 				$text .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
 			}
-			$text .= "</form>\n";
+			$text .= $f2 . "</form>\n";
 			
 
 		}

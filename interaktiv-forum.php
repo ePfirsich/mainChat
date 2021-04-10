@@ -86,9 +86,9 @@ if ($u_id) {
 	
 	// Menue Ausgeben:
 	
-	echo "<FORM ACTION=\"" . $chat_url
-		. "index.php\" target=\"topframe\" NAME=\"form1\" METHOD=\"POST\">\n"
-		. "<CENTER><TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0>\n";
+	echo "<form action=\"" . $chat_url
+		. "index.php\" target=\"topframe\" name=\"form1\" method=\"POST\">\n"
+		. "<center><table>\n";
 	
 	// Anzahl der User insgesamt feststellen
 	$query = "SELECT count(o_id) as anzahl FROM online "
@@ -99,7 +99,7 @@ if ($u_id) {
 		mysqli_free_result($result);
 	}
 	
-	echo "<tr><td ALIGN=\"CENTER\">";
+	echo "<tr><td style=\"text-align:center;\">";
 	
 	$mlnk[1] = "hilfe.php?http_host=$http_host&id=$id";
 	$mlnk[2] = "raum.php?http_host=$http_host&id=$id";
@@ -161,7 +161,7 @@ if ($u_id) {
 	else $lobby_id = 1;
 	
 	echo $f3
-		. "<NOBR><SELECT NAME=\"neuer_raum\"\" onChange=\"document.form1.submit()\">\n";
+		. "<nobr><select name=\"neuer_raum\"\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere User nur die offenen
 	if ($admin) {
@@ -170,17 +170,17 @@ if ($u_id) {
 		echo raeume_auswahl($lobby_id, FALSE, TRUE);
 	}
 	
-	echo "</SELECT>";
+	echo "</select>";
 	
-	echo "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"o_raum_alt\" VALUE=\"$o_raum\">"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-		. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"relogin\">";
+	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">"
+		. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
+		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
 	
-	echo " <INPUT TYPE=\"SUBMIT\" NAME=\"raum_submit\" VALUE=\"$t[button]\">&nbsp;</NOBR><br>"
+	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[button]\">&nbsp;</nonr><br>"
 		. $f4
-		. "</td></tr><TR><TD ALIGN=\"CENTER\"><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=2><br>\n";
-	echo "</TD></TR></TABLE></CENTER></FORM>\n";
+		. "</td></tr><tr><td style=\"text-align:center;\"><img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:2px;\"><br>\n";
+	echo "</td></tr></table></center></form>\n";
 	
 } else {
 	// User wird nicht gefunden. Login ausgeben

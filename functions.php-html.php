@@ -12,28 +12,6 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '') {
 	<?php echo $metatag; ?>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
 	<link rel="stylesheet" href="css/<?php echo $stylesheet; ?>.css" type="text/css">
-	
-	
-	
-	
-	<style type="text/css">
-	body {
-		background-color:<?php echo $hintergrundfarbe; ?>;
-	<?php if(strlen($hintergrundgrafik) > 0) { ?>
-		background-image:<?php echo $hintergrundgrafik; ?>;
-	<?php } ?>
-	}
-	a:link {
-		color:<?php echo $linkfarbe; ?>;
-	}
-	a:visited, a:active {
-		color:<?php echo $linkfarbe_aktive; ?>;
-	}
-	</style>
-	
-	
-	
-	
 	<?php
 	if($zusatz_header != '') {
 		echo $zusatz_header;

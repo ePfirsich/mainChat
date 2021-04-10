@@ -35,11 +35,12 @@ zeige_header_ende();
 <?php
 // Login ok?
 if (strlen($u_id) != 0) {
-	echo "<CENTER><TABLE BORDER=\"0\" CELLPADDING=\"0\" CELLSPACING=\"0\">\n";
+	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
+	
+	echo "<div style=\"text-align:center;\"><table style=\"width:100%; border:0px;\">\n";
 	
 	// Unterscheidung Javascript an/aus
 	if ($o_js) {
-		echo "<tr><td colspan=\"2\" align=\"center\"><a href=# onClick=\"window.close()\">$f3 Fenster schliessen $f4</a></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 		// Array mit Smilies einlesen, Tabelle in Javascript ausgeben
 		reset($smilie);
 		while (list($smilie_code, $smilie_text) = each($smilie)) {
@@ -53,28 +54,28 @@ if (strlen($u_id) != 0) {
 			. "   var liste = new Array(\n   " . @implode(",\n   ", $jsarr)
 			. "   );\n" . "   showsmilies(liste);\n" . "</script>\n";
 		
-		echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><a href=# onClick=\"window.close()\">$f3 Fenster schliessen $f4</a></td></tr>\n";
-		
 	} else { // kein javascript verfügbar
 	
 	// Array mit Smilies einlesen, HTML-Tabelle ausgeben
 		reset($smilie);
-		$schalt = TRUE;
+		$schalt = trUE;
 		while (list($smilie_code, $smilie_text) = each($smilie)) {
 			if ($schalt) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
 				$schalt = FALSE;
 			} else {
 				$farbe_tabelle = 'class="tabelle_zeile2"';
-				$schalt = TRUE;
+				$schalt = trUE;
 			}
-			echo "<TR><TD $farbe_tabelle>$f1<b>$smilie_code</b>$f2</TD>"
-				. "<TD $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilie_text) . $f2
-				. "</TD></TR>\n";
+			echo "<tr><td $farbe_tabelle>$f1<b>$smilie_code</b>$f2</td>"
+				. "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilie_text) . $f2
+				. "</td></tr>\n";
 		}
 	}
 	
-	echo "</TABLE></CENTER>";
+	echo "</table></div>";
+	
+	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
 	
 } else {
 	echo "<p style=\"text-align:center;\">" . $t['sonst15'] . "</p>\n";

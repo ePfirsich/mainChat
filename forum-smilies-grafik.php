@@ -42,11 +42,12 @@ zeige_header_ende();
 <?php
 // Login ok?
 if (strlen($u_id) != 0) {
+	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
+	
 	echo "<div style=\"text-align:center;\"><table style=\"width:100%; border:0px;\">\n";
 	
 	// Unterscheidung Javascript an/aus
 	if ($o_js) {
-		echo "<tr><td colspan=\"2\" align=\"center\"><a href=# onClick=\"window.close()\">$f3 Fenster schliessen $f4</a></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n";
 		// Array mit Smilies einlesen, Tabelle in Javascript ausgeben
 		reset($smilie);
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
@@ -63,7 +64,6 @@ if (strlen($u_id) != 0) {
 			. "   showsmiliegrafiken(liste);\n" . 
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
-		echo "<tr><td colspan=\"2\">&nbsp;</td></tr><tr><td colspan=\"2\" align=\"center\"><a href=# onClick=\"window.close()\">$f3 Fenster schliessen $f4</a></td></tr>\n";
 	} else { // kein javascript verfügbar
 	
 	// Array mit Smilies einlesen, HTML-Tabelle ausgeben
@@ -84,6 +84,8 @@ if (strlen($u_id) != 0) {
 		}
 	}
 	echo "</table></div>";
+	
+	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
 	
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";

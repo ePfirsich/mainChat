@@ -261,26 +261,26 @@ if (strlen($u_id) != 0) {
 			if ($u_level == "S") {
 				
 				$box = $t['sonst45'];
-				$text = "<FORM name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
-					. "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
+				$text = "<form name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" VALUE=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"http_host\" VALUE=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"userimport2\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"userimport2\">\n"
-					. "<tr><TD colspan=2>" . $f1
-					. htmlspecialchars($t['sonst46']) . $f2 . "</td></tr>\n"
-					. "<tr><TD colspan=2><img src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=10></td></tr>\n"
-					. "<tr><TD colspan=2>" . $f1
+					. $f1
+					. htmlspecialchars($t['sonst46']) . $f2 . "\n"
+					. "<br>\n"
+					. "<br>" . $f1
 					. "&nbsp;<INPUT name=\"userdatei\" type=\"file\" SIZE=\"$eingabe_breite\">"
-					. $f2 . "</td></tr>\n";
+					. $f2 . "\n";
 				
-				$text .= "<tr><TD colspan=\"2\" style=\"text-align: right;\">" . $f1
+				$text .= "<br><div style=\"text-align: right;\">" . $f1
 					. "<input type=\"submit\" name=\"los\" VALUE=\"Go!\">"
-					. $f2 . "</td></tr>" . "</table></FORM>\n";
-				show_box2($box, $text);
-				?>
-				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-				<?php
+					. $f2 . "</div></form>\n";
+
+				echo "<br>";
+				
+				// Box anzeigen
+				show_box_title_content($box, $text);
 				
 			} else {
 				echo "$t[sonst41]";
@@ -292,16 +292,12 @@ if (strlen($u_id) != 0) {
 			if ($u_level == "S") {
 				
 				$box = $t['sonst51'];
-				$text = "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
-					. "<tr><TD colspan=2>" . $f1 . $t['sonst49']
-					. " <A href=\"user.php?http_host=$http_host&id=$id&aktion=userloeschen2\">["
-					. $t['sonst50'] . "]</a>" . $f2 . "</td></tr>\n"
-					. "</table>\n";
-				show_box2($box, $text);
-				?>
-				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-				<?php
+				$text = $f1 . $t['sonst49'] . " <a href=\"user.php?http_host=$http_host&id=$id&aktion=userloeschen2\">[" . $t['sonst50'] . "]</a>" . $f2;
 				
+				echo "<br>";
+				
+				// Box anzeigen
+				show_box_title_content($box, $text);
 			} else {
 				echo "$t[sonst41]";
 			}
@@ -320,14 +316,15 @@ if (strlen($u_id) != 0) {
 				}
 				
 				$box = $t['sonst51'];
-				$text = "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0>"
-					. "<tr><TD colspan=2>" . $f1 . $ok . $f2 . "</td></tr>\n"
-					. "</table>\n";
-				show_box2($box, $text);
-				?>
-				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-				<?php
+				$text = $f1 . $ok . $f2;
 				
+				echo "<br>";
+				
+				// Box anzeigen
+				show_box_title_content($box, $text);
+				
+
+				show_box2($box, $text);
 			} else {
 				echo "$t[sonst41]";
 			}
@@ -399,18 +396,17 @@ if (strlen($u_id) != 0) {
 		
 		case "suche":
 		// Suchmaske für Ergebnis oder Suchmaske für erste Suche ausgeben
-			if (strlen($suchtext) > 3
-				|| (isset($suchtext_eingabe) && $suchtext_eingabe == "Go!")) {
+			if (strlen($suchtext) > 3 || (isset($suchtext_eingabe) && $suchtext_eingabe == "Go!")) {
 				
 				// Suchergebnis mit Formular ausgeben
 				$box = $t['sonst16'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
-					. "<TABLE>"
+					. "<table>"
 					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-					. "</td></tr>" . "<tr><TD colspan=2>" . $f1
+					. "</td></tr>" . "<tr><td colspan=2>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" VALUE=\"$suchtext\" SIZE=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
@@ -469,10 +465,11 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
-				show_box2($box, $text);
-				?>
-				<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-				<?php
+				
+				echo "<br>";
+				
+				// Box anzeigen
+				show_box_title_content($box, $text);
 				
 				// wenn einer nur nach % sucht, kanns auch weggelassen werden
 				if ($suchtext == "%")

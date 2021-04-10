@@ -90,17 +90,17 @@ if (strlen($u_id) != 0) {
 	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
-		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text = "<A $url>$t[menue7]</A>\n";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$text = "<A $url>$t[menue7]</a>\n";
 		$ur1 = "home.php?http_host=$http_host&id=$id&aktion=aendern";
-		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue10]</A>\n";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$text .= "| <A $url>$t[menue10]</a>\n";
 		$ur1 = "freunde.php?http_host=$http_host&id=$id";
-		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue9]</A>\n";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$text .= "| <A $url>$t[menue9]</a>\n";
 		$ur1 = "aktion.php?http_host=$http_host&id=$id";
-		$url = "HREF=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue8]</A>\n";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$text .= "| <A $url>$t[menue8]</a>\n";
 	}
 	if (isset($text) && $text) {
 		show_box2($box, $text);
