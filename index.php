@@ -1120,7 +1120,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						. "// end hiding -->\n</script>\n";
 					
 					// Disclaimer ausgeben
-					show_box($login_titel, $logintext, "", "100%");
+					show_box($login_titel, $logintext, "100%");
 					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 					zeige_fuss();
 					exit;
@@ -1418,7 +1418,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					// Box und Disclaimer ausgeben
-					show_box($titel, $logintext, "", "100%");
+					show_box($titel, $logintext, "100%");
 					echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
 						. "// end hiding -->\n</script>\n";
 					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
@@ -1902,7 +1902,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				
 				// Box und Disclaimer ausgeben
 				if (!isset($keineloginbox) || !$keineloginbox)
-					show_box($titel, $logintext, "", "100%");
+					show_box($titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 				
@@ -2091,7 +2091,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 					<?php
 					$titel = $t['neu31'];
-					show_box($titel, $text, "", "");
+					show_box($titel, $text, "");
 					?>
 				</form>
 				<?php
@@ -2139,7 +2139,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						. "</form>\n";
 					$titel = $t['neu30'];
 				}
-				show_box($titel, $text, "", "");
+				show_box($titel, $text, "");
 				echo "<br>";
 				
 				// Homepage muss http:// enthalten
@@ -2286,7 +2286,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			
 			// Box und Disclaimer ausgeben
 			if (!isset($keineloginbox))
-				show_box($titel, $logintext, "", "100%");
+				show_box($titel, $logintext, "100%");
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 			

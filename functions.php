@@ -866,27 +866,18 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
-function show_box($box, $text, $url = "", $width = "") {
+function show_box($box, $text, $width = "") {
 	// Gibt Tabelle mit URL im Kopf und Inhalt aus 
 	
 	if (strlen($width) > 0) {
-		$width = "width:" . $width . ";";
+		$width = "style=\"width:" . $width . ";\"";
 	}
 	?>
 	
-	<table class="tabelle_kopf">
+	<table class="tabelle_kopf" <?php echo $width; ?>>
 	
 		<tr>
-			<td class="tabelle_kopfzeile">
-			<?php
-			if (strlen($url) > 0) {
-				?>
-				<a href="<?php echo $url; ?>"><?php echo $box; ?><img src=/pics/button-x.gif style="width:15px; height:13px; float: right; border:0px;"></a>
-				<?php
-			}
-			?>
-			<span style="font-weight: bold;"><?php echo $box; ?></span>
-			</td>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
 		<tr>
 			<td class="tabelle_koerper_login"><?php echo $text; ?></td>
