@@ -8,12 +8,12 @@ Alle Rechte an mainChat vorbehalten, (C) fidion GmbH
 
 mainChat benötigt folgende Komponenten:
 - mysql  (http://www.mysql.com/)
-- php4/5 (http://www.php.net/)
+- php7 (http://www.php.net/)
 - apache (http://www.apache.org/)
 
 Empfehlenswerte Versionen:
 mysql ab 5.5.3
-php ab 4.4.x
+php ab 7.x.x
 apache 1.3.x oder apache 2.0.x (diese Anleitung bezieht sich auf 1.3.x)
 gdlib mit GIF-Support (nur in der Community-Version)
 
@@ -218,7 +218,7 @@ mainChat Verwendung finden. Die Texte sind bis auf die Platzhalter (%TEXT%)
 änderbar.
 
 3. Betrieb
-Bitte beachten Sie, daß alle Verzeichniss und die Logdateien, die von
+Bitte beachten Sie, daß alle Verzeichnisse und die Logdateien, die von
 mainChat beschrieben werden, auch für den User www oder wwwrun beschreibbar
 sind!
 
@@ -227,24 +227,20 @@ Timeout aus und erstellt die Statistiken, die Sie im Verzeichnis
 "statistiken" aufgeschlüsselt nach Tag, Uhrzeit oder virtuellem Host abrufen
 können.
 
-Falls Sie schließlich auch in www.webchat.de oder anderen Angeboten mit
+Falls Sie in anderen Angeboten mit
 Ihren mainChat gelistet werden möchten, liefert Ihnen die Datei
 userliste.php eine kompatible Userliste.
 
 
 4. Tipps 
 
-4.1 Der eaccelerator (http://eaccelerator.net/)  beschleunigt den
-mainChat um ca. Faktor Drei! Das lohnt sich besonders ab 100 Usern gleichzeitig
-online, wenn Sie die MYSQL-Datenbank auf einem zweiten Server betreiben.
+4.1 Einsatz einer des vorcompilierten MySQL-Binary (Download unter www.mysql.com)
 
-4.2 Einsatz einer des vorcompilierten MySQL-Binary (Download unter www.mysql.com)
-
-4.3 Der Apache sollte selbst compiliert werden, um mehr als 256 Prozesse zu
+4.2 Der Apache sollte selbst compiliert werden, um mehr als 256 Prozesse zu
 ermöglichen (Patch der Apache-Sourcen notwendig). Hierbei sollten alle
 überflüssigen Module (z.B: mod_proxy, mod_gzip, o.ä.) deaktiviert werden.
 
-4.4 Verwenden einer optimierten Apache-Configurations-Datei. Z.B. hiermit 
+4.3 Verwenden einer optimierten Apache-Configurations-Datei. Z.B. hiermit 
 läuft bereits der Chat. Bei 1700 Clients ist der PHP-Accelerator und 
 2 GB Ram erforderlich:
 
