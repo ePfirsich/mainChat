@@ -886,30 +886,39 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			echo $willkommen;
 			
 			// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
-			// der Form name@do.main entspricht, wobei
-			if (isset($email)) {
-				if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})",
-					mysqli_real_escape_string($mysqli_link, $email))) {
+			// der Form name@do.main entspricht
+			if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email)) ) {
 					echo str_replace("%email%", $email, $t['neu41']);
 					$email = "";
-				}
-			}
-			
-			if (!isset($email)) {
+					
+					$box = $t['neu31'];
+					$text = '';
+					$text .= "<form action=\"index.php\">xxx";
+					$text .= $t['neu34'] . " <input name=\"email\" maxlength=\"80\">";
+					$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+					$text .= "<input type=\"hidden\" name=\"aktion\" value=\"mailcheck\">";
+					$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
+					$text .= "</form>";
+					
+					show_box($box,$text);
+			} else if (!isset($email)) {
 				// Formular für die Erstregistierung ausgeben, 1. Schritt
 				echo "<p>" . $t['neu33'];
 				if (isset($anmeldung_nurmitbest)
 					&& strlen($anmeldung_nurmitbest) > 0) { // Anmeldung mit Externer Bestätigung
 					echo $t['neu45'];
 				}
-				echo "<p><table border=0 cellpadding=3 cellspacing=0>"
-					. "<form action=\"index.php\">" . "<tr><td>" . $t['neu34']
-					. "</td><td><input name=\"email\" maxlength=80></td></tr>"
-					. "<tr><td colspan=2><input type=submit value=\""
-					. $t['neu35'] . "\">"
-					. "<input type=hidden name=\"http_host\" value=\"$http_host\">"
-					. "<input type=hidden name=\"aktion\" value=\"mailcheck\"></td></tr>"
-					. "</form></table>";
+				
+				$box = $t['neu31'];
+				$text = '';
+				$text .= "<form action=\"index.php\">";
+				$text .= $t['neu34'] . " <input name=\"email\" maxlength=\"80\">";
+				$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"mailcheck\">";
+				$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
+				$text .= "</form>";
+				
+				show_box($box,$text);
 			} else {
 				// Mail verschicken, 2. Schritt
 				

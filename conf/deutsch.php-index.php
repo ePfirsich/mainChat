@@ -9,15 +9,15 @@ $t['login1'] = "<b>Login mit sicherer HTTPS-Anmeldung</b>";
 $t['login2'] = "<b>neue HTTPS-Anmeldung</b>";
 $t['login3'] = "Gäste können sich einloggen, in dem "
 	. "sie einfach auf <b>Login</b> klicken " . "ohne einen Namen einzugeben";
-$t['login4'] = "<P><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
+$t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
-	. "Sie es später wieder.</b></P><br><br>\n";
-$t['login5'] = "<P><b>Leider ist der Account %u_nick% (%u_name%) derzeit gesperrt.\n"
+	. "Sie es später wieder.</b></p><br><br>\n";
+$t['login5'] = "<p><b>Leider ist der Account %u_nick% (%u_name%) derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"MAILTO:" . $webmaster
-	. "\">Webmaster</A>.</b></P><br><br>\n";
+	. "\">Webmaster</A>.</b></p><br><br>\n";
 $t['login6'] = "<H2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</H2>\n"
 	. "</noframes></body></html>\n";
-$t['login7'] = "<P><b>Falsches Passwort oder Nickname eingegeben! Bitte versuchen Sie es neu:</b></P>\n";
+$t['login7'] = "<p><b>Falsches Passwort oder Nickname eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login8'] = "Name/Nick:";
 $t['login9'] = "Passwort:";
 $t['login10'] = "Login";
@@ -25,11 +25,11 @@ $t['login11'] = "Login als";
 $t['login12'] = "Raum:";
 $t['login13'] = "Gast";
 $t['login14'] = "als registrierter User neu anmelden";
-$t['login15'] = "<P><b>Leider ist der Login als Gast derzeit gesperrt. Bitte haben Sie dafür Verständnis.</b></P>";
-$t['login16'] = "<P><b>Leider ist kein Login als Gast möglich. Bitte melden Sie sich als registrierter User an.</b></P>";
+$t['login15'] = "<p><b>Leider ist der Login als Gast derzeit gesperrt. Bitte haben Sie dafür Verständnis.</b></p>";
+$t['login16'] = "<p><b>Leider ist kein Login als Gast möglich. Bitte melden Sie sich als registrierter User an.</b></p>";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
-$t['login19'] = "<P><b>Dieser Nickname ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></P>\n";
+$t['login19'] = "<p><b>Dieser Nickname ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login20'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!";
 $t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!\n\n"
 	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
@@ -39,26 +39,26 @@ $t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde fü
 	. "Datums/Uhrzeit direkt an den Provider.\n";
 $t['login22'] = "Raum/Forum:";
 $t['login23'] = "Beiträge im Forum zeigen";
-$t['login24'] = "<P><b>Der Login ist leider nicht möglich!</b></P>"
-	. "<P>Es sind im $chat bereits %online% User online. "
-	. "Als %leveltxt% dürfen Sie ab maximal %max% User den $chat nicht mehr betreten.</P>"
+$t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
+	. "<p>Es sind im $chat bereits %online% User online. "
+	. "Als %leveltxt% dürfen Sie ab maximal %max% User den $chat nicht mehr betreten.</p>"
 	. "%zusatztext%";
-$t['login25'] = "<P><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
+$t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
 	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
 	. "Sie einen Browser mit aktivieren Cookies "
-	. "</P><P>[<a href=\"%url%\">weiter zur Loginseite</A>]</P>";
+	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</A>]</p>";
 $t['login26'] = "Lieber Chatter, um diesen Chat zu betreten, müssen Sie ihn über die Webseite %webseite% betreten.";
 $t['login27'] = "Passwort vergessen?";
 
-$t['neu1'] = "<P><b>Bitte das Feld 'Name' ausfüllen!</b></P>\n";
-$t['neu2'] = "<P><b>Bitte geben Sie als Usernamen mindestens 4 Zeichen ein!</b></P>\n";
-$t['neu3'] = "<P><b>Bitte geben Sie als Usernamen maximal 20 Zeichen ein!</b></P>\n";
-$t['neu4'] = "<P><b>Bitte geben Sie als Nicknamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</P>\n";
-$t['neu5'] = "<P><b>Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!</b></P>\n";
-$t['neu6'] = "<P><b>Sie haben sich beim Passwort vertippt. Bitte neu versuchen!</b></P>\n";
-$t['neu7'] = "<P><b>Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!</b></P>\n";
-$t['neu8'] = "<P><b>Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!</b></P>\n";
-$t['neu9'] = "<P><b>Dieser Nickname ist leider schon vergeben! Bitte wählen Sie einen anderen.</b></P>\n";
+$t['neu1'] = "<p><b>Bitte das Feld 'Name' ausfüllen!</b></p>\n";
+$t['neu2'] = "<p><b>Bitte geben Sie als Usernamen mindestens 4 Zeichen ein!</b></p>\n";
+$t['neu3'] = "<p><b>Bitte geben Sie als Usernamen maximal 20 Zeichen ein!</b></p>\n";
+$t['neu4'] = "<p><b>Bitte geben Sie als Nicknamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</p>\n";
+$t['neu5'] = "<p><b>Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!</b></p>\n";
+$t['neu6'] = "<p><b>Sie haben sich beim Passwort vertippt. Bitte neu versuchen!</b></p>\n";
+$t['neu7'] = "<p><b>Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!</b></p>\n";
+$t['neu8'] = "<p><b>Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!</b></p>\n";
+$t['neu9'] = "<p><b>Dieser Nickname ist leider schon vergeben! Bitte wählen Sie einen anderen.</b></p>\n";
 $t['neu10'] = "Vor- & Nachname:";
 $t['neu11'] = "(nur intern)";
 $t['neu12'] = "NickName:";
@@ -72,15 +72,15 @@ $t['neu19'] = "E-Mail:";
 $t['neu20'] = "&nbsp;&nbsp;(öffentlich)";
 $t['neu21'] = "Homepage:";
 $t['neu22'] = "Fertig";
-$t['neu23'] = "<P>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b>\n"
+$t['neu23'] = "<p>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b>\n"
 	. "nur für interne Zwecke der Administration genutzt und dritten\n"
 	. "Personen nicht zugänglich gemacht wird (gem. <a href=\"http://"
 	. $HTTP_HOST . "/hilfe.php?http_host=" . $HTTP_HOST
 	. "&id=&aktion=privacy\">Datenschutzerklärung</a>). Falls Sie zum Beispiel Ihr Passwort\n"
 	. "vergessen und uns kontaktieren, können wir Ihnen an diese Adresse Ihr "
 	. "neues Passwort schicken. Die 2. optionale E-Mail Adresse (öffentlich) dagegen ist\n"
-	. "im Chat für alle anderen Mitglieder sichtbar.</P>\n"
-	. "<P>Alle Felder mit <b>*</b> sind Pflichtfelder. Die Felder <b>E-Mail (öffentlich)</b> und\n"
+	. "im Chat für alle anderen Mitglieder sichtbar.</p>\n"
+	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die Felder <b>E-Mail (öffentlich)</b> und\n"
 	. "<b>Homepage</b> sind öffentlich und müssen nicht ausgefüllt werden.\n"
 	. "Falls Sie <b>Nickname</b> nicht ausfüllen, wird Ihr Name aus dem Feld\n"
 	. "<b>Name</b> als öffentlicher\n"
@@ -92,16 +92,16 @@ $t['neu23'] = "<P>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b
 	. "Außerdem erklären Sie sich mit unseren <a href=\"http://" . $HTTP_HOST
 	. "/hilfe.php?http_host=" . $HTTP_HOST
 	. "&id=&aktion=agb\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
-$t['neu24'] = "<P><b>Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!</b></P><br><br>\n";
-$t['neu25'] = "<P>Sie wurden nun im $chat eingetragen!</P>\n";
+$t['neu24'] = "<p><b>Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!</b></p><br><br>\n";
+$t['neu25'] = "<p>Sie wurden nun im $chat eingetragen!</p>\n";
 $t['neu26'] = "Vor- & Nachname";
 $t['neu27'] = "NickName";
-$t['neu28'] = "<P><b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b></P>\n";
+$t['neu28'] = "<p><b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b></p>\n";
 $t['neu29'] = "Weiter zum Chat";
 $t['neu30'] = "Eintrag abgeschlossen";
-$t['neu31'] = "Neu im $chat anmelden:";
-$t['neu32'] = "<P><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Nicknamen!</b></P>";
-$t['neu33'] = "<P><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</P>";
+$t['neu31'] = "Neuen Account registrieren:";
+$t['neu32'] = "<p><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Nicknamen!</b></p>";
+$t['neu33'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['neu34'] = "Ihre E-Mail Adresse:";
 $t['neu35'] = "Absenden";
 $t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer User fortzusetzen, klicken Sie bitte auf den folgenden Link:"
@@ -111,16 +111,16 @@ $t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer User
 	. "\nWenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein\n\n"
 	. "-- \n   $chat ($serverprotokoll://" . $HTTP_HOST . $PHP_SELF . ")\n";
-$t['neu37'] = "<P><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</P>";
+$t['neu37'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['neu38'] = "Ihre Registrierung im $chat";
-$t['neu39'] = "<P><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</P>";
+$t['neu39'] = "<p><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</p>";
 $t['neu40'] = "Diese E-Mailadresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster";
-$t['neu41'] = "<P><b>Fehler: </b>Die Eingabe '%email%' ist keine gültige  E-Mail Adresse!</P>";
+$t['neu41'] = "<p><b>Fehler: </b>Die Eingabe '%email%' ist keine gültige  E-Mail Adresse!</p>";
 $t['neu42'] = "Bitte geben Sie nun Ihre <b>E-Mailadresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.<br>"
 	. "Sie können hierzu natürlich auch gerne Cut und Paste (Strg+C und Strg+V) verwenden";
 $t['neu43'] = "Freischalt-Code:";
-$t['neu44'] = "<P><b>Fehler: </b>Pluszeichen nicht im Nicknamen erlaubt!";
-$t['neu45'] = "<P>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.</P>";
+$t['neu44'] = "<p><b>Fehler: </b>Pluszeichen nicht im Nicknamen erlaubt!";
+$t['neu45'] = "<p>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.</p>";
 $t['neu46'] = "Anfrage um Registrierung im $chat";
 $t['neu47'] = "Hallo!\n\nEin User mit der E-Mailadresse %email% möchte sich in Ihrem Chat $chat anmelden."
 	. "\nZum freigeben dieser E-Mailadresse verwenden Sie bitte diesen Link:\n\n %link1%\n\n"
@@ -131,9 +131,9 @@ $t['neu47'] = "Hallo!\n\nEin User mit der E-Mailadresse %email% möchte sich in 
 	. "Internetadresse zum Freischalten: %link2%\n"
 	. "E-Mailadresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
 	. "-- \n   $chat ($serverprotokoll://" . $HTTP_HOST . $PHP_SELF . ")\n";
-$t['neu48'] = "<P><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
+$t['neu48'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
-	. "angegebenen Link!</P>";
+	. "angegebenen Link!</p>";
 $t['neu49'] = "Freizugebende E-Mailadresse:";
 $t['neu50'] = "Bitte geben Sie nun die <b>E-Mailadresse</b>, die Sie freigeben möchten, und den <b>Freischalt-Code</b> ein, "
 	. "den Sie soeben per E-Mail bekommen haben.<br>"
