@@ -301,7 +301,7 @@ switch ($aktion) {
 			. $legende . "</table><br>\n"
 			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br><br>\n";
 		
-			show_box_title_content($box,$text);
+		show_box_title_content($box,$text);
 		
 		break;
 	
@@ -360,6 +360,7 @@ switch ($aktion) {
 	case "logout":
 		$box = $t['hilfe15'];
 		$text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
+		
 		show_box_title_content($box, $text);
 		
 		echo "<br><br>";

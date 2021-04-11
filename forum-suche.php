@@ -226,7 +226,7 @@ function such_bereich() {
 		. $f2 . "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-		show_box_title_content($box, $text);
+	show_box_title_content($box, $text);
 }
 
 function such_ergebnis() {

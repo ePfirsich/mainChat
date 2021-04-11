@@ -82,9 +82,8 @@ function show_who_is_online($result) {
 					// Nur offene, permanente Räume zeigen
 					if ($zeigen_alt) {
 						show_box_title_content(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
-						?>
-						<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-						<?php
+						
+						echo "<br>";
 					}
 					$text = "$nick ";
 				}
@@ -97,9 +96,8 @@ function show_who_is_online($result) {
 		}
 		if ($zeigen_alt) {
 			show_box_title_content(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
-			?>
-			<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-			<?php
+			
+			echo "<br>";
 		}
 		mysqli_free_result($result);
 	}

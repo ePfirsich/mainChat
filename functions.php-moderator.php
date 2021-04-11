@@ -199,12 +199,12 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		echo "<form name=modtext action=\"moderator.php?http_host=$http_host&id=$id\" method=\"post\">\n";
 		if ($rows > 0) {
 			
-			echo "<table width=100% cellpadding=0 cellspacing=0 border=0>\n";
+			echo "<table style=\"width=100%;\">\n";
 			echo "<tr>";
 			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/ok.gif\" height=20 width=20 alt=\"" . $t['mod16'] . "\"></td>";
 			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/nope.gif\" height=20 width=20 alt=\"" . $t['mod17'] . "\"></td>";
 			echo "<td style=\"vertical-align:bottom;\"  class=\"tabelle_kopfzeile\">";
-			echo "<table width=100% cellpadding=0 cellspacing=0 border=0><tr><td>";
+			echo "<table style=\"width=100%;\"><tr><td>";
 			echo "<small><b>" . $t['mod2'];
 			echo "</td><td align=right>";
 			echo "<input type=submit name=ok2 value=\"go!\">\n";

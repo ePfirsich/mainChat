@@ -216,7 +216,7 @@ function formular_neuer_freund($neuer_freund) {
 		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
-		show_box_title_content($box,$text);
+	show_box_title_content($box,$text);
 }
 
 function formular_editieren($f_id, $f_text) {

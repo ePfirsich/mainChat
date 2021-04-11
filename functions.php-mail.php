@@ -43,7 +43,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 		. "<input type=\"submit\" name=\"los\" value=\"WEITER\">" . $f2;
 	
 	// Box anzeigen
-		show_box_title_content($box, $text);
+	show_box_title_content($box, $text);
 }
 
 function formular_neue_email2($neue_email, $m_id = "") {
@@ -170,7 +170,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 				. $f2 . "</td></tr>\n" . "</table></form>\n";
 			
 			// Box anzeigen
-				show_box_title_content($box, $text);
+			show_box_title_content($box, $text);
 			
 		} else {
 			echo "<P><b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";

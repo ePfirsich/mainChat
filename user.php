@@ -267,7 +267,7 @@ if (strlen($u_id) != 0) {
 					. htmlspecialchars($t['sonst46']) . $f2 . "\n"
 					. "<br>\n"
 					. "<br>" . $f1
-					. "&nbsp;<INPUT name=\"userdatei\" type=\"file\" size=\"$eingabe_breite\">"
+					. "&nbsp;<input name=\"userdatei\" type=\"file\" size=\"$eingabe_breite\">"
 					. $f2 . "\n";
 				
 				$text .= "<br><div style=\"text-align: right;\">" . $f1
@@ -594,9 +594,7 @@ if (strlen($u_id) != 0) {
 					} else {
 						
 						// Mehrere User gefunden, als Tabelle ausgeben
-						
-						for ($i = 0; $row = mysqli_fetch_array($result,
-							MYSQLI_ASSOC); $i++) {
+						for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 							
 							// Array mit Userdaten und Infotexten aufbauen
 							$larr[$i]['u_email'] = str_replace("\\", "",
@@ -629,8 +627,6 @@ if (strlen($u_id) != 0) {
 						mysqli_free_result($result);
 						
 						$rows = count($larr);
-						$CELLPADDING = (($aktion == "chatuserliste"
-							OR $rows > 15) ? 0 : 3);
 						echo user_liste($larr, $rows);
 					}
 					
@@ -725,7 +721,7 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
-					show_box_title_content($box, $text);
+				show_box_title_content($box, $text);
 			}
 			
 			break;
@@ -762,8 +758,6 @@ if (strlen($u_id) != 0) {
 				mysqli_free_result($result);
 				
 				$rows = count($larr);
-				$CELLPADDING = (($aktion == "chatuserliste" OR $rows > 15) ? 0
-					: 3);
 				echo user_liste($larr, $rows);
 			}
 			
@@ -881,8 +875,6 @@ if (strlen($u_id) != 0) {
 			} else {
 				$rows = 0;
 			}
-			
-			$CELLPADDING = ($aktion == "chatuserliste" OR $rows > 15 ? 0 : 3);
 			
 			// Fehlerbehandlung, falls Arry leer ist -> nichts gefunden
 			if (!$rows && $schau_raum > 0) {

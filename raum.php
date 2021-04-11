@@ -324,7 +324,7 @@ if (strlen($u_id) != 0) {
 					. "</form>\n";
 				
 				// Box anzeigen
-					show_box_title_content($box, $text);
+				show_box_title_content($box, $text);
 				
 				mysqli_free_result($result);
 				

@@ -57,7 +57,7 @@ function refresh() {
 
 function genlist(liste, aktion) {
 	document
-			.write("<TABLE style=\"width:100%;\" class=\"tabelle_gerust\">\n");
+			.write("<table style=\"width:100%;\" class=\"tabelle_gerust\">\n");
 
 	var interval = 9;
 	var color_index = 1;
@@ -186,7 +186,7 @@ function genlist(liste, aktion) {
 						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
 		}
 
-		rowdef += "<td WIDTH=\"90%\" class=\"" + color[color_index] + "\">" + nlink + "</td>";
+		rowdef += "<td style=\"width:90%;\" class=\"" + color[color_index] + "\">" + nlink + "</td>";
 
 		if (color_index == "0")
 			color_index = 1;
@@ -220,7 +220,7 @@ function showsmiliegrafiken(liste) {
 				+ " '); return(false)\"><img src=\""
 				+ smilies_pfad
 				+ liste[i + 1]
-				+ "\" border=\"0\" ALT=\""
+				+ "\" border=\"0\" alt=\""
 				+ liste[i]
 				+ "\"></a></td>";
 		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">" + fett[4] + liste[i + 2] + fett[5] + "</td>";

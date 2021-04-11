@@ -9,7 +9,7 @@ function user_liste($larr, $anzahl) {
 	// Gibt Userliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
-	global $CELLPADDING, $punkte_grafik, $leveltext, $chat_grafik;
+	global $punkte_grafik, $leveltext, $chat_grafik;
 	
 	$text = '';
 	
@@ -103,7 +103,6 @@ function user_liste($larr, $anzahl) {
 			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
 			. "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
 			. "   var level = '$level';\n" . "   var level2 = '$level2';\n"
-			. "   var padd  = '$CELLPADDING';\n"
 			. "   var ggrafik = new Array('$punkte_grafik[0]','$punkte_grafik[1]','$punkte_grafik[2]','$punkte_grafik[3]');\n"
 			. "   var mgrafik = '$chat_grafik[mail]';\n"
 			. "   var hgrafik = '$chat_grafik[home]';\n"
@@ -116,8 +115,7 @@ function user_liste($larr, $anzahl) {
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
 		$text .= "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
-	} else { // kein javascript verfügbar
-	
+	} else { // kein javascript verfügbar	
 		for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
 			if ( $k % 2 != 0 ) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
@@ -126,17 +124,16 @@ function user_liste($larr, $anzahl) {
 			}
 			
 			if ($v['u_away']) {
-				$user = "("
-					. user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>")
-					. ")";
+				$user = "(" . user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>") . ")";
 			} else {
-				$user = user($v['u_id'], $v, TRUE, FALSE,
-					$trenner = "</td><td>");
+				$user = user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>");
 			}
 			;
 			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
 		} // END-OF-FOR
-		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</table>XXX3\n";
+		
+		$text = "<table style=\"width:100%;\">$trow</table>\n";
+		
 		
 	}
 	return $text;
@@ -221,13 +218,13 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					<?php
 			}
 			
-			$text .= "<INPUT name=\"text2\" SIZE=\"" . $eingabe_breite
+			$text .= "<input name=\"text2\" SIZE=\"" . $eingabe_breite
 				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
 				. "\" value=\"\" TYPE=\"TEXT\">"
-				. "<INPUT name=\"text\" value=\"\" TYPE=\"hidden\">"
-				. "<INPUT name=\"http_host\" value=\"$http_host\" TYPE=\"hidden\">"
-				. "<INPUT name=\"id\" value=\"$id\" TYPE=\"hidden\">"
-				. "<INPUT name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"
+				. "<input name=\"text\" value=\"\" TYPE=\"hidden\">"
+				. "<input name=\"http_host\" value=\"$http_host\" TYPE=\"hidden\">"
+				. "<input name=\"id\" value=\"$id\" TYPE=\"hidden\">"
+				. "<input name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">" . $f2
 				. "\n<script language=\"JavaScript\">\n\n"
 				. "document.forms['form'].elements['text2'].focus();\n"
@@ -237,6 +234,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			// Box anzeigen
 			show_box_title_content($box, $text);
+			
 			echo '<br>';
 		}
 		
