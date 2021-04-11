@@ -7,17 +7,17 @@
 
 // Für jeden virtuellen Webserver kann es noch eine eigene Konfigurationsdatei
 // geben, die automatisch geladen wird und die voreingestellten Einstellungen
-// Überschreibt. 
+// Überschreibt.
 // Format:    "config.php-webserver"
 // Beispiel: "config.php-chat.mainpost.de"
 
 
-// Für Login in Chat index.php aufrufen 
+// Für Login in Chat index.php aufrufen
 // Für Expire der Datenbank sollte expire.php minütlich aufgerufen werden
 // Beispiel: lynx http://chat.main.de/expire.php
 
 
-// Globale Einstellungen 
+// Globale Einstellungen
 
 // Beispiel für Datenbankeinstellungen
 //$dbase="mainchat";			// Datenbank
@@ -98,12 +98,12 @@ $chat_back=30;
 
 
 // Einstellungen für die Eingabe im Chat (Spam-Schutz)
-// Falls in chat_max_zeit mehr als chat_max_byte oder chat_max_zeilen Zeilen 
+// Falls in chat_max_zeit mehr als chat_max_byte oder chat_max_zeilen Zeilen
 // wird die Eingabe verworfen.
-// Ebenso verworfen wird sie bei einer Zeilenlänge von über chat_max_eingabe 
-$chat_max_eingabe=256; 	// Anzahl der Zeichen, die in der Eingabezeile maximal eingeben werden können 
+// Ebenso verworfen wird sie bei einer Zeilenlänge von über chat_max_eingabe
+$chat_max_eingabe=256; 	// Anzahl der Zeichen, die in der Eingabezeile maximal eingeben werden können
 $chat_max_zeit=5;	// Zeit in Sekunden.
-$chat_max_byte=256;	// Zeichen in Bytes. 
+$chat_max_byte=256;	// Zeichen in Bytes.
 $chat_max_zeilen=5;	// Anzahl der Zeilen
 
 
@@ -168,7 +168,7 @@ $farbe_mini_vlink="#000080";
 
 
 // Layout 
-$farbe_user_fest=0;				// 1=Nickname wird in Userfarbe ausgegeben, 
+$farbe_user_fest=0;				// 1=Nickname wird in Userfarbe ausgegeben,
 						// Textzeile ist immer system_farbe
 						// 0=Textzeile wird in Userfarbe ausgegeben
 $chat_eingabe_breite=80;			// Breite des Text-Eingabefelds des Chats
@@ -227,12 +227,12 @@ $gast_login="%gastlogin%";
 $gast_login_viele="%gastloginanzahl%";
 
 
-// Soll der Login via HTTP auf einen SSL-Server möglich sein? 
+// Soll der Login via HTTP auf einen SSL-Server möglich sein?
 $ssl_login=0;				// 1=ja, 0=nein
 
 // Leitet anfragen von HTTP auf HTTPS um
 $SSLRedirect = "1";
-  
+
 // Erlaubte Zeichen für Usernamen, leerer String -> keine Prüfung
 $check_name="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzöäüÖÄÜ0123456789-#+";
 
@@ -251,7 +251,7 @@ $raum_max=25;
 
 
 // Sonstige Einstellungen
-$log="%log%";				// Verzeichnis für Logdateien 
+$log="%log%";				// Verzeichnis für Logdateien
 $datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
 $traceroute="/usr/bin/traceroute";	// Befehl für Traceroute
 
@@ -332,9 +332,9 @@ $ak[]="/frankenchat/";
 $ak[]="/(?<!www|admin|admin|aushilfs|ct)\.mainchat\.de/";
 
 
-// Von welchen Domains ist keine Anmelung mehr möglich 
+// Von welchen Domains ist keine Anmelung mehr möglich
 // Speziell für anonyme "Wegwerfmailadressen"
-$domaingesperrtdbase="mainchat";        // wie muss die DB heißen, damit die Anmeldung verweigert wird.
+$domaingesperrtdbase="mainchat";	// wie muss die DB heißen, damit die Anmeldung verweigert wird.
 
 $domaingesperrt[]="/@trash-mail.de/";
 
@@ -403,7 +403,7 @@ $chat_timeout=3600; // 60 Minuten
 // $chattext['chattern']="Personen";	// Interaktiv
 // $chattext['einzahl']="eine";		// Interaktiv
 
-// soll die e-mailadresse bei neu-usern überprüft werden ? 
+// soll die e-mailadresse bei neu-usern überprüft werden ?
 // 0 = nein / 1 = ja
 $pruefe_email=1;
 
@@ -421,14 +421,14 @@ $nickwechsel=30;
 // Import und Löschen der Userdaten 0 = nein / 1 = ja
 $userimport=0;
 
-// Maximale Anzahl der Tage wie lange ein User maximal auf der Blacklist 
+// Maximale Anzahl der Tage wie lange ein User maximal auf der Blacklist
 // steht
 $blacklistmaxdays=30;
 
 // Anzahl der Tage wie lange eine Raumsperre aufrecht erhalten wird
 $raumsperre=30;
 
-// Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im 
+// Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im
 // Raum tut
 // $raum_msg="Hallo!";
 
@@ -448,8 +448,8 @@ $ak2="/fidion\.cc/#/schnurzel/";
 // Referer prüfen bevor Bilder auf Homepage gezeigt werden
 $check_np_referer="1";
 
-// Domains von Dialup Zugängen, User deren IP auf diese Domain auflösen werden nach 24 
-// wieder von der Blacklist entfernt da eine Sperrung einer dynamischen IP länger 
+// Domains von Dialup Zugängen, User deren IP auf diese Domain auflösen werden nach 24
+// wieder von der Blacklist entfernt da eine Sperrung einer dynamischen IP länger
 // als 24h keinen Sinn macht. Es würden die falschen User gesperrt werden
 $sperre_dialup[]="dip.t-dialin.net";
 $sperre_dialup[]="arcor-ip.net";
@@ -467,17 +467,17 @@ $show_geschlecht = false;
 //Userhomepage String für externe Communities
 $homep_ext_link = "";
 
-// Ab dieser Punktzahl darf ein User den Chat trotz IP-Sperre betreten   
+// Ab dieser Punktzahl darf ein User den Chat trotz IP-Sperre betreten
 // $loginwhileipsperre = 0 // deaktiviert das umgehen
 $loginwhileipsperre = 10000;
 
 
 // Soll bei der Anmeldung der User sich nicht einfach so anmelden können,
 // hier die Mailadresse der Person eintragen die die Anmeldung (Mailadresse) bestätigen.
-$anmeldung_nurmitbest = "";                                        
+$anmeldung_nurmitbest = "";
 
 // Mails werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
-$mailloescheauspapierkorb=14;                              
+$mailloescheauspapierkorb=14;
 
 // User kann Individuelle Eintrittsnachrichten benutzen
 $eintritt_individuell="1";
@@ -486,13 +486,13 @@ $eintritt_individuell="1";
 $eintritt_useranzeige="0";
 
 // Auf Beitäge die Älter als x Monate sind kann man nicht antworten
-// $forum_thread_sperren = 0 deaktiviert dies 
+// $forum_thread_sperren = 0 deaktiviert dies
 $forum_thread_sperren=6;
 
 // Setzt den Satz "zuletzt editiert am ... um ... von ..." nach dem Editieren nach jedem Beitrag
 $forum_aenderungsanzeige="1";
 
-// Begrenzt die Zahl der Anmeldungen, die pro E-Mailadresse erfolgen können (0 = deaktiv) 
+// Begrenzt die Zahl der Anmeldungen, die pro E-Mailadresse erfolgen können (0 = deaktiv)
 $begrenzung_anmeld_pro_mailadr=5;
 
 // User können sich eine Liste der Admins abrufen
@@ -516,7 +516,7 @@ $raum_austrittsnachricht_anzeige_deaktivieren = "0";
 $raum_austrittsnachricht_kurzform = "0";
 
 // Die Warnmeldung, das der sichere Modus aktiviert ist, wird nicht angezeigt
-$warnmeldung_sicherermodus_deaktivieren = "";
+$warnmeldung_sicherermodus_deaktivieren = "1";
 
 // Der Login von jedem User erfolgt automatisch im Sicheren Modus
 $loginimsicherenmodus = "1";
