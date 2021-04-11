@@ -313,7 +313,7 @@ if (strlen($u_id) != 0) {
 				
 				// Formular löschen
 				$text .= "<P>$t[fehler7]</P>\n";
-				$text .= "<form name=\"$row->r_name\" action=\"raum.php\" method=\"POST\">\n"
+				$text .= "<form name=\"$row->r_name\" action=\"raum.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
@@ -324,7 +324,7 @@ if (strlen($u_id) != 0) {
 					. "</form>\n";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+					show_box_title_content($box, $text);
 				
 				mysqli_free_result($result);
 				
@@ -372,7 +372,7 @@ if (strlen($u_id) != 0) {
 			$box = $t['menue2'];
 				
 			// Raum neu anlegen, Eingabeformular
-			$text .= "<form name=\"$r_name\" action=\"raum.php\" method=\"POST\">\n";
+			$text .= "<form name=\"$r_name\" action=\"raum.php\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				$text .= "<table style=\"width:100%;\">\n";
@@ -515,7 +515,7 @@ if (strlen($u_id) != 0) {
 					if ($admin || $rows->u_id == $u_id) {
 						$box = $t['sonst2'] . ': ' . $rows->r_name;
 						// für diesen Raum Admin
-						$text .= "<form name=\"$rows->r_name\" action=\"raum.php\" method=\"POST\">\n";
+						$text .= "<form name=\"$rows->r_name\" action=\"raum.php\" method=\"post\">\n";
 						$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 						$text .= "<table style=\"width:100%;\">\n";

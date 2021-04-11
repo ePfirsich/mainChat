@@ -43,7 +43,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 		. "<input type=\"submit\" name=\"los\" value=\"WEITER\">" . $f2;
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+		show_box_title_content($box, $text);
 }
 
 function formular_neue_email2($neue_email, $m_id = "") {
@@ -151,7 +151,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			if (!isset($neue_email['m_betreff'])) {
 				$neue_email['m_betreff'] = "";
 				}
-			$text .= "<tr><td style=\"vertical-align:top;\" align=\"right\" class =\"tabelle_zeile2\"><b>Betreff:</b></td><td colspan=2 class =\"tabelle_zeile2\">"
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>Betreff:</b></td><td colspan=2 class =\"tabelle_zeile2\">"
 				. $f1
 				. "<input type=\"TEXT\" name=\"neue_email[m_betreff]\" value=\""
 				. $neue_email['m_betreff'] . "\" SIZE="
@@ -159,18 +159,18 @@ function formular_neue_email2($neue_email, $m_id = "") {
 				. "
 				 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 				. $f2 . "<input name=\"counter\" size=3></td></tr>"
-				. "<tr><td style=\"vertical-align:top;\" align=\"right\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
+				. "<tr><td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
 				. $f1 . "<TEXTAREA COLS=" . ($eingabe_breite2)
 				. " ROWS=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 				. $neue_email['m_text'] . "</TEXTAREA>\n" . $f2
 				. "</td></tr>"
 				. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
-				. "<td ALIGN=\"right\" class=\"tabelle_zeile2\">" . $f1
+				. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">" . $f1
 				. "<input type=\"SUBMIT\" name=\"los\" value=\"VERSENDEN\">"
 				. $f2 . "</td></tr>\n" . "</table></form>\n";
 			
 			// Box anzeigen
-			show_box_title_content($box, $text);
+				show_box_title_content($box, $text);
 			
 		} else {
 			echo "<P><b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
@@ -222,7 +222,7 @@ function zeige_mailbox($aktion, $zeilen) {
 		$text = '';
 		$box = "$anzahl $titel $u_nick:";
 		
-		$text .= "<form name=\"mailbox\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		$text .= "<form name=\"mailbox\" action=\"$PHP_SELF\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
@@ -281,7 +281,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			
 			$text .= "<tr><td $bgcolor><input type=\"checkbox\" onClick=\"toggle(this.checked)\">"
 				. $f1 . " Alle Auswählen" . $f2 . "</td>\n"
-				. "<td ALIGN=\"right\" $bgcolor colspan=\"4\">" . $f1
+				. "<td style=\"text-align:right;\" $bgcolor colspan=\"4\">" . $f1
 				. "<input type=\"SUBMIT\" name=\"los\" value=\"$button\">"
 				. $f2 . "</td></tr></table>\n";
 		}
@@ -345,19 +345,19 @@ function zeige_email($m_id) {
 		
 		// Formular zur Löschen, Beantworten
 		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
-			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
 			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 			. "<input type=\"SUBMIT\" name=\"los\" value=\"ANTWORTEN\">" . $f2 . "</form></td>\n"
-			. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
 			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 			. "<input type=\"SUBMIT\" name=\"los\" value=\"WEITERLEITEN\">" . $f2 . "</form></td>\n"
-			. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"$PHP_SELF\" method=\"POST\">" . $f1
+			. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"$PHP_SELF\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"

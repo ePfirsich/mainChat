@@ -267,7 +267,7 @@ if (strlen($u_id) != 0) {
 					. htmlspecialchars($t['sonst46']) . $f2 . "\n"
 					. "<br>\n"
 					. "<br>" . $f1
-					. "&nbsp;<INPUT name=\"userdatei\" type=\"file\" SIZE=\"$eingabe_breite\">"
+					. "&nbsp;<INPUT name=\"userdatei\" type=\"file\" size=\"$eingabe_breite\">"
 					. $f2 . "\n";
 				
 				$text .= "<br><div style=\"text-align: right;\">" . $f1
@@ -319,9 +319,6 @@ if (strlen($u_id) != 0) {
 				
 				// Box anzeigen
 				show_box_title_content($box, $text);
-				
-
-				show_box2($box, $text);
 			} else {
 				echo "$t[sonst41]";
 			}
@@ -397,23 +394,22 @@ if (strlen($u_id) != 0) {
 				
 				// Suchergebnis mit Formular ausgeben
 				$box = $t['sonst16'];
-				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
+				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
 					. "<table>"
 					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "</td></tr>" . "<tr><td colspan=2>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" SIZE=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
-					
 					// Suchformular nach IP-Adressen
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
-						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" SIZE=\"6\">"
+						. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
@@ -439,11 +435,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem Login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
@@ -463,10 +459,10 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
 				
-				echo "<br>";
-				
 				// Box anzeigen
 				show_box_title_content($box, $text);
+				
+				echo "<br>";
 				
 				// wenn einer nur nach % sucht, kanns auch weggelassen werden
 				if ($suchtext == "%")
@@ -644,7 +640,7 @@ if (strlen($u_id) != 0) {
 				
 				// Suchformular ausgeben
 				$box = $t['sonst17'];
-				$text = "<form name=\"suche\" action=\"user.php\" method=\"POST\">\n"
+				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
 					. "<table>";
 				if ($admin) {
 					$text .= "<tr><TD colspan=2>" . $f1 . $t['sonst25'] . $f2
@@ -658,7 +654,7 @@ if (strlen($u_id) != 0) {
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" SIZE=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
@@ -672,7 +668,7 @@ if (strlen($u_id) != 0) {
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
-						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" SIZE=\"6\">"
+						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
@@ -705,11 +701,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
@@ -728,7 +724,8 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=2 style=\"text-align: right;\">" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
-				show_box2($box, $text);
+				
+					show_box_title_content($box, $text);
 			}
 			
 			break;
@@ -929,7 +926,7 @@ if (strlen($u_id) != 0) {
 					$text = '';
 					$box = $t['sonst14'];
 					
-					$text .= "<form name=\"raum\" action=\"user.php\" method=\"POST\">";
+					$text .= "<form name=\"raum\" action=\"user.php\" method=\"post\">";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 					$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
 					$text .= $f1;

@@ -1071,7 +1071,7 @@ function verschiebe_posting() {
 			@mysqli_free_result($query);
 			?>
 			<tr>
-				<td style="text-align:center;" colspan="2" class="tabelle_koerper_login"><INPUT TYPE="SUBMIT" NAME="los" VALUE="<?php echo $t['verschieben4']; ?>"></td>
+				<td style="text-align:center;" colspan="2" class="tabelle_koerper_login"><input type="submit" name="los" value="<?php echo $t['verschieben4']; ?>"></td>
 			</tr>
 		</table>
 		

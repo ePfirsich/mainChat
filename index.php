@@ -133,7 +133,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	if ($noframes) {
 		echo $noframes . "\n";
 	} else {
-		echo "<P><DIV ALIGN=\"CENTER\"><a href=\"index.php\">weiter</A></DIV>\n";
+		echo "<p><div style=\"text-align:center;\"><a href=\"index.php\">weiter</a></div></p>\n";
 	}
 	?>
 	</noframes>
@@ -1402,10 +1402,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					
 					// Box für Login
 					if ($frameset_bleibt_stehen) {
-						echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"POST\">"
+						echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"post\">"
 							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 					} else {
-						echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"POST\">"
+						echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"post\">"
 							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 					}
 					
@@ -1885,10 +1885,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				
 				// Box für Login
 				if ($frameset_bleibt_stehen) {
-					echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"POST\">"
+					echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"post\">"
 						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				} else {
-					echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"POST\">"
+					echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"post\">"
 						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				}
 				
@@ -2115,7 +2115,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					$backarray = unserialize($backarray);
 					$text = $f1 . $backarray['text'] . $f2 . "\n"
 						. "<form action=\"" . $backarray['url']
-						. "\" name=\"login\" method=\"POST\">\n";
+						. "\" name=\"login\" method=\"post\">\n";
 					
 					if (is_array($backarray['parameter'])) {
 						for ($i = 0; $i < count($backarray['parameter']); $i++) {
@@ -2136,7 +2136,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu27'] . "</td>"
 						. "<td>" . $f1 . $f['u_nick'] . $f2
 						. "</td></tr></table>\n" . $t['neu28']
-						. "<form action=\"$chat_file\" name=\"login\" method=\"POST\">\n"
+						. "<form action=\"$chat_file\" name=\"login\" method=\"post\">\n"
 						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 						. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
 						. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
@@ -2356,9 +2356,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 									$t['default8']));
 					}
 					
-					show_box2(
-						str_replace("%chat%", $chat, $t['default5']), $text,
-						false);
+					show_box_title_content(str_replace("%chat%", $chat, $t['default5']), $text);
+					
 					echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n";
 				}
 				

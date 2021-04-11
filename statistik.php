@@ -85,7 +85,7 @@ if (!$c) {
 }
 
 if ($fehler) {
-	show_box2($t['statistik1'], $msg);
+	show_box_title_content($t['statistik1'], $msg);
 	return;
 }
 
@@ -94,10 +94,8 @@ $msg = "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=m
 	. $t['statistik3'] . "</a>]\n"
 	. "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=stunde\">"
 	. $t['statistik2'] . "</a>]";
-show_box2($t['statistik1'], $msg);
-?>
-<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-<?php
+
+show_menue($t['statistik1'], $msg);
 
 switch ($type) {
 	case "monat":
@@ -122,18 +120,18 @@ switch ($type) {
 		$msg = "";
 		$msg .= "<center>\n";
 		$msg .= "<table style=\"width:100%;\">\n";
-		$msg .= "<FORM name=\"form\" action=\"$PHP_SELF\" method=\"POST\">\n";
+		$msg .= "<form name=\"form\" action=\"$PHP_SELF\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
 		$msg .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
 		$msg .= "<tr>\n";
-		$msg .= "<TD" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+		$msg .= "<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
 		$msg .= $STAT_TXT["0061"];
 		$msg .= $STAT_TITLE_FONTEND0 . "</td>\n";
-		$msg .= "<TD" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+		$msg .= "<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
 		$msg .= "<select name=\"m\" onchange='form.submit();'>\n";
 		
@@ -206,7 +204,7 @@ switch ($type) {
 			}
 		}
 		
-		show_box2($t['statistik3'], $msg);
+		show_box_title_content($t['statistik3'], $msg);
 		break;
 	
 	case "stunde":
@@ -235,7 +233,7 @@ switch ($type) {
 				$STAT_TXT["0103"]);
 		}
 		
-		show_box2($t['statistik2'], $msg);
+		show_box_title_content($t['statistik2'], $msg);
 		break;
 } // switch
 

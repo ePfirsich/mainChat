@@ -40,10 +40,9 @@ hidden_msg:	Entspricht /me
 
 hilfe:		Gibt Hilfe zum angegeben Thema aus, ohne Thema kommt Übersicht
 
-show_box:				Gibt Tabelle mit Kopf und Inhalt aus
-show_box2:				Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-show_menue				Gibt eine Boxn für das Menü aus
-show_box_title_content	Gibt eine Box mit einem Schließen-Button aus
-schliessen_link			Gibt einen Link zum Schließen des Fensters aus
+show_menue:					Gibt eine Boxn für das Menü aus
+show_box:					Gibt Tabelle mit Kopf und Inhalt aus
+show_box_title_content:		Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+schliessen_link				Gibt einen Link zum Schließen des Fensters aus
 
 schreibe_db:	Trägt Daten in Tabelle ein

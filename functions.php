@@ -866,6 +866,24 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
+function show_menue($box, $text) {
+	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+	global $f1;
+	global $f2;
+	?>
+	
+	<table class="tabelle_kopf">
+		<tr>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?><a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a></td>
+		</tr>
+		<tr>
+			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
+		</tr>
+	</table>
+	<br>
+	<?php
+}
+
 function show_box($box, $text, $width = "") {
 	// Gibt Tabelle mit URL im Kopf und Inhalt aus 
 	
@@ -886,57 +904,18 @@ function show_box($box, $text, $width = "") {
 	<?php
 }
 
-function show_box2($box, $text, $button = TRUE) {
-	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $f1;
-	global $f2;
-	
-	$extra = "";
-	if ($button) {
-		$extra = "<a href=\"javascript:window.close();\"><img src=\"pics/button-x.gif\" alt=\"schließen\" style=\"width:15px; height:13px; float: right; border:0px;\"></a>";
-	}
-	?>
-	
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?><?php echo $extra; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
-		</tr>
-	</table>
-	<?php
-}
-
-function show_menue($box, $text) {
-	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $f1;
-	global $f2;
-	?>
-	
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?><a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
-		</tr>
-	</table>
-	<br>
-	<?php
-}
-
 function show_box_title_content($box, $text) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+	global $f1;
+	global $f2;
 	?>
 	
 	<table class="tabelle_kopf">
 		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box ?> <a href="javascript:window.close();"><img src="pics/button-x.gif" alt="<?php echo $t['sonst1'];?>" style="width:15px; height:13px; float: right; border:0px;"></a>
-			</td>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
 		<tr>
-			<td class="tabelle_koerper"><?php echo $text; ?></td>
+			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
 		</tr>
 	</table>
 	<?php

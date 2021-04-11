@@ -233,9 +233,11 @@ switch ($aktion) {
 	// Erklärung zu den Sprüchen
 		$text = '';
 		$box = $t['hilfe3'];
-		show_box2($box, $hilfe_spruchtext);
+		show_box_title_content($box, $hilfe_spruchtext);
 		
-		$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+		echo "<br>";
+		
+		$text .= "<br>";
 		
 		// Liste mit Sprüchen ausgeben
 		$box = $t['hilfe4'];
@@ -299,7 +301,7 @@ switch ($aktion) {
 			. $legende . "</table><br>\n"
 			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br><br>\n";
 		
-		show_box_title_content($box,$text);
+			show_box_title_content($box,$text);
 		
 		break;
 	
@@ -358,7 +360,7 @@ switch ($aktion) {
 	case "logout":
 		$box = $t['hilfe15'];
 		$text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
-		show_box2($box, $text);
+		show_box_title_content($box, $text);
 		
 		echo "<br><br>";
 		break;

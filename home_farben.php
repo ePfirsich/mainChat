@@ -111,7 +111,7 @@ if ($u_id && $communityfeatures) {
 			'ui_bild5' => "Hintergrundgrafik 2",
 			'ui_bild6' => "Hintergrundgrafik 3");
 		echo "<table><tr><td>"
-			. "<form name=\"bildname\" action=\"$PHP_SELF\" method=\"POST\">\n"
+			. "<form name=\"bildname\" action=\"$PHP_SELF\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 			. "<input type=\"hidden\" name=\"bg\" value=\"$bg\">\n"

@@ -140,7 +140,7 @@ if (strlen($u_id) != 0) {
 			$text = '';
 			$box = $t['edit20'];
 			
-			$text .= "<form name=\"$u_nick\" action=\"edit.php\" method=\"POST\">\n"
+			$text .= "<form name=\"$u_nick\" action=\"edit.php\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$u_id\">\n"

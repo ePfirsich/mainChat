@@ -424,7 +424,7 @@ if (strlen($u_id) > 0 && $admin) {
 					$ip = explode(".", $row->is_ip);
 					
 					// Kopf Tabelle
-					$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"POST\">\n";
+					$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"post\">\n";
 					
 					$box = $t['sonst18'];
 					
@@ -484,10 +484,8 @@ if (strlen($u_id) > 0 && $admin) {
 			show_box_title_content($box, $text);
 			
 			// Liste ausgeben
-			echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+			echo "<br>";
 			echo liste();
-			
-			//show_box_title_content($box, $text);
 			
 			break;
 		
@@ -515,7 +513,7 @@ if (strlen($u_id) > 0 && $admin) {
 			// Sperre neu anlegen, Eingabeformular
 			$box = $t['sonst14'];
 			
-			$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"POST\">\n"
+			$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 			
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
@@ -556,8 +554,9 @@ if (strlen($u_id) > 0 && $admin) {
 			
 			show_box_title_content($box, $text);
 			
+			echo "<br>";
+			
 			// Liste ausgeben
-			echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
 			echo liste();
 			
 			break;

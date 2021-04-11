@@ -136,7 +136,7 @@ function user_liste($larr, $anzahl) {
 			;
 			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
 		} // END-OF-FOR
-		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\" XXX>$trow</table>\n";
+		$text .= "<table BORDER=\"0\" CELLPADDING=\"$CELLPADDING\" CELLSPACING=\"0\">$trow</table>XXX3\n";
 		
 	}
 	return $text;
@@ -206,7 +206,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$box = str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']);
 			$text = '';
 			
-			$text .= "<form name=\"form\" method=\"POST\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+			$text .= "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 			
 			// Eingabeformular für private Nachricht ausgeben
 			$text .= $f1;
@@ -512,7 +512,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$box = $t['user_zeige12'];
 			echo '<br>';
 			
-			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"POST\">\n" . $f1
+			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
 				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"

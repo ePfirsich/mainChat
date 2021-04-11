@@ -250,32 +250,30 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				}
 				@mysqli_free_result($result2);
 				
-				// Hidden Felder für die Farben erzeugen
+				// hidden Felder für die Farben erzeugen
 				$inputliste = "";
 				foreach ($farbliste as $val) {
-					$inputliste .= "<INPUT TYPE=\"HIDDEN\" NAME=\"farben[$val]\" VALUE=\""
+					$inputliste .= "<input type=\"hidden\" name=\"farben[$val]\" value=\""
 						. (isset($farben) ? $farben[$val] : "") . "\">\n";
 				}
 				
-				echo "<FORM ENCTYPE=\"multipart/form-data\" NAME=\"home\" ACTION=\"$PHP_SELF\" METHOD=POST>\n"
+				echo "<form enctype=\"multipart/form-data\" name=\"home\" action=\"$PHP_SELF\" method=\"post\">\n"
 					. $inputliste
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"id\" VALUE=\"$id\">\n"
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"aktion\" VALUE=\"aendern\">\n"
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"ui_userid\" VALUE=\"$ui_userid\">\n"
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"home[ui_id]\" VALUE=\""
-					. $home['ui_id'] . "\">\n"
-					. "<INPUT TYPE=\"HIDDEN\" NAME=\"http_host\" VALUE=\"$http_host\">\n"
-					. "<input TYPE=\"HIDDEN\" NAME=\"MAX_FILE_SIZE\" VALUE=\""
-					. ($max_groesse * 1024) . "\">\n";
+					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+					. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
+					. "<input type=\"hidden\" name=\"ui_userid\" value=\"$ui_userid\">\n"
+					. "<input type=\"hidden\" name=\"home[ui_id]\" value=\"" . $home['ui_id'] . "\">\n"
+					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+					. "<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"" . ($max_groesse * 1024) . "\">\n";
 				
-				if (!isset($bilder))
+				if (!isset($bilder)) {
 					$bilder = "";
+				}
 				edit_home($ui_userid, $u_nick, $home, $einstellungen,
 					(isset($farben) ? $farben : null), $bilder, $aktion);
-				echo "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"SPEICHERN\"></FORM>\n";
+				echo "<input type=\"submit\" name=\"los\" value=\"SPEICHERN\"></form>\n";
 				
 			} else {
-				
 				// Erst Profil anlegen
 				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
 					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
@@ -332,6 +330,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 	if (!isset($ui_userid)) {
 		$ui_userid = -1;
 	}
+	echo 'XXX1';
 	zeige_home($ui_userid, FALSE);
 }
 ?>

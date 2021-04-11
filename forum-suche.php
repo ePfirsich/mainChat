@@ -47,7 +47,7 @@ function such_bereich() {
 	$text = '';
 	
 	
-	$text = "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text = "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -221,12 +221,12 @@ function such_bereich() {
 		. $f1 . "<input type=\"TEXT\" name=\"suche[username]\" value=\""
 		. htmlspecialchars($suche['username'])
 		. "\" size=\"20\">" . $f2 . "</td></tr>\n"
-		. "<tr><td colspan=\"2\" align=\"center\" class=\"tabelle_zeile1\">"
+		. "<tr><td colspan=\"2\" style=\"text-align:center;\" class=\"tabelle_zeile1\">"
 		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">"
 		. $f2 . "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+		show_box_title_content($box, $text);
 }
 
 function such_ergebnis() {

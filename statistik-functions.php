@@ -55,10 +55,10 @@ function statsOverview($v = "%") {
 				. $STAT_TITLE_FONTBEG2 . $STAT_TXT["0054"]
 				. $STAT_TITLE_FONTEND2 . "</td>\n");
 			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " align=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
+				. " style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
 				. $STAT_TXT["0055"] . $STAT_TITLE_FONTEND2 . "</td>\n");
 			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " align=\"RIGHT\">" . $STAT_TITLE_FONTBEG2
+				. " style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
 				. $STAT_TXT["0056"] . $STAT_TITLE_FONTEND2 . "</td>\n");
 			echo ("</tr>\n");
 			
@@ -104,13 +104,13 @@ function statsOverview($v = "%") {
 					echo ($STAT_TITLE_FONTEND0);
 					echo ("</td>\n");
 					
-					echo ("<td align=\"RIGHT\">");
+					echo ("<td style=\"text-align:right;\">");
 					echo ($STAT_TITLE_FONTBEG0);
 					echo ($u);
 					echo ($STAT_TITLE_FONTEND0);
 					echo ("</td>\n");
 					
-					echo ("<td align=\"RIGHT\">");
+					echo ("<td style=\"text-align:right;\">");
 					echo ($STAT_TITLE_FONTBEG0);
 					echo ("&nbsp;&nbsp;" . $m . "/" . $y);
 					echo ($STAT_TITLE_FONTEND0);
@@ -229,13 +229,13 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		reset($grapharray);
 		
-		$msg .= "<div align=\"center\">\n";
+		$msg .= "<div style=\"text-align:center;\">\n";
 		$msg .= "<table style=\"width:100%;\">\n";
 		
 		if ($title != "") {
 			$msg .= "<tr>\n";
 			$msg .= "<td" . coreMakeBackground($STAT_BAR_BACK2)
-				. " colspan=\"$c\" align=\"center\">";
+				. " colspan=\"$c\" style=\"text-align:center;\">";
 			$msg .= $STAT_BAR_FONTBEG3;
 			$msg .= $title;
 			$msg .= $STAT_BAR_FONTEND3;
@@ -263,7 +263,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			if ($v > 0) {
 				$s = intval($v * $h);
 				
-				$msg .= "<td style=\"vertical-align:bottom;\" align=\"center\">";
+				$msg .= "<td style=\"vertical-align:bottom; text-align:center;\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= "<br>";
@@ -282,7 +282,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 				$msg .= $STAT_BAR_FONTEND0;
 				$msg .= "</td>\n";
 			} else {
-				$msg .= "<td style=\"vertical-align:bottom;\" align=\"center\">";
+				$msg .= "<td style=\"vertical-align:bottom; text-align:center;\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= $STAT_BAR_FONTEND0;
@@ -318,7 +318,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		/* Durchschnittliche Anzahl der Benutzer und höchste Anzahl der	*/
 		/* Benutzer ausgeben. */
 		
-		$msg .= "<P align=\"center\">";
+		$msg .= "<p style=\"text-align:center;\">";
 		$msg .= $STAT_BAR_FONTBEG0;
 		$msg .= $STAT_TXT["0100"] . " $d - " . $STAT_TXT["0101"] . " $b";
 		$msg .= $STAT_BAR_FONTEND0;

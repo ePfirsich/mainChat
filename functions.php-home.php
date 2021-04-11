@@ -14,40 +14,53 @@ function edit_home(
 	// einstellungen = Array der Einstellungen
 	// farben = Array mit Userfarben
 	// bilder = Array mit Bildinfos
-	global $f1, $f2;
+	global $f1, $f2, $t;
 	
 	// HP-Tabelle ausgeben
+	$box = $t['home1'];
+	$text = '';
 	
-	echo "<TABLE BORDER=\"0\" HEIGHT=\"100%\" WIDTH=\"100%\">"
-		. "<TR><TD COLSPAN=\"3\" class=\"tabelle_zeile1\">$f1<b>Meine Homepage:</b>"
-		. $f2 . "</TD></TR>\n" . "<TR><TD style=\"vertical-align:top;\" width=\"60%\" class=\"tabelle_zeile2\">"
+	$text .= "<table style=\"width:100%;\">"
+		. "<tr><td style=\"vertical-align:top; width:60%;\" class=\"tabelle_zeile2\">"
 		. home_info($u_id, $u_nick, $farben, $aktion)
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
+		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
 		. home_profil($u_id, $u_nick, $home, $farben, $aktion)
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
+		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
 		. home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
-		. "</TD>\n<TD class=\"tabelle_zeile2\"><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=1 HEIGHT=1><br></TD><TD style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
+		. "</td>\n<td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
 		. home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion,
 			$bilder)
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
+		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
 		. home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion,
 			$bilder)
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
+		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
 		. home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion,
 			$bilder)
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n"
+		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
 		. home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
-		. "</TD></TR>\n"
-		. "</TABLE><IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>"
-		. "<TABLE BORDER=\"0\" WIDTH=\"100%\">"
-		. "<TR><TD class=\"tabelle_zeile1\" COLSPAN=\"2\">$f1<b>Homepage&nbsp;Einstellungen:</b>$f2</TD></TR>\n"
-		. "<TR><TD style=\"vertical-align:top;\" class=\"tabelle_zeile2\">\n"
-		. home_einstellungen($u_id, $u_nick, $home, $einstellungen)
-		. "</TD><TD style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
-		. home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
-		. "</TD></TR></TABLE>\n"
-		. "<IMG SRC=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
+		. "</td></tr>\n"
+		. "</table>";
+			
+	// Box anzeigen
+	show_box_title_content($box, $text);
 	
+	echo "<br>";
+		
+	$box = $t['home2'];
+	$text = '';
+			
+	$text .= "<table style=\"width:100%;\">"
+		. "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">\n"
+		. home_einstellungen($u_id, $u_nick, $home, $einstellungen)
+		. "</td><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
+		. home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
+		. "</td></tr></table>\n";
+	
+		
+	// Box anzeigen
+	show_box_title_content($box, $text);
+	
+	echo "<br>";
 }
 
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
@@ -56,7 +69,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	global $dbase, $http_host, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
 	
 	$url = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
-	$link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</A>]</b>" . $f4;
+	$link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</a>]</b>" . $f4;
 	$text = "";
 	
 	if ($home['ui_userid']) {
@@ -72,121 +85,129 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 		
 		// Profil ausgeben
 		if ($ui_einstellungen["Straße"] && $home['ui_strasse'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\" WIDTH=20%>" . $f1
-				. "Straße:" . $f2 . "</TD><TD colspan=3 WIDTH=80%>"
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" WIDTH=20%>" . $f1
+				. "Straße:" . $f2 . "</td><td colspan=\"3\" WIDTH=80%>"
 				. htmlspecialchars($home['ui_strasse'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
 		
-		if (($ui_einstellungen["Ort"] || $ui_einstellungen["PLZ"])
-			&& ($home['ui_plz'] || $home['ui_ort'])) {
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Ort:"
-				. $f2 . "</TD><TD colspan=3>";
-			if ($ui_einstellungen["PLZ"])
-				$text .= htmlspecialchars($home['ui_plz'])
-					. "&nbsp;&nbsp;";
-			if ($ui_einstellungen["Ort"])
+		if (($ui_einstellungen["Ort"] || $ui_einstellungen["PLZ"]) && ($home['ui_plz'] || $home['ui_ort'])) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Ort:" . $f2 . "</td><td colspan=\"3\">";
+			if ($ui_einstellungen["PLZ"]) {
+				$text .= htmlspecialchars($home['ui_plz']) . "&nbsp;&nbsp;";
+			}
+			if ($ui_einstellungen["Ort"]) {
 				$text .= htmlspecialchars($home['ui_ort']);
-			$text .= "</TD></TR>\n";
+			}
+			$text .= "</td></tr>\n";
 		}
 		
-		if ($ui_einstellungen["Land"] && $home['ui_land'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Land:"
-				. $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Land"] && $home['ui_land']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Land:"
+				. $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_land'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Tel"] && $home['ui_tel'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Telefon:" . $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Tel"] && $home['ui_tel']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Telefon:" . $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_tel'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Handy"] && $home['ui_handy'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Handy:"
-				. $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Handy"] && $home['ui_handy']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Handy:"
+				. $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_handy'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Fax"] && $home['ui_fax'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Telefax" . $f2 . ":</TD><TD colspan=3>"
+		if ($ui_einstellungen["Fax"] && $home['ui_fax']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Telefax" . $f2 . ":</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_fax'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["ICQ"] && $home['ui_icq'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "ICQ:"
-				. $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["ICQ"] && $home['ui_icq']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "ICQ:"
+				. $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_icq'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Geburtsdatum"] && $home['ui_geburt'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Geburtsdatum:" . $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Geburtsdatum"] && $home['ui_geburt']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Geburtsdatum:" . $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_geburt'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Geschlecht"] && $home['ui_geschlecht'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Geschlecht:" . $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Geschlecht"] && $home['ui_geschlecht']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Geschlecht:" . $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_geschlecht'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Beziehung"] && $home['ui_beziehung'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Beziehung:" . $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Beziehung"] && $home['ui_beziehung']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Beziehung:" . $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_beziehung'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Typ"] && $home['ui_typ'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Typ:"
-				. $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Typ"] && $home['ui_typ']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Typ:"
+				. $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_typ'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Beruf"] && $home['ui_beruf'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1 . "Beruf:"
-				. $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Beruf"] && $home['ui_beruf']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Beruf:"
+				. $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_beruf'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
-		if ($ui_einstellungen["Hobbies"] && $home['ui_hobby'])
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. "Hobbies:" . $f2 . "</TD><TD colspan=3>"
+		if ($ui_einstellungen["Hobbies"] && $home['ui_hobby']) {
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. "Hobbies:" . $f2 . "</td><td colspan=\"3\">"
 				. htmlspecialchars($home['ui_hobby'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
+		}
 		
 	} else {
 		
 		if ($aktion == "aendern") {
-			$text .= "<TR><TD COLSPAN=3>Sie haben noch kein Profil erstellt</TD>"
-				. "<TD ALIGN=\"RIGHT\">$link</TD></TR>";
+			$text .= "<tr><td colspan=\"3\">Sie haben noch kein Profil erstellt</td>"
+				. "<td style=\"text-align:right;\">$link</td></tr>";
 		}
 		
 	}
 	
 	// Farbwähler und Profil-Link ausgeben
 	if ($aktion == "aendern") {
-		$text .= "<TR><TD colspan=4 align=\"right\">" . $link . "<br>\n"
+		$text .= "<tr><td colspan=\"4\" style=\"text-align:right;\">" . $link . "<br>\n"
 			. home_farbe($u_id, $u_nick, $home, "profil", $farben['profil'])
-			. "</TD></TR>\n";
+			. "</td></tr>\n";
 	} else {
-		$text .= "<TR><TD colspan=4>&nbsp;</TD></TR>\n";
+		$text .= "<tr><td colspan=\"4\">&nbsp;</td></tr>\n";
 	}
 	
 	if (is_array($farben) && strlen($farben['profil']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['profil'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['profil'] . ";";
 	} elseif (is_array($farben) && strlen($farben['profil']) == 7) {
-		$bg = "BGCOLOR=\"$farben[profil]\"";
+		$bg = "background-color:$farben[profil];";
 	} else {
 		$bg = "";
 	}
 	
-	return ("<TABLE $bg CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\" >$text</TABLE>");
+	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
-function home_info($u_id, $u_nick, $farben, $aktion)
-{
+function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Userdaten an
 	global $dbase, $mysqli_link, $http_host, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
 	
@@ -230,27 +251,27 @@ function home_info($u_id, $u_nick, $farben, $aktion)
 			$links_an = TRUE;
 		}
 		
-		$text = "<TR><TD style=\"vertical-align:top;\" align=\"right\" WIDTH=20%>" . $f1
-			. "Nickname:" . $f2 . "</TD><TD colspan=3 WIDTH=\"80%\"><b>"
+		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" WIDTH=20%>" . $f1
+			. "Nickname:" . $f2 . "</td><td colspan=\"3\" WIDTH=\"80%\"><b>"
 			. user($userdata['u_id'], $userdata, $links_an, FALSE)
-			. "</b></TD></TR>\n";
+			. "</b></td></tr>\n";
 		
 		// Onlinezeit oder letzter Login		
 		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-			$text .= "<TR><TD>&nbsp;</TD><TD colspan=3 style=\"vertical-align:top;\"><b>"
+			$text .= "<tr><td>&nbsp;</td><td colspan=\"3\" style=\"vertical-align:top;\"><b>"
 				. $f1
 				. str_replace("%online%", gmdate("H:i:s", $online_zeit),
-					$t['chat_msg92']) . $f2 . "</b></TD></TR>\n";
+					$t['chat_msg92']) . $f2 . "</b></td></tr>\n";
 		} else {
-			$text .= "<TR><TD>&nbsp;</TD><TD colspan=3 style=\"vertical-align:top;\"><b>"
+			$text .= "<tr><td>&nbsp;</td><td colspan=\"3\" style=\"vertical-align:top;\"><b>"
 				. $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94'])
-				. $f2 . "</b></TD></TR>\n";
+				. $f2 . "</b></td></tr>\n";
 		}
 		
 		// Level
-		$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-			. $t['user_zeige8'] . ":" . $f2 . "</TD>" . "<TD colspan=3><b>"
-			. $f1 . $level[$userdata['u_level']] . $f2 . "</b></TD></TR>\n";
+		$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+			. $t['user_zeige8'] . ":" . $f2 . "</td>" . "<td colspan=\"3\"><b>"
+			. $f1 . $level[$userdata['u_level']] . $f2 . "</b></td></tr>\n";
 		
 		// Punkte
 		if ($userdata['u_punkte_gesamt']) {
@@ -260,44 +281,59 @@ function home_info($u_id, $u_nick, $farben, $aktion)
 			if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
 				$userdata['u_punkte_jahr'] = 0;
 			}
-			$text .= "<TR><TD style=\"vertical-align:top;\" align=\"right\">" . $f1
-				. $t['user_zeige38'] . ":" . $f2 . "</TD>"
-				. "<TD colspan=3><b>" . $f1 . $userdata['u_punkte_gesamt']
+			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
+				. $t['user_zeige38'] . ":" . $f2 . "</td>"
+				. "<td colspan=\"3\"><b>" . $f1 . $userdata['u_punkte_gesamt']
 				. "/" . $userdata['u_punkte_jahr'] . "/"
 				. $userdata['u_punkte_monat'] . "&nbsp;"
 				. str_replace("%jahr%", strftime("%Y", time()),
 					str_replace("%monat%", strftime("%B", time()),
-						$t['user_zeige39'])) . $f2 . "</b></TD></TR>\n";
+						$t['user_zeige39'])) . $f2 . "</b></td></tr>\n";
 		}
 		
 		// Farbwähler & Link auf Editor ausgeben
 		if ($aktion == "aendern") {
 			if (!isset($home))
 				$home = "";
-			$text .= "<TR><TD colspan=4 align=\"right\">"
+			$text .= "<tr><td colspan=\"4\" style=\"text-align:right;\">"
 				. $userdaten_bearbeiten . "<br>\n"
 				. home_farbe($u_id, $u_nick, $home, "info", $farben['info'])
-				. "</TD></TR>\n";
+				. "</td></tr>\n";
 		} else {
-			$text .= "<TR><TD colspan=4>&nbsp;</TD></TR>\n";
+			$text .= "<tr><td colspan=\"4\">&nbsp;</td></tr>\n";
 		}
 	}
 	if (is_array($farben) && strlen($farben['info']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['info'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['info'] . ";";
 	} elseif (is_array($farben) && strlen($farben['info']) == 7) {
-		$bg = "BGCOLOR=\"$farben[info]\"";
+		$bg = "background-color:$farben[info];";
 	} else {
 		$bg = "";
 	}
 	
-	return ("<TABLE $bg CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">$text</TABLE>");
+	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
 function unhtmlentities($string) {
 	// replace numeric entities
-	$string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-	$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
+	// $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+	$string = preg_replace_callback(
+		"~&#x([0-9a-f]+);~i",
+		function ($matches) {
+			return chr(hexdec($matches[1]));
+		},
+		$string
+		);
+	
+	//$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
+	$string = preg_replace_callback(
+		"/&#x([0-9a-f]+);/",
+		function ($matches) {
+			return chr(hexdec($matches[1]));
+		},
+		$string
+		);
+	
 	// replace literal entities
 	$trans_tbl = get_html_translation_table(HTML_ENTITIES);
 	$trans_tbl = array_flip($trans_tbl);
@@ -305,8 +341,7 @@ function unhtmlentities($string) {
 	return strtr($string, $trans_tbl);
 }
 
-function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
-{
+function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 	// Gibt TEXT-AREA Feld für $feld aus
 	
 	global $eingabe_breite2, $f1, $f2;
@@ -315,8 +350,7 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
 	
 	// Wieso ist "target" in der stopwordliste??
 	// Umschiffung der ausfilterung bei: target="_blank"
-	$text = preg_replace("|target\s*=\s*.\"\s*\_blank\s*.\"|i",
-		'####----TAR----####', $text);
+	$text = preg_replace("|target\s*=\s*.\"\s*\_blank\s*.\"|i", '####----TAR----####', $text);
 	
 	// Problem: wenn zeichen z.b. b&#97;ckground codiert sind
 	// dann würde dadurch ein sicherheitsloch entstehen
@@ -341,26 +375,26 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion)
 	$text = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text);
 	
 	if ($aktion == "aendern") {
-		$text = "<TR><TD COLSPAN=4 style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
-			. ($eingabe_breite2) . " ROWS=20 NAME=\"home[$feld]\">"
-			. $home[$feld] . "</TEXTAREA></TD></TR>"
-			. "<TR><TD style=\"vertical-align:top;\" ALIGN=\"RIGHT\">"
+		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
+			. ($eingabe_breite2) . " ROWS=20 name=\"home[$feld]\">"
+			. $home[$feld] . "</TEXTAREA></td></tr>"
+			. "<tr><td style=\"vertical-align:top; text-align:right;\">"
 			. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
-			. "</TD></TR>";
+			. "</td></tr>";
 	} else {
-		$text = "<TR><TD COLSPAN=4 style=\"vertical-align:top;\">" . $text . "</TD></TR>";
+		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">" . $text . "</td></tr>";
 	}
 	
 	if (is_array($farben) && strlen($farben['ui_text']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['ui_text'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+			. $farben['ui_text'] . ";";
 	} elseif (is_array($farben) && strlen($farben['ui_text']) == 7) {
-		$bg = "BGCOLOR=\"$farben[ui_text]\"";
+		$bg = "background-color:$farben[ui_text];";
 	} else {
 		$bg = "";
 	}
 	
-	return ("<TABLE $bg CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">$text</TABLE>");
+	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
 function home_bild(
@@ -388,28 +422,28 @@ function home_bild(
 		
 		if (!isset($info))
 			$info = "";
-		$text = "<TD ALIGN=\"CENTER\" style=\"vertical-align:top;\" ><IMG SRC=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" ALT=\"$u_nick\"><br>"
-			. $info . "</TD>";
+		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>"
+			. $info . "</td>";
 		
 		if ($aktion == "aendern") {
-			$text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
+			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
 				. "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
 				. $f4 . "<br>"
 				. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
-				. "</TD>\n";
+				. "</td>\n";
 		} elseif ($aktion == "aendern_ohne_farbe") {
-			$text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">" . $f3
+			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
 				. "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
-				. $f4 . "</TD>\n";
+				. $f4 . "</td>\n";
 		}
 		
 	} elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
 		
-		$text = "<TD ALIGN=\"CENTER\" style=\"vertical-align:top;\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
-			. "<INPUT TYPE=\"FILE\" NAME=\"$feld\" SIZE=\""
-			. ($eingabe_breite / 8) . "\"></TD>";
-		$text .= "<TD style=\"vertical-align:top;\" ALIGN=\"RIGHT\">&nbsp;<br>"
-			. "<INPUT TYPE=\"SUBMIT\" NAME=\"los\" VALUE=\"GO\"><br></TD>\n";
+		$text = "<td style=\"text-align:center; vertical-align:top;\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
+			. "<input type=\"file\" name=\"$feld\" SIZE=\""
+			. ($eingabe_breite / 8) . "\"></td>";
+		$text .= "<td style=\"vertical-align:top; text-align:right;\">&nbsp;<br>"
+			. "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
 		
 	} else {
 		
@@ -420,22 +454,21 @@ function home_bild(
 	if (!isset($farben[$feld])) {
 		$bg = "";
 	} elseif (strlen($farben[$feld]) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben[$feld] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+			. $farben[$feld] . ";";
 	} elseif (strlen($farben[$feld]) == 7) {
-		$bg = "BGCOLOR=\"$farben[$feld]\"";
+		$bg = "background-color:$farben[$feld];";
 	} else {
 		$bg = "";
 	}
 	
 	if ($beschreibung)
-		$text = "<TD align=\"RIGHT\">" . $f1 . $beschreibung . $f2 . "</TD>"
+		$text = "<td style=\"text-align:right;\">" . $f1 . $beschreibung . $f2 . "</td>"
 			. $text;
 	if ($text && $beschreibung) {
-		$text = "<TR>" . $text . "</TR>";
+		$text = "<tr>" . $text . "</tr>";
 	} elseif ($text) {
-		$text = "<TABLE $bg CELLPADDING=\"5\" CELLSPACING=\"0\"  WIDTH=\"100%\" BORDER=\"0\" ><TR>"
-			. $text . "</TR></TABLE>";
+		$text = "<table style=\"width:100%; $bg\"><tr>" . $text . "</tr></table>";
 	}
 	
 	return ($text);
@@ -456,7 +489,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	$text = "<TD style=\"vertical-align:top;\">" . $f1;
+	$text = "<td style=\"vertical-align:top;\">" . $f1;
 	if ($id) {
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
 		$text .= "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
@@ -473,24 +506,24 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 			. "</b></A><br>\n";
 	}
 	
-	$text .= $f2 . "</TD>";
+	$text .= $f2 . "</td>";
 	if ($aktion == "aendern") {
-		$text .= "<TD style=\"vertical-align:bottom;\" ALIGN=\"RIGHT\">"
+		$text .= "<td style=\"vertical-align:bottom; text-align:right;\">"
 			. home_farbe($u_id, $u_nick, $home, "aktionen", $farben['aktionen'])
-			. "</TD>";
+			. "</td>";
 	}
 	
 	if (is_array($farben) && strlen($farben['aktionen']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['aktionen'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+			. $farben['aktionen'] . ";";
 	} elseif (is_array($farben) && strlen($farben['aktionen']) == 7) {
-		$bg = "BGCOLOR=\"$farben[aktionen]\"";
+		$bg = "background-color:$farben[aktionen];";
 	} else {
 		$bg = "";
 	}
 	
-	$text = "<TABLE $bg CELLPADDING=\"5\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\"><TR>"
-		. $text . "</TR></TABLE>";
+	$text = "<table style=\"width:100%; $bg\"><tr>"
+		. $text . "</tr></table>";
 	
 	return ($text);
 }
@@ -501,20 +534,20 @@ function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	
 	$aktion = "aendern_ohne_farbe";
 	
-	$text = "<TR><TD align=\"RIGHT\">" . $f1 . "Hintergrund: " . $f2 . "</TD>"
-		. "<TD BGCOLOR=\"$farben[bgcolor]\">&nbsp;</TD>" . "<TD>"
+	$text = "<tr><td style=\"text-align:right;\">" . $f1 . "Hintergrund: " . $f2 . "</td>"
+		. "<td style=\"background-color:$farben[bgcolor];\">&nbsp;</td>" . "<td>"
 		. home_farbe($u_id, $u_nick, $home, "bgcolor", $farben['bgcolor'])
-		. "</TD></TR>" . "<TR><TD align=\"RIGHT\">" . $f1 . "Textfarbe: " . $f2
-		. "</TD>" . "<TD BGCOLOR=\"$farben[text]\">&nbsp;</TD>" . "<TD>"
+		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1 . "Textfarbe: " . $f2
+		. "</td>" . "<td style=\"background-color:$farben[text];\">&nbsp;</td>" . "<td>"
 		. home_farbe($u_id, $u_nick, $home, "text", $farben['text'], FALSE)
-		. "</TD></TR>" . "<TR><TD align=\"RIGHT\">" . $f1 . "Linkfarbe: " . $f2
-		. "</TD>" . "<TD BGCOLOR=\"$farben[link]\">&nbsp;</TD>" . "<TD>"
+		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1 . "Linkfarbe: " . $f2
+		. "</td>" . "<td style=\"background-color:$farben[link];\">&nbsp;</td>" . "<td>"
 		. home_farbe($u_id, $u_nick, $home, "link", $farben['link'], FALSE)
-		. "</TD></TR>" . "<TR><TD align=\"RIGHT\">" . $f1
-		. "Linkfarbe (aktiv): " . $f2 . "</TD>"
-		. "<TD BGCOLOR=\"$farben[vlink]\">&nbsp;</TD>" . "<TD>"
+		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1
+		. "Linkfarbe (aktiv): " . $f2 . "</td>"
+		. "<td style=\"background-color:$farben[vlink];\">&nbsp;</td>" . "<td>"
 		. home_farbe($u_id, $u_nick, $home, "vlink", $farben['vlink'], FALSE)
-		. "</TD></TR>"
+		. "</td></tr>"
 		. home_bild($u_id, $u_nick, $home, "ui_bild4", $farben, $aktion,
 			$bilder, "Hintergrundgrafik&nbsp;1:")
 		. home_bild($u_id, $u_nick, $home, "ui_bild5", $farben, $aktion,
@@ -522,16 +555,18 @@ function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 		. home_bild($u_id, $u_nick, $home, "ui_bild6", $farben, $aktion,
 			$bilder, "Hintergrundgrafik&nbsp;3:");
 	
+	/*
 	if (strlen($farben['info']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['info'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+			. $farben['info'] . ";";
 	} elseif (strlen($farben['info']) == 7) {
-		$bg = "BGCOLOR=\"$farben[info]\"";
+		$bg = "background-color:$farben[info];";
 	} else {
 		$bg = "";
 	}
+	*/
 	
-	return ("<TABLE $bg CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\"  WIDTH=\"100%\">$text</TABLE>");
+	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
 function home_einstellungen($u_id, $u_nick, $home, $einstellungen)
@@ -545,13 +580,13 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen)
 	
 	// Homepage freigeben
 	if ($einstellungen['u_chathomepage'] == "J") {
-		$checked = "CHECKED";
+		$checked = "checked";
 	} else {
 		$checked = "";
 	}
-	$text = "<TR><TD align=\"RIGHT\">" . $f1 . "Homepage freigeben: " . $f2
-		. "</TD>"
-		. "<TD><INPUT TYPE=\"CHECKBOX\" NAME=\"einstellungen[u_chathomepage]\" $checked></TD></TR>\n";
+	$text = "<tr><td style=\"text-align:right;\">" . $f1 . "Homepage freigeben: " . $f2
+		. "</td>"
+		. "<td><input type=\"checkbox\" name=\"einstellungen[u_chathomepage]\" $checked></td></tr>\n";
 	
 	// Voreinstellungen fürs Profil
 	if (!$home['ui_einstellungen']) {
@@ -563,16 +598,16 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen)
 	// Einstellungen fürs Profil ausgeben
 	foreach ($vor_einstellungen as $key => $val) {
 		if ($ui_einstellungen[$key]) {
-			$checked = "CHECKED";
+			$checked = "checked";
 		} else {
 			$checked = "";
 		}
-		$text .= "<TR><TD align=\"RIGHT\">" . $f1 . $key . " zeigen:" . $f2
-			. "</TD>"
-			. "<TD><INPUT TYPE=\"CHECKBOX\" NAME=\"einstellungen[$key]\" $checked></TD></TR>\n";
+		$text .= "<tr><td style=\"text-align:right;\">" . $f1 . $key . " zeigen:" . $f2
+			. "</td>"
+			. "<td><input type=\"checkbox\" name=\"einstellungen[$key]\" $checked></td></tr>\n";
 	}
 	
-	return ("<TABLE CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">$text</TABLE>");
+	return ("<table style=\"width:100%;\">$text</table>");
 	
 }
 
@@ -683,8 +718,7 @@ function home_url_parse($tag, $url)
 	return ("$tag=\"redirect.php?url=" . urlencode($url) . "\" target=\"_blank\"");
 }
 
-function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
-{
+function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Users u_id an
 	
 	global $dbase, $mysqli_link, $argv, $argc, $http_host, $id, $homepage_extern, $check_name;
@@ -760,60 +794,55 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "")
 	$aktion = "einfach";
 	
 	if (isset($farben['bgcolor']) && strlen($farben['bgcolor']) > 7) {
-		$bg = "BACKGROUND=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld="
-			. $farben['bgcolor'] . "\"";
+		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['bgcolor'] . ";";
 	} elseif (isset($farben['bgcolor']) && strlen($farben['bgcolor']) == 7) {
-		$bg = "BGCOLOR=\"$farben[bgcolor]\"";
+		$bg = "background-color:$farben[bgcolor];";
 	} else {
 		$bg = "";
 	}
 	
 	if ($ok) {
-		$body_tag = "<body $bg";
+		$body_tag = "<body style=\"$bg\"";
 		if (is_array($farben)) {
-			$body_tag .= " TEXT=\"$farben[text]\" " . "LINK=\"$farben[link]\" "
-				. "VLINK=\"$farben[vlink]\" " . "ALINK=\"$farben[vlink]\"";
+			$body_tag .= " text=\"$farben[text]\" " . "link=\"$farben[link]\" " . "vlink=\"$farben[vlink]\" " . "alink=\"$farben[vlink]\"";
 		}
 		$body_tag .= ">\n";
 		
 		echo $body_tag
-			. "<TABLE BORDER=\"0\" HEIGHT=\"100%\" WIDTH=\"100%\" CELLPADDING=0 CELLSPACING=0>"
-			. "<TR><TD style=\"vertical-align:top;\" width=\"60%\">"
+			. "<table style=\"width:100%; height:100%;\">"
+			. "<tr><td style=\"vertical-align:top; width:60%;\">"
 			. home_info($u_id, $row->u_nick, $farben, $aktion)
 			. home_profil($u_id, $row->u_nick, $home, $farben, $aktion);
 		
-		if (!isset($bilder))
+		if (!isset($bilder)) {
 			$bilder = "";
+		}
 		
-		$txt = home_text($u_id, $row->u_nick, $home, "ui_text", $farben,
-			$aktion);
+		$txt = home_text($u_id, $row->u_nick, $home, "ui_text", $farben, $aktion);
 		echo $txt;
-		echo "</TD>\n<TD style=\"vertical-align:top;\" width=\"40%\">"
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben,
-				$aktion, $bilder)
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben,
-				$aktion, $bilder)
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild3", $farben,
-				$aktion, $bilder)
+		echo "</td>\n<td style=\"vertical-align:top; width:40%;\">"
+			. home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben, $aktion, $bilder)
+			. home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben, $aktion, $bilder)
+			. home_bild($u_id, $row->u_nick, $home, "ui_bild3", $farben, $aktion, $bilder)
 			. home_aktionen($u_id, $row->u_nick, $home, $farben, $aktion);
 		
-		echo "</TD></TR></TABLE>\n";
+		echo "</td></tr></table>\n";
 		
-		echo "</BODY>\n";
+		echo "</body>\n";
 		
 	} elseif ($u_chathomepage != "J") {
 		
 		echo "<body>"
-			. "<P><b>Fehler: Dieser User hat keine Homepage!</b></P>";
+			. "<p><b>Fehler: Dieser User hat keine Homepage!</b></p>";
 		
-		echo "</BODY>\n";
+		echo "</body>\n";
 		
 	} else {
 		
 		echo "<body>"
-			. "<P><b>Fehler: Aufruf ohne gültige Parameter!</b></P>";
+			. "<p><b>Fehler: Aufruf ohne gültige Parameter!</b></p>";
 
-		echo "</BODY>\n";
+		echo "</body>\n";
 		
 	}
 }

@@ -59,7 +59,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	if ($result) {
 		$text = '';
 		
-		$text .= "<form name=\"blacklist_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+		$text .= "<form name=\"blacklist_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
 			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -210,7 +210,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 	$box = "Neuen Blacklist-Eintrag hinzufügen:";
 	$text = '';
 	
-	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -232,7 +232,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 			. "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+			show_box_title_content($box, $text);
 }
 
 function neuer_blacklist($f_userid, $blacklist) {

@@ -34,9 +34,6 @@ function neuesFenster2(url) {
 </script>
 <?php
 zeige_header_ende();
-?>
-<body>
-<?php
 
 // Pfad auf Cache
 $cache = "home_bild";
@@ -62,5 +59,4 @@ if (isset($u_id) && $ui_userid == $u_id) {
 	zeige_home($ui_userid, FALSE, $farben);
 }
 ?>
-</body>
 </html>

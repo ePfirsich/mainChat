@@ -25,7 +25,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	$text = '';
 	
 	// Ausgabe in Tabelle
-	$text .= "<form name=\"$f[u_nick]\" ACTION=\"edit.php\" method=\"POST\">\n"
+	$text .= "<form name=\"$f[u_nick]\" ACTION=\"edit.php\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"

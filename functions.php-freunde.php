@@ -31,7 +31,7 @@ function zeige_freunde($aktion, $zeilen) {
 			break;
 	}
 	
-	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
@@ -153,7 +153,8 @@ function zeige_freunde($aktion, $zeilen) {
 		$text .= "</form>\n";
 		
 		show_box_title_content($box,$text);
-		echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+		
+		echo "<br>";
 	}
 }
 
@@ -198,7 +199,7 @@ function formular_neuer_freund($neuer_freund) {
 	$box = "Neuen Freund eintragen:";
 	$text = '';
 	
-	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -215,7 +216,7 @@ function formular_neuer_freund($neuer_freund) {
 		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
-	show_box_title_content($box,$text);
+		show_box_title_content($box,$text);
 }
 
 function formular_editieren($f_id, $f_text) {
@@ -230,13 +231,13 @@ function formular_editieren($f_id, $f_text) {
 	
 	$box = "Freundestext ändern:";
 	
-	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
 	
-	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"TEXT\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"$eingabe_breite\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
+	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"$eingabe_breite\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
 	
 	show_box_title_content($box,$text);
 }

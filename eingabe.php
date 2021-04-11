@@ -76,7 +76,7 @@ zeige_header_ende();
 	// Eingabeformular mit Menu und Farbauswahl
 	reset($farbe_chat_user);
 	$i = 0;
-	echo "<form name=\"form\" method=\"POST\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+	echo "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 	
 	echo "<table style=\"border-collapse:collapse;\"><tr>"
 		. "<td>&nbsp;</td><td colspan=" . (count($farbe_chat_user) + 3) . ">";

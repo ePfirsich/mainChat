@@ -16,7 +16,7 @@ function zeige_aktionen($aktion) {
 	$box = "$titel1 $u_nick $titel2:";
 	$text = '';
 	
-	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"POST\">\n"
+	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"eintragen\">\n"
 		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
@@ -129,7 +129,7 @@ function zeige_aktionen($aktion) {
 		. "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+		show_box_title_content($box, $text);
 }
 
 function eintrag_aktionen($aktion_datensatz) {

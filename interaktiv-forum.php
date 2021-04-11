@@ -87,7 +87,7 @@ if ($u_id) {
 	// Menue Ausgeben:
 	
 	echo "<form action=\"" . $chat_url
-		. "index.php\" target=\"topframe\" name=\"form1\" method=\"POST\">\n"
+		. "index.php\" target=\"topframe\" name=\"form1\" method=\"post\">\n"
 		. "<center><table>\n";
 	
 	// Anzahl der User insgesamt feststellen
