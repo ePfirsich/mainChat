@@ -533,12 +533,9 @@ aktualisiere_online($u_id, $o_raum);
 if (strlen($u_id) > 0) {
 	// Menü als erstes ausgeben
 	$box = "$chat Menü";
-	$text = "<a href=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
+	$text = "<a href=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n";
 	
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	show_menue($box, $text);
 	
 	// Auswahl
 	switch ($aktion) {
@@ -556,9 +553,7 @@ if (strlen($u_id) > 0) {
 }
 
 if ($o_js) {
-	echo $f1
-		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
-		. $f2 . "\n";
+	echo schliessen_link();
 }
 
 ?>

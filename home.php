@@ -130,12 +130,12 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			
 			// Menü als erstes ausgeben
 			$box = "Menü Freunde";
-			$text = "<a href=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</A>\n"
-				. "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</A>\n"
-				. "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</A>\n"
-				. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
+			$text = "<a href=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</a>\n"
+				. "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
+				. "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</a>\n"
+				. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</a>\n";
 			
-			show_box2($box, $text);
+			show_menue($box, $text);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
@@ -286,7 +286,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			@mysqli_free_result($result);
 			
 			if ($o_js || !$u_id) {
-				echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+				echo schliessen_link();
 			}
 			
 			break;

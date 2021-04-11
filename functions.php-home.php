@@ -294,8 +294,7 @@ function home_info($u_id, $u_nick, $farben, $aktion)
 	return ("<TABLE $bg CELLPADDING=\"2\" CELLSPACING=\"0\" BORDER=\"0\" WIDTH=\"100%\">$text</TABLE>");
 }
 
-function unhtmlentities($string)
-{
+function unhtmlentities($string) {
 	// replace numeric entities
 	$string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
 	$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);

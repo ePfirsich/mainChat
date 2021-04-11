@@ -79,35 +79,32 @@ if (strlen($u_id) != 0) {
 	if ($o_js && $o_who == 0
 		&& ((isset($u_backup) && $u_backup)
 			|| (isset($f['u_backup']) && $f['u_backup']))) {
-		echo "<SCRIPT>"
+		echo "<script>"
 			. "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1')"
-			. "</SCRIPT>\n";
-		echo "<SCRIPT>"
+			. "</script>\n";
+		echo "<script>"
 			. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
-			. "</SCRIPT>\n";
+			. "</script>\n";
 	}
 	
 	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text = "<A $url>$t[menue7]</a>\n";
+		$text = "<a $url>$t[menue7]</a>\n";
 		$ur1 = "home.php?http_host=$http_host&id=$id&aktion=aendern";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue10]</a>\n";
+		$text .= "| <a $url>$t[menue10]</a>\n";
 		$ur1 = "freunde.php?http_host=$http_host&id=$id";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue9]</a>\n";
+		$text .= "| <a $url>$t[menue9]</a>\n";
 		$ur1 = "aktion.php?http_host=$http_host&id=$id";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-		$text .= "| <A $url>$t[menue8]</a>\n";
+		$text .= "| <a $url>$t[menue8]</a>\n";
 	}
 	if (isset($text) && $text) {
-		show_box2($box, $text);
+		show_menue($box, $text);
 	}
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
 	
 	if ($aktion == "edit2") {
 		
@@ -907,14 +904,12 @@ if (strlen($u_id) != 0) {
 	}
 	
 } else {
-	echo "<p style=\"text-align:center;\">$t[sonst1]</p>\n";
+	echo "<p style=\"text-align:center;\">$t[sonst2]</p>\n";
 }
 
 // Fuß
 if ($o_js) {
-	echo $f1
-		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst2]</a>]</p>"
-		. $f2 . "\n";
+	echo schliessen_link();
 }
 ?>
 </body>

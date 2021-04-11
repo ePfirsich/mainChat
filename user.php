@@ -152,7 +152,7 @@ if (strlen($u_id) != 0) {
 		$text .= "</ul>";
 		
 		if ($aktion != "zeigalle" || $u_level != "S") {
-			show_box2($box, $text);
+			show_menue($box, $text);
 		}
 	}
 	
@@ -176,26 +176,23 @@ if (strlen($u_id) != 0) {
 	
 	// Traceroute ausgeben
 	if ($admin AND isset($trace)) {
+		$box = $t['sonst3'] . " " . $trace;
+		$text = '';
+		
 		if (!file_exists($traceroute)) {
-			system_msg("", 0, $u_id, $system_farbe,
-				"<b>config anpassen \$traceroute</b>");
+			$text .= "<b>config anpassen \$traceroute</b>";
+		} else {
+			
+			$text .= "<pre>";
+			$text .= $f1;
+			
+			$text .= system("$traceroute $trace", $ergebnis);
+			
+			$text .= $f2 . "</pre>";
 		}
 		
-		$box = $t['sonst3'] . " " . $trace;
-		?>
-		<table class="tabelle_kopf">
-			<tr>
-				<td>
-					<a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a>
-					<span style="font-size: smaller; font-weight:bold;"><?php echo $box; ?></span>
-				</td>
-			</tr>
-		</table>
-		<pre>
-		<?php
-		echo $f1;
-		system("$traceroute $trace", $ergebnis);
-		echo $f2 . "</pre>\n";
+		// Box anzeigen
+		show_box_title_content($box, $text);
 	}
 	
 	// Auswahl
@@ -262,10 +259,10 @@ if (strlen($u_id) != 0) {
 				
 				$box = $t['sonst45'];
 				$text = "<form name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
-					. "<input type=\"hidden\" name=\"id\" VALUE=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" VALUE=\"$http_host\">\n"
-					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"userimport2\">\n"
-					. "<input type=\"hidden\" name=\"aktion\" VALUE=\"userimport2\">\n"
+					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
+					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
+					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
 					. $f1
 					. htmlspecialchars($t['sonst46']) . $f2 . "\n"
 					. "<br>\n"
@@ -274,7 +271,7 @@ if (strlen($u_id) != 0) {
 					. $f2 . "\n";
 				
 				$text .= "<br><div style=\"text-align: right;\">" . $f1
-					. "<input type=\"submit\" name=\"los\" VALUE=\"Go!\">"
+					. "<input type=\"submit\" name=\"los\" value=\"Go!\">"
 					. $f2 . "</div></form>\n";
 
 				echo "<br>";
@@ -407,7 +404,7 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "</td></tr>" . "<tr><td colspan=2>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" VALUE=\"$suchtext\" SIZE=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" SIZE=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
@@ -416,7 +413,7 @@ if (strlen($u_id) != 0) {
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
-						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
+						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" SIZE=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
@@ -428,7 +425,7 @@ if (strlen($u_id) != 0) {
 					while (list($levelname, $levelbezeichnung) = each($level)) {
 						if ($levelname != "B") {
 							if ($f['level'] == $levelname) {
-								$text .= "<option selected VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
 							} else {
 								$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
 							}
@@ -442,11 +439,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem Login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" VALUE=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" VALUE=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
@@ -455,15 +452,15 @@ if (strlen($u_id) != 0) {
 					. "<td>&nbsp;<SELECT name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
 					$text .= "<option value=\"N\">$t[sonst22]\n"
-						. "<option selected VALUE=\"J\">$t[sonst39]\n";
+						. "<option selected value=\"J\">$t[sonst39]\n";
 				} else {
-					$text .= "<option selected VALUE=\"N\">$t[sonst22]\n"
+					$text .= "<option selected value=\"N\">$t[sonst22]\n"
 						. "<option value=\"J\">$t[sonst39]\n";
 				}
 				$text .= "</SELECT>" . $f2 . "</td></tr>\n";
 				
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
-					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
+					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></FORM>\n";
 				
 				echo "<br>";
@@ -661,7 +658,7 @@ if (strlen($u_id) != 0) {
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" VALUE=\"$suchtext\" SIZE=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" SIZE=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
@@ -675,7 +672,7 @@ if (strlen($u_id) != 0) {
 					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
-						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" VALUE=\"$f[ip]\" SIZE=\"6\">"
+						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" SIZE=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
@@ -687,7 +684,7 @@ if (strlen($u_id) != 0) {
 					while (list($levelname, $levelbezeichnung) = each($level)) {
 						if ($levelname != "B") {
 							if ($f['level'] == $levelname) {
-								$text .= "<option selected VALUE=\"$levelname\">$levelbezeichnung\n";
+								$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
 							} else {
 								$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
 							}
@@ -708,11 +705,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" VALUE=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" VALUE=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" SIZE=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach User mit Homepage
@@ -721,16 +718,16 @@ if (strlen($u_id) != 0) {
 					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
 					$text .= "<option value=\"N\">$t[sonst22]\n"
-						. "<option selected VALUE=\"J\">$t[sonst39]\n";
+						. "<option selected value=\"J\">$t[sonst39]\n";
 				} else {
-					$text .= "<option selected VALUE=\"N\">$t[sonst22]\n"
+					$text .= "<option selected value=\"N\">$t[sonst22]\n"
 						. "<option value=\"J\">$t[sonst39]\n";
 				}
 				$text .= "</select></td></tr>\n";
 				
-				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
-					. "<input type=\"submit\" name=\"suchtext_eingabe\" VALUE=\"Go!\">"
-					. $f2 . "</td></tr>" . "</table></FORM>\n";
+				$text .= "<tr><TD colspan=2 style=\"text-align: right;\">" . $f1
+					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
+					. $f2 . "</td></tr>" . "</table></form>\n";
 				show_box2($box, $text);
 			}
 			
@@ -990,9 +987,7 @@ if (strlen($u_id) != 0) {
 // Fuß
 if ($aktion != "zeigalle" || $u_level != "S") {
 	if ($aktion != "chatuserliste" && $o_js) {
-		echo $f1
-			. "<p style=\"text-align: center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
-			. $f2 . "\n";
+		echo schliessen_link();
 	}
 }
 ?>

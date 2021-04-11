@@ -49,10 +49,8 @@ $box = $t['menue1'];
 $text = "<a href=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">".$t['menue2']."</a>\n";
 $text .= "| <a href=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">".$t['menue3']."</a>\n";
 $text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">".$t['menue4']."</a>\n";
-show_box2($box, $text);
-?>
-<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-<?php
+
+show_menue($box, $text);
 
 if ($erweitertefeatures) {
 	switch ($aktion) {
@@ -165,7 +163,7 @@ if ($erweitertefeatures) {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 }
 
 ?>

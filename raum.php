@@ -47,13 +47,12 @@ if (strlen($u_id) != 0) {
 		$rraum = "&schau_raum=$raum";
 	else $rraum = "";
 	
-	$text = "<a href=\"raum.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n";
-	if ($u_level != "G")
-		$text .= "| <a href=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	$text = "<a href=\"raum.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n";
+	if ($u_level != "G") {
+		$text .= "| <a href=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</a>\n";
+	}
+	
+	show_menue($box, $text);
 	
 	if (isset($f['r_name'])) {
 		// In Namen die Leerzeichen und ' und " entfernen
@@ -842,7 +841,7 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($o_js) {
-		echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+		echo schliessen_link();
 	}
 	
 } else {

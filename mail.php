@@ -67,17 +67,14 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Mail";
-	$text = "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=\">Mailbox neu laden</A>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=neu\">Neue Mail schreiben</A>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorb\">Papierkorb zeigen</A>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorbleeren\">Papierkorb leeren</A>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=mailboxzu\">Mailbox zumachen</A>\n|\n"
-		. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#mail\">Hilfe</A>\n";
+	$text = "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=\">Mailbox neu laden</a>\n|\n"
+		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=neu\">Neue Mail schreiben</a>\n|\n"
+		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorb\">Papierkorb zeigen</a>\n|\n"
+		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorbleeren\">Papierkorb leeren</a>\n|\n"
+		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=mailboxzu\">Mailbox zumachen</a>\n|\n"
+		. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#mail\">Hilfe</a>\n";
 	
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	show_menue($box, $text);
 	
 	switch ($aktion) {
 		
@@ -402,9 +399,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1
-	. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
-	. $f2 . "\n";
+	echo schliessen_link();
 }
 ?>
 </body>

@@ -86,10 +86,7 @@ if ($u_id && $communityfeatures) {
 	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
 	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</a>\n";
 	
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	show_menue($box, $text);
 	
 	// Profil prüfen und ggf. neu eintragen
 	if ($los == "Eintragen" && $f['ui_userid']) {
@@ -296,7 +293,7 @@ if ($u_id && $communityfeatures) {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 }
 ?>
 </body>

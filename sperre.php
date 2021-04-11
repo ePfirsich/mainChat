@@ -254,10 +254,7 @@ if (strlen($u_id) > 0 && $admin) {
 			. $zusatztxt . $t['menue3'] . "</A>\n";
 	}
 	
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	show_menue($box, $text);
 	
 	// Soll Datensatz eingetragen oder geändert werden?
 	if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
@@ -577,9 +574,7 @@ if (strlen($u_id) > 0 && $admin) {
 }
 
 if ($o_js) {
-	echo $f1
-		. "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>"
-		. $f2 . "\n";
+	echo schliessen_link();
 }
 
 ?>

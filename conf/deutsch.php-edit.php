@@ -38,7 +38,7 @@ $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neue
 				. "Ihre neue E-Mailadresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
 				. "einloggen und ggf. Ihr Passwort wieder anpassen.";
 
-$t['sonst1'] = "Sie sind ausgeloggt";
-$t['sonst2'] = "Fenster schließen";
+$t['sonst1'] = "Fenster schließen";
+$t['sonst2'] = "Sie sind ausgeloggt";
 
 ?>

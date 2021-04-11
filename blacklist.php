@@ -55,14 +55,11 @@ if ($admin && $u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Blacklist";
-	$text = "<a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=\">Blacklist zeigen</A>\n"
-		. "| <a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Eintrag hinzufügen</A>\n"
-		. "| <a href=\"sperre.php?http_host=$http_host&id=$id\">Zugangssperren</A>\n";
+	$text = "<a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=\">Blacklist zeigen</a>\n"
+		. "| <a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
+		. "| <a href=\"sperre.php?http_host=$http_host&id=$id\">Zugangssperren</a>\n";
 	
-	show_box2($box, $text);
-	?>
-	<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-	<?php
+	show_menue($box, $text);
 	
 	if (!isset($neuer_blacklist))
 		$neuer_blacklist[] = "";
@@ -130,7 +127,7 @@ if ($admin && $u_id && $communityfeatures) {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 }
 ?>
 </body>

@@ -30,9 +30,8 @@ $eingabe_breite = 70;
 if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = $t['aktion3'];
-	$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</A>\n";
-	show_box2($box, $text);
-	echo "<br>";
+	$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</a>\n";
+	show_menue($box, $text);
 	
 	switch ($aktion) {
 		
@@ -56,7 +55,7 @@ if ($u_id && $communityfeatures) {
 }
 
 if ($o_js || !$u_id) {
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 }
 ?>
 </body>

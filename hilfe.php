@@ -112,8 +112,7 @@ $text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\"
 $text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</a>\n";
 $text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</a>\n";
 if ($aktion != "logout") {
-	show_box2($box, $text);
-	echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
+	show_menue($box, $text);
 }
 
 switch ($aktion) {
@@ -375,7 +374,7 @@ switch ($aktion) {
 		show_box_title_content($box,$text);
 }
 
-echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
+echo schliessen_link();
 ?>
 <br>
 </body>

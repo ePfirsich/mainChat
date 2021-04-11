@@ -189,19 +189,19 @@ $t['chat_msg122'] = "User online mit der IP %ip% (%datum%, %uhrzeit%) ";
 $t['chat_msg123'] = "User war mit IP %ip% da %datum% ";
 
 $t['chat_spruch1'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt "
-    . "es nicht als Typ 2 mit '%spruchname% USERNAME ZUSATZTEXT'. "
-    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
-    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
-    . "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
-    . "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
+	. "es nicht als Typ 2 mit '%spruchname% USERNAME ZUSATZTEXT'. "
+	. "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
+	. "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
+	. "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
+	. "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
 $t['chat_spruch2'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt "
-    . "es nicht als Typ 1 mit '%spruchname% USERNAME'. "
-    . "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
-    . "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
-    . "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
-    . "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
+	. "es nicht als Typ 1 mit '%spruchname% USERNAME'. "
+	. "Der Aufruf eines Spruchs ist immer bei Sprüchen des<br>"
+	. "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
+	. "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
+	. "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
 $t['chat_spruch3'] = "<b>Fehler:</b> der Befehl oder Spruch '%spruchname%' "
-    . "konnte nicht gefunden werden, %u_name%.";
+	. "konnte nicht gefunden werden, %u_name%.";
 $t['chat_spruch4'] = "Variationen dieses Spruchs:";
 $t['chat_spruch5'] = "<b>Fehler:</b> Befehl '%chatzeile%' existiert nicht! Sprüche werden mit =spruch abgerufen.";
 $t['chat_spruch6'] = "zu";
@@ -345,10 +345,10 @@ $t['punkte23'] = "Einem Gast können keine Punkte gutgeschrieben werden!";
 
 $t['warnung1'] = "<br><b>Warnung:</b> %text%%user%.";
 $t['warnung2'] = "Sie haben den Chat in den <b>sicheren Modus</b> geschaltet. Dadurch vermindert sich die Qualität der Chatausgabe. Bitte verwenden Sie den "
-    . "sicheren Modus nur, wenn Sie die Probleme durch Änderung Ihrer Proxy- oder Browsereinstellungen nicht beheben können";
+	. "sicheren Modus nur, wenn Sie die Probleme durch Änderung Ihrer Proxy- oder Browsereinstellungen nicht beheben können";
 $t['warnung3'] = "Ihr Browser unterstützt <b>kein JavaScript</b> oder JavaScript ist abgeschaltet. Daher läuft der $chat im <b>sicheren Modus</b>, die Qualität "
-    . "der Chatausgabe ist vermindert und viele Funktionen im $chat sind abgeschaltet. Bitte aktivieren Sie "
-    . "JavaScript, falls Ihr Browser dies zuläßt";
+	. "der Chatausgabe ist vermindert und viele Funktionen im $chat sind abgeschaltet. Bitte aktivieren Sie "
+	. "JavaScript, falls Ihr Browser dies zuläßt";
 
 //Texte für automatische generierung des Beitrags
 $t['kopfzeile'] = "{autor} schrieb am {date}";
@@ -367,18 +367,19 @@ $t['userliste2'] = "<span class=\"header3\">Gerade sind %anzahl_online% User onl
 // Hacking
 $t['hack1'] = "Hackversuch auf den Account %login%!";
 $t['hack2'] = "Es wurde ein Hackversuch (Übernahme der Session) bei dem Account %login% erkannt!\n\n"
-    . "Datum: %datum%\nIP: %ip%\n\nHeader:\n%header%\n\n"
-    . "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
-    . "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den "
-    . "Provider ermitteln, über den der Loginversuch stattfand. "
-    . "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des "
-    . "Datums/Uhrzeit direkt an den Provider.\n";
+	. "Datum: %datum%\nIP: %ip%\n\nHeader:\n%header%\n\n"
+	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
+	. "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den "
+	. "Provider ermitteln, über den der Loginversuch stattfand. "
+	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des "
+	. "Datums/Uhrzeit direkt an den Provider.\n";
 $t['hack3'] = "<P>Sehr geehrter Hacker,</P>"
-    . "<P>das ist aber wirklich dumm gelaufen... da haben wir Sie also ertappt!</P>"
-    . "<P>Ihre IP-Adresse und die Daten des gehackten Accounts haben wir gespeichert. "
-    . "Wir werden mit diesen Daten direkt Anzeige erstatten. Nach dem der Staatsanwalt "
-    . "bei Ihrem Provider Ihren Namen und Anschrift erhalten hat, wird er Sie kontaktieren.</P>"
-    . "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<br>"
-    . "<a href=\"MAILTO:$webmaster\">Ihr $chat Team</A></P><HR NOSHADE\n>";
+	. "<P>das ist aber wirklich dumm gelaufen... da haben wir Sie also ertappt!</P>"
+	. "<P>Ihre IP-Adresse und die Daten des gehackten Accounts haben wir gespeichert. "
+	. "Wir werden mit diesen Daten direkt Anzeige erstatten. Nach dem der Staatsanwalt "
+	. "bei Ihrem Provider Ihren Namen und Anschrift erhalten hat, wird er Sie kontaktieren.</P>"
+	. "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<br>"
+	. "<a href=\"MAILTO:$webmaster\">Ihr $chat Team</A></P><HR NOSHADE\n>";
 
+$t['sonst1'] = "Fenster schließen";
 ?>

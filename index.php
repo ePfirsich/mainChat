@@ -2351,7 +2351,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					show_box2(
 						str_replace("%chat%", $chat, $t['default5']), $text,
 						false);
-					echo "<IMG src=\"pics/fuell.gif\" ALT=\"\" WIDTH=4 HEIGHT=4><br>\n";
+					echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n";
 				}
 				
 				if (!isset($unterdruecke_raeume))

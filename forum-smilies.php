@@ -35,7 +35,7 @@ zeige_header_ende();
 <?php
 // Login ok?
 if (strlen($u_id) != 0) {
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 	
 	echo "<div style=\"text-align:center;\"><table style=\"width:100%; border:0px;\">\n";
 	
@@ -75,7 +75,7 @@ if (strlen($u_id) != 0) {
 	
 	echo "</table></div>";
 	
-	echo $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">Fenster schließen</a>]</p>" . $f2 . "\n";
+	echo schliessen_link();
 	
 } else {
 	echo "<p style=\"text-align:center;\">" . $t['sonst15'] . "</p>\n";
