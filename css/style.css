@@ -7,7 +7,14 @@ body {
 /* Tabellenkopf */ 
 .tabelle_kopf {
 	background-color:#007ABE;
-	width:100%
+	width:100%;
+}
+
+
+/* --------------------------------------------------------------------------------------------- */
+/* Tabellenkopf ohne feste Breite */ 
+.tabelle_kopf2 {
+	background-color:#007ABE;
 }
 
 

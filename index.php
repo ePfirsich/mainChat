@@ -696,53 +696,52 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					echo "<p style=\"color:#ff0000; font-weight:bold;\">$fehlermeldung</p>\n";
 				}
-				echo "<form action=\"index.php\">\n"
-					. "<table border=0 cellpadding=5 cellspacing=0>\n";
-				if (isset($email) && isset($nickname) && $email <> ""
-					&& $nickname <> ""
-					&& (isset($hash) || $fehlermeldung == "")) {
+				$box = $t['pwneu16'];
+				$text = '';
+				$text .= "<form action=\"index.php\">\n"
+					. "<table>\n";
+				if (isset($email) && isset($nickname) && $email <> "" && $nickname <> "" && (isset($hash) || $fehlermeldung == "")) {
 					if (!isset($hash)) {
 						$hash = "";
 					}
-					?>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['pwneu2']; ?></td>
-						<td><input type=hidden name="nickname" width="50" value="<?php echo $nickname; ?>"><?php echo $nickname; ?></td>
-					</tr>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['pwneu3']; ?></td>
-						<td class="tabelle_kopfzeile"><input type=hidden name="email" width="50" value="<?php echo $email; ?>"><?php echo $email; ?></td>
-					</tr>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['pwneu10']; ?></td>
-						<td class="tabelle_kopfzeile"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
-					</tr>
-					<?php
+					$text .="<tr>";
+					$text .="<td style=\"font-weight:bold;\">$t[pwneu2]</td>";
+					$text .="<td><input type=hidden name=\"nickname\" width=\"50\" value=\"$nickname\">$nickname</td>";
+					$text .="</tr>";
+					$text .="<tr>";
+					$text .="<td style=\"font-weight:bold;\">$t[pwneu3]</td>";
+					$text .="<td style=\"font-weight:bold;\"><input type=\"hidden\" name=\"email\" width=\"50\" value=\"$email\">$email</td>";
+					$text .="</tr>";
+					$text .="<tr>";
+					$text .="<td style=\"font-weight:bold;\">$t[pwneu10]</td>";
+					$text .="<td style=\"font-weight:bold;\"><input name=\"hash\" width=\"50\" value=\"$hash\"></td>";
+					$text .="</tr>";
 				} else {
-					if (!isset($nickname))
+					if (!isset($nickname)) {
 						$nickname = "";
-					if (!isset($email))
+					}
+					if (!isset($email)) {
 						$email = "";
-					?>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['pwneu2']; ?></td>
-						<td class="tabelle_kopfzeile"><input name="nickname" width="50" value="<?php echo $nickname; ?>"></td>
-					</tr>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['pwneu3']; ?></td>
-						<td class="tabelle_kopfzeile"><input name="email" width="50" value="<?php echo $email; ?>"></td>
-					</tr>
-					<?php
+					}
+					$text .="<tr>";
+					$text .="<td style=\"font-weight:bold;\">$t[pwneu2]</td>";
+					$text .="<td style=\"font-weight:bold;\"><input name=\"nickname\" width=\"50\" value=\"$nickname\"></td>";
+					$text .="</tr>";
+					$text .="<tr>";
+					$text .="<td style=\"font-weight:bold;\">$t[pwneu3]</td>";
+					$text .="<td style=\"font-weight:bold;\"><input name=\"email\" width=\"50\" value=\"$email\"></td>";
+					$text .="</tr>";
 				}
-					?>
-					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-					<input type="hidden" name="aktion" value="passwort_neu">
-					<tr>
-						<td colspan="2" class="tabelle_kopfzeile"><input type=submit value="Absenden"></td>
-					</tr>
-				</form>
-				</table>
-				<?php
+				$text .="<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+				$text .="<input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\">";
+				$text .="<tr>";
+				$text .="<td colspan=\"2\"style=\"font-weight:bold;\"><input type=\"submit\" value=\"Absenden\"></td>";
+				$text .="</tr>";
+				$text .= "</form>";
+				$text .= "</table>";
+				
+				show_box($box,$text);
+				
 			} else if ($richtig && $u_id) {
 				$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' AND `u_level` = 'U' LIMIT 2";
 				$result = mysqli_query($mysqli_link, $query);

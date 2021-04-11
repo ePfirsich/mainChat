@@ -218,6 +218,7 @@ $t['pwneu15'] = "Hallo %nickname%,
 Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%
 
 Viel Spaß noch im $chat";
+$t['pwneu16'] = "Neues Passwort anfordern";
 
 $t['captcha1'] = "Prüfziffer: (Bitte Ergebnis der Rechenaufgabe als Zahl eingeben)";
 

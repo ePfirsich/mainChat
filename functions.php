@@ -874,7 +874,7 @@ function show_box($box, $text, $width = "") {
 	}
 	?>
 	
-	<table class="tabelle_kopf" <?php echo $width; ?>>
+	<table class="tabelle_kopf2" <?php echo $width; ?>>
 	
 		<tr>
 			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
