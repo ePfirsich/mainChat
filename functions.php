@@ -500,7 +500,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
-	global $hackmail, $chat, $http_host, $t, $erweitertefeatures;
+	global $chat, $http_host, $t, $erweitertefeatures;
 	
 	// IP und Browser ermittlen
 	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
@@ -586,8 +586,9 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	}
 	
 	$http_te = "";
-	if (isset($_SERVER['HTTP_TE']))
+	if (isset($_SERVER['HTTP_TE'])) {
 		$http_te = $_SERVER['HTTP_TE'];
+	}
 	
 	// Bei bestimmten Browsern backup_chat setzen
 	// HTTP_TE=chunked bei T-Online-Proxy
@@ -605,70 +606,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		$backup_chat = 1;
 	} else {
 		$backup_chat = 0;
-	}
-	
-	// Bei Admins via cookies die Session überprüfen
-	if (false && $erweitertefeatures && $admin) {
-		
-		if ($HTTP_COOKIE_VARS["MAINCHAT" . $u_nick] != md5($o_id . $id . "42")) {
-			// Erfolgreicher Hackversuch -> Mail verschicken
-			
-			$http_stuff = $_SERVER;
-			unset($http_stuff['DOCUMENT_ROOT']);
-			unset($http_stuff['HTTP_ACCEPT']);
-			unset($http_stuff['HTTP_ACCEPT_ENCODING']);
-			unset($http_stuff['HTTP_ACCEPT_CHARSET']);
-			unset($http_stuff['HTTP_ACCEPT_LANGUAGE']);
-			unset($http_stuff['HTTP_CACHE_CONTROL']);
-			unset($http_stuff['HTTP_CONNECTION']);
-			unset($http_stuff['HTTP_PRAGMA']);
-			unset($http_stuff['PATH']);
-			unset($http_stuff['SCRIPT_FILENAME']);
-			unset($http_stuff['SERVER_ADMIN']);
-			unset($http_stuff['SERVER_NAME']);
-			unset($http_stuff['SERVER_PORT']);
-			unset($http_stuff['SERVER_SIGNATURE']);
-			unset($http_stuff['SERVER_SOFTWARE']);
-			unset($http_stuff['GATEWAY_INTERFACE']);
-			unset($http_stuff['SERVER_PROTOCOL']);
-			unset($http_stuff['REQUEST_METHOD']);
-			unset($http_stuff['REQUEST_URI']);
-			unset($http_stuff['SCRIPT_NAME']);
-			unset($http_stuff['PATH_TRANSLATED']);
-			unset($http_stuff['PHP_SELF']);
-			unset($http_stuff['SERVER_ADDR']);
-			unset($http_stuff['argv']);
-			unset($http_stuff['argc']);
-			unset($http_stuff['CONTENT_TYPE']);
-			unset($http_stuff['CONTENT_LENGTH']);
-			unset($http_stuff['HTTP_KEEP_ALIVE']);
-			unset($http_stuff['QUERY_STRING']);
-			unset($http_stuff['REMOTE_PORT']);
-			unset($http_stuff['PHP_AUTH_PW']);
-			
-			$header = "";
-			foreach ($http_stuff as $key => $value)
-				$header .= $key . ": " . $value . "\n";
-			
-			$user = $u_nick . " (" . $u_name . ", " . $u_adminemail . ")";
-			$betreff = str_replace("%login%", $user, $t['hack1']);
-			$text = str_replace("%login%", $user, $t['hack2']) . "\n";
-			$text = str_replace("%ip%", $ip, $text);
-			$text = str_replace("%datum%", date("d.m.Y H:i:s"), $text);
-			$text = str_replace("%header%", $header, $text);
-			$text .= "\n-- \n   $chat (" . $serverprotokoll . "://"
-				. $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . " | "
-				. $http_host . ")\n";
-			mail($hackmail, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\n");
-			
-			$u_id = "";
-			$u_name = "";
-			$u_nick = "";
-			$o_id = "";
-			$u_level = "";
-			$userdata = "";
-			$ignore = "";
-		}
 	}
 }
 

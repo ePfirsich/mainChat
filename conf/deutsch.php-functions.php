@@ -364,22 +364,5 @@ $t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag
 $t['userliste1'] = "<span class=\"textbold\">%raum_alt% (%user_im_raum% Chatter im Raum)</span><br>\n<span class=\"text\">%nicks%</span><br>\n";
 $t['userliste2'] = "<span class=\"header3\">Gerade sind %anzahl_online% User online, insgesamt sind %anzahl_user% User angemeldet </span><br><br>\n%userliste%";
 
-// Hacking
-$t['hack1'] = "Hackversuch auf den Account %login%!";
-$t['hack2'] = "Es wurde ein Hackversuch (Übernahme der Session) bei dem Account %login% erkannt!\n\n"
-	. "Datum: %datum%\nIP: %ip%\n\nHeader:\n%header%\n\n"
-	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
-	. "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den "
-	. "Provider ermitteln, über den der Loginversuch stattfand. "
-	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des "
-	. "Datums/Uhrzeit direkt an den Provider.\n";
-$t['hack3'] = "<P>Sehr geehrter Hacker,</P>"
-	. "<P>das ist aber wirklich dumm gelaufen... da haben wir Sie also ertappt!</P>"
-	. "<P>Ihre IP-Adresse und die Daten des gehackten Accounts haben wir gespeichert. "
-	. "Wir werden mit diesen Daten direkt Anzeige erstatten. Nach dem der Staatsanwalt "
-	. "bei Ihrem Provider Ihren Namen und Anschrift erhalten hat, wird er Sie kontaktieren.</P>"
-	. "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<br>"
-	. "Ihr $chat Team</p><hr NOSHADE\n>";
-
 $t['sonst1'] = "Fenster schließen";
 ?>
