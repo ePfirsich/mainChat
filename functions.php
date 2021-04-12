@@ -1,6 +1,6 @@
 <?php
 // Version / Copyright - nicht entfernen!
-$mainchat_version = "Open mainChat 7.0.0 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2012 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target\"_blank\">GitHub</a> ab 2021";
+$mainchat_version = "Open mainChat 7.0.0 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2012 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target=\"_blank\">GitHub</a> ab 2021";
 
 // HTTPS ja oder nein?
 // if ($HTTPS=="on") {
