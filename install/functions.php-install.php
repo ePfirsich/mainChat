@@ -235,10 +235,6 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 				<td> Optionale URL des linken Frames:</td>
 				<td><input type="text" name="chat_framelinks" size="40" value="<?php echo checkFormularInputFeld('',$chat["framelinks"]) ?>"></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Frameset bleibt beim Login in Chat stehen:</td>
-				<td><?php echo checkFormularRadioButton('1',$chat["framesetbleibt"],'chat_framesetbleibt'); ?></td>
-			</tr>
 			<tr>
 				<td colspan="2"><br></td>
 			</tr>

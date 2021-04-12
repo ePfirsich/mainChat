@@ -5,83 +5,38 @@ if (!isset($_SERVER["HTTP_REFERER"])) {
 	$_SERVER["HTTP_REFERER"] = "";
 }
 
-if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
+// Funktionen und Config laden, Host bestimmen
+require_once("functions-init.php");
+
+require_once("functions.php");
+
+zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
+
+// Backdoorschutz über den HTTP_REFERER
+if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"]) && $aktion != "neu") {
+	$meta_refresh = '<meta http-equiv="refresh" content="5; URL=' . $chat_login_url . '">';
+	zeige_header_ende($meta_refresh);
+	?>
+	<body>
+	<?php
+	zeige_kopf();
+	$chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
+	echo str_replace("%webseite%", $chat_login_url, $t['login26']);
+	zeige_fuss();
+	?>
+	</body>
+	</html>
+	<?php
+	exit();
+}
+	
+
+if ( !isset($http_host) && !isset($login) ) {
+	echo 'ENDE';
+	die;
 	// Falls diese Seite ohne Parameter aufgerufen wird, wird das oberste Frameset ausgegeben
 	
-	// Funktionen und Config laden, Host bestimmen
-	require_once("functions-init.php");
-	
-	$title = $body_titel;
-	zeige_header_anfang($title, 'login', $zusatztext_kopf);
-	
-	// Backdoorschutz über den HTTP_REFERER
-	if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"]) && $aktion != "neu") {
-		$meta_refresh = '<meta http-equiv="refresh" content="5; URL=' . $chat_login_url . '">';
-		zeige_header_ende($meta_refresh);
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		$chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
-		echo str_replace("%webseite%", $chat_login_url, $t['login26']);
-		zeige_fuss();
-		?>
-		</body>
-		</html>
-		<?php
-		exit();
-	}
-	
-	// Soll Chatserver dynamisch gewählt werden?
 	$chatserver = "";
-	if ($chatserver_dynamisch) {
-		
-		// Datenbankconnect
-		$mysqli_link = mysqli_connect('p:'.$chatserver_mysqlhost, $mysqluser, $mysqlpass, $dbase);
-		if ($mysqli_link) {
-			
-			mysqli_set_charset($mysqli_link, "utf8mb4");
-			
-			// Alle Hosts bestimmen, die in den letzten 150sek erreichbar waren und die den Typ "apache" haben...
-			mysqli_select_db($mysqli_link, "chat_info");
-			$result = mysqli_query($mysqli_link, 
-				"select h_host from host where (NOW()-h_time)<150 and h_type='apache' order by h_av1");
-			$rows = mysqli_num_rows($result);
-			
-			if ($rows > 0) {
-				if ($rows > 1)
-					$max = 1;
-				if ($rows > 4)
-					$max = 2;
-				if ($rows > 6)
-					$max = 3;
-				if ($rows > 9)
-					$max = 4;
-				if ($max > 0) {
-					$chatserver = $serverprotokoll . "://"
-						. mysqli_result($result, mt_rand(0, $max), "h_host")
-						. "/";
-				} else {
-					$chatserver = $serverprotokoll . "://"
-						. mysqli_result($result, 0, "h_host") . "/";
-				}
-			} else {
-				$chatserver = "";
-			}
-			
-			mysqli_free_result($result);
-			mysqli_close($mysqli_link);
-			
-		} else {
-			zeige_header_ende();
-			?>
-			<body>
-			<P>Der mainChat ist leider aus technischen Gründen nicht erreichbar.<br>
-			Bitte versuchen Sie es später noch einmal.</P>";
-			<?php
-			exit();
-		}
-	}
 	
 	// Optional Frame links
 	if (strlen($frame_links) > 5) {
@@ -97,44 +52,18 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		}
 	
 	// Login durch das äußere Frameset durchschleifen
-	if ($frame == 1 && $aktion == "login") {
-		$url = $chatserver . "index.php?http_host=" . $http_host
-			. "&javascript=" . $javascript . "&login=" . urlencode($login)
-			. "&passwort=" . urlencode($passwort) . "&eintritt=" . $eintritt
-			. "&aktion=" . $aktion . "&los=" . $los;
-		if (is_array($f))
-			foreach ($f as $key => $val) {
-				$url .= "&f[" . $key . "]=" . urlencode($val);
-			}
-		
-		echo "<frame src=\"" . $url
-			. "\" scrolling=\"AUTO\" name=\"topframe\" noresize>\n</frameset><noframes>\n";
-		
-		// E-Mail bestätigung durch das äußere Frameset durchschleifen
-	} elseif ($frame == 1) {
-		echo "<frame src=\"" . $chatserver
-			. "index.php?http_host=$http_host&aktion=$aktion&email=$email&hash=$hash\" scrolling=\"AUTO\" name=\"topframe\" noresize>\n"
-			. "</frameset><noframes>\n";
-		
-		// Normales Frameset mit Loginmaske
+	if (isset($_SERVER["HTTP_REFERER"])) {
+		$ref = $_SERVER["HTTP_REFERER"];
 	} else {
-		if (isset($_SERVER["HTTP_REFERER"])) {
-			$ref = $_SERVER["HTTP_REFERER"];
-		} else {
-			$ref = "";
-		}
-		
-		echo "<frame src=\"" . $chatserver
-			. "index.php?http_host=$http_host&refereroriginal=" . $ref
-			. "\" scrolling=\"AUTO\" name=\"topframe\" noresize>\n"
-			. "</frameset><noframes>\n";
+		$ref = "";
 	}
 	
-	if ($noframes) {
-		echo $noframes . "\n";
-	} else {
-		echo "<p><div style=\"text-align:center;\"><a href=\"index.php\">weiter</a></div></p>\n";
-	}
+	echo "<frame src=\"" . $chatserver
+		. "index.php?http_host=$http_host&refereroriginal=" . $ref
+		. "\" scrolling=\"auto\" name=\"topframe\" noresize>\n"
+		. "</frameset><noframes>\n";
+	
+	echo $noframes . "\n";
 	?>
 	</noframes>
 	<?php
@@ -142,40 +71,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 	// ELSE-FALL
 	
 	// Seite wurde mit Parametern innerhalb des Framesets aufgerufen: Eingangsseite ausgeben
-	
-	// Funktionen laden
-	require("functions.php");
-	
-	if($body_titel != null && $body_titel != '') {
-		$body_titel = $body_titel;
-	} else {
-		$body_titel = 'mainChat';
-	}
-	$title = $body_titel;
-	zeige_header_anfang($title, 'login', $zusatztext_kopf);
-
-	// Backdoorschutz über den HTTP_REFERER - wir prüfen ob bei gesetztem HTTP_HOST ob die index.php in eigenem Frameset läuft sonst => Fehler
-	if (isset($chat_referer) && $chat_referer != "") {
-		$tmp = parse_url($serverprotokoll . "://" . $_SERVER["HTTP_HOST"]);
-		$chat_referer2 = $tmp['scheme'] . "://" . $tmp['host'];
-		
-		if ((!preg_match("#" . $chat_referer2 . "#", $_SERVER["HTTP_REFERER"]))
-			&& (!preg_match("#" . $chat_referer . "#", $refereroriginal))
-			&& $aktion != "neu") {
-			
-			$meta_refresh = '<meta http-equiv="refresh" content="5; URL=' . $chat_login_url . '">';
-			
-			zeige_header_ende($meta_refresh);
-			?>
-			<body>
-			<?php
-			zeige_kopf();
-			$chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
-			echo str_replace("%webseite%", $chat_login_url, $t['login26']);
-			zeige_fuss();
-			exit();
-		}
-	}
 	
 	// Willkommen definieren
 	if (isset($_SERVER["PHP_AUTH_USER"])) {
@@ -214,7 +109,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 		
 		if ($communityfeatures && $forumfeatures)
 			$raeume = $raeume
-				. "<OPTION value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+				. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 		if ($rows > 0) {
 			$i = 0;
 			while ($i < $rows) {
@@ -223,17 +118,17 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				if ((!isset($eintritt) AND $r_name == $eintrittsraum)
 					|| (isset($eintritt) AND $r_id == $eintritt)) {
 					$raeume = $raeume
-						. "<OPTION SELECTED value=\"$r_id\">$r_name\n";
+						. "<option selected value=\"$r_id\">$r_name\n";
 				} else {
-					$raeume = $raeume . "<OPTION value=\"$r_id\">$r_name\n";
+					$raeume = $raeume . "<option value=\"$r_id\">$r_name\n";
 				}
 				$i++;
 			}
 		}
 		if ($communityfeatures && $forumfeatures)
 			$raeume = $raeume
-				. "<OPTION value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
-		$raeume = $raeume . "</SELECT>" . $f2 . "</td>\n";
+				. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+		$raeume = $raeume . "</select>" . $f2 . "</td>\n";
 		mysqli_free_result($result);
 	} else {
 		if (strlen($eintrittsraum) == 0) {
@@ -1112,17 +1007,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					}
 					
 					// Box für Login
-					if ($frameset_bleibt_stehen) {
-						?>
-						<form action="<?php echo $chat_file; ?>" name="form1" method="POST">
-						<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-						<?php
-					} else {
-						?>
-						<form action="<?php echo $chat_file; ?>" target="topframe" name="form1" method="POST">
-						<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-						<?php
-					}
+					?>
+					<form action="<?php echo $chat_file; ?>" target="_top" name="form1" method="post">
+					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+					<?php
 					
 					echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
 						. "// end hiding -->\n</script>\n";
@@ -1401,13 +1289,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 					unset($u_nick);
 					
 					// Box für Login
-					if ($frameset_bleibt_stehen) {
-						echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"post\">"
-							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-					} else {
-						echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"post\">"
-							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-					}
+					echo "<form action=\"$chat_file\" target=\"_top\" name=\"form1\" method=\"post\">"
+						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 					
 					if ($gast_login && $communityfeatures && $forumfeatures) {
 						$titel = $login_titel . "[<a href=\""
@@ -1474,17 +1357,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 						zeige_kopf();
 						
 						// Box für Login
-						if ($frameset_bleibt_stehen) {
-							?>
-							<form action="<?php echo $chat_file; ?>" name="form1" method="POST">
-							<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-							<?php
-						} else {
-							?>
-							<form action="<?php echo $chat_file; ?>" target="topframe" name="form1" method="POST">
-							<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-							<?php
-						}
+						?>
+						<form action="<?php echo $chat_file; ?>" target="_top" name="form1" method="post">
+						<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+						<?php
 						
 						if (!isset($eintritt))
 							$eintritt = RaumNameToRaumID($lobby);
@@ -1828,7 +1704,6 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 			} elseif (!$login_ok) {
-				
 				if ($rows == 0) {
 					// Zu viele fehlgeschlagenen Logins, aktueller Login ist
 					// wieder fehlgeschlagen, daher Mail an Betreiber verschicken
@@ -1884,13 +1759,8 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 				}
 				
 				// Box für Login
-				if ($frameset_bleibt_stehen) {
-					echo "<FORM ACTION=\"$chat_file\" name=\"form1\" method=\"post\">"
-						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-				} else {
-					echo "<FORM ACTION=\"$chat_file\" target=\"topframe\" name=\"form1\" method=\"post\">"
-						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-				}
+				echo "<form action=\"$chat_file\" target=\"_top\" name=\"form1\" method=\"post\">"
+					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 				
 				if ($gast_login && $communityfeatures && $forumfeatures) {
 					$titel = $login_titel . "[<a href=\""
@@ -2095,7 +1965,7 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			
 			if ((!$ok && $los == $t['neu22']) || ($los != $t['neu22'])) {
 				?>
-				<form action="<?php echo $chat_file; ?>" name="form1" method="POST">
+				<form action="<?php echo $chat_file; ?>" name="form1" method="post">
 					<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 					<?php
 					$titel = $t['neu31'];
@@ -2263,17 +2133,10 @@ if ((!isset($http_host) && !isset($login)) || ($frame == 1)) {
 			}
 
 			// Box für Login
-			if ($frameset_bleibt_stehen) {
-				?>
-				<form action="<?php echo $chat_file; ?>" name="form1" method="POST">
-				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-				<?php
-			} else {
-				?>
-				<form action="<?php echo $chat_file; ?>" target="topframe" name="form1" method="POST">
-				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
-				<?php
-			}
+			?>
+			<form action="<?php echo $chat_file; ?>" target="_top" name="form1" method="post">
+			<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
+			<?php
 			
 			if ($gast_login && $communityfeatures && $forumfeatures) {
 				if (!isset($id))

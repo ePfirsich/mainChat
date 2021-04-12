@@ -2,7 +2,6 @@
 $I = new AcceptanceTester($scenario);
 $I->wantTo('log in');
 $I->amOnPage('/');
-$I->switchToIFrame('topframe');
 $I->fillField('login', 'admin');
 $I->fillField('passwort', 'admin');
 $I->executeJS('parent.setTimeout(window.stop, 3000)');

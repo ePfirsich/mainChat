@@ -740,9 +740,7 @@ function RaumNameToRaumID($eintrittsraum)
 	return ($lobby_id);
 }
 
-function getsalt($feldname, $login)
-{
-	
+function getsalt($feldname, $login) {
 	// Versucht den Salt und die Verschlüsselung des Users zu erkennen
 	// $login muss "sicher" kommen
 	global $dbase, $mysqli_link;
@@ -852,9 +850,7 @@ function getsalt($feldname, $login)
 	return $salt;
 }
 
-function auth_user($feldname, $login, $passwort)
-{
-	
+function auth_user($feldname, $login, $passwort) {
 	// Passwort prüfen und Userdaten lesen
 	// Funktion liefert das mysqli_result zurück, wenn auf EINEN User das login/passwort passt
 	// $login muss "sicher" kommen

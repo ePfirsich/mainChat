@@ -51,11 +51,6 @@ $chat="%chatname%";                               // Name des Chats
 $body_titel=$chat;                              // Titel in den Seitenköpfen
 
 
-// Dynamische Verteilung auf mehrere chat-Server ein/ausschalten
-$chatserver_dynamisch=0;		// 1=ja/0=nein
-$chatserver_mysqlhost="adressbus.main.de";
-
-
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
 // $chat_offline="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
 
@@ -294,10 +289,6 @@ $frame_size['messagesforum']=350;	// Breite des Frames messages-forum in Pixel
 // Optionale URL des linken Frames.
 // Falls nicht definiert, wird der Frame bei der Darstellung übergangen
 $frame_links="%framelinks%";				// URL oder Dateiname
-
-// Soll ein bestehendes Frameset beim Login in den Chat stehen bleiben?
-// 1=ja, 0=nein
-$frameset_bleibt_stehen="%framesetbleibt%";
 
 
 // Smilies

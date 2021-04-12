@@ -169,7 +169,7 @@ zeige_header_ende();
 		echo "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[10]');return(false)\">$t[menue10]</a>]&nbsp;";
 	}
 	if ($forumfeatures && $communityfeatures && (!isset($beichtstuhl) || !$beichtstuhl || $admin) && ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin)) {
-		echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue11]</a>]&nbsp;";
+		echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue11]</a>]&nbsp;";
 	}
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue3]</a>]&nbsp;";
@@ -192,7 +192,7 @@ zeige_header_ende();
 		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue6]</a>]&nbsp;"
 			. $f2 . "</b></td>";
 	} else {
-		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"topframe\">$t[menue6]</a>]&nbsp;"
+		echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue6]</a>]&nbsp;"
 			. $f2 . "</b></td>";
 	}
 	

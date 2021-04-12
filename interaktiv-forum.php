@@ -87,7 +87,7 @@ if ($u_id) {
 	// Menue Ausgeben:
 	
 	echo "<form action=\"" . $chat_url
-		. "index.php\" target=\"topframe\" name=\"form1\" method=\"post\">\n"
+		. "index.php\" target=\"top_\" name=\"form1\" method=\"post\">\n"
 		. "<center><table>\n";
 	
 	// Anzahl der User insgesamt feststellen
@@ -127,7 +127,7 @@ if ($u_id) {
 	if ((isset($chat_logout_url)) && ($chat_logout_url)) {
 		$logouttarget = "_top";
 	} else {
-		$logouttarget = "topframe";
+		$logouttarget = "_top";
 	}
 	
 	if ($admin) {
