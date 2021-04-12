@@ -121,7 +121,6 @@ $beichtstuhl=0;
 
 
 // Zusatznachricht auf Chat-Eingangsseite bei Login
-// $zusatznachricht="Hier kann eine Zusatznachricht hinterlegt werden.";
 $zusatznachricht="";
 
 
@@ -154,7 +153,6 @@ $farbe_tabelle_zeile2="#D8D8EE";
 
 // Eingangsseite, Anmeldung
 $farbe_background="#FFFFFF";
-
 
 // Fenster Raum, User, Einstellungen, Hilfe
 $farbe_mini_background="#FFFFFF";

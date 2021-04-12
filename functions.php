@@ -500,7 +500,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
-	global $hackmail, $webmaster, $chat, $http_host, $t, $erweitertefeatures;
+	global $hackmail, $chat, $http_host, $t, $erweitertefeatures;
 	
 	// IP und Browser ermittlen
 	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
@@ -659,8 +659,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			$text .= "\n-- \n   $chat (" . $serverprotokoll . "://"
 				. $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'] . " | "
 				. $http_host . ")\n";
-			mail($hackmail, $betreff, $text,
-				"From: $hackmail\nReply-To: $hackmail\n");
+			mail($hackmail, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\n");
 			
 			$u_id = "";
 			$u_name = "";

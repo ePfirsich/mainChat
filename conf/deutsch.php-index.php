@@ -13,10 +13,9 @@ $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlosse
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
 	. "Sie es später wieder.</b></p><br><br>\n";
 $t['login5'] = "<p><b>Leider ist der Account %u_nick% (%u_name%) derzeit gesperrt.\n"
-	. "Bitte wenden Sie sich an unseren <a href=\"MAILTO:" . $webmaster
-	. "\">Webmaster</A>.</b></p><br><br>\n";
-$t['login6'] = "<H2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</H2>\n"
-	. "</noframes></body></html>\n";
+	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
+	. "\">Webmaster</a>.</b></p><br><br>\n";
+$t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n" . "</noframes>\n";
 $t['login7'] = "<p><b>Falsches Passwort oder Nickname eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login8'] = "Name/Nick:";
 $t['login9'] = "Passwort:";

@@ -19,7 +19,6 @@ zeige_header_anfang($title, 'chatausgabe');
 
 // Userdaten gesetzt?
 if ($u_id) {
-	
 	// Timestamp im Datensatz aktualisieren -> User im Chat / o_who=0
 	aktualisiere_online($u_id, $o_raum, 0);
 	
@@ -42,11 +41,12 @@ if ($u_id) {
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
 	} else {
 		$meta_refresh = "<meta http-equiv=\"expires\" content=\"0\">";
-		$meta_refresh .= "<script language=JavaScript>\n"
+		$meta_refresh .= "<script>\n"
 			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
 			. "function neuesFenster(url,name) {\n"
 			. "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=700\");\n"
 			. "}\n" . "function neuesFenster2(url) {\n";
+		
 		$tmp = str_replace("-", "", $u_nick);
 		$tmp = str_replace("+", "", $tmp);
 		$tmp = str_replace("-", "", $tmp);
@@ -58,8 +58,7 @@ if ($u_id) {
 		$tmp = str_replace("Ü", "", $tmp);
 		$tmp = str_replace("ß", "", $tmp);
 		
-		$meta_refresh.= "hWnd=window.open(url,\"640_$tmp\",\"resizable=yes,scrollbars=yes,width=780,height=700\");\n"
-			. "}\n" . "</script>";
+		$meta_refresh.= "hWnd=window.open(url,\"640_$tmp\",\"resizable=yes,scrollbars=yes,width=780,height=700\");\n" . "}\n" . "</script>";
 		
 		zeige_header_ende($meta_refresh);
 		
@@ -131,11 +130,11 @@ if ($u_id) {
 			$back = 0;
 			
 			// 0,2 oder 1 Sekunde warten
-			if ($erweitertefeatures && FALSE) :
+			if ($erweitertefeatures && false) {
 				usleep(200000);
-			else :
-				sleep(1);
-			endif;
+			} else {
+				sleep(7);
+			}
 			
 			// Ausloggen falls Browser abgebrochen hat
 			if (connection_status() != 0) {

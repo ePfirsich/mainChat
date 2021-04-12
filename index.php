@@ -606,8 +606,7 @@ switch ($aktion) {
 				$text = str_replace("%passwort%", $f['u_passwort'],
 					$t['pwneu15']);
 				$text = str_replace("%nickname%", $a['u_nick'], $text);
-				$ok = mail($a['u_adminemail'], $t['pwneu14'], $text,
-					"From: $webmaster ($chat)");
+				$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
 				
 				if ($ok) {
 					echo $t['pwneu12'];
@@ -655,8 +654,7 @@ switch ($aktion) {
 						$mailempfaenger = $email;
 						
 						echo $t['neu54'];
-						mail($mailempfaenger, $mailbetreff, $text2,
-							"From: $webmaster ($chat)");
+						mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)");
 					} else {
 						$fehlermeldung = $t['neu52'];
 					}
@@ -1645,8 +1643,7 @@ switch ($aktion) {
 					</frameset>
 					<?php
 					echo "<noframes>\n"
-						. "<!-- Browser/OS -->\n" . "<body "
-						. $t['login6'];
+						. "<!-- Browser/OS -->\n" . "<body " . $t['login6'];
 				}
 				?>
 				<body>
@@ -1670,8 +1667,7 @@ switch ($aktion) {
 				$text .= "\n-- \n   $chat ($serverprotokoll://"
 					. $http_host . $_SERVER['PHP_SELF'] . " | "
 					. $http_host . ")\n";
-				mail($webmaster, $betreff, $text,
-					"From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
+				mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
 			}
 			
 			// Fehlermeldung ausgeben
@@ -2054,8 +2050,7 @@ switch ($aktion) {
 		</frameset>
 		<?php
 		echo "<noframes>\n"
-			. "<!-- Browser/OS -->\n" . "<body "
-			. $t['login6'];
+			. "<!-- Browser/OS -->\n" . "<body ". $t['login6'];
 		
 		break;
 	

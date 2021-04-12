@@ -13,12 +13,14 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	$o_id = intval($o_id);
 	
 	// Systemfarbe setzen
-	if ($u_farbe_sys != "-")
+	if ($u_farbe_sys != "-") {
 		$system_farbe = $u_farbe_sys;
+	}
 	
 	// Workaround, falls User in Community ist
-	if (!$raum)
+	if (!$raum) {
 		$raum = "-1";
+	}
 	
 	// Voreinstellung
 	$text_ausgegeben = FALSE;

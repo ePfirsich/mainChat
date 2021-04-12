@@ -379,7 +379,7 @@ $t['hack3'] = "<P>Sehr geehrter Hacker,</P>"
 	. "Wir werden mit diesen Daten direkt Anzeige erstatten. Nach dem der Staatsanwalt "
 	. "bei Ihrem Provider Ihren Namen und Anschrift erhalten hat, wird er Sie kontaktieren.</P>"
 	. "<P>Wir wünschen Ihnen noch einen angenehmen Tag,<br>"
-	. "<a href=\"MAILTO:$webmaster\">Ihr $chat Team</A></P><HR NOSHADE\n>";
+	. "Ihr $chat Team</p><hr NOSHADE\n>";
 
 $t['sonst1'] = "Fenster schließen";
 ?>

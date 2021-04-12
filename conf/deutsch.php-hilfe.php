@@ -24,7 +24,7 @@ $t['hilfe3'] = "Hilfe zu den voreingestellten Sprüchen";
 $t['hilfe4'] = "Übersicht über alle voreingestellten Sprüche";
 
 $t['hilfe6'] = "$chat Übersicht";
-$t['hilfe7'] = "Bei Fragen oder Anregungen wenden Sie sich bitte an <a href=\"mailto:$webmaster\">$webmaster</a>.";
+
 $t['hilfe8'] = "Zusätzliche Befehle für Admins";
 $t['hilfe9'] = "Chatiquette vom $chat";
 $t['hilfe10'] = "Legende";

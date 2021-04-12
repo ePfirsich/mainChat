@@ -22,7 +22,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// $u_id ist die ID des des Users
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t, $webmaster, $chat;
+	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t, $chat;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -752,7 +752,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 	// $u_id ist die ID des des Users
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $mysqli_link, $system_farbe, $dbase, $communityfeatures, $t, $webmaster, $o_js, $whotext;
+	global $mysqli_link, $system_farbe, $dbase, $communityfeatures, $t, $o_js, $whotext;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "
