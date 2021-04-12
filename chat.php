@@ -29,7 +29,7 @@ if ($u_id) {
 		?>
 		<meta http-equiv="expires" content="0">
 		<?php
-		$meta_refresh = '<meta http-equiv="refresh" content="7; URL=chat.php?http_host=' . $http_host . '&id=' . $id . '">';
+		$meta_refresh = '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n"
 			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
 			. "function neuesFenster(url,name) {\n"
@@ -147,7 +147,7 @@ if ($u_id) {
 		// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
 		$back = 20;
 		
-		echo "<body onLoad='parent.chat.location=\"chat.php?http_host=$http_host&id=$id&back=$back\"'>\n";
+		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id&back=$back\"'>\n";
 		flush();
 	
 	}
@@ -156,7 +156,7 @@ if ($u_id) {
 	zeige_header_ende();
 	// Auf Chat-Eingangsseite leiten
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 }
 ?>

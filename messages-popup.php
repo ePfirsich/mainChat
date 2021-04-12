@@ -26,7 +26,7 @@ if (strlen($u_id) > 0) {
 	// Ohne die Stringersetzung, würde das Fenster bei Umlauten 
 	// auf die Startseite springen, da id_lese ein Problem damit hat
 	$userfuerrefresh = urlencode($user_nick);
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval(15) . '; URL=messages-popup.php?http_host=' . $http_host . '&id=' . $id . '&user=' . $user . '&user_nick=' . $userfuerrefresh . '">';
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval(15) . '; URL=messages-popup.php?id=' . $id . '&user=' . $user . '&user_nick=' . $userfuerrefresh . '">';
 
 	$meta_refresh .= "<script>\n"
 		. "function neuesFenster(url,name) {\n"
@@ -51,7 +51,7 @@ if (strlen($u_id) > 0) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 }
 ?>

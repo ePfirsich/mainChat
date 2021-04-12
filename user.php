@@ -52,7 +52,7 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	echo "<script>\n" . "  var http_host='$http_host';\n" . "  var id='$id';\n"
+	echo "<script>\n" . "  var id='$id';\n"
 		. "  var u_nick='" . $fenster . "';\n" . "  var raum='$schau_raum';\n"
 		. "  var communityfeatures='$communityfeatures';\n";
 	if (($admin) || ($u_level == 'M')) {
@@ -65,8 +65,8 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 			. "  var inaktiv_userfunktionen='$userleiste_inaktiv_userfunktionen';\n";
 	}
 	
-	echo "  var stdparm='?http_host='+http_host+'&id='+id+'&schau_raum='+raum;\n"
-		. "  var stdparm2='?http_host='+http_host+'&id='+id;\n";
+	echo "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
+		. "  var stdparm2='?id='+id;\n";
 		if ($aktion != "chatuserliste") {
 			?>
 	window.focus();
@@ -93,7 +93,7 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 	<script language="JavaScript" src="jscript.js"></script>
 	<?php
 	if ($aktion == "chatuserliste") {
-		$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=user.php?http_host=' . $http_host . '&id=' . $id . '&aktion=chatuserliste">';
+		$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=user.php?id=' . $id . '&aktion=chatuserliste">';
 		
 		zeige_header_ende($meta_refresh);
 	} else {
@@ -118,34 +118,34 @@ if (strlen($u_id) != 0) {
 		// Menü als erstes ausgeben, falls nicht Spezialfall im Chatwindow oder statistikfenster.
 		$box = $t['sonst2'];
 		$text .= "<ul style=\"list-style-type: none; padding:0px;\">";
-		$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
+		$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
 		if ($u_level != "G") {
-			$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
+			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
 		}
 		if ($adminlisteabrufbar && $u_level != "G") {
-			$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
+			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
 		}
 		if ($communityfeatures && $u_level != "G") {
 			if ($punktefeatures) {
-				$ur1 = "top10.php?http_host=$http_host&id=$id";
+				$ur1 = "top10.php?id=$id";
 				$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
-			$ur1 = "freunde.php?http_host=$http_host&id=$id";
+			$ur1 = "freunde.php?id=$id";
 			$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
 		//	if ($admin && $erweitertefeatures) {
 		if ($admin) {
-			$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum&aktion=zeigalle\">$t[menue3]</a>\n";
+			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=zeigalle\">$t[menue3]</a>\n";
 			if ($userimport) {
-				$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum&aktion=userimport\">$t[menue10]</a>\n";
-				$text .= "<li><a href=\"user.php?http_host=$http_host&id=$id&schau_raum=$schau_raum&aktion=userloeschen\">$t[menue11]</a>\n";
+				$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=userimport\">$t[menue10]</a>\n";
+				$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=userloeschen\">$t[menue11]</a>\n";
 			}
 		}
 		if ($erweitertefeatures && $admin) {
-			$ur1 = "user.php?http_host=$http_host&id=$id&aktion=statistik";
+			$ur1 = "user.php?id=$id&aktion=statistik";
 			$url = "href=\"$ur1\" target=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 			$text .= "<li><a $url>$t[menue9]</a>\n";
 		}
@@ -260,7 +260,6 @@ if (strlen($u_id) != 0) {
 				$box = $t['sonst45'];
 				$text = "<form name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
 					. $f1
@@ -289,7 +288,7 @@ if (strlen($u_id) != 0) {
 			if ($u_level == "S") {
 				
 				$box = $t['sonst51'];
-				$text = $f1 . $t['sonst49'] . " <a href=\"user.php?http_host=$http_host&id=$id&aktion=userloeschen2\">[" . $t['sonst50'] . "]</a>" . $f2;
+				$text = $f1 . $t['sonst49'] . " <a href=\"user.php?id=$id&aktion=userloeschen2\">[" . $t['sonst50'] . "]</a>" . $f2;
 				
 				echo "<br>";
 				
@@ -398,7 +397,6 @@ if (strlen($u_id) != 0) {
 					. "<table>"
 					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "</td></tr>" . "<tr><td colspan=2>" . $f1
 					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
@@ -648,7 +646,6 @@ if (strlen($u_id) != 0) {
 				
 				$text .= "<tr><TD colspan=2>" . $f1
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
@@ -920,7 +917,6 @@ if (strlen($u_id) != 0) {
 					
 					$text .= "<form name=\"raum\" action=\"user.php\" method=\"post\">";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-					$text .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
 					$text .= $f1;
 					$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
 					if ($admin) {
@@ -937,14 +933,14 @@ if (strlen($u_id) != 0) {
 					show_box_title_content($box, $text);
 						
 				} else {
-					$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
+					$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
 					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
 						. $linkuser . ">" . $t['sonst19'] . "</a>]";
 					if ((!isset($beichtstuhl) || !$beichtstuhl)
 						&& $smilies_datei != ""
 						&& (!isset($smilies_aus) || !$smilies_aus)) {
 						$linksmilies = "href=\"" . $smilies_datei
-							. "?http_host=$http_host&id=$id\"";
+							. "?id=$id\"";
 						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>"
 							. $t['sonst20'] . "</a>]";
 					}

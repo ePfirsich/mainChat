@@ -53,13 +53,13 @@ $eingabe_breite = 45;
 if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = "Menü Freunde";
-	$text = "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=\">Meine Freunde listen</a>\n"
-		. "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Freund hinzufügen</a>\n"
-		. "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=bestaetigen\">Freundschaften bestaetigen</a>\n";
+	$text = "<a href=\"freunde.php?id=$id&aktion=\">Meine Freunde listen</a>\n"
+		. "| <a href=\"freunde.php?id=$id&aktion=neu\">Neuen Freund hinzufügen</a>\n"
+		. "| <a href=\"freunde.php?id=$id&aktion=bestaetigen\">Freundschaften bestaetigen</a>\n";
 	if ($admin) {
-		$text .= "| <a href=\"freunde.php?http_host=$http_host&id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</a>\n";
+		$text .= "| <a href=\"freunde.php?id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</a>\n";
 	}
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#freunde\">Hilfe</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#freunde\">Hilfe</a>\n";
 	
 	show_menue($box, $text);
 	

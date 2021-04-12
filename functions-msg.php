@@ -23,9 +23,9 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
 	global $mainchat_version, $akdbase, $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
-	global $chat, $timeout, $chat_url, $datei_spruchliste, $t, $id, $ak, $check_name, $f1, $f2, $raumstatus1;
+	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $f1, $f2, $raumstatus1;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit, $raum_max;
-	global $u_nick, $id, $http_host, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
+	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $communityfeatures, $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	global $einstellungen_aendern, $single_room_verhalten;
@@ -730,7 +730,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
 			?>
 			<!DOCTYPE html>
 			<html>
-			<body onLoad="javascript:parent.location.href="index.php?http_host=<?php  echo $http_host; ?>">
+			<body onLoad='javascript:parent.location.href="index.php'>
 			</body>
 			</html>
 			<?php

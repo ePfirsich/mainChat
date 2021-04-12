@@ -66,9 +66,9 @@ function edit_home(
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	// Zeigt die Userinfos im Profil an
 	
-	global $dbase, $http_host, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
+	global $dbase, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
 	
-	$url = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
+	$url = "profil.php?id=$id&aktion=aendern";
 	$link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</a>]</b>" . $f4;
 	$text = "";
 	
@@ -197,7 +197,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	}
 	
 	if (is_array($farben) && strlen($farben['profil']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['profil'] . ";";
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['profil'] . ";";
 	} elseif (is_array($farben) && strlen($farben['profil']) == 7) {
 		$bg = "background-color:$farben[profil];";
 	} else {
@@ -209,7 +209,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 
 function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Userdaten an
-	global $dbase, $mysqli_link, $http_host, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
+	global $dbase, $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -237,7 +237,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		// Link auf Usereditor ausgeben
 		if ($aktion == "aendern") {
-			$url = "edit.php?http_host=$http_host&id=$id";
+			$url = "edit.php?id=$id";
 			$userdaten_bearbeiten = $f3
 				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
 				. $f4;
@@ -304,7 +304,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		}
 	}
 	if (is_array($farben) && strlen($farben['info']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['info'] . ";";
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['info'] . ";";
 	} elseif (is_array($farben) && strlen($farben['info']) == 7) {
 		$bg = "background-color:$farben[info];";
 	} else {
@@ -386,7 +386,7 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 	}
 	
 	if (is_array($farben) && strlen($farben['ui_text']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
 			. $farben['ui_text'] . ";";
 	} elseif (is_array($farben) && strlen($farben['ui_text']) == 7) {
 		$bg = "background-color:$farben[ui_text];";
@@ -422,18 +422,18 @@ function home_bild(
 		
 		if (!isset($info))
 			$info = "";
-		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?http_host=$http_host&u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>"
+		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>"
 			. $info . "</td>";
 		
 		if ($aktion == "aendern") {
 			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
+				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
 				. $f4 . "<br>"
 				. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
 				. "</td>\n";
 		} elseif ($aktion == "aendern_ohne_farbe") {
 			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
+				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
 				. $f4 . "</td>\n";
 		}
 		
@@ -454,7 +454,7 @@ function home_bild(
 	if (!isset($farben[$feld])) {
 		$bg = "";
 	} elseif (strlen($farben[$feld]) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
 			. $farben[$feld] . ";";
 	} elseif (strlen($farben[$feld]) == 7) {
 		$bg = "background-color:$farben[$feld];";
@@ -514,7 +514,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 	}
 	
 	if (is_array($farben) && strlen($farben['aktionen']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
 			. $farben['aktionen'] . ";";
 	} elseif (is_array($farben) && strlen($farben['aktionen']) == 7) {
 		$bg = "background-color:$farben[aktionen];";
@@ -557,7 +557,7 @@ function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	
 	/*
 	if (strlen($farben['info']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld="
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
 			. $farben['info'] . ";";
 	} elseif (strlen($farben['info']) == 7) {
 		$bg = "background-color:$farben[info];";
@@ -621,9 +621,9 @@ function home_farbe(
 {
 	// gibt Link auf Farbwähler aus
 	
-	global $f3, $f4, $http_host, $id;
+	global $f3, $f4, $id;
 	
-	$url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
+	$url = "home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
 		. urlencode($farbe);
 	$link = $f3
 		. "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
@@ -642,7 +642,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
 	// HEIGHT				 -> home[ui_bild_height]
 	// MIME-TYPE			  -> home[ui_bild_mime]
 	
-	global $max_groesse, $dbase, $http_host, $mysqli_link;
+	global $max_groesse, $dbase, $mysqli_link;
 	
 	if ($ui_bild && $groesse > 0 && $groesse < ($max_groesse * 1024)) {
 		
@@ -721,7 +721,7 @@ function home_url_parse($tag, $url)
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Users u_id an
 	
-	global $dbase, $mysqli_link, $argv, $argc, $http_host, $id, $homepage_extern, $check_name;
+	global $dbase, $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
 		
@@ -794,7 +794,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	$aktion = "einfach";
 	
 	if (isset($farben['bgcolor']) && strlen($farben['bgcolor']) > 7) {
-		$bg = "background-image:home_bild.php?http_host=$http_host&u_id=$u_id&feld=" . $farben['bgcolor'] . ";";
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['bgcolor'] . ";";
 	} elseif (isset($farben['bgcolor']) && strlen($farben['bgcolor']) == 7) {
 		$bg = "background-color:$farben[bgcolor];";
 	} else {

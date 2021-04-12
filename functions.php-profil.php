@@ -5,7 +5,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=User-Id
 	// $u_nick=Nickname
 	// $f=Array der Profileinstellungen
-	global $dbase, $mysqli_link, $communityfeatures, $t, $http_host, $id, $eingabe_breite, $f1, $f2;
+	global $dbase, $mysqli_link, $communityfeatures, $t, $id, $eingabe_breite, $f1, $f2;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -49,7 +49,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
-		$url = "edit.php?http_host=$http_host&id=$id";
+		$url = "edit.php?id=$id";
 		$userdaten_bearbeiten = "\n[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Einstellungen ändern</A>]";
 	}
 	
@@ -115,7 +115,6 @@ function profil_editor($u_id, $u_nick, $f) {
 			<td>
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
 				<input type="hidden" name="aktion" value="neu">
-				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 			</td>
 		</tr>
 		<?php
@@ -292,7 +291,6 @@ function profil_editor($u_id, $u_nick, $f) {
 				<input type="hidden" name="f[ui_userid]" value="<?php echo $u_id; ?>">
 				<input type="hidden" name="nick" value="<?php echo $userdata['u_nick']; ?>">
 				<input type="hidden" name="id" value="<?php echo $id; ?>">
-				<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 				<input type="hidden" name="aktion" value="neu">
 				<input type="submit" name="los" value="Eintragen">
 				<?php echo $f2; ?>

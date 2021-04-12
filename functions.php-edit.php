@@ -7,7 +7,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// $f = Ass. Array mit Userdaten
 	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
-	global $id, $http_host, $level, $f1, $f2, $f3, $f4;
+	global $id, $level, $f1, $f2, $f3, $f4;
 	global $farbe_chat_user, $farbe_chat_user_groesse, $user_farbe;
 	global $t, $backup_chat, $smilies_pfad, $erweitertefeatures;
 	global $frame_size, $u_id, $communityfeatures, $punktefeatures;
@@ -27,7 +27,6 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// Ausgabe in Tabelle
 	$text .= "<form name=\"$f[u_nick]\" ACTION=\"edit.php\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n";
 	
@@ -57,7 +56,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 			. "</td></tr>\n";
 	} else if (($einstellungen_aendern) && ($u_level == 'U')) {
 		$text .= "<tr><td COLSPAN=2>" . $f1 . "<b>" . $t['user_zeige17']
-			. "</b> (<a href=\"edit.php?http_host=$http_host&id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
+			. "</b> (<a href=\"edit.php?id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
 			. $f2 . htmlspecialchars($f['u_name'])
 			. "</td></tr>\n";
 	}
@@ -88,7 +87,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 			. "</td></tr>\n";
 	} else if (($einstellungen_aendern) && ($u_level == 'U')) {
 		$text .= "<tr><td COLSPAN=2>" . $f1 . "<b>" . $t['user_zeige3']
-			. "</b> (<a href=\"edit.php?http_host=$http_host&id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
+			. "</b> (<a href=\"edit.php?id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
 			. $f2 . htmlspecialchars($f['u_adminemail'])
 			. "</td></tr>\n";
 	}
@@ -235,7 +234,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// Farbe direkt einstellen
 	if ($f['u_id'] == $u_id) {
 		if ($communityfeatures) {
-			$url = "home_farben.php?http_host=$http_host&id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
+			$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
 				. urlencode($f['u_farbe']);
 			$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
 		}
@@ -275,7 +274,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 		foreach ($farbe_chat_user as $key => $val) {
 			$text .= "<td WIDTH=$farbe_chat_user_groesse " . "BGCOLOR=\"#" . $val
 				. "\">"
-				. "<a href=\"edit.php?http_host=$http_host&id=$id&aktion=edit&f[u_id]=$f[u_id]&farbe=$val\">"
+				. "<a href=\"edit.php?id=$id&aktion=edit&f[u_id]=$f[u_id]&farbe=$val\">"
 				. "<img src=\"pics/fuell.gif\" style=\"width:" . $farbe_chat_user_groesse . "px; height:" . $farbe_chat_user_groesse . "; border:0px;\" alt=\"\"></a></td>\n";
 		}
 		$text .= "</tr></table>\n";

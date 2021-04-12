@@ -76,15 +76,15 @@ if ($u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Profil";
-	$text = "<a href=\"edit.php?http_host=$http_host&id=$id\">Usereinstellungen ändern</a>\n";
-	$text .= "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Homepage bearbeiten</a>\n";
+	$text = "<a href=\"edit.php?id=$id\">Usereinstellungen ändern</a>\n";
+	$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">Homepage bearbeiten</a>\n";
 	if ($u_level == "S") {
-		$text .= "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=zeigealle\">Alle Profile ausgeben</a>\n";
+		$text .= "| <a href=\"profil.php?id=$id&aktion=zeigealle\">Alle Profile ausgeben</a>\n";
 	}
-	$ur1 = "user.php?http_host=$http_host&id=$id";
+	$ur1 = "user.php?id=$id";
 	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">User</a>\n";
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#profil\">Hilfe</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#profil\">Hilfe</a>\n";
 	
 	show_menue($box, $text);
 	

@@ -86,6 +86,10 @@ function step_1($chat) {
 				<td> Name des Chats:</td>
 				<td><input type="text" name="chat_chatname" size="40" value="<?php echo checkFormularInputFeld('',$chat["chatname"]) ?>">*</td>
 			</tr>
+			<tr>
+				<td> URL des Chats: (ohne http:// oder https://)</td>
+				<td><input type="text" name="chat_chaturl" size="40" value="<?php echo checkFormularInputFeld('www.deinChat.de',$chat["chaturl"]) ?>">*</td>
+			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Voreingestellte Sprachdatei:</td>
 				<td>

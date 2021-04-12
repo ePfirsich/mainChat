@@ -14,7 +14,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
 		
 		// User ausloggen
 		$zusatzjavascript = "<SCRIPT>\n"
-			. "window.open(\"hilfe.php?http_host=$http_host&id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
+			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</SCRIPT>\n";
 		require_once("functions.php-func-verlasse_chat.php");
 		require_once("functions.php-func-nachricht.php");
@@ -71,7 +71,7 @@ if ($u_id) {
 	}
 	</script>
 	<?php
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv-forum.php?http_host=' . $http_host . '&id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv-forum.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	
 	zeige_header_ende($meta_refresh);
 	
@@ -86,8 +86,7 @@ if ($u_id) {
 	
 	// Menue Ausgeben:
 	
-	echo "<form action=\"" . $chat_url
-		. "index.php\" target=\"top_\" name=\"form1\" method=\"post\">\n"
+	echo "<form action=\"" . "index.php\" target=\"top_\" name=\"form1\" method=\"post\">\n"
 		. "<center><table>\n";
 	
 	// Anzahl der User insgesamt feststellen
@@ -101,18 +100,18 @@ if ($u_id) {
 	
 	echo "<tr><td style=\"text-align:center;\">";
 	
-	$mlnk[1] = "hilfe.php?http_host=$http_host&id=$id";
-	$mlnk[2] = "raum.php?http_host=$http_host&id=$id";
-	$mlnk[3] = "user.php?http_host=$http_host&id=$id";
-	$mlnk[4] = "edit.php?http_host=$http_host&id=$id";
-	$mlnk[5] = "index.php?http_host=$http_host&id=$id&aktion=logoff";
-	$mlnk[6] = "hilfe.php?http_host=$http_host&id=$id&reset=1&forum=1";
-	$mlnk[7] = "mail.php?http_host=$http_host&id=$id";
-	$mlnk[8] = "log.php?http_host=$http_host&id=$id&back=500";
-	$mlnk[10] = "edit.php?http_host=$http_host&id=$id";
-	$mlnk[11] = "sperre.php?http_host=$http_host&id=$id";
-	$mlnk[12] = "blacklist.php?http_host=$http_host&id=$id";
-	$mlnk[13] = "forum-suche.php?http_host=$http_host&id=$id";
+	$mlnk[1] = "hilfe.php?id=$id";
+	$mlnk[2] = "raum.php?id=$id";
+	$mlnk[3] = "user.php?id=$id";
+	$mlnk[4] = "edit.php?id=$id";
+	$mlnk[5] = "index.php?id=$id&aktion=logoff";
+	$mlnk[6] = "hilfe.php?id=$id&reset=1&forum=1";
+	$mlnk[7] = "mail.php?id=$id";
+	$mlnk[8] = "log.php?id=$id&back=500";
+	$mlnk[10] = "edit.php?id=$id";
+	$mlnk[11] = "sperre.php?id=$id";
+	$mlnk[12] = "blacklist.php?id=$id";
+	$mlnk[13] = "forum-suche.php?id=$id";
 	
 	echo $f1 . "<b>";
 	echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue4]</a>]&nbsp;";
@@ -174,7 +173,6 @@ if ($u_id) {
 	
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">"
 		. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
 	
 	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[button]\">&nbsp;</nonr><br>"
@@ -190,7 +188,7 @@ if ($u_id) {
 
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 }
 ?>

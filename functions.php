@@ -1076,16 +1076,14 @@ function user(
 	// 8 = EMail zeigen
 	// 16 = Homepage zeigen
 	
-	global $id, $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t, $http_host, $show_geschlecht;
+	global $id, $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t, $show_geschlecht;
 	global $f1, $f2, $f3, $f4, $leveltext, $punkte_grafik, $chat_grafik, $o_js, $homep_ext_link;
 	
 	$text = "";
 	if ($mit_id) {
 		$idtag = $id;
-		$http_hosttag = $http_host;
 	} else {
 		$idtag = "<ID>";
-		$http_hosttag = "<HTTP_HOST>";
 	}
 	
 	if (is_array($userdaten)) {
@@ -1206,7 +1204,7 @@ function user(
 	}
 	
 	if ($link) {
-		$url = "user.php?http_host=$http_hosttag&id=$idtag&aktion=zeig&user=$user_id";
+		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
 		$text = "<a href=\"#\"  target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\">"
 			. $user_nick . "</A>";
 	} else {
@@ -1229,7 +1227,7 @@ function user(
 		$text2 .= "&nbsp;(" . $leveltext[$user_level] . ")";
 	
 	if (!$extra_kompakt && $link) {
-		$url = "hilfe.php?http_host=$http_hosttag&aktion=legende&id=$idtag";
+		$url = "hilfe.php?aktion=legende&id=$idtag";
 		$grafikurl1 = "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
 		$grafikurl2 = "</A>";
 	} else {
@@ -1240,7 +1238,7 @@ function user(
 	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures
 		&& $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
 		
-		$url = "hilfe.php?http_host=$http_hosttag&aktion=legende&id=$idtag";
+		$url = "hilfe.php?aktion=legende&id=$idtag";
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0]
 				. $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
@@ -1257,7 +1255,7 @@ function user(
 			$text2 .= "&nbsp;"
 				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		} elseif ($user_chathomepage == "J") {
-			$url = "home.php?http_host=$http_hosttag&ui_userid=$user_id&id=$idtag";
+			$url = "home.php?ui_userid=$user_id&id=$idtag";
 			$text2 .= "&nbsp;"
 				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		}
@@ -1265,7 +1263,7 @@ function user(
 	
 	if (!$extra_kompakt && $link && $trenner != "" && $communityfeatures
 		&& (($felder & 8) == 8)) {
-		$url = "mail.php?http_host=$http_hosttag&aktion=neu2&neue_email[an_nick]="
+		$url = "mail.php?aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
 			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"

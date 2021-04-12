@@ -13,9 +13,8 @@ zeige_header_anfang($title, 'mini');
 ?>
 <?php
 echo "<script>\n";
-echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
-echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
+echo "  var stdparm='?id='+id;\n";
 echo "</script><script src=\"jscript.js\"></script>\n";
 
 zeige_header_ende();
@@ -28,11 +27,10 @@ if (strlen($u_id) != 0) {
 	if (!isset($r_name)) {
 		$r_name = "";
 	}
-	$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
+	$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
 	$linksmilies = "href=\"" . $smilies_datei
-		. "?http_host=$http_host&id=$id\"";
-	echo "<div style=\"text-align:center;\"><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
-		. $t['sonst1'] . "</A>]&nbsp;"
+		. "?id=$id\"";
+	echo "<div style=\"text-align:center;\"><b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
 		. "</a>]</b>$f4<br>"
 		. "<table style=\"width:100%; border:0px;\">\n";
@@ -73,8 +71,7 @@ if (strlen($u_id) != 0) {
 	}
 	
 	echo "</table>"
-		. "<b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>"
-		. $t['sonst1'] . "</A>]&nbsp;"
+		. "<b>$r_name</b><br>$f3<b>[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</A>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2']
 		. "</a>]</b>$f4</div>";
 	

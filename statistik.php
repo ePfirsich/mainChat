@@ -90,9 +90,9 @@ if ($fehler) {
 }
 
 // Menu ausgeben
-$msg = "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=monat\">"
+$msg = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">"
 	. $t['statistik3'] . "</a>]\n"
-	. "[<a href=\"$PHP_SELF?http_host=$http_host&id=$id&aktion=statistik&type=stunde\">"
+	. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">"
 	. $t['statistik2'] . "</a>]";
 
 show_menue($t['statistik1'], $msg);
@@ -123,7 +123,6 @@ switch ($type) {
 		$msg .= "<form name=\"form\" action=\"$PHP_SELF\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
-		$msg .= "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
 		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
 		$msg .= "<tr>\n";

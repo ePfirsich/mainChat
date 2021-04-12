@@ -59,8 +59,7 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "") || (isset($_SERVER["Q
 	
 	if (strlen($suchwort) >= 4) {
 		header(
-			"Location: http://" . $_SERVER["HTTP_HOST"]
-				. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
+			"Location: http://" . $_SERVER["HTTP_HOST"]. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
 	}
 }
 
@@ -130,10 +129,10 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			
 			// Menü als erstes ausgeben
 			$box = "Menü Freunde";
-			$text = "<a href=\"home.php?http_host=$http_host&id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</a>\n"
-				. "| <a href=\"home.php?http_host=$http_host&id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
-				. "| <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">Profil ändern</a>\n"
-				. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</a>\n";
+			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</a>\n"
+				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
+				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
+				. "| <a href=\"hilfe.php?id=$id&aktion=community#home\">Hilfe</a>\n";
 			
 			show_menue($box, $text);
 			
@@ -263,7 +262,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 					. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
 					. "<input type=\"hidden\" name=\"ui_userid\" value=\"$ui_userid\">\n"
 					. "<input type=\"hidden\" name=\"home[ui_id]\" value=\"" . $home['ui_id'] . "\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"" . ($max_groesse * 1024) . "\">\n";
 				
 				if (!isset($bilder)) {
@@ -277,7 +275,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				// Erst Profil anlegen
 				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
 					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
-					. "Bitte klicken Sie <a href=\"profil.php?http_host=$http_host&id=$id&aktion=aendern\">"
+					. "Bitte klicken Sie <a href=\"profil.php?id=$id&aktion=aendern\">"
 					. "weiter zur Anlage eines Profils</A>.</P>\n";
 				
 			}
@@ -291,9 +289,9 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 		
 		default:
 			$hash = genhash($ui_userid);
-			$url = "zeige_home.php?http_host=$http_host&ui_userid=$ui_userid&hash=$hash";
+			$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash";
 			if (isset($preview) && $preview == "yes")
-				$url = "zeige_home.php?http_host=$http_host&ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";
+				$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";
 			?>
 			<!DOCTYPE html>
 			<html>

@@ -7,7 +7,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	
 	global $dbase, $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
 	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
-	global $show_spruch_owner, $farbe_user_fest, $id, $http_host, $o_dicecheck;
+	global $show_spruch_owner, $farbe_user_fest, $id, $o_dicecheck;
 	global $user_nick, $mysqli_link;
 	
 	$o_id = intval($o_id);
@@ -286,9 +286,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					}
 				}
 				
-				// im Text die HTTP_HOST in den Platzhalter <HTTP_HOST> einfügen
-				$c_text = str_replace("<HTTP_HOST>", $http_host, $c_text);
-				
 				// Verschienen Nachrichtenarten unterscheiden und Nachricht ausgeben
 				switch ($row->c_typ) {
 					
@@ -337,7 +334,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
 								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</b> ";
 							}
 							if ($br == "") {
@@ -350,7 +346,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
 								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;($t[chat_lese1]):</b> ";
 							}
 							if ($br == "") {
@@ -442,7 +437,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
 								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>" . $temp_von_user . ":</b> </span><span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"> ";
 							}
 							if ($br == "") {
@@ -455,7 +449,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$temp_von_user = str_replace("<HTTP_HOST>", $http_host, $temp_von_user);
 								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
 							}
 							if ($br == "") {

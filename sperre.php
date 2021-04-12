@@ -8,7 +8,7 @@ id_lese($id);
 function liste() {
 	global $dbase, $t;
 	global $f1, $f2, $f3, $f4;
-	global $id, $http_host;
+	global $id;
 	global $raumsperre;
 	global $sperre_dialup;
 	global $mysqli_link;
@@ -121,20 +121,20 @@ function liste() {
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
 				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
+				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperre0\">"
 					. "[DEAKTIVIEREN]" . "</a>\n";
 					$text .= "</b>" . $f2 . "</td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
 				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-				$text .= "<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
+				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperregast0\">"
 					. "[DEAKTIVIEREN]" . "</a>\n";
 				echo "</b>" . $f2 . "</td>\n";
 			} else {
 				$text .= "<td $bgcolor>" . $f1
-					. "<b>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
-					. "[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
+					. "<b>[<a href=\"sperre.php?id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
+					. "[<a href=\"sperre.php?id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
 				if (isset($ip_name) && (strlen($ip_name) > 0)) {
-					$text .= "<br>[<a href=\"sperre.php?http_host=$http_host&id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
+					$text .= "<br>[<a href=\"sperre.php?id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
 				}
 				$text .= "</b>" . $f2 . "</td>";
 			}
@@ -224,17 +224,17 @@ if (strlen($u_id) > 0 && $admin) {
 	}
 	
 	$box = "$chat Menü";
-	$text = "<a href=\"sperre.php?http_host=$http_host&id=$id\">$t[menue1]</A>\n"
-		. "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</A>\n";
+	$text = "<a href=\"sperre.php?id=$id\">$t[menue1]</A>\n"
+		. "| <a href=\"sperre.php?id=$id&aktion=neu\">$t[menue2]</A>\n";
 	
 	if ($communityfeatures) {
 		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre0\">"
+			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre0\">"
 				. "Loginsperre: Deaktivieren" . "</A>\n";
 		} else {
-			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperre1\">"
+			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre1\">"
 				. "Loginsperre: Aktivieren" . "</A>\n";
 		}
 		@mysqli_free_result($result);
@@ -242,15 +242,15 @@ if (strlen($u_id) > 0 && $admin) {
 		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast0\">"
+			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast0\">"
 				. "Loginsperre Gast: Deaktivieren" . "</A>\n";
 		} else {
-			$text .= "| <a href=\"sperre.php?http_host=$http_host&id=$id&aktion=loginsperregast1\">"
+			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast1\">"
 				. "Loginsperre Gast: Aktivieren" . "</A>\n";
 		}
 		@mysqli_free_result($result);
 		
-		$text .= "| <a href=\"blacklist.php?http_host=$http_host&id=$id&neuer_blacklist[u_nick]=$uname\">"
+		$text .= "| <a href=\"blacklist.php?id=$id&neuer_blacklist[u_nick]=$uname\">"
 			. $zusatztxt . $t['menue3'] . "</A>\n";
 	}
 	
@@ -472,7 +472,6 @@ if (strlen($u_id) > 0 && $admin) {
 					$text .= "</table>\n";
 					
 					$text .= "<input type=\"hidden\" name=\"f[is_id]\" value=\"$is_id\">\n"
-						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 						$text .= "</form>\n";
 				}
@@ -513,8 +512,7 @@ if (strlen($u_id) > 0 && $admin) {
 			// Sperre neu anlegen, Eingabeformular
 			$box = $t['sonst14'];
 			
-			$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"post\">\n"
-				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
+			$text .= "<form name=\"Sperre\" action=\"sperre.php\" method=\"post\">\n";
 			
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= $f1 . $t['sonst15'] . $f2 . "<br>\n";

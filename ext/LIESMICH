@@ -5,7 +5,7 @@ folgende Vorraussetzungen zu erfüllen:
 
 Die externe Community muss einen Button/Link in folgendem Format anbieten
 können:
-http://chat.beispieldomain.de/index.php?http_host=chat.beispieldomain.de&login=%LOGINNAME%&passwort=%PASSWORT%&eintritt=%RAUM%&aktion=login&javascript=on
+http://chat.beispieldomain.de/index.php?login=%LOGINNAME%&passwort=%PASSWORT%&eintritt=%RAUM%&aktion=login&javascript=on
 wobei %LOGINNAME%, %PASSWORT%, %RAUM% wie folgt zu füllen sind:
 
 %LOGINNAME%: Chat Loginname

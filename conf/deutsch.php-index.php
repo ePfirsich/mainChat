@@ -74,9 +74,7 @@ $t['neu21'] = "Homepage:";
 $t['neu22'] = "Fertig";
 $t['neu23'] = "<p>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b>\n"
 	. "nur für interne Zwecke der Administration genutzt und dritten\n"
-	. "Personen nicht zugänglich gemacht wird (gem. <a href=\"http://"
-	. $HTTP_HOST . "/hilfe.php?http_host=" . $HTTP_HOST
-	. "&id=&aktion=privacy\">Datenschutzerklärung</a>). Falls Sie zum Beispiel Ihr Passwort\n"
+	. "Personen nicht zugänglich gemacht wird (gem. <a href=\"hilfe.php?id=&aktion=privacy\">Datenschutzerklärung</a>). Falls Sie zum Beispiel Ihr Passwort\n"
 	. "vergessen und uns kontaktieren, können wir Ihnen an diese Adresse Ihr "
 	. "neues Passwort schicken. Die 2. optionale E-Mail Adresse (öffentlich) dagegen ist\n"
 	. "im Chat für alle anderen Mitglieder sichtbar.</p>\n"
@@ -86,12 +84,8 @@ $t['neu23'] = "<p>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b
 	. "<b>Name</b> als öffentlicher\n"
 	. "Nickname automatisch eingesetzt.</p>\n"
 	. "<p>Mit dem Abschluß der Registrierung (Klick auf Fertig) bestätigen Sie Ihr Einverständnis\n"
-	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"http://"
-	. $HTTP_HOST . "/hilfe.php?http_host=" . $HTTP_HOST
-	. "&id=&aktion=privacy\"><b>Datenschutzerklärung</b></a>.\n"
-	. "Außerdem erklären Sie sich mit unseren <a href=\"http://" . $HTTP_HOST
-	. "/hilfe.php?http_host=" . $HTTP_HOST
-	. "&id=&aktion=agb\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
+	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"hilfe.php?id=&aktion=privacy\"><b>Datenschutzerklärung</b></a>.\n"
+	. "Außerdem erklären Sie sich mit unseren <a href=\"hilfe.php?id=&aktion=agb\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
 $t['neu24'] = "<p><b>Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!</b></p><br><br>\n";
 $t['neu25'] = "<p>Sie wurden nun im $chat eingetragen!</p>\n";
 $t['neu26'] = "Vor- & Nachname";
@@ -106,11 +100,11 @@ $t['neu34'] = "Ihre E-Mail Adresse:";
 $t['neu35'] = "Absenden";
 $t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer User fortzusetzen, klicken Sie bitte auf den folgenden Link:"
 	. "\n\n%link% \n\nSollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
-	. " Prüfen der E-Mailadresse:\n %link2%\n\n"
+	. "Prüfen der E-Mailadresse:\n %link2%\n\n"
 	. "Ihre E-Mailadresse: %email%\n" . "Freischalt-Code   : %hash%\n\n"
 	. "\nWenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein\n\n"
-	. "-- \n   $chat ($serverprotokoll://" . $HTTP_HOST . $PHP_SELF . ")\n";
+		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
 $t['neu37'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['neu38'] = "Ihre Registrierung im $chat";
 $t['neu39'] = "<p><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</p>";
@@ -130,7 +124,7 @@ $t['neu47'] = "Hallo!\n\nEin User mit der E-Mailadresse %email% möchte sich in 
 	. "an den User zu übermitteln:\n\n"
 	. "Internetadresse zum Freischalten: %link2%\n"
 	. "E-Mailadresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
-	. "-- \n   $chat ($serverprotokoll://" . $HTTP_HOST . $PHP_SELF . ")\n";
+		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
 $t['neu48'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
 	. "angegebenen Link!</p>";
@@ -144,7 +138,7 @@ $t['neu53'] = "Willkommen beim $chat!\n\nDer Webmaster hat Ihre E-Mailadresse nu
 	. "\nZum endgültigen Anmelden verwenden Sie bitte nun den Link: "
 	. "\n %link%\n\nZum anmelden benötigen Sie dann noch:\n"
 	. "Ihre E-Mailadresse: %email%\n" . "Ihren Freischalt-Code: %hash%\n\n"
-	. "-- \n   $chat ($serverprotokoll://" . $HTTP_HOST . $PHP_SELF . ")\n";
+		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
 $t['neu54'] = "Dem User/der Userin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
 $t['neu55'] = "Der Webmaster hat die Anzahl der Anmeldungen pro User auf %anzahl% begrenzt.";
 
@@ -182,9 +176,7 @@ $t['agb'] = "<ol><li>Wir bitten alle User im $chat um ein höfliches, respektvol
 	. "zu bringen. </li>"
 	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im $chat. </li>"
 	. "<li>Mit dem Login oder der Registrierung in den Mainchat erklären Sie sich mit "
-	. "der Datenspeicherung gemäß unserer <a href=\"http://" . $HTTP_HOST
-	. "/hilfe.php?http_host=" . $HTTP_HOST
-	. "&id=&aktion=privacy\" style=\" color: #000000!important; text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
+	. "der Datenspeicherung gemäß unserer <a href=\"hilfe.php?id=&aktion=privacy\" style=\" color: #000000!important; text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
 $t['pwneu1'] = "<p><b>Neues Passwort, 1. Schritt (von 3):</b> Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "

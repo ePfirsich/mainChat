@@ -5,7 +5,6 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	global $id;
 	global $dbase, $mysqli_link;
 	global $u_id;
-	global $http_host;
 	
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
 	$result = mysqli_query($mysqli_link, $query);
@@ -21,12 +20,12 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			}
 			echo "<tr>";
 			echo "<td align=left $bgcolor><small>";
-			echo "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?http_host=$http_host&id=$id&text=";
+			echo "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?id=$id&text=";
 			echo urlencode($row->c_text);
 			echo "'; return(false);\">";
 			echo "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			echo "<a href=moderator.php?id=$id&http_host=$http_host&mode=answeredit&answer=$row->c_id>$t[mod12]</a> ";
-			echo "<a href=moderator.php?id=$id&http_host=$http_host&mode=answerdel&answer=$row->c_id>$t[mod13]</a> ";
+			echo "<a href=moderator.php?id=$id&mode=answeredit&answer=$row->c_id>$t[mod12]</a> ";
+			echo "<a href=moderator.php?id=$id&mode=answerdel&answer=$row->c_id>$t[mod13]</a> ";
 			echo "</small></td>";
 			echo "</tr>";
 		}
@@ -37,7 +36,6 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	echo "<form>";
 	echo $t['mod11'] . "<br>";
 	echo "<input type=hidden name=id value=$id>";
-	echo "<input type=hidden name=http_host value=$http_host>";
 	echo "<input type=hidden name=mode value=answernew>";
 	if ($answer != "")
 		echo "<input type=hidden name=answer value=$answer>";
@@ -163,7 +161,6 @@ function bearbeite_moderationstexte($o_raum)
 
 function zeige_moderationstexte($o_raum, $limit = 20) {
 	global $t;
-	global $http_host;
 	global $id;
 	global $dbase, $mysqli_link;
 	global $action;
@@ -196,7 +193,7 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 			echo "}\n";
 			echo "</SCRIPT>\n";
 		}
-		echo "<form name=modtext action=\"moderator.php?http_host=$http_host&id=$id\" method=\"post\">\n";
+		echo "<form name=modtext action=\"moderator.php?id=$id\" method=\"post\">\n";
 		if ($rows > 0) {
 			
 			echo "<table style=\"width=100%;\">\n";
@@ -281,7 +278,6 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 
 function anzahl_moderationstexte($o_raum)
 {
-	global $http_host;
 	global $id;
 	global $dbase, $mysqli_link;
 	

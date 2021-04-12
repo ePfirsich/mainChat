@@ -110,7 +110,6 @@ zeige_header_ende();
 				. " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
 		}
 		echo "</select>"
-			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
 			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
@@ -127,25 +126,24 @@ zeige_header_ende();
 		echo $text2_typ 
 			. "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
 			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
 			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
 			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 		echo "</td></tr>\n";
 	}
 	
-	$mlnk[4] = "hilfe.php?http_host=$http_host&id=$id";
-	$mlnk[1] = "raum.php?http_host=$http_host&id=$id";
-	$mlnk[2] = "user.php?http_host=$http_host&id=$id";
-	$mlnk[3] = "edit.php?http_host=$http_host&id=$id";
-	$mlnk[5] = "sperre.php?http_host=$http_host&id=$id";
-	$mlnk[6] = "index.php?http_host=$http_host&id=$id&aktion=logoff";
-	$mlnk[7] = "log.php?http_host=$http_host&id=$id&back=500";
-	$mlnk[8] = "moderator.php?http_host=$http_host&id=$id&mode=answer";
-	$mlnk[9] = "hilfe.php?http_host=$http_host&id=$id&reset=1";
-	$mlnk[10] = "mail.php?http_host=$http_host&id=$id";
-	$mlnk[11] = "index-forum.php?http_host=$http_host&id=$id";
-	$mlnk[12] = "blacklist.php?http_host=$http_host&id=$id";
+	$mlnk[4] = "hilfe.php?id=$id";
+	$mlnk[1] = "raum.php?id=$id";
+	$mlnk[2] = "user.php?id=$id";
+	$mlnk[3] = "edit.php?id=$id";
+	$mlnk[5] = "sperre.php?id=$id";
+	$mlnk[6] = "index.php?id=$id&aktion=logoff";
+	$mlnk[7] = "log.php?id=$id&back=500";
+	$mlnk[8] = "moderator.php?id=$id&mode=answer";
+	$mlnk[9] = "hilfe.php?id=$id&reset=1";
+	$mlnk[10] = "mail.php?id=$id";
+	$mlnk[11] = "index-forum.php?id=$id";
+	$mlnk[12] = "blacklist.php?id=$id";
 	
 	if ($forumfeatures && $communityfeatures) {
 		// Raumstatus lesen, für Temporär, damit FORUM nicht angezeigt wird
@@ -202,7 +200,7 @@ zeige_header_ende();
 	for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each($farbe_chat_user);) {
 		?>
 		<td style="background-color:#<?php echo $ufarbe; ?>">
-			<a onMouseOver="return(true)" href="eingabe.php?http_host=<?php echo $http_host; ?>&id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">
+			<a onMouseOver="return(true)" href="eingabe.php?id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">
 				<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
 			</a>
 		</td>
@@ -217,7 +215,7 @@ zeige_header_ende();
 	</form>
 	<?php
 } else {
-	echo "<vody onLoad='parent.location.href=\"index.php?http_host=$http_host\"'>\n";
+	echo "<vody onLoad='parent.location.href=\"index.php\"'>\n";
 }
 
 ?>

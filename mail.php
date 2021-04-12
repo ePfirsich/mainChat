@@ -67,12 +67,12 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Mail";
-	$text = "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=\">Mailbox neu laden</a>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=neu\">Neue Mail schreiben</a>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorb\">Papierkorb zeigen</a>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=papierkorbleeren\">Papierkorb leeren</a>\n|\n"
-		. "<a href=\"mail.php?http_host=$http_host&id=$id&aktion=mailboxzu\">Mailbox zumachen</a>\n|\n"
-		. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#mail\">Hilfe</a>\n";
+	$text = "<a href=\"mail.php?id=$id&aktion=\">Mailbox neu laden</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=neu\">Neue Mail schreiben</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=papierkorb\">Papierkorb zeigen</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">Papierkorb leeren</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">Mailbox zumachen</a>\n|\n"
+		. "<a href=\"hilfe.php?id=$id&aktion=community#mail\">Hilfe</a>\n";
 	
 	show_menue($box, $text);
 	

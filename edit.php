@@ -64,7 +64,7 @@ if (strlen($u_id) != 0) {
 		
 		if ($o_js && $o_who == 0) {
 			echo "<SCRIPT>"
-				. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
+				. "opener_reload('eingabe.php?id=$id','3')"
 				. "</SCRIPT>\n";
 		}
 		unset($f['u_farbe']);
@@ -80,25 +80,25 @@ if (strlen($u_id) != 0) {
 		&& ((isset($u_backup) && $u_backup)
 			|| (isset($f['u_backup']) && $f['u_backup']))) {
 		echo "<script>"
-			. "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1')"
+			. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
 			. "</script>\n";
 		echo "<script>"
-			. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
+			. "opener_reload('eingabe.php?id=$id','3')"
 			. "</script>\n";
 	}
 	
 	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
-		$ur1 = "profil.php?http_host=$http_host&id=$id&aktion=aendern";
+		$ur1 = "profil.php?id=$id&aktion=aendern";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text = "<a $url>$t[menue7]</a>\n";
-		$ur1 = "home.php?http_host=$http_host&id=$id&aktion=aendern";
+		$ur1 = "home.php?id=$id&aktion=aendern";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <a $url>$t[menue10]</a>\n";
-		$ur1 = "freunde.php?http_host=$http_host&id=$id";
+		$ur1 = "freunde.php?id=$id";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <a $url>$t[menue9]</a>\n";
-		$ur1 = "aktion.php?http_host=$http_host&id=$id";
+		$ur1 = "aktion.php?id=$id";
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
 		$text .= "| <a $url>$t[menue8]</a>\n";
 	}
@@ -142,7 +142,6 @@ if (strlen($u_id) != 0) {
 			
 			$text .= "<form name=\"$u_nick\" action=\"edit.php\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$u_id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"edit2\">\n";
 			
@@ -631,7 +630,7 @@ if (strlen($u_id) != 0) {
 					if ($o_js && $o_who == 0 && isset($f['u_farbe'])
 						&& $f['u_farbe']) {
 						echo "<SCRIPT LANGUAGE=JavaScript>"
-							. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
+							. "opener_reload('eingabe.php?id=$id','3')"
 							. "</SCRIPT>\n";
 					}
 				}
@@ -691,7 +690,7 @@ if (strlen($u_id) != 0) {
 					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen'])
 					&& $o_who == 0) {
 					echo "<SCRIPT LANGUAGE=JavaScript>"
-						. "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1')"
+						. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
 						. "</SCRIPT>\n";
 				}
 				
@@ -706,7 +705,6 @@ if (strlen($u_id) != 0) {
 						. "</b></P>\n";
 					echo "<form name=\"$f[u_nick]\" action=\"edit.php\" METHOD=POST>\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
@@ -765,9 +763,8 @@ if (strlen($u_id) != 0) {
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f[u_id]);
 					mysqli_query($mysqli_link, $query);
 				} else {
-					echo "<form name=\"edit\" action=\"edit.php\" METHOD=POST>\n"
+					echo "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-						. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"

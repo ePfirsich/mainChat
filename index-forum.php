@@ -68,15 +68,15 @@ zeige_header_ende();
 echo "<FRAMESET ROWS=\"$frame_online_size,*,5,"
 	. $frame_size['interaktivforum']
 	. ",1\" border=0 frameborder=0 framespacing=0>\n";
-echo "<FRAME SRC=\"$frame_online?http_host=$http_host\" name=\"frame_online\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
-echo "<FRAME SRC=\"forum.php?http_host=$http_host&id=$id\" name=\"forum\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=AUTO>\n";
-echo "<FRAME SRC=\"leer.php?http_host=$http_host\" name=\"leer\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=NO>\n";
+echo "<FRAME SRC=\"$frame_online\" name=\"frame_online\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
+echo "<FRAME SRC=\"forum.php?id=$id\" name=\"forum\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=AUTO>\n";
+echo "<FRAME SRC=\"leer.php\" name=\"leer\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=NO>\n";
 echo "<FRAMESET COLS=\"*," . $frame_size['messagesforum']
 	. "\" border=0 frameborder=0 framespacing=0>\n";
-echo "<FRAME SRC=\"messages-forum.php?http_host=$http_host&id=$id\" name=\"messages\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=AUTO>\n";
-echo "<FRAME SRC=\"interaktiv-forum.php?http_host=$http_host&id=$id\" name=\"interaktiv\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
+echo "<FRAME SRC=\"messages-forum.php?id=$id\" name=\"messages\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=AUTO>\n";
+echo "<FRAME SRC=\"interaktiv-forum.php?id=$id\" name=\"interaktiv\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
 echo "</FRAMESET>\n";
-echo "<FRAME SRC=\"schreibe.php?http_host=$http_host&id=$id&o_who=2\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
+echo "<FRAME SRC=\"schreibe.php?id=$id&o_who=2\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
 echo "</FRAMESET>\n";
 echo "<NOFRAMES>\n";
 echo "<body " . (isset($t['login6']) ? $t['login6'] : "");

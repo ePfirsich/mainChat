@@ -18,6 +18,7 @@ $chat["pass2"] = filter_input(INPUT_POST, 'chat_pass2', FILTER_SANITIZE_STRING);
 $chat["webmaster"] = filter_input(INPUT_POST, 'chat_webmaster', FILTER_SANITIZE_STRING);
 $chat["hackmail"] = filter_input(INPUT_POST, 'chat_hackmail', FILTER_SANITIZE_STRING);
 $chat["chatname"] = filter_input(INPUT_POST, 'chat_chatname', FILTER_SANITIZE_STRING);
+$chat["chaturl"] = filter_input(INPUT_POST, 'chat_chaturl', FILTER_SANITIZE_STRING);
 $chat["language"] = filter_input(INPUT_POST, 'chat_language', FILTER_SANITIZE_STRING);
 $chat["raumauswahl"] = filter_input(INPUT_POST, 'chat_raumauswahl', FILTER_SANITIZE_STRING);
 $chat["unterdrueckeraeume"] = filter_input(INPUT_POST, 'chat_unterdrueckeraeume', FILTER_SANITIZE_STRING);
@@ -76,7 +77,7 @@ switch ($aktion) {
 					|| (!preg_match($regexemail, $chat["webmaster"])))
 				|| ($chat["hackmail"] == ""
 					|| (!preg_match($regexemail, $chat["hackmail"])))
-				|| $chat["chatname"] == "") {
+				|| $chat["chatname"] == ""|| $chat["chaturl"] == "") {
 				?>
 				<table style="width:100%;" align="center">
 					<tr>
@@ -105,6 +106,8 @@ switch ($aktion) {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Ungültige Email-Adresse Hackmail!</td></tr>\n";
 				if ($chat["chatname"] == "")
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Chatnamen ein!</td></tr>\n";
+					if ($chat["chaturl"] == "")
+						echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Chat-URL ein!</td></tr>\n";
 				echo "<tr><td colspan=\"2\"><br><br></td></tr></table>\n";
 				step_1($chat);
 			} else {

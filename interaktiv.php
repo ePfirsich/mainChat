@@ -16,7 +16,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		// User ausloggen
 		$zusatzjavascript = "<script>\n"
-			. "window.open(\"hilfe.php?http_host=$http_host&id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
+			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
 		require_once("functions.php-func-verlasse_chat.php");
 		verlasse_chat($u_id, $u_nick, $o_raum);
@@ -38,7 +38,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 if (isset($u_id) && $u_id) {
 	?>
 	<?php
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?http_host=' . $http_host . '&id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n"
 		. " function frame_online_reload(file) {\n" . "  parent.frame_online.location.href=file;\n}\n"
 		. "</script>\n";
@@ -69,9 +69,9 @@ if (isset($u_id) && $u_id) {
 		
 		// Falls Pull-Chat, chat-Fenster neu laden
 		if ($backup_chat || $u_backup) {
-			echo "<SCRIPT LANGUAGE=JavaScript>"
-				. "chat_reload('chat.php?http_host=$http_host&id=$id')"
-				. "</SCRIPT>\n";
+			echo "<SCRIPT LANGUAGE=Javascript>"
+				. "chat_reload('chat.php?id=$id')"
+				. "</script>\n";
 		}
 	}
 	
@@ -93,17 +93,17 @@ if (isset($u_id) && $u_id) {
 	// Optional via JavaScript den oberen Werbeframe mit dem Werbeframe des Raums neu laden
 	if ($erweitertefeatures && $o_js && $o_raum_alt != $o_raum) {
 		if (isset($row->r_werbung) && strlen($row->r_werbung) > 7) {
-			echo "<SCRIPT>\n"
-				. "frame_online_reload('$row->r_werbung?http_host=$http_host');\n</SCRIPT>\n";
+			echo "<script>\n"
+				. "frame_online_reload('$row->r_werbung');\n</script>\n";
 		} elseif (isset($frame_online) && $frame_online != "") {
-			echo "<SCRIPT>\n"
-				. "frame_online_reload('$frame_online?http_host=$http_host');\n</SCRIPT>\n";
+			echo "<script>\n"
+				. "frame_online_reload('$frame_online');\n</script>\n";
 		}
 	}
 	
 	// Menue Ausgeben:
 	?>
-	<form action="<?php echo $chat_url; ?>interaktiv.php" name="form1" method="POST">
+	<form action="interaktiv.php" name="form1" method="post">
 	<table style="height:100%;">
 	<?php
 	// Benutzer-Menue
@@ -203,7 +203,6 @@ if (isset($u_id) && $u_id) {
 		</select>
 		<input type="hidden" name="id" value="<?php echo $id; ?>">
 		<input type="hidden" name="o_raum_alt" value="<?php echo $o_raum; ?>">
-		<input type="hidden" name="http_host" value="<?php echo $http_host; ?>">
 		<input type="hidden" name="neuer_raum" value="1">
 		<?php
 		if ($u_level != "M") {
@@ -227,7 +226,7 @@ if (isset($u_id) && $u_id) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 	exit;
 }

@@ -49,6 +49,7 @@ $hackmail="%hackmail%";                  // Zuständige Person für Hackversuche
 $sprachconfig="%language%";                   // Voreingestellte Sprachdatei
 $chat="%chatname%";                               // Name des Chats
 $body_titel=$chat;                              // Titel in den Seitenköpfen
+$http_host = "%chaturl%";				// URL des Chats
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)

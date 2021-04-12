@@ -43,10 +43,7 @@ if ( !file_exists($filenameConfig) ) {
 	
 	$chat_file = basename($phpself);
 	$chat_file = str_replace("html", "php", $chat_file);
-	$chat_url = dirname($phpself);
-	if (substr($chat_url, -1) != "/")
-		$chat_url .= "/";
-	
+
 	// Wenn zwingend SSL, dann ... 
 	if (isset($SSLRedirect) && $SSLRedirect == "1") {
 		// ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen

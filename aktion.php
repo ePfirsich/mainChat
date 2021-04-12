@@ -30,7 +30,7 @@ $eingabe_breite = 70;
 if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = $t['aktion3'];
-	$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#home\">Hilfe</a>\n";
+	$text = "<a href=\"hilfe.php?id=$id&aktion=community#home\">Hilfe</a>\n";
 	show_menue($box, $text);
 	
 	switch ($aktion) {

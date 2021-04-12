@@ -7,7 +7,7 @@ require("functions.php-func-forum_lib.php");
 id_lese($id);
 
 function show_pfad_posting2($th_id) {
-	global $mysqli_link, $f1, $f2, $f3, $f4, $id, $http_host, $thread;
+	global $mysqli_link, $f1, $f2, $f3, $f4, $id, $thread;
 	//Infos über Forum und Thema holen
 	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum`, `thema` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
 	
@@ -17,7 +17,7 @@ function show_pfad_posting2($th_id) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	@mysqli_free_result($query);
 	
-	return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
+	return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
 	
 }
 
@@ -37,7 +37,7 @@ function vater_rekursiv($vater) {
 }
 
 function such_bereich() {
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	global $suche, $t;
 	
 	$eingabe_breite = 50;
@@ -50,7 +50,6 @@ function such_bereich() {
 	$text = "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<table style=\"width:100%;\">";
 	
 	// Suchtext
@@ -230,7 +229,7 @@ function such_bereich() {
 }
 
 function such_ergebnis() {
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $check_name, $u_id;
 	global $farbe_hervorhebung_forum;
 	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
 	
@@ -458,7 +457,7 @@ function such_ergebnis() {
 				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
 				$thread = vater_rekursiv($fund['po_id']);
 				$text .= $f1
-					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&http_host=$http_host&th_id="
+					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&th_id="
 					. $fund['po_th_id'] . "&po_id=" . $fund['po_id']
 					. "&thread=" . $thread
 					. "&aktion=show_posting&seite=1',1); return(false);\"><span style=\"font-size: smaller; $col \">"
@@ -533,7 +532,7 @@ aktualisiere_online($u_id, $o_raum);
 if (strlen($u_id) > 0) {
 	// Menü als erstes ausgeben
 	$box = "$chat Menü";
-	$text = "<a href=\"forum-suche.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n";
+	$text = "<a href=\"forum-suche.php?id=$id\">$t[menue1]</a>\n";
 	
 	show_menue($box, $text);
 	

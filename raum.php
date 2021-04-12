@@ -47,9 +47,9 @@ if (strlen($u_id) != 0) {
 		$rraum = "&schau_raum=$raum";
 	else $rraum = "";
 	
-	$text = "<a href=\"raum.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n";
+	$text = "<a href=\"raum.php?id=$id\">$t[menue1]</a>\n";
 	if ($u_level != "G") {
-		$text .= "| <a href=\"raum.php?http_host=$http_host&id=$id&aktion=neu\">$t[menue2]</a>\n";
+		$text .= "| <a href=\"raum.php?id=$id&aktion=neu\">$t[menue2]</a>\n";
 	}
 	
 	show_menue($box, $text);
@@ -315,7 +315,6 @@ if (strlen($u_id) != 0) {
 				$text .= "<P>$t[fehler7]</P>\n";
 				$text .= "<form name=\"$row->r_name\" action=\"raum.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 					. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
 					. "<input type=\"SUBMIT\" name=\"loesch2\" value=\"$t[sonst4]\">"
@@ -373,17 +372,16 @@ if (strlen($u_id) != 0) {
 				
 			// Raum neu anlegen, Eingabeformular
 			$text .= "<form name=\"$r_name\" action=\"raum.php\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
-				$text .= "<table style=\"width:100%;\">\n";
+			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+			$text .= "<table style=\"width:100%;\">\n";
 			
-				$text .= "<tr><td><b>$t[sonst2]</b></td>";
-				$text .= "<td>" . $f1 . "<input type=\"TEXT\" name=\"f[r_name]\" "
+			$text .= "<tr><td><b>$t[sonst2]</b></td>";
+			$text .= "<td>" . $f1 . "<input type=\"TEXT\" name=\"f[r_name]\" "
 				. "value=\"$r_name\" SIZE=$eingabe_breite>" . $f2
 				. "</td></tr>\n";
 			
 			// Status1 als Auswahl
-				$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user5'] . "</b>" . $f2
+			$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user5'] . "</b>" . $f2
 				. "</td>" . "<td>" . $f1 . "<select name=\"f[r_status1]\">\n";
 			
 			$i = 0;
@@ -516,8 +514,7 @@ if (strlen($u_id) != 0) {
 						$box = $t['sonst2'] . ': ' . $rows->r_name;
 						// für diesen Raum Admin
 						$text .= "<form name=\"$rows->r_name\" action=\"raum.php\" method=\"post\">\n";
-						$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-							. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n";
+						$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 						$text .= "<table style=\"width:100%;\">\n";
 						
 						$text .= "<tr><td><b>$t[sonst2]</b></td>";
@@ -702,7 +699,7 @@ if (strlen($u_id) != 0) {
 					if ($admin && $adminfeatures == 1) {
 						if (isset($extended) && ($extended == 1)) {
 							$rlink = "<center>" . $f1
-								. "<b><a href=\"raum.php?http_host=$http_host&id=$id&order=$order\">"
+								. "<b><a href=\"raum.php?id=$id&order=$order\">"
 								. $t['menue7'] . "</A></b>" . $f2
 								. "</center>\n";
 							$text .= "<script language=\"javascript\">\n"
@@ -710,24 +707,24 @@ if (strlen($u_id) != 0) {
 								. "</script>\n";
 						} else {
 							$rlink = "<center>" . $f1
-								. "<b><a href=\"raum.php?http_host=$http_host&id=$id&order=$order&extended=1\">"
+								. "<b><a href=\"raum.php?id=$id&order=$order&extended=1\">"
 								. $t['menue6'] . "</a></b>" . $f2
 								. "</center>\n";
 						}
 						$text .= "$rlink<br>";
 					}
-					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
+					$rlink = "<a href=\"raum.php?id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
 					$text .= "<table class=\"tabelle_kopf\">\n";
 					$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					$text .= "<td class=\"tabelle_koerper_login\">&nbsp;</td>";
 					
-					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status1,r_name\">Status</a>";
+					$rlink = "<a href=\"raum.php?id=$id&order=r_status1,r_name\">Status</a>";
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 					
-					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=r_status2,r_name\">Art</a>";
+					$rlink = "<a href=\"raum.php?id=$id&order=r_status2,r_name\">Art</a>";
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 					
-					$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
+					$rlink = "<a href=\"raum.php?id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td><td class=\"tabelle_koerper_login\">&nbsp</td>";
 					
 					if (isset($extended) && $extended) {
@@ -767,7 +764,7 @@ if (strlen($u_id) != 0) {
 							|| $row['r_status1'] == "m" || $uu_id == $u_id
 							|| $admin) {
 							
-							$rlink = "<a href=\"raum.php?http_host=$http_host&id=$id&aktion=edit&raum="
+							$rlink = "<a href=\"raum.php?id=$id&aktion=edit&raum="
 								. $row['r_id'] . "\">" . $row['r_name']
 								. "</A>";
 							
@@ -778,7 +775,7 @@ if (strlen($u_id) != 0) {
 							} else {
 								$anzahl = 0;
 							}
-							$ulink = "<a href=\"user.php?http_host=$http_host&id=$id&schau_raum="
+							$ulink = "<a href=\"user.php?id=$id&schau_raum="
 								. $row['r_id'] . "\">$anzahl</A>";
 							
 							$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";

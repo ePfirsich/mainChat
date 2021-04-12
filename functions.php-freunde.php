@@ -2,7 +2,7 @@
 
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	
 	$text = '';
 	
@@ -33,8 +33,7 @@ function zeige_freunde($aktion, $zeilen) {
 	
 	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
+		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result) {
@@ -129,7 +128,7 @@ function zeige_freunde($aktion, $zeilen) {
 					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"freunde.php?http_host=$http_host&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"freunde.php?id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
 					. "</tr>\n";
 				
 				if (($i % 2) > 0) {
@@ -163,7 +162,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// $f_userid User-ID 
 	// $f_freundid User-ID
 	
-	global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	
 	if (!$f_userid || !$f_freundid) {
 		echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
@@ -190,7 +189,7 @@ function loesche_freund($f_freundid, $f_userid) {
 function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
 	
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -202,7 +201,6 @@ function formular_neuer_freund($neuer_freund) {
 	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<table>";
 	
 	$text .= "<tr><td style=\"text-align:right;\"><b>Nickname:</b></td><td>"
@@ -221,7 +219,7 @@ function formular_neuer_freund($neuer_freund) {
 
 function formular_editieren($f_id, $f_text) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
 	$text = '';
 	
@@ -234,7 +232,6 @@ function formular_editieren($f_id, $f_text) {
 	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
 	
 	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"$eingabe_breite\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
@@ -245,7 +242,7 @@ function formular_editieren($f_id, $f_text) {
 function neuer_freund($f_userid, $freund) {
 	// Trägt neuen Freund in der Datenbank ein
 	
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $chat, $system_farbe;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $chat, $system_farbe;
 	
 	if (!$freund['u_id'] || !$f_userid) {
 		echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<br>";
@@ -280,7 +277,7 @@ function neuer_freund($f_userid, $freund) {
 			$betreff = "Neue Freundesbewerbung";
 			$text = "Hallo $freund[u_nick]!\nIch möchte gerne Ihr Freund im $chat werden!\n"
 				. "wenn Sie das auch wollen und im $chat eingeloggt sind, so klicken Sie bitte "
-				. "<a href=\"freunde.php?http_host=$http_host&id=<ID>&aktion=bestaetigen\">hier</a>.\n"
+				. "<a href=\"freunde.php?id=<ID>&aktion=bestaetigen\">hier</a>.\n"
 				. "Sollten Sie diese E-Mail als Weiterleitung bekommen, so müssen Sie sich erst in den Chat einloggen.\n\n";
 			
 			$fenster = str_replace("+", "", $freund['u_nick']);
@@ -296,8 +293,8 @@ function neuer_freund($f_userid, $freund) {
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
 				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. "
-					. "<a href=\"freunde.php?http_host=$http_host&aktion=bestaetigen&id=<ID>\" target=\"640_$fenster\" "
-					. "onclick=\"window.open('freunde.php?http_host=$http_host&aktion=bestaetigen&id=<ID>','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">"
+					. "<a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" target=\"640_$fenster\" "
+					. "onclick=\"window.open('freunde.php?aktion=bestaetigen&id=<ID>','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">"
 					. "gleich zustimmen?</a>";
 				
 				#system_msg("",0,$f_userid,$system_farbe,$msg);

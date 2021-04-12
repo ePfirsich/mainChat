@@ -14,7 +14,7 @@ if (strlen($u_id) > 0) {
 	if ($o_js) {
 		$moderations_zeilen = anzahl_moderationstexte($o_raum);
 		if ($moderations_zeilen == 0) {
-			$meta_refresh .= '<meta http-equiv="refresh" content="10; URL=moderator.php?http_host=' . $http_host . '&id=' . $id . '">';
+			$meta_refresh .= '<meta http-equiv="refresh" content="10; URL=moderator.php?id=' . $id . '">';
 		}
 	}
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n" . "</script>\n";
@@ -98,7 +98,7 @@ if (strlen($u_id) > 0) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 }
 ?>

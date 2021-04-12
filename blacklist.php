@@ -55,9 +55,9 @@ if ($admin && $u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Blacklist";
-	$text = "<a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=\">Blacklist zeigen</a>\n"
-		. "| <a href=\"blacklist.php?http_host=$http_host&id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
-		. "| <a href=\"sperre.php?http_host=$http_host&id=$id\">Zugangssperren</a>\n";
+	$text = "<a href=\"blacklist.php?id=$id&aktion=\">Blacklist zeigen</a>\n"
+		. "| <a href=\"blacklist.php?id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
+		. "| <a href=\"sperre.php?id=$id\">Zugangssperren</a>\n";
 	
 	show_menue($box, $text);
 	

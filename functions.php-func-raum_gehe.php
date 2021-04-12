@@ -7,7 +7,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
 	// ID des neuen Raums wird zurückgeliefert
 	
 	global $dbase, $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
-	global $http_host, $id, $erweitertefeatures, $forumfeatures, $communityfeatures;
+	global $id, $erweitertefeatures, $forumfeatures, $communityfeatures;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
@@ -192,7 +192,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
 					mysqli_free_result($result2);
 					
 					system_msg("", 0, $u_id, "",
-						"<SCRIPT>parent.frames[3].location.href='eingabe.php?http_host=$online->o_vhost&id=$online->o_hash';</SCRIPT>");
+						"<SCRIPT>parent.frames[3].location.href='eingabe.php?id=$online->o_hash';</SCRIPT>");
 					
 					unset($online);
 				}

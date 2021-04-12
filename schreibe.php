@@ -140,13 +140,13 @@ if (strlen($u_id) > 0) {
 	// Falls Pull-Chat, chat-Fenster neu laden (sicherer Modus), falls User im Chat
 	if ($o_who != 2 && ($backup_chat || $u_backup)) {
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
-			. "parent.chat.location.href='chat.php?http_host=$http_host&id=$id'"
+			. "parent.chat.location.href='chat.php?id=$id'"
 			. "</SCRIPT>\n";
 	}
 	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls User im Chat
 	if ($o_who != 2 && $u_level == "M") {
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
-			. "parent.moderator.location.href='moderator.php?http_host=$http_host&id=$id'"
+			. "parent.moderator.location.href='moderator.php?id=$id'"
 			. "</SCRIPT>\n";
 	}
 } else {
@@ -157,7 +157,7 @@ if (strlen($u_id) > 0) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php?http_host=<?php echo $http_host; ?>'>
+	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
 }
 ?>

@@ -11,9 +11,8 @@ zeige_header_anfang($title, 'mini');
 ?>
 <script>
 <?php
-echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
-echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
+echo "  var stdparm='?id='+id;\n";
 ?>
 function showsmilies( liste ) {
 	 for(var i=0; i<liste.length; i+=2) {

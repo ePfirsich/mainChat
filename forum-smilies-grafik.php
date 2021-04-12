@@ -19,9 +19,8 @@ zeige_header_anfang($title, 'mini');
 ?>
 <script>
 <?php
-echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
-echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
+echo "  var stdparm='?id='+id;\n";
 ?>
 function showsmiliegrafiken( liste ) {
 	for(var i=0; i<liste.length; i+=3) {
@@ -62,7 +61,7 @@ if (strlen($u_id) != 0) {
 			. "   var liste		 = new Array(\n   "
 			. @implode(",\n   ", $jsarr) . "   );\n"
 			. "   showsmiliegrafiken(liste);\n" . 
-			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
+			//				 "   stdparm=''; stdparm2=''; id=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
 	} else { // kein javascript verfügbar
 	

@@ -70,17 +70,17 @@ zeige_header_ende();
 	if (!isset($sysmsg))
 		$sysmsg = 0;
 	if ($sysmsg) {
-		$umschalturl = "<a href=\"$PHP_SELF?id=$id&http_host=$http_host&sysmsg=0&back=$back\">"
+		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=0&back=$back\">"
 			. $t['sonst3'] . "</A>";
 	} else {
-		$umschalturl = "<a href=\"$PHP_SELF?id=$id&http_host=$http_host&sysmsg=1&back=$back\">"
+		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=1&back=$back\">"
 			. $t['sonst2'] . "</A>";
 	}
 	
 	// Link zum Abspeichern
 	if ($aktion != "abspeichern") {
 		echo "<CENTER>" . $f1
-			. "<b>[<a href=\"$PHP_SELF?id=$id&http_host=$http_host&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
+			. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
 			. $t['sonst1'] . "</A>]</b>&nbsp;<b>[$umschalturl]</b>" . $f2
 			. "</CENTER><br>\n";
 		flush();

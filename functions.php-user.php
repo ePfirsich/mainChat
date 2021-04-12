@@ -143,7 +143,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Users
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $dbase, $level, $id, $http_host, $f1, $f2, $f3, $f4;
+	global $mysqli_link, $dbase, $level, $id, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
 	
@@ -210,7 +210,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			if ($msgpopup) {
 				$text .= '<iframe src="messages-popup.php?id=' . $id
-					. '&http_host=' . $http_host . '&user=' . $user
+					. '&user=' . $user
 					. '&user_nick=' . $uu_nick
 					. '" width=100% height=200 marginwidth=0 marginheight=0 hspace=0 vspace=0 frameborder=0></iframe>';
 					?>
@@ -222,7 +222,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
 				. "\" value=\"\" TYPE=\"TEXT\">"
 				. "<input name=\"text\" value=\"\" TYPE=\"hidden\">"
-				. "<input name=\"http_host\" value=\"$http_host\" TYPE=\"hidden\">"
 				. "<input name=\"id\" value=\"$id\" TYPE=\"hidden\">"
 				. "<input name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">" . $f2
@@ -451,8 +450,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Usermenue mit Aktionen
 		if ($u_level != "G") {
-			$mlnk[1] = "schreibe.php?http_host=$http_host&id=$id&text=/ignore%20$uu_nick";
-			$mlnk[2] = "schreibe.php?http_host=$http_host&id=$id&text=/einlad%20$uu_nick";
+			$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
+			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
 			$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
 				. "</b></td><td>" . $f1;
 			if (!$beichtstuhl) {
@@ -460,8 +459,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 			$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
 			if ($communityfeatures) {
-				$mlnk[8] = "mail.php?http_host=$http_host&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
-				$mlnk[9] = "schreibe.php?http_host=$http_host&id=$id&text=/freunde%20$uu_nick";
+				$mlnk[8] = "mail.php?id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
+				$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
 				$text .= "[<a href=\"$mlnk[8]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</a>]<br>\n"
 					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
 			}
@@ -470,19 +469,19 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Adminmenue
 		if ($admin) {
-			$mlnk[7] = "user.php?http_host=$http_host&id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
+			$mlnk[7] = "user.php?id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
 			$text .= "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
 		if ($admin && $rows == 1) {
-			$mlnk[8] = "user.php?http_host=$http_host&id=$id&kick_user_chat=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
-			$mlnk[3] = "user.php?http_host=$http_host&id=$id&trace="
+			$mlnk[8] = "user.php?id=$id&kick_user_chat=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
+			$mlnk[3] = "user.php?id=$id&trace="
 				. urlencode($host_name)
 				. "&aktion=zeig&user=$user&schau_raum=$schau_raum";
-			$mlnk[4] = "schreibe.php?http_host=$http_host&id=$id&text=/gag%20$uu_nick";
-			$mlnk[5] = "schreibe.php?http_host=$http_host&id=$id&text=/kick%20$uu_nick";
-			$mlnk[6] = "sperre.php?http_host=$http_host&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
+			$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
+			$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
+			$mlnk[6] = "sperre.php?id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
 				. urlencode($o_row->o_name);
 			$text .= "[<a href=\"$mlnk[3]\">" . $t['user_zeige25'] . "</a>]<br>\n"
 				. "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
@@ -493,7 +492,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Adminmenue
 		if ($admin && $communityfeatures) {
-			$mlnk[10] = "blacklist.php?http_host=$http_host&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
+			$mlnk[10] = "blacklist.php?id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
 			$text .= "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
@@ -513,7 +512,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
 				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$uu_id\">\n"
 				. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$uu_name\">\n"
 				. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$uu_nick\">\n"

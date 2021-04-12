@@ -83,7 +83,7 @@ aktualisiere_online($u_id, $o_raum);
 
 if ($u_id && $communityfeatures) {
 	echo "<center><b>Bitte wählen Sie die Farbe aus:</b><BR>"
-	. "<a href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor="
+	. "<a href=\"home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor="
 	. urlencode($oldcolor) . "&nix\">"
 		. "<img src=\"pics/colors2.png\" ismap border=0></a>\n";
 		echo "<br clear=all><img src=\"home_makecolor.php?x=135&y=25&text=neue%20Farbe&";
@@ -113,7 +113,6 @@ if ($u_id && $communityfeatures) {
 		echo "<table><tr><td>"
 			. "<form name=\"bildname\" action=\"$PHP_SELF\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 			. "<input type=\"hidden\" name=\"bg\" value=\"$bg\">\n"
 			. "<input type=\"hidden\" name=\"oldcolor\" value=\"$oldcolor\">\n"
 			. "<input type=\"hidden\" name=\"feld\" value=\"$feld\">\n"
@@ -140,14 +139,14 @@ if ($u_id && $communityfeatures) {
 			. "<td>$f1<input type=\"text\" name=\"setcolor\" value=\"$setcolor\" size=\"7\" maxlenght=\"7\" onChange=\"Javascript:submit()\">"
 			. "<input type=\"submit\" name=\"GO\" value=\"GO\">$f2</td></tr>\n"
 			. "<tr><td>" . $f1 . "oder transparent:" . $f2 . "</td>"
-			. "<td>$f1<b>[<a href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=0&nix\">" . "wählen</a>]</b>$f2</td></tr></table>\n";
+			. "<td>$f1<b>[<a href=\"home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=0&nix\">" . "wählen</a>]</b>$f2</td></tr></table>\n";
 	} else {
 		echo "<br>";
 	}
 	
 	echo "<br>" . $f1
 		. "<b>[<a href=\"javascript:colorsave();\">Farbe übernehmen</a>]\n"
-		. "[<a href=\"home_farben.php?http_host=$http_host&id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=$oldcolor&$oldcolor&nix\">Reset</a>]\n"
+		. "[<a href=\"home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor=$oldcolor&$oldcolor&nix\">Reset</a>]\n"
 		. "[<a href=javascript:window.close();>nicht&nbsp;speichern</a>]</b>"
 		. $f2 . "</center>\n";
 }

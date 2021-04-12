@@ -46,9 +46,9 @@ zeige_header_ende();
 
 // Menü als erstes ausgeben
 $box = $t['menue1'];
-$text = "<a href=\"top10.php?http_host=$http_host&id=$id&aktion=top10\">".$t['menue2']."</a>\n";
-$text .= "| <a href=\"top10.php?http_host=$http_host&id=$id&aktion=top100\">".$t['menue3']."</a>\n";
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">".$t['menue4']."</a>\n";
+$text = "<a href=\"top10.php?id=$id&aktion=top10\">".$t['menue2']."</a>\n";
+$text .= "| <a href=\"top10.php?id=$id&aktion=top100\">".$t['menue3']."</a>\n";
+$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#punkte\">".$t['menue4']."</a>\n";
 
 show_menue($box, $text);
 

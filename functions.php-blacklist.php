@@ -3,10 +3,10 @@
 function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $mysqli_link, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id, $t;
+	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
-	$blurl = $PHP_SELF . "?id=$id&http_host=$http_host&aktion=&sort=";
+	$blurl = $PHP_SELF . "?id=$id&aktion=&sort=";
 	
 	switch ($sort) {
 		case "f_zeit desc":
@@ -62,7 +62,6 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		$text .= "<form name=\"blacklist_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
-			. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 			. "<table style=\"width:100%;\">";
 		
 		$anzahl = mysqli_num_rows($result);
@@ -176,7 +175,7 @@ function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $f_blacklistid User-ID des Blacklist-Eintrags
 	
-	global $id, $http_host, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link;
+	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link;
 	global $u_id, $u_nick, $admin;
 	
 	if (!$admin || !$f_blacklistid) {
@@ -201,7 +200,7 @@ function loesche_blacklist($f_blacklistid) {
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Nicknamen zum Hinzufügen als Blacklist-Eintrag aus
 	
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -213,7 +212,6 @@ function formular_neuer_blacklist($neuer_blacklist) {
 	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
-		. "<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">\n"
 		. "<table style=\"width:100%;\">";
 	
 	if (!isset($neuer_blacklist['u_nick'])) {
@@ -238,7 +236,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 function neuer_blacklist($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
 	
-	global $id, $http_host, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
 	if (!$blacklist['u_id'] || !$f_userid) {
 		echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<br>";

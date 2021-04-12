@@ -19,9 +19,8 @@ $title = $body_titel . ' - Smilies';
 zeige_header_anfang($title, 'mini');
 
 echo "<script>\n";
-echo "  var http_host='$http_host';\n";
 echo "  var id='$id';\n";
-echo "  var stdparm='?http_host='+http_host+'&id='+id;\n";
+echo "  var stdparm='?id='+id;\n";
 echo "</script><script src=\"jscript.js\"></script>\n";
 ?>
 <?php
@@ -33,10 +32,10 @@ zeige_header_ende();
 if (strlen($u_id) != 0) {
 	
 	// Menue ausgeben, Tabelle aufbauen
-	$linkuser = "href=\"user.php?http_host=$http_host&id=$id&aktion=chatuserliste\"";
-	$linksmilies = "href=\"" . $smilies_datei . "?http_host=$http_host&id=$id\"";
+	$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
+	$linksmilies = "href=\"" . $smilies_datei . "?id=$id\"";
 	
-	echo "<div style=\"text-align:center;\">$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst1'] . "</a>]&nbsp;"
+	echo "<div style=\"text-align:center;\">$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2<br>"
 		. "<table style=\"width:100%; border:0px;\">\n";
 	
@@ -56,7 +55,7 @@ if (strlen($u_id) != 0) {
 			. "   var liste		 = new Array(\n   "
 			. @implode(",\n   ", $jsarr) . "   );\n"
 			. "   showsmiliegrafiken(liste);\n" . 
-			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
+			//				 "   stdparm=''; stdparm2=''; id=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
 		
 	} else { // kein javascript verfügbar
@@ -79,7 +78,7 @@ if (strlen($u_id) != 0) {
 	}
 	
 	echo "</table>"
-		. "$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst1'] . "</a>]&nbsp;"
+		. "$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2</div>";
 	
 } else {

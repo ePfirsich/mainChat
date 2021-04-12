@@ -44,37 +44,37 @@ if (isset($reset) && $reset && $o_js) {
 		
 		echo "<script>";
 		if ($frame_online != "")
-			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
-		echo "opener_reload('forum.php?http_host=$http_host&id=$id','1');\n"
-			. "opener_reload('messages-forum.php?http_host=$http_host&id=$id','3');\n"
-			. "opener_reload('interaktiv-forum.php?http_host=$http_host&id=$id','4');\n"
+			echo "opener_reload('$frame_online','0');\n";
+		echo "opener_reload('forum.php?id=$id','1');\n"
+			. "opener_reload('messages-forum.php?id=$id','3');\n"
+			. "opener_reload('interaktiv-forum.php?id=$id','4');\n"
 			. "window.close();\n" . "</script>\n";
 	} elseif ($u_level == "M") {
 		echo "<script>";
 		if ($frame_online != "")
-			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
-		echo "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1');\n";
+			echo "opener_reload('$frame_online','0');\n";
+		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
 		if ($userframe_url) {
 			echo "opener_reload('$userframe_url','2');\n";
 		} else {
-			echo "opener_reload('user.php?http_host=$http_host&id=$id&aktion=chatuserliste','2');\n";
+			echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
 		}
-		echo "opener_reload('eingabe.php?http_host=$http_host&id=$id','3');\n"
-			. "opener_reload('moderator.php?http_host=$http_host&id=$id','4');\n"
-			. "opener_reload('interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum','5');\n"
+		echo "opener_reload('eingabe.php?id=$id','3');\n"
+			. "opener_reload('moderator.php?id=$id','4');\n"
+			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','5');\n"
 			. "window.close();\n" . "</script>\n";
 	} else {
 		echo "<script>";
 		if (isset($frame_online) && $frame_online != "")
-			echo "opener_reload('$frame_online?http_host=$http_host','0');\n";
-		echo "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1');\n";
+			echo "opener_reload('$frame_online','0');\n";
+		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
 		if (isset($userframe_url)) {
 			echo "opener_reload('$userframe_url','2');\n";
 		} else {
-			echo "opener_reload('user.php?http_host=$http_host&id=$id&aktion=chatuserliste','2');\n";
+			echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
 		}
-		echo "opener_reload('eingabe.php?http_host=$http_host&id=$id','3');\n"
-			. "opener_reload('interaktiv.php?http_host=$http_host&id=$id&o_raum_alt=$o_raum','4');\n"
+		echo "opener_reload('eingabe.php?id=$id','3');\n"
+			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','4');\n"
 			. "window.close();\n" . "</script>\n";
 	}
 }
@@ -93,24 +93,24 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 		warnung($u_id, $u_nick, "sicherer_modus");
 	if ($o_js) {
 		echo "<script LANGUAGE=JavaScript>"
-			. "opener_reload('chat.php?http_host=$http_host&id=$id&back=$chat_back','1')\n"
-			. "opener_reload('eingabe.php?http_host=$http_host&id=$id','3')"
+			. "opener_reload('chat.php?id=$id&back=$chat_back','1')\n"
+			. "opener_reload('eingabe.php?id=$id','3')"
 			. "</script>\n";
 	}
 }
 
 // Menü als erstes ausgeben
 $box = $t['menue4'];
-$text = "<a href=\"hilfe.php?http_host=$http_host&id=$id\">$t[menue1]</a>\n"
-	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=befehle\">$t[menue2]</a>\n"
-	. "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=sprueche\">$t[menue3]</a>\n";
+$text = "<a href=\"hilfe.php?id=$id\">$t[menue1]</a>\n"
+	. "| <a href=\"hilfe.php?id=$id&aktion=befehle\">$t[menue2]</a>\n"
+	. "| <a href=\"hilfe.php?id=$id&aktion=sprueche\">$t[menue3]</a>\n";
 if ($communityfeatures) {
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=legende\">$t[menue6]</a>\n";
-	$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community\">$t[menue7b]</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=legende\">$t[menue6]</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community\">$t[menue7b]</a>\n";
 }
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=chatiquette\">$t[menue5]</a>\n";
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=agb\">$t[menue8]</a>\n";
-$text .= "| <a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=privacy\">$t[menue9]</a>\n";
+$text .= "| <a href=\"hilfe.php?id=$id&aktion=chatiquette\">$t[menue5]</a>\n";
+$text .= "| <a href=\"hilfe.php?id=$id&aktion=agb\">$t[menue8]</a>\n";
+$text .= "| <a href=\"hilfe.php?id=$id&aktion=privacy\">$t[menue9]</a>\n";
 if ($aktion != "logout") {
 	show_menue($box, $text);
 }
@@ -299,7 +299,7 @@ switch ($aktion) {
 		
 		$text .= "<table class=\"tabelle_kopf\">\n"
 			. $legende . "</table><br>\n"
-			. "<a href=\"hilfe.php?http_host=$http_host&id=$id&aktion=community#punkte\">$t[hilfe12]</a><br><br>\n";
+			. "<a href=\"hilfe.php?id=$id&aktion=community#punkte\">$t[hilfe12]</a><br><br>\n";
 		
 		show_box_title_content($box,$text);
 		
