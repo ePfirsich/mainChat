@@ -24,7 +24,7 @@ echo "  var stdparm='?id='+id;\n";
 ?>
 function showsmiliegrafiken( liste ) {
 	for(var i=0; i<liste.length; i+=3) {
-		var rowdef = "<td style=\"text-align:center;\" class=\"" + color[i / 2 & 1] + "\"><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_opener(' "+liste[i]+" '); return(false)\"><IMG SRC=\""+smilies_pfad+liste[i+1]+"\" BORDER=0 ALT=\""+liste[i]+"\"></a></td>";
+		var rowdef = "<td style=\"text-align:center;\" class=\"" + color[i / 2 & 1] + "\"><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_opener(' "+liste[i]+" '); return(false)\"><img src=\""+smilies_pfad+liste[i+1]+"\" style=\"border:0px;\" alt=\""+liste[i]+"\"></a></td>";
 		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">"+fett[4]+liste[i+2]+fett[5]+"</td>";
 		document.write("<tr>"+rowdef+"</tr>\n");
 	}

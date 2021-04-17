@@ -99,7 +99,7 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 $eingabe_breite = 20;
 
 // Logintext definieren
-$logintext = "<table BORDER=0 CELLSPACING=0 WIDTH=100%><tr><td><b>"	. $t['login8'] . "</b><br>" . $f1 . "<input type=\"TEXT\" name=\"login\" value=\"";
+$logintext = "<table style=\"width:100%;\"><tr><td><b>"	. $t['login8'] . "</b><br>" . $f1 . "<input type=\"text\" name=\"login\" value=\"";
 if (isset($login)) {
 	$logintext .= $login;
 }
@@ -130,13 +130,6 @@ if ($result && mysqli_num_rows($result) > 0) {
 	$abweisen = true;
 }
 mysqli_free_result($result);
-
-// Sperrt den Chat für bestimmte Browser komplett
-if (($_SERVER["HTTP_USER_AGENT"] == "Spamy v3.0 with 32 Threads")
-	|| ($_SERVER["HTTP_USER_AGENT"]
-		== "Powered by Spamy The Spambot v5.2.1")) {
-	$abweisen = true;
-}
 
 // Gastsperre aktiv? Wird beim Login und beim Nutzungsbestimmungen Login ausgewertet
 $temp_gast_sperre = false;
@@ -1567,17 +1560,17 @@ switch ($aktion) {
 					
 					echo "<frameset rows=\"$frame_online_size,*,5,"
 						. $frame_size['interaktivforum']
-						. ",1\" border=0 frameborder=0 framespacing=0>\n";
-					echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=0 marginheight=0 scrolling=no>\n";
-					echo "<frame src=\"forum.php?id=$hash_id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=AUTO>\n";
+						. ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+					echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
+					echo "<frame src=\"forum.php?id=$hash_id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
 					echo "<frame src=\"leer.php\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=no>\n";
 					echo "<frameset cols=\"*,"
 						. $frame_size['messagesforum']
-						. "\" border=0 frameborder=0 framespacing=0>\n";
-					echo "<frame src=\"messages-forum.php?id=$hash_id\" name=\"messages\" marginwidth=0 marginheight=0 scrolling=AUTO>\n";
-					echo "<frame src=\"interaktiv-forum.php?id=$hash_id\" name=\"interaktiv\" marginwidth=0 marginheight=0 scrolling=no>\n";
+						. "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+					echo "<frame src=\"messages-forum.php?id=$hash_id\" name=\"messages\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
+					echo "<frame src=\"interaktiv-forum.php?id=$hash_id\" name=\"interaktiv\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
 					echo "</frameset>\n";
-					echo "<frame src=\"schreibe.php?id=$hash_id&o_who=2\" name=\"schreibe\" marginwidth=0 marginheight=0 scrolling=no>\n";
+					echo "<frame src=\"schreibe.php?id=$hash_id&o_who=2\" name=\"schreibe\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
 					echo "</frameset>\n";
 					echo "<noframes>\n";
 					echo "<body " . $t['login6'];

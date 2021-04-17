@@ -65,20 +65,20 @@ zeige_header_anfang($title, 'login');
 
 zeige_header_ende();
 
-echo "<FRAMESET ROWS=\"$frame_online_size,*,5,"
+echo "<framset rows=\"$frame_online_size,*,5,"
 	. $frame_size['interaktivforum']
-	. ",1\" border=0 frameborder=0 framespacing=0>\n";
-echo "<FRAME SRC=\"$frame_online\" name=\"frame_online\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
-echo "<FRAME SRC=\"forum.php?id=$id\" name=\"forum\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=AUTO>\n";
-echo "<FRAME SRC=\"leer.php\" name=\"leer\" MARGINWIDTH=\"0\" MARGINHEIGHT=\"0\" SCROLLING=NO>\n";
-echo "<FRAMESET COLS=\"*," . $frame_size['messagesforum']
-	. "\" border=0 frameborder=0 framespacing=0>\n";
-echo "<FRAME SRC=\"messages-forum.php?id=$id\" name=\"messages\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=AUTO>\n";
-echo "<FRAME SRC=\"interaktiv-forum.php?id=$id\" name=\"interaktiv\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
-echo "</FRAMESET>\n";
-echo "<FRAME SRC=\"schreibe.php?id=$id&o_who=2\" name=\"schreibe\" MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO>\n";
-echo "</FRAMESET>\n";
-echo "<NOFRAMES>\n";
+	. ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
+echo "<frame src=\"forum.php?id=$id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
+echo "<frame src=\"leer.php\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
+echo "<framset cols=\"*," . $frame_size['messagesforum']
+	. "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+echo "<frame src=\"messages-forum.php?id=$id\" name=\"messages\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
+echo "<frame src=\"interaktiv-forum.php?id=$id\" name=\"interaktiv\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
+echo "</framset>\n";
+echo "<frame src=\"schreibe.php?id=$id&o_who=2\" name=\"schreibe\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
+echo "</framset>\n";
+echo "<noframes>\n";
 echo "<body " . (isset($t['login6']) ? $t['login6'] : "");
 ?>
 </body>

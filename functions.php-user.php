@@ -212,7 +212,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$text .= '<iframe src="messages-popup.php?id=' . $id
 					. '&user=' . $user
 					. '&user_nick=' . $uu_nick
-					. '" width=100% height=200 marginwidth=0 marginheight=0 hspace=0 vspace=0 frameborder=0></iframe>';
+					. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
 					?>
 					<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
 					<?php
