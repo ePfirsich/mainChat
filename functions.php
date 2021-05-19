@@ -607,6 +607,18 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	} else {
 		$backup_chat = 0;
 	}
+	
+	//load user color
+	global $u_farbe, $user_farbe;
+	if (!empty($u_id)) {
+		$result = mysqli_query($mysqli_link, "SELECT u_farbe FROM user WHERE u_id = " . intval($u_id));
+		$row = mysqli_fetch_row($result);
+		if (empty($row[0])) {
+			return;
+		}
+		$user_farbe = $u_farbe = $row[0];
+		mysqli_free_result($result);
+	}
 }
 
 function iCrypt($passwort, $salt) {
