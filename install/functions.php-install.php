@@ -280,7 +280,7 @@ vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schut
 	<?php
 }
 
-function step_2($mysqli_link, $select, $chat, $fpconfig) {
+function step_2($mysqli_link, $chat, $fpconfig) {
 	$configtpl = "../conf/config.php-tpl";
 	$fpconfigtpl = fopen($configtpl, "r");
 	$inhalt = fread($fpconfigtpl, filesize($configtpl));

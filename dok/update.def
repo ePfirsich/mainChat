@@ -1,0 +1,10 @@
+# mainChat-Datenbank für MySQL
+#
+#
+
+ALTER TABLE `aktion` CHANGE `a_wie` `a_wie` SET('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'keine';
+ALTER TABLE `chat` CHANGE `c_raum` `c_raum` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `online` DROP `u_sms_extra`;
+DROP TABLE `sms`, `smsin`;
+ALTER TABLE `user` DROP `u_sms_ok`, DROP `u_sms_guthaben`, DROP `u_sms_extra`;
+ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` INT(10) NOT NULL;

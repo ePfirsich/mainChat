@@ -40,41 +40,6 @@ cd ../apache_1.3.6
 make
 
 
-Nachdem mySQL gemäß der enthaltenen Dokumentation installiert wurde, muss der
-User www (oder wwwrun), unter dem der apache läuft, auf die DB zugreifen
-können. Das ist schnell erledigt:
-
-> mysql mysql
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 7 to server version: 3.21.33b-log
-Type 'help' for help.
-mysql> INSERT INTO user VALUES ('localhost','www','','Y','Y','Y','Y','Y','Y','Y','Y','Y','Y');
-mysql> quit
-> mysqladmin reload
-
-
-In der Konfiguration des WWW-Servers in httpd.conf oder srm.conf muss für den
-WWW-Server folgendes ergänzt werden:
-
-DirectoryIndex index.php
-
-Es empfiehlt sich, den Webserver für den Chat als "Name Based Virtual Host" in
-der httpd.conf einzurichten. "chat.main.de" muss natürlich durch Ihren
-virtuellen Hostnamen ersetzt werden:
-
-<VirtualHost chat.beispieldomain.de>
-    ServerAdmin webmaster@beispieldomain.de
-    DocumentRoot "/var/www/chat.beispieldomain.de/htdocs"
-    ServerName chat.beispieldomain.de
-    DirectoryIndex index.php
-    AddType application/x-httpd-php  .php .html
-    ErrorLog /var/log/apache/chat.beispieldomain.de-error_log
-    CustomLog /var/log/apache/chat.beispieldomain.de-access_log common
-    php_flag  short_open_tag On
-    php_flag  magic_quotes_gpc Off
-    php_value output_buffering 0
-</VirtualHost>
-
 Die php-Direktiven können auch über eine ".htaccess"-Datei mit diesem Inhalt
 gesetzt werden:
 
@@ -83,15 +48,6 @@ php_flag  short_open_tag On
 php_value output_buffering 0
 DirectoryIndex index.php
 
-Es ist darauf zu achten, der User, unter dem der Apache läuft auch Schreibbe-
-berechtigung im Documentroot hat. Dazu empfiehlt sich, in der httpd.conf für
-User und Group jeweils "www" zu verwenden. Der User und die Gruppe müssen
-selbstverständlich in den entsprechenden Dateien auf Ihrem System angelegt
-sein (User für den Apache-Prozess ist meistens www, wwwrun oder apache).
-
-Das Ausführen von "chown -R www.www *" und "chmod -R ug+w *" im Documentroot 
-ist auch noch zu empfehlen. Dadurch ist sichergestellt, dass die Logdateien
-für den mainChat geschrieben werden können.
 
 In die crontab des Users www ist dann noch folgender Job einzutragen:
 "0-59  0-23 * * *  /usr/bin/lynx -dump http://localhost/expire.php > /dev/null"
@@ -120,26 +76,6 @@ a) Mit dem Installationsprogramm
 
 b) Per Hand:
 
-Als erstes muss die Datenbank mainchat angelegt werden. Dies geschieht 
-folgendermaßen:
-
-$ mysqladmin create mainchat
-$ mysql mainchat < mysql.def
-
-Dabei wird sowohl die Datenbank als auch die Tabellendefinitionen angelegt. 
-Hiermit wird der User "admin" mit dem Paßwort "admin" erzeugt. Über diesen 
-Benutzer können dann alle Einstellungen in der mainChat-Datenbank gepflegt 
-werden. Die Datei mysql.def ist im Verzeichnis dok des mainchat-Archivs zu
-finden.
-
-In der Datei mysql.def sind sämtliche Felder der verwendeten Tabellen 
-dokumentiert. Bitte lesen Sie zuerst dort nach, wenn Sie Fragen zur
-Datenbank haben.
-
-Nun können Sie sich via Browser (Mozilla, Opera, Netscape oder Explorer im
-mainChat als User "admin" mit dem Paßwort "admin" als SuperUser anmelden und
-sich mit den erweiterten Möglichkeiten eines Admins vertraut machen.
-
 Für die Erstellung der Statistiken wird eine eigene Datenbank benötigt.
 Gehen Sie analog zur mainchat-Datenbank vor:
 
@@ -149,16 +85,9 @@ $ mysql statistiken < community-statistic.def
 Die Einstellungen zur Statistik-Datenbank werden in der conf/config.php
 vorgenommen.
 
-In der Community-Version werden die Bilder der Mitglieder in der Datenbank
-gespeichert, aber aus Performancegründen im Dateisystem temporär
-gespeichert. Daher muss das Verzeichnis home_bild im Chat-Hauptverzeichnis
-enthalten und für den Apache-Prozess beschreibbar sein. Falls das
-Verzeichnis nicht beschreibbar ist, werden statt der Bilder der Mitglieder
-nur defekte Bilder angezeigt. Der User für diesen Prozess ist meistens
-apache, www oder wwwrun. Unter Linux setzt man die Rechte wie in diesem
-Beispiel für den User www:
-
-$ chmod u+rxw home_bild; chown www home_bild
+c) Aktualisierung von älteren Version
+Bei einer Aktualisierung von einer älteren Version als 7.0.0 bitte einmalig die Datei install/update.php aufrufen.
+Aus Sicherheitsgründen muss vorher die Datei "install/update.lock" gelöscht werden.
 
 
 
@@ -232,7 +161,7 @@ Ihren mainChat gelistet werden möchten, liefert Ihnen die Datei
 userliste.php eine kompatible Userliste.
 
 
-4. Tipps 
+4. Tipps
 
 4.1 Einsatz einer des vorcompilierten MySQL-Binary (Download unter www.mysql.com)
 
@@ -269,14 +198,5 @@ AccessConfig /dev/null
 DirectoryIndex index.html index.php
 AddType application/x-httpd-php .php .html
 AddType application/x-httpd-php-source .phps
-
-
-4.4 Installation MySQL, Apache und PHP-Accelerator
-
-Bitte beachten Sie hierbei: Die richtige Installation und Konfiguration
-eines Unixservers (Betriebssystem, IP-Stack, etc.) setzen umfassende
-Kenntnisse im Bereich des Systems und TCP/IP voraus. Die vom mainChat
-verwendeten Applikationen MySQL, Apache und PHP-Accelerator sollten nur von
-erfahrenen Unix-Administratoren neu installiert werden.
 
 Wir wünschen Ihnen viel Erfolg mit dem mainChat!

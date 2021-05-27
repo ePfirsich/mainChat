@@ -135,10 +135,7 @@ switch ($aktion) {
 						step_1($chat);
 					} else {
 						mysqli_set_charset($mysqli_link, "utf8mb4");
-						if (!$select = mysqli_select_db($mysqli_link, $chat["dbase"])) {
-							$select = mysqli_select_db($mysqli_link, $chat["dbase"]);
-							step_2($mysqli_link, $select, $chat, $fp);
-						} else step_2($mysqli_link, $select, $chat, $fp);
+						step_2($mysqli_link, $chat, $fp);
 					}
 				}
 			}
