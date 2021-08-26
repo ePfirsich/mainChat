@@ -1036,7 +1036,7 @@ switch ($aktion) {
 		// Login als registrierter User
 		
 		// Testen, ob frühere Loginversuche fehlschlugen (nur Admins)
-		$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login,u_backup FROM user "
+		$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login FROM user "
 			. "WHERE (u_name = '$login' OR u_nick = '$login') "
 			. "AND (u_level='S' OR u_level='C') ";
 		$result = mysqli_query($mysqli_link, $query4711);
@@ -1049,7 +1049,7 @@ switch ($aktion) {
 		// Mehr als ein güliger Account gefunden, nochmals nach nick suchen
 		if ($result && $rows > 1) {
 			mysqli_free_result($result);
-			$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login,u_backup FROM user "
+			$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login FROM user "
 				. "WHERE (u_nick = '$login') "
 				. "AND (u_level='S' OR u_level='C') ";
 			$result = mysqli_query($mysqli_link, $query4711);
@@ -1148,7 +1148,6 @@ switch ($aktion) {
 			$u_name = $row->u_name;
 			$u_nick = $row->u_nick;
 			$u_level = $row->u_level;
-			$u_backup = $row->u_backup;
 			$u_agb = $row->u_agb;
 			$u_punkte_monat = $row->u_punkte_monat;
 			$u_punkte_jahr = $row->u_punkte_jahr;
@@ -1159,12 +1158,8 @@ switch ($aktion) {
 			$u_frames = unserialize($row->u_frames);
 			$nick_historie = unserialize($row->u_nick_historie);
 			
-			if ($loginimsicherenmodus == "1") {
-				$u_backup = 1;
-				$f['u_id'] = $u_id;
-				$f['u_backup'] = 1;
-				schreibe_db("user", $f, $u_id, "u_id");
-			}
+			$f['u_id'] = $u_id;
+			schreibe_db("user", $f, $u_id, "u_id");
 			
 			// User online bestimmen
 			if ($chat_max[$u_level] != 0) {
@@ -1577,8 +1572,7 @@ switch ($aktion) {
 					die();
 				} else {
 					// Chat betreten
-					betrete_chat($o_id, $u_id, $u_nick, $u_level,
-						$eintritt, $javascript, $u_backup);
+					betrete_chat($o_id, $u_id, $u_nick, $u_level, $eintritt, $javascript);
 					$back = 1;
 					
 					// Obersten Frame definieren
@@ -1987,8 +1981,7 @@ switch ($aktion) {
 		//system_msg("",0,$u_id,"","DEBUG: $neuer_raum ");
 		
 		// Chat betreten
-		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum,
-			$o_js, $u_backup);
+		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum, $o_js);
 		
 		// Obersten Frame definieren
 		if (!isset($frame_online))

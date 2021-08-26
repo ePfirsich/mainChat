@@ -135,15 +135,6 @@ switch ($aktion) {
 		</table>
 	</form>
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			<?php
 		}
 		break;

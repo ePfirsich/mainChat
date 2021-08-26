@@ -8,3 +8,4 @@ ALTER TABLE `online` DROP `u_sms_extra`;
 DROP TABLE `sms`, `smsin`;
 ALTER TABLE `user` DROP `u_sms_ok`, DROP `u_sms_guthaben`, DROP `u_sms_extra`;
 ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` INT(10) NOT NULL;
+ALTER TABLE `user` DROP `u_backup`;

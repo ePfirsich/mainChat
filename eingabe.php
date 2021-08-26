@@ -93,44 +93,24 @@ zeige_header_ende();
 			. ">";
 	}
 	
-	// Unterscheidung Normal oder sicherer Modus
-	if ($backup_chat || $u_backup) {
-		
-		$chat_eingabe_breite = $chat_eingabe_breite - 11;
-		$mindestbreite = 44;
-		
-		// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
-		if ($chat_eingabe_breite < $mindestbreite) {
-			$chat_eingabe_breite = $mindestbreite;
-		}
-		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
-			. "<select name=\"user_chat_back\">\n";
-		for ($i = 5; $i < 40; $i++) {
-			echo "<option " . ($chat_back == $i ? "selected" : "")
-				. " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
-		}
-		echo "</select>"
-			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
-			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
-			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
-		echo "</td></tr>\n";
-	} else {
-		
-		$mindestbreite = 55;
-		
-		// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindestbreite setzen
-		if ($chat_eingabe_breite < $mindestbreite)
-			$chat_eingabe_breite = $mindestbreite;
-		
-		echo $text2_typ 
-			. "<input name=\"text\" value=\"\" type=\"hidden\">"
-			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"u_backup\" value=\"$u_backup\" type=\"hidden\">"
-			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
-			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
-		echo "</td></tr>\n";
+	$chat_eingabe_breite = $chat_eingabe_breite - 11;
+	$mindestbreite = 44;
+	
+	// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
+	if ($chat_eingabe_breite < $mindestbreite) {
+		$chat_eingabe_breite = $mindestbreite;
 	}
+	echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
+		. "<select name=\"user_chat_back\">\n";
+	for ($i = 5; $i < 40; $i++) {
+		echo "<option " . ($chat_back == $i ? "selected" : "")
+			. " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
+	}
+	echo "</select>"
+		. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+		. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
+		. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+	echo "</td></tr>\n";
 	
 	$mlnk[4] = "hilfe.php?id=$id";
 	$mlnk[1] = "raum.php?id=$id";

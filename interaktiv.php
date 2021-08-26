@@ -67,12 +67,10 @@ if (isset($u_id) && $u_id) {
 			raum_user($r_id, $u_id, $id);
 		}
 		
-		// Falls Pull-Chat, chat-Fenster neu laden
-		if ($backup_chat || $u_backup) {
-			echo "<SCRIPT LANGUAGE=Javascript>"
-				. "chat_reload('chat.php?id=$id')"
-				. "</script>\n";
-		}
+		// Falls Pull-Chat, Chat-Fenster neu laden
+		echo "<SCRIPT LANGUAGE=Javascript>"
+			. "chat_reload('chat.php?id=$id')"
+			. "</script>\n";
 	}
 	
 	// Daten für Raum lesen

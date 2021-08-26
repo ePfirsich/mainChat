@@ -108,9 +108,6 @@ $hilfe_befehlstext_admin = array(
 	"/dupes\tZeigt doppelt eingeloggte User\t\t/dupes");
 
 $hilfe_uebersichtstext = "<p><b>Erste Hilfe bei Problemen:</b><br>"
-	. "Falls Sie im Chat keinen Text angezeigt bekommen oder von Zeit zu Zeit aus dem Chat fliegen, "
-	. "können Sie in den <b><a href=\"hilfe.php?id=$id&f[u_backup]=1\">sicheren Modus</a> umschalten</b>! Sie können "
-	. "natürlich wieder in den <b><a href=\"hilfe.php?id=$id&f[u_backup]=0\">Normalmodus</a> zurückschalten</b>. "
 	. "Falls die <b>Ausgabe hängt</b> oder andere Fehler auftreten, können Sie mit "
 	. "<b><a href=\"hilfe.php?id=$id&reset=1\">[RESET]</a></b> "
 	. "alle Fenster des Chats neu laden.</p>" . "<p><b>Popup-Blocker:</b><br>"

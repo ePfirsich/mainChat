@@ -505,12 +505,6 @@ $raum_eintrittsnachricht_kurzform = "0";
 $raum_austrittsnachricht_anzeige_deaktivieren = "0";
 $raum_austrittsnachricht_kurzform = "0";
 
-// Die Warnmeldung, das der sichere Modus aktiviert ist, wird nicht angezeigt
-$warnmeldung_sicherermodus_deaktivieren = "1";
-
-// Der Login von jedem User erfolgt automatisch im Sicheren Modus
-$loginimsicherenmodus = "1";
-
 // User können keine Räume anlegen und auch in keinen anderen Raum wechseln auser dem 1. Loginraum (Lobby)
 $single_room_verhalten = "0";
 

@@ -137,8 +137,8 @@ if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
-	// Falls Pull-Chat, chat-Fenster neu laden (sicherer Modus), falls User im Chat
-	if ($o_who != 2 && ($backup_chat || $u_backup)) {
+	// Falls Pull-Chat, Chat-Fenster neu laden, falls User im Chat
+	if ($o_who != 2) {
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
 			. "parent.chat.location.href='chat.php?id=$id'"
 			. "</SCRIPT>\n";

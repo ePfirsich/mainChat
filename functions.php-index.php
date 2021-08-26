@@ -263,7 +263,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$knebelzeit = NULL;
 	// Aktuelle Userdaten aus Tabelle user lesen
 	// Query muss mit Code in schreibe_db übereinstimmen
-	$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -361,7 +361,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	return ($o_id);
 }
 
-function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_backup) {
+function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 	// User $u_id betritt Raum $raum (r_id)
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
@@ -548,25 +548,8 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript, $u_ba
 	}
 	
 	$http_te = "";
-	if (isset($_SERVER['HTTP_TE']))
+	if (isset($_SERVER['HTTP_TE'])) {
 		$http_te = $_SERVER['HTTP_TE'];
-	
-	// Optionale Warnungen ausgeben
-	$browser = $_SERVER["HTTP_USER_AGENT"];
-	if (!$javascript) {
-		warnung($u_id, $u_nick, "ohne_js");
-	} elseif ($u_backup
-			|| preg_match("/(.*)mozilla\/[234](.*)mac(.*)/i", $browser)
-			|| preg_match("/(.*)msie(.*)mac(.*)/i", $browser)
-			|| preg_match("/(.*)Opera 3(.*)/i", $browser)
-			|| preg_match("/(.*)Opera\/9(.*)/i", $browser)
-			|| preg_match("/(.*)Konqueror(.*)/i", $browser)
-			|| preg_match("/(.*)mozilla\/5(.*)Netscape6(.*)/i", $browser)
-			|| preg_match("/(.*)mozilla\/[23](.*)/i", $browser)
-			|| preg_match("/(.*)AOL [123](.*)/i", $browser)
-			|| $http_te == 'chunked') {
-		$u_nick = "";
-		warnung($u_id, $u_nick, "sicherer_modus");
 	}
 	
 	// Hat der User Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?

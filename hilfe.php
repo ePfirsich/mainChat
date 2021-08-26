@@ -79,9 +79,8 @@ if (isset($reset) && $reset && $o_js) {
 	}
 }
 
-// Chat bei u_backup neu aufbauen, damit nach Umstellung der Chat refresht wird
-// u_backup in DB eintragen
-if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
+// Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
+if (strlen($u_id) > 0) {
 	unset($f['u_id']);
 	unset($f['u_level']);
 	unset($f['u_name']);
@@ -89,8 +88,6 @@ if (strlen($u_id) > 0 && isset($f['u_backup']) && strlen($f['u_backup']) > 0) {
 	unset($f['u_auth']);
 	unset($f['u_passwort']);
 	schreibe_db("user", $f, $u_id, "u_id");
-	if ($f['u_backup'] == 1)
-		warnung($u_id, $u_nick, "sicherer_modus");
 	if ($o_js) {
 		echo "<script LANGUAGE=JavaScript>"
 			. "opener_reload('chat.php?id=$id&back=$chat_back','1')\n"

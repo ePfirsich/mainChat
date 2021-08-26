@@ -1,6 +1,6 @@
 <?php
 // Version / Copyright - nicht entfernen!
-$mainchat_version = "Open mainChat 7.0.1 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2012 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target=\"_blank\">GitHub</a> ab 2021";
+$mainchat_version = "Open mainChat 7.0.2 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2012 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target=\"_blank\">GitHub</a> ab 2021";
 
 // HTTPS ja oder nein?
 // if ($HTTPS=="on") {
@@ -61,7 +61,7 @@ $valid_fields = array(
 	'sperre' => array('s_id', 's_user', 's_raum', 's_zeit'),
 	'thema' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
 	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
-	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_name', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 'u_backup', 
+	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_name', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_frames', 'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
@@ -494,7 +494,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Users
 	// Liefert User- und Online-Variable
 	
-	global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_backup, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
+	global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
 	global $admin, $dbase, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
@@ -750,7 +750,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_backup`, `u_farbe_bg`, "
+		$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
 			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe,` "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` "
@@ -967,33 +967,6 @@ function debug($text = "", $rundung = 3) {
 			$erg = ", " . $erg;
 	}
 	return ($erg);
-}
-
-function warnung($u_id, $u_nick, $art) {
-	// Gibt eine Warnung im Chat an den User $u_id/$u_nick aus
-	global $t, $system_farbe, $warnmeldung_sicherermodus_deaktivieren;
-	
-	$user = "";
-	if ($u_nick)
-		$user = ", " . $u_nick;
-	
-	switch ($art) {
-		case "sicherer_modus":
-			if (!$warnmeldung_sicherermodus_deaktivieren == "1") {
-				$text = str_replace("%user%", $user,
-					str_replace("%text%", $t['warnung2'], $t['warnung1']));
-			}
-			break;
-		case "ohne_js":
-			$text = str_replace("%user%", $user,
-				str_replace("%text%", $t['warnung3'], $t['warnung1']));
-			break;
-		default:
-			$text = str_replace("%user%", $user, $t['warnung1']);
-	}
-	
-	if ($u_id)
-		system_msg("", 0, $u_id, $system_farbe, $text);
 }
 
 function user(

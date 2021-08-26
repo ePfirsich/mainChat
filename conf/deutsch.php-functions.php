@@ -223,9 +223,6 @@ $t['user_zeige10'] = "Farbe";
 $t['user_zeige11'] = "Private Nachricht an %uu_nick%:";
 $t['user_zeige12'] = "<b>Admin-Menü:</b>";
 $t['user_zeige13'] = "<P>Userdaten von %uu_nick% bearbeiten:</P>";
-$t['user_zeige14'] = "<b>Chat-Modus (für Probleme):</b><br>";
-$t['user_zeige15'] = "Sicher (bei Problemen)";
-$t['user_zeige16'] = "Normal";
 $t['user_zeige17'] = "Username";
 $t['user_zeige18'] = "Nickname";
 $t['user_zeige19'] = "Neues Passwort: (doppelt)";
@@ -342,13 +339,6 @@ $t['punkte20'] = "%user% muss zum Finanzamt und verliert %punkte% Punkte!";
 $t['punkte21'] = "%user% wurden %punkte% Punkte gutgeschrieben!";
 $t['punkte22'] = "%user% wurden %punkte% Punkte abgezogen!";
 $t['punkte23'] = "Einem Gast können keine Punkte gutgeschrieben werden!";
-
-$t['warnung1'] = "<br><b>Warnung:</b> %text%%user%.";
-$t['warnung2'] = "Sie haben den Chat in den <b>sicheren Modus</b> geschaltet. Dadurch vermindert sich die Qualität der Chatausgabe. Bitte verwenden Sie den "
-	. "sicheren Modus nur, wenn Sie die Probleme durch Änderung Ihrer Proxy- oder Browsereinstellungen nicht beheben können";
-$t['warnung3'] = "Ihr Browser unterstützt <b>kein JavaScript</b> oder JavaScript ist abgeschaltet. Daher läuft der $chat im <b>sicheren Modus</b>, die Qualität "
-	. "der Chatausgabe ist vermindert und viele Funktionen im $chat sind abgeschaltet. Bitte aktivieren Sie "
-	. "JavaScript, falls Ihr Browser dies zuläßt";
 
 //Texte für automatische generierung des Beitrags
 $t['kopfzeile'] = "{autor} schrieb am {date}";

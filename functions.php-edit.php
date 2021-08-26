@@ -32,22 +32,6 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	
 	$text .= "<table style=\"width:100%;\">";
 	
-	// Backup-Algotithmus einschalten?
-	$text .= "<tr><td colspan=2>" . $f1 . $t['user_zeige14']
-		. "<select name=\"f[u_backup]\">";
-	if ($backup_chat) {
-		$text .= "<option value=\"0\">$t[user_zeige15]";
-	} elseif ($f['u_backup'] == 1) {
-		$text .= "<option selectED value=\"1\">$t[user_zeige15]";
-		$text .= "<option value=\"0\">$t[user_zeige16]";
-	} else {
-		$text .= "<option value=\"1\">$t[user_zeige15]";
-		$text .= "<option selectED value=\"0\">$t[user_zeige16]";
-	}
-	
-	$text .= "</select><input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">"
-		. $f2 . "<HR SIZE=2 NOSHADE></td></tr>\n";
-	
 	// Nur für Admins
 	if ($admin) {
 		$text .= "<tr><td COLSPAN=2>" . $f1 . "<b>" . $t['user_zeige17']

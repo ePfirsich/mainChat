@@ -75,10 +75,8 @@ if (strlen($u_id) != 0) {
 		unset($f['u_passwort']);
 	}
 	
-	// Chat bei u_backup neu aufbauen, damit nach Umstellung der Chat refresht wird
-	if ($o_js && $o_who == 0
-		&& ((isset($u_backup) && $u_backup)
-			|| (isset($f['u_backup']) && $f['u_backup']))) {
+	// Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
+	if ($o_js && $o_who == 0) {
 		echo "<script>"
 			. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
 			. "</script>\n";
@@ -621,11 +619,6 @@ if (strlen($u_id) != 0) {
 						@mysqli_free_result($resultii);
 					}
 					
-					// Warnung für sicheren Modus ausgeben
-					if (($u_backup == 0) && ($f['u_backup'] == 1)
-						&& ($u_id == $f['u_id']))
-						warnung($u_id, $u_nick, "sicherer_modus");
-					
 					// Eingabe-Frame mit Farben aktualisieren
 					if ($o_js && $o_who == 0 && isset($f['u_farbe'])
 						&& $f['u_farbe']) {
@@ -671,7 +664,6 @@ if (strlen($u_id) != 0) {
 					$f['u_level'] = $row->u_level;
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
-					$f['u_backup'] = $row->u_backup;
 					$f['u_smilie'] = $row->u_smilie;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_eintritt'] = $row->u_eintritt;
@@ -738,7 +730,6 @@ if (strlen($u_id) != 0) {
 						$f['u_level'] = $row->u_level;
 						$f['u_farbe'] = $row->u_farbe;
 						$f['u_zeilen'] = $row->u_zeilen;
-						$f['u_backup'] = $row->u_backup;
 						$f['u_smilie'] = $row->u_smilie;
 						$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 						$f['u_eintritt'] = $row->u_eintritt;
@@ -851,7 +842,6 @@ if (strlen($u_id) != 0) {
 					$f['u_level'] = $row->u_level;
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
-					$f['u_backup'] = $row->u_backup;
 					$f['u_smilie'] = $row->u_smilie;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
@@ -886,7 +876,6 @@ if (strlen($u_id) != 0) {
 				$f['u_level'] = $row->u_level;
 				$f['u_farbe'] = $row->u_farbe;
 				$f['u_zeilen'] = $row->u_zeilen;
-				$f['u_backup'] = $row->u_backup;
 				$f['u_smilie'] = $row->u_smilie;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 				$f['u_eintritt'] = $row->u_eintritt;
