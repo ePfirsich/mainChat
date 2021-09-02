@@ -54,8 +54,8 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 	if ($result) {
 		$rows = mysqli_num_rows($result);
 	} else {
-		echo "<P><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", "
-			. mysqli_errno($mysqli_link) . "</P>";
+		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", "
+			. mysqli_errno($mysqli_link) . "</p>";
 		die();
 	}
 	if ($communityfeatures && $forumfeatures) {
@@ -63,7 +63,7 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 	} else {
 		$raeume = "<td><b>" . $t['login12'] . "</b><br>";
 	}
-	$raeume .= $f1 . "<SELECT name=\"eintritt\">";
+	$raeume .= $f1 . "<select name=\"eintritt\">";
 	
 	if ($communityfeatures && $forumfeatures)
 		$raeume = $raeume
