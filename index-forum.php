@@ -64,22 +64,18 @@ $title = $body_titel;
 zeige_header_anfang($title, 'login');
 
 zeige_header_ende();
-
-echo "<framset rows=\"$frame_online_size,*,5,"
-	. $frame_size['interaktivforum']
-	. ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
-echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-echo "<frame src=\"forum.php?id=$id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
-echo "<frame src=\"leer.php\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-echo "<framset cols=\"*," . $frame_size['messagesforum']
-	. "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
-echo "<frame src=\"messages-forum.php?id=$id\" name=\"messages\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
-echo "<frame src=\"interaktiv-forum.php?id=$id\" name=\"interaktiv\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-echo "</framset>\n";
-echo "<frame src=\"schreibe.php?id=$id&o_who=2\" name=\"schreibe\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-echo "</framset>\n";
-echo "<noframes>\n";
-echo "<body " . (isset($t['login6']) ? $t['login6'] : "");
 ?>
-</body>
+<frameset rows="<?php echo $frame_online_size; ?>,*,5,<?php echo $frame_size['interaktivforum']; ?>,1" border="0" frameborder="0" framespacing="0">
+	<frame src="$frame_online" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+	<frame src="forum.php?id=<?php echo $id; ?>" name="forum" marginwidth="0" marginheight="0" scrolling="auto">
+	<frame src="leer.php" name="leer" marginwidth="0" marginheight="0" scrolling="no">
+	<frameset cols="*,<?php echo $frame_size['messagesforum']; ?>" border="0" frameborder="0" framespacing="0">
+		<frame src="messages-forum.php?id=<?php echo $id; ?>" name="messages" marginwidth="0" marginheight="0" scrolling="auto">
+		<frame src="interaktiv-forum.php?id=<?php echo $id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+	</frameset>
+	<frame src="schreibe.php?id=<?php echo $id; ?>&o_who=2" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
+</frameset>
+<noframes>
+<?php echo (isset($t['login6']) ? $t['login6'] : ""); ?>
+</noframes>
 </html>
