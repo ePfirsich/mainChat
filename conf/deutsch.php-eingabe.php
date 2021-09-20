@@ -7,7 +7,7 @@ $t['farbe2'] = "Farbe:";
 $t['eingabe1'] = "Zeilen";
 
 $t['menue1'] = "Räume";
-$t['menue2'] = "User";
+$t['menue2'] = "Benutzer";
 $t['menue3'] = "Einstellungen";
 $t['menue4'] = "Hilfe";
 $t['menue5'] = "Sperren";

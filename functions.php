@@ -1187,8 +1187,10 @@ function user(
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
-			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\">"
-			. $chat_grafik['mail'] . "</A>";
+			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\" title=\"E-Mail\">"
+		
+			
+			. "<span class=\"fa fa-envelope \"></span>" . "</a>";
 	} elseif (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
 	}

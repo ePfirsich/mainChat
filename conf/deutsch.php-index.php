@@ -23,9 +23,9 @@ $t['login10'] = "Login";
 $t['login11'] = "Login als";
 $t['login12'] = "Raum:";
 $t['login13'] = "Gast";
-$t['login14'] = "als registrierter User neu anmelden";
+$t['login14'] = "als registrierter Benutzer neu anmelden";
 $t['login15'] = "<p><b>Leider ist der Login als Gast derzeit gesperrt. Bitte haben Sie dafür Verständnis.</b></p>";
-$t['login16'] = "<p><b>Leider ist kein Login als Gast möglich. Bitte melden Sie sich als registrierter User an.</b></p>";
+$t['login16'] = "<p><b>Leider ist kein Login als Gast möglich. Bitte melden Sie sich als registrierter Benutzer an.</b></p>";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
 $t['login19'] = "<p><b>Dieser Nickname ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></p>\n";
@@ -39,8 +39,8 @@ $t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde fü
 $t['login22'] = "Raum/Forum:";
 $t['login23'] = "Beiträge im Forum zeigen";
 $t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
-	. "<p>Es sind im $chat bereits %online% User online. "
-	. "Als %leveltxt% dürfen Sie ab maximal %max% User den $chat nicht mehr betreten.</p>"
+	. "<p>Es sind im $chat bereits %online% Benutzer online. "
+	. "Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den $chat nicht mehr betreten.</p>"
 	. "%zusatztext%";
 $t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
 	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
@@ -50,8 +50,8 @@ $t['login26'] = "Lieber Chatter, um diesen Chat zu betreten, müssen Sie ihn üb
 $t['login27'] = "Passwort vergessen?";
 
 $t['neu1'] = "<p><b>Bitte das Feld 'Name' ausfüllen!</b></p>\n";
-$t['neu2'] = "<p><b>Bitte geben Sie als Usernamen mindestens 4 Zeichen ein!</b></p>\n";
-$t['neu3'] = "<p><b>Bitte geben Sie als Usernamen maximal 20 Zeichen ein!</b></p>\n";
+$t['neu2'] = "<p><b>Bitte geben Sie als Benutzernamen mindestens 4 Zeichen ein!</b></p>\n";
+$t['neu3'] = "<p><b>Bitte geben Sie als Benutzernamen maximal 20 Zeichen ein!</b></p>\n";
 $t['neu4'] = "<p><b>Bitte geben Sie als Nicknamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</p>\n";
 $t['neu5'] = "<p><b>Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!</b></p>\n";
 $t['neu6'] = "<p><b>Sie haben sich beim Passwort vertippt. Bitte neu versuchen!</b></p>\n";
@@ -97,7 +97,7 @@ $t['neu32'] = "<p><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bi
 $t['neu33'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['neu34'] = "Ihre E-Mail Adresse:";
 $t['neu35'] = "Absenden";
-$t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer User fortzusetzen, klicken Sie bitte auf den folgenden Link:"
+$t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
 	. "\n\n%link% \n\nSollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
 	. "Prüfen der E-Mailadresse:\n %link2%\n\n"
 	. "Ihre E-Mailadresse: %email%\n" . "Freischalt-Code   : %hash%\n\n"
@@ -115,12 +115,12 @@ $t['neu43'] = "Freischalt-Code:";
 $t['neu44'] = "<p><b>Fehler: </b>Pluszeichen nicht im Nicknamen erlaubt!";
 $t['neu45'] = "<p>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.</p>";
 $t['neu46'] = "Anfrage um Registrierung im $chat";
-$t['neu47'] = "Hallo!\n\nEin User mit der E-Mailadresse %email% möchte sich in Ihrem Chat $chat anmelden."
+$t['neu47'] = "Hallo!\n\nEin Benutzer mit der E-Mailadresse %email% möchte sich in Ihrem Chat $chat anmelden."
 	. "\nZum freigeben dieser E-Mailadresse verwenden Sie bitte diesen Link:\n\n %link1%\n\n"
 	. "Freizugebende E-Mailadresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
-	. "Dieser User erhält dann automatisch eine Mail mit einem Link mit welchem er/sie sich anmelden kann.\n\n"
-	. "Möchten Sie dem User auf andere Weise den Freischalt-Code mitteilen, so sind folgende Angaben "
-	. "an den User zu übermitteln:\n\n"
+	. "Dieser Benutzer erhält dann automatisch eine Mail mit einem Link mit welchem er/sie sich anmelden kann.\n\n"
+	. "Möchten Sie dem Benutzer auf andere Weise den Freischalt-Code mitteilen, so sind folgende Angaben "
+	. "an den Benutzer zu übermitteln:\n\n"
 	. "Internetadresse zum Freischalten: %link2%\n"
 	. "E-Mailadresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
 		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
@@ -138,24 +138,24 @@ $t['neu53'] = "Willkommen beim $chat!\n\nDer Webmaster hat Ihre E-Mailadresse nu
 	. "\n %link%\n\nZum anmelden benötigen Sie dann noch:\n"
 	. "Ihre E-Mailadresse: %email%\n" . "Ihren Freischalt-Code: %hash%\n\n"
 		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
-$t['neu54'] = "Dem User/der Userin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
-$t['neu55'] = "Der Webmaster hat die Anzahl der Anmeldungen pro User auf %anzahl% begrenzt.";
+$t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
+$t['neu55'] = "Der Webmaster hat die Anzahl der Anmeldungen pro Benutzer auf %anzahl% begrenzt.";
 
 $t['default1'] = "Login in den $chat oder";
-$t['default2'] = "Gerade sind <b>%onlineanzahl% User online</b>,\n";
-$t['default3'] = "insgesamt sind %useranzahl% User registriert.\n";
-$t['default4'] = "User online in %raum%:";
+$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>,\n";
+$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert.\n";
+$t['default4'] = "Benutzer online in %raum%:";
 $t['default5'] = "$chat:";
-$t['default6'] = "<b>Warnung an alle Admins:</b> User <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
-$t['default7'] = "<b>$chat:</b> User '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
+$t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
+$t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
 $t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.\n";
 $t['default9'] = "Raum ";
 $t['default10'] = "Community-Bereich ";
 
-$t['ipsperre1'] = "Info an alle Admins: User %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
+$t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['agb'] = "<ol><li>Wir bitten alle User im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$t['agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. "
 	. "Pro Mitglied ist nur ein Account zulässig.</li>"
@@ -166,12 +166,12 @@ $t['agb'] = "<ol><li>Wir bitten alle User im $chat um ein höfliches, respektvol
 	. "<li>Das öffentliche Posten von Links im Allgemeinen und das Einfügen von URLs"
 	. "zum Zweck der Werbung, insbesondere für andere Internet-Angebote,"
 	. "ist nicht gestattet.</li>"
-	. "<li>Admins haben das Recht, User bei Verstößen gegen diese Regeln aus dem $chat zu werfen. Davon "
+	. "<li>Admins haben das Recht, Benutzer bei Verstößen gegen diese Regeln aus dem $chat zu werfen. Davon "
 	. "wird meist, außer in Extremfällen, erst nach einer Vorwarnung Gebrauch gemacht. </li>"
-	. "<li>Admins dürfen zu Administrationszwecken die Userdaten einsehen und ggf. die IP-Adresse des "
-	. "Users ermitteln, um die IP-Adresse oder den Provider zu sperren. </li>"
+	. "<li>Admins dürfen zu Administrationszwecken die Benutzerdaten einsehen und ggf. die IP-Adresse des "
+	. "Benutzers ermitteln, um die IP-Adresse oder den Provider zu sperren. </li>"
 	. "<li>Der Betreiber des $chat behält sich das Recht vor, bei Verstößen gegen die Regeln von seinem"
-	. " Hausrecht Gebrauch zu machen, den User aus dem $chat auszusperren und gegebenenfalls zur Anzeige "
+	. " Hausrecht Gebrauch zu machen, den Benutzer aus dem $chat auszusperren und gegebenenfalls zur Anzeige "
 	. "zu bringen. </li>"
 	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im $chat. </li>"
 	. "<li>Mit dem Login oder der Registrierung in den Mainchat erklären Sie sich mit "

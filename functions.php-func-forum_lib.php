@@ -345,7 +345,7 @@ function check_input($mode) {
 		
 		global $fo_name;
 		if (!$fo_name)
-			$missing = $t['missing_foname'];
+			$missing = $t['missing_name_kategorie'];
 		
 	} else if ($mode == "thema") {
 		global $th_name, $th_desc;

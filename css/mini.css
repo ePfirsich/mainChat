@@ -1,12 +1,12 @@
-/* Fenster Raum, User, Einstellungen, Hilfe */
+/* Fenster Raum, Benutzer, Einstellungen, Hilfe */
 body {
 	color:#000000;
 	background-color:#ffffff;
 	/* background-image:test.png; */
 }
-a:link {
+a {
 	color:#0000FF;
 }
-a:visited, a:active {
+a:active {
 	color:#000080;
 }

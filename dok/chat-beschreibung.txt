@@ -1,7 +1,7 @@
 Mögliche Nachrichtentypen:
 
 Art:           N: Normalnachricht mit Absender, Text wird in einem 
-                  Raum an alle User ausgegeben
+                  Raum an alle Benutzer ausgegeben
                S: Systemnachricht, "System" als Absender
                H: Versteckte Nachricht, Ausgabe kursiv ohne Absender
                P: Privatnachricht, wird in allen Räumen angezeigt,
@@ -9,22 +9,22 @@ Art:           N: Normalnachricht mit Absender, Text wird in einem
 
 Auszug wichtiger Funktionen:
 
-id_erzeuge:  	Generiert aus User-ID und IP-Adresse des Users einen Hash-Wert
+id_erzeuge:  	Generiert aus Benutzer-ID und IP-Adresse des Benutzers einen Hash-Wert
 id_lese:	Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum
-ist_online:	Liefert wahr zurück, falls User online ist
+ist_online:	Liefert wahr zurück, falls Benutzer online ist
 
-user_zeige:	Aufruf mit User-ID, liefert alle User-Daten zurück
-user_edit:	Formular zum Ändern der Daten des Users
+user_zeige:	Aufruf mit Benutzer-ID, liefert alle Benutzer-Daten zurück
+user_edit:	Formular zum Ändern der Daten des Benutzers
 login:		Anmeldung in der Community
 betrete_chat:	Anmeldung im Chat, Eintritt in einen Raum
 logout:		Community verlassen
 verlasse_chat:	Chat verlassen
-sperre:		Sperrt User aus Raum aus oder gibt sie frei
-ignore:		Filtert Text von bestimmten User aus oder schaltet den Filter wieder ab
+sperre:		Sperrt Benutzer aus Raum aus oder gibt sie frei
+ignore:		Filtert Text von bestimmten Benutzer aus oder schaltet den Filter wieder ab
 
-raum_gehe: 	Raum Betreten. User, Raum werden übergeben
-raum_verlasse:	Raum verlassen. User, Raum werden übergeben 
-raum_user:	Listet die User in einem Raum auf
+raum_gehe: 	Raum Betreten. Benutzer, Raum werden übergeben
+raum_verlasse:	Raum verlassen. Benutzer, Raum werden übergeben 
+raum_user:	Listet die Benutzer in einem Raum auf
 raeume_auswahl:	Zeige alle aktuellen Räume als selection
 
 chat_msg:	Schreibt Text in Raum r_id
@@ -34,8 +34,8 @@ schreibe_chat:	Schreibt Text in Chat-DB
 
 zufall_msg:	Gibt einen Zugfalls-Spruch aus
 global_msg:	Schreibt Systemmessage in alle Räume oder in übergebenen Raum
-priv_msg:	Schreibt private msg von User an User
-system_msg:	Schreibt private msg an User
+priv_msg:	Schreibt private msg von Benutzer an Benutzer
+system_msg:	Schreibt private msg an Benutzer
 hidden_msg:	Entspricht /me
 
 hilfe:		Gibt Hilfe zum angegeben Thema aus, ohne Thema kommt Übersicht

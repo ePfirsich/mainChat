@@ -32,7 +32,7 @@
 // Ist dieser Wert gesetzt, werden die Statistiken mit diesem HTTP_HOST gespeichert,
 // egal mit welchem VHOST auf den Chat zugegriffen wird.
 // Relevant für Lizenzkunden, die mit meherere URLs auf den Chat zugreifen,
-// und eine Zusammenfassende Userstatisik wünschen.
+// und eine Zusammenfassende Benutzerstatisik wünschen.
 //$STAT_DB_COLLECT="";
 
 
@@ -61,8 +61,8 @@ $chat_offline_kunde=0;
 // Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
 $chat_offline_kunde_txt="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
 
-// Chat auf eine Maximalanzahl von Usern nach Level einschränken
-// Für Admins gilt C/S/M, für User U und für Gäste G
+// Chat auf eine Maximalanzahl von Benutzern nach Level einschränken
+// Für Admins gilt C/S/M, für Benutzer U und für Gäste G
 // Kein Limit = 0
 $chat_max['C']=0;
 $chat_max['S']=0;
@@ -81,7 +81,7 @@ $webchatpredef=array("Lobby",
 // alle nicht genannten Räume in diesem Raum zusammenfassen
 $webchatprivatraum="privat";
 
-// Zeit bis wann User als ausgeloggt gilt, wenn der den Chat verlassen hat ohne
+// Zeit bis wann Benutzer als ausgeloggt gilt, wenn der den Chat verlassen hat ohne
 // auf Ende zu klicken oder den Browser beendet. Der unterste Frame
 // wird 3x so oft neu geladen wie timeout dauert
 // Optimal sind 90 Sekunden
@@ -111,11 +111,11 @@ $raum_auswahl="%raumauswahl%";
 // 1=ja, 0=nein
 $unterdruecke_raeume="%unterdrueckeraeume%";
 
-// Beichtstuhl-Modus: Wenn beim Login kein User in der Lobby, aber ein Admin
+// Beichtstuhl-Modus: Wenn beim Login kein Benutzer in der Lobby, aber ein Admin
 // alleine in einem Raum ist, wird dieser Raum betreten, ansonsten die
 // Lobby. Bei meheren Räumen mit einem Admin wird einer zufällig ausgewählt.
-// Die User sehen nur die Lobby und Räume mit einem Admin. In der
-// Raumübersicht erscheinen alle User, ausser in der Lobby, anonym.
+// Die Benutzer sehen nur die Lobby und Räume mit einem Admin. In der
+// Raumübersicht erscheinen alle Benutzer, ausser in der Lobby, anonym.
 // 1=ja, 0=nein
 $beichtstuhl=0;
 
@@ -132,7 +132,7 @@ $lobby="%lobby%";
 $eintrittsraum="Lobby";
 
 
-// Anzahl der User, die in der Usersuche maximal angezeigt werden
+// Anzahl der Benutzer, die in der Benutzersuche maximal angezeigt werden
 $max_user_liste=200;
 
 
@@ -154,7 +154,7 @@ $farbe_tabelle_zeile2="#D8D8EE";
 // Eingangsseite, Anmeldung
 $farbe_background="#FFFFFF";
 
-// Fenster Raum, User, Einstellungen, Hilfe
+// Fenster Raum, Benutzer, Einstellungen, Hilfe
 $farbe_mini_background="#FFFFFF";
 $farbe_mini_text="#000000";
 $farbe_mini_link="#0000FF";
@@ -162,9 +162,9 @@ $farbe_mini_vlink="#000080";
 
 
 // Layout 
-$farbe_user_fest=0;				// 1=Nickname wird in Userfarbe ausgegeben,
+$farbe_user_fest=0;				// 1=Nickname wird in Benutzerfarbe ausgegeben,
 						// Textzeile ist immer system_farbe
-						// 0=Textzeile wird in Userfarbe ausgegeben
+						// 0=Textzeile wird in Benutzerfarbe ausgegeben
 $chat_eingabe_breite=80;			// Breite des Text-Eingabefelds des Chats
 $farbe_chat_user_groesse=12;			// Größe der Farbauswahlfelder
 
@@ -187,7 +187,7 @@ $zusatztext_kopf="";
 
 
 // Voreinstellung für Farben im Chat:
-$user_farbe         ="#0000AA";			// für User, Farbe mit #
+$user_farbe         ="#0000AA";			// für Benutzer, Farbe mit #
 $system_farbe       ="000000";			// System, Farbe ohne #
 
 
@@ -227,7 +227,7 @@ $ssl_login=0;				// 1=ja, 0=nein
 // Leitet anfragen von HTTP auf HTTPS um
 $SSLRedirect = "1";
 
-// Erlaubte Zeichen für Usernamen, leerer String -> keine Prüfung
+// Erlaubte Zeichen für Benutzernamen, leerer String -> keine Prüfung
 $check_name="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzöäüÖÄÜ0123456789-#+";
 
 
@@ -339,40 +339,26 @@ $keine_agb=0;
 // Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird
 $def_was=array("Freunde","Neue Mail", "Antwort auf eigenen Beitrag");
 
-// Mindestanzahl der User in Raum, ab der Punkte gutgeschrieben werden
+// Mindestanzahl der Benutzer in Raum, ab der Punkte gutgeschrieben werden
 $punkte_ab_user=5;
 
 // Punkte pro Postung im Forum
 $punkte_pro_posting=50;
 
-// Definition der Punkte für die Usergruppen
+// Definition der Punkte für die Benutzergruppen
 $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 	6=>500000,7=>750000,8=>1000000,9=>5000000,10=>10000000);
-$punkte_grafik=array("<img src=\"pics/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Usergruppe/Admin\">",
-			"<img src=\"pics/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Usergruppe\">");
+$punkte_grafik=array("<img src=\"pics/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
+			"<img src=\"pics/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
 
-$chat_grafik['mail']="<img src=\"pics/mail.gif\" style=\"width:17px; height:12px; border:0px;\" alt =\"E-Mail\">";
-$chat_grafik['home']="<img src=\"pics/haeuschen.gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Homepage\">";
+$chat_grafik['home']="<span class=\"fa fa-home \" alt=\"Homepage\"></span>";
 $chat_grafik['geschlecht_weiblich'] = "&nbsp;<img src=\"pics/weiblich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"weiblich\">";
 $chat_grafik['geschlecht_maennlich'] = "&nbsp;<img src=\"pics/maennlich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"maennlich\">";
-$chat_grafik['forum_pfeil_rechts']="<img src=\"pics/forum/pfeilrechts.gif\" style=\"width:15px; height:12px; border:0px;\" alt=\"--->\">";
-$chat_grafik['forum_pfeil_links']="<img src=\"pics/forum/pfeillinks.gif\" style=\"width:15px; height:12px; border:0px;\" alt=\"<---\">";
-$chat_grafik['forum_pfeil_oben']="<img src=\"pics/forum/pfeiloben.gif\" style=\"width:20px; height:11px; border:0px;\" alt=\"nach_oben\">";
-$chat_grafik['forum_pfeil_unten']="<img src=\"pics/forum/pfeilunten.gif\" style=\"width:20px; height:11px; border:0px;\" alt=\"nach_unten\">";
-$chat_grafik['forum_antworten']="<img src=\"pics/forum/antworten.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Antworten\">";
-$chat_grafik['forum_editieren']="<img src=\"pics/forum/editieren.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Bearbeiten\">";
-$chat_grafik['forum_loeschen']="<img src=\"pics/forum/loeschen.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Loeschen\">";
-$chat_grafik['forum_privat']="<img src=\"pics/forum/privat.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Privat_Antworten\">";
-$chat_grafik['forum_zitieren']="<img src=\"pics/forum/zitieren.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Zitieren_und_Antworten\">";
 $chat_grafik['forum_ordnerblau']="<img src=\"pics/forum/ordnerblau.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Neue_Beitraege\">";
 $chat_grafik['forum_ordnerneu']="<img src=\"pics/forum/ordnerneu.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Keine_neuen_Beitraege\">";
 $chat_grafik['forum_ordnervoll']="<img src=\"pics/forum/ordnervoll.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Mehr_als_10_Beitraege\">";
-$chat_grafik['forum_themabearbeiten']="<img src=\"pics/forum/editieren.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Thema_bearbeiten\">";
-$chat_grafik['forum_neuesthema']="<img src=\"pics/forum/neuesthema.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Neues_Thema\">";
 $chat_grafik['forum_topthema']="<img src=\"pics/forum/threadtopposting.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Thema_TOP_Beitrag\">";
 $chat_grafik['forum_threadgeschlossen']="<img src=\"pics/forum/threadgeschlossen.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Thema_geschlossen\">";
-$chat_grafik['forum_verschieben']="<img src=\"pics/forum/verschieben.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Thema_verschieben\">";
-$chat_grafik['forum_sperren']="<img src=\"pics/forum/sperren.gif\" style=\"width:80px; height:14px; border:0px;\" alt =\"Beitrag sperren\">";
 
 //Einstellungen für das Forum
 
@@ -383,7 +369,7 @@ $farbe_neuesposting_forum = "#009900";
 //Anzahl der Beiträge pro Seite auf Themenübersicht
 $anzahl_po_seite = 20;
 
-// Zeit in Sekunden, nach der der User ohne Eingabe ausgeloggt wird
+// Zeit in Sekunden, nach der der Benutzer ohne Eingabe ausgeloggt wird
 // Nach 3/4 der Zeit wird eine Warnung ausgegeben
 // 0=Kein Logout
 $chat_timeout=3600; // 60 Minuten
@@ -399,7 +385,7 @@ $pruefe_email=1;
 
 // user darf nur den chat betreten, wenn der referer stimmt
 // $chat_referer="http://www.wuff.net/fido/";
-// URL auf die der User geschickt werden soll um den Chat zu betreten
+// URL auf die der Benutzer geschickt werden soll um den Chat zu betreten
 // $chat_login_url="http://www.mainchat.de/";
 
 // Default Knebelzeit setzen (Minuten)
@@ -408,10 +394,10 @@ $knebelzeit=5;
 // Default Nickwechselzeit drunter geht nix (Sekunden)
 $nickwechsel=30;
 
-// Import und Löschen der Userdaten 0 = nein / 1 = ja
+// Import und Löschen der Benutzerdaten 0 = nein / 1 = ja
 $userimport=0;
 
-// Maximale Anzahl der Tage wie lange ein User maximal auf der Blacklist
+// Maximale Anzahl der Tage wie lange ein Benutzer maximal auf der Blacklist
 // steht
 $blacklistmaxdays=30;
 
@@ -438,14 +424,14 @@ $ak2="/fidion\.cc/#/schnurzel/";
 // Referer prüfen bevor Bilder auf Homepage gezeigt werden
 $check_np_referer="1";
 
-// Domains von Dialup Zugängen, User deren IP auf diese Domain auflösen werden nach 24
+// Domains von Dialup Zugängen, Benutzer deren IP auf diese Domain auflösen werden nach 24
 // wieder von der Blacklist entfernt da eine Sperrung einer dynamischen IP länger
-// als 24h keinen Sinn macht. Es würden die falschen User gesperrt werden
+// als 24h keinen Sinn macht. Es würden die falschen Benutzer gesperrt werden
 $sperre_dialup[]="dip.t-dialin.net";
 $sperre_dialup[]="arcor-ip.net";
 $sperre_dialup[]="t-ipconnect.de";
 
-// User darf sein Passwort & Nicknamen ändern (1=ja/0=nein)
+// Benutzer darf sein Passwort & Nicknamen ändern (1=ja/0=nein)
 $einstellungen_aendern=1;
 
 // Logouts zum Debugging in Tabelle logouts mitloggen
@@ -454,25 +440,25 @@ $logout_logging=0;
 // Geschlecht anzeigen im Chat. true erzeugt mehr Datenbankzugriffe, da zusätzliche Felder aus der userinfo geladen werden müssen
 $show_geschlecht = false;
 
-//Userhomepage String für externe Communities
+//Benutzerhomepage String für externe Communities
 $homep_ext_link = "";
 
-// Ab dieser Punktzahl darf ein User den Chat trotz IP-Sperre betreten
+// Ab dieser Punktzahl darf ein Benutzer den Chat trotz IP-Sperre betreten
 // $loginwhileipsperre = 0 // deaktiviert das umgehen
 $loginwhileipsperre = 10000;
 
 
-// Soll bei der Anmeldung der User sich nicht einfach so anmelden können,
+// Soll bei der Anmeldung der Benutzer sich nicht einfach so anmelden können,
 // hier die Mailadresse der Person eintragen die die Anmeldung (Mailadresse) bestätigen.
 $anmeldung_nurmitbest = "";
 
 // Mails werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
 $mailloescheauspapierkorb=14;
 
-// User kann Individuelle Eintrittsnachrichten benutzen
+// Benutzer kann Individuelle Eintrittsnachrichten benutzen
 $eintritt_individuell="1";
 
-// andere User sehen von wem die Eintrittsnachricht kommt
+// andere Benutzer sehen von wem die Eintrittsnachricht kommt
 $eintritt_useranzeige="0";
 
 // Auf Beitäge die Älter als x Monate sind kann man nicht antworten
@@ -485,17 +471,17 @@ $forum_aenderungsanzeige="1";
 // Begrenzt die Zahl der Anmeldungen, die pro E-Mailadresse erfolgen können (0 = deaktiv)
 $begrenzung_anmeld_pro_mailadr=5;
 
-// User können sich eine Liste der Admins abrufen
+// Benutzer können sich eine Liste der Admins abrufen
 $adminlisteabrufbar="0";
 
 // Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
 $captcha_text=1;
 
-// Im Expire werden alle User gelöscht, die sich längere Zeit nicht eingeloggt haben
+// Im Expire werden alle Benutzer gelöscht, die sich längere Zeit nicht eingeloggt haben
 // Angabe in Sekunden: default =26 Wochen =15724800 Sekunden
 $nicknamen_expire=15724800; // = 26 Wochen
 
-// Es können sich keine neuen User mehr registrieren
+// Es können sich keine neuen Benutzer mehr registrieren
 $neuregistrierung_deaktivieren = "0";
 
 // Die Anzeige der RAUM Ein/Austrittsnachricht wird grundsätzlich deaktiviert
@@ -505,22 +491,22 @@ $raum_eintrittsnachricht_kurzform = "0";
 $raum_austrittsnachricht_anzeige_deaktivieren = "0";
 $raum_austrittsnachricht_kurzform = "0";
 
-// User können keine Räume anlegen und auch in keinen anderen Raum wechseln auser dem 1. Loginraum (Lobby)
+// Benutzer können keine Räume anlegen und auch in keinen anderen Raum wechseln auser dem 1. Loginraum (Lobby)
 $single_room_verhalten = "0";
 
-// Die Anzeige wieviele User im Raum sind, bzw. wieviele im Chat sind, wird nicht mehr angezeigt
+// Die Anzeige wieviele Benutzer im Raum sind, bzw. wieviele im Chat sind, wird nicht mehr angezeigt
 $useronline_anzeige_deaktivieren = "0";
 
-// Deaktiviert rechts in der Userleiste das ansprechen per @ und >
+// Deaktiviert rechts in der Benutzerleiste das ansprechen per @ und >
 $userleiste_inaktiv_ansprechen = "0";
 
-// Deaktiviert rechts in der Userleiste das Mailsymbol
+// Deaktiviert rechts in der Benutzerleiste das Mailsymbol
 $userleiste_inaktiv_mailsymbol = "0";
 
-// Deaktiviert rechts in der Userleiste das anklicken des Nicknamens
+// Deaktiviert rechts in der Benutzerleiste das anklicken des Nicknamens
 $userleiste_inaktiv_userfunktionen = "0";
 
-// Deaktiviert die Anzeige "User im Raum" beim Betreten des Raumes
+// Deaktiviert die Anzeige "Benutzer im Raum" beim Betreten des Raumes
 $unterdruecke_user_im_raum_anzeige = "0";
 
 // Deaktiviert autocomplete in der Chateingabe

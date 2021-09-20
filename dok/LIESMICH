@@ -49,14 +49,14 @@ php_value output_buffering 0
 DirectoryIndex index.php
 
 
-In die crontab des Users www ist dann noch folgender Job einzutragen:
+In die crontab des Benutzers www ist dann noch folgender Job einzutragen:
 "0-59  0-23 * * *  /usr/bin/lynx -dump http://localhost/expire.php > /dev/null"
 
 Nach der Änderung muss der httpd die Konfigdatei neu mit einem SIGHUP einlesen:
 killall -HUP httpd
 
 Bitte bedenken Sie daß ein solcher SIHUP an den WWW-Server die Ausgabe von
-User die sich gerade im Chat befinden unterbricht und daß Scripte die
+Benutzer die sich gerade im Chat befinden unterbricht und daß Scripte die
 Logfiles rotieren oder den WWW-Server neu starten diese SIGHUPS auslösen.
 Stellen Sie daher bitte sicher daß im Normalbetrieb nur Nachts zu
 unbedenklichen Zeiten ein SIGUP ausgelöst wird um Probleme im Chat zu
@@ -128,18 +128,18 @@ Level A: Admin(temp) - Der Admin-Status gilt nur bus zum nächsten Login
 Level M: Moderator - Erweitere Ansicht mit Moderationsfunktionen
 Level C: ChatAdmin - Der normale Administrator
 
-Level G: Gast - Diese User werden automatisch nach einigen Minuten nach dem
+Level G: Gast - Diese Benutzer werden automatisch nach einigen Minuten nach dem
          Login gelöscht
-Level S: Superuser - User dieser Gruppe dürfen zusätzlich zu den Rechten des
-         ChatAdmins andere User zum ChatAdmin oder Superuser ernennen
-Level U: User - normaler User
+Level S: Superuser - Benutzer dieser Gruppe dürfen zusätzlich zu den Rechten des
+         ChatAdmins andere Benutzer zum ChatAdmin oder Superuser ernennen
+Level U: Benutzer - normaler Benutzer
 Level Z: Gesperrt - Der Login wird abgewiesen
 
-ChatAdmins und Superuser können User verändern und Rechner vom Chat
-aussperren. Ein Superuser kann andere User zu ChatAdmins oder Superuser
-ändern, ein ChatAdmin kann dies nicht. Gast und User sind auch gleichwertig,
+ChatAdmins und Superuser können Benutzer verändern und Rechner vom Chat
+aussperren. Ein Superuser kann andere Benutzer zu ChatAdmins oder Superuser
+ändern, ein ChatAdmin kann dies nicht. Gast und Benutzer sind auch gleichwertig,
 außer das ein Gast nach dem Logoff gelöscht wird und gewisse Befehle nicht
-nutzen kann. Ein User, der auf "Gesperrt" gesetzt wird, kann sich nicht mehr
+nutzen kann. Ein Benutzer, der auf "Gesperrt" gesetzt wird, kann sich nicht mehr
 im mainChat anmelden. 
 
 Im Verzeichnis conf/ finden Sie Konfigurationsdateien mit den Texten, die im
@@ -148,17 +148,17 @@ mainChat Verwendung finden. Die Texte sind bis auf die Platzhalter (%TEXT%)
 
 3. Betrieb
 Bitte beachten Sie, daß alle Verzeichnisse und die Logdateien, die von
-mainChat beschrieben werden, auch für den User www oder wwwrun beschreibbar
+mainChat beschrieben werden, auch für den Benutzer www oder wwwrun beschreibbar
 sind!
 
-Der Expire löscht die alten Daten aus der Datenbank, loggt User nach dem
+Der Expire löscht die alten Daten aus der Datenbank, loggt Benutzer nach dem
 Timeout aus und erstellt die Statistiken, die Sie im Verzeichnis
 "statistiken" aufgeschlüsselt nach Tag, Uhrzeit oder virtuellem Host abrufen
 können.
 
 Falls Sie in anderen Angeboten mit
 Ihren mainChat gelistet werden möchten, liefert Ihnen die Datei
-userliste.php eine kompatible Userliste.
+userliste.php eine kompatible Benutzerliste.
 
 
 4. Tipps

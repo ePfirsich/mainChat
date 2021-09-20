@@ -1,39 +1,48 @@
 <?php
+// Buttons
+$t['button_editieren'] = "editieren";
+$t['button_loeschen'] = "löschen";
+$t['button_neues_forum'] = "Neues Forum";
 
-//Texte für obere Menueleiste
-$menue[1] = "Neues Forum";
+// Kategorie
+$t['kategorie_name'] = "Name der Kategorie:";
+$t['kategorie_anlegen'] = "Neue Kategorie anlegen";
+$t['kategorie_editieren'] = "Kategorie editieren";
+$t['kategorie_editieren_mit_Name'] = "Kategorie xxx bearbeiten";
+$t['kategorie_themen'] = "Themen";
+$t['kategorie_beitraege'] = "Beiträge";
+$t['kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
-//Texte für neues Forum/Thema
-$t['forum_neu'] = "Neues Forum anlegen";
-$t['thema_neu'] = "Neues Thema anlegen";
-$t['forum_edit'] = "Forum xxx bearbeiten";
-$t['thema_edit'] = "Thema bearbeiten";
+// Forum
+$t['forum_name'] = "Name des Forums:";
+$t['forum_anlegen'] = "Neues Forum anlegen";
+$t['forum_editieren_mit_Name'] = "Forum xxx editieren";
+$t['forum_beschreibung'] = "Beschreibung des Forums:";
+$t['forum_verschieben'] = "Verschiebe in eine andere Kategorie";
+$t['forum_anlegen'] = "Forum anlegen";
+$t['forum_speichern'] = "Forum speichern";
+$t['forum_loeschen'] = "Wollen Sie das komplette Forum mit ALLEN Themen löschen?";
+
+// Themen
+$t['thema_erstellen'] = "Neues Thema erstellen";
+$t['thema_beitraege'] = "Beiträge";
+$t['thema_antworten'] = "antworten";
+$t['thema_editieren'] = "editieren";
+$t['thema_zitieren'] = "zitieren";
+$t['thema_sperren'] = "sperren";
+$t['thema_loeschen'] = "löschen";
+$t['thema_loeschen2'] = "Wollen Sie dieses Thema wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESES Thema gelöscht!";
+$t['thema_verschieben'] = "verschieben";
+$t['thema_weiterleiten'] = "weiterleiten";
+$t['thema_privat'] = "Mail";
 
 //Texte für Maske Forum
-$t['forum_msg1'] = "Name des Forums:";
 $t['forum_msg2'] = "Öffentlich zugänglich:";
 $t['forum_msg3'] = "Gäste dürfen:";
-$t['forum_msg4'] = "User dürfen:";
+$t['forum_msg4'] = "Benutzer dürfen:";
 $t['forum_msg5'] = "nur lesen";
 $t['forum_msg6'] = "lesen und schreiben";
 $t['forum_msg7'] = "weder lesen noch schreiben";
-
-$t['forum_no'] = "Nein";
-$t['forum_yes'] = "Ja";
-$t['forum_button'] = "Forum anlegen";
-$t['forum_edit_button'] = "Forum editieren";
-
-//Texte für Maske Thema
-$t['thema_msg1'] = "Name des Themas:";
-$t['thema_msg2'] = "Beschreibung des Themas:";
-$t['thema_msg3'] = "Verschiebe in anderes Forum";
-$t['thema_button'] = "Thema anlegen";
-$t['thema_button_edit'] = "Thema speichern";
-
-//Texte für Liste der Foren
-$t['anzthreads'] = "Anzahl Themen";
-$t['anzreplys'] = "Anzahl Antworten";
-$t['anzbeitraege'] = "Neue Beiträge";
 
 //Texte für Beschreibungen der Folder
 $t['desc_folder'] = "Keine neuen Beiträge seit Ihrem letzten Besuch.";
@@ -49,7 +58,6 @@ $t['alles_gelesen'] = "Alle Beiträge als gelesen markieren";
 $t['autor'] = "von&nbsp;";
 $t['datum'] = "Geschrieben am ";
 $t['letztes_posting'] = "Letzter&nbsp;Beitrag&nbsp;am";
-$t['anzneue'] = "Ungelesen";
 $t['thread_alles_gelesen'] = "Alle Beiträge dieses Themas als gelesen markieren";
 
 //Texte für Maske Beiträge
@@ -58,7 +66,7 @@ $t['edit_button'] = "Beitrag editieren";
 $t['posting_msg1'] = "Titel:";
 $t['posting_msg2'] = "Beitrag:";
 $t['posting_msg3'] = "Autor:";
-$t['posting_msg4'] = "(Nick oder User_ID)";
+$t['posting_msg4'] = "(Nick oder Benutzer_ID)";
 $t['page'] = "Seite";
 $t['last'] = "vorheriger";
 $t['next'] = "nächster";
@@ -66,20 +74,16 @@ $t['reply'] = "Re:";
 $t['desc_posting'] = "Bitte keine HTML-Tags im Beitrag verwenden, diese werden bei der Darstellung des Beitrags nicht berücksichtigt. Der Beitrag wird automatisch passend formatiert, wobei Zeilenumbrüche berücksichtigt werden.";
 $t['smilies'] = "Smilies zum Einfügen anzeigen";
 
-//Text für Bestätigung zum Löschen eines Beitrags, Themas, Forums
-$t['conf_delete'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!!!!";
-$t['conf_delete_forum'] = "Wollen Sie das komplette Forum mit ALLEN Themen und Beiträge löschen???";
-$t['conf_delete_thema'] = "Wollen Sie das komplette Thema mit ALLEN Beiträge löschen???";
 
 //Texte für fehlende Eingaben
-$t['missing_foname'] = "Kein Name für das Forum angegeben";
+$t['missing_name_kategorie'] = "Es wurde kein Name für die Kategorie angegeben.";
 $t['missing_thname'] = "<br>Kein Name für das Thema angegeben";
 $t['missing_thdesc'] = "<br>Keine Beschreibung für das Thema angegeben";
 $t['missing_potitel'] = "<br>Geben Sie bitte einen Titel für den Beitrag an!";
 $t['missing_potext'] = "<br>Sie haben keinen Text für Ihren Beitrag eingegeben!";
 
 // Sonstiges
-$t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich als registrierter User an.";
+$t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich als registrierter Benutzer an.";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 

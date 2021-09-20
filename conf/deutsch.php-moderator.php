@@ -25,7 +25,7 @@ $t['mod_limit'] = "Alle zeigen";
 $t['mod_nein'] = "nein";
 
 $t['moderation1'] = "<b>Willkommen im Moderationsmodul!</b>";
-$t['moderation2'] = "<br><span style=\"font-size: smaller;\">In diesem Frame sehen Sie die Eingaben der User.</span>";
+$t['moderation2'] = "<br><span style=\"font-size: smaller;\">In diesem Frame sehen Sie die Eingaben der Benutzer.</span>";
 $t['moderation3'] = "<br><span style=\"font-size: smaller;\">Klicken Sie bei der Eingabe einfach auf die entsprechenden Buttons, um eine Aktion auszulösen.</span>";
 $t['moderation4'] = "<table style=\"margin:auto;\">"
 	. "<tr><td class=\"tabelle_zeile_moderator_1g\"><img src=\"pics/ok.gif\" style=\"height:20px; width:20px;\"></td><td class=\"tabelle_zeile_moderator_1g\"><small>die Frage wird zum Beantworten reserviert.</td></tr>"

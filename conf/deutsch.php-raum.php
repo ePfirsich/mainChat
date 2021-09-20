@@ -4,7 +4,7 @@
 
 $t['menue1'] = "Übersicht";
 $t['menue2'] = "Neuer Raum";
-$t['menue3'] = "Userliste";
+$t['menue3'] = "Benutzerliste";
 $t['menue4'] = "Einstellungen";
 $t['menue5'] = "$chat Menü";
 $t['menue6'] = "ausführliche Raumliste";

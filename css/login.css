@@ -4,9 +4,9 @@ body {
 	background-color:#ffffff;
 	/* background-image:test.png; */
 }
-a:link {
+a {
 	color:#000080;
 }
-a:visited, a:active {
+a:active {
 	color:#000080;
 }

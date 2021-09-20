@@ -12,7 +12,7 @@ $t['titel'] = "Suchabfrage";
 $t['suche1'] = "Suchwörter";
 $t['suche2'] = "Suche in Board / Thema";
 $t['suche3'] = "Sucheinstellungen";
-$t['suche4'] = "nur Beiträge von User";
+$t['suche4'] = "nur Beiträge von Benutzer";
 $t['suche5'] = "SUCHEN";
 
 $t['option1'] = "komplettes Forum";
@@ -43,8 +43,8 @@ $t['ergebnis4'] = "Betreff";
 $t['ergebnis6'] = "geschrieben am";
 $t['ergebnis7'] = "Autor";
 
-$t['fehler1'] = "Username enthält ungültige Zeichen.";
-$t['fehler2'] = "Entweder Suchwörter oder Username muss bei dieser Zeitangabe angegeben werden.";
+$t['fehler1'] = "Benutzername enthält ungültige Zeichen.";
+$t['fehler2'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
 $t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.";
 $t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.";
 $t['fehler5'] = "Falsches Board \/ Thema.";

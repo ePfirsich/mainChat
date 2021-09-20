@@ -7,7 +7,7 @@ $t['farbe2'] = "Farbe:";
 $t['eingabe1'] = "Zeilen";
 
 $t['menue1'] = "Räume";
-$t['menue2'] = "User";
+$t['menue2'] = "Benutzer";
 $t['menue3'] = "Einstellungen";
 $t['menue4'] = "Hilfe";
 $t['menue5'] = "Sperren";
@@ -21,6 +21,6 @@ $t['menue12'] = "Blacklist";
 $t['menue13'] = "Suche";
 
 $t['button'] = "zum Chat";
-$t['forum_interaktiv_txt'] = "Insgesamt sind %anzahl_gesamt% Chatter online";
+$t['forum_interaktiv_txt'] = "Insgesamt sind %anzahl_gesamt% Benutzer online";
 
 ?>

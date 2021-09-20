@@ -6,6 +6,7 @@ function kopf_forum($admin) {
 	global $f1, $f2;
 	global $chat, $body_titel;
 	global $aktion;
+	global $t;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -36,22 +37,19 @@ function kopf_forum($admin) {
 	zeige_header_ende();
 	?>
 	<body>
-	<?php
-	// zeige_kopf();
-	
-	if (($admin) && (!$aktion)) {
-		$lnk[1] = $f1 . "&nbsp;[<a href=\"forum.php?id=$id&aktion=forum_neu\">$menue[1]</a>]" . $f2;
-	}
-	
-	if (!isset($lnk[1])) {
-		$lnk[1] = "";
-	}
-	?>
 	<table style="width:900px; margin:auto;">
 		<tr>
-			<td><b><a href="forum.php?id=<?php echo $id; ?>"><?php echo $chat; ?>-Forum</a><?php echo $lnk[1]; ?></b></td>
+			<td>
+				<b>
+					<a href="forum.php?id=<?php echo $id; ?>"><?php echo $chat; ?>-Forum</a>
+				</b>
+				<?php if (($admin) && (!$aktion)) { ?>
+					<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_neu" class="button" title="<?php echo $t['kategorie_anlegen']; ?>"><span class="fa fa-plus"></span> <span><?php echo $t['kategorie_anlegen']; ?></span></a>
+				<?php } ?>
+			</td>
 		</tr>
 	</table>
+	<br>
 	<?php
 }
 
@@ -69,7 +67,7 @@ function fuss_forum() {
 function show_missing($missing) {
 	global $farbe_hervorhebung_forum;
 	
-	echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold;\">$missing</p>";
+	echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold; text-align:center;\">$missing</p>";
 }
 
 //Eingabemaske für neues Forum
@@ -86,12 +84,12 @@ function maske_forum($fo_id = 0) {
 		$fo_admin = mysqli_result($query, 0, "fo_admin");
 		@mysqli_free_result($query);
 		
-		$kopfzeile = str_replace("xxx", $fo_name, $t['forum_edit']);
-		$button = $t['forum_edit_button'];
+		$kopfzeile = str_replace("xxx", $fo_name, $t['kategorie_editieren_mit_Name']);
+		$button = $t['kategorie_editieren'];
 		
 	} else {
-		$kopfzeile = $t['forum_neu'];
-		$button = $t['forum_button'];
+		$kopfzeile = $t['kategorie_anlegen'];
+		$button = $t['kategorie_anlegen'];
 		
 	}
 	?>
@@ -101,7 +99,7 @@ function maske_forum($fo_id = 0) {
 				<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
 			</tr>
 			<tr>
-				<td style="width:260px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_msg1']; ?><?php echo $f2; ?></td>
+				<td style="width:260px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['kategorie_name']; ?><?php echo $f2; ?></td>
 				<td class="tabelle_koerper_login"><input type="text" size="50" name="fo_name" value="<?php echo $fo_name; ?>"></td>
 			</tr>
 			<?php
@@ -208,19 +206,15 @@ function forum_liste() {
 								echo htmlspecialchars($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>";
 								if ($forum_admin) {
 									?>
-									<td style="width:85px; text-align:right; vertical-align:middle;">
-										<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_delete&fo_id=<?php echo $thema['fo_id']; ?>" onClick="return ask('<?php echo $t['conf_delete_forum']; ?>')"><?php echo $chat_grafik['forum_loeschen']; ?></a>&nbsp;
-									</td>
-									<td style="width:85px; text-align:right; vertical-align:middle;">
-										<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_edit&fo_id=<?php echo $thema['fo_id']; ?>"><?php echo $chat_grafik['forum_editieren']; ?></a>&nbsp;
-									</td>
-									<td style="width:90px; text-align:right; vertical-align:middle;">
-										&nbsp;<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&aktion=thema_neu"><?php echo $chat_grafik['forum_neuesthema']; ?></a>&nbsp;
+									<td style="text-align:right; vertical-align:middle;">
+										<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_edit&fo_id=<?php echo $thema['fo_id']; ?>" class="button" title="<?php echo $t['button_editieren']; ?>"><span class="fa fa-pencil"></span> <span><?php echo $t['button_editieren']; ?></span></a>
+										<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_delete&fo_id=<?php echo $thema['fo_id']; ?>" onClick="return ask('<?php echo $t['kategorie_loeschen']; ?>')" class="button" title="<?php echo $t['button_loeschen']; ?>"><span class="fa fa-trash"></span> <span><?php echo $t['button_loeschen']; ?></span></a>
+										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&aktion=thema_neu" class="button" title="<?php echo $t['button_neues_forum']; ?>"><span class="fa fa-plus"></span> <span><?php echo $t['button_neues_forum']; ?></span></a>
 									</td>
 									<td style="width:17px;">
-										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_up"><?php echo $chat_grafik['forum_pfeil_oben']; ?></a><br>
+										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_up" class="button"><span class="fa fa-arrow-up"></span></a><br>
 										<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
-										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_down"><?php echo $chat_grafik['forum_pfeil_unten']; ?></a>
+										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_down" class="button"><span class="fa fa-arrow-down"></span></a>
 									</td>
 									<?php
 								}
@@ -228,9 +222,8 @@ function forum_liste() {
 								</tr>
 							</table>
 						</td>
-						<td class="tabelle_kopfzeile" style="width:67px; text-align:center;"><?php echo $f1 . $t['anzbeitraege'] . $f2; ?></td>
-						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"><?php echo $f1 . $t['anzthreads'] . $f2; ?></td>
-						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"><?php echo $f1 . $t['anzreplys'] . $f2; ?></td>
+						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"> </td>
+						<td class="tabelle_kopfzeile" style="width:66px; text-align:center;"> </td>
 					</tr>
 				<?php
 			}
@@ -257,7 +250,7 @@ function forum_liste() {
 					$folder = $chat_grafik['forum_ordnervoll'];
 				}
 				
-				echo "<td width=\"30\" style=\"text-align:center;\" $farbe>$folder</td>";
+				echo "<td style=\"width:30px; text-align:center;\" $farbe>$folder</td>";
 				if ($forum_admin) {
 					?>
 					<td style="width:550px;" <?php echo $farbe; ?>>
@@ -268,16 +261,14 @@ function forum_liste() {
 									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=show_thema">
 									<?php echo htmlspecialchars($thema['th_name']) . "</a>$f2<br>" . $f3 . " " . htmlspecialchars($thema['th_desc']) . $f4; ?>
 								</td>
-								<td style="width:85px; text-align:center; vertical-align:middle;\">
-									<a href="forum.php?id=<?php echo $id; ?>&aktion=thema_delete&th_id=<?php echo $thema['th_id']; ?>" onClick="return ask('<?php echo $t['conf_delete_thema']; ?>')"><?php echo $chat_grafik['forum_loeschen']; ?></a>
-								</td>
-								<td style="width:85px; text-align:center; vertical-align:middle;">
-									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=thema_edit"><?php echo $chat_grafik['forum_themabearbeiten']; ?></a>
+								<td style="width:170px; text-align:center; vertical-align:middle;\">
+									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&aktion=thema_edit" class="button" title="<?php echo $t['button_editieren']; ?>"><span class="fa fa-pencil"></span> <span><?php echo $t['button_editieren']; ?></span></a>
+									<a href="forum.php?id=<?php echo $id; ?>&aktion=thema_delete&th_id=<?php echo $thema['th_id']; ?>" onClick="return ask('<?php echo $t['forum_loeschen']; ?>')" class="button" title="<?php echo $t['button_loeschen']; ?>"><span class="fa fa-trash"></span> <span><?php echo $t['button_loeschen']; ?></span></a>
 								</td>
 								<td style="width:20px; text-align:center;">
-									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_up"><?php echo $chat_grafik['forum_pfeil_oben']; ?></a><br>
+									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_up" class="button"><span class="fa fa-arrow-up"></span></a><br>
 									<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
-									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_down"><?php echo $chat_grafik['forum_pfeil_unten']; ?></a>
+									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_down" class="button"><span class="fa fa-arrow-down"></span></a>
 								</td>
 							</tr>
 						</table>
@@ -292,9 +283,8 @@ function forum_liste() {
 					<?php
 				}
 				?>
-				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $ungelesene . $f2; ?></td>
-				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $thema['th_anzthreads'] . $f2; ?></td>
-				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f1 . $thema['th_anzreplys'] . $f2; ?></td>
+				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f3 . $thema['th_anzthreads'] . ' ' . $t['kategorie_themen'] . $f4; ?></td>
+				<td style="text-align:center;" <?php echo $farbe; ?>><?php echo $f3 . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . ' ' . $t['kategorie_beitraege'] . $f4; ?></td>
 				</tr>
 				<?php
 			}
@@ -348,16 +338,18 @@ function maske_thema($th_id = 0) {
 		$th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
 		@mysqli_free_result($query);
 		
-		$kopfzeile = $chat_grafik['forum_themabearbeiten'];
-		$button = $t['thema_button_edit'];
+		$button = $t['forum_speichern'];
 	} else {
-		$kopfzeile = $chat_grafik['forum_neuesthema'];
-		$button = $t['thema_button'];
+		$button = $t['forum_anlegen'];
 	}
 	
 	if (!isset($th_name)) {
 		$th_name = "";
+		$kopfzeile = $t['forum_anlegen'];
+	} else {
+		$kopfzeile = str_replace("xxx", $th_name, $t['forum_editieren_mit_Name']);
 	}
+	
 	if (!isset($th_desc)) {
 		$th_desc = "";
 	}
@@ -365,21 +357,21 @@ function maske_thema($th_id = 0) {
 	<form action="forum.php" method="post">
 		<table class="tabelle_gerust">
 			<tr>
-				<td class="tabelle_kopfzeile" colspan="2"><?php echo $t['thema_neu']; ?></td>
+				<td class="tabelle_kopfzeile" colspan="2"><?php echo $kopfzeile; ?></td>
 			</tr>
 			</tr>
 			<tr>
-				<td style="width:300px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg1']; ?><?php echo $f2; ?></td>
+				<td style="width:300px; font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_name']; ?><?php echo $f2; ?></td>
 				<td class="tabelle_koerper_login"><input type="text" size="40" name="th_name" value="<?php echo $th_name; ?>"></td>
 			</tr>
 			<tr>
-				<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg2']; ?><?php echo $f2; ?></td>
+				<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_beschreibung']; ?><?php echo $f2; ?></td>
 				<td class="tabelle_koerper_login"><textarea name="th_desc" rows="3" cols="90"><?php echo $th_desc; ?></textarea></td></tr>
 			<?php
 			if ($th_id > 0) {
 				?>
 				<tr>
-					<td style="font-weigh:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['thema_msg3']; ?><?php echo $f2; ?></td>
+					<td style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['forum_verschieben']; ?><?php echo $f2; ?></td>
 					<td class="tabelle_koerper_login">
 						<input type="checkbox" name="th_forumwechsel" value="Y">
 						<?php 
@@ -521,13 +513,13 @@ function show_thema() {
 	?>
 	<table class="tabelle_gerust">
 		<tr>
-			<td colspan="6" class="tabelle_kopfzeile"><?php echo $th_name; ?></td>
-			<td style="text-align:center;" class="tabelle_kopfzeile">
+			<td colspan="5" class="tabelle_kopfzeile"><?php echo $th_name; ?></td>
+			<td style="text-align:right;" class="tabelle_kopfzeile">
 				<?php
 				$schreibrechte = pruefe_schreibrechte($th_id);
 				if ($schreibrechte) {
 					?>
-					<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_vater_id=0&aktion=thread_neu"><?php echo $t['neuer_thread']; ?></a><br>
+					<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_vater_id=0&aktion=thread_neu" class="button" title="<?php echo $t['thema_erstellen']; ?>"><span class="fa fa-plus"></span> <span><?php echo $t['thema_erstellen']; ?></span></a>
 					<?php
 				} else {
 					echo $f3 . $t[nur_leserechte] . $f4; ?><br>
@@ -542,8 +534,7 @@ function show_thema() {
 			</td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['autor'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['datum']; ?><br><?php echo $t['letztes_posting'] . $f4; ?></td>
-			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['anzreplys'] . $f4; ?></td>
-			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['anzneue'] . $f4; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['thema_beitraege'] . $f4; ?></td>
 		</tr>
 		<?php
 		$zeile = 0;
@@ -638,8 +629,7 @@ function show_thema() {
 				$date2 = "$f3; " . substr($posting['po_date2'], 0, 5) . "$f4";
 			}
 			echo "<td style=\"text-align:center;\" $farbe>$f3$posting[po_date]$f4$date2</td>\n";
-			echo "<td style=\"text-align:center;\" $farbe>$f3$anzreplys$f4</td>\n";
-			echo "<td style=\"text-align:center;\" $farbe>$f3$coli$ungelesene$colo$f4</td></tr>\n";
+			echo "<td style=\"text-align:center;\" $farbe>$f3".($anzreplys+1)."$f4</td>\n";
 			
 			if (($show_tree == $posting['po_id'])
 				&& ($posting['po_threadorder'] != "0")) {
@@ -923,15 +913,13 @@ function navigation_posting(
 		<tr>
 		<?php
 		if ($last) {
-			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\">"
-				. $chat_grafik['forum_pfeil_links'] . "</a></td>\n";
+			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$last&thread=$thread&aktion=show_posting&seite=$seite\" class=\"button\"><span class=\"fa fa-arrow-left\"></span></a></td>\n";
 		} else {
 			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
 		}
 	
 		if ($next) {
-			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\">"
-			. $chat_grafik['forum_pfeil_rechts'] . "</a></td>\n";
+			echo "<td style=\"width:50px; vertical-align:middle;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$next&thread=$thread&aktion=show_posting&seite=$seite\" class=\"button\"><span class=\"fa fa-arrow-right\"></span></a></td>\n";
 		} else {
 			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
 		}
@@ -941,18 +929,17 @@ function navigation_posting(
 		} else {
 			echo "<td style=\"width:170px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
 		}
-		
-		echo "<td style=\"width:210px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-	
+		?>
+		<td class="tabelle_kopfzeile" style="text-align:right;">
+		<?php
 		$threadgesperrt = ist_thread_gesperrt($thread);
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		//darf user posting bearbeiten
 		//entweder eigenes posting oder forum_admin
 		if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) {
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\">"
-			. $chat_grafik['forum_editieren'] . "</a></td>";
-		} else {
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			?>
+			<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=edit&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_editieren']; ?>"><span class="fa fa-pencil"></span> <span><?php echo $t['thema_editieren']; ?></span></a>
+			<?php
 		}
 	
 		// Privat antworten
@@ -970,44 +957,42 @@ function navigation_posting(
 			$pfenster = str_replace("ß", "", $pfenster);
 			
 			$mailurl = "mail.php?aktion=antworten_forum&id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"$mailurl\" target=\"640_$pfenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mailurl'); return(false)\">" . $chat_grafik['forum_privat'] . "</a></td>";
-		} else {
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			?>
+			<a href="<?php echo $mailurl; ?>" target="640_<?php echo $pfenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mailurl; ?>'); return(false)" class="button" title="<?php echo $t['thema_privat']; ?>"><span class="fa fa-envelope"></span> <span><?php echo $t['thema_privat']; ?></span></a>
+		<?php
 		}
 	
 		if ($schreibrechte && !$threadgesperrt) {
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=answer&seite=$seite\">" . $chat_grafik['forum_antworten'] . "</a></td>";
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=reply&seite=$seite\">" . $chat_grafik['forum_zitieren'] . "</a></td>";
-		} else {
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			?>
+			<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_vater_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=answer&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_antworten']; ?>"><span class="fa fa-reply"></span> <span><?php echo $t['thema_antworten']; ?></span></a>
+			<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_vater_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=reply&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_zitieren']; ?>"><span class="fa fa-quote-right"></span> <span><?php echo $t['thema_zitieren']; ?></span></a>
+			<?php
 		}
 	
-		//nur forum-admins duerfen postings loeschen
+		//Nur Forum-Admins dürfen Beiträge loeschen
 		if ($forum_admin) {
-			echo "</tr>";
-			
-			echo "<tr>";
-			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			
-			echo "<td class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\">" . $chat_grafik['forum_sperren'] . "</a></td>";
-			echo "<td class=\"tabelle_kopfzeile\"><a onClick=\"return ask('$t[conf_delete]')\" href=\"forum.php?id=$id&th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\">" . $chat_grafik['forum_loeschen'] . "</a></td>";
+			?>
+			</td>
+			</tr>
+			<tr>
+			<td class="tabelle_kopfzeile">&nbsp;</td>
+			<td class="tabelle_kopfzeile">&nbsp;</td>
+			<td class="tabelle_kopfzeile">&nbsp;</td>
+			<td class="tabelle_kopfzeile" style="text-align:right;">
+				<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=sperre_posting&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_sperren']; ?>"><span class="fa fa-lock"></span> <span><?php echo $t['thema_sperren']; ?></span></a>
+				<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=delete_posting&seite=<?php echo $seite; ?>" onClick="return ask('<?php echo $t['thema_loeschen2']; ?>')" class="button" title="<?php echo $t['thema_loeschen']; ?>"><span class="fa fa-trash"></span> <span><?php echo $t['thema_loeschen']; ?></span></a>
+			<?php
 			if ($po_id == $thread) {
-				echo "<td class=\"tabelle_kopfzeile\"><a href=\"forum.php?id=$id&th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\">"
-					. $chat_grafik['forum_verschieben'] . "</a></td>";
-			} else {
-				echo "<td class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+				?>
+				<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&thread=<?php echo $thread; ?>&aktion=verschiebe_posting&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_verschieben']; ?>"><span class="fa fa-arrows"></span> <span><?php echo $t['thema_verschieben']; ?></span></a>
+				<?php
 			}
-			echo "<td class=\"tabelle_kopfzeile\"></td>";
 		}
 		?>
+		</td>
 	</tr>
 	</table>
 	<?php
-	
 }
 
 // Verschiebe Beitrag

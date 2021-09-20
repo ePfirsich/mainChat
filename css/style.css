@@ -1,141 +1,221 @@
+/* Farbdeklarationen - Anfang ******************************************************************* */
+:root{
+	--Tabellenkopf-Hintergrundfarbe: #007ABE;
+	--Tabellenkopf-Textfarbe: #ffffff;
+	--Tabellenkopf-Linkfarbe: #ffffff;
+	
+	--Tabelle-Geruest-Hintergrundfarbe: #000000;
+	
+	--Tabellenkoerper-Hintergrundfarbe: #ffffff;
+	--Tabellenkoerper-Textfarbe: #000000;
+	--Tabellenkoerper-Linkfarbe: #000000;
+	
+	--Tabellenkoerper-Login-Hintergrundfarbe: #85D4FF;
+	--Tabellenkoerper-Login-Textfarbe: #000000;
+	--Tabellenkoerper-Login-Linkfarbe: #000000;
+	
+	--Button-Hintergrundfarbe: #cccccc;
+	--Button-Textfarbe: #000000;
+	
+	--Button-Hover-Hintergrundfarbe: #23282d;
+	--Button-Hover-Textfarbe: #ffffff;
+	
+	--FA-Iconfarbe: #0097D4;
+	
+	--Tabelle-Zeile-Moderator-1g: #d0e0d0;
+	--Tabelle-Zeile-Moderator-2g: #c0d0c0;
+	--Tabelle-Zeile-Moderator-1r: #e0d0d0;
+	--Tabelle-Zeile-Moderator-2r: #d0c0c0;
+	
+	--Moderatorenfarben-grau: #808080;
+	--Moderatorenfarben-schwarz: #000000;
+}
+/* Farbdeklarationen - Ende ******************************************************************* */
+
+
+/* Allgemeines - Anfang ******************************************************************* */
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
+/* Allgemeines - Ende ******************************************************************* */
 
 
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenkopf */ 
+/* Icons - Anfang ******************************************************************* */
+.fa {
+	color: var(--FA-Iconfarbe);
+}
+/*
+.icon16 {
+	font-size:14px;
+	height:16px;
+	line-height:16px;
+	width:16px
+}
+
+.icon24 {
+	font-size:18px;
+	height:24px;
+	line-height:24px;
+	width:24px
+}
+*/
+/* Icons - Ende ******************************************************************* */
+
+
+/* Buttons - Anfang ******************************************************************* */
+.button {
+	background-color: var(--Button-Hintergrundfarbe);
+	color: var(--Button-Textfarbe) !important;
+	border-radius: 2px;
+	border-width: 0;
+	cursor: pointer;
+	/*font-weight: 400;*/
+	margin: 0;
+	padding: 6px 8px;
+	font-size: 11px;
+	text-decoration: none;
+	line-height: 1.48;
+	-webkit-appearance: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.button:hover, html:not(.touch) a.button:hover {
+	background-color: var(--Button-Hover-Hintergrundfarbe);
+	color: var(--Button-Hover-Textfarbe) !important;
+	text-decoration: none;
+}
+/* Buttons - Ende ******************************************************************* */
+
+
+/* Tabellenkopf - Anfang ******************************************************************* */
 .tabelle_kopf {
-	background-color:#007ABE;
+	background-color: var(--Tabellenkopf-Hintergrundfarbe);
 	width:100%;
 }
+/* Tabellenkopf - Ende ******************************************************************* */
 
 
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenkopf ohne feste Breite */ 
+/* Tabellenkopf ohne feste Breite - Anfang ******************************************************************* */
 .tabelle_kopf2 {
-	background-color:#007ABE;
+	background-color: var(--Tabellenkopf-Hintergrundfarbe);
 }
+/* Tabellenkopf ohne feste Breite - Ende ******************************************************************* */
 
 
-/* --------------------------------------------------------------------------------------------- */
-/* Tabelle - Kopfzeile */ 
+/* Tabellenkopfzeile - Anfang ******************************************************************* */
 .tabelle_kopfzeile {
-	background-color:#007ABE;
-	color:#ffffff;
+	background-color: var(--Tabellenkopf-Hintergrundfarbe);
+	color: var(--Tabellenkopf-Textfarbe);
 	font-weight: bold;
+	padding: 5px;
 }
 
 /* Linkfarbe */
 .tabelle_kopfzeile a, .tabelle_kopfzeile a:link, .tabelle_kopfzeile a:visited {
-	color:#ffffff;
+	color: var(--Tabellenkopf-Linkfarbe);
 	text-decoration:none;
 }
 .tabelle_kopfzeile a:hover {
-	color:#ffffff;
+	color: var(--Tabellenkopf-Linkfarbe);
 	text-decoration:none;
 }
+/* Tabellenkopfzeile - Ende ******************************************************************* */
 
 
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenkörper */ 
+/* Tabellenkoerper - Anfang ******************************************************************* */
 .tabelle_koerper {
-	color:#000000;
-	background-color:#ffffff;
-	padding-left:2px; padding-right:2px;
-
+	color: var(--Tabellenkoerper-Textfarbe);
+	background-color: var(--Tabellenkoerper-Hintergrundfarbe);
+	padding-left:2px;
+	padding-right:2px;
 }
 
 /* Linkfarbe */
 .tabelle_koerper a, .tabelle_koerper a:link, .tabelle_koerper a:visited {
-	color:#000000;
+	color: var(--Tabellenkoerper-Linkfarbe);
 	text-decoration:none;
 }
 .tabelle_koerper a:hover {
-	color:#000000;
+	color: var(--Tabellenkoerper-Linkfarbe);
 	text-decoration:none;
 }
+/* Tabellenkoerper - Ende ******************************************************************* */
 
 
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenkörper - Login */ 
-.tabelle_koerper_login {
-	color:#000000;
-	background-color:#85D4FF;
-	padding-left:2px; padding-right:2px;
-
-}
-
-/* Linkfarbe */
-.tabelle_koerper_login a, .tabelle_koerper_login a:link, .tabelle_koerper_login a:visited {
-	color:#000000;
-	text-decoration:none;
-}
-.tabelle_koerper_login a:hover {
-	color:#000000;
-	text-decoration:none;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile 1 */ 
-.tabelle_zeile1 {
-	background-color:#E8E8FF;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile 2 */ 
-.tabelle_zeile2 {
-	background-color:#D8D8EE;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile Moderator 1g */ 
-.tabelle_zeile_moderator_1g {
-	background-color:#d0e0d0;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile Moderator 2g */ 
-.tabelle_zeile_moderator_2g {
-	background-color:#c0d0c0;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile Moderator 1r */ 
-.tabelle_zeile_moderator_1r {
-	background-color:#e0d0d0;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabellenzeile Moderator 2r */ 
-.tabelle_zeile_moderator_2r {
-	background-color:#d0c0c0;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Moderatorenfarben*/ 
-.moderator_grau {
-	color:#808080;
-}
-.moderator_schwarz {
-	color:#000000;
-}
-
-
-/* --------------------------------------------------------------------------------------------- */
-/* Tabelle Gerüst */ 
+/* Tabelle Gerüst - Anfang ******************************************************************* */
 .tabelle_gerust {
-	background-color:#000000;
+	background-color: var(--Tabelle-Geruest-Hintergrundfarbe);
 	margin:auto;
 	width:900px;
 	border-collapse:collapse;
 }
+/* Tabelle Gerüst - Ende ******************************************************************* */
 
 
+/* Tabellenkoerper Login - Anfang ******************************************************************* */
+.tabelle_koerper_login {
+	color: var(--Tabellenkoerper-Login-Textfarbe);
+	background-color: var(--Tabellenkoerper-Login-Hintergrundfarbe);
+	padding-left:2px;
+	padding-right:2px;
+}
+
+/* Linkfarbe */
+.tabelle_koerper_login a, .tabelle_koerper_login a:link, .tabelle_koerper_login a:visited {
+	color: var(--Tabellenkoerper-Login-Linkfarbe);
+	text-decoration:none;
+}
+.tabelle_koerper_login a:hover {
+	color: var(--Tabellenkoerper-Login-Linkfarbe);
+	text-decoration:none;
+}
+/* Tabellenkoerper Login - Ende ******************************************************************* */
+
+
+/* Tabellenzeile 1 - Anfang ******************************************************************* */
+.tabelle_zeile1 {
+	background-color:#E8E8FF;
+}
+/* Tabellenzeile 1 - Ende ******************************************************************* */
+
+
+/* Tabellenzeile 2 - Anfang ******************************************************************* */
+.tabelle_zeile2 {
+	background-color:#D8D8EE;
+}
+/* Tabellenzeile 2 - Ende ******************************************************************* */
+
+
+/* Tabellenzeilen Moderator - Anfang ******************************************************************* */
+.tabelle_zeile_moderator_1g {
+	background-color: var(--Tabelle-Zeile-Moderator-1g);
+}
+
+.tabelle_zeile_moderator_2g {
+	background-color: var(--Tabelle-Zeile-Moderator-2g);
+}
+
+.tabelle_zeile_moderator_1r {
+	background-color: var(--Tabelle-Zeile-Moderator-1r);
+}
+
+.tabelle_zeile_moderator_2r {
+	background-color: var(--Tabelle-Zeile-Moderator-2r);
+}
+/* Tabellenzeilen Moderator - Ende ******************************************************************* */
+
+
+/* Moderatorenfarben - Anfang ******************************************************************* */
+.moderator_grau {
+	color: var(--Moderatorenfarben-grau);
+}
+
+.moderator_schwarz {
+	color: var(--Moderatorenfarben-schwarz);
+}
+/* Moderatorenfarben - Ende ******************************************************************* */

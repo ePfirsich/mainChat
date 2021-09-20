@@ -76,15 +76,15 @@ if ($u_id && $communityfeatures) {
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Profil";
-	$text = "<a href=\"edit.php?id=$id\">Usereinstellungen ändern</a>\n";
-	$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">Homepage bearbeiten</a>\n";
+	$text = "<a href=\"edit.php?id=$id\">$t[profil_benutzereinstellungen_aendern]</a>\n";
+	$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
 	if ($u_level == "S") {
-		$text .= "| <a href=\"profil.php?id=$id&aktion=zeigealle\">Alle Profile ausgeben</a>\n";
+		$text .= "| <a href=\"profil.php?id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 	}
 	$ur1 = "user.php?id=$id";
-	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">User</a>\n";
-	$text .= "| <a href=\"hilfe.php?id=$id&aktion=privacy\">Datenschutzhinweis</a>\n";
-	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#profil\">Hilfe</a>\n";
+	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">$t[profil_benutzer]</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=privacy\">$t[profil_datenschutzhinweis]</a>\n";
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#profil\">$t[profil_hilfe]</a>\n";
 	
 	show_menue($box, $text);
 	
@@ -181,7 +181,6 @@ if ($u_id && $communityfeatures) {
 				$f['ui_land'] = htmlspecialchars($f['ui_land']);
 				$f['ui_ort'] = htmlspecialchars($f['ui_ort']);
 				$f['ui_strasse'] = htmlspecialchars($f['ui_strasse']);
-				$f['ui_icq'] = htmlspecialchars($f['ui_icq']);
 				
 				// Datensatz schreiben
 				$f['ui_id'] = schreibe_db("userinfo", $f, $f['ui_id'], "ui_id");
@@ -190,10 +189,8 @@ if ($u_id && $communityfeatures) {
 			}
 			
 		} else {
-			
 			// Kein Recht die Daten zu schreiben!
 			echo "<P><b>Fehler:</b> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!</P>";
-			
 		}
 		
 	}
@@ -231,55 +228,61 @@ if ($u_id && $communityfeatures) {
 			if (!$admin) {
 				echo "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
 			} else {
-				echo "<P><b>Alle Profile:</b></P><TABLE border=\"1\">\n"
-					. "<TR><TH>Nick</TH><TH>Username</TH><TH>Straße</TH><TH>PLZ Ort</TH><TH>Land</TH><TH>Admin-EMail</TH><TH>E-Mail</TH><TH>URL</TH><TH>Geburt</TH><TH>Geschlecht</TH><TH>Fam. Stand</TH><TH>Typ</TH><TH>Beruf</TH><TH>Hobby</TH><TH>Tel</TH><TH>Fax</TH><TH>Handy</TH><TH>ICQ</TH></TR>";
+				$box = $t['profil_alle_profile'];
+				$text = 'BLA';
+				$text .= "<table class=\"tabelle_kopf\">\n"
+					. "<tr><td class=\"tabelle_kopfzeile\">Nick</td><td class=\"tabelle_kopfzeile\">Username</td><td class=\"tabelle_kopfzeile\">Straße</td><td class=\"tabelle_kopfzeile\">PLZ Ort</td><td class=\"tabelle_kopfzeile\">Land</td><td class=\"tabelle_kopfzeile\">Admin-E-Mail</td><td class=\"tabelle_kopfzeile\">E-Mail</td><td class=\"tabelle_kopfzeile\">URL</td><td class=\"tabelle_kopfzeile\">Geburt</td><td class=\"tabelle_kopfzeile\">Geschlecht</td><td class=\"tabelle_kopfzeile\">Fam. Stand</td><td class=\"tabelle_kopfzeile\">Typ</td><td class=\"tabelle_kopfzeile\">Beruf</td><td class=\"tabelle_kopfzeile\">Hobby</td><td class=\"tabelle_kopfzeile\">Tel</td><td class=\"tabelle_kopfzeile\">Fax</td><td class=\"tabelle_kopfzeile\">Handy</td><td class=\"tabelle_kopfzeile\">ICQ</td></tr>";
 				
 				$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick,u_name";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
-						echo "<TR><TD><b>"
+						$text .= "<tr><td class=\"tabelle_koerper\"><b>"
 							. htmlspecialchars($row->u_nick)
-							. "</b></TD><TD>"
+							. "</b></td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->u_name)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_strasse)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_plz)
 							. " "
 							. htmlspecialchars($row->ui_ort)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_land)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->u_adminemail)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->u_email)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->u_url)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_geburt)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_geschlecht)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_beziehung)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_typ)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_beruf)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_hobby)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_tel)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_fax)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_handy)
-							. "</TD><TD>"
+							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_icq)
-							. "</TD></TR>\n";
+							. "</td></tr>\n";
 					}
 				}
-				echo "</TABLE>\n";
+				$text .= "</table>\n";
+				
+				// Box anzeigen
+				show_box_title_content($box, $text);
+				
 				@mysqli_free_result($result);
 			}
 			
