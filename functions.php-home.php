@@ -48,7 +48,7 @@ function edit_home(
 		
 	$box = $t['home2'];
 	$text = '';
-			
+	
 	$text .= "<table style=\"width:100%;\">"
 		. "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">\n"
 		. home_einstellungen($u_id, $u_nick, $home, $einstellungen)
@@ -569,8 +569,7 @@ function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
-function home_einstellungen($u_id, $u_nick, $home, $einstellungen)
-{
+function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 	// Einstellungen für Homepage:
 	// Homepage öffentlich ja/nein
 	// Profileinstellungen öffentlich ja/nein

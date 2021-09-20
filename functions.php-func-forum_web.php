@@ -329,7 +329,7 @@ function show_icon_description($mode) {
 function maske_thema($th_id = 0) {
 	global $id, $fo_id, $mysqli_link;
 	global $f1, $f2;
-	global $t, $chat_grafik;
+	global $t;
 	
 	if ($th_id > 0) {
 		$sql = "select th_name, th_desc from thema where th_id=" . intval($th_id);
@@ -906,7 +906,7 @@ function navigation_posting(
 	$user_nick = "",
 	$thread_gelesen_zeigen = FALSE) {
 	global $f1, $f2, $f3, $f4, $t, $seite;
-	global $id, $po_id, $u_id, $thread, $forum_admin, $chat_grafik;
+	global $id, $po_id, $u_id, $thread, $forum_admin;
 	global $u_level;
 	?>
 	<table class="tabelle_gerust">
