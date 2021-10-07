@@ -525,13 +525,11 @@ function show_thema() {
 					echo $f3 . $t[nur_leserechte] . $f4; ?><br>
 					<?php
 				}
-				?>
+				?> <a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&aktion=thema_alles_gelesen" class="button" title="<?php echo $t['alles_gelesen']; ?>"><span class="fa fa-check"></span> <span><?php echo $t['alles_gelesen']; ?></span></a>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="3" class="tabelle_kopfzeile">
-				<?php echo $f3; ?><a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&aktion=thema_alles_gelesen"><?php echo $t['alles_gelesen']; ?></a><?php echo $f4; ?>
-			</td>
+			<td colspan="3" class="tabelle_kopfzeile">&nbsp;</td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['autor'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['datum']; ?><br><?php echo $t['letztes_posting'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['thema_beitraege'] . $f4; ?></td>
@@ -924,12 +922,18 @@ function navigation_posting(
 			echo "<td style=\"width:50px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
 		}
 	
-		if ($thread_gelesen_zeigen) {
-			echo "<td style=\"width:170px; text-align:center;\" class=\"tabelle_kopfzeile\">$f3<a href=\"forum.php?id=$id&th_id=$th_id&thread=$thread&aktion=thread_alles_gelesen&seite=$seite\">$t[thread_alles_gelesen]</a>$f4</td>";
-		} else {
-			echo "<td style=\"width:170px;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-		}
 		?>
+		<td style="width:320px;" class="tabelle_kopfzeile">
+			<?php
+			if ($thread_gelesen_zeigen) {
+				?>
+				<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&thread=<?php echo $thread; ?>&aktion=thread_alles_gelesen&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thread_alles_gelesen']; ?>"><span class="fa fa-check"></span> <span><?php echo $t['thread_alles_gelesen']; ?></span></a>
+				<?php
+			} else {
+				echo "&nbsp;";
+			}
+			?>
+		</td>
 		<td class="tabelle_kopfzeile" style="text-align:right;">
 		<?php
 		$threadgesperrt = ist_thread_gesperrt($thread);
