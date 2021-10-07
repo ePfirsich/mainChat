@@ -298,7 +298,7 @@ function anzahl_ungelesene2(&$arr_postings, $th_id) {
 }
 
 function anzahl_ungelesene3(&$arr_postings, $th_id) {
-	
+	global $mysqli_link;
 	global $u_gelesene;
 	
 	//kein Beitrag in Gruppe --> keine ungelesenen
@@ -309,7 +309,7 @@ function anzahl_ungelesene3(&$arr_postings, $th_id) {
 	if (!$u_gelesene[$th_id])
 		return count($arr_postings);
 	
-	// anzahl unterschied zwischen postings im Thema und den gelesenen
+	// Anzahl Unterschied zwischen postings im Thema und den gelesenen
 	//postings des users zurueckgeben
 	$arr = array_diff($arr_postings, $u_gelesene[$th_id]);
 	$diff = count($arr);
