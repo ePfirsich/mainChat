@@ -179,7 +179,7 @@ function thema_alles_gelesen($th_id, $u_id) {
 		}
 		$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
 		$gelesene = serialize($u_gelesene);
-		$sql = "update user set u_gelesene_postings = '$gelesene' where u_id = $u_id";
+		$sql = "UPDATE user SET u_gelesene_postings = '$gelesene' WHERE u_id = $u_id";
 		mysqli_query($mysqli_link, $sql);
 	}
 }
@@ -237,11 +237,11 @@ function markiere_als_gelesen($po_id, $u_id, $th_id) {
 }
 
 //gibt die ungelesenen Beiträge in einem Thema zurueck
-//je nachdem, ob $arr_postings sich auf ein Thema bezieht
+//Je nachdem, ob $arr_postings sich auf ein Thema bezieht
 function anzahl_ungelesene(&$arr_postings, $th_id) {
 	global $u_gelesene;
 	
-	//kein Beitrag in Gruppe --> keine ungelesenen
+	//kein Beitrag im Thema --> keine ungelesenen
 	if (count($arr_postings) == 0)
 		return 0;
 	
