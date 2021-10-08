@@ -114,7 +114,9 @@ $logintext .= "\" size=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
 
 // SSL?
 if (($ssl_login) || (isset($SSLRedirect) && $SSLRedirect == "1")) {
-	$chat_file = "https://" . $chat_url;
+	$chat_file = "https://" . $_SERVER['SERVER_NAME'];
+} else {
+	$chat_file = "http://" . $_SERVER['SERVER_NAME'];
 }
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
@@ -1866,9 +1868,6 @@ switch ($aktion) {
 			. "<input type=\"hidden\" name=\"aktion\" value=\"neu\">\n"
 			. "<input type=\"hidden\" name=\"hash\" value=\""
 			. (isset($hash) ? $hash : "") . "\">\n";
-		if (!empty($backarray))
-			$text .= "<input type=\"hidden\" name=\"backarray\" value=\""
-				. urlencode(urldecode($backarray)) . "\">";
 		$text .= "<b><input type=\"submit\" name=\"los\" value=\""
 			. $t['neu22'] . "\"></b>" . $f2 . "</td>\n" . "</tr></table>";
 		if ($los != $t['neu22'])
@@ -1908,45 +1907,22 @@ switch ($aktion) {
 		
 		if ($ok && $los == $t['neu22']) {
 			// Daten in DB als User eintragen
-			
-			if (!empty($backarray)) {
-				// fix für magic-quotes...
-				$backarray = urldecode($backarray);
-				$backarray = str_replace('\"', '"', $backarray);
-				$backarray = unserialize($backarray);
-				$text = $f1 . $backarray['text'] . $f2 . "\n"
-					. "<form action=\"" . $backarray['url']
-					. "\" name=\"login\" method=\"post\">\n";
-				
-				if (is_array($backarray['parameter'])) {
-					for ($i = 0; $i < count($backarray['parameter']); $i++) {
-						$text .= "<input type=\"hidden\" "
-							. $backarray['parameter'][$i] . ">\n";
-					}
-				}
-				$text .= "<b><input type=\"submit\" value=\""
-					. $backarray['submittext'] . "\"></b>\n</form>\n";
-				$text = str_replace("{passwort}", $f['u_passwort'], $text);
-				$text = str_replace("{u_nick}", $f['u_nick'], $text);
-				
-				$titel = $backarray['titel'];
-			} else {
-				$text = $t['neu25'] . "<table><tr><td style=\"text-align: right; font-weight:bold;\">"
-					. $t['neu26'] . "</td>" . "<td>" . $f1
-					. $f['u_name'] . $f2 . "</td></tr>\n"
-					. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu27'] . "</td>"
-					. "<td>" . $f1 . $f['u_nick'] . $f2
-					. "</td></tr></table>\n" . $t['neu28']
-					. "<form action=\"$chat_file\" name=\"login\" method=\"post\">\n"
-					. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
-					. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
-					. "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n"
-					. "<b><input type=\"submit\" value=\"" . $t['neu29']
-					. "\"></b>\n"
-					. "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n// end hiding -->\n</script>\n"
-					. "</form>\n";
-				$titel = $t['neu30'];
-			}
+			$text = $t['neu25'] . "<table><tr><td style=\"text-align: right; font-weight:bold;\">"
+				. $t['neu26'] . "</td>" . "<td>" . $f1
+				. $f['u_name'] . $f2 . "</td></tr>\n"
+				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu27'] . "</td>"
+				. "<td>" . $f1 . $f['u_nick'] . $f2
+				. "</td></tr></table>\n" . $t['neu28']
+				. "<form action=\"$chat_file\" name=\"login\" method=\"post\">\n"
+				. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
+				. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n"
+				. "<b><input type=\"submit\" value=\"" . $t['neu29']
+				. "\"></b>\n"
+				. "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n// end hiding -->\n</script>\n"
+				. "</form>\n";
+			$titel = $t['neu30'];
+
 			show_box($titel, $text, "");
 			echo "<br>";
 			
