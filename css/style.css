@@ -21,6 +21,7 @@
 	--Button-Hover-Textfarbe: #ffffff;
 	
 	--FA-Iconfarbe: #0097D4;
+	--FA-Iconfarbe-Highlighted: #ff6600;
 	
 	--Tabelle-Zeile-Moderator-1g: #d0e0d0;
 	--Tabelle-Zeile-Moderator-2g: #c0d0c0;
@@ -43,6 +44,10 @@ body {
 /* Icons - Anfang ******************************************************************* */
 .fa {
 	color: var(--FA-Iconfarbe);
+}
+
+.fa-highlighted {
+	color: var(--FA-Iconfarbe-Highlighted);
 }
 /*
 .icon16 {
@@ -151,10 +156,18 @@ body {
 .tabelle_gerust {
 	background-color: var(--Tabelle-Geruest-Hintergrundfarbe);
 	margin:auto;
-	width:900px;
+	width:98%;
 	border-collapse:collapse;
 }
 /* Tabelle Gerüst - Ende ******************************************************************* */
+
+/* Tabelle Gerüst2 - Anfang ******************************************************************* */
+.tabelle_gerust2 {
+	margin:auto;
+	width:98%;
+	border-collapse:collapse;
+}
+/* Tabelle Gerüst2 - Ende ******************************************************************* */
 
 
 /* Tabellenkoerper Login - Anfang ******************************************************************* */
@@ -180,6 +193,7 @@ body {
 /* Tabellenzeile 1 - Anfang ******************************************************************* */
 .tabelle_zeile1 {
 	background-color:#E8E8FF;
+	padding: 2px;
 }
 /* Tabellenzeile 1 - Ende ******************************************************************* */
 
@@ -187,6 +201,7 @@ body {
 /* Tabellenzeile 2 - Anfang ******************************************************************* */
 .tabelle_zeile2 {
 	background-color:#D8D8EE;
+	padding: 2px;
 }
 /* Tabellenzeile 2 - Ende ******************************************************************* */
 

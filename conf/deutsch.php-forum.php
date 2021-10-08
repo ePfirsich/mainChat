@@ -22,10 +22,13 @@ $t['forum_verschieben'] = "Verschiebe in eine andere Kategorie";
 $t['forum_anlegen'] = "Forum anlegen";
 $t['forum_speichern'] = "Forum speichern";
 $t['forum_loeschen'] = "Wollen Sie das komplette Forum mit ALLEN Themen löschen?";
+$t['forum_alle_themen_als_gelesen_markieren'] = "Alle Themen als gelesen markieren";
+$t['forum_letzte_Antwort'] = "Letzte Antwort";
+$t['forum_thema_erstellt_am'] = "Thema erstellt am";
+$t['forum_anzahl_antworten'] = "Anzahl an Antworten";
 
 // Themen
 $t['thema_erstellen'] = "Neues Thema erstellen";
-$t['thema_beitraege'] = "Beiträge";
 $t['thema_antworten'] = "antworten";
 $t['thema_editieren'] = "editieren";
 $t['thema_zitieren'] = "zitieren";
@@ -53,20 +56,18 @@ $t['desc_topposting'] = "Beiträge dieser Kategorie stehen im jeweiligen Thema i
 $t['desc_threadgeschlossen'] = "Dieses Thema ist geschlossen. Hier können keine Antworten mehr erfolgen.";
 
 //Texte für Beitrags-Liste
-$t['neuer_thread'] = "Neuen Beitrag starten";
-$t['alles_gelesen'] = "Alle Beiträge als gelesen markieren";
-$t['autor'] = "von&nbsp;";
+$t['autor'] = "von";
 $t['datum'] = "Geschrieben am ";
-$t['letztes_posting'] = "Letzter&nbsp;Beitrag&nbsp;am";
-$t['thread_alles_gelesen'] = "Alle Beiträge dieses Themas als gelesen markieren";
 
 //Texte für Maske Beiträge
-$t['neuer_thread_button'] = "Beitrag anlegen";
+$t['neuer_thread_button'] = "Beitrag erstellen";
 $t['edit_button'] = "Beitrag editieren";
 $t['posting_msg1'] = "Titel:";
 $t['posting_msg2'] = "Beitrag:";
 $t['posting_msg3'] = "Autor:";
 $t['posting_msg4'] = "(Nick oder Benutzer_ID)";
+$t['posting_thema_anpinnen'] = "Thema anpinnen";
+$t['posting_thema_gesperrt'] = "Thema gesperrt";
 $t['page'] = "Seite";
 $t['last'] = "vorheriger";
 $t['next'] = "nächster";

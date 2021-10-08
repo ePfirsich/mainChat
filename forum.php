@@ -137,11 +137,6 @@ if (strlen($u_id) > 0) {
 			}
 			break;
 		
-		case "thread_alles_gelesen":
-			thread_alles_gelesen($th_id, $thread, $u_id);
-			show_thema();
-			break;
-		
 		case "sperre_posting":
 			if ($forum_admin) {
 				sperre_posting($po_id);

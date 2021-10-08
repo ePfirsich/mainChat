@@ -351,7 +351,7 @@ $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 $punkte_grafik=array("<img src=\"pics/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
 			"<img src=\"pics/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
 
-$chat_grafik['home']="<span class=\"fa fa-home \" alt=\"Homepage\"></span>";
+$chat_grafik['home']="<span class=\"fa fa-home \" alt=\"Homepage\" title=\"Homepage\"></span>";
 $chat_grafik['geschlecht_weiblich'] = "&nbsp;<img src=\"pics/weiblich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"weiblich\">";
 $chat_grafik['geschlecht_maennlich'] = "&nbsp;<img src=\"pics/maennlich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"maennlich\">";
 $chat_grafik['forum_ordnerblau']="<img src=\"pics/forum/ordnerblau.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Neue_Beitraege\">";
@@ -461,9 +461,9 @@ $eintritt_individuell="1";
 // andere Benutzer sehen von wem die Eintrittsnachricht kommt
 $eintritt_useranzeige="0";
 
-// Auf Beitäge die Älter als x Monate sind kann man nicht antworten
+// Auf Themen die Älter als x Monate sind kann man nicht antworten
 // $forum_thread_sperren = 0 deaktiviert dies
-$forum_thread_sperren=6;
+$forum_thread_sperren=12;
 
 // Setzt den Satz "zuletzt editiert am ... um ... von ..." nach dem Editieren nach jedem Beitrag
 $forum_aenderungsanzeige="1";

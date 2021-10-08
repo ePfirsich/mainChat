@@ -77,8 +77,9 @@ function ist_thread_gesperrt($thread) {
 	
 	$threadgesperrt = false;
 	
-	if ($fo['po_threadgesperrt'] == 'Y')
+	if ($fo['po_threadgesperrt'] == 'Y') {
 		$threadgesperrt = true;
+	}
 	
 	if ($forum_thread_sperren > 0) {
 		$abwann = mktime(0, 0, 0, date('m') - $forum_thread_sperren,
@@ -86,13 +87,14 @@ function ist_thread_gesperrt($thread) {
 		
 		// Alte Beiträge vor 4.12.2006 (ab hier erst protokoll des po_threadts)
 		if ($fo['po_threadts'] == 0) {
-			if ($fo['po_ts'] <= $abwann)
+			if ($fo['po_ts'] <= $abwann) {
 				$threadgesperrt = true;
-		}
+			}
+		} else {
 		// Alle Beiträge nach/mit 4.12.2006
- else {
-			if ($fo['po_threadts'] <= $abwann)
+			if ($fo['po_threadts'] <= $abwann) {
 				$threadgesperrt = true;
+			}
 		}
 	}
 	
@@ -188,29 +190,33 @@ function thema_alles_gelesen($th_id, $u_id) {
 function thread_alles_gelesen($th_id, $thread_id, $u_id) {
 	global $mysqli_link, $u_gelesene;
 	
-	$query = "SELECT po_threadorder FROM posting WHERE po_id = " . intval($thread_id);
+	$query = "SELECT po_id FROM posting WHERE po_id = " . intval($thread_id) . " OR po_vater_id = " . intval($thread_id);
 	$result = mysqli_query($mysqli_link, $query);
 	
-	if ($result && mysqli_num_rows($result) == 1) {
-		if (!$u_gelesene[$th_id])
-			$u_gelesene[$th_id][0] = array();
-		
-		// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
-		$a = mysqli_fetch_array($result);
-		$b = explode(",", $a['po_threadorder']);
-		
-		for ($i = 0; $i < count($b); $i++) {
-			array_push($u_gelesene[$th_id], $b[$i]);
-		}
-		
-		//wenn schon gelesen, dann wieder raus
-		$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
-		
-		// und zurückschreiben
-		$gelesene = serialize($u_gelesene);
-		$sql = "update user set u_gelesene_postings = '$gelesene' where u_id = $u_id";
-		mysqli_query($mysqli_link, $sql);
+	$liste = array();
+	foreach ($result as $val){
+		$liste[] = $val['po_id'];
 	}
+	
+	if (!$u_gelesene[$th_id]) {
+		$u_gelesene[$th_id][0] = array();
+	}
+	
+	// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
+	$a = mysqli_fetch_array($result);
+	$b = explode(",", $a['po_threadorder']);
+	
+	for ($i = 0; $i < count($liste); $i++) {
+		array_push($u_gelesene[$th_id], $liste[$i]);
+	}
+	
+	//wenn schon gelesen, dann wieder raus
+	$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
+	
+	// und zurückschreiben
+	$gelesene = serialize($u_gelesene);
+	$sql = "UPDATE user SET u_gelesene_postings = '$gelesene' WHERE u_id = $u_id";
+	mysqli_query($mysqli_link, $sql);
 }
 
 //markiert ein posting fuer einen User als gelesen
@@ -664,17 +670,22 @@ function schreibe_posting() {
 		//muss autor neu gesetzt werden?
 		if ($forum_admin && $autor) {
 			$autor = intval($autor);
+			
 			if (!preg_match("/[a-z]|[A-Z]/", $autor))
 				$sql = "SELECT `u_id` FROM `user` WHERE `u_id`=$autor";
 			else $sql = "SELECT `u_id` FROM `user` WHERE `u_nick`='$autor'";
 			$query = mysqli_query($mysqli_link, $sql);
-			if (mysqli_num_rows($query) > 0)
+			if (mysqli_num_rows($query) > 0) {
 				$u_id_neu = mysqli_result($query, 0, "u_id");
+			}
 			
-			if (!$u_id_neu)
+			/*
+			if (!$u_id_neu) {
 				echo "<b>Ein User mit dem Nick/der ID $autor existiert nicht!</b>";
-			else if ($u_id_neu != $user_id)
+			} else if ($u_id_neu != $user_id) {
 				$f['po_u_id'] = $u_id_neu;
+			}
+			*/
 		}
 		
 		if ($forum_admin) {
@@ -1198,9 +1209,11 @@ function ersetzte_smilies($text) {
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
 	
-	if ($smilies_config)
+	if ($smilies_config) {
 		require("conf/" . $smilies_config);
-	else require("conf/" . $sprachconfig . "-" . $smilies_datei);
+	} else {
+		require("conf/" . $sprachconfig . "-" . $smilies_datei);
+	}
 	
 	while (list($i, $smilie_code) = each($test[0])) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
