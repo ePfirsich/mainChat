@@ -123,14 +123,6 @@ function step_1($chat) {
 				<td colspan="2">Metatag:</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Content-Type:</td>
-				<td><input type="text" name="chat_contenttype" size="40" value="<?php echo checkFormularInputFeld('text/html; charset=utf-8',$chat["contenttype"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Author:</td>
-				<td><input type="text" name="chat_author" size="40" value="<?php echo checkFormularInputFeld('mainchat@mainmedia.de',$chat["author"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
 				<td> Description:</td>
 				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die HTML-Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
 			</tr>
@@ -140,17 +132,6 @@ function step_1($chat) {
 			<tr style="background-color:#85D4FF;">
 				<td> Language:</td><td><input type="text" name="chat_metalanguage" size="40" value="<?php echo checkFormularInputFeld('deutsch, de',$chat["metalanguage"]) ?>"></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Date:</td><td><input type="text" name="chat_date" size="40" value="<?php echo checkFormularInputFeld('01.01.2021',$chat["date"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Expire:</td><td><input type="text" name="chat_expire" size="40" value="<?php echo checkFormularInputFeld('31.12.2022',$chat["expire"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Robots:</td><td><input type="text" name="chat_robots1" size="40" value="<?php echo checkFormularInputFeld('index',$chat["robots1"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Robots:</td><td><input type="text" name="chat_robots2" size="40" value="<?php echo checkFormularInputFeld('follow',$chat["robots2"]) ?>"></td></tr>
 			<tr>
 				<td colspan="2">Text für Startseite im Bereich NOFRAMES für Suchmaschinen:</td>
 			</tr>

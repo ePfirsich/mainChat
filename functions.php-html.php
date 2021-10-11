@@ -5,7 +5,7 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '') {
 	global $metatag;
 	?>
 	<!DOCTYPE html>
-	<html>
+	<html dir="ltr" lang="de">
 	<head>
 	<title><?php echo $title; ?></title>
 	<meta charset="utf-8">

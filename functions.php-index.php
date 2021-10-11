@@ -705,9 +705,7 @@ function zeige_fuss() {
 	}
 }
 
-function RaumNameToRaumID($eintrittsraum)
-{
-	
+function RaumNameToRaumID($eintrittsraum) {
 	global $mysqli_link;
 	
 	// Holt anhand der Globalen Lobby Raumbezeichnung die Passende Raum ID

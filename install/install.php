@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="de">
 <head>
 	<title>mainChat Installation</title>
 	<meta charset="utf-8">
@@ -25,15 +25,9 @@ $chat["unterdrueckeraeume"] = filter_input(INPUT_POST, 'chat_unterdrueckeraeume'
 $chat["lobby"] = filter_input(INPUT_POST, 'chat_lobby', FILTER_SANITIZE_STRING);
 $chat["layoutkopf"] = filter_input(INPUT_POST, 'chat_layoutkopf', FILTER_SANITIZE_STRING);
 $chat["layoutfuss"] = filter_input(INPUT_POST, 'chat_layoutfuss', FILTER_SANITIZE_STRING);
-$chat["contenttype"] = filter_input(INPUT_POST, 'chat_contenttype', FILTER_SANITIZE_STRING);
-$chat["author"] = filter_input(INPUT_POST, 'chat_author', FILTER_SANITIZE_STRING);
 $chat["description"] = filter_input(INPUT_POST, 'chat_description', FILTER_SANITIZE_STRING);
 $chat["keywords"] = filter_input(INPUT_POST, 'chat_keywords', FILTER_SANITIZE_STRING);
 $chat["metalanguage"] = filter_input(INPUT_POST, 'chat_metalanguage', FILTER_SANITIZE_STRING);
-$chat["date"] = filter_input(INPUT_POST, 'chat_date', FILTER_SANITIZE_STRING);
-$chat["expire"] = filter_input(INPUT_POST, 'chat_expire', FILTER_SANITIZE_STRING);
-$chat["robots1"] = filter_input(INPUT_POST, 'chat_robots1', FILTER_SANITIZE_STRING);
-$chat["robots2"] = filter_input(INPUT_POST, 'chat_robots2', FILTER_SANITIZE_STRING);
 $chat["noframes"] = filter_input(INPUT_POST, 'chat_noframes', FILTER_SANITIZE_STRING);
 $chat["gastlogin"] = filter_input(INPUT_POST, 'chat_gastlogin', FILTER_SANITIZE_STRING);
 $chat["gastloginanzahl"] = filter_input(INPUT_POST, 'chat_gastloginanzahl', FILTER_SANITIZE_STRING);

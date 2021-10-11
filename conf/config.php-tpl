@@ -168,15 +168,9 @@ $farbe_user_fest=0;				// 1=Nickname wird in Benutzerfarbe ausgegeben,
 $chat_eingabe_breite=80;			// Breite des Text-Eingabefelds des Chats
 $farbe_chat_user_groesse=12;			// Größe der Farbauswahlfelder
 
-$metatag="<meta http-equiv=\"content-type\" content=\"%contenttype%\">\n".
-	"<meta name=\"author\" content=\"%author%\">\n".
-	"<meta name=\"description\" content=\"%description%\">\n".
+$metatag="<meta name=\"description\" content=\"%description%\">\n".
 	"<meta name=\"keywords\" content=\"%keywords%\">\n".
-	"<meta name=\"language\" content=\"%metalanguage%\">\n".
-	"<meta name=\"date\" content=\"%date%\">\n".
-	"<meta name=\"expire\" content=\"%expire%\">\n".
-	"<meta name=\"robots\" content=\"%robots1%\">\n".
-	"<meta name=\"robots\" content=\"%robots2%\">\n";
+	"<meta name=\"language\" content=\"%metalanguage%\">\n";
 
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen
 $noframes="%noframes%\n";

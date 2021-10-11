@@ -9,7 +9,7 @@ if (function_exists("id_lese")) {
 if (!$u_id || !$admin || !$erweitertefeatures) {
 	?>
 	<!DOCTYPE html>
-	<html>
+	<html dir="ltr" lang="de">
 		<body>
 			<b>Fehler:</b> Diese Seite darf nur aus dem User-Menue als Admin aufgerufen werden!
 		</body>

@@ -294,7 +294,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html dir="ltr" lang="de">
 			<head>
 			<title>DEREFER</title>
 			<meta charset="utf-8">

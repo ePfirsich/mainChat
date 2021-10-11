@@ -10,9 +10,7 @@ if ($communityfeatures) {
 	require_once("functions.php-freunde.php");
 }
 
-function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
-{
-	
+function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ) {
 	// Schreibt Text in Raum r_id
 	// User, u_id, Farbe, Raum und Typ der Nachricht werden übergeben
 	// Vor Schreiben wird der Text geparsed und die Aktionen ausgeführt
@@ -22,7 +20,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
 	//				H: Versteckte Nachricht
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
-	global $mainchat_version, $akdbase, $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
+	global $akdbase, $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
 	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $f1, $f2, $raumstatus1;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
@@ -729,7 +727,7 @@ function chat_msg($o_id, $u_id, $u_name, $u_farbe, $admin, $r_id, $text, $typ)
 			logout($o_id, $u_id, "/quit");
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html dir="ltr" lang="de">
 			<body onLoad='javascript:parent.location.href="index.php'>
 			</body>
 			</html>

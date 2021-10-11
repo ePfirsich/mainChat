@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html dir="ltr" lang="de">
 <head>
 	<title>LIESMICH</title>
 	<meta charset="utf-8">

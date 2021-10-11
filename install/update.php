@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="de">
 <head>
 	<title>mainChat Aktualisierung</title>
 	<meta charset="utf-8">

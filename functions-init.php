@@ -8,7 +8,7 @@ if ( !file_exists($filenameConfig) ) {
 	?>
 	?>
 	<!DOCTYPE html>
-	<html>
+	<html dir="ltr" lang="de">
 	<head>
 		<title>mainChat</title>
 		<meta charset="utf-8">
@@ -104,7 +104,7 @@ if ( !file_exists($filenameConfig) ) {
 	if (ini_get('output_buffering') >= 1) {
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html dir="ltr" lang="de">
 		<head>
 			<title>mainChat</title>
 			<meta charset="utf-8">
