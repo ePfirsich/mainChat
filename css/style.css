@@ -1,8 +1,8 @@
 /* Farbdeklarationen - Anfang ******************************************************************* */
 :root{
-	--Tabellenkopf-Hintergrundfarbe: #007ABE;
-	--Tabellenkopf-Textfarbe: #ffffff;
-	--Tabellenkopf-Linkfarbe: #ffffff;
+	--Tabellenkopf-Hintergrundfarbe: #A0A0FF;
+	--Tabellenkopf-Textfarbe: #000000;
+	--Tabellenkopf-Linkfarbe: #000000;
 	
 	--Tabelle-Geruest-Hintergrundfarbe: #000000;
 	
@@ -10,7 +10,7 @@
 	--Tabellenkoerper-Textfarbe: #000000;
 	--Tabellenkoerper-Linkfarbe: #000000;
 	
-	--Tabellenkoerper-Login-Hintergrundfarbe: #85D4FF;
+	--Tabellenkoerper-Login-Hintergrundfarbe: #C0C0FF;
 	--Tabellenkoerper-Login-Textfarbe: #000000;
 	--Tabellenkoerper-Login-Linkfarbe: #000000;
 	
@@ -36,7 +36,7 @@
 
 /* Allgemeines - Anfang ******************************************************************* */
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: Tahoma, Helvetica, sans-serif;
 }
 /* Allgemeines - Ende ******************************************************************* */
 
@@ -99,6 +99,7 @@ body {
 
 /* Tabellenkopf - Anfang ******************************************************************* */
 .tabelle_kopf {
+	border-radius: 3px;
 	background-color: var(--Tabellenkopf-Hintergrundfarbe);
 	width:100%;
 }
@@ -107,6 +108,7 @@ body {
 
 /* Tabellenkopf ohne feste Breite - Anfang ******************************************************************* */
 .tabelle_kopf2 {
+	border-radius: 3px;
 	background-color: var(--Tabellenkopf-Hintergrundfarbe);
 }
 /* Tabellenkopf ohne feste Breite - Ende ******************************************************************* */

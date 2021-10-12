@@ -1,12 +1,12 @@
 /* // Farben im Chat Frame Eingabe */
 body {
 	color:#000000;
-	background-color:#007ABE;
+	background-color:#A0A0FF;
 	/* background-image:test.png; */
 }
 a {
-	color:#ffffff;
+	color:#000000;
 }
 a:active {
-	color:#ffffff;
+	color:#000000;
 }
