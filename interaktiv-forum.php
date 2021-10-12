@@ -86,7 +86,7 @@ if ($u_id) {
 	
 	// Menue Ausgeben:
 	
-	echo "<form action=\"" . "index.php\" target=\"top_\" name=\"form1\" method=\"post\">\n"
+	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n"
 		. "<center><table>\n";
 	
 	// Anzahl der User insgesamt feststellen
