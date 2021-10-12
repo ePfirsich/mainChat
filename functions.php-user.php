@@ -57,10 +57,10 @@ function user_liste($larr, $anzahl) {
 				. implode("','", $ids) . "')";
 			$result = mysqli_query($mysqli_link, $query);
 			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-				$uid = $row[ui_userid];
-				if ($row[ui_geschlecht] == "männlich")
+				$uid = $row['ui_userid'];
+				if ($row['ui_geschlecht'] == "männlich")
 					$geschl[$uid] = "M";
-				else if ($row[ui_geschlecht] == "weiblich")
+				else if ($row['ui_geschlecht'] == "weiblich")
 					$geschl[$uid] = "W";
 				else $geschl[$uid] = "";
 			}
@@ -74,26 +74,30 @@ function user_liste($larr, $anzahl) {
 		}
 		
 		// Mit Javascript ausgeben, vollständiges Menü
-		for ($k = 0; isset($larr[$k]) AND is_array($larr[$k])
-			AND $v = $larr[$k]; $k++) {
+		for ($k = 0; isset($larr[$k]) AND is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
 			if ($level != "admin") {
 				$v['hostname'] = "";
 				$v['o_ip'] = "";
 			} else {
-				if (!isset($v['hostname']))
+				if (!isset($v['hostname'])) {
 					$v['hostname'] = "";
+				}
 				$v['hostname'] = htmlspecialchars($v['hostname']);
-				if (!isset($v['o_ip']))
+				if (!isset($v['o_ip'])) {
 					$v['o_ip'] = "";
+				}
 			}
 			;
 			$v['u_away'] = $v['u_away'] ? "y" : "";
-			if (!isset($v['u_home_ok']))
+			if (!isset($v['u_home_ok'])) {
 				$v['u_home_ok'] = "";
-			if (!isset($v['u_chathomepage']))
+			}
+			if (!isset($v['u_chathomepage'])) {
 				$v['u_chathomepage'] = "";
-			if (!isset($v['gruppe']))
+			}
+			if (!isset($v['gruppe'])) {
 				$v['gruppe'] = "";
+			}
 			if ($show_geschlecht == true) {
 				$geschlecht = $geschl[$v['u_id']];
 				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]','$geschlecht' ";
