@@ -23,7 +23,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 		logout($o_id, $u_id, "interaktiv->timeout");
 		unset($u_id);
 		unset($o_id);
-	} elseif ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
+	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
 		// Warnung über bevorstehenden Logout ausgeben
 		system_msg("", 0, $u_id, $system_farbe,
 			str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
