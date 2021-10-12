@@ -6,6 +6,7 @@
 //			feld -> Feldname in der DB
 
 require_once("functions-registerglobals.php");
+require_once("functions.php");
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -17,8 +18,7 @@ $cache = "home_bild";
 $feld = mysqli_real_escape_string($mysqli_link, $feld);
 $u_id = intval($u_id);
 
-if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3"
-	&& $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6") {
+if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6") {
 	echo "Fehlerhaftes 'feld' in home_bild.php'<br>";
 	exit;
 }
@@ -38,14 +38,16 @@ $b_mime = "";
 $url = parse_url($HTTP_REFERER);
 
 if (isset($check_np_referer) && $check_np_referer == "1")
+	/*
 	if ($url['host'] != $http_host) {
 		print "referer error! ";
 		exit;
 	}
+	*/
 
 // Überprüfen, ob ein gecached Bild vorhanden ist
-$cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/"
-	. $u_id . "/" . $feld;
+$cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
+//$cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
 
 $mysqli_link = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
@@ -151,17 +153,34 @@ if ($anzeigeauscache) {
 	@mysqli_free_result($result);
 	
 	// Bild in den Cache schreiben
-	if (!@stat($cache))
+	if (!@stat($cache)) {
 		mkdir($cache, 0777);
-	if (!@stat($cache . "/" . $http_host))
+	}
+	if (!@stat($cache . "/")) {
+		mkdir($cache . "/", 0777);
+	}
+	if (!@stat($cache . "/" . "/" . substr($u_id, 0, 2))) {
+		mkdir($cache . "/" . "/" . substr($u_id, 0, 2), 0777);
+	}
+	if (!@stat($cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id)) {
+		mkdir($cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id,0777);
+	}
+	
+	/*
+	// Bild in den Cache schreiben
+	if (!@stat($cache)) {
+		mkdir($cache, 0777);
+	}
+	if (!@stat($cache . "/" . $http_host)) {
 		mkdir($cache . "/" . $http_host, 0777);
-	if (!@stat($cache . "/" . $http_host . "/" . substr($u_id, 0, 2)))
+	}
+	if (!@stat($cache . "/" . $http_host . "/" . substr($u_id, 0, 2))) {
 		mkdir($cache . "/" . $http_host . "/" . substr($u_id, 0, 2), 0777);
-	if (!@stat(
-		$cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id))
-		mkdir(
-			$cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id,
-			0777);
+	}
+	if (!@stat($cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id)) {
+		mkdir($cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id,0777);
+	}
+	*/
 	
 	$datei = fopen($cachepfad, "w");
 	if ($datei) {

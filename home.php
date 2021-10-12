@@ -328,7 +328,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 	if (!isset($ui_userid)) {
 		$ui_userid = -1;
 	}
-	echo 'XXX1';
 	zeige_home($ui_userid, FALSE);
 }
 ?>

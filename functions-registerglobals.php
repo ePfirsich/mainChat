@@ -1,7 +1,6 @@
 <?php
 
 if (ini_get('register_globals') == 0) {
-	
 	// Initialisierung der Variablen
 	$aktion = "";
 	$los = "";
