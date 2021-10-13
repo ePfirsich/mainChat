@@ -37,6 +37,7 @@ function kopf_forum($admin) {
 	zeige_header_ende();
 	?>
 	<body>
+	<br>
 	<table class="tabelle_gerust2">
 		<tr>
 			<td>
