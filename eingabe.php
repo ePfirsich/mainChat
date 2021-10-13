@@ -137,68 +137,55 @@ zeige_header_ende();
 	}
 	
 	// Code funktioniert mit und ohne javascript
-	//echo "<tr><td></td><td><b>" . $f1;
 	echo "<tr><td></td><td><b>";
-	//echo "[<a href=\"$mlnk[4]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[4]');return(false)\">$t[menue4]</a>]&nbsp;";
 	?>
 	<a href="<?php echo $mlnk[4]; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[4]; ?>');return(false)" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
 	<?php
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
-		//echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue1]</a>]&nbsp;"
-		//	. "[<a href=\"$mlnk[2]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[2]');return(false)\">$t[menue2]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[1]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[1]; ?>');return(false)" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-road"></span> <span><?php echo $t['menue1']; ?></span></a>&nbsp;
 		<a href="<?php echo $mlnk[2]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[2]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($communityfeatures && $u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
-		//echo "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[10]');return(false)\">$t[menue10]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[6]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[10]; ?>');return(false)" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope"></span> <span><?php echo $t['menue10']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($forumfeatures && $communityfeatures && (!isset($beichtstuhl) || !$beichtstuhl || $admin) && ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin)) {
-		//echo "[<a href=\"$mlnk[11]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue11]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[11]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue11']; ?>"><span class="fa fa-commenting"></span> <span><?php echo $t['menue11']; ?></span></a>&nbsp;
 		<?php
 	}
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
-		//echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue3]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[3]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin) {
-		//echo "[<a href=\"$mlnk[5]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[5]');return(false)\">$t[menue5]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[5]; ?>" target="640_<?php echo $fenster; ?>" onClick="neuesFenster2('<?php echo $mlnk[5]; ?>');return(false)" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin && $communityfeatures) {
-		//echo "[<a href=\"$mlnk[12]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[12]; ?>" target="640_<?php echo $fenster; ?>" onClick="neuesFenster2('<?php echo $mlnk[12]; ?>');return(false)" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($u_level == "M") {
-		//echo "[<a href=\"$mlnk[8]\" target=\"$fenster\" onClick=\"neuesFenster2('$mlnk[8]');return(false)\">$t[menue8]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[8]; ?>" target="<?php echo $fenster; ?>" onClick="neuesFenster2('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue8']; ?>"><span class="fa fa-reply"></span> <span><?php echo $t['menue8']; ?></span></a>&nbsp;
 		<?php
 	}
-	//echo "[<a href=\"$mlnk[7]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[7]');return(false)\">$t[menue7]</a>]&nbsp;";
 	?>
 	<a href="<?php echo $mlnk[7]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster3('<?php echo $mlnk[7]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
 	<?php
 	if ($o_js) {
-		//echo "[<a href=\"$mlnk[9]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[9]');return(false)\">$t[menue9]</a>]&nbsp;";
 		?>
 		<a href="<?php echo $mlnk[9]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster3('<?php echo $mlnk[9]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh"></span> <span><?php echo $t['menue9']; ?></span></a>
 		<?php
 	}
 	echo "&nbsp;&nbsp;";
-	//echo "[<a href=\"$mlnk[6]\" onMouseOver=\"return(true)\" target=\"_top\">$t[menue6]</a>]&nbsp;" . $f2 . "</b></td>";
 	?>
 	<a href="<?php echo $mlnk[6]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out"></span> <span><?php echo $t['menue6']; ?></span></a>&nbsp;
 	<?php
@@ -216,9 +203,6 @@ zeige_header_ende();
 		<?php
 	}
 	?>
-	<td>
-		<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
-	</td>
 	</tr>
 	</table>
 	</form>

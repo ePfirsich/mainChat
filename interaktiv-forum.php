@@ -113,39 +113,39 @@ if ($u_id) {
 	$mlnk[12] = "blacklist.php?id=$id";
 	$mlnk[13] = "forum-suche.php?id=$id";
 	
-	echo $f1 . "<b>";
-	echo "[<a href=\"$mlnk[1]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[1]');return(false)\">$t[menue4]</a>]&nbsp;";
-	echo "[<a href=\"$mlnk[3]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[3]');return(false)\">$t[menue2]</a>]&nbsp;";
+	echo $f1;
+	?>
+	<a href="<?php echo $mlnk[1]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[1]; ?>');return(false)" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[3]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
+	<?php
 	
-	if ($o_js)
-		echo "[<a href=\"$mlnk[6]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[6]');return(false)\">$t[menue9]</a>]&nbsp;";
-	
-	echo "[<a href=\"$mlnk[8]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster3('$mlnk[8]');return(false)\">$t[menue7]</a>]&nbsp;";
-	echo "[<a href=\"$mlnk[7]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[7]');return(false)\">$t[menue10]</a>]&nbsp;";
-	
-	if ((isset($chat_logout_url)) && ($chat_logout_url)) {
-		$logouttarget = "_top";
-	} else {
-		$logouttarget = "_top";
+	if ($o_js) {
+		?>
+		<a href="<?php echo $mlnk[6]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster3('<?php echo $mlnk[6]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
+		<?php
 	}
+	?>
+	<a href="<?php echo $mlnk[8]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster3('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[7]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[7]; ?>');return(false)" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope"></span> <span><?php echo $t['menue10']; ?></span></a>
 	
+	<br>
+	<br>
+	
+	<a href="<?php echo $mlnk[4]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[4]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[13]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[13]; ?>');return(false)" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-search"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
+	<?php
 	if ($admin) {
-		echo "<br>[<a href=\"$mlnk[5]\" onMouseOver=\"return(true)\" target=\"$logouttarget\">$t[menue6]</a>]&nbsp;"
-			. "[<a href=\"$mlnk[4]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</a>]&nbsp;"
-			. "[<a href=\"$mlnk[13]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</a>]<br>"
-			. "[<a href=\"$mlnk[11]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[11]');return(false)\">$t[menue5]</a>]&nbsp;"
-			. "[<a href=\"$mlnk[12]\" target=\"640_$fenster\" onClick=\"neuesFenster2('$mlnk[12]');return(false)\">$t[menue12]</a>]&nbsp;";
-	} else {
-		echo "<br>[<a href=\"$mlnk[4]\" target=\"$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('$mlnk[4]');return(false)\">$t[menue3]</a>]&nbsp;"
-			. "&nbsp;&nbsp;&nbsp;[<a href=\"$mlnk[13]\" target=\"640_$fenster\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$mlnk[13]');return(false)\">$t[menue13]</a>]&nbsp;"
-			. "&nbsp;&nbsp;&nbsp;[<a href=\"$mlnk[5]\" onMouseOver=\"return(true)\" target=\"$logouttarget\">$t[menue6]</a>]&nbsp;";
+		?>
+		<a href="<?php echo $mlnk[11]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[11]; ?>');return(false)" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[12]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[12]; ?>');return(false)" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
+		<?php
 	}
-	echo "</b><br><br>\n";
-	if (!(($u_level == 'U' || $level == 'G')
-		&& (isset($useronline_anzeige_deaktivieren)
-			&& $useronline_anzeige_deaktivieren == "1"))) {
-		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt,
-			$t['forum_interaktiv_txt']) . $f2 . "<br>\n";
+	?>
+	<a href="<?php echo $mlnk[5]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out"></span> <span><?php echo $t['menue6']; ?></span></a>
+	<?php
+	echo "<br><br>\n";
+	if (!(($u_level == 'U' || $level == 'G') && (isset($useronline_anzeige_deaktivieren) && $useronline_anzeige_deaktivieren == "1"))) {
+		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_txt']) . $f2 . "<br>\n";
 	}
 	
 	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
@@ -153,14 +153,16 @@ if ($u_id) {
 		$eintrittsraum = $lobby;
 	}
 	
-	$sql = "select r_id from raum where r_name like '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
+	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
 	$query = mysqli_query($mysqli_link, $sql);
-	if (mysqli_num_rows($query) > 0)
+	if (mysqli_num_rows($query) > 0) {
 		$lobby_id = mysqli_result($query, 0, "r_id");
-	else $lobby_id = 1;
+	} else {
+		$lobby_id = 1;
+	}
 	
 	echo $f3
-		. "<nobr><select name=\"neuer_raum\"\" onChange=\"document.form1.submit()\">\n";
+		. "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere User nur die offenen
 	if ($admin) {
@@ -175,7 +177,7 @@ if ($u_id) {
 		. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
 	
-	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[button]\">&nbsp;</nonr><br>"
+	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[button]\">&nbsp;</nobr><br>"
 		. $f4
 		. "</td></tr><tr><td style=\"text-align:center;\"><img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:2px;\"><br>\n";
 	echo "</td></tr></table></center></form>\n";
