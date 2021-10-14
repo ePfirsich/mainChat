@@ -216,7 +216,7 @@ $gast_login_viele="%gastloginanzahl%";
 
 
 // Soll der Login via HTTP auf einen SSL-Server möglich sein?
-$ssl_login=0;				// 1=ja, 0=nein
+$ssl_login=1;				// 1=ja, 0=nein
 
 // Leitet anfragen von HTTP auf HTTPS um
 $SSLRedirect = "1";

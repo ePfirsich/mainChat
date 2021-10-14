@@ -33,7 +33,6 @@ function neuesFenster2(url) {
 }
 </script>
 <?php
-zeige_header_ende();
 
 // Pfad auf Cache
 $cache = "home_bild";

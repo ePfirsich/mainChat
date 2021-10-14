@@ -719,7 +719,6 @@ function home_url_parse($tag, $url)
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Users u_id an
-	
 	global $dbase, $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
@@ -793,7 +792,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	$aktion = "einfach";
 	
 	if (isset($farben['bgcolor']) && strlen($farben['bgcolor']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['bgcolor'] . ";";
+		$bg = "background-image: url(\"home_bild.php?u_id=$u_id&feld=" . $farben['bgcolor'] . "\");";
 	} elseif (isset($farben['bgcolor']) && strlen($farben['bgcolor']) == 7) {
 		$bg = "background-color:$farben[bgcolor];";
 	} else {
@@ -801,14 +800,29 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	}
 	
 	if ($ok) {
-		$body_tag = "<body style=\"$bg\"";
-		if (is_array($farben)) {
-			$body_tag .= " text=\"$farben[text]\" " . "link=\"$farben[link]\" " . "vlink=\"$farben[vlink]\" " . "alink=\"$farben[vlink]\"";
+			if (is_array($farben)) {
+			?>
+			<style>
+			body {
+				color:<?php echo $farben['text']; ?>;
+				<?php echo $bg; ?>
+			}
+			
+			a {
+				color:<?php echo $farben['link']; ?>;
+			}
+			
+			a:active {
+				color:<?php echo $farben['vlink']; ?>;
+			}
+			</style>
+			<?php
 		}
-		$body_tag .= ">\n";
-		
-		echo $body_tag
-			. "<table style=\"width:100%; height:100%;\">"
+		?>
+		</head>
+		<body>
+		<?php
+		echo "<table style=\"width:100%; height:100%;\">"
 			. "<tr><td style=\"vertical-align:top; width:60%;\">"
 			. home_info($u_id, $row->u_nick, $farben, $aktion)
 			. home_profil($u_id, $row->u_nick, $home, $farben, $aktion);
