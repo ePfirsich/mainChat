@@ -55,6 +55,7 @@ if (strlen($u_id) != 0) {
 		unset($f['u_auth']);
 		unset($f['u_passwort']);
 		unset($f['u_smilie']);
+		unset($f['avatar_status']);
 		unset($f['u_systemmeldungen']);
 		unset($f['u_punkte_anzeigen']);
 		unset($f['u_signatur']);
@@ -111,14 +112,14 @@ if (strlen($u_id) != 0) {
 			$aktion = "andereadminmail";
 		}
 		
-		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_adminemail'])) {
+		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) {
 			echo "<P><b>$t[edit1]</b></P>\n";
 			$aktion = "andereadminmail";
 		}
 		
 		// oder Domain ist lt. Config verboten
 		if ($domaingesperrtdbase != $dbase) {
-			$domaingesperrt = array();;
+			$domaingesperrt = array();
 		}
 		for ($i = 0; $i < count($domaingesperrt); $i++) {
 			$teststring = strtolower($f['u_adminemail']);
@@ -665,6 +666,7 @@ if (strlen($u_id) != 0) {
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
+					$f['avatar_status'] = $row->avatar_status;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
@@ -679,6 +681,7 @@ if (strlen($u_id) != 0) {
 				// Bei Änderungen an u_smilie, u_systemmeldungen, u_punkte_anzeigen chat-Fenster neu laden
 				if (($u_smilie != $f['u_smilie']
 					|| $u_systemmeldungen != $f['u_systemmeldungen']
+					|| $avatar_status != $f['avatar_status']
 					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen'])
 					&& $o_who == 0) {
 					echo "<SCRIPT LANGUAGE=JavaScript>"
@@ -731,6 +734,7 @@ if (strlen($u_id) != 0) {
 						$f['u_farbe'] = $row->u_farbe;
 						$f['u_zeilen'] = $row->u_zeilen;
 						$f['u_smilie'] = $row->u_smilie;
+						$f['avatar_status'] = $row->avatar_status;
 						$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 						$f['u_eintritt'] = $row->u_eintritt;
 						$f['u_austritt'] = $row->u_austritt;
@@ -843,6 +847,7 @@ if (strlen($u_id) != 0) {
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
+					$f['avatar_status'] = $row->avatar_status;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
@@ -877,6 +882,7 @@ if (strlen($u_id) != 0) {
 				$f['u_farbe'] = $row->u_farbe;
 				$f['u_zeilen'] = $row->u_zeilen;
 				$f['u_smilie'] = $row->u_smilie;
+				$f['avatar_status'] = $row->avatar_status;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 				$f['u_eintritt'] = $row->u_eintritt;
 				$f['u_austritt'] = $row->u_austritt;
