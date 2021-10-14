@@ -112,7 +112,7 @@ if (strlen($u_id) != 0) {
 			$aktion = "andereadminmail";
 		}
 		
-		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) {
+		if ( (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
 			echo "<P><b>$t[edit1]</b></P>\n";
 			$aktion = "andereadminmail";
 		}
@@ -123,8 +123,7 @@ if (strlen($u_id) != 0) {
 		}
 		for ($i = 0; $i < count($domaingesperrt); $i++) {
 			$teststring = strtolower($f['u_adminemail']);
-			if (($domaingesperrt[$i])
-				&& (preg_match($domaingesperrt[$i], $teststring))) {
+			if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
 				echo "<P><b>$t[edit1]</b></P>\n";
 				$aktion = "andereadminmail";
 			}
@@ -317,8 +316,7 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// E-Mail ok
-				if (isset($f['u_email']) && (strlen($f['u_email']) > 0)
-					&& (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_email']))) {
+				if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
 					echo "<P><b>$t[edit1]</b></P>\n";
 					unset($f['u_email']);
 					$ok = 0;
@@ -369,9 +367,8 @@ if (strlen($u_id) != 0) {
 					}
 				}
 				
-				// Homepage muss http:// enthalten
-				if (isset($f['u_url']) && strlen($f['u_url']) > 0
-					&& !preg_match("/^http:\/\//i", $f['u_url'])) {
+				// Homepage muss http:// oder https://enthalten
+				if (isset($f['u_url']) && strlen($f['u_url']) > 0 && !preg_match("/^http:\/\//i", $f['u_url']) && !preg_match("/^https:\/\//i", $f['u_url']) ) {
 					$f['u_url'] = "http://" . $f['u_url'];
 				}
 				
