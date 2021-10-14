@@ -248,7 +248,7 @@ function sperren(host, ip, user) {
 
 function neuesFenster(url, name) {
 	hWnd = window.open(url, name,
-			'resizable=yes,scrollbars=yes,width=300,height=580');
+			'resizable=yes,scrollbars=yes,width=340,height=580');
 }
 
 function openwindow(name, url, param) {

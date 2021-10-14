@@ -426,12 +426,14 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					default:
 					// N: Normal an alle mit Absender
 					// eigene Farbe, falls gesetzt
-						if ($row->c_von_user_id != $u_id && $u_farbe_alle != "-")
+						if ($row->c_von_user_id != $u_id && $u_farbe_alle != "-") {
 							$row->c_farbe = $u_farbe_alle;
+						}
 						
 						// eigene Farbe für nachricht an Privat, falls gesetzt.
-						if (preg_match("/\[.*&nbsp;$nick\]/i", $c_text) && $u_farbe_priv != "-")
+						if (preg_match("/\[.*&nbsp;$nick\]/i", $c_text) && $u_farbe_priv != "-") {
 							$row->c_farbe = $u_farbe_priv;
+						}
 						
 						// Nur Nick in Userfarbe oder ganze Zeile
 						if ($farbe_user_fest) {
@@ -440,6 +442,10 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>" . $temp_von_user . ":</b> </span><span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"> ";
+								
+								// Neu für den Avatar
+								$tempuser = $temp_von_user;
+								
 							}
 							if ($br == "") {
 								$zende = "";
@@ -451,7 +457,79 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								
+								
+								// Start des Avatars
+								include "./conf/config.php";
+								$query3 = "SELECT * FROM user WHERE u_nick LIKE '$u_nick'";
+								$result3 = mysqli_query($mysqli_link, $query3);
+								
+								if ($result3 && mysqli_num_rows($result3) == 1) {
+									$row3 = mysqli_fetch_object($result3);
+									$ui_ava_chat_active2 = $row3->avatar_status;
+								}
+								
+								$query2 = "SELECT * FROM user WHERE u_nick LIKE '$temp_von_user'";
+								$result2 = mysqli_query($mysqli_link, $query2);
+								
+								if ($result2 && mysqli_num_rows($result2) == 1) {
+									$row2 = mysqli_fetch_object($result2);
+									
+									$uu_id = $row2->u_id;
+									$ui_avatar = $row2->ui_avatar;
+									
+								}
+								
+								$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$uu_id'";
+								$result1 = mysqli_query($mysqli_link, $query1);
+								
+								if ($result1 && mysqli_num_rows($result1) == 1) {
+									$row1 = mysqli_fetch_object($result1);
+									
+									$ui_gen = $row1->ui_geschlecht;
+								}
+								
+								if($result3 && mysqli_num_rows($result3) == 1) {
+									
+									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
+									if($ui_ava_chat_active2 == 1) {
+										if($ui_gen[0] == "m") {
+											//männliche avatar prüfung
+											if(!$ui_avatar) {
+												$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt=""> ';
+											} else {
+												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
+											}
+										} else if($ui_gen[0] == "w") {
+											//weibliche avatar prüfung
+											if(!$ui_avatar) {
+												$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt=""> ';
+											} else
+											{
+												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
+											}
+										} else {
+											//es avatar prüfung
+											if(!$ui_avatar) {
+												$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
+											} else {
+												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
+											}
+										}
+									} else {
+										$ava = "";
+									}
+								} else {
+									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
+								}
+								
+								if($ui_ava_chat_active2 == 0) {
+									$ava = "";
+								}
+								// Ende des Avatars
+								
+								
+								$zanfang = $ava. "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
 							}
 							if ($br == "") {
 								$zende = "";

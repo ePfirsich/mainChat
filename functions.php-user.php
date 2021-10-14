@@ -202,6 +202,64 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$http_stuff = unserialize($o_http_stuff);
 		}
 		
+		
+		// Avatare
+		$query2 = "SELECT * FROM user WHERE u_id LIKE '$row->u_id'";
+		$result2 = mysqli_query($mysqli_link, $query2);
+		
+		if ($result2 && mysqli_num_rows($result2) == 1) {
+			$row2 = mysqli_fetch_object($result2);
+			
+			$ui_avatar = $row2->ui_avatar;
+			
+		}
+		
+		$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$row->u_id'";
+		$result1 = mysqli_query($mysqli_link, $query1);
+		
+		if ($result1 && mysqli_num_rows($result1) == 1) {
+			$row1 = mysqli_fetch_object($result1);
+			
+			$ui_gen = $row1->ui_geschlecht;
+		}
+		
+		
+		//Avatar pruefen
+		$box = $t['user_zeige60'];
+		$text = "";
+		
+		include "./conf/config.php";
+		
+		$text .= "<br><center>";
+		if($ui_gen[0] == "m") {
+			// Maennlichen Avatar pruefen
+			if(!$ui_avatar) {
+				$text .= '<img src="./avatars/no_avatar_m.jpg" style="height:200px; width:200px;" alt="" />';
+			} else {
+				$text .= '<img src="./avatars/'.$ui_avatar.'" style="height:200px; width:200px;" alt="" />';
+			}
+		} else if($ui_gen[0] == "w") {
+			// Weiblichen Avatar pruefen
+			if(!$ui_avatar) {
+				$text .= '<img src="./avatars/no_avatar_w.jpg" style="height:200px; width:200px;" alt="" />';
+			} else {
+				$text .= '<img src="./avatars/'.$ui_avatar.'" style="height:200px; width:200px;" alt="" />';
+			}
+		} else {
+			//es avatar pruefen
+			if(!$ui_avatar) {
+				$text .= '<img src="./avatars/no_avatar_es.jpg" style="height:200px; width:200px;" alt="" />';
+			} else {
+				$text .= '<img src="./avatars/'.$ui_avatar.'" style="height:200px; width:200px;" alt="" />';
+			}
+		}
+		$text .= "</center><br>";
+		
+		// Box anzeigen
+		show_box_title_content($box, $text);
+		echo "<br>";
+		
+		
 		// Kopf Tabelle "Private Nachricht"
 		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
 			$box = str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']);
@@ -217,9 +275,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. '&user=' . $user
 					. '&user_nick=' . $uu_nick
 					. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
-					?>
-					<img src="pics/fuell.gif" alt="" style="width:4px; height:4px;"><br>
-					<?php
 			}
 			
 			$text .= "<input name=\"text2\" SIZE=\"" . $eingabe_breite

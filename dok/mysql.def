@@ -18,12 +18,12 @@
 # u_zeilen		Anzahl der Zeilen, die der User im Chat wünscht (optional)
 # u_adminemail		E-Mail Adresse für Administatrion, muss angegeben werden
 # u_ip_historie 	Liste der IP-Adressen der letzten Logins
-# u_farbe_priv  	Farbe für an den User gerichtete Nachrichten, default falls "-"
-# u_farbe_sys   	Farbe für Nachrichten vom System, default falls "-"
-# u_farbe_bg    	Farbe für Hintergrund, default falls "-"
-# u_farbe_alle  	Farbe für alle anderen user, default falls "-"
+# u_farbe_priv		Farbe für an den User gerichtete Nachrichten, default falls "-"
+# u_farbe_sys	 	Farbe für Nachrichten vom System, default falls "-"
+# u_farbe_bg			Farbe für Hintergrund, default falls "-"
+# u_farbe_alle		Farbe für alle anderen user, default falls "-"
 # u_farbe_noise 	Farbe für sog. Noises, default falls "-"
-# u_clearedit   	soll Editzeile gelöscht oder nur markiert werden?
+# u_clearedit	 	soll Editzeile gelöscht oder nur markiert werden?
 # u_away		away-Text des Benutzers
 # u_smilie		User will Smilie-Grafiken sehen Y/N
 # u_agb			User hat Nutzungsbestimmungen akzeptiert Y/N
@@ -39,7 +39,7 @@
 # u_eintritt		Eintrittstext
 # u_austritt		Austrittstext
 # u_signatur		Signatur für Mail und Forum
-# u_lastclean           Zeitpunkt der letzten bereinigung von u_gelesene_postings
+# u_lastclean		Zeitpunkt der letzten bereinigung von u_gelesene_postings
 # u_loginfehler		Array mit Datum und IP fehlerhafter Logins
 # u_nick_historie	Nickwechsel Historie
 # u_profil_historie	Admin-Änderungen am Profil-Historie
@@ -116,13 +116,13 @@
 # o_timeout_zeit	Zeitpunkt, wann die letzte Zeile im Chat geschrieben wurde
 # o_timeout_warnung	J=Warnung über bevorstehenden Logout wurde angezeigt
 # o_chat_historie	Enthält die Anzehl der Zeichen mit Timestamp, die
-#                	der User zuletzt schrieb
+#									der User zuletzt schrieb
 # o_spam_zeit		Sekundengenauer Zeitpunkt (timestamp), aus den sich
-#               	o_spam_zeilen und o_spam_byte bezieht
+#							 	o_spam_zeilen und o_spam_byte bezieht
 # o_spam_zeilen		Enthält serialised die Anzahl der Zeilen pro
-#                 	Sekunde, die der User zuletzt schrieb
+#								 	Sekunde, die der User zuletzt schrieb
 # o_spam_byte		Enthält serialised die Anzahl der Bytes/Zeichen pro
-#                 	Sekunde, die der User zuletzt schrieb
+#								 	Sekunde, die der User zuletzt schrieb
 # o_dicecheck		Welcher Dicecheck vom User aktiviert ist
 
 # Tabelle sperre	welcher User ist in welchem Raum für wie lange gesperrt
@@ -151,349 +151,351 @@
 # CREATE DATABASE mainchat CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE aktion (
-  a_id int(11) unsigned NOT NULL auto_increment,
-  a_user int(11) unsigned NOT NULL default '0',
-  a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
-  a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  a_wie set('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
-  a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  a_zeit timestamp NOT NULL,
-  PRIMARY KEY  (a_id),
-  KEY a_user (a_user),
-  KEY a_wann (a_wann)
+	a_id int(11) unsigned NOT NULL auto_increment,
+	a_user int(11) unsigned NOT NULL default '0',
+	a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
+	a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	a_wie set('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
+	a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	a_zeit timestamp NOT NULL,
+	PRIMARY KEY	(a_id),
+	KEY a_user (a_user),
+	KEY a_wann (a_wann)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE bild (
-  b_id int(11) unsigned NOT NULL auto_increment,
-  b_user int(11) unsigned NOT NULL default '0',
-  b_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  b_bild blob NOT NULL,
-  b_mime varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  b_width int(11) unsigned NOT NULL default '0',
-  b_height int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (b_id),
-  KEY b_user (b_user)
+	b_id int(11) unsigned NOT NULL auto_increment,
+	b_user int(11) unsigned NOT NULL default '0',
+	b_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	b_bild blob NOT NULL,
+	b_mime varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	b_width int(11) unsigned NOT NULL default '0',
+	b_height int(11) unsigned NOT NULL default '0',
+	PRIMARY KEY	(b_id),
+	KEY b_user (b_user)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE blacklist (
-  f_id int(11) unsigned NOT NULL auto_increment,
-  f_userid int(11) unsigned NOT NULL default '0',
-  f_blacklistid int(11) unsigned NOT NULL default '0',
-  f_zeit timestamp NOT NULL,
-  f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (f_id),
-  KEY f_blacklistid (f_blacklistid)
+	f_id int(11) unsigned NOT NULL auto_increment,
+	f_userid int(11) unsigned NOT NULL default '0',
+	f_blacklistid int(11) unsigned NOT NULL default '0',
+	f_zeit timestamp NOT NULL,
+	f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	PRIMARY KEY	(f_id),
+	KEY f_blacklistid (f_blacklistid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE chat (
-  c_id int(11) unsigned NOT NULL default '0',
-  c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  c_an_user int(11) unsigned NOT NULL default '0',
-  c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  c_raum int(11) NOT NULL default '0',
-  c_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  c_zeit timestamp NOT NULL,
-  c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  c_von_user_id int(11) unsigned NOT NULL default '0',
-  c_br enum('normal','letzte','erste','mitte') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'normal',
-  PRIMARY KEY  (c_id),
-  KEY c_an_user (c_an_user),
-  KEY c_raum (c_raum)
+	c_id int(11) unsigned NOT NULL default '0',
+	c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	c_an_user int(11) unsigned NOT NULL default '0',
+	c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	c_raum int(11) NOT NULL default '0',
+	c_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	c_zeit timestamp NOT NULL,
+	c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	c_von_user_id int(11) unsigned NOT NULL default '0',
+	c_br enum('normal','letzte','erste','mitte') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'normal',
+	PRIMARY KEY	(c_id),
+	KEY c_an_user (c_an_user),
+	KEY c_raum (c_raum)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE forum (
-  fo_id smallint(5) unsigned NOT NULL auto_increment,
-  fo_name varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  fo_order smallint(5) NOT NULL default '0',
-  fo_admin tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (fo_id)
+	fo_id smallint(5) unsigned NOT NULL auto_increment,
+	fo_name varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	fo_order smallint(5) NOT NULL default '0',
+	fo_admin tinyint(1) NOT NULL default '0',
+	PRIMARY KEY	(fo_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE freunde (
-  f_id int(11) unsigned NOT NULL auto_increment,
-  f_userid int(11) unsigned NOT NULL default '0',
-  f_freundid int(11) unsigned NOT NULL default '0',
-  f_zeit timestamp NOT NULL,
-  f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  f_status enum('beworben','bestaetigt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'bestaetigt',
-  PRIMARY KEY  (f_id),
-  KEY f_userid (f_userid),
-  KEY f_freundid (f_freundid)
+	f_id int(11) unsigned NOT NULL auto_increment,
+	f_userid int(11) unsigned NOT NULL default '0',
+	f_freundid int(11) unsigned NOT NULL default '0',
+	f_zeit timestamp NOT NULL,
+	f_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	f_status enum('beworben','bestaetigt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'bestaetigt',
+	PRIMARY KEY	(f_id),
+	KEY f_userid (f_userid),
+	KEY f_freundid (f_freundid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE iignore (
-  i_id int(11) unsigned NOT NULL auto_increment,
-  i_user_aktiv int(11) unsigned NOT NULL default '0',
-  i_user_passiv int(11) unsigned NOT NULL default '0',
-  PRIMARY KEY  (i_id),
-  KEY i_user_aktiv (i_user_aktiv),
-  KEY i_user_passiv (i_user_passiv)
+	i_id int(11) unsigned NOT NULL auto_increment,
+	i_user_aktiv int(11) unsigned NOT NULL default '0',
+	i_user_passiv int(11) unsigned NOT NULL default '0',
+	PRIMARY KEY	(i_id),
+	KEY i_user_aktiv (i_user_aktiv),
+	KEY i_user_passiv (i_user_passiv)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE invite (
-  inv_id int(11) NOT NULL auto_increment,
-  inv_raum int(11) default NULL,
-  inv_user int(11) default NULL,
-  PRIMARY KEY  (inv_id),
-  KEY inv_user (inv_user)  
+	inv_id int(11) NOT NULL auto_increment,
+	inv_raum int(11) default NULL,
+	inv_user int(11) default NULL,
+	PRIMARY KEY	(inv_id),
+	KEY inv_user (inv_user)	
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE ip_sperre (
-  is_id int(11) unsigned NOT NULL auto_increment,
-  is_ip varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  is_domain varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  is_zeit timestamp NOT NULL,
-  is_ip_byte char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  is_owner int(11) unsigned NOT NULL default '0',
-  is_infotext text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  is_warn enum('ja','nein') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'nein',
-  PRIMARY KEY  (is_id),
-  KEY is_owner (is_owner),
-  KEY is_warn (is_warn)
+	is_id int(11) unsigned NOT NULL auto_increment,
+	is_ip varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	is_domain varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	is_zeit timestamp NOT NULL,
+	is_ip_byte char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	is_owner int(11) unsigned NOT NULL default '0',
+	is_infotext text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	is_warn enum('ja','nein') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'nein',
+	PRIMARY KEY	(is_id),
+	KEY is_owner (is_owner),
+	KEY is_warn (is_warn)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE mail (
-  m_id int(11) unsigned NOT NULL auto_increment,
-  m_status enum('neu','gelesen','geloescht','neu/verschickt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'neu',
-  m_von_uid int(11) unsigned NOT NULL default '0',
-  m_an_uid int(11) unsigned NOT NULL default '0',
-  m_zeit timestamp NOT NULL,
-  m_geloescht_ts timestamp NOT NULL default '00000000000000',
-  m_betreff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  m_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY  (m_id),
-  KEY m_status (m_status),
-  KEY m_von_uid (m_von_uid),
-  KEY m_an_uid (m_an_uid),
-  KEY m_geloescht_ts (m_an_uid,m_status,m_geloescht_ts)
+	m_id int(11) unsigned NOT NULL auto_increment,
+	m_status enum('neu','gelesen','geloescht','neu/verschickt') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'neu',
+	m_von_uid int(11) unsigned NOT NULL default '0',
+	m_an_uid int(11) unsigned NOT NULL default '0',
+	m_zeit timestamp NOT NULL,
+	m_geloescht_ts timestamp NOT NULL default '00000000000000',
+	m_betreff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	m_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+	PRIMARY KEY	(m_id),
+	KEY m_status (m_status),
+	KEY m_von_uid (m_von_uid),
+	KEY m_an_uid (m_an_uid),
+	KEY m_geloescht_ts (m_an_uid,m_status,m_geloescht_ts)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE mail_check (
-  email varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  datum date NOT NULL default '0000-00-00',
-  u_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (email)
+	email varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	datum date NOT NULL default '0000-00-00',
+	u_id int(11) NOT NULL default '0',
+	PRIMARY KEY	(email)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE moderation (
-  c_id int(11) unsigned NOT NULL auto_increment,
-  c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  c_an_user int(11) unsigned NOT NULL default '0',
-  c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  c_raum int(11) unsigned NOT NULL default '0',
-  c_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  c_zeit timestamp NOT NULL,
-  c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  c_von_user_id int(11) unsigned NOT NULL default '0',
-  c_moderator int(11) NOT NULL default '0',
-  PRIMARY KEY  (c_id),
-  KEY c_an_user (c_an_user),
-  KEY c_raum (c_raum),
-  KEY c_von_user_id (c_von_user_id),
-  KEY c_moderator (c_moderator)
+	c_id int(11) unsigned NOT NULL auto_increment,
+	c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	c_an_user int(11) unsigned NOT NULL default '0',
+	c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	c_raum int(11) unsigned NOT NULL default '0',
+	c_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	c_zeit timestamp NOT NULL,
+	c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	c_von_user_id int(11) unsigned NOT NULL default '0',
+	c_moderator int(11) NOT NULL default '0',
+	PRIMARY KEY	(c_id),
+	KEY c_an_user (c_an_user),
+	KEY c_raum (c_raum),
+	KEY c_von_user_id (c_von_user_id),
+	KEY c_moderator (c_moderator)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE online (
-  o_id int(11) unsigned NOT NULL default '0',
-  o_user int(11) unsigned NOT NULL default '0',
-  o_raum int(11) NOT NULL default '0',
-  o_hash varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_timestamp timestamp NOT NULL,
-  o_ip varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_who smallint(3) unsigned default NULL,
-  o_aktiv timestamp NOT NULL default '00000000000000',
-  o_chat_id int(11) unsigned NOT NULL default '0',
-  o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_vhost varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default '',
-  o_js tinyint(1) NOT NULL default '0',
-  o_knebel timestamp NOT NULL default '00000000000000',
-  o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_http_stuff2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_userdata varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_userdata2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_userdata3 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_userdata4 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_ignore varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_login timestamp NOT NULL default '00000000000000',
-  o_punkte int(11) NOT NULL default '0',
-  o_aktion int(11) unsigned NOT NULL default '0',
-  o_timeout_zeit varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
-  o_timeout_warnung char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  o_chat_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-  PRIMARY KEY  (o_id),
-  UNIQUE KEY o_user (o_user),
-  UNIQUE KEY o_name (o_name),
-  KEY o_raum (o_raum),
-  KEY o_aktiv (o_aktiv),
-  KEY o_chat_id (o_chat_id),
-  KEY o_timestamp (o_timestamp),
-  KEY o_hash (o_hash),
-  KEY o_ip (o_ip),
-  KEY o_browser (o_browser),
-  KEY o_js (o_js),
-  KEY o_level (o_level)
+	o_id int(11) unsigned NOT NULL default '0',
+	o_user int(11) unsigned NOT NULL default '0',
+	o_raum int(11) NOT NULL default '0',
+	o_hash varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_timestamp timestamp NOT NULL,
+	o_ip varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_who smallint(3) unsigned default NULL,
+	o_aktiv timestamp NOT NULL default '00000000000000',
+	o_chat_id int(11) unsigned NOT NULL default '0',
+	o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_vhost varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default '',
+	o_js tinyint(1) NOT NULL default '0',
+	o_knebel timestamp NOT NULL default '00000000000000',
+	o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_http_stuff2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_userdata varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_userdata2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_userdata3 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_userdata4 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_ignore varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_login timestamp NOT NULL default '00000000000000',
+	o_punkte int(11) NOT NULL default '0',
+	o_aktion int(11) unsigned NOT NULL default '0',
+	o_timeout_zeit varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
+	o_timeout_warnung char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	o_chat_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	PRIMARY KEY	(o_id),
+	UNIQUE KEY o_user (o_user),
+	UNIQUE KEY o_name (o_name),
+	KEY o_raum (o_raum),
+	KEY o_aktiv (o_aktiv),
+	KEY o_chat_id (o_chat_id),
+	KEY o_timestamp (o_timestamp),
+	KEY o_hash (o_hash),
+	KEY o_ip (o_ip),
+	KEY o_browser (o_browser),
+	KEY o_js (o_js),
+	KEY o_level (o_level)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE posting (
-  po_id int(10) unsigned NOT NULL auto_increment,
-  po_th_id int(10) NOT NULL default '0',
-  po_u_id int(11) NOT NULL default '0',
-  po_vater_id int(10) NOT NULL default '0',
-  po_ts bigint(14) NOT NULL default '0',
-  po_tiefe smallint(3) NOT NULL default '0',
-  po_threadorder mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  po_threadts bigint(14) NOT NULL default '0',
-  po_gesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  po_threadgesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  po_topposting char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  po_titel varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  po_text longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY  (po_id),
-  KEY po_th_id (po_th_id),
-  KEY po_u_id (po_u_id),
-  KEY po_vater_id (po_vater_id),
-  KEY po_themasort (po_th_id,po_vater_id,po_topposting,po_threadts,po_ts)
+	po_id int(10) unsigned NOT NULL auto_increment,
+	po_th_id int(10) NOT NULL default '0',
+	po_u_id int(11) NOT NULL default '0',
+	po_vater_id int(10) NOT NULL default '0',
+	po_ts bigint(14) NOT NULL default '0',
+	po_tiefe smallint(3) NOT NULL default '0',
+	po_threadorder mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	po_threadts bigint(14) NOT NULL default '0',
+	po_gesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	po_threadgesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	po_topposting char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	po_titel varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	po_text longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+	PRIMARY KEY	(po_id),
+	KEY po_th_id (po_th_id),
+	KEY po_u_id (po_u_id),
+	KEY po_vater_id (po_vater_id),
+	KEY po_themasort (po_th_id,po_vater_id,po_topposting,po_threadts,po_ts)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE raum (
-  r_id int(11) unsigned NOT NULL auto_increment,
-  r_name varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  r_eintritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  r_austritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  r_status1 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  r_besitzer int(11) unsigned NOT NULL default '0',
-  r_topic text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  r_status2 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  r_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-  r_werbung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  r_min_punkte int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (r_id),
-  KEY r_besitzer (r_besitzer),
-  KEY r_status1 (r_status1),
-  KEY r_status2 (r_status2),
-  KEY r_smilie (r_smilie)
+	r_id int(11) unsigned NOT NULL auto_increment,
+	r_name varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	r_eintritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	r_austritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	r_status1 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	r_besitzer int(11) unsigned NOT NULL default '0',
+	r_topic text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	r_status2 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	r_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+	r_werbung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	r_min_punkte int(10) unsigned NOT NULL default '0',
+	PRIMARY KEY	(r_id),
+	KEY r_besitzer (r_besitzer),
+	KEY r_status1 (r_status1),
+	KEY r_status2 (r_status2),
+	KEY r_smilie (r_smilie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE sequence (
-  se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  se_nextid int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (se_name)
+	se_name varchar(127) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	se_nextid int(10) unsigned NOT NULL default '0',
+	PRIMARY KEY	(se_name)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE sperre (
-  s_id int(11) unsigned NOT NULL auto_increment,
-  s_user int(11) unsigned NOT NULL default '0',
-  s_raum int(11) unsigned NOT NULL default '0',
-  s_zeit timestamp NOT NULL,
-  PRIMARY KEY  (s_id),
-  KEY s_user (s_user),
-  KEY s_raum (s_raum)
+	s_id int(11) unsigned NOT NULL auto_increment,
+	s_user int(11) unsigned NOT NULL default '0',
+	s_raum int(11) unsigned NOT NULL default '0',
+	s_zeit timestamp NOT NULL,
+	PRIMARY KEY	(s_id),
+	KEY s_user (s_user),
+	KEY s_raum (s_raum)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE thema (
-  th_id int(10) unsigned NOT NULL auto_increment,
-  th_fo_id smallint(5) NOT NULL default '0',
-  th_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  th_desc varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  th_anzthreads mediumint(8) NOT NULL default '0',
-  th_anzreplys mediumint(8) NOT NULL default '0',
-  th_postings longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  th_order smallint(5) NOT NULL default '0',
-  PRIMARY KEY  (th_id),
-  KEY th_fo_id (th_fo_id),
-  KEY th_name (th_name)
+	th_id int(10) unsigned NOT NULL auto_increment,
+	th_fo_id smallint(5) NOT NULL default '0',
+	th_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	th_desc varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	th_anzthreads mediumint(8) NOT NULL default '0',
+	th_anzreplys mediumint(8) NOT NULL default '0',
+	th_postings longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	th_order smallint(5) NOT NULL default '0',
+	PRIMARY KEY	(th_id),
+	KEY th_fo_id (th_fo_id),
+	KEY th_name (th_name)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE top10cache (
-  t_id int(11) unsigned NOT NULL auto_increment,
-  t_zeit timestamp NOT NULL,
-  t_eintrag int(11) unsigned NOT NULL default '1',
-  t_daten mediumblob,
-  PRIMARY KEY  (t_id)
+	t_id int(11) unsigned NOT NULL auto_increment,
+	t_zeit timestamp NOT NULL,
+	t_eintrag int(11) unsigned NOT NULL default '1',
+	t_daten mediumblob,
+	PRIMARY KEY	(t_id)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE user (
-  u_id int(11) unsigned NOT NULL auto_increment,
-  u_neu varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_login timestamp NOT NULL,
-  u_auth char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_nick varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_passwort varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_adminemail varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_email varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_url varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
-  u_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_farbe_alle varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-  u_farbe_noise varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-  u_farbe_priv varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-  u_farbe_bg varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-  u_farbe_sys varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-  u_clearedit tinyint(1) unsigned NOT NULL default '1',
-  u_away varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_ip_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-  u_agb char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  u_zeilen int(11) default NULL,
-  u_punkte_gesamt int(10) unsigned NOT NULL default '0',
-  u_punkte_monat int(10) unsigned NOT NULL default '0',
-  u_punkte_jahr int(10) unsigned NOT NULL default '0',
-  u_punkte_datum_monat char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '00',
-  u_punkte_datum_jahr varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0000',
-  u_punkte_gruppe char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_gelesene_postings mediumtext CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '',
-  u_frames varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_chathomepage char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-  u_eintritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_austritt varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_signatur varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  u_lastclean bigint(14) NOT NULL default '0',
-  u_loginfehler blob NOT NULL,
-  u_nick_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_profil_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_kommentar varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-  u_forum_postingproseite int(11) NOT NULL default '20',
-  u_systemmeldungen char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-  u_punkte_anzeigen char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-  u_knebel timestamp NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (u_id),
-  UNIQUE KEY u_nick (u_nick),
-  KEY u_level (u_level),
-  KEY u_adminemail (u_adminemail),
-  KEY u_email (u_email),
-  KEY u_name (u_name),
-  FULLTEXT KEY u_ip_historie (u_ip_historie)
+	`u_id` int(11) unsigned NOT NULL auto_increment,
+	`u_neu` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_login` timestamp NOT NULL,
+	`u_auth` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_nick` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_adminemail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_url` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
+	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_farbe_allev varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+	`u_farbe_noise` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+	`u_farbe_priv` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+	`u_farbe_bg` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+	`u_farbe_sys` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
+	`u_clearedit` tinyint(1) unsigned NOT NULL default '1',
+	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_ip_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_smilie` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+	`u_agb` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	`u_zeilen` int(11) default NULL,
+	`u_punkte_gesamt` int(10) unsigned NOT NULL default '0',
+	`u_punkte_monat` int(10) unsigned NOT NULL default '0',
+	`u_punkte_jahr` int(10) unsigned NOT NULL default '0',
+	`u_punkte_datum_monat` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '00',
+	`u_punkte_datum_jahr` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0000',
+	`u_punkte_gruppe` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_gelesene_postings` mediumtext CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '',
+	`u_frames` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_chathomepage` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	`u_eintritt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_austritt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_signatur` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`u_lastclean` bigint(14) NOT NULL default '0',
+	`u_loginfehler` blob NOT NULL,
+	`u_nick_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_profil_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_kommentar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_forum_postingproseite` int(11) NOT NULL default '20',
+	`u_systemmeldungen` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+	`u_punkte_anzeigen` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+	`u_knebel` timestamp NOT NULL default '0000-00-00 00:00:00',
+	`avatar_status` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`ui_avatar` varchar(255) NOT NULL DEFAULT '',
+	PRIMARY KEY	(u_id),
+	UNIQUE KEY u_nick (u_nick),
+	KEY u_level (u_level),
+	KEY u_adminemail (u_adminemail),
+	KEY u_email (u_email),
+	KEY u_name (u_name),
+	FULLTEXT KEY u_ip_historie (u_ip_historie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE userinfo (
-  ui_id int(11) NOT NULL auto_increment,
-  ui_userid int(11) NOT NULL default '0',
-  ui_strasse varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_plz varchar(6) NOT NULL default '',
-  ui_ort varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_land varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_geburt varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_geschlecht set('keine Angabe','männlich','weiblich') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
-  ui_beziehung set('keine Angabe','verheiratet','ledig','single','vergeben') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
-  ui_typ set('keine Angabe','zierlich','schlank','sportlich','normal','mollig','dick') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
-  ui_beruf varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_hobby varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_tel varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_fax varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_handy varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_icq varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  ui_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  ui_farbe blob NOT NULL,
-  ui_einstellungen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-  PRIMARY KEY  (ui_id),
-  KEY ui_userid (ui_userid)
+	ui_id int(11) NOT NULL auto_increment,
+	ui_userid int(11) NOT NULL default '0',
+	ui_strasse varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_plz varchar(6) NOT NULL default '',
+	ui_ort varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_land varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_geburt varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_geschlecht set('keine Angabe','männlich','weiblich') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+	ui_beziehung set('keine Angabe','verheiratet','ledig','single','vergeben') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+	ui_typ set('keine Angabe','zierlich','schlank','sportlich','normal','mollig','dick') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default 'keine Angabe',
+	ui_beruf varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_hobby varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_tel varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_fax varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_handy varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_icq varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	ui_text text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+	ui_farbe blob NOT NULL,
+	ui_einstellungen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	PRIMARY KEY	(ui_id),
+	KEY ui_userid (ui_userid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';

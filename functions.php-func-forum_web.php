@@ -1140,11 +1140,7 @@ function show_posting() {
 	?>
 	<table class="tabelle_gerust">
 		<tr>
-			<td class="tabelle_zeile1">
-			<?php
-			//zeige_beitraege($thread);
-			?>
-			</td>
+			<td colspan="2" class="tabelle_zeile1"></td>
 		</tr>
 		<?php
 		
@@ -1157,8 +1153,7 @@ function show_posting() {
 }
 
 // Zeigt alle Beiträge aus einem Thema
-function zeige_beitraege(
-$thread) {
+function zeige_beitraege($thread) {
 	global $mysqli_link, $f1, $f2, $f3, $f4, $seite, $th_id;
 	global $farbe_hervorhebung_forum, $farbe_neuesposting_forum;
 	global $t, $id, $u_id, $o_js, $forum_admin;
@@ -1243,8 +1238,68 @@ $thread) {
 			}
 		}
 		
+		
+		// Start des Avatars
+		include "./conf/config.php";
+		
+		$query2 = "SELECT * FROM user WHERE u_nick LIKE '$userdata[u_nick]'";
+		$result2 = mysqli_query($mysqli_link, $query2);
+		
+		if ($result2 && mysqli_num_rows($result2) == 1) {
+			$row2 = mysqli_fetch_object($result2);
+			
+			$uu_id = $row2->u_id;
+			$ui_avatar = $row2->ui_avatar;
+			
+		}
+		
+		$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$uu_id'";
+		$result1 = mysqli_query($mysqli_link, $query1);
+		
+		if ($result1 && mysqli_num_rows($result1) == 1) {
+			$row1 = mysqli_fetch_object($result1);
+			
+			$ui_gen = $row1->ui_geschlecht;
+		}
+		
+		if($result2 && mysqli_num_rows($result2) == 1) {
+			if($ui_gen[0] == "m") {
+				//männliche avatar prüfung
+				if(!$ui_avatar) {
+					$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
+				} else {
+					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
+				}
+			} else if($ui_gen[0] == "w") {
+				//weibliche avatar prüfung
+				if(!$ui_avatar) {
+					$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
+				} else
+				{
+					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
+				}
+			} else {
+				//es avatar prüfung
+				if(!$ui_avatar) {
+					$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
+				} else {
+					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
+				}
+			}
+		} else {
+			$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
+		}
+		// Ende des Avatars
+		
+		
 		?>
 		<tr>
+			<td rowspan="3" class="tabelle_kopfzeile" style="width:150px; vertical-align:top;">
+				<center>
+				<?php echo $ava; ?><br>
+				<?php echo $f1 . $userdetails . $besonderer_status . $f2; ?>
+				</center>
+			</td>
 			<td class="tabelle_kopfzeile"><?php echo $f1 . $t['datum'] . $po_date . " " . $t['autor'] . " " . $userdetails . $besonderer_status . $f2; ?></td>
 		</tr>
 		<tr>
@@ -1255,7 +1310,7 @@ $thread) {
 		navigation_beitrag($po_id, $po_u_id, $po_th_id, $po_u_nick);
 		?>
 		<tr>
-		<td class="tabelle_zeile1"></td>
+		<td colspan="2" class="tabelle_zeile1"></td>
 		</tr>
 		<?php
 	}

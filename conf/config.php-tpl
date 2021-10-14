@@ -429,9 +429,6 @@ $sperre_dialup[]="t-ipconnect.de";
 // Benutzer darf sein Passwort & Nicknamen ändern (1=ja/0=nein)
 $einstellungen_aendern=1;
 
-// Logouts zum Debugging in Tabelle logouts mitloggen
-$logout_logging=0;
-
 // Geschlecht anzeigen im Chat. true erzeugt mehr Datenbankzugriffe, da zusätzliche Felder aus der userinfo geladen werden müssen
 $show_geschlecht = false;
 

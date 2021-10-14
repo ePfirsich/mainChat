@@ -1,6 +1,6 @@
 <?php
 // Version / Copyright - nicht entfernen!
-$mainchat_version = "Open mainChat 7.0.4 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2012 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target=\"_blank\">GitHub</a> ab 2021";
+$mainchat_version = "Open mainChat 7.0.4 (c) by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2018 - PHP7 Anpassung durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/OpenMainChat\" target=\"_blank\">GitHub</a> ab 2021";
 
 // HTTPS ja oder nein?
 // if ($HTTPS=="on") {
@@ -65,7 +65,7 @@ $valid_fields = array(
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_frames', 'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
-		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_knebel'),
+		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_knebel', 'avatar_status'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
 		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')
 );
@@ -275,11 +275,7 @@ function schreibe_chat($f) {
 function logout($o_id, $u_id, $info = "") {
 	// Logout aus dem Gesamtsystem
 	
-	global $dbase, $u_farbe, $mysqli_link, $communityfeatures, $logout_logging;
-	
-	if ($logout_logging) {
-		logout_debug($o_id, $info);
-	}
+	global $dbase, $u_farbe, $mysqli_link, $communityfeatures;
 	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
@@ -1405,52 +1401,6 @@ function genpassword($length)
 	}
 	
 	return substr($password, 0, $length);
-}
-
-function logout_debug($o_id, $info)
-{
-	// optionales Debugging, um herauszufinden, warum User aus dem Chat fliegen
-	global $chat, $dbase, $mysqli_link, $mysqlhost, $mysqluser, $mysqlpass;
-	global $STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME;
-	
-	$logout = array(lo_chat => $chat, lo_aktion => "logout $info",);
-	if ($info == "login")
-		$logout[lo_aktion] = "login";
-	
-	$o_id = intval($o_id);
-	$result = mysqli_query($mysqli_link, "select * FROM online WHERE o_id=$o_id");
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_array($result);
-		$logout['lo_nick'] = $row['o_name'];
-		$logout['lo_timeout_zeit'] = $row['o_timeout_zeit'];
-		$logout['lo_timeout_warnung'] = $row['o_timeout_warnung'];
-		$logout['lo_ip'] = $row['o_ip'];
-		$logout['lo_browser'] = $row['o_browser'];
-		$logout['lo_onlinedump'] = serialize($row);
-		@mysqli_free_result($result);
-	}
-	$result = mysqli_query($mysqli_link, 
-		"SELECT `u_login` FROM `user` WHERE `u_nick`='$logout[lo_nick]'");
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_array($result);
-		$logout[lo_login] = $row[u_login];
-		@mysqli_free_result($result);
-	}
-	
-	$query = "INSERT INTO logouts SET ";
-	foreach ($logout as $key => $val)
-		$query .= mysqli_real_escape_string($mysqli_link, $key) . "='" . mysqli_real_escape_string($mysqli_link, $val) . "', ";
-	$query = substr($query, 0, -2);
-	$mysqli_link2 = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
-	mysqli_set_charset($mysqli_link, "utf8mb4");
-	mysqli_select_db($mysqli_link2, $STAT_DB_NAME);
-	if ($mysqli_link2) {
-		mysqli_query($mysqli_link2, $query);
-	}
-	
-	$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
-	mysqli_set_charset($mysqli_link, "utf8mb4");
-	mysqli_select_db($mysqli_link, $dbase);
 }
 
 function hole_geschlecht($userid) {

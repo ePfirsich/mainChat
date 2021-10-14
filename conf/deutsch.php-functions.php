@@ -261,6 +261,12 @@ $t['user_zeige51'] = "Ein/Austrittsnachrichten";
 $t['user_zeige52'] = "Eigener Punktewürfel";
 $t['user_zeige53'] = "Eintrittsnachricht";
 $t['user_zeige54'] = "Austrittsnachricht";
+$t['user_zeige55'] = "Avatar vergrößern";
+$t['user_zeige56'] = "Eigenen Avatar";
+$t['user_zeige57'] = "Alle Avatare";
+$t['user_zeige58'] = "Aktiviert";
+$t['user_zeige59'] = "Deaktiviert";
+$t['user_zeige60'] = "Avatar:";
 
 $t['eingabe'] = "Eingabe";
 $t['chatuserliste'] = "Benutzer";

@@ -258,7 +258,7 @@ if (strlen($u_id) != 0) {
 			if ($u_level == "S") {
 				
 				$box = $t['sonst45'];
-				$text = "<form name=\"userimport2\" enctype=\"multipart/form-data\" ACTION=\"user.php\" method=\"post\">\n"
+				$text = "<form name=\"userimport2\" enctype=\"multipart/form-data\" action=\"user.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"userimport2\">\n"
