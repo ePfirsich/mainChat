@@ -37,12 +37,12 @@ function statsOverview($v = "%") {
 	global $grapharray;
 	
 	mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
-	mysqli_set_charset($mysqli_link, "utf8mb4");
+	mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
 	
 	$m = date("m", time());
 	$y = date("Y", time());
 	
-	$r1 = @mysqli_query($mysqli_link, "SELECT DISTINCT c_host FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host LIKE '" . mysqli_real_escape_string($mysqli_link, $v) . "' ORDER BY c_host");
+	$r1 = @mysqli_query($mysqli_statistik_link, "SELECT DISTINCT c_host FROM chat WHERE c_timestamp LIKE '$y$m%' '" . mysqli_real_escape_string($mysqli_statistik_link, $v) . "'");
 	
 	if ($r1 > 0) {
 		$j = 0;
@@ -67,8 +67,8 @@ function statsOverview($v = "%") {
 				
 				statsResetMonth($y, $m);
 				
-				$r0 = @mysqli_query($mysqli_link, 
-					"SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='". mysqli_real_escape_string($mysqli_link, $c_host) . "' ORDER BY c_timestamp");
+				$r0 = @mysqli_query($mysqli_statistik_link, 
+					"SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='". mysqli_real_escape_string($mysqli_statistik_link, $c_host) . "' ORDER BY c_timestamp");
 				
 				if ($r0 > 0) {
 					$i = 0;
@@ -230,7 +230,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		reset($grapharray);
 		
 		$msg .= "<div style=\"text-align:center;\">\n";
-		$msg .= "<table style=\"width:100%;\">\n";
+		$msg .= "<table style=\"margin:auto;\">\n";
 		
 		if ($title != "") {
 			$msg .= "<tr>\n";

@@ -50,12 +50,12 @@ $STAT_BAR_FONTEND3 = "</span>";
 
 // Bitte ab hier nichts ändern!
 
-$c = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
-if ($c) {
-	mysqli_set_charset($mysqli_link, "utf8mb4");
-	mysqli_select_db($c, $STAT_DB_NAME);
+$mysqli_statistik_link = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
+if ($mysqli_statistik_link) {
+	mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
+	mysqli_select_db($mysqli_statistik_link, $STAT_DB_NAME);
 }
-$v = mysqli_real_escape_string($mysqli_link, $http_host);
+$v = mysqli_real_escape_string($mysqli_statistik_link, $http_host);
 
 // Wenn User Statistiken gesammelt werden, dann nicht HTTP_HOST sondern die Zeichenkette aus $STAT_DB_COLLECT
 if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
@@ -65,16 +65,16 @@ if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
 // Testen, ob Statistiken funktionieren...
 $fehler = false;
 
-if (!$c) {
+if (!$mysqli_statistik_link) {
 	// DB-Connect bereits danebengegangen...
 	$fehler = true;
 	$msg = $t['statistik4'];
 } else {
 	//testen, ob statisiken überhaupt geschrieben werden:
-	$r1 = mysqli_query($mysqli_link, "SELECT DISTINCT c_host FROM chat WHERE c_host LIKE '$v' ORDER BY c_host");
+	$r1 = mysqli_query($mysqli_statistik_link, "SELECT DISTINCT `id` FROM chat");
 	if ($r1 > 0) {
 		if (mysqli_num_rows($r1) == 0) {
-			// host taucht nicht auf... nix wars.
+			// Keine Enträge vorhanden
 			$msg = $t['statistik5'];
 			$fehler = true;
 		}
@@ -90,10 +90,8 @@ if ($fehler) {
 }
 
 // Menu ausgeben
-$msg = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">"
-	. $t['statistik3'] . "</a>]\n"
-	. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">"
-	. $t['statistik2'] . "</a>]";
+$msg = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">" . $t['statistik3'] . "</a>]\n"
+	. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">" . $t['statistik2'] . "</a>]";
 
 show_menue($t['statistik1'], $msg);
 
@@ -119,7 +117,7 @@ switch ($type) {
 		
 		$msg = "";
 		$msg .= "<center>\n";
-		$msg .= "<table style=\"width:100%;\">\n";
+		$msg .= "<table>\n";
 		$msg .= "<form name=\"form\" action=\"$PHP_SELF\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
@@ -168,8 +166,8 @@ switch ($type) {
 		
 		// Statistiken einzeln nach Monaten
 		
-		$r1 = @mysqli_query($mysqli_link, 
-			"SELECT DISTINCT c_host FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host LIKE '$v' ORDER BY c_host");
+		$r1 = @mysqli_query($mysqli_statistik_link, "SELECT DISTINCT c_host FROM chat WHERE date(c_timestamp) LIKE '$y-$m%'");
+		
 		if ($r1 > 0) {
 			$j = 0;
 			$o = @mysqli_num_rows($r1);
@@ -179,8 +177,8 @@ switch ($type) {
 				
 				statsResetMonth($y, $m);
 				
-				$r0 = @mysqli_query($mysqli_link, 
-					"SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' AND c_host='" . mysqli_real_escape_string($mysqli_link, $c_host) . "' ORDER BY c_timestamp");
+				$r0 = @mysqli_query($mysqli_statistik_link, 
+					"SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
 				if ($r0 > 0) {
 					$i = 0;
 					$n = @mysqli_num_rows($r0);
@@ -207,6 +205,7 @@ switch ($type) {
 		break;
 	
 	case "stunde":
+		
 		$h = 24;
 		$msg = "";
 		
@@ -214,7 +213,7 @@ switch ($type) {
 		
 		statsResetHours($showtime, $h);
 		
-		$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM chat WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime AND c_host LIKE '$v' ORDER BY c_timestamp");
+		$r0 = @mysqli_query($mysqli_statistik_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM chat WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
 		
 		if ($r0 > 0) {
 			$i = 0;
@@ -228,8 +227,7 @@ switch ($type) {
 			
 			$title = $v;
 			
-			$msg .= statsPrintGraph($title, $STAT_TXT["0102"],
-				$STAT_TXT["0103"]);
+			$msg .= statsPrintGraph($title, $STAT_TXT["0102"], $STAT_TXT["0103"]);
 		}
 		
 		show_box_title_content($t['statistik2'], $msg);

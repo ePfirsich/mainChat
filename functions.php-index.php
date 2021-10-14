@@ -109,7 +109,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	// u_id=User-ID, u_name ist Nickname, u_level ist Level, hash_id ist Session-ID
 	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
-	global $dbase, $mysqli_link, $HTTP_SERVER_VARS, $punkte_gruppe, $communityfeatures, $logout_logging;
+	global $dbase, $mysqli_link, $HTTP_SERVER_VARS, $punkte_gruppe, $communityfeatures, $http_host;
 	
 	// IP/Browser Adresse des User setzen
 	$ip = $_SERVER["REMOTE_ADDR"];
@@ -354,9 +354,6 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 		$cookie_inhalt = md5($o_id . $hash_id . "42");
 		setcookie($cookie_name, $cookie_inhalt, 0, "/");
 	}
-	
-	if ($logout_logging)
-		logout_debug($o_id, "login");
 	
 	return ($o_id);
 }
