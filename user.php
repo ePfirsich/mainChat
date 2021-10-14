@@ -122,6 +122,7 @@ if (strlen($u_id) != 0) {
 		if ($u_level != "G") {
 			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
 		}
+		
 		if ($adminlisteabrufbar && $u_level != "G") {
 			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
 		}

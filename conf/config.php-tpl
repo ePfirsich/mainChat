@@ -464,7 +464,7 @@ $forum_aenderungsanzeige="1";
 $begrenzung_anmeld_pro_mailadr=5;
 
 // Benutzer können sich eine Liste der Admins abrufen
-$adminlisteabrufbar="0";
+$adminlisteabrufbar="1";
 
 // Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
 $captcha_text=1;
