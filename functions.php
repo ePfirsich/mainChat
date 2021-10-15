@@ -597,7 +597,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		|| preg_match("/(.*)Konqueror(.*)/i", $browser)
 		|| preg_match("/(.*)mozilla\/5(.*)Netscape6(.*)/i", $browser)
 		|| preg_match("/(.*)mozilla\/[23](.*)/i", $browser)
-		|| preg_match("/(.*)AOL [123](.*)/i", $browser)
 		|| $http_te == 'chunked' || !$o_js) {
 		$backup_chat = 1;
 	} else {
