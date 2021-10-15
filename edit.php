@@ -154,7 +154,7 @@ if (strlen($u_id) != 0) {
 			
 			$text .= $f1 . $t['edit21'] . "<br><br>" . $t['edit22'] . "<br><br>" . "\n" . $f2;
 			
-			$text .= $f1 . "<b>" . $t['user_zeige17'] . "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\"$u_name\" name=\"f[u_name]\" SIZE=$input_breite>";
+			$text .= $f1 . "<b>" . $t['user_zeige17'] . "</b><br>\n" . $f2 . "<input type=\"text\" value=\"$u_name\" name=\"f[u_name]\" size=$input_breite>";
 			
 			$query = "SELECT `user`.* " . "FROM `user` WHERE `u_id`=$u_id ";
 			$result = mysqli_query($mysqli_link, $query);
@@ -561,9 +561,7 @@ if (strlen($u_id) != 0) {
 							if (($f['u_name'] != $userdata['u_name'])
 								AND $f['u_name'] AND $admin) {
 								echo "<p><b>"
-									. str_replace("%u_name%",
-										htmlspecialchars($f['u_name']),
-										$t['edit8']) . "</b></p>\n";
+									. str_replace("%u_nick%", htmlspecialchars($f['u_name']), $t['edit8']) . "</b></p>\n";
 							}
 							if ($f['u_nick']
 								AND ($f['u_nick'] != $userdata['u_nick'])) {
@@ -663,7 +661,7 @@ if (strlen($u_id) != 0) {
 						verlasse_chat($f['u_id'], $f['u_nick'], $row->o_raum);
 						logout($row->o_id, $f['u_id'], "edit->levelZ");
 						echo "<p><b>"
-							. str_replace("%u_name%", htmlspecialchars($f['u_nick']),
+							. str_replace("%u_nick%", htmlspecialchars($f['u_nick']),
 								$t['edit12']) . "</b></p>\n";
 					}
 					mysqli_free_result($result);

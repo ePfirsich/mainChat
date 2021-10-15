@@ -67,7 +67,7 @@ $t['raum_gehe7'] = "<b>$chat:</b> Sie haben leider zu wenig Punkte (mind. %r_min
 $t['raum_gehe8'] = "<b>$chat:</b> Als Gast können Sie den Raum %r_name_neu% nicht betreten, da hierzu Punkte notwendig sind, die Sie als Gast nicht bekommen können. Melden Sie sich hierzu an.";
 
 $t['chat_msg1'] = "Der Befehl '%chatzeile%' ist nur für Admins!";
-$t['chat_msg2'] = "Der Besitzer des Raums %rr_name% wurde von %uu_name% auf %u_name% geändert!";
+$t['chat_msg2'] = "Der Besitzer des Raums %rr_name% wurde von %uu_nick% auf %u_nick% geändert!";
 $t['chat_msg3'] = "<b>Fehler:</b> Der Raum wurde nicht gefunden!";
 $t['chat_msg4'] = "Sprüche gefunden:";
 $t['chat_msg5'] = "<b>Fehler:</b> Bitte mindestens 3 Buchstaben als Suchwort abgeben!";
