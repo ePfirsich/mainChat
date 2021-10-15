@@ -103,7 +103,7 @@ function show_who_is_online($result) {
 	}
 }
 
-function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=User-ID, u_name ist Nickname, u_level ist Level, hash_id ist Session-ID
@@ -159,11 +159,11 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 		$query = "select a_id FROM aktion WHERE a_user=$u_id ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && (mysqli_num_rows($result) == 0 || mysqli_num_rows($result) > 20)) {
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_name) . "', a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_name) . "', a_wann='Login', a_was='Freunde', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_name) . "', a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_name) . "', a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_name) . "', a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Login', a_was='Freunde', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
 		}
 		mysqli_free_result($result);
 	}
@@ -358,7 +358,7 @@ function login($u_id, $u_name, $u_level, $hash_id, $javascript, $ip_historie, $u
 	return ($o_id);
 }
 
-function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
+function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// User $u_id betritt Raum $raum (r_id)
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
@@ -508,7 +508,7 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 	$f['o_who'] = "0";
 	
 	// Nachricht im Chat ausgeben
-	$back = nachricht_betrete($u_id, $r_id, $u_name, $r_name);
+	$back = nachricht_betrete($u_id, $r_id, $u_nick, $r_name);
 	
 	// ID der Eintrittsnachricht merken und online-Datensatz schreiben
 	$f['o_chat_id'] = $back;
@@ -531,9 +531,9 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 	
 	if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 	} else if (strlen($r_eintritt) > 0) {
-		system_msg("", 0, $u_id, "", "<br><b>$txt $r_eintritt, $u_name!</b><br>");
+		system_msg("", 0, $u_id, "", "<br><b>$txt $r_eintritt, $u_nick!</b><br>");
 	} else {
-		system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_name!</b><br>");
+		system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
 	}
 	
 	// Wer ist alles im Raum?
@@ -541,7 +541,7 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 	
 	// Hat der User sein Profil ausgefüllt?
 	if ($communityfeatures && $u_level != "G") {
-		profil_neu($u_id, $u_name, $hash_id);
+		profil_neu($u_id, $u_nick, $hash_id);
 	}
 	
 	$http_te = "";
@@ -551,8 +551,9 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 	
 	// Hat der User Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	
-	if ($communityfeatures && $u_level != "G")
-		aktion("Login", $u_id, $u_name, $hash_id);
+	if ($communityfeatures && $u_level != "G") {
+		aktion("Login", $u_id, $u_nick, $hash_id);
+	}
 	
 	// Nachrichten an Freude verschicken
 	if ($communityfeatures) {
@@ -585,7 +586,7 @@ function betrete_chat($o_id, $u_id, $u_name, $u_level, $raum, $javascript) {
 					}
 				}
 				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_name, "", "Freunde", $f);
+				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 			}
 		}
 		@mysqli_free_result($result);
@@ -603,8 +604,7 @@ function id_erzeuge($u_id)
 	
 }
 
-function betrete_forum($o_id, $u_id, $u_name, $u_level)
-{
+function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	// User betritt beim Login das Forum
 	
 	global $dbase, $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe;
@@ -614,12 +614,12 @@ function betrete_forum($o_id, $u_id, $u_name, $u_level)
 	$f['o_who'] = "2";
 	
 	//user betritt nicht chat, sondern direkt forum --> $back ist die aktuellste Zeile in chat
-	$f['o_chat_id'] = system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_name, $t['betrete_forum1']));
+	$f['o_chat_id'] = system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Hat der User Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($communityfeatures && $u_level != "G")
-		aktion("Login", $u_id, $u_name, $hash_id);
+		aktion("Login", $u_id, $u_nick, $hash_id);
 	
 	// Nachrichten an Freude verschicken
 	if ($communityfeatures) {
@@ -651,7 +651,7 @@ function betrete_forum($o_id, $u_id, $u_name, $u_level)
 					}
 				}
 				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_name, "", "Freunde", $f);
+				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 			}
 		}
 	}

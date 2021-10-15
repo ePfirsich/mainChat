@@ -1185,12 +1185,11 @@ switch ($aktion) {
 				<?php
 				zeige_kopf();
 				
-				echo str_replace("%u_name%", $u_name,
-					str_replace("%u_nick%", $u_nick, $t['login5']));
+				echo str_replace("%u_nick%", $u_nick, $t['login5']);
 				
 				zeige_fuss();
 				
-			} elseif (false && $HTTP_COOKIE_VARS[MAINCHAT2] != "on" && ($u_level == "C" || $u_level == "S")) {
+			} else if (false && $HTTP_COOKIE_VARS[MAINCHAT2] != "on" && ($u_level == "C" || $u_level == "S")) {
 				
 				// Der User ein Admin und es sind cookies gesetzt -> Fehlermeldung ausgeben
 				
@@ -1207,7 +1206,7 @@ switch ($aktion) {
 				
 				zeige_fuss();
 				
-			} elseif ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
+			} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 				
 				// Maximale Anzahl der User im Chat erreicht -> Fehlermeldung ausgeben
 				

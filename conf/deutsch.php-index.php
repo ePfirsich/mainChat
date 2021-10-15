@@ -12,7 +12,7 @@ $t['login3'] = "Gäste können sich einloggen, in dem "
 $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
 	. "Sie es später wieder.</b></p><br><br>\n";
-$t['login5'] = "<p><b>Leider ist der Account %u_nick% (%u_name%) derzeit gesperrt.\n"
+$t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
 	. "\">Webmaster</a>.</b></p><br><br>\n";
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n" . "</noframes>\n";

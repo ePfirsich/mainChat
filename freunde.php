@@ -121,16 +121,13 @@ if ($u_id && $communityfeatures) {
 				@mysqli_free_result($result2);
 				
 				if ($ignore) {
-					echo (str_replace("%u_name%", $neuer_freund['u_nick'],
-						$t['chat_msg116']));
+					echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg116']));
 					formular_neuer_freund($neuer_freund);
 				} else if ($neuer_freund['u_level'] == 'Z') {
-					echo (str_replace("%u_name%", $neuer_freund['u_nick'],
-						$t['chat_msg117']));
+					echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg117']));
 					formular_neuer_freund($neuer_freund);
 				} else if ($neuer_freund['u_level'] == 'G') {
-					echo (str_replace("%u_name%", $neuer_freund['u_nick'],
-						$t['chat_msg118']));
+					echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg118']));
 					formular_neuer_freund($neuer_freund);
 				} else {
 					$back = neuer_freund($u_id, $neuer_freund);

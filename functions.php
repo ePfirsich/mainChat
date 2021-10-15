@@ -284,11 +284,10 @@ function logout($o_id, $u_id, $info = "") {
 	$o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
 	
 	// Aktuelle Punkte auf Punkte in Usertabelle addieren
-	$result = @mysqli_query($mysqli_link, 
-		"select o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as knebelrest FROM online WHERE o_id=$o_id");
+	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_id=$o_id");
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
-		$u_name = $row->o_name;
+		$u_nick = $row->o_name;
 		if ($row->knebelrest > 0) {
 			$knebelzeit = $row->o_knebel;
 		} else {
@@ -351,7 +350,7 @@ function logout($o_id, $u_id, $info = "") {
 					}
 				}
 				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_name, "", "Freunde", $f);
+				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 			}
 		}
 		@mysqli_free_result($result);

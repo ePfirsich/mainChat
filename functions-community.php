@@ -809,7 +809,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 						@mysqli_free_result($r2);
 						
 						$weiterer = $t['chat_msg90'];
-						$weiterer = str_replace("%u_name%",
+						$weiterer = str_replace("%u_nick%",
 							user($row2->u_id, $row2, TRUE, TRUE, "&nbsp;",
 								$row2->online, "", FALSE), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
@@ -824,8 +824,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 					// Chat-Mail an u_id versenden
 						if ($i > 0)
 							$txt .= "\n\n";
-						$txt .= str_replace("%u_name%", $row2->u_nick,
-							$t['chat_msg91']);
+						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
 						$txt = str_replace("%online%",
 							gmdate("H:i:s", $row2->online), $txt);
 						if ($row->f_text)
@@ -836,26 +835,12 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 					// E-Mail an u_id versenden
 						if ($i > 0)
 							$txt .= "\n\n";
-						$txt .= str_replace("%u_name%", $row2->u_nick,
-							$t['chat_msg91']);
+						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
 						$txt = str_replace("%online%",
 							gmdate("H:i:s", $row2->online), $txt);
 						if ($row->f_text)
 							$txt .= " (" . $row->f_text . ")";
 						break;
-					
-					case "SMS":
-					// SMS an u_id versenden
-						if ($i > 0)
-							$txt .= "\n\n";
-						$txt .= str_replace("%u_name%", $row2->u_nick,
-							$t['chat_msg91']);
-						$txt = str_replace("%online%",
-							gmdate("H:i:s", $row2->online), $txt);
-						if ($row->f_text)
-							$txt .= " (" . $row->f_text . ")";
-						break;
-					
 				}
 				$i++;
 			}

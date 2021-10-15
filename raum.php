@@ -252,8 +252,7 @@ if (strlen($u_id) != 0) {
 							system_msg("", 0, $row2->o_user, $system_farbe,
 								str_replace("%r_name%", $row->r_name,
 									$t['fehler4']));
-							$oo_raum = raum_gehe($o_id, $row2->o_user,
-								$row2->o_name, $f['r_id'], $lobby_id, FALSE);
+							$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id, FALSE);
 							raum_user($lobby_id, $row2->o_user, $id);
 							$i++;
 						}

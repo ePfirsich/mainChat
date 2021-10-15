@@ -1,7 +1,7 @@
 <?php
 
-function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
-	// user $u_id/$u_name geht von $raum_alt in Raum $raum_neu
+function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
+	// user $u_id/$u_nick geht von $raum_alt in Raum $raum_neu
 	// falls $geschlossen=TRUE -> auch geschlossene Räume betreten
 	// Nachricht in Raum $r_id wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
@@ -136,7 +136,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
 		if ($raumwechsel) {
 			
 			// Raum verlassen
-			$back = nachricht_verlasse($raum_alt, $u_name, $alt->r_name);
+			$back = nachricht_verlasse($raum_alt, $u_nick, $alt->r_name);
 			
 			// back in DB merken
 			$f['o_chat_id'] = $back;
@@ -174,7 +174,7 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
 				$txt . "<br>\n");
 			
 			// Raum betreten
-			nachricht_betrete($u_id, $raum_neu, $u_name, $neu->r_name);
+			nachricht_betrete($u_id, $raum_neu, $u_nick, $neu->r_name);
 			
 			// Wenn der Neue Raum eine Teergrube ist, dann Eingabzeile aktualisieren, daß der [FORUM] Link verschwindet
 			// Es sei denn man ist Admin, dann braucht es nicht aktualisiert werden, denn der Link wird nicht ausgeblendet
@@ -230,10 +230,10 @@ function raum_gehe($o_id, $u_id, $u_name, $raum_alt, $raum_neu, $geschlossen) {
 			if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 			} else if (strlen($neu->r_eintritt) > 0) {
 				system_msg("", 0, $u_id, "",
-					"<br><b>$txt $neu->r_eintritt, $u_name!</b><br>");
+					"<br><b>$txt $neu->r_eintritt, $u_nick!</b><br>");
 			} else {
 				system_msg("", 0, $u_id, "",
-					"<br><b>$txt</b> $t[betrete_chat2], $u_name!</b><br>");
+					"<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
 			}
 			
 			$raum = $raum_neu;
