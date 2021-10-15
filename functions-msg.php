@@ -20,7 +20,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	//				H: Versteckte Nachricht
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
-	global $akdbase, $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
+	global $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
 	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $f1, $f2, $raumstatus1;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
@@ -3360,10 +3360,8 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0)
 		return $nickcomplete;
 }
 
-function auto_knebel($text)
-{
+function auto_knebel($text) {
 	global $admin;
-	global $akdbase;
 	global $dbase;
 	global $u_id;
 	global $u_nick;
@@ -3402,14 +3400,6 @@ function auto_knebel($text)
 		$admin2 = false;
 	}
 	
-	# system_msg("",0,$u_id,$system_farbe,"$admin2 , $akdbase, $dbase, $erweitertefeatures");
-	
-	// testen auf autoknebel...
-	// if (!$admin2 && ($akdbase==$dbase || $erweitertefeatures)) {  nein, so nicht (fido)
-	// alt: if (!$admin2 && ($akdbase==$dbase)) {
-	if ($akdbase != $dbase) {
-		$ak = "";
-	}
 	if (!$admin2) {
 		if ($ak2) {
 			$ak2 = str_replace("//", "", $ak2);

@@ -302,9 +302,6 @@ $smilies_anzahl="%smiliesanzahl%";
 // $smilies_config="deutsch.php-smilies-grafik.php";
 
 
-// Autoknebel
-$akdbase="mainchat";	// wie muss die DB heißen, damit der autoknebel funktioniert?
-
 // autoknebeltexte achtung preg_match -> incl /.../
 $ak[]="/chat-franken.de/";
 $ak[]="/rhoen-chat.de/";

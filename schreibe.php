@@ -13,7 +13,6 @@ $title = $body_titel;
 zeige_header_anfang($title, 'chatunten');
 
 if (strlen($u_id) > 0) {
-	
 	// $chat_back gesetzt?
 	if (isset($user_chat_back) && (strlen($user_chat_back) > 0)) {
 		// chat_back in DB schreiben
@@ -24,13 +23,14 @@ if (strlen($u_id) > 0) {
 	}
 	
 	// sonderfix für das rotieren von text und text2 für ohne javascript...
-	if (isset($text2) && strlen($text2) != 0)
+	if (isset($text2) && strlen($text2) != 0) {
 		$text = $text2;
+	}
 	
 	// Falls private Nachricht, Benutzernamen ergänzen
-	if (isset($privat) && strlen($privat) > 2)
+	if (isset($privat) && strlen($privat) > 2) {
 		$text = "/msgpriv $privat " . $text;
-	
+	}
 	// Initialisierung der Fehlerbehandlung
 	$fehler = FALSE;
 	
@@ -39,13 +39,9 @@ if (strlen($u_id) > 0) {
 	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der Normalen eingabe
 	if ((($admin) || ($u_level == "M")) && isset($text) && (strlen($text) != 0)
 		&& (strlen($text) < (5 * $chat_max_eingabe))) {
-	}
-	// Normale Prüfung für Benutzer
- elseif (isset($text) && strlen($text) != 0
-		&& strlen($text) < $chat_max_eingabe) {
-		
+	} else if (isset($text) && strlen($text) != 0 && strlen($text) < $chat_max_eingabe) { // Normale Prüfung für Benutzer
 		// Spamschutz prüfen, falls kein Admin und kein Moderator
-		if ((!$admin) && ($u_level <> "M")) {
+		if (!$admin && ($u_level <> "M")) {
 			
 			// Geschriebene Zeilen und Bytes aus DB lesen (Variable in id_lese() gesetzt)
 			$spam_zeilen = unserialize($o_spam_zeilen);
@@ -96,15 +92,12 @@ if (strlen($u_id) > 0) {
 			schreibe_db("online", $f, $o_id, "o_id");
 			
 			// Prüfen wieviel Byte ind wieviel Zeilen in den letzten $chat_max_zeit Sekunden geschrieben wurde 
-			if ((array_sum($neu_spam_zeilen) > $chat_max_zeilen)
-				|| (array_sum($neu_spam_byte) > $chat_max_byte)) {
+			if ((array_sum($neu_spam_zeilen) > $chat_max_zeilen) || (array_sum($neu_spam_byte) > $chat_max_byte)) {
 				$fehler = TRUE;
 			}
 		}
 		
-		mysqli_free_result($result);
-		
-	} elseif (isset($text) && strlen($text) >= $chat_max_eingabe) {
+	} else if (isset($text) && strlen($text) >= $chat_max_eingabe) {
 		$fehler = TRUE;
 	}
 	
@@ -136,19 +129,18 @@ if (strlen($u_id) > 0) {
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
 	if ($o_who != 2) {
-		echo "<SCRIPT LANGUAGE=JavaScript>\n"
+		echo "<script language=JavaScript>\n"
 			. "parent.chat.location.href='chat.php?id=$id'"
-			. "</SCRIPT>\n";
+			. "</script>\n";
 	}
 	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls Benutzer im Chat
 	if ($o_who != 2 && $u_level == "M") {
-		echo "<SCRIPT LANGUAGE=JavaScript>\n"
+		echo "<script language=JavaScript>\n"
 			. "parent.moderator.location.href='moderator.php?id=$id'"
-			. "</SCRIPT>\n";
+			. "</script>\n";
 	}
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
-	
 	echo "Benutzer nicht gefunden! ($id, $u_id, $u_nick)<br>";
 	sleep(5);
 	

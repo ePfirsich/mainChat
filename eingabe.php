@@ -188,6 +188,7 @@ zeige_header_ende();
 	echo "&nbsp;&nbsp;";
 	?>
 	<a href="<?php echo $mlnk[6]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out"></span> <span><?php echo $t['menue6']; ?></span></a>&nbsp;
+	</b></td>
 	<?php
 	
 	unset($aktraum);
