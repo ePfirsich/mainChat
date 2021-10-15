@@ -199,7 +199,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				}
 			}
 			
-			// Die Ignorierten Benutzer rausfiltern																	   
+			// Die Ignorierten Benutzer rausfiltern
 			if (isset($ignore[$row->c_von_user_id]) && $ignore[$row->c_von_user_id]) {
 				$ausgeben = false;
 			}

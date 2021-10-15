@@ -1565,7 +1565,7 @@ switch ($aktion) {
 					echo "<frame src=\"schreibe.php?id=$hash_id&o_who=2\" name=\"schreibe\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
 					echo "</frameset>\n";
 					echo "<noframes>\n";
-					echo "<body " . $t['login6'];
+					echo $t['login6'];
 					die();
 				} else {
 					// Chat betreten
@@ -1627,7 +1627,7 @@ switch ($aktion) {
 					</frameset>
 					<?php
 					echo "<noframes>\n"
-						. "<!-- Browser/OS -->\n" . "<body " . $t['login6'];
+						. "<!-- Browser/OS -->\n" . $t['login6'];
 				}
 				?>
 				<body>
@@ -1979,7 +1979,7 @@ switch ($aktion) {
 		</frameset>
 		<?php
 		echo "<noframes>\n"
-			. "<!-- Browser/OS -->\n" . "<body ". $t['login6'];
+			. "<!-- Browser/OS -->\n" . $t['login6'];
 		
 		break;
 	

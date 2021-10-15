@@ -212,10 +212,8 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 				. "u_punkte_jahr=$p_jahr, " . "u_punkte_gesamt=$p_gesamt "
 				. "where u_id=$u_id";
 			$result2 = mysqli_query($mysqli_link, $query);
-			$result = mysqli_query($mysqli_link, 
-				"UPDATE online set o_punkte=0 WHERE o_id=" . intval($o_id));
+			$result = mysqli_query($mysqli_link, "UPDATE online set o_punkte=0 WHERE o_id=" . intval($o_id));
 		}
-		mysqli_free_result($result);
 		
 		// Gruppe neu berechnen
 		unset($f);
