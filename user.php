@@ -4,7 +4,7 @@ require_once("functions.php");
 require_once("functions.php-func-verlasse_chat.php");
 require_once("functions.php-func-nachricht.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 if (!isset($suchtext))
@@ -35,7 +35,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 	$raum_subquery = "AND r_id=$schau_raum";
 }
 
-$title = $body_titel . ' - User';
+$title = $body_titel . ' - Benutzer';
 zeige_header_anfang($title, 'mini');
 
 $eingabe_breite = 31;
@@ -158,7 +158,7 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($admin && isset($kick_user_chat) && $user) {
-		// Nur Admins: User sofort aus dem Chat kicken
+		// Nur Admins: Benutzer sofort aus dem Chat kicken
 		$query = "SELECT o_id,o_raum,o_name FROM online "
 			. "WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' "
 			. "AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
@@ -200,7 +200,7 @@ if (strlen($u_id) != 0) {
 	switch ($aktion) {
 		
 		case "userimport2":
-		// User importieren
+		// Benutzer importieren
 			if ($u_level == "S") {
 				if (is_uploaded_file($HTTP_POST_FILES['userdatei']['tmp_name'])) {
 					$file = fopen($HTTP_POST_FILES['userdatei']['tmp_name'],
@@ -212,7 +212,7 @@ if (strlen($u_id) != 0) {
 						while (!feof($file)) {
 							$zeile = rtrim(fgets($file, 4096));
 							$userd = explode("\t", $zeile);
-							if ($userd[0] != "Nickname"
+							if ($userd[0] != "Benutzername"
 								AND strlen($userd[0]) > 2 AND $userd[1]
 								AND $userd[2] AND $userd[3]) {
 								
@@ -221,10 +221,9 @@ if (strlen($u_id) != 0) {
 								unset($f);
 								unset($ui_userid);
 								$f['u_nick'] = $userd[0];
-								$f['u_name'] = $userd[1];
 								$f['u_adminemail'] = $userd[2];
 								$f['u_passwort'] = $userd[3];
-								$query = "SELECT `u_id` FROM `user` WHERE `u_nick` LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // User importieren
+								$query = "SELECT `u_id` FROM `user` WHERE `u_nick` LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'"; // Benutzer importieren
 								$result = mysqli_query($mysqli_link, $query);
 								if ($result && mysqli_num_rows($result)) {
 									$ui_userid = mysqli_result($result, 0, 0);
@@ -254,7 +253,7 @@ if (strlen($u_id) != 0) {
 			}
 		
 		case "userimport":
-		// User im Format "Nickname\tUsername\tAdmin E-Mail\tPasswort" importieren
+		// Benutzer im Format "Benutzername\tAdmin E-Mail\tPasswort" importieren
 		// Formular ausgeben
 			if ($u_level == "S") {
 				
@@ -285,7 +284,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		case "userloeschen":
-		// User Löschen
+		// Benutzer Löschen
 			if ($u_level == "S") {
 				
 				$box = $t['sonst51'];
@@ -301,7 +300,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		case "userloeschen2":
-		// User Löschen
+		// Benutzer Löschen
 			if ($u_level == "S") {
 				
 				$query = "DELETE FROM `user` WHERE `u_level` != 'C' AND `u_level` != 'S'";
@@ -327,8 +326,8 @@ if (strlen($u_id) != 0) {
 		case "zeigalle":
 			if ($u_level == "S") {
 				
-				// Alle User listen
-				$query = "SELECT u_nick,u_name,u_email,u_adminemail,u_url,u_level,u_punkte_gesamt,"
+				// Alle Benutzer listen
+				$query = "SELECT u_nick,u_email,u_adminemail,u_url,u_level,u_punkte_gesamt,"
 					. "date_format(u_login,'%d.%m.%y %H:%i') as login FROM user "
 					. "ORDER BY u_nick";
 				
@@ -359,8 +358,6 @@ if (strlen($u_id) != 0) {
 						if ($erweitertefeatures) {
 							echo str_replace("\\", "",
 								htmlspecialchars($row->u_nick)) . "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_name)) . "\t"
 								. str_replace("\\", "",
 									htmlspecialchars($row->u_adminemail))
 								. "\t"
@@ -441,7 +438,7 @@ if (strlen($u_id) != 0) {
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
-				// Suche nach User mit Homepage
+				// Suche nach Benutzer mit Homepage
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38']
 					. "</td>\n"
 					. "<td>&nbsp;<SELECT name=\"f[u_chathomepage]\">\n";
@@ -485,7 +482,7 @@ if (strlen($u_id) != 0) {
 				} elseif (strpos($suchtext, "%") >= 0) {
 					$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 					if ($admin) {
-						$where[0] = "WHERE (u_name LIKE '$suchtext' OR u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext' "
+						$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext' "
 							. " OR u_adminemail LIKE '$suchtext') ";
 					} else {
 						$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
@@ -493,7 +490,6 @@ if (strlen($u_id) != 0) {
 				} else {
 					$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 					if ($admin) {
-						$where[0] = "WHERE u_name = '$suchtext' ";
 						$where[1] = "WHERE u_nick = '$suchtext' ";
 						$where[2] = "WHERE u_email = '$suchtext' ";
 						$where[3] = "WHERE u_adminemail = '$suchtext' ";
@@ -544,9 +540,9 @@ if (strlen($u_id) != 0) {
 				
 				// Sortierung
 				if ($admin) {
-					$sortierung = "order by u_nick,u_name ";
+					$sortierung = "ORDER BY u_nick ";
 				} else {
-					$sortierung = "order by u_nick,u_name limit 0,$max_user_liste ";
+					$sortierung = "ORDER BY u_nick LIMIT 0,$max_user_liste ";
 				}
 				
 				// Zusammensetzen der Query
@@ -578,7 +574,7 @@ if (strlen($u_id) != 0) {
 						. str_replace("%suchtext%", $suchtext, $t['sonst5'])
 						. "</P>\n";
 				} elseif ($anzahl == 1) {
-					// Einen User gefunden, alle Userdaten ausgeben
+					// Einen Benutzer gefunden, alle Benutzerdaten ausgeben
 					if (!isset($zeigeip))
 						$zeigeip = 0;
 					while ($arr = mysqli_fetch_array($result)) {
@@ -592,10 +588,10 @@ if (strlen($u_id) != 0) {
 						echo "<b>$t[sonst24]</b><br>";
 					} else {
 						
-						// Mehrere User gefunden, als Tabelle ausgeben
+						// Mehrere Benutzer gefunden, als Tabelle ausgeben
 						for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 							
-							// Array mit Userdaten und Infotexten aufbauen
+							// Array mit Benutzerdaten und Infotexten aufbauen
 							$larr[$i]['u_email'] = str_replace("\\", "",
 								htmlspecialchars($row['u_email']));
 							$larr[$i]['u_nick'] = strtr(
@@ -606,7 +602,7 @@ if (strlen($u_id) != 0) {
 							$larr[$i]['u_id'] = $row['u_id'];
 							$larr[$i]['u_away'] = $row['u_away'];
 							if ($communityfeatures) {
-								// Wenn der User nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
+								// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
 								if ($row['u_punkte_anzeigen'] != "N") {
 									$larr[$i]['gruppe'] = hexdec(
 										$row['u_punkte_gruppe']);
@@ -615,7 +611,7 @@ if (strlen($u_id) != 0) {
 								}
 								$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 							}
-							// Raumbesitzer einstellen, falls Level=User
+							// Raumbesitzer einstellen, falls Level=Benutzer
 							if (isset($larr[$i]['isowner'])
 								&& $larr[$i]['isowner']
 								&& $userdata['u_level'] == "U")
@@ -702,7 +698,7 @@ if (strlen($u_id) != 0) {
 					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
-				// Suche nach User mit Homepage
+				// Suche nach Benutzer mit Homepage
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38'] . $f2
 					. "</td>\n"
 					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
@@ -732,7 +728,7 @@ if (strlen($u_id) != 0) {
 				
 				for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 					
-					// Array mit Userdaten und Infotexten aufbauen
+					// Array mit Benutzerdaten und Infotexten aufbauen
 					$larr[$i][u_email] = str_replace("\\", "",
 						htmlspecialchars($row[u_email]));
 					$larr[$i][u_nick] = strtr(
@@ -742,7 +738,7 @@ if (strlen($u_id) != 0) {
 					$larr[$i][u_id] = $row[u_id];
 					$larr[$i][u_away] = $row[u_away];
 					if ($communityfeatures) {
-						// Wenn der User nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
+						// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
 						if ($row[u_punkte_anzeigen] != "N") {
 							$larr[$i][gruppe] = hexdec($row[u_punkte_gruppe]);
 						} else {
@@ -764,9 +760,9 @@ if (strlen($u_id) != 0) {
 		case "zeig":
 			if (!isset($zeigeip))
 				$zeigeip = 0;
-			// User mit ID $user anzeigen
+			// Benutzer mit ID $user anzeigen
 			if ($user) {
-				// User listen
+				// Benutzer listen
 				user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip);
 			} else echo "<P>$t[sonst11]</P>\n";
 			
@@ -789,7 +785,7 @@ if (strlen($u_id) != 0) {
 				if ($rows > 0) {
 					$lobby_id = mysqli_result($result, 0, "r_id");
 				}
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 			}
 			
 			// Raum listen
@@ -802,7 +798,7 @@ if (strlen($u_id) != 0) {
 			
 			for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 				
-				// Array mit Userdaten und Infotexten aufbauen
+				// Array mit Benutzerdaten und Infotexten aufbauen
 				$userdata = unserialize(
 					$row['o_userdata'] . $row['o_userdata2']
 						. $row['o_userdata3'] . $row['o_userdata4']);
@@ -841,7 +837,7 @@ if (strlen($u_id) != 0) {
 					}
 					
 				} else {
-					// Anonyme User
+					// Anonyme Benutzer
 					$larr[$i]['u_nick'] = $t['sonst37'];
 					$larr[$i]['u_level'] = $userdata['u_level'];
 					$larr[$i]['u_away'] = $userdata['u_away'];
@@ -861,12 +857,12 @@ if (strlen($u_id) != 0) {
 					$larr[$i]['o_ip'] = "";
 				}
 				
-				// Raumbesitzer einstellen, falls Level=User
+				// Raumbesitzer einstellen, falls Level=Benutzer
 				if ($larr[$i]['isowner'] && $userdata['u_level'] == "U")
 					$larr[$i]['u_level'] = "B";
 				
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			
 			if (isset($larr)) {
 				$rows = count($larr);
@@ -902,7 +898,7 @@ if (strlen($u_id) != 0) {
 							. $larr[0]['r_topic'] . $f2 . "<br>" : "")
 					. "<br>";
 					
-					// Userliste ausgeben
+					// Benutzerliste ausgeben
 					$text .= user_liste($larr, $rows);
 					
 					$text .= "<p style=\"text-align:center;\">" . $f1 . $t['sonst12'] . $f2 . "</p>";
@@ -948,7 +944,7 @@ if (strlen($u_id) != 0) {
 					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2
 						. "<br>\n";
 					
-					// Userliste ausgeben
+					// Benutzerliste ausgeben
 					echo user_liste($larr, 0);
 				
 					if ($rows > 15) {

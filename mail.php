@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
 // Sonderzeichen aus dem Target raus
@@ -86,7 +86,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			break;
 		
 		case "neu2":
-		// Mail versenden, 2. Schritt: Nick Prüfen
+			// Mail versenden, 2. Schritt: Benutzername Prüfen
 			$neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
 			$neue_email['an_nick'] = mysqli_real_escape_string($mysqli_link, coreCheckName($neue_email['an_nick'], $check_name));
 			
@@ -124,19 +124,19 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
 					formular_neue_email2($neue_email, $m_id);
 				} else {
-					echo "<P><b>Fehler:</b> An einen Gast, einen gesperrten User oder einen User, der Sie ignoriert kann "
-						. "keine Mail verschickt werden!</P>\n";
+					echo "<p><b>Fehler:</b> An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!</p>\n";
 					formular_neue_email($neue_email, $m_id);
 				}
+				
+				mysqli_free_result($result2);
 			} elseif ($neue_email['an_nick'] == "") {
-				echo "<P><b>Fehler:</b> Bitte geben Sie einen Nicknamen an!</P>\n";
+				echo "<P><b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!</P>\n";
 				formular_neue_email($neue_email, $m_id);
 			} else {
-				echo "<P><b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!</P>\n";
+				echo "<P><b>Fehler:</b> Der Benutzername '$neue_email[an_nick]' existiert nicht!</P>\n";
 				formular_neue_email($neue_email, $m_id);
 			}
-			@mysqli_free_result($result);
-			@mysqli_free_result($result2);
+			mysqli_free_result($result);
 			break;
 		
 		case "neu3":
@@ -167,17 +167,17 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				$ok = FALSE;
 			}
 			
-			// User-ID Prüfen
+			// Benutzer-ID Prüfen
 			$neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
 			$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $neue_email[m_an_uid]";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$an_nick = mysqli_result($result, 0, "u_nick");
 			} else {
-				echo "<b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!<br>\n";
+				echo "<b>Fehler:</b> Der Benutzer mit der ID '$neue_email[m_an_uid]' existiert nicht!<br>\n";
 				$ok = FALSE;
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			
 			// Mail schreiben
 			if ($ok) {
@@ -252,9 +252,9 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			if ($result && mysqli_num_rows($result) == 1) {
 				$row = mysqli_fetch_object($result);
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			
-			// Nick prüfen
+			// Benutzername prüfen
 			$query = "SELECT `u_id`, `u_nick` FROM `user` WHERE `u_id`=" . $row->m_von_uid;
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
@@ -284,13 +284,13 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				formular_neue_email2($neue_email);
 				
 			} elseif ($neue_email['an_nick'] == "") {
-				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
+				echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
 				formular_neue_email($neue_email);
 			} else {
-				echo "<b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!<br>\n";
+				echo "<b>Fehler:</b> Der Benutzername '$neue_email[an_nick]' existiert nicht!<br>\n";
 				formular_neue_email($neue_email);
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			break;
 		
 		case "antworten_forum":
@@ -305,7 +305,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				$row = mysqli_fetch_object($result);
 			}
 			
-			// Nick prüfen
+			// Benutzername prüfen
 			if ($row->u_nick && $row->u_nick != "NULL") {
 				
 				$row2 = mysqli_fetch_object($result);
@@ -323,13 +323,13 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				formular_neue_email2($neue_email);
 				
 			} elseif ($neue_email['an_nick'] == "") {
-				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
+				echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
 				formular_neue_email($neue_email);
 			} else {
-				echo "<b>Fehler:</b> Der Nickname '$neue_email[an_nick]' existiert nicht!<br>\n";
+				echo "<b>Fehler:</b> Der Benutzername '$neue_email[an_nick]' existiert nicht!<br>\n";
 				formular_neue_email($neue_email);
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			break;
 		
 		case "zeige":
@@ -384,11 +384,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			break;
 		
 		default:
-			if (!isset($neue_email)) {
-				$neue_email[] = "";
-			}
-			formular_neue_email($neue_email);
-			echo '<br>';
 			zeige_mailbox("normal", "");
 	}
 	

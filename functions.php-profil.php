@@ -2,8 +2,8 @@
 
 function profil_editor($u_id, $u_nick, $f) {
 	// Editor zur Änderung oder zur Neuanlage eines Profils
-	// $u_id=User-Id
-	// $u_nick=Nickname
+	// $u_id=Benutzer-ID
+	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
 	global $dbase, $mysqli_link, $communityfeatures, $t, $id, $eingabe_breite, $f1, $f2;
 	
@@ -43,7 +43,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	if (!isset($f['ui_typ']))
 		$f['ui_typ'] = "";
 	
-	// Userdaten lesen
+		// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -57,17 +57,12 @@ function profil_editor($u_id, $u_nick, $f) {
 	<form name="profil" action="profil.php" method="POST">
 	<table>
 		<tr>
-			<td class="tabelle_kopfzeile" colspan="5">Ihre Userdaten:</td>
+			<td class="tabelle_kopfzeile" colspan="5">Ihre Benutzerdaten:</td>
 		</tr>
 		<tr>
-			<td class="tabelle_zeile1" style="text-align:right;">Nickname:</td>
+			<td class="tabelle_zeile1" style="text-align:right;">Benutzer:</td>
 			<td class="tabelle_zeile1" colspan="2"><b><?php echo user($userdata['u_id'], $userdata, TRUE, FALSE); ?></b></td>
 			<td class="tabelle_zeile1"><?php echo $userdaten_bearbeiten; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_zeile2" style="text-align:right;">Username:</td>
-			<td class="tabelle_zeile2" colspan="2"><?php echo htmlspecialchars($userdata['u_name']); ?></td>
-			<td class="tabelle_zeile2">&nbsp;</td>
 		</tr>
 		<?php
 		$bgcolor = 'class="tabelle_zeile1"';

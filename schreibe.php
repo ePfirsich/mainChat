@@ -3,7 +3,7 @@
 require("functions.php");
 require_once("functions-msg.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
 // $raum_einstellungen und $ist_moderiert setzen
@@ -27,7 +27,7 @@ if (strlen($u_id) > 0) {
 	if (isset($text2) && strlen($text2) != 0)
 		$text = $text2;
 	
-	// Falls private Nachricht, Nicknamen ergänzen
+	// Falls private Nachricht, Benutzernamen ergänzen
 	if (isset($privat) && strlen($privat) > 2)
 		$text = "/msgpriv $privat " . $text;
 	
@@ -40,7 +40,7 @@ if (strlen($u_id) > 0) {
 	if ((($admin) || ($u_level == "M")) && isset($text) && (strlen($text) != 0)
 		&& (strlen($text) < (5 * $chat_max_eingabe))) {
 	}
-	// Normale Prüfung für User
+	// Normale Prüfung für Benutzer
  elseif (isset($text) && strlen($text) != 0
 		&& strlen($text) < $chat_max_eingabe) {
 		
@@ -102,7 +102,7 @@ if (strlen($u_id) > 0) {
 			}
 		}
 		
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 	} elseif (isset($text) && strlen($text) >= $chat_max_eingabe) {
 		$fehler = TRUE;
@@ -115,10 +115,8 @@ if (strlen($u_id) > 0) {
 		}
 		chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $o_raum,
 			isset($text) ? $text : "", "");
-	}
-	// Spam -> Fehler ausgeben
- elseif ($fehler) {
-		// Systemnachricht mit Fehlermeldung an User schreiben
+	} else if ($fehler) { // Spam -> Fehler ausgeben
+ 	// Systemnachricht mit Fehlermeldung an Benutzer schreiben
 		system_msg("", 0, $u_id, $system_farbe,
 			$t['floodsperre1'] . " " . $text);
 		
@@ -127,7 +125,6 @@ if (strlen($u_id) > 0) {
 			$anzahl = 10;
 			punkte((-1) * $anzahl, $o_id, $u_id, $t['floodsperre2'], TRUE);
 		}
-		
 	}
 
 	zeige_header_ende();
@@ -137,22 +134,22 @@ if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
-	// Falls Pull-Chat, Chat-Fenster neu laden, falls User im Chat
+	// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
 	if ($o_who != 2) {
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
 			. "parent.chat.location.href='chat.php?id=$id'"
 			. "</SCRIPT>\n";
 	}
-	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls User im Chat
+	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls Benutzer im Chat
 	if ($o_who != 2 && $u_level == "M") {
 		echo "<SCRIPT LANGUAGE=JavaScript>\n"
 			. "parent.moderator.location.href='moderator.php?id=$id'"
 			. "</SCRIPT>\n";
 	}
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
-	echo "User nicht gefunden! ($id, $u_id, $u_nick)<br>";
+	echo "Benutzer nicht gefunden! ($id, $u_id, $u_nick)<br>";
 	sleep(5);
 	
 	zeige_header_ende();

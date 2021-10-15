@@ -2,8 +2,8 @@
 
 require("functions.php");
 
-// User die gerade Online sind als Liste ausgeben
-// Diese Liste kann einlesen und damit die Liste unserer User ausgeben
+// Benutzer die gerade Online sind als Liste ausgeben
+// Diese Liste kann einlesen und damit die Liste unserer Benutzer ausgeben
 
 if (preg_match("/hilfe/", $REQUEST_URI)) {
 	echo "optionale Parameter:<br>";

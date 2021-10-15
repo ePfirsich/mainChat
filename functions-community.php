@@ -18,8 +18,8 @@ function suche_threadord($poid)
 }
 
 function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
-	// Hat der User neue Chat-Mail?
-	// $u_id ist die ID des des Users
+	// Hat der Benutzer neue Chat-Mail?
+	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
 	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t, $chat;
@@ -83,14 +83,14 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 		}
 		
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 }
 
 function profil_neu($u_id, $u_nick, $id) {
-	// Hat der User sein Profil ausgefüllt?
+	// Hat der Benutzer sein Profil ausgefüllt?
 	// Falls nein, wird einer Erinnerung ausgegeben
-	// $u_id ist die ID des des Users
+	// $u_id ist die ID des des Benutzers
 	
 	global $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t;
 	
@@ -111,7 +111,7 @@ function profil_neu($u_id, $u_nick, $id) {
 		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster2('$ur1'); return(false);\"";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 }
 
@@ -144,8 +144,8 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 }
 
 function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
-	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Users $o_id/$u_id
-	// Dieser User muss online sein, die punkte werden in der Tabelle online addiert
+	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $o_id/$u_id
+	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
 	global $t, $o_punkte, $dbase, $communityfeatures, $mysqli_link, $punkte_gruppe;
@@ -161,7 +161,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 		mysqli_query($mysqli_link, $query);
 	}
 	
-	// Meldung an User ausgeben
+	// Meldung an Benutzer ausgeben
 	if (strlen($text) > 0) {
 		if ($anzahl > 0) {
 			// Gutschrift
@@ -177,14 +177,14 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 				(isset($system_farbe) ? $system_farbe : ""), $text);
 	}
 	
-	// Optional Punkte sofort in Userdaten übertragen
+	// Optional Punkte sofort in Benutzerdaten übertragen
 	if ($sofort && $o_id) {
 		
 		// Tabellen online+user exklusiv locken
 		$query = "LOCK	TABLES online WRITE, user WRITE";
 		$result = mysqli_query($mysqli_link, $query);
 		
-		// Aktuelle Punkte auf Punkte in Usertabelle addieren
+		// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 		$result = mysqli_query($mysqli_link, 
 			"select o_punkte,o_user FROM online WHERE o_id=" . intval($o_id));
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -215,7 +215,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			$result = mysqli_query($mysqli_link, 
 				"UPDATE online set o_punkte=0 WHERE o_id=" . intval($o_id));
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		// Gruppe neu berechnen
 		unset($f);
@@ -243,7 +243,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 
 function punkte_offline($anzahl, $u_id)
 {
-	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Users $u_id
+	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $u_id
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
@@ -254,7 +254,7 @@ function punkte_offline($anzahl, $u_id)
 	$query = "LOCK	 TABLES online WRITE, user WRITE";
 	$result = mysqli_query($mysqli_link, $query);
 	
-	// Aktuelle Punkte auf Punkte in Usertabelle addieren
+	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	if ($u_id && ($anzahl > 0 || $anzahl < 0)) {
 		
 		// es können maximal die punkte abgezogen werden, die man auch hat
@@ -303,7 +303,7 @@ function punkte_offline($anzahl, $u_id)
 	$query = "UNLOCK TABLES";
 	$result = mysqli_query($mysqli_link, $query);
 	
-	// Meldung an User ausgeben
+	// Meldung an Benutzer ausgeben
 	if ($anzahl > 0) {
 		// Gutschrift
 		$text = str_replace("%user%", $u_nick, $t['punkte21']);
@@ -327,9 +327,9 @@ function aktion(
 	$inhalt = "")
 {
 	
-	// Programmierbare Aktionen für User $an_u_id von User $u_nick
+	// Programmierbare Aktionen für Benutzer $an_u_id von Benutzer $u_nick
 	// Verschickt eine Nachricht (Aktion) zum Login, Raumwechsel, Sofort oder alle 5 Minuten aus (a_wann)
-	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Users oder eine Online-Message (a_wie)
+	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	// Pro Funktion kann ein Infotext hinterlegt werden (a_text)
 	// typ = "Sofort/Offline", "Sofort/Online", "Login", "Alle 5 Minuten"
@@ -356,7 +356,7 @@ function aktion(
 			}
 			
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		switch ($typ) {
 			
@@ -438,10 +438,10 @@ function aktion_sende(
 	$id = "")
 {
 	
-	// Versendet eine Nachricht an User $an_u_id von $von_u_id/$u_nick
+	// Versendet eine Nachricht an Benutzer $an_u_id von $von_u_id/$u_nick
 	// Der Inhalt der Nachricht wird in $inhalt übergeben
 	// Die Session-ID $id kann optional übergeben werden
-	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Users oder eine Online-Message (a_wie)
+	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	
 	global $system_farbe, $dbase, $communityfeatures, $t;
@@ -457,14 +457,14 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$txt = str_replace("%u_name%", $userlink,
+						$txt = str_replace("%u_nick%", $userlink,
 							$t['freunde1']);
 						$txt = str_replace("%raum%", $inhalt['raum'], $txt);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$txt = str_replace("%u_name%", $userlink,
+						$txt = str_replace("%u_nick%", $userlink,
 							$t['freunde5']);
 					} else {
-						$txt = str_replace("%u_name%", $u_nick, $t['freunde2']);
+						$txt = str_replace("%u_nick%", $u_nick, $t['freunde2']);
 					}
 					if ($inhalt['f_text'])
 						$txt .= " (" . $inhalt['f_text'] . ")";
@@ -502,15 +502,15 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'],
 							$betreff);
 					} elseif ($inhalt[aktion] == "Login") {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde6']);
 					} else {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde4']);
 					}
 					if ($inhalt['f_text']) {
@@ -554,15 +554,15 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'],
 							$betreff);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde6']);
 					} else {
-						$betreff = str_replace("%u_name%", $u_nick,
+						$betreff = str_replace("%u_nick%", $u_nick,
 							$t['freunde4']);
 					}
 					if ($inhalt['f_text']) {
@@ -616,7 +616,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
-	// User die die Mailbox zu haben, bekommen keine Aktionen per Mainchat
+	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per Mainchat
 	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
 	$result = mysqli_query($mysqli_link, $query);
 	$num = mysqli_num_rows($result);
@@ -625,13 +625,13 @@ function mail_sende($von, $an, $text, $betreff = "") {
 		$fehlermeldung = $t['chat_msg105'];
 	}
 	
-	// Gesperrte User bekommen keine Chatmail Aktionen mehr
+	// Gesperrte Benutzer bekommen keine Chatmail Aktionen mehr
 	$query = "SELECT `u_id` FROM `user` WHERE `u_id`=" . intval($an) . " AND u_level='Z'";
 	$result = mysqli_query($mysqli_link, $query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$mailversand_ok = false;
-		$fehlermeldung = "User ist gesperrt, und kann deswegen keine Chatmail empfangen";
+		$fehlermeldung = "Benutzer ist gesperrt, und kann deswegen keine Chatmail empfangen";
 	}
 	
 	// Mailbombing schutz!
@@ -696,7 +696,7 @@ function email_versende(
 	$an_u_email = FALSE)
 {
 	
-	// Versendet "echte" E-Mail an User mit an_user_id
+	// Versendet "echte" E-Mail an Benutzer mit an_user_id
 	// Falls an_u_email=TRUE wird Mail an u_email Adressen verschickt,
 	// sonst an u_adminemail (interne Adresse)
 	
@@ -715,10 +715,10 @@ function email_versende(
 	if ($result && mysqli_num_rows($result) == 1) {
 		$abrow = mysqli_fetch_object($result);
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	// Empfänger ermitteln und E-Mail versenden, Footer steht in $t[mail4]
-	$query = "SELECT `u_adminemail`, `u_email,u_name`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
+	$query = "SELECT `u_adminemail`, `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
@@ -738,18 +738,18 @@ function email_versende(
 		}
 		mail($adresse, $betreff, str_replace("%user%", $row->u_nick, $text)
 				. $t['mail4'], "From: $absender\nReply-To: $absender\n");
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		return (TRUE);
 	} else {
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		return (FALSE);
 	}
 }
 
 function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 {
-	// Sind Freunde des Users online?
-	// $u_id ist die ID des des Users
+	// Sind Freunde des Benutzers online?
+	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
 	global $mysqli_link, $system_farbe, $dbase, $communityfeatures, $t, $o_js, $whotext;
@@ -766,7 +766,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 		$i = 0;
 		while ($row = mysqli_fetch_object($result)) {
 			
-			// User aus DB lesen
+			// Benutzer aus DB lesen
 			if ($row->f_userid != $u_id) {
 				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
 					. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
@@ -806,7 +806,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 								$raum = "<b>[" . $whotext[$r->o_who] . "]</b>";
 							}
 						}
-						@mysqli_free_result($r2);
+						mysqli_free_result($r2);
 						
 						$weiterer = $t['chat_msg90'];
 						$weiterer = str_replace("%u_nick%",
@@ -870,7 +870,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 		}
 		
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 }
 
 //prüft ob neue Antworten auf eigene Beiträge 
@@ -880,15 +880,15 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
 	
 	global $mysqli_link, $t, $system_farbe;
 	
-	//schon gelesene Beiträge des Users holen
+	//schon gelesene Beiträge des Benutzers holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
 	$query = mysqli_query($mysqli_link, $sql);
 	if (mysqli_num_rows($query) > 0)
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
 	$u_gelesene = unserialize($gelesene);
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
-	//alle eigenen Beiträge des Users mit allen Antworten 
+	//alle eigenen Beiträge des Benutzers mit allen Antworten 
 	//und dem Themenbaum holen
 	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
@@ -1037,7 +1037,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht)
 			}
 		} // endif is_array
 	}
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 }
 
@@ -1097,7 +1097,7 @@ function erzeuge_fuss($text)
 		$row = mysqli_fetch_object($result);
 	}
 	;
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	if (!$row->u_signatur) {
 		$sig = "\n\n-- \n  " . $t['gruss'] . "\n  " . $row->u_nick;

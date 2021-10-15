@@ -6,7 +6,7 @@ require_once("functions.php-func-html_parse.php");
 require_once("functions.php-func-raeume_auswahl.php");
 
 function user_liste($larr, $anzahl) {
-	// Gibt Userliste $larr als Tabelle aus
+	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
@@ -64,7 +64,7 @@ function user_liste($larr, $anzahl) {
 					$geschl[$uid] = "W";
 				else $geschl[$uid] = "";
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 		}
 		
 		// Leveltexte erzeugen
@@ -144,7 +144,7 @@ function user_liste($larr, $anzahl) {
 }
 
 function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
-	// $user = ID des Users
+	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
 	global $mysqli_link, $dbase, $level, $id, $f1, $f2, $f3, $f4;
@@ -153,7 +153,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	
 	$eingabe_breite = 29;
 	
-	// User listen
+	// Benutzer listen
 	$query = "SELECT `user`.*,"
 		. "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`,"
 		. "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` "
@@ -164,7 +164,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$row = mysqli_fetch_object($result);
 		$uu_away = $row->u_away;
 		$uu_nick = htmlspecialchars($row->u_nick);
-		$uu_name = htmlspecialchars($row->u_name);
 		$uu_id = $row->u_id;
 		$uu_email = htmlspecialchars($row->u_email);
 		$uu_adminemail = htmlspecialchars($row->u_adminemail);
@@ -296,7 +295,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			echo '<br>';
 		}
 		
-		// Kopf Tabelle Userinfo
+		// Kopf Tabelle Benutzerinfo
 		$text = '';
 		if (isset($onlinezeit) && $onlinezeit) {
 			$box = str_replace("%user%", $uu_nick, $t['user_zeige20']);
@@ -313,15 +312,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		$text .= "</b></td></tr>\n";
-		
-		if ($admin) {
-			// Name
-			if (strlen($uu_name) > 0) {
-				$text .= "<tr><td><b>" . $f1 . $t['user_zeige2'] . $f2
-					. "</b></td><td><b>" . $f1 . "$uu_name" . $f2
-					. "</b></td></tr>\n";
-			}
-		}
 		
 		// Raum
 		if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
@@ -378,7 +368,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		if ($communityfeatures) {
-			// Nickname Sonderzeichen raus für target
+			// Benutzername Sonderzeichen raus für target
 			$fenster = str_replace("+", "", $uu_nick);
 			$fenster = str_replace("-", "", $fenster);
 			$fenster = str_replace("ä", "", $fenster);
@@ -507,7 +497,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$fenster = str_replace("+", "", $uu_nick);
 		$fenster = str_replace("-", "", $uu_nick);
 		
-		// Usermenue mit Aktionen
+		// Benutzermenue mit Aktionen
 		if ($u_level != "G") {
 			$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
 			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
@@ -572,7 +562,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
 				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$uu_id\">\n"
-				. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$uu_name\">\n"
 				. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$uu_nick\">\n"
 				. "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n"
@@ -598,7 +587,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		// Box anzeigen
 		show_box_title_content($box, $text);
 		
-		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Nickname: $uu_nick)
+		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
 		
 		mysqli_free_result($result);
 		

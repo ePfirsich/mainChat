@@ -16,11 +16,10 @@ $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
 	. "\">Webmaster</a>.</b></p><br><br>\n";
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n" . "</noframes>\n";
-$t['login7'] = "<p><b>Falsches Passwort oder Nickname eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
-$t['login8'] = "Name/Nick:";
+$t['login7'] = "<p><b>Falsches Passwort oder Benutzername eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
+$t['login8'] = "Benutzername:";
 $t['login9'] = "Passwort:";
 $t['login10'] = "Login";
-$t['login11'] = "Login als";
 $t['login12'] = "Raum:";
 $t['login13'] = "Gast";
 $t['login14'] = "als registrierter Benutzer neu anmelden";
@@ -28,7 +27,7 @@ $t['login15'] = "<p><b>Leider ist der Login als Gast derzeit gesperrt. Bitte hab
 $t['login16'] = "<p><b>Leider ist kein Login als Gast möglich. Bitte melden Sie sich als registrierter Benutzer an.</b></p>";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
-$t['login19'] = "<p><b>Dieser Nickname ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></p>\n";
+$t['login19'] = "<p><b>Dieser Benutzername ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login20'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!";
 $t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!\n\n"
 	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
@@ -52,15 +51,13 @@ $t['login27'] = "Passwort vergessen?";
 $t['neu1'] = "<p><b>Bitte das Feld 'Name' ausfüllen!</b></p>\n";
 $t['neu2'] = "<p><b>Bitte geben Sie als Benutzernamen mindestens 4 Zeichen ein!</b></p>\n";
 $t['neu3'] = "<p><b>Bitte geben Sie als Benutzernamen maximal 20 Zeichen ein!</b></p>\n";
-$t['neu4'] = "<p><b>Bitte geben Sie als Nicknamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</p>\n";
+$t['neu4'] = "<p><b>Bitte geben Sie als Benutzernamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</p>\n";
 $t['neu5'] = "<p><b>Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!</b></p>\n";
 $t['neu6'] = "<p><b>Sie haben sich beim Passwort vertippt. Bitte neu versuchen!</b></p>\n";
 $t['neu7'] = "<p><b>Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!</b></p>\n";
 $t['neu8'] = "<p><b>Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!</b></p>\n";
-$t['neu9'] = "<p><b>Dieser Nickname ist leider schon vergeben! Bitte wählen Sie einen anderen.</b></p>\n";
-$t['neu10'] = "Vor- & Nachname:";
-$t['neu11'] = "(nur intern)";
-$t['neu12'] = "NickName:";
+$t['neu9'] = "<p><b>Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.</b></p>\n";
+$t['neu12'] = "Benutzername:";
 $t['neu13'] = "&nbsp;&nbsp;(Bitte&nbsp;nur&nbsp;ein&nbsp;Wort)";
 $t['neu14'] = "Passwort:";
 $t['neu15'] = "Passwort:";
@@ -79,21 +76,19 @@ $t['neu23'] = "<p>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b
 	. "im Chat für alle anderen Mitglieder sichtbar.</p>\n"
 	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die Felder <b>E-Mail (öffentlich)</b> und\n"
 	. "<b>Homepage</b> sind öffentlich und müssen nicht ausgefüllt werden.\n"
-	. "Falls Sie <b>Nickname</b> nicht ausfüllen, wird Ihr Name aus dem Feld\n"
+	. "Falls Sie <b>Benutzername</b> nicht ausfüllen, wird Ihr Name aus dem Feld\n"
 	. "<b>Name</b> als öffentlicher\n"
-	. "Nickname automatisch eingesetzt.</p>\n"
+	. "Benutzername automatisch eingesetzt.</p>\n"
 	. "<p>Mit dem Abschluß der Registrierung (Klick auf Fertig) bestätigen Sie Ihr Einverständnis\n"
 	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"hilfe.php?id=&aktion=privacy\"><b>Datenschutzerklärung</b></a>.\n"
 	. "Außerdem erklären Sie sich mit unseren <a href=\"hilfe.php?id=&aktion=agb\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
 $t['neu24'] = "<p><b>Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!</b></p><br><br>\n";
 $t['neu25'] = "<p>Sie wurden nun im $chat eingetragen!</p>\n";
-$t['neu26'] = "Vor- & Nachname";
-$t['neu27'] = "NickName";
 $t['neu28'] = "<p><b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b></p>\n";
 $t['neu29'] = "Weiter zum Chat";
 $t['neu30'] = "Eintrag abgeschlossen";
 $t['neu31'] = "Neuen Account registrieren:";
-$t['neu32'] = "<p><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Nicknamen!</b></p>";
+$t['neu32'] = "<p><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Benutzernamen!</b></p>";
 $t['neu33'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['neu34'] = "Ihre E-Mail Adresse:";
 $t['neu35'] = "Absenden";
@@ -112,7 +107,7 @@ $t['neu41'] = "<p><b>Fehler: </b>Die Eingabe '%email%' ist keine gültige  E-Mai
 $t['neu42'] = "Bitte geben Sie nun Ihre <b>E-Mailadresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.<br>"
 	. "Sie können hierzu natürlich auch gerne Cut und Paste (Strg+C und Strg+V) verwenden";
 $t['neu43'] = "Freischalt-Code:";
-$t['neu44'] = "<p><b>Fehler: </b>Pluszeichen nicht im Nicknamen erlaubt!";
+$t['neu44'] = "<p><b>Fehler: </b>Pluszeichen sind im Benutzernamen nicht erlaubt!";
 $t['neu45'] = "<p>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.</p>";
 $t['neu46'] = "Anfrage um Registrierung im $chat";
 $t['neu47'] = "Hallo!\n\nEin Benutzer mit der E-Mailadresse %email% möchte sich in Ihrem Chat $chat anmelden."
@@ -162,7 +157,7 @@ $t['agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respek
 	. "<li>Im $chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. "
 	. "Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
 	. "anstößige Äußerungen, Schreiben nur in Großbuchstaben (wird als Anschreien gewertet), Spam und "
-	. "nationalsozialistische Sprüche oder Nicknamen. </li>"
+	. "nationalsozialistische Sprüche oder Benutzernamen. </li>"
 	. "<li>Das öffentliche Posten von Links im Allgemeinen und das Einfügen von URLs"
 	. "zum Zweck der Werbung, insbesondere für andere Internet-Angebote,"
 	. "ist nicht gestattet.</li>"
@@ -179,18 +174,18 @@ $t['agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respek
 	. "</ol>";
 
 $t['pwneu1'] = "<p><b>Neues Passwort, 1. Schritt (von 3):</b> Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "
-	. "Nicknamen an. In Zusammenhang mit der E-Mailadresse, die Sie bei der Anmeldung angegeben haben, erhalten Sie "
+	. "Benutzernamen an. In Zusammenhang mit der E-Mailadresse, die Sie bei der Anmeldung angegeben haben, erhalten Sie "
 	. "eine E-Mail mit einem Sicherheitscode, der Sie berechtigt ein neues Passwort anzufordern.</p>";
-$t['pwneu2'] = "Nickname";
+$t['pwneu2'] = "Benutzername";
 $t['pwneu3'] = "E-Mailadresse";
 $t['pwneu5'] = "Ungültige E-Mailadresse!";
-$t['pwneu6'] = "Nickname und E-Mailadresse passen nicht zusammen!";
+$t['pwneu6'] = "Benutzername und E-Mailadresse passen nicht zusammen!";
 $t['pwneu7'] = "<p><b>Neues Passwort, 2. Schritt (von 3):</b> An Ihre E-Mailadresse wurde ein Sicherheitscode gesendet. Geben Sie bitte diesen "
 	. "Sicherheitscode in das untere Feld ein.</p>";
 $t['pwneu8'] = "Ihre Passwortanforderung für den $chat";
 $t['pwneu9'] = "Hallo %nickname%,
 
-Sie oder jemand unbefugtes möchte ein neues Passwort für Ihren Nicknamen.
+Sie oder jemand unbefugtes möchte ein neues Passwort für Ihren Benutzernamen.
 
 Anbei erhalten Sie den Sicherheitscode, mit dem Sie sich ein neues Passwort erzeugen können. Ohne diesen wird kein neues Passwort erzeugt.  
 Geben Sie den Sicherheitscode bitte in das vorgegebene Feld ein - oder kopieren Sie es mit \"Copy and Paste\" (markieren, STRG+C und STRG+V)

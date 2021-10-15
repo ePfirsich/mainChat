@@ -5,7 +5,7 @@
 
 require("functions.php");
 
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
 // Systemnachrichten ausgeben
@@ -14,9 +14,9 @@ $sysmsg = TRUE;
 $title = $body_titel;
 zeige_header_anfang($title, 'chatausgabe');
 
-// Userdaten gesetzt?
+// Benutzerdaten gesetzt?
 if ($u_id) {
-	// Timestamp im Datensatz aktualisieren -> User im Chat / o_who=0
+	// Timestamp im Datensatz aktualisieren -> Benutzer im Chat / o_who=0
 	aktualisiere_online($u_id, $o_raum, 0);
 	
 	// Algorithmus wählen

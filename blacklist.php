@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js
 id_lese($id);
 
 // Fenstername
@@ -74,7 +74,7 @@ if ($admin && $u_id && $communityfeatures) {
 			break;
 		
 		case "neu2":
-		// Neuer Eintrag, 2. Schritt: Nick Prüfen
+		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
 			$neuer_blacklist['u_nick'] = mysqli_real_escape_string($mysqli_link, $neuer_blacklist['u_nick']); // sec
 			$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$neuer_blacklist[u_nick]'";
 			$result = mysqli_query($mysqli_link, $query);
@@ -87,13 +87,13 @@ if ($admin && $u_id && $communityfeatures) {
 				echo '<br>';
 				zeige_blacklist("normal", "", $sort);
 			} elseif ($neuer_blacklist['u_nick'] == "") {
-				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
+				echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
 				formular_neuer_blacklist($neuer_blacklist);
 			} else {
-				echo "<b>Fehler:</b> Der Nickname '$neuer_blacklist[u_nick]' existiert nicht!<br>\n";
+				echo "<b>Fehler:</b> Der Benutzername '$neuer_blacklist[u_nick]' existiert nicht!<br>\n";
 				formular_neuer_blacklist($neuer_blacklist);
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			break;
 		
 		case "loesche":

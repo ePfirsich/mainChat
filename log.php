@@ -19,10 +19,10 @@ if ($aktion == "abspeichern") {
 	}
 }
 
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
-// Userdaten gesetzt?
+// Benutzerdaten gesetzt?
 if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);

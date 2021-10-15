@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 $fenster = str_replace("+", "", $u_nick);
@@ -225,7 +225,7 @@ if (strlen($u_id) != 0) {
 			if ($result AND mysqli_num_rows($result) > 0) {
 				$row = mysqli_fetch_object($result);
 				
-				// Berechtigung prüfen, alle User in Lobby werfen und löschen
+				// Berechtigung prüfen, alle Benutzer in Lobby werfen und löschen
 				if ($admin || ($row->r_besitzer == $u_id)) {
 					// Lobby suchen
 					$query = "SELECT r_id FROM raum WHERE r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "'";
@@ -233,7 +233,7 @@ if (strlen($u_id) != 0) {
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
 						$lobby_id = mysqli_result($result2, 0, "r_id");
 					}
-					@mysqli_free_result($result2);
+					mysqli_free_result($result2);
 					
 					// Raum ist nicht Lobby -> Löschen
 					if ($f['r_id'] == $lobby_id) {
@@ -256,16 +256,16 @@ if (strlen($u_id) != 0) {
 							raum_user($lobby_id, $row2->o_user, $id);
 							$i++;
 						}
-						@mysqli_free_result($result2);
+						mysqli_free_result($result2);
 						
 						$query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
 						$result2 = mysqli_query($mysqli_link, $query);
-						@mysqli_free_result($result2);
+						mysqli_free_result($result2);
 						
 						// Gesperrte Räume löschen
 						$query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
 						$result2 = mysqli_query($mysqli_link, $query);
-						@mysqli_free_result($result2);
+						mysqli_free_result($result2);
 						
 						// ausgeben: raum wurde gelöscht.
 						echo "<P>"
@@ -673,7 +673,7 @@ if (strlen($u_id) != 0) {
 			} else {
 				$text = '';
 				$box = $t['sonst15'];
-				// Liste der Räume mit der Anzahl der User aufstellen
+				// Liste der Räume mit der Anzahl der Benutzer aufstellen
 				$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
 					. "LEFT JOIN online ON r_id=o_raum "
 					. "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout OR o_id IS NULL) "
@@ -763,11 +763,9 @@ if (strlen($u_id) != 0) {
 							|| $row['r_status1'] == "m" || $uu_id == $u_id
 							|| $admin) {
 							
-							$rlink = "<a href=\"raum.php?id=$id&aktion=edit&raum="
-								. $row['r_id'] . "\">" . $row['r_name']
-								. "</A>";
+							$rlink = "<a href=\"raum.php?id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 							
-							// Anzahl der User online ermitteln
+							// Anzahl der Benutzer online ermitteln
 							if ((isset($anzahl_user[$row['r_id']]))
 								&& ($anzahl_user[$row['r_id']] > 0)) {
 								$anzahl = $anzahl_user[$row['r_id']];

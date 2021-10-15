@@ -3,13 +3,13 @@
 require("functions.php");
 require("functions.php-func-chat_lese.php");
 
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatausgabe');
 
-// Userdaten gesetzt?
+// Benutzerdaten gesetzt?
 if (strlen($u_id) > 0) {
 	
 	// Fenstername
@@ -47,7 +47,7 @@ if (strlen($u_id) > 0) {
 		echo $t['chat_msg106'];
 	}
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
 	zeige_header_ende();
 	?>

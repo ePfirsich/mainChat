@@ -2,7 +2,7 @@
 
 include("functions.php");
 include("functions.php-forum.php");
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
 // Raumwechsel nicht erlaubt, wenn alter Raum Teergrube (ausser für Admins + Tempadmins)
@@ -23,21 +23,21 @@ if ($alt->r_status1 == "L" && $u_level != "A" && !$admin)
 else $darf_forum = true;
 
 if (!$darf_forum) {
-	// Da manche User immernoch übers Forum gehen, weil sie den link fürs Forum kopieren
+	// Da manche Benutzer immernoch übers Forum gehen, weil sie den link fürs Forum kopieren
 	// erstmal ein Logout, bis ich ne Möglichkeit gefunden habe, das schöner zu machen
 	Header("Location: index.php");
 	exit();
 }
 
-//Userdaten u_gelesene_postings bereinigen
+// Benutzerdaten u_gelesene_postings bereinigen
 bereinige_u_gelesene_postings($u_id);
 
-//Bereinige Anzahl Themen und Antworten wenn ein SU das Forum betritt
+// Bereinige Anzahl Themen und Antworten wenn ein SU das Forum betritt
 if ($u_level == "S") {
 	bereinige_anz_in_thema();
 }
 
-//ins forum wechseln
+// Ins forum wechseln
 gehe_forum($u_id, $u_nick, $o_id, $o_raum);
 
 // Obersten Frame definieren

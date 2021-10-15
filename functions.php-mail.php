@@ -1,7 +1,7 @@
 <?php
 
 function formular_neue_email($neue_email, $m_id = "") {
-	// Gibt Formular für Nicknamen zum Versand einer Mail aus
+	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
 	
 	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	global $PHP_SELF;
@@ -10,7 +10,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 		$eingabe_breite = 30;
 	}
 	
-	// Nickname aus u_nick lesen und setzen
+	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
 		$query = "select `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
 		$result = mysqli_query($mysqli_link, $query);
@@ -37,7 +37,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	if (!isset($neue_email['an_nick'])) {
 	$neue_email['an_nick'] = "";
 	}
-	$text .= "<b>Nickname:</b> "
+	$text .= "<b>Benutzername:</b> "
 		. $f1 . "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
 		. "<input type=\"submit\" name=\"los\" value=\"WEITER\">" . $f2;
 	
@@ -90,7 +90,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 				$neue_email['m_text']);
 			
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 	} else {
 		// Neue Mail versenden
@@ -101,7 +101,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	if (!isset($neue_email['m_text']))
 		$neue_email['m_text'] = htmlspecialchars(erzeuge_fuss(""));
 	
-	// Userdaten aus u_id lesen und setzen
+	// Benutzerdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
 		$query = "select u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, "
 			. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
@@ -170,7 +170,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			show_box_title_content($box, $text);
 			
 		} else {
-			echo "<P><b>Fehler:</b> Der User mit ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
+			echo "<P><b>Fehler:</b> Der Benutzer mit der ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
 		}
 	}
 }
@@ -398,7 +398,7 @@ function loesche_mail($m_id, $u_id) {
 	} else {
 		echo "<P><b>Fehler:</b> Diese Mail nicht kann nicht gelöscht werden!</P>";
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 }
 

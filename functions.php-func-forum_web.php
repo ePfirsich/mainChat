@@ -83,7 +83,7 @@ function maske_forum($fo_id = 0) {
 		$query = mysqli_query($mysqli_link, $sql);
 		$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 		$fo_admin = mysqli_result($query, 0, "fo_admin");
-		@mysqli_free_result($query);
+		mysqli_free_result($query);
 		
 		$kopfzeile = str_replace("xxx", $fo_name, $t['kategorie_editieren_mit_Name']);
 		$button = $t['kategorie_editieren'];
@@ -127,7 +127,7 @@ function maske_forum($fo_id = 0) {
 				</td>
 			</tr>
 			<?php
-			// Forumsrechte für einen User einstellen
+			// Forumsrechte für einen Benutzer einstellen
 			if (($fo_admin & 2) == 2) {
 				$selu1 = "selected";
 				$selu2 = "";
@@ -297,7 +297,7 @@ function forum_liste() {
 	</table>
 	<?php
 	show_icon_description("forum");
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 }
 
 //Zeigt Erklärung der verschiedenen Folder an
@@ -337,7 +337,7 @@ function maske_thema($th_id = 0) {
 		$query = mysqli_query($mysqli_link, $sql);
 		$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 		$th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
-		@mysqli_free_result($query);
+		mysqli_free_result($query);
 		
 		$button = $t['forum_speichern'];
 	} else {
@@ -393,7 +393,7 @@ function maske_thema($th_id = 0) {
 					</td>
 				</tr>
 				<?php
-				@mysqli_free_result($query);
+				mysqli_free_result($query);
 			}
 			?>
 			<tr>
@@ -429,7 +429,7 @@ function show_pfad($th_id) {
 	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 	$th_anzthreads = mysqli_result($query, 0, "th_anzthreads");
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	?>
 	<table class="tabelle_gerust2">
 		<tr>
@@ -741,7 +741,7 @@ function maske_posting($mode) {
 			$po_text = mysqli_result($query, 0, "po_text");
 			$po_tiefe = mysqli_result($query, 0, "po_tiefe");
 			
-			//Testen ob User mogelt, indem er den Edit-Link mit anderer po_id benutzt
+			//Testen ob Benutzer mogelt, indem er den Edit-Link mit anderer po_id benutzt
 			if ((!$forum_admin) && ($user_id != $u_id)) {
 				echo "wanna cheat eh? bad boy!";
 				exit;
@@ -889,7 +889,7 @@ function show_pfad_posting($th_id, $po_titel)
 	$fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
 	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	?>
 	<table class="tabelle_gerust2">
 		<tr>
@@ -1074,7 +1074,7 @@ function verschiebe_posting() {
 				</td>
 			</tr>
 			<?php
-			@mysqli_free_result($query);
+			mysqli_free_result($query);
 			?>
 			<tr>
 				<td style="text-align:center;" colspan="2" class="tabelle_koerper_login"><input type="submit" name="los" value="<?php echo $t['verschieben4']; ?>"></td>
@@ -1127,13 +1127,13 @@ function show_posting() {
 		$autor = $row->u_nick;
 	}
 	
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 	$sql = "SELECT po_threadorder FROM posting WHERE po_th_id= $th_id";
 	$query = mysqli_query($mysqli_link, $sql);
 	$po_threadorder = mysqli_result($query, 0, "po_threadorder");
 	
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 	show_pfad_posting($th_id, $po_titel);
 	navigation_posting($po_titel, $po_u_id, $th_id, $row->u_nick, TRUE);
@@ -1175,7 +1175,7 @@ function zeige_beitraege($thread) {
 	$query = mysqli_query($mysqli_link, $sql);
 	$alle_beitraege = mysqli_query($mysqli_link, $sql);
 	
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 	//echo "<table style=\"width:100%;\">\n";
 	

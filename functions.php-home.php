@@ -9,10 +9,10 @@ function edit_home(
 	$bilder,
 	$aktion) {
 	// Editor für die eigene Homepage im Chat
-	// u_id = User-Id
-	// home = Array des Userprofiles mit Einstellungen
+	// u_id = Benutzer-Id
+	// home = Array des Benutzerprofiles mit Einstellungen
 	// einstellungen = Array der Einstellungen
-	// farben = Array mit Userfarben
+	// farben = Array mit Benutzerfarben
 	// bilder = Array mit Bildinfos
 	global $f1, $f2, $t;
 	
@@ -64,7 +64,7 @@ function edit_home(
 }
 
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
-	// Zeigt die Userinfos im Profil an
+	// Zeigt die Benutzerinfos im Profil an
 	
 	global $dbase, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
 	
@@ -208,7 +208,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 }
 
 function home_info($u_id, $u_nick, $farben, $aktion) {
-	// Zeigt die öffentlichen Userdaten an
+	// Zeigt die öffentlichen Benutzerdaten an
 	global $dbase, $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
 	
 	// Fenstername
@@ -222,7 +222,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	$fenster = str_replace("Ü", "", $fenster);
 	$fenster = str_replace("ß", "", $fenster);
 	
-	// Userdaten lesen
+	// Benutzerdaten lesen
 	$query = "SELECT user.*,o_id, "
 		. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
 		. "date_format(u_login,'%d.%m.%y %H:%i') as login "
@@ -235,7 +235,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		mysqli_free_result($result);
 		
-		// Link auf Usereditor ausgeben
+		// Link auf Benutzereditor ausgeben
 		if ($aktion == "aendern") {
 			$url = "edit.php?id=$id";
 			$userdaten_bearbeiten = $f3
@@ -251,8 +251,8 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 			$links_an = TRUE;
 		}
 		
-		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" WIDTH=20%>" . $f1
-			. "Nickname:" . $f2 . "</td><td colspan=\"3\" WIDTH=\"80%\"><b>"
+		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" width=20%>" . $f1
+			. "Benutzername:" . $f2 . "</td><td colspan=\"3\" width=\"80%\"><b>"
 			. user($userdata['u_id'], $userdata, $links_an, FALSE)
 			. "</b></td></tr>\n";
 		
@@ -634,7 +634,7 @@ function home_farbe(
 function bild_holen($u_id, $name, $ui_bild, $groesse)
 {
 	// Prüft hochgeladenes Bild und speichert es in die Datenbank
-	// u_id = ID des Users, dem das Bild gehört
+	// u_id = ID des Benutzers, dem das Bild gehört
 	// 
 	// Binäre Bildinformation -> home[ui_bild]
 	// WIDTH				  -> home[ui_bild_width] 
@@ -718,7 +718,7 @@ function home_url_parse($tag, $url)
 }
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
-	// Zeigt die Homepage des Users u_id an
+	// Zeigt die Homepage des Benutzers u_id an
 	global $dbase, $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
@@ -737,7 +737,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 			$query = "";
 	}
 	
-	// Userdaten lesen
+	// Benutzerdaten lesen
 	if ($query) {
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -745,7 +745,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 			$u_chathomepage = $row->u_chathomepage;
 			$u_id = $row->u_id;
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 	
 	// Profil lesen
@@ -763,7 +763,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		} else {
 			$ok = FALSE;
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		// Bildinfos lesen und in Array speichern
 		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild "
@@ -777,7 +777,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 				$bilder[$row2->b_name]['b_height'] = $row2->b_height;
 			}
 		}
-		@mysqli_free_result($result2);
+		mysqli_free_result($result2);
 		
 		// Falls nicht freigeschaltet....
 		if (!isset($u_chathomepage))
@@ -846,7 +846,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	} elseif ($u_chathomepage != "J") {
 		
 		echo "<body>"
-			. "<p><b>Fehler: Dieser User hat keine Homepage!</b></p>";
+			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
 		
 		echo "</body>\n";
 		

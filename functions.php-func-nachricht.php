@@ -2,7 +2,7 @@
 
 function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
-	// Aufruf mit Raum-Id, UserName, Raum-Name
+	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back zurück
 	global $mysqli_link, $nachricht_b, $lustigefeatures, $u_farbe;
 	global $eintritt_individuell, $eintritt_useranzeige;
@@ -33,7 +33,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 		mysqli_free_result($result);
 	}
 	
-	$text = str_replace("%u_name%", $u_nick, $text);
+	$text = str_replace("%u_nick%", $u_nick, $text);
 	$text = str_replace("%r_name%", $r_name, $text);
 	
 	$text = preg_replace("|%nick%|i", $u_nick, $text);
@@ -66,7 +66,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 
 function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
-	// Aufruf mit Raum-Id, UserName, Raum-Name
+	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back (ID des geschriebenen Datensatzes) zurück
 	global $chat, $nachricht_v, $lustigefeatures, $u_farbe, $u_id;
 	global $eintritt_individuell, $eintritt_useranzeige, $mysqli_link;
@@ -95,7 +95,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 		mysqli_free_result($result);
 	}
 	
-	$text = str_replace("%u_name%", $u_nick, $text);
+	$text = str_replace("%u_nick%", $u_nick, $text);
 	$text = str_replace("%r_name%", $r_name, $text);
 	
 	$text = preg_replace("|%nick%|i", $u_nick, $text);

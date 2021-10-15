@@ -4,8 +4,7 @@
 
 # Tabelle user 		Userdaten, Level
 # u_id 			ID
-# u_nick		Temp. Nickname im Chat	
-# u_name		Username
+# u_nick		Temp. Benutzername im Chat	
 # u_passwort		Passwort
 # u_email		E-Mail Adresse
 # u_url			URL der Homepage
@@ -64,7 +63,7 @@
 
 # Tabelle moderation	moderierte Chat-Nachrichten
 # c_id			ID
-# c_von_user		Nachricht ist von User Nickname
+# c_von_user		Nachricht ist von User Benutzername
 # c_von_user_id		ID c_von_user
 # c_an_user 		Nachricht ist an User u_id
 # c_typ 		Art der Nachricht (privat, System, normal) ("N"= chatnachricht, "P"=vordefinierte Antwort)
@@ -424,7 +423,6 @@ CREATE TABLE user (
 	`u_login` timestamp NOT NULL,
 	`u_auth` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_nick` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	`u_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_adminemail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
@@ -470,7 +468,6 @@ CREATE TABLE user (
 	KEY u_level (u_level),
 	KEY u_adminemail (u_adminemail),
 	KEY u_email (u_email),
-	KEY u_name (u_name),
 	FULLTEXT KEY u_ip_historie (u_ip_historie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -499,4 +496,4 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';
-INSERT INTO user set u_id=1,u_nick='admin',u_name='admin',u_passwort='adpexzg3FUZAk',u_level='S',u_loginfehler='';
+INSERT INTO user set u_id=1,u_nick='admin',u_passwort='adpexzg3FUZAk',u_level='S',u_loginfehler='';

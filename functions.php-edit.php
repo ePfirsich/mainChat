@@ -4,7 +4,7 @@ require_once("functions.php-func-verlasse_chat.php");
 require_once("functions.php-func-nachricht.php");
 
 function user_edit($f, $admin, $u_level, $size = ARRAY()) {
-	// $f = Ass. Array mit Userdaten
+	// $f = Ass. Array mit Benutzerdaten
 	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
@@ -54,12 +54,12 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 <article>
 	<div id='holder'>
 	</div>
-	<p>Um euer Avatar zu &auml;ndern, zieht einfach euer neues Bild auf die daf&uuml;r vorgesehene Fl&auml;che.</p>
+	<p>" .$t['avatar_beschreibung1'] ."</p>
 	<p id='upload' class='hidden'><label>Drag & drop not supported, but you can still upload via this input field:<br><input type='file'></label></p>
 	<p id='filereader'>File API & FileReader API not supported</p>
 	<p id='formdata'>XHR2's FormData is not supported</p>
 	<p id='progress'>XHR2's upload progress isn't supported</p>
-	<p>Upload progress: <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
+	<p>" .$t['avatar_beschreibung2'] ." <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
 </article>
 <script>
 var holder = document.getElementById('holder'),
@@ -153,26 +153,13 @@ if (tests.dnd) {
 </script></td></tr>";
 	
 	
-	// Nur für Admins
-	if ($admin) {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige17']
-			. "</b><br>\n" . $f2
-			. "<input type=\"TEXT\" value=\"$f[u_name]\" name=\"f[u_name]\" SIZE=$input_breite>"
-			. "</td></tr>\n";
-	} else if (($einstellungen_aendern) && ($u_level == 'U')) {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige17']
-			. "</b> (<a href=\"edit.php?id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
-			. $f2 . htmlspecialchars($f['u_name'])
-			. "</td></tr>\n";
-	}
-	
 	if (!$einstellungen_aendern) {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
 			. "</b>&nbsp;&nbsp;\n" . $f['u_nick'] . $f2 . "</td></tr>\n";
 	} else {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
 			. "</b><br>\n" . $f2
-			. "<input type=\"TEXT\" value=\"$f[u_nick]\" name=\"f[u_nick]\" SIZE=$input_breite>"
+			. "<input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" SIZE=$input_breite>"
 			. "</td></tr>\n";
 	}
 	
@@ -180,7 +167,7 @@ if (tests.dnd) {
 	if ($u_level != "G") {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige6']
 			. "</b><br>\n" . $f2
-			. "<input type=\"TEXT\" value=\"$f[u_email]\" name=\"f[u_email]\" SIZE=$input_breite>"
+			. "<input type=\"text\" value=\"$f[u_email]\" name=\"f[u_email]\" SIZE=$input_breite>"
 			. "</td></tr>\n";
 	}
 	
@@ -188,7 +175,7 @@ if (tests.dnd) {
 	if ($admin) {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige3']
 			. "</b><br>\n" . $f2
-			. "<input type=\"TEXT\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" SIZE=$input_breite>"
+			. "<input type=\"text\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" SIZE=$input_breite>"
 			. "</td></tr>\n";
 	} else if (($einstellungen_aendern) && ($u_level == 'U')) {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige3']
@@ -201,7 +188,7 @@ if (tests.dnd) {
 		if (!isset($f['u_kommentar']))
 			$f['u_kommentar'] = "";
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige49']
-			. "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\""
+			. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
 			. htmlspecialchars($f['u_kommentar'])
 			. "\" name=\"f[u_kommentar]\" SIZE=$input_breite>" . "</td></tr>\n";
 	}
@@ -210,25 +197,25 @@ if (tests.dnd) {
 	if ($u_level != "G") {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige7']
 			. "</b><br>\n" . $f2
-			. "<input type=\"TEXT\" value=\"$f[u_url]\" name=\"f[u_url]\" SIZE=$input_breite>"
+			. "<input type=\"text\" value=\"$f[u_url]\" name=\"f[u_url]\" SIZE=$input_breite>"
 			. "</td></tr>\n";
 		
 		// Signatur
 			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige44']
-			. "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\""
+			. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
 			. htmlspecialchars($f['u_signatur'])
 			. "\" name=\"f[u_signatur]\" SIZE=$input_breite>" . "</td></tr>\n";
 		
 		if ($eintritt_individuell == "1") {
 			// Eintrittsnachricht
 			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige53']
-				. "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\""
+				. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
 				. htmlspecialchars($f['u_eintritt'])
 				. "\" name=\"f[u_eintritt]\" SIZE=$input_breite MAXLENGTH=\"100\">"
 				. "</td></tr>\n";
 			// Austrittsnachricht
 			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige54']
-				. "</b><br>\n" . $f2 . "<input type=\"TEXT\" value=\""
+				. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
 				. htmlspecialchars($f['u_austritt'])
 				. "\" name=\"f[u_austritt]\" SIZE=$input_breite MAXLENGTH=\"100\">"
 				. "</td></tr>\n";
@@ -358,14 +345,14 @@ if (tests.dnd) {
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
 			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	} else if ($admin) {
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
 			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	}

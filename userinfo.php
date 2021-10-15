@@ -1,5 +1,5 @@
 <?php
-// Anzahl der User, die gerade Online sind, als Grafik ausgeben
+// Anzahl der Benutzer, die gerade Online sind, als Grafik ausgeben
 
 // time limit auf 3 sekunden - falls z.B. ein DB-Server hängt, wird
 // hiermit hoffentlich verhindert, daß dieser Prozess zu lange hängt
@@ -7,8 +7,8 @@
 
 set_time_limit(3);
 
-$userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche die aktuelle Zahl\nder User im Chat enthält. "
-	. "Falls kein User im Chat ist, wird ein leeres JPG ausgegeben.\n\n"
+$userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche die aktuelle Zahl\nder Benutzer im Chat enthält. "
+	. "Falls kein Benutzer im Chat ist, wird ein leeres JPG ausgegeben.\n\n"
 	. "Übergabeparameter:</b>\n" . " text   - Text nach der Zahl\n"
 	. " size   - Größe in Punkt für die Schrift\n"
 	. " hrot   - Hintergrundfarbe Rotanteil\n"
@@ -17,19 +17,19 @@ $userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche d
 	. " vrot   - Hintergrundfarbe Rotanteil\n"
 	. " vgruen - Hintergrundfarbe Grünanteil\n"
 	. " vblau  - Hintergrundfarbe Blauanteil\n"
-	. " registriert=j  - zeige User-registriert statt User-online\n"
-	. " art=user	   - Zeige Anzahl der User als Grafik oder Text (Voreinstellung)\n"
+	. " registriert=j  - zeige Benutzer-registriert statt Benutzer-online\n"
+	. " art=user	   - Zeige Anzahl der Benutzer als Grafik oder Text (Voreinstellung)\n"
 	. " art=raumliste  - Zeige Textliste der Räume, in denen ein Login möglich ist\n"
 	. " art=alles	  - Zeige Textliste mit den wichtigen Informationen\n"
-	. " null=j  - Falls j, erfolgt bei \"0 User online\" eine Ausgabe. Ansonsten wird nur ein transparentes leeres JPG ausgegeben.\n"
-	. " text=j  - es wird statt einer Grafik die Anzahl der User als Text ausgegeben.\n\n"
-	. " jscript=j  - es wird statt einer Grafik die Anzahl der User als Text ausgegeben.\n\n"
-	. "<b>Beispiel 1:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\"&gt;\n"
+	. " null=j  - Falls j, erfolgt bei \"0 Benutzer online\" eine Ausgabe. Ansonsten wird nur ein transparentes leeres JPG ausgegeben.\n"
+	. " text=j  - es wird statt einer Grafik die Anzahl der Benutzer als Text ausgegeben.\n\n"
+	. " jscript=j  - es wird statt einer Grafik die Anzahl der Benutzer als Text ausgegeben.\n\n"
+	. "<b>Beispiel 1:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\"&gt;\n"
 	. "ergibt folgende Grafik:\n\n"
-	. "<IMG SRC=\"http://chat.main.de/userinfo.php?size=24&text=User+gerade+online+im+Testchat\">\n\n"
-	. "<b>Beispiel 2:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
+	. "<img src=\"http://chat.main.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\">\n\n"
+	. "<b>Beispiel 2:</b>\n&lt;img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
 	. "ergibt folgende Grafik in Gelb für einen blauen Hintergrund:\n\n"
-	. "<table><TR><td style=\"background-color:#0000ff;\"><img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></td></tr></table>\n";
+	. "<table><tr><td style=\"background-color:#0000ff;\"><img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></td></tr></table>\n";
 
 // Falls ?hilfe übergeben wurde, Hilfe anzeigen
 
@@ -149,7 +149,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					$raeume = $raeume
 						. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 				$raeume = $raeume . "</SELECT>\n";
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 			} else {
 				if (strlen($eintrittsraum) == 0) {
 					$eintrittsraum = $lobby;
@@ -159,7 +159,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 				if ($result && mysqli_num_rows($result) == 1) {
 					$lobby_id = mysqli_result($result, 0, "r_id");
 				}
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 				$raeume = "<input type=hidden name=\"eintritt\" VALUE=$lobby_id>\n";
 			}
 			
@@ -171,7 +171,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 				
 				$ergebnis = array();
 				
-				// Wie viele User sind in der DB?
+				// Wie viele Benutzer sind in der DB?
 				$query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
@@ -182,7 +182,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					$ergebnis['registriert'] = 0;
 				}
 				
-				// User online und Räume bestimmen -> merken
+				// Benutzer online und Räume bestimmen -> merken
 				$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, "
 					. "r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' as lobby "
 					. "FROM online left join raum on o_raum=r_id  "
@@ -252,7 +252,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					mysqli_free_result($result2);
 					
 				} else {
-					@mysqli_free_result($result2);
+					mysqli_free_result($result2);
 				}
 				foreach ($ergebnis as $key => $val) {
 					echo $key . ";" . $val . "\n";
@@ -262,7 +262,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 			break;
 		
 		default:
-		// Anzahl der User abfragen
+		// Anzahl der Benutzer abfragen
 			if (isset($registriert) && $registriert == "j") {
 				$query = "SELECT COUNT(u_id) AS `anzahl` FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
 				$result = @mysqli_query($mysqli_link, $query);
@@ -316,10 +316,10 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					}
 					if (!$text) {
 						if ($registriert == "j") {
-							$text = "User im $chat registriert!";
+							$text = "Benutzer im $chat registriert!";
 							$text0 = "Kein";
 						} else {
-							$text = "User im $chat online!";
+							$text = "Benutzer im $chat online!";
 							$text0 = "Kein";
 						}
 					} else {
@@ -328,7 +328,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 					if ($size > 64) {
 						$size = 64;
 					}
-					// Nur bei mindestens einem User Anzahl ausgeben
+					// Nur bei mindestens einem Benutzer Anzahl ausgeben
 					if ($anzahl == 0 && $null != "j") {
 						$text = "";
 					} elseif ($anzahl == 0) {

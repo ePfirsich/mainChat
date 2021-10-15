@@ -9,7 +9,7 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "") || (isset($_SERVER["Q
 	require("functions.php");
 	include("functions.php-hash.php");
 	
-	// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 	if (isset($id)) {
 		id_lese($id);
 	} else {
@@ -122,10 +122,10 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 	switch ($aktion) {
 		
 		case "aendern":
-		// Userid des Users, dessen Homepage geändert oder angezeigt wird.
+			// Benutzer-ID des Benutzers, dessen Homepage geändert oder angezeigt wird.
 			$ui_userid = $u_id;
 			
-			// Homepage für User $u_id bearbeiten
+			// Homepage für Benutzer $u_id bearbeiten
 			
 			// Menü als erstes ausgeben
 			$box = "Menü Freunde";
@@ -224,7 +224,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				
-				// Userprofil aus DB lesen
+				// Benutzerprofil aus der Datenbank lesen
 				$home = mysqli_fetch_array($result);
 				if ($home['ui_farbe']) {
 					$farbentemp = unserialize($home['ui_farbe']);
@@ -232,7 +232,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 						$farben = $farbentemp;
 				}
 				
-				// Einstellung für u_chathomepage aus Userdaten lesen
+				// Einstellung für u_chathomepage aus Benutzerdaten lesen
 				$einstellungen['u_chathomepage'] = $userdata['u_chathomepage'];
 				
 				// Bildinfos lesen und in Array speichern
@@ -247,7 +247,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 						$bilder[$row->b_name]['b_height'] = $row->b_height;
 					}
 				}
-				@mysqli_free_result($result2);
+				mysqli_free_result($result2);
 				
 				// hidden Felder für die Farben erzeugen
 				$inputliste = "";
@@ -279,7 +279,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 					. "weiter zur Anlage eines Profils</A>.</P>\n";
 				
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			
 			if ($o_js || !$u_id) {
 				echo schliessen_link();

@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
 $title = $body_titel . ' - Hilfe';
@@ -36,7 +36,7 @@ if ($erweitertefeatures) {
 		if (strlen($txt) > 7)
 			$frame_online = $txt;
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 }
 // Frameset refreshen, falls reset=1, dann Fenster schliessen
 if (isset($reset) && $reset && $o_js) {
@@ -83,7 +83,6 @@ if (isset($reset) && $reset && $o_js) {
 if (strlen($u_id) > 0) {
 	unset($f['u_id']);
 	unset($f['u_level']);
-	unset($f['u_name']);
 	unset($f['u_nick']);
 	unset($f['u_auth']);
 	unset($f['u_passwort']);
@@ -126,7 +125,7 @@ switch ($aktion) {
 		$bgcolor = 'class="tabelle_zeile1"';
 		
 		$text .= "<div style=\"text-align:center;\">$t[hilfe1]</div>";
-		// Befehle für alle User
+		// Befehle für alle Benutzer
 		$text .= "<table class=\"tabelle_kopf\">\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";

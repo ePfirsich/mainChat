@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
 // Target von Sonderzeichen entfernen
@@ -72,7 +72,7 @@ if ($u_id && $communityfeatures) {
 	} else {
 		$profil_gefunden = false;
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	// Menü als erstes ausgeben
 	$box = "Menü Profil";
@@ -151,7 +151,7 @@ if ($u_id && $communityfeatures) {
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
 					
-					// Userprofil aus DB lesen
+					// Benutzerprofil aus der Datenbank lesen
 					$home = mysqli_fetch_array($result);
 					if ($home['ui_farbe']) {
 						$farbentemp = unserialize($home['ui_farbe']);
@@ -231,17 +231,15 @@ if ($u_id && $communityfeatures) {
 				$box = $t['profil_alle_profile'];
 				$text = 'BLA';
 				$text .= "<table class=\"tabelle_kopf\">\n"
-					. "<tr><td class=\"tabelle_kopfzeile\">Nick</td><td class=\"tabelle_kopfzeile\">Username</td><td class=\"tabelle_kopfzeile\">Straße</td><td class=\"tabelle_kopfzeile\">PLZ Ort</td><td class=\"tabelle_kopfzeile\">Land</td><td class=\"tabelle_kopfzeile\">Admin-E-Mail</td><td class=\"tabelle_kopfzeile\">E-Mail</td><td class=\"tabelle_kopfzeile\">URL</td><td class=\"tabelle_kopfzeile\">Geburt</td><td class=\"tabelle_kopfzeile\">Geschlecht</td><td class=\"tabelle_kopfzeile\">Fam. Stand</td><td class=\"tabelle_kopfzeile\">Typ</td><td class=\"tabelle_kopfzeile\">Beruf</td><td class=\"tabelle_kopfzeile\">Hobby</td><td class=\"tabelle_kopfzeile\">Tel</td><td class=\"tabelle_kopfzeile\">Fax</td><td class=\"tabelle_kopfzeile\">Handy</td><td class=\"tabelle_kopfzeile\">ICQ</td></tr>";
+					. "<tr><td class=\"tabelle_kopfzeile\">Benutzername</td><td class=\"tabelle_kopfzeile\">Straße</td><td class=\"tabelle_kopfzeile\">PLZ Ort</td><td class=\"tabelle_kopfzeile\">Land</td><td class=\"tabelle_kopfzeile\">Admin-E-Mail</td><td class=\"tabelle_kopfzeile\">E-Mail</td><td class=\"tabelle_kopfzeile\">URL</td><td class=\"tabelle_kopfzeile\">Geburt</td><td class=\"tabelle_kopfzeile\">Geschlecht</td><td class=\"tabelle_kopfzeile\">Fam. Stand</td><td class=\"tabelle_kopfzeile\">Typ</td><td class=\"tabelle_kopfzeile\">Beruf</td><td class=\"tabelle_kopfzeile\">Hobby</td><td class=\"tabelle_kopfzeile\">Tel</td><td class=\"tabelle_kopfzeile\">Fax</td><td class=\"tabelle_kopfzeile\">Handy</td><td class=\"tabelle_kopfzeile\">ICQ</td></tr>";
 				
-				$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick,u_name";
+				$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
 						$text .= "<tr><td class=\"tabelle_koerper\"><b>"
 							. htmlspecialchars($row->u_nick)
 							. "</b></td><td class=\"tabelle_koerper\">"
-							. htmlspecialchars($row->u_name)
-							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_strasse)
 							. "</td><td class=\"tabelle_koerper\">"
 							. htmlspecialchars($row->ui_plz)
@@ -283,7 +281,7 @@ if ($u_id && $communityfeatures) {
 				// Box anzeigen
 				show_box_title_content($box, $text);
 				
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 			}
 			
 			break;

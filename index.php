@@ -222,7 +222,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-// Wenn $abweisen=true, dann ist Login ist für diesen User gesperrt
+// Wenn $abweisen=true, dann ist Login ist für diesen Benutzer gesperrt
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
 if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	// test: ist user=admin -> dann nicht abweisen...
@@ -243,10 +243,9 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	
 	if ($communityfeatures && $loginwhileipsperre <> 0) {
 		// Test auf Punkte 
-		$query = "select u_id, u_nick,u_level,u_punkte_gesamt from user "
+		$query = "SELECT u_id, u_nick,u_level,u_punkte_gesamt from user "
 			. "where (u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
-			. "' OR u_name='" . mysqli_real_escape_string($mysqli_link, "$login, $check_name") . "') "
-			. "AND (u_level in ('A','C','G','M','S','U')) ";
+			. "' AND (u_level in ('A','C','G','M','S','U')) ";
 		"AND u_passwort = encrypt('" . mysqli_real_escape_string($mysqli_link, $passwort) . "',u_passwort)";
 		// Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
@@ -270,7 +269,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	}
 	
 	if ($durchgangwegenpunkte == 1) {
-		// Wenn User wegen Punkte durch IP Sperre kommen, dann Meldung an alle Admins
+		// Wenn Benutzer wegen Punkte durch IP Sperre kommen, dann Meldung an alle Admins
 		if ($eintritt == 'forum') {
 			$raumname = " (" . $whotext[2] . ")";
 		} else {
@@ -312,14 +311,14 @@ if ($abweisen && (strlen($aktion) > 0) && $aktion <> "relogin") {
 	unset($logintext);
 }
 
-// Login ist für alle User gesperrt
+// Login ist für alle Benutzer gesperrt
 if (($chat_offline_kunde) || ((isset($chat_offline)) && (strlen($chat_offline) > 0))) {
 	$aktion = "gesperrt";
 }
 
 // Ausloggen, falls eingeloggt
 if ($aktion == "logoff") {
-	// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum
+	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 	id_lese($id);
 	
 	/*
@@ -462,14 +461,14 @@ switch ($aktion) {
 		if (isset($email) && isset($nickname) && isset($hash)) {
 			$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 			$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-			$query = "SELECT u_id, u_login, u_nick, u_name, u_passwort, u_adminemail, u_punkte_jahr FROM user "
+			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user "
 				. "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 1";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$a = mysqli_fetch_array($result);
 				$hash2 = md5(
 					$a['u_id'] . $a['u_login'] . $a['u_nick']
-						. $a['u_name'] . $a['u_passwort']
+						. $a['u_passwort']
 						. $a['u_adminemail'] . $a['u_punkte_jahr']);
 				if ($hash == $hash2) {
 					$richtig = 1;
@@ -490,14 +489,14 @@ switch ($aktion) {
 			}
 			
 			if ($fehlermeldung == "") {
-				$query = "SELECT u_id, u_login, u_nick, u_name, u_passwort, u_adminemail, u_punkte_jahr FROM user "
+				$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user "
 					. "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 2";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
 					$a = mysqli_fetch_array($result);
 					$hash = md5(
 						$a['u_id'] . $a['u_login'] . $a['u_nick']
-							. $a['u_name'] . $a['u_passwort']
+							. $a['u_passwort']
 							. $a['u_adminemail'] . $a['u_punkte_jahr']);
 					
 					$email = urlencode($a['u_adminemail']);
@@ -764,8 +763,8 @@ switch ($aktion) {
 			
 			$email = trim($email);
 			
-			// wir prüfen ob User gesperrt ist
-			// entweder User = gesperrt
+			// wir prüfen ob Benutzer gesperrt ist
+			// entweder Benutzer = gesperrt
 			$query = "SELECT * FROM `user` WHERE ( (`u_adminemail`='$email') OR (`u_email`='$email') ) AND `u_level`='Z'";
 			$result = mysqli_query($mysqli_link, $query);
 			$num = mysqli_num_rows($result);
@@ -919,7 +918,7 @@ switch ($aktion) {
 			// Falls Gast-Login erlaubt ist:
 			if ($gast_login) {
 				
-				// Prüfen, ob von der IP und dem User-Agent schon ein Gast online ist und ggf abweisen
+				// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
 				$query4711 = "SELECT o_id FROM online "
 					. "WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
 					. "' " . "AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' "
@@ -970,7 +969,7 @@ switch ($aktion) {
 			
 			// Login als gast
 			
-			// Im Nick alle Sonderzeichen entfernen, Länge prüfen
+			// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
 			if (!isset($login))
 				$login = "";
 			$login = coreCheckName($login, $check_name);
@@ -982,10 +981,10 @@ switch ($aktion) {
 					$login = "";
 			}
 			
-			// Falls kein Nick übergeben, Nick finden
+			// Falls kein Benutzername übergeben, Nick finden
 			if (strlen($login) == 0) {
 				if ($gast_name_auto) {
-					// freien Nick bestimmen falls in der Config erlaubt
+					// freien Benutzername bestimmen falls in der Config erlaubt
 					$rows = 1;
 					$i = 0;
 					$anzahl = count($gast_name);
@@ -1013,18 +1012,17 @@ switch ($aktion) {
 				}
 			}
 			
-			// Im Nick alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
+			// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
 			$login = mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name));
 			
-			// Userdaten für Gast setzen
+			// Benutzerdaten für Gast setzen
 			$f['u_level'] = "G";
 			$f['u_passwort'] = mt_rand(1, 10000);
-			$f['u_name'] = $login;
 			$f['u_nick'] = $login;
 			$passwort = $f['u_passwort'];
 			$f['u_loginfehler'] = '';
 			
-			// Prüfung, ob dieser User bereits existiert
+			// Prüfung, ob dieser Benutzer bereits existiert
 			$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
 			$result = mysqli_query($mysqli_link, $query4711);
 			
@@ -1035,11 +1033,11 @@ switch ($aktion) {
 			
 		}
 		
-		// Login als registrierter User
+		// Login als registrierter Benutzer
 		
 		// Testen, ob frühere Loginversuche fehlschlugen (nur Admins)
 		$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login FROM user "
-			. "WHERE (u_name = '$login' OR u_nick = '$login') "
+			. "WHERE (u_nick = '$login') "
 			. "AND (u_level='S' OR u_level='C') ";
 		$result = mysqli_query($mysqli_link, $query4711);
 		if ($result)
@@ -1081,19 +1079,19 @@ switch ($aktion) {
 			require("ext/functions.php-" . $http_host);
 		}
 		
-		// Passwort prüfen und Userdaten lesen
+		// Passwort prüfen und Benutzerdaten lesen
 		$rows = 0;
-		$result = auth_user("u_nick", $login, $passwort);
+		$result = auth_user($login, $passwort);
 		if ($result) {
 			$rows = mysqli_num_rows($result);
 		}
 		
-		// Nick nicht gefunden, optionales include starten und User ggf. aus externer Datenbank kopieren
+		// Benutzername nicht gefunden, optionales include starten und Benutzer ggf. aus externer Datenbank kopieren
 		if ($rows == 0 && file_exists("ext/functions.php-" . $http_host)) {
-			// Wenn User = Gast, dann mit leerem Passwort in die Externe Prüfung
+			// Wenn Benutzer = Gast, dann mit leerem Passwort in die Externe Prüfung
 			// erforderlich, da aus externer Schnittstelle Gastdaten ohne PW kommen
 			// Sicherheitsproblem in der Externen Schnittstelle: da jeder unter diesem 
-			// Gastnick einloggen kann, und der ursprüngliche User fliegt raus
+			// Gastnick einloggen kann, und der ursprüngliche Benutzer fliegt raus
 			// Muss daher im Übergeordneten System sichergestellt sein
 			if ($f['u_level'] == 'G') {
 				$passwort = '';
@@ -1102,7 +1100,7 @@ switch ($aktion) {
 			// Function ext_lese_user oben eingebunden
 			$passwort_ext = ext_lese_user($login, $passwort);
 			
-			$result = auth_user("u_nick", $login, $passwort_ext);
+			$result = auth_user($login, $passwort_ext);
 			if ($result) {
 				$rows = mysqli_num_rows($result);
 				$passwort = $passwort_ext;
@@ -1111,20 +1109,21 @@ switch ($aktion) {
 			}
 		}
 		
-		// Nick nicht gefunden, nochmals mit Usernamen suchen
+		/*
+		// Benutzername nicht gefunden, nochmals mit Benutzernamen suchen
 		if ($rows == 0) {
-			$result = auth_user("u_name", $login, $passwort);
+			$result = auth_user($login, $passwort);
 			if ($result) {
 				$rows = mysqli_num_rows($result);
 			}
 			
 		}
+		*/
 		
 		// Login fehlgeschlagen
-		if ($rows == 0 && isset($userdata) && is_array($userdata)
-			&& $userdata) {
+		if ($rows == 0 && isset($userdata) && is_array($userdata) && $userdata) {
 			
-			// Fehllogin bei Admin: falsches Passwort oder Username -> max 100 Loginversuche in Userdaten merken
+			// Fehllogin bei Admin: falsches Passwort oder Benutzername -> max 100 Loginversuche in Benutzerdaten merken
 			if ($userdata->u_loginfehler)
 				$u_loginfehler = unserialize($userdata->u_loginfehler);
 			if (count($u_loginfehler) < 100) {
@@ -1144,10 +1143,9 @@ switch ($aktion) {
 		// güliger Account gefunden, weiter mit Login oder Fehlermeldungen ausgeben
 		if ($result && $rows == 1 && $login_ok) {
 			
-			// Login Ok, Userdaten setzen
+			// Login Ok, Benutzerdaten setzen
 			$row = mysqli_fetch_object($result);
 			$u_id = $row->u_id;
-			$u_name = $row->u_name;
 			$u_nick = $row->u_nick;
 			$u_level = $row->u_level;
 			$u_agb = $row->u_agb;
@@ -1163,7 +1161,7 @@ switch ($aktion) {
 			$f['u_id'] = $u_id;
 			schreibe_db("user", $f, $u_id, "u_id");
 			
-			// User online bestimmen
+			// Benutzer online bestimmen
 			if ($chat_max[$u_level] != 0) {
 				$query = "SELECT count(o_id) FROM online "
 					. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
@@ -1176,7 +1174,7 @@ switch ($aktion) {
 			// Login erfolgreich ?
 			if ($u_level == "Z") {
 				
-				// User gesperrt -> Fehlermeldung ausgeben
+				// Benutzer gesperrt -> Fehlermeldung ausgeben
 				
 				// Header ausgeben
 				zeige_header_ende();
@@ -1191,7 +1189,7 @@ switch ($aktion) {
 				
 			} else if (false && $HTTP_COOKIE_VARS[MAINCHAT2] != "on" && ($u_level == "C" || $u_level == "S")) {
 				
-				// Der User ein Admin und es sind cookies gesetzt -> Fehlermeldung ausgeben
+				// Der Benutzer ein Admin und es sind cookies gesetzt -> Fehlermeldung ausgeben
 				
 				// Header ausgeben
 				zeige_header_ende();
@@ -1201,14 +1199,13 @@ switch ($aktion) {
 				zeige_kopf();
 				
 				echo str_replace("%url%", $chat_file, $t['login25']);
-				unset($u_name);
 				unset($u_nick);
 				
 				zeige_fuss();
 				
 			} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 				
-				// Maximale Anzahl der User im Chat erreicht -> Fehlermeldung ausgeben
+				// Maximale Anzahl der Benutzer im Chat erreicht -> Fehlermeldung ausgeben
 				
 				// Header ausgeben
 				zeige_header_ende();
@@ -1224,7 +1221,6 @@ switch ($aktion) {
 					$txt);
 				echo $txt;
 				
-				unset($u_name);
 				unset($u_nick);
 				
 				// Box für Login
@@ -1277,7 +1273,7 @@ switch ($aktion) {
 					$los = "";
 				}
 				
-				// muss User/Gast  noch Nutzungsbestimmungen bestätigen?
+				// muss Benutzer/Gast  noch Nutzungsbestimmungen bestätigen?
 				if ($los != $t['login17'] && $u_agb != "Y") {
 					
 					// Nutzungsbestimmungen ausgeben
@@ -1386,7 +1382,7 @@ switch ($aktion) {
 					$u_agb = "";
 				}
 				
-				// User in Blacklist überprüfen
+				// Benutzer in Blacklist überprüfen
 				$query2 = "SELECT f_text from blacklist where f_blacklistid=$u_id";
 				$result2 = mysqli_query($mysqli_link, $query2);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
@@ -1397,7 +1393,7 @@ switch ($aktion) {
 				if ($result2)
 					mysqli_free_result($result2);
 				
-				// Bei Login dieses Users alle Admins (online, nicht Temp) warnen
+				// Bei Login dieses Benutzers alle Admins (online, nicht Temp) warnen
 				if ($warnung) {
 					if ($eintritt == 'forum') {
 						$raumname = " (" . $whotext[2] . ")";
@@ -1433,7 +1429,7 @@ switch ($aktion) {
 					mysqli_free_result($result2);
 				}
 				
-				// User nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt
+				// Benutzer nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt
 				
 				// Hash-Wert ermitteln
 				$hash_id = id_erzeuge($u_id);
@@ -1458,7 +1454,7 @@ switch ($aktion) {
 					
 					$login_in_lobby = FALSE;
 					
-					// Prüfen, ob ein User in der Lobby ist
+					// Prüfen, ob ein Benutzer in der Lobby ist
 					$query2 = "SELECT o_id "
 						. "FROM raum,online WHERE o_raum=r_id "
 						. "AND r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' "
@@ -1467,7 +1463,7 @@ switch ($aktion) {
 					
 					if ($result2 && mysqli_num_rows($result2) > 0) {
 						
-						// Mehr als 0 User in Lobby
+						// Mehr als 0 Benutzer in Lobby
 						mysqli_free_result($result2);
 						$login_in_lobby = TRUE;
 						
@@ -1505,7 +1501,7 @@ switch ($aktion) {
 						mysqli_free_result($result2);
 					}
 					
-					// Bei Login dieses Users alle Admins (online, nicht Temp) informieren
+					// Bei Login dieses Benutzers alle Admins (online, nicht Temp) informieren
 					$query2 = "SELECT r_name from raum where r_id= '" . mysqli_real_escape_string($mysqli_link, $eintritt) . "'";
 					$result2 = mysqli_query($mysqli_link, $query2);
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
@@ -1666,7 +1662,6 @@ switch ($aktion) {
 			<body>
 			<?php
 			zeige_kopf();
-			unset($u_name);
 			unset($u_nick);
 			echo "<div style=\"text-align: center;\"><P><b>" . str_replace("%login%", $login, $t['login20']) . "</b></P>" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 			zeige_fuss();
@@ -1681,14 +1676,13 @@ switch ($aktion) {
 			<?php
 			zeige_kopf();
 			
-			unset($u_name);
 			unset($u_nick);
 			
 			if (strlen($passwort) == 0) {
-				// Kein Passwort eingegeben oder der Nickname exitiert bereits
+				// Kein Passwort eingegeben oder der Benutzername exitiert bereits
 				echo $t['login19'];
 			} else {
-				// Falsches Passwort oder Nickname
+				// Falsches Passwort oder Benutzername
 				echo $t['login7'];
 			}
 			
@@ -1733,34 +1727,15 @@ switch ($aktion) {
 		zeige_kopf();
 		echo $willkommen;
 		
-		// Gggf Nick setzen
-		if ((isset($f['u_nick'])) && (strlen($f['u_nick']) < 4)) {
-			$f['u_nick'] = $f['u_name'];
-		}
-		
-		// Im Nick alle Sonderzeichen entfernen
-		if (isset($f['u_nick']))
+		// Im Benutzername alle Sonderzeichen entfernen
+		if (isset($f['u_nick'])) {
 			$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
-		
-		// Tags aus dem Usernamen raus
-		if (isset($f['u_name']))
-			$f['u_name'] = strip_tags($f['u_name']);
+		}
 		
 		// Eingaben prüfen
 		
 		if ($los == $t['neu22']) {
 			$ok = "1";
-			if (strlen($f['u_name']) == 0) {
-				echo $t['neu1'];
-				$ok = "0";
-			} elseif (strlen($f['u_name']) < 4) {
-				echo $t['neu2'];
-				$ok = "0";
-			} elseif (strlen($f['u_name']) > 20) {
-				echo $t['neu3'];
-				$ok = "0";
-			}
-			
 			$pos = strpos($f['u_nick'], "+");
 			if ($pos === false)
 				$pos = -1;
@@ -1801,7 +1776,7 @@ switch ($aktion) {
 				$ok = "0";
 			}
 			
-			// Gibts den Usernamen schon?
+			// Gibt es den Benutzernamen schon?
 			$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
 			
 			$result = mysqli_query($mysqli_link, $query);
@@ -1817,22 +1792,20 @@ switch ($aktion) {
 			$ok = "0";
 		}
 		
-		if (!isset($f['u_name']))
-			$f['u_name'] = "";
-		if (!isset($f['u_nick']))
+		if (!isset($f['u_nick'])) {
 			$f['u_nick'] = "";
-		if (!isset($f['u_passwort']))
+		}
+		if (!isset($f['u_passwort'])) {
 			$f['u_passwort'] = "";
-		if (!isset($f['u_email']))
+		}
+		if (!isset($f['u_email'])) {
 			$f['u_email'] = "";
-		if (!isset($f['u_url']))
+		}
+		if (!isset($f['u_url'])) {
 			$f['u_url'] = "";
+		}
 		
-		$text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu10']
-			. "</td>" . "<td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_name]\" value=\"$f[u_name]\" size=\"40\">"
-			. $f2 . "</td>" . "<td><b>*</b>&nbsp;" . $f1 . $t['neu11']
-			. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12']
+		$text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12']
 			. "</td>" . "<td>" . $f1
 			. "<input type=\"TEXT\" name=\"f[u_nick]\" value=\"$f[u_nick]\" size=\"40\">"
 			. $f2 . "</td>" . "<td>" . $f1 . $t['neu13'] . $f2
@@ -1902,11 +1875,9 @@ switch ($aktion) {
 		}
 		
 		if ($ok && $los == $t['neu22']) {
-			// Daten in DB als User eintragen
+			// Daten in DB als Benutzer eintragen
 			$text = $t['neu25'] . "<table><tr><td style=\"text-align: right; font-weight:bold;\">"
-				. $t['neu26'] . "</td>" . "<td>" . $f1
-				. $f['u_name'] . $f2 . "</td></tr>\n"
-				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu27'] . "</td>"
+				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12'] . "</td>"
 				. "<td>" . $f1 . $f['u_nick'] . $f2
 				. "</td></tr></table>\n" . $t['neu28']
 				. "<form action=\"$chat_file\" name=\"login\" method=\"post\">\n"
@@ -1946,7 +1917,7 @@ switch ($aktion) {
 		break;
 	
 	case "relogin":
-	// Login aus Forum in Chat; Userdaten setzen
+	// Login aus Forum in Chat; Benutzerdaten setzen
 		id_lese($id);
 		$hash_id = $id;
 		
@@ -2062,7 +2033,7 @@ switch ($aktion) {
 		
 		if (!isset($beichtstuhl) || !$beichtstuhl) {
 			
-			// Wie viele User sind in der DB?
+			// Wie viele Benutzer sind in der DB?
 			$query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
 			$result = mysqli_query($mysqli_link, $query);
 			$rows = mysqli_num_rows($result);
@@ -2071,7 +2042,7 @@ switch ($aktion) {
 				mysqli_free_result($result);
 			}
 			
-			// User online und Räume bestimmen -> merken
+			// Benutzer online und Räume bestimmen -> merken
 			$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, "
 				. "r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' as lobby "
 				. "FROM online left join raum on o_raum=r_id  "
@@ -2080,7 +2051,7 @@ switch ($aktion) {
 			$result2 = mysqli_query($mysqli_link, $query);
 			if ($result2)
 				$onlineanzahl = mysqli_num_rows($result2);
-			// Anzahl der angemeldeten User ausgeben
+			// Anzahl der angemeldeten Benutzer ausgeben
 			if ($onlineanzahl > 1 && $useranzahl > 1) {
 				$text = str_replace("%onlineanzahl%", $onlineanzahl,
 					$t['default2'])
@@ -2127,7 +2098,7 @@ switch ($aktion) {
 				$unterdruecke_raeume = 0;
 			if (!$unterdruecke_raeume && $abweisen == false) {
 				
-				// Wer ist online? Boxen mit Usern erzeugen, Topic ist Raumname
+				// Wer ist online? Boxen mit Benutzern erzeugen, Topic ist Raumname
 				if ($onlineanzahl)
 					if (!isset($keineloginbox))
 						show_who_is_online($result2);

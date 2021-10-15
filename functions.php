@@ -61,7 +61,7 @@ $valid_fields = array(
 	'sperre' => array('s_id', 's_user', 's_raum', 's_zeit'),
 	'thema' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
 	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
-	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_name', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
+	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_frames', 'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
@@ -95,7 +95,7 @@ function onlinezeit($onlinezeit) {
 }
 
 function raum_user($r_id, $u_id, $id) {
-	// Gibt die User im Raum r_id im Text an $u_id aus
+	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
 	
 	global $timeout, $dbase, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
@@ -117,7 +117,7 @@ function raum_user($r_id, $u_id, $id) {
 						$t['raum_user1']);
 				}
 				
-				// Userdaten lesen, Liste ausgeben
+				// Benutzerdaten lesen, Liste ausgeben
 				$userdata = unserialize(
 					$row->o_userdata . $row->o_userdata2 . $row->o_userdata3
 						. $row->o_userdata4);
@@ -126,7 +126,7 @@ function raum_user($r_id, $u_id, $id) {
 				$uu_id = $userdata['u_id'];
 				$uu_level = $userdata['u_level'];
 				
-				// Im Beichtstuhl-Modus Usernamen anonymisieren
+				// Im Beichtstuhl-Modus Benutzernamen anonymisieren
 				if ($beichtstuhl && !$admin && $row->r_name != $lobby
 					&& $uu_id != $u_id && $uu_level != "C" && $uu_level != "S") {
 					$uu_nick = $t['raum_user11'];
@@ -151,7 +151,7 @@ function raum_user($r_id, $u_id, $id) {
 		}
 		$back = system_msg("", 0, $u_id, "", $text);
 		
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	} else {
 		$back = 1;
 	}
@@ -161,7 +161,7 @@ function raum_user($r_id, $u_id, $id) {
 }
 
 function ist_online($user) {
-	// Prüft ob User noch online ist
+	// Prüft ob Benutzer noch online ist
 	// liefert 1 oder 0 zurück
 	
 	global $dbase, $timeout, $ist_online_raum, $mysqli_link, $whotext;
@@ -180,10 +180,10 @@ function ist_online($user) {
 		$ist_online_raum = mysqli_result($result, 0, "r_name");
 		if (!$ist_online_raum || $ist_online_raum == "NULL")
 			$ist_online_raum = "[" . $whotext[2] . "]";
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		return (1);
 	} else {
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		return (0);
 	}
 }
@@ -283,7 +283,7 @@ function logout($o_id, $u_id, $info = "") {
 	
 	$o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
 	
-	// Aktuelle Punkte auf Punkte in Usertabelle addieren
+	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_id=$o_id");
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
@@ -301,9 +301,9 @@ function logout($o_id, $u_id, $info = "") {
 			. "u_knebel='$knebelzeit' " . "where u_id=$u_id";
 		$result2 = mysqli_query($mysqli_link, $query);
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
-	// User löschen
+	// Benutzer löschen
 	$result2 = mysqli_query($mysqli_link, 
 		"DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id");
 	
@@ -353,12 +353,12 @@ function logout($o_id, $u_id, $info = "") {
 				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 }
 
 function global_msg($u_id, $r_id, $text) {
-	// Schreibt Text $text in Raum $r_id an alle User
+	// Schreibt Text $text in Raum $r_id an alle Benutzer
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
 	//				P: Privatnachticht
@@ -421,7 +421,7 @@ function priv_msg(
 	$text,
 	$userdata = "")
 {
-	// Schreibt privaten Text von $von_user an User $an_user
+	// Schreibt privaten Text von $von_user an Benutzer $an_user
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
 	//				P: Privatnachticht
@@ -429,7 +429,7 @@ function priv_msg(
 	
 	global $mysqli_link;
 	
-	// Optional Link auf User erzeugen
+	// Optional Link auf Benutzer erzeugen
 	
 	if ($von_user_id && is_array($userdata)) {
 		$f['c_von_user'] = user($von_user_id, $userdata, TRUE, FALSE, "&nbsp;",
@@ -457,7 +457,7 @@ function priv_msg(
 }
 
 function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
-	// Schreibt privaten Text als Systemnachricht an User $an_user
+	// Schreibt privaten Text als Systemnachricht an Benutzer $an_user
 	// $von_user wird nicht benutzt
 	// $von_user_id ist Absender der Nachricht (normalerweise wie $an_user, notwendig für Spamschutz)
 	// Art:		   N: Normal
@@ -477,19 +477,19 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 }
 
 function aktualisiere_online($u_id, $o_raum) {
-	// Timestamp im Datensatz aktualisieren -> User gilt als online
-	global $dbase, $mysqli_link;
+	// Timestamp im Datensatz aktualisieren -> Benutzer gilt als online
+	global $mysqli_link;
 	// sec ??
 	$query = "UPDATE online SET o_aktiv=NULL WHERE o_user=$u_id";
+	
 	$result = mysqli_query($mysqli_link, $query);
-	@mysqli_free_result($result);
 }
 
 function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") {
-	// Vergleicht Hash-Wert mit IP und Browser des Users
-	// Liefert User- und Online-Variable
+	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
+	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_name, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
+	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
 	global $admin, $dbase, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
@@ -535,16 +535,16 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		while (list($k, $v) = each($ar)) {
 			$$k = $v;
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
-		// o_browser prüfen Userdaten in Array schreiben
+		// o_browser prüfen Benutzerdaten in Array schreiben
 		if (is_array($userdata) && $ar['o_browser'] == $browser) {
-			// Schleife über Userdaten, Variable setzen
+			// Schleife über Benutzerdaten, Variable setzen
 			while (list($k, $v) = each($userdata)) {
 				@$$k = $v;
 			}
 			
-			// Usereinstellungen überschreiben Default-Einstellungen
+			// Benutzereinstellungen überschreiben Default-Einstellungen
 			if ($u_zeilen) {
 				$chat_back = $u_zeilen;
 			}
@@ -563,7 +563,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			// Aus Sicherheitsgründen die Variablen löschen
 			$userdata = "";
 			$u_id = "";
-			$u_name = "";
 			$u_nick = "";
 			$o_id = "";
 			$u_level = "";
@@ -573,7 +572,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		
 		// Aus Sicherheitsgründen die Variablen löschen
 		$u_id = "";
-		$u_name = "";
 		$u_nick = "";
 		$o_id = "";
 		$u_level = "";
@@ -744,7 +742,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
 			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe,` "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` "
@@ -759,7 +757,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 				$udata = mysqli_real_escape_string($mysqli_link, $udata);
 			}
 			
-			// Userdaten in 255-Byte Häppchen zerlegen
+			// Benutzerdaten in 255-Byte Häppchen zerlegen
 			$userdata_array = zerlege(serialize($userdata));
 			
 			if (!isset($userdata_array[0]))
@@ -925,7 +923,7 @@ function raum_ist_moderiert($raum) {
 		$raum_einstellungen = mysqli_fetch_array($result);
 		$r_status1 = $raum_einstellungen['r_status1'];
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	if (isset($r_status1) && ($r_status1 == "m" || $r_status1 == "M")) {
 		$query = "SELECT o_user FROM online "
 			. "WHERE o_raum=$raum AND o_level='M' ";
@@ -975,8 +973,8 @@ function user(
 	$extra_kompakt = FALSE,
 	$felder = 31)
 {
-	// Liefert Usernamen + Level + Gruppe + E-Mail + Homepage zurück
-	// Bei link=TRUE wird Link auf Userinfo ausgegeben
+	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Homepage zurück
+	// Bei link=TRUE wird Link auf Benutzerinfo ausgegeben
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
 	// $online_zeit -> Zeit in Sekunden seit Login
@@ -985,7 +983,7 @@ function user(
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $felder ist bitweise kodiert welche felder ausgegeben werden sollen
 	// Aufschlüsselung wie folgt:
-	// 1 = Usernamen zeigen
+	// 1 = Benutzernamen zeigen
 	// 2 = Level zeigen
 	// 4 = Gruppe zeigen
 	// 8 = EMail zeigen
@@ -1046,7 +1044,7 @@ function user(
 		
 	} elseif ($zeige_user_id) {
 		
-		// Userdaten aus DB lesen
+		// Benutzerdaten aus DB lesen
 		$query = "SELECT u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
 			. "date_format(u_login,'%d.%m.%y %H:%i') as login "
@@ -1067,13 +1065,13 @@ function user(
 			$letzter_login = $userdaten->login;
 			
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		if ($show_geschlecht == true)
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
 		
 	} else {
-		echo "<P><b>Fehler:</b> Falscher Aufruf von user() für User ";
+		echo "<P><b>Fehler:</b> Falscher Aufruf von user() für Benutzer ";
 		if (isset($zeige_user_id))
 			echo $zeige_user_id;
 		if (isset($userdaten['u_id']))
@@ -1094,7 +1092,7 @@ function user(
 			$userdaten = mysqli_fetch_object($result);
 			$user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 	
 	if ($user_id != $zeige_user_id) {
@@ -1102,7 +1100,7 @@ function user(
 		return "";
 	}
 	
-	// Fensternamen aus Nicknamen erzeugen
+	// Fensternamen aus Benutzernamen erzeugen
 	$fenstername = str_replace("-", "", $user_nick);
 	$fenstername = str_replace("+", "", $fenstername);
 	$fenstername = str_replace("ä", "", $fenstername);
@@ -1410,7 +1408,7 @@ function hole_geschlecht($userid) {
 		$userinfo = mysqli_fetch_object($result);
 		$user_geschlecht = $userinfo->ui_geschlecht;
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	if ($user_geschlecht == "männlich")
 		$user_geschlecht = "geschlecht_maennlich";

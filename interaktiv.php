@@ -7,14 +7,14 @@ require("functions.php");
 $title = $body_titel;
 zeige_header_anfang($title, 'chatunten');
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
-// Prüfung, ob User wegen Inaktivität ausgelogt werden soll
+// Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
 	
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
-		// User ausloggen
+		// Benutzer ausloggen
 		$zusatzjavascript = "<script>\n"
 			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
@@ -63,7 +63,7 @@ if (isset($u_id) && $u_id) {
 		$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $r_id,
 			isset($beichtstuhl) ? $beichtstuhl : null);
 		if ($o_raum == $r_id) {
-			// User in Raum ausgeben
+			// Benutzer in Raum ausgeben
 			raum_user($r_id, $u_id, $id);
 		}
 		
@@ -106,7 +106,7 @@ if (isset($u_id) && $u_id) {
 	<?php
 	// Benutzer-Menue
 	
-	// Anzahl der User insgesamt feststellen
+	// Anzahl der Benutzer insgesamt feststellen
 	$query = "SELECT count(o_id) as anzahl FROM online "
 		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
@@ -115,7 +115,7 @@ if (isset($u_id) && $u_id) {
 		mysqli_free_result($result);
 	}
 	
-	// Anzahl der User in diesem Raum feststellen
+	// Anzahl der Benutzer in diesem Raum feststellen
 	$query = "SELECT count(o_id) as anzahl FROM online "
 		. "WHERE o_raum=$o_raum AND "
 		. "(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
@@ -191,7 +191,7 @@ if (isset($u_id) && $u_id) {
 		<?php echo $f3; ?>&nbsp;&nbsp;<?php echo $t['sonst4']; ?><br>&nbsp;<nobr>
 		<select name="r_id" onChange="document.form1.submit()">
 		<?php
-		// Admin sehen alle Räume, andere User nur die offenen
+		// Admin sehen alle Räume, andere Benutzer nur die offenen
 		if ($admin) {
 			echo raeume_auswahl($o_raum, TRUE, TRUE);
 		} else {
@@ -220,7 +220,7 @@ if (isset($u_id) && $u_id) {
 
 	<?php
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
 	zeige_header_ende();
 	?>

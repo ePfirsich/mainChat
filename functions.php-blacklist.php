@@ -77,7 +77,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 			
 			$text .= "<tr><td style=\"width:5%;\">" . $f1 . "Löschen" . $f2
 				. "</td><td style=\"width:35%;\">" . $f1 . "<a href=\"" . $blurl
-				. $usort . "\">Nickname</a>" . $f2 . "</td>"
+				. $usort . "\">Benutzername</a>" . $f2 . "</td>"
 				. "<td style=\"width:35%;\">" . $f1 . "Info" . $f2 . "</td>"
 				. "<td style=\"width:13%;\" style=\"text-align:center;\">" . $f1 . "<a href=\""
 				. $blurl . $fsort . "\">Datum&nbsp;Eintrag</a>" . $f2
@@ -88,7 +88,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
 				
-				// User aus DB lesen
+				// Benutzer aus der Datenbank lesen
 				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
 					. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
@@ -97,14 +97,14 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				$result2 = mysqli_query($mysqli_link, $query);
 				if ($result2 && mysqli_num_rows($result2) > 0) {
 					
-					// User gefunden -> Ausgeben
+					// Benutzer gefunden -> Ausgeben
 					$row2 = mysqli_fetch_object($result2);
 					$blacklist_nick = "<b>"
 						. user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
 					
 				} else {
 					
-					// User nicht gefunden, Blacklist-Eintrag löschen
+					// Benutzer nicht gefunden, Blacklist-Eintrag löschen
 					$blacklist_nick = "NOBODY";
 					$query = "DELETE from blacklist WHERE f_id=$row->f_id";
 					$result2 = mysqli_query($mysqli_link, $query);
@@ -173,7 +173,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 
 function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
-	// $f_blacklistid User-ID des Blacklist-Eintrags
+	// $f_blacklistid Benutzer-ID des Blacklist-Eintrags
 	
 	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link;
 	global $u_id, $u_nick, $admin;
@@ -194,11 +194,11 @@ function loesche_blacklist($f_blacklistid) {
 		$f_nick = mysqli_result($result, 0, 0);
 		echo "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 }
 
 function formular_neuer_blacklist($neuer_blacklist) {
-	// Gibt Formular für Nicknamen zum Hinzufügen als Blacklist-Eintrag aus
+	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
 	
 	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
@@ -221,7 +221,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 		$neuer_blacklist['f_text'] = "";
 	}
 	
-	$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">"."Nickname:</td>"
+	$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">"."Benutzername:</td>"
 			. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[u_nick]\" value=\"" . htmlspecialchars($neuer_blacklist['u_nick']) . "\" size=20>" . $f2 . "</td></tr>\n"
 			. "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">Infotext:</td>"
 			. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[f_text]\" value=\"" . htmlspecialchars($neuer_blacklist['f_text'])
@@ -261,7 +261,7 @@ function neuer_blacklist($f_userid, $blacklist) {
 			echo "<P><b>Fehler:</b> Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!</P>\n";
 		} else {
 			
-			// User ist noch kein Blacklist-Eintrag -> hinzufügen
+			// Benutzer ist noch kein Blacklist-Eintrag -> hinzufügen
 			$f['f_userid'] = $f_userid;
 			$f['f_blacklistid'] = $blacklist['u_id'];
 			$f['f_text'] = htmlspecialchars($blacklist['f_text']);

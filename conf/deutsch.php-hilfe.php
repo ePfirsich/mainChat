@@ -59,7 +59,7 @@ $hilfe_befehlstext = array(
 	"/mail NAME TEXT\tSchreibt Mail mit dem Inhalt TEXT an den Benutzer NAME\t/m\tDer Betreff entspricht den ersten Worten",
 	"/me TEXT\tSpruch an alle im Raum<br>Kommentar in die Runde\t/txt\tDer Text wendet sich nicht an einen bestimmten Benutzer, sondern ist für alle im Raum bestimmt",
 	"/op TEXT\tRuft einen Admin\t \tDer Text wird an die Admins geschickt, die gerade online sind",
-	"/nick NAME\tSetzt Nickname auf NAME\t/name\tDer neue Nickname wird dauerhaft gespeichert",
+	"/nick NAME\tSetzt Benutzername auf NAME\t/name\tDer neue Benutzername wird dauerhaft gespeichert",
 	"/ignoriere\tZeigt die ignorierten Benutzer an\t/ignore, /ig",
 	"/ignoriere NAME\tIgnoriert Benutzer NAME\t/ignore, /ig\tNochmalige Eingabe gibt den Benutzer NAME wieder frei",
 	"/kick NAME\tSperrt Benutzer NAME aus dem aktuellen Raum dauerhaft aus\t/plop\tNochmalige Eingabe gibt den Eintritt für diesen Benutzer wieder frei",
@@ -129,22 +129,22 @@ $hilfe_uebersichtstext = "<p><b>Erste Hilfe bei Problemen:</b><br>"
 	. "Raum chattenden Benutzer ausgegeben werden. Im Fenster ist es darüber hinaus möglich, "
 	. "weitere Informationen abzufragen oder dem Benutzer eine private Nachricht zu schreiben.</p>"
 	. "<p><b>Namen:</b><br>"
-	. "Jeder Benutzer im Chat hat einen Benutzernamen und einen Nicknamen. "
-	. "Mit beiden Namen ist der Login möglich; im Chat wird aber nur der Nickname angezeigt. "
-	. "Der Nick darf keine Leerzeichen enthalten. Nick- wie auch Benutzernamen sind eindeutig, "
-	. "also kann es keine zwei Benutzer mit demselben Namen geben." . "</p>"
-	. "<p><b>Ergänzung des Nicks:</b><br>"
-	. "Andere Benutzer können im Chat durch den Beginn des Nicks, gefolgt von einem Doppelpunkt, "
+	. "Jeder Benutzer im Chat hat einen Benutzernamen. "
+	. "Mit diesem Benutzernamen ist der Login möglich und wird im Chatangezeigt. "
+	. "Der Benutzername darf keine Leerzeichen enthalten. Benutzernamen sind eindeutig, "
+	. "also kann es keine zwei Benutzer mit demselben Benutzername geben." . "</p>"
+	. "<p><b>Ergänzung des Benutzername:</b><br>"
+	. "Andere Benutzer können im Chat durch den Beginn des Benutzername, gefolgt von einem Doppelpunkt, "
 	. "gezielt angesprochen werden.<br>"
 	. "<b>Aus dil: Hallo!</b> wird beispielsweise <b>[zu Dilbert] Hallo!</b><br>"
 	. "Die Nickergänzung funktioniert unter anderem beim Chatten und beim Flüstern. "
-	. "Ein @ vor dem Beginn des Nicknamens wird ebenfalls zum vollen Nick ergänzt.</p>"
+	. "Ein @ vor dem Beginn des Benutzername wird ebenfalls zum vollen Benutzernamen ergänzt.</p>"
 	. "<p><b>Einstellungen:</b><br>"
 	. "Jeder Benutzer kann optional eine E-Mail-Adresse und eine Homepage eintragen, "
 	. "die in der Benutzerliste im Fenster angezeigt werden. Neben dem Passwort, das neu gesetzt werden kann, "
 	. "ist auch der Wechsel der Farbe durch Klick auf eines der bunten Felder möglich."
 	. "<br>Zudem kann jeder Benutzer seine Systemeintrittsnachricht und -austrittsnachricht in den Raum ändern. (Dies "
-	. "muss vom Chatbetreiber freigeschaltet sein.) Um hier automatisiert den eigenen Nicknamen einzutragen, kann man "
+	. "muss vom Chatbetreiber freigeschaltet sein.) Um hier automatisiert den eigenen Benutzernamen einzutragen, kann man "
 	. "<b>%nick%</b> eintragen. Um automatisiert den Raumnamen einzutragen, ist <b>%raum%</b> einzutragen. <br>"
 	. "Weiterhin kann man, soweit im Chat die entsprechenden Features aktiviert sind, die Anzeige seines eigenen "
 	. "Punktewürfels unterdrücken, die Anzeige der Smilies deaktivieren oder die Anzeige der Ein-/Austrittsnachrichten "
@@ -161,10 +161,10 @@ $hilfe_uebersichtstext = "<p><b>Erste Hilfe bei Problemen:</b><br>"
 	. "automatisch damit verboten werden." . "</p>"
 	. "<p><b><a href=\"user.php?id&aktion=chatuserliste\" target=\"userliste\">Benutzerliste</a>"
 	. " im rechten Fenster neben dem Chat (@ > USERNAME)</b><br>"
-	. "In der Benutzerliste werden die Nicknamen aller Benutzer, die im aktuellen Raum online sind, "
-	. "angezeigt. Das @ vor dem Nicknamen kopiert den Nicknamen in die Chat-Eingabezeile. "
+	. "In der Benutzerliste werden die Benutzernamen aller Benutzer, die im aktuellen Raum online sind, "
+	. "angezeigt. Das @ vor dem Benutzernamen kopiert den Benutzernamen in die Chat-Eingabezeile. "
 	. "Dies ist sehr praktisch, um einen Benutzer <b>öffentlich</b> direkt anzusprechen. "
-	. "Das > (Größer) vor den Nicknamen kopiert den Nicknamen in die Chat-Eingabezeile, "
+	. "Das > (Größer) vor den Benutzernamen kopiert den Benutzernamen in die Chat-Eingabezeile, "
 	. "um diesen Benutzer <b>privat</b> anzuflüstern. Falls ein Nick in Klammern () steht, ist der "
 	. "Benutzer gerade abwesend (/away). Ein Admin sieht vor dem Nick zusätzlich drei "
 	. "Links <b>G K S</b> zur Ausführung der Befehle Gag (Knebel), Kick (Herauswurf) und "
@@ -194,7 +194,7 @@ $chatiquette = "
 <p>Wenn man den Chat als Gast betritt, sollte man sich sofort einen Namen zulegen (/nick name), da die meisten Benutzer sich nur 
 ungerne mit einer (austauschbaren) Zahl unterhalten. Im realen Leben wird man ja auch mit seinem Namen angesprochen. Über den
 Namen ist man leichter ansprechbar und unverwechselbar.
-Merkt man nach einiger Zeit, dass man öfter in den Chat kommen möchte, empfiehlt es sich, einen festen Account (Nicknamen) 
+Merkt man nach einiger Zeit, dass man öfter in den Chat kommen möchte, empfiehlt es sich, einen festen Account (Benutzernamen) 
 zuzulegen. Natürlich kann man das auch gleich machen, damit ist der Name dann besetzt und kein anderer kann sich mehr so
 nennen. Hierzu klickt man auf der Startseite auf >>neu anmelden<< und bestätigt die Anmeldung, die per Mail zugesandt wird.
 Dann wählt man sich seinen Chatnamen und sein Zugangspasswort aus.
@@ -296,14 +296,14 @@ und sich der Benutzer in einem öffentlichen, permanenten Raum mit mindestens
 	. " Benutzern befindet. Für das
 erstmalige Ausfüllen des Profils bekommt jeder Benutzer 500 Punkte. Die Admins
 haben ferner die Möglichkeit, den Benutzern Punkte zu schenken oder abzuziehen.
-Dies geschieht mit den Befehlen \"<b>/lob Nickname Punktezahl</b>\" und \"<b>/tadel
-Nickname Punktezahl</b>\". Wenn Sie dem Benutzer Heinz also 100 Punkte schenken
+Dies geschieht mit den Befehlen \"<b>/lob Benutzername Punktezahl</b>\" und \"<b>/tadel
+Benutzername Punktezahl</b>\". Wenn Sie dem Benutzer Heinz also 100 Punkte schenken
 möchten, tippen Sie im Chat einfach \"/<b>lob Heinz 100</b>\" ein und schon bekommt
 der Benutzer Heinz 100 Punkte gutgeschrieben. Beim Logout des Benutzers werden die
 Punktezahlen jeweils aufaddiert und aktualisiert. Mit Klick auf den
 Menüpunkt Top10/100 kann jeder Benutzer Einblick in die Rangliste nehmen. Je
 nach Anzahl der Punke erhält jeder Benutzer (sowie auch die Admins) ein
-kleines Würfelsymbol, das seinem Nicknamen im Chat zugeordnet wird.<br><br>
+kleines Würfelsymbol, das seinem Benutzernamen im Chat zugeordnet wird.<br><br>
 <b>Tipp 1:</b> Die Punkte werden meistens erst beim Logout aufs Benutzerkonto gutgeschrieben,
 daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<br>
 <b>Tipp 2:</b> Wer um Punkte bettelt, macht sich unbeliebt.<br>
@@ -339,7 +339,7 @@ gelöscht. (Standardeinstellung 14 Tage, kann aber vom Chatbetreiber geändert w
 <li><I>Papierkorb leeren</I>
 </ul><P>
 Um eine neue Mail zu verfassen, geben Sie unter dem Punkt \"<b>Neue Mail senden</b>\"
-in das Feld \"<b>Nickname</b>\" den Nicknamen des Benutzers ein, dem Sie eine Nachricht
+in das Feld \"<b>Benutzername</b>\" den Benutzernamen des Benutzers ein, dem Sie eine Nachricht
 zukommen lassen möchten und klicken Sie dann auf \"<b>weiter</b>\". Nun befinden Sie
 sich in der Texteingabe für Ihre Mail. Am Fuße der Box können Sie übrigens
 auswählen, ob Sie die Nachricht an die Chat-interne Mailbox des Benutzers oder
@@ -382,7 +382,7 @@ Nachrichten erhalten.<br><br>
 Unter dem Punkt \"<b>Einstellungen -> Homepage</b>\" kann ebenfalls jeder Benutzer mit
 wenigen Klicks seine eigene kleine Homepage erstellen, ohne jegliche
 HTML-Kenntnisse zu besitzen. Nach der \"<b>Freischaltung</b>\" der Homepage wird hinter dem 
-Nicknamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der 
+Benutzernamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der 
 \"Suche nach Benutzern\" (<b>USER -> Suche</b>) ist die gezielte Suche nach Benutzern mit freigeschalteter Homepage
 möglich.<br><br>
 Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
@@ -390,7 +390,7 @@ Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chat
 	. "home.php/NICKNAME</b><br><br>
 Grundsätzlich immer dargestellt werden</P>
 <ul>
-<li><I>Nickname des Benutzers</I>
+<li><I>Benutzername des Benutzers</I>
 <li><I>Onlinezeit</I>
 <li><I>Benutzerlevel</I>
 <li><I>Punkte</I>
@@ -420,7 +420,7 @@ Profil ist natürlich freiwillig.
 </p><p>
 Automatisch erstellte Statistiken, wie die Benutzer-Top10/100, fallen nicht
 unter die personenbezogenen Daten. Ebenfalls ausgenommen ist die Darstellung
-Ihres Nicknamens, Ihrer öffentlichen E-Mail Adresse, Ihrer Punkte, Ihrer
+Ihres Benutzernamens, Ihrer öffentlichen E-Mail Adresse, Ihrer Punkte, Ihrer
 Onlinezeit und der Zeitpunkt des ersten und letzten Logins in den Chat.
 Falls Sie keine öffentliche E-Mail Adresse wünschen, löschen Sie diese in
 Ihren <b>Einstellungen</b>.

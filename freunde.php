@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
 $fenster = str_replace("+", "", $u_nick);
@@ -73,7 +73,7 @@ if ($u_id && $communityfeatures) {
 					$infotext = mysqli_result($result, 0, 0);
 					formular_editieren($editeintrag, $infotext);
 				}
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 			}
 			break;
 		
@@ -83,12 +83,12 @@ if ($u_id && $communityfeatures) {
 				$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . intval($f_id) . ")";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
-					// f_id ist zahl und gehört zu dem User, also ist update möglich
+					// f_id ist zahl und gehört zu dem Benutzer, also ist update möglich
 					$back = edit_freund($f_id, $f_text);
 					echo "<P>$back</P>";
 					zeige_freunde("normal", "");
 				}
-				@mysqli_free_result($result);
+				mysqli_free_result($result);
 			}
 			break;
 		
@@ -102,7 +102,7 @@ if ($u_id && $communityfeatures) {
 			break;
 		
 		case "neu2":
-		// Neuer Freund, 2. Schritt: Nick Prüfen
+		// Neuer Freund, 2. Schritt: Benutzername Prüfen
 			$neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
 			$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund['u_nick']) . "'";
 			$result = mysqli_query($mysqli_link, $query);
@@ -118,7 +118,7 @@ if ($u_id && $communityfeatures) {
 					$ignore = true;
 				}
 				;
-				@mysqli_free_result($result2);
+				mysqli_free_result($result2);
 				
 				if ($ignore) {
 					echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg116']));
@@ -137,13 +137,13 @@ if ($u_id && $communityfeatures) {
 				}
 				
 			} elseif ($neuer_freund['u_nick'] == "") {
-				echo "<b>Fehler:</b> Bitte geben Sie einen Nicknamen an!<br>\n";
+				echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
 				formular_neuer_freund($neuer_freund);
 			} else {
-				echo "<b>Fehler:</b> Der Nickname '$neuer_freund[u_nick]' existiert nicht!<br>\n";
+				echo "<b>Fehler:</b> Der Benutzername '$neuer_freund[u_nick]' existiert nicht!<br>\n";
 				formular_neuer_freund($neuer_freund);
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			break;
 		
 		case "admins":
@@ -161,7 +161,7 @@ if ($u_id && $communityfeatures) {
 				;
 			}
 			zeige_freunde("normal", "");
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			break;
 		
 		case "bearbeite":

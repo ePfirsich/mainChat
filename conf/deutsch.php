@@ -11,7 +11,7 @@ $hilfstext = array(
 	"<b>/msg NAME TEXT -</b> TEXT an Benutzer NAME flüstern",
 	"<b>/me TEXT -</b> Spruch im Raum",
 	"<b>/weg TEXT-</b> setzt oder löscht einen ich-bin-nicht-da Text",
-	"<b>/nick NAME -</b> Setzt Nickname auf NAME",
+	"<b>/nick NAME -</b> Setzt Benutzername auf NAME",
 	"<b>/ignore NAME -</b> Ignoriert Benutzer NAME, ohne Angabe von NAME werden alle ignorierten Benutzer gezeigt",
 	"<b>/kick NAME -</b> Sperrt Benutzer NAME aus dem aktuellen Raum aus (oder Freigabe)",
 	"<b>/farbe RRGGBB -</b> Setzt neue Farbe auf RRGGBB, ohne Angabe von RRGGBB wird die aktuelle Farbe angezeigt",
@@ -72,7 +72,7 @@ $hilfe_spruchtext = "<b>Format:</b> '=SPRUCH USER ZUSATZTEXT'<br><br>"
 	. "Wird die Nickergänzung nicht gewünscht, oder ist im ZUSATZTEXT ein Leerzeichen enthalten, muss der Text in \" gesetzt werden."
 	. "<LI><b>Typ 2:</b> USER und ZUSATZTEXT"
 	. "<br>Hier kann auch USER und ZUSATZTEXT Leerzeichen enthalten, wenn der Text in \" gesetzt wird, oder alternativ das Leerzeichen durch ein + ersetzt wird."
-	. "</UL>In den Sprüchen wird immer <b>`0</b> durch den eigenen Nicknamen ersetzt. "
+	. "</UL>In den Sprüchen wird immer <b>`0</b> durch den eigenen Benutzernamen ersetzt. "
 	. "Zum weiteren Verständnis probieren Sie einfach die Sprüche aus.<br><br>"
 	. "Um bestimmte Sprüche auszuwählen ist es am einfachsten, im Chat "
 	. "mit dem /such Befehl und einem Stichwort nach dem gewünschten Spruch "

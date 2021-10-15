@@ -3,7 +3,7 @@
 require("functions.php");
 require("functions.php-func-forum_lib.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 function show_pfad_posting2($th_id) {
@@ -15,7 +15,7 @@ function show_pfad_posting2($th_id) {
 	$fo_id = mysqli_result($query, 0, "fo_id");
 	$fo_name = htmlspecialchars( mysqli_result($query, 0, "fo_name") );
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 	return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
 	
@@ -94,7 +94,7 @@ function such_bereich() {
 		}
 	}
 	$text .= "</select></td></tr>\n";
-	@mysqli_free_result($query);
+	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\">"
@@ -215,7 +215,7 @@ function such_bereich() {
 	$text .= "value=\"SAD\">$t[option20]</option>";
 	$text .= "</select></td></tr>\n";
 	
-	// nur von User
+	// nur von Benutzer
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td><td class=\"tabelle_zeile1\">"
 		. $f1 . "<input type=\"TEXT\" name=\"suche[username]\" value=\""
 		. htmlspecialchars($suche['username'])
@@ -255,7 +255,7 @@ function such_ergebnis() {
 		if (mysqli_num_rows($query) == 1) {
 			$suche['u_id'] = mysqli_result($query, 0, "u_id");
 		} else {
-			$fehler .= 'Username unbekannt<br>';
+			$fehler .= 'Benutzername unbekannt<br>';
 		}
 	}
 	
@@ -362,7 +362,7 @@ function such_ergebnis() {
 				}
 			}
 		}
-		@mysqli_free_result($query2);
+		mysqli_free_result($query2);
 		
 		if (strlen(trim($boards)) == 0)
 			$boards = " 1 = 2 ";
@@ -491,7 +491,7 @@ function such_ergebnis() {
 				
 				$text .= "</tr>";
 			}
-			@mysqli_free_result($query);
+			mysqli_free_result($query);
 			
 		}
 		$text .= "</table>\n";

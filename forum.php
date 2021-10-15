@@ -2,10 +2,10 @@
 
 include("functions.php");
 
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
-//gültiger User?
+//gültiger Benutzer?
 if (strlen($u_id) > 0) {
 	
 	aktualisiere_online($u_id, $o_raum);
@@ -238,7 +238,7 @@ if (strlen($u_id) > 0) {
 	fuss_forum();
 	
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
 	$title = $body_titel;
 	zeige_header_anfang($title, 'login');

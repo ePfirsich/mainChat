@@ -3,7 +3,7 @@
 require("functions.php");
 require("conf/deutsch.php-smilies.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 $title = $body_titel . ' - Smilies';

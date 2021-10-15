@@ -10,7 +10,7 @@ Art:           N: Normalnachricht mit Absender, Text wird in einem
 Auszug wichtiger Funktionen:
 
 id_erzeuge:  	Generiert aus Benutzer-ID und IP-Adresse des Benutzers einen Hash-Wert
-id_lese:	Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum
+id_lese:	Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 ist_online:	Liefert wahr zurück, falls Benutzer online ist
 
 user_zeige:	Aufruf mit Benutzer-ID, liefert alle Benutzer-Daten zurück

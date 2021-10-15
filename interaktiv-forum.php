@@ -3,19 +3,19 @@
 require_once("functions.php");
 require_once("functions.php-func-raeume_auswahl.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
-// Prüfung, ob User wegen Inaktivität ausgelogt werden soll
+// Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
 	&& $u_level != 'M' && $o_timeout_zeit) {
 	
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		
-		// User ausloggen
-		$zusatzjavascript = "<SCRIPT>\n"
+		// Benutzer ausloggen
+		$zusatzjavascript = "<script>\n"
 			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
-			. "</SCRIPT>\n";
+			. "</script>\n";
 		require_once("functions.php-func-verlasse_chat.php");
 		require_once("functions.php-func-nachricht.php");
 		verlasse_chat($u_id, $u_nick, $o_raum);
@@ -86,10 +86,9 @@ if ($u_id) {
 	
 	// Menue Ausgeben:
 	
-	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n"
-		. "<center><table>\n";
+	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<center><table>\n";
 	
-	// Anzahl der User insgesamt feststellen
+	// Anzahl der Benutzer insgesamt feststellen
 	$query = "SELECT count(o_id) as anzahl FROM online "
 		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
@@ -161,10 +160,9 @@ if ($u_id) {
 		$lobby_id = 1;
 	}
 	
-	echo $f3
-		. "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
+	echo $f3 . "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
-	// Admin sehen alle Räume, andere User nur die offenen
+	// Admin sehen alle Räume, andere Benutzer nur die offenen
 	if ($admin) {
 		echo raeume_auswahl($lobby_id, TRUE, TRUE);
 	} else {
@@ -183,7 +181,7 @@ if ($u_id) {
 	echo "</td></tr></table></center></form>\n";
 	
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
 	$title = $body_titel;
 	zeige_header_anfang($title, 'login');

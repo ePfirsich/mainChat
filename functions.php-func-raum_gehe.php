@@ -21,7 +21,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		mysqli_free_result($result);
 	}
 	
-	// Ist User aus dem Raum ausgesperrt?
+	// Ist Benutzer aus dem Raum ausgesperrt?
 	$query = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum_neu) . " AND s_user=$u_id";
 	$result = @mysqli_query($mysqli_link, $query);
 	$rows = @mysqli_num_rows($result);
@@ -30,7 +30,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 	} else {
 		$gesperrt = 1;
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	// Info zu neuem Raum lesen
 	$query = "SELECT * from raum WHERE r_id=" . intval($raum_neu);
@@ -41,7 +41,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		$neu = mysqli_fetch_object($result);
 		mysqli_free_result($result);
 		
-		// Online Punkte holen, damit der User zum Raumwechsel nicht ein/ausloggen muss
+		// Online Punkte holen, damit der Benutzer zum Raumwechsel nicht ein/ausloggen muss
 		$o_punkte = 0;
 		if ($erweitertefeatures == 1) {
 			$query2 = "SELECT o_punkte FROM online WHERE o_id=" . intval($o_id);
@@ -59,7 +59,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		}
 		
 		// wenn hier nach Erweitertefeatures oder Punkte geprüft werden würde, was Sinn machen würde,
-		// kommen User aus Kostenlosen chats, die mit der MainChat Community verbunden sind, trotzdem in den Raum, 
+		// kommen Benutzer aus Kostenlosen chats, die mit der MainChat Community verbunden sind, trotzdem in den Raum, 
 		// trotz zu wenigen Punkten
 		if (($neu->r_name != $lobby)
 			&& ($neu->r_min_punkte > ($u_punkte_gesamt + $o_punkte)) && !$admin
@@ -104,13 +104,13 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			$raumwechsel = true;
 		}
 		
-		// Falls Beichtstuhl-Modus und $geschlossen!=TRUE, Anzahl der User im Raum
+		// Falls Beichtstuhl-Modus und $geschlossen!=TRUE, Anzahl der Benutzer im Raum
 		// ermitteln. Der Raum darf betreten werden, wenn:
 		// 1) genau ein Admin im Raum ist und
-		// 2) kein User im Raum ist oder
+		// 2) kein Benutzer im Raum ist oder
 		// 3) Raum temporär ist oder
 		// 4) der Raum Lobby ist oder
-		// 5) der User ein Admin ist
+		// 5) der Benutzer ein Admin ist
 		if ($raumwechsel && $beichtstuhl && !$admin) {
 			$query = "SELECT r_id,count(o_id) as anzahl, "
 				. "count(o_level='C') as CADMIN, count(o_level='S') as SADMIN, "
@@ -128,7 +128,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			} else {
 				$raumwechsel = FALSE;
 			}
-			@mysqli_free_result($result);
+			mysqli_free_result($result);
 			
 		}
 		
@@ -179,7 +179,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			// Wenn der Neue Raum eine Teergrube ist, dann Eingabzeile aktualisieren, daß der [FORUM] Link verschwindet
 			// Es sei denn man ist Admin, dann braucht es nicht aktualisiert werden, denn der Link wird nicht ausgeblendet
 			// bzw. wenn alter Raum Teergrube war, dann auch aktualisieren
-			// $u_id über Online Tabelle, da der User auch geschubst werden kann, deswegen dessen o_vhost und o_hash 
+			// $u_id über Online Tabelle, da der Benutzer auch geschubst werden kann, deswegen dessen o_vhost und o_hash 
 			
 			if (($forumfeatures) && ($communityfeatures) && (!$beichtstuhl)
 				&& (($neu->r_status1 == "L") || ($alt->r_status1 == "L"))

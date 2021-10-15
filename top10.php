@@ -1,7 +1,7 @@
 <?php
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, u_level, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
 // Timestamp im Datensatz aktualisieren
@@ -96,7 +96,7 @@ if ($erweitertefeatures) {
 				$array_user[0][] = $row;
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		// Top 100 Punkte im aktuellen Jahr als Array aufbauen
 		$query = "select u_punkte_jahr as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
@@ -110,7 +110,7 @@ if ($erweitertefeatures) {
 				$array_user[1][] = $row;
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		// Top 100 Gesamtpunkte als Array aufbauen
 		$query = "select u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
@@ -123,7 +123,7 @@ if ($erweitertefeatures) {
 				$array_user[2][] = $row;
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		// Daten in Cache schreiben und alle anderen Einträge löschen
 		unset($f);

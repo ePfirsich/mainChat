@@ -3,7 +3,7 @@
 require("functions.php");
 require("functions-msg.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 $title = $body_titel . ' - Einstellungen';
@@ -44,11 +44,10 @@ if (strlen($u_id) != 0) {
 	
 	// Ggf Farbe aktualisieren
 	if (isset($farbe) && strlen($farbe) > 0) {
-		// In Userdatenbank schreiben
+		// In Benutzerdatenbank schreiben
 		$f['u_farbe'] = $farbe;
 		unset($f['u_id']);
 		unset($f['u_level']);
-		unset($f['u_name']);
 		unset($f['u_email']);
 		unset($f['u_adminemail']);
 		unset($f['u_nick']);
@@ -106,11 +105,6 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($aktion == "edit2") {
-		if ((strlen($f['u_name']) < 4 || strlen($f['u_name']) > 50)) {
-			echo "<p><b>$t[edit2]</b></p>\n";
-			$aktion = "andereadminmail";
-		}
-		
 		if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
 		//if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) ) {
 			echo "<p><b>$t[edit1]</b></p>\n";
@@ -152,9 +146,7 @@ if (strlen($u_id) != 0) {
 				. "<input type=\"hidden\" name=\"aktion\" value=\"edit2\">\n";
 			
 			
-			$text .= $f1 . $t['edit21'] . "<br><br>" . $t['edit22'] . "<br><br>" . "\n" . $f2;
-			
-			$text .= $f1 . "<b>" . $t['user_zeige17'] . "</b><br>\n" . $f2 . "<input type=\"text\" value=\"$u_name\" name=\"f[u_name]\" size=$input_breite>";
+			$text .= $f1 . $t['edit21'] . "<br><br>" . $t['edit22'] . "\n" . $f2;
 			
 			$query = "SELECT `user`.* " . "FROM `user` WHERE `u_id`=$u_id ";
 			$result = mysqli_query($mysqli_link, $query);
@@ -194,7 +186,6 @@ if (strlen($u_id) != 0) {
 					
 					// Länge des Feldes und Format Mailadresse werden weiter oben geprüft
 					$p['u_id'] = $u_id;
-					$p['u_name'] = $f['u_name'];
 					$p['u_adminemail'] = $f['u_adminemail'];
 					$pwdneu = genpassword(8);
 					$p['u_passwort'] = $pwdneu;
@@ -239,7 +230,7 @@ if (strlen($u_id) != 0) {
 					if ($del_level != "S" && $del_level != "C"
 						&& $del_level != "M") {
 						
-						// Userdaten löschen
+							// Benutzerdaten löschen
 						echo "<p><b>"
 							. str_replace("%u_nick%", $f['u_nick'],
 								$t['menue5']) . "</b></p>\n";
@@ -294,7 +285,6 @@ if (strlen($u_id) != 0) {
 				
 				// Nicht-Admin darf Einstellungen nicht ändern
 				if (!$admin) {
-					unset($f['u_name']);
 					unset($f['u_adminemail']);
 					unset($f['u_level']);
 					unset($f['u_kommentar']);
@@ -345,22 +335,14 @@ if (strlen($u_id) != 0) {
 					$aktion = "andereadminmail";
 				}
 				
-				// Name muss 4-50 Zeichen haben
-				if ($admin
-					&& (strlen($f['u_name']) < 4 || strlen($f['u_name']) > 50)) {
-					echo "<p><b>$t[edit2]</b></p>\n";
-					unset($f['u_name']);
-					$ok = 0;
-				}
-				
-				// Nick muss 4-20 Zeichen haben
+				// Benutzername muss 4-20 Zeichen haben
 				if (!isset($keineloginbox)) {
 					$keineloginbox = 0;
 				}
 				if (!$keineloginbox
 					&& (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
 					
-					// Wenn man den Nicknamen nicht ändern darf, und man User ist, dann den Parameter
+						// Wenn man den Benutzernamen nicht ändern darf, und man Benutzer ist, dann den Parameter
 					// sicherheitshalber löschen
 					if (!$einstellungen_aendern && !$admin) {
 						unset($f['u_nick']);
@@ -378,8 +360,8 @@ if (strlen($u_id) != 0) {
 					}
 					
 					// immernoch keine 4-20 Zeichen?
-					// Hier müsste aus den oberen beiden Fällen der Nickname nun da sein,
-					// Jetzt wird geprüft, ob man normalerweise den Nick ändern darf, und dort 4-20 
+					// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
+					// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20 
 					// Zeichen eingegeben hat
 					if (!$keineloginbox
 						&& (strlen($f['u_nick']) < 4
@@ -408,7 +390,7 @@ if (strlen($u_id) != 0) {
 				$size['messagesforum'] = preg_replace("/[^0-9]/", "",
 					(isset($size['messagesforum']) ? $size['messagesforum'] : ""));
 				
-				// Gibts den User/Nicknamen schon?
+				// Gibt es den Benutzernamen schon?
 				if ($f['u_nick']) {
 					$query = "SELECT u_id FROM user "
 						. "WHERE u_nick = '$f[u_nick]' AND u_id!=$f[u_id]";
@@ -417,17 +399,15 @@ if (strlen($u_id) != 0) {
 					$rows = mysqli_num_rows($result);
 					if ($rows != 0) {
 						echo "<p><b>$t[edit7]</b></p>\n";
-						unset($f['u_name']);
 						unset($f['u_nick']);
 						$ok = 0;
 					}
 				} else {
-					// Nickname nicht schreiben (keine Änderung oder ungültiger Text)
+					// Benutzername nicht schreiben (keine Änderung oder ungültiger Text)
 					unset($f['u_nick']);
 				}
 				
-				// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, 
-				// dann Nickname nicht speichern
+				// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, dann Benutzername nicht speichern
 				if (isset($f['u_nick']) && $f['u_nick']) {
 					$query = "SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = '$f[u_id]'";
 					$result = mysqli_query($mysqli_link, $query);
@@ -448,7 +428,7 @@ if (strlen($u_id) != 0) {
 					if ($nick_alt <> $f['u_nick']) {
 						
 						if ($differenz < $nickwechsel) {
-							echo "<p><b>Sie dürfen Ihren Nicknamen nur alle $nickwechsel Sekunden ändern!</b></p>\n";
+							echo "<p><b>Sie dürfen Ihren Benutzernamen nur alle $nickwechsel Sekunden ändern!</b></p>\n";
 							unset($f['u_nick']);
 						} else {
 							$datum = time();
@@ -487,15 +467,15 @@ if (strlen($u_id) != 0) {
 				if ($result && mysqli_num_rows($result) > 0) {
 					$uu_level = mysqli_result($result, 0, "u_level");
 					
-					// Falls Userlevel G -> Änderung verboten
+					// Falls Benutzerlevel G -> Änderung verboten
 					if (isset($f['u_level']) && strlen($f['u_level']) != 0
 						&& $f['u_level'] != "G" && $uu_level == "G") {
 						echo $t['edit15'];
 						unset($f['u_level']);
 					}
 					
-					// uu_level = Level des Users, der geändert wird
-					// u_level  = Level des Users, der ändert
+					// uu_level = Level des Benutzers, der geändert wird
+					// u_level  = Level des Benutzers, der ändert
 					// Admin (C) darf für anderen Admin (C oder S) nicht ändern: Level, Passwort, Admin-EMail
 					if ($u_id != $f['u_id'] && $u_level == "C"
 						&& ($uu_level == "S" || $uu_level == "C")) {
@@ -545,7 +525,7 @@ if (strlen($u_id) != 0) {
 					$f['u_frames'] = serialize($size);
 				}
 				
-				// Userdaten schreiben
+				// Benutzerdaten schreiben
 				if ($ok) {
 					if (isset($zeige_loesch) && $zeige_loesch != 1) {
 						// Änderungen anzeigen
@@ -556,25 +536,16 @@ if (strlen($u_id) != 0) {
 						if ($result && mysqli_num_rows($result) == 1) {
 							$row = mysqli_fetch_object($result);
 							$userdata = unserialize(
-								$row->o_userdata . $row->o_userdata2
-									. $row->o_userdata3 . $row->o_userdata4);
-							if (($f['u_name'] != $userdata['u_name'])
-								AND $f['u_name'] AND $admin) {
+								$row->o_userdata . $row->o_userdata2 . $row->o_userdata3 . $row->o_userdata4);
+							if ($f['u_nick'] && ($f['u_nick'] != $userdata['u_nick'])) {
 								echo "<p><b>"
-									. str_replace("%u_nick%", htmlspecialchars($f['u_name']), $t['edit8']) . "</b></p>\n";
-							}
-							if ($f['u_nick']
-								AND ($f['u_nick'] != $userdata['u_nick'])) {
-								echo "<p><b>"
-									. str_replace("%u_nick%", $f['u_nick'],
-										$t['edit9']) . "</b></p>\n";
+									. str_replace("%u_nick%", $f['u_nick'], $t['edit9']) . "</b></p>\n";
 								global_msg($u_id, $row->o_raum,
 									str_replace("%u_nick%", $f['u_nick'],
-										str_replace("%row->u_nick%",
-											$userdata['u_nick'], $t['edit10'])));
+										str_replace("%row->u_nick%", $userdata['u_nick'], $t['edit10'])));
 							}
 						}
-						@mysqli_free_result($result);
+						mysqli_free_result($result);
 						echo "<p><b>$t[edit11]</b></p>\n";
 						
 					}
@@ -604,7 +575,7 @@ if (strlen($u_id) != 0) {
 					
 					schreibe_db("user", $f, $f['u_id'], "u_id");
 					
-					// Hat der User den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
+					// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 					if (isset($f['u_level']) && $f['u_level'] == "Z") {
 						$queryii = "SELECT u_nick,u_id from user,iignore "
 							. "WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
@@ -618,9 +589,9 @@ if (strlen($u_id) != 0) {
 									$rowii->u_id, $rowii->u_nick);
 							}
 						}
-						@mysqli_free_result($resultii);
+						mysqli_free_result($resultii);
 					}
-					// Hat der User den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
+					// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
  else if ((isset($f['u_level']) && $f['u_level'] == "C")
 						|| (isset($f['u_level']) && $f['u_level'] == "S")) {
 						$queryii = "SELECT u_nick,u_id from user,iignore "
@@ -635,7 +606,7 @@ if (strlen($u_id) != 0) {
 									$f['u_id'], $f['u_nick']);
 							}
 						}
-						@mysqli_free_result($resultii);
+						mysqli_free_result($resultii);
 					}
 					
 					// Eingabe-Frame mit Farben aktualisieren
@@ -647,7 +618,7 @@ if (strlen($u_id) != 0) {
 					}
 				}
 				
-				// Falls User auf Level "Z" gesetzt wurde -> logoff
+				// Falls Benutzer auf Level "Z" gesetzt wurde -> logoff
 				if (ist_online($f['u_id']) && isset($f['u_level'])
 					&& $f['u_level'] == "Z") {
 					// o_id und o_raum bestimmen
@@ -667,14 +638,13 @@ if (strlen($u_id) != 0) {
 					mysqli_free_result($result);
 				}
 				
-				// User mit ID $u_id anzeigen
+				// Benutzer mit ID $u_id anzeigen
 				$query = "SELECT `user`.* " . "FROM `user` WHERE `u_id`=" . intval($f['u_id']);
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if ($result && mysqli_num_rows($result) == 1) {
 					$row = mysqli_fetch_object($result);
 					$f['u_id'] = $u_id;
-					$f['u_name'] = htmlspecialchars($row->u_name);
 					$f['u_nick'] = $row->u_nick;
 					$f['u_id'] = $row->u_id;
 					$f['u_email'] = htmlspecialchars($row->u_email);
@@ -708,9 +678,9 @@ if (strlen($u_id) != 0) {
 				}
 				
 			} elseif ((isset($eingabe) && $eingabe == "Löschen!") && $admin) {
-				// User löschen
+				// Benutzer löschen
 				
-				// Ist User noch Online?
+				// Ist Benutzer noch Online?
 				if (!ist_online($f['u_id'])) {
 					// Nachfrage ob sicher	
 					echo "<p><b>"
@@ -719,7 +689,6 @@ if (strlen($u_id) != 0) {
 					echo "<form name=\"$f[u_nick]\" action=\"edit.php\" METHOD=POST>\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
-						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
 						. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 					echo $f1
@@ -732,7 +701,7 @@ if (strlen($u_id) != 0) {
 						. str_replace("%u_nick%", $f['u_nick'], $t['edit14'])
 						. "</b></p>\n";
 					
-					// User mit ID $u_id anzeigen
+					// Benutzer mit ID $u_id anzeigen
 					
 					$query = "SELECT `user`.* "
 						. "FROM `user` WHERE u_id=" . intval($f[u_id]);
@@ -742,7 +711,6 @@ if (strlen($u_id) != 0) {
 					if ($rows == 1) {
 						$row = mysqli_fetch_object($result);
 						$f['u_id'] = $u_id;
-						$f['u_name'] = htmlspecialchars($row->u_name);
 						$f['u_nick'] = $row->u_nick;
 						$f['u_id'] = $row->u_id;
 						$f['u_email'] = htmlspecialchars($row->u_email);
@@ -779,7 +747,6 @@ if (strlen($u_id) != 0) {
 					echo "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
-						. "<input type=\"hidden\" name=\"f[u_name]\" value=\"$f[u_name]\">\n"
 						. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
 						. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n"
 						. "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n"
@@ -799,7 +766,7 @@ if (strlen($u_id) != 0) {
 				$f['u_passwort'] = $pwdneu;
 				$uu_level = $x['u_level'];
 				
-				// Prüfung ob der User das überhaupt darf...
+				// Prüfung ob der Benutzer das überhaupt darf...
 				
 				if ($f['u_adminemail'] == "") {
 					echo $f1
@@ -837,10 +804,10 @@ if (strlen($u_id) != 0) {
 				}
 				
 			} else {
-				// User mit ID $u_id anzeigen
+				// Benutzer mit ID $u_id anzeigen
 				
 				if ($admin && strlen($f['u_id']) > 0) {
-					// Jeden User anzeigen
+					// Jeden Benutzer anzeigen
 					$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($f['u_id']);
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
@@ -855,7 +822,6 @@ if (strlen($u_id) != 0) {
 				if ($rows == 1) {
 					$row = mysqli_fetch_object($result);
 					$f['u_id'] = $u_id;
-					$f['u_name'] = $row->u_name;
 					$f['u_nick'] = $row->u_nick;
 					$f['u_id'] = $row->u_id;
 					$f['u_email'] = $row->u_email;
@@ -881,7 +847,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		default:
-		// User mit ID $u_id anzeigen
+		// Benutzer mit ID $u_id anzeigen
 		
 			$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($u_id);
 			$result = mysqli_query($mysqli_link, $query);
@@ -890,7 +856,6 @@ if (strlen($u_id) != 0) {
 			if ($rows == 1) {
 				$row = mysqli_fetch_object($result);
 				$f['u_id'] = $u_id;
-				$f['u_name'] = $row->u_name;
 				$f['u_nick'] = $row->u_nick;
 				$f['u_id'] = $row->u_id;
 				$f['u_email'] = $row->u_email;

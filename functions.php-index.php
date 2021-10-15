@@ -40,11 +40,11 @@ function erzeuge_sequence($db, $id) {
 		$result = mysqli_query($mysqli_link, $query);
 		
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 }
 
 function show_who_is_online($result) {
-	// Funktion gibt Liste der Räume mit Usern aus
+	// Funktion gibt Liste der Räume mit Benutzern aus
 	// $result ist gültiges Ergebnis einer Query, die o_userdata* und r_name enthalten muss
 	
 	global $t, $whotext;
@@ -106,12 +106,12 @@ function show_who_is_online($result) {
 function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
-	// u_id=User-ID, u_name ist Nickname, u_level ist Level, hash_id ist Session-ID
+	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
 	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
 	global $dbase, $mysqli_link, $HTTP_SERVER_VARS, $punkte_gruppe, $communityfeatures, $http_host;
 	
-	// IP/Browser Adresse des User setzen
+	// IP/Browser Adresse des Benutzer setzen
 	$ip = $_SERVER["REMOTE_ADDR"];
 	$browser = $_SERVER["HTTP_USER_AGENT"];
 	
@@ -168,7 +168,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		mysqli_free_result($result);
 	}
 	
-	// Prüfen, ob User noch online ist und ggf. ausloggen
+	// Prüfen, ob Benutzer noch online ist und ggf. ausloggen
 	$alteloginzeit = "";
 	$query = "select o_id, o_login FROM online WHERE o_user=$u_id ";
 	$result = mysqli_query($mysqli_link, $query);
@@ -176,9 +176,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		$alteloginzeit = mysqli_result($result, 0, 1);
 		logout(mysqli_result($result, 0, 0), $u_id, "login");
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
-	// Userdaten ändern
+	// Benutzerdaten ändern
 	
 	// Login als letzten Login merken, dabei away und loginfehler zurücksetzen.
 	$query = "UPDATE user SET u_login=NOW(),u_away='',u_loginfehler='' WHERE u_id=$u_id";
@@ -188,7 +188,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		exit;
 	}
 	
-	// Punkte des Vormonats/Vorjahres löschen und Usergruppe ermitteln, falls nicht Gast
+	// Punkte des Vormonats/Vorjahres löschen und Benutzergruppe ermitteln, falls nicht Gast
 	if ($u_level != "G" && $communityfeatures) {
 		
 		// Ist u_punkte_monat vom aktuellen Monat?
@@ -203,7 +203,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 			$f['u_punkte_jahr'] = 0;
 		}
 		
-		// Aus der Zahl der Gesamtpunkten die Usergruppe ableiten und in u_punkte_gruppe
+		// Aus der Zahl der Gesamtpunkten die Benutzergruppe ableiten und in u_punkte_gruppe
 		// speichern
 		$f['u_punkte_gruppe'] = 0;
 		foreach ($punkte_gruppe as $key => $value) {
@@ -243,7 +243,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		exit;
 	}
 	
-	// Aktuelle Daten des Users aus Tabelle iignore lesen
+	// Aktuelle Daten des Benutzers aus Tabelle iignore lesen
 	// Query muss mit Code in ignore übereinstimmen
 	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
@@ -261,9 +261,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	}
 	
 	$knebelzeit = NULL;
-	// Aktuelle Userdaten aus Tabelle user lesen
+	// Aktuelle Benutzerdaten aus Tabelle user lesen
 	// Query muss mit Code in schreibe_db übereinstimmen
-	$query = "SELECT `u_id`, `u_name`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -274,30 +274,36 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		$userdata_array = zerlege(serialize($userdata));
 		$http_stuff_array = zerlege(serialize($http_stuff));
 		
-		if (!isset($http_stuff_array[0]))
+		if (!isset($http_stuff_array[0])) {
 			$http_stuff_array[0] = "";
-		if (!isset($http_stuff_array[1]))
+		}
+		if (!isset($http_stuff_array[1])) {
 			$http_stuff_array[1] = "";
-		if (!isset($userdata_array[0]))
+		}
+		if (!isset($userdata_array[0])) {
 			$userdata_array[0] = "";
-		if (!isset($userdata_array[1]))
+		}
+		if (!isset($userdata_array[1])) {
 			$userdata_array[1] = "";
-		if (!isset($userdata_array[2]))
+		}
+		if (!isset($userdata_array[2])) {
 			$userdata_array[2] = "";
-		if (!isset($userdata_array[3]))
+		}
+		if (!isset($userdata_array[3])) {
 			$userdata_array[3] = "";
+		}
 		
-		// Hole Knebelzeit aus Usertabelle
+		// Hole Knebelzeit aus Benutzertabelle
 		$query = "SELECT `u_knebel` FROM `user` WHERE `u_id`=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$knebelzeit = $row->u_knebel;
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 	
-	// Vorbereitung für Login ist abgeschlossen. Jetzt nochmals Prüfen ob User online ist, 
+	// Vorbereitung für Login ist abgeschlossen. Jetzt nochmals Prüfen ob Benutzer online ist, 
 	// ggf. Session löschen und neue Session schreiben
 	
 	// Tabellen online+user exklusiv locken
@@ -306,7 +312,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$query = "DELETE FROM `online` WHERE o_user=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	
-	// User in in Tabelle online merken -> User ist online
+	// Benutzer in in Tabelle online merken -> Benutzer ist online
 	unset($f);
 	$f['o_user'] = $u_id;
 	$f['o_raum'] = 0;
@@ -336,7 +342,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		exit;
 	}
 	
-	// Timestamps im Datensatz aktualisieren -> User gilt als eingeloggt
+	// Timestamps im Datensatz aktualisieren -> Benutzer gilt als eingeloggt
 	if ($alteloginzeit != "") {
 		$query = "UPDATE online SET o_aktiv=NULL, o_login='$alteloginzeit', o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id ";
 	} else {
@@ -359,7 +365,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 }
 
 function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
-	// User $u_id betritt Raum $raum (r_id)
+	// Benutzer $u_id betritt Raum $raum (r_id)
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
@@ -372,7 +378,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 		$eintrittsraum = $lobby;
 	}
 	
-	// Ist $raum geschlossen oder User ausgesperrt?
+	// Ist $raum geschlossen oder Benutzer ausgesperrt?
 	// ausnahme: geschlossener Raum ist Eingangsraum -> für e-rotic-räume
 	// die sind geschlossen, aber bei manchen kostenlosen chats default :-(
 	// Ausnahme ist Beichtstuhl-Modus, hier darf beim Login auch ein
@@ -418,11 +424,11 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 				}
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 	
 	if (strlen($raum) > 0) {
-		// Prüfung ob User aus Raum ausgesperrt ist
+		// Prüfung ob Benutzer aus Raum ausgesperrt ist
 		
 		$query4711 = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum) . " AND s_user=$u_id";
 		$result = mysqli_query($mysqli_link, $query4711);
@@ -432,8 +438,8 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 			if (($rows != 0) || ($r_min_punkte > $u_punkte_gesamt)) {
 				// Aktueller Raum ist gesperrt, oder zu wenige Punkte
 				
-				// Ist User aus Raum ausgesperrt, dann nicht einfach den Eintrittsraum oder die Lobby nehmen,
-				// da kann der User auch ausgesperrt sein.
+				// Ist Benutzer aus Raum ausgesperrt, dann nicht einfach den Eintrittsraum oder die Lobby nehmen,
+				// da kann der Benutzer auch ausgesperrt sein.
 				
 				unset($raum);
 				
@@ -539,7 +545,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Wer ist alles im Raum?
 	raum_user($r_id, $u_id, $hash_id);
 	
-	// Hat der User sein Profil ausgefüllt?
+	// Hat der Benutzer sein Profil ausgefüllt?
 	if ($communityfeatures && $u_level != "G") {
 		profil_neu($u_id, $u_nick, $hash_id);
 	}
@@ -549,7 +555,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 		$http_te = $_SERVER['HTTP_TE'];
 	}
 	
-	// Hat der User Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
+	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	
 	if ($communityfeatures && $u_level != "G") {
 		aktion("Login", $u_id, $u_nick, $hash_id);
@@ -589,7 +595,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 	
 	return ($back);
@@ -597,7 +603,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 
 function id_erzeuge($u_id)
 {
-	// Erzeugt eindeutige ID für jeden User
+	// Erzeugt eindeutige ID für jeden Benutzer
 	
 	$id = md5(uniqid(mt_rand()));
 	return $id;
@@ -605,7 +611,7 @@ function id_erzeuge($u_id)
 }
 
 function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
-	// User betritt beim Login das Forum
+	// Benutzer betritt beim Login das Forum
 	
 	global $dbase, $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe;
 	
@@ -617,7 +623,7 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	$f['o_chat_id'] = system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	schreibe_db("online", $f, $o_id, "o_id");
 	
-	// Hat der User Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
+	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($communityfeatures && $u_level != "G")
 		aktion("Login", $u_id, $u_nick, $hash_id);
 	
@@ -655,7 +661,7 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 			}
 		}
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 }
 
@@ -719,7 +725,7 @@ function RaumNameToRaumID($eintrittsraum) {
 }
 
 function getsalt($feldname, $login) {
-	// Versucht den Salt und die Verschlüsselung des Users zu erkennen
+	// Versucht den Salt und die Verschlüsselung des Benutzers zu erkennen
 	// $login muss "sicher" kommen
 	global $dbase, $mysqli_link;
 	global $upgrade_password;
@@ -729,7 +735,7 @@ function getsalt($feldname, $login) {
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
-		// User vorhanden, u_passwort untersuchen
+		// Benutzer vorhanden, u_passwort untersuchen
 		$pass = mysqli_result($result, 0, "u_passwort");
 		
 		if (preg_match('#(^\$6\$rounds\=([0-9]{4,9})\$(.{1,16})\$)#i', $pass, $treffer)) {
@@ -828,20 +834,21 @@ function getsalt($feldname, $login) {
 	return $salt;
 }
 
-function auth_user($feldname, $login, $passwort) {
-	// Passwort prüfen und Userdaten lesen
-	// Funktion liefert das mysqli_result zurück, wenn auf EINEN User das login/passwort passt
+function auth_user($login, $passwort) {
+	// Passwort prüfen und Benutzerdaten lesen
+	// Funktion liefert das mysqli_result zurück, wenn auf EINEN Benutzer das login/passwort passt
 	// $login muss "sicher" kommen
-	// feldname = uc_nick oder u_name
 	// passwort = Passwort
 	
 	global $dbase, $mysqli_link;
 	global $crypted_password_extern, $upgrade_password;
 	
+	$feldname = "u_nick";
+	
 	$v_salt = getsalt($feldname, $login);
 	
 	if ($v_salt == -9) {
-		// User nicht gefunden
+		// Benutzer nicht gefunden
 		return (0);
 	} else if (($v_salt > -9) && ($v_salt < 0)) {
 		echo "<b>ERROR: Passwortverschlüsselung ungültig</b><br>";

@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, u_name, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
 function liste() {
@@ -112,7 +112,7 @@ function liste() {
 				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $f3 . $t['sonst21'] . $f4 . "</td>\n";
 			}
 			
-			// Eintrag - User und Datum
+			// Eintrag - Benutzer und Datum
 			$text .= "<td $bgcolor><small>$row->u_nick<br>\n";
 			$text .= date("d.m.y", $row->zeit) . "&nbsp;";
 			$text .= date("H:i:s", $row->zeit) . "&nbsp;";
@@ -237,7 +237,7 @@ if (strlen($u_id) > 0 && $admin) {
 			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre1\">"
 				. "Loginsperre: Aktivieren" . "</A>\n";
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 		$result = mysqli_query($mysqli_link, $query);
@@ -248,7 +248,7 @@ if (strlen($u_id) > 0 && $admin) {
 			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast1\">"
 				. "Loginsperre Gast: Aktivieren" . "</A>\n";
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		$text .= "| <a href=\"blacklist.php?id=$id&neuer_blacklist[u_nick]=$uname\">"
 			. $zusatztxt . $t['menue3'] . "</A>\n";
@@ -273,7 +273,6 @@ if (strlen($u_id) > 0 && $admin) {
 			$aktion = "neu";
 		} elseif (strlen($f['is_domain']) > 0) {
 			if (strlen($f['is_domain']) > 4) {
-				echo 'test';
 				// Eintrag Domain in DB
 				unset($f['is_ip']);
 				$f['is_owner'] = $u_id;
@@ -489,14 +488,14 @@ if (strlen($u_id) > 0 && $admin) {
 			break;
 		
 		case "neu":
-		// Werte von [SPERREN] aus Userliste übernehmen, falls vorhanden...
+		// Werte von [SPERREN] aus Benutzerliste übernehmen, falls vorhanden...
 			$text = '';
 			if (isset($hname))
 				$f['is_domain'] = $hname;
 			elseif (isset($ipaddr))
 				list($ip1, $ip2, $ip3, $ip4) = preg_split("/\./", $ipaddr, 4);
 			if (isset($uname))
-				$f['is_infotext'] = "Nick " . $uname;
+				$f['is_infotext'] = "Benutzername " . $uname;
 			
 			if (!isset($f['is_domain']))
 				$f['is_domain'] = "";

@@ -2,7 +2,7 @@
 
 // Liefert ein Bild inkl. Header zur direkten Darstellung im Browser
 // Übergabeparameter:	http_host -> Virtueller Host des Chats
-//			u_id -> User, zu dem das Bild gehört
+//			u_id -> Benutzer, zu dem das Bild gehört
 //			feld -> Feldname in der DB
 
 require_once("functions-registerglobals.php");
@@ -64,19 +64,19 @@ if (!$mysqli_link) {
 	exit;
 }
 
-// Prüfe ob User existiert und NP aktiviert ist
+// Prüfe ob der Benutzer existiert und NP aktiviert ist
 $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
 	if (mysqli_result($result, 0, "u_chathomepage") != 'J') {
-		echo "Nickpage dieses Users deaktiviert!<br>";
+		echo "Die Benutzernamepage dieses Benutzers ist deaktiviert!<br>";
 		exit;
 	}
 } else {
-	echo "User ID nicht gefunden!<br>";
+	echo "Die Benutzer-ID wurde nicht gefunden!<br>";
 	exit;
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 
 $anzeigeauscache = false;
 if (file_exists($cachepfad)) {
@@ -118,7 +118,7 @@ if (file_exists($cachepfad)) {
 				$anzeigeauscache = true;
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 	}
 }
 
@@ -150,7 +150,7 @@ if ($anzeigeauscache) {
 		$b_mime = mysqli_result($result, 0, "b_mime");
 		$bild = mysqli_result($result, 0, "b_bild");
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	// Bild in den Cache schreiben
 	if (!@stat($cache)) {

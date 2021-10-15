@@ -3,13 +3,13 @@
 require("functions.php");
 require("functions.php-func-chat_lese.php");
 
-// Userdaten setzen
+// Benutzerdaten setzen
 id_lese($id);
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatunten');
 
-// Userdaten gesetzt?
+// Benutzerdaten gesetzt?
 if (strlen($u_id) > 0) {
 	aktualisiere_online($u_id, $o_raum);
 	
@@ -45,7 +45,7 @@ if (strlen($u_id) > 0) {
 	}
 
 } else {
-	// User wird nicht gefunden. Login ausgeben
+	// Benutzer wird nicht gefunden. Login ausgeben
 	
 	zeige_header_ende();
 	?>

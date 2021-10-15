@@ -144,7 +144,7 @@ Eine Version, die unter PHP7 lauffähig ist, ist ebenfalls unter <a href="https:
 <span style="font-weight:bold;">Features:</span> Mail, Forum, Punkte, beliebig viele Räume und Benutzer, IRC-Befehle, Multihoming, SSL, 
 Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
 Freunde, Benutzer-Homepages, Profile, Privatnachrichten, öffentliche Nachrichten, Mehrsprachig, 
-vordefinierte Sprüche, Nicknamen-Ergänzung, Teergruben, Moderation, Spam-Schutz und vieles mehr.</p>
+vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-Schutz und vieles mehr.</p>
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
 				</td>
 			</tr>

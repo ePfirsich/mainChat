@@ -3,7 +3,7 @@
 function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = FALSE, $nur_privat_user = "") {
 	// Gibt Text gefiltert aus
 	// $raum = ID des aktuellen Raums
-	// $u_id = ID des aktuellen Users
+	// $u_id = ID des aktuellen Benutzers
 	
 	global $dbase, $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
 	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
@@ -17,7 +17,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		$system_farbe = $u_farbe_sys;
 	}
 	
-	// Workaround, falls User in Community ist
+	// Workaround, falls Benutzer in Community ist
 	if (!$raum) {
 		$raum = "-1";
 	}
@@ -59,7 +59,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		mysqli_free_result($result);
 		
 		// Nachrichten ab o_chat_id (Merker) in Tabelle online ausgeben
-		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an User adressiert
+		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
 		
 		unset($rows);
@@ -101,7 +101,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		}
 		
 		// $back-Zeilen in Tabelle online ausgeben, höchstens  aber ab o_chat_id
-		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an User adressiert
+		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
 		
 		unset($rows);
@@ -144,7 +144,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	} else {
 		
 		// Die letzten Nachrichten seit $letzte_id ausgeben
-		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an User adressiert
+		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum=$raum AND c_id > $letzte_id" . $qquery;
 		
 		unset($rows);
@@ -154,7 +154,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$rows[] = $row[0];
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		
 		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id > $letzte_id" . $qquery;
 		
@@ -164,7 +164,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$rows[] = $row[0];
 			}
 		}
-		@mysqli_free_result($result);
+		mysqli_free_result($result);
 		if (isset($rows) && is_array($rows))
 			sort($rows);
 		
@@ -199,7 +199,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				}
 			}
 			
-			// Die Ignorierten User rausfiltern																	   
+			// Die Ignorierten Benutzer rausfiltern																	   
 			if (isset($ignore[$row->c_von_user_id]) && $ignore[$row->c_von_user_id]) {
 				$ausgeben = false;
 			}
@@ -212,7 +212,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				// Letzte ID merken
 				$letzte_id = $row->c_id;
 				
-				// Userfarbe setzen
+				// Benutzerfarbe setzen
 				if (strlen($row->c_farbe) == 0) :
 					$row->c_farbe = "#" . $user_farbe;
 				else :
@@ -298,7 +298,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 						}
 						// S: Systemnachricht
 						if ($row->c_an_user) {
-							// an aktuellen User
+							// an aktuellen Benutzer
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
@@ -310,7 +310,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zende = "</span>" . $sm2 . $br;
 							}
 						} else {
-							// an alle User
+							// an alle Benutzer
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
@@ -325,7 +325,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 						break;
 					
 					case "P":
-					// P: Privatnachricht an einen User
+					// P: Privatnachricht an einen Benutzer
 					
 					// Falls dies eine Folgezeile ist, Von-Text unterdrücken
 					
@@ -435,7 +435,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							$row->c_farbe = $u_farbe_priv;
 						}
 						
-						// Nur Nick in Userfarbe oder ganze Zeile
+						// Nur Benutzername in Benutzerfarbe oder ganze Zeile
 						if ($farbe_user_fest) {
 							if (!$erste_zeile) {
 								$zanfang = "";

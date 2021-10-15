@@ -55,7 +55,7 @@ function zeige_freunde($aktion, $zeilen) {
 			$text .= "<table style=\"width:100%;\">";
 			$text .= "<tr>"
 				."<td style=\"width:5%;\">" . $f1 . "Markieren" . $f2. "</td>"
-				."<td style=\"width:35%;\">" . $f1 . "Nickname" . $f2 . "</td>"
+				."<td style=\"width:35%;\">" . $f1 . "Benutzername" . $f2 . "</td>"
 				. "<td style=\"width:35%;\">" . $f1 . "Info" . $f2 . "</td>"
 				."<td style=\"width:20%; text-align:center;\">" . $f1 . "Datum des Eintrags" . $f2 . "</td>"
 				."<td style=\"width:5%; text-align:center;\">" . $f1 . "Aktion" . $f2 . "</td>"
@@ -64,7 +64,7 @@ function zeige_freunde($aktion, $zeilen) {
 			$i = 0;
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
-				// User aus DB lesen
+				// Benutzer aus der Datenbank lesen
 				if ($row->f_userid != $u_id) {
 					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
 						. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
@@ -82,14 +82,14 @@ function zeige_freunde($aktion, $zeilen) {
 				}
 				if ($result2 && mysqli_num_rows($result2) > 0) {
 					
-					// User gefunden -> Ausgeben
+					// Benutzer gefunden -> Ausgeben
 					$row2 = mysqli_fetch_object($result2);
 					$freund_nick = "<b>"
 						. user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
 					
 				} else {
 					
-					// User nicht gefunden, Freund löschen
+					// Benutzer nicht gefunden, Freund löschen
 					$freund_nick = "NOBODY";
 					$query = "DELETE from freunde WHERE f_id=$row->f_id";
 					$result2 = mysqli_query($mysqli_link, $query);
@@ -159,8 +159,8 @@ function zeige_freunde($aktion, $zeilen) {
 
 function loesche_freund($f_freundid, $f_userid) {
 	// Löscht Freund aus der Tabelle mit f_userid und f_freundid
-	// $f_userid User-ID 
-	// $f_freundid User-ID
+	// $f_userid Benutzer-ID 
+	// $f_freundid Benutzer-ID
 	
 	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
 	
@@ -182,12 +182,12 @@ function loesche_freund($f_freundid, $f_userid) {
 		$f_nick = mysqli_result($result, 0, 0);
 		$back = "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr Ihr Freund.</P>";
 	}
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	return ($back);
 }
 
 function formular_neuer_freund($neuer_freund) {
-	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
+	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	
 	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
@@ -203,7 +203,7 @@ function formular_neuer_freund($neuer_freund) {
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<table>";
 	
-	$text .= "<tr><td style=\"text-align:right;\"><b>Nickname:</b></td><td>"
+	$text .= "<tr><td style=\"text-align:right;\"><b>Benutzername:</b></td><td>"
 		. $f1 . "<input type=\"TEXT\" name=\"neuer_freund[u_nick]\" value=\""
 		. $neuer_freund['u_nick'] . "\" SIZE=20>" . $f2
 		. "</td></tr>\n"
@@ -218,7 +218,7 @@ function formular_neuer_freund($neuer_freund) {
 }
 
 function formular_editieren($f_id, $f_text) {
-	// Gibt Formular für Nicknamen zum Hinzufügen als Freund aus
+	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
 	
 	$text = '';
@@ -267,7 +267,7 @@ function neuer_freund($f_userid, $freund) {
 			$back = "<P><b>Fehler:</b> Sie können sich nicht selbst als Freund eintragen!</P>\n";
 		} else {
 			
-			// User ist noch kein Freund -> hinzufügen
+			// Benutzer ist noch kein Freund -> hinzufügen
 			$f['f_userid'] = $f_userid;
 			$f['f_freundid'] = $freund['u_id'];
 			$f['f_text'] = $freund['f_text'];

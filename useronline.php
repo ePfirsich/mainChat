@@ -2,7 +2,7 @@
 
 require("functions.php");
 
-// Anzahl der User, die gerade Online sind, als kurzliste ausgeben
+// Anzahl der Benutzer, die gerade online sind, als kurzliste ausgeben
 
 $raum_alt = "";
 $userliste = "";
@@ -14,7 +14,7 @@ $result = @mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
 	$anzahl_user = mysqli_result($result, 0, 0);
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 
 $query = "SELECT count(o_id) as anzahl_online FROM online "
     . "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
@@ -23,7 +23,7 @@ $result = @mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
 	$anzahl_online = mysqli_result($result, 0, 0);
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 
 $query = "SELECT o_name,r_name,UNIX_TIMESTAMP(o_aktiv) as login FROM raum,online "
     . "WHERE o_raum=r_id " . "AND (r_status1 like 'o' OR r_status1 like 'm') "
@@ -63,7 +63,7 @@ if ($result && mysqli_num_rows($result) > 0) {
         $nicks = "";
     }
 }
-@mysqli_free_result($result);
+mysqli_free_result($result);
 
 if ($anzahl_online && $anzahl_user)
     $txt = str_replace("%anzahl_online%", $anzahl_online, $t[userliste2]);

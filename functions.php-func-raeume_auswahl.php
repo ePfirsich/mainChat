@@ -19,14 +19,14 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 		$subquery1 = "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout)";
 	}
 	
-	// Liste der Räume mit der Anzahl der User aufstellen
+	// Liste der Räume mit der Anzahl der Benutzer aufstellen
 	$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
 		. "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	while ($row = mysqli_fetch_object($result))
 		$anzahl_user[$row->r_id] = $row->anzahl;
-	@mysqli_free_result($result);
+		mysqli_free_result($result);
 	
 	// Optional Formularzusatz für Community-Module  ergänzen
 	$zusatz_select = "";
@@ -37,7 +37,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 		$result = mysqli_query($mysqli_link, $query);
 		while ($row = mysqli_fetch_object($result))
 			$anzahl_who[$row->o_who] = $row->anzahl;
-		@mysqli_free_result($result);
+			mysqli_free_result($result);
 		
 		foreach ($whotext as $key => $whotxt) {
 			if ($key > 1 && isset($anzahl_who) && $anzahl_who[$key])
@@ -50,7 +50,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	// offen=FALSE, falls nur offene Räume gezeigt werden sollen
 	if (!$offen) {
 		
-		// Liste der Räume aufstellen und die Anzahl der User ergänzen
+		// Liste der Räume aufstellen und die Anzahl der Benutzer ergänzen
 		$query = "SELECT r_id FROM raum LEFT JOIN invite ON inv_raum=r_id "
 			. "WHERE inv_user='$u_id' ";
 		
@@ -106,7 +106,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 			$anzahl = 0;
 		}
 		
-		// Alle Räume oder nur die Räume mit Usern zeigen
+		// Alle Räume oder nur die Räume mit Benutzern zeigen
 		if (($anzahl > 0) || $alle) {
 			if ($row->r_id == $raum) {
 				$text .= "<option selected value=\"$row->r_id\">$row->r_name ("
@@ -118,7 +118,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 		}
 	}
 	$text .= $zusatz_select;
-	@mysqli_free_result($result);
+	mysqli_free_result($result);
 	
 	return $text;
 }

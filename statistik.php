@@ -11,7 +11,7 @@ if (!$u_id || !$admin || !$erweitertefeatures) {
 	<!DOCTYPE html>
 	<html dir="ltr" lang="de">
 		<body>
-			<b>Fehler:</b> Diese Seite darf nur aus dem User-Menue als Admin aufgerufen werden!
+			<b>Fehler:</b> Diese Seite darf nur aus dem Benutzer-Menü als Admin aufgerufen werden!
 		</body>
 	</html>
 	<?php
@@ -57,7 +57,7 @@ if ($mysqli_statistik_link) {
 }
 $v = mysqli_real_escape_string($mysqli_statistik_link, $http_host);
 
-// Wenn User Statistiken gesammelt werden, dann nicht HTTP_HOST sondern die Zeichenkette aus $STAT_DB_COLLECT
+// Wenn Benutzer-Statistiken gesammelt werden, dann nicht HTTP_HOST sondern die Zeichenkette aus $STAT_DB_COLLECT
 if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
 	$v = $STAT_DB_COLLECT;
 }

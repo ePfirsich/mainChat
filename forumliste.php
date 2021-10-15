@@ -7,5 +7,5 @@ $text = "";
 while ($a = mysqli_fetch_array($result)) {
 	$text .= "$a[o_name] &nbsp;";
 }
-show_box_title_content("User online im Forum:", $text);
+show_box_title_content("Benutzer online im Forum:", $text);
 ?>
