@@ -139,7 +139,7 @@ $t['neu53'] = "Willkommen beim $chat!\n\nDer Webmaster hat Ihre E-Mailadresse nu
 	. "Ihre E-Mailadresse: %email%\n" . "Ihren Freischalt-Code: %hash%\n\n"
 		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
 $t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
-$t['neu55'] = "Der Webmaster hat die Anzahl der Anmeldungen pro Benutzer auf %anzahl% begrenzt.";
+$t['neu55'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"javascript:history.back()\">Zurück zur Registrierung!</a>";
 
 $t['default1'] = "Login in den $chat oder";
 $t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>,\n";

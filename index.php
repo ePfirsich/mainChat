@@ -800,14 +800,14 @@ switch ($aktion) {
 			}
 			unset($teststring);
 			
-			if (($begrenzung_anmeld_pro_mailadr > 0) and (!$gesperrt)) {
+			if ( !$gesperrt ) {
 				$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '$email'";
 				$result = mysqli_query($mysqli_link, $query);
 				$num = mysqli_num_rows($result);
-				if ($num >= $begrenzung_anmeld_pro_mailadr) {
+				// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
+				if ($num >= 1) {
 					$gesperrt = true;
-					echo str_replace("%anzahl%",
-						$begrenzung_anmeld_pro_mailadr, $t['neu55']);
+					echo $t['neu55'] . "<br><br>";
 				}
 			}
 			
@@ -1875,18 +1875,15 @@ switch ($aktion) {
 		
 		// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. registrierung
 		if ($ok) {
-			if ($begrenzung_anmeld_pro_mailadr > 0) {
-				$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
-				$result = mysqli_query($mysqli_link, $query);
-				$num = mysqli_num_rows($result);
-				if ($num >= $begrenzung_anmeld_pro_mailadr) {
-					$ok = 0;
-					echo str_replace("%anzahl%",
-						$begrenzung_anmeld_pro_mailadr, $t['neu55'])
-						. "<br><br>";
-					zeige_fuss();
-					break;
-				}
+			$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+			$result = mysqli_query($mysqli_link, $query);
+			$num = mysqli_num_rows($result);
+			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
+			if ($num >= 0) {
+				$ok = 0;
+				echo $t['neu55'] . "<br><br>";
+				zeige_fuss();
+				break;
 			}
 		}
 		

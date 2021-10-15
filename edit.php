@@ -106,14 +106,23 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($aktion == "edit2") {
-		
 		if ((strlen($f['u_name']) < 4 || strlen($f['u_name']) > 50)) {
-			echo "<P><b>$t[edit2]</b></P>\n";
+			echo "<p><b>$t[edit2]</b></p>\n";
 			$aktion = "andereadminmail";
 		}
 		
-		if ( (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
-			echo "<P><b>$t[edit1]</b></P>\n";
+		if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
+		//if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) ) {
+			echo "<p><b>$t[edit1]</b></p>\n";
+			$aktion = "andereadminmail";
+		}
+		
+		// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
+		$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+		$result = mysqli_query($mysqli_link, $query);
+		$num = mysqli_num_rows($result);
+		if ($num > 1) {
+			echo "<p><b>$t[edit23]</b></p>\n";
 			$aktion = "andereadminmail";
 		}
 		
@@ -124,11 +133,10 @@ if (strlen($u_id) != 0) {
 		for ($i = 0; $i < count($domaingesperrt); $i++) {
 			$teststring = strtolower($f['u_adminemail']);
 			if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
-				echo "<P><b>$t[edit1]</b></P>\n";
+				echo "<p><b>$t[edit1]</b></p>\n";
 				$aktion = "andereadminmail";
 			}
 		}
-		
 	}
 	
 	// Auswahl
@@ -200,7 +208,7 @@ if (strlen($u_id) != 0) {
 						schreibe_db("user", $p, $p['u_id'], "u_id");
 					} else {
 						echo $f1
-							. "<P><b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b></P>"
+							. "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b></p>"
 							. $f2;
 					}
 					
@@ -232,9 +240,9 @@ if (strlen($u_id) != 0) {
 						&& $del_level != "M") {
 						
 						// Userdaten löschen
-						echo "<P><b>"
+						echo "<p><b>"
 							. str_replace("%u_nick%", $f['u_nick'],
-								$t['menue5']) . "</b></P>\n";
+								$t['menue5']) . "</b></p>\n";
 						$query = "DELETE FROM `user` WHERE `u_id`=$f[u_id] ";
 						$result = mysqli_query($mysqli_link, $query);
 						
@@ -246,16 +254,16 @@ if (strlen($u_id) != 0) {
 						$query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
 						$result = mysqli_query($mysqli_link, $query);
 					} else {
-						echo "<P><b>"
+						echo "<p><b>"
 							. str_replace("%u_nick%", $f['u_nick'],
-								$t['menue6']) . "</b></P>\n";
+								$t['menue6']) . "</b></p>\n";
 					}
 				}
 				
 			} else {
-				echo "<P><b>"
+				echo "<p><b>"
 					. str_replace("%u_nick%", $f['u_nick'], $t['menue6'])
-					. "</b></P>\n";
+					. "</b></p>\n";
 			}
 			break;
 		
@@ -317,15 +325,30 @@ if (strlen($u_id) != 0) {
 				
 				// E-Mail ok
 				if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
-					echo "<P><b>$t[edit1]</b></P>\n";
+					echo "<p><b>$t[edit1]</b></p>\n";
 					unset($f['u_email']);
 					$ok = 0;
+				}
+				
+				// Admin E-mail kontrollieren
+				if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
+					echo "<p><b>$t[edit1]</b></p>\n";
+					$ok = 0;
+				}
+				
+				// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
+				$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+				$result = mysqli_query($mysqli_link, $query);
+				$num = mysqli_num_rows($result);
+				if ($num > 1) {
+					echo "<p><b>$t[edit23]</b></p>\n";
+					$aktion = "andereadminmail";
 				}
 				
 				// Name muss 4-50 Zeichen haben
 				if ($admin
 					&& (strlen($f['u_name']) < 4 || strlen($f['u_name']) > 50)) {
-					echo "<P><b>$t[edit2]</b></P>\n";
+					echo "<p><b>$t[edit2]</b></p>\n";
 					unset($f['u_name']);
 					$ok = 0;
 				}
@@ -361,7 +384,7 @@ if (strlen($u_id) != 0) {
 					if (!$keineloginbox
 						&& (strlen($f['u_nick']) < 4
 							|| strlen($f['u_nick']) > 20)) {
-						echo "<P><b>$t[edit3]</b></P>\n";
+						echo "<p><b>$t[edit3]</b></p>\n";
 						unset($f['u_nick']);
 						$ok = 0;
 					}
@@ -393,7 +416,7 @@ if (strlen($u_id) != 0) {
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
 					if ($rows != 0) {
-						echo "<P><b>$t[edit7]</b></P>\n";
+						echo "<p><b>$t[edit7]</b></p>\n";
 						unset($f['u_name']);
 						unset($f['u_nick']);
 						$ok = 0;
@@ -425,7 +448,7 @@ if (strlen($u_id) != 0) {
 					if ($nick_alt <> $f['u_nick']) {
 						
 						if ($differenz < $nickwechsel) {
-							echo "<P><b>Sie dürfen Ihren Nicknamen nur alle $nickwechsel Sekunden ändern!</b></P>\n";
+							echo "<p><b>Sie dürfen Ihren Nicknamen nur alle $nickwechsel Sekunden ändern!</b></p>\n";
 							unset($f['u_nick']);
 						} else {
 							$datum = time();
@@ -505,14 +528,14 @@ if (strlen($u_id) != 0) {
 				// Ist passwort gesetzt?
 				if (isset($passwort1) && strlen($passwort1) > 0) {
 					if ($passwort1 != $passwort2) {
-						echo "<P><b>$t[edit4]</b></P>\n";
+						echo "<p><b>$t[edit4]</b></p>\n";
 						$ok = 0;
 					} elseif (strlen($passwort1) < 4) {
-						echo "<P><b>$t[edit5]</b></P>\n";
+						echo "<p><b>$t[edit5]</b></p>\n";
 						$ok = 0;
 					} else {
 						// Paßwort neu eintragen
-						echo "<P><b>$t[edit6]</b></P>\n";
+						echo "<p><b>$t[edit6]</b></p>\n";
 						$f['u_passwort'] = $passwort1;
 					}
 				}
@@ -537,16 +560,16 @@ if (strlen($u_id) != 0) {
 									. $row->o_userdata3 . $row->o_userdata4);
 							if (($f['u_name'] != $userdata['u_name'])
 								AND $f['u_name'] AND $admin) {
-								echo "<P><b>"
+								echo "<p><b>"
 									. str_replace("%u_name%",
 										htmlspecialchars($f['u_name']),
-										$t['edit8']) . "</b></P>\n";
+										$t['edit8']) . "</b></p>\n";
 							}
 							if ($f['u_nick']
 								AND ($f['u_nick'] != $userdata['u_nick'])) {
-								echo "<P><b>"
+								echo "<p><b>"
 									. str_replace("%u_nick%", $f['u_nick'],
-										$t['edit9']) . "</b></P>\n";
+										$t['edit9']) . "</b></p>\n";
 								global_msg($u_id, $row->o_raum,
 									str_replace("%u_nick%", $f['u_nick'],
 										str_replace("%row->u_nick%",
@@ -554,7 +577,7 @@ if (strlen($u_id) != 0) {
 							}
 						}
 						@mysqli_free_result($result);
-						echo "<P><b>$t[edit11]</b></P>\n";
+						echo "<p><b>$t[edit11]</b></p>\n";
 						
 					}
 					
@@ -639,9 +662,9 @@ if (strlen($u_id) != 0) {
 						$row = mysqli_fetch_object($result);
 						verlasse_chat($f['u_id'], $f['u_nick'], $row->o_raum);
 						logout($row->o_id, $f['u_id'], "edit->levelZ");
-						echo "<P><b>"
+						echo "<p><b>"
 							. str_replace("%u_name%", htmlspecialchars($f['u_nick']),
-								$t['edit12']) . "</b></P>\n";
+								$t['edit12']) . "</b></p>\n";
 					}
 					mysqli_free_result($result);
 				}
@@ -692,9 +715,9 @@ if (strlen($u_id) != 0) {
 				// Ist User noch Online?
 				if (!ist_online($f['u_id'])) {
 					// Nachfrage ob sicher	
-					echo "<P><b>"
+					echo "<p><b>"
 						. str_replace("%u_nick%", $f['u_nick'], $t['edit13'])
-						. "</b></P>\n";
+						. "</b></p>\n";
 					echo "<form name=\"$f[u_nick]\" action=\"edit.php\" METHOD=POST>\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 						. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
@@ -707,9 +730,9 @@ if (strlen($u_id) != 0) {
 						. $f2;
 					echo "</form>\n";
 				} else {
-					echo "<P><b>"
+					echo "<p><b>"
 						. str_replace("%u_nick%", $f['u_nick'], $t['edit14'])
-						. "</b></P>\n";
+						. "</b></p>\n";
 					
 					// User mit ID $u_id anzeigen
 					
@@ -782,7 +805,7 @@ if (strlen($u_id) != 0) {
 				
 				if ($f['u_adminemail'] == "") {
 					echo $f1
-						. "<P><b>Fehler: Keine E-Mail Adresse hinterlegt!</b></P>"
+						. "<p><b>Fehler: Keine E-Mail Adresse hinterlegt!</b></p>"
 						. $f2;
 				} elseif ((($u_level == "C" || $u_level == "A")
 					&& ($uu_level == "U" || $uu_level == "M"
@@ -796,7 +819,7 @@ if (strlen($u_id) != 0) {
 						schreibe_db("user", $f, $f['u_id'], "u_id");
 					} else {
 						echo $f1
-							. "<P><b>Fehler: Die Mail konnte nicht verschickt werden. Das Passwort wurde beibehalten!</b></P>"
+							. "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Das Passwort wurde beibehalten!</b></p>"
 							. $f2;
 					}
 					
@@ -811,7 +834,7 @@ if (strlen($u_id) != 0) {
 						mysqli_free_result($result);
 					}
 				} else {
-					echo $f1 . "<P><b>Fehler: Aktion nicht erlaubt!</b></P>"
+					echo $f1 . "<p><b>Fehler: Aktion nicht erlaubt!</b></p>"
 						. $f2;
 				}
 				

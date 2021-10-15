@@ -37,6 +37,7 @@ $t['edit21'] = "Sie können hier Ihren Benutzername und die Interne E-Mailadress
 $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neues Passwort an "
 				. "Ihre neue E-Mailadresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
 				. "einloggen und ggf. Ihr Passwort wieder anpassen.";
+$t['edit23'] = "Mit dieser E-Mail ist bereits ein anderer Benutzer registriert.";
 
 $t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Sie sind ausgeloggt";

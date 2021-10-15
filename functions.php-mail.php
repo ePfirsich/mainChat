@@ -29,7 +29,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	}
 	$text = '';
 	
-	$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" METHOD=POST>\n"
+	$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=POST>\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
@@ -125,18 +125,17 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			$email_select = "<b>Art des Mailversands:</b>&nbsp;<select name=\"neue_email[typ]\">";
 			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
 				$email_select .= "<option value=\"0\">Mail in Chat-Mailbox\n";
-				if ($email_bekannt)
-					$email_select .= "<option selected value=\"1\">E-Mail an "
-						. $row->u_email . "\n";
+				if ($email_bekannt) {
+					$email_select .= "<option selected value=\"1\">E-Mail an " . $row->u_email . "\n";
+				}
 			} else {
 				$email_select .= "<option selected value=\"0\">Mail in Chat-Mailbox\n";
 				if ($email_bekannt)
-					$email_select .= "<option value=\"1\">E-Mail an "
-						. $row->u_email . "\n";
+					$email_select .= "<option value=\"1\">E-Mail an " . $row->u_email . "\n";
 			}
 			$email_select .= "</select>\n";
 			
-			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" METHOD=POST>\n"
+			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=POST>\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
 				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"

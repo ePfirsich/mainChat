@@ -212,7 +212,7 @@ $t['id_lese1'] = "<b>Warnung:</b> Fehler bei Zugriff von einem anderen System mi
 
 $t['user_zeige1'] = "Benutzer";
 $t['user_zeige2'] = "Name";
-$t['user_zeige3'] = "Interne&nbsp;E-Mail";
+$t['user_zeige3'] = "Interne E-Mail";
 $t['user_zeige4'] = "Adresse";
 $t['user_zeige5'] = "Browser";
 $t['user_zeige6'] = "E-Mail";
