@@ -181,8 +181,8 @@ $zusatztext_kopf="";
 
 
 // Voreinstellung für Farben im Chat:
-$user_farbe         ="0000AA";			// für Benutzer, Farbe mit #
-$system_farbe       ="000000";			// System, Farbe ohne #
+$user_farbe         ="0000AA";			// für Benutzer
+$system_farbe       ="000000";			// System
 
 
 
