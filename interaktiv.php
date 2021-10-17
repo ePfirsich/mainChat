@@ -12,7 +12,6 @@ id_lese($id);
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
-	
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		// Benutzer ausloggen
 		$zusatzjavascript = "<script>\n"
@@ -25,8 +24,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 		unset($o_id);
 	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
 		// Warnung über bevorstehenden Logout ausgeben
-		system_msg("", 0, $u_id, $system_farbe,
-			str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
+		system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
 		unset($f);
 		$f['o_timeout_warnung'] = "J";
 		schreibe_db("online", $f, $o_id, "o_id");
@@ -224,7 +222,7 @@ if (isset($u_id) && $u_id) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php'>
+	<body onLoad='javascript:parent.location.href="index.php"'>
 	<?php
 	exit;
 }

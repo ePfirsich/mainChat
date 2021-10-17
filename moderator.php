@@ -98,7 +98,7 @@ if (strlen($u_id) > 0) {
 	
 	zeige_header_ende();
 	?>
-	<body onLoad='javascript:parent.location.href="index.php'>
+	<body onLoad='javascript:parent.location.href="index.php"'>
 	<?php
 }
 ?>

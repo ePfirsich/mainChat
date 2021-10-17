@@ -724,7 +724,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			?>
 			<!DOCTYPE html>
 			<html dir="ltr" lang="de">
-			<body onLoad='javascript:parent.location.href="index.php'>
+			<body onLoad='javascript:parent.location.href="index.php"'>
 			</body>
 			</html>
 			<?php
