@@ -2,7 +2,7 @@
 body {
 	color:#000000;
 	background-color:#A0A0FF;
-	/* background-image:test.png; */
+	/* background-image: url(test.png); */
 }
 a {
 	color:#000000;
