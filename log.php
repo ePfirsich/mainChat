@@ -57,14 +57,17 @@ zeige_header_ende();
 <?php
 	// Voreinstellungen
 	// Trigger für die Ausgabe der letzten 100 Nachrichten setzen
-	if ($back == 0)
+	if ($back == 0) {
 		$back = 100;
-	if ($back > 250)
+	}
+	if ($back > 250) {
 		$back = 250;
+	}
 	
 	// Admins: Trigger für die Ausgabe der letzten 1000 Nachrichten setzen
-	if ($admin)
+	if ($admin) {
 		$back = 1000;
+	}
 	
 	// Systemnachrichten nicht ausgeben als Voreinstellung
 	if (!isset($sysmsg))
