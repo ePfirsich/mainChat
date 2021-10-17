@@ -490,8 +490,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									$ui_gen[0] = '';
 								}
 								
-								echo ' test3: ' . $ui_gen[0];
-								
 								if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($ui_ava_chat_active2 == 1) {
