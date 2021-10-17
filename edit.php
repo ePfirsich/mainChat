@@ -194,13 +194,11 @@ if (strlen($u_id) != 0) {
 						str_replace("%passwort%", $p['u_passwort'],
 							$t['chat_msg113']), "From: $webmaster ($chat)");
 					if ($ok) {
-						echo "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mailadresse gesendet.";
+						echo "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mail-Adresse gesendet.";
 						echo $f1 . $t['chat_msg111'] . $f2;
 						schreibe_db("user", $p, $p['u_id'], "u_id");
 					} else {
-						echo $f1
-							. "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b></p>"
-							. $f2;
+						echo $f1 . "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b></p>" . $f2;
 					}
 					
 					$user = $row->u_nick;
@@ -245,16 +243,12 @@ if (strlen($u_id) != 0) {
 						$query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
 						$result = mysqli_query($mysqli_link, $query);
 					} else {
-						echo "<p><b>"
-							. str_replace("%u_nick%", $f['u_nick'],
-								$t['menue6']) . "</b></p>\n";
+						echo "<p><b>" . str_replace("%u_nick%", $f['u_nick'], $t['menue6']) . "</b></p>\n";
 					}
 				}
 				
 			} else {
-				echo "<p><b>"
-					. str_replace("%u_nick%", $f['u_nick'], $t['menue6'])
-					. "</b></p>\n";
+				echo "<p><b>" . str_replace("%u_nick%", $f['u_nick'], $t['menue6']) . "</b></p>\n";
 			}
 			break;
 		
@@ -563,8 +557,7 @@ if (strlen($u_id) != 0) {
 					if (is_array($g['u_profil_historie'])) {
 						$i = 0;
 						while (($i < 3)
-							&& list($datum, $nick) = each(
-								$g['u_profil_historie'])) {
+							&& list($datum, $nick) = each($g['u_profil_historie'])) {
 							$u_profil_historie_neu[$datum] = $nick;
 							$i++;
 						}
@@ -590,10 +583,8 @@ if (strlen($u_id) != 0) {
 							}
 						}
 						mysqli_free_result($resultii);
-					}
-					// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
- else if ((isset($f['u_level']) && $f['u_level'] == "C")
-						|| (isset($f['u_level']) && $f['u_level'] == "S")) {
+					} else if ((isset($f['u_level']) && $f['u_level'] == "C") || (isset($f['u_level']) && $f['u_level'] == "S")) {
+						// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
 						$queryii = "SELECT u_nick,u_id from user,iignore "
 							. "WHERE i_user_passiv=" . intval($f[u_id]) . " AND u_id=i_user_aktiv order by i_id";
 						$resultii = @mysqli_query($mysqli_link, $queryii);
@@ -619,11 +610,9 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Falls Benutzer auf Level "Z" gesetzt wurde -> logoff
-				if (ist_online($f['u_id']) && isset($f['u_level'])
-					&& $f['u_level'] == "Z") {
+				if (ist_online($f['u_id']) && isset($f['u_level']) && $f['u_level'] == "Z") {
 					// o_id und o_raum bestimmen
-					$query = "SELECT o_id,o_raum FROM online "
-						. "WHERE o_user=" . intval($f[u_id]);
+					$query = "SELECT o_id,o_raum FROM online WHERE o_user=" . intval($f[u_id]);
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
 					
@@ -677,7 +666,7 @@ if (strlen($u_id) != 0) {
 						. "</SCRIPT>\n";
 				}
 				
-			} elseif ((isset($eingabe) && $eingabe == "Löschen!") && $admin) {
+			} else if ((isset($eingabe) && $eingabe == "Löschen!") && $admin) {
 				// Benutzer löschen
 				
 				// Ist Benutzer noch Online?
@@ -703,8 +692,7 @@ if (strlen($u_id) != 0) {
 					
 					// Benutzer mit ID $u_id anzeigen
 					
-					$query = "SELECT `user`.* "
-						. "FROM `user` WHERE u_id=" . intval($f[u_id]);
+					$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($f[u_id]);
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
 					
@@ -754,9 +742,8 @@ if (strlen($u_id) != 0) {
 						. $f2 . "</form>\n";
 					
 				}
-			} elseif (isset($eingabe) && $eingabe == $t['chat_msg110']
-				&& $admin) {
-				// Admin E-Mailadresse aus DB holen
+			} else if (isset($eingabe) && $eingabe == $t['chat_msg110'] && $admin) {
+				// Admin E-Mail-Adresse aus DB holen
 				$query = "SELECT `u_adminemail`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "'";
 				$result = mysqli_query($mysqli_link, $query);
 				
@@ -772,7 +759,7 @@ if (strlen($u_id) != 0) {
 					echo $f1
 						. "<p><b>Fehler: Keine E-Mail Adresse hinterlegt!</b></p>"
 						. $f2;
-				} elseif ((($u_level == "C" || $u_level == "A")
+				} else if ((($u_level == "C" || $u_level == "A")
 					&& ($uu_level == "U" || $uu_level == "M"
 						|| $uu_level == "Z")) || ($u_level == "S")) {
 					

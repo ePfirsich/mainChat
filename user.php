@@ -238,7 +238,7 @@ if (strlen($u_id) != 0) {
 								$i++;
 							}
 						}
-						echo "</SMALL><br><br>";
+						echo "</small><br><br>";
 						
 						fclose($file);
 						unlink($HTTP_POST_FILES['userdatei']['tmp_name']);
@@ -376,7 +376,6 @@ if (strlen($u_id) != 0) {
 								. str_replace("\\", "",
 									htmlspecialchars($row->u_email)) . "\t"
 								. $row->u_level . "\n";
-							
 						}
 					}
 				}
@@ -423,9 +422,7 @@ if (strlen($u_id) != 0) {
 							}
 						}
 					}
-					
-					$text .= "</SELECT>" . $f2 . "</td></tr>\n";
-					
+					$text .= "</select>" . $f2 . "</td></tr>\n";
 				}
 				
 				// Suche nach Neu & erstem Login
@@ -500,7 +497,7 @@ if (strlen($u_id) != 0) {
 					
 				}
 				
-				// Subquerys, wenn parameter gesetzt, teils anhand des Levels		
+				// Subquerys, wenn parameter gesetzt, teils anhand des Levels
 				if ($admin) {
 					// Optional level ergänzen
 					if ($f['level'] && $subquery)

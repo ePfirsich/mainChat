@@ -208,6 +208,22 @@ body {
 /* Tabellenzeile 2 - Ende ******************************************************************* */
 
 
+/* Statistik Tabelle Navigation - Anfang ******************************************************************* */
+.tabelle_statistics_navigation {
+	background-color:#BDC6D5;
+}
+/* Statistik Tabelle Navigation - Ende ******************************************************************* */
+
+
+/* Statistik Tabelle Inhalt - Anfang ******************************************************************* */
+.tabelle_statistics_content {
+	vertical-align:bottom;
+	text-align:center;
+	background-color:#E5E5E5;
+}
+/* Statistik Tabelle Inhalt - Ende ******************************************************************* */
+
+
 /* Tabellenzeilen Moderator - Anfang ******************************************************************* */
 .tabelle_zeile_moderator_1g {
 	background-color: var(--Tabelle-Zeile-Moderator-1g);

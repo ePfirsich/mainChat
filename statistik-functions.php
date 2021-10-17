@@ -33,7 +33,6 @@ function statsOverview($v = "%") {
 	global $STAT_TITLE_FONTEND0;
 	global $STAT_TITLE_FONTBEG2;
 	global $STAT_TITLE_FONTEND2;
-	global $STAT_TITLE_BACK1;
 	global $grapharray;
 	
 	mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
@@ -51,14 +50,12 @@ function statsOverview($v = "%") {
 		if ($o > 0) {
 			echo ("<table style=\"width:100%;\">\n");
 			echo ("<tr>\n");
-			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+			echo ("<td class=\"tabelle_koerper\">"
 				. $STAT_TITLE_FONTBEG2 . $STAT_TXT["0054"]
 				. $STAT_TITLE_FONTEND2 . "</td>\n");
-			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
+			echo ("<td class=\"tabelle_koerper\" style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
 				. $STAT_TXT["0055"] . $STAT_TITLE_FONTEND2 . "</td>\n");
-			echo ("<td" . coreMakeBackground($STAT_TITLE_BACK1)
-				. " style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
+			echo ("<td class=\"tabelle_koerper\" style=\"text-align:right;\">" . $STAT_TITLE_FONTBEG2
 				. $STAT_TXT["0056"] . $STAT_TITLE_FONTEND2 . "</td>\n");
 			echo ("</tr>\n");
 			
@@ -173,9 +170,6 @@ function statsPrintGraph($title, $text_l, $text_b) {
 	global $STAT_BAR_IMAGE_T;
 	global $STAT_BAR_IMAGE_M;
 	global $STAT_BAR_IMAGE_B;
-	global $STAT_BAR_BACK0;
-	global $STAT_BAR_BACK1;
-	global $STAT_BAR_BACK2;
 	global $STAT_BAR_FONTBEG0;
 	global $STAT_BAR_FONTEND0;
 	global $STAT_BAR_FONTBEG1;
@@ -234,8 +228,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		if ($title != "") {
 			$msg .= "<tr>\n";
-			$msg .= "<td" . coreMakeBackground($STAT_BAR_BACK2)
-				. " colspan=\"$c\" style=\"text-align:center;\">";
+			$msg .= "<td class=\"tabelle_kopfzeile\" colspan=\"$c\" style=\"text-align:center;\">";
 			$msg .= $STAT_BAR_FONTBEG3;
 			$msg .= $title;
 			$msg .= $STAT_BAR_FONTEND3;
@@ -243,8 +236,8 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$msg .= "</tr>\n";
 		}
 		
-		$msg .= "<TR" . coreMakeBackground($STAT_BAR_BACK0) . ">\n";
-		$msg .= "<td" . coreMakeBackground($STAT_BAR_BACK1) . ">";
+		$msg .= "<tr>\n";
+		$msg .= "<td class=\"tabelle_statistics_navigation\" style=\"width:20px;\">";
 		$msg .= $STAT_BAR_FONTBEG2;
 		
 		$t0 = 0;
@@ -263,7 +256,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			if ($v > 0) {
 				$s = intval($v * $h);
 				
-				$msg .= "<td style=\"vertical-align:bottom; text-align:center;\">";
+				$msg .= "<td class=\"tabelle_statistics_content\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= "<br>";
@@ -282,7 +275,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 				$msg .= $STAT_BAR_FONTEND0;
 				$msg .= "</td>\n";
 			} else {
-				$msg .= "<td style=\"vertical-align:bottom; text-align:center;\">";
+				$msg .= "<td class=\"tabelle_statistics_content\">";
 				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= $STAT_BAR_FONTEND0;
@@ -290,24 +283,24 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			}
 		}
 		
-		$msg .= "<td>&nbsp;</td>\n";
+		$msg .= "<td class=\"tabelle_statistics_navigation\">&nbsp;</td>\n";
 		$msg .= "</tr>\n";
-		$msg .= "<TR" . coreMakeBackground($STAT_BAR_BACK1) . ">\n";
-		$msg .= "<td>&nbsp;</td>\n";
+		$msg .= "<tr>\n";
+		$msg .= "<td class=\"tabelle_statistics_navigation\">&nbsp;</td>\n";
 		
 		/* Unter Leiste mit den Beschriftungen der einzelnen Balken ausgeben. */
 		
 		reset($grapharray);
 		
 		while (list($i, $v) = each($grapharray)) {
-			$msg .= "<td>";
+			$msg .= "<td class=\"tabelle_statistics_navigation\">";
 			$msg .= $STAT_BAR_FONTBEG1;
 			$msg .= $i;
 			$msg .= $STAT_BAR_FONREND1;
 			$msg .= "</td>\n";
 		}
 		
-		$msg .= "<td>";
+		$msg .= "<td class=\"tabelle_statistics_navigation\">";
 		$msg .= $STAT_BAR_FONTBEG2;
 		$msg .= $text_b;
 		$msg .= $STAT_BAR_FONREND2;

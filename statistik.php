@@ -23,13 +23,7 @@ include("conf/" . $sprachconfig . "-statistik.php");
 
 // config-bereich
 
-$STAT_TITLE_BACK1 = $farbe_tabelle_koerper; // des Menü verwendet werden sollen. 
 $STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel. 
-
-// Hintergründe die für die Statistiktabelle verwendet werden  
-$STAT_BAR_BACK0 = "#E5E5E5";
-$STAT_BAR_BACK1 = "#BDC6D5";
-$STAT_BAR_BACK2 = "#007ABE";
 
 // Images aus denen ein Balken für die Statistik zusammengesetzt werden soll
 $STAT_BAR_IMAGE_T = "14,2,pics/bar-t.gif";
@@ -41,11 +35,11 @@ $STAT_BAR_FONTBEG1 = "<span style=\"font-size: smaller;\">";
 $STAT_BAR_FONTEND1 = "</span>";
 
 // Fontstart und Fontende die zum Anzeigen der seitlichen Beschriftung wendet werden sollen.
-$STAT_BAR_FONTBEG2 = "<span style=\"font-size: smaller; font-weight:bold;\"><b>";
+$STAT_BAR_FONTBEG2 = "<span style=\"font-size: smaller; font-weight:bold;\">";
 $STAT_BAR_FONTEND2 = "</span>";
 
 // Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.
-$STAT_BAR_FONTBEG3 = "<span style=\"color:#FFFFFF; font-weight:bold;\">";
+$STAT_BAR_FONTBEG3 = "<span style=\"font-weight:bold;\">";
 $STAT_BAR_FONTEND3 = "</span>";
 
 // Bitte ab hier nichts ändern!
@@ -117,26 +111,27 @@ switch ($type) {
 		
 		$msg = "";
 		$msg .= "<center>\n";
-		$msg .= "<table>\n";
 		$msg .= "<form name=\"form\" action=\"$PHP_SELF\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"type\" value=\"$type\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
 		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
+		$msg .= "<table>\n";
 		$msg .= "<tr>\n";
-		$msg .= "<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+		$msg .= "<td class=\"tabelle_koerper\">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
 		$msg .= $STAT_TXT["0061"];
 		$msg .= $STAT_TITLE_FONTEND0 . "</td>\n";
-		$msg .= "<td" . coreMakeBackground($STAT_TITLE_BACK1) . ">"
+		$msg .= "<td class=\"tabelle_koerper\">"
 			. $STAT_TITLE_FONTBEG0 . "\n";
 		$msg .= "<select name=\"m\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($STAT_MONTH_TXT)) {
-			if ($i == $m)
+			if ($i == $m) {
 				$msg .= "<option value=\"$i\" SELECTED>$n\n";
-			else $msg .= "<option value=\"$i\">$n\n";
-			
+			} else {
+				$msg .= "<option value=\"$i\">$n\n";
+			}
 		}
 		
 		$msg .= "</select>\n";
@@ -160,8 +155,8 @@ switch ($type) {
 		$msg .= "<input type=\"submit\" value=\"" . $STAT_TXT["0053"] . "\">\n";
 		$msg .= "</td>\n";
 		$msg .= "</tr>\n";
-		$msg .= "</form>\n";
 		$msg .= "</table>\n";
+		$msg .= "</form>\n";
 		$msg .= "</center>\n";
 		
 		// Statistiken einzeln nach Monaten
