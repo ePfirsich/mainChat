@@ -30,10 +30,10 @@ $t['edit16'] = "<b>Hinweis:</b> Ein Admin darf seinen eigenen Level nicht änder
 $t['edit17'] = "<b>Hinweis:</b> Die Benutzerlevel Superuser, Moderator oder ChatAdmin können nur von einem Superuser gesetzt werden.";
 $t['edit18'] = "<b>Fehler:</b> Das Moderationsmodul ist nur in der kommerziellen Version verfügbar.";
 $t['edit19'] = "Kommentar";
-$t['edit20'] = "Benutzername und interne E-Mailadresse ändern";
-$t['edit21'] = "Sie können hier Ihre Interne E-Mailadresse ändern.";
+$t['edit20'] = "Benutzername und interne E-Mail-Adresse ändern";
+$t['edit21'] = "Sie können hier Ihre Interne E-Mail-Adresse ändern.";
 $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neues Passwort an "
-				. "Ihre neue E-Mailadresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
+				. "Ihre neue E-Mail-Adresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
 				. "einloggen und ggf. Ihr Passwort wieder anpassen.";
 $t['edit23'] = "Mit dieser E-Mail ist bereits ein anderer Benutzer registriert.";
 
