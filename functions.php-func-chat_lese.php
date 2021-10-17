@@ -461,7 +461,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								
 								// Start des Avatars
 								include "./conf/config.php";
-								$query3 = "SELECT * FROM user WHERE u_nick LIKE '$u_nick'";
+								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
 								
 								if ($result3 && mysqli_num_rows($result3) == 1) {
@@ -469,7 +469,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									$ui_ava_chat_active2 = $row3->avatar_status;
 								}
 								
-								$query2 = "SELECT * FROM user WHERE u_nick LIKE '$temp_von_user'";
+								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
 								$result2 = mysqli_query($mysqli_link, $query2);
 								
 								if ($result2 && mysqli_num_rows($result2) == 1) {
@@ -480,41 +480,29 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									
 								}
 								
-								$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$uu_id'";
+								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
 								$result1 = mysqli_query($mysqli_link, $query1);
 								
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
-									
 									$ui_gen = $row1->ui_geschlecht;
+								} else {
+									$ui_gen[0] = '';
 								}
 								
+								echo ' test3: ' . $ui_gen[0];
+								
 								if($result3 && mysqli_num_rows($result3) == 1) {
-									
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($ui_ava_chat_active2 == 1) {
-										if($ui_gen[0] == "m") {
-											//männliche avatar prüfung
-											if(!$ui_avatar) {
-												$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt=""> ';
-											} else {
-												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
-											}
-										} else if($ui_gen[0] == "w") {
-											//weibliche avatar prüfung
-											if(!$ui_avatar) {
-												$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt=""> ';
-											} else
-											{
-												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
-											}
-										} else {
-											//es avatar prüfung
-											if(!$ui_avatar) {
-												$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
-											} else {
-												$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'"> ';
-											}
+										if($ui_avatar) { // Benutzerdefinierter Avatar
+											$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'" />';
+										} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" />';
+										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" />';
+										} else { // Neutraler Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" />';
 										}
 									} else {
 										$ava = "";

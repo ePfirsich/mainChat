@@ -1242,7 +1242,7 @@ function zeige_beitraege($thread) {
 		// Start des Avatars
 		include "./conf/config.php";
 		
-		$query2 = "SELECT * FROM user WHERE u_nick LIKE '$userdata[u_nick]'";
+		$query2 = "SELECT * FROM user WHERE u_nick = '$userdata[u_nick]'";
 		$result2 = mysqli_query($mysqli_link, $query2);
 		
 		if ($result2 && mysqli_num_rows($result2) == 1) {
@@ -1253,38 +1253,26 @@ function zeige_beitraege($thread) {
 			
 		}
 		
-		$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$uu_id'";
+		$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
 		$result1 = mysqli_query($mysqli_link, $query1);
 		
 		if ($result1 && mysqli_num_rows($result1) == 1) {
 			$row1 = mysqli_fetch_object($result1);
 			
 			$ui_gen = $row1->ui_geschlecht;
+		} else {
+			$ui_gen[0] = '';
 		}
 		
 		if($result2 && mysqli_num_rows($result2) == 1) {
-			if($ui_gen[0] == "m") {
-				//männliche avatar prüfung
-				if(!$ui_avatar) {
-					$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
-				} else {
-					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
-				}
-			} else if($ui_gen[0] == "w") {
-				//weibliche avatar prüfung
-				if(!$ui_avatar) {
-					$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
-				} else
-				{
-					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
-				}
-			} else {
-				//es avatar prüfung
-				if(!$ui_avatar) {
-					$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
-				} else {
-					$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
-				}
+			if($ui_avatar) { // Benutzerdefinierter Avatar
+				$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
+			} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+				$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
+			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+				$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
+			} else { // Neutraler Standard-Avatar
+				$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
 			}
 		} else {
 			$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
