@@ -33,13 +33,15 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	
 	$text .= "<table style=\"width:100%;\">";
 	
+	// Für alle außer Gäste
+	if ($u_level != "G") {
+		
+		//Avatar upload drag&drop
+		include "./conf/config.php";
+		
+		$_SESSION['u_id'] = $u_id;
 	
-	//Avatar upload drag&drop
-	include "./conf/config.php";
-	
-	$_SESSION['u_id'] = $u_id;
-
-	$text .= "<tr><td colspan=\"2\">
+		$text .= "<tr><td colspan=\"2\">
 <style>
 	#holder { border: 10px dashed #ccc; width: 200px; min-height: 200px; margin: 20px auto;}
 	#holder.hover { border: 10px dashed #0c0; }
@@ -152,6 +154,7 @@ if (tests.dnd) {
 }
 </script></td></tr>";
 	
+	}
 	
 	if (!$einstellungen_aendern) {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
