@@ -348,7 +348,6 @@ if ($aktion == "logoff") {
 		zeige_kopf();
 		$chat_login_url = "<a href=\"$chat_logout_url\">$chat_logout_url</a>";
 		echo ("Sie werden nun auf $chat_logout_url weitergeleitet.");
-		// echo "chat_refer = $chat_referer<br>HTTP_REFERER=$HTTP_SERVER_VARS[HTTP_REFERER] <br>";
 		zeige_fuss();
 		exit();
 	}
@@ -461,8 +460,7 @@ switch ($aktion) {
 		if (isset($email) && isset($nickname) && isset($hash)) {
 			$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 			$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user "
-				. "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 1";
+			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 1";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$a = mysqli_fetch_array($result);
@@ -480,17 +478,35 @@ switch ($aktion) {
 				$fehlermeldung .= $t['pwneu11'];
 			}
 			mysqli_free_result($result);
-		} else if (isset($email) && isset($nickname)) {
-			$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
-			$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-			if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})",
-				mysqli_real_escape_string($mysqli_link, $email))) {
-				$fehlermeldung .= $t['pwneu5'] . '<br>';
+		} else if (isset($email) || isset($nickname)) {
+			
+			if( isset($nickname) && $nickname != "" ) {
+				$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
+			} else {
+				$nickname = "";
 			}
 			
+			if( isset($email) && $email != "" ) {
+				$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
+				if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email))) {
+					$fehlermeldung .= $t['pwneu5'] . '<br>';
+				}
+			} else {
+				$email = "";
+			}
+			
+			if( $email == "" && $nickname == "" ) {
+				$fehlermeldung .= $t['pwneu17'] . '<br>';
+			}
+			
+			
 			if ($fehlermeldung == "") {
-				$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user "
-					. "WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 2";
+				if($nickname != "") {
+					$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_nick = '$nickname' LIMIT 2";
+				} else {
+					$query1 = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_adminemail = '$email' LIMIT 2";
+				}
+				//$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_nick = '$nickname' OR u_adminemail = '$email' LIMIT 2";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
 					$a = mysqli_fetch_array($result);
@@ -523,7 +539,11 @@ switch ($aktion) {
 					echo $t['pwneu7'];
 					unset($hash);
 				} else {
-					$fehlermeldung .= $t['pwneu6'] . '<br>';
+					if($nickname != "") {
+						$fehlermeldung .= $t['pwneu6'] . '<br>';
+					} else {
+						$fehlermeldung .= $t['pwneu18'] . '<br>';
+					}
 					unset($hash);
 				}
 				mysqli_free_result($result);
@@ -543,9 +563,9 @@ switch ($aktion) {
 			}
 			$box = $t['pwneu16'];
 			$text = '';
-			$text .= "<form action=\"index.php\">\n"
-				. "<table>\n";
-			if (isset($email) && isset($nickname) && $email <> "" && $nickname <> "" && (isset($hash) || $fehlermeldung == "")) {
+			$text .= "<form action=\"index.php\">\n";
+			$text .= "<table>\n";
+			if ( (isset($email) || isset($nickname)) && $email <> "" && $nickname <> "" && (isset($hash) || $fehlermeldung == "") ) {
 				if (!isset($hash)) {
 					$hash = "";
 				}
@@ -577,13 +597,11 @@ switch ($aktion) {
 				$text .="<td style=\"font-weight:bold;\"><input name=\"email\" width=\"50\" value=\"$email\"></td>";
 				$text .="</tr>";
 			}
-			$text .="<input type=\"hidden\" name=\"http_host\" value=\"$http_host\">";
-			$text .="<input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\">";
 			$text .="<tr>";
-			$text .="<td colspan=\"2\"style=\"font-weight:bold;\"><input type=\"submit\" value=\"Absenden\"></td>";
+			$text .="<td colspan=\"2\" style=\"font-weight:bold;\"><input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\"><input type=\"submit\" value=\"Absenden\"></td>";
 			$text .="</tr>";
-			$text .= "</form>";
 			$text .= "</table>";
+			$text .= "</form>";
 			
 			show_box($box,$text);
 			
