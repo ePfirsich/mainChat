@@ -174,7 +174,7 @@ $t['chat_msg107'] = "<b>$chat:</b> Fehler! Sie dürfen Ihren Benutzernamen nur a
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
 $t['chat_msg110'] = "Passwort neu + Email";
-$t['chat_msg111'] = "Passwort wurde neu gesetzt und an den Benutzer gemailt!";
+$t['chat_msg111'] = "Passwort wurde neu gesetzt und an den Benutzer per E-Mail gesendet!";
 $t['chat_msg112'] = "Ihr neues Passwort für den $chat";
 $t['chat_msg113'] = "Hallo!\nIhr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%\nViel Spass noch im $chat\n";
 $t['chat_msg114'] = "Heute ist der %datum% um %uhrzeit% Uhr Chat-Zeit.";
@@ -187,6 +187,8 @@ $t['chat_msg120'] = "Benutzer %u_nick% ist nicht online!";
 $t['chat_msg121'] = "Keinen Benutzer mit passender IP gefunden!";
 $t['chat_msg122'] = "Benutzer online mit der IP %ip% (%datum%, %uhrzeit%) ";
 $t['chat_msg123'] = "Benutzer war mit IP %ip% da %datum% ";
+$t['chat_msg124'] = "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mail-Adresse gesendet.";
+$t['chat_msg125'] = "<b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b>";
 
 $t['chat_spruch1'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt "
 	. "es nicht als Typ 2 mit '%spruchname% USERNAME ZUSATZTEXT'. "

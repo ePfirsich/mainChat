@@ -194,11 +194,10 @@ if (strlen($u_id) != 0) {
 						str_replace("%passwort%", $p['u_passwort'],
 							$t['chat_msg113']), "From: $webmaster ($chat)");
 					if ($ok) {
-						echo "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mail-Adresse gesendet.";
-						echo $f1 . $t['chat_msg111'] . $f2;
+						echo $f1 . $t['chat_msg124'] . $f2;
 						schreibe_db("user", $p, $p['u_id'], "u_id");
 					} else {
-						echo $f1 . "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Es wurden keine Einstellungen geändert!</b></p>" . $f2;
+						echo $f1 . $t['chat_msg125'] . $f2;
 					}
 					
 					$user = $row->u_nick;
