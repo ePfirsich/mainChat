@@ -55,13 +55,13 @@ function resetinput() {
 	document.forms['form'].elements['text2'].focus();
 	document.forms['form'].elements['text2'].select();
 }
-function neuesFenster(url) { 
+function neuesFenster(url) {
 	hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=320,height=580"); 
 }
-function neuesFenster2(url) { 
+function neuesFenster2(url) {
 	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
 }
-function neuesFenster3(url) { 
+function neuesFenster3(url) {
 	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,menu=yes,width=780,height=580"); 
 }
 function window_reload(file,win_name) {
@@ -100,17 +100,31 @@ zeige_header_ende();
 	if ($chat_eingabe_breite < $mindestbreite) {
 		$chat_eingabe_breite = $mindestbreite;
 	}
-	echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
-		. "<select name=\"user_chat_back\">\n";
-	for ($i = 5; $i < 40; $i++) {
-		echo "<option " . ($chat_back == $i ? "selected" : "")
-			. " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
+	
+	// Unterscheidung Normal oder sicherer Modus
+	if ($sicherer_modus == 1) {
+		
+		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
+			. "<select name=\"user_chat_back\">\n";
+		for ($i = 5; $i < 40; $i++) {
+			echo "<option " . ($chat_back == $i ? "selected" : "") . " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
+		}
+		echo "</select>"
+			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
+			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+	} else {
+		
+		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
+			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
+			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 	}
-	echo "</select>"
-		. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-		. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
-		. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
-	echo "</td></tr>\n";
+	
+echo "</td></tr>\n";
+	
 	
 	$mlnk[4] = "hilfe.php?id=$id";
 	$mlnk[1] = "raum.php?id=$id";
