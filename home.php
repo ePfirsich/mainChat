@@ -71,10 +71,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
-	$eingabe_breite = 55;
-	$eingabe_breite1 = 87;
-	$eingabe_breite2 = 50;
-	
 	// Voreinstellungen
 	$max_groesse = 30; // Maximale Bild- und Text größe in KB
 	$vor_einstellungen = ARRAY("Straße" => TRUE, "Tel" => TRUE, "Fax" => TRUE,

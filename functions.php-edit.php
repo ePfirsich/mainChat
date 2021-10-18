@@ -9,7 +9,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
 	global $farbe_chat_user, $farbe_chat_user_groesse, $user_farbe;
-	global $t, $backup_chat, $smilies_pfad, $erweitertefeatures;
+	global $t, $smilies_pfad, $erweitertefeatures;
 	global $frame_size, $u_id, $communityfeatures, $punktefeatures;
 	global $einstellungen_aendern, $eintritt_individuell;
 	global $mysqli_link;

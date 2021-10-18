@@ -8,7 +8,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	// $nur_chat=TRUE -> Nur Räume zeigen
 	// $nur_chat=FALSE -> Räume + Community-Bereiche (whotext) zeigen
 	
-	global $dbase, $u_id, $mysqli_link, $o_raum, $timeout, $whotext, $forumfeatures, $communityfeatures;
+	global $u_id, $mysqli_link, $o_raum, $timeout, $whotext, $forumfeatures, $communityfeatures;
 	
 	$text = '';
 	

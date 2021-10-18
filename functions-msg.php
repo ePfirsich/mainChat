@@ -20,8 +20,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	//				H: Versteckte Nachricht
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
-	global $mysqli_link, $dbase, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
-	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $f1, $f2, $raumstatus1;
+	global $mysqli_link, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
+	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $raumstatus1;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $communityfeatures, $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
@@ -3037,7 +3037,6 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 	// Wirft Benutzer ggf aus dem Raum r_id
 	
 	global $lobby;
-	global $dbase;
 	global $timeout;
 	global $t;
 	global $u_level;
@@ -3147,7 +3146,7 @@ function ignore(
 	// Unterdrückt Mitteilungen von i_user_passiv an i_user_aktiv
 	// Schaltet bei neuem Aufruf wieder zurück
 	
-	global $dbase, $chat, $mysqli_link, $t;
+	global $chat, $mysqli_link, $t;
 	
 	$i_user_aktiv = intval($i_user_aktiv);
 	$i_user_passiv = intval($i_user_passiv);
@@ -3243,7 +3242,6 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0)
 	global $u_farbe;
 	global $system_farbe;
 	global $t;
-	global $dbase;
 	global $mysqli_link;
 	
 	// initialisieren:
@@ -3362,7 +3360,6 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0)
 
 function auto_knebel($text) {
 	global $admin;
-	global $dbase;
 	global $u_id;
 	global $u_nick;
 	global $o_raum;

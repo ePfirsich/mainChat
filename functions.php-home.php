@@ -14,7 +14,7 @@ function edit_home(
 	// einstellungen = Array der Einstellungen
 	// farben = Array mit Benutzerfarben
 	// bilder = Array mit Bildinfos
-	global $f1, $f2, $t;
+	global $t;
 	
 	// HP-Tabelle ausgeben
 	$box = $t['home1'];
@@ -66,7 +66,7 @@ function edit_home(
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	// Zeigt die Benutzerinfos im Profil an
 	
-	global $dbase, $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
+	global $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
 	
 	$url = "profil.php?id=$id&aktion=aendern";
 	$link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</a>]</b>" . $f4;
@@ -209,7 +209,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 
 function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $dbase, $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
+	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -344,7 +344,9 @@ function unhtmlentities($string) {
 function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 	// Gibt TEXT-AREA Feld für $feld aus
 	
-	global $eingabe_breite2, $f1, $f2;
+	global $f1, $f2;
+	
+	$eingabe_breite2 = 50;
 	
 	$text = $home[$feld];
 	
@@ -375,9 +377,9 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 	$text = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text);
 	
 	if ($aktion == "aendern") {
-		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><TEXTAREA COLS="
-			. ($eingabe_breite2) . " ROWS=20 name=\"home[$feld]\">"
-			. $home[$feld] . "</TEXTAREA></td></tr>"
+		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><textarea cols="
+			. ($eingabe_breite2) . " rows=20 name=\"home[$feld]\">"
+			. $home[$feld] . "</textarea></td></tr>"
 			. "<tr><td style=\"vertical-align:top; text-align:right;\">"
 			. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
 			. "</td></tr>";
@@ -405,9 +407,11 @@ function home_bild(
 	$farben,
 	$aktion,
 	$bilder,
-	$beschreibung = "")
-{
-	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $eingabe_breite, $http_host;
+	$beschreibung = "") {
+	
+	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $http_host;
+	
+	$eingabe_breite = 55;
 	
 	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
 		
@@ -477,7 +481,7 @@ function home_bild(
 function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 {
 	// userdata wurde in home_info gesetzt
-	global $chat, $id, $chat_grafik, $f1, $f2, $userdata, $id, $PHP_SELF;
+	global $chat, $id, $chat_grafik, $f1, $f2, $userdata, $id;
 	
 	$fenster = str_replace("+", "", $u_nick);
 	$fenster = str_replace("-", "", $fenster);
@@ -530,7 +534,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 
 function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	// Einstellungen für den Hintergrund
-	global $f1, $f2, $f3, $f4;
+	global $f1, $f2;
 	
 	$aktion = "aendern_ohne_farbe";
 	
@@ -631,8 +635,7 @@ function home_farbe(
 	return ($link);
 }
 
-function bild_holen($u_id, $name, $ui_bild, $groesse)
-{
+function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	// Prüft hochgeladenes Bild und speichert es in die Datenbank
 	// u_id = ID des Benutzers, dem das Bild gehört
 	// 
@@ -641,7 +644,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse)
 	// HEIGHT				 -> home[ui_bild_height]
 	// MIME-TYPE			  -> home[ui_bild_mime]
 	
-	global $max_groesse, $dbase, $mysqli_link;
+	global $max_groesse, $mysqli_link;
 	
 	if ($ui_bild && $groesse > 0 && $groesse < ($max_groesse * 1024)) {
 		
@@ -719,7 +722,7 @@ function home_url_parse($tag, $url)
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Benutzers u_id an
-	global $dbase, $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
+	global $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
 		

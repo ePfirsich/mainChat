@@ -3,12 +3,7 @@
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
-	global $PHP_SELF;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
@@ -48,14 +43,20 @@ function formular_neue_email($neue_email, $m_id = "") {
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
-	global $id, $eingabe_breite1, $eingabe_breite2, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $u_id;
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link, $u_id;
 	global $PHP_SELF;
 	global $u_punkte_gesamt;
 	
-	if (!$eingabe_breite1)
+	$eingabe_breite1 = 87;
+	$eingabe_breite2 = 75;
+	
+	if (!$eingabe_breite1) {
 		$eingabe_breite1 = 30;
-	if (!$eingabe_breite2)
+	}
+	if (!$eingabe_breite2) {
 		$eingabe_breite2 = 40;
+	}
+	
 	echo '<script language="JavaScript">
 	function zaehle()
 	{
@@ -150,20 +151,20 @@ function formular_neue_email2($neue_email, $m_id = "") {
 				}
 			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>Betreff:</b></td><td colspan=2 class =\"tabelle_zeile2\">"
 				. $f1
-				. "<input type=\"TEXT\" name=\"neue_email[m_betreff]\" value=\""
+				. "<input type=\"text\" name=\"neue_email[m_betreff]\" value=\""
 				. $neue_email['m_betreff'] . "\" SIZE="
 				. ($eingabe_breite1)
 				. "
 				 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 				. $f2 . "<input name=\"counter\" size=3></td></tr>"
 				. "<tr><td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
-				. $f1 . "<TEXTAREA COLS=" . ($eingabe_breite2)
+				. $f1 . "<textarea cols=" . ($eingabe_breite2)
 				. " ROWS=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 				. $neue_email['m_text'] . "</TEXTAREA>\n" . $f2
 				. "</td></tr>"
 				. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
 				. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">" . $f1
-				. "<input type=\"SUBMIT\" name=\"los\" value=\"VERSENDEN\">"
+				. "<input type=\"submit\" name=\"los\" value=\"VERSENDEN\">"
 				. $f2 . "</td></tr>\n" . "</table></form>\n";
 			
 			// Box anzeigen
@@ -178,8 +179,9 @@ function formular_neue_email2($neue_email, $m_id = "") {
 function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Mails in der Übersicht an
 	
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $PHP_SELF, $chat;
+	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat;
+	
+	$eingabe_breite = 55;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -292,12 +294,7 @@ function zeige_mailbox($aktion, $zeilen) {
 function zeige_email($m_id) {
 	// Zeigt die Mail im Detail an
 	
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $PHP_SELF, $chat, $t;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
+	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
 	$query = "select mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
@@ -376,7 +373,7 @@ function loesche_mail($m_id, $u_id) {
 	
 	// Löscht eine Mail der ID m_id
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
+	global $id, $PHP_SELF, $mysqli_link, $u_nick, $u_id;
 	
 	$query = "select m_zeit,m_id,m_status FROM mail "
 		. "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";

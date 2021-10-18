@@ -5,7 +5,9 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=Benutzer-ID
 	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
-	global $dbase, $mysqli_link, $communityfeatures, $t, $id, $eingabe_breite, $f1, $f2;
+	global $mysqli_link, $communityfeatures, $t, $id, $f1, $f2;
+	
+	$eingabe_breite = 45;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);

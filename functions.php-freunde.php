@@ -2,7 +2,7 @@
 
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id;
 	
 	$text = '';
 	
@@ -162,7 +162,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
 	
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id;
 	
 	if (!$f_userid || !$f_freundid) {
 		echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
@@ -189,7 +189,9 @@ function loesche_freund($f_freundid, $f_userid) {
 function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	
+	$eingabe_breite = 45;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -219,9 +221,11 @@ function formular_neuer_freund($neuer_freund) {
 
 function formular_editieren($f_id, $f_text) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
 	
 	$text = '';
+	
+	$eingabe_breite = 45;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -242,7 +246,7 @@ function formular_editieren($f_id, $f_text) {
 function neuer_freund($f_userid, $freund) {
 	// Trägt neuen Freund in der Datenbank ein
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase, $chat, $system_farbe;
+	global $id, $mysqli_link, $chat, $system_farbe;
 	
 	if (!$freund['u_id'] || !$f_userid) {
 		echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<br>";
@@ -324,7 +328,8 @@ function edit_freund($f_id, $f_text)
 }
 
 function bestaetige_freund($f_userid, $freund) {
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
+	
 	$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
 	$freund = mysqli_real_escape_string($mysqli_link, $freund);
 	$query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";

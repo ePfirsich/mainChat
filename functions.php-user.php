@@ -7,7 +7,7 @@ require_once("functions.php-func-raeume_auswahl.php");
 
 function user_liste($larr, $anzahl) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $dbase, $mysqli_link;
+	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
@@ -147,7 +147,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $dbase, $level, $id, $f1, $f2, $f3, $f4;
+	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
 	
@@ -265,9 +265,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
 			}
 			
-			$text .= "<input name=\"text2\" SIZE=\"" . $eingabe_breite
+			$text .= "<input name=\"text2\" size=\"" . $eingabe_breite
 				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
-				. "\" value=\"\" TYPE=\"TEXT\">"
+				. "\" value=\"\" TYPE=\"text\">"
 				. "<input name=\"text\" value=\"\" TYPE=\"hidden\">"
 				. "<input name=\"id\" value=\"$id\" TYPE=\"hidden\">"
 				. "<input name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"

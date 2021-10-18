@@ -3,7 +3,7 @@
 function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id, $t;
+	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
 	$blurl = $PHP_SELF . "?id=$id&aktion=&sort=";
@@ -175,7 +175,7 @@ function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $f_blacklistid Benutzer-ID des Blacklist-Eintrags
 	
-	global $id, $mysqli_link, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link;
 	global $u_id, $u_nick, $admin;
 	
 	if (!$admin || !$f_blacklistid) {
@@ -200,7 +200,9 @@ function loesche_blacklist($f_blacklistid) {
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	
+	$eingabe_breite = 45;
 	
 	if (!$eingabe_breite) {
 		$eingabe_breite = 30;
@@ -236,7 +238,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 function neuer_blacklist($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $dbase;
+	global $id, $mysqli_link;
 	
 	if (!$blacklist['u_id'] || !$f_userid) {
 		echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<br>";

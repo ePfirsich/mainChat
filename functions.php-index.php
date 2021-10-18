@@ -8,7 +8,7 @@ require_once("functions.php-func-nachricht.php");
 function erzeuge_sequence($db, $id) {
 	//  Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
 	
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	
 	$query = "select se_nextid from sequence where se_name='$db'";
 	$result = mysqli_query($mysqli_link, $query);
@@ -109,7 +109,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
 	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
-	global $dbase, $mysqli_link, $HTTP_SERVER_VARS, $punkte_gruppe, $communityfeatures, $http_host;
+	global $mysqli_link, $punkte_gruppe, $communityfeatures, $http_host;
 	
 	// IP/Browser Adresse des Benutzer setzen
 	$ip = $_SERVER["REMOTE_ADDR"];
@@ -369,8 +369,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
-	global $dbase, $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe, $u_punkte_gesamt;
-	global $HTTP_SERVER_VARS;
+	global $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe, $u_punkte_gesamt;
 	global $raum_eintrittsnachricht_kurzform, $raum_eintrittsnachricht_anzeige_deaktivieren;
 	
 	// Falls eintrittsraum nicht definiert, lobby voreinstellen
@@ -550,11 +549,6 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 		profil_neu($u_id, $u_nick, $hash_id);
 	}
 	
-	$http_te = "";
-	if (isset($_SERVER['HTTP_TE'])) {
-		$http_te = $_SERVER['HTTP_TE'];
-	}
-	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	
 	if ($communityfeatures && $u_level != "G") {
@@ -613,7 +607,7 @@ function id_erzeuge($u_id)
 function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
 	
-	global $dbase, $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe;
+	global $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;
@@ -727,7 +721,7 @@ function RaumNameToRaumID($eintrittsraum) {
 function getsalt($feldname, $login) {
 	// Versucht den Salt und die Verschlüsselung des Benutzers zu erkennen
 	// $login muss "sicher" kommen
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	global $upgrade_password;
 	
 	$salt = "-9";
@@ -840,7 +834,7 @@ function auth_user($login, $passwort) {
 	// $login muss "sicher" kommen
 	// passwort = Passwort
 	
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	global $crypted_password_extern, $upgrade_password;
 	
 	$feldname = "u_nick";

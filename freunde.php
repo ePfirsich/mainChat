@@ -48,8 +48,6 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-$eingabe_breite = 45;
-
 if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = "Menü Freunde";

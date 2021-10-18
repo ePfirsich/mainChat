@@ -5,7 +5,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Liefert ID des geschriebenen Datensatzes zurück
 	
-	global $dbase, $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
+	global $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
 	global $eintritt_individuell, $eintritt_useranzeige;
 	$back = 0;
 	

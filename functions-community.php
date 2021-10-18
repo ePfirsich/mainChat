@@ -22,7 +22,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t, $chat;
+	global $system_farbe, $mysqli_link, $communityfeatures, $t, $chat;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -92,7 +92,7 @@ function profil_neu($u_id, $u_nick, $id) {
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Benutzers
 	
-	global $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t;
+	global $system_farbe, $mysqli_link, $communityfeatures, $t;
 	
 	$fenster = str_replace("+", "", $u_nick);
 	$fenster = str_replace("-", "", $fenster);
@@ -122,7 +122,7 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	// $tabelle=Name der Tabelle in der Datenbank
 	// $feld=Name des Felds
 	
-	global $system_farbe, $mysqli_link, $dbase, $communityfeatures, $t;
+	global $system_farbe, $mysqli_link, $communityfeatures, $t;
 	
 	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
 	$result = mysqli_query($mysqli_link, $query);
@@ -148,7 +148,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
-	global $t, $o_punkte, $dbase, $communityfeatures, $mysqli_link, $punkte_gruppe;
+	global $t, $o_punkte, $communityfeatures, $mysqli_link, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
@@ -245,7 +245,7 @@ function punkte_offline($anzahl, $u_id)
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
-	global $t, $dbase, $communityfeatures, $mysqli_link, $punkte_gruppe;
+	global $t, $communityfeatures, $mysqli_link, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
@@ -334,7 +334,7 @@ function aktion(
 	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
-	global $u_id, $t, $dbase, $communityfeatures, $mysqli_link;
+	global $u_id, $t, $communityfeatures, $mysqli_link;
 	
 	if ($communityfeatures) {
 		
@@ -442,7 +442,7 @@ function aktion_sende(
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	
-	global $system_farbe, $dbase, $communityfeatures, $t;
+	global $system_farbe, $communityfeatures, $t;
 	
 	$userlink = user($von_u_id, 0, True, False, "&nbsp;", "", "", False, False,
 		31);
@@ -698,7 +698,7 @@ function email_versende(
 	// Falls an_u_email=TRUE wird Mail an u_email Adressen verschickt,
 	// sonst an u_adminemail (interne Adresse)
 	
-	global $chat, $dbase, $mysqli_link, $t;
+	global $chat, $mysqli_link, $t;
 	
 	// Umwandlung der Entities rückgängig machen, Slashes und Tags entfernen
 	$trans = get_html_translation_table(HTML_ENTITIES);
@@ -750,7 +750,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $mysqli_link, $system_farbe, $dbase, $communityfeatures, $t, $o_js, $whotext;
+	global $mysqli_link, $system_farbe, $communityfeatures, $t, $o_js, $whotext;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "

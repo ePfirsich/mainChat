@@ -7,8 +7,9 @@ require_once("functions.php-func-nachricht.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
-if (!isset($suchtext))
+if (!isset($suchtext)) {
 	$suchtext = "";
+}
 $uu_suchtext = URLENCODE($suchtext);
 
 // welcher raum soll abgefragt werden? ggf voreinstellen
@@ -396,7 +397,7 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "</td></tr>" . "<tr><td colspan=2>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
@@ -641,7 +642,7 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><TD colspan=2>" . $f1
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-					. "&nbsp;<input type=\"TEXT\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
+					. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {

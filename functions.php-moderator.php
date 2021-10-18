@@ -3,7 +3,7 @@
 function zeige_moderations_antworten($o_raum, $answer = "") {
 	global $t;
 	global $id;
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	global $u_id;
 	
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
@@ -59,7 +59,7 @@ function bearbeite_moderationstexte($o_raum)
 {
 	global $t;
 	global $id;
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	global $action;
 	global $u_id;
 	global $system_farbe;
@@ -162,7 +162,7 @@ function bearbeite_moderationstexte($o_raum)
 function zeige_moderationstexte($o_raum, $limit = 20) {
 	global $t;
 	global $id;
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	global $action;
 	global $moderation_rueckwaerts;
 	global $moderationsexpire;
@@ -279,7 +279,7 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 function anzahl_moderationstexte($o_raum)
 {
 	global $id;
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	
 	$query = "SELECT c_id FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id";
 	$result = mysqli_query($mysqli_link, $query);

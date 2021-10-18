@@ -5,8 +5,7 @@ function zeige_aktionen($aktion) {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $eingabe_breite, $PHP_SELF, $f1, $f2, $f3, $f4, $dbase, $mysqli_link, $u_nick, $u_id;
-	global $def_was, $eingabe_breite;
+	global $id, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was;
 	global $forumfeatures;
 	
 	$query = "SELECT * from aktion " . "WHERE a_user=$u_id ";
@@ -135,7 +134,7 @@ function eintrag_aktionen($aktion_datensatz) {
 	
 	// Array mit definierten Aktionen in die DB schreiben
 	
-	global $def_was, $dbase, $u_id, $u_nick, $mysqli_link, $t;
+	global $def_was, $u_id, $u_nick, $mysqli_link, $t;
 	
 	// Alle möglichen a_wann in Array lesen
 	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";

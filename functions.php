@@ -97,7 +97,7 @@ function onlinezeit($onlinezeit) {
 function raum_user($r_id, $u_id, $id) {
 	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
 	
-	global $timeout, $dbase, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
+	global $timeout, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
 		$query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
@@ -164,7 +164,7 @@ function ist_online($user) {
 	// Prüft ob Benutzer noch online ist
 	// liefert 1 oder 0 zurück
 	
-	global $dbase, $timeout, $ist_online_raum, $mysqli_link, $whotext;
+	global $timeout, $ist_online_raum, $mysqli_link, $whotext;
 	
 	$ist_online_raum = "";
 	
@@ -191,7 +191,6 @@ function ist_online($user) {
 function schreibe_moderiert($f) {
 	// Schreibt Chattext in DB
 	
-	global $dbase;
 	global $mysqli_link;
 	// Schreiben falls text>0
 	if (strlen($f['c_text']) > 0) {
@@ -204,7 +203,6 @@ function schreibe_moderiert($f) {
 
 function schreibe_moderation() {
 	global $u_id;
-	global $dbase;
 	global $mysqli_link;
 	
 	// alles aus der moderationstabelle schreiben, bei der u_id==c_moderator;
@@ -234,7 +232,7 @@ function schreibe_moderation() {
 
 function schreibe_chat($f) {
 	// Schreibt Chattext in DB
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	
 	// Schreiben falls text > 0
 	if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
@@ -275,7 +273,7 @@ function schreibe_chat($f) {
 function logout($o_id, $u_id, $info = "") {
 	// Logout aus dem Gesamtsystem
 	
-	global $dbase, $u_farbe, $mysqli_link, $communityfeatures;
+	global $u_farbe, $mysqli_link, $communityfeatures;
 	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
@@ -489,13 +487,13 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $backup_chat, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
-	global $admin, $dbase, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
+	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
+	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
-	global $HTTP_SERVER_VARS, $HTTP_COOKIE_VARS, $o_who, $o_timeout_zeit, $o_timeout_warnung;
+	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
-	global $chat, $http_host, $t, $erweitertefeatures;
+	global $chat, $t, $erweitertefeatures;
 	
 	// IP und Browser ermittlen
 	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
@@ -578,28 +576,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		$admin = 0;
 	}
 	
-	$http_te = "";
-	if (isset($_SERVER['HTTP_TE'])) {
-		$http_te = $_SERVER['HTTP_TE'];
-	}
-	
-	// Bei bestimmten Browsern backup_chat setzen
-	// HTTP_TE=chunked bei T-Online-Proxy
-	// Falls Javascript aus ist (o_js), backup_chat setzen
-	// Bei Änderungen auch betrete_chat in functions.php-index.php ändern!
-	if (preg_match("/(.*)mozilla\/[234](.*)mac(.*)/i", $browser)
-		|| preg_match("/(.*)msie(.*)mac(.*)/i", $browser)
-		|| preg_match("/(.*)Opera 3(.*)/i", $browser)
-		|| preg_match("/(.*)Opera\/9(.*)/i", $browser)
-		|| preg_match("/(.*)Konqueror(.*)/i", $browser)
-		|| preg_match("/(.*)mozilla\/5(.*)Netscape6(.*)/i", $browser)
-		|| preg_match("/(.*)mozilla\/[23](.*)/i", $browser)
-		|| $http_te == 'chunked' || !$o_js) {
-		$backup_chat = 1;
-	} else {
-		$backup_chat = 0;
-	}
-	
 	//load user color
 	global $u_farbe, $user_farbe;
 	if (!empty($u_id)) {
@@ -647,7 +623,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	// Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
 	// Sonderbehandlung für Passwörter
 	// Akualiert ggf Kopie des Datensatzes in online-Tabelle
-	global $dbase, $mysqli_link, $u_id, $valid_fields;
+	global $mysqli_link, $u_id, $valid_fields;
 	
 	$neu = array();
 	foreach ($valid_fields[$db] as $field) {
@@ -913,7 +889,7 @@ function raum_ist_moderiert($raum) {
 	// Liefert in ist_moderiert zurück: Moderiert ja/nein
 	
 	// Liefert in ist_eingang zurück: Stiller Eingangsraum ja/nein
-	global $dbase, $mysqli_link, $u_id, $system_farbe, $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
+	global $mysqli_link, $u_id, $system_farbe, $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
 	$moderiert = 0;
 	$raum = intval($raum);
 	
@@ -989,8 +965,8 @@ function user(
 	// 8 = EMail zeigen
 	// 16 = Homepage zeigen
 	
-	global $id, $system_farbe, $dbase, $mysqli_link, $communityfeatures, $t, $show_geschlecht;
-	global $f1, $f2, $f3, $f4, $leveltext, $punkte_grafik, $chat_grafik, $o_js, $homep_ext_link;
+	global $id, $system_farbe, $mysqli_link, $communityfeatures, $t, $show_geschlecht;
+	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik, $o_js, $homep_ext_link;
 	
 	$text = "";
 	if ($mit_id) {
@@ -1400,7 +1376,7 @@ function genpassword($length)
 }
 
 function hole_geschlecht($userid) {
-	global $dbase, $mysqli_link;
+	global $mysqli_link;
 	
 	$query = "SELECT ui_geschlecht FROM userinfo WHERE ui_userid=" . intval($userid);
 	$result = mysqli_query($mysqli_link, $query);

@@ -50,10 +50,6 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-$eingabe_breite = 55;
-$eingabe_breite1 = 87;
-$eingabe_breite2 = 75;
-
 if ($u_id && $communityfeatures && $u_level != "G") {
 	
 	// Löscht alle Mails, die älter als $mailloescheauspapierkorb Tage sind

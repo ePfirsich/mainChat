@@ -375,8 +375,8 @@ if (strlen($u_id) != 0) {
 			$text .= "<table style=\"width:100%;\">\n";
 			
 			$text .= "<tr><td><b>$t[sonst2]</b></td>";
-			$text .= "<td>" . $f1 . "<input type=\"TEXT\" name=\"f[r_name]\" "
-				. "value=\"$r_name\" SIZE=$eingabe_breite>" . $f2
+			$text .= "<td>" . $f1 . "<input type=\"text\" name=\"f[r_name]\" "
+				. "value=\"$r_name\" size=$eingabe_breite>" . $f2
 				. "</td></tr>\n";
 			
 			// Status1 als Auswahl
@@ -474,12 +474,12 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12'] . "</b>" . $f2
 					. "</td>" . "<td>" . $f1
 					. "<input type=\"TEXT\" name=\"f[r_werbung]\" value=\""
-					 . "\" SIZE=$eingabe_breite>"
+					 . "\" size=$eingabe_breite>"
 					. $f2 . "</td></tr>\n";
 			}
 			
 			$text .= "<tr><td colspan=\"2\">" . $f1
-				. "<input type=\"SUBMIT\" name=\"los\" value=\"$t[sonst9]\">"
+				. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"
 				. $f2 . "</td></tr>\n";
 			$text .= "</table>\n";
 			$text .= "<input type=\"hidden\" name=\"neu\" value=\"1\">";
@@ -520,12 +520,12 @@ if (strlen($u_id) != 0) {
 						if ($rows->r_name == $lobby) {
 							$text .= "<td><b>$rows->r_name</b>"
 								. "<input type=\"hidden\" name=\"f[r_name]\" "
-								. "value=\"$rows->r_name\" SIZE=$eingabe_breite>"
+								. "value=\"$rows->r_name\" size=$eingabe_breite>"
 								. $f2 . "</td></tr>\n";
 						} else {
 							$text .= "<td>" . $f1
-								. "<input type=\"TEXT\" name=\"f[r_name]\" "
-								. "value=\"$rows->r_name\" SIZE=$eingabe_breite>"
+								. "<input type=\"text\" name=\"f[r_name]\" "
+								. "value=\"$rows->r_name\" size=$eingabe_breite>"
 								. $f2 . "</td></tr>\n";
 							
 								$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user2']
@@ -623,9 +623,9 @@ if (strlen($u_id) != 0) {
 						if ($admin && $erweitertefeatures) {
 							$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12']
 								. "</b>" . $f2 . "</td>" . "<td>" . $f1
-								. "<input type=\"TEXT\" name=\"f[r_werbung]\" value=\""
+								. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
 								. $rows->r_werbung
-								. "\" SIZE=$eingabe_breite>" . $f2
+								. "\" size=$eingabe_breite>" . $f2
 								. "</td></tr>\n";
 						}
 						

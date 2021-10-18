@@ -6,7 +6,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 	// Nachricht in Raum $r_id wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
 	
-	global $dbase, $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
+	global $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
 	global $id, $erweitertefeatures, $forumfeatures, $communityfeatures;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
