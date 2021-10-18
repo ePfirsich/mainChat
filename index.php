@@ -460,7 +460,7 @@ switch ($aktion) {
 		if (isset($email) && isset($nickname) && isset($hash)) {
 			$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 			$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level = 'U' AND u_adminemail = '$email' LIMIT 1";
+			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_adminemail = '$email' LIMIT 1";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$a = mysqli_fetch_array($result);
