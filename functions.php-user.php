@@ -233,13 +233,13 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		$text .= "<br><center>";
 		if($ui_avatar) { // Benutzerdefinierter Avatar
-			$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:200px; height:200px;" alt="'.$ui_avatar.'" />';
+			$text .= '<img src="./avatars/'.$ui_avatar.'" style="width:200px; height:200px;" alt="'.$ui_avatar.'" />';
 		} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-			$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:200px; height:200px;" alt="" />';
+			$text .= '<img src="./avatars/no_avatar_m.jpg" style="width:200px; height:200px;" alt="" />';
 		} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-			$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
+			$text .= '<img src="./avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
 		} else { // Neutraler Standard-Avatar
-			$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
+			$text .= '<img src="./avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
 		}
 		$text .= "</center><br>";
 		
