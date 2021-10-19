@@ -1,7 +1,7 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['willkommen2'] = "<p><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></p>\n";
+$t['willkommen2'] = "<p><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></p><br>";
 $t['willkommen3'] = "Willkommen im $chat!";
 
 $t['login1'] = "<b>Login mit sicherer HTTPS-Anmeldung</b>";
@@ -10,7 +10,7 @@ $t['login3'] = "Gäste können sich einloggen, in dem "
 	. "sie einfach auf <b>Login</b> klicken " . "ohne einen Namen einzugeben";
 $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
-	. "Sie es später wieder.</b></p><br><br>\n";
+	. "Sie es später wieder.</b></p><br><br>";
 $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
 	. "\">Webmaster</a>.</b></p><br><br>\n";
@@ -91,13 +91,13 @@ $t['neu32'] = "<p><b>Der Name '%gast%....' ist für Gast-Accounts reserviert. Bi
 $t['neu33'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['neu34'] = "Ihre E-Mail Adresse:";
 $t['neu35'] = "Absenden";
-$t['neu36'] = "Willkommen beim $chat!\n\nUm nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
-	. "\n\n%link% \n\nSollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
-	. "Prüfen der E-Mail-Adresse:\n %link2%\n\n"
-	. "Ihre E-Mail-Adresse: %email%\n" . "Freischalt-Code   : %hash%\n\n"
-	. "\nWenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
-	. "Sie den Link dann in den Browser ein\n\n"
-		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
+$t['neu36'] = "Willkommen beim $chat!<br><br>Um nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
+	. "<br><br>%link% <br><br>Sollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
+	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
+	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
+	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
+	. "Sie den Link dann in den Browser ein<br><br>"
+		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
 $t['neu37'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['neu38'] = "Ihre Registrierung im $chat";
 $t['neu39'] = "<p><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</p>";
@@ -109,15 +109,15 @@ $t['neu43'] = "Freischalt-Code:";
 $t['neu44'] = "<p><b>Fehler: </b>Pluszeichen sind im Benutzernamen nicht erlaubt!";
 $t['neu45'] = "<p>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.</p>";
 $t['neu46'] = "Anfrage um Registrierung im $chat";
-$t['neu47'] = "Hallo!\n\nEin Benutzer mit der E-Mail-Adresse %email% möchte sich in Ihrem Chat $chat anmelden."
-	. "\nZum freigeben dieser E-Mail-Adresse verwenden Sie bitte diesen Link:\n\n %link1%\n\n"
-	. "Freizugebende E-Mail-Adresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
-	. "Dieser Benutzer erhält dann automatisch eine Mail mit einem Link mit welchem er/sie sich anmelden kann.\n\n"
+$t['neu47'] = "Hallo!<br><br>Ein Benutzer mit der E-Mail-Adresse %email% möchte sich in Ihrem Chat $chat anmelden."
+	. "<br>Zum freigeben dieser E-Mail-Adresse verwenden Sie bitte diesen Link:<br><br> %link1%<br><br>"
+	. "Freizugebende E-Mail-Adresse: %email%<br>" . "Freischalt-Code: %hash%<br><br>"
+	. "Dieser Benutzer erhält dann automatisch eine Mail mit einem Link mit welchem er/sie sich anmelden kann.<br><br>"
 	. "Möchten Sie dem Benutzer auf andere Weise den Freischalt-Code mitteilen, so sind folgende Angaben "
-	. "an den Benutzer zu übermitteln:\n\n"
-	. "Internetadresse zum Freischalten: %link2%\n"
-	. "E-Mail-Adresse: %email%\n" . "Freischalt-Code: %hash%\n\n"
-		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
+	. "an den Benutzer zu übermitteln:<br><br>"
+	. "Internetadresse zum Freischalten: %link2%<br>"
+	. "E-Mail-Adresse: %email%<br>" . "Freischalt-Code: %hash%<br><br>"
+		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
 $t['neu48'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
 	. "angegebenen Link!</p>";
@@ -127,22 +127,22 @@ $t['neu50'] = "Bitte geben Sie nun die <b>E-Mail-Adresse</b>, die Sie freigeben 
 	. "Sie können hierzu natürlich auch gerne Copy und Paste (Strg+C und Strg+V) verwenden";
 $t['neu51'] = "E-Mail-Adresse falsch!";
 $t['neu52'] = "Freischaltcode falsch!";
-$t['neu53'] = "Willkommen beim $chat!\n\nDer Webmaster hat Ihre E-Mail-Adresse nun freigeschaltet."
-	. "\nZum endgültigen Anmelden verwenden Sie bitte nun den Link: "
-	. "\n %link%\n\nZum anmelden benötigen Sie dann noch:\n"
-	. "Ihre E-Mail-Adresse: %email%\n" . "Ihren Freischalt-Code: %hash%\n\n"
-		. "-- \n   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")\n";
+$t['neu53'] = "Willkommen beim $chat!<br><br>Der Webmaster hat Ihre E-Mail-Adresse nun freigeschaltet."
+	. "<br>Zum endgültigen Anmelden verwenden Sie bitte nun den Link: "
+	. "<br> %link%<br><br>Zum anmelden benötigen Sie dann noch:<br>"
+	. "Ihre E-Mail-Adresse: %email%<br>" . "Ihren Freischalt-Code: %hash%<br><br>"
+		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
 $t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
 $t['neu55'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"javascript:history.back()\">Zurück zur Registrierung!</a>";
 
 $t['default1'] = "Login in den $chat oder";
-$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>,\n";
-$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert.\n";
+$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>,<br>";
+$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert.<br>";
 $t['default4'] = "Benutzer online in %raum%:";
 $t['default5'] = "$chat:";
 $t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 $t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
-$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.\n";
+$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.<br>";
 $t['default9'] = "Raum ";
 $t['default10'] = "Community-Bereich ";
 
