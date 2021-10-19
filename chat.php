@@ -78,7 +78,7 @@ if ($u_id) {
 			. "}\n" 
 			. "</script>\n";
 			
-		zeige_header_ende();
+		zeige_header_ende($meta_refresh);
 		
 		
 		// Voreinstellungen
