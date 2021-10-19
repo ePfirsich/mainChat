@@ -16,7 +16,9 @@ $sysmsg = TRUE;
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatausgabe');
-
+?>
+<body>
+<?php
 // Benutzerdaten gesetzt?
 if ($u_id) {
 	
