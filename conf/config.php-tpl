@@ -57,10 +57,11 @@ $sicherer_modus = "1";				// Sicherer Modus Aktivieren (1 = Aktiviert, 0 = Deakt
 $smtp_on = false;						// Aktivieren oder Deaktivieren der SMTP Funktionen
 $smtp_host = "SMTPServer";				// E-Mail Server
 $smtp_port = 587;						// SMTP Port (587 = STARTTLS, 465 = TLS)
-$smtp_encryption = "tls";				// SMTP Encryption
+$smtp_encryption = "tls";				// SMTP Encryption, bei Port 25 muss hier false eingetragen werden
 $smtp_username = "SMTP_Username";		// SMTP Benutzername
 $smtp_password = "SMTP_Passwort";		// SMTP Passwort
 $smtp_sender = "SMTP_Senderadresse";	// SMTP Sender E-Mail Adresse
+$smtp_auth = true;						// SMTP Autorisierung erforderlich
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)

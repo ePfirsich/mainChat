@@ -535,7 +535,8 @@ switch ($aktion) {
 					
 					// E-Mail versenden
 					if($smtp_on) {
-						mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+						echo "SMTP 1";
+						mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth);
 					} else {
 						mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 					}
@@ -625,7 +626,8 @@ switch ($aktion) {
 				
 				// E-Mail versenden
 				if($smtp_on) {
-					$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					echo "SMTP 2";
+					$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth);
 				} else {
 					$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
 				}
@@ -679,7 +681,8 @@ switch ($aktion) {
 						
 						// E-Mail versenden
 						if($smtp_on) {
-							mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+							echo "SMTP 3";
+							mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth);
 						} else {
 							mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 						}
@@ -899,7 +902,8 @@ switch ($aktion) {
 				
 				// E-Mail versenden
 				if($smtp_on) {
-					mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					echo "SMTP 4";
+					mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth);
 				} else {
 					mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 				}
@@ -1694,7 +1698,8 @@ switch ($aktion) {
 				
 				// E-Mail versenden
 				if($smtp_on) {
-					mailsmtp($webmaster, $betreff, $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					echo "SMTP 5";
+					mailsmtp($webmaster, $betreff, $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth);
 				} else {
 					mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
 				}
