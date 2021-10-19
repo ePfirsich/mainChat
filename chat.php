@@ -16,9 +16,7 @@ $sysmsg = TRUE;
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatausgabe');
-?>
-<body>
-<?php
+
 // Benutzerdaten gesetzt?
 if ($u_id) {
 	
@@ -36,6 +34,9 @@ if ($u_id) {
 			. "}\n</script>";
 		
 		zeige_header_ende($meta_refresh);
+		?>
+		<body>
+		<?php
 		
 		// Chatausgabe, $letzte_id ist global
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
@@ -78,7 +79,7 @@ if ($u_id) {
 			. "</script>\n";
 			
 		zeige_header_ende();
-
+		
 		
 		// Voreinstellungen
 		$j = 0;
