@@ -30,8 +30,6 @@ if (!is_numeric($u_id)) {
 
 require("functions-init.php");
 
-$config = "config.php-";
-
 $bild = "";
 $b_mime = "";
 

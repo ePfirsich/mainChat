@@ -460,7 +460,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								
 								
 								// Start des Avatars
-								include "./conf/config.php";
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
 								

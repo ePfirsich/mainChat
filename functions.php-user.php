@@ -229,8 +229,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$box = $t['user_zeige60'];
 		$text = "";
 		
-		include "./conf/config.php";
-		
 		$text .= "<br><center>";
 		if($ui_avatar) { // Benutzerdefinierter Avatar
 			$text .= '<img src="./avatars/'.$ui_avatar.'" style="width:200px; height:200px;" alt="'.$ui_avatar.'" />';

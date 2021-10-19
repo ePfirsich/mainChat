@@ -4,8 +4,6 @@ require("functions.php");
 $u_id = $_SESSION['u_id'];
 $file = $_FILES["file"]["name"];
 
-include "./conf/config.php";
-
 $query2 = "SELECT * FROM user WHERE u_id LIKE '" . $u_id . "'";
 $result2 = mysqli_query($mysqli_link, $query2);
 

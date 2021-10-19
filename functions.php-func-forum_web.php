@@ -1239,8 +1239,6 @@ function zeige_beitraege($thread) {
 		
 		
 		// Start des Avatars
-		include "./conf/config.php";
-		
 		$query2 = "SELECT * FROM user WHERE u_nick = '$userdata[u_nick]'";
 		$result2 = mysqli_query($mysqli_link, $query2);
 		

@@ -37,8 +37,6 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	if ($u_level != "G") {
 		
 		//Avatar upload drag&drop
-		include "./conf/config.php";
-		
 		$_SESSION['u_id'] = $u_id;
 	
 		$text .= "<tr><td colspan=\"2\">

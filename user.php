@@ -771,7 +771,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		default;
-		// Beichtstuhlmodus (siehe config.php)
+		// Beichtstuhlmodus
 		// ID der Lobby merken
 			if (isset($beichtstuhl) && $beichtstuhl && !$admin) {
 				

@@ -26,17 +26,14 @@ if ( !file_exists($filenameConfig) ) {
 	require $filenameConfig;
 	require_once("functions.php-html.php");
 	
-	// Liegt lokale Konfigurationsdatei "config.php-http_host" in "conf/" vor? Falls ja einbinden
+	// Liegt lokale Konfigurationsdatei "config.php" in "conf/" vor? Falls ja einbinden
 	if (!(isset($http_host))) {
 		$http_host = $_SERVER["HTTP_HOST"];
 	}
 	$http_host = str_replace(":80", "", strtolower($http_host));
 	$http_host = str_replace(":8888", "", $http_host);
 	
-	$config = "config.php-" . $http_host;
-	if (file_exists("conf/$config")) {
-		require "conf/$config";
-	}
+	require "conf/config.php";
 	
 	// Pfad des Chats auf dem WWW-Server
 	$phpself = $_SERVER['PHP_SELF'];

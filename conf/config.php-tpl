@@ -5,12 +5,6 @@
 // Konfigurationsdatei für mainChat
 // Die voreingestellte Konfigurationsdatei muss "config.php" heißen.
 
-// Für jeden virtuellen Webserver kann es noch eine eigene Konfigurationsdatei
-// geben, die automatisch geladen wird und die voreingestellten Einstellungen
-// Überschreibt.
-// Format:	"config.php-webserver"
-// Beispiel: "config.php-chat.mainpost.de"
-
 
 // Für Login in Chat index.php aufrufen
 // Für Expire der Datenbank sollte expire.php minütlich aufgerufen werden
