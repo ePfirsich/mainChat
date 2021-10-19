@@ -1395,4 +1395,26 @@ function hole_geschlecht($userid) {
 	
 	return $user_geschlecht;
 }
+
+function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption) {
+	require 'PHPMailerAutoload.php';
+	
+	$mail = new PHPMailer;
+	
+	$mail->isSMTP();
+	//$mail->SMTPDebug = 2;
+	//$mail->Debugoutput = 'html';
+	$mail->Host = $smtp_host;
+	$mail->Port = $smtp_port;
+	$mail->SMTPSecure = $smtp_encryption;
+	$mail->SMTPAuth = true;
+	$mail->Username = $smtp_username;
+	$mail->Password = $smtp_password;
+	$mail->setFrom($header, $chat);
+	$mail->addAddress($mailempfaenger);
+	$mail->Subject = $mailbetreff;
+	$mail->isHtml(true);
+	$mail->Body = $text2;
+	$mail->send();
+}
 ?>

@@ -30,10 +30,9 @@ if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_re
 	exit();
 }
 
-// Willkommen definieren
-if (isset($_SERVER["PHP_AUTH_USER"])) {
-	$willkommen = str_replace("%PHP_AUTH_USER%", $_SERVER["PHP_AUTH_USER"],
-		$t['willkommen1']);
+// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
+if (isset($layout_kopf) && $layout_kopf != "") {
+	$willkommen = "";
 } else {
 	$willkommen = $t['willkommen2'];
 }
@@ -534,7 +533,12 @@ switch ($aktion) {
 					$header .= "Mime-Version: 1.0\r\n";
 					$header .= "Content-type: text/plain; charset=utf-8";
 					
-					mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
+					// E-Mail versenden
+					if($smtp_on) {
+						mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					} else {
+						mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
+					}
 					
 					echo $t['pwneu7'];
 					unset($hash);
@@ -618,7 +622,13 @@ switch ($aktion) {
 				$text = str_replace("%passwort%", $f['u_passwort'],
 					$t['pwneu15']);
 				$text = str_replace("%nickname%", $a['u_nick'], $text);
-				$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
+				
+				// E-Mail versenden
+				if($smtp_on) {
+					$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+				} else {
+					$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
+				}
 				
 				if ($ok) {
 					echo $t['pwneu12'];
@@ -666,7 +676,13 @@ switch ($aktion) {
 						$mailempfaenger = $email;
 						
 						echo $t['neu54'];
-						mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)");
+						
+						// E-Mail versenden
+						if($smtp_on) {
+							mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+						} else {
+							mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
+						}
 					} else {
 						$fehlermeldung = $t['neu52'];
 					}
@@ -881,7 +897,13 @@ switch ($aktion) {
 				$header .= "Mime-Version: 1.0\r\n";
 				$header .= "Content-type: text/plain; charset=utf-8";
 				
-				mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
+				// E-Mail versenden
+				if($smtp_on) {
+					mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+				} else {
+					mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
+				}
+				
 				$email = mysqli_real_escape_string($mysqli_link, $email);
 				$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";
 				$result = mysqli_query($mysqli_link, $query);
@@ -1669,7 +1691,13 @@ switch ($aktion) {
 				$text .= "\n-- \n   $chat ($serverprotokoll://"
 					. $http_host . $_SERVER['PHP_SELF'] . " | "
 					. $http_host . ")\n";
-				mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
+				
+				// E-Mail versenden
+				if($smtp_on) {
+					mailsmtp($webmaster, $betreff, $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+				} else {
+					mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
+				}
 			}
 			
 			// Fehlermeldung ausgeben

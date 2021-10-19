@@ -190,9 +190,13 @@ if (strlen($u_id) != 0) {
 					$pwdneu = genpassword(8);
 					$p['u_passwort'] = $pwdneu;
 					
-					$ok = mail($p['u_adminemail'], $t['chat_msg112'],
-						str_replace("%passwort%", $p['u_passwort'],
-							$t['chat_msg113']), "From: $webmaster ($chat)");
+					// E-Mail versenden
+					if($smtp_on) {
+						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					} else {
+						$ok = mail($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), "From: $webmaster ($chat)");
+					}
+					
 					if ($ok) {
 						echo $f1 . $t['chat_msg124'] . $f2;
 						schreibe_db("user", $p, $p['u_id'], "u_id");
@@ -762,9 +766,13 @@ if (strlen($u_id) != 0) {
 					&& ($uu_level == "U" || $uu_level == "M"
 						|| $uu_level == "Z")) || ($u_level == "S")) {
 					
-					$ok = mail($f['u_adminemail'], $t['chat_msg112'],
-						str_replace("%passwort%", $f['u_passwort'],
-							$t['chat_msg113']), "From: $webmaster ($chat)");
+					// E-Mail versenden
+					if($smtp_on) {
+						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+					} else {
+						$ok = mail($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), "From: $webmaster ($chat)");
+					}
+					
 					if ($ok) {
 						echo $f1 . $t['chat_msg111'] . $f2;
 						schreibe_db("user", $f, $f['u_id'], "u_id");

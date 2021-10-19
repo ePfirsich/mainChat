@@ -734,8 +734,13 @@ function email_versende(
 		} else {
 			$absender = $abrow->u_nick . " <" . $abrow->u_email . ">";
 		}
-		mail($adresse, $betreff, str_replace("%user%", $row->u_nick, $text)
-				. $t['mail4'], "From: $absender\nReply-To: $absender\n");
+		// E-Mail versenden
+		if($smtp_on) {
+			mailsmtp($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption);
+		} else {
+			mail($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], "From: $absender\nReply-To: $absender\n");
+		}
+		
 		mysqli_free_result($result);
 		return (TRUE);
 	} else {

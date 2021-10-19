@@ -1,7 +1,6 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['willkommen1'] = "<p><span style=\"font-size: large\"><b>Hallo %PHP_AUTH_USER%, willkommen im $chat!</b></span></p>\n";
 $t['willkommen2'] = "<p><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></p>\n";
 $t['willkommen3'] = "Willkommen im $chat!";
 
