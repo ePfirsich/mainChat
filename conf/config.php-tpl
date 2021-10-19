@@ -56,6 +56,7 @@ $smtp_username = "SMTP_Username";		// SMTP Benutzername
 $smtp_password = "SMTP_Passwort";		// SMTP Passwort
 $smtp_sender = "SMTP_Senderadresse";	// SMTP Sender E-Mail Adresse
 $smtp_auth = true;						// SMTP Autorisierung erforderlich
+$smtp_autoTLS = true;					// Ist TLS aktiviert oder deaktiviert?
 
 
 // Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)

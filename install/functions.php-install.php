@@ -124,7 +124,7 @@ function step_1($chat) {
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Description:</td>
-				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die HTML-Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
+				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die kostenlose Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Keywords:</td><td><textarea cols="30" rows="3" name="chat_keywords"><?php echo checkFormularInputFeld('Chat Community HTML kostenlos frei openSource, Smilies',$chat["keywords"]) ?></textarea></td>

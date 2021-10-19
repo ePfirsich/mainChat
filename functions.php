@@ -1396,7 +1396,7 @@ function hole_geschlecht($userid) {
 	return $user_geschlecht;
 }
 
-function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth) {
+function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS) {
 	require 'PHPMailerAutoload.php';
 	
 	$mail = new PHPMailer;
@@ -1408,6 +1408,7 @@ function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_h
 	$mail->Port = $smtp_port;
 	$mail->SMTPSecure = $smtp_encryption;
 	$mail->SMTPAuth = $smtp_auth;
+	$mail->SMTPAutoTLS = $smtp_autoTLS;
 	$mail->Username = $smtp_username;
 	$mail->Password = $smtp_password;
 	$mail->setFrom($header, $chat);
