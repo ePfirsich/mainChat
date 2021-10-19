@@ -493,13 +493,13 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($ui_ava_chat_active2 == 1) {
 										if($ui_avatar) { // Benutzerdefinierter Avatar
-											$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'" />';
+											$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:25px; height:25px;" alt="'.$ui_avatar.'" /> ';
 										} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" />';
+											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
 										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" />';
+											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
 										} else { // Neutraler Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" />';
+											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
 										}
 									} else {
 										$ava = "";
