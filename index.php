@@ -1897,7 +1897,7 @@ switch ($aktion) {
 			$result = mysqli_query($mysqli_link, $query);
 			$num = mysqli_num_rows($result);
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-			if ($num >= 0) {
+			if ($num > 0) {
 				$ok = 0;
 				echo $t['neu55'] . "<br><br>";
 				zeige_fuss();
