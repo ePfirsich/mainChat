@@ -136,13 +136,13 @@ $t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltco
 $t['neu55'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"javascript:history.back()\">Zurück zur Registrierung!</a>";
 
 $t['default1'] = "Login in den $chat oder";
-$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>,<br>";
-$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert.<br>";
+$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
+$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
 $t['default4'] = "Benutzer online in %raum%:";
 $t['default5'] = "$chat:";
 $t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 $t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
-$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.<br>";
+$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.";
 $t['default9'] = "Raum ";
 $t['default10'] = "Community-Bereich ";
 
