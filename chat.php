@@ -1,7 +1,7 @@
 <?php
 
 // chat.php muss mit id=$hash_id aufgerufen werden
-// Optional kann $back als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
+// Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
 
 require("functions.php");
 
@@ -130,19 +130,19 @@ if ($u_id) {
 			}
 			
 			// Raumwechsel?
-			if (($back == 0) && ($o_raum != $o_raum_alt)) {
+			if (($trigger_letzte_Zeilen == 0) && ($o_raum != $o_raum_alt)) {
 				// Trigger für die letzten Nachrichten setzen
-				$back = 1;
+				$trigger_letzte_Zeilen = 1;
 			}
 			
 			// Chatausgabe, $letzte_id ist global
 			// Falls Result=wahr wurde Text ausgegeben, Timer für Userliste zurücksetzen
-			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back)) {
+			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $trigger_letzte_Zeilen)) {
 				$i = 0;
 			}
 			
 			// Trigger zurücksetzen
-			$back = 0;
+			$trigger_letzte_Zeilen = 0;
 			
 			// 0,2 oder 1 Sekunde warten
 			if ($erweitertefeatures && FALSE) {
@@ -160,10 +160,10 @@ if ($u_id) {
 		}
 		
 		// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
-		$back = 20;
+		$trigger_letzte_Zeilen = 20;
 		
 		// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id&back=$back\"'>";
+		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id&back=$trigger_letzte_Zeilen\"'>";
 		flush();
 		
 	}
