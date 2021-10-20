@@ -305,7 +305,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= "<tr><td><b>" . $f1 . $t['user_zeige23'] . $f2
 				. "</b></td><td><b>" . $f1 . $o_row->r_name . "&nbsp;["
 				. $whotext[$o_row->o_who] . "]" . $f2 . "</b></td></tr>\n";
-		} elseif (isset($o_row) && $o_row->o_who) {
+		} else if (isset($o_row) && $o_row->o_who) {
 			$text .= "<tr><td>" . $f1 . "&nbsp;" . $f2 . "</td>" . "<td><b>" . $f1
 				. "[" . $whotext[$o_row->o_who] . "]" . $f2
 				. "</b></td></tr>\n";
@@ -348,9 +348,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			// Admin E-Mail
 			if (strlen($uu_adminemail) > 0) {
 				$text .= "<tr><td>" . $f1 . $t['user_zeige3'] . $f2 . "</td><td>"
-					. $f3
-					. "<a href=\"MAILTO:$uu_adminemail\">$uu_adminemail</a>"
-					. $f4 . "</td></tr>\n";
+					. $f3 . "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>" . $f4 . "</td></tr>\n";
 			}
 		}
 		
@@ -371,7 +369,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
 				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</a>";
 			$f4 . "</td></tr>\n";
-		} elseif (strlen($uu_email) > 0) {
+		} else if (strlen($uu_email) > 0) {
 			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
 				. "<a href=\"MAILTO:$uu_email\">$uu_email</a>" . $f4
 				. "</td></tr>\n";
@@ -568,11 +566,11 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 			$text .= $f2 . "</form>\n";
 			
-
+			// Box anzeigen
+			show_box_title_content($box, $text);
 		}
 		
-		// Box anzeigen
-		show_box_title_content($box, $text);
+
 		
 		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
 		
