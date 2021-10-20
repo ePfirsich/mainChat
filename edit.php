@@ -63,9 +63,9 @@ if (strlen($u_id) != 0) {
 		schreibe_db("user", $f, $u_id, "u_id");
 		
 		if ($o_js && $o_who == 0) {
-			echo "<SCRIPT>"
+			echo "<script>"
 				. "opener_reload('eingabe.php?id=$id','3')"
-				. "</SCRIPT>\n";
+				. "</script>\n";
 		}
 		unset($f['u_farbe']);
 	}
@@ -170,8 +170,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		case "edit2":
-			if (($eingabe == "Ändern!") && ($u_id == $f['u_id'])
-				&& ($einstellungen_aendern)) {
+			if (($eingabe == "Ändern!") && ($u_id == $f['u_id']) && $einstellungen_aendern ) {
 				
 				$query = "SELECT `user`.* FROM `user` WHERE `u_id`=$u_id ";
 				$result = mysqli_query($mysqli_link, $query);
@@ -192,9 +191,9 @@ if (strlen($u_id) != 0) {
 					
 					// E-Mail versenden
 					if($smtp_on) {
-						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
+						$ok = mailsmtp($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['chat_msg113']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 					} else {
-						$ok = mail($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['chat_msg113']), "From: $webmaster ($chat)");
+						$ok = mail($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['chat_msg113']), "From: $webmaster ($chat)");
 					}
 					
 					if ($ok) {
