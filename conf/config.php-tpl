@@ -47,6 +47,11 @@ $http_host = "%chaturl%";			// URL des Chats
 $trigger_letzte_Zeilen = 1;			// Nur im Fehlerfal bearbeiten. Diese Variabel regelt die Ausgabe im Normalen Modus
 $sicherer_modus = "1";				// Sicherer Modus Aktivieren (1 = Aktiviert, 0 = Deaktiviert)
 
+// Daten für das Impressum
+$impressum_name = "";
+$impressum_strasse = "";
+$impressum_plz_ort = "";
+
 //SMTP Einstellungen
 $smtp_on = false;						// Aktivieren oder Deaktivieren der SMTP Funktionen
 $smtp_host = "SMTPServer";				// E-Mail Server

@@ -683,9 +683,11 @@ function zeige_kopf() {
 function zeige_fuss() {
 	// Gibt den HTML-Fuss auf der Eingangsseite aus
 	global $layout_fuss, $layout_parse;
-	global $f3, $f4, $mainchat_version;
+	global $f3, $f4, $mainchat_version, $t;
 	?>
-	<div align="center"><?php echo  $f3 . $mainchat_version . $f4; ?></div>
+	<div align="center"><?php echo $f3 . $mainchat_version; ?>
+	<br><br>
+	<a href="index.php?aktion=datenschutz"><?php echo $t['datenschutzerklaerung1']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['impressum1']; ?></a><?php echo $f4 ?></div>
 	<?php
 	if (strlen($layout_fuss) > 0 && !$layout_parse) {
 		include($layout_fuss);

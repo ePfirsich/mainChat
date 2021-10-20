@@ -434,14 +434,51 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 		<body>
 		<?php
 		zeige_kopf();
-		echo "<P><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich "
-			. "<a href=\"" . $chatserver . "index.php\">hier</a> neu an.</p>";
+		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $chatserver . "index.php\">hier</a> neu an.</p>";
 		zeige_fuss();
 		exit;
 	}
 }
 
 switch ($aktion) {
+	case "impressum":
+		zeige_header_ende();
+		?>
+		<body>
+		<?php
+		zeige_kopf();
+		echo $willkommen;
+		
+		$box = $t['impressum1'];
+		$text = "<b>" . $t['impressum2'] . "</b>";
+		$text .= "<br>";
+		$text .= $impressum_name;
+		$text .= "<br>";
+		$text .= $impressum_strasse;
+		$text .= "<br>";
+		$text .= $impressum_plz_ort;
+		
+		show_box_title_content($box,$text);
+		
+		zeige_fuss();
+		break;
+		
+	case "datenschutz":
+		zeige_header_ende();
+		?>
+		<body>
+		<?php
+		zeige_kopf();
+		echo $willkommen;
+		
+		$box = $t['datenschutzerklaerung1'];
+		$text = $t['datenschutzerklaerung2'];
+		
+		show_box_title_content($box,$text);
+		
+		zeige_fuss();
+		break;
+		
 	case "passwort_neu":
 		zeige_header_ende();
 		?>
@@ -2034,8 +2071,6 @@ switch ($aktion) {
 		
 		// Kopf
 		// Header ausgeben
-		?>
-		<?php
 		zeige_header_ende();
 		?>
 		<body>

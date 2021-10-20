@@ -33,7 +33,7 @@ $t['hilfe12'] = "<b>Weitere Hilfe zu den Punkten</b>";
 $t['hilfe13'] = "Datenschutzrichtlinien (Datenschutzerklärung) vom $chat";
 $t['hilfe14'] = "Nutzungsbestimmungen vom $chat";
 $t['hilfe15'] = "Automatischer Logout";
-$t['hilfe16'] = "<P>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</b></P>";
+$t['hilfe16'] = "<p>Sie wurden automatisch aus dem $chat ausgelogt, weil Sie %zeit%&nbsp;Minuten lang nichts geschrieben haben!</b></p>";
 
 $t['hilfe17'] = "Befehl";
 $t['hilfe18'] = "Funktion";
@@ -287,7 +287,7 @@ $hilfe_community = "<br>
 " . $legende
 	. "
 </table>
-<P><b><A NAME=\"punkte\">Punkte</A></b><br>
+<p><b><A NAME=\"punkte\">Punkte</A></b><br>
 Unter dem Chat-Menüpunkt \"<b>Benutzer</b>\" führt der Link zur Benutzer Top10/100 Liste. 
 Alle angemeldeten Benutzer bekommen pro einzelnes im Chat geschriebenes Wort
 einen Punkt. Die Voraussetzung ist, dass jedes Wort mindestens vier Buchstaben hat
@@ -331,13 +331,13 @@ durch Klick in das \"<b>Löschen</b>\"-Kästchen und klicken Sie dann auf den
 <b>Löschen</b>-Button rechts unter den Nachrichten.<br>
 Gelöschte Nachrichten werden automatisch nach einer gewissen Zeit aus dem Papierkorb
 gelöscht. (Standardeinstellung 14 Tage, kann aber vom Chatbetreiber geändert werden)<br><br>
-<b>Im Mailmenü haben Sie nun folgende Auswahlmöglichkeiten:</b></P>
+<b>Im Mailmenü haben Sie nun folgende Auswahlmöglichkeiten:</b></p>
 <UL>
 <li><I>Mailbox neu laden</I>
 <li><I>Neue Mail schreiben</I>
 <li><I>Papierkorb zeigen</I>
 <li><I>Papierkorb leeren</I>
-</ul><P>
+</ul><p>
 Um eine neue Mail zu verfassen, geben Sie unter dem Punkt \"<b>Neue Mail senden</b>\"
 in das Feld \"<b>Benutzername</b>\" den Benutzernamen des Benutzers ein, dem Sie eine Nachricht
 zukommen lassen möchten und klicken Sie dann auf \"<b>weiter</b>\". Nun befinden Sie
@@ -388,28 +388,28 @@ möglich.<br><br>
 Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
 <b>http://" . $CHATHOSTNAME
 	. "home.php/NICKNAME</b><br><br>
-Grundsätzlich immer dargestellt werden</P>
+Grundsätzlich immer dargestellt werden</p>
 <ul>
 <li><I>Benutzername des Benutzers</I>
 <li><I>Onlinezeit</I>
 <li><I>Benutzerlevel</I>
 <li><I>Punkte</I>
-</ul><P>
+</ul><p>
 
-Weiter kann der Chatuser entscheiden:</P>
+Weiter kann der Chatuser entscheiden:</p>
 <UL>
 <li><I>welche Daten aus seinem Benutzerprofil auf der Homepage dargestellt werden sollen.</I>
 </UL>
-<P>
-<P>Außerdem hat er der die Möglichkeit:</P>
+<p>
+<p>Außerdem hat er der die Möglichkeit:</p>
 <UL>
 <li><I>Schrift-, Hintergrund- und Linkfarben sowie Hintergrundbilder für seine Homepage zu bestimmen,</I>
 <li><I>beliebige Texte (auch mit HTML) in das Textfeld einzugeben,</I>
 <li><I>Bilder von seinem eigenen Rechner hochzuladen und in seine Homepage einzufügen.</I>
 </UL>
-</P>";
+</p>";
 
-$hilfe_privacy = "<P>
+$hilfe_privacy = "<p>
 Personenbezogene Daten sind Informationen, die dazu genutzt werden können,
 Ihre Identität zu erfahren. Im Chat sind dies Informationen wie Ihr
 richtiger Name, Ihre Adresse oder Ihre Telefonnummer, die Sie im Profil
@@ -453,10 +453,10 @@ Admin-E-Mail Adresse schicken. Die Admin-E-Mail Adresse ist nur
 durch Admins änderbar. Die Admins sind verpflichtet, sich an diese
 Datenschutzbestimmungen und an die Nutzungsbestimmungen zu halten und keine
 personenbezogenen Daten an Dritte weiterzugeben.
-</P><P>
+</p><p>
 Wir setzen im Chat prinzipiell keine Cookies. Falls Sie dennoch ein Cookie 
 erhalten, stammt dieses Cookie aus der Anzeige einer Agentur, auf die wir keinen
 Einfluss haben. Bitte deaktivieren Sie Cookies in Ihrem Browser, wenn Sie keine
 Cookies empfangen möchten.
-</P>";
+</p>";
 ?>
