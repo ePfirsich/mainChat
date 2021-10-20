@@ -128,7 +128,7 @@ if (strlen($u_id) > 0) {
 	aktualisiere_online($u_id, $o_raum);
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
-	if ($o_who != 2) {
+	if ($o_who != 2 && $sicherer_modus == 1) {
 		echo "<script language=JavaScript>\n"
 			. "parent.chat.location.href='chat.php?id=$id'"
 			. "</script>\n";
