@@ -1416,6 +1416,7 @@ function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_h
 	$mail->Subject = $mailbetreff;
 	$mail->isHtml(true);
 	$mail->Body = $text2;
-	$mail->send();
+	
+	return $mail->send();
 }
 ?>
