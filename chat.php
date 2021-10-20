@@ -23,10 +23,18 @@ if ($u_id) {
 	// Timestamp im Datensatz aktualisieren -> User im Chat / o_who=0
 	aktualisiere_online($u_id, $o_raum, 0);
 	
+	// eigene Farbe für BG gesetzt? dann die nehmen.
+	if ($u_farbe_bg != "" && $u_farbe_bg != "-") {
+		$farbe_chat_background1 = $u_farbe_bg;
+		$meta_refresh = "<style>body {background-color:#$u_farbe_bg !important;}</style>";
+	} else {
+		$meta_refresh = "";
+	}
+	
 	// Algorithmus wählen
 	if ($sicherer_modus == 1) {
 		// n-Zeilen ausgeben und nach Timeout neu laden
-		$meta_refresh = '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
+		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n"
 			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
 			. "function neuesFenster(url,name) {\n"
@@ -47,14 +55,14 @@ if ($u_id) {
 		// header("Content-Type: multipart/mixed;boundary=myboundary");
 		// echo "\n--myboundary\n";
 		// echo "Content-Type: text/html\n\n";
-		//echo "<HTML><HEAD>".
-		//	"<SCRIPT LANGUAGE=JavaScript>\n".
+		//echo "<html><head>".
+		//	"<script language=JavaScript>\n".
 		//	"function scroll() {\n".
 		//	"window.scrollTo(0,50000);\n".
 		//	"setTimeout(\"scroll()\",200);\n".
 		//	"}\n".
 		//	"setTimeout(\"scroll()\",100);\n".
-		//	"</SCRIPT>\n".
+		//	"</script>\n".
 		//	"$stylesheet</HEAD>\n";
 		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
@@ -75,7 +83,7 @@ if ($u_id) {
 		$tmp = str_replace("ß", "", $tmp);
 		
 		$meta_refresh .= "hWnd=window.open(url,\"640_$tmp\",\"resizable=yes,scrollbars=yes,width=780,height=700\");\n"
-			. "}\n" 
+			. "}\n"
 			. "</script>\n";
 			
 		zeige_header_ende($meta_refresh);
@@ -89,15 +97,15 @@ if ($u_id) {
 		ignore_user_abort(FALSE);
 		
 		// 1 Sek pro Durchlauf fest eingestellt
-		if ($erweitertefeatures && FALSE) :
+		if ($erweitertefeatures && FALSE) {
 			// Für 0,2 Sek pro Durchlauf
 			$durchlaeufe = $refresh_zeit * 5;
 			$zeige_userliste = 500;
-		else :
+		} else {
 			// Für 1 Sek pro Durchlauf
 			$durchlaeufe = $refresh_zeit;
 			$zeige_userliste = 100;
-		endif;
+		}
 		
 		while ($j < ($durchlaeufe) && !$beende_prozess){
 			// Raum merken

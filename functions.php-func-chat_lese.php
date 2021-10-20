@@ -6,7 +6,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	// $u_id = ID des aktuellen Benutzers
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
-	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
+	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_farbe_bg, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
 	global $show_spruch_owner, $farbe_user_fest, $id, $o_dicecheck;
 	global $user_nick, $mysqli_link;
 	
