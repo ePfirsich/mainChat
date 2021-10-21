@@ -57,7 +57,7 @@ if ($u_id && $communityfeatures) {
 	if ($admin) {
 		$text .= "| <a href=\"freunde.php?id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</a>\n";
 	}
-	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#freunde\">Hilfe</a>\n";
+	$text .= "| <a href=\"index.php?aktion=hilfe-community#freunde\" target=\"_blank\">Hilfe</a>\n";
 	
 	show_menue($box, $text);
 	

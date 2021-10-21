@@ -30,13 +30,6 @@ if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_re
 	exit();
 }
 
-// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-if (isset($layout_kopf) && $layout_kopf != "") {
-	$willkommen = "";
-} else {
-	$willkommen = $t['willkommen2'];
-}
-
 // Liste offener Räume definieren (optional)
 if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
@@ -113,9 +106,9 @@ $logintext .= "\" size=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
 
 // SSL?
 if (($ssl_login) || (isset($SSLRedirect) && $SSLRedirect == "1")) {
-	$chat_file = "https://" . $_SERVER['SERVER_NAME'];
+	$chat_url = "https://" . $_SERVER['SERVER_NAME'];
 } else {
-	$chat_file = "http://" . $_SERVER['SERVER_NAME'];
+	$chat_url = "http://" . $_SERVER['SERVER_NAME'];
 }
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
@@ -442,50 +435,57 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 
 switch ($aktion) {
 	case "impressum":
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Impressumg anzeigen
 		
-		$box = $t['impressum1'];
-		$text = "<b>" . $t['impressum2'] . "</b>";
-		$text .= "<br>";
-		$text .= $impressum_name;
-		$text .= "<br>";
-		$text .= $impressum_strasse;
-		$text .= "<br>";
-		$text .= $impressum_plz_ort;
-		
-		show_box_title_content($box,$text);
-		
-		zeige_fuss();
+		require_once('templates/impressum.php');
+
 		break;
 		
 	case "datenschutz":
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Datenschutz anzeigen
+		require_once('templates/datenschutz.php');
 		
-		$box = $t['datenschutzerklaerung1'];
-		$text = $t['datenschutzerklaerung2'];
+		break;
 		
-		show_box_title_content($box,$text);
+	case "chatiquette":
+		// Datenschutz anzeigen
+		require_once('templates/chatiquette.php');
 		
-		zeige_fuss();
+		break;
+		
+	case "nutzungsbestimmungen":
+		// Datenschutz anzeigen
+		require_once('templates/nutzungsbestimmungen.php');
+		
+		break;
+		
+	case "hilfe":
+		// Hilfe anzeigen
+		require_once('templates/hilfe.php');
+		
+		break;
+		
+	case "hilfe-befehle":
+		// Liste aller Befehle anzeigen
+		require_once('templates/hilfe-befehle.php');
+		
+		break;
+		
+	case "hilfe-sprueche":
+		// Liste aller Sprüche anzeigen
+		require_once('templates/hilfe-sprueche.php');
+		
+		break;
+		
+	case "hilfe-community":
+		// Punkte/Community anzeigen
+		require_once('templates/hilfe-community.php');
+		
 		break;
 		
 	case "passwort_neu":
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
 		
 		unset($richtig);
 		unset($u_id);
@@ -680,12 +680,8 @@ switch ($aktion) {
 		break;
 	
 	case "neubestaetigen":
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
 		
 		unset($fehlermeldung);
 		if ($email) {
@@ -760,12 +756,9 @@ switch ($aktion) {
 		break;
 	
 	case "mailcheckm":
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
+		
 		echo "<p>" . $t['neu42'] . "</p>";
 		?>
 		<form action="index.php">
@@ -789,13 +782,8 @@ switch ($aktion) {
 		break;
 	
 	case "mailcheck":
-	// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
 		
 		// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 		// der Form name@do.main entspricht
@@ -1275,7 +1263,7 @@ switch ($aktion) {
 				<?php
 				zeige_kopf();
 				
-				echo str_replace("%url%", $chat_file, $t['login25']);
+				echo str_replace("%url%", $chat_url, $t['login25']);
 				unset($u_nick);
 				
 				zeige_fuss();
@@ -1802,13 +1790,8 @@ switch ($aktion) {
 	case "neu":
 	// Neu anmelden
 	
-	// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
 		
 		// Im Benutzername alle Sonderzeichen entfernen
 		if (isset($f['u_nick'])) {
@@ -1963,7 +1946,7 @@ switch ($aktion) {
 				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12'] . "</td>"
 				. "<td>" . $f1 . $f['u_nick'] . $f2
 				. "</td></tr></table>\n" . $t['neu28']
-				. "<form action=\"$chat_file\" name=\"login\" method=\"post\">\n"
+				. "<form action=\"$chat_url\" name=\"login\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
 				. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n"
@@ -2069,14 +2052,8 @@ switch ($aktion) {
 	default:
 		// Homepage des Chats ausgeben
 		
-		// Kopf
-		// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo $willkommen;
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
 		
 		if ($zusatznachricht) {
 			?>

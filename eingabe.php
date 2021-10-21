@@ -126,7 +126,7 @@ zeige_header_ende();
 echo "</td></tr>\n";
 	
 	
-	$mlnk[4] = "hilfe.php?id=$id";
+	$mlnk[4] = "index.php?aktion=hilfe";
 	$mlnk[1] = "raum.php?id=$id";
 	$mlnk[2] = "user.php?id=$id";
 	$mlnk[3] = "edit.php?id=$id";
@@ -153,7 +153,7 @@ echo "</td></tr>\n";
 	// Code funktioniert mit und ohne javascript
 	echo "<tr><td></td><td><b>";
 	?>
-	<a href="<?php echo $mlnk[4]; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[4]; ?>');return(false)" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[4]; ?>" target="_blank" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
 	<?php
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		?>

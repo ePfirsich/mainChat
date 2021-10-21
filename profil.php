@@ -81,8 +81,6 @@ if ($u_id && $communityfeatures) {
 	}
 	$ur1 = "user.php?id=$id";
 	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">$t[profil_benutzer]</a>\n";
-	$text .= "| <a href=\"hilfe.php?id=$id&aktion=privacy\">$t[profil_datenschutzhinweis]</a>\n";
-	$text .= "| <a href=\"hilfe.php?id=$id&aktion=community#profil\">$t[profil_hilfe]</a>\n";
 	
 	show_menue($box, $text);
 	

@@ -837,6 +837,39 @@ function show_box_title_content($box, $text) {
 	<?php
 }
 
+function show_kopfzeile_login() {
+	// Gibt die Kopfzeile im Login aus
+	global $t, $layout_kopf, $communityfeatures;
+	
+	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
+	if (isset($layout_kopf) && $layout_kopf != "") {
+		$willkommen = "";
+	} else {
+		$willkommen = $t['willkommen2'];
+	}
+	
+	$box = $t['menue1'];
+	$text = "<a href=\"index.php\">$t[menue2]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=neu\">$t[menue3]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=hilfe\">$t[menue4]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=hilfe-befehle\">$t[menue5]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=hilfe-sprueche\">$t[menue6]</a>\n";
+	if ($communityfeatures) {
+		$text .= "| <a href=\"index.php?aktion=hilfe-community\">$t[menue7]</a>\n";
+	}
+	$text .= "| <a href=\"index.php?aktion=chatiquette\">$t[menue8]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=nutzungsbestimmungen\">$t[menue9]</a>\n";
+	$text .= "| <a href=\"index.php?aktion=datenschutz\">$t[menue10]</a>\n";
+	
+	show_box_title_content($box, $text);
+	
+	zeige_header_ende();
+	echo "<body>";
+	zeige_kopf();
+	
+	echo $willkommen;
+}
+
 function schliessen_link() {
 	// Gibt einen Link zum Schließen des Fensters aus
 	global $t;
@@ -1018,7 +1051,7 @@ function user(
 			$user_punkte_anzeigen = "";
 		}
 		
-	} elseif ($zeige_user_id) {
+	} else if ($zeige_user_id) {
 		
 		// Benutzerdaten aus DB lesen
 		$query = "SELECT u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
@@ -1116,9 +1149,8 @@ function user(
 		$text2 .= "&nbsp;(" . $leveltext[$user_level] . ")";
 	
 	if (!$extra_kompakt && $link) {
-		$url = "hilfe.php?aktion=legende&id=$idtag";
-		$grafikurl1 = "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">";
-		$grafikurl2 = "</A>";
+		$grafikurl1 = "<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">";
+		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";
 		$grafikurl2 = "";
@@ -1127,7 +1159,6 @@ function user(
 	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures
 		&& $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
 		
-		$url = "hilfe.php?aktion=legende&id=$idtag";
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0]
 				. $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;

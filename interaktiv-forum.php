@@ -99,7 +99,7 @@ if ($u_id) {
 	
 	echo "<tr><td style=\"text-align:center;\">";
 	
-	$mlnk[1] = "hilfe.php?id=$id";
+	$mlnk[1] = "index.php?aktion=hilfe";
 	$mlnk[2] = "raum.php?id=$id";
 	$mlnk[3] = "user.php?id=$id";
 	$mlnk[4] = "edit.php?id=$id";
@@ -114,7 +114,7 @@ if ($u_id) {
 	
 	echo $f1;
 	?>
-	<a href="<?php echo $mlnk[1]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mlnk[1]; ?>');return(false)" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[1]; ?>" target="_blank" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
 	<a href="<?php echo $mlnk[3]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
 	<?php
 	

@@ -93,20 +93,12 @@ function genlist(liste, aktion) {
 				+ "&nbsp;" + fett[2] + type + fett[3]);
 
 		if ((liste[i + 7] != 0) && communityfeatures == 1) {
-			var url = "hilfe.php" + stdparm2 + "&aktion=legende";
+			var url = "index.php?aktion=hilfe-community";
 			if ((liste[i + 6] == "C") || (liste[i + 6] == "S")) {
-				nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
-						+ url
-						+ "','640_"
-						+ u_nick
-						+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
+				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
 						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "<a>";
 			} else {
-				nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
-						+ url
-						+ "','640_"
-						+ u_nick
-						+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
+				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
 						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "<a>";
 			}
 		}

@@ -128,7 +128,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</a>\n"
 				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
 				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
-				. "| <a href=\"hilfe.php?id=$id&aktion=community#home\">Hilfe</a>\n";
+				. "| <a href=\"index.php?aktion=hilfe-community#home\" target=\"_blank\">Hilfe</a>\n";
 			
 			show_menue($box, $text);
 			
