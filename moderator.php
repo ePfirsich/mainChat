@@ -6,15 +6,14 @@ require("functions.php");
 id_lese($id);
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten');
 
 if (strlen($u_id) > 0) {
-	$meta_refresh = '';
+	zeige_header_anfang($title, 'chatunten');
 	// Falls keine Texte zur Moderation gefunden wurden, nach 10 Sek reload
 	if ($o_js) {
 		$moderations_zeilen = anzahl_moderationstexte($o_raum);
 		if ($moderations_zeilen == 0) {
-			$meta_refresh .= '<meta http-equiv="refresh" content="10; URL=moderator.php?id=' . $id . '">';
+			$meta_refresh = '<meta http-equiv="refresh" content="10; URL=moderator.php?id=' . $id . '">';
 		}
 	}
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n" . "</script>\n";
