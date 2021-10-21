@@ -221,7 +221,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			$ui_gen = $row1->ui_geschlecht;
 		} else {
-			$ui_gen[0] = '';
+			$ui_gen = 'leer';
 		}
 		
 		

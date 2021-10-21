@@ -486,7 +486,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									$row1 = mysqli_fetch_object($result1);
 									$ui_gen = $row1->ui_geschlecht;
 								} else {
-									$ui_gen[0] = '';
+									$ui_gen = 'leer';
 								}
 								
 								if($result3 && mysqli_num_rows($result3) == 1) {

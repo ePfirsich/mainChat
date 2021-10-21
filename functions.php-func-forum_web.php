@@ -1258,7 +1258,7 @@ function zeige_beitraege($thread) {
 			
 			$ui_gen = $row1->ui_geschlecht;
 		} else {
-			$ui_gen[0] = '';
+			$ui_gen = 'leer';
 		}
 		
 		if($result2 && mysqli_num_rows($result2) == 1) {
