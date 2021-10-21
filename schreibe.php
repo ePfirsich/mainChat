@@ -106,8 +106,7 @@ if (strlen($u_id) > 0) {
 		if (strlen($u_farbe) == 0) {
 			$u_farbe = $user_farbe;
 		}
-		chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $o_raum,
-			isset($text) ? $text : "", "");
+		chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $o_raum, isset($text) ? $text : "", "");
 	} else if ($fehler) { // Spam -> Fehler ausgeben
  	// Systemnachricht mit Fehlermeldung an Benutzer schreiben
 		system_msg("", 0, $u_id, $system_farbe,
