@@ -108,13 +108,12 @@ function raum_user($r_id, $u_id, $id) {
 		$result = mysqli_query($mysqli_link, $query);
 		$rows = @mysqli_num_rows($result);
 		
-		if ($result AND $rows > 0) {
+		if ($result && $rows > 0) {
 			$i = 0;
 			while ($row = mysqli_fetch_object($result)) {
 				// Beim ersten Durchlauf Namen des Raums einfügen
 				if ($i == 0) {
-					$text = str_replace("%r_name%", $row->r_name,
-						$t['raum_user1']);
+					$text = str_replace("%r_name%", $row->r_name, $t['raum_user1']);
 				}
 				
 				// Benutzerdaten lesen, Liste ausgeben
@@ -1054,11 +1053,11 @@ function user(
 	} else if ($zeige_user_id) {
 		
 		// Benutzerdaten aus DB lesen
-		$query = "SELECT u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
+		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
-			. "date_format(u_login,'%d.%m.%y %H:%i') as login "
-			. "FROM user left join online on o_user=u_id "
-			. "where u_id=" . intval($zeige_user_id);
+			. "date_format(u_login,'%d.%m.%y %H:%i') AS login "
+			. "FROM user LEFT JOIN online ON o_user=u_id "
+			. "WHERE u_id=" . intval($zeige_user_id);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$userdaten = mysqli_fetch_object($result);
@@ -1076,25 +1075,25 @@ function user(
 		}
 		mysqli_free_result($result);
 		
-		if ($show_geschlecht == true)
+		if ($show_geschlecht == true) {
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
+		}
 		
 	} else {
-		echo "<P><b>Fehler:</b> Falscher Aufruf von user() für Benutzer ";
+		echo "<p><b>Fehler:</b> Falscher Aufruf von user() für Benutzer ";
 		if (isset($zeige_user_id))
 			echo $zeige_user_id;
 		if (isset($userdaten['u_id']))
 			echo $userdaten['u_id'];
 		if (isset($userdaten->u_id))
 			echo $userdaten->u_id;
-		echo "</P>";
+		echo "</p>";
 		
 		return "";
 	}
 	
 	// Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
-	if (!isset($user_punkte_anzeigen)
-		|| ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
+	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
 		$query = "SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id`=" . intval($user_id);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -1168,29 +1167,25 @@ function user(
 		}
 	}
 	
-	if (!$extra_kompakt && ($user_chathomepage == "J" OR $homep_ext_link != "")
-		&& $communityfeatures && $link && (($felder & 16) == 16)) {
+	if (!$extra_kompakt && ($user_chathomepage == "J" OR $homep_ext_link != "") && $communityfeatures && $link && (($felder & 16) == 16)) {
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
 				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		} elseif ($user_chathomepage == "J") {
 			$url = "home.php?ui_userid=$user_id&id=$idtag";
-			$text2 .= "&nbsp;"
-				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+			$text2 .= "&nbsp;" . "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
 		}
 	}
 	
-	if (!$extra_kompakt && $link && $trenner != "" && $communityfeatures
-		&& (($felder & 8) == 8)) {
+	if (!$extra_kompakt && $link && $trenner != "" && $communityfeatures && (($felder & 8) == 8)) {
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
 			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\" title=\"E-Mail\">"
-		
 			
 			. "<span class=\"fa fa-envelope \"></span>" . "</a>";
-	} elseif (!$extra_kompakt && $link && $trenner != "") {
+	} else if (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
 	}
 	

@@ -336,9 +336,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	
 	$o_id = schreibe_db("online", $f, "", "o_id");
 	if (!$o_id) {
-		echo "Fataler Fehler beim Login:<PRE>";
+		echo "Fataler Fehler beim Login:<pre>";
 		print_r($f);
-		echo "</PRE>";
+		echo "</pre>";
 		exit;
 	}
 	

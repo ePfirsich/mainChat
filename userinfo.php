@@ -24,12 +24,12 @@ $userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche d
 	. " null=j  - Falls j, erfolgt bei \"0 Benutzer online\" eine Ausgabe. Ansonsten wird nur ein transparentes leeres JPG ausgegeben.\n"
 	. " text=j  - es wird statt einer Grafik die Anzahl der Benutzer als Text ausgegeben.\n\n"
 	. " jscript=j  - es wird statt einer Grafik die Anzahl der Benutzer als Text ausgegeben.\n\n"
-	. "<b>Beispiel 1:</b>\n&lt;IMG&nbsp;SRC=\"http://chat.main.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\"&gt;\n"
+	. "<b>Beispiel 1:</b>\n&lt;img&nbsp;src=\"http://www.mainchat.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\"&gt;\n"
 	. "ergibt folgende Grafik:\n\n"
-	. "<img src=\"http://chat.main.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\">\n\n"
-	. "<b>Beispiel 2:</b>\n&lt;img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
+	. "<img src=\"http://www.mainchat.de/userinfo.php?size=24&text=Benutzer+gerade+online+im+Testchat\">\n\n"
+	. "<b>Beispiel 2:</b>\n&lt;img src=\"http://www.mainchat.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=0&vrot=255&vgruen=255&vblau=0\"&gt;\n"
 	. "ergibt folgende Grafik in Gelb für einen blauen Hintergrund:\n\n"
-	. "<table><tr><td style=\"background-color:#0000ff;\"><img src=\"http://chat.main.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></td></tr></table>\n";
+	. "<table><tr><td style=\"background-color:#0000ff;\"><img src=\"http://www.mainchat.de/userinfo.php?size=24&hrot=0&hgruen=0&hblau=255&vrot=255&vgruen=255&vblau=0\"></td></tr></table>\n";
 
 // Falls ?hilfe übergeben wurde, Hilfe anzeigen
 
@@ -185,7 +185,7 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 				// Benutzer online und Räume bestimmen -> merken
 				$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, "
 					. "r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' as lobby "
-					. "FROM online left join raum on o_raum=r_id  "
+					. "FROM online LEFT JOIN raum ON o_raum=r_id  "
 					. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
 					. "ORDER BY lobby desc,r_name,o_who,o_name ";
 				

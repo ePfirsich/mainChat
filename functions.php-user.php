@@ -48,7 +48,7 @@ function user_liste($larr, $anzahl) {
 		}
 	flush();
 	
-	if ($o_js) {
+	if ($o_js) { // Mit JavaScript
 		if ($show_geschlecht == true) {
 			$geschl = array();
 			foreach ($larr as $k => $v)
@@ -58,11 +58,13 @@ function user_liste($larr, $anzahl) {
 			$result = mysqli_query($mysqli_link, $query);
 			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$uid = $row['ui_userid'];
-				if ($row['ui_geschlecht'] == "männlich")
+				if ($row['ui_geschlecht'] == "männlich") {
 					$geschl[$uid] = "M";
-				else if ($row['ui_geschlecht'] == "weiblich")
+				} else if ($row['ui_geschlecht'] == "weiblich") {
 					$geschl[$uid] = "W";
-				else $geschl[$uid] = "";
+				} else {
+					$geschl[$uid] = "";
+				}
 			}
 			mysqli_free_result($result);
 		}
@@ -74,7 +76,7 @@ function user_liste($larr, $anzahl) {
 		}
 		
 		// Mit Javascript ausgeben, vollständiges Menü
-		for ($k = 0; isset($larr[$k]) AND is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
+		for ($k = 0; isset($larr[$k]) && is_array($larr[$k]) && $v = $larr[$k]; $k++) {
 			if ($level != "admin") {
 				$v['hostname'] = "";
 				$v['o_ip'] = "";
@@ -87,7 +89,7 @@ function user_liste($larr, $anzahl) {
 					$v['o_ip'] = "";
 				}
 			}
-			;
+			
 			$v['u_away'] = $v['u_away'] ? "y" : "";
 			if (!isset($v['u_home_ok'])) {
 				$v['u_home_ok'] = "";
@@ -101,7 +103,9 @@ function user_liste($larr, $anzahl) {
 			if ($show_geschlecht == true) {
 				$geschlecht = $geschl[$v['u_id']];
 				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]','$geschlecht' ";
-			} else $jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
+			} else {
+				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
+			}
 		}
 		$text .= "\n\n<script language=\"JavaScript\">\n"
 			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
@@ -119,7 +123,7 @@ function user_liste($larr, $anzahl) {
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
 		$text .= "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
-	} else { // kein javascript verfügbar	
+	} else { // Kein javascript verfügbar	
 		for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
 			if ( $k % 2 != 0 ) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
