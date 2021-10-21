@@ -170,7 +170,7 @@ $farbe_mini_vlink="#000080";
 $farbe_user_fest=0;				// 1=Benutzername wird in Benutzerfarbe ausgegeben,
 								// Textzeile ist immer system_farbe
 								// 0=Textzeile wird in Benutzerfarbe ausgegeben
-$chat_eingabe_breite=80;		// Breite des Text-Eingabefelds des Chats
+$chat_eingabe_breite=132;		// Breite des Text-Eingabefelds des Chats
 $farbe_chat_user_groesse=12;	// Größe der Farbauswahlfelder
 
 $metatag="<meta name=\"description\" content=\"%description%\">\n".
