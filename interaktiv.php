@@ -141,20 +141,8 @@ if (isset($u_id) && $u_id) {
 	
 	if ($anzahl_raum == 1) {
 		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['sonst2']);
-		if (!isset($chattext['chatter'])) {
-			$txt = str_replace("%chatter%", $t['sonst5'], $txt);
-			$txt = str_replace("%einzahl%", $t['sonst7'], $txt);
-		} else {
-			$txt = str_replace("%chatter%", $chattext['chatter'], $txt);
-			$txt = str_replace("%einzahl%", $chattext['einzahl'], $txt);
-		}
 	} else {
 		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['sonst3']);
-		if (!isset($chattext['chattern'])) {
-			$txt = str_replace("%chattern%", $t['sonst6'], $txt);
-		} else {
-			$txt = str_replace("%chattern%", $chattext['chattern'], $txt);
-		}
 	}
 	if (!(($u_level == 'U' || $level == 'G')
 		&& (isset($useronline_anzeige_deaktivieren)

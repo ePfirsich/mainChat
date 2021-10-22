@@ -200,7 +200,7 @@ $farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
 
 // Zeichensatzgrößen
 $f1="<span style=\"font-size: small;\">";
-$f2="</span>"; 
+$f2="</span>";
 $f3="<span style=\"font-size: x-small;\">";
 $f4="</span>";
 
@@ -371,11 +371,6 @@ $anzahl_po_seite = 20;
 // 0=Kein Logout
 $chat_timeout=3600; // 60 Minuten
 
-// Texte, die überschrieben werden können
-// $chattext['chatter']="Personen";	// Interaktiv
-// $chattext['chattern']="Personen";	// Interaktiv
-// $chattext['einzahl']="eine";		// Interaktiv
-
 // soll die e-mailadresse bei neu-usern überprüft werden ?
 // 0 = nein / 1 = ja
 $pruefe_email=1;
@@ -394,8 +389,7 @@ $nickwechsel=30;
 // Import und Löschen der Benutzerdaten 0 = nein / 1 = ja
 $userimport=0;
 
-// Maximale Anzahl der Tage wie lange ein Benutzer maximal auf der Blacklist
-// steht
+// Maximale Anzahl der Tage wie lange ein Benutzer maximal auf der Blacklist steht
 $blacklistmaxdays=30;
 
 // Anzahl der Tage wie lange eine Raumsperre aufrecht erhalten wird
@@ -499,8 +493,4 @@ $userleiste_inaktiv_userfunktionen = "0";
 
 // Deaktiviert die Anzeige "Benutzer im Raum" beim Betreten des Raumes
 $unterdruecke_user_im_raum_anzeige = "0";
-
-// Deaktiviert autocomplete in der Chateingabe
-$eingabe_inaktiv_autocomplete = "0";
-
 ?>

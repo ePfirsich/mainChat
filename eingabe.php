@@ -88,9 +88,7 @@ zeige_header_ende();
 	} else {
 		$text2_typ = "<input type=\"text\" name=\"text2\" autocomplete=\"off\" maxlength=\""
 			. ($chat_max_eingabe - 1) . "\" value=\"\" size=\""
-			. $chat_eingabe_breite . "\""
-			. (isset($eingabe_inaktiv_autocomplete) && $eingabe_inaktiv_autocomplete == "1" ? "autocomplete=\"off\"" : "")
-			. ">";
+			. $chat_eingabe_breite . "\">";
 	}
 	
 	$chat_eingabe_breite = $chat_eingabe_breite - 11;

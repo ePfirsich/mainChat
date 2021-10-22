@@ -236,7 +236,7 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Max. Anzahl Smilies pro Zeile:</td>
-				<td><input type="text" name="chat_smiliesanzahl" size="40" value="<?php echo checkFormularInputFeld('3',$chat["smiliesanzahl"]) ?>"></td>
+				<td><input type="text" name="chat_smiliesanzahl" size="40" value="<?php echo checkFormularInputFeld('5',$chat["smiliesanzahl"]) ?>"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><br></td>
