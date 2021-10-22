@@ -208,7 +208,7 @@ if (strlen($u_id) != 0) {
 						"r");
 					if ($file) {
 						
-						echo "import.....<br><SMALL>";
+						echo "import.....<br><small>";
 						$i = 1;
 						while (!feof($file)) {
 							$zeile = rtrim(fgets($file, 4096));
@@ -439,7 +439,7 @@ if (strlen($u_id) != 0) {
 				// Suche nach Benutzer mit Homepage
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38']
 					. "</td>\n"
-					. "<td>&nbsp;<SELECT name=\"f[u_chathomepage]\">\n";
+					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
 					$text .= "<option value=\"N\">$t[sonst22]\n"
 						. "<option selected value=\"J\">$t[sonst39]\n";
@@ -447,11 +447,11 @@ if (strlen($u_id) != 0) {
 					$text .= "<option selected value=\"N\">$t[sonst22]\n"
 						. "<option value=\"J\">$t[sonst39]\n";
 				}
-				$text .= "</SELECT>" . $f2 . "</td></tr>\n";
+				$text .= "</select>" . $f2 . "</td></tr>\n";
 				
 				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
-					. $f2 . "</td></tr>" . "</table></FORM>\n";
+					. $f2 . "</td></tr>" . "</table></form>\n";
 				
 				// Box anzeigen
 				show_box_title_content($box, $text);
@@ -590,8 +590,7 @@ if (strlen($u_id) != 0) {
 						for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 							
 							// Array mit Benutzerdaten und Infotexten aufbauen
-							$larr[$i]['u_email'] = str_replace("\\", "",
-								htmlspecialchars($row['u_email']));
+							$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row['u_email']));
 							$larr[$i]['u_nick'] = strtr(
 								str_replace("\\", "",
 									htmlspecialchars($row['u_nick'])), "I",
@@ -612,8 +611,9 @@ if (strlen($u_id) != 0) {
 							// Raumbesitzer einstellen, falls Level=Benutzer
 							if (isset($larr[$i]['isowner'])
 								&& $larr[$i]['isowner']
-								&& $userdata['u_level'] == "U")
+								&& $userdata['u_level'] == "U") {
 								$larr[$i]['u_level'] = "B";
+							}
 							
 							flush();
 						}
@@ -632,14 +632,14 @@ if (strlen($u_id) != 0) {
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
 					. "<table>";
 				if ($admin) {
-					$text .= "<tr><TD colspan=2>" . $f1 . $t['sonst25'] . $f2
+					$text .= "<tr><td colspan=2>" . $f1 . $t['sonst25'] . $f2
 						. "</td></tr>";
 				} else {
-					$text .= "<tr><TD colspan=2>" . $f1 . $t['sonst7'] . $f2
+					$text .= "<tr><td colspan=2>" . $f1 . $t['sonst7'] . $f2
 						. "</td></tr>";
 				}
 				
-				$text .= "<tr><TD colspan=2>" . $f1
+				$text .= "<tr><td colspan=2>" . $f1
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
@@ -653,15 +653,15 @@ if (strlen($u_id) != 0) {
 					}
 					
 					// Suchformular nach IP-Adressen
-					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
+					$text .= "<tr><td colspan=2><br>" . $f1 . $t['sonst30']
 						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
 						. $t['sonst31'] . $f2 . "</td><td>" . $f1
-						. "&nbsp;<input type=\"TEXT\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
+						. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
 					$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst21']
-						. "</td>\n" . "<td>&nbsp;<SELECT name=\"f[level]\">\n"
+						. "</td>\n" . "<td>&nbsp;<select name=\"f[level]\">\n"
 						. "<option value=\"\">$t[sonst22]\n";
 					
 					reset($level);
@@ -675,7 +675,7 @@ if (strlen($u_id) != 0) {
 						}
 					}
 					
-					$text .= "</SELECT>" . $f2 . "</td></tr>\n";
+					$text .= "</select>" . $f2 . "</td></tr>\n";
 					
 				}
 				
@@ -725,24 +725,22 @@ if (strlen($u_id) != 0) {
 				$anzahl = mysqli_num_rows($result);
 				
 				for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
-					
 					// Array mit Benutzerdaten und Infotexten aufbauen
-					$larr[$i][u_email] = str_replace("\\", "",
-						htmlspecialchars($row[u_email]));
-					$larr[$i][u_nick] = strtr(
+					$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row[u_email]));
+					$larr[$i]['u_nick'] = strtr(
 						str_replace("\\", "", htmlspecialchars($row[u_nick])),
 						"I", "i");
-					$larr[$i][u_level] = $row[u_level];
-					$larr[$i][u_id] = $row[u_id];
-					$larr[$i][u_away] = $row[u_away];
+					$larr[$i]['u_level'] = $row['u_level'];
+					$larr[$i]['u_id'] = $row['u_id'];
+					$larr[$i]['u_away'] = $row['u_away'];
 					if ($communityfeatures) {
 						// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-						if ($row[u_punkte_anzeigen] != "N") {
-							$larr[$i][gruppe] = hexdec($row[u_punkte_gruppe]);
+						if ($row['u_punkte_anzeigen'] != "N") {
+							$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
 						} else {
-							$larr[$i][gruppe] = 0;
+							$larr[$i]['gruppe'] = 0;
 						}
-						$larr[$i][u_chathomepage] = $row[u_chathomepage];
+						$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 					}
 					
 					flush();
@@ -756,13 +754,14 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		case "zeig":
-			if (!isset($zeigeip))
+			if (!isset($zeigeip)) {
 				$zeigeip = 0;
+			}
 			// Benutzer mit ID $user anzeigen
 			if ($user) {
 				// Benutzer listen
 				user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip);
-			} else echo "<P>$t[sonst11]</P>\n";
+			} else echo "<p>$t[sonst11]</p>\n";
 			
 			break;
 		
@@ -774,7 +773,6 @@ if (strlen($u_id) != 0) {
 		// Beichtstuhlmodus
 		// ID der Lobby merken
 			if (isset($beichtstuhl) && $beichtstuhl && !$admin) {
-				
 				// Id der Lobby als Voreinstellung ermitteln
 				$query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $lobby) . "' ";
 				$result = mysqli_query($mysqli_link, $query);
@@ -788,14 +786,13 @@ if (strlen($u_id) != 0) {
 			
 			// Raum listen
 			$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
-				. "FROM online left join raum on o_raum=r_id "
+				. "FROM online LEFT JOIN raum ON o_raum=r_id "
 				. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
 				. "ORDER BY o_name";
 			
 			$result = mysqli_query($mysqli_link, $query);
 			
 			for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
-				
 				// Array mit Benutzerdaten und Infotexten aufbauen
 				$userdata = unserialize(
 					$row['o_userdata'] . $row['o_userdata2']
@@ -805,6 +802,7 @@ if (strlen($u_id) != 0) {
 					|| $userdata['u_id'] == $u_id || $lobby_id == $schau_raum
 					|| $userdata['u_level'] == "S"
 					|| $userdata['u_level'] == "C") {
+					
 					// Variable aus o_userdata setzen
 					$larr[$i]['u_email'] = str_replace("\\", "",
 						htmlspecialchars($userdata['u_email']));
@@ -820,20 +818,17 @@ if (strlen($u_id) != 0) {
 					$larr[$i]['isowner'] = $row['isowner'];
 					if ($communityfeatures) {
 						if ($userdata['u_punkte_anzeigen'] != "N") {
-							$larr[$i]['gruppe'] = hexdec(
-								$userdata['u_punkte_gruppe']);
+							$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
 						} else {
 							$larr[$i]['gruppe'] = 0;
 						}
 						$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
 					}
 					if (!$row['r_name'] || $row['r_name'] == "NULL") {
-						$larr[$i]['r_name'] = "["
-							. $whotext[($schau_raum * (-1))] . "]";
+						$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 					} else {
 						$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
 					}
-					
 				} else {
 					// Anonyme Benutzer
 					$larr[$i]['u_nick'] = $t['sonst37'];
@@ -843,8 +838,7 @@ if (strlen($u_id) != 0) {
 					$larr[$i]['r_topic'] = $row['r_topic'];
 					$larr[$i]['o_ip'] = $row['o_ip'];
 					if (!$row['r_name'] || $row['r_name'] == "NULL") {
-						$larr[$i]['r_name'] = "["
-							. $whotext[($schau_raum * (-1))] . "]";
+						$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 					} else {
 						$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
 					}
@@ -856,8 +850,9 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Raumbesitzer einstellen, falls Level=Benutzer
-				if ($larr[$i]['isowner'] && $userdata['u_level'] == "U")
+				if ($larr[$i]['isowner'] && $userdata['u_level'] == "U") {
 					$larr[$i]['u_level'] = "B";
+				}
 				
 			}
 			mysqli_free_result($result);
@@ -880,9 +875,9 @@ if (strlen($u_id) != 0) {
 				
 			} elseif (!$rows && $schau_raum < 0) {
 				
-				echo "<P>"
+				echo "<p>"
 					. str_replace("%whotext%", $whotext[($schau_raum * (-1))],
-						$t['sonst43']) . "</P>\n";
+						$t['sonst43']) . "</p>\n";
 				
 			} else { // array ist gefüllt -> Daten ausgeben
 			
@@ -904,9 +899,8 @@ if (strlen($u_id) != 0) {
 					show_box_title_content($box, $text);
 					
 					// Raumauswahl
-					?>
-					<br>
-					<?php
+					echo "<br>";
+					
 					$text = '';
 					$box = $t['sonst14'];
 					
@@ -931,16 +925,11 @@ if (strlen($u_id) != 0) {
 					$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
 					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
 						. $linkuser . ">" . $t['sonst19'] . "</a>]";
-					if ((!isset($beichtstuhl) || !$beichtstuhl)
-						&& $smilies_datei != ""
-						&& (!isset($smilies_aus) || !$smilies_aus)) {
-						$linksmilies = "href=\"" . $smilies_datei
-							. "?id=$id\"";
-						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>"
-							. $t['sonst20'] . "</a>]";
+					if ((!isset($beichtstuhl) || !$beichtstuhl) && $smilies_datei != "" && (!isset($smilies_aus) || !$smilies_aus)) {
+						$linksmilies = "href=\"" . $smilies_datei . "?id=$id\"";
+						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
 					}
-					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2
-						. "<br>\n";
+					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2 . "<br>\n";
 					
 					// Benutzerliste ausgeben
 					echo user_liste($larr, 0);
