@@ -1,8 +1,8 @@
 /* Farbdeklarationen - Anfang ******************************************************************* */
 :root{
-	--Tabellenkopf-Hintergrundfarbe: #A0A0FF;
-	--Tabellenkopf-Textfarbe: #000000;
-	--Tabellenkopf-Linkfarbe: #000000;
+	--Tabellenkopf-Hintergrundfarbe: #007ABE;
+	--Tabellenkopf-Textfarbe: #ffffff;;
+	--Tabellenkopf-Linkfarbe: #ffffff;;
 	
 	--Tabelle-Geruest-Hintergrundfarbe: #000000;
 	
@@ -10,7 +10,7 @@
 	--Tabellenkoerper-Textfarbe: #000000;
 	--Tabellenkoerper-Linkfarbe: #000000;
 	
-	--Tabellenkoerper-Login-Hintergrundfarbe: #C0C0FF;
+	--Tabellenkoerper-Login-Hintergrundfarbe: #85D4FF;
 	--Tabellenkoerper-Login-Textfarbe: #000000;
 	--Tabellenkoerper-Login-Linkfarbe: #000000;
 	
@@ -49,21 +49,21 @@ body {
 .fa-highlighted {
 	color: var(--FA-Iconfarbe-Highlighted);
 }
-/*
+
 .icon16 {
-	font-size:14px;
+	font-size:14px !important;
 	height:16px;
-	line-height:16px;
+	line-height:16px !important;
 	width:16px
 }
 
 .icon24 {
-	font-size:18px;
+	font-size:18px !important;
 	height:24px;
-	line-height:24px;
+	line-height:24px !important;
 	width:24px
 }
-*/
+
 /* Icons - Ende ******************************************************************* */
 
 
