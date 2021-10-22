@@ -45,7 +45,7 @@ function user_liste($larr, $anzahl) {
 	// Wartetext ausgeben
 	if ($anzahl > 10) {
 		$text .= $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
-		}
+	}
 	flush();
 	
 	if ($o_js) { // Mit JavaScript
@@ -164,7 +164,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		. "FROM `user` WHERE `u_id`=$user ";
 	$result = mysqli_query($mysqli_link, $query);
 	
-	if ($result AND mysqli_num_rows($result) == 1) {
+	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		$uu_away = $row->u_away;
 		$uu_nick = htmlspecialchars($row->u_nick);
@@ -375,7 +375,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$f4 . "</td></tr>\n";
 		} else if (strlen($uu_email) > 0) {
 			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
-				. "<a href=\"MAILTO:$uu_email\">$uu_email</a>" . $f4
+				. "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4
 				. "</td></tr>\n";
 		}
 		
