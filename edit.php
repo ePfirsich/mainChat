@@ -100,10 +100,12 @@ if (strlen($u_id) != 0) {
 	}
 	
 	if ($aktion == "edit2") {
+		$ok = 1;
 		if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
 		//if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) ) {
 			echo "<p><b>$t[edit1]</b></p>\n";
 			$aktion = "andereadminmail";
+			$ok = 0;
 		}
 		
 		// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
@@ -113,6 +115,7 @@ if (strlen($u_id) != 0) {
 		if ($num > 1) {
 			echo "<p><b>$t[edit23]</b></p>\n";
 			$aktion = "andereadminmail";
+			$ok = 0;
 		}
 		
 		// oder Domain ist lt. Config verboten
@@ -124,7 +127,12 @@ if (strlen($u_id) != 0) {
 			if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
 				echo "<p><b>$t[edit1]</b></p>\n";
 				$aktion = "andereadminmail";
+				$ok = 0;
 			}
+		}
+		
+		if($ok) {
+			echo "<p><b>$t[edit24]</b></p>\n";
 		}
 	}
 	
@@ -324,6 +332,7 @@ if (strlen($u_id) != 0) {
 				if ($num > 1) {
 					echo "<p><b>$t[edit23]</b></p>\n";
 					$aktion = "andereadminmail";
+					$ok = 0;
 				}
 				
 				// Benutzername muss 4-20 Zeichen haben
@@ -353,9 +362,7 @@ if (strlen($u_id) != 0) {
 					// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
 					// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20 
 					// Zeichen eingegeben hat
-					if (!$keineloginbox
-						&& (strlen($f['u_nick']) < 4
-							|| strlen($f['u_nick']) > 20)) {
+					if (!$keineloginbox && (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
 						echo "<p><b>$t[edit3]</b></p>\n";
 						unset($f['u_nick']);
 						$ok = 0;
@@ -479,7 +486,6 @@ if (strlen($u_id) != 0) {
 					mysqli_free_result($result);
 					
 				} else {
-					
 					// Per default nichts ändern -> Array Löschen
 					echo $t['edit17'] . "<br>";
 					$ok = 0;
@@ -488,9 +494,7 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Nur Superuser darf Level S oder C vergeben
-				if ($ok && isset($f['u_level'])
-					&& ($f['u_level'] == "S" || $f['u_level'] == "C")
-					&& $u_level != "S") {
+				if ($ok && isset($f['u_level']) && ($f['u_level'] == "S" || $f['u_level'] == "C") && $u_level != "S") {
 					unset($f['u_level']);
 					echo $t['edit17'] . "<br>";
 				}
@@ -500,10 +504,10 @@ if (strlen($u_id) != 0) {
 					if ($passwort1 != $passwort2) {
 						echo "<p><b>$t[edit4]</b></p>\n";
 						$ok = 0;
-					} elseif (strlen($passwort1) < 4) {
+					} else if (strlen($passwort1) < 4) {
 						echo "<p><b>$t[edit5]</b></p>\n";
 						$ok = 0;
-					} else {
+					} else if ($ok) {
 						// Paßwort neu eintragen
 						echo "<p><b>$t[edit6]</b></p>\n";
 						$f['u_passwort'] = $passwort1;
@@ -520,8 +524,7 @@ if (strlen($u_id) != 0) {
 					if (isset($zeige_loesch) && $zeige_loesch != 1) {
 						// Änderungen anzeigen
 						
-						$query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum "
-							. "FROM online " . "WHERE o_user=" . intval($f[u_id]);
+						$query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum FROM online " . "WHERE o_user=" . intval($f[u_id]);
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
 							$row = mysqli_fetch_object($result);
@@ -563,6 +566,7 @@ if (strlen($u_id) != 0) {
 					$f['u_austritt'] = isset($f['u_austritt']) ? $f['u_austritt'] : "";
 					
 					schreibe_db("user", $f, $f['u_id'], "u_id");
+					echo "<p><b>$t[edit24]</b></p>\n";
 					
 					// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 					if (isset($f['u_level']) && $f['u_level'] == "Z") {
@@ -599,9 +603,9 @@ if (strlen($u_id) != 0) {
 					// Eingabe-Frame mit Farben aktualisieren
 					if ($o_js && $o_who == 0 && isset($f['u_farbe'])
 						&& $f['u_farbe']) {
-						echo "<SCRIPT LANGUAGE=JavaScript>"
+						echo "<script language=JavaScript>"
 							. "opener_reload('eingabe.php?id=$id','3')"
-							. "</SCRIPT>\n";
+							. "</script>\n";
 					}
 				}
 				
@@ -862,7 +866,6 @@ if (strlen($u_id) != 0) {
 				user_edit($f, $admin, $u_level, $size);
 				mysqli_free_result($result);
 			}
-		
 	}
 	
 } else {
