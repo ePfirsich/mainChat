@@ -176,10 +176,10 @@ if (strlen($u_id) > 0) {
 			}
 			break;
 		case "show_posting":
-		//			Falsch, die Leserechte anhand der $th_id die übergeben wurde zu überprüfen
-		//			$leserechte=pruefe_leserechte($th_id);
+			// Falsch, die Leserechte anhand der $th_id die übergeben wurde zu überprüfen
+			// $leserechte=pruefe_leserechte($th_id);
 		
-		// 			Richtig, die $th_id anhand der $po_id zu bestimmen und zu prüfen
+			// Richtig, die $th_id anhand der $po_id zu bestimmen und zu prüfen
 			$leserechte = pruefe_leserechte(
 				hole_themen_id_anhand_posting_id($po_id));
 			if ($leserechte) {

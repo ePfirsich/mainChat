@@ -172,17 +172,17 @@ function forum_liste() {
 	global $t, $f1, $f2, $f3, $f4;
 	global $u_level;
 	
-	$sql = "select fo_id, fo_name, fo_order, fo_admin,
+	$sql = "SELECT fo_id, fo_name, fo_order, fo_admin,
 				th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings
-				from forum, thema
-				where fo_id = th_fo_id ";
-	if ($u_level == "G")
+				FROM forum, thema WHERE fo_id = th_fo_id ";
+	if ($u_level == "G") {
 		$sql .= "and ( ((fo_admin & 8) = 8) or fo_admin = 0) ";
-	if ($u_level == "U" || $u_level == "A" || $u_level == "M"
-		|| $u_level == "Z")
+	}
+	if ($u_level == "U" || $u_level == "A" || $u_level == "M" || $u_level == "Z") {
 		$sql .= "and ( ((fo_admin & 2) = 2) or fo_admin = 0) ";
+	}
 	
-	$sql .= "order by fo_order, th_order";
+	$sql .= "ORDER BY fo_order, th_order";
 	
 	$query = mysqli_query($mysqli_link, $sql);
 	//fo_id merken zur Darstellnug des Kopfes
