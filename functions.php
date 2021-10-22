@@ -686,11 +686,11 @@ function schreibe_db($db, $f, $id, $id_name) {
 				. mysqli_error($mysqli_link);
 			die();
 		}
-		if ($id == 0)
+		if ($id == 0) {
 			$id = mysqli_insert_id($mysqli_link);
+		}
 		
 	} else {
-		
 		// bestehenden Datensatz updaten
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
@@ -702,9 +702,10 @@ function schreibe_db($db, $f, $id, $id_name) {
 				}
 				if ($name == "u_passwort") {
 					// Verschlüsseln
-					if (!isset($f['u_salt']))
+					if (!isset($f['u_salt'])) {
 						$f['u_salt'] = substr($inhalt, 0, 2);
-						$q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
+					}
+					$q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
 				} else {
 					$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
 				}
@@ -719,7 +720,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		// Query muss mit dem Code in login() übereinstimmen
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
 			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
-			. "`u_away`, `u_email`, `u_adminemail`, u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe,` "
+			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` "
 			. "FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
@@ -735,22 +736,27 @@ function schreibe_db($db, $f, $id, $id_name) {
 			// Benutzerdaten in 255-Byte Häppchen zerlegen
 			$userdata_array = zerlege(serialize($userdata));
 			
-			if (!isset($userdata_array[0]))
+			if (!isset($userdata_array[0])) {
 				$userdata_array[0] = "";
-			if (!isset($userdata_array[1]))
+			}
+			if (!isset($userdata_array[1])) {
 				$userdata_array[1] = "";
-			if (!isset($userdata_array[2]))
+			}
+			if (!isset($userdata_array[2])) {
 				$userdata_array[2] = "";
-			if (!isset($userdata_array[3]))
+			}
+			if (!isset($userdata_array[3])) {
 				$userdata_array[3] = "";
+			}
 			
-			$query = "UPDATE online SET " . "o_userdata='"
-				. mysqli_real_escape_string($mysqli_link, $userdata_array[0]) . "', " . "o_userdata2='"
-				. mysqli_real_escape_string($mysqli_link, $userdata_array[1]) . "', " . "o_userdata3='"
-				. mysqli_real_escape_string($mysqli_link, $userdata_array[2]) . "', " . "o_userdata4='"
-				. mysqli_real_escape_string($mysqli_link, $userdata_array[3]) . "', " . "o_level='"
-				. mysqli_real_escape_string($mysqli_link, $userdata['u_level']) . "', " . "o_name='"
-				. mysqli_real_escape_string($mysqli_link, $userdata['u_nick']) . "' " . "WHERE o_user=$id";
+			$query = "UPDATE online SET "
+				. "o_userdata='" . mysqli_real_escape_string($mysqli_link, $userdata_array[0]) . "', "
+				. "o_userdata2='" . mysqli_real_escape_string($mysqli_link, $userdata_array[1]) . "', "
+				. "o_userdata3='" . mysqli_real_escape_string($mysqli_link, $userdata_array[2]) . "', "
+				. "o_userdata4='" . mysqli_real_escape_string($mysqli_link, $userdata_array[3]) . "', "
+				. "o_level='" . mysqli_real_escape_string($mysqli_link, $userdata['u_level']) . "', "
+				. "o_name='" . mysqli_real_escape_string($mysqli_link, $userdata['u_nick']) . "' "
+					. "WHERE o_user=$id";
 			mysqli_query($mysqli_link, $query);
 			mysqli_free_result($result);
 			
