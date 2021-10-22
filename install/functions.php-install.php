@@ -214,16 +214,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 				<td colspan="2"><br></td>
 			</tr>
 			<tr style="background-color:#007ABE;">
-				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Globale Voreinstellungen für Frames</span></td>
-			</tr>
-			<tr>
-				<td> Optionale URL des linken Frames:</td>
-				<td><input type="text" name="chat_framelinks" size="40" value="<?php echo checkFormularInputFeld('',$chat["framelinks"]) ?>"></td>
-			</tr>
-			<tr>
-				<td colspan="2"><br></td>
-			</tr>
-			<tr style="background-color:#007ABE;">
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Smilies</span></td>
 			</tr>
 			<tr>
