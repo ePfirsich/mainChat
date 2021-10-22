@@ -83,10 +83,10 @@ zeige_header_ende();
 	
 	// Typ Eingabefeld für Chateingabe setzen
 	if ($u_level == "M") {
-		$text2_typ = "<textarea rows=\"3\" name=\"text2\" autocomplete=\"off\" cols=\""
+		$text2_typ = "<textarea rows=\"3\" name=\"text2\" autofocus autocomplete=\"off\" cols=\""
 			. $chat_eingabe_breite . "\"></textarea>";
 	} else {
-		$text2_typ = "<input type=\"text\" name=\"text2\" autocomplete=\"off\" maxlength=\""
+		$text2_typ = "<input type=\"text\" name=\"text2\" autofocus autocomplete=\"off\" maxlength=\""
 			. ($chat_max_eingabe - 1) . "\" value=\"\" size=\""
 			. $chat_eingabe_breite . "\">";
 	}
