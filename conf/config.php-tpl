@@ -270,8 +270,7 @@ $moderation_rueckwaerts=1; 			// neueste Nachrichten normalerweise unten (=0) so
 
 
 // Globale Voreinstellungen für Frames
-// $frame_online_size=150;					// Höhe des Frames frame_online in Pixel
-$frame_online_size=0;						// Höhe des Frames frame_online in Pixel
+$frame_online_size=0;				// Höhe des Frames frame_online in Pixel
 $frame_size['eingabe']=54;			// Höhe des Frames eingabe in Pixel
 $frame_size['interaktiv']=60;		// Höhe des Frames interaktiv in Pixel
 $frame_size['chatuserliste']=250;	// Breite des Frames user (rechts neben eingabe-Frame) in Pixel
