@@ -50,8 +50,8 @@ $t['forum_msg7'] = "weder lesen noch schreiben";
 //Texte für Beschreibungen der Folder
 $t['desc_folder'] = "Keine neuen Beiträge seit Ihrem letzten Besuch.";
 $t['desc_redfolder'] = "Neue Beiträge seit Ihrem letzten Besuch.";
-$t['desc_burningfolder'] = "Mehr als 10 Beiträge";
-$t['desc_burningredfolder'] = "Mehr als 10 Beiträge";
+$t['desc_burningfolder'] = "Mehr als 10 neue Beiträge";
+$t['desc_burningredfolder'] = "Mehr als 10 neue Beiträge";
 $t['desc_topposting'] = "Beiträge dieser Kategorie stehen im jeweiligen Thema immer ganz oben.";
 $t['desc_threadgeschlossen'] = "Dieses Thema ist geschlossen. Hier können keine Antworten mehr erfolgen.";
 

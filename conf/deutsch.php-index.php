@@ -185,8 +185,8 @@ $legende = "<tr><td colspan=\"2\" class=\"tabelle_zeile1\" style=\"padding: 5px;
 	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe9.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">Benutzer: 5.000.000 - 9.999.999 Punkte</td></tr>"
 	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe10.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">Benutzer: ab 10.000.000 Punkten</td></tr>"
 	. "<tr><td colspan=\"2\" class=\"tabelle_zeile2\" style=\"padding: 5px; font-weight:bold;\">Weitere Symbole:</td></tr>"
-	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home \"></span><br></td><td class=\"tabelle_zeile1\">Homepage des Benutzers</td></tr>"
-	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope \"></span><br></td><td class=\"tabelle_zeile2\">E-Mail des Benutzers</td></tr>";
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\></span><br></td><td class=\"tabelle_zeile1\">Homepage des Benutzers</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span><br></td><td class=\"tabelle_zeile2\">E-Mail des Benutzers</td></tr>";
 
 $hilfe_community = "<br>
 <table style=\"float:right;\">

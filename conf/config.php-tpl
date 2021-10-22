@@ -347,15 +347,15 @@ $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 $punkte_grafik=array("<img src=\"pics/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
 			"<img src=\"pics/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
 
-$chat_grafik['home']="<span class=\"fa fa-home \" alt=\"Homepage\" title=\"Homepage\"></span>";
-$chat_grafik['mail']="<span class=\"fa fa-envelope \" alt=\"Mail\" title=\"Mail\"></span>";
-$chat_grafik['geschlecht_weiblich'] = "&nbsp;<img src=\"pics/weiblich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"weiblich\">";
-$chat_grafik['geschlecht_maennlich'] = "&nbsp;<img src=\"pics/maennlich2.gif\" style=\"width:9px; height:12px; border:0px;\" alt =\"maennlich\">";
-$chat_grafik['forum_ordnerblau']="<img src=\"pics/forum/ordnerblau.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Neue_Beitraege\">";
-$chat_grafik['forum_ordnerneu']="<img src=\"pics/forum/ordnerneu.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Keine_neuen_Beitraege\">";
-$chat_grafik['forum_ordnervoll']="<img src=\"pics/forum/ordnervoll.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Mehr_als_10_Beitraege\">";
-$chat_grafik['forum_topthema']="<img src=\"pics/forum/threadtopposting.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Thema_TOP_Beitrag\">";
-$chat_grafik['forum_threadgeschlossen']="<img src=\"pics/forum/threadgeschlossen.gif\" style=\"width:14px; height:14px; border:0px;\" alt =\"Thema_geschlossen\">";
+$chat_grafik['home']="<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\"></span>";
+$chat_grafik['mail']="<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>";
+$chat_grafik['geschlecht_weiblich'] = "&nbsp;<span class=\"fa fa-venus icon16\" alt=\"weiblich\"></span>";
+$chat_grafik['geschlecht_maennlich'] = "&nbsp;<span class=\"fa fa-mars icon16\" alt=\"männlich\"></span>";
+$chat_grafik['forum_ordnerneu']="<span class=\"fa fa-folder-o icon24\" alt=\"Keine neuen Beiträge\" title=\"Keine neuen Beiträge\"></span>";
+$chat_grafik['forum_ordnerblau']="<span class=\"fa fa-folder icon24\" alt=\"Neue Beiträge\" title=\"Neue Beiträge\"></span>";
+$chat_grafik['forum_ordnervoll']="<span class=\"fa fa-folder-open icon24\" alt=\"Mehr als 10 neue Beiträge\" title=\"Mehr als 10 neue Beiträge\"></span>";
+$chat_grafik['forum_threadgeschlossen']="<span class=\"fa fa-lock icon24\" alt=\"Thema geschlossen\" title=\"Thema geschlossen\"></span>";
+$chat_grafik['forum_topthema']="<span class=\"fa fa-thumb-tack icon24\" alt=\"Oben angeheftetes Thema\" title=\"Oben angeheftetes Thema\"></span>";
 
 //Einstellungen für das Forum
 
