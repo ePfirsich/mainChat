@@ -426,7 +426,6 @@ $t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde fü
 	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des "
 	. "Datums/Uhrzeit direkt an den Provider.\n";
 $t['login22'] = "Raum/Forum:";
-$t['login23'] = "Beiträge im Forum zeigen";
 $t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
 	. "<p>Es sind im $chat bereits %online% Benutzer online. "
 	. "Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den $chat nicht mehr betreten.</p>"

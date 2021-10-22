@@ -436,7 +436,6 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 switch ($aktion) {
 	case "impressum":
 		// Impressumg anzeigen
-		
 		require_once('templates/impressum.php');
 
 		break;
@@ -1280,22 +1279,13 @@ switch ($aktion) {
 				unset($u_nick);
 				
 				// Box für Login
-				echo "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">";
+				?>
+				<form action="index.php" target="_top" name="form1" method="post">
+				<?php
 				
-				if ($gast_login && $communityfeatures && $forumfeatures) {
-					$titel = $login_titel . "[<a href=\""
-						. $_SERVER['PHP_SELF']
-						. "?id=$id&aktion=login&"
-						. $t['login10'] . "=los&eintritt=forum\">"
-						. $t['login23'] . "</a>]";
-				} else {
-					$titel = $login_titel;
-				}
-				
+				$titel = $login_titel;
 				if ($einstellungen_aendern) {
-					$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
-						. "?aktion=passwort_neu\">"
-						. $t['login27'] . "</a>]";
+					$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 				}
 				
 				// Box und Disclaimer ausgeben
@@ -1749,27 +1739,19 @@ switch ($aktion) {
 			}
 			
 			// Box für Login
-			echo "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">";
+			?>
+			<form action="index.php" target="_top" name="form1" method="post">
+			<?php
 			
-			if ($gast_login && $communityfeatures && $forumfeatures) {
-				$titel = $login_titel . "[<a href=\""
-					. $_SERVER['PHP_SELF']
-					. "?id=&aktion=login&"
-					. $t['login10'] . "=los&eintritt=forum\">"
-					. $t['login23'] . "</a>]";
-			} else {
-				$titel = $login_titel;
-			}
-			
+			$titel = $login_titel;
 			if ($einstellungen_aendern) {
-				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
-					. "?aktion=passwort_neu\">"
-					. $t['login27'] . "</a>]";
+				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 			}
 			
 			// Box und Disclaimer ausgeben
-			if (!isset($keineloginbox) || !$keineloginbox)
+			if (!isset($keineloginbox) || !$keineloginbox) {
 				show_box($titel, $logintext, "100%");
+			}
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 			
@@ -2057,31 +2039,19 @@ switch ($aktion) {
 		<form action="index.php" target="_top" name="form1" method="post">
 		<?php
 		
-		if ($gast_login && $communityfeatures && $forumfeatures) {
-			if (!isset($id))
-				$id = "";
-			$titel = $login_titel . "[<a href=\"" . $_SERVER['PHP_SELF']
-				. "?id=$id&aktion=login&"
-				. $t['login10'] . "=los&eintritt=forum\">"
-				. $t['login23'] . "</a>]";
-		} else {
-			$titel = $login_titel;
-		}
-		
+		$titel = $login_titel;
 		if ($einstellungen_aendern) {
-			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF']
-				. "?aktion=passwort_neu\">"
-				. $t['login27'] . "</a>]";
+			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 		}
 		
 		// Box und Disclaimer ausgeben
-		if (!isset($keineloginbox))
+		if (!isset($keineloginbox)) {
 			show_box($titel, $logintext, "100%");
+		}
 		echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 		echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 		
 		if (!isset($beichtstuhl) || !$beichtstuhl) {
-			
 			// Wie viele Benutzer sind in der DB?
 			$query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
 			$result = mysqli_query($mysqli_link, $query);
