@@ -1185,7 +1185,7 @@ function user(
 		$text2 .= $trenner
 			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\" title=\"E-Mail\">"
 			
-			. "<span class=\"fa fa-envelope \"></span>" . "</a>";
+			. "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
 	} else if (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
 	}
