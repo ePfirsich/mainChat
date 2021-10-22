@@ -1105,22 +1105,13 @@ switch ($aktion) {
 			. "WHERE (u_nick = '$login') "
 			. "AND (u_level='S' OR u_level='C') ";
 		$result = mysqli_query($mysqli_link, $query4711);
-		if ($result)
+		if ($result) {
 			$rows = mysqli_num_rows($result);
+		}
 		
 		// Voreinstellung: Weiter mit Login
 		$login_ok = true;
 		
-		// Mehr als ein güliger Account gefunden, nochmals nach nick suchen
-		if ($result && $rows > 1) {
-			mysqli_free_result($result);
-			$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login FROM user "
-				. "WHERE (u_nick = '$login') "
-				. "AND (u_level='S' OR u_level='C') ";
-			$result = mysqli_query($mysqli_link, $query4711);
-			if ($result)
-				$rows = mysqli_num_rows($result);
-		}
 		if ($result && $rows == 1) {
 			$userdata = mysqli_fetch_object($result);
 			if ($userdata->u_loginfehler) {
@@ -1873,7 +1864,7 @@ switch ($aktion) {
 		
 		$text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12']
 			. "</td>" . "<td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_nick]\" value=\"$f[u_nick]\" size=\"40\">"
+			. "<input type=\"text\" name=\"f[u_nick]\" value=\"$f[u_nick]\" size=\"40\">"
 			. $f2 . "</td>" . "<td>" . $f1 . $t['neu13'] . $f2
 			. "</td></tr>" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu14']
 			. "</td>" . "<td>" . $f1
@@ -1887,21 +1878,21 @@ switch ($aktion) {
 		if (!isset($ro) || $ro == "") {
 			$text .= "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu17'] . "</td>"
 				. "<td>" . $f1
-				. "<input type=\"TEXT\" name=\"f[u_adminemail]\" value=\""
+				. "<input type=\"text\" name=\"f[u_adminemail]\" value=\""
 				. (isset($f[u_adminemail]) ? $f[u_adminemail] : "")
 				. "\" size=\"40\">" . $f2 . "</td>" . "<td><b>*</b>&nbsp;"
 				. $f1 . $t['neu18'] . $f2 . "</td></tr>";
 		} else {
-			$text .= "<tr><td colsPAN=3>"
+			$text .= "<tr><td colspan=3>"
 				. "<input type=\"hidden\" name=\"f[u_adminemail]\" value=\"$f[u_adminemail]\"></td></tr>";
 		}
 		$text .= "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu19'] . "</td>\n"
 			. "<td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_email]\" value=\"$f[u_email]\" size=\"40\">"
+			. "<input type=\"text\" name=\"f[u_email]\" value=\"$f[u_email]\" size=\"40\">"
 			. $f2 . "</td>\n" . "<td>" . $f1 . $t['neu20'] . $f2
 			. "</td></tr>\n" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu21']
 			. "</td>\n" . "<td>" . $f1
-			. "<input type=\"TEXT\" name=\"f[u_url]\" value=\"$f[u_url]\" size=\"40\">"
+			. "<input type=\"text\" name=\"f[u_url]\" value=\"$f[u_url]\" size=\"40\">"
 			. $f2 . "</td>\n" . "<td>" . $f1
 			. "<input type=\"hidden\" name=\"aktion\" value=\"neu\">\n"
 			. "<input type=\"hidden\" name=\"hash\" value=\""
