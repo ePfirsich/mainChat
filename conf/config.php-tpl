@@ -428,7 +428,7 @@ $sperre_dialup[]="dip.t-dialin.net";
 $sperre_dialup[]="arcor-ip.net";
 $sperre_dialup[]="t-ipconnect.de";
 
-// Benutzer darf sein Passwort & Benutzernamen ändern (1=ja/0=nein)
+// Benutzer darf seinen Nicknamen ändern (1=ja/0=nein)
 $einstellungen_aendern=1;
 
 // Geschlecht anzeigen im Chat. true erzeugt mehr Datenbankzugriffe, da zusätzliche Felder aus der userinfo geladen werden müssen

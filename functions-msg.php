@@ -1221,8 +1221,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					"<b>He $u_nick!</b> "
 						. str_replace("%chatzeile%", $chatzeile[0],
 							$t['chat_msg1']));
-			} elseif ((strlen($chatzeile[1]) > 0)
-				&& (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
+			} else if ((strlen($chatzeile[1]) > 0) && (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
 				
 				$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
 				$result = mysqli_query($mysqli_link, $query);

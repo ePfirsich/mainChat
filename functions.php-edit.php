@@ -223,13 +223,11 @@ if (tests.dnd) {
 		}
 		
 		// Passwort
-		if ($einstellungen_aendern) {
-			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige19']
-				. "</b><br>\n" . $f2
-				. "<input type=\"PASSWORD\" name=\"passwort1\" SIZE=$passwort_breite>"
-				. "<input type=\"PASSWORD\" name=\"passwort2\" SIZE=$passwort_breite>"
-				. "</td></tr>\n";
-		}
+		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige19']
+			. "</b><br>\n" . $f2
+			. "<input type=\"PASSWORD\" name=\"passwort1\" SIZE=$passwort_breite>"
+			. "<input type=\"PASSWORD\" name=\"passwort2\" SIZE=$passwort_breite>"
+			. "</td></tr>\n";
 	}
 	
 	// System Ein/Austrittsnachrichten Y/N

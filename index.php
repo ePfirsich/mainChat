@@ -1284,9 +1284,7 @@ switch ($aktion) {
 				<?php
 				
 				$titel = $login_titel;
-				if ($einstellungen_aendern) {
-					$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
-				}
+				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 				
 				// Box und Disclaimer ausgeben
 				show_box($titel, $logintext, "100%");
@@ -1744,9 +1742,7 @@ switch ($aktion) {
 			<?php
 			
 			$titel = $login_titel;
-			if ($einstellungen_aendern) {
-				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
-			}
+			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 			
 			// Box und Disclaimer ausgeben
 			if (!isset($keineloginbox) || !$keineloginbox) {
@@ -2040,9 +2036,7 @@ switch ($aktion) {
 		<?php
 		
 		$titel = $login_titel;
-		if ($einstellungen_aendern) {
-			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
-		}
+		$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 		
 		// Box und Disclaimer ausgeben
 		if (!isset($keineloginbox)) {

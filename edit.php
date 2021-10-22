@@ -70,11 +70,6 @@ if (strlen($u_id) != 0) {
 		unset($f['u_farbe']);
 	}
 	
-	// Benutzer darf Passwort nicht ändern (optional)
-	if (!$einstellungen_aendern) {
-		unset($f['u_passwort']);
-	}
-	
 	// Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
 	if ($o_js && $o_who == 0) {
 		echo "<script>"
@@ -335,10 +330,9 @@ if (strlen($u_id) != 0) {
 				if (!isset($keineloginbox)) {
 					$keineloginbox = 0;
 				}
-				if (!$keineloginbox
-					&& (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
+				if (!$keineloginbox && (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
 					
-						// Wenn man den Benutzernamen nicht ändern darf, und man Benutzer ist, dann den Parameter
+					// Wenn man den Benutzernamen nicht ändern darf, und man Benutzer ist, dann den Parameter
 					// sicherheitshalber löschen
 					if (!$einstellungen_aendern && !$admin) {
 						unset($f['u_nick']);
