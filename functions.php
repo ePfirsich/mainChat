@@ -1008,13 +1008,14 @@ function user(
 	}
 	
 	if (is_array($userdaten)) {
-		
 		// Array wurde übergeben
 		
-		if (!isset($userdaten['u_chathomepage']))
+		if (!isset($userdaten['u_chathomepage'])) {
 			$userdaten['u_chathomepage'] = 'N';
-		if (!isset($userdaten['u_punkte_anzeigen']))
+		}
+		if (!isset($userdaten['u_punkte_anzeigen'])) {
 			$userdaten['u_punkte_anzeigen'] = 'N';
+		}
 		
 		$user_id = $userdaten['u_id'];
 		$user_nick = $userdaten['u_nick'];

@@ -17,7 +17,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		// Benutzer ausloggen
 		$zusatzjavascript = "<script>\n"
-			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
+			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
 		require_once("functions.php-func-verlasse_chat.php");
 		verlasse_chat($u_id, $u_nick, $o_raum);
@@ -67,7 +67,7 @@ if (isset($u_id) && $u_id) {
 		}
 		
 		// Falls Pull-Chat, Chat-Fenster neu laden
-		echo "<SCRIPT LANGUAGE=Javascript>"
+		echo "<script language=Javascript>"
 			. "chat_reload('chat.php?id=$id')"
 			. "</script>\n";
 	}

@@ -1887,8 +1887,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			for ($i = 0; $i < count($fid); $i++) {
 				$nick = user($fid[$i], 0, FALSE, FALSE, "");
 				priv_msg($u_nick, $u_id, $fid[$i], $u_farbe, $text, $userdata);
-				system_msg("", $u_id, $u_id, $system_farbe,
-					"<b>$u_nick $t[chat_msg24] $nick:</b> $text");
+				system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg24] $nick:</b> $text");
 			}
 			
 			break;
@@ -1913,16 +1912,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($result && mysqli_num_rows($result) > 0) {
 						while ($row = mysqli_fetch_array($result)) {
 							if ($row['o_user'] != $u_id) {
-								priv_msg($u_nick, $u_id, $row['o_user'],
-									$u_farbe, $text, $userdata);
+								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $text, $userdata);
 							}
 						}
-						system_msg("", $u_id, $u_id, $system_farbe,
-							"<b>$u_nick $t[chat_msg78]:</b> $text");
+						system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg78]:</b> $text");
 					} else {
 						// Kein Benutzer online
-						system_msg("", $u_id, $u_id, $system_farbe,
-							$t['chat_msg79']);
+						system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg79']);
 					}
 					mysqli_free_result($result);
 				}
@@ -1948,9 +1944,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// Lobby suchen
 						$query = "SELECT r_id FROM raum WHERE r_name='$lobby' ";
 						$result2 = mysqli_query($mysqli_link, $query);
-						if ($result2 AND mysqli_num_rows($result2) > 0) :
+						if ($result2 AND mysqli_num_rows($result2) > 0) {
 							$lobby_id = mysqli_result($result2, 0, "r_id");
-						endif;
+						}
 						mysqli_free_result($result2);
 						if (!$lobby_id) {
 							system_msg("", 0, $u_id, $system_farbe,

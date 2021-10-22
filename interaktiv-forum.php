@@ -14,7 +14,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
 		
 		// Benutzer ausloggen
 		$zusatzjavascript = "<script>\n"
-			. "window.open(\"hilfe.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
+			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
 		require_once("functions.php-func-verlasse_chat.php");
 		require_once("functions.php-func-nachricht.php");
@@ -104,7 +104,7 @@ if ($u_id) {
 	$mlnk[3] = "user.php?id=$id";
 	$mlnk[4] = "edit.php?id=$id";
 	$mlnk[5] = "index.php?id=$id&aktion=logoff";
-	$mlnk[6] = "hilfe.php?id=$id&reset=1&forum=1";
+	$mlnk[6] = "logout.php?id=$id&reset=1&forum=1";
 	$mlnk[7] = "mail.php?id=$id";
 	$mlnk[8] = "log.php?id=$id&back=500";
 	$mlnk[10] = "edit.php?id=$id";

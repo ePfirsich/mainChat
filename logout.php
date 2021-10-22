@@ -49,7 +49,7 @@ if (isset($reset) && $reset && $o_js) {
 			. "opener_reload('messages-forum.php?id=$id','3');\n"
 			. "opener_reload('interaktiv-forum.php?id=$id','4');\n"
 			. "window.close();\n" . "</script>\n";
-	} elseif ($u_level == "M") {
+	} else if ($u_level == "M") {
 		echo "<script>";
 		if ($frame_online != "")
 			echo "opener_reload('$frame_online','0');\n";

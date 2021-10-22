@@ -134,7 +134,7 @@ echo "</td></tr>\n";
 	$mlnk[6] = "index.php?id=$id&aktion=logoff";
 	$mlnk[7] = "log.php?id=$id&back=500";
 	$mlnk[8] = "moderator.php?id=$id&mode=answer";
-	$mlnk[9] = "hilfe.php?id=$id&reset=1";
+	$mlnk[9] = "logout.php?id=$id&reset=1";
 	$mlnk[10] = "mail.php?id=$id";
 	$mlnk[11] = "index-forum.php?id=$id";
 	$mlnk[12] = "blacklist.php?id=$id";
