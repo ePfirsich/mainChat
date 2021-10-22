@@ -41,18 +41,19 @@ if ($erweitertefeatures) {
 // Frameset refreshen, falls reset=1, dann Fenster schliessen
 if (isset($reset) && $reset && $o_js) {
 	if (isset($forum) && $forum) {
-		
 		echo "<script>";
-		if ($frame_online != "")
+		if ($frame_online != "") {
 			echo "opener_reload('$frame_online','0');\n";
-		echo "opener_reload('forum.php?id=$id','1');\n"
-			. "opener_reload('messages-forum.php?id=$id','3');\n"
-			. "opener_reload('interaktiv-forum.php?id=$id','4');\n"
-			. "window.close();\n" . "</script>\n";
+		}
+		echo "opener_reload('forum.php?id=$id','1');\n";
+		echo "opener_reload('messages-forum.php?id=$id','3');\n";
+		echo "opener_reload('interaktiv-forum.php?id=$id','4');\n";
+		echo "window.close();\n" . "</script>\n";
 	} else if ($u_level == "M") {
 		echo "<script>";
-		if ($frame_online != "")
+		if ($frame_online != "") {
 			echo "opener_reload('$frame_online','0');\n";
+		}
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
 		if ($userframe_url) {
 			echo "opener_reload('$userframe_url','2');\n";
@@ -65,8 +66,9 @@ if (isset($reset) && $reset && $o_js) {
 			. "window.close();\n" . "</script>\n";
 	} else {
 		echo "<script>";
-		if (isset($frame_online) && $frame_online != "")
+		if (isset($frame_online) && $frame_online != "") {
 			echo "opener_reload('$frame_online','0');\n";
+		}
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
 		if (isset($userframe_url)) {
 			echo "opener_reload('$userframe_url','2');\n";
@@ -79,6 +81,7 @@ if (isset($reset) && $reset && $o_js) {
 	}
 }
 
+/*
 // Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
 if (strlen($u_id) > 0) {
 	unset($f['u_id']);
@@ -94,6 +97,7 @@ if (strlen($u_id) > 0) {
 			. "</script>\n";
 	}
 }
+*/
 
 switch ($aktion) {
 	case "logout":
