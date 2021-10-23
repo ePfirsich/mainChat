@@ -969,7 +969,7 @@ function navigation_posting(
 	$th_id,
 	$user_nick = "",
 	$ist_navigation_top = FALSE) {
-	global $f1, $f2, $t, $seite;
+	global $t, $seite;
 	global $id, $po_id, $u_id, $thread, $forum_admin;
 	?>
 	<table class="tabelle_gerust">

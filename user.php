@@ -449,7 +449,7 @@ if (strlen($u_id) != 0) {
 				}
 				$text .= "</select>" . $f2 . "</td></tr>\n";
 				
-				$text .= "<tr><TD colspan=2 ALIGN=RIGHT>" . $f1
+				$text .= "<tr><td colspan=2 align=right>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
@@ -709,7 +709,7 @@ if (strlen($u_id) != 0) {
 				}
 				$text .= "</select></td></tr>\n";
 				
-				$text .= "<tr><TD colspan=2 style=\"text-align: right;\">" . $f1
+				$text .= "<tr><td colspan=2 style=\"text-align: right;\">" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				

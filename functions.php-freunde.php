@@ -206,11 +206,11 @@ function formular_neuer_freund($neuer_freund) {
 		. "<table>";
 	
 	$text .= "<tr><td style=\"text-align:right;\"><b>Benutzername:</b></td><td>"
-		. $f1 . "<input type=\"TEXT\" name=\"neuer_freund[u_nick]\" value=\""
-		. $neuer_freund['u_nick'] . "\" SIZE=20>" . $f2
+		. $f1 . "<input type=\"text\" name=\"neuer_freund[u_nick]\" value=\""
+		. $neuer_freund['u_nick'] . "\" size=20>" . $f2
 		. "</td></tr>\n"
 		. "<tr><td style=\"text-align:right;\"><b>Infotext:</b></td><td>"
-		. $f1 . "<input type=\"TEXT\" name=\"neuer_freund[f_text]\" value=\""
+		. $f1 . "<input type=\"text\" name=\"neuer_freund[f_text]\" value=\""
 		. htmlentities($neuer_freund['f_text'])
 		. "\" size=$eingabe_breite>" . "&nbsp;"
 		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
@@ -312,8 +312,7 @@ function neuer_freund($f_userid, $freund) {
 	return ($back);
 }
 
-function edit_freund($f_id, $f_text)
-{
+function edit_freund($f_id, $f_text) {
 	// Ändert den Infotext beim Freund
 	
 	$f_id = intval($f_id);

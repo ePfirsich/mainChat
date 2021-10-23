@@ -7,7 +7,7 @@ require("functions.php-func-forum_lib.php");
 id_lese($id);
 
 function show_pfad_posting2($th_id) {
-	global $mysqli_link, $f1, $f2, $f3, $f4, $id, $thread;
+	global $mysqli_link, $f3, $f4, $id, $thread;
 	//Infos über Forum und Thema holen
 	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum`, `thema` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
 	
@@ -54,7 +54,7 @@ function such_bereich() {
 	
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<input type=\"TEXT\" name=\"suche[text]\" value=\""
+		. $f1 . "<input type=\"text\" name=\"suche[text]\" value=\""
 		. htmlspecialchars($suche['text'])
 		. "\" size=$eingabe_breite>" . $f2 . "</td></tr>\n";
 	
@@ -217,7 +217,7 @@ function such_bereich() {
 	
 	// nur von Benutzer
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<input type=\"TEXT\" name=\"suche[username]\" value=\""
+		. $f1 . "<input type=\"text\" name=\"suche[username]\" value=\""
 		. htmlspecialchars($suche['username'])
 		. "\" size=\"20\">" . $f2 . "</td></tr>\n"
 		. "<tr><td colspan=\"2\" style=\"text-align:center;\" class=\"tabelle_zeile1\">"
