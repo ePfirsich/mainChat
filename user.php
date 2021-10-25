@@ -176,27 +176,6 @@ if (strlen($u_id) != 0) {
 		}
 	}
 	
-	// Traceroute ausgeben
-	if ($admin AND isset($trace)) {
-		$box = $t['sonst3'] . " " . $trace;
-		$text = '';
-		
-		if (!file_exists($traceroute)) {
-			$text .= "<b>config anpassen \$traceroute</b>";
-		} else {
-			
-			$text .= "<pre>";
-			$text .= $f1;
-			
-			$text .= system("$traceroute $trace", $ergebnis);
-			
-			$text .= $f2 . "</pre>";
-		}
-		
-		// Box anzeigen
-		show_box_title_content($box, $text);
-	}
-	
 	// Auswahl
 	switch ($aktion) {
 		

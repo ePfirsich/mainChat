@@ -2104,7 +2104,7 @@ switch ($aktion) {
 				
 				show_box_title_content(str_replace("%chat%", $chat, $t['default5']), $text);
 				
-				echo "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n";
+				echo "&nbsp;<br>\n";
 			}
 			
 			if (!isset($unterdruecke_raeume))

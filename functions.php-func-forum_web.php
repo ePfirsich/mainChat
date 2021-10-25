@@ -213,7 +213,7 @@ function forum_liste() {
 									</td>
 									<td style="width:17px;">
 										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_up" class="button"><span class="fa fa-arrow-up icon16"></span></a><br>
-										<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
+										<br>
 										<a href="forum.php?id=<?php echo $id; ?>&fo_id=<?php echo $thema['fo_id']; ?>&fo_order=<?php echo $thema['fo_order']; ?>&aktion=forum_down" class="button"><span class="fa fa-arrow-down icon16"></span></a>
 									</td>
 									<?php
@@ -267,7 +267,7 @@ function forum_liste() {
 								</td>
 								<td style="width:20px; text-align:center;">
 									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_up" class="button"><span class="fa fa-arrow-up icon16"></span></a><br>
-									<img src="pics/fuell.gif" style="width:1px; height:1px; border:0px;"><br>
+									<br>
 									<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $thema['th_id']; ?>&fo_id=<?php echo $thema['fo_id']; ?>&th_order=<?php echo $thema['th_order']; ?>&aktion=thema_down" class="button"><span class="fa fa-arrow-down icon16"></span></a>
 								</td>
 							</tr>

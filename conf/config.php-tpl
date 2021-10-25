@@ -171,7 +171,8 @@ $farbe_user_fest=0;				// 1=Benutzername wird in Benutzerfarbe ausgegeben,
 								// Textzeile ist immer system_farbe
 								// 0=Textzeile wird in Benutzerfarbe ausgegeben
 $chat_eingabe_breite=104;		// Breite des Text-Eingabefelds des Chats
-$farbe_chat_user_groesse=12;	// Größe der Farbauswahlfelder
+$farbe_chat_user_breite=12;	// Breite der Farbauswahlfelder
+$farbe_chat_user_hoehe=16;	// Höhe der Farbauswahlfelder
 
 $metatag="<meta name=\"description\" content=\"%description%\">\n".
 	"<meta name=\"keywords\" content=\"%keywords%\">\n".

@@ -8,7 +8,7 @@ function user_edit($f, $admin, $u_level, $size = ARRAY()) {
 	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
-	global $farbe_chat_user, $farbe_chat_user_groesse, $user_farbe;
+	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe;
 	global $t, $smilies_pfad, $erweitertefeatures;
 	global $frame_size, $u_id, $communityfeatures, $punktefeatures;
 	global $einstellungen_aendern, $eintritt_individuell;
@@ -375,10 +375,9 @@ if (tests.dnd) {
 			. $t['user_zeige10'] . "&nbsp;</b></td>" . "<td style=\"background-color:#". $f['u_farbe'] . ";\">&nbsp;&nbsp;&nbsp;</td>" . "</tr></table>";
 		$text .= "<table style=\"border-collapse: collapse;\"><tr>\n";
 		foreach ($farbe_chat_user as $key => $val) {
-			$text .= "<td WIDTH=$farbe_chat_user_groesse " . "BGCOLOR=\"#" . $val
-				. "\">"
+			$text .= "<td style=\"padding-left:0px; padding-right:0px;\">"
 				. "<a href=\"edit.php?id=$id&aktion=edit&f[u_id]=$f[u_id]&farbe=$val\">"
-				. "<img src=\"pics/fuell.gif\" style=\"width:" . $farbe_chat_user_groesse . "px; height:" . $farbe_chat_user_groesse . "; border:0px;\" alt=\"\"></a></td>\n";
+				."<div style=\"background-color:#" . $val ." ; width:" . $farbe_chat_user_breite . "px; height:" .  $farbe_chat_user_hoehe . "px; border:0px;\"></div></a></td>\n";
 		}
 		$text .= "</tr></table>\n";
 	}

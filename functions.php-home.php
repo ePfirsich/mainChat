@@ -23,20 +23,20 @@ function edit_home(
 	$text .= "<table style=\"width:100%;\">"
 		. "<tr><td style=\"vertical-align:top; width:60%;\" class=\"tabelle_zeile2\">"
 		. home_info($u_id, $u_nick, $farben, $aktion)
-		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
+		. "<br>\n"
 		. home_profil($u_id, $u_nick, $home, $farben, $aktion)
-		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
+		. "<br>\n"
 		. home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
 		. "</td>\n<td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
 		. home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion,
 			$bilder)
-		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
+		. "<br>\n"
 		. home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion,
 			$bilder)
-		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
+		. "<br>\n"
 		. home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion,
 			$bilder)
-		. "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>\n"
+		. "<br>\n"
 		. home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 		. "</td></tr>\n"
 		. "</table>";

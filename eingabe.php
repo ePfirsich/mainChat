@@ -208,9 +208,9 @@ echo "</td></tr>\n";
 	echo "<td style=\"text-align: right;\"><span style=\"font-size: smaller; color:#" . $u_farbe . ";\"><b>$t[farbe2]</b>&nbsp;</span></td>";
 	for (@reset($farbe_chat_user); list($nummer, $ufarbe) = each($farbe_chat_user);) {
 		?>
-		<td style="background-color:#<?php echo $ufarbe; ?>">
+		<td style="padding-left:0px; padding-right:0px;">
 			<a onMouseOver="return(true)" href="eingabe.php?id=<?php echo $id; ?>&farbe=<?php echo $ufarbe; ?>">
-				<img src="pics/fuell.gif" style="width:<?php echo $farbe_chat_user_groesse; ?>px; height:<?php echo $farbe_chat_user_groesse; ?>px; border:0px;" alt="">
+				<div style="background-color:#<?php echo $ufarbe; ?>; width:<?php echo $farbe_chat_user_breite; ?>px; height:<?php echo $farbe_chat_user_hoehe; ?>px; border:0px;"></div>
 			</a>
 		</td>
 		<?php

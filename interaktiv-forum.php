@@ -177,8 +177,7 @@ if ($u_id) {
 	
 	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[button]\">&nbsp;</nobr><br>"
 		. $f4
-		. "</td></tr><tr><td style=\"text-align:center;\"><img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:2px;\"><br>\n";
-	echo "</td></tr></table></center></form>\n";
+		. "</td></tr></table></center></form>\n";
 	
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben

@@ -795,7 +795,7 @@ function show_menue($box, $text) {
 	
 	<table class="tabelle_kopf">
 		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?><a href="javascript:window.close();"><img src="pics/button-x.gif" alt="schließen" style="width:15px; height:13px; float: right; border:0px;"></a></td>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
 		<tr>
 			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
