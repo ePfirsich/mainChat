@@ -1346,52 +1346,44 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/farbset":
 			switch ($chatzeile[1]) {
 				case "1":
-					$f['u_farbe'] = "0000c0";
-					$f['u_farbe_alle'] = "202020";
-					$f['u_farbe_priv'] = "c02020";
-					$f['u_farbe_sys'] = "55555";
-					$f['u_farbe_bg'] = "f0f0f0";
-					$f['u_farbe_noise'] = "008000";
+					$f['u_farbe'] = $farbset1_farbe;
+					$f['u_farbe_alle'] = $farbset1_farbe_alle;
+					$f['u_farbe_priv'] = $farbset1_farbe_priv;
+					$f['u_farbe_sys'] = $farbset1_farbe_sys;
+					$f['u_farbe_bg'] = $farbset1_farbe_bg;
+					$f['u_farbe_noise'] = $farbset1_farbe_noise;
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nummer%", $chatzeile[1],
-							$t['chat_msg28']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nummer%", $chatzeile[1], $t['chat_msg28']));
 					break;
 				case "2":
-					$f['u_farbe'] = "5050c0";
-					$f['u_farbe_alle'] = "2222cc";
-					$f['u_farbe_priv'] = "f06000";
-					$f['u_farbe_sys'] = "0070e0";
-					$f['u_farbe_bg'] = "d0f0ff";
-					$f['u_farbe_noise'] = "2090b0";
+					$f['u_farbe'] = $farbset2_farbe;
+					$f['u_farbe_alle'] = $farbset2_farbe_alle;
+					$f['u_farbe_priv'] = $farbset2_farbe_priv;
+					$f['u_farbe_sys'] = $farbset2_farbe_sys;
+					$f['u_farbe_bg'] = $farbset2_farbe_bg;
+					$f['u_farbe_noise'] = $farbset2_farbe_noise;
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nummer%", $chatzeile[1],
-							$t['chat_msg28']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nummer%", $chatzeile[1], $t['chat_msg28']));
 					break;
 				case "3":
-					$f['u_farbe'] = "424242";
-					$f['u_farbe_alle'] = "0000c0";
-					$f['u_farbe_priv'] = "ff4040";
-					$f['u_farbe_sys'] = "707070";
-					$f['u_farbe_bg'] = "ffffff";
-					$f['u_farbe_noise'] = "008000";
+					$f['u_farbe'] = $farbset3_farbe;
+					$f['u_farbe_alle'] = $farbset3_farbe_alle;
+					$f['u_farbe_priv'] = $farbset3_farbe_priv;
+					$f['u_farbe_sys'] = $farbset3_farbe_sys;
+					$f['u_farbe_bg'] = $farbset3_farbe_bg;
+					$f['u_farbe_noise'] = $farbset3_farbe_noise;
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nummer%", $chatzeile[1],
-							$t['chat_msg28']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nummer%", $chatzeile[1], $t['chat_msg28']));
 					break;
 				case "4":
-					$f['u_farbe'] = "000000";
-					$f['u_farbe_alle'] = "0000ff";
-					$f['u_farbe_priv'] = "ff0000";
-					$f['u_farbe_sys'] = "000000";
-					$f['u_farbe_bg'] = "ffffff";
-					$f['u_farbe_noise'] = "0000ff";
+					$f['u_farbe'] = $farbset4_farbe;
+					$f['u_farbe_alle'] = $farbset4_farbe_alle;
+					$f['u_farbe_priv'] = $farbset4_farbe_priv;
+					$f['u_farbe_sys'] = $farbset4_farbe_sys;
+					$f['u_farbe_bg'] = $farbset4_farbe_bg;
+					$f['u_farbe_noise'] = $farbset4_farbe_noise;
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nummer%", $chatzeile[1],
-							$t['chat_msg28']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nummer%", $chatzeile[1], $t['chat_msg28']));
 					break;
 				default:
 					system_msg("", 0, $u_id, $system_farbe,
