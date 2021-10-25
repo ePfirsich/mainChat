@@ -96,7 +96,7 @@ if (strlen($u_id) != 0) {
 		$text .= "| <a $url>$t[menue8]</a>\n";
 	}
 	if (isset($text) && $text) {
-		show_menue($box, $text);
+		show_box_title_content($box, $text, true);
 	}
 	
 	if ($aktion == "edit2") {

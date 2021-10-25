@@ -50,7 +50,7 @@ $text = "<a href=\"top10.php?id=$id&aktion=top10\">".$t['menue2']."</a>\n";
 $text .= "| <a href=\"top10.php?id=$id&aktion=top100\">".$t['menue3']."</a>\n";
 $text .= "| <a href=\"index.php?aktion=hilfe-community#punkte\" target=\"_blank\">".$t['menue4']."</a>\n";
 
-show_menue($box, $text);
+show_box_title_content($box, $text, true);
 
 if ($erweitertefeatures) {
 	switch ($aktion) {

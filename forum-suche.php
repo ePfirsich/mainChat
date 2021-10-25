@@ -534,7 +534,7 @@ if (strlen($u_id) > 0) {
 	$box = "$chat Menü";
 	$text = "<a href=\"forum-suche.php?id=$id\">$t[menue1]</a>\n";
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	// Auswahl
 	switch ($aktion) {

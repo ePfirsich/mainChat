@@ -154,7 +154,7 @@ if (strlen($u_id) != 0) {
 		$text .= "</ul>";
 		
 		if ($aktion != "zeigalle" || $u_level != "S") {
-			show_menue($box, $text);
+			show_box_title_content($box, $text, true);
 		}
 	}
 	
@@ -705,9 +705,8 @@ if (strlen($u_id) != 0) {
 				
 				for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 					// Array mit Benutzerdaten und Infotexten aufbauen
-					$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row[u_email]));
-					$larr[$i]['u_nick'] = strtr(
-						str_replace("\\", "", htmlspecialchars($row[u_nick])),
+					$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row['u_email']));
+					$larr[$i]['u_nick'] = strtr(str_replace("\\", "", htmlspecialchars($row['u_nick'])),
 						"I", "i");
 					$larr[$i]['u_level'] = $row['u_level'];
 					$larr[$i]['u_id'] = $row['u_id'];
@@ -859,11 +858,9 @@ if (strlen($u_id) != 0) {
 						$t['sonst43']) . "</p>\n";
 				
 			} else { // array ist gefüllt -> Daten ausgeben
-			
 				if ($aktion != "chatuserliste") {
 					$box = $t['sonst54'];
 					$text = '';
-					echo '<br>';
 					
 					$text .= "<b>" . $larr[0]['r_name'] . "</b><br>"
 					. ($larr[0]['r_topic'] ? $f1 . "Topic: "

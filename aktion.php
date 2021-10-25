@@ -29,7 +29,7 @@ if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = $t['aktion3'];
 	$text = "<a href=\"index.php?aktion=hilfe-community#home\">Hilfe</a>\n";
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	switch ($aktion) {
 		

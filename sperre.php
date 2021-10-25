@@ -249,7 +249,7 @@ if (strlen($u_id) > 0 && $admin) {
 			. $zusatztxt . $t['menue3'] . "</A>\n";
 	}
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	// Soll Datensatz eingetragen oder geändert werden?
 	if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {

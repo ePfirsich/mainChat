@@ -87,7 +87,7 @@ if ($fehler) {
 $msg = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">" . $t['statistik3'] . "</a>]\n"
 	. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">" . $t['statistik2'] . "</a>]";
 
-show_menue($t['statistik1'], $msg);
+	show_box_title_content($t['statistik1'], $msg, true);
 
 switch ($type) {
 	case "monat":

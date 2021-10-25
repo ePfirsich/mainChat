@@ -59,7 +59,7 @@ if ($u_id && $communityfeatures) {
 	}
 	$text .= "| <a href=\"index.php?aktion=hilfe-community#freunde\" target=\"_blank\">Hilfe</a>\n";
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	switch ($aktion) {
 		

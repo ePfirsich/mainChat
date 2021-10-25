@@ -787,24 +787,6 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
-function show_menue($box, $text) {
-	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-	global $f1;
-	global $f2;
-	?>
-	
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
-		</tr>
-	</table>
-	<br>
-	<?php
-}
-
 function show_box($box, $text, $width = "") {
 	// Gibt Tabelle mit URL im Kopf und Inhalt aus 
 	
@@ -825,7 +807,7 @@ function show_box($box, $text, $width = "") {
 	<?php
 }
 
-function show_box_title_content($box, $text) {
+function show_box_title_content($box, $text, $zeilenubruch = false) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
 	global $f1;
 	global $f2;
@@ -840,6 +822,9 @@ function show_box_title_content($box, $text) {
 		</tr>
 	</table>
 	<?php
+	if($zeilenubruch) {
+		echo "<br>";
+	}
 }
 
 function show_kopfzeile_login() {

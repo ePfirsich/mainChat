@@ -52,7 +52,7 @@ if (strlen($u_id) != 0) {
 		$text .= "| <a href=\"raum.php?id=$id&aktion=neu\">$t[menue2]</a>\n";
 	}
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	if (isset($f['r_name'])) {
 		// In Namen die Leerzeichen und ' und " entfernen

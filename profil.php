@@ -82,7 +82,7 @@ if ($u_id && $communityfeatures) {
 	$ur1 = "user.php?id=$id";
 	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onclick=\"window.open('$ur1','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">$t[profil_benutzer]</a>\n";
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
 	// Profil prüfen und ggf. neu eintragen
 	if ($los == "Eintragen" && $f['ui_userid']) {

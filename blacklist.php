@@ -57,12 +57,14 @@ if ($admin && $u_id && $communityfeatures) {
 		. "| <a href=\"blacklist.php?id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
 		. "| <a href=\"sperre.php?id=$id\">Zugangssperren</a>\n";
 	
-	show_menue($box, $text);
+	show_box_title_content($box, $text, true);
 	
-	if (!isset($neuer_blacklist))
+	if (!isset($neuer_blacklist)) {
 		$neuer_blacklist[] = "";
-	if (!isset($sort))
+	}
+	if (!isset($sort)) {
 		$sort = "";
+	}
 	
 	switch ($aktion) {
 		

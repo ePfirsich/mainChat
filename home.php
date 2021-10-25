@@ -130,7 +130,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
 				. "| <a href=\"index.php?aktion=hilfe-community#home\" target=\"_blank\">Hilfe</a>\n";
 			
-			show_menue($box, $text);
+				show_box_title_content($box, $text, true);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
