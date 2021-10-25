@@ -232,7 +232,6 @@ $t['user_zeige21'] = "Benutzer %user% (OFFLINE)";
 $t['user_zeige22'] = "vHost";
 $t['user_zeige23'] = "Raum";
 $t['user_zeige24'] = "Diesen&nbsp;Benutzer";
-$t['user_zeige25'] = "TRACEROUTE";
 $t['user_zeige26'] = "SPERREN (S)";
 $t['user_zeige27'] = "KICKEN (K)";
 $t['user_zeige28'] = "KNEBELN (G)";

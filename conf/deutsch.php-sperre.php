@@ -22,16 +22,17 @@ $t['sonst13'] = "Eintragen!";
 $t['sonst14'] = "Neue Zugangssperre anlegen";
 $t['sonst15'] = "Bitte nur eine Zeile ausfüllen!";
 $t['sonst16'] = "Sie sind ausgeloggt";
-$t['sonst17'] = "Traceroute zu";
 $t['sonst18'] = "Sperre ändern";
 $t['sonst19'] = "Grund der Sperre (opt):";
 $t['sonst20'] = "WARNUNG";
 $t['sonst21'] = "SPERRE";
 $t['sonst22'] = "Art (Warnung sperrt nicht):";
-
 $t['sonst23'] = "Adresse";
 $t['sonst24'] = "Info";
 $t['sonst25'] = "Art";
 $t['sonst26'] = "Eintrag";
 $t['sonst27'] = "Aktion";
+$t['sonst28'] = "Ändern";
+$t['sonst29'] = "Löschen";
+$t['sonst30'] = "Deaktivieren";
 ?>

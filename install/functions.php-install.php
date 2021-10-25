@@ -174,10 +174,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 				<td> Datei in der alle Sprüche sind:</td>
 				<td><input type="text" name="chat_spruchliste" size="40" value="<?php echo checkFormularInputFeld('sprueche.conf',$chat["spruchliste"]) ?>"></td>
 			</tr>
-			<tr>
-				<td> Befehl für Traceroute:</td>
-				<td><input type="text" name="chat_traceroute" size="40" value="<?php echo checkFormularInputFeld('/usr/sbin/traceroute',$chat["traceroute"]) ?>"></td>
-			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Admin zeigen, wer einen Spruch eingegeben hat:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["showspruch"],'chat_showspruch'); ?></td>

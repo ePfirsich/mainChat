@@ -121,21 +121,16 @@ function liste() {
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
 				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperre0\">"
-					. "[DEAKTIVIEREN]" . "</a>\n";
+				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperre0\">" . "[" . $t['sonst30'] ."]" . "</a>\n";
 					$text .= "</b>" . $f2 . "</td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
 				$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperregast0\">"
-					. "[DEAKTIVIEREN]" . "</a>\n";
+				$text .= "<a href=\"sperre.php?id=$id&aktion=loginsperregast0\">" . "[" . $t['sonst30'] ."]" . "</a>\n";
 				echo "</b>" . $f2 . "</td>\n";
 			} else {
 				$text .= "<td $bgcolor>" . $f1
-					. "<b>[<a href=\"sperre.php?id=$id&aktion=aendern&is_id=$row->is_id\">ÄNDERN</A>]\n"
-					. "[<a href=\"sperre.php?id=$id&aktion=loeschen&is_id=$row->is_id\">LÖSCHEN</A>]\n";
-				if (isset($ip_name) && (strlen($ip_name) > 0)) {
-					$text .= "<br>[<a href=\"sperre.php?id=$id&aktion=trace&is_id=$row->is_id\">TRACEROUTE</A>]\n";
-				}
+					. "<b>[<a href=\"sperre.php?id=$id&aktion=aendern&is_id=$row->is_id\">$t[sonst28]</a>]\n"
+					. "[<a href=\"sperre.php?id=$id&aktion=loeschen&is_id=$row->is_id\">$t[sonst29]</a>]\n";
 				$text .= "</b>" . $f2 . "</td>";
 			}
 			$text .= "</tr>\n";
@@ -317,53 +312,6 @@ if (strlen($u_id) > 0 && $admin) {
 		$aktion = "";
 	// Auswahl
 	switch ($aktion) {
-		
-		case "trace":
-		// Traceroute
-		$text = '';
-		
-		// ID gesetzt?
-			if (strlen($is_id) > 0) {
-				$query = "SELECT is_infotext,is_domain,is_ip FROM ip_sperre WHERE is_id=" . intval($is_id);
-				
-				$result = mysqli_query($mysqli_link, $query);
-				$rows = mysqli_num_rows($result);
-				
-				if ($rows == 1) {
-					// Zeile lese
-					$row = mysqli_fetch_object($result);
-					
-					$box = $t['sonst17'] . " " . $row->is_domain
-						. $row->is_ip;
-
-					echo "<pre>" . $f1;
-					
-					if (!file_exists($traceroute)) {
-						system_msg("", 0, $u_id, $system_farbe, "<b>config anpassen \$traceroute</b>");
-					}
-					
-					if (strlen($row->is_domain) > 0) {
-						system("$traceroute $row->is_domain", $ergebnis);
-					} else {
-						system("$traceroute $row->is_ip", $ergebnis);
-					}
-					
-					$text .= $f2 . "</pre>\n";
-					
-				} else {
-					$text .= "<p>$t[sonst9]</p>\n";
-				}
-				mysqli_free_result($result);
-			}
-			
-			$text .= "<img src=\"pics/fuell.gif\" alt=\"\" style=\"width:4px; height:4px;\"><br>";
-			
-			$text .= liste();
-			
-			show_box_title_content($box,$text);
-			
-			break;
-		
 		case "loeschen":
 		// ID gesetzt?
 			if (strlen($is_id) > 0) {

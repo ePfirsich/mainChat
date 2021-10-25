@@ -521,8 +521,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
 			$mlnk[6] = "sperre.php?id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
 				. urlencode($o_row->o_name);
-			$text .= "[<a href=\"$mlnk[3]\">" . $t['user_zeige25'] . "</a>]<br>\n"
-				. "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
+			$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
 				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</a>]<br>\n";
 			$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";

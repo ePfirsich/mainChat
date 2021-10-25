@@ -18,7 +18,6 @@ $t['menue13'] = "Admin: Umfragen";
 
 $t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "$chat Menü";
-$t['sonst3'] = "Traceroute zu";
 $t['sonst4'] = "<b>Es wurden leider keine Benutzer gefunden!</b>";
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
 $t['sonst6'] = "<b>Bitte neuen Suchtext eingeben:</b><br>(% ist Jokerzeichen)";
