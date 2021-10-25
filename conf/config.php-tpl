@@ -304,7 +304,7 @@ $frame_size['eingabe']=54;			// Höhe des Frames eingabe in Pixel
 $frame_size['interaktiv']=60;		// Höhe des Frames interaktiv in Pixel
 $frame_size['chatuserliste']=250;	// Breite des Frames user (rechts neben eingabe-Frame) in Pixel
 $frame_size['interaktivforum']=130;	// Höhe des Frames interaktiv-forum in Pixel
-$frame_size['messagesforum']=440;	// Breite des Frames messages-forum in Pixel
+$frame_size['messagesforum']=500;	// Breite des Frames messages-forum in Pixel
 
 
 // Optionale URL des obersten Frames.
