@@ -374,19 +374,6 @@ if (strlen($u_id) != 0) {
 					$f['u_url'] = "http://" . $f['u_url'];
 				}
 				
-				// nur Zahlen zulassen bei den Fenstergrößen
-				$size['eingabe'] = preg_replace("/[^0-9]/", "",
-					(isset($size['eingabe']) ? $size['eingabe'] : ""));
-				$size['interaktiv'] = preg_replace("/[^0-9]/", "",
-					(isset($size['interaktiv']) ? $size['interaktiv'] : ""));
-				$size['chatuserliste'] = preg_replace("/[^0-9]/", "",
-					(isset($size['chatuserliste']) ? $size['chatuserliste'] : ""));
-				$size['interaktivforum'] = preg_replace("/[^0-9]/", "",
-					(isset($size['interaktivforum']) ? $size['interaktivforum']
-						: ""));
-				$size['messagesforum'] = preg_replace("/[^0-9]/", "",
-					(isset($size['messagesforum']) ? $size['messagesforum'] : ""));
-				
 				// Gibt es den Benutzernamen schon?
 				if ($f['u_nick']) {
 					$query = "SELECT u_id FROM user "
@@ -512,11 +499,6 @@ if (strlen($u_id) != 0) {
 						echo "<p><b>$t[edit6]</b></p>\n";
 						$f['u_passwort'] = $passwort1;
 					}
-				}
-				
-				// Fenstergrößen setzen
-				if (is_array($size)) {
-					$f['u_frames'] = serialize($size);
 				}
 				
 				// Benutzerdaten schreiben
@@ -650,8 +632,7 @@ if (strlen($u_id) != 0) {
 					$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
 					$f['u_signatur'] = $row->u_signatur;
 					$f['u_kommentar'] = $row->u_kommentar;
-					$size = unserialize($row->u_frames);
-					user_edit($f, $admin, $u_level, $size);
+					user_edit($f, $admin, $u_level);
 				}
 				mysqli_free_result($result);
 				
@@ -714,8 +695,7 @@ if (strlen($u_id) != 0) {
 						$f['u_austritt'] = $row->u_austritt;
 						$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
 						$f['u_signatur'] = $row->u_signatur;
-						$size = unserialize($row->u_frames);
-						user_edit($f, $admin, $u_level, $size);
+						user_edit($f, $admin, $u_level);
 						mysqli_free_result($result);
 					}
 				}
@@ -829,8 +809,7 @@ if (strlen($u_id) != 0) {
 					$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
 					$f['u_signatur'] = $row->u_signatur;
 					$f['u_kommentar'] = $row->u_kommentar;
-					$size = unserialize($row->u_frames);
-					user_edit($f, $admin, $u_level, $size);
+					user_edit($f, $admin, $u_level);
 					mysqli_free_result($result);
 				}
 			}
@@ -862,8 +841,7 @@ if (strlen($u_id) != 0) {
 				$f['u_austritt'] = $row->u_austritt;
 				$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
 				$f['u_signatur'] = $row->u_signatur;
-				$size = unserialize($row->u_frames);
-				user_edit($f, $admin, $u_level, $size);
+				user_edit($f, $admin, $u_level);
 				mysqli_free_result($result);
 			}
 	}

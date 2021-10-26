@@ -64,7 +64,7 @@ $valid_fields = array(
 	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
-		'u_frames', 'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
+		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_knebel', 'avatar_status'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
 		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')

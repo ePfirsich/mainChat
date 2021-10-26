@@ -3,9 +3,8 @@ session_start();
 require_once("functions.php-func-verlasse_chat.php");
 require_once("functions.php-func-nachricht.php");
 
-function user_edit($f, $admin, $u_level, $size = ARRAY()) {
+function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
-	// $size = Ass. Array mit Fenstereinstellungen (Optional)
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
 	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe;
@@ -314,18 +313,6 @@ if (tests.dnd) {
 			$i++;
 		}
 		$text .= "</select>" . $f2 . "</td></tr>\n";
-	}
-	
-	// Einstellungen für Fenstergrößen
-	if ($u_level != "G") {
-		$text .= "<tr><td colspan=\"2\"><hr size=\"2\" noshade>" . $f1 . "<b>" . $t['user_zeige43'] . "</b>\n" . $f2 . "</td></tr>\n";
-		foreach ($frame_size as $key => $val) {
-			$text .= "<tr><td>" . $f1 . "<b>" . $t[$key] . "</b>\n" . $f2
-				. "</td><td>" . $f1
-				. "<input type=\"text\" name=\"size[$key]\" size=\"4\" value=\"$size[$key]\">&nbsp;"
-				. str_replace("%vor%", $val, $t['user_zeige42']) . $f2
-				. "</td></tr>\n";
-		}
 	}
 	
 	// Default für Farbe setzen, falls undefiniert

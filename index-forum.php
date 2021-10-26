@@ -45,21 +45,6 @@ if (isset($frame_online) && strlen($frame_online) == 0) {
 	$frame_online = "frame_online.php";
 }
 
-// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-$sql = "SELECT `u_frames` FROM `user` WHERE `u_id` = $u_id";
-$query = mysqli_query($mysqli_link, $sql);
-$u_frames = mysqli_result($query, 0, "u_frames");
-if ($u_frames) {
-	$u_frames = unserialize($u_frames);
-	if (is_array($u_frames)) {
-		foreach ($u_frames as $key => $val) {
-			if ($val) {
-				$frame_size[$key] = $val;
-			}
-		}
-	}
-}
-
 $title = $body_titel;
 zeige_header_anfang($title, 'login');
 

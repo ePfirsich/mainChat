@@ -4,8 +4,8 @@
 
 # Tabelle user 		Userdaten, Level
 # u_id 			ID
-# u_nick		Temp. Benutzername im Chat	
-# u_passwort		Passwort
+# u_nick		Temp. Benutzername im Chat
+# u_passwort	Passwort
 # u_email		E-Mail Adresse
 # u_url			URL der Homepage
 # u_level		Userlevel A-Z
@@ -33,7 +33,6 @@
 # u_punkte_datum_jahr	Jahr, auf die sich u_punkte_datum_jahr bezieht
 # u_punkte_gruppe	Grafik-Symbol für die Punktegruppe
 # u_gelesene_postings	ID der gelesenen Beiträge im Forum
-# u_frames		Voreinstellungen für Frameset (opt)
 # u_chathomepage	Chathomepage freigeschalten J/N
 # u_eintritt		Eintrittstext
 # u_austritt		Austrittstext
@@ -46,14 +45,14 @@
 # u_forum_postingproseite	Anzahl der Beiträge, die pro Seite im Forum angezeigt werden sollen
 # u_punkte_anzeigen	User will seinen PunkteWürfel zeigen Y/N
 # u_systemmeldungen	User will System Login/Logout Nachrichten sehen
-# u_knebel		Speichert die Restknebelzeit falls vorhanden 
+# u_knebel		Speichert die Restknebelzeit falls vorhanden
 
 # Tabelle chat 		Chat-Nachrichten
 # c_id			ID
 # c_von_user		Nachricht ist von User u_nick
 # c_von_user_id		ID c_von_user
 # c_an_user 		Nachricht ist an User u_id
-# c_typ 		Art der Nachricht (privat, System, normal) 
+# c_typ 		Art der Nachricht (privat, System, normal)
 # c_raum 		Zeiger auf r_id
 # c_text 		Chatzeile
 # c_zeit 		Zeitstempel
@@ -139,7 +138,7 @@
 # is_id 		ID
 # is_ip 		IP-Adresse als xxx.yyy.zzz
 # is_ip_byte 		Anzahl der Bytes in is_ip
-# is_domain 		Domainname oder Domain+Host 
+# is_domain 		Domainname oder Domain+Host
 # is_zeit 		Zeitpunkt wann Datensatz angelegt wurde
 # is_owner		Wer diesen Datensatz zuletzt geschrieben hat
 # is_infotext		Text mit dem Grund der Sperre
@@ -447,7 +446,6 @@ CREATE TABLE user (
 	`u_punkte_datum_jahr` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0000',
 	`u_punkte_gruppe` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_gelesene_postings` mediumtext CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '',
-	`u_frames` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_chathomepage` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
 	`u_eintritt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_austritt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',

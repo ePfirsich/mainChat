@@ -1210,7 +1210,6 @@ switch ($aktion) {
 			$u_punkte_datum_jahr = $row->u_punkte_datum_jahr;
 			$u_punkte_gesamt = $row->u_punkte_gesamt;
 			$ip_historie = unserialize($row->u_ip_historie);
-			$u_frames = unserialize($row->u_frames);
 			$nick_historie = unserialize($row->u_nick_historie);
 			
 			$f['u_id'] = $u_id;
@@ -1585,24 +1584,11 @@ switch ($aktion) {
 						$frame_online = "frame_online.php";
 					}
 					
-					// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-					if (is_array($u_frames)) {
-						foreach ($u_frames as $key => $val) {
-							if ($val) {
-								$frame_size[$key] = $val;
-							}
-						}
-					}
-					
-					echo "<frameset rows=\"$frame_online_size,*,5,"
-						. $frame_size['interaktivforum']
-						. ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+					echo "<frameset rows=\"$frame_online_size,*,5," . $frame_size['interaktivforum'] . ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 					echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
 					echo "<frame src=\"forum.php?id=$hash_id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
 					echo "<frame src=\"leer.php\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=no>\n";
-					echo "<frameset cols=\"*,"
-						. $frame_size['messagesforum']
-						. "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+					echo "<frameset cols=\"*," . $frame_size['messagesforum'] . "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 					echo "<frame src=\"messages-forum.php?id=$hash_id\" name=\"messages\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
 					echo "<frame src=\"interaktiv-forum.php?id=$hash_id\" name=\"interaktiv\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
 					echo "</frameset>\n";
@@ -1624,14 +1610,6 @@ switch ($aktion) {
 						$frame_size['interaktiv'] = $moderationsgroesse;
 						$frame_size['eingabe'] = $frame_size['eingabe']
 							* 2;
-					}
-					
-					// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-					if (is_array($u_frames)) {
-						foreach ($u_frames as $key => $val) {
-							if ($val)
-								$frame_size[$key] = $val;
-						}
 					}
 					
 					// Frameset aufbauen
@@ -1962,30 +1940,15 @@ switch ($aktion) {
 		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum, $o_js);
 		
 		// Obersten Frame definieren
-		if (!isset($frame_online))
+		if (!isset($frame_online)) {
 			$frame_online = "";
+		}
 		if (strlen($frame_online) == 0) {
 			$frame_online = "frame_online.php";
 		}
-		if ($u_level == "M")
+		if ($u_level == "M") {
 			$frame_size[interaktiv] = $moderationsgroesse;
-		
-		// Falls user eigene Einstellungen für das Frameset hat -> überschreiben
-		$sql = "SELECT `u_frames` FROM `user` WHERE `u_id` = $u_id";
-		$result = mysqli_query($mysqli_link, $sql);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$u_frames = mysqli_result($result, 0, "u_frames");
 		}
-		if ($u_frames) {
-			$u_frames = unserialize($u_frames);
-			if (is_array($u_frames)) {
-				foreach ($u_frames as $key => $val) {
-					if ($val)
-						$frame_size[$key] = $val;
-				}
-			}
-		}
-		mysqli_free_result($result);
 		
 		// Frameset aufbauen
 		?>

@@ -249,7 +249,6 @@ $t['user_zeige39'] = "(Alle/%jahr%/%monat%)";
 $t['user_zeige40'] = "MAIL&nbsp;SENDEN";
 $t['user_zeige41'] = "FREUND&nbsp;JA/NEIN";
 $t['user_zeige42'] = "(Voreinstellung&nbsp;%vor%)";
-$t['user_zeige43'] = "Einstellungen für Fenstergrößen";
 $t['user_zeige44'] = "Signatur für Mail und Forum";
 $t['user_zeige45'] = "Farbe";
 $t['user_zeige46'] = "Farbauswahl";
@@ -270,12 +269,6 @@ $t['user_zeige60'] = "Avatar:";
 
 $t['avatar_beschreibung1'] = "Um den Avatar zu ändern, ziehen Sie einfach ein neues Bild auf die dafür vorgesehene Fläche.";
 $t['avatar_beschreibung2'] = "Fortschritt des Uploads:";
-
-$t['eingabe'] = "Eingabe";
-$t['chatuserliste'] = "Benutzer";
-$t['interaktiv'] = "Interaktiv";
-$t['interaktivforum'] = "Forum";
-$t['messagesforum'] = "Nachrichten- Forum";
 
 $t['away1'] = "ist gerade nicht da: ";
 $t['away2'] = "ist wieder da. ";
