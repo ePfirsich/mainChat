@@ -606,10 +606,8 @@ function aktion_sende(
 }
 
 function mail_sende($von, $an, $text, $betreff = "") {
-	
-	// Verschickt Mail von ID $von an ID $an mit Text $text
-	global $t;
-	global $u_nick, $mysqli_link;
+	// Verschickt Nachricht von ID $von an ID $an mit Text $text
+	global $u_nick, $mysqli_link, $t;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
