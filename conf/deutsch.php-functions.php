@@ -269,6 +269,7 @@ $t['user_zeige60'] = "Avatar:";
 
 $t['avatar_beschreibung1'] = "Um den Avatar zu ändern, ziehen Sie einfach ein neues Bild auf die dafür vorgesehene Fläche.";
 $t['avatar_beschreibung2'] = "Fortschritt des Uploads:";
+$t['avatar_loeschen'] = "Avatar löschen?";
 
 $t['away1'] = "ist gerade nicht da: ";
 $t['away2'] = "ist wieder da. ";

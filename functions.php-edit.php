@@ -58,7 +58,8 @@ function user_edit($f, $admin, $u_level) {
 	<p id='filereader'>File API & FileReader API not supported</p>
 	<p id='formdata'>XHR2's FormData is not supported</p>
 	<p id='progress'>XHR2's upload progress isn't supported</p>
-	<p>" .$t['avatar_beschreibung2'] ." <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
+	<p>" . $t['avatar_beschreibung2'] ." <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
+	<p>" . $t['avatar_loeschen'] . " <input type='checkbox' name=\"f[avadel]\" id=\"f[avadel]\" value='avadel'></p>
 </article>
 <script>
 var holder = document.getElementById('holder'),
