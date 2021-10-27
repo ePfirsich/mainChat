@@ -353,7 +353,7 @@ $domaingesperrt[]="/@trash-mail.de/";
 // $extra_agb="";
 
 // Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird
-$def_was=array("Freunde","Neue Mail", "Antwort auf eigenen Beitrag");
+$def_was=array("Freunde","Neue Nachricht", "Antwort auf eigenen Beitrag");
 
 // Mindestanzahl der Benutzer in Raum, ab der Punkte gutgeschrieben werden
 $punkte_ab_user=5;
@@ -461,9 +461,9 @@ $loginwhileipsperre = 10000;
 $anmeldung_nurmitbest = "";
 
 // Mails werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
-$mailloescheauspapierkorb=14;
+$mailloescheauspapierkorb=30;
 
-// Benutzer kann Individuelle Eintrittsnachrichten benutzen
+// Benutzer kann individuelle Eintrittsnachrichten benutzen
 $eintritt_individuell="1";
 
 // andere Benutzer sehen von wem die Eintrittsnachricht kommt

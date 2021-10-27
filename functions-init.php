@@ -57,12 +57,10 @@ if ( !file_exists($filenameConfig) ) {
 	}
 	// Wenn SSL aber nicht zwingend, für alle Ausgaben einmalig Protokollvariable
 	 else if (((isset($_SERVER["HTTPS"])
-		&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))
-		|| $ssl_login) {
+		&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on'))) || $ssl_login) {
 		$serverprotokoll = 'https';
-	}
-	// default Protokoll
-	 else {
+	} else {
+		// Standard Protokoll
 		$serverprotokoll = 'http';
 	}
 	

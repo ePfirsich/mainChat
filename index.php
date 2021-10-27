@@ -996,8 +996,7 @@ switch ($aktion) {
 			}
 			
 			// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
-			if (!$gast_login or ($rows > 1 && !$gast_login_viele)
-				or $temp_gast_sperre) {
+			if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
 				
 				// Gäste sind gesperrt
 				
@@ -1020,18 +1019,15 @@ switch ($aktion) {
 				<form action="index.php" target="_top" name="form1" method="post">
 				<?php
 				
-				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
-					. "// end hiding -->\n</script>\n";
-				
 				// Disclaimer ausgeben
 				show_box($login_titel, $logintext, "100%");
+				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 				zeige_fuss();
 				exit;
-				
 			}
 			
-			// Login als gast
+			// Login als Gast
 			
 			// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
 			if (!isset($login))
@@ -1094,7 +1090,6 @@ switch ($aktion) {
 				// Account in DB schreiben
 				schreibe_db("user", $f, "", "u_id");
 			}
-			
 		}
 		
 		// Login als registrierter Benutzer
@@ -1276,8 +1271,7 @@ switch ($aktion) {
 				
 				// Box und Disclaimer ausgeben
 				show_box($titel, $logintext, "100%");
-				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n"
-					. "// end hiding -->\n</script>\n";
+				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 				
 				zeige_fuss();
@@ -1676,7 +1670,7 @@ switch ($aktion) {
 			<?php
 			zeige_kopf();
 			unset($u_nick);
-			echo "<div style=\"text-align: center;\"><P><b>" . str_replace("%login%", $login, $t['login20']) . "</b></P>" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+			echo "<div style=\"text-align: center;\"><p><b>" . str_replace("%login%", $login, $t['login20']) . "</b></p>" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
 			zeige_fuss();
 			
 		} else {

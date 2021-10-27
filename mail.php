@@ -252,19 +252,14 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 					$neue_email['m_betreff'] = "Re: " . $row->m_betreff;
 				}
 				$neue_email['m_text'] = erzeuge_umbruch($row->m_text, 70);
-				$neue_email['m_text'] = erzeuge_quoting($neue_email['m_text'],
-					$row2->u_nick, $row->zeit);
+				$neue_email['m_text'] = erzeuge_quoting($neue_email['m_text'], $row2->u_nick, $row->zeit);
 				$neue_email['m_text'] = erzeuge_fuss($neue_email['m_text']);
 				
-				$neue_email['m_text'] = str_replace("<b>", "_",
-					$neue_email['m_text']);
-				$neue_email['m_text'] = str_replace("</b>", "_",
-					$neue_email['m_text']);
+				$neue_email['m_text'] = str_replace("<b>", "_", $neue_email['m_text']);
+				$neue_email['m_text'] = str_replace("</b>", "_", $neue_email['m_text']);
 				
-				$neue_email['m_text'] = str_replace("<i>", "*",
-					$neue_email['m_text']);
-				$neue_email['m_text'] = str_replace("</i>", "*",
-					$neue_email['m_text']);
+				$neue_email['m_text'] = str_replace("<i>", "*", $neue_email['m_text']);
+				$neue_email['m_text'] = str_replace("</i>", "*", $neue_email['m_text']);
 				
 				formular_neue_email2($neue_email);
 				
@@ -365,9 +360,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		default:
 			zeige_mailbox("normal", "");
 	}
-	
-} else if ($u_level == "G") {
-	echo "<p><b>Fehler:</b> Als Gast steht Ihnen die Mail-Funktion nicht zur Verfügung.</p>";
 } else {
 	$box = $t['fehler1'];
 	$text = $t['fehler2'];
