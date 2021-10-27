@@ -62,13 +62,13 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	$result2 = mysqli_query($mysqli_link, $query2);
 	
 	// Menü als erstes ausgeben
-	$box = "Menü Mail";
-	$text = "<a href=\"mail.php?id=$id&aktion=\">Mailbox neu laden</a>\n|\n"
-		. "<a href=\"mail.php?id=$id&aktion=neu\">Neue Mail schreiben</a>\n|\n"
-		. "<a href=\"mail.php?id=$id&aktion=papierkorb\">Papierkorb zeigen</a>\n|\n"
-		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">Papierkorb leeren</a>\n|\n"
-		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">Mailbox zumachen</a>\n|\n"
-		. "<a href=\"index.php?aktion=hilfe-community#mail\" target=\"_blank\">Hilfe</a>\n";
+	$box = $t['menue1'];
+	$text = "<a href=\"mail.php?id=$id&aktion=\">" . $t['menue2'] . "</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=neu\">" . $t['menue3'] . "</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=papierkorb\">" . $t['menue4'] . "</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">" . $t['menue5'] . "</a>\n|\n"
+		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">" . $t['menue6'] . "</a>\n|\n"
+		. "<a href=\"index.php?aktion=hilfe-community#mail\" target=\"_blank\">" . $t['menue7'] . "</a>\n";
 	
 	show_box_title_content($box, $text, true);
 	
@@ -111,7 +111,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 				}
 				
 				if ($boxzu == true) {
-					echo "<P>$t[chat_msg105]</P>";
+					echo "<p>$t[chat_msg105]</p>";
 					formular_neue_email($neue_email, $m_id);
 					break;
 				}
@@ -140,8 +140,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			$ok = TRUE;
 			
 			// Betreff prüfen
-			$neue_email['m_betreff'] = htmlspecialchars(
-				$neue_email['m_betreff']);
+			$neue_email['m_betreff'] = htmlspecialchars($neue_email['m_betreff']);
 			if (strlen($neue_email['m_betreff']) < 1) {
 				echo "<b>Fehler:</b> Bitte geben Sie einen Betreff zum Versenden ein!<br>\n";
 				$ok = FALSE;
@@ -152,8 +151,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			}
 			
 			// Text prüfen
-			$neue_email['m_text'] = chat_parse(
-				htmlspecialchars($neue_email['m_text']));
+			$neue_email['m_text'] = chat_parse(htmlspecialchars($neue_email['m_text']));
 			if (strlen($neue_email['m_text']) < 4) {
 				echo "<b>Fehler:</b> Bitte geben Sie einen Text zum Versenden ein!<br>\n";
 				$ok = FALSE;
@@ -202,12 +200,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 					
 				}
 				unset($neue_email);
-				
-				if (!isset($neue_email)) {
-					$neue_email = array();
-				}
-				formular_neue_email($neue_email);
-				echo '<br>';
+
 				zeige_mailbox("normal", "");
 				
 			} else {
@@ -218,10 +211,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		
 		case "loesche":
 		// Mails als geloescht markieren oder aufheben
-		
-			if (!isset($neue_email))
-				$neue_email[] = "";
-			formular_neue_email($neue_email);
 			
 			if (isset($loesche_email) && is_array($loesche_email)) {
 				// Mehrere Mails auf gelöscht setzen
@@ -331,6 +320,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		case "zeige":
 		// Eine Mail als Detailansicht zeigen
 			zeige_email($m_id);
+			echo "<br>";
 			zeige_mailbox("normal", "");
 			break;
 		
@@ -342,22 +332,20 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			if (!isset($neue_email)) {
 				$neue_email[] = "";
 			}
-			formular_neue_email($neue_email);
-			echo '<br>';
 			zeige_mailbox("normal", "");
 			break;
 		
 		case "papierkorb":
 		// Papierkorb zeigen
-			if (!isset($m_id)) {
-					$m_id = "";
+			if (isset($m_id)) {
+				zeige_email($m_id);
+				echo "<br>";
 			}
-			zeige_email($m_id);
 			zeige_mailbox("geloescht", "");
 			break;
 		
 		case "weiterleiten":
-		// Formular zum Weiterleitej einer Mail ausgeben
+		// Formular zum Weiterleiten einer Mail ausgeben
 			if (!isset($neue_email)) {
 				$neue_email[] = "";
 			}
@@ -370,12 +358,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			$betreff = "MAILBOX IST ZU";
 			$nachricht = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Mails empfangen möchten!";
 			$result = mail_sende($u_id, $u_id, $nachricht, $betreff);
-			if (!isset($neue_email))
-				$neue_email[] = "";
-			if (!isset($m_id))
-				$m_id = "";
-			formular_neue_email($neue_email, $m_id);
-			echo '<br>';
+
 			zeige_mailbox("normal", "");
 			break;
 		
@@ -383,10 +366,12 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			zeige_mailbox("normal", "");
 	}
 	
-} elseif ($u_level == "G") {
-	echo "<P><b>Fehler:</b> Als Gast steht Ihnen die Mail-Funktion nicht zur Verfügung.</P>";
+} else if ($u_level == "G") {
+	echo "<p><b>Fehler:</b> Als Gast steht Ihnen die Mail-Funktion nicht zur Verfügung.</p>";
 } else {
-	echo "<P><b>Fehler:</b> Beim Aufruf dieser Seite ist ein Fehler aufgetreten.</P>";
+	$box = $t['fehler1'];
+	$text = $t['fehler2'];
+	show_box_title_content($box, $text);
 }
 
 if ($o_js || !$u_id) {

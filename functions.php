@@ -71,7 +71,6 @@ $valid_fields = array(
 );
 
 // Funktionen
-
 function mysqli_result($res,$row=0,$col=0){
 	$numrows = mysqli_num_rows($res);
 	if ($numrows && $row <= ($numrows-1) && $row >=0){
@@ -807,7 +806,7 @@ function show_box($box, $text, $width = "") {
 	<?php
 }
 
-function show_box_title_content($box, $text, $zeilenubruch = false) {
+function show_box_title_content($box, $text, $zeilenumbruch = false) {
 	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
 	global $f1;
 	global $f2;
@@ -822,7 +821,7 @@ function show_box_title_content($box, $text, $zeilenubruch = false) {
 		</tr>
 	</table>
 	<?php
-	if($zeilenubruch) {
+	if($zeilenumbruch) {
 		echo "<br>";
 	}
 }

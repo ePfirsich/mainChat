@@ -238,13 +238,13 @@ durch Klick in das \"<b>Löschen</b>\"-Kästchen und klicken Sie dann auf den
 Gelöschte Nachrichten werden automatisch nach einer gewissen Zeit aus dem Papierkorb
 gelöscht. (Standardeinstellung 14 Tage, kann aber vom Chatbetreiber geändert werden)<br><br>
 <b>Im Mailmenü haben Sie nun folgende Auswahlmöglichkeiten:</b></p>
-<UL>
-<li><I>Mailbox neu laden</I>
-<li><I>Neue Mail schreiben</I>
-<li><I>Papierkorb zeigen</I>
-<li><I>Papierkorb leeren</I>
+<ul>
+<li><i>Posteingang</i>
+<li><i>Neue Nachricht schreiben</i>
+<li><i>Papierkorb zeigen</i>
+<li><i>Papierkorb leeren</i>
 </ul><p>
-Um eine neue Mail zu verfassen, geben Sie unter dem Punkt \"<b>Neue Mail senden</b>\"
+Um eine neue Nachricht zu verfassen, geben Sie unter dem Punkt \"<b>Neue Nachricht senden</b>\"
 in das Feld \"<b>Benutzername</b>\" den Benutzernamen des Benutzers ein, dem Sie eine Nachricht
 zukommen lassen möchten und klicken Sie dann auf \"<b>weiter</b>\". Nun befinden Sie
 sich in der Texteingabe für Ihre Mail. Am Fuße der Box können Sie übrigens

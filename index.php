@@ -1164,17 +1164,6 @@ switch ($aktion) {
 			}
 		}
 		
-		/*
-		// Benutzername nicht gefunden, nochmals mit Benutzernamen suchen
-		if ($rows == 0) {
-			$result = auth_user($login, $passwort);
-			if ($result) {
-				$rows = mysqli_num_rows($result);
-			}
-			
-		}
-		*/
-		
 		// Login fehlgeschlagen
 		if ($rows == 0 && isset($userdata) && is_array($userdata) && $userdata) {
 			
