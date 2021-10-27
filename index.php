@@ -1287,10 +1287,6 @@ switch ($aktion) {
 				$captcha_text2 = filter_input(INPUT_POST, 'captcha_text2', FILTER_SANITIZE_STRING);
 				$ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
 				
-				if (($keine_agb == 1) && ($captcha_text == 0)) {
-					$u_agb = 'Y';
-				}
-				
 				if (($temp_gast_sperre) && ($u_level == 'G')) {
 					$captcha_text1 = "999";
 				} // abweisen, falls Gastsperre aktiv

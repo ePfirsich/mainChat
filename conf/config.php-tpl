@@ -352,9 +352,6 @@ $domaingesperrt[]="/@trash-mail.de/";
 // Spezielle Nutzungsbestimmungen, überschreibt die Nutzungsbestimmungen in der Sprachdatei
 // $extra_agb="";
 
-// Nutzungsbestimmungen-Bestätigung kann mit $keine_agb=1 abgeschaltet werden
-$keine_agb=0;
-
 // Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird
 $def_was=array("Freunde","Neue Mail", "Antwort auf eigenen Beitrag");
 
@@ -482,7 +479,7 @@ $forum_aenderungsanzeige="1";
 // Benutzer können sich eine Liste der Admins abrufen
 $adminlisteabrufbar="1";
 
-// Captcha Abfrage, $keine_agb wird automatisch 1, und damit angezeigt
+// Captcha Abfrage anzeigen?
 $captcha_text=1;
 
 // Im Expire werden alle Benutzer gelöscht, die sich längere Zeit nicht eingeloggt haben
