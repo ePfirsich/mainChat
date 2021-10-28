@@ -45,7 +45,7 @@ if ( !file_exists($filenameConfig) ) {
 	if (isset($SSLRedirect) && $SSLRedirect == "1") {
 		// ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen
 		if (!((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
-			$url = 'https://' . $_SERVER["HTTP_HOST"] . '/index.php';
+			$url = 'https://' . $http_host . '/index.php';
 			if (!headers_sent())
 				header('Location: ' . $url);
 			die();
