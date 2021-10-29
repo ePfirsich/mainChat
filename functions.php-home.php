@@ -409,7 +409,7 @@ function home_bild(
 	$bilder,
 	$beschreibung = "") {
 	
-	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $http_host;
+	global $PHP_SELF, $f1, $f2, $f3, $f4, $id;
 	
 	$eingabe_breite = 55;
 	
