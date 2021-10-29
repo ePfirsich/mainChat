@@ -143,9 +143,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				$result = mysqli_query($mysqli_link, $query);
 				
 				$cache = "home_bild";
-				$cachepfad = $cache . "/" . $http_host . "/"
-					. substr($ui_userid, 0, 2) . "/" . $ui_userid . "/"
-					. $loesche;
+				$cachepfad = $cache . "/" . substr($ui_userid, 0, 2) . "/" . $ui_userid . "/" . $loesche;
 				
 				if (file_exists($cachepfad)) {
 					unlink($cachepfad);
@@ -185,8 +183,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 					if (isset($_FILES[$val])
 						&& is_uploaded_file($_FILES[$val]['tmp_name'])) {
 						// Abspeichern
-						bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'],
-							$_FILES[$val]['size']);
+						bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'], $_FILES[$val]['size']);
 					}
 				}
 				

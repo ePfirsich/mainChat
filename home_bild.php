@@ -33,19 +33,8 @@ require("functions-init.php");
 $bild = "";
 $b_mime = "";
 
-$url = parse_url($HTTP_REFERER);
-
-if (isset($check_np_referer) && $check_np_referer == "1")
-	/*
-	if ($url['host'] != $http_host) {
-		print "referer error! ";
-		exit;
-	}
-	*/
-
 // Überprüfen, ob ein gecached Bild vorhanden ist
 $cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
-//$cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
 
 $mysqli_link = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
@@ -139,7 +128,6 @@ if ($anzeigeauscache) {
 	}
 	
 } else {
-	
 	// Bild aus der DB lesen
 	
 	$query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
@@ -163,22 +151,6 @@ if ($anzeigeauscache) {
 	if (!@stat($cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id)) {
 		mkdir($cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id,0777);
 	}
-	
-	/*
-	// Bild in den Cache schreiben
-	if (!@stat($cache)) {
-		mkdir($cache, 0777);
-	}
-	if (!@stat($cache . "/" . $http_host)) {
-		mkdir($cache . "/" . $http_host, 0777);
-	}
-	if (!@stat($cache . "/" . $http_host . "/" . substr($u_id, 0, 2))) {
-		mkdir($cache . "/" . $http_host . "/" . substr($u_id, 0, 2), 0777);
-	}
-	if (!@stat($cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id)) {
-		mkdir($cache . "/" . $http_host . "/" . substr($u_id, 0, 2) . "/" . $u_id,0777);
-	}
-	*/
 	
 	$datei = fopen($cachepfad, "w");
 	if ($datei) {

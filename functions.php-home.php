@@ -426,8 +426,7 @@ function home_bild(
 		
 		if (!isset($info))
 			$info = "";
-		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>"
-			. $info . "</td>";
+		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>" . $info . "</td>";
 		
 		if ($aktion == "aendern") {
 			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
@@ -696,8 +695,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			
 			// Cache löschen
 			$cache = "home_bild";
-			$cachepfad = $cache . "/" . $http_host . "/" . substr($u_id, 0, 2)
-				. "/" . $u_id . "/" . $name;
+			$cachepfad = $cache . "/" . . substr($u_id, 0, 2) . "/" . $u_id . "/" . $name;
 			if (file_exists($cachepfad)) {
 				unlink($cachepfad);
 				unlink($cachepfad . "-mime");
