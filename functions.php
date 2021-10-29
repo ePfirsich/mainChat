@@ -837,6 +837,9 @@ function show_kopfzeile_login() {
 		$willkommen = $t['willkommen2'];
 	}
 	
+	zeige_header_ende();
+	echo "<body>";
+	
 	$box = $t['menue1'];
 	$text = "<a href=\"index.php\">$t[menue2]</a>\n";
 	$text .= "| <a href=\"index.php?aktion=neu\">$t[menue3]</a>\n";
@@ -852,8 +855,6 @@ function show_kopfzeile_login() {
 	
 	show_box_title_content($box, $text);
 	
-	zeige_header_ende();
-	echo "<body>";
 	zeige_kopf();
 	
 	echo $willkommen;
