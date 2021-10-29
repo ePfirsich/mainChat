@@ -12,11 +12,8 @@ if ($aktion == "abspeichern") {
 	header("Content-Type: application/octet-stream");
 	header("Content-Disposition: attachment; filename=\"$dateiname\"");
 	header("Content-Location: $dateiname");
-	
-	if (isset($SSLRedirect) && $SSLRedirect == "1") {
-		header("Cache-Control: maxage=15"); //In seconds
-		header("Pragma: public");
-	}
+	header("Cache-Control: maxage=15"); //In seconds
+	header("Pragma: public");
 }
 
 // Benutzerdaten setzen

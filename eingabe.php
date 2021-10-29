@@ -101,22 +101,18 @@ zeige_header_ende();
 	
 	// Unterscheidung Normal oder sicherer Modus
 	if ($sicherer_modus == 1) {
-		
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<select name=\"user_chat_back\">\n";
 		for ($i = 5; $i < 40; $i++) {
 			echo "<option " . ($chat_back == $i ? "selected" : "") . " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
 		}
 		echo "</select>"
-			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
 			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 	} else {
-		
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"http_host\" value=\"$http_host\" type=\"hidden\">"
 			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
 			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 	}

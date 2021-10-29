@@ -1,7 +1,7 @@
 <?php
 
 // Liefert ein Bild inkl. Header zur direkten Darstellung im Browser
-// Übergabeparameter:	http_host -> Virtueller Host des Chats
+// Übergabeparameter:
 //			u_id -> Benutzer, zu dem das Bild gehört
 //			feld -> Feldname in der DB
 

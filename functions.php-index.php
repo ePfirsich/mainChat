@@ -109,7 +109,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
 	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
-	global $mysqli_link, $punkte_gruppe, $communityfeatures, $http_host;
+	global $mysqli_link, $punkte_gruppe, $communityfeatures;
 	
 	// IP/Browser Adresse des Benutzer setzen
 	$ip = $_SERVER["REMOTE_ADDR"];
@@ -321,7 +321,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$f['o_who'] = "1";
 	$f['o_browser'] = $browser;
 	$f['o_name'] = $userdata['u_nick'];
-	$f['o_vhost'] = $http_host;
+	$f['o_vhost'] = "mainChat";
 	$f['o_js'] = $javascript;
 	$f['o_level'] = $userdata['u_level'];
 	$f['o_http_stuff'] = $http_stuff_array[0];

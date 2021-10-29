@@ -695,7 +695,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			
 			// Cache löschen
 			$cache = "home_bild";
-			$cachepfad = $cache . "/" . . substr($u_id, 0, 2) . "/" . $u_id . "/" . $name;
+			$cachepfad = $cache . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $name;
 			if (file_exists($cachepfad)) {
 				unlink($cachepfad);
 				unlink($cachepfad . "-mime");

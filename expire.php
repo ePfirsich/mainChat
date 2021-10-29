@@ -412,59 +412,17 @@ if ($zeit == "03:10") {
  *************************************************************************/
 
 if ((strlen($STAT_DB_HOST) > 0)) {
-	mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
-	mysqli_set_charset($mysqli_link, "utf8mb4");
-	
 	$currenttime = time();
 	$currentdate = date("Y-m-d H", $currenttime);
 	
 	unset($onlinevhosts);
 	
-	/* Als erstes werden die verschiedenen Virtuellen Hosts ermittelt.
-	// bzw. gesammt gespeichert wenn $STAT_DB_COLLECT gesetzt ist */
+	$r1 = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
+	$anzahl_online = mysqli_num_rows($r1);
 	
-	if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
-		$r0 = @mysqli_query($mysqli_link, "SELECT '$STAT_DB_COLLECT'");
-	} else {
-		$r0 = @mysqli_query($mysqli_link, 
-			"SELECT SQL_BUFFER_RESULT DISTINCT o_vhost FROM online WHERE o_raum>0");
-	}
+	/* Die Anzahl der Benutzer im Chat wird nun in die StatisticDB geschrieben. */
 	
-	if ($r0 > 0) {
-		$i = 0;
-		$n = @mysqli_num_rows($r0);
-		
-		if ($n > 0) {
-			/* Für jeden Virtuellen Host werden die Anzahl der Benutzer im Chat	*/
-			/* aus der OnlineDB geholt. */
-			
-			while ($i < $n) {
-				
-				if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
-					$o_vhost = $STAT_DB_COLLECT;
-					$r1 = @mysqli_query($mysqli_link, 
-						"SELECT COUNT(o_id) AS anzahl FROM online ");
-				} else {
-					$o_vhost = @mysqli_result($r0, $i, "o_vhost");
-					$r1 = @mysqli_query($mysqli_link, 
-						"SELECT COUNT(o_id) AS anzahl FROM online WHERE o_vhost='"
-							. mysqli_real_escape_string($mysqli_link, $o_vhost) . "' ");
-				}
-				
-				if ($r1 > 0) {
-					$onlinevhosts["$o_vhost"] = intval(
-						@mysqli_result($r1, 0, "anzahl"));
-				}
-				
-				$i++;
-			}
-		}
-	}
-	
-	/* Die Anzahl der Benutzer im Chat für jeden Virtuellen Host wird	*/
-	/* nun in die StatisticDB geschrieben. */
-	
-	if ((isset($onlinevhosts)) && (count($onlinevhosts) > 0)) {
+	if ( isset($anzahl_online) && ($anzahl_online > 0) ) {
 		if ($dbase != $STAT_DB_HOST) {
 			$mysqli_link2 = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
 			mysqli_set_charset($mysqli_link, "utf8mb4");
@@ -478,32 +436,23 @@ if ((strlen($STAT_DB_HOST) > 0)) {
 			
 			mysqli_select_db($mysqli_link2, $STAT_DB_NAME);
 			
-			reset($onlinevhosts);
+			$r0 = mysqli_query($mysqli_link2, "SELECT SQL_BUFFER_RESULT c_users FROM chat WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' AND c_host='mainChat' ORDER BY c_users DESC");
 			
-			while (list($name, $nr) = each($onlinevhosts)) {
-				$r0 = mysqli_query($mysqli_link2, 
-					"SELECT SQL_BUFFER_RESULT c_users FROM chat WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' AND c_host='"
-						. mysqli_real_escape_string($mysqli_link, $name) . "' ORDER BY c_users DESC");
-				
-				if ($r0) {
-					$n = @mysqli_num_rows($r0);
-					if ($n == 0) {
-						/* Es war noch kein Eintrag vorhanden. Neuer Eintrag wird angelegt. */
-						@mysqli_query($mysqli_link2, 
-							"INSERT INTO chat (c_timestamp, c_users, c_host) VALUES (NOW(),$nr,'"
-								. mysqli_real_escape_string($mysqli_link, $name) . "')");
-					} else {
-						/* Es war bereits ein Eintrag vorhanden. Die Anzahl der	*/
-						/* Benutzer wird erneuert wenn sie größer als der alte Wert	*/
-						/* war. */
-						
-						$currentnr = @mysqli_result($r0, 0, "c_users");
-						
-						if ($nr > $currentnr) {
-							@mysqli_query($mysqli_link2, 
-								"UPDATE chat SET c_users=$nr WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' AND c_host='"
-									. mysqli_real_escape_string($mysqli_link, $name) . "'");
-						}
+			if ($r0) {
+				$n = @mysqli_num_rows($r0);
+				if ($n == 0) {
+					echo "INSERT INTO chat (c_timestamp, c_users, c_host) VALUES (NOW(),$anzahl_online,'mainChat')";
+					/* Es war noch kein Eintrag vorhanden. Neuer Eintrag wird angelegt. */
+					mysqli_query($mysqli_link2, "INSERT INTO chat (c_timestamp, c_users, c_host) VALUES (NOW(),$anzahl_online,'mainChat')");
+				} else {
+					/* Es war bereits ein Eintrag vorhanden. Die Anzahl der	*/
+					/* Benutzer wird erneuert wenn sie größer als der alte Wert	*/
+					/* war. */
+					
+					$currentnr = @mysqli_result($r0, 0, "c_users");
+					
+					if ($anzahl_online > $currentnr) {
+						mysqli_query($mysqli_link2, "UPDATE chat SET c_users=$anzahl_online WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' AND c_host='mainChat'");
 					}
 				}
 			}

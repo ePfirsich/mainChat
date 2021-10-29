@@ -153,7 +153,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	
 	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
-	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $serverprotokoll;
+	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $http_host;
 	
 	$eingabe_breite = 29;
 	
@@ -443,9 +443,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. "</td><td>" . $f3 . htmlspecialchars($o_row->o_browser)
 					. $f4 . "</td></tr>\n" . "<tr><td style=\"vertical-align:top;\">" . $f1
 					. $t['user_zeige22'] . $f2 . "</td><td>" . $f3
-					. "<a href=\"" . $serverprotokoll . "://" . $o_row->o_vhost
-					. "\" target=_blank>$serverprotokoll://" . $o_row->o_vhost
-					. "</a>" . $f4 . "</td></tr>\n";
+					. "<a href=\"" . $http_host . "\" target=_blank>$http_host://" . "</a>" . $f4 . "</td></tr>\n";
 				
 				if ($o_http_stuff) {
 					$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2

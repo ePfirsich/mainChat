@@ -179,12 +179,12 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			// Wenn der Neue Raum eine Teergrube ist, dann Eingabzeile aktualisieren, daß der [FORUM] Link verschwindet
 			// Es sei denn man ist Admin, dann braucht es nicht aktualisiert werden, denn der Link wird nicht ausgeblendet
 			// bzw. wenn alter Raum Teergrube war, dann auch aktualisieren
-			// $u_id über Online Tabelle, da der Benutzer auch geschubst werden kann, deswegen dessen o_vhost und o_hash 
+			// $u_id über Online Tabelle, da der Benutzer auch geschubst werden kann, deswegen dessen o_hash 
 			
 			if (($forumfeatures) && ($communityfeatures) && (!$beichtstuhl)
 				&& (($neu->r_status1 == "L") || ($alt->r_status1 == "L"))
 				&& ($u_level != "A") && (!$admin)) {
-				$query2 = "SELECT o_hash, o_vhost FROM online WHERE o_id=" . intval($o_id);
+				$query2 = "SELECT o_hash FROM online WHERE o_id=" . intval($o_id);
 				$result2 = mysqli_query($mysqli_link, $query2);
 				
 				if ($result2 && mysqli_num_rows($result2) == 1) {
@@ -192,7 +192,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 					mysqli_free_result($result2);
 					
 					system_msg("", 0, $u_id, "",
-						"<SCRIPT>parent.frames[3].location.href='eingabe.php?id=$online->o_hash';</SCRIPT>");
+						"<script>parent.frames[3].location.href='eingabe.php?id=$online->o_hash';</script>");
 					
 					unset($online);
 				}

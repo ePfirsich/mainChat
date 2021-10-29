@@ -42,19 +42,14 @@ $STAT_BAR_FONTEND2 = "</span>";
 $STAT_BAR_FONTBEG3 = "<span style=\"font-weight:bold;\">";
 $STAT_BAR_FONTEND3 = "</span>";
 
-// Bitte ab hier nichts ändern!
 
+// Bitte ab hier nichts ändern!
 $mysqli_statistik_link = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
 if ($mysqli_statistik_link) {
 	mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
 	mysqli_select_db($mysqli_statistik_link, $STAT_DB_NAME);
 }
-$v = mysqli_real_escape_string($mysqli_statistik_link, $http_host);
-
-// Wenn Benutzer-Statistiken gesammelt werden, dann nicht HTTP_HOST sondern die Zeichenkette aus $STAT_DB_COLLECT
-if (isset($STAT_DB_COLLECT) && strlen($STAT_DB_COLLECT) > 0) {
-	$v = $STAT_DB_COLLECT;
-}
+$v = mysqli_real_escape_string($mysqli_statistik_link, "mainChat");
 
 // Testen, ob Statistiken funktionieren...
 $fehler = false;

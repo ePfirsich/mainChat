@@ -25,44 +25,42 @@ if ( !file_exists($filenameConfig) ) {
 } else {
 	require $filenameConfig;
 	require_once("functions.php-html.php");
-	
-	// Liegt lokale Konfigurationsdatei "config.php" in "conf/" vor? Falls ja einbinden
-	if (!(isset($http_host))) {
-		$http_host = $_SERVER["HTTP_HOST"];
-	}
-	$http_host = str_replace(":80", "", strtolower($http_host));
-	$http_host = str_replace(":8888", "", $http_host);
-	
 	require "conf/config.php";
+	
+
+	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist
+	$matches = array();
+	
+	if (substr_count($_SERVER['HTTP_HOST'], '.')==1) {
+		// domain.tld
+		preg_match('/^(?P<d>.+)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+	} else {
+		// www.domain.tld, sub1.sub2.domain.tld, ...
+		preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+	}
+	
+	$subdomain = (isset($matches['sd'])) ? $matches['sd'] : '';
+	$domain = $matches['d'];
+	$tld = $matches['tld'];
+	$isHttps = (!empty($_SERVER['HTTPS']));
+	if($isHttps) {
+		$aufgerufeneURL = "https://" . $subdomain.'.'.$domain.'.'.$tld;
+	} else {
+		$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;
+	}
+	
+	if($aufgerufeneURL != $http_host) {
+		header('Location: '.$http_host.'', true, 301);
+		exit();
+	}
+	// Ende der aufgerufenen URL
+	
 	
 	// Pfad des Chats auf dem WWW-Server
 	$phpself = $_SERVER['PHP_SELF'];
 	
 	$chat_file = basename($phpself);
 	$chat_file = str_replace("html", "php", $chat_file);
-
-	// Wenn zwingend SSL, dann ... 
-	if (isset($SSLRedirect) && $SSLRedirect == "1") {
-		// ... weiterleiten auf HTTPS wenn nicht schon sowieso aufgerufen
-		if (!((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on')))) {
-			$url = 'https://' . $http_host . '/index.php';
-			if (!headers_sent())
-				header('Location: ' . $url);
-			die();
-		}
-		// ... für alle Ausgaben einmalig Protokollvariable
-		 else {
-			$serverprotokoll = 'https';
-		}
-	}
-	// Wenn SSL aber nicht zwingend, für alle Ausgaben einmalig Protokollvariable
-	 else if (((isset($_SERVER["HTTPS"])
-		&& ($_SERVER["HTTPS"] == '1' || strtolower($_SERVER["HTTPS"]) == 'on'))) || $ssl_login) {
-		$serverprotokoll = 'https';
-	} else {
-		// Standard Protokoll
-		$serverprotokoll = 'http';
-	}
 	
 	// Zentrale Sprachdatei einbinden
 	require "conf/$sprachconfig";

@@ -104,13 +104,6 @@ $logintext .= "\" size=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
 	. "<input type=\"hidden\" name=\"aktion\" value=\"login\">" . $f2
 	. "</td>\n" . "</tr></table>\n" . $t['login3'];
 
-// SSL?
-if (($ssl_login) || (isset($SSLRedirect) && $SSLRedirect == "1")) {
-	$chat_url = "https://" . $_SERVER['SERVER_NAME'];
-} else {
-	$chat_url = "http://" . $_SERVER['SERVER_NAME'];
-}
-
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;
 $warnung = false;
@@ -366,18 +359,13 @@ if ($neuregistrierung_deaktivieren) {
 	$login_titel = $t['default1'];
 }
 
-if (!isset($chatserver) || $chatserver == "") {
-	$chatserver = $serverprotokoll . "://" . $_SERVER['HTTP_HOST'] . "/";
-}
-
 if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail']) && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
 		zeige_header_ende();
 		?>
 		<body>
 		<?php
 	zeige_kopf();
-	echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
-		. "<a href=\"" . $chatserver . "index.php\">hier</a> neu an.</p>";
+	echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . $http_host . "/index.php\">hier</a> neu an.</p>";
 	
 	zeige_fuss();
 	exit;
@@ -412,9 +400,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 			<body>
 			<?php
 			zeige_kopf();
-			echo "<P><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich "
-				. "<a href=\"" . mysqli_real_escape_string($mysqli_link, $chatserver)
-				. "index.php\">hier</A> neu an.</P>";
+			echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . mysqli_real_escape_string($mysqli_link, $http_host) . "/index.php\">hier</a> neu an.</p>";
 			$query = "DELETE FROM mail_check WHERE email = '$email'";
 			mysqli_query($mysqli_link, $query);
 			zeige_fuss();
@@ -427,7 +413,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 		<body>
 		<?php
 		zeige_kopf();
-		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $chatserver . "index.php\">hier</a> neu an.</p>";
+		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $http_host . "/index.php\">hier</a> neu an.</p>";
 		zeige_fuss();
 		exit;
 	}
@@ -551,11 +537,7 @@ switch ($aktion) {
 							. $a['u_adminemail'] . $a['u_punkte_jahr']);
 					
 					$email = urlencode($a['u_adminemail']);
-					$link = $serverprotokoll . "://" . $http_host
-						. $chatserver . $_SERVER['PHP_SELF']
-						. "?aktion=passwort_neu&frame=1&email="
-						. $email . "&nickname=" . $nickname . "&hash="
-						. $hash;
+					$link = $http_host . "/index.php?aktion=passwort_neu&frame=1&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
 					
 					$text2 = str_replace("%link%", $link, $t['pwneu9']);
 					$text2 = str_replace("%hash%", $hash, $text2);
@@ -695,9 +677,7 @@ switch ($aktion) {
 					$a = mysqli_fetch_array($result);
 					$hash2 = md5($a['email'] . "+" . $a['datum']);
 					if ($hash == $hash2) {
-						$link = $serverprotokoll . "://" . $http_host
-							. $chatserver . $_SERVER['PHP_SELF']
-							. "?aktion=neu2&frame=1";
+						$link = $http_host . "/index.php?aktion=neu2&frame=1";
 						
 						$text2 = str_replace("%link%", $link, $t['neu53']);
 						$text2 = str_replace("%hash%", $hash, $text2);
@@ -876,15 +856,10 @@ switch ($aktion) {
 				$hash = md5($email . "+" . date("Y-m-d"));
 				$email = urlencode($email);
 				
-				if (isset($anmeldung_nurmitbest)
-					&& strlen($anmeldung_nurmitbest) > 0) {
+				if (isset($anmeldung_nurmitbest) && strlen($anmeldung_nurmitbest) > 0) {
 					// Anmeldung mit externer Bestätigung
-					$link1 = $serverprotokoll . "://" . $http_host
-						. $chatserver . $_SERVER['PHP_SELF']
-						. "?aktion=neubestaetigen&frame=1";
-					$link2 = $serverprotokoll . "://" . $http_host
-						. $chatserver . $_SERVER['PHP_SELF']
-						. "?aktion=neu2&frame=1";
+					$link1 = $http_host . "/index.php?aktion=neubestaetigen&frame=1";
+					$link2 = $http_host . "/index.php?aktion=neu2&frame=1";
 					
 					$text2 = str_replace("%link1%", $link1, $t['neu47']);
 					$text2 = str_replace("%link2%", $link2, $text2);
@@ -898,10 +873,10 @@ switch ($aktion) {
 					echo $t['neu48'];
 				} else {
 					// Normale Anmeldung
-					$link = $serverprotokoll . "://" . $http_host
+					$link = $http_host
 						. $_SERVER['PHP_SELF']
 						. "?aktion=neu&email=$email&hash=$hash&frame=1";
-					$link2 = $serverprotokoll . "://" . $http_host
+					$link2 = $http_host
 						. $_SERVER['PHP_SELF']
 						. "?aktion=neu2&frame=1";
 					
@@ -1121,42 +1096,11 @@ switch ($aktion) {
 			}
 		}
 		
-		// $crypted_password_extern = 0; wird in functions-init.php gesetzt
-		// Wenn externe Schnittstelle vorhanden ist
-		// wird die dort vorhandene von function und variablen importiert
-		if (file_exists("ext/functions.php-" . $http_host)) {
-			// Speziell für die weitere verwendung in auth_user wird die $crypted_password_extern = 0 oder 1 aus der Datei gelesen
-			require("ext/functions.php-" . $http_host);
-		}
-		
 		// Passwort prüfen und Benutzerdaten lesen
 		$rows = 0;
 		$result = auth_user($login, $passwort);
 		if ($result) {
 			$rows = mysqli_num_rows($result);
-		}
-		
-		// Benutzername nicht gefunden, optionales include starten und Benutzer ggf. aus externer Datenbank kopieren
-		if ($rows == 0 && file_exists("ext/functions.php-" . $http_host)) {
-			// Wenn Benutzer = Gast, dann mit leerem Passwort in die Externe Prüfung
-			// erforderlich, da aus externer Schnittstelle Gastdaten ohne PW kommen
-			// Sicherheitsproblem in der Externen Schnittstelle: da jeder unter diesem 
-			// Gastnick einloggen kann, und der ursprüngliche Benutzer fliegt raus
-			// Muss daher im Übergeordneten System sichergestellt sein
-			if ($f['u_level'] == 'G') {
-				$passwort = '';
-			}
-			
-			// Function ext_lese_user oben eingebunden
-			$passwort_ext = ext_lese_user($login, $passwort);
-			
-			$result = auth_user($login, $passwort_ext);
-			if ($result) {
-				$rows = mysqli_num_rows($result);
-				$passwort = $passwort_ext;
-				if ($rows == 1) {
-				}
-			}
 		}
 		
 		// Login fehlgeschlagen
@@ -1236,7 +1180,7 @@ switch ($aktion) {
 				<?php
 				zeige_kopf();
 				
-				echo str_replace("%url%", $chat_url, $t['login25']);
+				echo str_replace("%url%", $http_host, $t['login25']);
 				unset($u_nick);
 				
 				zeige_fuss();
@@ -1649,9 +1593,7 @@ switch ($aktion) {
 						. date("M d Y H:i:s", $val[login])
 						. " \tIP: $val[ip] \tPW: $val[pw]\n";
 				}
-				$text .= "\n-- \n   $chat ($serverprotokoll://"
-					. $http_host . $_SERVER['PHP_SELF'] . " | "
-					. $http_host . ")\n";
+				$text .= "\n-- \n   $chat (".$http_host . $_SERVER['PHP_SELF'] . " | " . $http_host . ")\n";
 				
 				// E-Mail versenden
 				if($smtp_on) {
@@ -1872,7 +1814,7 @@ switch ($aktion) {
 				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12'] . "</td>"
 				. "<td>" . $f1 . $f['u_nick'] . $f2
 				. "</td></tr></table>\n" . $t['neu28']
-				. "<form action=\"$chat_url\" name=\"login\" method=\"post\">\n"
+				. "<form action=\"$http_host\" name=\"login\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
 				. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n"

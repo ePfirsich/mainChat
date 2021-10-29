@@ -1659,9 +1659,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					$text = "<b>WHOIS $chatzeile[1]:</b><br>\n";
 					while ($row = @mysqli_fetch_object($result)) {
-						$q2 = "SELECT r_name,o_ip,o_vhost,o_browser,o_id,o_who,"
+						$q2 = "SELECT r_name, o_ip, o_browser ,o_id, o_who,"
 							. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
-							. "FROM online left join raum on r_id=o_raum WHERE o_user=$row->u_id ";
+							. "FROM online LEFT JOIN raum on r_id=o_raum WHERE o_user=$row->u_id ";
 						$r2 = mysqli_query($mysqli_link, $q2);
 						if ($r2 && mysqli_num_rows($r2) > 0) {
 							// Benutzer ist online
@@ -1704,9 +1704,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							
 							if ($admin) {
 								$host_name = @gethostbyaddr($r->o_ip);
-								$text = $text
-									. htmlspecialchars(
-										", ($r->o_ip($host_name), $r->o_vhost, $r->o_browser) ");
+								$text = $text . htmlspecialchars(", ($r->o_ip($host_name), $r->o_browser) ");
 							}
 							$text = $text . "</b><br>\n";
 							mysqli_free_result($r2);

@@ -8,10 +8,10 @@ function coreMakeBackground($back) {
 	
 	if (("$backc" == "") || ("$backp" == "")) {
 		if ("$backc" != "")
-			return (" BGCOLOR=\"$backc\"");
+			return (" bgcolor=\"$backc\"");
 		if ("$backp" != "")
-			return (" BACKGROUND=\"$backp\"");
-	} else return (" BGCOLOR=\"$backc\" BACKGROUND=\"$backp\"");
+			return (" background=\"$backp\"");
+	} else return (" bgcolor=\"$backc\" background=\"$backp\"");
 }
 
 // Wandelt eine Image-Variable in den entsprechenden HTML-Source (Src, Width, Height) um.
@@ -34,9 +34,10 @@ function statsOverview($v = "%") {
 	global $STAT_TITLE_FONTBEG2;
 	global $STAT_TITLE_FONTEND2;
 	global $grapharray;
+	global $mysqli_statistik_link;
 	
-	mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
-	mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
+	//mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
+	//mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
 	
 	$m = date("m", time());
 	$y = date("Y", time());
@@ -65,7 +66,7 @@ function statsOverview($v = "%") {
 				statsResetMonth($y, $m);
 				
 				$r0 = @mysqli_query($mysqli_statistik_link, 
-					"SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='". mysqli_real_escape_string($mysqli_statistik_link, $c_host) . "' ORDER BY c_timestamp");
+					"SELECT * FROM chat WHERE c_timestamp LIKE '$y$m%' AND c_host='mainChat' ORDER BY c_timestamp");
 				
 				if ($r0 > 0) {
 					$i = 0;

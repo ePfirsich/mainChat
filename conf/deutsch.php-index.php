@@ -185,7 +185,7 @@ $legende = "<tr><td colspan=\"2\" class=\"tabelle_zeile1\" style=\"padding: 5px;
 	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"pics/gruppe9.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">Benutzer: 5.000.000 - 9.999.999 Punkte</td></tr>"
 	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"pics/gruppe10.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">Benutzer: ab 10.000.000 Punkten</td></tr>"
 	. "<tr><td colspan=\"2\" class=\"tabelle_zeile2\" style=\"padding: 5px; font-weight:bold;\">Weitere Symbole:</td></tr>"
-	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\></span><br></td><td class=\"tabelle_zeile1\">Homepage des Benutzers</td></tr>"
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\"></span><br></td><td class=\"tabelle_zeile1\">Homepage des Benutzers</td></tr>"
 	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span><br></td><td class=\"tabelle_zeile2\">E-Mail des Benutzers</td></tr>";
 
 $hilfe_community = "<br>
@@ -433,7 +433,7 @@ $t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
 $t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
 	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
 	. "Sie einen Browser mit aktivieren Cookies "
-	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</A>]</p>";
+	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</a>]</p>";
 $t['login26'] = "Lieber Chatter, um diesen Chat zu betreten, müssen Sie ihn über die Webseite %webseite% betreten.";
 $t['login27'] = "Passwort vergessen?";
 
@@ -487,7 +487,7 @@ $t['neu36'] = "Willkommen beim $chat!<br><br>Um nun die Registrierung als neuer 
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein<br><br>"
-		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
 $t['neu37'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['neu38'] = "Ihre Registrierung im $chat";
 $t['neu39'] = "<p><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</p>";
@@ -507,7 +507,7 @@ $t['neu47'] = "Hallo!<br><br>Ein Benutzer mit der E-Mail-Adresse %email% möchte
 	. "an den Benutzer zu übermitteln:<br><br>"
 	. "Internetadresse zum Freischalten: %link2%<br>"
 	. "E-Mail-Adresse: %email%<br>" . "Freischalt-Code: %hash%<br><br>"
-		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
 $t['neu48'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
 	. "angegebenen Link!</p>";
@@ -521,7 +521,7 @@ $t['neu53'] = "Willkommen beim $chat!<br><br>Der Webmaster hat Ihre E-Mail-Adres
 	. "<br>Zum endgültigen Anmelden verwenden Sie bitte nun den Link: "
 	. "<br> %link%<br><br>Zum anmelden benötigen Sie dann noch:<br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Ihren Freischalt-Code: %hash%<br><br>"
-		. "-- <br>   $chat ($serverprotokoll://" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
 $t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
 $t['neu55'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"javascript:history.back()\">Zurück zur Registrierung!</a>";
 
