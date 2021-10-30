@@ -1439,7 +1439,6 @@ function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_h
 }
 
 function avadel($userid){
-
 	global $mysqli_link;
 	
 	$query = "SELECT ui_avatar FROM user WHERE u_id=" . intval($userid);
@@ -1457,16 +1456,11 @@ function avadel($userid){
 	$resultdel = mysqli_query($mysqli_link, $querydel);
 	
 	if(!file_exists($ava) && $resultdel == 1){
-	
-	$return = true;
-	
-	}else{
-		
-	$return = false;	
-		
+		$return = true;
+	} else {
+		$return = false;
 	}
 	
 	return $return;
-	
 }
 ?>

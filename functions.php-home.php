@@ -723,13 +723,13 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	global $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
-		
 		// Aufruf als home.php?ui_userid=USERID
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$u_id";
 		
-	} elseif ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
+	} else if ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
+		$nicknamen = $new_string=substr($_SERVER['QUERY_STRING'],1);
 		// Aufruf als home.php?USERNAME
-		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($_SERVER['QUERY_STRING'])));
+		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($nicknamen)) );
 		$tempnick = coreCheckName($tempnick, $check_name);
 		
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '"
@@ -841,21 +841,16 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 			. home_aktionen($u_id, $row->u_nick, $home, $farben, $aktion);
 		
 		echo "</td></tr></table>\n";
-		
 		echo "</body>\n";
 		
-	} elseif ($u_chathomepage != "J") {
-		
+	} else if ($u_chathomepage != "J") {
 		echo "<body>"
 			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
-		
 		echo "</body>\n";
 		
 	} else {
-		
 		echo "<body>"
 			. "<p><b>Fehler: Aufruf ohne gültige Parameter!</b></p>";
-
 		echo "</body>\n";
 		
 	}

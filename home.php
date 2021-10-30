@@ -4,10 +4,10 @@
 // Sonst geht der redirekt nicht mehr.
 
 require_once("functions-registerglobals.php");
+require_once("functions.php");
 
 
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
-	require("functions.php");
 	include("functions.php-hash.php");
 	
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
@@ -51,6 +51,8 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	<body>
 	<?php
 } else {
+	$title = $body_titel . ' - Home';
+	zeige_header_anfang($title, 'mini');
 	// Aufruf als home.php/USERNAME -> Redirekt auf home.php?USERNAME
 	$u_id = "";
 	$suchwort = $_SERVER["PATH_INFO"];
