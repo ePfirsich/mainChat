@@ -292,7 +292,7 @@ Benutzernamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage 
 \"Suche nach Benutzern\" (<b>USER -> Suche</b>) ist die gezielte Suche nach Benutzern mit freigeschalteter Homepage
 möglich.<br><br>
 Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
-<b> %chat_url%/home.php/NICKNAME</b><br><br>
+<b> %chat_url%/home.php?/NICKNAME</b><br><br>
 Grundsätzlich immer dargestellt werden</p>
 <ul>
 <li><I>Benutzername des Benutzers</I>
@@ -487,7 +487,7 @@ $t['neu36'] = "Willkommen beim $chat!<br><br>Um nun die Registrierung als neuer 
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein<br><br>"
-		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $chat_url . $PHP_SELF . ")<br>";
 $t['neu37'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['neu38'] = "Ihre Registrierung im $chat";
 $t['neu39'] = "<p><b>Fehler: </b>An die E-Mail Adresse '%email%' wurde bereits verschickt!</p>";
@@ -507,7 +507,7 @@ $t['neu47'] = "Hallo!<br><br>Ein Benutzer mit der E-Mail-Adresse %email% möchte
 	. "an den Benutzer zu übermitteln:<br><br>"
 	. "Internetadresse zum Freischalten: %link2%<br>"
 	. "E-Mail-Adresse: %email%<br>" . "Freischalt-Code: %hash%<br><br>"
-		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $chat_url . $PHP_SELF . ")<br>";
 $t['neu48'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
 	. "angegebenen Link!</p>";
@@ -521,7 +521,7 @@ $t['neu53'] = "Willkommen beim $chat!<br><br>Der Webmaster hat Ihre E-Mail-Adres
 	. "<br>Zum endgültigen Anmelden verwenden Sie bitte nun den Link: "
 	. "<br> %link%<br><br>Zum anmelden benötigen Sie dann noch:<br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Ihren Freischalt-Code: %hash%<br><br>"
-		. "-- <br>   $chat (" . $http_host . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat (" . $chat_url . $PHP_SELF . ")<br>";
 $t['neu54'] = "Dem Benutzer/der Benutzerin wurde nun per E-Mail der Freischaltcode mitgeteilt.";
 $t['neu55'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"javascript:history.back()\">Zurück zur Registrierung!</a>";
 

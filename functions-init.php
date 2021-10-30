@@ -49,8 +49,8 @@ if ( !file_exists($filenameConfig) ) {
 		$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;
 	}
 	
-	if($aufgerufeneURL != $http_host) {
-		header('Location: '.$http_host.'', true, 301);
+	if($aufgerufeneURL != $chat_url) {
+		header('Location: '.$chat_url.'', true, 301);
 		exit();
 	}
 	// Ende der aufgerufenen URL

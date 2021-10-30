@@ -2,7 +2,7 @@
 
 function zeige_header_anfang($title, $stylesheet, $zusatz_header = '') {
 	// Gibt den HTML-Header auf der Eingangsseite
-	global $metatag, $http_host;
+	global $metatag;
 	?>
 	<!DOCTYPE html>
 	<html dir="ltr" lang="de">

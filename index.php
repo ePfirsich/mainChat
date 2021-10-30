@@ -365,7 +365,7 @@ if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail']) && $ha
 		<body>
 		<?php
 	zeige_kopf();
-	echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . $http_host . "/index.php\">hier</a> neu an.</p>";
+	echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . $chat_url . "/index.php\">hier</a> neu an.</p>";
 	
 	zeige_fuss();
 	exit;
@@ -400,7 +400,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 			<body>
 			<?php
 			zeige_kopf();
-			echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . mysqli_real_escape_string($mysqli_link, $http_host) . "/index.php\">hier</a> neu an.</p>";
+			echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . mysqli_real_escape_string($mysqli_link, $chat_url) . "/index.php\">hier</a> neu an.</p>";
 			$query = "DELETE FROM mail_check WHERE email = '$email'";
 			mysqli_query($mysqli_link, $query);
 			zeige_fuss();
@@ -413,7 +413,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 		<body>
 		<?php
 		zeige_kopf();
-		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $http_host . "/index.php\">hier</a> neu an.</p>";
+		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $chat_url . "/index.php\">hier</a> neu an.</p>";
 		zeige_fuss();
 		exit;
 	}
@@ -537,7 +537,7 @@ switch ($aktion) {
 							. $a['u_adminemail'] . $a['u_punkte_jahr']);
 					
 					$email = urlencode($a['u_adminemail']);
-					$link = $http_host . "/index.php?aktion=passwort_neu&frame=1&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
+					$link = $chat_url . "/index.php?aktion=passwort_neu&frame=1&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
 					
 					$text2 = str_replace("%link%", $link, $t['pwneu9']);
 					$text2 = str_replace("%hash%", $hash, $text2);
@@ -677,7 +677,7 @@ switch ($aktion) {
 					$a = mysqli_fetch_array($result);
 					$hash2 = md5($a['email'] . "+" . $a['datum']);
 					if ($hash == $hash2) {
-						$link = $http_host . "/index.php?aktion=neu2&frame=1";
+						$link = $chat_url . "/index.php?aktion=neu2&frame=1";
 						
 						$text2 = str_replace("%link%", $link, $t['neu53']);
 						$text2 = str_replace("%hash%", $hash, $text2);
@@ -858,8 +858,8 @@ switch ($aktion) {
 				
 				if (isset($anmeldung_nurmitbest) && strlen($anmeldung_nurmitbest) > 0) {
 					// Anmeldung mit externer Bestätigung
-					$link1 = $http_host . "/index.php?aktion=neubestaetigen&frame=1";
-					$link2 = $http_host . "/index.php?aktion=neu2&frame=1";
+					$link1 = $chat_url . "/index.php?aktion=neubestaetigen&frame=1";
+					$link2 = $chat_url . "/index.php?aktion=neu2&frame=1";
 					
 					$text2 = str_replace("%link1%", $link1, $t['neu47']);
 					$text2 = str_replace("%link2%", $link2, $text2);
@@ -873,12 +873,8 @@ switch ($aktion) {
 					echo $t['neu48'];
 				} else {
 					// Normale Anmeldung
-					$link = $http_host
-						. $_SERVER['PHP_SELF']
-						. "?aktion=neu&email=$email&hash=$hash&frame=1";
-					$link2 = $http_host
-						. $_SERVER['PHP_SELF']
-						. "?aktion=neu2&frame=1";
+					$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash&frame=1";
+					$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2&frame=1";
 					
 					$text2 = str_replace("%link%", $link, $t['neu36']);
 					$text2 = str_replace("%link2%", $link2, $text2);
@@ -1180,7 +1176,7 @@ switch ($aktion) {
 				<?php
 				zeige_kopf();
 				
-				echo str_replace("%url%", $http_host, $t['login25']);
+				echo str_replace("%url%", $chat_url, $t['login25']);
 				unset($u_nick);
 				
 				zeige_fuss();
@@ -1593,7 +1589,7 @@ switch ($aktion) {
 						. date("M d Y H:i:s", $val[login])
 						. " \tIP: $val[ip] \tPW: $val[pw]\n";
 				}
-				$text .= "\n-- \n   $chat (".$http_host . $_SERVER['PHP_SELF'] . " | " . $http_host . ")\n";
+				$text .= "\n-- \n   $chat (".$chat_url . $_SERVER['PHP_SELF'] . " | " . $chat_url . ")\n";
 				
 				// E-Mail versenden
 				if($smtp_on) {
@@ -1814,7 +1810,7 @@ switch ($aktion) {
 				. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12'] . "</td>"
 				. "<td>" . $f1 . $f['u_nick'] . $f2
 				. "</td></tr></table>\n" . $t['neu28']
-				. "<form action=\"$http_host\" name=\"login\" method=\"post\">\n"
+				. "<form action=\"$chat_url\" name=\"login\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n"
 				. "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n"
