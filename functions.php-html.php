@@ -8,7 +8,6 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '') {
 	<html dir="ltr" lang="de">
 	<head>
 	<title><?php echo $title; ?></title>
-	<base href="<?php echo $http_host;?>">
 	<meta charset="utf-8">
 	<?php echo $metatag; ?>
 	<link rel="stylesheet" href="css/style.css" type="text/css">
