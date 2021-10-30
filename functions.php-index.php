@@ -321,7 +321,6 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$f['o_who'] = "1";
 	$f['o_browser'] = $browser;
 	$f['o_name'] = $userdata['u_nick'];
-	$f['o_vhost'] = "mainChat";
 	$f['o_js'] = $javascript;
 	$f['o_level'] = $userdata['u_level'];
 	$f['o_http_stuff'] = $http_stuff_array[0];

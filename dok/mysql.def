@@ -97,7 +97,6 @@
 # o_aktiv 		Wann war der User zuletzt aktiv
 # o_chat_id 		ID des letzten Eintrags im Chat
 # o_browser 		Verwendeter Browser
-# o_vhost		Hostnamen des aktiven chats
 # o_js			javascript ist an (=1) oder aus (=0)
 # o_knebel		zeitstempel, wie lange ein user geknebelt ist
 # o_http_stuff		Komprimierte HTTP-Headerinformationen
@@ -233,7 +232,7 @@ CREATE TABLE invite (
 	inv_raum int(11) default NULL,
 	inv_user int(11) default NULL,
 	PRIMARY KEY	(inv_id),
-	KEY inv_user (inv_user)	
+	KEY inv_user (inv_user)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE ip_sperre (
@@ -303,7 +302,6 @@ CREATE TABLE online (
 	o_chat_id int(11) unsigned NOT NULL default '0',
 	o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_vhost varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default '',
 	o_js tinyint(1) NOT NULL default '0',
 	o_knebel timestamp NOT NULL default '00000000000000',
 	o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
