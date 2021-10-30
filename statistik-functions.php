@@ -20,7 +20,7 @@ function coreMakeImage($image) {
 	$img_h = strtok(",");
 	$img_p = strtok(",");
 	
-	return ("src=\"$img_p\" WIDTH=\"$img_w\" HEIGHT=\"$img_h\"");
+	return ("src=\"$img_p\" width=\"$img_w\" height=\"$img_h\"");
 }
 
 function statsResetMonth($year, $month) {

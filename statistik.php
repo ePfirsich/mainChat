@@ -21,46 +21,18 @@ if (!$u_id || !$admin || !$erweitertefeatures) {
 include("statistik-functions.php");
 include("conf/" . $sprachconfig . "-statistik.php");
 
-// config-bereich
-
-$STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel. 
-
-// Images aus denen ein Balken für die Statistik zusammengesetzt werden soll
-$STAT_BAR_IMAGE_T = "14,2,pics/bar-t.gif";
-$STAT_BAR_IMAGE_M = "14,2,pics/bar-m.gif";
-$STAT_BAR_IMAGE_B = "14,2,pics/bar-b.gif";
-
-// Fontstart und Fontende die zum Anzeigen der unteren Beschriftung verwendet werden sollen.
-$STAT_BAR_FONTBEG1 = "<span style=\"font-size: smaller;\">";
-$STAT_BAR_FONTEND1 = "</span>";
-
-// Fontstart und Fontende die zum Anzeigen der seitlichen Beschriftung wendet werden sollen.
-$STAT_BAR_FONTBEG2 = "<span style=\"font-size: smaller; font-weight:bold;\">";
-$STAT_BAR_FONTEND2 = "</span>";
-
-// Fontstart und Fontende die zum Anzeigen der Überschrift einer Statistik verwendet werden sollen.
-$STAT_BAR_FONTBEG3 = "<span style=\"font-weight:bold;\">";
-$STAT_BAR_FONTEND3 = "</span>";
-
-
-// Bitte ab hier nichts ändern!
-$mysqli_statistik_link = mysqli_connect('p:'.$STAT_DB_HOST, $STAT_DB_USER, $STAT_DB_PASS, $STAT_DB_NAME);
-if ($mysqli_statistik_link) {
-	mysqli_set_charset($mysqli_statistik_link, "utf8mb4");
-	mysqli_select_db($mysqli_statistik_link, $STAT_DB_NAME);
-}
-$v = mysqli_real_escape_string($mysqli_statistik_link, "mainChat");
+$v = mysqli_real_escape_string($mysqli_link, "mainChat");
 
 // Testen, ob Statistiken funktionieren...
 $fehler = false;
 
-if (!$mysqli_statistik_link) {
+if (!$mysqli_link) {
 	// DB-Connect bereits danebengegangen...
 	$fehler = true;
 	$msg = $t['statistik4'];
 } else {
 	//testen, ob statisiken überhaupt geschrieben werden:
-	$r1 = mysqli_query($mysqli_statistik_link, "SELECT DISTINCT `id` FROM chat");
+	$r1 = mysqli_query($mysqli_link, "SELECT DISTINCT `id` FROM statistiken");
 	if ($r1 > 0) {
 		if (mysqli_num_rows($r1) == 0) {
 			// Keine Enträge vorhanden
@@ -156,13 +128,12 @@ switch ($type) {
 		
 		// Statistiken einzeln nach Monaten
 		
-		$r1 = @mysqli_query($mysqli_statistik_link, "SELECT DISTINCT c_users FROM chat WHERE date(c_timestamp) LIKE '$y-$m%'");
+		$r1 = @mysqli_query($mysqli_link, "SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");
 		
 		if ($r1 > 0) {
 			statsResetMonth($y, $m);
 			
-			$r0 = @mysqli_query($mysqli_statistik_link, 
-				"SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
+			$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
 			if ($r0 > 0) {
 				$i = 0;
 				$n = @mysqli_num_rows($r0);
@@ -193,7 +164,7 @@ switch ($type) {
 		
 		statsResetHours($showtime, $h);
 		
-		$r0 = @mysqli_query($mysqli_statistik_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM chat WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
+		$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
 		
 		if ($r0 > 0) {
 			$i = 0;

@@ -128,6 +128,11 @@
 # s_raum 		Raum -> r_id
 # s_zeit 		Zeitpunkt wann Datensatz angelegt wurde
 
+# Tabelle statistiken	welcher User ist in welchem Raum für wie lange gesperrt
+# id int 		ID
+# c_users 		Anzahl der User
+# c_timestamp 		Zeitstempel
+
 # Tabelle iignore	welcher User hat welchen anderen user stummgeschaltet
 # i_id 			ID
 # i_user_aktiv 		User -> u_id
@@ -391,6 +396,12 @@ CREATE TABLE sperre (
 	KEY s_user (s_user),
 	KEY s_raum (s_raum)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `statistiken` (
+	`c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+	`c_users` int(11) NOT NULL DEFAULT 0,
+	`id` int(11) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE thema (
 	th_id int(10) unsigned NOT NULL auto_increment,
