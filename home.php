@@ -55,21 +55,10 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	$u_id = "";
 	$suchwort = $_SERVER["PATH_INFO"];
 	
-	echo 'test1: ';
-	echo $suchwort;
-	echo '<br>';
 	if (substr($suchwort, -1) == "/") {
 		$suchwort = substr($suchwort, 0, -1);
 	}
 	$suchwort = strtolower(substr($suchwort, strrpos($suchwort, "/") + 1));
-	
-	echo 'test2: ';
-	echo $suchwort;
-	echo '<br>';
-	
-	echo 'test3: ';
-	echo $PATH_INFO;
-	echo '<br>';
 	
 	if (strlen($suchwort) >= 4) {
 		header("Location: http://" . $_SERVER["HTTP_HOST"]. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
