@@ -8,8 +8,6 @@
 CREATE TABLE chat (
 	`id` int(11) unsigned NOT NULL auto_increment,
 	`c_users` int(11) NOT NULL default '0',
-	`c_host` char(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-	KEY c_users (c_users),
-	KEY c_host (c_host)
+	KEY c_users (c_users)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

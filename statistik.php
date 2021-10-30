@@ -156,38 +156,28 @@ switch ($type) {
 		
 		// Statistiken einzeln nach Monaten
 		
-		$r1 = @mysqli_query($mysqli_statistik_link, "SELECT DISTINCT c_host FROM chat WHERE date(c_timestamp) LIKE '$y-$m%'");
+		$r1 = @mysqli_query($mysqli_statistik_link, "SELECT DISTINCT c_users FROM chat WHERE date(c_timestamp) LIKE '$y-$m%'");
 		
 		if ($r1 > 0) {
-			$j = 0;
-			$o = @mysqli_num_rows($r1);
+			statsResetMonth($y, $m);
 			
-			while ($j < $o) {
-				$c_host = @mysqli_result($r1, $j, "c_host");
+			$r0 = @mysqli_query($mysqli_statistik_link, 
+				"SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
+			if ($r0 > 0) {
+				$i = 0;
+				$n = @mysqli_num_rows($r0);
 				
-				statsResetMonth($y, $m);
-				
-				$r0 = @mysqli_query($mysqli_statistik_link, 
-					"SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM chat WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
-				if ($r0 > 0) {
-					$i = 0;
-					$n = @mysqli_num_rows($r0);
+				while ($i < $n) {
+					$x = @mysqli_result($r0, $i, "tag");
+					$c_users = @mysqli_result($r0, $i, "c_users");
 					
-					while ($i < $n) {
-						$x = @mysqli_result($r0, $i, "tag");
-						$c_users = @mysqli_result($r0, $i, "c_users");
-						
-						if ($c_users > $grapharray["$x"])
-							$grapharray["$x"] = $c_users;
-						
-						$i++;
-					}
+					if ($c_users > $grapharray["$x"])
+						$grapharray["$x"] = $c_users;
 					
-					$msg .= statsPrintGraph($c_host, $STAT_TXT["0102"],
-						$STAT_TXT["0105"]);
+					$i++;
 				}
 				
-				$j++;
+				$msg .= statsPrintGraph($chat, $STAT_TXT["0102"], $STAT_TXT["0105"]);
 			}
 		}
 		

@@ -5,7 +5,8 @@
 
 require_once("functions-registerglobals.php");
 
-if (isset($ui_userid) || (isset($aktion) && $aktion != "") || (isset($_SERVER["QUERY_STRING"]) && $_SERVER["QUERY_STRING"] <> "")) {
+
+if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	require("functions.php");
 	include("functions.php-hash.php");
 	
@@ -53,13 +54,25 @@ if (isset($ui_userid) || (isset($aktion) && $aktion != "") || (isset($_SERVER["Q
 	// Aufruf als home.php/USERNAME -> Redirekt auf home.php?USERNAME
 	$u_id = "";
 	$suchwort = $_SERVER["PATH_INFO"];
-	if (substr($suchwort, -1) == "/")
+	
+	echo 'test1: ';
+	echo $suchwort;
+	echo '<br>';
+	if (substr($suchwort, -1) == "/") {
 		$suchwort = substr($suchwort, 0, -1);
+	}
 	$suchwort = strtolower(substr($suchwort, strrpos($suchwort, "/") + 1));
 	
+	echo 'test2: ';
+	echo $suchwort;
+	echo '<br>';
+	
+	echo 'test3: ';
+	echo $PATH_INFO;
+	echo '<br>';
+	
 	if (strlen($suchwort) >= 4) {
-		header(
-			"Location: http://" . $_SERVER["HTTP_HOST"]. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
+		header("Location: http://" . $_SERVER["HTTP_HOST"]. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
 	}
 }
 
