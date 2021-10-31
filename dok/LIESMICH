@@ -63,7 +63,7 @@ unbedenklichen Zeiten ein SIGUP ausgelöst wird um Probleme im Chat zu
 vermeiden.
 
 Die Dateien des mainChat werden einfach im Serverroot des WWW-Servers
-ausgepackt. Alle Pfade sind relativ, so daß mainChat in jedem Verzeichnis
+ausgepackt. Alle Pfade sind relativ, so daß der mainChat in jedem Verzeichnis
 läuft.
 
 
@@ -74,18 +74,7 @@ a) Mit dem Installationsprogramm
    chat/install/install.php
    aufrufen. Nach dem Ausfüllen der Pflichtfelder läuft der Chat.
 
-b) Per Hand:
-
-Für die Erstellung der Statistiken wird eine eigene Datenbank benötigt.
-Gehen Sie analog zur mainchat-Datenbank vor:
-
-$ mysqladmin create statistiken
-$ mysql statistiken < community-statistic.def
-
-Die Einstellungen zur Statistik-Datenbank werden in der conf/config.php
-vorgenommen.
-
-c) Aktualisierung von älteren Version
+b) Aktualisierung von älteren Version
 Bei einer Aktualisierung von einer älteren Version als 7.0.0 bitte einmalig die Datei install/update.php aufrufen.
 Aus Sicherheitsgründen muss vorher die Datei "install/update.lock" gelöscht werden.
 
@@ -198,5 +187,6 @@ AccessConfig /dev/null
 DirectoryIndex index.html index.php
 AddType application/x-httpd-php .php .html
 AddType application/x-httpd-php-source .phps
+
 
 Wir wünschen Ihnen viel Erfolg mit dem mainChat!
