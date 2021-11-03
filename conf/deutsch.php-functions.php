@@ -354,8 +354,8 @@ $t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_
 $t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
 
 // Sonstiges
-$t['userliste1'] = "<span class=\"textbold\">%raum_alt% (%user_im_raum% Chatter im Raum)</span><br>\n<span class=\"text\">%nicks%</span><br>\n";
-$t['userliste2'] = "<span class=\"header3\">Gerade sind %anzahl_online% Benutzer online, insgesamt sind %anzahl_user% Benutzer angemeldet </span><br><br>\n%userliste%";
+$t['userliste1'] = "%raum_alt% (%user_im_raum% Benutzer im Raum)</span><br>\n<span class=\"text\">%nicks%<br>\n";
+$t['userliste2'] = "Gerade sind %anzahl_online% Benutzer online, insgesamt sind %anzahl_user% Benutzer angemeldet <br><br>\n%userliste%";
 
 $t['sonst1'] = "Fenster schließen";
 ?>

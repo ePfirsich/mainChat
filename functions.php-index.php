@@ -863,7 +863,7 @@ function auth_user($login, $passwort) {
 			$v_passwort = crypt($passwort, $v_salt);
 		}
 		
-		$query = "SELECT * " . "FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort`='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+		$query = "SELECT * FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort`='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$usergefunden = mysqli_result($result, 0, "u_id");

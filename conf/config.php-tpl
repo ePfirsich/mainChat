@@ -127,7 +127,7 @@ $chat_max_zeilen=5;	// Anzahl der Zeilen
 // 1=ja, 0=nein
 $raum_auswahl="%raumauswahl%";
 
-// Sollen beim Login die Boxen mit Chattern in Räumen unterdrückt werden?
+// Sollen beim Login die Boxen mit Benutzern in Räumen unterdrückt werden?
 // 1=ja, 0=nein
 $unterdruecke_raeume="%unterdrueckeraeume%";
 
@@ -279,8 +279,6 @@ $raum_max=25;
 $log="%log%";				// Verzeichnis für Logdateien
 $datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
 
-// Disclaimer
-$disclaimer="";
 
 $chat_status_klein=1; // Statusmsgs des Chats kleiner ausgeben? 1=ja, 2=normal
 
@@ -396,11 +394,6 @@ $chat_timeout=3600; // 60 Minuten
 // soll die e-mailadresse bei neu-usern überprüft werden ?
 // 0 = nein / 1 = ja
 $pruefe_email=1;
-
-// user darf nur den chat betreten, wenn der referer stimmt
-// $chat_referer="http://www.wuff.net/fido/";
-// URL auf die der Benutzer geschickt werden soll um den Chat zu betreten
-// $chat_login_url="http://www.mainchat.de/";
 
 // Default Knebelzeit setzen (Minuten)
 $knebelzeit=5;

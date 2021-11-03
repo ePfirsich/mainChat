@@ -104,7 +104,7 @@ function step_1($chat) {
 				<td><?php echo checkFormularRadioButton('1',$chat["raumauswahl"],'chat_raumauswahl'); ?></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Beim Login Boxen mit Chattern unterdrücken:</td>
+				<td> Beim Login Boxen mit Benutzern unterdrücken:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["unterdrueckeraeume"],'chat_unterdrueckeraeume'); ?></td>
 			</tr>
 			<tr>

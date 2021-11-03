@@ -7,47 +7,25 @@ if (!isset($_SERVER["HTTP_REFERER"])) {
 
 // Funktionen und Config laden, Host bestimmen
 require_once("functions-init.php");
-
 require_once("functions.php");
 
 zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
 
-// Backdoorschutz über den HTTP_REFERER
-if ( (isset($chat_referer) && $chat_referer != "") && !preg_match("/" . $chat_referer . "/", $_SERVER["HTTP_REFERER"]) && $aktion != "neu") {
-	$meta_refresh = '<meta http-equiv="refresh" content="5; URL=' . $chat_login_url . '">';
-	zeige_header_ende($meta_refresh);
-	?>
-	<body>
-	<?php
-	zeige_kopf();
-	$chat_login_url = "<a href=\"$chat_login_url\">$chat_login_url</a>";
-	echo str_replace("%webseite%", $chat_login_url, $t['login26']);
-	zeige_fuss();
-	?>
-	</body>
-	</html>
-	<?php
-	exit();
-}
-
 // Liste offener Räume definieren (optional)
 if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
-	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
+	// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
 	if (strlen($eintrittsraum) == 0) {
 		$eintrittsraum = $lobby;
 	}
 	
 	// Raumauswahlliste erstellen
-	$query = "SELECT r_name,r_id FROM raum "
-		. "WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' "
-		. "ORDER BY r_name";
+	$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
 	
 	$result = @mysqli_query($mysqli_link, $query);
 	if ($result) {
 		$rows = mysqli_num_rows($result);
 	} else {
-		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", "
-			. mysqli_errno($mysqli_link) . "</p>";
+		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
 		die();
 	}
 	if ($communityfeatures && $forumfeatures) {
@@ -57,9 +35,9 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 	}
 	$raeume .= $f1 . "<select name=\"eintritt\">";
 	
-	if ($communityfeatures && $forumfeatures)
-		$raeume = $raeume
-			. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+	if ($communityfeatures && $forumfeatures) {
+		$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+	}
 	if ($rows > 0) {
 		$i = 0;
 		while ($i < $rows) {
@@ -228,8 +206,8 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	
 	if ($communityfeatures && $loginwhileipsperre <> 0) {
 		// Test auf Punkte 
-		$query = "SELECT u_id, u_nick,u_level,u_punkte_gesamt from user "
-			. "where (u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
+		$query = "SELECT u_id, u_nick,u_level,u_punkte_gesamt FROM user "
+			. "WHERE (u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
 			. "' AND (u_level in ('A','C','G','M','S','U')) ";
 		"AND u_passwort = encrypt('" . mysqli_real_escape_string($mysqli_link, $passwort) . "',u_passwort)";
 		// Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
@@ -258,7 +236,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 		if ($eintritt == 'forum') {
 			$raumname = " (" . $whotext[2] . ")";
 		} else {
-			$query2 = "SELECT r_name from raum where r_id=" . intval($eintritt);
+			$query2 = "SELECT r_name FROM raum WHERE r_id=" . intval($eintritt);
 			$result2 = mysqli_query($mysqli_link, $query2);
 			if ($result2 AND mysqli_num_rows($result2) > 0) {
 				$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
@@ -306,37 +284,12 @@ if ($aktion == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 	id_lese($id);
 	
-	/*
-	// Header ausgeben
-	if ( !isset($chat_logout_url) ) {
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-	}
-	*/
-	
-	// Logoff falls noch online
+	// Logout falls noch online
 	if (strlen($u_id) > 0) {
 		verlasse_chat($u_id, $u_nick, $o_raum);
 		sleep(2);
 		logout($o_id, $u_id, "index->logout");
 	}
-	
-	if (isset($chat_logout_url) && ($chat_logout_url <> "")) {
-		$meta_refresh = '<meta http-equiv="refresh" content="0; URL=' . $chat_logout_url . '">';
-		
-		zeige_header_ende($meta_refresh);
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		$chat_login_url = "<a href=\"$chat_logout_url\">$chat_logout_url</a>";
-		echo ("Sie werden nun auf $chat_logout_url weitergeleitet.");
-		zeige_fuss();
-		exit();
-	}
-	
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
@@ -519,7 +472,6 @@ switch ($aktion) {
 			if( $email == "" && $nickname == "" ) {
 				$fehlermeldung .= $t['pwneu17'] . '<br>';
 			}
-			
 			
 			if ($fehlermeldung == "") {
 				if($nickname != "") {
@@ -994,9 +946,6 @@ switch ($aktion) {
 				show_box($login_titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "</form>";
-				if($disclaimer != "") {
-					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
-				}
 				zeige_fuss();
 				exit;
 			}
@@ -1218,9 +1167,6 @@ switch ($aktion) {
 				show_box($titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "</form>";
-				if($disclaimer != "") {
-					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
-				}
 				zeige_fuss();
 				
 			} else {
@@ -1344,7 +1290,7 @@ switch ($aktion) {
 					zeige_fuss();
 					exit;
 					
-				} elseif ($los == $t['login17']) {
+				} else if ($los == $t['login17']) {
 					// Nutzungsbestimmungen wurden bestätigt
 					$u_agb = "Y";
 				} else {
@@ -1352,15 +1298,16 @@ switch ($aktion) {
 				}
 				
 				// Benutzer in Blacklist überprüfen
-				$query2 = "SELECT f_text from blacklist where f_blacklistid=$u_id";
+				$query2 = "SELECT f_text FROM blacklist WHERE f_blacklistid=$u_id";
 				$result2 = mysqli_query($mysqli_link, $query2);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
 					$infotext = "Blacklist: "
 						. mysqli_result($result2, 0, 0);
 					$warnung = TRUE;
 				}
-				if ($result2)
+				if ($result2) {
 					mysqli_free_result($result2);
+				}
 				
 				// Bei Login dieses Benutzers alle Admins (online, nicht Temp) warnen
 				if ($warnung) {
@@ -1586,8 +1533,9 @@ switch ($aktion) {
 			if ($rows == 0) {
 				// Zu viele fehlgeschlagenen Logins, aktueller Login ist
 				// wieder fehlgeschlagen, daher Mail an Betreiber verschicken
-				if ($userdata->u_loginfehler)
+				if ($userdata->u_loginfehler) {
 					$u_loginfehler = unserialize($userdata->u_loginfehler);
+				}
 				$betreff = str_replace("%login%", $login, $t['login20']);
 				$text = str_replace("%login%", $login, $t['login21'])
 					. "\n";
@@ -1616,9 +1564,6 @@ switch ($aktion) {
 			zeige_kopf();
 			unset($u_nick);
 			echo "<div style=\"text-align: center;\"><b>" . str_replace("%login%", $login, $t['login20']) . "</b></div>";
-			if($disclaimer != "") {
-				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
-			}
 			zeige_fuss();
 			
 		} else {
@@ -1655,9 +1600,6 @@ switch ($aktion) {
 			}
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 			echo "</form>";
-			if($disclaimer != "") {
-				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
-			}
 			zeige_fuss();
 			
 		}
@@ -1936,9 +1878,6 @@ switch ($aktion) {
 		}
 		echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 		echo "</form>";
-		if($disclaimer != "") {
-			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
-		}
 		
 		if (!isset($beichtstuhl) || !$beichtstuhl) {
 			// Wie viele Benutzer sind in der DB?

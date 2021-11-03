@@ -261,7 +261,7 @@ befindlichen Mails löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\"
 Bei den Freunden (<b>Einstellungen</b>, <b>/freunde</b>) können Sie einfach andere Benutzer im
 Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
 man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat
-informiert. Die Freunde-Liste ruft der Chatter über den Punkt \"<b>USER</b>\" direkt
+informiert. Die Freunde-Liste ruft der Benutzer über den Punkt \"<b>USER</b>\" direkt
 im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü
 befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
 und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
@@ -397,8 +397,7 @@ $t['willkommen3'] = "Willkommen im $chat!";
 
 $t['login1'] = "<b>Login mit sicherer HTTPS-Anmeldung</b>";
 $t['login2'] = "<b>neue HTTPS-Anmeldung</b>";
-$t['login3'] = "Gäste können sich einloggen, in dem "
-	. "sie einfach auf <b>Login</b> klicken " . "ohne einen Namen einzugeben";
+$t['login3'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
 	. "Sie es später wieder.</b></p><br><br>";
@@ -406,7 +405,7 @@ $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
 	. "\">Webmaster</a>.</b></p><br><br>\n";
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n" . "</noframes>\n";
-$t['login7'] = "<p><b>Falsches Passwort oder Benutzername eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
+$t['login7'] = "<p><b>Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login8'] = "Benutzername:";
 $t['login9'] = "Passwort:";
 $t['login10'] = "Login";
@@ -434,7 +433,6 @@ $t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser 
 	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
 	. "Sie einen Browser mit aktivieren Cookies "
 	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</a>]</p>";
-$t['login26'] = "Lieber Chatter, um diesen Chat zu betreten, müssen Sie ihn über die Webseite %webseite% betreten.";
 $t['login27'] = "Passwort vergessen?";
 
 $t['neu1'] = "<p><b>Bitte das Feld 'Name' ausfüllen!</b></p>\n";
