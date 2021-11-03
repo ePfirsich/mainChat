@@ -8,7 +8,7 @@
 
 // Für Login in Chat index.php aufrufen
 // Für Expire der Datenbank sollte expire.php minütlich aufgerufen werden
-// Beispiel: lynx http://chat.main.de/expire.php
+// Beispiel: lynx https://www.mainchat.de/expire.php
 
 
 // Globale Einstellungen
@@ -19,15 +19,10 @@
 //$mysqluser="www";			// Datenbankuser
 //$mysqlpass="";			// Mysql-Passwort
 
-
 $dbase="%dbase%";					// Datenbank
 $mysqlhost="%host%";				// Datenbankserver
 $mysqluser="%user%";				// Datenbankuser
 $mysqlpass="%pass%";				// Mysql-Passwort
-//$STAT_DB_NAME="statistiken";		// Name der Datenbank für chatstatistik
-//$STAT_DB_HOST="localhost";		// Datenbankserver für chatstatistik
-//$STAT_DB_USER="www";				// Datenbankuser für chatstatistik
-//$STAT_DB_PASS="";					// Mysql-Passwort für chatstatistik
 $webmaster="%webmaster%";			// Zuständige Person
 $hackmail="%hackmail%";				// Zuständige Person für Hackversuche
 $sprachconfig="%language%";			// Voreingestellte Sprachdatei
