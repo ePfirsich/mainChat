@@ -303,41 +303,43 @@ function anzahl_ungelesene2(&$arr_postings, $th_id) {
 	
 }
 
-function anzahl_ungelesene3(&$arr_postings, $th_id) {
+function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 	global $mysqli_link;
 	global $u_gelesene;
 	
 	//kein Beitrag in Gruppe --> keine ungelesenen
-	if (count($arr_postings) == 0)
+	if (count($arr_postings) == 0) {
 		return 0;
+	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if (!$u_gelesene[$th_id])
+	if (!$u_gelesene[$th_id]) {
 		return count($arr_postings);
+	}
 	
 	// Anzahl Unterschied zwischen postings im Thema und den gelesenen
 	//postings des users zurueckgeben
 	$arr = array_diff($arr_postings, $u_gelesene[$th_id]);
 	$diff = count($arr);
-	
 	reset($arr);
+	
+	// Alle Themen der Variable zuordnen
+	$themen = '';
 	while (list($key, $value) = each($arr)) {
-		# echo "Key: $key; Value: $value<br>\n";
-		$query = "SELECT * FROM posting WHERE po_id = " . intval($value);
-		
-		$result = mysqli_query($mysqli_link, $query);
-		$num = mysqli_num_rows($result);
-		#if ($num == 1) print "$th_id: ".$query." $num<br>";
-		if ($num == 1) {
-			#checke_posting($value);
-		}
-		
-		if ($num == 0)
-			$diff--;
+		$themen .= intval($value) . ',';
 	}
+	// Wenn keine Themen vorhanden sind, auf 0 setzen, ansonsten das letzte Komma entfernen
+	if($themen == '') {
+		$themen = 0;
+	} else {
+		$themen = substr($themen, 0, -1);
+	}
+	$query = "SELECT po_id FROM posting WHERE po_id IN (".$themen.") ";
 	
-	return $diff;
+	$result = mysqli_query($mysqli_link, $query);
+	$num = mysqli_num_rows($result);
 	
+	return $num;
 }
 
 //Prüft Benutzereingaben auf Vollständigkeit

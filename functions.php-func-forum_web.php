@@ -239,7 +239,7 @@ function forum_liste() {
 				} else {
 					$arr_posting = array();
 				}
-				$ungelesene = anzahl_ungelesene3($arr_posting, $thema['th_id']);
+				$ungelesene = anzahl_ungelesener_themen($arr_posting, $thema['th_id']);
 				
 				echo "<tr>";
 				
