@@ -993,7 +993,10 @@ switch ($aktion) {
 				// Disclaimer ausgeben
 				show_box($login_titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
-				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+				echo "</form>";
+				if($disclaimer != "") {
+					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
+				}
 				zeige_fuss();
 				exit;
 			}
@@ -1212,7 +1215,10 @@ switch ($aktion) {
 				// Box und Disclaimer ausgeben
 				show_box($titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
-				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+				echo "</form>";
+				if($disclaimer != "") {
+					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
+				}
 				
 				zeige_fuss();
 				
@@ -1608,7 +1614,7 @@ switch ($aktion) {
 			<?php
 			zeige_kopf();
 			unset($u_nick);
-			echo "<div style=\"text-align: center;\"><p><b>" . str_replace("%login%", $login, $t['login20']) . "</b></p>" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+			echo "<div style=\"text-align: center;\"><p><b>" . str_replace("%login%", $login, $t['login20']) . "</b></p>" . $f3 . $disclaimer . $f4 . "</div>\n</form>";
 			zeige_fuss();
 			
 		} else {
@@ -1644,7 +1650,10 @@ switch ($aktion) {
 				show_box($titel, $logintext, "100%");
 			}
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
-			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+			echo "</form>";
+			if($disclaimer != "") {
+				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
+			}
 			
 			zeige_fuss();
 			
@@ -1923,7 +1932,10 @@ switch ($aktion) {
 			show_box($titel, $logintext, "100%");
 		}
 		echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
-		echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>\n</form><br>";
+		echo "</form>";
+		if($disclaimer != "") {
+			echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
+		}
 		
 		if (!isset($beichtstuhl) || !$beichtstuhl) {
 			// Wie viele Benutzer sind in der DB?
