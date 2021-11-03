@@ -95,9 +95,10 @@ function show_who_is_online($result) {
 			}
 		}
 		if ($zeigen_alt) {
+			echo "<br>";
+			
 			show_box_title_content(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
 			
-			echo "<br>";
 		}
 		mysqli_free_result($result);
 	}
