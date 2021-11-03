@@ -350,10 +350,7 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Benutzername muss 4-20 Zeichen haben
-				if (!isset($keineloginbox)) {
-					$keineloginbox = 0;
-				}
-				if (!$keineloginbox && (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
+				if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
 					
 					// Wenn man den Benutzernamen nicht ändern darf, und man Benutzer ist, dann den Parameter
 					// sicherheitshalber löschen
@@ -376,7 +373,7 @@ if (strlen($u_id) != 0) {
 					// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
 					// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20 
 					// Zeichen eingegeben hat
-					if (!$keineloginbox && (strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20)) {
+					if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
 						echo "<p><b>$t[edit3]</b></p>\n";
 						unset($f['u_nick']);
 						$ok = 0;

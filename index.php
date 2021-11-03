@@ -958,13 +958,8 @@ switch ($aktion) {
 			}
 			$login = coreCheckName($login, $check_name);
 			
-			if (!isset($keineloginbox)) {
-				$keineloginbox = false;
-			}
-			if (!$keineloginbox) {
-				if (strlen($login) < 4 || strlen($login) > 20) {
-					$login = "";
-				}
+			if (strlen($login) < 4 || strlen($login) > 20) {
+				$login = "";
 			}
 			
 			// Falls kein Benutzername übergeben, Nick finden
@@ -1595,9 +1590,7 @@ switch ($aktion) {
 			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 			
 			// Box und Disclaimer ausgeben
-			if (!isset($keineloginbox) || !$keineloginbox) {
-				show_box($titel, $logintext, "100%");
-			}
+			show_box($titel, $logintext, "100%");
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 			echo "</form>";
 			zeige_fuss();
@@ -1873,9 +1866,7 @@ switch ($aktion) {
 		$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 		
 		// Box und Disclaimer ausgeben
-		if (!isset($keineloginbox)) {
-			show_box($titel, $logintext, "100%");
-		}
+		show_box($titel, $logintext, "100%");
 		echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 		echo "</form>";
 		
@@ -1946,9 +1937,9 @@ switch ($aktion) {
 			if (!$unterdruecke_raeume && $abweisen == false) {
 				
 				// Wer ist online? Boxen mit Benutzern erzeugen, Topic ist Raumname
-				if ($onlineanzahl)
-					if (!isset($keineloginbox))
-						show_who_is_online($result2);
+				if ($onlineanzahl) {
+					show_who_is_online($result2);
+				}
 			}
 			// result wird in "show_who_is_online" freigegeben
 			// mysqli_free_result($result2);

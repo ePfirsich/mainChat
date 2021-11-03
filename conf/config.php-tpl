@@ -417,15 +417,11 @@ $raumsperre=30;
 // Smiliesauflistung im rechten Fenster aktivieren/dekativieren
 $smilies_aus="0";
 
+// Autoknebel-Texte
 $ak2="/fidion\.cc/#/schnurzel/";
-
-// $homepage_extern="1";
 
 //Anzahl Punkte, die für das Anlegen eines Raum notwendig sind
 // $raumanlegenpunkte=1000;
-
-// Loginbox auf Eingangsseite abschalten
-// $keineloginbox=1;
 
 // Referer prüfen bevor Bilder auf Homepage gezeigt werden
 $check_np_referer="1";

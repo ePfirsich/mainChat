@@ -720,7 +720,7 @@ function home_url_parse($tag, $url)
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Benutzers u_id an
-	global $mysqli_link, $argv, $argc, $id, $homepage_extern, $check_name;
+	global $mysqli_link, $argv, $argc, $id, $check_name;
 	
 	if ($u_id && $u_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
@@ -732,10 +732,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($nicknamen)) );
 		$tempnick = coreCheckName($tempnick, $check_name);
 		
-		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '"
-			. $tempnick . "' and u_level in ('A','C','G','M','S','U')";
-		if ($homepage_extern == "0")
-			$query = "";
+		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '" . $tempnick . "' and u_level in ('A','C','G','M','S','U')";
 	}
 	
 	// Benutzerdaten lesen
@@ -767,8 +764,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		mysqli_free_result($result);
 		
 		// Bildinfos lesen und in Array speichern
-		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild "
-			. "WHERE b_user=$u_id";
+		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$u_id";
 		$result2 = mysqli_query($mysqli_link, $query);
 		if ($result2 && mysqli_num_rows($result2) > 0) {
 			unset($bilder);
@@ -781,11 +777,12 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		mysqli_free_result($result2);
 		
 		// Falls nicht freigeschaltet....
-		if (!isset($u_chathomepage))
+		if (!isset($u_chathomepage)) {
 			$u_chathomepage = 'N';
-		if (!$force && $u_chathomepage != "J")
+		}
+		if (!$force && $u_chathomepage != "J") {
 			$ok = FALSE;
-		
+		}
 	} else {
 		$ok = FALSE;
 	}

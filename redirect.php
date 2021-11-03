@@ -2,9 +2,9 @@
 
 // löst redirekt auf $url aus
 if (isset($_POST["url"]))
-    $url = $_POST["url"];
+	$url = $_POST["url"];
 else if (isset($_GET["url"]))
-    $url = $_GET["url"];
+	$url = $_GET["url"];
 
 $url = urldecode($url);
 $url = str_replace("<b>", "", $url);
