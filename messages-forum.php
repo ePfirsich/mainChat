@@ -33,7 +33,7 @@ if (strlen($u_id) > 0) {
 	
 	zeige_header_ende($meta_refresh);
 	?>
-	<body>
+	<body style="margin-left:5px; margin-bottom:5px;">
 	<?php
 
 	// Timestamp im Datensatz aktualisieren
