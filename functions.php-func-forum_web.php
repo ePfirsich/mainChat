@@ -165,7 +165,7 @@ function maske_forum($fo_id = 0) {
 	<?php
 }
 
-//gibt Liste aller Foren mit Themen aus
+// Listet alle Foren mit den Anzahl Themen auf
 function forum_liste() {
 	global $mysqli_link;
 	global $id, $forum_admin, $chat_grafik;
@@ -190,7 +190,7 @@ function forum_liste() {
 	$zeile = 0;
 	if ($query && mysqli_num_rows($query) > 0) {
 		while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-			//Neues Forum?
+			//Neue Kategorie?
 			if ($fo_id_last != $thema['fo_id']) {
 				if ($zeile > 0) {
 					echo "</table></td></tr></table><br>";
@@ -227,6 +227,7 @@ function forum_liste() {
 					</tr>
 				<?php
 			}
+			
 			if ($zeile % 2) {
 				$farbe = 'class="tabelle_zeile1"';
 			} else {
@@ -295,12 +296,13 @@ function forum_liste() {
 	?>
 	</table>
 	<?php
-	show_icon_description("forum");
+	
+	show_icon_description();
 	mysqli_free_result($query);
 }
 
 //Zeigt Erklärung der verschiedenen Folder an
-function show_icon_description($mode) {
+function show_icon_description() {
 	global $t, $f3, $f4, $chat_grafik;
 	?>
 	<br>
@@ -636,7 +638,7 @@ function show_thema() {
 	</table>
 	<?php
 	show_pfad($th_id);
-	show_icon_description("thema");
+	show_icon_description();
 	?>
 	<br>
 	<table class="tabelle_gerust2">

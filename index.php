@@ -1907,7 +1907,7 @@ switch ($aktion) {
 					}
 					
 					// Dummy Themen abziehen
-					$query = "select count(th_id) from thema where th_name = 'dummy-thema'";
+					$query = "SELECT count(th_id) FROM thema WHERE th_name = 'dummy-thema'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result AND mysqli_num_rows($result) > 0) {
 						$themen = $themen - mysqli_result($result, 0, 0);
