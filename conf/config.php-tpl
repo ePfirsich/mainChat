@@ -59,6 +59,7 @@ $impressum_name = "";
 $impressum_strasse = "";
 $impressum_plz_ort = "";
 
+
 //SMTP Einstellungen
 $smtp_on = false;						// Aktivieren oder Deaktivieren der SMTP Funktionen
 $smtp_host = "SMTPServer";				// E-Mail Server
