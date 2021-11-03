@@ -323,17 +323,10 @@ function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 	$diff = count($arr);
 	reset($arr);
 	
-	// Alle Themen der Variable zuordnen
-	$themen = '';
-	while (list($key, $value) = each($arr)) {
-		$themen .= intval($value) . ',';
-	}
-	// Wenn keine Themen vorhanden sind, auf 0 setzen, ansonsten das letzte Komma entfernen
-	if($themen == '') {
-		$themen = 0;
-	} else {
-		$themen = substr($themen, 0, -1);
-	}
+	// Wenn keine Beiträge vorhanden sind, Themen auf 0 setzen
+	// Ansonsten eine kommaseparierte Liste erstellen
+	$themen = count($arr) == 0 ? '0' : implode(',', $arr);
+	
 	$query = "SELECT po_id FROM posting WHERE po_id IN (".$themen.") ";
 	
 	$result = mysqli_query($mysqli_link, $query);
