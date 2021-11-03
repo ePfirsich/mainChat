@@ -411,12 +411,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if (is_array($uu_profil_historie)) {
 					system_msg("", 0, $u_id, $system_farbe,
 						"Das Profil von <b>$nick[u_nick]</b> wurde zuletzt geändert von: ");
-					while (list($datum, $nick) = each($uu_profil_historie)) :
+					while (list($datum, $nick) = each($uu_profil_historie)) {
 						$zeile = $nick . "&nbsp;("
 							. str_replace(" ", "&nbsp;",
 								date("d.m.y H:i", $datum)) . ")" . $f4;
 						system_msg("", 0, $u_id, $system_farbe, $zeile);
-					endwhile;
+					}
 				}
 				
 			} else {
@@ -664,7 +664,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if (!isset($chatzeile[1]))
 				$chatzeile[1] = "";
 			$suchtext = preg_replace("/[*%$!?.,;:\\/]/i", "", $chatzeile[1]);
-			if (strlen($suchtext) > 2) :
+			if (strlen($suchtext) > 2) {
 				// Sprüche in Array lesen
 				$spruchliste = file("conf/$datei_spruchliste");
 				
@@ -672,10 +672,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				reset($spruchliste);
 				$anzahl = count($spruchliste);
 				$i = 0;
-				while ($i < $anzahl) :
+				while ($i < $anzahl) {
 					$spname = key($spruchliste);
-					if (preg_match("/" . $suchtext . "/i",
-						$spruchliste[$spname])) :
+					if (preg_match("/" . $suchtext . "/i", $spruchliste[$spname])) {
 						$spruchtmp = preg_split("/\t/",
 							substr($spruchliste[$spname], 0,
 								strlen($spruchliste[$spname]) - 1), 3);
@@ -691,15 +690,15 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							. $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2]
 							. "&gt;";
 						system_msg("", 0, $u_id, $system_farbe, $txt);
-					endif;
+					}
 					next($spruchliste);
 					$i++;
-				endwhile;
+				}
 			
-			else :
+			} else {
 				// Fehler ausgeben
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg5']);
-			endif;
+			}
 			break;
 		
 		case "/ende":
@@ -1959,14 +1958,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								. "WHERE o_raum=$row->r_id ";
 							
 							$result2 = mysqli_query($mysqli_link, $query);
-							while ($row2 = mysqli_fetch_object($result2)) :
-								system_msg("", 0, $row2->o_user, $system_farbe,
-									str_replace("%r_name%", $row->r_name,
-										$t['chat_msg62']));
+							while ($row2 = mysqli_fetch_object($result2)) {
+								system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg62']));
 								$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $row->r_id, $lobby_id, FALSE);
 								raum_user($lobby_id, $row2->o_user, $id);
 								$i++;
-							endwhile;
+							}
 							mysqli_free_result($result2);
 							
 							$query = "DELETE FROM raum WHERE r_id=$row->r_id ";

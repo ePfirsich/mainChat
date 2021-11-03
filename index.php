@@ -1004,28 +1004,30 @@ switch ($aktion) {
 			// Login als Gast
 			
 			// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
-			if (!isset($login))
+			if (!isset($login)) {
 				$login = "";
+			}
 			$login = coreCheckName($login, $check_name);
 			
-			if (!isset($keineloginbox))
+			if (!isset($keineloginbox)) {
 				$keineloginbox = false;
+			}
 			if (!$keineloginbox) {
-				if (strlen($login) < 4 || strlen($login) > 20)
+				if (strlen($login) < 4 || strlen($login) > 20) {
 					$login = "";
+				}
 			}
 			
 			// Falls kein Benutzername übergeben, Nick finden
 			if (strlen($login) == 0) {
 				if ($gast_name_auto) {
-					// freien Benutzername bestimmen falls in der Config erlaubt
+					// Freien Benutzername bestimmen falls in der Config erlaubt
 					$rows = 1;
 					$i = 0;
 					$anzahl = count($gast_name);
 					while ($rows != 0 && $i < 100) {
 						$login = $gast_name[mt_rand(1, $anzahl)];
-						$query4711 = "SELECT u_id FROM user "
-							. "WHERE u_nick='$login' ";
+						$query4711 = "SELECT u_id FROM user WHERE u_nick='$login' ";
 						$result = mysqli_query($mysqli_link, $query4711);
 						$rows = mysqli_num_rows($result);
 						$i++;
@@ -1219,7 +1221,6 @@ switch ($aktion) {
 				if($disclaimer != "") {
 					echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
 				}
-				
 				zeige_fuss();
 				
 			} else {
@@ -1614,7 +1615,10 @@ switch ($aktion) {
 			<?php
 			zeige_kopf();
 			unset($u_nick);
-			echo "<div style=\"text-align: center;\"><p><b>" . str_replace("%login%", $login, $t['login20']) . "</b></p>" . $f3 . $disclaimer . $f4 . "</div>\n</form>";
+			echo "<div style=\"text-align: center;\"><b>" . str_replace("%login%", $login, $t['login20']) . "</b></div>";
+			if($disclaimer != "") {
+				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
+			}
 			zeige_fuss();
 			
 		} else {
@@ -1654,7 +1658,6 @@ switch ($aktion) {
 			if($disclaimer != "") {
 				echo "<div style=\"text-align: center;\">" . $f3 . $disclaimer . $f4 . "</div>";
 			}
-			
 			zeige_fuss();
 			
 		}

@@ -14,14 +14,14 @@ zeige_header_ende();
 <?php
 
 // Verzeichnis für Logs definieren
-if (strlen($log) == 0) :
+if (strlen($log) == 0) {
 	$log = "logs";
-endif;
+}
 
 // Verzeichnis für Logs ggf anlegen
-if (!file_exists($log)) :
+if (!file_exists($log)) {
 	mkdir($log, 0700);
-endif;
+}
 
 // Chat expire und Kopie in Log für alle öffentlichen Zeilen, die älter als 15 Minuten sind
 echo "Expire Chattexte:\n";
@@ -58,9 +58,9 @@ if ($rows > 0) {
 		$handle = @fopen($r_name, "a");
 		if ($handle && $handle != -1) {
 			$text = "[" . $row->c_zeit . "][" . $row->c_typ . "]";
-			if (strlen($row->c_von_user) > 0) :
+			if (strlen($row->c_von_user) > 0) {
 				$text = $text . "[" . $row->c_von_user . "]";
-			endif;
+			}
 			$text = $text . " " . $row->c_text;
 			fputs($handle, "$text\n");
 			fclose($handle);

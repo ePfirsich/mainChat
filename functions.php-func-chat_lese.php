@@ -213,11 +213,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$letzte_id = $row->c_id;
 				
 				// Benutzerfarbe setzen
-				if (strlen($row->c_farbe) == 0) :
+				if (strlen($row->c_farbe) == 0) {
 					$row->c_farbe = "#" . $user_farbe;
-				else :
+				} else {
 					$row->c_farbe = "#" . $row->c_farbe;
-				endif;
+				}
 				
 				// Student: 29.08.07 - Problem ML BGSLH
 				// Wenn das 255. Zeichen ein leerzeichen

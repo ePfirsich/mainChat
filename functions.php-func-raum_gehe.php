@@ -202,10 +202,9 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			}
 			
 			// Nachricht falls gesperrt ausgeben
-			if ($gesperrt || $zuwenigpunkte) :
-				system_msg("", 0, $u_id, "",
-					str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe2']));
-			endif;
+			if ($gesperrt || $zuwenigpunkte) {
+				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe2']));
+			}
 			
 			// Topic vorhanden? ausgeben
 			if ($t['raum_gehe6']) {
@@ -244,25 +243,21 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 				str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
 			
 			// Nachricht das gesperrt ausgeben
-			if ($gesperrt) :
-				system_msg("", 0, $u_id, "",
-					str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe5']));
-			endif;
+			if ($gesperrt) {
+				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe5']));
+			}
 			
 			// Nachricht das zu wenige Punkte ausgeben
-			if ($zuwenigpunkte) :
+			if ($zuwenigpunkte) {
 				if ($u_level == "G") {
-					$fehler = str_replace("%r_name_neu%", $neu->r_name,
-						$t['raum_gehe8']);
+					$fehler = str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe8']);
 				} else {
-					$fehler = str_replace("%r_name_neu%", $neu->r_name,
-						$t['raum_gehe7']);
+					$fehler = str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe7']);
 				}
-				$fehler = str_replace("%r_min_punkte%", $neu->r_min_punkte,
-					$fehler);
+				$fehler = str_replace("%r_min_punkte%", $neu->r_min_punkte, $fehler);
 				system_msg("", 0, $u_id, "", $fehler);
 				unset($fehler);
-			endif;
+			}
 			
 			$raum = $raum_alt;
 		}
