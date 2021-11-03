@@ -120,7 +120,7 @@ zeige_header_ende();
 echo "</td></tr>\n";
 	
 	
-	$mlnk[4] = "index.php?aktion=hilfe";
+	$mlnk[4] = "index.php?id=$id&aktion=hilfe";
 	$mlnk[1] = "raum.php?id=$id";
 	$mlnk[2] = "user.php?id=$id";
 	$mlnk[3] = "edit.php?id=$id";

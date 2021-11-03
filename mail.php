@@ -68,7 +68,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		. "<a href=\"mail.php?id=$id&aktion=papierkorb\">" . $t['menue4'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">" . $t['menue5'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">" . $t['menue6'] . "</a>\n|\n"
-		. "<a href=\"index.php?aktion=hilfe-community#mail\" target=\"_blank\">" . $t['menue7'] . "</a>\n";
+		. "<a href=\"index.php?id=$id&aktion=hilfe-community#mail\" target=\"_blank\">" . $t['menue7'] . "</a>\n";
 	
 	show_box_title_content($box, $text, true);
 	

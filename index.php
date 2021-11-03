@@ -404,6 +404,7 @@ switch ($aktion) {
 		break;
 		
 	case "hilfe-befehle":
+		id_lese($id);
 		// Liste aller Befehle anzeigen
 		require_once('templates/hilfe-befehle.php');
 		

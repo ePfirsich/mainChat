@@ -821,7 +821,7 @@ function show_box_title_content($box, $text, $zeilenumbruch = false) {
 
 function show_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $layout_kopf, $communityfeatures;
+	global $t, $layout_kopf, $communityfeatures, $id;
 	
 	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
 	if (isset($layout_kopf) && $layout_kopf != "") {
@@ -835,16 +835,18 @@ function show_kopfzeile_login() {
 	
 	$box = $t['menue1'];
 	$text = "<a href=\"index.php\">$t[menue2]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=neu\">$t[menue3]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=hilfe\">$t[menue4]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=hilfe-befehle\">$t[menue5]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=hilfe-sprueche\">$t[menue6]</a>\n";
-	if ($communityfeatures) {
-		$text .= "| <a href=\"index.php?aktion=hilfe-community\">$t[menue7]</a>\n";
+	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
+		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[menue3]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?aktion=chatiquette\">$t[menue8]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=nutzungsbestimmungen\">$t[menue9]</a>\n";
-	$text .= "| <a href=\"index.php?aktion=datenschutz\">$t[menue10]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe\">$t[menue4]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-befehle\">$t[menue5]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-sprueche\">$t[menue6]</a>\n";
+	if ($communityfeatures) {
+		$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-community\">$t[menue7]</a>\n";
+	}
+	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[menue8]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue9]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue10]</a>\n";
 	
 	show_box_title_content($box, $text);
 	

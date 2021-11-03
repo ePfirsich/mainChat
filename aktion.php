@@ -28,7 +28,7 @@ aktualisiere_online($u_id, $o_raum);
 if ($u_id && $communityfeatures) {
 	// Menü als erstes ausgeben
 	$box = $t['aktion3'];
-	$text = "<a href=\"index.php?aktion=hilfe-community#home\">Hilfe</a>\n";
+	$text = "<a href=\"index.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 	show_box_title_content($box, $text, true);
 	
 	switch ($aktion) {

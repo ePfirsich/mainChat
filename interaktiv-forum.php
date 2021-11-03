@@ -99,7 +99,7 @@ if ($u_id) {
 	
 	echo "<tr><td style=\"text-align:center;\">";
 	
-	$mlnk[1] = "index.php?aktion=hilfe";
+	$mlnk[1] = "index.php?id=$id&aktion=hilfe";
 	$mlnk[2] = "raum.php?id=$id";
 	$mlnk[3] = "user.php?id=$id";
 	$mlnk[4] = "edit.php?id=$id";

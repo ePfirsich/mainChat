@@ -56,7 +56,7 @@ while ($i < $anzahl) {
 }
 $text .= "</table>\n";
 
-if ($hilfe_befehlstext_admin_ok == 1) {
+if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 	
 	reset($hilfe_befehlstext_admin);
 	$anzahl = count($hilfe_befehlstext_admin);
@@ -65,6 +65,7 @@ if ($hilfe_befehlstext_admin_ok == 1) {
 	
 	$text .= "<br>";
 	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe8]</b></div>";
+	
 	// Befehle für Admins
 	$text .= "<table class=\"tabelle_kopf\">\n";
 	$text .= "<tr>\n";
