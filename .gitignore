@@ -1,6 +1,4 @@
 .project
-.settings
-.buildpath
 /conf/config.php
 /logs/*
 tests/_output/*

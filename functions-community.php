@@ -517,7 +517,7 @@ function aktion_sende(
 					} else {
 						$txt = $t['mail9'] . $betreff;
 					}
-					// Mail-Absender ist MainChat
+					// Mail-Absender ist mainChat
 					$von_u_id = 0;
 					mail_sende($von_u_id, $an_u_id, $txt, $betreff);
 					break;
@@ -612,7 +612,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
-	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per Mainchat
+	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per mainChat
 	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
 	$result = mysqli_query($mysqli_link, $query);
 	$num = mysqli_num_rows($result);

@@ -59,7 +59,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		}
 		
 		// wenn hier nach Erweitertefeatures oder Punkte geprüft werden würde, was Sinn machen würde,
-		// kommen Benutzer aus Kostenlosen chats, die mit der MainChat Community verbunden sind, trotzdem in den Raum, 
+		// kommen Benutzer aus Kostenlosen chats, die mit der mainChat Community verbunden sind, trotzdem in den Raum, 
 		// trotz zu wenigen Punkten
 		if (($neu->r_name != $lobby)
 			&& ($neu->r_min_punkte > ($u_punkte_gesamt + $o_punkte)) && !$admin

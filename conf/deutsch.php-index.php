@@ -558,7 +558,7 @@ $t['agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respek
 	. " Hausrecht Gebrauch zu machen, den Benutzer aus dem $chat auszusperren und gegebenenfalls zur Anzeige "
 	. "zu bringen. </li>"
 	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im $chat. </li>"
-	. "<li>Mit dem Login oder der Registrierung in den Mainchat erklären Sie sich mit "
+	. "<li>Mit dem Login oder der Registrierung in den $chat erklären Sie sich mit "
 	. "der Datenspeicherung gemäß unserer <a href=\"index.php?aktion=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
