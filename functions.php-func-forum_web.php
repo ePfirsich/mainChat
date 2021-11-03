@@ -1220,7 +1220,7 @@ function zeige_beitraege($thread) {
 			$besonderer_status = $col;
 		}
 		
-		if (!($po_th_id)) {
+		if (!$po_u_nick) {
 			$userdetails = "gelöschter Benutzer";
 		} else {
 			
