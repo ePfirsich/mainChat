@@ -29,29 +29,30 @@ if ( !file_exists($filenameConfig) ) {
 	
 
 	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist
-	$matches = array();
-	
-	if (substr_count($_SERVER['HTTP_HOST'], '.')==1) {
-		// domain.tld
-		preg_match('/^(?P<d>.+)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
-	} else {
-		// www.domain.tld, sub1.sub2.domain.tld, ...
-		preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
-	}
-	
-	$subdomain = (isset($matches['sd'])) ? $matches['sd'] : '';
-	$domain = $matches['d'];
-	$tld = $matches['tld'];
-	$isHttps = (!empty($_SERVER['HTTPS']));
-	if($isHttps) {
-		$aufgerufeneURL = "https://" . $subdomain.'.'.$domain.'.'.$tld;
-	} else {
-		$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;
-	}
-	
-	if($aufgerufeneURL != $chat_url) {
-		header('Location: '.$chat_url.'', true, 301);
-		exit();
+	if( isset($_SERVER['HTTP_HOST']) ) {
+		$matches = array();
+		if (substr_count($_SERVER['HTTP_HOST'], '.')==1) {
+			// domain.tld
+			preg_match('/^(?P<d>.+)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+		} else {
+			// www.domain.tld, sub1.sub2.domain.tld, ...
+			preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+		}
+		
+		$subdomain = (isset($matches['sd'])) ? $matches['sd'] : '';
+		$domain = $matches['d'];
+		$tld = $matches['tld'];
+		$isHttps = (!empty($_SERVER['HTTPS']));
+		if($isHttps) {
+			$aufgerufeneURL = "https://" . $subdomain.'.'.$domain.'.'.$tld;
+		} else {
+			$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;
+		}
+		
+		if($aufgerufeneURL != $chat_url) {
+			header('Location: '.$chat_url.'', true, 301);
+			exit();
+		}
 	}
 	// Ende der aufgerufenen URL
 	
