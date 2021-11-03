@@ -1,8 +1,6 @@
-.DS_Store
 .project
 .settings
 .buildpath
 /conf/config.php
-/ext/functions.php-www*
 /logs/*
 tests/_output/*
