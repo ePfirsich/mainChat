@@ -41,7 +41,7 @@ $smilie["&neugierig"] = "neugierig.gif";
 $smilietxt["&neugierig"] = "neugierig";
 
 $smilie["&baby"] = "baby.gif";
-$smilietxt["baby&"] = "Baby";
+$smilietxt["&baby"] = "Baby";
 
 $smilie["&verwirrt"] = "verwirrt.gif";
 $smilietxt["&verwirrt"] = "verwirrt";
