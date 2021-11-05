@@ -7,9 +7,7 @@ require_once("functions.php-func-raeume_auswahl.php");
 id_lese($id);
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
-if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C'
-	&& $u_level != 'M' && $o_timeout_zeit) {
-	
+if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		
 		// Benutzer ausloggen

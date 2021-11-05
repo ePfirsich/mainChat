@@ -97,7 +97,6 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 		$result = mysqli_query($mysqli_link, $query);
 		$rows = @mysqli_num_rows($result);
 		
-		$text = '';
 		if ($result && $rows > 0) {
 			$i = 0;
 			while ($row = mysqli_fetch_object($result)) {
@@ -136,9 +135,16 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 		} else {
 			if($keine_benutzer_anzeigen) {
 				$text = $t['raum_user12'];
+			} else {
+				$text = '';
 			}
 		}
-		$back = system_msg("", 0, $u_id, "", $text);
+		
+		if($text != '') {
+			$back = system_msg("", 0, $u_id, "", $text);
+		} else {
+			$back = '';
+		}
 		
 		mysqli_free_result($result);
 	} else {
@@ -146,7 +152,6 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	}
 	
 	return ($back);
-	
 }
 
 function ist_online($user) {
