@@ -101,7 +101,8 @@ body {
 .tabelle_kopf {
 	border-radius: 3px;
 	background-color: var(--Tabellenkopf-Hintergrundfarbe);
-	width:100%;
+	width: 100%;
+	margin-bottom: 10px;
 }
 /* Tabellenkopf - Ende ******************************************************************* */
 
@@ -110,6 +111,7 @@ body {
 .tabelle_kopf2 {
 	border-radius: 3px;
 	background-color: var(--Tabellenkopf-Hintergrundfarbe);
+	margin-bottom: 10px;
 }
 /* Tabellenkopf ohne feste Breite - Ende ******************************************************************* */
 

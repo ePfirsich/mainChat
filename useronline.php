@@ -60,8 +60,9 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-if ($anzahl_online && $anzahl_user)
+if ($anzahl_online && $anzahl_user) {
 	$txt = str_replace("%anzahl_online%", $anzahl_online, $t[userliste2]);
+}
 $txt = str_replace("%anzahl_user%", $anzahl_user, $txt);
 
 header('Access-Control-Allow-Origin: *');

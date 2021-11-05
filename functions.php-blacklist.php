@@ -200,7 +200,7 @@ function loesche_blacklist($f_blacklistid) {
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
 	
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	global $id, $PHP_SELF, $f1, $f2, $mysqli_link, $t;
 	
 	$eingabe_breite = 45;
 	
@@ -208,7 +208,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 		$eingabe_breite = 30;
 	}
 	
-	$box = "Neuen Blacklist-Eintrag hinzufügen:";
+	$box = $t['blacklist3'];
 	$text = '';
 	
 	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"post\">\n"

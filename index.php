@@ -1929,8 +1929,6 @@ switch ($aktion) {
 				}
 				
 				show_box_title_content(str_replace("%chat%", $chat, $t['default5']), $text);
-				
-				echo "&nbsp;<br>\n";
 			}
 			
 			if (!isset($unterdruecke_raeume))

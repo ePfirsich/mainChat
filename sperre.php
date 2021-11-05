@@ -499,8 +499,6 @@ if (strlen($u_id) > 0 && $admin) {
 			
 			show_box_title_content($box, $text);
 			
-			echo "<br>";
-			
 			// Liste ausgeben
 			echo liste();
 			

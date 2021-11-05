@@ -875,8 +875,6 @@ if (strlen($u_id) != 0) {
 					show_box_title_content($box, $text);
 					
 					// Raumauswahl
-					echo "<br>";
-					
 					$text = '';
 					$box = $t['sonst14'];
 					

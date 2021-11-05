@@ -52,7 +52,7 @@ if (strlen($u_id) != 0) {
 		$text .= "| <a href=\"raum.php?id=$id&aktion=neu\">$t[menue2]</a>\n";
 	}
 	
-	show_box_title_content($box, $text, true);
+	show_box_title_content($box, $text);
 	
 	if (isset($f['r_name'])) {
 		// In Namen die Leerzeichen und ' und " entfernen
@@ -80,24 +80,24 @@ if (strlen($u_id) != 0) {
 		
 		// In Permanenten Räumen darf ein RB keine Punkte Ändern
 		if (!$admin && $f['r_status2'] == "P") {
-			echo "<P>" . $t['fehler14'] . "</P>\n";
+			echo "<p>" . $t['fehler14'] . "</p>\n";
 			unset($f['r_min_punkte']);
 		}
 		
 		// Nur Admin darf Nicht-Temporäre Räume setzen
 		if (!$admin && $f['r_status2'] == "P") {
-			echo "<P>"
+			echo "<p>"
 				. str_replace("%r_status%", $raumstatus2[$f['r_status2']],
-					$t['fehler10']) . "</P>\n";
+					$t['fehler10']) . "</p>\n";
 			unset($f['r_status2']);
 		}
 		
 		// Status moderiert nur falls kommerzielle Version
 		if (isset($f['r_status1']) && (strtolower($f['r_status1']) == "m")
 			&& $moderationsmodul == 0) {
-			echo "<P>"
+			echo "<p>"
 				. str_replace("%r_status%", $raumstatus1[$f['r_status1']],
-					$t['fehler11']) . "</P>\n";
+					$t['fehler11']) . "</p>\n";
 			unset($f['r_status1']);
 		}
 		
@@ -106,14 +106,14 @@ if (strlen($u_id) != 0) {
 			&& $f['r_status1'] != "G" && !$admin) {
 			$tmp = str_replace("%r_status%", $raumstatus1[$f['r_status1']],
 				$t['fehler10']);
-			echo "<P>" . str_replace("%r_name%", $f['r_name'], $tmp) . "</P>\n";
+			echo "<p>" . str_replace("%r_name%", $f['r_name'], $tmp) . "</p>\n";
 			unset($f['r_status1']);
 		}
 		
 		// Prüfen ob Mindestpunkte zwischen 0 und 99.999.999
 		if (isset($f['r_min_punkte']) && ($f['r_min_punkte'])
 			&& ($f['r_min_punkte'] < 0 || $f['r_min_punkte'] > 99999999)) {
-			echo "<P>" . $t['fehler13'] . "</P>\n";
+			echo "<p>" . $t['fehler13'] . "</p>\n";
 			unset($f['r_min_punkte']);
 		}
 		
@@ -185,8 +185,8 @@ if (strlen($u_id) != 0) {
 			$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu, TRUE);
 			raum_user($o_raum, $u_id, $id);
 		} else {
-			echo "<P>" . str_replace("%r_name%", $f['r_name'], $t['fehler0'])
-				. "</P>\n";
+			echo "<p>" . str_replace("%r_name%", $f['r_name'], $t['fehler0'])
+				. "</p>\n";
 		}
 		mysqli_free_result($result);
 		
@@ -268,13 +268,13 @@ if (strlen($u_id) != 0) {
 						mysqli_free_result($result2);
 						
 						// ausgeben: raum wurde gelöscht.
-						echo "<P>"
+						echo "<p>"
 							. str_replace("%r_name%", $row->r_name,
-								$t['fehler3']) . "</P>\n";
+								$t['fehler3']) . "</p>\n";
 					}
 					
 				} else {
-					echo "<P>"
+					echo "<p>"
 						. str_replace("%r_name%", $row->r_name, $t['fehler5'])
 						. "</p>\n";
 				}
@@ -282,7 +282,7 @@ if (strlen($u_id) != 0) {
 				mysqli_free_result($result);
 				
 			} else {
-				echo "<P>$t[fehler6]</P>\n";
+				echo "<p>$t[fehler6]</p>\n";
 			}
 			break;
 		
@@ -311,7 +311,7 @@ if (strlen($u_id) != 0) {
 				$text .= "</table>\n";
 				
 				// Formular löschen
-				$text .= "<P>$t[fehler7]</P>\n";
+				$text .= "<p>$t[fehler7]</p>\n";
 				$text .= "<form name=\"$row->r_name\" action=\"raum.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
@@ -327,7 +327,7 @@ if (strlen($u_id) != 0) {
 				mysqli_free_result($result);
 				
 			} else {
-				echo "<P>$t[fehler8]</P>\n";
+				echo "<p>$t[fehler8]</p>\n";
 			}
 			break;
 		

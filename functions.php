@@ -799,8 +799,8 @@ function show_box($box, $text, $width = "") {
 	<?php
 }
 
-function show_box_title_content($box, $text, $zeilenumbruch = false) {
-	// Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
+function show_box_title_content($box, $text) {
+	// Gibt Tabelle mit Kopf und Inhalt aus
 	global $f1;
 	global $f2;
 	?>
@@ -814,9 +814,6 @@ function show_box_title_content($box, $text, $zeilenumbruch = false) {
 		</tr>
 	</table>
 	<?php
-	if($zeilenumbruch) {
-		echo "<br>";
-	}
 }
 
 function show_kopfzeile_login() {
