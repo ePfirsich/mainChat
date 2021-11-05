@@ -248,8 +248,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Box anzeigen
 		show_box_title_content($box, $text);
-		echo "<br>";
-		
 		
 		// Kopf Tabelle "Private Nachricht"
 		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
@@ -283,8 +281,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			// Box anzeigen
 			show_box_title_content($box, $text);
-			
-			echo '<br>';
 		}
 		
 		// Kopf Tabelle Benutzerinfo
@@ -540,7 +536,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		if ($admin) {
 			$text = '';
 			$box = $t['user_zeige12'];
-			echo '<br>';
 			
 			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
