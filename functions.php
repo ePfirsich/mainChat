@@ -86,20 +86,18 @@ function onlinezeit($onlinezeit) {
 	return ($zeit);
 }
 
-function raum_user($r_id, $u_id, $id) {
+function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
-	
 	global $timeout, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
 		$query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
-			. "FROM raum,online WHERE r_id=$r_id AND o_raum=r_id "
-			. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
-			. "ORDER BY o_name";
+			. "FROM raum,online WHERE r_id=$r_id AND o_raum=r_id AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ORDER BY o_name";
 		
 		$result = mysqli_query($mysqli_link, $query);
 		$rows = @mysqli_num_rows($result);
 		
+		$text = '';
 		if ($result && $rows > 0) {
 			$i = 0;
 			while ($row = mysqli_fetch_object($result)) {
@@ -109,9 +107,7 @@ function raum_user($r_id, $u_id, $id) {
 				}
 				
 				// Benutzerdaten lesen, Liste ausgeben
-				$userdata = unserialize(
-					$row->o_userdata . $row->o_userdata2 . $row->o_userdata3
-						. $row->o_userdata4);
+				$userdata = unserialize($row->o_userdata . $row->o_userdata2 . $row->o_userdata3 . $row->o_userdata4);
 				
 				// Variable aus o_userdata setzen, Level und away beachten
 				$uu_id = $userdata['u_id'];
@@ -138,7 +134,9 @@ function raum_user($r_id, $u_id, $id) {
 			}
 			
 		} else {
-			$text = "Da ist niemand.";
+			if($keine_benutzer_anzeigen) {
+				$text = $t['raum_user12'];
+			}
 		}
 		$back = system_msg("", 0, $u_id, "", $text);
 		

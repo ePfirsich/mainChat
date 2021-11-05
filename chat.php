@@ -135,7 +135,7 @@ if ($u_id) {
 				if (isset($raum_msg) && $raum_msg != "AUS") {
 					system_msg("", 0, $u_id, $system_farbe, $raum_msg);
 				} else {
-					raum_user($o_raum, $u_id, "");
+					raum_user($o_raum, $u_id);
 				}
 				$i = 0;
 			}

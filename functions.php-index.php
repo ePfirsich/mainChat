@@ -537,7 +537,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	}
 	
 	// Wer ist alles im Raum?
-	raum_user($r_id, $u_id, $hash_id);
+	raum_user($r_id, $u_id);
 	
 	// Hat der Benutzer sein Profil ausgefüllt?
 	if ($communityfeatures && $u_level != "G") {

@@ -63,7 +63,7 @@ if (isset($u_id) && $u_id) {
 			isset($beichtstuhl) ? $beichtstuhl : null);
 		if ($o_raum == $r_id) {
 			// Benutzer in Raum ausgeben
-			raum_user($r_id, $u_id, $id);
+			raum_user($r_id, $u_id);
 		}
 		
 		// Falls Pull-Chat, Chat-Fenster neu laden

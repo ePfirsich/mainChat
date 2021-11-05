@@ -884,9 +884,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if (mysqli_num_rows($result) != 0) {
 					$r_id_neu = mysqli_result($result, 0, "r_id");
 					if ($r_id_neu != $r_id) {
-						$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id,
-							$r_id_neu, $raum_geschlossen);
-						raum_user($r_id, $u_id, "");
+						$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu, $raum_geschlossen);
+						raum_user($r_id, $u_id);
 					}
 				} elseif ($u_level != "G" && strlen($f['r_name']) <= $raum_max
 					&& strlen($f['r_name']) > 3) {
@@ -921,9 +920,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// Hier wird der Raum angelegt
 						$r_id_neu = schreibe_db("raum", $f, $f['r_id'], "r_id");
 						if ($r_id_neu != $r_id) {
-							$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id,
-								$r_id_neu, $raum_geschlossen);
-							raum_user($r_id, $u_id, "");
+							$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu, $raum_geschlossen);
+							raum_user($r_id, $u_id);
 						}
 						
 					}
@@ -976,7 +974,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$text = $t['chat_msg12'] . "<br>";
 					$row = mysqli_fetch_object($result);
-					raum_user($row->r_id, $u_id, "");
+					raum_user($row->r_id, $u_id);
 					mysqli_free_result($result);
 				} else {
 					// Raum nicht gefunden -> Fehlermeldung
@@ -989,21 +987,21 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} else {
 				
 				// Der aktuelle Raum wird gezeigt
-				raum_user($r_id, $u_id, "");
+				raum_user($r_id, $u_id);
 				break;
 			}
 		
 		case "/people":
 		// Liste alle Räume mit Benutzern auf
-			$query = "SELECT r_id from raum ";
-			if (!$admin)
+			$query = "SELECT r_id FROM raum ";
+			if (!$admin) {
 				$query .= " WHERE (r_status1='O' OR r_status1='m' OR r_id=$o_raum) ";
+			}
 			$query .= " ORDER BY r_name";
 			$result = mysqli_query($mysqli_link, $query);
-			if ($result AND mysqli_num_rows($result) > 0) {
-				$text = $t['chat_msg12'] . "<br>";
+			if ($result && mysqli_num_rows($result) > 0) {
 				while ($row = mysqli_fetch_object($result)) {
-					raum_user($row->r_id, $u_id, "");
+					raum_user($row->r_id, $u_id, false);
 				}
 				mysqli_free_result($result);
 			}
@@ -1961,7 +1959,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							while ($row2 = mysqli_fetch_object($result2)) {
 								system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg62']));
 								$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $row->r_id, $lobby_id, FALSE);
-								raum_user($lobby_id, $row2->o_user, $id);
+								raum_user($lobby_id, $row2->o_user);
 								$i++;
 							}
 							mysqli_free_result($result2);

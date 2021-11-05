@@ -183,7 +183,7 @@ if (strlen($u_id) != 0) {
 			// Raum neu eintragen und in Raum gehen
 			$raum_neu = schreibe_db("raum", $f, "", "r_id");
 			$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu, TRUE);
-			raum_user($o_raum, $u_id, $id);
+			raum_user($o_raum, $u_id);
 		} else {
 			echo "<p>" . str_replace("%r_name%", $f['r_name'], $t['fehler0'])
 				. "</p>\n";
@@ -253,7 +253,7 @@ if (strlen($u_id) != 0) {
 								str_replace("%r_name%", $row->r_name,
 									$t['fehler4']));
 							$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id, FALSE);
-							raum_user($lobby_id, $row2->o_user, $id);
+							raum_user($lobby_id, $row2->o_user);
 							$i++;
 						}
 						mysqli_free_result($result2);

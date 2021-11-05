@@ -28,6 +28,7 @@ $t['raum_user8'] = "Erlaubt";
 $t['raum_user9'] = "Verboten";
 $t['raum_user10'] = "Smilies";
 $t['raum_user11'] = "(Anonym)";
+$t['raum_user12'] = "Da ist niemand.";
 
 $t['betrete_chat1'] = "Eintrittsnachricht";
 $t['betrete_chat2'] = "Willkommen";
