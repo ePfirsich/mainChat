@@ -365,10 +365,6 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	$text = $t['fehler2'];
 	show_box_title_content($box, $text);
 }
-
-if ($o_js || !$u_id) {
-	echo schliessen_link();
-}
 ?>
 </body>
 </html>

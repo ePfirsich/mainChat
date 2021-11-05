@@ -941,7 +941,7 @@ function navigation_beitrag(
 			
 			$mailurl = "mail.php?aktion=antworten_forum&id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
 			?>
-			<a href="<?php echo $mailurl; ?>" target="640_<?php echo $pfenster; ?>" onMouseOver="return(true)" onClick="neuesFenster2('<?php echo $mailurl; ?>'); return(false)" class="button" title="<?php echo $t['thema_privat']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['thema_privat']; ?></span></a>
+			<a href="<?php echo $mailurl; ?>" target="_blank" class="button" title="<?php echo $t['thema_privat']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['thema_privat']; ?></span></a>
 		<?php
 		}
 		

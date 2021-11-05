@@ -495,7 +495,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 	$text = "<td style=\"vertical-align:top;\">" . $f1;
 	if ($id) {
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
-		$text .= "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">"
+		$text .= "<a href=\"$url\" target=\"_blank\">"
 			. "<b>Schreibe mir doch eine Mail!</b>&nbsp;$chat_grafik[mail]</A><br><br>";
 	} else {
 		#$text.="Ihr könnt mir eine Mail schicken, wenn Ihr euch vorher im ".

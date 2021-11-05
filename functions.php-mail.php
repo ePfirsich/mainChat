@@ -33,8 +33,8 @@ function formular_neue_email($neue_email, $m_id = "") {
 	$neue_email['an_nick'] = "";
 	}
 	$text .= "<b>Benutzername:</b> "
-		. $f1 . "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" SIZE=20>" . "&nbsp;"
-		. "<input type=\"submit\" name=\"los\" value=\"WEITER\">" . $f2;
+		. $f1 . "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" size=20>" . "&nbsp;"
+		. "<input type=\"submit\" name=\"los\" value=\"Weiter\">" . $f2;
 	
 	// Box anzeigen
 	show_box_title_content($box, $text);
@@ -165,7 +165,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			. "</td></tr>"
 			. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
 			. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">" . $f1
-			. "<input type=\"submit\" name=\"los\" value=\"VERSENDEN\">"
+			. "<input type=\"submit\" name=\"los\" value=\"Versenden\">"
 			. $f2 . "</td></tr>\n" . "</table></form>\n";
 			
 			// Box anzeigen
@@ -190,28 +190,23 @@ function zeige_mailbox($aktion, $zeilen) {
 	
 	switch ($aktion) {
 		case "alle";
-			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
-				. "WHERE m_an_uid=$u_id order by m_zeit desc";
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id ORDER BY m_zeit desc";
 				$button = $t['loeschen'];
 			$titel = $t['nachrichten1'];
 			break;
 		
 		case "geloescht":
-			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
-				. "WHERE m_an_uid=$u_id AND m_status='geloescht' "
-				. "order by m_zeit desc";
+			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
 			$button = $t['wiederherstellen'];
 			$titel = $t['nachrichten2'];
 			break;
 		
 		case "normal":
 		default;
-			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id "
-				. "WHERE m_an_uid=$u_id AND m_status!='geloescht' "
-				. "order by m_zeit desc";
+			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
 			$titel = $t['nachrichten1'];
 	}

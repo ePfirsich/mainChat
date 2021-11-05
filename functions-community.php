@@ -46,7 +46,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 		// Sonderfall OLM: "Sie haben neue Mail..." ausgeben.
 		if ($nachricht == "OLM") {
 			$ur1 = "mail.php?id=$id&aktion=";
-			$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+			$url = "href=\"$ur1\" target=\"_blank\"";
 			system_msg("", 0, $u_id, $system_farbe,
 				str_replace("%link%", $url, $t['mail1']));
 		}

@@ -1166,7 +1166,7 @@ function user(
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]="
 			. URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner
-			. "<a href=\"#\" target=\"640_$fenstername\" onMouseOver=\"return(true)\" onClick=\"neuesFenster2('$url'); return(false)\" title=\"E-Mail\">"
+			. "<a href=\"$url\" target=\"_blank\" title=\"E-Mail\">"
 			
 			. "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
 	} else if (!$extra_kompakt && $link && $trenner != "") {

@@ -126,11 +126,9 @@ function genlist(liste, aktion) {
 			var nick = liste[i + 2].replace('/+/', "%2b");
 			var url = "mail.php" + stdparm2
 					+ "&aktion=neu2&neue_email[an_nick]=" + nick;
-			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
+			nlink += "&nbsp;<a href=\""
 					+ url
-					+ "','640_"
-					+ u_nick
-					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
+					+ "\" target=\"_blank\">"
 					+ mgrafik + "<a>";
 		}
 

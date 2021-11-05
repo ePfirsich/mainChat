@@ -191,9 +191,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// IP bestimmen
 		unset($o_http_stuff);
-		$query = "SELECT r_name,online.*,UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit "
-			. " FROM online left join raum on o_raum=r_id WHERE o_user=$user ";
+		$query = "SELECT r_name, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit FROM online LEFT JOIN raum ON o_raum=r_id WHERE o_user=$user ";
 		$result = mysqli_query($mysqli_link, $query);
+		
 		if ($result && $rows = mysqli_num_rows($result) == 1) {
 			$o_row = mysqli_fetch_object($result);
 			$onlinezeit = $o_row->onlinezeit;
@@ -201,8 +201,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$host_name = htmlspecialchars(gethostbyaddr($o_row->o_ip));
 				$o_http_stuff = $o_row->o_http_stuff . $o_row->o_http_stuff2;
 			}
-			if (isset($o_http_stuff))
+			if (isset($o_http_stuff)) {
 				$http_stuff = unserialize($o_http_stuff);
+			}
 		}
 		
 		
@@ -446,11 +447,9 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. "<a href=\"" . $chat_url . "\" target=_blank>$chat_url" . "</a>" . $f4 . "</td></tr>\n";
 				
 				if ($o_http_stuff) {
-					$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2
-						. "</td><td>" . $f3;
+					$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2 . "</td><td>" . $f3;
 					if (is_array($http_stuff)) {
-						while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each(
-							$http_stuff)) {
+						while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each($http_stuff)) {
 							if ($o_http_stuff_inhalt) {
 								$text .= "<b>"
 									. htmlspecialchars($o_http_stuff_name)
@@ -460,9 +459,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 							}
 						}
 					}
-					echo $f4 . "</td></tr>\n";
+					$text .= $f4 . "</td></tr>\n";
 				}
-				
 			} elseif ($zeigeip == 1 && is_array($ip_historie)) {
 				while (list($datum, $ip_adr) = each($ip_historie)) {
 					if (!$erstes) {
@@ -497,7 +495,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			if ($communityfeatures) {
 				$mlnk[8] = "mail.php?id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 				$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
-				$text .= "[<a href=\"$mlnk[8]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[8]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige40]</a>]<br>\n"
+				$text .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[user_zeige40]</a>]<br>\n"
 					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
 			}
 			
