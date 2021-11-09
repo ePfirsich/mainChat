@@ -66,12 +66,13 @@ function genlist(liste, aktion) {
 
 	for ( var i = 0; i < liste.length; i += interval) {
 
-		if (liste[i + 9] == "M")
+		if (liste[i + 9] == "M") {
 			var tgegrafik = gegrafik[0];
-		else if (liste[i + 9] == "W")
+		} else if (liste[i + 9] == "W") {
 			var tgegrafik = gegrafik[1];
-		else
+		} else {
 			var tgegrafik = "";
+		}
 
 		if ((liste[i]) && (inaktiv_userfunktionen != "1" || aktion != "chatuserliste")) {
 			var dlink = "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"userdetails("
@@ -95,10 +96,10 @@ function genlist(liste, aktion) {
 			var url = "index.php?aktion=hilfe-community";
 			if ((liste[i + 6] == "C") || (liste[i + 6] == "S")) {
 				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
-						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "<a>";
+						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "</a>";
 			} else {
 				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
-						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "<a>";
+						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "</a>";
 			}
 		}
 
@@ -109,7 +110,7 @@ function genlist(liste, aktion) {
 					+ "','640_"
 					+ u_nick
 					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "<a>";
+					+ hgrafik + "</a>";
 		} else if ((liste[i + 1] == "J") && communityfeatures == 1) {
 			var url = "home.php" + stdparm2 + "&ui_userid=" + liste[i];
 			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
@@ -117,73 +118,75 @@ function genlist(liste, aktion) {
 					+ "','640_"
 					+ u_nick
 					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "<a>";
+					+ hgrafik + "</a>";
 		}
 
-		if ((communityfeatures == 1) && (liste[i + 6] != "G")
-				&& (inaktiv_mailsymbol != "1" || aktion != "chatuserliste")) {
+		if ((communityfeatures == 1) && (liste[i + 6] != "G") && (inaktiv_mailsymbol != "1" || aktion != "chatuserliste")) {
 			var nick = liste[i + 2].replace('/+/', "%2b");
 			var url = "mail.php" + stdparm2
 					+ "&aktion=neu2&neue_email[an_nick]=" + nick;
 			nlink += "&nbsp;<a href=\""
 					+ url
 					+ "\" target=\"_blank\">"
-					+ mgrafik + "<a>";
+					+ mgrafik + "</a>";
 		}
 
 		var rowdef = "";
 
 		if (aktion == "chatuserliste") {
-			if ((level == "admin"))
+			if ((level == "admin")) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
-						+ liste[i + 2] + "'); return(false)\">G<a>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">G</a>" + fett[1]
 						+ "</td>";
-			if ((level == "admin") || (level == "owner"))
+			}
+			if ((level == "admin") || (level == "owner")) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
-						+ liste[i + 2] + "'); return(false)\">K<a>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">K</a>" + fett[1]
 						+ "</td>";
-			if ((level == "admin")
-					&& (liste[i + 3] != "" || liste[i + 4] != ""))
+			}
+			if ((level == "admin") && (liste[i + 3] != "" || liste[i + 4] != "")) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
 						+ liste[i + 3] + "','" + liste[i + 4] + "','"
-						+ liste[i + 2] + "'); return(false)\">S<a>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">S</a>" + fett[1]
 						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
+			}
 			if (inaktiv_ansprechen != "1") {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
-						+ liste[i + 2] + " '); return(false)\">@<a>" + fett[1]
+						+ liste[i + 2] + " '); return(false)\">@</a>" + fett[1]
 						+ "</td>";
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
-						+ liste[i + 2] + " '); return(false)\">&gt;<a>"
+						+ liste[i + 2] + " '); return(false)\">&gt;</a>"
 						+ fett[1] + "</td>";
 			}
 		} else {
-			if ((level == "admin") || (level == "owner"))
+			if ((level == "admin") || (level == "owner")) {
 				rowdef += "<td class=\"" + color[color_index] + "\">"
 						+ fett[0]
 						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
-						+ liste[i + 2] + "'); return(false)\">E<a>" + fett[1]
+						+ liste[i + 2] + "'); return(false)\">E</a>" + fett[1]
 						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
+			}
 		}
 
 		rowdef += "<td style=\"width:90%;\" class=\"" + color[color_index] + "\">" + nlink + "</td>";
 
-		if (color_index == "0")
+		if (color_index == "0") {
 			color_index = 1;
-		else
+		} else {
 			color_index = 0;
+		}
 
-		document.write("<tr>" + rowdef
-				+ "</tr>\n");
+		document.write("<tr>" + rowdef + "</tr>\n");
 
 	}
 	document.write("</table>\n");
