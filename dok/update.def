@@ -2,6 +2,7 @@
 #
 #
 
+DELETE FROM `aktion` WHERE `a_wie` = "SMS";
 ALTER TABLE `aktion` CHANGE `a_wie` `a_wie` SET('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'keine';
 ALTER TABLE `chat` CHANGE `c_raum` `c_raum` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `online` DROP `u_sms_extra`, DROP `o_vhost`;
@@ -12,7 +13,9 @@ ALTER TABLE `user` ADD `avatar_status` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `ui_avatar` varchar(255) NOT NULL DEFAULT '';
 
 CREATE TABLE `statistiken` (
-	`c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-	`c_users` int(11) NOT NULL DEFAULT 0,
-	`id` int(11) UNSIGNED NOT NULL
+  `c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `c_users` int(11) NOT NULL DEFAULT 0,
+  `id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `statistiken` ADD PRIMARY KEY (`id`);
+ALTER TABLE `statistiken` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
