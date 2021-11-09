@@ -6,7 +6,9 @@ body {
 }
 a {
 	color:#0000FF;
+	text-decoration:none;
 }
 a:active {
 	color:#000080;
+	text-decoration:none;
 }
