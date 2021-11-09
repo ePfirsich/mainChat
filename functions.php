@@ -965,8 +965,7 @@ function user(
 	$letzter_login = "",
 	$mit_id = TRUE,
 	$extra_kompakt = FALSE,
-	$felder = 31)
-{
+	$felder = 31) {
 	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Homepage zurück
 	// Bei link=TRUE wird Link auf Benutzerinfo ausgegeben
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
@@ -1092,7 +1091,7 @@ function user(
 	}
 	
 	if ($user_id != $zeige_user_id) {
-		echo "<P><b>Fehler: </b> $user_id!=$zeige_user_id</P>\n";
+		echo "<p><b>Fehler: </b> $user_id!=$zeige_user_id</p>\n";
 		return "";
 	}
 	
@@ -1119,8 +1118,9 @@ function user(
 		$text = $user_nick;
 	}
 	
-	if ($show_geschlecht && $user_geschlecht)
+	if ($show_geschlecht && $user_geschlecht) {
 		$text .= $chat_grafik[$user_geschlecht];
+	}
 	
 	if (($felder && 1) != 1) {
 		$user_nick = $user_nick_sik;
@@ -1146,11 +1146,9 @@ function user(
 	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures && $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
 		
 		if ($user_level == "C" || $user_level == "S") {
-			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0]
-				. $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
+			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
 		} else {
-			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[2]
-				. $user_punkte_gruppe . $punkte_grafik[3] . $grafikurl2;
+			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[2] . $user_punkte_gruppe . $punkte_grafik[3] . $grafikurl2;
 		}
 	}
 	
@@ -1159,36 +1157,30 @@ function user(
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
 				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
-		} elseif ($user_chathomepage == "J") {
+		} else if ($user_chathomepage == "J") {
 			$url = "home.php?ui_userid=$user_id&id=$idtag";
-			$text2 .= "&nbsp;" . "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</A>";
+			$text2 .= "&nbsp;" . "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</a>";
 		}
 	}
 	
 	if (!$extra_kompakt && $link && $trenner != "" && $communityfeatures && (($felder & 8) == 8)) {
-		$url = "mail.php?aktion=neu2&neue_email[an_nick]="
-			. URLENCODE($user_nick) . "&id=" . $idtag;
-		$text2 .= $trenner
-			. "<a href=\"$url\" target=\"_blank\" title=\"E-Mail\">"
-			
-			. "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
+		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
+		$text2 .= $trenner . "<a href=\"$url\" target=\"_blank\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
 	} else if (!$extra_kompakt && $link && $trenner != "") {
 		$text2 .= $trenner;
 	}
 	
 	// Onlinezeit oder Datum des letzten Logins einfügen, falls Online Text fett ausgeben
 	if ($online_zeit && $online_zeit != "NULL" && $online) {
-		$text2 .= $trenner
-			. str_replace("%online%", gmdate("H:i:s", $online_zeit),
-				$t['chat_msg92']);
+		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']);
 		$fett1 = "<b>";
 		$fett2 = "</b>";
-	} elseif ($letzter_login && $letzter_login != "NULL" && $online) {
+	} else if ($letzter_login && $letzter_login != "NULL" && $online) {
 		$text2 .= $trenner
 			. str_replace("%login%", $letzter_login, $t['chat_msg94']);
 		$fett1 = "";
 		$fett2 = "";
-	} elseif ($online) {
+	} else if ($online) {
 		$text2 .= $trenner . $t['chat_msg93'];
 		$fett1 = "";
 		$fett2 = "";
@@ -1200,6 +1192,7 @@ function user(
 	if ($text2 != "") {
 		$text .= $f1 . $text2 . $f2;
 	}
+	
 	return ($fett1 . $text . $fett2);
 }
 

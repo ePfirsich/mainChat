@@ -6,7 +6,6 @@ require("functions.php");
 id_lese($id);
 
 // Target von Sonderzeichen entfernen
-
 $fenster = str_replace("+", "", $u_nick);
 $fenster = str_replace("-", "", $fenster);
 $fenster = str_replace("ä", "", $fenster);

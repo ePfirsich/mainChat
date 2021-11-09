@@ -137,7 +137,7 @@ function user_liste($larr, $anzahl) {
 
 			
 			if ($v['u_away']) {
-				$user = "(" . user($v['u_id'], $v, TRUE, FALSE) . ")";
+				$user = "(<i>" . user($v['u_id'], $v, TRUE, FALSE) . "</i>)";
 			} else {
 				$user = user($v['u_id'], $v, TRUE, FALSE);
 			}

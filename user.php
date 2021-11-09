@@ -70,25 +70,31 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 		. "  var stdparm2='?id='+id;\n";
 		if ($aktion != "chatuserliste") {
 			?>
-	window.focus();
-	function resetinput() {
-		document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-			<?php
-			if ($u_clearedit == 1) {
-				echo "	document.forms['form'].elements['text2'].value='';\n";
-			}
-			?>
-		document.forms['form'].submit();
-		document.forms['form'].elements['text2'].focus();
-		document.forms['form'].elements['text2'].select();
-	}
+		window.focus();
+		function resetinput() {
+			document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
+				<?php
+				if ($u_clearedit == 1) {
+					echo "	document.forms['form'].elements['text2'].value='';\n";
+				}
+				?>
+			document.forms['form'].submit();
+			document.forms['form'].elements['text2'].focus();
+			document.forms['form'].elements['text2'].select();
+		}
+		
+		function neuesFenster2(url) {
+			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+		}
 	
-	function neuesFenster2(url) {
-		hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-	}
-
-	<?php
-	}
+		<?php
+		} else {
+			?>
+			function neuesFenster2(url) {
+				hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+			}
+			<?php
+		}
 	?>
 	</script>
 	<script language="JavaScript" src="jscript.js"></script>
