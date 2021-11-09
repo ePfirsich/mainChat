@@ -283,6 +283,18 @@ if (tests.dnd) {
 		$text .= "</select>" . $f2 . "</td></tr>\n";
 	}
 	
+	// Sicherer Modus notwendig
+	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige61'] . "</b>\n" . $f2
+	. "</td><td>" . $f1 . "<select name=\"f[u_sicherer_modus]\">";
+	if ($f['u_sicherer_modus'] == "Y") {
+		$text .= "<option value=\"N\">$t[user_zeige62]";
+		$text .= "<option selected value=\"Y\">$t[user_zeige63]";
+	} else {
+		$text .= "<option selected value=\"N\">$t[user_zeige62]";
+		$text .= "<option value=\"Y\">$t[user_zeige63]";
+	}
+	$text .= "</select>" . $f2 . "</td></tr>\n";
+	
 	// Level nur für Admins
 	if ($admin) {
 		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige8'] . "</b>\n" . $f2

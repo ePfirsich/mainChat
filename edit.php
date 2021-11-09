@@ -58,6 +58,7 @@ if (strlen($u_id) != 0) {
 		unset($f['avadel']);
 		unset($f['u_systemmeldungen']);
 		unset($f['u_punkte_anzeigen']);
+		unset($f['u_sicherer_modus']);
 		unset($f['u_signatur']);
 		unset($f['u_eintritt']);
 		unset($f['u_austritt']);
@@ -642,18 +643,20 @@ if (strlen($u_id) != 0) {
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
 					$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+					$f['u_sicherer_modus'] = $row->u_sicherer_modus;
 					$f['u_signatur'] = $row->u_signatur;
 					$f['u_kommentar'] = $row->u_kommentar;
 					user_edit($f, $admin, $u_level);
 				}
 				mysqli_free_result($result);
 				
-				// Bei Änderungen an u_smilie, u_systemmeldungen, u_punkte_anzeigen chat-Fenster neu laden
+				// Bei Änderungen an u_smilie, u_systemmeldungen, u_punkte_anzeigen, u_sicherer_modus chat-Fenster neu laden
 				if (($u_smilie != $f['u_smilie']
 					|| $u_systemmeldungen != $f['u_systemmeldungen']
 					|| $avatar_status != $f['avatar_status']
 					|| $avadel != $f['avadel']
-					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen'])
+					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen']
+					|| $u_sicherer_modus != $f['u_sicherer_modus'])
 					&& $o_who == 0) {
 					echo "<script language=JavaScript>"
 						. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
@@ -708,6 +711,7 @@ if (strlen($u_id) != 0) {
 						$f['u_eintritt'] = $row->u_eintritt;
 						$f['u_austritt'] = $row->u_austritt;
 						$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+						$f['u_sicherer_modus'] = $row->u_sicherer_modus;
 						$f['u_signatur'] = $row->u_signatur;
 						user_edit($f, $admin, $u_level);
 						mysqli_free_result($result);
@@ -822,6 +826,7 @@ if (strlen($u_id) != 0) {
 					$f['u_austritt'] = $row->u_austritt;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+					$f['u_sicherer_modus'] = $row->u_sicherer_modus;
 					$f['u_signatur'] = $row->u_signatur;
 					$f['u_kommentar'] = $row->u_kommentar;
 					user_edit($f, $admin, $u_level);
@@ -856,6 +861,7 @@ if (strlen($u_id) != 0) {
 				$f['u_eintritt'] = $row->u_eintritt;
 				$f['u_austritt'] = $row->u_austritt;
 				$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+				$f['u_sicherer_modus'] = $row->u_sicherer_modus;
 				$f['u_signatur'] = $row->u_signatur;
 				user_edit($f, $admin, $u_level);
 				mysqli_free_result($result);

@@ -100,7 +100,7 @@ zeige_header_ende();
 	}
 	
 	// Unterscheidung Normal oder sicherer Modus
-	if ($sicherer_modus == 1) {
+	if ($sicherer_modus == 1 || $u_sicherer_modus == "Y") {
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<select name=\"user_chat_back\">\n";
 		for ($i = 5; $i < 40; $i++) {

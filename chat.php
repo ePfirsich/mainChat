@@ -32,7 +32,7 @@ if ($u_id) {
 	}
 	
 	// Algorithmus wählen
-	if ($sicherer_modus == 1) {
+	if ($sicherer_modus == 1 || $u_sicherer_modus == "Y") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n"

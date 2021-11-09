@@ -58,7 +58,7 @@ $valid_fields = array(
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
-		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_knebel', 'avatar_status', 'ui_avatar'),
+		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'avatar_status', 'ui_avatar'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
 		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')
 );
@@ -481,7 +481,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_zeilen;
+	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_bg, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
@@ -716,7 +716,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
 			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
-			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen` "
+			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus` "
 			. "FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {

@@ -267,6 +267,9 @@ $t['user_zeige57'] = "Alle Avatare";
 $t['user_zeige58'] = "Aktiviert";
 $t['user_zeige59'] = "Deaktiviert";
 $t['user_zeige60'] = "Avatar:";
+$t['user_zeige61'] = "Modus (bei Problemen):";
+$t['user_zeige62'] = "Normaler Modus ";
+$t['user_zeige63'] = "Sicherer Modus";
 
 $t['avatar_beschreibung1'] = "Um den Avatar zu ändern, ziehen Sie einfach ein neues Bild auf die dafür vorgesehene Fläche.";
 $t['avatar_beschreibung2'] = "Fortschritt des Uploads:";

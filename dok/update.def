@@ -11,6 +11,7 @@ ALTER TABLE `user` DROP `u_sms_ok`, DROP `u_sms_guthaben`, DROP `u_sms_extra`, D
 ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` MEDIUMTEXT CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '';
 ALTER TABLE `user` ADD `avatar_status` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `ui_avatar` varchar(255) NOT NULL DEFAULT '';
+ALTER TABLE `user` ADD `u_sicherer_modus` CHAR(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N';
 
 CREATE TABLE `statistiken` (
   `c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
