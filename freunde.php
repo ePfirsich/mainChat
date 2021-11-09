@@ -83,7 +83,7 @@ if ($u_id && $communityfeatures) {
 				if ($result && mysqli_num_rows($result) == 1) {
 					// f_id ist zahl und gehört zu dem Benutzer, also ist update möglich
 					$back = edit_freund($f_id, $f_text);
-					echo "<P>$back</P>";
+					echo "<p>$back</p>";
 					zeige_freunde("normal", "");
 				}
 				mysqli_free_result($result);
@@ -129,7 +129,7 @@ if ($u_id && $communityfeatures) {
 					formular_neuer_freund($neuer_freund);
 				} else {
 					$back = neuer_freund($u_id, $neuer_freund);
-					echo "<P>$back</P>";
+					echo "<p>$back</p>";
 					formular_neuer_freund($neuer_freund);
 					zeige_freunde("normal", "");
 				}

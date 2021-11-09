@@ -82,8 +82,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		if (isset($rows) && is_array($rows))
 			sort($rows);
 		
-	} elseif ($back > 1) {
-		
+	} else if ($back > 1) {
 		// o_chat_id lesen (nicht bei Admins)
 		// Admins dürfen alle Nachrichten sehen
 		if (!$admin) {
@@ -100,7 +99,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			$o_chat_id = 0;
 		}
 		
-		// $back-Zeilen in Tabelle online ausgeben, höchstens  aber ab o_chat_id
+		// $back-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_id
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
 		
@@ -112,7 +111,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			}
 		}
 		mysqli_free_result($result);
-		
 		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
 		
 		$result = mysqli_query($mysqli_link, $query);
@@ -121,6 +119,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$rows[] = $row[0];
 			}
 		}
+		
 		mysqli_free_result($result);
 		if (isset($rows) && is_array($rows))
 			sort($rows);
@@ -140,9 +139,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				}
 			}
 		}
-		
 	} else {
-		
 		// Die letzten Nachrichten seit $letzte_id ausgeben
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum=$raum AND c_id > $letzte_id" . $qquery;

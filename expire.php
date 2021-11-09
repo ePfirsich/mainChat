@@ -26,7 +26,7 @@ if (!file_exists($log)) {
 // Chat expire und Kopie in Log für alle öffentlichen Zeilen, die älter als 15 Minuten sind
 echo "Expire Chattexte:\n";
 $query = "SELECT *,r_name FROM chat LEFT JOIN raum ON c_raum=r_id "
-	. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 "
+	. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 1900 "
 	. "AND c_typ!='P' " . "ORDER BY c_raum,c_id";
 $result = mysqli_query($mysqli_link, $query);
 if (!$result)
@@ -41,19 +41,23 @@ if ($rows > 0) {
 	while ($i < $rows) {
 		set_time_limit(20);
 		$row = @mysqli_fetch_object($result);
-		if ($i > 0)
+		if ($i > 0) {
 			$loesche .= ",";
-		if (!$row->r_name)
+		}
+		if (!$row->r_name) {
 			$row->r_name = "_ohne_Raum";
+		}
 		
-		// Chat-Zeile in Log schreiben
+		// Chat-Zeile ins Log schreiben
 		$r_name = $log . "/" . str_replace("/", "_", $row->r_name);
-		if ($raum_alt != $r_name)
+		if ($raum_alt != $r_name) {
 			echo "  Raum $r_name\n";
+		}
 		
 		// Ggf. Log routieren, falls > 100 MB
-		if (is_file($r_name) && filesize($r_name) > 100000000)
+		if (is_file($r_name) && filesize($r_name) > 100000000) {
 			rename($r_name, $r_name . "_" . date("dmY"));
+		}
 		
 		$handle = @fopen($r_name, "a");
 		if ($handle && $handle != -1) {
@@ -65,8 +69,10 @@ if ($rows > 0) {
 			fputs($handle, "$text\n");
 			fclose($handle);
 			@chmod($r_name, 0700);
+			echo "Chat-Zeile ins Log schreiben...";
+			echo "\n";
 		} else {
-			echo "<P><b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!</P>\n";
+			echo "<p><b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!</p>\n";
 		}
 		
 		$loesche .= "$row->c_id";
