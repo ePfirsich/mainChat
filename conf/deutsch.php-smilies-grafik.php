@@ -4,7 +4,7 @@
 // Die Befehle müssen mit & beginnen
 
 $t['sonst1'] = "Fenster schließen";
-$t['sonst2'] = "Benutzerliste";
+$t['sonst2'] = "Benutzer";
 $t['sonst3'] = "Aktualisieren";
 
 $smilie["&smile"] = "smile.gif";
