@@ -876,16 +876,15 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 
 //prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
-function postings_neu($an_u_id, $u_nick, $id, $nachricht)
-{
-	
+function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 	global $mysqli_link, $t, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
 	$query = mysqli_query($mysqli_link, $sql);
-	if (mysqli_num_rows($query) > 0)
+	if (mysqli_num_rows($query) > 0) {
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
+	}
 	$u_gelesene = unserialize($gelesene);
 	mysqli_free_result($query);
 	

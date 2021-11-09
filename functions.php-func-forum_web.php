@@ -493,8 +493,9 @@ function show_thema() {
 		echo $t['leserechte'];
 		exit;
 	}
-	if (!$seite)
+	if (!$seite) {
 		$seite = 1;
+	}
 	
 	$offset = ($seite - 1) * $anzahl_po_seite;
 	
@@ -608,8 +609,7 @@ function show_thema() {
 				$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
 				$userdata['u_punkte_anzeigen'] = $posting['u_punkte_anzeigen'];
 				$userdata['u_chathomepage'] = $posting['u_chathomepage'];
-				$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE,
-					"&nbsp;", "", "", TRUE, FALSE, 29);
+				$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
 				if ($posting['u_level'] == 'Z') {
 					echo "<td $farbe>$f1 $userdata[u_nick] $f2</td>\n";
 				} else {
@@ -620,7 +620,28 @@ function show_thema() {
 			if ($posting['po_date2'] == '01.01.70' || $posting['po_date'] == $posting['po_date2']) {
 				$antworten = "";
 			} else {
-				$antworten = "$f3" . substr($posting['po_date2'], 0, 5) . " von " . $posting['u_nick'] . "$f4";
+				$themen_id = $posting['po_id'];
+				$sql2 = "SELECT po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `posting` LEFT JOIN user ON po_u_id = u_id WHERE `po_vater_id` = $themen_id ORDER by po_id desc LIMIT 1;";
+				$query2 = mysqli_query($mysqli_link, $sql2);
+				$antwort_u_id = mysqli_result($query2, 0, "po_u_id");
+				$antwort_u_nick = mysqli_result($query2, 0, "u_nick");
+				$antwort_u_level = mysqli_result($query2, 0, "u_level");
+				$antwort_u_punkte_gesamt = mysqli_result($query2, 0, "u_punkte_gesamt");
+				$antwort_u_punkte_gruppe = mysqli_result($query2, 0, "u_punkte_gruppe");
+				$antwort_u_punkte_anzeigen = mysqli_result($query2, 0, "u_punkte_anzeigen");
+				$antwort_u_chathomepage = mysqli_result($query2, 0, "u_chathomepage");
+				
+				$userdata2 = array();
+				$userdata2['u_id'] = $po_u_id;
+				$userdata2['u_nick'] = $antwort_u_nick;
+				$userdata2['u_level'] = $antwort_u_level;
+				$userdata2['u_punkte_gesamt'] = $antwort_u_punkte_gesamt;
+				$userdata2['u_punkte_gruppe'] = $antwort_u_punkte_gruppe;
+				$userdata2['u_punkte_anzeigen'] = $antwort_u_punkte_anzeigen;
+				$userdata2['u_chathomepage'] = $antwort_u_chathomepage;
+				$antworten_userlink = user($po_u_id, $userdata2, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
+				
+				$antworten = "$f3" . substr($posting['po_date2'], 0, 5) . " von " . $antworten_userlink . "$f4";
 			}
 			echo "<td style=\"text-align:center;\" $farbe>$f3$posting[po_date]$f4</td>\n"; // Wann wurde das Thema erstellt
 			echo "<td style=\"text-align:center;\" $farbe>$f3".$anzreplys."$f4</td>\n"; // Wie viele Antworten hat das Thema
