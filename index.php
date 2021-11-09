@@ -439,10 +439,7 @@ switch ($aktion) {
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$a = mysqli_fetch_array($result);
-				$hash2 = md5(
-					$a['u_id'] . $a['u_login'] . $a['u_nick']
-						. $a['u_passwort']
-						. $a['u_adminemail'] . $a['u_punkte_jahr']);
+				$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_adminemail'] . $a['u_punkte_jahr']);
 				if ($hash == $hash2) {
 					$richtig = 1;
 					$u_id = $a['u_id'];
@@ -581,7 +578,7 @@ switch ($aktion) {
 			show_box($box,$text);
 			
 		} else if ($richtig && $u_id) {
-			$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' AND `u_level` = 'U' LIMIT 2";
+			$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				unset($f);
@@ -590,8 +587,7 @@ switch ($aktion) {
 				$pwdneu = genpassword(8);
 				$f['u_passwort'] = $pwdneu;
 				$f['u_id'] = $u_id;
-				$text = str_replace("%passwort%", $f['u_passwort'],
-					$t['pwneu15']);
+				$text = str_replace("%passwort%", $f['u_passwort'], $t['pwneu15']);
 				$text = str_replace("%nickname%", $a['u_nick'], $text);
 				
 				// E-Mail versenden
