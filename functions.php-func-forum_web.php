@@ -632,14 +632,14 @@ function show_thema() {
 				$antwort_u_chathomepage = mysqli_result($query2, 0, "u_chathomepage");
 				
 				$userdata2 = array();
-				$userdata2['u_id'] = $po_u_id;
+				$userdata2['u_id'] = $antwort_u_id;
 				$userdata2['u_nick'] = $antwort_u_nick;
 				$userdata2['u_level'] = $antwort_u_level;
 				$userdata2['u_punkte_gesamt'] = $antwort_u_punkte_gesamt;
 				$userdata2['u_punkte_gruppe'] = $antwort_u_punkte_gruppe;
 				$userdata2['u_punkte_anzeigen'] = $antwort_u_punkte_anzeigen;
 				$userdata2['u_chathomepage'] = $antwort_u_chathomepage;
-				$antworten_userlink = user($po_u_id, $userdata2, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
+				$antworten_userlink = user($antwort_u_id, $userdata2, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
 				
 				$antworten = "$f3" . substr($posting['po_date2'], 0, 5) . " von " . $antworten_userlink . "$f4";
 			}
