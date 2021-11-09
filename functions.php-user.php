@@ -123,7 +123,7 @@ function user_liste($larr, $anzahl) {
 			//				 "   stdparm=''; stdparm2=''; id=''; http_host=''; u_nick=''; raum=''; nlink=''; nick=''; url='';\n".
 			"</script>\n";
 		$text .= "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
-	} else { // Kein javascript verfügbar	
+	} else { // Kein javascript verfügbar
 		for ($k = 0; is_array($larr[$k]) AND $v = $larr[$k]; $k++) {
 			if ( $k % 2 != 0 ) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
@@ -365,30 +365,22 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$fenster = str_replace("Ü", "", $fenster);
 			$fenster = str_replace("ß", "", $fenster);
 			
-			$url = "mail.php?aktion=neu2&neue_email[an_nick]="
-				. URLENCODE($uu_nick) . "&id=" . $id;
-				$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
-				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</a>";
+			$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
+			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</a>";
 			$f4 . "</td></tr>\n";
 		} else if (strlen($uu_email) > 0) {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3
-				. "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4
-				. "</td></tr>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3 . "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4 . "</td></tr>\n";
 		}
 		
 		if ($communityfeatures && $uu_chathomepage == "J") {
 			$url = "home.php?ui_userid=$uu_id&id=" . $id;
-			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3
-				. "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</a>";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</a>";
 			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_url) > 0) {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3
-				. "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4
-				. "</td></tr>\n";
+			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
 		}
 		
-		$text .= "<tr><td>" . $f1 . $t['user_zeige8'] . $f2 . "</td><td>" . $f1
-			. "$level[$uu_level]" . $f2 . "</td></tr>\n";
+		$text .= "<tr><td>" . $f1 . $t['user_zeige8'] . $f2 . "</td><td>" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
 		
 			$text .= "<tr><td>" . $f1 . $t['user_zeige10'] . $f2 . "</td>"
 			. "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";

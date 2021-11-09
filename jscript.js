@@ -73,8 +73,7 @@ function genlist(liste, aktion) {
 		else
 			var tgegrafik = "";
 
-		if ((liste[i])
-				&& (inaktiv_userfunktionen != "1" || aktion != "chatuserliste")) {
+		if ((liste[i]) && (inaktiv_userfunktionen != "1" || aktion != "chatuserliste")) {
 			var dlink = "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"userdetails("
 					+ liste[i]
 					+ ")\">"

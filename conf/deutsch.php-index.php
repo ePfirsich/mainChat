@@ -569,27 +569,27 @@ $t['pwneu5'] = "Es wurde keine gültige E-Mail-Adresse angegeben!";
 $t['pwneu6'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.";
 $t['pwneu7'] = "<p><b>Neues Passwort, 2. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde ein Sicherheitscode gesendet. Geben Sie bitte diesen Sicherheitscode in das untere Feld ein.</p>";
 $t['pwneu8'] = "Ihre Passwortanforderung für den $chat";
-$t['pwneu9'] = "Hallo %nickname%,
-
-Sie oder jemand unbefugtes möchte ein neues Passwort für Ihren Benutzernamen.
-
-Anbei erhalten Sie den Sicherheitscode, mit dem Sie sich ein neues Passwort erzeugen können. Ohne diesen wird kein neues Passwort erzeugt.  
-Geben Sie den Sicherheitscode bitte in das vorgegebene Feld ein - oder kopieren Sie es mit \"Copy and Paste\" (markieren, STRG+C und STRG+V)
-
-Sicherheitscode: %hash%
-
--- 
+$t['pwneu9'] = "Hallo %nickname%,<br>
+<br>
+Sie oder jemand unbefugtes möchte ein neues Passwort für Ihren Benutzernamen.<br>
+<br>
+Anbei erhalten Sie den Sicherheitscode, mit dem Sie sich ein neues Passwort erzeugen können. Ohne diesen wird kein neues Passwort erzeugt.<br>
+Geben Sie den Sicherheitscode bitte in das vorgegebene Feld ein - oder kopieren Sie es mit \"Copy and Paste\" (markieren, STRG+C und STRG+V)<br>
+<br>
+Sicherheitscode: %hash%<br>
+<br>
+--<br>
 Ihr $chat-Team  ";
 $t['pwneu10'] = "Sicherheitscode";
 $t['pwneu11'] = "Der angegebene Sicherheitscode ist leider nicht richtig.";
 $t['pwneu12'] = "<p><b>Neues Passwort, 3. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde soeben ein neues Passwort gesendet.</p>";
 $t['pwneu13'] = "<p><b>Fehler: Die E-Mail konnte nicht versandt werden. Das Passwort wurde nicht geändert!</b></p>";
 $t['pwneu14'] = "Ihr neues Passwort für den $chat";
-$t['pwneu15'] = "Hallo %nickname%,
-
-Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%
-
-Viel Spaß noch im $chat";
+$t['pwneu15'] = "Hallo %nickname%,<br>
+<br>
+Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>
+<br>
+Viel Spaß noch im $chat<br>";
 $t['pwneu16'] = "Neues Passwort anfordern";
 $t['pwneu17'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.";
 $t['pwneu18'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
