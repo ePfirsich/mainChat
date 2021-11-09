@@ -579,8 +579,7 @@ if (strlen($u_id) != 0) {
 						mysqli_free_result($resultii);
 					} else if ((isset($f['u_level']) && $f['u_level'] == "C") || (isset($f['u_level']) && $f['u_level'] == "S")) {
 						// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
-						$queryii = "SELECT u_nick,u_id from user,iignore "
-							. "WHERE i_user_passiv=" . intval($f[u_id]) . " AND u_id=i_user_aktiv order by i_id";
+						$queryii = "SELECT u_nick,u_id FROM user,iignore ". "WHERE i_user_passiv=" . intval($f['u_id']) . " AND u_id=i_user_aktiv order by i_id";
 						$resultii = @mysqli_query($mysqli_link, $queryii);
 						$anzahlii = @mysqli_num_rows($resultii);
 						

@@ -1015,7 +1015,7 @@ function user(
 		
 		$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
 		
-	} elseif (is_object($userdaten)) {
+	} else if (is_object($userdaten)) {
 		// Object wurde übergeben
 		$user_id = $userdaten->u_id;
 		$user_nick = $userdaten->u_nick;
@@ -1041,10 +1041,8 @@ function user(
 		
 		// Benutzerdaten aus DB lesen
 		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
-			. "date_format(u_login,'%d.%m.%y %H:%i') AS login "
-			. "FROM user LEFT JOIN online ON o_user=u_id "
-			. "WHERE u_id=" . intval($zeige_user_id);
+			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d.%m.%y %H:%i') AS login "
+			. "FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=" . intval($zeige_user_id);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$userdaten = mysqli_fetch_object($result);
@@ -1068,19 +1066,22 @@ function user(
 		
 	} else {
 		echo "<p><b>Fehler:</b> Falscher Aufruf von user() für Benutzer ";
-		if (isset($zeige_user_id))
+		if (isset($zeige_user_id)) {
 			echo $zeige_user_id;
-		if (isset($userdaten['u_id']))
+		}
+		if (isset($userdaten['u_id'])) {
 			echo $userdaten['u_id'];
-		if (isset($userdaten->u_id))
+		}
+		if (isset($userdaten->u_id)) {
 			echo $userdaten->u_id;
+		}
 		echo "</p>";
 		
 		return "";
 	}
 	
 	// Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
-	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "Y" and $user_punkte_anzeigen != "N")) {
+	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "Y" && $user_punkte_anzeigen != "N")) {
 		$query = "SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id`=" . intval($user_id);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -1113,13 +1114,12 @@ function user(
 	
 	if ($link) {
 		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
-		$text = "<a href=\"#\"  target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\">"
-			. $user_nick . "</A>";
+		$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\"><b>" . $user_nick . "</b></a>";
 	} else {
 		$text = $user_nick;
 	}
 	
-	if ($show_geschlecht AND $user_geschlecht)
+	if ($show_geschlecht && $user_geschlecht)
 		$text .= $chat_grafik[$user_geschlecht];
 	
 	if (($felder && 1) != 1) {
@@ -1128,11 +1128,12 @@ function user(
 	
 	// Levels, Gruppen, Home & Mail Grafiken
 	$text2 = "";
-	if (!isset($leveltext[$user_level]))
+	if (!isset($leveltext[$user_level])) {
 		$leveltext[$user_level] = "";
-	if (!$extra_kompakt && $leveltext[$user_level] != ""
-		&& (($felder & 2) == 2))
+	}
+	if (!$extra_kompakt && $leveltext[$user_level] != "" && (($felder & 2) == 2)) {
 		$text2 .= "&nbsp;(" . $leveltext[$user_level] . ")";
+	}
 	
 	if (!$extra_kompakt && $link) {
 		$grafikurl1 = "<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">";
@@ -1142,8 +1143,7 @@ function user(
 		$grafikurl2 = "";
 	}
 	
-	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures
-		&& $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
+	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures && $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
 		
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0]
@@ -1197,8 +1197,9 @@ function user(
 		$fett2 = "";
 	}
 	
-	if ($text2 != "")
+	if ($text2 != "") {
 		$text .= $f1 . $text2 . $f2;
+	}
 	return ($fett1 . $text . $fett2);
 }
 

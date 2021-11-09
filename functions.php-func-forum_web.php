@@ -498,16 +498,12 @@ function show_thema() {
 	
 	$offset = ($seite - 1) * $anzahl_po_seite;
 	
-	$sql = "select po_id, po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%y') as po_date,
-				date_format(from_unixtime(po_threadts), '%d.%m.%y') as po_date2,
+	$sql = "SELECT po_id, po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%y') AS po_date,
+				date_format(from_unixtime(po_threadts), '%d.%m.%y') AS po_date2,
 				po_titel, po_threadorder, po_topposting, po_threadgesperrt, po_gesperrt, u_nick,
-		u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage
-				from posting
-				left join user on po_u_id = u_id
-				where po_vater_id = 0
-				and po_th_id = " . intval($th_id) . "
-				order by po_topposting desc, po_threadts desc, po_ts desc
-				limit $offset, $anzahl_po_seite";
+		u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage
+				FROM posting LEFT JOIN user ON po_u_id = u_id
+				WHERE po_vater_id = 0 AND po_th_id = " . intval($th_id) . " ORDER BY po_topposting desc, po_threadts desc, po_ts DESC LIMIT $offset, $anzahl_po_seite";
 	
 	$query = mysqli_query($mysqli_link, $sql);
 	
@@ -604,13 +600,13 @@ function show_thema() {
 			if (!$posting['u_nick']) {
 				echo "<td $farbe>$f3<b>Nobody</b>$f4</td>\n";
 			} else {
-				
 				$userdata = array();
 				$userdata['u_id'] = $posting['po_u_id'];
 				$userdata['u_nick'] = $posting['u_nick'];
 				$userdata['u_level'] = $posting['u_level'];
 				$userdata['u_punkte_gesamt'] = $posting['u_punkte_gesamt'];
 				$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
+				$userdata['u_punkte_anzeigen'] = $posting['u_punkte_anzeigen'];
 				$userdata['u_chathomepage'] = $posting['u_chathomepage'];
 				$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE,
 					"&nbsp;", "", "", TRUE, FALSE, 29);
@@ -1168,7 +1164,7 @@ function zeige_beitraege($thread) {
 	$u_gelesene = unserialize($gelesene);
 	
 	$sql = "SELECT po_id, po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
-				po_titel, po_text, po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage, po_threadorder, po_gesperrt
+				po_titel, po_text, po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage, po_threadorder, po_gesperrt
 				FROM posting
 				LEFT JOIN user ON po_u_id = u_id
 				WHERE po_id = $thread OR po_vater_id = $thread";
@@ -1199,6 +1195,7 @@ function zeige_beitraege($thread) {
 		$po_u_level = $beitrag['u_level'];
 		$po_u_punkte_gesamt = $beitrag['u_punkte_gesamt'];
 		$po_u_punkte_gruppe = $beitrag['u_punkte_gruppe'];
+		$po_u_punkte_anzeigen = $beitrag['u_punkte_anzeigen'];
 		$po_u_chathomepage = $beitrag['u_chathomepage'];
 		
 		if ($tiefe >= 1) { // Tiefe immer auf 1 setzen, um eine flache Struktur zu erzeugen
@@ -1223,14 +1220,15 @@ function zeige_beitraege($thread) {
 		if (!$po_u_nick) {
 			$userdetails = "gelöschter Benutzer";
 		} else {
-			
 			$userdata = array();
 			$userdata['u_id'] = $po_u_id;
 			$userdata['u_nick'] = $po_u_nick;
 			$userdata['u_level'] = $po_u_level;
 			$userdata['u_punkte_gesamt'] = $po_u_punkte_gesamt;
 			$userdata['u_punkte_gruppe'] = $po_u_punkte_gruppe;
+			$userdata['u_punkte_anzeigen'] = $po_u_punkte_anzeigen;
 			$userdata['u_chathomepage'] = $po_u_chathomepage;
+			
 			$userlink = user($po_u_id, $userdata, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
 			if ($po_u_level == 'Z') {
 				$userdetails = "$userdata[u_nick]";

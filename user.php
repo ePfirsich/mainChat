@@ -580,8 +580,7 @@ if (strlen($u_id) != 0) {
 							if ($communityfeatures) {
 								// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
 								if ($row['u_punkte_anzeigen'] != "N") {
-									$larr[$i]['gruppe'] = hexdec(
-										$row['u_punkte_gruppe']);
+									$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
 								} else {
 									$larr[$i]['gruppe'] = 0;
 								}
@@ -653,7 +652,6 @@ if (strlen($u_id) != 0) {
 							}
 						}
 					}
-					
 					$text .= "</select>" . $f2 . "</td></tr>\n";
 					
 				}
@@ -782,18 +780,18 @@ if (strlen($u_id) != 0) {
 					|| $userdata['u_level'] == "C") {
 					
 					// Variable aus o_userdata setzen
-					$larr[$i]['u_email'] = str_replace("\\", "",
-						htmlspecialchars($userdata['u_email']));
-					$larr[$i]['u_nick'] = strtr(
-						str_replace("\\", "",
-							htmlspecialchars($userdata['u_nick'])), "I", "i");
+					$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
+					$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
 					$larr[$i]['u_level'] = $userdata['u_level'];
 					$larr[$i]['u_id'] = $userdata['u_id'];
 					$larr[$i]['u_away'] = $userdata['u_away'];
+					$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
+					$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
 					$larr[$i]['r_besitzer'] = $row['r_besitzer'];
 					$larr[$i]['r_topic'] = $row['r_topic'];
 					$larr[$i]['o_ip'] = $row['o_ip'];
 					$larr[$i]['isowner'] = $row['isowner'];
+					
 					if ($communityfeatures) {
 						if ($userdata['u_punkte_anzeigen'] != "N") {
 							$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
