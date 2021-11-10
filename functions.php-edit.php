@@ -51,8 +51,13 @@ function user_edit($f, $admin, $u_level) {
 </style>
 
 <article>
-	<div id='holder'>
-	</div>
+	<div id='holder'>";
+		$ui_avatar = $f['ui_avatar'];
+		if($ui_avatar) { // Benutzerdefinierter Avatar
+			$text .= '<img src="./avatars/'.$ui_avatar.'" style="width:200px; height:200px;" alt="'.$ui_avatar.'" />';
+		} 
+	
+	$text .= "</div>
 	<p>" .$t['avatar_beschreibung1'] ."</p>
 	<p id='upload' class='hidden'><label>Drag & drop not supported, but you can still upload via this input field:<br><input type='file'></label></p>
 	<p id='filereader'>File API & FileReader API not supported</p>

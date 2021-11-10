@@ -33,6 +33,7 @@ if (strlen($u_id) != 0) {
 		unset($f['u_passwort']);
 		unset($f['u_smilie']);
 		unset($f['avatar_status']);
+		unset($f['ui_avatar']);
 		unset($f['avadel']);
 		unset($f['u_systemmeldungen']);
 		unset($f['u_punkte_anzeigen']);
@@ -615,6 +616,7 @@ if (strlen($u_id) != 0) {
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
 					$f['avatar_status'] = $row->avatar_status;
+					$f['ui_avatar'] = $row->ui_avatar;
 					$f['avadel'] = $row->ui_avatar;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_eintritt'] = $row->u_eintritt;
@@ -631,6 +633,7 @@ if (strlen($u_id) != 0) {
 				if (($u_smilie != $f['u_smilie']
 					|| $u_systemmeldungen != $f['u_systemmeldungen']
 					|| $avatar_status != $f['avatar_status']
+					|| $ui_avatar != $f['ui_avatar']
 					|| $avadel != $f['avadel']
 					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen']
 					|| $u_sicherer_modus != $f['u_sicherer_modus'])
@@ -683,6 +686,7 @@ if (strlen($u_id) != 0) {
 						$f['u_zeilen'] = $row->u_zeilen;
 						$f['u_smilie'] = $row->u_smilie;
 						$f['avatar_status'] = $row->avatar_status;
+						$f['ui_avatar'] = $row->ui_avatar;
 						$f['avadel'] = $row->ui_avatar;
 						$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 						$f['u_eintritt'] = $row->u_eintritt;
@@ -798,6 +802,7 @@ if (strlen($u_id) != 0) {
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
 					$f['avatar_status'] = $row->avatar_status;
+					$f['ui_avatar'] = $row->ui_avatar;
 					$f['avadel'] = $row->ui_avatar;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
@@ -833,6 +838,7 @@ if (strlen($u_id) != 0) {
 				$f['u_zeilen'] = $row->u_zeilen;
 				$f['u_smilie'] = $row->u_smilie;
 				$f['avatar_status'] = $row->avatar_status;
+				$f['ui_avatar'] = $row->ui_avatar;
 				$f['avadel'] = $row->ui_avatar;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 				$f['u_eintritt'] = $row->u_eintritt;
