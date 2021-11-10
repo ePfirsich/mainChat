@@ -99,8 +99,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 					
 					// Benutzer gefunden -> Ausgeben
 					$row2 = mysqli_fetch_object($result2);
-					$blacklist_nick = "<b>"
-						. user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
+					$blacklist_nick = "<b>" . zeige_userdetails($row2->u_id, $row2) . "</b>";
 					
 				} else {
 					
@@ -134,7 +133,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				// Nick des Admins (Eintrager) setzen
 				$f_userid = $row->f_userid;
 				if ($f_userid && $f_userid != "NULL") {
-					$admin_nick = user($f_userid, "", FALSE, FALSE);
+					$admin_nick = zeige_userdetails($f_userid, "", FALSE, FALSE);
 				} else {
 					$admin_nick = "";
 				}

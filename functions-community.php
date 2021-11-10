@@ -444,8 +444,7 @@ function aktion_sende(
 	
 	global $system_farbe, $communityfeatures, $t;
 	
-	$userlink = user($von_u_id, 0, True, False, "&nbsp;", "", "", False, False,
-		31);
+	$userlink = zeige_userdetails($von_u_id, 0, True, False, "&nbsp;", "", "", False);
 	
 	switch ($a_wie) {
 		
@@ -811,8 +810,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 						
 						$weiterer = $t['chat_msg90'];
 						$weiterer = str_replace("%u_nick%",
-							user($row2->u_id, $row2, TRUE, TRUE, "&nbsp;",
-								$row2->online, "", FALSE), $weiterer);
+							zeige_userdetails($row2->u_id, $row2, TRUE, TRUE, "&nbsp;", $row2->online, "", FALSE), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
 						$txt .= $weiterer;

@@ -130,12 +130,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 						if (!$userdaten['u_away']) {
 							$txt .= "<b>" . $raumname . ":</b> "
-								. user($userdaten['u_id'], $userdaten, TRUE,
-									TRUE, "&nbsp;", $row->online, "", FALSE);
+								. zeige_userdetails($userdaten['u_id'], $userdaten, TRUE, TRUE, "&nbsp;", $row->online, "", FALSE);
 						} else {
 							$txt .= $raumname . ": "
-								. user($userdaten['u_id'], $userdaten, TRUE,
-									FALSE, "&nbsp;", "", "", FALSE) . " -> "
+								. zeige_userdetails($userdaten['u_id'], $userdaten, TRUE, FALSE, "&nbsp;", "", "", FALSE) . " -> "
 								. $userdaten['u_away'];
 						}
 						system_msg("", 0, $u_id, $system_farbe, $txt);
@@ -195,8 +193,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 						while ($row = mysqli_fetch_array($result)) {
 							$text = str_replace("%user%",
-								user($u_id, $userdata, TRUE, FALSE, "&nbsp;",
-									"", "", FALSE), $t['chat_msg49']);
+								zeige_userdetails($u_id, $userdata, TRUE, FALSE, "&nbsp;", "", "", FALSE), $t['chat_msg49']);
 							$text = str_replace("%raum%", $r_name, $text);
 							if (!($admin || $u_level == "A")) {
 								// Benutzer aus Raum... ruft um hilfe
@@ -208,14 +205,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								if (strtolower($chatzeile[0]) == "/int") {
 									system_msg("", $u_id, $u_id, $system_farbe,
 										"<b>"
-											. user($u_id, $userdata, TRUE,
-												FALSE, "&nbsp;", "", "", FALSE)
+										. zeige_userdetails($u_id, $userdata, TRUE, FALSE, "&nbsp;", "", "", FALSE)
 											. "&nbsp; ===== $t[chat_msg24] $t[chat_msg51]: =====</b> $txt");
 								} else {
 									system_msg("", $u_id, $u_id, $system_farbe,
 										"<b>"
-											. user($u_id, $userdata, TRUE,
-												FALSE, "&nbsp;", "", "", FALSE)
+										. zeige_userdetails($u_id, $userdata, TRUE, FALSE, "&nbsp;", "", "", FALSE)
 											. "&nbsp; $t[chat_msg24] $t[chat_msg50]: </b> $txt");
 								}
 							} else {
@@ -252,8 +247,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$txt = "<br><b>" . $hostname . "("
 									. $alt['o_ip'] . "):</b>";
 								$txt .= "<br><b>" . $alt['r_name'] . " "
-									. user($alt[o_user], $userdaten, $o_js,
-										FALSE, "&nbsp;", "", "", FALSE)
+									. zeige_userdetails($alt[o_user], $userdaten, $o_js, FALSE, "&nbsp;", "", "", FALSE)
 									. "</b> "
 									. htmlspecialchars($alt[o_browser])
 									. "<br>";
@@ -263,8 +257,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$userdaten = ARRAY(u_id => $row[o_user],
 								u_nick => $row[o_name]);
 							$txt .= "<b>" . $row['r_name'] . " "
-								. user($row[o_user], $userdaten, $o_js, FALSE,
-									"&nbsp;", "", "", FALSE) . "</b> "
+								. zeige_userdetails($row[o_user], $userdaten, $o_js, FALSE, "&nbsp;", "", "", FALSE) . "</b> "
 								. htmlspecialchars($row[o_browser]);
 							system_msg("", 0, $u_id, $system_farbe, $txt);
 							$txt = "";
@@ -368,8 +361,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$userdaten = ARRAY(u_id => $row[o_user],
 							u_nick => $row[o_name]);
 						$txt .= "<b>" . $row['r_name'] . " "
-							. user($row[o_user], $userdaten, $o_js, FALSE,
-								"&nbsp;", "", "", FALSE) . "</b> "
+							. zeige_userdetails($row[o_user], $userdaten, $o_js, FALSE, "&nbsp;", "", "", FALSE) . "</b> "
 							. htmlspecialchars($row[o_browser]) . "<br>";
 					}
 					system_msg("", 0, $u_id, $system_farbe, $txt);
@@ -508,14 +500,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$rows = mysqli_num_rows($result);
 				for ($i = 0; $i < $rows; $i++) {
 					$row = mysqli_fetch_object($result);
-					if ($txt != "")
+					if ($txt != "") {
 						$txt .= ", ";
-					$userdaten = unserialize(
-						$row->o_userdata . $row->o_userdata2
-							. $row->o_userdata3 . $row->o_userdata4);
-					$txt .= user($row->o_user, $userdaten, TRUE, FALSE,
-						"&nbsp;", "", "", FALSE) . " "
-						. gmdate("H:i:s", $row->knebel);
+					}
+					$userdaten = unserialize( $row->o_userdata . $row->o_userdata2 . $row->o_userdata3 . $row->o_userdata4);
+					$txt .= zeige_userdetails($row->o_user, $userdaten, TRUE, FALSE, "&nbsp;", "", "", FALSE) . " " . gmdate("H:i:s", $row->knebel);
 				}
 				mysqli_free_result($result);
 			} else {
@@ -641,10 +630,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
 						if ($row->u_id && $row->u_id != "NULL") {
-							if ($txt != "")
+							if ($txt != "") {
 								$txt .= ", ";
-							$txt .= user($row->u_id, $row, TRUE, FALSE,
-								"&nbsp;", "", "", FALSE);
+							}
+							$txt .= zeige_userdetails($row->u_id, $row, TRUE, FALSE, "&nbsp;", "", "", FALSE);
 						} else {
 							$query = "DELETE FROM invite WHERE inv_id=$row->inv_id";
 							$result2 = mysqli_query($mysqli_link, $query);
@@ -800,11 +789,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					while ($row = mysqli_fetch_object($result)) {
 						
 						if ($row->u_id && $row->u_id != "NULL") {
-							if ($i > 0)
+							if ($i > 0) {
 								$text = $text . ", ";
-							$text = $text
-								. user($row->u_id, $row, TRUE, FALSE, "&nbsp;",
-									"", "", FALSE);
+							}
+							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, FALSE, "&nbsp;", "", "", FALSE);
 						} else {
 							$query = "DELETE FROM iignore WHERE i_id=$row->i_id";
 							$result2 = mysqli_query($mysqli_link, $query);
@@ -831,11 +819,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					while ($row = mysqli_fetch_object($result)) {
 						
 						if ($row->u_id && $row->u_id != "NULL") {
-							if ($i > 0)
+							if ($i > 0) {
 								$text = $text . ", ";
-							$text = $text
-								. user($row->u_id, $row, TRUE, FALSE, "&nbsp;",
-									"", "", FALSE);
+							}
+							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, FALSE, "&nbsp;", "", "", FALSE);
 						} else {
 							$query = "DELETE FROM iignore WHERE i_id=$row->i_id";
 							$result2 = mysqli_query($mysqli_link, $query);
@@ -1664,21 +1651,18 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Benutzer ist online
 							$r = mysqli_fetch_object($r2);
 
-							$text = $text
-								. user($row->u_id, $row, TRUE, TRUE,
-									"&nbsp;", $r->online_zeit, $row->login,
-									FALSE) . ", ";
+							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, TRUE, "&nbsp;", $r->online_zeit, $row->login, FALSE) . ", ";
 							
-							if ($row->u_email)
-								$text .= "%email%&nbsp;"
-									. htmlspecialchars($row->u_email) . ", ";
-							if ($row->u_adminemail && $admin)
-								$text .= "%adminemail%&nbsp;"
-									. htmlspecialchars($row->u_adminemail)
-									. ", ";
+							if ($row->u_email) {
+								$text .= "%email%&nbsp;" . htmlspecialchars($row->u_email) . ", ";
+							}
+							if ($row->u_adminemail && $admin)  {
+								$text .= "%adminemail%&nbsp;" . htmlspecialchars($row->u_adminemail) . ", ";
+							}
 							$text .= "<b>[" . $whotext[$r->o_who] . "]</b>";
-							if ($r->o_who == 0)
+							if ($r->o_who == 0) {
 								$text .= ", %raum%&nbsp;" . $r->r_name;
+							}
 							
 							if ($row->u_away) {
 								$awaytext = htmlspecialchars($row->u_away);
@@ -1707,14 +1691,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							mysqli_free_result($r2);
 						} else {
 							// Benutzer ist nicht online
-							$text = $text . user($row->u_id, $row, TRUE, TRUE, "&nbsp;", "", $row->login, FALSE) . ", ";
+							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, TRUE, "&nbsp;", "", $row->login, FALSE) . ", ";
 							
-							if ($row->u_email)
-								$text = $text . "%email%&nbsp;"
-									. htmlspecialchars($row->u_email) . ", ";
-							if ($row->u_adminemail && $admin)
-								$text = $text . "%adminemail%&nbsp;"
-									. htmlspecialchars($row->u_adminemail) . ", ";
+							if ($row->u_email) {
+								$text = $text . "%email%&nbsp;" . htmlspecialchars($row->u_email) . ", ";
+							}
+							if ($row->u_adminemail && $admin) {
+								$text = $text . "%adminemail%&nbsp;" . htmlspecialchars($row->u_adminemail) . ", ";
+							}
 							if ($row->u_away) {
 								$awaytext = htmlspecialchars($row->u_away);
 								$awaytext = str_replace('&lt;b&gt;', '<b>', $awaytext);
@@ -1871,7 +1855,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]));
 			
 			for ($i = 0; $i < count($fid); $i++) {
-				$nick = user($fid[$i], 0, FALSE, FALSE, "");
+				$nick = zeige_userdetails($fid[$i], 0, FALSE, FALSE, "");
 				priv_msg($u_nick, $u_id, $fid[$i], $u_farbe, $text, $userdata);
 				system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg24] $nick:</b> $text");
 			}
@@ -2519,8 +2503,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$row2 = mysqli_fetch_object($result2);
 							if ($row2->o_id == "" || $row2->o_id == "NULL")
 								$row2->online = "";
-							$txt = user($row2->u_id, $row2, $o_js, TRUE,
-								"&nbsp;", $row2->online, $row2->login, FALSE);
+								$txt = zeige_userdetails($row2->u_id, $row2, $o_js, TRUE, "&nbsp;", $row2->online, $row2->login, FALSE);
 						} else {
 							// Benutzer nicht gefunden, Freund löschen
 							$txt = "NOBODY";
@@ -3411,8 +3394,7 @@ function auto_knebel($text) {
 						if (mysqli_num_rows($result) > 0) {
 							while ($row = mysqli_fetch_array($result)) {
 								$txt = str_replace("%user%",
-									user($u_id, 0, TRUE, FALSE, "", "", "",
-										FALSE), $t['knebel8']);
+									zeige_userdetails($u_id, 0, TRUE, FALSE, "", "", "", FALSE), $t['knebel8']);
 								$txt = str_replace("%raum%", $r_name, $txt);
 								system_msg("", 0, $row['o_user'],
 									$system_farbe, $txt);

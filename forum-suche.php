@@ -480,8 +480,7 @@ function such_ergebnis() {
 					$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
 					$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
 					$userdata['u_chathomepage'] = $fund['u_chathomepage'];
-					$userlink = user($fund['po_u_id'], $userdata, $o_js, FALSE,
-						"&nbsp;", "", "", trUE, FALSE, 29);
+					$userlink = zeige_userdetails($fund['po_u_id'], $userdata, $o_js);
 					if ($fund['u_level'] == 'Z') {
 						$text .= "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
 					} else {

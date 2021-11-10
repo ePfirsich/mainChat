@@ -780,7 +780,7 @@ if (strlen($u_id) != 0) {
 							
 							$text .= "<td $bgcolor>$b1". substr($raumstatus1[$row['r_status1']], 0, 1) . "$b2&nbsp;</td>";
 							$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
-							$text .= "<td $bgcolor>$b1" . user($row['u_id'], $row, TRUE, FALSE, "$b2</td><td style=\"text-align:right;\" $bgcolor>$b1") . $b2 . "</td>";
+							$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, TRUE, FALSE, "$b2</td><td style=\"text-align:right;\" $bgcolor>$b1") . $b2 . "</td>";
 							if ((isset($extended)) && ($extended)) {
 								if ($smilies_pfad && $erweitertefeatures) {
 									if ($row['r_smilie'] == "Y") {

@@ -253,7 +253,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" width=20%>" . $f1
 			. "Benutzername:" . $f2 . "</td><td colspan=\"3\" width=\"80%\"><b>"
-			. user($userdata['u_id'], $userdata, $links_an, FALSE)
+			. zeige_userdetails($userdata['u_id'], $userdata, $links_an, FALSE)
 			. "</b></td></tr>\n";
 		
 		// Onlinezeit oder letzter Login		

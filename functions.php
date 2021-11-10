@@ -117,7 +117,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 					&& $uu_id != $u_id && $uu_level != "C" && $uu_level != "S") {
 					$uu_nick = $t['raum_user11'];
 				} else {
-					$uu_nick = user($userdata['u_id'], $userdata, FALSE, FALSE);
+					$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE);
 				}
 				
 				if ($userdata['u_away'] != "") {
@@ -424,8 +424,7 @@ function priv_msg(
 	// Optional Link auf Benutzer erzeugen
 	
 	if ($von_user_id && is_array($userdata)) {
-		$f['c_von_user'] = user($von_user_id, $userdata, TRUE, FALSE, "&nbsp;",
-			"", "", FALSE, TRUE);
+		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, TRUE, FALSE, "&nbsp;", "", "", FALSE, TRUE);
 	} else {
 		$f['c_von_user'] = $von_user;
 	}
@@ -955,7 +954,7 @@ function debug($text = "", $rundung = 3) {
 	return ($erg);
 }
 
-function user(
+function zeige_userdetails(
 	$zeige_user_id,
 	$userdaten = 0,
 	$link = TRUE,
@@ -1064,7 +1063,7 @@ function user(
 		}
 		
 	} else {
-		echo "<p><b>Fehler:</b> Falscher Aufruf von user() für Benutzer ";
+		echo "<p><b>Fehler:</b> Falscher Aufruf von zeige_userdetails() für den Benutzer ";
 		if (isset($zeige_user_id)) {
 			echo $zeige_user_id;
 		}

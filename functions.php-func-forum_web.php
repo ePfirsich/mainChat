@@ -609,7 +609,7 @@ function show_thema() {
 				$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
 				$userdata['u_punkte_anzeigen'] = $posting['u_punkte_anzeigen'];
 				$userdata['u_chathomepage'] = $posting['u_chathomepage'];
-				$userlink = user($posting['po_u_id'], $userdata, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
+				$userlink = zeige_userdetails($posting['po_u_id'], $userdata, $o_js);
 				if ($posting['u_level'] == 'Z') {
 					echo "<td $farbe>$f1 $userdata[u_nick] $f2</td>\n";
 				} else {
@@ -639,7 +639,7 @@ function show_thema() {
 				$userdata2['u_punkte_gruppe'] = $antwort_u_punkte_gruppe;
 				$userdata2['u_punkte_anzeigen'] = $antwort_u_punkte_anzeigen;
 				$userdata2['u_chathomepage'] = $antwort_u_chathomepage;
-				$antworten_userlink = user($antwort_u_id, $userdata2, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
+				$antworten_userlink = zeige_userdetails($antwort_u_id, $userdata2, $o_js);
 				
 				$antworten = "$f3" . substr($posting['po_date2'], 0, 5) . " von " . $antworten_userlink . "$f4";
 			}
@@ -1140,8 +1140,7 @@ function show_posting() {
 	
 	$po_text = ersetzte_smilies(chat_parse(nl2br($row->po_text)));
 	if (($row->u_nick != "Nobody") && ($row->u_level <> "Z")) {
-		$autor = user($po_u_id, $row, $o_js, FALSE, "&nbsp;", "", "", TRUE,
-			TRUE);
+		$autor = zeige_userdetails($po_u_id, $row, $o_js);
 	} else {
 		$autor = $row->u_nick;
 	}
@@ -1250,7 +1249,7 @@ function zeige_beitraege($thread) {
 			$userdata['u_punkte_anzeigen'] = $po_u_punkte_anzeigen;
 			$userdata['u_chathomepage'] = $po_u_chathomepage;
 			
-			$userlink = user($po_u_id, $userdata, $o_js, FALSE, "&nbsp;", "", "", TRUE, FALSE, 29);
+			$userlink = zeige_userdetails($po_u_id, $userdata, $o_js);
 			if ($po_u_level == 'Z') {
 				$userdetails = "$userdata[u_nick]";
 			} else {

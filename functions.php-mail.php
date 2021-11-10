@@ -112,7 +112,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
-			$box .= user($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online, $row->login);
+			$box .= zeige_userdetails($row->u_id, $row, TRUE, TRUE, "&nbsp;", $row->online, $row->login);
 			
 			$email = "";
 			$email_select = "&nbsp;";
@@ -304,7 +304,7 @@ function zeige_email($m_id) {
 		if ($row->u_nick == "NULL" || $row->u_nick == "") {
 			$von_nick = "$chat";
 		} else {
-			$von_nick = "<b>" . user($row->u_id, $row, TRUE, FALSE) . "</b>";
+			$von_nick = "<b>" . zeige_userdetails($row->u_id, $row, TRUE, FALSE) . "</b>";
 		}
 		$row->m_text = str_replace("<ID>", $id, $row->m_text);
 		

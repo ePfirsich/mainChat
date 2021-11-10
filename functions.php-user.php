@@ -137,9 +137,9 @@ function user_liste($larr, $anzahl) {
 
 			
 			if ($v['u_away']) {
-				$user = "(<i>" . user($v['u_id'], $v, TRUE, FALSE) . "</i>)";
+				$user = "(<i>" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE) . "</i>)";
 			} else {
-				$user = user($v['u_id'], $v, TRUE, FALSE);
+				$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE);
 			}
 			
 			$trow .= "<tr>";
@@ -189,9 +189,9 @@ function user_liste($larr, $anzahl) {
 			}
 			
 			if ($v['u_away']) {
-				$user = "(" . user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>") . ")";
+				$user = "(" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>") . ")";
 			} else {
-				$user = user($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>");
+				$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>");
 			}
 			;
 			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
@@ -349,7 +349,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Ausgabe in Tabelle
 		$text .= "<table>";
-		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td>" . user($user, $row, TRUE, FALSE);
+		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td>" . zeige_userdetails($user, $row, TRUE, FALSE);
 		
 		if ($uu_away != "") {
 			$text .= $f1 . "<br>($uu_away)<b>" . $f2;

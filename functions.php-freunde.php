@@ -84,8 +84,7 @@ function zeige_freunde($aktion, $zeilen) {
 					
 					// Benutzer gefunden -> Ausgeben
 					$row2 = mysqli_fetch_object($result2);
-					$freund_nick = "<b>"
-						. user($row2->u_id, $row2, TRUE, FALSE) . "</b>";
+					$freund_nick = "<b>" . zeige_userdetails($row2->u_id, $row2) . "</b>";
 					
 				} else {
 					
