@@ -47,159 +47,59 @@ function user_liste($larr, $anzahl) {
 		$text .= $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
 	}
 	flush();
-	
-	/*
-	if ($o_js) { // Mit JavaScript
-		if ($show_geschlecht == true) {
-			$geschl = array();
-			foreach ($larr as $k => $v) {
-				$ids[] = intval($v['u_id']);
-			}
-			$query = "SELECT ui_userid,ui_geschlecht FROM userinfo WHERE ui_userid in ('" . implode("','", $ids) . "')";
-			$result = mysqli_query($mysqli_link, $query);
-			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-				$uid = $row['ui_userid'];
-				if ($row['ui_geschlecht'] == "männlich") {
-					$geschl[$uid] = "M";
-				} else if ($row['ui_geschlecht'] == "weiblich") {
-					$geschl[$uid] = "W";
-				} else {
-					$geschl[$uid] = "";
-				}
-			}
-			mysqli_free_result($result);
+		
+	// Anzeige der Benutzer ohne JavaScript
+	for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
+		if ( $k % 2 != 0 ) {
+			$farbe_tabelle = 'class="tabelle_zeile1"';
+		} else {
+			$farbe_tabelle = 'class="tabelle_zeile2"';
 		}
-		
-		// Leveltexte erzeugen
-		unset($leveltxt);
-		foreach ($leveltext as $key => $val) {
-			$leveltxt[] = "leveltext[\"$key\"]=\"$val\"";
-		}
-		
-		// Mit Javascript ausgeben, vollständiges Menü
-		for ($k = 0; isset($larr[$k]) && is_array($larr[$k]) && $v = $larr[$k]; $k++) {
-			if ($level != "admin") {
-				$v['hostname'] = "";
-				$v['o_ip'] = "";
-			} else {
-				if (!isset($v['hostname'])) {
-					$v['hostname'] = "";
-				}
-				$v['hostname'] = htmlspecialchars($v['hostname']);
-				if (!isset($v['o_ip'])) {
-					$v['o_ip'] = "";
-				}
-			}
-			
-			$v['u_away'] = $v['u_away'] ? "y" : "";
-			if (!isset($v['u_home_ok'])) {
-				$v['u_home_ok'] = "";
-			}
-			if (!isset($v['u_chathomepage'])) {
-				$v['u_chathomepage'] = "";
-			}
-			if (!isset($v['gruppe'])) {
-				$v['gruppe'] = "";
-			}
-			if ($show_geschlecht == true) {
-				$geschlecht = $geschl[$v['u_id']];
-				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]','$geschlecht' ";
-			} else {
-				$jsarr[] = "'$v[u_id]','$v[u_chathomepage]','$v[u_nick]','$v[hostname]','$v[o_ip]','$v[u_away]','$v[u_level]','$v[gruppe]','$v[u_home_ok]'";
-			}
-		}
-		$text .= "\n\n<script language=\"JavaScript\">\n"
-			. "   var color = new Array('tabelle_zeile1','tabelle_zeile2');\n"
-			. "   var fett  = new Array('$f1<b>','</b>$f2','$f3','$f4','$f1','$f2');\n"
-			. "   var level = '$level';\n" . "   var level2 = '$level2';\n"
-			. "   var ggrafik = new Array('$punkte_grafik[0]','$punkte_grafik[1]','$punkte_grafik[2]','$punkte_grafik[3]');\n"
-			. "   var mgrafik = '$chat_grafik[mail]';\n"
-			. "   var hgrafik = '$chat_grafik[home]';\n"
-			. "   var gegrafik = new Array('$chat_grafik[geschlecht_maennlich]','$chat_grafik[geschlecht_weiblich]');\n"
-			. "   var leveltext = new Array();\n" . @implode(";\n", $leveltxt)
-			. ";\n" . "   var liste = new Array(\n" . @implode(",\n", $jsarr)
-			. ");\n" . "   var homep_ext_link = '$homep_ext_link';\n"
-			. "   var show_geschlecht = '$show_geschlecht';\n"
-			. "   genlist(liste,'$aktion');\n" . 
-			"</script>\n";
-		$text .= "<script language=\"JavaScript\" src=\"popup.js\"></script>\n";
-		
-		$text .= "<br><br>";
-		*/
-		
-		// Anzeige der Benutzer ohne JavaScript
-		for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
-			if ( $k % 2 != 0 ) {
-				$farbe_tabelle = 'class="tabelle_zeile1"';
-			} else {
-				$farbe_tabelle = 'class="tabelle_zeile2"';
-			}
 
-			
-			if ($v['u_away']) {
-				$user = "(<i>" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE) . "</i>)";
-			} else {
-				$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE);
-			}
-			
-			$trow .= "<tr>";
-			$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
-			
-			if ($aktion == "chatuserliste") {
-				if ($level == "admin") {
-					$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
-				}
-				
-				if ($level == "admin" || $level == "owner") {
-					$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
-				}
-				
-				if ($level == "admin") {
-					$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('" . $v['u_nick'] . "'); return(false)\">S</a>&nbsp;";
-				}
-				
-				if ($level == "admin" || $level == "owner") {
-					$trow .= "&nbsp;";
-				}
-				
-				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @" . $v['u_nick'] . " '); return(false)\">@</a>&nbsp;";
-				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg " . $v['u_nick'] . " '); return(false)\">&gt;</a>&nbsp;";
-			} else {
-				if ($level == "admin" || $level == "owner") {
-					$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('" . $v['u_nick'] . "'); return(false)\">E</a>&nbsp;";
-				}
-				if ($level == "admin" || $level == "owner") {
-					$trow .= "&nbsp;";
-				}
-			}
-			
-			$trow .= "</b>" . $user . $f2;
-			$trow .= "</td></tr>";
-		} // END-OF-FOR
 		
-		$text .= "<table style=\"width:100%;\">$trow</table>\n";
+		if ($v['u_away']) {
+			$user = "(<i>" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE) . "</i>)";
+		} else {
+			$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE);
+		}
 		
-	/*
-	} else { // Kein javascript verfügbar
-		for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
-			if ( $k % 2 != 0 ) {
-				$farbe_tabelle = 'class="tabelle_zeile1"';
-			} else {
-				$farbe_tabelle = 'class="tabelle_zeile2"';
+		$trow .= "<tr>";
+		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+		
+		if ($aktion == "chatuserliste") {
+			if ($level == "admin") {
+				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
 			}
 			
-			if ($v['u_away']) {
-				$user = "(" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>") . ")";
-			} else {
-				$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE, $trenner = "</td><td>");
+			if ($level == "admin" || $level == "owner") {
+				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
 			}
-			;
-			$trow .= "<tr>" . "<td $farbe_tabelle>" . $f1 . $user . $f2 . "</td></tr>";
-		} // END-OF-FOR
+			
+			if ($level == "admin") {
+				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('" . $v['u_nick'] . "'); return(false)\">S</a>&nbsp;";
+			}
+			
+			if ($level == "admin" || $level == "owner") {
+				$trow .= "&nbsp;";
+			}
+			
+			$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' @" . $v['u_nick'] . " '); return(false)\">@</a>&nbsp;";
+			$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $v['u_nick'] . " '); return(false)\">&gt;</a>&nbsp;";
+		} else {
+			if ($level == "admin" || $level == "owner") {
+				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('" . $v['u_nick'] . "'); return(false)\">E</a>&nbsp;";
+			}
+			if ($level == "admin" || $level == "owner") {
+				$trow .= "&nbsp;";
+			}
+		}
 		
-		$text = "<table style=\"width:100%;\">$trow</table>\n";
+		$trow .= "</b>" . $user . $f2;
+		$trow .= "</td></tr>";
 	}
-	*/
+	
+	$text .= "<table style=\"width:100%;\">$trow</table>\n";
+	
 	return $text;
 }
 

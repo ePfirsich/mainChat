@@ -903,8 +903,8 @@ if (strlen($u_id) != 0) {
 					$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
 					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
 						. $linkuser . ">" . $t['sonst19'] . "</a>]";
-					if ((!isset($beichtstuhl) || !$beichtstuhl) && $smilies_datei != "" && (!isset($smilies_aus) || !$smilies_aus)) {
-						$linksmilies = "href=\"" . $smilies_datei . "?id=$id\"";
+					if ((!isset($beichtstuhl) || !$beichtstuhl) && (!isset($smilies_aus) || !$smilies_aus)) {
+						$linksmilies = "href=\"smilies-grafik.php" . "?id=$id\"";
 						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
 					}
 					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2 . "<br>\n";
@@ -913,12 +913,8 @@ if (strlen($u_id) != 0) {
 					echo user_liste($larr, 0);
 				
 					if ($rows > 15) {
-						echo "$f1<b>[<a onMouseOver=\"return(true)\" $linkuser>"
-							. $t['sonst19'] . "</a>]";
-						if ($smilies_datei != "") {
-							echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>"
-								. $t['sonst20'] . "</a>]";
-						}
+						echo "$f1<b>[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst19'] . "</a>]";
+						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
 						echo "</b>" . $f4 . "</center>\n";
 					}
 				}

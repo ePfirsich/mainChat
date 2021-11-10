@@ -954,6 +954,36 @@ function debug($text = "", $rundung = 3) {
 	return ($erg);
 }
 
+function zeige_smilies($anzeigeort = 'chat') {
+	global $t, $f1, $f2, $smilie, $smilies_pfad, $smilietxt;
+	
+	if( $anzeigeort == 'chat' ) { // Chatausgabe
+		// Array mit Smilies einlesen, HTML-Tabelle ausgeben
+		echo "<table style=\"width:100%; border:0px;\">\n";
+		$zahl = 0;
+		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
+			if ( $zahl % 2 != 0 ) {
+				$farbe_tabelle = 'class="tabelle_zeile1"';
+			} else {
+				$farbe_tabelle = 'class="tabelle_zeile2"';
+			}
+			echo "<tr>";
+			echo "<td $farbe_tabelle>";
+			echo "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
+			echo "</td>";
+			echo "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</td>";
+			echo "</tr>\n";
+			$zahl++;
+		}
+		echo "</table>";
+	} else { // Forumausgabe
+		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
+			echo "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
+			$zahl++;
+		}
+	}
+}
+
 function zeige_userdetails(
 	$zeige_user_id,
 	$userdaten = 0,

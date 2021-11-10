@@ -9,8 +9,8 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// E-Mail Adressen in A-Tag mit Mailto
 	// privat ist wahr bei privater Nachricht
 	
-	global $admin, $smilies_pfad, $smilies_datei, $sprachconfig, $o_raum, $u_id, $u_level;
-	global $t, $system_farbe, $erweitertefeatures, $mysqli_link, $smilies_anzahl, $smilies_config;
+	global $admin, $smilies_pfad, $sprachconfig, $o_raum, $u_id, $u_level;
+	global $t, $system_farbe, $erweitertefeatures, $mysqli_link, $smilies_anzahl;
 	global $ist_moderiert, $smilies_aus;
 	
 	// Grafik-Smilies ergänzen, falls Funktion aktiv und Raum ist nicht moderiert
@@ -45,14 +45,10 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if ($smilies_aus == "1")
 				$smilie_ok = false;
 			
-			// Konfiguration für smilies lesen
-			if ($smilies_config) {
-				@require("conf/" . $smilies_config);
-			} else {
-				@require("conf/" . $sprachconfig . "-" . $smilies_datei);
-			}
+			// Konfiguration für Smilies lesen
+			require("conf/" . $sprachconfig . "-smilies-grafik.php");
 			
-			if (!$smilie_ok && $smilies_datei != "") {
+			if (!$smilie_ok) {
 				// Nur die Fehlermeldung ausgeben, falls es das angegeben Smile auch gibt
 				$anzahl = 0;
 				while (list($i, $smilie_code) = each($test[0])) {
@@ -61,8 +57,9 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						$anzahl++;
 				}
 				
-				if ($anzahl > 0)
+				if ($anzahl > 0) {
 					system_msg("", 0, $u_id, $system_farbe, $t[chat_msg76]);
+				}
 				
 			} else {
 				while (list($i, $smilie_code) = each($test[0])) {

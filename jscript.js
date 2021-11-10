@@ -4,27 +4,42 @@ wins = new Array;
 user = new Array;
 
 function sendtext(text) {
-	parent.frames['schreibe'].location = 'schreibe.php' + stdparm2 + '&text='
-			+ text;
+	parent.frames['schreibe'].location = 'schreibe.php' + stdparm2 + '&text=' + text;
 	parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
 }
 
 function sendtext_opener(text) {
-	opener.parent.frames['schreibe'].location = 'schreibe.php' + stdparm2
-			+ '&text=' + text;
-	opener.parent.frames['eingabe'].document.forms['form'].elements['text2']
-			.focus();
+	opener.parent.frames['schreibe'].location = 'schreibe.php' + stdparm2 + '&text=' + text;
+	opener.parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
 }
 
-function appendtext(text) {
+function appendtext_chat(text) {
 	parent.frames['eingabe'].document.forms['form'].elements['text2'].value += text;
 	parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
 }
 
-function appendtext_opener(text) {
-	opener.parent.frames['eingabe'].document.forms['form'].elements['text2'].value += text;
-	opener.parent.frames['eingabe'].document.forms['form'].elements['text2']
-			.focus();
+function insertAtCursor(myField, myValue) {
+	//IE support
+	if (document.selection) {
+		myField.focus();
+		sel = document.selection.createRange();
+		sel.text = myValue;
+	}
+	//MOZILLA and others
+	else if (myField.selectionStart || myField.selectionStart == '0') {
+		var startPos = myField.selectionStart;
+		var endPos = myField.selectionEnd;
+		myField.value = myField.value.substring(0, startPos)
+			+ myValue
+			+ myField.value.substring(endPos, myField.value.length);
+	} else {
+		myField.value += myValue;
+	}
+}
+
+function appendtext_forum(text) {
+	insertAtCursor(document.forms['form'].elements['po_text'], text).focus();
+	document.forms['form'].elements['po_text'].focus();
 }
 
 function einladung(nick) {
@@ -45,185 +60,8 @@ function gaguser(nick) {
 	sendtext('/gag%20' + nickneu);
 }
 
-function ignoriereuser(nick) {
-	nickneu = escape(nick);
-	nickneu = nickneu.replace(/\+/, "%2B");
-	sendtext('/ignoriere%20' + nickneu);
-}
-
 function refresh() {
 	this.location.href = this.location.href;
-}
-
-function genlist(liste, aktion) {
-	document
-			.write("<table style=\"width:100%;\" class=\"tabelle_gerust\">\n");
-
-	var interval = 9;
-	var color_index = 1;
-	if (show_geschlecht == true)
-		interval = 10;
-
-	for ( var i = 0; i < liste.length; i += interval) {
-
-		if (liste[i + 9] == "M") {
-			var tgegrafik = gegrafik[0];
-		} else if (liste[i + 9] == "W") {
-			var tgegrafik = gegrafik[1];
-		} else {
-			var tgegrafik = "";
-		}
-
-		if ((liste[i]) && (inaktiv_userfunktionen != "1" || aktion != "chatuserliste")) {
-			var dlink = "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"userdetails("
-					+ liste[i]
-					+ ")\">"
-					+ (liste[i + 5] ? "(" + liste[i + 2] + ")" : liste[i + 2])
-					+ "<a>" + tgegrafik;
-		} else {
-			var dlink = (liste[i + 5] ? "(" + liste[i + 2] + ")" : liste[i + 2])
-					+ tgegrafik;
-		}
-
-		var leveltxt = leveltext[liste[i + 6]];
-
-		var type = (leveltxt ? "(" + leveltxt + ")" : "");
-		var nlink = (liste[i + 5] ? fett[4] + dlink + fett[5] + "&nbsp;"
-				+ fett[2] + type + fett[3] : fett[0] + dlink + fett[1]
-				+ "&nbsp;" + fett[2] + type + fett[3]);
-
-		if ((liste[i + 7] != 0) && communityfeatures == 1) {
-			var url = "index.php?aktion=hilfe-community";
-			if ((liste[i + 6] == "C") || (liste[i + 6] == "S")) {
-				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
-						+ ggrafik[0] + liste[i + 7] + ggrafik[1] + "</a>";
-			} else {
-				nlink += "&nbsp;<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">"
-						+ ggrafik[2] + liste[i + 7] + ggrafik[3] + "</a>";
-			}
-		}
-
-		if ((homep_ext_link != "") && (liste[i + 6] != "G")) {
-			var url = homep_ext_link + liste[i + 2];
-			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
-					+ url
-					+ "','640_"
-					+ u_nick
-					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "</a>";
-		} else if ((liste[i + 1] == "J") && communityfeatures == 1) {
-			var url = "home.php" + stdparm2 + "&ui_userid=" + liste[i];
-			nlink += "&nbsp;<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"window.open('"
-					+ url
-					+ "','640_"
-					+ u_nick
-					+ "','resizable=yes,scrollbars=yes,width=780,height=580'); return(false)\">"
-					+ hgrafik + "</a>";
-		}
-
-		if ((communityfeatures == 1) && (liste[i + 6] != "G") && (inaktiv_mailsymbol != "1" || aktion != "chatuserliste")) {
-			var nick = liste[i + 2].replace('/+/', "%2b");
-			var url = "mail.php" + stdparm2
-					+ "&aktion=neu2&neue_email[an_nick]=" + nick;
-			nlink += "&nbsp;<a href=\""
-					+ url
-					+ "\" target=\"_blank\">"
-					+ mgrafik + "</a>";
-		}
-
-		var rowdef = "";
-
-		if (aktion == "chatuserliste") {
-			if ((level == "admin")) {
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('"
-						+ liste[i + 2] + "'); return(false)\">G</a>" + fett[1]
-						+ "</td>";
-			}
-			if ((level == "admin") || (level == "owner")) {
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('"
-						+ liste[i + 2] + "'); return(false)\">K</a>" + fett[1]
-						+ "</td>";
-			}
-			if ((level == "admin") && (liste[i + 3] != "" || liste[i + 4] != "")) {
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('"
-						+ liste[i + 3] + "','" + liste[i + 4] + "','"
-						+ liste[i + 2] + "'); return(false)\">S</a>" + fett[1]
-						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
-			}
-			if (inaktiv_ansprechen != "1") {
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' @"
-						+ liste[i + 2] + " '); return(false)\">@</a>" + fett[1]
-						+ "</td>";
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext('/msg "
-						+ liste[i + 2] + " '); return(false)\">&gt;</a>"
-						+ fett[1] + "</td>";
-			}
-		} else {
-			if ((level == "admin") || (level == "owner")) {
-				rowdef += "<td class=\"" + color[color_index] + "\">"
-						+ fett[0]
-						+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('"
-						+ liste[i + 2] + "'); return(false)\">E</a>" + fett[1]
-						+ "</td><td class=\"" + color[color_index] + "\">&nbsp;</td>";
-			}
-		}
-
-		rowdef += "<td style=\"width:90%;\" class=\"" + color[color_index] + "\">" + nlink + "</td>";
-
-		if (color_index == "0") {
-			color_index = 1;
-		} else {
-			color_index = 0;
-		}
-
-		document.write("<tr>" + rowdef + "</tr>\n");
-
-	}
-	document.write("</table>\n");
-}
-
-function showsmilies(liste) {
-	for ( var i = 0; i < liste.length; i += 2) {
-		var rowdef = "<td class=\"" + color[i / 2 & 1] + "\">&nbsp;"
-				+ fett[0]
-				+ "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
-				+ liste[i] + " '); return(false)\">" + liste[i] + "</a>"
-				+ fett[1] + "&nbsp;</td>";
-		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">" + fett[4] + liste[i + 1] + fett[5] + "</td>";
-		document.write("<tr>" + rowdef
-				+ "</tr>\n");
-	}
-}
-
-function showsmiliegrafiken(liste) {
-	for ( var i = 0; i < liste.length; i += 3) {
-		var rowdef = "<td style=\"text-align:center;\" class=\"" + color[i / 2 & 1] + "\"><a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext(' "
-				+ liste[i]
-				+ " '); return(false)\"><img src=\""
-				+ smilies_pfad
-				+ liste[i + 1]
-				+ "\" border=\"0\" alt=\""
-				+ liste[i]
-				+ "\"></a></td>";
-		rowdef += "<td class=\"" + color[i / 2 & 1] + "\">" + fett[4] + liste[i + 2] + fett[5] + "</td>";
-		document.write("<tr>" + rowdef
-				+ "</tr>\n");
-	}
-}
-
-function userdetails(id) {
-	var url = 'user.php' + stdparm + '&aktion=zeig&user=' + id;
-	neuesFenster(url, id);
 }
 
 function sperren(host, ip, user) {

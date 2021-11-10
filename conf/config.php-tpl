@@ -312,22 +312,13 @@ $frame_size['messagesforum']=420;	// Breite des Frames messages-forum in Pixel
 // $frame_online="frame_online.php";		// URL oder Dateiname
 
 
-// Smilies
-// Datei für die Darstellung der Auswahlseite
-// (für Text-Smilies smilies.php / für Grafik-Smilies smilies-grafik.php)
-// $smilies_datei="smilies.php";
-$smilies_datei="%smiliesdatei%";
-
-// Pfad der Grafiken für smilies-grafik.php
+// Pfad der Grafiken für die Smilies
 // Muss für die Darstellung der Smilies als Grafiken definiert sein
 // Für Text-Smilies muss $smilies_pfad=""; definiert sein
 $smilies_pfad="%smiliespfad%";
 
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
 $smilies_anzahl="%smiliesanzahl%";
-
-// Optional Konfigurationsdatei für Smilies
-// $smilies_config="deutsch.php-smilies-grafik.php";
 
 
 // autoknebeltexte achtung preg_match -> incl /.../

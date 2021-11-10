@@ -1200,22 +1200,18 @@ function verschiebe_posting_ausfuehren() {
 }
 
 function ersetzte_smilies($text) {
-	global $sprachconfig, $smilies_pfad, $smilies_datei, $smilies_config;
+	global $sprachconfig, $smilies_pfad;
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
 	
-	if ($smilies_config) {
-		require("conf/" . $smilies_config);
-	} else {
-		require("conf/" . $sprachconfig . "-" . $smilies_datei);
-	}
+	require("conf/" . $sprachconfig . "-smilies-grafik.php");
 	
 	while (list($i, $smilie_code) = each($test[0])) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
 		$smilie_code2 = chop($smilie_code2);
 		if ($smilie[$smilie_code2]) {
 			$text = str_replace($smilie_code,
-				"<IMG SRC=\"" . $smilies_pfad . $smilie[$smilie_code2] . "\">",
+				"<img src=\"" . $smilies_pfad . $smilie[$smilie_code2] . "\">",
 				$text);
 		}
 	}

@@ -32,6 +32,7 @@ function kopf_forum($admin) {
 			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
 	}
 	</script>
+	<script language="JavaScript" src="jscript.js"></script>
 	<?php
 	zeige_header_ende();
 	?>
@@ -105,12 +106,12 @@ function maske_forum($fo_id = 0) {
 			<?php
 			// Forumsrechte für Gast einstellen
 			if (($fo_admin & 8) == 8) {
-				$selg1 = "SELECTED";
+				$selg1 = "selected";
 				$selg2 = "";
 			}
 			if (($fo_admin & 16) == 16) {
 				$selg1 = "";
-				$selg2 = "SELECTED";
+				$selg2 = "selected";
 			}
 			?>
 			<tr>
@@ -679,9 +680,7 @@ function maske_posting($mode) {
 	global $id, $u_id, $th_id, $po_id, $po_vater_id, $po_tiefe, $mysqli_link, $po_titel, $po_text, $thread, $seite;
 	global $f1, $f2, $f3, $f4;
 	global $t, $mysqli_link;
-	global $forum_admin, $u_nick, $smilies_datei;
-	
-	$smilies_datei = "forum-" . $smilies_datei;
+	global $forum_admin, $u_nick;
 	
 	switch ($mode) {
 		
@@ -805,7 +804,7 @@ function maske_posting($mode) {
 				<?php
 				echo $f3 . "($t[desc_posting])$f4\n";
 				
-				$link_smilies = "$smilies_datei?id=$id";
+				$link_smilies = "forum-smilies-grafik.php?id=$id";
 				
 				$fenster = str_replace("+", "", $u_nick);
 				$fenster = str_replace("-", "", $fenster);
@@ -816,37 +815,42 @@ function maske_posting($mode) {
 				$fenster = str_replace("Ö", "", $fenster);
 				$fenster = str_replace("Ü", "", $fenster);
 				$fenster = str_replace("ß", "", $fenster);
-				?><br>
-				<a href="<?php echo $link_smilies; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $link_smilies; ?>');return(false)"><?php echo $f3 . $t['smilies'] . $f4; ?></a>
+				
+				?>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" style="text-align:center;" class="tabelle_koerper_login"><textarea name="po_text" rows="15" cols="95" wrap="physical"><?php echo $po_text; ?></textarea></td>
+			<td style="vertical-align:top; width:20%;" class="tabelle_koerper_login"><?php zeige_smilies('forum'); ?></td>
+			<td style="vertical-align:top;" class="tabelle_koerper_login"><textarea name="po_text" rows="15" cols="95" wrap="physical"><?php echo $po_text; ?></textarea></td>
 		</tr>
 			<?php
 	// Nur im Obersten Vater die TOP und gesperrt Einstellungen ändern lassen
 	if ($forum_admin && ($mode == "edit") && $po_id == $thread) {
 		echo "<tr><td style=\"font-weight:bold;\" class=\"tabelle_koerper_login\">$f1 $t[posting_thema_gesperrt] $f2</td>\n";
-		echo "<td class=\"tabelle_koerper_login\"><SELECT NAME=\"po_threadgesperrt\"><OPTION ";
-		if ($po_threadgesperrt == 'Y')
-			echo "SELECTED ";
-		echo "VALUE=\"Y\">Ja</OPTION><OPTION ";
-		if ($po_threadgesperrt == 'N')
-			echo "SELECTED ";
-		echo "VALUE=\"N\">Nein</SELECT></td></tr>\n";
+		echo "<td class=\"tabelle_koerper_login\"><select name=\"po_threadgesperrt\"><option ";
+		if ($po_threadgesperrt == 'Y') {
+			echo "selected ";
+		}
+		echo "value=\"Y\">Ja</option><option ";
+		if ($po_threadgesperrt == 'N') {
+			echo "selected ";
+		}
+		echo "value=\"N\">Nein</select></td></tr>\n";
 		
 		echo "<tr><td style=\"font-weight:bold;\" class=\"tabelle_koerper_login\">$f1 $t[posting_thema_anpinnen] $f2</td>\n";
-		echo "<td class=\"tabelle_koerper_login\"><SELECT NAME=\"po_topposting\"><OPTION ";
-		if ($po_topposting == 'Y')
-			echo "SELECTED ";
-		echo "VALUE=\"Y\">Ja</OPTION><OPTION ";
-		if ($po_topposting == 'N')
-			echo "SELECTED ";
-		echo "VALUE=\"N\">Nein</SELECT></td></tr>\n";
+		echo "<td class=\"tabelle_koerper_login\"><select name=\"po_topposting\"><option ";
+		if ($po_topposting == 'Y') {
+			echo "selected ";
+		}
+		echo "value=\"Y\">Ja</option><option ";
+		if ($po_topposting == 'N') {
+			echo "selected ";
+		}
+		echo "value=\"N\">Nein</select></td></tr>\n";
 	}
 	?>
 	<tr>
-		<td colspan="2" style="text-align:right;" class="tabelle_koerper_login"><input type="submit" value="<?php echo $button; ?>"></td>
+		<td colspan="2" class="tabelle_koerper_login"><input type="submit" value="<?php echo $button; ?>"></td>
 	</tr>
 	</table>
 	<?php
