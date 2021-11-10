@@ -401,11 +401,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem Login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach Benutzer mit Homepage
@@ -659,11 +659,11 @@ if (strlen($u_id) != 0) {
 				// Suche nach Neu & erstem login
 				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
 					. "</td><td>" . $f1
-					. "&nbsp;<input type=\"TEXT\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
+					. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach Benutzer mit Homepage

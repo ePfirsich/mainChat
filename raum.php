@@ -228,9 +228,7 @@ if (strlen($u_id) != 0) {
 						
 						$result2 = mysqli_query($mysqli_link, $query);
 						while ($row2 = mysqli_fetch_object($result2)) {
-							system_msg("", 0, $row2->o_user, $system_farbe,
-								str_replace("%r_name%", $row->r_name,
-									$t['fehler4']));
+							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['fehler4']));
 							$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id, FALSE);
 							raum_user($lobby_id, $row2->o_user);
 							$i++;
@@ -246,16 +244,12 @@ if (strlen($u_id) != 0) {
 						$result2 = mysqli_query($mysqli_link, $query);
 						mysqli_free_result($result2);
 						
-						// ausgeben: raum wurde gelöscht.
-						echo "<p>"
-							. str_replace("%r_name%", $row->r_name,
-								$t['fehler3']) . "</p>\n";
+						// ausgeben: Der Raum wurde gelöscht.
+						echo "<p>" . str_replace("%r_name%", $row->r_name, $t['fehler3']) . "</p>\n";
 					}
 					
 				} else {
-					echo "<p>"
-						. str_replace("%r_name%", $row->r_name, $t['fehler5'])
-						. "</p>\n";
+					echo "<p>" . str_replace("%r_name%", $row->r_name, $t['fehler5']) . "</p>\n";
 				}
 				
 				mysqli_free_result($result);
@@ -268,7 +262,7 @@ if (strlen($u_id) != 0) {
 		case "loesch":
 		// Raum löschen
 			$text = '';
-			$query = "SELECT raum.*,u_id FROM raum left join user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
+			$query = "SELECT raum.*,u_id FROM raum LEFT JOIN user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
 			
 			$result = mysqli_query($mysqli_link, $query);
 			
@@ -295,9 +289,9 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
-					. "<input type=\"SUBMIT\" name=\"loesch2\" value=\"$t[sonst4]\">"
+					. "<input type=\"submit\" name=\"loesch2\" value=\"$t[sonst4]\">"
 					. "&nbsp;"
-					. "<input type=\"SUBMIT\" name=\"loesch2\" value=\"$t[sonst5]\">"
+					. "<input type=\"submit\" name=\"loesch2\" value=\"$t[sonst5]\">"
 					. "</form>\n";
 				
 				// Box anzeigen
@@ -367,9 +361,9 @@ if (strlen($u_id) != 0) {
 				$keynum = key($raumstatus1);
 				$status1 = $raumstatus1[$keynum];
 				if ($keynum == $r_status1) {
-					$text .= "<OPTION selected value=\"$keynum\">$status1\n";
+					$text .= "<option selected value=\"$keynum\">$status1\n";
 				} else {
-					$text .= "<OPTION value=\"$keynum\">$status1\n";
+					$text .= "<option value=\"$keynum\">$status1\n";
 				}
 				next($raumstatus1);
 				$i++;
@@ -386,9 +380,9 @@ if (strlen($u_id) != 0) {
 				$keynum = key($raumstatus2);
 				$status2 = $raumstatus2[$keynum];
 				if ($keynum == $r_status2) {
-					$text .= "<OPTION selected value=\"$keynum\">$status2\n";
+					$text .= "<option selected value=\"$keynum\">$status2\n";
 				} else {
-					$text .= "<OPTION value=\"$keynum\">$status2\n";
+					$text .= "<option value=\"$keynum\">$status2\n";
 				}
 				next($raumstatus2);
 				$i++;
@@ -400,11 +394,11 @@ if (strlen($u_id) != 0) {
 				$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
 					. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
 				if ($r_smilie == "Y") {
-					$text .= "<OPTION selected value=\"Y\">$t[raum_user8]";
-					$text .= "<OPTION value=\"N\">$t[raum_user9]";
+					$text .= "<option selected value=\"Y\">$t[raum_user8]";
+					$text .= "<option value=\"N\">$t[raum_user9]";
 				} else {
-					$text .= "<OPTION value=\"Y\">$t[raum_user8]";
-					$text .= "<OPTION selected value=\"N\">$t[raum_user9]";
+					$text .= "<option value=\"Y\">$t[raum_user8]";
+					$text .= "<option selected value=\"N\">$t[raum_user9]";
 				}
 				$text .= "</select>" . $f2 . "</td></tr>\n";
 			}
@@ -413,8 +407,8 @@ if (strlen($u_id) != 0) {
 				// Punkte zum Betreten des Raumes
 				$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
 				$text .= "<td>" . $f1
-					. "<input type=\"TEXT\" name=\"f[r_min_punkte]\" "
-					. "value=\"$r_min_punkte\" SIZE=\"7\">" . $f2
+					. "<input type=\"text\" name=\"f[r_min_punkte]\" "
+					. "value=\"$r_min_punkte\" size=\"7\">" . $f2
 					. "</td></tr>\n";
 			}
 			
@@ -452,7 +446,7 @@ if (strlen($u_id) != 0) {
 			if ($admin && $erweitertefeatures) {
 				$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12'] . "</b>" . $f2
 					. "</td>" . "<td>" . $f1
-					. "<input type=\"TEXT\" name=\"f[r_werbung]\" value=\""
+					. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
 					 . "\" size=$eingabe_breite>"
 					. $f2 . "</td></tr>\n";
 			}
@@ -560,11 +554,11 @@ if (strlen($u_id) != 0) {
 								. "</b>" . $f2 . "</td><td>" . $f1
 								. "<select name=\"f[r_smilie]\">";
 							if ($rows->r_smilie == "Y") {
-								$text .= "<OPTION selected value=\"Y\">$t[raum_user8]";
-								$text .= "<OPTION value=\"N\">$t[raum_user9]";
+								$text .= "<option selected value=\"Y\">$t[raum_user8]";
+								$text .= "<option value=\"N\">$t[raum_user9]";
 							} else {
-								$text .= "<OPTION value=\"Y\">$t[raum_user8]";
-								$text .= "<OPTION selected value=\"N\">$t[raum_user9]";
+								$text .= "<option value=\"Y\">$t[raum_user8]";
+								$text .= "<option selected value=\"N\">$t[raum_user9]";
 							}
 							$text .= "</select>" . $f2 . "</td></tr>\n";
 						}
@@ -574,8 +568,8 @@ if (strlen($u_id) != 0) {
 							// Punkte zum Betreten des Raumes ändern
 							$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
 							$text .= "<td>" . $f1
-								. "<input type=\"TEXT\" name=\"f[r_min_punkte]\" "
-								. "value=\"$rows->r_min_punkte\" SIZE=\"7\">"
+								. "<input type=\"text\" name=\"f[r_min_punkte]\" "
+								. "value=\"$rows->r_min_punkte\" size=\"7\">"
 								. $f2 . "</td></tr>\n";
 						}
 						
@@ -609,9 +603,9 @@ if (strlen($u_id) != 0) {
 						}
 						
 						$text .= "<tr><td colspan=\"2\">" . $f1
-							. "<input type=\"SUBMIT\" name=\"los\" value=\"$t[sonst9]\">"
+							. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"
 							. "&nbsp;&nbsp;"
-							. "<input type=\"SUBMIT\" name=\"loesch\" value=\"$t[sonst4]\">"
+							. "<input type=\"submit\" name=\"loesch\" value=\"$t[sonst4]\">"
 							. $f2 . "</td></tr>\n";
 						
 						$text .= "</table>\n";
