@@ -4,16 +4,6 @@ require("functions.php");
 require_once("functions.php-home.php");
 require("functions.php-hash.php");
 
-$fenster = str_replace("+", "", $ui_userid);
-$fenster = str_replace("-", "", $fenster);
-$fenster = str_replace("ä", "", $fenster);
-$fenster = str_replace("ö", "", $fenster);
-$fenster = str_replace("ü", "", $fenster);
-$fenster = str_replace("Ä", "", $fenster);
-$fenster = str_replace("Ö", "", $fenster);
-$fenster = str_replace("Ü", "", $fenster);
-$fenster = str_replace("ß", "", $fenster);
-
 $title = $body_titel . ' - Home';
 zeige_header_anfang($title, 'mini');
 ?>

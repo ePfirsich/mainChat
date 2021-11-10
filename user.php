@@ -101,10 +101,6 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 
 // Login ok?
 if (strlen($u_id) != 0) {
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $u_nick);
-	
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
@@ -123,12 +119,12 @@ if (strlen($u_id) != 0) {
 		if ($communityfeatures && $u_level != "G") {
 			if ($punktefeatures) {
 				$ur1 = "top10.php?id=$id";
-				$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+				$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
 			$ur1 = "freunde.php?id=$id";
-			$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+			$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
 		if ($admin) {

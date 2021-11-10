@@ -211,17 +211,6 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $o_js;
 	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	// Benutzerdaten lesen
 	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
 		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
@@ -236,9 +225,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		// Link auf Benutzereditor ausgeben
 		if ($aktion == "aendern") {
 			$url = "edit.php?id=$id";
-			$userdaten_bearbeiten = $f3
-				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=600,height=580'); return(false);\">Ändern</a>]</b>"
-				. $f4;
+			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" onClick=\"neuesFenster('$url');return(false)\">Ändern</a>]</b>" . $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";
 		}
@@ -469,20 +456,9 @@ function home_bild(
 	return ($text);
 }
 
-function home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
-{
+function home_aktionen($u_id, $u_nick, $home, $farben, $aktion) {
 	// userdata wurde in home_info gesetzt
 	global $chat, $id, $chat_grafik, $f1, $f2, $userdata, $id;
-	
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
 	
 	$text = "<td style=\"vertical-align:top;\">" . $f1;
 	if ($id) {

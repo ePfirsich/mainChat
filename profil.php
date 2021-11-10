@@ -15,18 +15,6 @@ zeige_header_ende();
 aktualisiere_online($u_id, $o_raum);
 
 if ($u_id && $communityfeatures) {
-	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	// Prüfung, ob für diesen user bereits ein profil vorliegt -> in $f lesen und merken
 	// Falls Array aus Formular übergeben wird, nur ui_id überschreiben
 	$query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
@@ -51,7 +39,7 @@ if ($u_id && $communityfeatures) {
 		$text .= "| <a href=\"profil.php?id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 	}
 	$ur1 = "user.php?id=$id";
-	$text .= "| <a href=\"$ur1\" target=\"$fenster\" onClick=\"neuesFenster('$ur1');return(false)\">$t[profil_benutzer]</a>\n";
+	$text .= "| <a href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\">$t[profil_benutzer]</a>\n";
 	
 	show_box_title_content($box, $text, true);
 	

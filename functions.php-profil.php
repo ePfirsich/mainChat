@@ -9,10 +9,6 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	$eingabe_breite = 45;
 	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $u_nick);
-	
 	// Voreinstellungen
 	if (!isset($f['ui_land']))
 		$f['ui_land'] = "Deutschland";
@@ -52,7 +48,7 @@ function profil_editor($u_id, $u_nick, $f) {
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
 		$url = "edit.php?id=$id";
-		$userdaten_bearbeiten = "\n[<a href=\"$url\" target=\"$fenster\" onClick=\"neuesFenster('$url');return(false)\">Einstellungen ändern</a>]";
+		$userdaten_bearbeiten = "\n[<a href=\"$url\" onClick=\"neuesFenster('$url');return(false)\">Einstellungen ändern</a>]";
 	}
 	
 	?>

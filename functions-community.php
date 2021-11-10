@@ -83,21 +83,11 @@ function profil_neu($u_id, $u_nick, $id) {
 	
 	global $system_farbe, $mysqli_link, $communityfeatures, $t;
 	
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$ur1 = "profil.php?id=$id&aktion=neu";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster('$ur1'); return(false);\"";
+		$url = "href=\"$ur1\" onclick=\"neuesFenster('$ur1'); return(false);\"";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
 	mysqli_free_result($result);

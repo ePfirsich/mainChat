@@ -17,16 +17,6 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 		$u_nick = "";
 	}
 	
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	$title = $body_titel . ' - Home';
 	zeige_header_anfang($title, 'mini');
 	zeige_header_ende();

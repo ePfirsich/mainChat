@@ -1116,23 +1116,12 @@ function zeige_userdetails(
 		return "";
 	}
 	
-	// Fensternamen aus Benutzernamen erzeugen
-	$fenstername = str_replace("-", "", $user_nick);
-	$fenstername = str_replace("+", "", $fenstername);
-	$fenstername = str_replace("ä", "", $fenstername);
-	$fenstername = str_replace("ö", "", $fenstername);
-	$fenstername = str_replace("ü", "", $fenstername);
-	$fenstername = str_replace("Ä", "", $fenstername);
-	$fenstername = str_replace("Ö", "", $fenstername);
-	$fenstername = str_replace("Ü", "", $fenstername);
-	$fenstername = str_replace("ß", "", $fenstername);
-	
 	if (!$extra_kompakt) {
 		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
 		if($benutzername_fett) {
-			$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url'); return(false);\"><b>" . $user_nick . "</b></a>";
+			$text = "<a href=\"#\" onclick=\"neuesFenster('$url'); return(false);\"><b>" . $user_nick . "</b></a>";
 		} else {
-			$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url'); return(false);\">" . $user_nick . "</a>";
+			$text = "<a href=\"#\" onclick=\"neuesFenster('$url'); return(false);\">" . $user_nick . "</a>";
 		}
 	} else {
 		$text = $user_nick;
@@ -1172,10 +1161,10 @@ function zeige_userdetails(
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
-				. "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"#\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</A>";
 		} else if ($user_chathomepage == "J") {
 			$url = "home.php?ui_userid=$user_id&id=$idtag";
-			$text2 .= "&nbsp;" . "<a href=\"#\" target=\"640_$fenstername\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
+			$text2 .= "&nbsp;" . "<a href=\"#\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
 		}
 	}
 	

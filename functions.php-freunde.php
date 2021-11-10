@@ -283,22 +283,10 @@ function neuer_freund($f_userid, $freund) {
 				. "<a href=\"freunde.php?id=<ID>&aktion=bestaetigen\">hier</a>.\n"
 				. "Sollten Sie diese E-Mail als Weiterleitung bekommen, so müssen Sie sich erst in den Chat einloggen.\n\n";
 			
-			$fenster = str_replace("+", "", $freund['u_nick']);
-			$fenster = str_replace("-", "", $fenster);
-			$fenster = str_replace("ä", "", $fenster);
-			$fenster = str_replace("ö", "", $fenster);
-			$fenster = str_replace("ü", "", $fenster);
-			$fenster = str_replace("Ä", "", $fenster);
-			$fenster = str_replace("Ö", "", $fenster);
-			$fenster = str_replace("Ü", "", $fenster);
-			$fenster = str_replace("ß", "", $fenster);
-			
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
 				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. "
-					. "<a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" target=\"640_$fenster\" "
-					. "onclick=\"window.open('freunde.php?aktion=bestaetigen&id=<ID>','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">"
-					. "gleich zustimmen?</a>";
+				. "<a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" onClick=\"neuesFenster('freunde.php?aktion=bestaetigen&id=<ID>'); return(false)\">gleich zustimmen?</a>";
 				
 				#system_msg("",0,$f_userid,$system_farbe,$msg);
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);

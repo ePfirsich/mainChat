@@ -20,17 +20,6 @@ $passwort_breite = 15;
 
 // Login ok?
 if (strlen($u_id) != 0) {
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	// Ggf Farbe aktualisieren
 	if (isset($farbe) && strlen($farbe) > 0) {
 		// In Benutzerdatenbank schreiben
@@ -74,16 +63,16 @@ if (strlen($u_id) != 0) {
 	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text = "<a $url>$t[menue7]</a>\n";
 		$ur1 = "home.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue10]</a>\n";
 		$ur1 = "freunde.php?id=$id";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue9]</a>\n";
 		$ur1 = "aktion.php?id=$id";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue8]</a>\n";
 	}
 	if (isset($text) && $text) {

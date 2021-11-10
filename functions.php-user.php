@@ -310,19 +310,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		if ($communityfeatures) {
-			// Benutzername Sonderzeichen raus für target
-			$fenster = str_replace("+", "", $uu_nick);
-			$fenster = str_replace("-", "", $fenster);
-			$fenster = str_replace("ä", "", $fenster);
-			$fenster = str_replace("ö", "", $fenster);
-			$fenster = str_replace("ü", "", $fenster);
-			$fenster = str_replace("Ä", "", $fenster);
-			$fenster = str_replace("Ö", "", $fenster);
-			$fenster = str_replace("Ü", "", $fenster);
-			$fenster = str_replace("ß", "", $fenster);
-			
 			$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[mail]</a>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[mail]</a>";
 			$f4 . "</td></tr>\n";
 		} else if (strlen($uu_email) > 0) {
 			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4 . "</td></tr>\n";
@@ -330,7 +319,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		if ($communityfeatures && $uu_chathomepage == "J") {
 			$url = "home.php?ui_userid=$uu_id&id=" . $id;
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
 			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_url) > 0) {
 			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
@@ -418,10 +407,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 		}
 		
-		// Fenstername
-		$fenster = str_replace("+", "", $uu_nick);
-		$fenster = str_replace("-", "", $uu_nick);
-		
 		// Benutzermenue mit Aktionen
 		if ($u_level != "G") {
 			$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
@@ -459,14 +444,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. urlencode($o_row->o_name);
 			$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
-				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onClick=\"neuesFenster('$mlnk[6]');return(false)\">$t[user_zeige26]</a>]<br>\n";
+				. "[<a href=\"$mlnk[6]\" onClick=\"neuesFenster('$mlnk[6]');return(false)\">$t[user_zeige26]</a>]<br>\n";
 			$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
 		if ($admin && $communityfeatures) {
 			$mlnk[10] = "blacklist.php?id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-			$text .= "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onClick=\"neuesFenster('$mlnk[10]');return(false)\">$t[user_zeige48]</a>]<br>\n";
+			$text .= "[<a href=\"$mlnk[10]\" onClick=\"neuesFenster('$mlnk[10]');return(false)\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
 		
