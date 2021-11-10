@@ -1309,7 +1309,7 @@ function zeige_beitraege($thread) {
 				<?php echo $f1 . $userdetails . $besonderer_status . $f2; ?>
 				</center>
 			</td>
-			<td class="tabelle_kopfzeile"><?php echo $f1 . $t['datum'] . $po_date . " " . $t['autor'] . " " . $userdetails . $besonderer_status . $f2; ?></td>
+			<td class="tabelle_kopfzeile"><?php echo $f1 . $t['datum'] . $po_date . $f2; ?></td>
 		</tr>
 		<tr>
 			<td class="tabelle_zeile1"><?php echo $f1 . $po_text . $f2; ?></td>
