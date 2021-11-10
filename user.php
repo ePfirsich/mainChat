@@ -355,24 +355,24 @@ if (strlen($u_id) != 0) {
 				$box = $t['sonst16'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
 					. "<table class=\"tabelle_kopf\">"
-					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
+					. "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst6'] . $f2
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-					. "</td></tr>" . "<tr><td colspan=2>" . $f1
+					. "</td></tr>" . "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1
 					. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
 					. $f2 . "</td></tr>\n";
 				
 				if ($admin) {
 					// Suchformular nach IP-Adressen
-					$text .= "<tr><TD colspan=2><br>" . $f1 . $t['sonst30']
-						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
-						. $t['sonst31'] . $f2 . "</td><td>" . $f1
+					$text .= "<tr><td class=\"tabelle_koerper\" colspan=2><br>" . $f1 . $t['sonst30']
+						. $f2 . "</td></tr>" . "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1
+						. $t['sonst31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1
 						. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
-					$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst21']
-						. "</td>\n" . "<td>&nbsp;<SELECT name=\"f[level]\">\n"
+					$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst21']
+						. "</td>\n" . "<td class=\"tabelle_koerper\">&nbsp;<SELECT name=\"f[level]\">\n"
 						. "<option value=\"\">$t[sonst22]\n";
 					
 					reset($level);
@@ -389,19 +389,19 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Suche nach Neu & erstem Login
-				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
-					. "</td><td>" . $f1
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f1
 					. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
-					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
-					. "</td><td>" . $f1
+					. "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f1
 					. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach Benutzer mit Homepage
-				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38']
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst38']
 					. "</td>\n"
-					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
+					. "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
 					$text .= "<option value=\"N\">$t[sonst22]\n"
 						. "<option selected value=\"J\">$t[sonst39]\n";
@@ -411,7 +411,7 @@ if (strlen($u_id) != 0) {
 				}
 				$text .= "</select>" . $f2 . "</td></tr>\n";
 				
-				$text .= "<tr><td colspan=2 align=right>" . $f1
+				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2 align=right>" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
@@ -593,14 +593,14 @@ if (strlen($u_id) != 0) {
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
 					. "<table class=\"tabelle_kopf\">";
 				if ($admin) {
-					$text .= "<tr><td colspan=2>" . $f1 . $t['sonst25'] . $f2
+					$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst25'] . $f2
 						. "</td></tr>";
 				} else {
-					$text .= "<tr><td colspan=2>" . $f1 . $t['sonst7'] . $f2
+					$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst7'] . $f2
 						. "</td></tr>";
 				}
 				
-				$text .= "<tr><td colspan=2>" . $f1
+				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
 					. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
@@ -614,15 +614,15 @@ if (strlen($u_id) != 0) {
 					}
 					
 					// Suchformular nach IP-Adressen
-					$text .= "<tr><td colspan=2><br>" . $f1 . $t['sonst30']
-						. $f2 . "</td></tr>" . "<tr><td style=\"text-align: right;\">" . $f1
-						. $t['sonst31'] . $f2 . "</td><td>" . $f1
+					$text .= "<tr><td class=\"tabelle_koerper\" colspan=2><br>" . $f1 . $t['sonst30']
+						. $f2 . "</td></tr>" . "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1
+						. $t['sonst31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1
 						. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
 						. $f2 . "</td></tr>\n";
 					
 					// Liste der Gruppen ausgeben
-					$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst21']
-						. "</td>\n" . "<td>&nbsp;<select name=\"f[level]\">\n"
+					$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst21']
+						. "</td>\n" . "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[level]\">\n"
 						. "<option value=\"\">$t[sonst22]\n";
 					
 					reset($level);
@@ -639,27 +639,30 @@ if (strlen($u_id) != 0) {
 					
 				}
 				
-				if (!isset($f['user_neu']))
+				if (!isset($f['user_neu'])) {
 					$f['user_neu'] = "";
-				if (!isset($f['user_login']))
+				}
+				if (!isset($f['user_login'])) {
 					$f['user_login'] = "";
-				if (!isset($f['u_chathomepage']))
+				}
+				if (!isset($f['u_chathomepage'])) {
 					$f['u_chathomepage'] = "";
+				}
 				
 				// Suche nach Neu & erstem login
-				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
-					. "</td><td>" . $f1
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f1
 					. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
 					. $t['sonst34'] . $f2 . "</td></tr>\n"
-					. "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
-					. "</td><td>" . $f1
+					. "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f1
 					. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
 					. $t['sonst35'] . $f2 . "</td></tr>\n";
 				
 				// Suche nach Benutzer mit Homepage
-				$text .= "<tr><td style=\"text-align: right;\">" . $f1 . $t['sonst38'] . $f2
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst38'] . $f2
 					. "</td>\n"
-					. "<td>&nbsp;<select name=\"f[u_chathomepage]\">\n";
+					. "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[u_chathomepage]\">\n";
 				if ($f['u_chathomepage'] == "J") {
 					$text .= "<option value=\"N\">$t[sonst22]\n"
 						. "<option selected value=\"J\">$t[sonst39]\n";
@@ -669,7 +672,7 @@ if (strlen($u_id) != 0) {
 				}
 				$text .= "</select></td></tr>\n";
 				
-				$text .= "<tr><td colspan=2 style=\"text-align: right;\">" . $f1
+				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2 style=\"text-align: right;\">" . $f1
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
