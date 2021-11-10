@@ -47,7 +47,6 @@ if (isset($frame_online) && strlen($frame_online) == 0) {
 
 $title = $body_titel;
 zeige_header_anfang($title, 'login');
-
 zeige_header_ende();
 ?>
 <frameset rows="<?php echo $frame_online_size; ?>,*,5,<?php echo $frame_size['interaktivforum']; ?>,1" border="0" frameborder="0" framespacing="0">

@@ -76,11 +76,6 @@ function sperren(host, ip, user) {
 			'resizable=yes,scrollbars=yes,width=780,height=580');
 }
 
-function neuesFenster(url, name) {
-	hWnd = window.open(url, name,
-			'resizable=yes,scrollbars=yes,width=340,height=580');
-}
-
 function openwindow(name, url, param) {
 	wins = window.open(url, name, param);
 }

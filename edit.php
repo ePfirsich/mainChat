@@ -8,17 +8,6 @@ id_lese($id);
 
 $title = $body_titel . ' - Einstellungen';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-		window.focus()
-	function win_reload(file,win_name) {
-			win_name.location.href=file;
-}
-	function opener_reload(file,frame_number) {
-			opener.parent.frames[frame_number].location.href=file;
-}
-</script>
-<?php
 zeige_header_ende();
 ?>
 <body>
@@ -85,16 +74,16 @@ if (strlen($u_id) != 0) {
 	$box = $t['menue4'];
 	if ($communityfeatures && $u_level != "G") {
 		$ur1 = "profil.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text = "<a $url>$t[menue7]</a>\n";
 		$ur1 = "home.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue10]</a>\n";
 		$ur1 = "freunde.php?id=$id";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue9]</a>\n";
 		$ur1 = "aktion.php?id=$id";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 		$text .= "| <a $url>$t[menue8]</a>\n";
 	}
 	if (isset($text) && $text) {

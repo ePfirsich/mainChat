@@ -7,37 +7,8 @@ id_lese($id);
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-$fenster = str_replace("+", "", $u_nick);
-$fenster = str_replace("-", "", $fenster);
-$fenster = str_replace("ä", "", $fenster);
-$fenster = str_replace("ö", "", $fenster);
-$fenster = str_replace("ü", "", $fenster);
-$fenster = str_replace("Ä", "", $fenster);
-$fenster = str_replace("Ö", "", $fenster);
-$fenster = str_replace("Ü", "", $fenster);
-$fenster = str_replace("ß", "", $fenster);
-
 $title = $body_titel . ' - Top 10';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-		window.focus()
-		function win_reload(file,win_name) {
-				win_name.location.href=file;
-}
-		function opener_reload(file,frame_number) {
-				opener.parent.frames[frame_number].location.href=file;
-}
-</script>
-<script>
-function neuesFenster(url) { 
-		hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580"); 
-}
-function neuesFenster2(url) { 
-		hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
-}
-</script>
-<?php
 zeige_header_ende();
 ?>
 <body>

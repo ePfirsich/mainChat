@@ -243,7 +243,6 @@ if (strlen($u_id) > 0) {
 	
 	$title = $body_titel;
 	zeige_header_anfang($title, 'login');
-	
 	zeige_header_ende();
 	?>
 	<body onLoad='javascript:parent.location.href="index.php"'>

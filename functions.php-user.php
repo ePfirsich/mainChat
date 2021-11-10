@@ -248,8 +248,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Ausgabe in Tabelle
-		$text .= "<table>";
-		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td>" . zeige_userdetails($user, $row);
+		$text .= "<table class=\"tabelle_kopf\">";
+		$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td class=\"tabelle_koerper\">" . zeige_userdetails($user, $row);
 		
 		if ($uu_away != "") {
 			$text .= $f1 . "<br>($uu_away)<b>" . $f2;
@@ -259,17 +259,17 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Raum
 		if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
-			$text .= "<tr><td><b>" . $f1 . $t['user_zeige23'] . $f2
-				. "</b></td><td><b>" . $f1 . $o_row->r_name . "&nbsp;["
+			$text .= "<tr><td class=\"tabelle_koerper\"><b>" . $f1 . $t['user_zeige23'] . $f2
+				. "</b></td><td class=\"tabelle_koerper\"><b>" . $f1 . $o_row->r_name . "&nbsp;["
 				. $whotext[$o_row->o_who] . "]" . $f2 . "</b></td></tr>\n";
 		} else if (isset($o_row) && $o_row->o_who) {
-			$text .= "<tr><td>" . $f1 . "&nbsp;" . $f2 . "</td>" . "<td><b>" . $f1
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . "&nbsp;" . $f2 . "</td>" . "<td class=\"tabelle_koerper\"><b>" . $f1
 				. "[" . $whotext[$o_row->o_who] . "]" . $f2
 				. "</b></td></tr>\n";
 		}
 		if (isset($onlinezeit) && $onlinezeit) {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige33'] . $f2
-				. "</td><td style=\"vertical-align:bottom;\">" . $f3
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige33'] . $f2
+				. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:bottom;\">" . $f3
 				. gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['sonst27'] . $f4
 				. "</td></tr>\n";
 		} else {
@@ -279,8 +279,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		if ($erster_login && $erster_login != "01.01.1970 01:00") {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige32'] . $f2
-				. "</td><td style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige32'] . $f2
+				. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
 				. "</td></tr>\n";
 		}
 		
@@ -292,8 +292,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			if ($row->u_punkte_datum_jahr != date("Y", time())) {
 				$uu_punkte_jahr = 0;
 			}
-			$text .= "<tr><td>" . $f1 . $t['user_zeige38'] . $f2
-				. "</td><td style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige38'] . $f2
+				. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
 				. $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
 				. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2),
 					str_replace("%monat%",
@@ -304,7 +304,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		if ($admin) {
 			// Admin E-Mail
 			if (strlen($uu_adminemail) > 0) {
-				$text .= "<tr><td>" . $f1 . $t['user_zeige3'] . $f2 . "</td><td>"
+				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige3'] . $f2 . "</td><td class=\"tabelle_koerper\">"
 					. $f3 . "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>" . $f4 . "</td></tr>\n";
 			}
 		}
@@ -322,43 +322,39 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$fenster = str_replace("ß", "", $fenster);
 			
 			$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[mail]</a>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[mail]</a>";
 			$f4 . "</td></tr>\n";
 		} else if (strlen($uu_email) > 0) {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige6'] . $f2 . "</td><td>" . $f3 . "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4 . "</td></tr>\n";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4 . "</td></tr>\n";
 		}
 		
 		if ($communityfeatures && $uu_chathomepage == "J") {
 			$url = "home.php?ui_userid=$uu_id&id=" . $id;
-			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster2('$url'); return(false)\">$chat_grafik[home]</a>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"640_$fenster\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
 			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_url) > 0) {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige7'] . $f2 . "</td><td>" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
 		}
 		
-		$text .= "<tr><td>" . $f1 . $t['user_zeige8'] . $f2 . "</td><td>" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
+		$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige8'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
 		
-			$text .= "<tr><td>" . $f1 . $t['user_zeige10'] . $f2 . "</td>"
-			. "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
+		$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige10'] . $f2 . "</td>" . "<td class=\"tabelle_koerper\" style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
 		
 		if ($uu_kommentar && $admin) {
-			$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2
-				. "</td><td>" . $f3;
+			$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2. "</td><td class=\"tabelle_koerper\">" . $f3;
 			$text .= htmlspecialchars($uu_kommentar) . "<br>\n";
 			$text .= $f4 . "</td></tr>\n";
 		}
 		
 		if ($admin) {
 			if (is_array($uu_profil_historie)) {
-				$text .= "<tr><td style=\"vertical-align:top;\">";
-				
 				while (list($datum, $nick) = each($uu_profil_historie)) {
 					if (!isset($erstes)) {
-						$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
-							. "</td><td>" . $f3;
+						$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
+							. "</td><td class=\"tabelle_koerper\">" . $f3;
 						$erstes = TRUE;
 					} else {
-						$text .= "<tr><td></td><td>" . $f3;
+						$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3;
 					}
 					$text .= $nick . "&nbsp;("
 						. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
@@ -369,29 +365,29 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			// IPs ausgeben
 			if (isset($o_row) && $o_row->o_ip) {
-				$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
-					. "</td><td>" . $f3 . $host_name . $f4 . "</td></tr>\n"
-					. "<tr><td style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</td><td>"
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f3 . $host_name . $f4 . "</td></tr>\n"
+					. "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</td><td class=\"tabelle_koerper\">"
 					. $f3 . $o_row->o_ip . " " . $t['sonst28'] . $f4
 					. "</td></tr>\n";
 				
 				if ($zeigeip == 1 && is_array($ip_historie)) {
 					while (list($datum, $ip_adr) = each($ip_historie)) {
-						$text .= "<tr><td></td><td>" . $f3 . $ip_adr . "&nbsp;("
+						$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3 . $ip_adr . "&nbsp;("
 							. str_replace(" ", "&nbsp;",
 								date("d.m.y H:i", $datum)) . ")" . $f4
 							. "</td></tr>\n";
 					}
 				}
 				
-				$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
-					. "</td><td>" . $f3 . htmlspecialchars($o_row->o_browser)
-					. $f4 . "</td></tr>\n" . "<tr><td style=\"vertical-align:top;\">" . $f1
-					. $t['user_zeige22'] . $f2 . "</td><td>" . $f3
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
+					. "</td><td class=\"tabelle_koerper\">" . $f3 . htmlspecialchars($o_row->o_browser)
+					. $f4 . "</td></tr>\n" . "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1
+					. $t['user_zeige22'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3
 					. "<a href=\"" . $chat_url . "\" target=_blank>$chat_url" . "</a>" . $f4 . "</td></tr>\n";
 				
 				if ($o_http_stuff) {
-					$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2 . "</td><td>" . $f3;
+					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3;
 					if (is_array($http_stuff)) {
 						while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each($http_stuff)) {
 							if ($o_http_stuff_inhalt) {
@@ -408,11 +404,11 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			} elseif ($zeigeip == 1 && is_array($ip_historie)) {
 				while (list($datum, $ip_adr) = each($ip_historie)) {
 					if (!$erstes) {
-						$text .= "<tr><td style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
-							. "</td><td>" . $f3;
+						$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
+							. "</td><td class=\"tabelle_koerper\">" . $f3;
 						$erstes = TRUE;
 					} else {
-						$text .= "<tr><td></td><td>" . $f3;
+						$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3;
 					}
 					$text .= $ip_adr . "&nbsp;("
 						. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
@@ -430,8 +426,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		if ($u_level != "G") {
 			$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
 			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
-			$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
-				. "</b></td><td>" . $f1;
+			$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
+				. "</b></td><td class=\"tabelle_koerper\">" . $f1;
 			if (!$beichtstuhl) {
 				$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
 			}
@@ -463,14 +459,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. urlencode($o_row->o_name);
 			$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
-				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[6]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige26]</a>]<br>\n";
+				. "[<a href=\"$mlnk[6]\" target=\"640_$fenster\" onClick=\"neuesFenster('$mlnk[6]');return(false)\">$t[user_zeige26]</a>]<br>\n";
 			$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
 		if ($admin && $communityfeatures) {
 			$mlnk[10] = "blacklist.php?id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-			$text .= "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onclick=\"window.open('$mlnk[10]','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\">$t[user_zeige48]</a>]<br>\n";
+			$text .= "[<a href=\"$mlnk[10]\" target=\"640_$fenster\" onClick=\"neuesFenster('$mlnk[10]');return(false)\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
 		

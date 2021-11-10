@@ -70,38 +70,25 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 		. "  var stdparm2='?id='+id;\n";
 		if ($aktion != "chatuserliste") {
 			?>
-		window.focus();
-		function resetinput() {
-			document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-				<?php
-				if ($u_clearedit == 1) {
-					echo "	document.forms['form'].elements['text2'].value='';\n";
-				}
-				?>
-			document.forms['form'].submit();
-			document.forms['form'].elements['text2'].focus();
-			document.forms['form'].elements['text2'].select();
-		}
-		
-		function neuesFenster2(url) {
-			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-		}
-	
-		<?php
-		} else {
-			?>
-			function neuesFenster2(url) {
-				hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+			window.focus();
+			function resetinput() {
+				document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
+					<?php
+					if ($u_clearedit == 1) {
+						echo "	document.forms['form'].elements['text2'].value='';\n";
+					}
+					?>
+				document.forms['form'].submit();
+				document.forms['form'].elements['text2'].focus();
+				document.forms['form'].elements['text2'].select();
 			}
 			<?php
 		}
 	?>
 	</script>
-	<script language="JavaScript" src="jscript.js"></script>
 	<?php
 	if ($aktion == "chatuserliste") {
 		$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=user.php?id=' . $id . '&aktion=chatuserliste">';
-		
 		zeige_header_ende($meta_refresh);
 	} else {
 		zeige_header_ende();
@@ -136,12 +123,12 @@ if (strlen($u_id) != 0) {
 		if ($communityfeatures && $u_level != "G") {
 			if ($punktefeatures) {
 				$ur1 = "top10.php?id=$id";
-				$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+				$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
 			$ur1 = "freunde.php?id=$id";
-			$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"window.open('$ur1','640_$fenster','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
+			$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
 		//	if ($admin && $erweitertefeatures) {
@@ -377,7 +364,7 @@ if (strlen($u_id) != 0) {
 				// Suchergebnis mit Formular ausgeben
 				$box = $t['sonst16'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
-					. "<table>"
+					. "<table class=\"tabelle_kopf\">"
 					. "<tr><td colspan=2>" . $f1 . $t['sonst6'] . $f2
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
@@ -614,7 +601,7 @@ if (strlen($u_id) != 0) {
 				// Suchformular ausgeben
 				$box = $t['sonst17'];
 				$text = "<form name=\"suche\" action=\"user.php\" method=\"post\">\n"
-					. "<table>";
+					. "<table class=\"tabelle_kopf\">";
 				if ($admin) {
 					$text .= "<tr><td colspan=2>" . $f1 . $t['sonst25'] . $f2
 						. "</td></tr>";

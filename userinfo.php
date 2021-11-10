@@ -91,8 +91,6 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 	
 	$title = $body_titel . ' - Info';
 	zeige_header_anfang($title, 'mini');
-	?>
-	<?php
 	zeige_header_ende();
 	?>
 	<body>

@@ -237,7 +237,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		if ($aktion == "aendern") {
 			$url = "edit.php?id=$id";
 			$userdaten_bearbeiten = $f3
-				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Ändern</a>]</b>"
+				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=600,height=580'); return(false);\">Ändern</a>]</b>"
 				. $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";

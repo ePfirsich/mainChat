@@ -14,7 +14,7 @@ zeige_header_anfang($title, 'mini');
 echo "<script>\n";
 echo "  var id='$id';\n";
 echo "  var stdparm='?id='+id;\n";
-echo "</script><script src=\"jscript.js\"></script>\n";
+echo "</script>\n";
 
 zeige_header_ende();
 ?>

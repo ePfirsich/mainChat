@@ -29,23 +29,6 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	
 	$title = $body_titel . ' - Home';
 	zeige_header_anfang($title, 'mini');
-	?>
-	<script>
-		window.focus()
-		function win_reload(file,win_name) {
-				win_name.location.href=file;
-		}
-		function opener_reload(file,frame_number) {
-				opener.parent.frames[frame_number].location.href=file;
-		}
-		function neuesFenster(url,name) {
-				hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580");
-		}
-		function neuesFenster2(url) {
-				hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-		}
-	</script>
-	<?php
 	zeige_header_ende();
 	?>
 	<body>
@@ -309,7 +292,6 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			</style>
 			<?php
 			$meta_refresh = '<meta http-equiv="refresh" content="0; URL=' . $url . '">';
-			
 			zeige_header_ende($meta_refresh);
 			?>
 			<body>

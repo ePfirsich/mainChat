@@ -24,17 +24,6 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	
 	global $system_farbe, $mysqli_link, $communityfeatures, $t, $chat;
 	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
 	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick "
 		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
 		. "WHERE m_an_uid=$u_id  AND m_status='neu' "
@@ -108,7 +97,7 @@ function profil_neu($u_id, $u_nick, $id) {
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$ur1 = "profil.php?id=$id&aktion=neu";
-		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster2('$ur1'); return(false);\"";
+		$url = "href=\"$ur1\" target=\"640_$fenster\" onclick=\"neuesFenster('$ur1'); return(false);\"";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
 	mysqli_free_result($result);

@@ -254,8 +254,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
 				$ur1 = "user.php?id=<ID>&aktion=zeig&user=$t_u_id";
-				$ah1 = "<a href=\"$ur1\" target=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','"
-					. $t_u_nick . "'); return(false);\">";
+				$ah1 = "<a href=\"$ur1\" target=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','" . $t_u_nick . "'); return(false);\">";
 				$ah2 = "</A>";
 				system_msg("", 0, $row2->o_user, $system_farbe,
 					str_replace("%u_nick%",

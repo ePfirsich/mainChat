@@ -26,10 +26,7 @@ function opener_reload(file,frame_number) {
 	opener.parent.frames[frame_number].location.href=file;
 }
 function neuesFenster(url,name) {
-	hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580");
-}
-function neuesFenster2(url) {
-	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
+	hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=600,height=580");
 }
 </script>
 <?php

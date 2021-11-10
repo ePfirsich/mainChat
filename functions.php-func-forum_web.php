@@ -6,34 +6,9 @@ function kopf_forum($admin) {
 	global $chat, $body_titel;
 	global $aktion;
 	global $t;
-	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
-	
+
 	$title = $body_titel;
 	zeige_header_anfang($title, 'chatausgabe');
-	?>
-	<script>
-	function ask(text) {
-			return(confirm(text));
-	}
-	function neuesFenster(url) {
-			hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
-	}
-	function neuesFenster2(url) {
-			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-	}
-	</script>
-	<script language="JavaScript" src="jscript.js"></script>
-	<?php
 	zeige_header_ende();
 	?>
 	<body>
@@ -805,17 +780,6 @@ function maske_posting($mode) {
 				echo $f3 . "($t[desc_posting])$f4\n";
 				
 				$link_smilies = "forum-smilies-grafik.php?id=$id";
-				
-				$fenster = str_replace("+", "", $u_nick);
-				$fenster = str_replace("-", "", $fenster);
-				$fenster = str_replace("ä", "", $fenster);
-				$fenster = str_replace("ö", "", $fenster);
-				$fenster = str_replace("ü", "", $fenster);
-				$fenster = str_replace("Ä", "", $fenster);
-				$fenster = str_replace("Ö", "", $fenster);
-				$fenster = str_replace("Ü", "", $fenster);
-				$fenster = str_replace("ß", "", $fenster);
-				
 				?>
 			</td>
 		</tr>

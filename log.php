@@ -23,35 +23,13 @@ id_lese($id);
 if (strlen($u_id) > 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
-	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
 
 	$title = $body_titel . ' - Log';
 	zeige_header_anfang($title, 'chatausgabe');
-?>
-<script>
-		window.focus()
-		function neuesFenster(url,name) {
-			 hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=700");
-		}
-		function neuesFenster2(url) {
-			 hWnd=window.open(url,"640_<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-		}
-</script>
-<?php
-zeige_header_ende();
-?>
-<body>
-<?php
+	zeige_header_ende();
+	?>
+	<body>
+	<?php
 	// Voreinstellungen
 	// Trigger für die Ausgabe der letzten 100 Nachrichten setzen
 	if ($back == 0) {

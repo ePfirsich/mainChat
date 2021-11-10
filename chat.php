@@ -35,12 +35,7 @@ if ($u_id) {
 	if ($sicherer_modus == 1 || $u_sicherer_modus == "Y") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
-		$meta_refresh .= "<script>\n"
-			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
-			. "function neuesFenster(url,name) {\n"
-			. "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=700\");\n"
-			. "}\n</script>";
-		
+		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
 		zeige_header_ende($meta_refresh);
 		?>
 		<body>
@@ -67,27 +62,8 @@ if ($u_id) {
 		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
 			. "<script language=JavaScript>\n"
-			. "setInterval(\"window.scrollTo(1,300000)\",100)\n"
-			. "function neuesFenster(url,name) {\n"
-			. "hWnd=window.open(url,name,\"resizable=yes,scrollbars=yes,width=300,height=700\");\n"
-			. "}\n" . "function neuesFenster2(url) {\n";
-		$tmp = str_replace("-", "", $u_nick);
-		$tmp = str_replace("+", "", $tmp);
-		$tmp = str_replace("-", "", $tmp);
-		$tmp = str_replace("ä", "", $tmp);
-		$tmp = str_replace("ö", "", $tmp);
-		$tmp = str_replace("ü", "", $tmp);
-		$tmp = str_replace("Ä", "", $tmp);
-		$tmp = str_replace("Ö", "", $tmp);
-		$tmp = str_replace("Ü", "", $tmp);
-		$tmp = str_replace("ß", "", $tmp);
-		
-		$meta_refresh .= "hWnd=window.open(url,\"640_$tmp\",\"resizable=yes,scrollbars=yes,width=780,height=700\");\n"
-			. "}\n"
-			. "</script>\n";
-			
+			. "setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
 		zeige_header_ende($meta_refresh);
-		
 		
 		// Voreinstellungen
 		$j = 0;

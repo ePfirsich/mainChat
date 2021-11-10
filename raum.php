@@ -5,33 +5,12 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);
 
-$fenster = str_replace("+", "", $u_nick);
-$fenster = str_replace("-", "", $fenster);
-$fenster = str_replace("ä", "", $fenster);
-$fenster = str_replace("ö", "", $fenster);
-$fenster = str_replace("ü", "", $fenster);
-$fenster = str_replace("Ä", "", $fenster);
-$fenster = str_replace("Ö", "", $fenster);
-$fenster = str_replace("Ü", "", $fenster);
-$fenster = str_replace("ß", "", $fenster);
-
 if (!isset($raumstatus['E'])) {
 	$raumstatus1['E'] = "Stiller Eingangsraum";
 }
 
 $title = $body_titel . ' - Räume';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-		window.focus()
-	function neuesFenster(url,name) {
-				hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580"); 
-	}
-	function neuesFenster2(url) {
-			hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580"); 
-	}
-</script>
-<?php
 zeige_header_ende();
 ?>
 <body>

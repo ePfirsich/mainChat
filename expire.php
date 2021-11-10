@@ -6,7 +6,6 @@ set_time_limit(120);
 
 $title = $body_titel;
 zeige_header_anfang($title, 'login');
-
 zeige_header_ende();
 ?>
 <body>

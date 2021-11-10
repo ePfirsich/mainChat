@@ -40,7 +40,6 @@ if (isset($u_id) && $u_id) {
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n"
 		. " function frame_online_reload(file) {\n" . "  parent.frame_online.location.href=file;\n}\n"
 		. "</script>\n";
-		
 	zeige_header_ende($meta_refresh);
 	?>
 	<body>
@@ -208,7 +207,6 @@ if (isset($u_id) && $u_id) {
 	<?php
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
-	
 	zeige_header_ende();
 	?>
 	<body onLoad='javascript:parent.location.href="index.php'>

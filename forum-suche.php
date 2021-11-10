@@ -502,25 +502,6 @@ function such_ergebnis() {
 
 $title = $body_titel . ' - Forum-Suche';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-	window.focus()
-</script>
-<script>
-function neuesFenster(url) {
-	hWnd=window.open(url,"<?php echo $fenster; ?>","resizable=yes,scrollbars=yes,width=300,height=580");
-}
-function neuesFenster2(url) {
-	hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-}
-function win_reload(file,win_name) {
-	win_name.location.href=file;
-}
-function opener_reload(file,frame_number) {
-	opener.parent.frames[frame_number].location.href=file;
-}
-</script>
-<?php
 zeige_header_ende();
 ?>
 <body>

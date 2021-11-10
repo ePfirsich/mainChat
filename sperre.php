@@ -160,11 +160,6 @@ function liste() {
 
 $title = $body_titel . ' - Sperren';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-	window.focus()
-</script>
-<?php
 zeige_header_ende();
 
 // Timestamp im Datensatz aktualisieren

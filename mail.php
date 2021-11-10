@@ -5,34 +5,11 @@ require("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
 
-// Sonderzeichen aus dem Target raus
-$fenster = str_replace("+", "", $u_nick);
-$fenster = str_replace("-", "", $fenster);
-$fenster = str_replace("ä", "", $fenster);
-$fenster = str_replace("ö", "", $fenster);
-$fenster = str_replace("ü", "", $fenster);
-$fenster = str_replace("Ä", "", $fenster);
-$fenster = str_replace("Ö", "", $fenster);
-$fenster = str_replace("Ü", "", $fenster);
-$fenster = str_replace("ß", "", $fenster);
-
 $title = $body_titel . ' - Mail';
 zeige_header_anfang($title, 'mini');
 ?>
 <script>
 window.focus()
-function win_reload(file,win_name) {
-		win_name.location.href=file;
-}
-function opener_reload(file,frame_number) {
-		opener.parent.frames[frame_number].location.href=file;
-}
-function neuesFenster(url,name) {
-		hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=300,height=580");
-}
-function neuesFenster2(url) {
-		hWnd=window.open(url,"<?php echo "640_" . $fenster; ?>","resizable=yes,scrollbars=yes,width=780,height=580");
-}
 function toggle(tostat ) {
 		for(i=0; i<document.forms["mailbox"].elements.length; i++) {
 			 e = document.forms["mailbox"].elements[i];

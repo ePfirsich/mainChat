@@ -17,7 +17,6 @@ if (strlen($u_id) > 0) {
 		}
 	}
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n" . "</script>\n";
-
 	zeige_header_ende($meta_refresh);
 	?>
 	<body>
@@ -94,7 +93,6 @@ if (strlen($u_id) > 0) {
 	
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
-	
 	zeige_header_ende();
 	?>
 	<body onLoad='javascript:parent.location.href="index.php"'>
