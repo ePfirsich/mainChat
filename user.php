@@ -131,18 +131,12 @@ if (strlen($u_id) != 0) {
 			$url = "href=\"$ur1\" target=\"640_$fenster\" onClick=\"neuesFenster('$ur1');return(false)\"";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
-		//	if ($admin && $erweitertefeatures) {
 		if ($admin) {
 			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=zeigalle\">$t[menue3]</a>\n";
 			if ($userimport) {
 				$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=userimport\">$t[menue10]</a>\n";
 				$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=userloeschen\">$t[menue11]</a>\n";
 			}
-		}
-		if ($erweitertefeatures && $admin) {
-			$ur1 = "user.php?id=$id&aktion=statistik";
-			$url = "href=\"$ur1\" target=\"640_statistik\" onclick=\"window.open('$ur1','640_statistik','resizable=yes,scrollbars=yes,width=780,height=580'); return(false);\"";
-			$text .= "<li><a $url>$t[menue9]</a>\n";
 		}
 		$text .= "</ul>";
 		

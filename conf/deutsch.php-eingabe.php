@@ -18,6 +18,6 @@ $t['menue9'] = "Reset";
 $t['menue10'] = "Nachrichten";
 $t['menue11'] = "Forum";
 $t['menue12'] = "Blacklist";
-$t['menue13'] = "Umfrage";
+$t['menue13'] = "Statistiken";
 
 ?>

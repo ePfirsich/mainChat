@@ -43,14 +43,16 @@ function such_bereich() {
 	$eingabe_breite = 50;
 	$select_breite = 250;
 	
+	
 	$box = $t['titel'];
+	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[menue2]</span></a>";
 	$text = '';
 	
 	
-	$text = "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
+	$text .= "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-		. "<table style=\"width:100%;\">";
+		. "<table>";
 	
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
@@ -224,8 +226,9 @@ function such_bereich() {
 		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">"
 		. $f2 . "</td></tr>\n" . "</table></form>\n";
 	
+	echo "<br>";
 	// Box anzeigen
-	show_box_title_content($box, $text);
+	show_box($box, $text, "98%; margin:auto");
 }
 
 function such_ergebnis() {
@@ -413,7 +416,7 @@ function such_ergebnis() {
 		}
 		
 		$text = '';
-		$text .= "<table style=\"width:100%;\">";
+		$text .= "<table>";
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
@@ -457,11 +460,8 @@ function such_ergebnis() {
 				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
 				$thread = vater_rekursiv($fund['po_id']);
 				$text .= $f1
-					. "<b><a href=\"#\" onClick=\"opener_reload('forum.php?id=$id&th_id="
-					. $fund['po_th_id'] . "&po_id=" . $fund['po_id']
-					. "&thread=" . $thread
-					. "&aktion=show_posting&seite=1',1); return(false);\"><span style=\"font-size: smaller; $col \">"
-					. $fund['po_titel'] . "</span></a>";
+					. "<b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+						<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
 				if ($fund['po_gesperrt'] == 'Y') {
 					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
 				}
@@ -496,7 +496,7 @@ function such_ergebnis() {
 		$text .= "</table>\n";
 		
 		// Box anzeigen
-		show_box_title_content($box, $text);
+		show_box($box, $text, "98%; margin:auto");
 	}
 }
 
@@ -510,12 +510,6 @@ zeige_header_ende();
 aktualisiere_online($u_id, $o_raum);
 
 if (strlen($u_id) > 0) {
-	// Menü als erstes ausgeben
-	$box = "$chat Menü";
-	$text = "<a href=\"forum-suche.php?id=$id\">$t[menue1]</a>\n";
-	
-	show_box_title_content($box, $text, true);
-	
 	// Auswahl
 	switch ($aktion) {
 		case "suche":
@@ -529,10 +523,6 @@ if (strlen($u_id) > 0) {
 	}
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst2]</p>\n";
-}
-
-if ($o_js) {
-	echo schliessen_link();
 }
 
 ?>

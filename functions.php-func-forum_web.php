@@ -22,6 +22,7 @@ function kopf_forum($admin) {
 				<?php if (($admin) && (!$aktion)) { ?>
 					<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_neu" class="button" title="<?php echo $t['kategorie_anlegen']; ?>"><span class="fa fa-plus icon16"></span> <span><?php echo $t['kategorie_anlegen']; ?></span></a>
 				<?php } ?>
+					<a href="forum-suche.php?id=<?php echo $id; ?>" class="button" title="<?php echo $t['button_suche']; ?>"><span class="fa fa-search icon16"></span> <span><?php echo $t['button_suche']; ?></span></a>
 			</td>
 		</tr>
 	</table>
@@ -908,26 +909,6 @@ function navigation_beitrag(
 			?>
 			<a href="forum.php?id=<?php echo $id; ?>&th_id=<?php echo $th_id; ?>&po_id=<?php echo $po_id; ?>&thread=<?php echo $thread; ?>&aktion=edit&seite=<?php echo $seite; ?>" class="button" title="<?php echo $t['thema_editieren']; ?>"><span class="fa fa-pencil icon16"></span> <span><?php echo $t['thema_editieren']; ?></span></a>
 			<?php
-		}
-		
-		// Privat antworten
-		if ($user_nick && $schreibrechte) {
-			
-			// Beim Target die Sonderzeichen rausamachen
-			$pfenster = str_replace("+", "", $user_nick);
-			$pfenster = str_replace("-", "", $pfenster);
-			$pfenster = str_replace("ä", "", $pfenster);
-			$pfenster = str_replace("ö", "", $pfenster);
-			$pfenster = str_replace("ü", "", $pfenster);
-			$pfenster = str_replace("Ä", "", $pfenster);
-			$pfenster = str_replace("Ö", "", $pfenster);
-			$pfenster = str_replace("Ü", "", $pfenster);
-			$pfenster = str_replace("ß", "", $pfenster);
-			
-			$mailurl = "mail.php?aktion=antworten_forum&id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread";
-			?>
-			<a href="<?php echo $mailurl; ?>" target="_blank" class="button" title="<?php echo $t['thema_privat']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['thema_privat']; ?></span></a>
-		<?php
 		}
 		
 		if ($schreibrechte && !$threadgesperrt) {

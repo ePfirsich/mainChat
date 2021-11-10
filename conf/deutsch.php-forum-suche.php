@@ -3,6 +3,7 @@
 // Sprachdefinition deutsch deutsch.php-forum-suche.php
 
 $t['menue1'] = "Forum durchsuchen";
+$t['menue2'] = "Zurück zum Forum";
 
 $t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Sie sind ausgeloggt";

@@ -50,7 +50,7 @@ zeige_header_anfang($title, 'login');
 zeige_header_ende();
 ?>
 <frameset rows="<?php echo $frame_online_size; ?>,*,5,<?php echo $frame_size['interaktivforum']; ?>,1" border="0" frameborder="0" framespacing="0">
-	<frame src="$frame_online" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+	<frame src="<?php echo $frame_online; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
 	<frame src="forum.php?id=<?php echo $id; ?>" name="forum" marginwidth="0" marginheight="0" scrolling="auto">
 	<frame src="leer.php" name="leer" marginwidth="0" marginheight="0" scrolling="no">
 	<frameset cols="*,<?php echo $frame_size['messagesforum']; ?>" border="0" frameborder="0" framespacing="0">

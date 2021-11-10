@@ -3,6 +3,7 @@
 $t['button_editieren'] = "editieren";
 $t['button_loeschen'] = "löschen";
 $t['button_neues_forum'] = "Neues Forum";
+$t['button_suche'] = "Forum durchsuchen";
 
 // Kategorie
 $t['kategorie_name'] = "Name der Kategorie:";

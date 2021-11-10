@@ -10,11 +10,9 @@ $t['menue5'] = "Einstellungen";
 $t['menue6'] = "";
 $t['menue7'] = "Top10/100";
 $t['menue8'] = "Meine Freunde";
-$t['menue9'] = "Admin: Chat Statistiken";
 $t['menue10'] = "Admin: Benutzer importieren";
 $t['menue11'] = "Admin: Benutzer löschen";
 $t['menue12'] = "Adminliste anzeigen";
-$t['menue13'] = "Admin: Umfragen";
 
 $t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "$chat Menü";

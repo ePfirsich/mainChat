@@ -8,7 +8,6 @@ require("functions.php");
 id_lese($id);
 
 if ($u_id) {
-	
 	// Ggf Farbe aktualisieren
 	if (isset($farbe)) {
 		if (strlen($farbe) == 6) {
@@ -28,17 +27,6 @@ if ($u_id) {
 	if (!isset($u_farbe)) {
 		$u_farbe = $user_farbe;
 	}
-	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chateingabe');
@@ -120,6 +108,7 @@ echo "</td></tr>\n";
 	$mlnk[10] = "mail.php?id=$id";
 	$mlnk[11] = "index-forum.php?id=$id";
 	$mlnk[12] = "blacklist.php?id=$id";
+	$mlnk[13] = "user.php?id=$id&aktion=statistik";
 	
 	if ($forumfeatures && $communityfeatures) {
 		// Raumstatus lesen, für Temporär, damit FORUM nicht angezeigt wird
@@ -139,8 +128,8 @@ echo "</td></tr>\n";
 	<?php
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		?>
-		<a href="<?php echo $mlnk[1]; ?>" target="640_<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[1]; ?>');return(false)" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-road icon16"></span> <span><?php echo $t['menue1']; ?></span></a>&nbsp;
-		<a href="<?php echo $mlnk[2]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[2]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[1]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[1]; ?>');return(false)" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-road icon16"></span> <span><?php echo $t['menue1']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[2]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[2]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($communityfeatures && $u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
@@ -155,30 +144,37 @@ echo "</td></tr>\n";
 	}
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		?>
-		<a href="<?php echo $mlnk[3]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[3]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[5]; ?>" target="640_<?php echo $fenster; ?>" onClick="neuesFenster('<?php echo $mlnk[5]; ?>');return(false)" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[5]; ?>" onClick="neuesFenster('<?php echo $mlnk[5]; ?>');return(false)" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin && $communityfeatures) {
 		?>
-		<a href="<?php echo $mlnk[12]; ?>" target="640_<?php echo $fenster; ?>" onClick="neuesFenster('<?php echo $mlnk[12]; ?>');return(false)" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[12]; ?>" onClick="neuesFenster('<?php echo $mlnk[12]; ?>');return(false)" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
 		<?php
 	}
+	
+	if ($erweitertefeatures && $admin) {
+		?>
+		<a href="<?php echo $mlnk[13]; ?>" onClick="neuesFenster('<?php echo $mlnk[13]; ?>');return(false)" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
+		<?php
+	}
+	
 	if ($u_level == "M") {
 		?>
-		<a href="<?php echo $mlnk[8]; ?>" target="<?php echo $fenster; ?>" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue8']; ?>"><span class="fa fa-reply icon16"></span> <span><?php echo $t['menue8']; ?></span></a>&nbsp;
+		<a href="<?php echo $mlnk[8]; ?>" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue8']; ?>"><span class="fa fa-reply icon16"></span> <span><?php echo $t['menue8']; ?></span></a>&nbsp;
 		<?php
 	}
 	?>
-	<a href="<?php echo $mlnk[7]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[7]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
+	<a href="<?php echo $mlnk[7]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[7]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
 	<?php
 	if ($o_js) {
 		?>
-		<a href="<?php echo $mlnk[9]; ?>" target="<?php echo $fenster; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[9]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>
+		<a href="<?php echo $mlnk[9]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[9]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>
 		<?php
 	}
 	echo "&nbsp;&nbsp;";
