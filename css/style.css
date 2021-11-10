@@ -23,6 +23,9 @@
 	--FA-Iconfarbe: #0097D4;
 	--FA-Iconfarbe-Highlighted: #ff6600;
 	
+	--Tabelle-Zeile1: #E8E8FF;
+	--Tabelle-Zeile2: #D8D8EE;
+	
 	--Tabelle-Zeile-Moderator-1g: #d0e0d0;
 	--Tabelle-Zeile-Moderator-2g: #c0d0c0;
 	--Tabelle-Zeile-Moderator-1r: #e0d0d0;
@@ -32,6 +35,8 @@
 	--Moderatorenfarben-schwarz: #000000;
 	
 	--Statistik-Balkenfarbe: #007ABE;
+	--Statistik-Navigation-Hintergrundfarbe: #BDC6D5;
+	--Statistik-Inhalt-Hintergrundfarbe: #E5E5E5;
 }
 /* Farbdeklarationen - Ende ******************************************************************* */
 
@@ -198,7 +203,7 @@ body {
 
 /* Tabellenzeile 1 - Anfang ******************************************************************* */
 .tabelle_zeile1 {
-	background-color:#E8E8FF;
+	background-color: var(--Tabelle-Zeile1);
 	padding: 2px;
 }
 /* Tabellenzeile 1 - Ende ******************************************************************* */
@@ -206,7 +211,7 @@ body {
 
 /* Tabellenzeile 2 - Anfang ******************************************************************* */
 .tabelle_zeile2 {
-	background-color:#D8D8EE;
+	background-color: var(--Tabelle-Zeile2);
 	padding: 2px;
 }
 /* Tabellenzeile 2 - Ende ******************************************************************* */
@@ -214,7 +219,7 @@ body {
 
 /* Statistik Tabelle Navigation - Anfang ******************************************************************* */
 .tabelle_statistics_navigation {
-	background-color:#BDC6D5;
+	background-color: var(--Statistik-Navigation-Hintergrundfarbe);
 }
 /* Statistik Tabelle Navigation - Ende ******************************************************************* */
 
@@ -223,7 +228,7 @@ body {
 .tabelle_statistics_content {
 	vertical-align:bottom;
 	text-align:center;
-	background-color:#E5E5E5;
+	background-color: var(--Statistik-Inhalt-Hintergrundfarbe);
 }
 /* Statistik Tabelle Inhalt - Ende ******************************************************************* */
 
