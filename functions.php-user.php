@@ -273,8 +273,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['sonst27'] . $f4
 				. "</td></tr>\n";
 		} else {
-			$text .= "<tr><td>" . $f1 . $t['user_zeige9'] . $f2
-				. "</td><td style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige9'] . $f2
+				. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
 				. "</td></tr>\n";
 		}
 		
