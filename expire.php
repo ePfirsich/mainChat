@@ -416,35 +416,32 @@ if ($zeit == "03:10") {
  ** Datenbank eintragen.												**
  *************************************************************************/
 
-if ((strlen($STAT_DB_HOST) > 0)) {
-	$currenttime = time();
-	$currentdate = date("Y-m-d H", $currenttime);
+$currenttime = time();
+$currentdate = date("Y-m-d H", $currenttime);
+
+unset($onlinevhosts);
+
+$r1 = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
+$anzahl_online = mysqli_num_rows($r1);
+
+/* Die Anzahl der Benutzer im Chat wird nun in die StatisticDB geschrieben. */
+
+if ( isset($anzahl_online) && ($anzahl_online > 0) ) {
+	$r0 = mysqli_query($mysqli_link, "SELECT SQL_BUFFER_RESULT c_users FROM statistiken WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' ORDER BY c_users DESC");
 	
-	unset($onlinevhosts);
-	
-	$r1 = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
-	$anzahl_online = mysqli_num_rows($r1);
-	
-	/* Die Anzahl der Benutzer im Chat wird nun in die StatisticDB geschrieben. */
-	
-	if ( isset($anzahl_online) && ($anzahl_online > 0) ) {	
-		$r0 = mysqli_query($mysqli_link, "SELECT SQL_BUFFER_RESULT c_users FROM statistiken WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' ORDER BY c_users DESC");
-		
-		if ($r0) {
-			$n = @mysqli_num_rows($r0);
-			if ($n == 0) {
-				/* Es war noch kein Eintrag vorhanden. Neuer Eintrag wird angelegt. */
-				mysqli_query($mysqli_link, "INSERT INTO statistiken (c_timestamp, c_users) VALUES (NOW(),$anzahl_online)");
-			} else {
-				/* Es war bereits ein Eintrag vorhanden. Die Anzahl der	*/
-				/* Benutzer wird erneuert wenn sie größer als der alte Wert	*/
-				/* war. */
-				
-				$currentnr = @mysqli_result($r0, 0, "c_users");
-				
-				if ($anzahl_online > $currentnr) {
-					mysqli_query($mysqli_link, "UPDATE statistiken SET c_users=$anzahl_online WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate'");
-				}
+	if ($r0) {
+		$n = @mysqli_num_rows($r0);
+		if ($n == 0) {
+			/* Es war noch kein Eintrag vorhanden. Neuer Eintrag wird angelegt. */
+			mysqli_query($mysqli_link, "INSERT INTO statistiken (c_timestamp, c_users) VALUES (NOW(),$anzahl_online)");
+		} else {
+			/* Es war bereits ein Eintrag vorhanden. Die Anzahl der	*/
+			/* Benutzer wird erneuert wenn sie größer als der alte Wert	*/
+			/* war. */
+			$currentnr = @mysqli_result($r0, 0, "c_users");
+			
+			if ($anzahl_online > $currentnr) {
+				mysqli_query($mysqli_link, "UPDATE statistiken SET c_users=$anzahl_online WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate'");
 			}
 		}
 	}
