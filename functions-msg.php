@@ -1023,6 +1023,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		
 		case "/away":
 		case "/weg":
+		case "/afk":
 		// Away-Text setzen oder löschen
 		// Smilies parsen
 			$privat = FALSE;
