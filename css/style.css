@@ -30,6 +30,8 @@
 	
 	--Moderatorenfarben-grau: #808080;
 	--Moderatorenfarben-schwarz: #000000;
+	
+	--Statistik-Balkenfarbe: #007ABE;
 }
 /* Farbdeklarationen - Ende ******************************************************************* */
 
@@ -254,3 +256,13 @@ body {
 	color: var(--Moderatorenfarben-schwarz);
 }
 /* Moderatorenfarben - Ende ******************************************************************* */
+
+
+/* Statistiken - Anfang ******************************************************************* */
+.statistiken_balken {
+	width:14px;
+	background-color: var(--Statistik-Balkenfarbe);
+	border-radius: 5px;
+	margin:auto;
+}
+/* Statistiken - Ende ******************************************************************* */

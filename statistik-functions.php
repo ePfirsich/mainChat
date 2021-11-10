@@ -14,15 +14,6 @@ function coreMakeBackground($back) {
 	} else return (" bgcolor=\"$backc\" background=\"$backp\"");
 }
 
-// Wandelt eine Image-Variable in den entsprechenden HTML-Source (Src, Width, Height) um.
-function coreMakeImage($image) {
-	$img_w = strtok("$image", ",");
-	$img_h = strtok(",");
-	$img_p = strtok(",");
-	
-	return ("src=\"$img_p\" width=\"$img_w\" height=\"$img_h\"");
-}
-
 function statsResetMonth($year, $month) {
 	global $grapharray;
 	
@@ -67,11 +58,6 @@ function statsPrintGraph($title, $text_l, $text_b) {
 	global $grapharray;
 	global $STAT_TXT;
 	global $STAT_BAR_HEIGHT;
-	global $STAT_BAR_IMAGE_T;
-	global $STAT_BAR_IMAGE_M;
-	global $STAT_BAR_IMAGE_B;
-	global $STAT_BAR_FONTBEG0;
-	global $STAT_BAR_FONTEND0;
 	global $STAT_BAR_FONTBEG1;
 	global $STAT_BAR_FONTEND1;
 	global $STAT_BAR_FONTBEG2;
@@ -81,10 +67,6 @@ function statsPrintGraph($title, $text_l, $text_b) {
 	$msg = "";
 	
 	if ((isset($grapharray)) && (count($grapharray) > 0)) {
-		$img_w = trim(strtok($STAT_BAR_IMAGE_M, ","));
-		$img_h = trim(strtok(","));
-		$img_p = trim(strtok(","));
-		
 		/* Als erstes wird der größte Eintrag im Array und einige Werte ermittelt. */
 		
 		$b = 0;
@@ -94,8 +76,9 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		$t = 0;
 		$u = 0;
 		
-		if ($title == "")
+		if ($title == "") {
 			$title = $STAT_TXT["0080"];
+		}
 		
 		reset($grapharray);
 		
@@ -157,28 +140,15 @@ function statsPrintGraph($title, $text_l, $text_b) {
 				$s = intval($v * $h);
 				
 				$msg .= "<td class=\"tabelle_statistics_content\">";
-				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
 				$msg .= "<br>";
 				
-				if (strlen($STAT_BAR_IMAGE_T) > 0)
-					$msg .= "<img " . coreMakeImage($STAT_BAR_IMAGE_T)
-						. "><br>";
+				$msg .= "<div class=\"statistiken_balken\" style=\"height:".$s."px;\"></div><br>";
 				
-				$msg .= "<img src=\"$img_p\" style=\"width:".$img_w."px; height:".$s."px; border:0px;\">";
-				$msg .= "<br>";
-				
-				if (strlen($STAT_BAR_IMAGE_B) > 0)
-					$msg .= "<img " . coreMakeImage($STAT_BAR_IMAGE_B)
-						. "><br>";
-				
-				$msg .= $STAT_BAR_FONTEND0;
 				$msg .= "</td>\n";
 			} else {
 				$msg .= "<td class=\"tabelle_statistics_content\">";
-				$msg .= $STAT_BAR_FONTBEG0;
 				$msg .= $v;
-				$msg .= $STAT_BAR_FONTEND0;
 				$msg .= "</td>\n";
 			}
 		}
@@ -212,9 +182,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		/* Benutzer ausgeben. */
 		
 		$msg .= "<p style=\"text-align:center;\">";
-		$msg .= $STAT_BAR_FONTBEG0;
 		$msg .= $STAT_TXT["0100"] . " $d - " . $STAT_TXT["0101"] . " $b";
-		$msg .= $STAT_BAR_FONTEND0;
 		$msg .= "</p>\n";
 		$msg .= "</div>\n";
 	}

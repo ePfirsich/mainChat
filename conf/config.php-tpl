@@ -36,11 +36,6 @@ $sicherer_modus = "1";				// Sicherer Modus Aktivieren (1 = Aktiviert, 0 = Deakt
 // Statisiken
 $STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel
 
-// Images aus denen ein Balken für die Statistik zusammengesetzt werden soll
-$STAT_BAR_IMAGE_T = "14,2,pics/bar-t.gif";
-$STAT_BAR_IMAGE_M = "14,2,pics/bar-m.gif";
-$STAT_BAR_IMAGE_B = "14,2,pics/bar-b.gif";
-
 // Fontstart und Fontende die zum Anzeigen der unteren Beschriftung verwendet werden sollen.
 $STAT_BAR_FONTBEG1 = "<span style=\"font-size: smaller;\">";
 $STAT_BAR_FONTEND1 = "</span>";
