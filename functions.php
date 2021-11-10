@@ -117,7 +117,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 					&& $uu_id != $u_id && $uu_level != "C" && $uu_level != "S") {
 					$uu_nick = $t['raum_user11'];
 				} else {
-					$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE);
+					$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE, TRUE);
 				}
 				
 				if ($userdata['u_away'] != "") {
@@ -424,7 +424,7 @@ function priv_msg(
 	// Optional Link auf Benutzer erzeugen
 	
 	if ($von_user_id && is_array($userdata)) {
-		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, TRUE, FALSE, "&nbsp;", "", "", FALSE, TRUE);
+		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, FALSE, "&nbsp;", "", "", FALSE, TRUE);
 	} else {
 		$f['c_von_user'] = $von_user;
 	}
@@ -987,32 +987,24 @@ function zeige_smilies($anzeigeort = 'chat') {
 function zeige_userdetails(
 	$zeige_user_id,
 	$userdaten = 0,
-	$link = TRUE,
 	$online = FALSE,
 	$trenner = "&nbsp;",
 	$online_zeit = "",
 	$letzter_login = "",
 	$mit_id = TRUE,
 	$extra_kompakt = FALSE,
-	$felder = 31) {
+	$benutzername_fett = TRUE) {
 	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Homepage zurück
-	// Bei link=TRUE wird Link auf Benutzerinfo ausgegeben
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
 	// $online_zeit -> Zeit in Sekunden seit Login
 	// $letzter_login -> Datum des letzten Logins
 	// Falls mit_id=TRUE wird Session-ID ausgegeben, ansonsten Platzhalter
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
-	// $felder ist bitweise kodiert welche felder ausgegeben werden sollen
-	// Aufschlüsselung wie folgt:
-	// 1 = Benutzernamen zeigen
-	// 2 = Level zeigen
-	// 4 = Gruppe zeigen
-	// 8 = EMail zeigen
-	// 16 = Homepage zeigen
+	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
 	global $id, $system_farbe, $mysqli_link, $communityfeatures, $t, $show_geschlecht;
-	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik, $o_js, $homep_ext_link;
+	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik, $homep_ext_link;
 	
 	$text = "";
 	if ($mit_id) {
@@ -1135,14 +1127,13 @@ function zeige_userdetails(
 	$fenstername = str_replace("Ü", "", $fenstername);
 	$fenstername = str_replace("ß", "", $fenstername);
 	
-	if (($felder & 1) != 1) {
-		$user_nick_sik = $user_nick;
-		$user_nick = "";
-	}
-	
-	if ($link) {
+	if (true) {
 		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
-		$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\"><b>" . $user_nick . "</b></a>";
+		if($benutzername_fett) {
+			$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\"><b>" . $user_nick . "</b></a>";
+		} else {
+			$text = "<a href=\"#\" target=\"$fenstername\" onclick=\"neuesFenster('$url','$fenstername'); return(false);\">" . $user_nick . "</a>";
+		}
 	} else {
 		$text = $user_nick;
 	}
@@ -1151,20 +1142,16 @@ function zeige_userdetails(
 		$text .= $chat_grafik[$user_geschlecht];
 	}
 	
-	if (($felder && 1) != 1) {
-		$user_nick = $user_nick_sik;
-	}
-	
 	// Levels, Gruppen, Home & Mail Grafiken
 	$text2 = "";
 	if (!isset($leveltext[$user_level])) {
 		$leveltext[$user_level] = "";
 	}
-	if (!$extra_kompakt && $leveltext[$user_level] != "" && (($felder & 2) == 2)) {
+	if (!$extra_kompakt && $leveltext[$user_level] != "") {
 		$text2 .= "&nbsp;(" . $leveltext[$user_level] . ")";
 	}
 	
-	if (!$extra_kompakt && $link) {
+	if (!$extra_kompakt) {
 		$grafikurl1 = "<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">";
 		$grafikurl2 = "</a>";
 	} else {
@@ -1172,7 +1159,7 @@ function zeige_userdetails(
 		$grafikurl2 = "";
 	}
 	
-	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures && $user_punkte_anzeigen == "Y" && (($felder & 4) == 4)) {
+	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures && $user_punkte_anzeigen == "Y" ) {
 		
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
@@ -1181,7 +1168,7 @@ function zeige_userdetails(
 		}
 	}
 	
-	if (!$extra_kompakt && ($user_chathomepage == "J" OR $homep_ext_link != "") && $communityfeatures && $link && (($felder & 16) == 16)) {
+	if (!$extra_kompakt && ($user_chathomepage == "J" || $homep_ext_link != "") && $communityfeatures) {
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
@@ -1192,10 +1179,10 @@ function zeige_userdetails(
 		}
 	}
 	
-	if (!$extra_kompakt && $link && $trenner != "" && $communityfeatures && (($felder & 8) == 8)) {
+	if (!$extra_kompakt && $trenner != "" && $communityfeatures && $user_nick) {
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner . "<a href=\"$url\" target=\"_blank\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
-	} else if (!$extra_kompakt && $link && $trenner != "") {
+	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
 	}
 	

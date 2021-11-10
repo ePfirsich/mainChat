@@ -143,7 +143,7 @@ if ($erweitertefeatures) {
 					&& $array_user[$j][$i]['punkte']) {
 					$array_user[$j][$i]['u_punkte_anzeigen'] = 'Y';
 					echo "<td style=\"width:8%; text-align:right;\" $bgcolor>" . $f1 . $array_user[$j][$i]['punkte'] . $f2 . "</td>"
-				."<td style=\"width:24%\" $bgcolor>" . $f1 . zeige_userdetails($array_user[$j][$i]['u_id'], $array_user[$j][$i], true) . $f2 . "</td>\n";
+				."<td style=\"width:24%\" $bgcolor>" . $f1 . zeige_userdetails($array_user[$j][$i]['u_id'], $array_user[$j][$i]) . $f2 . "</td>\n";
 				} else {
 					echo "<td style=\"width:32%;\" colspan=\"2\" $bgcolor>" . $f1 . "&nbsp;" . $f2 . "</td>\n";
 				}

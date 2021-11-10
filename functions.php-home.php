@@ -209,7 +209,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 
 function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $id;
+	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $o_js;
 	
 	// Fenstername
 	$fenster = str_replace("+", "", $u_nick);
@@ -223,10 +223,8 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	$fenster = str_replace("ß", "", $fenster);
 	
 	// Benutzerdaten lesen
-	$query = "SELECT user.*,o_id, "
-		. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
-		. "date_format(u_login,'%d.%m.%y %H:%i') as login "
-		. "FROM user left join online on o_user=u_id " . "WHERE u_id=$u_id";
+	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
+		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result);
@@ -239,24 +237,18 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		if ($aktion == "aendern") {
 			$url = "edit.php?id=$id";
 			$userdaten_bearbeiten = $f3
-				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">ÄNDERN</A>]</b>"
+				. "<b>[<a href=\"$url\" target=\"$fenster\" onclick=\"window.open('$url','$fenster','resizable=yes,scrollbars=yes,width=300,height=580'); return(false);\">Ändern</a>]</b>"
 				. $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";
 		}
 		
-		if (!$id) {
-			$links_an = FALSE;
-		} else {
-			$links_an = TRUE;
-		}
-		
 		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" width=20%>" . $f1
 			. "Benutzername:" . $f2 . "</td><td colspan=\"3\" width=\"80%\"><b>"
-			. zeige_userdetails($userdata['u_id'], $userdata, $links_an, FALSE)
+			. zeige_userdetails($userdata['u_id'], $userdata)
 			. "</b></td></tr>\n";
 		
-		// Onlinezeit oder letzter Login		
+		// Onlinezeit oder letzter Login
 		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
 			$text .= "<tr><td>&nbsp;</td><td colspan=\"3\" style=\"vertical-align:top;\"><b>"
 				. $f1

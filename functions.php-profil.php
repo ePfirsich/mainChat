@@ -63,7 +63,7 @@ function profil_editor($u_id, $u_nick, $f) {
 		</tr>
 		<tr>
 			<td class="tabelle_zeile1" style="text-align:right;">Benutzer:</td>
-			<td class="tabelle_zeile1" colspan="2"><b><?php echo zeige_userdetails($userdata['u_id'], $userdata, TRUE, FALSE); ?></b></td>
+			<td class="tabelle_zeile1" colspan="2"><b><?php echo zeige_userdetails($userdata['u_id'], $userdata); ?></b></td>
 			<td class="tabelle_zeile1"><?php echo $userdaten_bearbeiten; ?></td>
 		</tr>
 		<?php

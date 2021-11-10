@@ -715,7 +715,7 @@ if (strlen($u_id) != 0) {
 					$rlink = "<a href=\"raum.php?id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
 					$text .= "<table class=\"tabelle_kopf\">\n";
 					$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					$text .= "<td class=\"tabelle_koerper_login\">&nbsp;</td>";
+					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $t['sonst16'] . "</b></small></td>";
 					
 					$rlink = "<a href=\"raum.php?id=$id&order=r_status1,r_name\">Status</a>";
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
@@ -724,25 +724,25 @@ if (strlen($u_id) != 0) {
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 					
 					$rlink = "<a href=\"raum.php?id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td><td class=\"tabelle_koerper_login\">&nbsp</td>";
+					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					
 					if (isset($extended) && $extended) {
 						if ($smilies_pfad && $erweitertefeatures) {
 							$rlink = $t['raum_user10'];
-							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+							$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						}
 						
 						if ($erweitertefeatures) {
 							$rlink = $t['sonst14'];
-							$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+							$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						}
 						
 						$rlink = $t['sonst3'];
-						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						$rlink = $t['sonst7'];
-						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						$rlink = $t['sonst8'];
-						$text .= "<td><small><b>" . $rlink . "</b></small></td>";
+						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					}
 					
 					$text .= "</tr>\n";
@@ -759,28 +759,24 @@ if (strlen($u_id) != 0) {
 						}
 						// raum nur anzeigen falls offen, moderiert, besitzer oder admin...
 						// "m" -> moderiert, "M" -> moderiert+geschlossen.
-						if ($row['r_status1'] == "O"
-							|| $row['r_status1'] == "m" || $uu_id == $u_id
-							|| $admin) {
+						if ($row['r_status1'] == "O" || $row['r_status1'] == "m" || $uu_id == $u_id || $admin) {
 							
 							$rlink = "<a href=\"raum.php?id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 							
 							// Anzahl der Benutzer online ermitteln
-							if ((isset($anzahl_user[$row['r_id']]))
-								&& ($anzahl_user[$row['r_id']] > 0)) {
+							if ((isset($anzahl_user[$row['r_id']])) && ($anzahl_user[$row['r_id']] > 0)) {
 								$anzahl = $anzahl_user[$row['r_id']];
 							} else {
 								$anzahl = 0;
 							}
-							$ulink = "<a href=\"user.php?id=$id&schau_raum="
-								. $row['r_id'] . "\">$anzahl</A>";
+							$ulink = "<a href=\"user.php?id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl</A>";
 							
 							$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
-							$text .= "<td style=\"text-align:right;\" $bgcolor>$b1" . $ulink . "$b2&nbsp;</td>";
+							$text .= "<td $bgcolor>$b1" . $ulink . "$b2&nbsp;</td>";
 							
 							$text .= "<td $bgcolor>$b1". substr($raumstatus1[$row['r_status1']], 0, 1) . "$b2&nbsp;</td>";
 							$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
-							$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, TRUE, FALSE, "$b2</td><td style=\"text-align:right;\" $bgcolor>$b1") . $b2 . "</td>";
+							$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 							if ((isset($extended)) && ($extended)) {
 								if ($smilies_pfad && $erweitertefeatures) {
 									if ($row['r_smilie'] == "Y") {

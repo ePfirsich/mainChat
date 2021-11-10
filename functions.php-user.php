@@ -58,9 +58,9 @@ function user_liste($larr, $anzahl) {
 
 		
 		if ($v['u_away']) {
-			$user = "(<i>" . zeige_userdetails($v['u_id'], $v, TRUE, FALSE) . "</i>)";
+			$user = "(" . zeige_userdetails($v['u_id'], $v, FALSE, "&nbsp;", "", "", TRUE, FALSE, FALSE) . ")";
 		} else {
-			$user = zeige_userdetails($v['u_id'], $v, TRUE, FALSE);
+			$user = zeige_userdetails($v['u_id'], $v);
 		}
 		
 		$trow .= "<tr>";
@@ -249,7 +249,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Ausgabe in Tabelle
 		$text .= "<table>";
-		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td>" . zeige_userdetails($user, $row, TRUE, FALSE);
+		$text .= "<tr><td style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td>" . zeige_userdetails($user, $row);
 		
 		if ($uu_away != "") {
 			$text .= $f1 . "<br>($uu_away)<b>" . $f2;

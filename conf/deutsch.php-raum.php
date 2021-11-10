@@ -41,5 +41,6 @@ $t['sonst12'] = "URL des Werbeframes";
 $t['sonst13'] = "<P><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</P>";
 $t['sonst14'] = "Mindestpunkte";
 $t['sonst15'] = "Räume";
+$t['sonst16'] = "Benutzer online";
 
 ?>

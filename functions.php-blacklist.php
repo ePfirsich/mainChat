@@ -133,7 +133,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				// Nick des Admins (Eintrager) setzen
 				$f_userid = $row->f_userid;
 				if ($f_userid && $f_userid != "NULL") {
-					$admin_nick = zeige_userdetails($f_userid, "", FALSE, FALSE);
+					$admin_nick = zeige_userdetails($f_userid, "", FALSE);
 				} else {
 					$admin_nick = "";
 				}
