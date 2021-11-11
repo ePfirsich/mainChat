@@ -43,7 +43,7 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 // Pfad auf Cache
 $cache = "home_bild";
 
-if (isset($u_id) && $u_id && $communityfeatures) {
+if (isset($u_id) && $u_id) {
 	
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
@@ -101,13 +101,14 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			// Homepage für Benutzer $u_id bearbeiten
 			
 			// Menü als erstes ausgeben
+			echo "<br>";
 			$box = "Menü Freunde";
-			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\">Meine Homepage zeigen</a>\n"
+			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">Meine Homepage zeigen</a>\n"
 				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
 				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
-				. "| <a href=\"index.php?id=$id&aktion=hilfe-community#home\" target=\"_blank\">Hilfe</a>\n";
+				. "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 			
-				show_box_title_content($box, $text, true);
+				show_box_title_content($box, $text);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
@@ -198,16 +199,16 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 				$home = mysqli_fetch_array($result);
 				if ($home['ui_farbe']) {
 					$farbentemp = unserialize($home['ui_farbe']);
-					if (is_array($farbentemp))
+					if (is_array($farbentemp)) {
 						$farben = $farbentemp;
+					}
 				}
 				
 				// Einstellung für u_chathomepage aus Benutzerdaten lesen
 				$einstellungen['u_chathomepage'] = $userdata['u_chathomepage'];
 				
 				// Bildinfos lesen und in Array speichern
-				$query = "SELECT b_name,b_height,b_width,b_mime FROM bild "
-					. "WHERE b_user=" . intval($ui_userid);
+				$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=" . intval($ui_userid);
 				$result2 = mysqli_query($mysqli_link, $query);
 				if ($result2 && mysqli_num_rows($result2) > 0) {
 					unset($bilder);
@@ -251,14 +252,11 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			}
 			mysqli_free_result($result);
 			
-			if ($o_js || !$u_id) {
-				echo schliessen_link();
-			}
-			
 			break;
 		
 		default:
 			$hash = genhash($ui_userid);
+			//$url = "home.php?/$user_nick";
 			$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash";
 			if (isset($preview) && $preview == "yes")
 				$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";

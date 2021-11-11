@@ -5,7 +5,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=Benutzer-ID
 	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
-	global $mysqli_link, $communityfeatures, $t, $id, $f1, $f2;
+	global $mysqli_link, $t, $id, $f1, $f2;
 	
 	$eingabe_breite = 45;
 	
@@ -48,7 +48,7 @@ function profil_editor($u_id, $u_nick, $f) {
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
 		$url = "edit.php?id=$id";
-		$userdaten_bearbeiten = "\n[<a href=\"$url\" onClick=\"neuesFenster('$url');return(false)\">Einstellungen ändern</a>]";
+		$userdaten_bearbeiten = "\n[<a href=\"$url\">Einstellungen ändern</a>]";
 	}
 	
 	?>

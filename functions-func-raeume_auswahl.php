@@ -8,7 +8,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	// $nur_chat=TRUE -> Nur Räume zeigen
 	// $nur_chat=FALSE -> Räume + Community-Bereiche (whotext) zeigen
 	
-	global $u_id, $mysqli_link, $o_raum, $timeout, $whotext, $forumfeatures, $communityfeatures;
+	global $u_id, $mysqli_link, $o_raum, $timeout, $whotext, $forumfeatures;
 	
 	$text = '';
 	
@@ -30,7 +30,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	
 	// Optional Formularzusatz für Community-Module  ergänzen
 	$zusatz_select = "";
-	if ($forumfeatures && $communityfeatures && !$nur_chat) {
+	if ($forumfeatures && !$nur_chat) {
 		$query = "SELECT o_who,count(o_who) as anzahl FROM online "
 			. "WHERE o_who>1 " . "GROUP BY o_who ";
 		

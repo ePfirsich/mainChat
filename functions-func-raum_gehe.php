@@ -7,7 +7,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 	// ID des neuen Raums wird zurückgeliefert
 	
 	global $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
-	global $id, $erweitertefeatures, $forumfeatures, $communityfeatures;
+	global $id, $erweitertefeatures, $forumfeatures;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
@@ -181,9 +181,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			// bzw. wenn alter Raum Teergrube war, dann auch aktualisieren
 			// $u_id über Online Tabelle, da der Benutzer auch geschubst werden kann, deswegen dessen o_hash 
 			
-			if (($forumfeatures) && ($communityfeatures) && (!$beichtstuhl)
-				&& (($neu->r_status1 == "L") || ($alt->r_status1 == "L"))
-				&& ($u_level != "A") && (!$admin)) {
+			if (($forumfeatures) && !$beichtstuhl && (($neu->r_status1 == "L") || ($alt->r_status1 == "L")) && ($u_level != "A") && (!$admin)) {
 				$query2 = "SELECT o_hash FROM online WHERE o_id=" . intval($o_id);
 				$result2 = mysqli_query($mysqli_link, $query2);
 				

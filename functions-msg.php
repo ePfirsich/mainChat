@@ -6,9 +6,7 @@ require_once("functions-func-verlasse_chat.php");
 require_once("functions-func-nachricht.php");
 require_once("functions-func-html_parse.php");
 require_once("functions-func-raum_gehe.php");
-if ($communityfeatures) {
-	require_once("functions-freunde.php");
-}
+require_once("functions-freunde.php");
 
 function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	// Schreibt Text in Raum r_id
@@ -24,7 +22,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $raumstatus1;
 	global $u_farbe_alle, $u_farbe_sys, $u_farbe_priv, $u_farbe_noise, $u_farbe_bg, $u_clearedit, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
-	global $communityfeatures, $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
+	global $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	global $einstellungen_aendern, $single_room_verhalten;
 	
@@ -887,7 +885,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					// ab hier neu: wir prüfen ob community an ist, der Benutzer kein Admin und $raumanlegenpunkte gesetzt
 					
-					if ($communityfeatures && !$admin && $raumanlegenpunkte) {
+					if (!$admin && $raumanlegenpunkte) {
 						$result = mysqli_query($mysqli_link, 
 							"SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
 						if ($result && mysqli_num_rows($result) == 1) {
@@ -2108,70 +2106,66 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/lob":
 		// Nur für Admins, lobt Benutzer mit Punkten
 			if ($admin) {
-				if ($communityfeatures) {
-					$user = nick_ergaenze($chatzeile[1], "raum", 1);
-					if ($user['u_nick'] == "") {
-						$user = nick_ergaenze($chatzeile[1], "online", 0);
-						$im_raum = FALSE;
-					} else {
-						$im_raum = TRUE;
-					}
-					
-					// Nur Superuser dürfen Gästen Punkte geben
-					if ($user['u_level'] == 'G' && $u_level != 'S') {
-						system_msg("", 0, $u_id, $system_farbe, $t['punkte22']);
-						$user['u_nick'] = "";
-					}
-					
-					$anzahl = (int) $chatzeile[2];
-					if ((string) $anzahl != (string) $chatzeile[2])
-						$anzahl = 0;
-					
-					// Mehr als ein Punkt? Ansonsten Fehlermeldung
-					if ($anzahl < 1) {
-						system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
-						$user['u_nick'] = "";
-					}
-					
-					// Kein SU und mehr als 1000 Punkte? Ansonsten Fehlermeldung
-					if ($anzahl > 1000 && $u_level != 'S') {
-						system_msg("", 0, $u_id, $system_farbe, $t['punkte11']);
-						$user['u_nick'] = "";
-					}
-					
-					// selber Punkte geben ist verboten
-					if ($u_nick == $user['u_nick']) {
-						system_msg("", 0, $u_id, $system_farbe, $t['punkte10']);
-						$user['u_nick'] = "";
-					}
-					
-					if ($user['u_nick'] != "") {
-						
-						if ($im_raum) {
-							// eine öffentliche Nachricht an alle schreiben
-							punkte($anzahl, $user['o_id'], $user['u_id'], "",
-								TRUE);
-							$txt = str_replace("%user1%", $u_nick,
-								$t['punkte5']);
-							$txt = str_replace("%user2%", $user['u_nick'], $txt);
-							$txt = str_replace("%punkte%", $anzahl, $txt);
-							global_msg($u_id, $o_raum,
-								str_replace("%user%", $u_nick, $txt));
-						} else {
-							// Zwei private Nachrichten (admin/user)
-							punkte($anzahl, $user['o_id'], $user['u_id'],
-								str_replace("%user%", $u_nick, $t['punkte3']),
-								TRUE);
-							$txt = str_replace("%user2%", $user['u_nick'],
-								$t['punkte8']);
-							$txt = str_replace("%user1%", $u_nick, $txt);
-							$txt = str_replace("%punkte%", $anzahl, $txt);
-							global_msg($u_id, $o_raum,
-								str_replace("%user%", $u_nick, $txt));
-						}
-					}
+				$user = nick_ergaenze($chatzeile[1], "raum", 1);
+				if ($user['u_nick'] == "") {
+					$user = nick_ergaenze($chatzeile[1], "online", 0);
+					$im_raum = FALSE;
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
+					$im_raum = TRUE;
+				}
+				
+				// Nur Superuser dürfen Gästen Punkte geben
+				if ($user['u_level'] == 'G' && $u_level != 'S') {
+					system_msg("", 0, $u_id, $system_farbe, $t['punkte22']);
+					$user['u_nick'] = "";
+				}
+				
+				$anzahl = (int) $chatzeile[2];
+				if ((string) $anzahl != (string) $chatzeile[2])
+					$anzahl = 0;
+				
+				// Mehr als ein Punkt? Ansonsten Fehlermeldung
+				if ($anzahl < 1) {
+					system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
+					$user['u_nick'] = "";
+				}
+				
+				// Kein SU und mehr als 1000 Punkte? Ansonsten Fehlermeldung
+				if ($anzahl > 1000 && $u_level != 'S') {
+					system_msg("", 0, $u_id, $system_farbe, $t['punkte11']);
+					$user['u_nick'] = "";
+				}
+				
+				// selber Punkte geben ist verboten
+				if ($u_nick == $user['u_nick']) {
+					system_msg("", 0, $u_id, $system_farbe, $t['punkte10']);
+					$user['u_nick'] = "";
+				}
+				
+				if ($user['u_nick'] != "") {
+					
+					if ($im_raum) {
+						// eine öffentliche Nachricht an alle schreiben
+						punkte($anzahl, $user['o_id'], $user['u_id'], "",
+							TRUE);
+						$txt = str_replace("%user1%", $u_nick,
+							$t['punkte5']);
+						$txt = str_replace("%user2%", $user['u_nick'], $txt);
+						$txt = str_replace("%punkte%", $anzahl, $txt);
+						global_msg($u_id, $o_raum,
+							str_replace("%user%", $u_nick, $txt));
+					} else {
+						// Zwei private Nachrichten (admin/user)
+						punkte($anzahl, $user['o_id'], $user['u_id'],
+							str_replace("%user%", $u_nick, $t['punkte3']),
+							TRUE);
+						$txt = str_replace("%user2%", $user['u_nick'],
+							$t['punkte8']);
+						$txt = str_replace("%user1%", $u_nick, $txt);
+						$txt = str_replace("%punkte%", $anzahl, $txt);
+						global_msg($u_id, $o_raum,
+							str_replace("%user%", $u_nick, $txt));
+					}
 				}
 			} else {
 				system_msg("", 0, $u_id, $system_farbe,
@@ -2186,85 +2180,81 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/peitsch":
 		// Nur für Admins, zieht Benutzer Punkte ab
 			if ($admin) {
-				if ($communityfeatures) {
-					$user = nick_ergaenze($chatzeile[1], "raum", 1);
-					if ($user['u_nick'] == "") {
-						$user = nick_ergaenze($chatzeile[1], "online", 0);
-						$im_raum = FALSE;
+				$user = nick_ergaenze($chatzeile[1], "raum", 1);
+				if ($user['u_nick'] == "") {
+					$user = nick_ergaenze($chatzeile[1], "online", 0);
+					$im_raum = FALSE;
+				} else {
+					$im_raum = TRUE;
+				}
+				
+				$anzahl = (int) $chatzeile[2];
+				if ((string) $anzahl != (string) $chatzeile[2])
+					$anzahl = 0;
+				
+				// Mehr als ein Punkt? Ansonsten Fehlermeldung
+				if ($anzahl < 1) {
+					system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
+					$user['u_nick'] = "";
+				}
+				
+				// Lustiger Text, wenn der Admin sich selbst etwas abzieht
+				if ($lustigefeatures && $u_nick == $user['u_nick']) {
+					
+					if ($anzahl == 1) {
+						$txt = $t['punkte12'];
+					} elseif ($anzahl == 42) {
+						$txt = $t['punkte13'];
+					} elseif ($anzahl < 100) {
+						$txt = $t['punkte14'];
+					} elseif ($anzahl < 200) {
+						$txt = $t['punkte15'];
+					} elseif ($anzahl < 500) {
+						$txt = $t['punkte16'];
+					} elseif ($anzahl < 1000) {
+						$txt = $t['punkte17'];
+					} elseif ($anzahl < 5000) {
+						$txt = $t['punkte18'];
+					} elseif ($anzahl < 10000) {
+						$txt = $t['punkte19'];
 					} else {
-						$im_raum = TRUE;
+						$txt = $t['punkte20'];
 					}
 					
-					$anzahl = (int) $chatzeile[2];
-					if ((string) $anzahl != (string) $chatzeile[2])
-						$anzahl = 0;
+					// eine öffentliche Nachricht an alle schreiben
+					punkte($anzahl * (-1), $user['o_id'], $user['u_id'],
+						"", TRUE);
 					
-					// Mehr als ein Punkt? Ansonsten Fehlermeldung
-					if ($anzahl < 1) {
-						system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
-						$user['u_nick'] = "";
-					}
+					$txt = str_replace("%user%", $u_nick, $txt);
+					$txt = str_replace("%punkte%", $anzahl, $txt);
+					global_msg($u_id, $o_raum,
+						str_replace("%user%", $u_nick, $txt));
 					
-					// Lustiger Text, wenn der Admin sich selbst etwas abzieht
-					if ($lustigefeatures && $u_nick == $user['u_nick']) {
-						
-						if ($anzahl == 1) {
-							$txt = $t['punkte12'];
-						} elseif ($anzahl == 42) {
-							$txt = $t['punkte13'];
-						} elseif ($anzahl < 100) {
-							$txt = $t['punkte14'];
-						} elseif ($anzahl < 200) {
-							$txt = $t['punkte15'];
-						} elseif ($anzahl < 500) {
-							$txt = $t['punkte16'];
-						} elseif ($anzahl < 1000) {
-							$txt = $t['punkte17'];
-						} elseif ($anzahl < 5000) {
-							$txt = $t['punkte18'];
-						} elseif ($anzahl < 10000) {
-							$txt = $t['punkte19'];
-						} else {
-							$txt = $t['punkte20'];
-						}
-						
+				} elseif ($user['u_nick'] != "") {
+					
+					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
-						punkte($anzahl * (-1), $user['o_id'], $user['u_id'],
-							"", TRUE);
-						
-						$txt = str_replace("%user%", $u_nick, $txt);
+						punkte($anzahl * (-1), $user['o_id'],
+							$user['u_id'], "", TRUE);
+						$txt = str_replace("%user1%", $u_nick,
+							$t['punkte6']);
+						$txt = str_replace("%user2%", $user['u_nick'], $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
 						global_msg($u_id, $o_raum,
 							str_replace("%user%", $u_nick, $txt));
-						
-					} elseif ($user['u_nick'] != "") {
-						
-						if ($im_raum) {
-							// eine öffentliche Nachricht an alle schreiben
-							punkte($anzahl * (-1), $user['o_id'],
-								$user['u_id'], "", TRUE);
-							$txt = str_replace("%user1%", $u_nick,
-								$t['punkte6']);
-							$txt = str_replace("%user2%", $user['u_nick'], $txt);
-							$txt = str_replace("%punkte%", $anzahl, $txt);
-							global_msg($u_id, $o_raum,
-								str_replace("%user%", $u_nick, $txt));
-						} else {
-							// Zwei private Nachrichten (admin/user)
-							punkte($anzahl * (-1), $user['o_id'],
-								$user['u_id'],
-								str_replace("%user%", $u_nick, $t['punkte4']),
-								TRUE);
-							$txt = str_replace("%user2%", $user['u_nick'],
-								$t['punkte9']);
-							$txt = str_replace("%user1%", $u_nick, $txt);
-							$txt = str_replace("%punkte%", $anzahl, $txt);
-							global_msg($u_id, $o_raum,
-								str_replace("%user%", $u_nick, $txt));
-						}
+					} else {
+						// Zwei private Nachrichten (admin/user)
+						punkte($anzahl * (-1), $user['o_id'],
+							$user['u_id'],
+							str_replace("%user%", $u_nick, $t['punkte4']),
+							TRUE);
+						$txt = str_replace("%user2%", $user['u_nick'],
+							$t['punkte9']);
+						$txt = str_replace("%user1%", $u_nick, $txt);
+						$txt = str_replace("%punkte%", $anzahl, $txt);
+						global_msg($u_id, $o_raum,
+							str_replace("%user%", $u_nick, $txt));
 					}
-				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
 				}
 			} else {
 				system_msg("", 0, $u_id, $system_farbe,
@@ -2280,7 +2270,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			$text = chat_parse(
 				htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]));
 			
-			if ($communityfeatures && !($o_knebel > 0) && $u_level != "G"
+			if (!($o_knebel > 0) && $u_level != "G"
 				&& strlen($text) > 1) {
 				
 				// Empfänger im Chat suchen
@@ -2342,11 +2332,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							str_replace("%nachricht%", $text, $t['chat_msg77']));
 					}
 				}
-				
-			} elseif (!$communityfeatures) {
-				
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
-				
 			} elseif ($u_level == "G") {
 				
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
@@ -2369,7 +2354,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/buddy":
 		// Fügt Freund der Freundesliste hinzu oder löscht einen Eintrag
 		
-			if ($u_level != "G" && $communityfeatures) {
+			if ($u_level != "G") {
 				
 				$privat = FALSE;
 				$text = html_parse($privat,
@@ -2523,11 +2508,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg86']);
 				}
 				mysqli_free_result($result);
-				
-			} elseif (!$communityfeatures) {
-				// Fehlermeldung Community
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
-				
 			} else {
 				// Fehlermeldung Gast
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
@@ -2554,7 +2534,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/blackliste":
 		// Fügt Eintrag der Blacklist hinzu oder löscht einen Eintrag
 		
-			if ($admin && $communityfeatures) {
+			if ($admin) {
 				
 				$privat = FALSE;
 				$text = html_parse($privat,
@@ -2623,11 +2603,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg98']);
 				}
 				mysqli_free_result($result);
-				
-			} elseif (!$communityfeatures) {
-				// Fehlermeldung Community
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg74']);
-				
 			} else {
 				// Fehlermeldung
 				system_msg("", 0, $u_id, $system_farbe,
@@ -2900,7 +2875,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Punkte berechnen und Benutzer gutschreiben
 							// Punkte=Anzahl der Wörter mit mindestens 4 Buchstaben
 							// Punkte werden nur in permanenten, offen Räumen gutgeschrieben!
-							if ($communityfeatures && $u_level != "G"
+							if ($u_level != "G"
 								&& ($raum_einstellungen['r_status1'] == "O"
 									|| $raum_einstellungen['r_status1'] == "m")
 								&& $raum_einstellungen['r_status2'] == "P") {

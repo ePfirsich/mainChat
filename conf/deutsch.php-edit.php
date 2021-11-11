@@ -5,7 +5,7 @@
 $t['menue1'] = "Einstellungen: Übersicht";
 $t['menue2'] = "Raumliste";
 $t['menue3'] = "Benutzerliste";
-$t['menue4'] = "$chat Menü";
+$t['menue4'] = "Einstellungen";
 $t['menue5'] = "Benutzer %u_nick% wurde gelöscht!";
 $t['menue6'] = "Keine Berechtigung zum Löschen von %u_nick%!";
 $t['menue7'] = "Profil";
@@ -38,7 +38,5 @@ $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neue
 $t['edit23'] = "Mit dieser E-Mail ist bereits ein anderer Benutzer registriert.";
 $t['edit24'] = "<b>Hinweis:</b> Die Änderungen wurden gespeichert.";
 
-$t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Sie sind ausgeloggt";
-
 ?>

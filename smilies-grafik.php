@@ -35,8 +35,6 @@ if (strlen($u_id) != 0) {
 	echo "$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
 		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2</div>";
 	
-} else {
-	echo "<p style=\"text-align:center;\">$t[sonst15]</p>\n";
 }
 ?>
 </body>

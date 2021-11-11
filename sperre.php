@@ -44,8 +44,6 @@ function liste() {
 		$i = 0;
 		$bgcolor = 'class="tabelle_zeile1"';
 		
-		// Kopf Tabelle
-		// $box = $t['sonst2']; Wird nicht verwendet?
 		$text .= "<table class=\"tabelle_kopf\">\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[sonst23]</td>";
@@ -213,38 +211,31 @@ if (strlen($u_id) > 0 && $admin) {
 		$uname = "";
 	}
 	
-	$box = "$chat Menü";
-	$text = "<a href=\"sperre.php?id=$id\">$t[menue1]</A>\n"
-		. "| <a href=\"sperre.php?id=$id&aktion=neu\">$t[menue2]</A>\n";
+	$box = $t['menue4'];
+	$text = "<a href=\"sperre.php?id=$id\">$t[menue1]</a>\n" . "| <a href=\"sperre.php?id=$id&aktion=neu\">$t[menue2]</a>\n";
 	
-	if ($communityfeatures) {
-		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre0\">"
-				. "Loginsperre: Deaktivieren" . "</A>\n";
-		} else {
-			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre1\">"
-				. "Loginsperre: Aktivieren" . "</A>\n";
-		}
-		mysqli_free_result($result);
-		
-		$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast0\">"
-				. "Loginsperre Gast: Deaktivieren" . "</A>\n";
-		} else {
-			$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast1\">"
-				. "Loginsperre Gast: Aktivieren" . "</A>\n";
-		}
-		mysqli_free_result($result);
-		
-		$text .= "| <a href=\"blacklist.php?id=$id&neuer_blacklist[u_nick]=$uname\">"
-			. $zusatztxt . $t['menue3'] . "</A>\n";
+	$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
+	$result = mysqli_query($mysqli_link, $query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre0\">" . "Loginsperre: Deaktivieren" . "</a>\n";
+	} else {
+		$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperre1\">" . "Loginsperre: Aktivieren" . "</a>\n";
 	}
+	mysqli_free_result($result);
 	
-	show_box_title_content($box, $text, true);
+	$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
+	$result = mysqli_query($mysqli_link, $query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast0\">" . "Loginsperre Gast: Deaktivieren" . "</a>\n";
+	} else {
+		$text .= "| <a href=\"sperre.php?id=$id&aktion=loginsperregast1\">" . "Loginsperre Gast: Aktivieren" . "</A>\n";
+	}
+	mysqli_free_result($result);
+	
+	$text .= "| <a href=\"blacklist.php?id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['menue3'] . "</A>\n";
+	
+	echo "<br>";
+	show_box_title_content($box, $text);
 	
 	// Soll Datensatz eingetragen oder geändert werden?
 	if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
@@ -509,11 +500,6 @@ if (strlen($u_id) > 0 && $admin) {
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst16]</p>\n";
 }
-
-if ($o_js) {
-	echo schliessen_link();
-}
-
 ?>
 </body>
 </html>

@@ -49,7 +49,7 @@ if (isset($u_id) && $u_id) {
 	
 	// Aktionen ausführen, falls nicht innerhalb der letzten 5
 	// Minuten geprüft wurde (letzte Prüfung=o_aktion)
-	if ($communityfeatures && (time() > ($o_aktion + 300))) {
+	if ( time() > ($o_aktion + 300) ) {
 		aktion("Alle 5 Minuten", $u_id, $u_nick, $id);
 	}
 	

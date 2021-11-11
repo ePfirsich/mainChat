@@ -11,6 +11,5 @@ $t['profil_hilfe'] = "Hilfe";
 $t['profil_alle_profile'] = "Alle Profile";
 $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
-$t['sonst1'] = "Fenster schließen";
-
+$t['menue1'] = "Profil";
 ?>

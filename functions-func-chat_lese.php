@@ -203,9 +203,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			
 			if ($ausgeben && ($text_ausgegeben || $row->c_br == "normal" || $row->c_br == "erste")) {
 				
-				// Alter Code 
-				// if (!$ignore[$row->c_von_user_id] && ($text_ausgegeben || $row->c_br=="normal" || $row->c_br=="erste")){
-				
 				// Letzte ID merken
 				$letzte_id = $row->c_id;
 				

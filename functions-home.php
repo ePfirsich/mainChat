@@ -225,7 +225,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		// Link auf Benutzereditor ausgeben
 		if ($aktion == "aendern") {
 			$url = "edit.php?id=$id";
-			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" onClick=\"neuesFenster('$url');return(false)\">Ändern</a>]</b>" . $f4;
+			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">Ändern</a>]</b>" . $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";
 		}

@@ -54,8 +54,7 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 	$fenster = str_replace("ß", "", $fenster);
 	
 	echo "<script>\n" . "  var id='$id';\n"
-		. "  var u_nick='" . $fenster . "';\n" . "  var raum='$schau_raum';\n"
-		. "  var communityfeatures='$communityfeatures';\n";
+		. "  var u_nick='" . $fenster . "';\n" . "  var raum='$schau_raum';\n";
 	if (($admin) || ($u_level == 'M')) {
 		echo "  var inaktiv_ansprechen='0';\n"
 			. "  var inaktiv_mailsymbol='0';\n"
@@ -106,7 +105,7 @@ if (strlen($u_id) != 0) {
 	
 	if ($aktion != "chatuserliste" && $aktion != "statistik") {
 		// Menü als erstes ausgeben, falls nicht Spezialfall im Chatwindow oder statistikfenster.
-		$box = $t['sonst2'];
+		$box = $t['menue13'];
 		$text .= "<ul style=\"list-style-type: none; padding:0px;\">";
 		$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
 		if ($u_level != "G") {
@@ -116,15 +115,15 @@ if (strlen($u_id) != 0) {
 		if ($adminlisteabrufbar && $u_level != "G") {
 			$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
 		}
-		if ($communityfeatures && $u_level != "G") {
+		if ($u_level != "G") {
 			if ($punktefeatures) {
 				$ur1 = "top10.php?id=$id";
-				$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+				$url = "href=\"$ur1\" ";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
 			$ur1 = "freunde.php?id=$id";
-			$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+			$url = "href=\"$ur1\" ";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}
 		if ($admin) {
@@ -136,16 +135,15 @@ if (strlen($u_id) != 0) {
 		}
 		$text .= "</ul>";
 		
-		if ($aktion != "zeigalle" || $u_level != "S") {
-			show_box_title_content($box, $text, true);
+		if ($aktion != "zeigalle") {
+			echo "<br>";
+			show_box_title_content($box, $text);
 		}
 	}
 	
 	if ($admin && isset($kick_user_chat) && $user) {
 		// Nur Admins: Benutzer sofort aus dem Chat kicken
-		$query = "SELECT o_id,o_raum,o_name FROM online "
-			. "WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' "
-			. "AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
+		$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
 		$result = mysqli_query($mysqli_link, $query);
 		
 		if ($result && mysqli_num_rows($result) > 0) {
@@ -560,15 +558,13 @@ if (strlen($u_id) != 0) {
 							$larr[$i]['u_level'] = $row['u_level'];
 							$larr[$i]['u_id'] = $row['u_id'];
 							$larr[$i]['u_away'] = $row['u_away'];
-							if ($communityfeatures) {
-								// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-								if ($row['u_punkte_anzeigen'] != "N") {
-									$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
-								} else {
-									$larr[$i]['gruppe'] = 0;
-								}
-								$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
+							// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
+							if ($row['u_punkte_anzeigen'] != "N") {
+								$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
+							} else {
+								$larr[$i]['gruppe'] = 0;
 							}
+							$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 							// Raumbesitzer einstellen, falls Level=Benutzer
 							if (isset($larr[$i]['isowner'])
 								&& $larr[$i]['isowner']
@@ -695,15 +691,13 @@ if (strlen($u_id) != 0) {
 					$larr[$i]['u_level'] = $row['u_level'];
 					$larr[$i]['u_id'] = $row['u_id'];
 					$larr[$i]['u_away'] = $row['u_away'];
-					if ($communityfeatures) {
-						// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-						if ($row['u_punkte_anzeigen'] != "N") {
-							$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
-						} else {
-							$larr[$i]['gruppe'] = 0;
-						}
-						$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
+					// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
+					if ($row['u_punkte_anzeigen'] != "N") {
+						$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
+					} else {
+						$larr[$i]['gruppe'] = 0;
 					}
+					$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 					
 					flush();
 				}
@@ -778,14 +772,12 @@ if (strlen($u_id) != 0) {
 					$larr[$i]['o_ip'] = $row['o_ip'];
 					$larr[$i]['isowner'] = $row['isowner'];
 					
-					if ($communityfeatures) {
-						if ($userdata['u_punkte_anzeigen'] != "N") {
-							$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
-						} else {
-							$larr[$i]['gruppe'] = 0;
-						}
-						$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
+					if ($userdata['u_punkte_anzeigen'] != "N") {
+						$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
+					} else {
+						$larr[$i]['gruppe'] = 0;
 					}
+					$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
 					if (!$row['r_name'] || $row['r_name'] == "NULL") {
 						$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 					} else {
@@ -887,15 +879,15 @@ if (strlen($u_id) != 0) {
 						$linksmilies = "href=\"smilies-grafik.php" . "?id=$id\"";
 						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
 					}
-					echo $f4 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2 . "<br>\n";
+					echo $f2 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2 . "<br>\n";
 					
 					// Benutzerliste ausgeben
 					echo user_liste($larr, 0);
 				
 					if ($rows > 15) {
-						echo "$f1<b>[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst19'] . "</a>]";
+						echo $f1."[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst19'] . "</a>]";
 						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
-						echo "</b>" . $f4 . "</center>\n";
+						echo $f2 . "</center>\n";
 					}
 				}
 				
@@ -905,13 +897,6 @@ if (strlen($u_id) != 0) {
 	
 } else {
 	echo "<p style=\"text-align: center;\">$t[sonst15]</p>\n";
-}
-
-// Fuß
-if ($aktion != "zeigalle" || $u_level != "S") {
-	if ($aktion != "chatuserliste" && $o_js) {
-		echo schliessen_link();
-	}
 }
 ?>
 </body>

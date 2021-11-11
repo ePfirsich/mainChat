@@ -1,7 +1,4 @@
 <?php
-// Gibt die Kopfzeile im Login aus
-show_kopfzeile_login();
-
 $text = $hilfe_spruchtext;
 $box = $t['hilfe3'];
 
@@ -60,8 +57,4 @@ while ($i < $anzahl) {
 $text .= "</table>\n";
 
 show_box_title_content($box,$text);
-
-show_box_title_content($box,$text);
-
-zeige_fuss();
 ?>

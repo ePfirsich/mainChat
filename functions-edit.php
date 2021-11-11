@@ -9,7 +9,7 @@ function user_edit($f, $admin, $u_level) {
 	global $id, $level, $f1, $f2, $f3, $f4;
 	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe;
 	global $t, $smilies_pfad, $erweitertefeatures;
-	global $frame_size, $u_id, $communityfeatures, $punktefeatures;
+	global $frame_size, $u_id, $punktefeatures;
 	global $einstellungen_aendern, $eintritt_individuell;
 	global $mysqli_link;
 	
@@ -275,7 +275,7 @@ if (tests.dnd) {
 	}
 	
 	// Punkte Anzeigen Y/N
-	if ($communityfeatures && $u_level <> 'G' && $punktefeatures) {
+	if ($u_level <> 'G' && $punktefeatures) {
 		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige52'] . "</b>\n" . $f2
 			. "</td><td>" . $f1 . "<select name=\"f[u_punkte_anzeigen]\">";
 		if ($f['u_punkte_anzeigen'] == "Y") {
@@ -341,11 +341,9 @@ if (tests.dnd) {
 	$link = "";
 	// Farbe direkt einstellen
 	if ($f['u_id'] == $u_id) {
-		if ($communityfeatures) {
-			$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
-				. urlencode($f['u_farbe']);
-			$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
-		}
+		$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
+			. urlencode($f['u_farbe']);
+		$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
 			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
 			. "</td><td>" . $f1

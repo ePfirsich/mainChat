@@ -14,10 +14,11 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($u_id && $communityfeatures) {
+if ($u_id) {
 	// Menü als erstes ausgeben
+	echo "<br>";
 	$box = $t['aktion3'];
-	$text = "<a href=\"index.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
+	$text = "<a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 	show_box_title_content($box, $text);
 	
 	switch ($aktion) {
@@ -39,10 +40,6 @@ if ($u_id && $communityfeatures) {
 	
 	// Box anzeigen
 	show_box_title_content($box, $text);
-}
-
-if ($o_js || !$u_id) {
-	echo schliessen_link();
 }
 ?>
 </body>

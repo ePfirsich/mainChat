@@ -74,49 +74,7 @@ if ($u_id) {
 	}
 	
 	echo "<tr><td style=\"text-align:center;\">";
-	
-	$mlnk[1] = "index.php?id=$id&aktion=hilfe";
-	$mlnk[3] = "user.php?id=$id";
-	$mlnk[4] = "edit.php?id=$id";
-	$mlnk[5] = "index.php?id=$id&aktion=logoff";
-	$mlnk[6] = "logout.php?id=$id&reset=1&forum=1";
-	$mlnk[7] = "mail.php?id=$id";
-	$mlnk[8] = "log.php?id=$id&back=500";
-	$mlnk[10] = "edit.php?id=$id";
-	$mlnk[11] = "sperre.php?id=$id";
-	$mlnk[12] = "blacklist.php?id=$id";
-	$mlnk[13] = "user.php?id=$id&aktion=statistik";
-	
 	echo $f1;
-	?>
-	<a href="<?php echo $mlnk[1]; ?>" target="_blank" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[3]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[3]; ?>');return(false)" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[7]; ?>" target="_blank" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[4]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[4]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
-	<?php
-	if ($admin) {
-		?>
-		<a href="<?php echo $mlnk[11]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[11]; ?>');return(false)" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
-		<a href="<?php echo $mlnk[12]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[12]; ?>');return(false)" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
-		<?php
-	}
-	if ($erweitertefeatures && $admin) {
-		?>
-		<a href="<?php echo $mlnk[13]; ?>" onClick="neuesFenster('<?php echo $mlnk[13]; ?>');return(false)" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
-		<?php
-	}
-	?>
-	<a href="<?php echo $mlnk[8]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
-	<?php
-	if ($o_js) {
-		?>
-		<a href="<?php echo $mlnk[6]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[6]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
-		<?php
-	}
-	?>
-	<a href="<?php echo $mlnk[5]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>
-	<?php
-	echo "<br><br>\n";
 	if (!(($u_level == 'U' || $level == 'G') && (isset($useronline_anzeige_deaktivieren) && $useronline_anzeige_deaktivieren == "1"))) {
 		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_txt']) . $f2 . "<br>\n";
 	}

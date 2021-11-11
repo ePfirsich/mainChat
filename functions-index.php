@@ -105,7 +105,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
 	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
-	global $mysqli_link, $punkte_gruppe, $communityfeatures;
+	global $mysqli_link, $punkte_gruppe;
 	
 	// IP/Browser Adresse des Benutzer setzen
 	$ip = $_SERVER["REMOTE_ADDR"];
@@ -151,7 +151,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	unset($http_stuff['PHP_AUTH_PW']);
 	
 	// Aktionen initialisieren, nicht für Gäste
-	if ($u_level != "G" && $communityfeatures) {
+	if ($u_level != "G") {
 		$query = "select a_id FROM aktion WHERE a_user=$u_id ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && (mysqli_num_rows($result) == 0 || mysqli_num_rows($result) > 20)) {
@@ -185,7 +185,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	}
 	
 	// Punkte des Vormonats/Vorjahres löschen und Benutzergruppe ermitteln, falls nicht Gast
-	if ($u_level != "G" && $communityfeatures) {
+	if ($u_level != "G") {
 		
 		// Ist u_punkte_monat vom aktuellen Monat?
 		if ($u_punkte_datum_monat != date("n", time())) {
@@ -364,7 +364,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
-	global $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe, $u_punkte_gesamt;
+	global $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $beichtstuhl, $system_farbe, $u_punkte_gesamt;
 	global $raum_eintrittsnachricht_kurzform, $raum_eintrittsnachricht_anzeige_deaktivieren;
 	
 	// Falls eintrittsraum nicht definiert, lobby voreinstellen
@@ -540,52 +540,50 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	raum_user($r_id, $u_id);
 	
 	// Hat der Benutzer sein Profil ausgefüllt?
-	if ($communityfeatures && $u_level != "G") {
+	if ($u_level != "G") {
 		profil_neu($u_id, $u_nick, $hash_id);
 	}
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	
-	if ($communityfeatures && $u_level != "G") {
+	if ($u_level != "G") {
 		aktion("Login", $u_id, $u_nick, $hash_id);
 	}
 	
 	// Nachrichten an Freude verschicken
-	if ($communityfeatures) {
-		$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' " . "UNION " . "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' " . "UNION " . "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	
+	$result = mysqli_query($mysqli_link, $query);
+	
+	if ($result && mysqli_num_rows($result) > 0) {
 		
-		$result = mysqli_query($mysqli_link, $query);
-		
-		if ($result && mysqli_num_rows($result) > 0) {
-			
-			while ($row = mysqli_fetch_object($result)) {
-				unset($f);
-				$f['raum'] = $r_name;
-				$f['aktion'] = "Login";
-				$f['f_text'] = $row->f_text;
-				if ($row->f_userid == $u_id) {
-					if (ist_online($row->f_freundid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_freundid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_freundid;
-					}
+		while ($row = mysqli_fetch_object($result)) {
+			unset($f);
+			$f['raum'] = $r_name;
+			$f['aktion'] = "Login";
+			$f['f_text'] = $row->f_text;
+			if ($row->f_userid == $u_id) {
+				if (ist_online($row->f_freundid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_freundid;
 				} else {
-					if (ist_online($row->f_userid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_userid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_userid;
-					}
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_freundid;
 				}
-				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			} else {
+				if (ist_online($row->f_userid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_userid;
+				} else {
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_userid;
+				}
 			}
+			// Aktion ausführen
+			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
-		mysqli_free_result($result);
 	}
+	mysqli_free_result($result);
 	
 	return ($back);
 }
@@ -602,7 +600,7 @@ function id_erzeuge($u_id)
 function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
 	
-	global $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $communityfeatures, $beichtstuhl, $system_farbe;
+	global $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $beichtstuhl, $system_farbe;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;
@@ -613,41 +611,39 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
-	if ($communityfeatures && $u_level != "G")
+	if ($u_level != "G")
 		aktion("Login", $u_id, $u_nick, $hash_id);
 	
 	// Nachrichten an Freude verschicken
-	if ($communityfeatures) {
-		$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
-		$result = mysqli_query($mysqli_link, $query);
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$result = mysqli_query($mysqli_link, $query);
+	
+	if ($result && mysqli_num_rows($result) > 0) {
 		
-		if ($result && mysqli_num_rows($result) > 0) {
-			
-			while ($row = mysqli_fetch_object($result)) {
-				unset($f);
-				$f['raum'] = "";
-				$f['aktion'] = "Login";
-				$f['f_text'] = $row->f_text;
-				if ($row->f_userid == $u_id) {
-					if (ist_online($row->f_freundid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_freundid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_freundid;
-					}
+		while ($row = mysqli_fetch_object($result)) {
+			unset($f);
+			$f['raum'] = "";
+			$f['aktion'] = "Login";
+			$f['f_text'] = $row->f_text;
+			if ($row->f_userid == $u_id) {
+				if (ist_online($row->f_freundid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_freundid;
 				} else {
-					if (ist_online($row->f_userid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_userid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_userid;
-					}
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_freundid;
 				}
-				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			} else {
+				if (ist_online($row->f_userid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_userid;
+				} else {
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_userid;
+				}
 			}
+			// Aktion ausführen
+			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);

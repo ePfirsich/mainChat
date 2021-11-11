@@ -25,8 +25,9 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($u_id && $communityfeatures) {
+if ($u_id) {
 	// Menü als erstes ausgeben
+	echo "<br>";
 	$box = "Menü Freunde";
 	$text = "<a href=\"freunde.php?id=$id&aktion=\">Meine Freunde listen</a>\n"
 		. "| <a href=\"freunde.php?id=$id&aktion=neu\">Neuen Freund hinzufügen</a>\n"
@@ -34,9 +35,8 @@ if ($u_id && $communityfeatures) {
 	if ($admin) {
 		$text .= "| <a href=\"freunde.php?id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-community#freunde\" target=\"_blank\">Hilfe</a>\n";
-	
-	show_box_title_content($box, $text, true);
+	$text .= "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community#freunde\">Hilfe</a>\n";
+	show_box_title_content($box, $text);
 	
 	switch ($aktion) {
 		
@@ -180,10 +180,6 @@ if ($u_id && $communityfeatures) {
 			zeige_freunde("normal", "");
 	}
 	
-}
-
-if ($o_js || !$u_id) {
-	echo schliessen_link();
 }
 ?>
 </body>

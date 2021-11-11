@@ -65,8 +65,7 @@ function such_bereich() {
 		. $f1 . "<select name=\"suche[thema]\" size=\"1\" STYLE=\"width: "
 		. $select_breite . "px;\">";
 	
-	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
-		. "WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
+	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = mysqli_query($mysqli_link, $sql);
 	$themaalt = "";
 	$text .= "<option ";

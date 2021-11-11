@@ -22,7 +22,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $mysqli_link, $communityfeatures, $t, $chat;
+	global $system_farbe, $mysqli_link, $t, $chat;
 	
 	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
 	$result = mysqli_query($mysqli_link, $query);
@@ -74,13 +74,13 @@ function profil_neu($u_id, $u_nick, $id) {
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Benutzers
 	
-	global $system_farbe, $mysqli_link, $communityfeatures, $t;
+	global $system_farbe, $mysqli_link, $t;
 	
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$ur1 = "profil.php?id=$id&aktion=neu";
-		$url = "href=\"$ur1\" onclick=\"neuesFenster('$ur1'); return(false);\"";
+		$url = "href=\"$ur1\" ";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
 	mysqli_free_result($result);
@@ -94,7 +94,7 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	// $tabelle=Name der Tabelle in der Datenbank
 	// $feld=Name des Felds
 	
-	global $system_farbe, $mysqli_link, $communityfeatures, $t;
+	global $system_farbe, $mysqli_link, $t;
 	
 	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
 	$result = mysqli_query($mysqli_link, $query);
@@ -120,7 +120,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
-	global $t, $o_punkte, $communityfeatures, $mysqli_link, $punkte_gruppe;
+	global $t, $o_punkte, $mysqli_link, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
@@ -217,7 +217,7 @@ function punkte_offline($anzahl, $u_id)
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
-	global $t, $communityfeatures, $mysqli_link, $punkte_gruppe;
+	global $t, $mysqli_link, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
@@ -306,95 +306,90 @@ function aktion(
 	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
-	global $u_id, $t, $communityfeatures, $mysqli_link;
+	global $u_id, $t, $mysqli_link;
 	
-	if ($communityfeatures) {
-		
-		// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
-		// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
-		$query = "SELECT a_was,a_wie from aktion " . "WHERE a_user=$an_u_id "
-			. "AND a_wann='$typ' ";
-		if ($suche_was != "")
-			$query .= "AND a_was='$suche_was'";
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) != 0) {
-			while ($row = mysqli_fetch_object($result)) {
-				$wie = explode(",", $row->a_wie);
-				foreach ($wie as $a_wie) {
-					$a_was[$row->a_was][$a_wie] = TRUE;
-				}
+	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
+	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
+	$query = "SELECT a_was,a_wie from aktion " . "WHERE a_user=$an_u_id "
+		. "AND a_wann='$typ' ";
+	if ($suche_was != "")
+		$query .= "AND a_was='$suche_was'";
+	$result = mysqli_query($mysqli_link, $query);
+	if ($result && mysqli_num_rows($result) != 0) {
+		while ($row = mysqli_fetch_object($result)) {
+			$wie = explode(",", $row->a_wie);
+			foreach ($wie as $a_wie) {
+				$a_was[$row->a_was][$a_wie] = TRUE;
 			}
-			
-		}
-		mysqli_free_result($result);
-		
-		switch ($typ) {
-			
-			case "Sofort/Offline":
-			case "Sofort/Online":
-				if ($suche_was != "" && isset($a_was)
-					&& is_array($a_was[$suche_was])) {
-					foreach ($a_was[$suche_was] as $wie => $was) {
-						aktion_sende($suche_was, $wie, $inhalt, $an_u_id,
-							$u_id, $u_nick, $id);
-					}
-				}
-				break;
-			
-			case "Alle 5 Minuten":
-			// Aktionen ausführen
-				if (isset($a_was["Freunde"]["OLM"]))
-					freunde_online($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Freunde"]["Chat-Mail"]))
-					freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Freunde"]["E-Mail"]))
-					freunde_online($an_u_id, $u_nick, $id, "E-Mail");
-				
-				if (isset($a_was["Neue Mail"]["OLM"]))
-					mail_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Neue Mail"]["E-Mail"]))
-					mail_neu($an_u_id, $u_nick, $id, "E-Mail");
-				
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
-					postings_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
-					postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
-					postings_neu($an_u_id, $u_nick, $id, "E-Mail");
-				
-				// Merken, wann zuletzt die Aktionen ausgeführt wurden
-				$query = "UPDATE online SET o_aktion=" . time()
-					. " where o_user=$an_u_id";
-				$result = mysqli_query($mysqli_link, $query);
-				
-				break;
-			
-			case "Login":
-			default:
-			// Aktionen ausführen
-				if (isset($a_was["Freunde"]["OLM"]))
-					freunde_online($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Freunde"]["Chat-Mail"]))
-					freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Freunde"]["E-Mail"]))
-					freunde_online($an_u_id, $u_nick, $id, "E-Mail");
-				
-				if (isset($a_was["Neue Mail"]["OLM"]))
-					mail_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Neue Mail"]["E-Mail"]))
-					mail_neu($an_u_id, $u_nick, $id, "E-Mail");
-				
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
-					postings_neu($an_u_id, $u_nick, $id, "OLM");
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
-					postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-				if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
-					postings_neu($an_u_id, $u_nick, $id, "E-Mail");
-			
 		}
 		
 	}
+	mysqli_free_result($result);
 	
+	switch ($typ) {
+		
+		case "Sofort/Offline":
+		case "Sofort/Online":
+			if ($suche_was != "" && isset($a_was)
+				&& is_array($a_was[$suche_was])) {
+				foreach ($a_was[$suche_was] as $wie => $was) {
+					aktion_sende($suche_was, $wie, $inhalt, $an_u_id,
+						$u_id, $u_nick, $id);
+				}
+			}
+			break;
+		
+		case "Alle 5 Minuten":
+		// Aktionen ausführen
+			if (isset($a_was["Freunde"]["OLM"]))
+				freunde_online($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Freunde"]["Chat-Mail"]))
+				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
+			if (isset($a_was["Freunde"]["E-Mail"]))
+				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+			
+			if (isset($a_was["Neue Mail"]["OLM"]))
+				mail_neu($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Neue Mail"]["E-Mail"]))
+				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+			
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
+				postings_neu($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
+				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
+				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
+			
+			// Merken, wann zuletzt die Aktionen ausgeführt wurden
+			$query = "UPDATE online SET o_aktion=" . time()
+				. " where o_user=$an_u_id";
+			$result = mysqli_query($mysqli_link, $query);
+			
+			break;
+		
+		case "Login":
+		default:
+		// Aktionen ausführen
+			if (isset($a_was["Freunde"]["OLM"]))
+				freunde_online($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Freunde"]["Chat-Mail"]))
+				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
+			if (isset($a_was["Freunde"]["E-Mail"]))
+				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+			
+			if (isset($a_was["Neue Mail"]["OLM"]))
+				mail_neu($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Neue Mail"]["E-Mail"]))
+				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+			
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
+				postings_neu($an_u_id, $u_nick, $id, "OLM");
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
+				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
+				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
+		
+	}
 }
 ;
 
@@ -414,7 +409,7 @@ function aktion_sende(
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	
-	global $system_farbe, $communityfeatures, $t;
+	global $system_farbe, $t;
 	
 	$userlink = zeige_userdetails($von_u_id, 0, FALSE, "&nbsp;", "", "", FALSE);
 	
@@ -724,7 +719,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $mysqli_link, $system_farbe, $communityfeatures, $t, $o_js, $whotext;
+	global $mysqli_link, $system_farbe, $t, $o_js, $whotext;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "

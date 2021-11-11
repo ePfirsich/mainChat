@@ -108,7 +108,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
 	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
-	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t, $communityfeatures;
+	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
 	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $chat_url;
 	
 	$eingabe_breite = 29;
@@ -285,7 +285,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Punkte
-		if ($communityfeatures && $uu_punkte_gesamt) {
+		if ($uu_punkte_gesamt) {
 			if ($row->u_punkte_datum_monat != date("n", time())) {
 				$uu_punkte_monat = 0;
 			}
@@ -309,17 +309,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 		}
 		
-		if ($communityfeatures) {
-			$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[mail]</a>";
-			$f4 . "</td></tr>\n";
-		} else if (strlen($uu_email) > 0) {
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"mailto:$uu_email\">$uu_email</a>" . $f4 . "</td></tr>\n";
-		}
+		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
+		$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
+		$f4 . "</td></tr>\n";
 		
-		if ($communityfeatures && $uu_chathomepage == "J") {
+		if ($uu_chathomepage == "J") {
+			$url = "home.php?/".URLENCODE($uu_nick);
 			$url = "home.php?ui_userid=$uu_id&id=" . $id;
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
+			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 			$f4 . "</td></tr>\n";
 		} elseif (strlen($uu_url) > 0) {
 			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
@@ -417,12 +414,10 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
 			}
 			$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
-			if ($communityfeatures) {
-				$mlnk[8] = "mail.php?id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
-				$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
-				$text .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[user_zeige40]</a>]<br>\n"
-					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
-			}
+			$mlnk[8] = "mail.php?id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
+			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
+			$text .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[user_zeige40]</a>]<br>\n"
+				. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
 			
 		}
 		
@@ -444,14 +439,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. urlencode($o_row->o_name);
 			$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
-				. "[<a href=\"$mlnk[6]\" onClick=\"neuesFenster('$mlnk[6]');return(false)\">$t[user_zeige26]</a>]<br>\n";
+				. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[user_zeige26]</a>]<br>\n";
 			$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
-		if ($admin && $communityfeatures) {
+		if ($admin) {
 			$mlnk[10] = "blacklist.php?id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
-			$text .= "[<a href=\"$mlnk[10]\" onClick=\"neuesFenster('$mlnk[10]');return(false)\">$t[user_zeige48]</a>]<br>\n";
+			$text .= "[<a href=\"$mlnk[10]\" target=\"chat\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
 		

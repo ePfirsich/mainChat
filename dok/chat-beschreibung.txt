@@ -42,6 +42,5 @@ hilfe:		Gibt Hilfe zum angegeben Thema aus, ohne Thema kommt Übersicht
 
 show_box:					Gibt Tabelle mit Kopf und Inhalt aus
 show_box_title_content:		Gibt Tabelle mit Kopf, Optional Schließ-Button und Inhalt aus
-schliessen_link				Gibt einen Link zum Schließen des Fensters aus
 
 schreibe_db:	Trägt Daten in Tabelle ein

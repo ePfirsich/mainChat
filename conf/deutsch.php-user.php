@@ -13,8 +13,8 @@ $t['menue8'] = "Meine Freunde";
 $t['menue10'] = "Admin: Benutzer importieren";
 $t['menue11'] = "Admin: Benutzer löschen";
 $t['menue12'] = "Adminliste anzeigen";
+$t['menue13'] = "Benutzer";
 
-$t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "$chat Menü";
 $t['sonst4'] = "<b>Es wurden leider keine Benutzer gefunden!</b>";
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";

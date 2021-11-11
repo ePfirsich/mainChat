@@ -5,8 +5,8 @@
 $t['menue1'] = "Zugangssperre: Übersicht";
 $t['menue2'] = "Zugangssperre: Neu anlegen";
 $t['menue3'] = "Blacklist";
+$t['menue4'] = "Übersicht der Sperren";
 
-$t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Übersicht über alle Zugangssperren";
 
 $t['sonst4'] = "<b>Keine Zugangssperren definiert.</b>";

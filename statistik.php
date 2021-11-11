@@ -45,16 +45,17 @@ if (!$mysqli_link) {
 	}
 }
 
+$box = $t['statistik1'];
 if ($fehler) {
-	show_box_title_content($t['statistik1'], $msg);
+	show_box_title_content($box, $msg);
 	return;
 }
 
 // Menu ausgeben
-$msg = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">" . $t['statistik3'] . "</a>]\n"
-	. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">" . $t['statistik2'] . "</a>]";
-
-	show_box_title_content($t['statistik1'], $msg, true);
+echo "<br>";
+$text = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">" . $t['statistik3'] . "</a>]\n"
+. "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">" . $t['statistik2'] . "</a>]";
+show_box_title_content($box, $text);
 
 switch ($type) {
 	case "monat":

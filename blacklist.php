@@ -9,7 +9,7 @@ $title = $body_titel . ' - Blacklist';
 zeige_header_anfang($title, 'mini');
 ?>
 <script>
-function toggle(tostat ) {
+function toggle(tostat) {
 		for(i=0; i<document.forms["blacklist_loeschen"].elements.length; i++) {
 			 e = document.forms["blacklist_loeschen"].elements[i];
 			 if ( e.type=='checkbox' )
@@ -25,15 +25,15 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($admin && $u_id && $communityfeatures) {
+if ($admin && $u_id) {
 	
 	// Menü als erstes ausgeben
-	$box = "Menü Blacklist";
+	echo "<br>";
+	$box = $t['menue1'];
 	$text = "<a href=\"blacklist.php?id=$id&aktion=\">Blacklist zeigen</a>\n"
 		. "| <a href=\"blacklist.php?id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
 		. "| <a href=\"sperre.php?id=$id\">Zugangssperren</a>\n";
-	
-	show_box_title_content($box, $text, true);
+	show_box_title_content($box, $text);
 	
 	if (!isset($neuer_blacklist)) {
 		$neuer_blacklist[] = "";
@@ -97,10 +97,6 @@ if ($admin && $u_id && $communityfeatures) {
 	
 } else {
 	echo "<p style=\"text-align:center;\"><b>Fehler:</b> Sie sind ausgelogt oder haben keine Berechtigung!</p>\n";
-}
-
-if ($o_js || !$u_id) {
-	echo schliessen_link();
 }
 ?>
 </body>

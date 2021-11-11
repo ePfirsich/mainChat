@@ -2,13 +2,14 @@
 
 // Sprachdefinition deutsch raum.php
 
-$t['menue1'] = "Übersicht";
+$t['menue1'] = "Räume";
 $t['menue2'] = "Neuer Raum";
 $t['menue3'] = "Benutzerliste";
 $t['menue4'] = "Einstellungen";
 $t['menue5'] = "$chat Menü";
 $t['menue6'] = "ausführliche Raumliste";
 $t['menue7'] = "einfache Raumliste";
+$t['menue8'] = "Übersicht";
 
 $t['fehler0'] = "<b>Fehler:</b> Der Raum mit Namen '%r_name%' existiert bereits.";
 $t['fehler1'] = "<P><b>Der Name des Raums muss mehr als 3 Zeichen enthalten!</b></P>\n";
@@ -26,7 +27,6 @@ $t['fehler12'] = "<b>Dieser Raum kann nicht gelöscht werden.</b>";
 $t['fehler13'] = "<b>Diese Mindestpunktezahl kann nicht vergeben werden</b>";
 $t['fehler14'] = "<b>Die Mindestpunktezahl in einem permanenten Raum kann nur von einem Admin geändert werden.</b>";
 
-$t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Raum";
 $t['sonst3'] = "Topic";
 $t['sonst4'] = "Löschen";
@@ -38,7 +38,7 @@ $t['sonst9'] = "Eintragen";
 $t['sonst10'] = "Übersicht der Räume";
 $t['sonst11'] = "Sie sind ausgeloggt";
 $t['sonst12'] = "URL des Werbeframes";
-$t['sonst13'] = "<P><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</P>";
+$t['sonst13'] = "<p><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</p>";
 $t['sonst14'] = "Mindestpunkte";
 $t['sonst15'] = "Räume";
 $t['sonst16'] = "Benutzer online";

@@ -26,7 +26,7 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($u_id && $communityfeatures && $u_level != "G") {
+if ($u_id && $u_level != "G") {
 	
 	// Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 	if ($mailloescheauspapierkorb < 1)
@@ -38,15 +38,15 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 	$result2 = mysqli_query($mysqli_link, $query2);
 	
 	// Menü als erstes ausgeben
+	echo "<br>";
 	$box = $t['menue1'];
 	$text = "<a href=\"mail.php?id=$id&aktion=\">" . $t['menue2'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=neu\">" . $t['menue3'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=papierkorb\">" . $t['menue4'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">" . $t['menue5'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">" . $t['menue6'] . "</a>\n|\n"
-		. "<a href=\"index.php?id=$id&aktion=hilfe-community#mail\" target=\"_blank\">" . $t['menue7'] . "</a>\n";
-	
-	show_box_title_content($box, $text, true);
+		. "<a href=\"hilfe.php?id=$id&aktion=hilfe-community#mail\">" . $t['menue7'] . "</a>\n";
+	show_box_title_content($box, $text);
 	
 	switch ($aktion) {
 		

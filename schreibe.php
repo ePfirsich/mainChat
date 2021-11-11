@@ -113,7 +113,7 @@ if (strlen($u_id) > 0) {
 			$t['floodsperre1'] . " " . $text);
 		
 		// Zur Strafe 10 Punkte abziehen
-		if ($communityfeatures && $punktefeatures) {
+		if ($punktefeatures) {
 			$anzahl = 10;
 			punkte((-1) * $anzahl, $o_id, $u_id, $t['floodsperre2'], TRUE);
 		}

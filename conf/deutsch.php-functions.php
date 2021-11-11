@@ -359,6 +359,4 @@ $t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag
 // Sonstiges
 $t['userliste1'] = "%raum_alt% (%user_im_raum% Benutzer im Raum)</span><br>\n<span class=\"text\">%nicks%<br>\n";
 $t['userliste2'] = "Gerade sind %anzahl_online% Benutzer online, insgesamt sind %anzahl_user% Benutzer angemeldet <br><br>\n%userliste%";
-
-$t['sonst1'] = "Fenster schließen";
 ?>

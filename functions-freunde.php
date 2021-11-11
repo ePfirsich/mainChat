@@ -285,10 +285,8 @@ function neuer_freund($f_userid, $freund) {
 			
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
-				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. "
-				. "<a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" onClick=\"neuesFenster('freunde.php?aktion=bestaetigen&id=<ID>'); return(false)\">gleich zustimmen?</a>";
+				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
 				
-				#system_msg("",0,$f_userid,$system_farbe,$msg);
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
 			$back = "<b>Hinweis:</b> Sie bewerben sich nun bei '$freund[u_nick]' als Freund.";

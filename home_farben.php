@@ -81,7 +81,7 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($u_id && $communityfeatures) {
+if ($u_id) {
 	echo "<center><b>Bitte wählen Sie die Farbe aus:</b><BR>"
 	. "<a href=\"home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor="
 	. urlencode($oldcolor) . "&nix\">"

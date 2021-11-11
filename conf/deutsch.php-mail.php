@@ -22,7 +22,6 @@ $t['status'] = "Status";
 $t['loeschen'] = "löschen";
 $t['wiederherstellen'] = "wiederherstellen";
 
-$t['sonst1'] = "Fenster schließen";
 $t['sonst2'] = "Mail zeigen:";
 
 $t['fehler1'] = "Fehler";

@@ -126,9 +126,9 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 				$raeume = "<SELECT name=\"eintritt\">";
 				
 				$i = 0;
-				if ($communityfeatures && $forumfeatures)
-					$raeume = $raeume
-						. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+				if ($forumfeatures) {
+					$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+				}
 				if ($result && mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
 						if ((!isset($eintritt)
@@ -143,9 +143,9 @@ if ($_SERVER['QUERY_STRING'] == "hilfe") {
 						$i++;
 					}
 				}
-				if ($communityfeatures && $forumfeatures)
-					$raeume = $raeume
-						. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+				if ($forumfeatures) {
+					$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+				}
 				$raeume = $raeume . "</SELECT>\n";
 				mysqli_free_result($result);
 			} else {

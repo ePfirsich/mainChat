@@ -28,14 +28,14 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
 		die();
 	}
-	if ($communityfeatures && $forumfeatures) {
+	if ($forumfeatures) {
 		$raeume = "<td><b>" . $t['login22'] . "</b><br>";
 	} else {
 		$raeume = "<td><b>" . $t['login12'] . "</b><br>";
 	}
 	$raeume .= $f1 . "<select name=\"eintritt\">";
 	
-	if ($communityfeatures && $forumfeatures) {
+	if ($forumfeatures) {
 		$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 	}
 	if ($rows > 0) {
@@ -53,7 +53,7 @@ if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
 			$i++;
 		}
 	}
-	if ($communityfeatures && $forumfeatures)
+	if ($forumfeatures)
 		$raeume = $raeume
 			. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 	$raeume = $raeume . "</select>" . $f2 . "</td>\n";
@@ -204,7 +204,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	// Nun Prüfung ob genug Punkte
 	$durchgangwegenpunkte = 0;
 	
-	if ($communityfeatures && $loginwhileipsperre <> 0) {
+	if ($loginwhileipsperre <> 0) {
 		// Test auf Punkte 
 		$query = "SELECT u_id, u_nick,u_level,u_punkte_gesamt FROM user "
 			. "WHERE (u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
@@ -254,8 +254,8 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
 				$ur1 = "user.php?id=<ID>&aktion=zeig&user=$t_u_id";
-				$ah1 = "<a href=\"$ur1\" target=\"$t_u_nick\" onclick=\"neuesFenster('$ur1','" . $t_u_nick . "'); return(false);\">";
-				$ah2 = "</A>";
+				$ah1 = "<a href=\"$ur1\" target=\"chat\">";
+				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe,
 					str_replace("%u_nick%",
 						$ah1 . $t_u_nick . $ah2 . $raumname, $txt));
@@ -299,12 +299,15 @@ if ($los == $t['login18'] && $aktion == "login")
 
 if ($neuregistrierung_deaktivieren) {
 	$login_titel = $t['default1'];
-	if ($aktion == "neu")
+	if ($aktion == "neu") {
 		$aktion = "";
-	if ($aktion == "neu2")
+	}
+	if ($aktion == "neu2") {
 		$aktion = "";
-	if ($aktion == "mailcheckm")
+	}
+	if ($aktion == "mailcheckm") {
 		$aktion = "";
+	}
 } else if ($t['login14']) {
 	$login_titel = $t['default1'] . " [<a href=\"index.php?aktion=neu\">" . $t['login14'] . "</a>]";
 } else {
@@ -373,51 +376,46 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 
 switch ($aktion) {
 	case "impressum":
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
+		
 		// Impressumg anzeigen
 		require_once('templates/impressum.php');
-
+		
+		zeige_fuss();
+		
 		break;
 		
 	case "datenschutz":
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
+		
 		// Datenschutz anzeigen
 		require_once('templates/datenschutz.php');
+		
+		zeige_fuss();
 		
 		break;
 		
 	case "chatiquette":
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
+		
 		// Datenschutz anzeigen
 		require_once('templates/chatiquette.php');
+		
+		zeige_fuss();
 		
 		break;
 		
 	case "nutzungsbestimmungen":
+		// Gibt die Kopfzeile im Login aus
+		show_kopfzeile_login();
+		
 		// Datenschutz anzeigen
 		require_once('templates/nutzungsbestimmungen.php');
 		
-		break;
-		
-	case "hilfe":
-		// Hilfe anzeigen
-		require_once('templates/hilfe.php');
-		
-		break;
-		
-	case "hilfe-befehle":
-		id_lese($id);
-		// Liste aller Befehle anzeigen
-		require_once('templates/hilfe-befehle.php');
-		
-		break;
-		
-	case "hilfe-sprueche":
-		// Liste aller Sprüche anzeigen
-		require_once('templates/hilfe-sprueche.php');
-		
-		break;
-		
-	case "hilfe-community":
-		// Punkte/Community anzeigen
-		require_once('templates/hilfe-community.php');
+		zeige_fuss();
 		
 		break;
 		
@@ -1325,8 +1323,8 @@ switch ($aktion) {
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
 							$ur1 = "user.php?id=<ID>&aktion=zeig&user=$u_id";
-							$ah1 = "<a href=\"$ur1\" target=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
-							$ah2 = "</A>";
+							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
+							$ah2 = "</a>";
 							system_msg("", 0, $row2->o_user, $system_farbe,
 								str_replace("%u_nick%",
 									$ah1 . $u_nick . $ah2 . $raumname,
@@ -1425,7 +1423,7 @@ switch ($aktion) {
 							$t['default7']);
 						while ($row2 = mysqli_fetch_object($result2)) {
 							$ur1 = "user.php?id=<ID>&aktion=zeig&user=$u_id";
-							$ah1 = "<a href=\"$ur1\" target=\"$u_nick\" onclick=\"neuesFenster('$ur1','$u_nick'); return(false);\">";
+							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 							$ah2 = "</A>";
 							system_msg("", 0, $row2->o_user, $system_farbe,
 								str_replace("%u_nick%",
@@ -1438,7 +1436,7 @@ switch ($aktion) {
 				
 				zeige_header_ende();
 				
-				if ($communityfeatures && $eintritt == "forum") {
+				if ($eintritt == "forum") {
 					
 					// Login ins Forum
 					betrete_forum($o_id, $u_id, $u_nick, $u_level);
@@ -1797,7 +1795,7 @@ switch ($aktion) {
 						$t['default3']);
 				
 				// Anzahl der Beiträge im Forum ausgeben
-				if ($communityfeatures && $forumfeatures) {
+				if ($forumfeatures) {
 					// Anzahl Themen
 					$query = "select count(th_id) from thema";
 					$result = mysqli_query($mysqli_link, $query);

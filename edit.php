@@ -45,7 +45,7 @@ if (strlen($u_id) != 0) {
 		
 		if ($o_js && $o_who == 0) {
 			echo "<script>"
-				. "opener_reload('eingabe.php?id=$id','3')"
+				. "opener_reload('eingabe.php?id=$id','4')"
 				. "</script>\n";
 		}
 		unset($f['u_farbe']);
@@ -54,30 +54,30 @@ if (strlen($u_id) != 0) {
 	// Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
 	if ($o_js && $o_who == 0) {
 		echo "<script>"
-			. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
+			. "opener_reload('chat.php?id=$id&back=$chat_back','2')"
 			. "</script>\n";
 		echo "<script>"
-			. "opener_reload('eingabe.php?id=$id','3')"
+			. "opener_reload('eingabe.php?id=$id','4')"
 			. "</script>\n";
 	}
 	
-	$box = $t['menue4'];
-	if ($communityfeatures && $u_level != "G") {
+	if ($u_level != "G") {
+		echo "<br>";
+		$box = $t['menue4'];
 		$ur1 = "profil.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" ";
 		$text = "<a $url>$t[menue7]</a>\n";
 		$ur1 = "home.php?id=$id&aktion=aendern";
-		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" ";
 		$text .= "| <a $url>$t[menue10]</a>\n";
 		$ur1 = "freunde.php?id=$id";
-		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" ";
 		$text .= "| <a $url>$t[menue9]</a>\n";
 		$ur1 = "aktion.php?id=$id";
-		$url = "href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\"";
+		$url = "href=\"$ur1\" ";
 		$text .= "| <a $url>$t[menue8]</a>\n";
-	}
-	if (isset($text) && $text) {
-		show_box_title_content($box, $text, true);
+		
+		show_box_title_content($box, $text);
 	}
 	
 	if ($aktion == "edit2") {
@@ -576,7 +576,7 @@ if (strlen($u_id) != 0) {
 					if ($o_js && $o_who == 0 && isset($f['u_farbe'])
 						&& $f['u_farbe']) {
 						echo "<script language=JavaScript>"
-							. "opener_reload('eingabe.php?id=$id','3')"
+							. "opener_reload('eingabe.php?id=$id','4')"
 							. "</script>\n";
 					}
 				}
@@ -639,7 +639,7 @@ if (strlen($u_id) != 0) {
 					|| $u_sicherer_modus != $f['u_sicherer_modus'])
 					&& $o_who == 0) {
 					echo "<script language=JavaScript>"
-						. "opener_reload('chat.php?id=$id&back=$chat_back','1')"
+						. "opener_reload('chat.php?id=$id&back=$chat_back','2')"
 						. "</script>\n";
 				}
 				
@@ -853,11 +853,6 @@ if (strlen($u_id) != 0) {
 	
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst2]</p>\n";
-}
-
-// Fuß
-if ($o_js) {
-	echo schliessen_link();
 }
 ?>
 </body>

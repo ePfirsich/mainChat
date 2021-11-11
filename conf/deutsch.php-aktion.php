@@ -22,8 +22,5 @@ $t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mi
 	. "/msg)."
 	. "Zusätzlich sind auch Kombinationen von <b>E-Mail und OLM</b> sowie <b>Chat-Mail "
 	. "und OLM</b> möglich, wobei Sie in diesem Fall zwei Nachrichten erhalten.</p>";
-$t['aktion3'] = "Menü Aktionen";
-
-$t['sonst1'] = "Fenster schließen";
-
+$t['aktion3'] = "Aktionen";
 ?>

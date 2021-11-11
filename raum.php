@@ -22,24 +22,29 @@ if (strlen($u_id) != 0) {
 	
 	// Menü als erstes ausgeben
 	$box = $t['menue5'];
-	if (isset($raum))
+	if (isset($raum)) {
 		$rraum = "&schau_raum=$raum";
-	else $rraum = "";
-	
-	$text = "<a href=\"raum.php?id=$id\">$t[menue1]</a>\n";
-	if ($u_level != "G") {
-		$text .= "| <a href=\"raum.php?id=$id&aktion=neu\">$t[menue2]</a>\n";
+	} else {
+		$rraum = "";
 	}
 	
+	// Menü als erstes ausgeben
+	echo "<br>";
+	$box = $t['menue1'];
+	$text = "<a href=\"raum.php?id=$id\">" . $t['menue8'] . "</a>\n|\n";
+	if ($u_level != "G") {
+		$text .= "<a href=\"raum.php?id=$id&aktion=neu\">" . $t['menue2'] . "</a>\n";
+	}
 	show_box_title_content($box, $text);
-	
+
 	if (isset($f['r_name'])) {
 		// In Namen die Leerzeichen und ' und " entfernen
 		$ersetzen = array("'", "\"", "\\");
 		$f['r_name'] = str_replace($ersetzen, "", $f['r_name']);
 		
-		if (!isset($f['r_werbung']))
+		if (!isset($f['r_werbung'])) {
 			$f['r_werbung'] = "";
+		}
 		
 		// html unterdrücken
 		$f['r_name'] = htmlspecialchars($f['r_name']);
@@ -53,9 +58,9 @@ if (strlen($u_id) != 0) {
 			unset($f['r_werbung']);
 		}
 		
-		if (isset($f['r_werbung']) && strlen($f['r_werbung']) > 0
-			&& strtolower(substr($f['r_werbung'], 0, 7)) != "http://")
+		if (isset($f['r_werbung']) && strlen($f['r_werbung']) > 0 && strtolower(substr($f['r_werbung'], 0, 7)) != "http://") {
 			$f['r_werbung'] = "http://" . $f['r_werbung'];
+		}
 		
 		// In Permanenten Räumen darf ein RB keine Punkte Ändern
 		if (!$admin && $f['r_status2'] == "P") {
@@ -65,48 +70,42 @@ if (strlen($u_id) != 0) {
 		
 		// Nur Admin darf Nicht-Temporäre Räume setzen
 		if (!$admin && $f['r_status2'] == "P") {
-			echo "<p>"
-				. str_replace("%r_status%", $raumstatus2[$f['r_status2']],
-					$t['fehler10']) . "</p>\n";
+			echo "<p>" . str_replace("%r_status%", $raumstatus2[$f['r_status2']], $t['fehler10']) . "</p>\n";
 			unset($f['r_status2']);
 		}
 		
 		// Status moderiert nur falls kommerzielle Version
-		if (isset($f['r_status1']) && (strtolower($f['r_status1']) == "m")
-			&& $moderationsmodul == 0) {
-			echo "<p>"
-				. str_replace("%r_status%", $raumstatus1[$f['r_status1']],
-					$t['fehler11']) . "</p>\n";
+		if (isset($f['r_status1']) && (strtolower($f['r_status1']) == "m") && $moderationsmodul == 0) {
+			echo "<p>" . str_replace("%r_status%", $raumstatus1[$f['r_status1']], $t['fehler11']) . "</p>\n";
 			unset($f['r_status1']);
 		}
 		
 		// Nur Admin darf andere Stati als offen oder geschlossen setzen
-		if (isset($f['r_status1']) && $f['r_status1'] != "O"
-			&& $f['r_status1'] != "G" && !$admin) {
-			$tmp = str_replace("%r_status%", $raumstatus1[$f['r_status1']],
-				$t['fehler10']);
+		if (isset($f['r_status1']) && $f['r_status1'] != "O" && $f['r_status1'] != "G" && !$admin) {
+			$tmp = str_replace("%r_status%", $raumstatus1[$f['r_status1']], $t['fehler10']);
 			echo "<p>" . str_replace("%r_name%", $f['r_name'], $tmp) . "</p>\n";
 			unset($f['r_status1']);
 		}
 		
 		// Prüfen ob Mindestpunkte zwischen 0 und 99.999.999
-		if (isset($f['r_min_punkte']) && ($f['r_min_punkte'])
-			&& ($f['r_min_punkte'] < 0 || $f['r_min_punkte'] > 99999999)) {
+		if (isset($f['r_min_punkte']) && ($f['r_min_punkte']) && ($f['r_min_punkte'] < 0 || $f['r_min_punkte'] > 99999999)) {
 			echo "<p>" . $t['fehler13'] . "</p>\n";
 			unset($f['r_min_punkte']);
 		}
-		
 	}
 	
 	// Besitzer des Raumes und Original Raumname ermitteln
 	$r_besitzer = 0;
 	
-	if (!isset($f['r_id']))
+	if (!isset($f['r_id'])) {
 		$f['r_id'] = "";
-	if (!isset($f['r_name']))
+	}
+	if (!isset($f['r_name'])) {
 		$f['r_name'] = "";
-	if (!isset($neu))
+	}
+	if (!isset($neu)) {
 		$neu = false;
+	}
 	$f['r_id'] = mysqli_real_escape_string($mysqli_link, $f['r_id']);
 	$f['r_name'] = mysqli_real_escape_string($mysqli_link, $f['r_name']);
 	
@@ -116,8 +115,9 @@ if (strlen($u_id) != 0) {
 	if ($num == 1) {
 		$row = mysqli_fetch_object($result);
 		$r_besitzer = $row->r_besitzer;
-		if ($row->r_name == $lobby)
+		if ($row->r_name == $lobby) {
 			$f['r_name'] = $lobby;
+		}
 	}
 	
 	// Gibt es den Raumnamen schon? Wenn ja dann Raum nicht speichern damit keine doppelten Raumnamen entstehen
@@ -131,27 +131,27 @@ if (strlen($u_id) != 0) {
 	
 	// Änderungen in DB eintragen, falls gesetzt und Admin oder Besitzer
 	// bei keinen Admins ist nur temporär erlaubt
-	if ($f['r_id'] != "" && strlen($f['r_name']) > 3
-		&& strlen($f['r_name']) < $raum_max && $los == "$t[sonst9]" && !$neu
-		&& ($admin || $u_id == $r_besitzer)) {
+	if ($f['r_id'] != "" && strlen($f['r_name']) > 3 && strlen($f['r_name']) < $raum_max && $los == "$t[sonst9]" && !$neu && ($admin || $u_id == $r_besitzer)) {
 		schreibe_db("raum", $f, $f['r_id'], "r_id");
 	}
 	
-	if (!isset($loesch))
+	if (!isset($loesch)) {
 		$loesch = "";
-	if (!isset($loesch2))
+	}
+	if (!isset($loesch2)) {
 		$loesch2 = "";
+	}
 	
 	// Raum neu eintragen und in Raum gehen
 	// bei keinen Admins ist nur temporär erlaubt
-	if (strlen($f['r_name']) > 3 && strlen($f['r_name']) < $raum_max
-		&& $los == "$t[sonst9]" && $loesch != "$t[sonst4]" && $neu
-		&& ($u_level != "G")) {
+	if (strlen($f['r_name']) > 3 && strlen($f['r_name']) < $raum_max && $los == "$t[sonst9]" && $loesch != "$t[sonst4]" && $neu && ($u_level != "G")) {
 		// Voreinstellungen für den Raumstatus
-		if (!$f['r_status1'])
+		if (!$f['r_status1']) {
 			$f['r_status1'] = "O";
-		if (!$f['r_status2'])
+		}
+		if (!$f['r_status2']) {
 			$f['r_status2'] = "T";
+		}
 		
 		// gibts den Raum schon?
 		$query = "SELECT r_id FROM raum " . "WHERE r_name LIKE '$f[r_name]' ";
@@ -164,8 +164,7 @@ if (strlen($u_id) != 0) {
 			$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu, TRUE);
 			raum_user($o_raum, $u_id);
 		} else {
-			echo "<p>" . str_replace("%r_name%", $f['r_name'], $t['fehler0'])
-				. "</p>\n";
+			echo "<p>" . str_replace("%r_name%", $f['r_name'], $t['fehler0']) . "</p>\n";
 		}
 		mysqli_free_result($result);
 		
@@ -261,7 +260,7 @@ if (strlen($u_id) != 0) {
 		
 		case "loesch":
 		// Raum löschen
-			$text = '';
+			$text = "";
 			$query = "SELECT raum.*,u_id FROM raum LEFT JOIN user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
 			
 			$result = mysqli_query($mysqli_link, $query);
@@ -272,7 +271,6 @@ if (strlen($u_id) != 0) {
 				
 				// Raum zeigen
 				$row = mysqli_fetch_object($result);
-				$text = '';
 				$text .= "<table style=\"width:100%;\"><tr>\n";
 				$text .= "<td><b>$t[sonst2] $row->r_name</b></td></tr>\n";
 				$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[sonst3]</b> "
@@ -306,15 +304,14 @@ if (strlen($u_id) != 0) {
 		
 		case "neu":
 		// Raum neu anlegen, Voreinstellungen
-			$text = '';
 			$r_status1 = "O";
 			$r_status2 = "T";
 			$r_smilie = "Y";
 			$r_min_punkte = "0";
 			
-			$text = '';
+			$text = "";
 			
-			if ($communityfeatures && !$admin) {
+			if (!$admin) {
 				
 				$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
 				if ($result && mysqli_num_rows($result) == 1) {
@@ -467,14 +464,14 @@ if (strlen($u_id) != 0) {
 		case "edit":
 			// kein eigener Fall, wird in default abgehandelt. 
 		default;
-		// Alle Räume
-			$text = '';
+			// Alle Räume
+		$text = "";
 			if (!isset($order))
 				$order = "r_name";
 			
 			// Anzeige aller Räume als Liste oder eines Raums im Editor
 			if ($aktion == "edit") {
-				$text = '';
+				$text = "";
 				$query = "SELECT raum.*,u_id,u_nick "
 					. "FROM raum left join user on r_besitzer=u_id "
 					. "WHERE r_id=" . intval($raum) . " ORDER BY $order";
@@ -644,7 +641,7 @@ if (strlen($u_id) != 0) {
 				
 				mysqli_free_result($result);
 			} else {
-				$text = '';
+				$text = "";
 				$box = $t['sonst15'];
 				// Liste der Räume mit der Anzahl der Benutzer aufstellen
 				$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
@@ -802,11 +799,6 @@ if (strlen($u_id) != 0) {
 			}
 		
 	}
-	
-	if ($o_js) {
-		echo schliessen_link();
-	}
-	
 } else {
 	echo "<p style=\"text-align:center;\">$t[sonst11]</p>\n";
 }

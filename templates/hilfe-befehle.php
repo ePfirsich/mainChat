@@ -1,7 +1,4 @@
 <?php
-// Gibt die Kopfzeile im Login aus
-show_kopfzeile_login();
-
 // Erklärung zu den Befehlen
 $text = '';
 $box = $t['hilfe0'];
@@ -111,7 +108,4 @@ if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 }
 
 show_box_title_content($box,$text);
-
-
-zeige_fuss();
 ?>

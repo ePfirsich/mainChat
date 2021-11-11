@@ -14,7 +14,7 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-if ($u_id && $communityfeatures) {
+if ($u_id) {
 	// Prüfung, ob für diesen user bereits ein profil vorliegt -> in $f lesen und merken
 	// Falls Array aus Formular übergeben wird, nur ui_id überschreiben
 	$query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
@@ -32,16 +32,17 @@ if ($u_id && $communityfeatures) {
 	mysqli_free_result($result);
 	
 	// Menü als erstes ausgeben
-	$box = "Menü Profil";
+	echo "<br>";
+	$box = $t['menue1'];
 	$text = "<a href=\"edit.php?id=$id\">$t[profil_benutzereinstellungen_aendern]</a>\n";
 	$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
 	if ($u_level == "S") {
 		$text .= "| <a href=\"profil.php?id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 	}
 	$ur1 = "user.php?id=$id";
-	$text .= "| <a href=\"$ur1\" onClick=\"neuesFenster('$ur1');return(false)\">$t[profil_benutzer]</a>\n";
+	$text .= "| <a href=\"$ur1\">$t[profil_benutzer]</a>\n";
 	
-	show_box_title_content($box, $text, true);
+	show_box_title_content($box, $text);
 	
 	// Profil prüfen und ggf. neu eintragen
 	if ($los == "Eintragen" && $f['ui_userid']) {
@@ -246,10 +247,6 @@ if ($u_id && $communityfeatures) {
 		
 	}
 	
-}
-
-if ($o_js || !$u_id) {
-	echo schliessen_link();
 }
 ?>
 </body>

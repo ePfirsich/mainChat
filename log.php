@@ -45,14 +45,13 @@ if (strlen($u_id) > 0) {
 	}
 	
 	// Systemnachrichten nicht ausgeben als Voreinstellung
-	if (!isset($sysmsg))
+	if (!isset($sysmsg)) {
 		$sysmsg = 0;
+	}
 	if ($sysmsg) {
-		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=0&back=$back\">"
-			. $t['sonst3'] . "</a>";
+		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=0&back=$back\">" . $t['sonst3'] . "</a>";
 	} else {
-		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=1&back=$back\">"
-			. $t['sonst2'] . "</a>";
+		$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=1&back=$back\">" . $t['sonst2'] . "</a>";
 	}
 	
 	// Link zum Abspeichern

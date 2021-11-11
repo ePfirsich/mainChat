@@ -282,7 +282,6 @@ $show_spruch_owner="%showspruch%"; 				// admins zeigen, wer einen Spruch eingeg
 $adminfeatures="%adminfeatures%"; 				// Zusätzliche Adminfeatueres freischalten? 1=ja, 0=nein
 $lustigefeatures="%lustigefeatures%";			// Lustige Texte einschalten? 1=ja, 0=nein
 $erweitertefeatures="%erfeatures%";				// Erweiterte Funktionen freischalten? 1=ja, 0=nein
-$communityfeatures="%comfeatures%";				// Communityfeatures
 $forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
 $punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
 $msgpopup=1;									// Flüstern im Popup aktiv?

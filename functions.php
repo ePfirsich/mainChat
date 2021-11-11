@@ -12,9 +12,7 @@ Header("Cache-Control: no-cache");
 if (!(isset($functions_init_geladen))) {
 	require_once "functions-init.php";
 }
-if ($communityfeatures) {
-	require_once "functions-community.php";
-}
+require_once "functions-community.php";
 
 // DB-Connect, ggf. 3 mal versuchen
 for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
@@ -267,7 +265,7 @@ function schreibe_chat($f) {
 function logout($o_id, $u_id, $info = "") {
 	// Logout aus dem Gesamtsystem
 	
-	global $u_farbe, $mysqli_link, $communityfeatures;
+	global $u_farbe, $mysqli_link;
 	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
@@ -310,43 +308,41 @@ function logout($o_id, $u_id, $info = "") {
 	mysqli_query($mysqli_link, $repair2);
 	
 	// Nachrichten an Freunde verschicken
-	if ($communityfeatures) {
-		$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
-			. "UNION "
-			. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-			. "ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
+		. "UNION "
+		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
+		. "ORDER BY f_zeit desc ";
+	
+	$result = mysqli_query($mysqli_link, $query);
+	
+	if ($result && mysqli_num_rows($result) > 0) {
 		
-		$result = mysqli_query($mysqli_link, $query);
-		
-		if ($result && mysqli_num_rows($result) > 0) {
-			
-			while ($row = mysqli_fetch_object($result)) {
-				unset($f);
-				$f['aktion'] = "Logout";
-				$f['f_text'] = $row->f_text;
-				if ($row->f_userid == $u_id) {
-					if (ist_online($row->f_freundid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_freundid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_freundid;
-					}
+		while ($row = mysqli_fetch_object($result)) {
+			unset($f);
+			$f['aktion'] = "Logout";
+			$f['f_text'] = $row->f_text;
+			if ($row->f_userid == $u_id) {
+				if (ist_online($row->f_freundid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_freundid;
 				} else {
-					if (ist_online($row->f_userid)) {
-						$wann = "Sofort/Online";
-						$an_u_id = $row->f_userid;
-					} else {
-						$wann = "Sofort/Offline";
-						$an_u_id = $row->f_userid;
-					}
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_freundid;
 				}
-				// Aktion ausführen
-				aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			} else {
+				if (ist_online($row->f_userid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_userid;
+				} else {
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_userid;
+				}
 			}
+			// Aktion ausführen
+			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
-		mysqli_free_result($result);
 	}
+	mysqli_free_result($result);
 }
 
 function global_msg($u_id, $r_id, $text) {
@@ -820,7 +816,7 @@ function show_box_title_content($box, $text) {
 
 function show_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $layout_kopf, $communityfeatures, $id;
+	global $t, $layout_kopf, $id;
 	
 	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
 	if (isset($layout_kopf) && $layout_kopf != "") {
@@ -837,12 +833,6 @@ function show_kopfzeile_login() {
 	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
 		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[menue3]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe\">$t[menue4]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-befehle\">$t[menue5]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-sprueche\">$t[menue6]</a>\n";
-	if ($communityfeatures) {
-		$text .= "| <a href=\"index.php?id=$id&aktion=hilfe-community\">$t[menue7]</a>\n";
-	}
 	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[menue8]</a>\n";
 	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue9]</a>\n";
 	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue10]</a>\n";
@@ -852,15 +842,6 @@ function show_kopfzeile_login() {
 	zeige_kopf();
 	
 	echo $willkommen;
-}
-
-function schliessen_link() {
-	// Gibt einen Link zum Schließen des Fensters aus
-	global $t;
-	global $f1;
-	global $f2;
-	
-	return $f1 . "<p style=\"text-align:center;\">[<a href=\"javascript:window.close();\">$t[sonst1]</a>]</p>" . $f2 . "\n";
 }
 
 function coreCheckName($name, $check_name) {
@@ -1003,7 +984,7 @@ function zeige_userdetails(
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
-	global $id, $system_farbe, $mysqli_link, $communityfeatures, $t, $show_geschlecht;
+	global $id, $system_farbe, $mysqli_link, $t, $show_geschlecht;
 	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik, $homep_ext_link;
 	
 	$text = "";
@@ -1119,9 +1100,9 @@ function zeige_userdetails(
 	if (!$extra_kompakt) {
 		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
 		if($benutzername_fett) {
-			$text = "<a href=\"#\" onclick=\"neuesFenster('$url'); return(false);\"><b>" . $user_nick . "</b></a>";
+			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
 		} else {
-			$text = "<a href=\"#\" onclick=\"neuesFenster('$url'); return(false);\">" . $user_nick . "</a>";
+			$text = "<a href=\"$url\" target=\"chat\">" . $user_nick . "</a>";
 		}
 	} else {
 		$text = $user_nick;
@@ -1141,14 +1122,14 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$grafikurl1 = "<a href=\"index.php?aktion=hilfe-community\" target=\"_blank\">";
+		$grafikurl1 = "<a href=\"hilfe.php?aktion=hilfe-community\" target=\"_blank\">";
 		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";
 		$grafikurl2 = "";
 	}
 	
-	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $communityfeatures && $user_punkte_anzeigen == "Y" ) {
+	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $user_punkte_anzeigen == "Y" ) {
 		
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
@@ -1157,20 +1138,21 @@ function zeige_userdetails(
 		}
 	}
 	
-	if (!$extra_kompakt && ($user_chathomepage == "J" || $homep_ext_link != "") && $communityfeatures) {
+	if (!$extra_kompakt && ($user_chathomepage == "J" || $homep_ext_link != "")) {
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
-				. "<a href=\"#\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</A>";
+				. "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 		} else if ($user_chathomepage == "J") {
-			$url = "home.php?ui_userid=$user_id&id=$idtag";
-			$text2 .= "&nbsp;" . "<a href=\"#\" onClick=\"neuesFenster('$url'); return(false)\">$chat_grafik[home]</a>";
+			$url = "home.php?/$user_nick";
+			//$url = "home.php?ui_userid=$user_id&id=$idtag";
+			$text2 .= "&nbsp;" . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 		}
 	}
 	
-	if (!$extra_kompakt && $trenner != "" && $communityfeatures && $user_nick) {
+	if (!$extra_kompakt && $trenner != "" && $user_nick) {
 		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
-		$text2 .= $trenner . "<a href=\"$url\" target=\"_blank\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
+		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
 	}

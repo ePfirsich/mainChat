@@ -15,9 +15,6 @@ function win_reload(file,win_name) {
 function opener_reload(file,frame_number) {
 	opener.parent.frames[frame_number].location.href=file;
 }
-function neuesFenster(url,name) {
-	hWnd=window.open(url,name,"resizable=yes,scrollbars=yes,width=600,height=580");
-}
 </script>
 <?php
 
