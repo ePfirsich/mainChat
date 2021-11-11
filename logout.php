@@ -43,11 +43,7 @@ if (isset($reset) && $reset && $o_js) {
 			echo "opener_reload('$frame_online','0');\n";
 		}
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
-		if ($userframe_url) {
-			echo "opener_reload('$userframe_url','2');\n";
-		} else {
-			echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
-		}
+		echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
 		echo "opener_reload('eingabe.php?id=$id','3');\n"
 			. "opener_reload('moderator.php?id=$id','4');\n"
 			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','5');\n"
@@ -58,11 +54,7 @@ if (isset($reset) && $reset && $o_js) {
 			echo "opener_reload('$frame_online','0');\n";
 		}
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','1');\n";
-		if (isset($userframe_url)) {
-			echo "opener_reload('$userframe_url','2');\n";
-		} else {
-			echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
-		}
+		echo "opener_reload('user.php?id=$id&aktion=chatuserliste','2');\n";
 		echo "opener_reload('eingabe.php?id=$id','3');\n"
 			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','4');\n"
 			. "window.close();\n" . "</script>\n";

@@ -42,17 +42,7 @@ function frameset_chat($hash_id) {
 		<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
 			<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-			<?php
-			if (!isset($userframe_url)) {
-				?>
-				<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
-				<?php
-			} else {
-				?>
-				<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
-				<?php
-			}
-			?>
+			<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
 		</frameset>
 		<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
 		<?php
