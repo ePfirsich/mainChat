@@ -158,20 +158,19 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 					if ($neue_email['m_id'] = email_versende($u_id,
 						$neue_email['m_an_uid'], $neue_email['m_text'],
 						$neue_email['m_betreff'], TRUE)) {
-						echo "<P>Ihre E-Mail an '$an_nick' wurde verschickt.</P>";
+						echo "<p>Ihre E-Mail an '$an_nick' wurde verschickt.</p>";
 					} else {
-						echo "<P><b>Fehler: </b>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</P>";
+						echo "<p><b>Fehler: </b>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</p>";
 					}
 				} else {
-					
 					$result = mail_sende($u_id, $neue_email['m_an_uid'],
 						$neue_email['m_text'], $neue_email['m_betreff']);
 					if ($result[0]) {
-						echo "<P>Ihre Mail an '$an_nick' wurde verschickt.</P>";
+						echo "<p>Ihre Nachricht an '$an_nick' wurde verschickt.</p>";
 						$neue_email['m_id'] = $result[0];
 					} else {
-						echo "<P><b>Fehler: </b>Ihre Mail an '$an_nick' wurde nicht verschickt.</P>";
-						echo "<P>$result[1]</P>";
+						echo "<p><b>Fehler: </b>Ihre Nachricht an '$an_nick' wurde nicht verschickt.</p>";
+						echo "<p>$result[1]</p>";
 					}
 					
 				}

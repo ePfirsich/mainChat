@@ -12,6 +12,8 @@ $t['menue7'] = "Hilfe";
 
 $t['nachrichten1'] = "Nachrichten im Posteingang";
 $t['nachrichten2'] = "Nachrichten im Papierkorb";
+$t['nachrichten3'] = "Art des Versands:";
+$t['nachrichten4'] = "Nachricht";
 
 $t['betreff'] = "Betreff";
 $t['datum'] = "Datum";

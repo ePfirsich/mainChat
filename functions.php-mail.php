@@ -104,11 +104,8 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	
 	// Benutzerdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
-		$query = "select u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, "
-			. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-			. "from user left join online on o_user=u_id "
-			. "WHERE u_id = ".$neue_email['m_an_uid']." ";
+		$query = "SELECT u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
@@ -119,24 +116,24 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			// E-Mail Adresse vorhanden?
 			$email_bekannt = false;
 			if (strlen($row->u_email) > 0) {
-				$email = $f1 . " (E-Mail: <a href=\"mailto:$row->u_email\">" . htmlspecialchars($row->u_email) . "</A>)" . $f2;
+				$email = $f1 . " (E-Mail: <a href=\"mailto:$row->u_email\">" . htmlspecialchars($row->u_email) . "</a>)" . $f2;
 				$email_bekannt = true;
 			}
 			
-			$email_select = "<b>Art des Mailversands:</b>&nbsp;<select name=\"neue_email[typ]\">";
+			$email_select = "<b>$t[nachrichten3]</b>&nbsp;<select name=\"neue_email[typ]\">";
 			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
-				$email_select .= "<option value=\"0\">Mail in Chat-Mailbox\n";
+				$email_select .= "<option value=\"0\">$t[nachrichten4]\n";
 				if ($email_bekannt) {
 					$email_select .= "<option selected value=\"1\">E-Mail an " . $row->u_email . "\n";
 				}
 			} else {
-				$email_select .= "<option selected value=\"0\">Mail in Chat-Mailbox\n";
+				$email_select .= "<option selected value=\"0\">$t[nachrichten4]\n";
 				if ($email_bekannt)
 					$email_select .= "<option value=\"1\">E-Mail an " . $row->u_email . "\n";
 			}
 			$email_select .= "</select>\n";
 			
-			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=POST>\n"
+			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=post>\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
 				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"
@@ -153,7 +150,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['betreff']."</b></td><td colspan=2 class =\"tabelle_zeile2\">"
 			. $f1
 			. "<input type=\"text\" name=\"neue_email[m_betreff]\" value=\""
-			. $neue_email['m_betreff'] . "\" SIZE="
+			. $neue_email['m_betreff'] . "\" size="
 			. ($eingabe_breite1)
 			. "
 			 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
@@ -161,7 +158,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			. "<tr><td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
 			. $f1 . "<textarea cols=" . ($eingabe_breite2)
 			. " ROWS=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-			. $neue_email['m_text'] . "</TEXTAREA>\n" . $f2
+			. $neue_email['m_text'] . "</textarea>\n" . $f2
 			. "</td></tr>"
 			. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
 			. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">" . $f1
