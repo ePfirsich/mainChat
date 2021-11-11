@@ -185,7 +185,7 @@ if ($u_id) {
 				echo "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
 			} else {
 				$box = $t['profil_alle_profile'];
-				$text = 'BLA';
+				$text = '';
 				$text .= "<table class=\"tabelle_kopf\">\n"
 					. "<tr><td class=\"tabelle_kopfzeile\">Benutzername</td><td class=\"tabelle_kopfzeile\">Straße</td><td class=\"tabelle_kopfzeile\">PLZ Ort</td><td class=\"tabelle_kopfzeile\">Land</td><td class=\"tabelle_kopfzeile\">Admin-E-Mail</td><td class=\"tabelle_kopfzeile\">E-Mail</td><td class=\"tabelle_kopfzeile\">URL</td><td class=\"tabelle_kopfzeile\">Geburt</td><td class=\"tabelle_kopfzeile\">Geschlecht</td><td class=\"tabelle_kopfzeile\">Fam. Stand</td><td class=\"tabelle_kopfzeile\">Typ</td><td class=\"tabelle_kopfzeile\">Beruf</td><td class=\"tabelle_kopfzeile\">Hobby</td><td class=\"tabelle_kopfzeile\">Tel</td><td class=\"tabelle_kopfzeile\">Fax</td><td class=\"tabelle_kopfzeile\">Handy</td><td class=\"tabelle_kopfzeile\">ICQ</td></tr>";
 				
