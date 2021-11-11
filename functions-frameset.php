@@ -22,7 +22,7 @@ function frameset_forum($hash_id) {
 }
 
 function frameset_chat($hash_id) {
-	global $t, $frame_online, $frame_online_size, $u_level, $moderationsgroesse;
+	global $t, $frame_online, $frame_online_size, $u_level, $moderationsgroesse, $back;
 	
 	$frame_size_interaktiv = 60;
 	$frame_size_eingabe = 54;
@@ -42,7 +42,7 @@ function frameset_chat($hash_id) {
 		<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
 			<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-			<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
+			<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" name="userliste" marginwidth="4" marginheight="0">
 		</frameset>
 		<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
 		<?php
