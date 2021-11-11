@@ -24,8 +24,8 @@ if ( !file_exists($filenameConfig) ) {
 	<?php
 } else {
 	require $filenameConfig;
-	require_once("functions.php-html.php");
-	require "conf/config.php";
+	require_once("functions-html.php");
+	require_once("conf/config.php");
 	
 
 	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist
@@ -69,8 +69,8 @@ if ( !file_exists($filenameConfig) ) {
 	// Sprachdatei für functions.php einbinden
 	require "conf/" . $sprachconfig . "-functions.php";
 	
-	// Liegen lokale Functionen "functions.php-$chat_file" vor? Falls ja einbinden
-	$functions = "functions.php-" . $chat_file;
+	// Liegen lokale Functionen "functions-$chat_file" vor? Falls ja einbinden
+	$functions = "functions-" . $chat_file;
 	if (file_exists("$functions")) {
 		require "$functions";
 	}

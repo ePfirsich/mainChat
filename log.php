@@ -2,7 +2,7 @@
 
 // log.php muss mit id=$hash_id aufgerufen werden
 
-require("functions.php");
+require_once("functions.php");
 
 // Falls Abspeichern, Header senden
 if ($aktion == "abspeichern") {

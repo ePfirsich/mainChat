@@ -1,8 +1,8 @@
 <?php
 
 require_once("functions.php");
-require_once("functions.php-func-verlasse_chat.php");
-require_once("functions.php-func-nachricht.php");
+require_once("functions-func-verlasse_chat.php");
+require_once("functions-func-nachricht.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);

@@ -18,7 +18,7 @@ if (!$u_id || !$admin || !$erweitertefeatures) {
 	die();
 }
 
-include("statistik-functions.php");
+require_once("functions-statistik.php");
 include("conf/" . $sprachconfig . "-statistik.php");
 
 $v = mysqli_real_escape_string($mysqli_link, "mainChat");

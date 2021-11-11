@@ -1,6 +1,6 @@
 <?php
 
-require("functions.php");
+require_once("functions.php");
 umask(700);
 set_time_limit(120);
 
@@ -24,12 +24,11 @@ if (!file_exists($log)) {
 
 // Chat expire und Kopie in Log für alle öffentlichen Zeilen, die älter als 15 Minuten sind
 echo "Expire Chattexte:\n";
-$query = "SELECT *,r_name FROM chat LEFT JOIN raum ON c_raum=r_id "
-	. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 1900 "
-	. "AND c_typ!='P' " . "ORDER BY c_raum,c_id";
+$query = "SELECT *,r_name FROM chat LEFT JOIN raum ON c_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 1900 AND c_typ!='P' " . "ORDER BY c_raum,c_id";
 $result = mysqli_query($mysqli_link, $query);
-if (!$result)
+if (!$result) {
 	echo mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
+}
 
 $rows = mysqli_num_rows($result);
 

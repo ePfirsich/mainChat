@@ -1,7 +1,7 @@
 <?php
 
-include("functions.php");
-include("functions.php-forum.php");
+require_once("functions.php");
+require_once("functions-forum.php");
 // Benutzerdaten setzen
 id_lese($id);
 
@@ -37,29 +37,15 @@ if ($u_level == "S") {
 	bereinige_anz_in_thema();
 }
 
-// Ins forum wechseln
+// Ins Forum wechseln
 gehe_forum($u_id, $u_nick, $o_id, $o_raum);
-
-// Obersten Frame definieren
-if (isset($frame_online) && strlen($frame_online) == 0) {
-	$frame_online = "frame_online.php";
-}
 
 $title = $body_titel;
 zeige_header_anfang($title, 'login');
 zeige_header_ende();
+
+require_once("functions-frameset.php");
+
+frameset_forum($id);
 ?>
-<frameset rows="<?php echo $frame_online_size; ?>,*,5,<?php echo $frame_size['interaktivforum']; ?>,1" border="0" frameborder="0" framespacing="0">
-	<frame src="<?php echo $frame_online; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-	<frame src="forum.php?id=<?php echo $id; ?>" name="forum" marginwidth="0" marginheight="0" scrolling="auto">
-	<frame src="leer.php" name="leer" marginwidth="0" marginheight="0" scrolling="no">
-	<frameset cols="*,<?php echo $frame_size['messagesforum']; ?>" border="0" frameborder="0" framespacing="0">
-		<frame src="messages-forum.php?id=<?php echo $id; ?>" name="messages" marginwidth="0" marginheight="0" scrolling="auto">
-		<frame src="interaktiv-forum.php?id=<?php echo $id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-	</frameset>
-	<frame src="schreibe.php?id=<?php echo $id; ?>&o_who=2" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
-</frameset>
-<noframes>
-<?php echo (isset($t['login6']) ? $t['login6'] : ""); ?>
-</noframes>
 </html>

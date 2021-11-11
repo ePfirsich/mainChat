@@ -351,7 +351,6 @@ $t['punkte23'] = "Einem Gast können keine Punkte gutgeschrieben werden!";
 $t['kopfzeile'] = "{autor} schrieb am {date}";
 $t['gruss'] = "Mit freundlichen Grüßen";
 $t['betrete_forum1'] = "<br><b>Willkommen im Forum, %u_nick%!</b>";
-$t['messages_forum1'] = "<b>Sie befinden sich im Forum.</b><br>Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
 $t['betreff_new_posting'] = "Neue Antwort auf Ihren Beitrag %po_titel%";
 $t['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
 $t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";

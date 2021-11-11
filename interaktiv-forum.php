@@ -1,7 +1,7 @@
 <?php
 
 require_once("functions.php");
-require_once("functions.php-func-raeume_auswahl.php");
+require_once("functions-func-raeume_auswahl.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
@@ -14,8 +14,8 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 		$zusatzjavascript = "<script>\n"
 			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
-		require_once("functions.php-func-verlasse_chat.php");
-		require_once("functions.php-func-nachricht.php");
+		require_once("functions-func-verlasse_chat.php");
+		require_once("functions-func-nachricht.php");
 		verlasse_chat($u_id, $u_nick, $o_raum);
 		logout($o_id, $u_id, "forum->logout");
 		unset($u_id);
@@ -38,7 +38,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 
 if ($u_id) {
 	$title = $body_titel;
-	zeige_header_anfang($title, 'mini');
+	zeige_header_anfang($title, 'chatunten');
 	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv-forum.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	zeige_header_ende($meta_refresh);
 	
@@ -100,11 +100,7 @@ if ($u_id) {
 	}
 	?>
 	<a href="<?php echo $mlnk[8]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[7]; ?>" target="_blank" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>
-	
-	<br>
-	<br>
-	
+	<a href="<?php echo $mlnk[7]; ?>" target="_blank" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>&nbsp;
 	<a href="<?php echo $mlnk[4]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[4]; ?>');return(false)" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
 	<?php
 	if ($admin) {

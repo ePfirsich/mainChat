@@ -1443,77 +1443,19 @@ switch ($aktion) {
 					// Login ins Forum
 					betrete_forum($o_id, $u_id, $u_nick, $u_level);
 					
-					// Obersten Frame definieren
-					if (!isset($frame_online)) {
-						$frame_online = "frame_online.php";
-					}
+					require_once("functions-frameset.php");
 					
-					echo "<frameset rows=\"$frame_online_size,*,5," . $frame_size['interaktivforum'] . ",1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
-					echo "<frame src=\"$frame_online\" name=\"frame_online\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-					echo "<frame src=\"forum.php?id=$hash_id\" name=\"forum\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
-					echo "<frame src=\"leer.php\" name=\"leer\" marginwidth=\"0\" marginheight=\"0\" scrolling=no>\n";
-					echo "<frameset cols=\"*," . $frame_size['messagesforum'] . "\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
-					echo "<frame src=\"messages-forum.php?id=$hash_id\" name=\"messages\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"auto\">\n";
-					echo "<frame src=\"interaktiv-forum.php?id=$hash_id\" name=\"interaktiv\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-					echo "</frameset>\n";
-					echo "<frame src=\"schreibe.php?id=$hash_id&o_who=2\" name=\"schreibe\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\">\n";
-					echo "</frameset>\n";
-					echo "<noframes>\n";
-					echo $t['login6'];
+					frameset_forum($hash_id);
+					
 					die();
 				} else {
 					// Chat betreten
 					betrete_chat($o_id, $u_id, $u_nick, $u_level, $eintritt, $javascript);
 					$back = 1;
 					
-					// Obersten Frame definieren
-					if (!isset($frame_online) || $frame_online == "") {
-						$frame_online = "frame_online.php";
-					}
-					if ($u_level == "M") {
-						$frame_size['interaktiv'] = $moderationsgroesse;
-						$frame_size['eingabe'] = $frame_size['eingabe']
-							* 2;
-					}
-					
-					// Frameset aufbauen
-					?>
-					<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size['eingabe']; ?>,<?php echo $frame_size['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
-						<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-						<frameset cols="*,<?php echo $frame_size['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
-							<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-							<?php
-							if (!isset($userframe_url)) {
-								?>
-								<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
-								<?php
-							} else {
-								?>
-								<frame src="<?php echo $userframe_url; ?>" marginwidth="4" marginheight="0" name="userliste">
-								<?php
-							}
-							?>
-						</frameset>
-						<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-						<?php
-						if ($u_level == "M") {
-							?>
-							<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
-								<frame src="moderator.php?id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
-								<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-							</frameset>
-							<?php
-						} else {
-							?>
-							<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-							<?php
-						}
-						?>
-						<frame src="schreibe.php?id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
-					</frameset>
-					<?php
-					echo "<noframes>\n"
-						. "<!-- Browser/OS -->\n" . $t['login6'];
+					require_once("functions-frameset.php");
+
+					frameset_chat($hash_id);
 				}
 				?>
 				<body>
@@ -1794,50 +1736,12 @@ switch ($aktion) {
 		id_lese($id);
 		$hash_id = $id;
 		
-		//system_msg("",0,$u_id,"","DEBUG: $neuer_raum ");
-		
 		// Chat betreten
 		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum, $o_js);
 		
-		// Obersten Frame definieren
-		if (!isset($frame_online)) {
-			$frame_online = "";
-		}
-		if (strlen($frame_online) == 0) {
-			$frame_online = "frame_online.php";
-		}
-		if ($u_level == "M") {
-			$frame_size[interaktiv] = $moderationsgroesse;
-		}
+		require_once("functions-frameset.php");
 		
-		// Frameset aufbauen
-		?>
-		<frameset rows="<?php echo $frame_online_size;?>,*,<?php echo $frame_size['eingabe']; ?>,<?php echo $frame_size['interaktiv']; ?>,1" border="0" frameborder="0" framespacing="0">
-			<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-			<frameset cols="*,<?php echo $frame_size['chatuserliste'];?>" border="0" frameborder="0" framespacing="0">
-				<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
-				<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" marginwidth="4" marginheight="0" name="userliste">
-			</frameset>
-			<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-			<?php
-			if ($u_level == "M") {
-				?>
-				<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
-				<frame src="moderator.php?id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
-				<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-				</frameset>
-				<?php
-			} else {
-				?>
-				<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-				<?php
-			}
-			?>
-			<frame src="schreibe.php?id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
-		</frameset>
-		<?php
-		echo "<noframes>\n"
-			. "<!-- Browser/OS -->\n" . $t['login6'];
+		frameset_chat($hash_id);
 		
 		break;
 	

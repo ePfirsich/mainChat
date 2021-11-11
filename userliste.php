@@ -1,6 +1,6 @@
 <?php
 
-require("functions.php");
+require_once("functions.php");
 
 // Benutzer die gerade Online sind als Liste ausgeben
 // Diese Liste kann einlesen und damit die Liste unserer Benutzer ausgeben

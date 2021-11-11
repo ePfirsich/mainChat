@@ -1,7 +1,7 @@
 <?php
 
-require("functions.php");
-require("functions.php-func-forum_lib.php");
+require_once("functions.php");
+require_once("functions-func-forum_lib.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
 id_lese($id);

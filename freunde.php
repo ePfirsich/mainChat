@@ -1,6 +1,6 @@
 <?php
 
-require("functions.php");
+require_once("functions.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);

@@ -8,7 +8,7 @@ require_once("functions.php");
 
 
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
-	include("functions.php-hash.php");
+	include("functions-hash.php");
 	
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 	if (isset($id)) {
@@ -293,7 +293,7 @@ if (isset($u_id) && $u_id && $communityfeatures) {
 			<?php
 	}
 } else {
-	require_once("functions.php-home.php");
+	require_once("functions-home.php");
 	if (!isset($ui_userid)) {
 		$ui_userid = -1;
 	}

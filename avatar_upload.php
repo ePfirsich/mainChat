@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("functions.php");
+require_once("functions.php");
 $u_id = $_SESSION['u_id'];
 $file = $_FILES["file"]["name"];
 

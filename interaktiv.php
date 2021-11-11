@@ -2,7 +2,7 @@
 
 // interaktiv.php muss mit id=$hash_id aufgerufen werden
 
-require("functions.php");
+require_once("functions.php");
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatunten');
@@ -18,7 +18,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 		$zusatzjavascript = "<script>\n"
 			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
-		require_once("functions.php-func-verlasse_chat.php");
+		require_once("functions-func-verlasse_chat.php");
 		verlasse_chat($u_id, $u_nick, $o_raum);
 		logout($o_id, $u_id, "interaktiv->timeout");
 		unset($u_id);

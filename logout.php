@@ -1,6 +1,6 @@
 <?php
 
-require("functions.php");
+require_once("functions.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
@@ -35,8 +35,7 @@ if (isset($reset) && $reset && $o_js) {
 			echo "opener_reload('$frame_online','0');\n";
 		}
 		echo "opener_reload('forum.php?id=$id','1');\n";
-		echo "opener_reload('messages-forum.php?id=$id','3');\n";
-		echo "opener_reload('interaktiv-forum.php?id=$id','4');\n";
+		echo "opener_reload('interaktiv-forum.php?id=$id','3');\n";
 		echo "window.close();\n" . "</script>\n";
 	} else if ($u_level == "M") {
 		echo "<script>";

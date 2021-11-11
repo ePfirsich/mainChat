@@ -1,6 +1,6 @@
 <?php
 
-require "functions-init.php";
+require_once("functions-init.php");
 
 $title = $body_titel;
 zeige_header_anfang($title, 'login');

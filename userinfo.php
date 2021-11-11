@@ -36,8 +36,8 @@ $userinfo_hilfe = "<b>Es wird eine transparente Grafik als JPG erzeugt, welche d
 // voreingestellter Zeichensatz
 $fontname = "arialbd.ttf";
 
-require("functions-init.php");
-require("functions.php");
+require_once("functions-init.php");
+require_once("functions.php");
 
 function get_maximum_height($fontname, $fontsize) {
 	$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234567890!\"ß%&/()=?ß*+";

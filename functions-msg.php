@@ -2,12 +2,12 @@
 
 // Funktionen, die NUR von interaktiv.php verwendet werden.
 
-require_once("functions.php-func-verlasse_chat.php");
-require_once("functions.php-func-nachricht.php");
-require_once("functions.php-func-html_parse.php");
-require_once("functions.php-func-raum_gehe.php");
+require_once("functions-func-verlasse_chat.php");
+require_once("functions-func-nachricht.php");
+require_once("functions-func-html_parse.php");
+require_once("functions-func-raum_gehe.php");
 if ($communityfeatures) {
-	require_once("functions.php-freunde.php");
+	require_once("functions-freunde.php");
 }
 
 function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {

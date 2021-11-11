@@ -46,7 +46,7 @@ $chat["smiliesdatei"] = filter_input(INPUT_POST, 'chat_smiliesdatei', FILTER_SAN
 $chat["smiliespfad"] = filter_input(INPUT_POST, 'chat_smiliespfad', FILTER_SANITIZE_STRING);
 $chat["smiliesanzahl"] = filter_input(INPUT_POST, 'chat_smiliesanzahl', FILTER_SANITIZE_STRING);
 
-require("functions.php-install.php");
+require("functions-install.php");
 $configdatei = "../conf/config.php";
 
 ?>
