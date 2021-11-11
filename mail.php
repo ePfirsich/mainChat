@@ -28,7 +28,7 @@ aktualisiere_online($u_id, $o_raum);
 
 if ($u_id && $communityfeatures && $u_level != "G") {
 	
-	// Löscht alle Mails, die älter als $mailloescheauspapierkorb Tage sind
+	// Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 	if ($mailloescheauspapierkorb < 1)
 		$mailloescheauspapierkorb = 14;
 	$query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AND m_geloescht_ts < '"
@@ -185,10 +185,10 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			break;
 		
 		case "loesche":
-		// Mails als geloescht markieren oder aufheben
+			// Nachrichten als geloescht markieren oder aufheben
 			
 			if (isset($loesche_email) && is_array($loesche_email)) {
-				// Mehrere Mails auf gelöscht setzen
+				// Mehrere Nachrichten auf gelöscht setzen
 				foreach ($loesche_email as $m_id) {
 					loesche_mail($m_id, $u_id);
 				}
@@ -295,7 +295,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 			break;
 		
 		case "papierkorbleeren":
-		// Mails mit Status geloescht löschen
+			// Nachrichten mit Status geloescht löschen
 			echo "<br>";
 			$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
 			$result = mysqli_query($mysqli_link, $query);
@@ -326,7 +326,7 @@ if ($u_id && $communityfeatures && $u_level != "G") {
 		// Formular zum Weiterleiten einer Mail ausgeben
 			echo "Schliesse nun Ihre Mailbox!";
 			$betreff = "MAILBOX IST ZU";
-			$nachricht = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Mails empfangen möchten!";
+			$nachricht = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Nachrichten empfangen möchten!";
 			$result = mail_sende($u_id, $u_id, $nachricht, $betreff);
 
 			zeige_mailbox("normal", "");

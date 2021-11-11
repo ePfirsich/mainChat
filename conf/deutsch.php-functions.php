@@ -174,7 +174,7 @@ $t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<b
 $t['chat_msg107'] = "<b>$chat:</b> Fehler! Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!";
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
-$t['chat_msg110'] = "Passwort neu + Email";
+$t['chat_msg110'] = "Passwort neu + E-Mail";
 $t['chat_msg111'] = "Passwort wurde neu gesetzt und an den Benutzer per E-Mail gesendet!";
 $t['chat_msg112'] = "Ihr neues Passwort für den $chat";
 $t['chat_msg113'] = "Hallo!<br>Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>Viel Spass noch im $chat<br>";
@@ -306,10 +306,10 @@ $t['moderiertdel4'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht.
 
 $t['profil1'] = "<b>$chat:</b> Sie haben Ihr <a %link%>Profil</a> noch nicht ausgefüllt! Bitte klicken Sie &gt&gt<a %link%>HIER</a>&lt&lt";
 
-$t['mail1'] = "<b>$chat:</b> Sie haben neue Mails. <A %link%>Gleich lesen?</A>";
+$t['mail1'] = "<b>$chat:</b> Sie haben neue Nachrichten. <a %link%>Gleich lesen?</a>";
 $t['mail2'] = " Nachricht von '%nick%' am %zeit%: %betreff%";
 $t['mail3'] = "[Mail-Weiterleitung aus dem $chat]\n\n";
-$t['mail4'] = "\n  Eine Mail aus dem $chat " . $chat_url;
+$t['mail4'] = "\n  Eine Nachricht aus dem $chat " . $chat_url;
 $t['mail5'] = "Hallo %user%, im $chat sind folgende Freunde online:\n\n";
 $t['mail6'] = "%anzahl% Freunde onlin(e) im $chat";
 $t['mail7'] = "<b>$chat:</b> Sie haben eine neue Nachricht von '%nick%' erhalten: %betreff%";

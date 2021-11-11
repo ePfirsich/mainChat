@@ -324,8 +324,8 @@ if ($zeit == "03:10") {
 				"DELETE FROM bild WHERE b_id=" . $row->b_id);
 	mysqli_free_result($result);
 	
-	// alle Mails löschen, für die es keine Benutzer mehr gibt.
-	echo " Mails ";
+	// alle Nachrichten löschen, für die es keine Benutzer mehr gibt.
+	echo " Nachrichten ";
 	flush();
 	$query = "SELECT SQL_BUFFER_RESULT m_id FROM mail LEFT JOIN user on m_an_uid=u_id WHERE u_id IS NULL";
 	$result = mysqli_query($mysqli_link, $query);

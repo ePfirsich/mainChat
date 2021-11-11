@@ -56,12 +56,21 @@ if ($u_id) {
 	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<center><table>\n";
 	
 	// Anzahl der Benutzer insgesamt feststellen
-	$query = "SELECT count(o_id) as anzahl FROM online "
-		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
 		mysqli_free_result($result);
+	}
+	
+	// Anzahl der ungelesenen Nachrichten ermitteln
+	$query_nachrichten = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
+	$result_nachrichten = mysqli_query($mysqli_link, $query_nachrichten);
+	
+	if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {
+		$neue_nachrichten = " <span class=\"nachrichten_neu\">(".mysqli_num_rows($result_nachrichten).")</span>";
+	} else {
+		$neue_nachrichten = '';
 	}
 	
 	echo "<tr><td style=\"text-align:center;\">";
@@ -91,7 +100,7 @@ if ($u_id) {
 	}
 	?>
 	<a href="<?php echo $mlnk[8]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[7]; ?>" target="_blank" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10']; ?></span></a>
+	<a href="<?php echo $mlnk[7]; ?>" target="_blank" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>
 	
 	<br>
 	<br>

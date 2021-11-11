@@ -37,6 +37,8 @@
 	--Statistik-Balkenfarbe: #007ABE;
 	--Statistik-Navigation-Hintergrundfarbe: #BDC6D5;
 	--Statistik-Inhalt-Hintergrundfarbe: #E5E5E5;
+	
+	--Nachrichten-neu: #ff0000;
 }
 /* Farbdeklarationen - Ende ******************************************************************* */
 
@@ -271,3 +273,11 @@ body {
 	margin:auto;
 }
 /* Statistiken - Ende ******************************************************************* */
+
+
+/* Naxchrichten - Anfang ******************************************************************* */
+.nachrichten_neu {
+	color: var(--Nachrichten-neu);
+	font-weight: bold;
+}
+/* Naxchrichten - Ende ******************************************************************* */

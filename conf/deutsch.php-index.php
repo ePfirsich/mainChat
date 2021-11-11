@@ -254,9 +254,9 @@ an seine reguläre E-Mail Adresse schicken möchten, sofern der Benutzer diese a
 fertig ausgefüllt, verschicken Sie die Mail mit Klick auf den
 \"<b>Senden</b>\"-Button. Wenn Sie eine empfangene Mail löschen, so wird sie zuerst
 einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
-\"<b>Papierkorb zeigen</b>\" können Sie sich alle zum Löschen vorgesehenen Mails noch
+\"<b>Papierkorb zeigen</b>\" können Sie sich alle zum Löschen vorgesehenen Nachrichten noch
 einmal anschauen. Wenn Sie nun sicher sind, dass sie auch alle im Papierkorb
-befindlichen Mails löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
+befindlichen Nachrichten löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
 <b><A NAME=\"freunde\">Freunde</A></b><br>
 Bei den Freunden (<b>Einstellungen</b>, <b>/freunde</b>) können Sie einfach andere Benutzer im
 Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
@@ -275,7 +275,7 @@ die Nachricht erhalten wollen, wählen Sie aus der obersten Zeile aus.
 Möglich ist der Empfang sofort wenn Sie online sind (<b>Sofort/Online</b>) (z.B.
 Freund loggt ein/aus oder zu dem Moment, in dem Sie eine neue Mail
 erhalten), bei Ihrem Login in den Chat oder regelmäßig <b>alle 5 Minuten</b>
-(regelmäßige Information über die vorliegenden neuen Mails oder die
+(regelmäßige Information über die vorliegenden neuen Nachrichten oder die
 Anwesendheit Ihrer Freunde im Chat) Die Benachrichtigungen, die Sie
 erhalten, wenn Sie nicht im Chat sind (offline), wählen Sie unter
 <b>Sofort/Offline</b> aus. Die Art der Nachricht ist einstellbar: so gibt es <b>keine</b>

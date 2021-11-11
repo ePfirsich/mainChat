@@ -114,9 +114,7 @@ if (isset($u_id) && $u_id) {
 	}
 	
 	// Anzahl der Benutzer in diesem Raum feststellen
-	$query = "SELECT count(o_id) as anzahl FROM online "
-		. "WHERE o_raum=$o_raum AND "
-		. "(UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE o_raum=$o_raum AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$anzahl_raum = mysqli_result($result, 0, "anzahl");

@@ -13,7 +13,7 @@ $t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mi
 	. "oder zu dem Moment, in dem Sie eine <b>Neue Mail</b> erhalten), bei Ihrem "
 	. "<b>Login</b> in den Chat oder regelmäßig "
 	. "<b>alle 5 Minuten</b> (regelmäßige Information über die vorliegenden "
-	. "<b>Neuen Mails</b> oder die Anwesendheit Ihrer <b>Freunde</b> im Chat)</p>"
+	. "<b>Neuen Nachrichten</b> oder die Anwesendheit Ihrer <b>Freunde</b> im Chat)</p>"
 	. "<p>Die Benachrichtungen, die Sie erhalten, wenn Sie nicht im Chat sind (offline), "
 	. "wählen Sie unter <b>Sofort/Offline</b> aus.</p>"
 	. "<p>Die Art der Nachricht ist einstellbar, so gibt es <b>keine</b> Benachrichtigung, "

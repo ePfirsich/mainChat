@@ -437,7 +437,7 @@ $loginwhileipsperre = 10000;
 // hier die Mailadresse der Person eintragen die die Anmeldung (Mailadresse) bestätigen.
 $anmeldung_nurmitbest = "";
 
-// Mails werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
+// Nachrichten werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
 $mailloescheauspapierkorb=30;
 
 // Benutzer kann individuelle Eintrittsnachrichten benutzen

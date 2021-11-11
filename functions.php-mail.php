@@ -175,7 +175,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 }
 
 function zeige_mailbox($aktion, $zeilen) {
-	// Zeigt die Mails in der Übersicht an
+	// Zeigt die Nachrichten in der Übersicht an
 	
 	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
@@ -223,7 +223,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			$text .=  "Ihre Mailbox ist leer.";
 			
 		} else {
-			// Mails anzeigen
+			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
 				."<td style=\"font-weight:bold; width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\"></td>"

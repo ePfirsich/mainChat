@@ -24,27 +24,22 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	
 	global $system_farbe, $mysqli_link, $communityfeatures, $t, $chat;
 	
-	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick "
-		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
-		. "WHERE m_an_uid=$u_id  AND m_status='neu' "
-		. "order by m_zeit desc";
+	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		
-		// Sonderfall OLM: "Sie haben neue Mail..." ausgeben.
+		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
 			$ur1 = "mail.php?id=$id&aktion=";
 			$url = "href=\"$ur1\" target=\"_blank\"";
-			system_msg("", 0, $u_id, $system_farbe,
-				str_replace("%link%", $url, $t['mail1']));
+			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['mail1']));
 		}
 		
 		while ($row = mysqli_fetch_object($result)) {
 			
 			// Nachricht verschicken
 			switch ($nachricht) {
-				
 				case "OLM":
 					$txt = str_replace("%zeit%", $row->zeit, $t['mail2']);
 					if ($row->u_nick != "NULL" && $row->u_nick != "") {
@@ -52,8 +47,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 					} else {
 						$txt = str_replace("%nick%", $chat, $txt);
 					}
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%betreff%", $row->m_betreff, $txt));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%betreff%", $row->m_betreff, $txt));
 					break;
 				
 				case "E-Mail":
@@ -64,8 +58,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 					schreibe_db("mail", $f, $row->m_id, "m_id");
 					
 					// E-Mail an u_id versenden
-					email_versende($row->m_von_uid, $u_id,
-						$t['mail3'] . $row->m_text, $row->m_betreff);
+					email_versende($row->m_von_uid, $u_id, $t['mail3'] . $row->m_text, $row->m_betreff);
 					break;
 				
 			}
