@@ -4,12 +4,10 @@
 $t['menue1'] = "$chat";
 $t['menue2'] = "Login";
 $t['menue3'] = "Registrierung";
-$t['menue8'] = "Chatiquette";
-$t['menue9'] = "Nutzungsbestimmungen";
-$t['menue10'] = "Datenschutzerklärung";
-
-$t['hilfe9'] = "Chatiquette";
-$t['hilfe14'] = "Nutzungsbestimmungen";
+$t['menue4'] = "Chatiquette";
+$t['menue5'] = "Nutzungsbestimmungen";
+$t['menue6'] = "Datenschutzerklärung";
+$t['menue7'] = "Impressum";
 
 $chatiquette = "
 <p><b>Wie melde ich mich an? </b></p>
@@ -291,11 +289,9 @@ $t['pwneu16'] = "Neues Passwort anfordern";
 $t['pwneu17'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.";
 $t['pwneu18'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
 
-$t['impressum1'] = "Impressum";
-$t['impressum2'] = "Name und Anschrift";
+$t['impressum'] = "Name und Anschrift";
 
-$t['datenschutzerklaerung1'] = "Datenschutzerklärung";
-$t['datenschutzerklaerung2'] = "<h2>
+$t['datenschutzerklaerung'] = "<h2>
 	1. Datenschutz auf einen Blick
 </h2>
 <h3>

@@ -833,9 +833,9 @@ function show_kopfzeile_login() {
 	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
 		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[menue3]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[menue8]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue9]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue10]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[menue4]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue5]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue6]</a>\n";
 	
 	show_box_title_content($box, $text);
 	

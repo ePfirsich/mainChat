@@ -678,7 +678,7 @@ function zeige_fuss() {
 	?>
 	<div align="center"><?php echo $f3 . $mainchat_version; ?>
 	<br><br>
-	<a href="index.php?aktion=datenschutz"><?php echo $t['datenschutzerklaerung1']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['impressum1']; ?></a><?php echo $f4 ?></div>
+	<a href="index.php?aktion=datenschutz"><?php echo $t['menue6']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['menue7']; ?></a><?php echo $f4 ?></div>
 	<?php
 	if (strlen($layout_fuss) > 0 && !$layout_parse) {
 		include($layout_fuss);

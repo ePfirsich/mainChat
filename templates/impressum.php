@@ -1,6 +1,6 @@
 <?php
-$box = $t['impressum1'];
-$text = "<b>" . $t['impressum2'] . "</b>";
+$box = $t['menue7'];
+$text = "<b>" . $t['impressum'] . "</b>";
 $text .= "<br>";
 $text .= $impressum_name;
 $text .= "<br>";
