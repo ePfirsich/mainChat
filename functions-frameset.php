@@ -1,6 +1,6 @@
 <?php
 function frameset_forum($hash_id) {
-	global $t, $frame_online, $frame_online_size;
+	global $t, $frame_online, $frame_online_size, $o_raum;
 	
 	// Obersten Frame definieren
 	if (!isset($frame_online)) {
@@ -8,13 +8,10 @@ function frameset_forum($hash_id) {
 	}
 	
 	?>
-	<frameset rows="<?php echo $frame_online_size; ?>,30,*,5,55,1" border="0" frameborder="0" framespacing="0">
+	<frameset rows="<?php echo $frame_online_size; ?>,70,*" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="navigation-forum.php?id=<?php echo $hash_id; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="forum" marginwidth="0" marginheight="0" scrolling="auto">
-		<frame src="leer.php" name="leer" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="interaktiv-forum.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="schreibe.php?id=<?php echo $hash_id; ?>&o_who=2" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="navigation-forum.php?id=<?php echo $hash_id; ?>&o_raum_alt=<?php echo $o_raum; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
 	</frameset>
 	<noframes>
 	<?php echo (isset($t['login6']) ? $t['login6'] : ""); ?>
@@ -41,7 +38,7 @@ function frameset_chat($hash_id) {
 	?>
 	<frameset rows="<?php echo $frame_online_size;?>,30,*,<?php echo $frame_size_eingabe; ?>,<?php echo $frame_size_interaktiv; ?>,1" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="navigation-chat.php?id=<?php echo $hash_id; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="navigation-chat.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
 			<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
 			<frame src="user.php?id=<?php echo $hash_id; ?>&aktion=chatuserliste" name="userliste" marginwidth="4" marginheight="0">

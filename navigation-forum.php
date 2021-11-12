@@ -1,6 +1,7 @@
 <?php
 
 require_once("functions.php");
+require_once("functions-func-raeume_auswahl.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
@@ -38,7 +39,7 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 if ($u_id) {
 	$title = $body_titel;
 	zeige_header_anfang($title, 'chatunten');
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=navigation-forum.php?id=' . $id . '">';
+	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=navigation-forum.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	zeige_header_ende($meta_refresh);
 	
 	// Timestamp im Datensatz aktualisieren
@@ -46,7 +47,7 @@ if ($u_id) {
 	
 	// Aktionen ausführen, falls nicht innerhalb der letzten 5
 	// Minuten geprüft wurde (letzte Prüfung=o_aktion)
-	if (time() > ($o_aktion + 300) ) {
+	if ( time() > ($o_aktion + 300) ) {
 		aktion("Alle 5 Minuten", $u_id, $u_nick, $id);
 	}
 	
@@ -93,6 +94,55 @@ if ($u_id) {
 	<?php
 	echo $f2;
 	echo "</b></td></tr></table></center>";
+	
+	// Chat und Raumauswajl anzeigen
+	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<center><table style=\"margin-top: 7px;\">\n";
+	
+	// Anzahl der Benutzer insgesamt feststellen
+	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$result = mysqli_query($mysqli_link, $query);
+	if ($result && mysqli_num_rows($result) != 0) {
+		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
+		mysqli_free_result($result);
+	}
+	
+	echo "<tr><td style=\"text-align:center;\">";
+	echo $f1;
+	if (!(($u_level == 'U' || $level == 'G') && (isset($useronline_anzeige_deaktivieren) && $useronline_anzeige_deaktivieren == "1"))) {
+		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_txt']) . $f2 . "&nbsp;";
+	}
+	
+	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
+	if (strlen($eintrittsraum) == 0) {
+		$eintrittsraum = $lobby;
+	}
+	
+	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
+	$query = mysqli_query($mysqli_link, $sql);
+	if (mysqli_num_rows($query) > 0) {
+		$lobby_id = mysqli_result($query, 0, "r_id");
+	} else {
+		$lobby_id = 1;
+	}
+	
+	echo $f3 . "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
+	
+	// Admin sehen alle Räume, andere Benutzer nur die offenen
+	if ($admin) {
+		echo raeume_auswahl($lobby_id, TRUE, TRUE);
+	} else {
+		echo raeume_auswahl($lobby_id, FALSE, TRUE);
+	}
+	
+	echo "</select>";
+	
+	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">"
+	. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
+	. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
+	
+	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">&nbsp;</nobr><br>" . $f4 . "</td></tr></table></center></form>\n";
+	
+	
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
 	

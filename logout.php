@@ -34,7 +34,6 @@ if (isset($reset) && $reset && $o_js) {
 		}
 		echo "opener_reload('navigation-forum.php?id=$id','1');\n";
 		echo "opener_reload('forum.php?id=$id','2');\n";
-		echo "opener_reload('interaktiv-forum.php?id=$id','3');\n";
 		echo "window.close();\n" . "</script>\n";
 	} else if ($u_level == "M") {
 		echo "<script>";
