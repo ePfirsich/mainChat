@@ -1,8 +1,8 @@
 /* Farbdeklarationen - Anfang ******************************************************************* */
 :root{
 	--Tabellenkopf-Hintergrundfarbe: #007ABE;
-	--Tabellenkopf-Textfarbe: #ffffff;;
-	--Tabellenkopf-Linkfarbe: #ffffff;;
+	--Tabellenkopf-Textfarbe: #ffffff;
+	--Tabellenkopf-Linkfarbe: #ffffff;
 	
 	--Tabelle-Geruest-Hintergrundfarbe: #000000;
 	
