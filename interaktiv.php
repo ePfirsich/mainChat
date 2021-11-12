@@ -1,21 +1,18 @@
 <?php
-
-// interaktiv.php muss mit id=$hash_id aufgerufen werden
-
 require_once("functions.php");
 
 $title = $body_titel;
 zeige_header_anfang($title, 'chatunten');
+$meta_refresh = "";
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
-
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 		// Benutzer ausloggen
-		$zusatzjavascript = "<script>\n"
+		$meta_refresh .= "<script>\n"
 			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
 			. "</script>\n";
 		require_once("functions-func-verlasse_chat.php");
@@ -25,18 +22,15 @@ if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 
 		unset($o_id);
 	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
 		// Warnung über bevorstehenden Logout ausgeben
-		system_msg("", 0, $u_id, $system_farbe,
-			str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
+		system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
 		unset($f);
 		$f['o_timeout_warnung'] = "J";
 		schreibe_db("online", $f, $o_id, "o_id");
 	}
-} else {
-	$zusatzjavascript = "";
 }
 
 if (isset($u_id) && $u_id) {
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+	$meta_refresh .= '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n"
 		. " function frame_online_reload(file) {\n" . "  parent.frame_online.location.href=file;\n}\n"
 		. "</script>\n";
@@ -205,7 +199,7 @@ if (isset($u_id) && $u_id) {
 	<?php
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
-	zeige_header_ende();
+	zeige_header_ende($meta_refresh);
 	?>
 	<body onLoad='javascript:parent.location.href="index.php'>
 	<?php
