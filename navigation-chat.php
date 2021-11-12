@@ -43,20 +43,6 @@ zeige_header_ende($meta_refresh);
 		$neue_nachrichten = '';
 	}
 	
-	$mlnk[4] = "hilfe.php?id=$id";
-	$mlnk[1] = "raum.php?id=$id";
-	$mlnk[2] = "user.php?id=$id";
-	$mlnk[3] = "edit.php?id=$id";
-	$mlnk[5] = "sperre.php?id=$id";
-	$mlnk[6] = "index.php?id=$id&aktion=logoff";
-	$mlnk[7] = "log.php?id=$id&back=500";
-	$mlnk[8] = "moderator.php?id=$id&mode=answer";
-	$mlnk[9] = "logout.php?id=$id&reset=1";
-	$mlnk[10] = "mail.php?id=$id";
-	$mlnk[11] = "index-forum.php?id=$id";
-	$mlnk[12] = "blacklist.php?id=$id";
-	$mlnk[13] = "user.php?id=$id&aktion=statistik";
-	
 	if ($forumfeatures) {
 		// Raumstatus lesen, für Temporär, damit FORUM nicht angezeigt wird
 		
@@ -77,59 +63,59 @@ zeige_header_ende($meta_refresh);
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		?>
 		<a href="chat.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-commenting icon16"></span> <span><?php echo $t['menue14']; ?></span></a>&nbsp;
-		<a href="<?php echo $mlnk[1]; ?>" target="chat" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-road icon16"></span> <span><?php echo $t['menue1']; ?></span></a>&nbsp;
-		<a href="<?php echo $mlnk[2]; ?>" target="chat" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
+		<a href="raum.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue1']; ?>"><span class="fa fa-road icon16"></span> <span><?php echo $t['menue1']; ?></span></a>&nbsp;
+		<a href="user.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
 		?>
-		<a href="<?php echo $mlnk[10]; ?>" target="chat" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten;; ?></span></a>&nbsp;
+		<a href="mail.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten;; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($forumfeatures && (!isset($beichtstuhl) || !$beichtstuhl || $admin) && ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin)) {
 		?>
-		<a href="<?php echo $mlnk[11]; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue11']; ?>"><span class="fa fa-commenting icon16"></span> <span><?php echo $t['menue11']; ?></span></a>&nbsp;
+		<a href="index-forum.php?id=<?php echo $id; ?>" onMouseOver="return(true)" target="_top" class="button" title="<?php echo $t['menue11']; ?>"><span class="fa fa-commenting icon16"></span> <span><?php echo $t['menue11']; ?></span></a>&nbsp;
 		<?php
 	}
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		?>
-		<a href="<?php echo $mlnk[3]; ?>" target="chat" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
+		<a href="edit.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[5]; ?>" target="chat" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
+		<a href="sperre.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[12]; ?>" target="chat" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
+		<a href="blacklist.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
 		<?php
 	}
 	
-	if ($erweitertefeatures && $admin) {
+	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[13]; ?>" target="chat" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
+		<a href="user.php?id==<?php echo $id; ?>&aktion=statistik" target="chat" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
 		<?php
 	}
 	
 	if ($u_level == "M") {
 		?>
-		<a href="<?php echo $mlnk[8]; ?>" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue8']; ?>"><span class="fa fa-reply icon16"></span> <span><?php echo $t['menue8']; ?></span></a>&nbsp;
+		<a href="moderator.php?id=<?php echo $id; ?>&mode=answer" onClick="neuesFenster('<?php echo $mlnk[8]; ?>');return(false)" class="button" title="<?php echo $t['menue8']; ?>"><span class="fa fa-reply icon16"></span> <span><?php echo $t['menue8']; ?></span></a>&nbsp;
 		<?php
 	}
 	?>
-	<a href="<?php echo $mlnk[7]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[7]; ?>');return(false)" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
+	<a href="log.php?id=<?php echo $id; ?>&back=500" target="_blank" class="button" title="<?php echo $t['menue7']; ?>"><span class="fa fa-archive icon16"></span> <span><?php echo $t['menue7']; ?></span></a>&nbsp;
 	<?php
 	if ($o_js) {
 		?>
-		<a href="<?php echo $mlnk[9]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[9]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
+		<a href="logout.php?id=<?php echo $id; ?>&reset=1" onMouseOver="return(true)" onClick="neuesFenster('logout.php?id=<?php echo $id; ?>&reset=1');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
 		<?php
 	}
 	?>
-	<a href="<?php echo $mlnk[4]; ?>" target="chat" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
+	<a href="hilfe.php?id==<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
 	&nbsp;
-	<a href="<?php echo $mlnk[6]; ?>" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>&nbsp;
+	<a href="index.php?id=<?php echo $id; ?>&aktion=logoff" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>&nbsp;
 	<?php
 	echo $f2;
 	echo "</b></td></tr></table></center>";

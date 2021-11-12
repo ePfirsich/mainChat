@@ -187,10 +187,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 				<td><?php echo checkFormularRadioButton('1',$chat["lustigefeatures"],'chat_lustigefeatures'); ?></td>
 			</tr>
 			<tr>
-				<td> Erweiterte Funktionen freischalten:</td>
-				<td><?php echo checkFormularRadioButton('1',$chat["erfeatures"],'chat_erfeatures'); ?></td>
-			</tr>
-			<tr>
 				<td> Extra Module der Community (Forum):</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["forumfeatures"],'chat_forumfeatures'); ?></td>
 			</tr>

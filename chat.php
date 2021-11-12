@@ -73,15 +73,8 @@ if ($u_id) {
 		ignore_user_abort(FALSE);
 		
 		// 1 Sek pro Durchlauf fest eingestellt
-		if ($erweitertefeatures && FALSE) {
-			// Für 0,2 Sek pro Durchlauf
-			$durchlaeufe = $refresh_zeit * 5;
-			$zeige_userliste = 500;
-		} else {
-			// Für 1 Sek pro Durchlauf
-			$durchlaeufe = $refresh_zeit;
-			$zeige_userliste = 100;
-		}
+		$durchlaeufe = $refresh_zeit;
+		$zeige_userliste = 100;
 		
 		while ($j < ($durchlaeufe) && !$beende_prozess){
 			// Raum merken
@@ -132,11 +125,7 @@ if ($u_id) {
 			$trigger_letzte_Zeilen = 0;
 			
 			// 0,2 oder 1 Sekunde warten
-			if ($erweitertefeatures && FALSE) {
-				usleep(200000);
-			} else {
-				sleep(1);
-			}
+			sleep(1);
 			
 			// Ausloggen falls Browser abgebrochen hat
 			if (connection_status() != 0) {

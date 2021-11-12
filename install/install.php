@@ -37,7 +37,6 @@ $chat["spruchliste"] = filter_input(INPUT_POST, 'chat_spruchliste', FILTER_SANIT
 $chat["showspruch"] = filter_input(INPUT_POST, 'chat_showspruch', FILTER_SANITIZE_STRING);
 $chat["adminfeatures"] = filter_input(INPUT_POST, 'chat_adminfeatures', FILTER_SANITIZE_STRING);
 $chat["lustigefeatures"] = filter_input(INPUT_POST, 'chat_lustigefeatures', FILTER_SANITIZE_STRING);
-$chat["erfeatures"] = filter_input(INPUT_POST, 'chat_erfeatures', FILTER_SANITIZE_STRING);
 $chat["forumfeatures"] = filter_input(INPUT_POST, 'chat_forumfeatures', FILTER_SANITIZE_STRING);
 $chat["punktefeatures"] = filter_input(INPUT_POST, 'chat_punktefeatures', FILTER_SANITIZE_STRING);
 $chat["modmodul"] = filter_input(INPUT_POST, 'chat_modmodul', FILTER_SANITIZE_STRING);

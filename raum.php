@@ -54,7 +54,7 @@ if (strlen($u_id) != 0) {
 		$f['r_werbung'] = htmlspecialchars($f['r_werbung']);
 		
 		// Nur Admin darf Werbung eintragen
-		if (!$admin || !$erweitertefeatures) {
+		if (!$admin) {
 			unset($f['r_werbung']);
 		}
 		
@@ -387,7 +387,7 @@ if (strlen($u_id) != 0) {
 			
 			$text .= "</select>" . $f2 . "</td></tr>\n";
 			
-			if ($smilies_pfad && $erweitertefeatures) {
+			if ($smilies_pfad) {
 				$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
 					. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
 				if ($r_smilie == "Y") {
@@ -400,14 +400,12 @@ if (strlen($u_id) != 0) {
 				$text .= "</select>" . $f2 . "</td></tr>\n";
 			}
 			
-			if ($erweitertefeatures) {
-				// Punkte zum Betreten des Raumes
-				$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
-				$text .= "<td>" . $f1
-					. "<input type=\"text\" name=\"f[r_min_punkte]\" "
-					. "value=\"$r_min_punkte\" size=\"7\">" . $f2
-					. "</td></tr>\n";
-			}
+			// Punkte zum Betreten des Raumes
+			$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
+			$text .= "<td>" . $f1
+				. "<input type=\"text\" name=\"f[r_min_punkte]\" "
+				. "value=\"$r_min_punkte\" size=\"7\">" . $f2
+				. "</td></tr>\n";
 			
 			if (!isset($rows->r_topic)) {
 				$r_topic = "";
@@ -440,7 +438,7 @@ if (strlen($u_id) != 0) {
 				. " name=\"f[r_austritt]\">" . $r_austritt
 				. "</textarea>" . $f2 . "</td></tr>\n";
 			
-			if ($admin && $erweitertefeatures) {
+			if ($admin) {
 				$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12'] . "</b>" . $f2
 					. "</td>" . "<td>" . $f1
 					. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
@@ -546,7 +544,7 @@ if (strlen($u_id) != 0) {
 							
 						}
 						
-						if ($smilies_pfad && $erweitertefeatures) {
+						if ($smilies_pfad) {
 							$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7']
 								. "</b>" . $f2 . "</td><td>" . $f1
 								. "<select name=\"f[r_smilie]\">";
@@ -560,8 +558,7 @@ if (strlen($u_id) != 0) {
 							$text .= "</select>" . $f2 . "</td></tr>\n";
 						}
 						
-						if ($erweitertefeatures && $rows->r_name != $lobby
-							&& $rows->r_status1 != "L") {
+						if ($rows->r_name != $lobby && $rows->r_status1 != "L") {
 							// Punkte zum Betreten des Raumes ändern
 							$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
 							$text .= "<td>" . $f1
@@ -590,7 +587,7 @@ if (strlen($u_id) != 0) {
 							. $f2 . "</td></tr>\n";
 						
 						// Werbung für Frame
-						if ($admin && $erweitertefeatures) {
+						if ($admin) {
 							$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12']
 								. "</b>" . $f2 . "</td>" . "<td>" . $f1
 								. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
@@ -697,15 +694,13 @@ if (strlen($u_id) != 0) {
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					
 					if (isset($extended) && $extended) {
-						if ($smilies_pfad && $erweitertefeatures) {
+						if ($smilies_pfad) {
 							$rlink = $t['raum_user10'];
 							$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						}
 						
-						if ($erweitertefeatures) {
-							$rlink = $t['sonst14'];
-							$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-						}
+						$rlink = $t['sonst14'];
+						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						
 						$rlink = $t['sonst3'];
 						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
@@ -748,7 +743,7 @@ if (strlen($u_id) != 0) {
 							$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
 							$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 							if ((isset($extended)) && ($extended)) {
-								if ($smilies_pfad && $erweitertefeatures) {
+								if ($smilies_pfad) {
 									if ($row['r_smilie'] == "Y") {
 										$r_smilie = $t['raum_user8'];
 									} else {
@@ -757,9 +752,7 @@ if (strlen($u_id) != 0) {
 									$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
 								}
 								
-								if ($erweitertefeatures) {
-									$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
-								}
+								$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
 								
 								$temp = htmlspecialchars($row['r_topic']);
 								$temp = str_replace('&amp;lt;', '<', $temp);

@@ -8,7 +8,7 @@ function user_edit($f, $admin, $u_level) {
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
 	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe;
-	global $t, $smilies_pfad, $erweitertefeatures;
+	global $t, $smilies_pfad;
 	global $frame_size, $u_id, $punktefeatures;
 	global $einstellungen_aendern, $eintritt_individuell;
 	global $mysqli_link;
@@ -260,7 +260,7 @@ if (tests.dnd) {
 	$text .= "</select>" . $f2 . "</td></tr>\n";
 	
 	// Smilies Y/N
-	if ($smilies_pfad && $erweitertefeatures) {
+	if ($smilies_pfad) {
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>\n";
 		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige35'] . "</b>\n" . $f2
 			. "</td><td>" . $f1 . "<select name=\"f[u_smilie]\">";

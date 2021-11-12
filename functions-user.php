@@ -109,7 +109,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	
 	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
-	global $chat_grafik, $whotext, $beichtstuhl, $erweitertefeatures, $msgpopup, $chat_url;
+	global $chat_grafik, $whotext, $beichtstuhl, $msgpopup, $chat_url;
 	
 	$eingabe_breite = 29;
 	
@@ -224,10 +224,10 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			$text .= "<input name=\"text2\" size=\"" . $eingabe_breite
 				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
-				. "\" value=\"\" TYPE=\"text\">"
-				. "<input name=\"text\" value=\"\" TYPE=\"hidden\">"
-				. "<input name=\"id\" value=\"$id\" TYPE=\"hidden\">"
-				. "<input name=\"privat\" value=\"$uu_nick\" TYPE=\"hidden\">"
+				. "\" value=\"\" type=\"text\">"
+				. "<input name=\"text\" value=\"\" type=\"hidden\">"
+				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+				. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">" . $f2
 				. "\n<script language=\"JavaScript\">\n\n"
 				. "document.forms['form'].elements['text2'].focus();\n"

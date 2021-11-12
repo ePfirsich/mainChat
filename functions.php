@@ -482,7 +482,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
-	global $chat, $t, $erweitertefeatures;
+	global $chat, $t;
 	
 	// IP und Browser ermittlen
 	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
@@ -1189,7 +1189,7 @@ function chat_parse($text) {
 	// E-Mail Adressen in A-Tag mit Mailto
 	
 	global $admin, $sprachconfig, $u_id, $u_level;
-	global $t, $system_farbe, $erweitertefeatures;
+	global $t, $system_farbe;
 	
 	$trans = get_html_translation_table(HTML_ENTITIES);
 	$trans = array_flip($trans);

@@ -62,45 +62,34 @@ if ($u_id) {
 		$neue_nachrichten = '';
 	}
 	
-	$mlnk[1] = "hilfe.php?id=$id";
-	$mlnk[3] = "user.php?id=$id";
-	$mlnk[4] = "edit.php?id=$id";
-	$mlnk[5] = "index.php?id=$id&aktion=logoff";
-	$mlnk[6] = "logout.php?id=$id&reset=1&forum=1";
-	$mlnk[7] = "mail.php?id=$id";
-	$mlnk[10] = "edit.php?id=$id";
-	$mlnk[11] = "sperre.php?id=$id";
-	$mlnk[12] = "blacklist.php?id=$id";
-	$mlnk[13] = "user.php?id=$id&aktion=statistik";
-	
 	echo "<center><table>\n";
 	echo "<tr><td style=\"text-align:center;\"><b>";
 	echo $f1;
 	?>
-	<a href="<?php echo $mlnk[3]; ?>" target="chat" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[7]; ?>" target="chat" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>&nbsp;
-	<a href="<?php echo $mlnk[4]; ?>" target="chat" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
+	<a href="user.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
+	<a href="mail.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>&nbsp;
+	<a href="edit.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
 	<?php
 	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[11]; ?>" target="chat" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
-		<a href="<?php echo $mlnk[12]; ?>" target="chat" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
+		<a href="sperre.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
+		<a href="blacklist.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
 		<?php
 	}
-	if ($erweitertefeatures && $admin) {
+	if ($admin) {
 		?>
-		<a href="<?php echo $mlnk[13]; ?>" target="chat" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
+		<a href="user.php?id=<?php echo $id; ?>&aktion=statistik" target="chat" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
 		<?php
 	}
 	if ($o_js) {
 		?>
-		<a href="<?php echo $mlnk[6]; ?>" onMouseOver="return(true)" onClick="neuesFenster('<?php echo $mlnk[6]; ?>');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
+		<a href="logout.php?id=<?php echo $id; ?>&reset=1&forum=1" onMouseOver="return(true)" onClick="neuesFenster('logout.php?id=<?php echo $id; ?>&reset=1&forum=1');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
 		<?php
 	}
 	?>
-	<a href="<?php echo $mlnk[1]; ?>" target="chat" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
+	<a href="hilfe.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
 	&nbsp;
-	<a href="<?php echo $mlnk[5]; ?>" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>
+	<a href="index.php?id=<?php echo $id; ?>&aktion=logoff" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>
 	<?php
 	echo $f2;
 	echo "</b></td></tr></table></center>";

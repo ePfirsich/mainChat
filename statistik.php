@@ -6,7 +6,7 @@ if (function_exists("id_lese")) {
 }
 
 // nur Admins dürfen Statistik ansehen...
-if (!$u_id || !$admin || !$erweitertefeatures) {
+if (!$u_id || !$admin) {
 	?>
 	<!DOCTYPE html>
 	<html dir="ltr" lang="de">

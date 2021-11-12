@@ -309,35 +309,16 @@ if (strlen($u_id) != 0) {
 					Header("Content-Type: application/vnd.ms-excel");
 					*/
 					
-					if ($erweitertefeatures) {
-						echo $t['sonst26'];
-					} else {
-						echo $t['sonst26b'];
-					}
+					echo $t['sonst26'];
 					
 					while ($row = mysqli_fetch_object($result)) {
-						if ($erweitertefeatures) {
-							echo str_replace("\\", "",
-								htmlspecialchars($row->u_nick)) . "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_adminemail))
-								. "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_email)) . "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_url)) . "\t"
-								. $row->u_punkte_gesamt . "\t" . $row->login
-								. "\t" . $row->u_level . "\n";
-						} else {
-							echo str_replace("\\", "",
-								htmlspecialchars($row->u_nick)) . "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_adminemail))
-								. "\t"
-								. str_replace("\\", "",
-									htmlspecialchars($row->u_email)) . "\t"
-								. $row->u_level . "\n";
-						}
+						echo str_replace("\\", "",
+							htmlspecialchars($row->u_nick)) . "\t"
+							. str_replace("\\", "", htmlspecialchars($row->u_adminemail)) . "\t"
+							. str_replace("\\", "", htmlspecialchars($row->u_email)) . "\t"
+							. str_replace("\\", "", htmlspecialchars($row->u_url)) . "\t"
+							. $row->u_punkte_gesamt . "\t" . $row->login
+							. "\t" . $row->u_level . "\n";
 					}
 				}
 			} else {

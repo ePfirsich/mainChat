@@ -39,7 +39,6 @@ $t['sonst23'] = "Bitte warten...";
 $t['sonst24'] = "Mehr als 2000 Benutzer können nicht dargestellt werden. Bitte die Suche genauer spezifizieren!";
 $t['sonst25'] = "<b>Bitte Benutzernamen oder eine E-Mail Adresse als Suchtext eingeben:</b> (% ist Jokerzeichen)";
 $t['sonst26'] = "Benutzername\tAdmin E-Mail\tE-Mail\tHomepage\tPunkte\tLetzter Login\tLevel\n";
-$t['sonst26b'] = "Benutzername\tAdmin E-Mail\tE-Mail\tLevel\n";
 $t['sonst27'] = "(Std/Min/Sek)";
 $t['sonst28'] = "(online)";
 $t['sonst29'] = "letzte IPs:";

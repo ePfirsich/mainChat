@@ -10,14 +10,14 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// privat ist wahr bei privater Nachricht
 	
 	global $admin, $smilies_pfad, $sprachconfig, $o_raum, $u_id, $u_level;
-	global $t, $system_farbe, $erweitertefeatures, $mysqli_link, $smilies_anzahl;
+	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
 	global $ist_moderiert, $smilies_aus;
 	
 	// Grafik-Smilies ergänzen, falls Funktion aktiv und Raum ist nicht moderiert
 	// Für Gäste gesperrt
 	// $ist_moderiert ist in raum_ist_moderiert() (Caching!) gesetzt worden!
 	
-	if (!$ist_moderiert && $erweitertefeatures) {
+	if (!$ist_moderiert) {
 		preg_match_all("/(&amp;[^ ]+)/", $text, $test, PREG_PATTERN_ORDER);
 		$anzahl = count($test[0]);
 		if ($anzahl > 0) {

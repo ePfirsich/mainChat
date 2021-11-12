@@ -3299,7 +3299,6 @@ function auto_knebel($text) {
 	global $system_farbe;
 	global $mysqli_link;
 	global $knebelzeit;
-	global $erweitertefeatures;
 	
 	// Prüfen ob private Nachricht
 	$chatzeile = preg_split("/ /", $text, 2);

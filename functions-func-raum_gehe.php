@@ -7,7 +7,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 	// ID des neuen Raums wird zurückgeliefert
 	
 	global $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
-	global $id, $erweitertefeatures, $forumfeatures;
+	global $id, $forumfeatures;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
@@ -43,20 +43,17 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		
 		// Online Punkte holen, damit der Benutzer zum Raumwechsel nicht ein/ausloggen muss
 		$o_punkte = 0;
-		if ($erweitertefeatures == 1) {
-			$query2 = "SELECT o_punkte FROM online WHERE o_id=" . intval($o_id);
-			$result2 = mysqli_query($mysqli_link, $query2);
-			
-			if ($result2 && mysqli_num_rows($result2) == 1) {
-				$online = mysqli_fetch_object($result2);
-				mysqli_free_result($result2);
-				$o_punkte = $online->o_punkte;
-				unset($online);
-			}
-			unset($query2);
-			unset($result2);
-			
+		$query2 = "SELECT o_punkte FROM online WHERE o_id=" . intval($o_id);
+		$result2 = mysqli_query($mysqli_link, $query2);
+		
+		if ($result2 && mysqli_num_rows($result2) == 1) {
+			$online = mysqli_fetch_object($result2);
+			mysqli_free_result($result2);
+			$o_punkte = $online->o_punkte;
+			unset($online);
 		}
+		unset($query2);
+		unset($result2);
 		
 		// wenn hier nach Erweitertefeatures oder Punkte geprüft werden würde, was Sinn machen würde,
 		// kommen Benutzer aus Kostenlosen chats, die mit der mainChat Community verbunden sind, trotzdem in den Raum, 
