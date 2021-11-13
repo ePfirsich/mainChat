@@ -154,7 +154,7 @@ if (strlen($u_id) != 0) {
 			break;
 		
 		case "edit2":
-			if (($eingabe == "Ändern!") && ($u_id == $f['u_id']) && $einstellungen_aendern ) {
+			if ( ($eingabe == "Ändern!") && ($u_id == $f['u_id']) ) {
 				
 				$query = "SELECT `user`.* FROM `user` WHERE `u_id`=$u_id ";
 				$result = mysqli_query($mysqli_link, $query);
@@ -331,24 +331,6 @@ if (strlen($u_id) != 0) {
 				
 				// Benutzername muss 4-20 Zeichen haben
 				if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
-					
-					// Wenn man den Benutzernamen nicht ändern darf, und man Benutzer ist, dann den Parameter
-					// sicherheitshalber löschen
-					if (!$einstellungen_aendern && !$admin) {
-						unset($f['u_nick']);
-					}
-					
-					// Falls er oben gelöscht wurde, den Alten aus der Datenbank holen
-					if ((!$einstellungen_aendern)
-						&& (strlen($f['u_nick']) == 0)) {
-						// wird nicht übergeben, wenn $einstellungen_aendern==0, also aus DB laden falls $admin.
-						$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f[u_id]";
-						$result = mysqli_query($mysqli_link, $query);
-						if ($result) {
-							$f['u_nick'] = mysqli_result($result, 0);
-						}
-					}
-					
 					// immernoch keine 4-20 Zeichen?
 					// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
 					// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20 

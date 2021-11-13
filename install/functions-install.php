@@ -205,10 +205,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Smilies</span></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Smiliespfad:</td>
-				<td><input type="text" name="chat_smiliespfad" size="40" value="<?php echo checkFormularInputFeld('pics/smile/',$chat["smiliespfad"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
 				<td> Max. Anzahl Smilies pro Zeile:</td>
 				<td><input type="text" name="chat_smiliesanzahl" size="40" value="<?php echo checkFormularInputFeld('5',$chat["smiliesanzahl"]) ?>"></td>
 			</tr>

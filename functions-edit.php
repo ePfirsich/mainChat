@@ -7,10 +7,9 @@ function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
-	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe;
-	global $t, $smilies_pfad;
-	global $frame_size, $u_id, $punktefeatures;
-	global $einstellungen_aendern, $eintritt_individuell;
+	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe, $t;
+	global $u_id, $punktefeatures;
+	global $eintritt_individuell;
 	global $mysqli_link;
 	
 	$input_breite = 32;
@@ -159,15 +158,11 @@ if (tests.dnd) {
 	
 	}
 	
-	if (!$einstellungen_aendern) {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
-			. "</b>&nbsp;&nbsp;\n" . $f['u_nick'] . $f2 . "</td></tr>\n";
-	} else {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
-			. "</b><br>\n" . $f2
-			. "<input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" SIZE=$input_breite>"
-			. "</td></tr>\n";
-	}
+	// Benutzername
+	$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
+		. "</b><br>\n" . $f2
+		. "<input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" SIZE=$input_breite>"
+		. "</td></tr>\n";
 	
 	// Für alle außer Gäste
 	if ($u_level != "G") {
@@ -183,7 +178,7 @@ if (tests.dnd) {
 			. "</b><br>\n" . $f2
 			. "<input type=\"text\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" SIZE=$input_breite>"
 			. "</td></tr>\n";
-	} else if (($einstellungen_aendern) && ($u_level == 'U')) {
+	} else if ($u_level == 'U') {
 		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige3']
 			. "</b> (<a href=\"edit.php?id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
 			. $f2 . htmlspecialchars($f['u_adminemail'])
@@ -260,19 +255,17 @@ if (tests.dnd) {
 	$text .= "</select>" . $f2 . "</td></tr>\n";
 	
 	// Smilies Y/N
-	if ($smilies_pfad) {
-		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>\n";
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige35'] . "</b>\n" . $f2
-			. "</td><td>" . $f1 . "<select name=\"f[u_smilie]\">";
-		if ($f['u_smilie'] == "Y") {
-			$text .= "<option selected value=\"Y\">$t[user_zeige36]";
-			$text .= "<option value=\"N\">$t[user_zeige37]";
-		} else {
-			$text .= "<option value=\"Y\">$t[user_zeige36]";
-			$text .= "<option selected value=\"N\">$t[user_zeige37]";
-		}
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+	$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>\n";
+	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige35'] . "</b>\n" . $f2
+		. "</td><td>" . $f1 . "<select name=\"f[u_smilie]\">";
+	if ($f['u_smilie'] == "Y") {
+		$text .= "<option selected value=\"Y\">$t[user_zeige36]";
+		$text .= "<option value=\"N\">$t[user_zeige37]";
+	} else {
+		$text .= "<option value=\"Y\">$t[user_zeige36]";
+		$text .= "<option selected value=\"N\">$t[user_zeige37]";
 	}
+	$text .= "</select>" . $f2 . "</td></tr>\n";
 	
 	// Punkte Anzeigen Y/N
 	if ($u_level <> 'G' && $punktefeatures) {

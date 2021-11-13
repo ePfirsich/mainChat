@@ -297,9 +297,7 @@ $frame_online_size=0;				// Höhe des Frames frame_online in Pixel
 
 
 // Pfad der Grafiken für die Smilies
-// Muss für die Darstellung der Smilies als Grafiken definiert sein
-// Für Text-Smilies muss $smilies_pfad=""; definiert sein
-$smilies_pfad="%smiliespfad%";
+$smilies_pfad="pics/smile/";
 
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
 $smilies_anzahl="%smiliesanzahl%";
@@ -362,10 +360,6 @@ $anzahl_po_seite = 20;
 // 0=Kein Logout
 $chat_timeout=3600; // 60 Minuten
 
-// soll die e-mailadresse bei neu-usern überprüft werden ?
-// 0 = nein / 1 = ja
-$pruefe_email=1;
-
 // Default Knebelzeit setzen (Minuten)
 $knebelzeit=5;
 
@@ -400,9 +394,6 @@ $check_np_referer="1";
 $sperre_dialup[]="dip.t-dialin.net";
 $sperre_dialup[]="arcor-ip.net";
 $sperre_dialup[]="t-ipconnect.de";
-
-// Benutzer darf seinen Nicknamen ändern (1=ja/0=nein)
-$einstellungen_aendern=1;
 
 // Geschlecht anzeigen im Chat. true erzeugt mehr Datenbankzugriffe, da zusätzliche Felder aus der userinfo geladen werden müssen
 $show_geschlecht = false;

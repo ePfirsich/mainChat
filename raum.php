@@ -387,18 +387,16 @@ if (strlen($u_id) != 0) {
 			
 			$text .= "</select>" . $f2 . "</td></tr>\n";
 			
-			if ($smilies_pfad) {
-				$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
-					. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
-				if ($r_smilie == "Y") {
-					$text .= "<option selected value=\"Y\">$t[raum_user8]";
-					$text .= "<option value=\"N\">$t[raum_user9]";
-				} else {
-					$text .= "<option value=\"Y\">$t[raum_user8]";
-					$text .= "<option selected value=\"N\">$t[raum_user9]";
-				}
-				$text .= "</select>" . $f2 . "</td></tr>\n";
+			$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
+				. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
+			if ($r_smilie == "Y") {
+				$text .= "<option selected value=\"Y\">$t[raum_user8]";
+				$text .= "<option value=\"N\">$t[raum_user9]";
+			} else {
+				$text .= "<option value=\"Y\">$t[raum_user8]";
+				$text .= "<option selected value=\"N\">$t[raum_user9]";
 			}
+			$text .= "</select>" . $f2 . "</td></tr>\n";
 			
 			// Punkte zum Betreten des Raumes
 			$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
@@ -544,19 +542,17 @@ if (strlen($u_id) != 0) {
 							
 						}
 						
-						if ($smilies_pfad) {
-							$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7']
-								. "</b>" . $f2 . "</td><td>" . $f1
-								. "<select name=\"f[r_smilie]\">";
-							if ($rows->r_smilie == "Y") {
-								$text .= "<option selected value=\"Y\">$t[raum_user8]";
-								$text .= "<option value=\"N\">$t[raum_user9]";
-							} else {
-								$text .= "<option value=\"Y\">$t[raum_user8]";
-								$text .= "<option selected value=\"N\">$t[raum_user9]";
-							}
-							$text .= "</select>" . $f2 . "</td></tr>\n";
+						$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7']
+							. "</b>" . $f2 . "</td><td>" . $f1
+							. "<select name=\"f[r_smilie]\">";
+						if ($rows->r_smilie == "Y") {
+							$text .= "<option selected value=\"Y\">$t[raum_user8]";
+							$text .= "<option value=\"N\">$t[raum_user9]";
+						} else {
+							$text .= "<option value=\"Y\">$t[raum_user8]";
+							$text .= "<option selected value=\"N\">$t[raum_user9]";
 						}
+						$text .= "</select>" . $f2 . "</td></tr>\n";
 						
 						if ($rows->r_name != $lobby && $rows->r_status1 != "L") {
 							// Punkte zum Betreten des Raumes ändern
@@ -666,7 +662,7 @@ if (strlen($u_id) != 0) {
 						if (isset($extended) && ($extended == 1)) {
 							$rlink = "<center>" . $f1
 								. "<b><a href=\"raum.php?id=$id&order=$order\">"
-								. $t['menue7'] . "</A></b>" . $f2
+								. $t['menue7'] . "</a></b>" . $f2
 								. "</center>\n";
 							$text .= "<script language=\"javascript\">\n"
 								. "window.resizeTo(800,600); window.focus();"
@@ -694,10 +690,8 @@ if (strlen($u_id) != 0) {
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					
 					if (isset($extended) && $extended) {
-						if ($smilies_pfad) {
-							$rlink = $t['raum_user10'];
-							$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-						}
+						$rlink = $t['raum_user10'];
+						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 						
 						$rlink = $t['sonst14'];
 						$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
@@ -743,14 +737,12 @@ if (strlen($u_id) != 0) {
 							$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
 							$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 							if ((isset($extended)) && ($extended)) {
-								if ($smilies_pfad) {
-									if ($row['r_smilie'] == "Y") {
-										$r_smilie = $t['raum_user8'];
-									} else {
-										$r_smilie = $t['raum_user9'];
-									}
-									$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
+								if ($row['r_smilie'] == "Y") {
+									$r_smilie = $t['raum_user8'];
+								} else {
+									$r_smilie = $t['raum_user9'];
 								}
+								$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
 								
 								$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
 								

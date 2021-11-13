@@ -40,7 +40,6 @@ $chat["lustigefeatures"] = filter_input(INPUT_POST, 'chat_lustigefeatures', FILT
 $chat["forumfeatures"] = filter_input(INPUT_POST, 'chat_forumfeatures', FILTER_SANITIZE_STRING);
 $chat["punktefeatures"] = filter_input(INPUT_POST, 'chat_punktefeatures', FILTER_SANITIZE_STRING);
 $chat["modmodul"] = filter_input(INPUT_POST, 'chat_modmodul', FILTER_SANITIZE_STRING);
-$chat["smiliespfad"] = filter_input(INPUT_POST, 'chat_smiliespfad', FILTER_SANITIZE_STRING);
 $chat["smiliesanzahl"] = filter_input(INPUT_POST, 'chat_smiliesanzahl', FILTER_SANITIZE_STRING);
 
 require("functions-install.php");

@@ -24,7 +24,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
-	global $einstellungen_aendern, $single_room_verhalten;
+	global $single_room_verhalten;
 	
 	// Text $text parsen, Befehle ausführen, Texte im Chat ausgeben
 	
@@ -1199,13 +1199,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/name":
 		case "/nick":
 			// Prüft und ändert Benutzernamen
-			if (!$einstellungen_aendern) {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
-			} else if ((strlen($chatzeile[1]) > 0) && (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
-				
+			if ((strlen($chatzeile[1]) > 0) && (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
 				$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
 				$result = mysqli_query($mysqli_link, $query);
 				$xyz = mysqli_fetch_array($result);

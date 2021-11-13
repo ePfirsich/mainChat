@@ -314,7 +314,7 @@ if ($neuregistrierung_deaktivieren) {
 	$login_titel = $t['default1'];
 }
 
-if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail']) && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
+if ($aktion == "neu" && isset($f['u_adminemail']) && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
 		zeige_header_ende();
 		?>
 		<body>
@@ -326,12 +326,12 @@ if ($aktion == "neu" && $pruefe_email == "1" && isset($f['u_adminemail']) && $ha
 	exit;
 }
 
-if ($aktion == "neu" && $pruefe_email == "1" && $los != $t['neu22'])
+if ($aktion == "neu" && $los != $t['neu22']) {
 	$aktion = "mailcheck";
+}
 if ($aktion == "neu2") {
 	$aktion = "mailcheckm";
 }
-
 if (isset($f['u_adminemail'])) {
 	$ro = "readonly";
 }
@@ -1712,11 +1712,10 @@ switch ($aktion) {
 			$u_id = schreibe_db("user", $f, "", "u_id");
 			$result = mysqli_query($mysqli_link, "UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
 			
-			if ($pruefe_email == "1") {
-				$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
-				$result = mysqli_query($mysqli_link, $query);
-			}
-			
+			// E-Mail überprüfen
+			$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+			$result = mysqli_query($mysqli_link, $query);
+		
 		}
 		
 		zeige_fuss();
