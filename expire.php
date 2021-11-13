@@ -420,7 +420,7 @@ $currentdate = date("Y-m-d H", $currenttime);
 
 unset($onlinevhosts);
 
-// Anzahl der Benutzer ermittel, die online sind
+// Anzahl der Benutzer ermitteln, die online sind
 $queryCount = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
 if (mysqli_num_rows($queryCount) > 0) {
 	$anzahl_online = mysqli_result($queryCount, 0, "anzahl");
@@ -428,8 +428,7 @@ if (mysqli_num_rows($queryCount) > 0) {
 	$anzahl_online = 0;
 }
 
-/* Die Anzahl der Benutzer im Chat wird nun in die StatisticDB geschrieben. */
-
+/* Die Anzahl der Benutzer im Chat/Forum wird nun in die Statistiken geschrieben. */
 if ( isset($anzahl_online) && ($anzahl_online > 0) ) {
 	$r0 = mysqli_query($mysqli_link, "SELECT SQL_BUFFER_RESULT c_users FROM statistiken WHERE DATE_FORMAT(c_timestamp,'%Y-%m-%d %H') = '$currentdate' ORDER BY c_users DESC");
 	
