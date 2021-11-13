@@ -420,8 +420,13 @@ $currentdate = date("Y-m-d H", $currenttime);
 
 unset($onlinevhosts);
 
-$r1 = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
-$anzahl_online = mysqli_num_rows($r1);
+// Anzahl der Benutzer ermittel, die online sind
+$queryCount = mysqli_query($mysqli_link, "SELECT COUNT(o_id) AS anzahl FROM online");
+if (mysqli_num_rows($queryCount) > 0) {
+	$anzahl_online = mysqli_result($queryCount, 0, "anzahl");
+} else {
+	$anzahl_online = 0;
+}
 
 /* Die Anzahl der Benutzer im Chat wird nun in die StatisticDB geschrieben. */
 
