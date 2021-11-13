@@ -10,7 +10,7 @@ id_lese($id);
 raum_ist_moderiert($o_raum);
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten');
+zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
 
 if (strlen($u_id) > 0) {
 	// $chat_back gesetzt?

@@ -157,7 +157,7 @@ function liste() {
 }
 
 $title = $body_titel . ' - Sperren';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 zeige_header_ende();
 
 // Timestamp im Datensatz aktualisieren

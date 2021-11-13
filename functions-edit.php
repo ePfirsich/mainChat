@@ -254,8 +254,32 @@ if (tests.dnd) {
 	}
 	$text .= "</select>" . $f2 . "</td></tr>\n";
 	
+	// Farbe des Chats
+	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige64'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_layout_farbe]\">";
+	if ($f['u_layout_farbe'] == "2") { //grün
+		$text .= "<option value=\"1\">$t[user_zeige65]";
+		$text .= "<option selected value=\"2\">$t[user_zeige66]";
+		$text .= "<option value=\"3\">$t[user_zeige67]";
+		$text .= "<option value=\"4\">$t[user_zeige68]";
+	} else if ($f['u_layout_farbe'] == "3") { // rot
+		$text .= "<option value=\"1\">$t[user_zeige65]";
+		$text .= "<option value=\"2\">$t[user_zeige66]";
+		$text .= "<option selected value=\"3\">$t[user_zeige67]";
+		$text .= "<option value=\"4\">$t[user_zeige68]";
+	} else if ($f['u_layout_farbe'] == "4") { // pink
+		$text .= "<option value=\"1\">$t[user_zeige65]";
+		$text .= "<option value=\"2\">$t[user_zeige66]";
+		$text .= "<option value=\"3\">$t[user_zeige67]";
+		$text .= "<option selected value=\"4\">$t[user_zeige68]";
+	} else { // blau
+		$text .= "<option selected value=\"1\">$t[user_zeige65]";
+		$text .= "<option value=\"2\">$t[user_zeige66]";
+		$text .= "<option value=\"3\">$t[user_zeige67]";
+		$text .= "<option value=\"4\">$t[user_zeige68]";
+	}
+	$text .= "</select>" . $f2 . "</td></tr>\n";
+	
 	// Smilies Y/N
-	$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>\n";
 	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige35'] . "</b>\n" . $f2
 		. "</td><td>" . $f1 . "<select name=\"f[u_smilie]\">";
 	if ($f['u_smilie'] == "Y") {

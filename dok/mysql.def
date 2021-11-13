@@ -471,6 +471,7 @@ CREATE TABLE user (
 	`avatar_status` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`ui_avatar` varchar(255) NOT NULL DEFAULT '',
 	`u_sicherer_modus` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	`u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	PRIMARY KEY	(u_id),
 	UNIQUE KEY u_nick (u_nick),
 	KEY u_level (u_level),

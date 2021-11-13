@@ -41,7 +41,7 @@ if ($u_level == "S") {
 gehe_forum($u_id, $u_nick, $o_id, $o_raum);
 
 $title = $body_titel;
-zeige_header_anfang($title, 'login');
+zeige_header_anfang($title, 'login', '', $u_layout_farbe);
 zeige_header_ende();
 
 require_once("functions-frameset.php");

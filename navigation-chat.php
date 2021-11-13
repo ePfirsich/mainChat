@@ -5,14 +5,14 @@ require_once("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
-if ($u_id) {	
+if ($u_id) {
 	// Default für Farbe setzen, falls undefiniert
 	if (!isset($u_farbe)) {
 		$u_farbe = $user_farbe;
 	}
 
 $title = $body_titel;
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 ?>
 <script>
 function resetinput() {

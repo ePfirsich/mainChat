@@ -25,7 +25,7 @@ if (strlen($u_id) > 0) {
 	aktualisiere_online($u_id, $o_raum);
 
 	$title = $body_titel . ' - Log';
-	zeige_header_anfang($title, 'chatausgabe');
+	zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
 	zeige_header_ende();
 	?>
 	<body>

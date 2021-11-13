@@ -9,7 +9,7 @@ id_lese($id);
 aktualisiere_online($u_id, $o_raum);
 
 $title = $body_titel . ' - Smilies';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 
 echo "<script>\n";
 echo "  var id='$id';\n";

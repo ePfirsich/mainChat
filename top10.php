@@ -8,7 +8,7 @@ id_lese($id);
 aktualisiere_online($u_id, $o_raum);
 
 $title = $body_titel . ' - Top 10';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 zeige_header_ende();
 ?>
 <body>

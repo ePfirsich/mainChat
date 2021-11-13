@@ -2,7 +2,6 @@
 
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	
 	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
 	
 	// Benutzername aus u_nick lesen und setzen

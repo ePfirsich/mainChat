@@ -2,12 +2,12 @@
 require_once("functions.php");
 require_once("functions-func-raeume_auswahl.php");
 
-$title = $body_titel;
-zeige_header_anfang($title, 'mini');
-$meta_refresh = "";
-
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
+
+$title = $body_titel;
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+$meta_refresh = "";
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {

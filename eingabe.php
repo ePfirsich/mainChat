@@ -15,10 +15,8 @@ if ($u_id) {
 				$u_farbe = $farbe;
 				$f['u_farbe'] = substr(htmlspecialchars($farbe), 0, 6);
 				schreibe_db("user", $f, $u_id, "u_id");
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>$chat:</b> " . "<span style=\"color:#$u_farbe;\">"
-						. str_replace("%u_nick%", $u_nick, $t['farbe1'])
-						. "</span>");
+				system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> " . "<span style=\"color:#$u_farbe;\">"
+						. str_replace("%u_nick%", $u_nick, $t['farbe1']) . "</span>");
 			}
 		}
 	}
@@ -29,7 +27,7 @@ if ($u_id) {
 	}
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chateingabe');
+zeige_header_anfang($title, 'chateingabe', '', $u_layout_farbe);
 ?>
 <script>
 function resetinput() {

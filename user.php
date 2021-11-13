@@ -37,7 +37,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 }
 
 $title = $body_titel . ' - Benutzer';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 
 $eingabe_breite = 31;
 

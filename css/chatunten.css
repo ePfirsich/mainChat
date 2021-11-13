@@ -1,7 +1,7 @@
 /* // Farbe im Chat Frame Unten */
 body {
 	color:#000000;
-	background-color:#85D4FF;
+	background-color: var(--Chatunten-Hintergrundfarbe);
 	/* background-image: url(test.png); */
 }
 a {

@@ -7,7 +7,7 @@ require_once("functions-func-chat_lese.php");
 id_lese($id);
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatausgabe');
+zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
 
 // Benutzerdaten gesetzt?
 if (strlen($u_id) > 0) {

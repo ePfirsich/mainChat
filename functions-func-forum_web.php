@@ -8,7 +8,7 @@ function kopf_forum($admin) {
 	global $t;
 
 	$title = $body_titel;
-	zeige_header_anfang($title, 'chatausgabe');
+	zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
 	zeige_header_ende();
 	?>
 	<body>

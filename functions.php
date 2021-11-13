@@ -56,7 +56,7 @@ $valid_fields = array(
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
-		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'avatar_status', 'ui_avatar'),
+		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'avatar_status', 'ui_avatar', 'u_layout_farbe'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
 		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')
 );
@@ -478,7 +478,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
-	global $u_farbe_alle, $u_farbe_sys, $u_farbe_bg, $u_farbe_priv, $u_farbe_noise, $u_clearedit;
+	global $u_farbe_alle, $u_farbe_sys, $u_farbe_bg, $u_farbe_priv, $u_farbe_noise, $u_clearedit, $u_layout_farbe;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
@@ -507,9 +507,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	if ($ar = @mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 		
 		// userdaten und ignore Arrays setzen
-		$userdata = unserialize(
-			$ar['o_userdata'] . $ar['o_userdata2'] . $ar['o_userdata3']
-				. $ar['o_userdata4']);
+		$userdata = unserialize($ar['o_userdata'] . $ar['o_userdata2'] . $ar['o_userdata3'] . $ar['o_userdata4']);
 		$ignore = unserialize($ar['o_ignore']);
 		
 		unset($ar['o_ignore']);
@@ -537,9 +535,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			}
 			
 			// ChatAdmin oder Superuser oder moderator?
-			if ($u_level == "S" || $u_level == "C"
-				|| ($moderationsmodul == 1 && $u_level == "M"
-					&& isset($r_status1) && strtolower($r_status1) == "m")) {
+			if ($u_level == "S" || $u_level == "C" || ($moderationsmodul == 1 && $u_level == "M" && isset($r_status1) && strtolower($r_status1) == "m")) {
 				$admin = 1;
 			} else {
 				$admin = 0;
@@ -711,7 +707,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
 			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
-			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus` "
+			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe` "
 			. "FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {

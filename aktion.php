@@ -6,7 +6,7 @@ require_once("functions.php");
 id_lese($id);
 
 $title = $body_titel . ' - Aktionen';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 zeige_header_ende();
 ?>
 <body>

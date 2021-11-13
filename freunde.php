@@ -6,7 +6,7 @@ require_once("functions.php");
 id_lese($id);
 
 $title = $body_titel . ' - Freunde';
-zeige_header_anfang($title, 'mini');
+zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 ?>
 <script>
 function toggle(tostat ) {
