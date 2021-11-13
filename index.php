@@ -1179,13 +1179,7 @@ switch ($aktion) {
 				
 				// muss Benutzer/Gast  noch Nutzungsbestimmungen bestätigen?
 				if ($los != $t['login17'] && $u_agb != "Y") {
-					
 					// Nutzungsbestimmungen ausgeben
-					
-					// ggf. Nutzungsbestimmungen aus Sprachdatei mit extra Nutzungsbestimmungen aus config.php überschreiben
-					if ((isset($extra_agb)) and ($extra_agb <> "")
-						and ($extra_agb <> "standard"))
-						$t['agb'] = $extra_agb;
 					
 					// Header ausgeben
 					zeige_header_ende();

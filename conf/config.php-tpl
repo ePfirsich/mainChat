@@ -323,10 +323,6 @@ $domaingesperrtdbase="mainchat";	// wie muss die DB heißen, damit die Anmeldung
 $domaingesperrt[]="/@trash-mail.de/";
 
 
-
-// Spezielle Nutzungsbestimmungen, überschreibt die Nutzungsbestimmungen in der Sprachdatei
-// $extra_agb="";
-
 // Definition der möglichen Aktionen, Reihenfolge ist wichtig, da bei deaktivem Forum der def_was[2] rausgenommen wird
 $def_was=array("Freunde","Neue Nachricht", "Antwort auf eigenen Beitrag");
 
