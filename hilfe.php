@@ -18,8 +18,7 @@ $text = "<a href=\"hilfe.php?id=$id\">$t[menue4]</a>\n";
 $text .= "| <a href=\"hilfe.php?id=$id&aktion=hilfe-befehle\">$t[menue5]</a>\n";
 $text .= "| <a href=\"hilfe.php?id=$id&aktion=hilfe-sprueche\">$t[menue6]</a>\n";
 $text .= "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community\">$t[menue7]</a>\n";
-$text .= "| <a href=\"hilfe.php?id=$id&aktion=chatiquette\">$t[menue8]</a>\n";
-show_box_title_content($box, $text, true);
+zeige_tabelle_zentriert($box, $text, true);
 	
 switch ($aktion) {
 	case "chatiquette":

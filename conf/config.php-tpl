@@ -389,9 +389,6 @@ $raumsperre=30;
 // Raum tut
 // $raum_msg="Hallo!";
 
-// Smiliesauflistung im rechten Fenster aktivieren/dekativieren
-$smilies_aus="0";
-
 // Autoknebel-Texte
 $ak2="/fidion\.cc/#/schnurzel/";
 

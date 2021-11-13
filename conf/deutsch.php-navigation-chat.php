@@ -16,4 +16,5 @@ $t['menue11'] = "Forum";
 $t['menue12'] = "Blacklist";
 $t['menue13'] = "Statistiken";
 $t['menue14'] = "Chat";
+$t['menue15'] = "$chat";
 ?>

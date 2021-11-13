@@ -2,6 +2,7 @@
 
 // Sprachdefinition deutsch eingabe.php
 
+$t['menue1'] = "$chat";
 $t['menue2'] = "Benutzer";
 $t['menue3'] = "Einstellungen";
 $t['menue4'] = "Hilfe";

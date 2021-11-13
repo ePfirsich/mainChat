@@ -19,7 +19,7 @@ if ($u_id) {
 	echo "<br>";
 	$box = $t['aktion3'];
 	$text = "<a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	switch ($aktion) {
 		
@@ -39,7 +39,7 @@ if ($u_id) {
 	echo "<br>";
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 }
 ?>
 </body>

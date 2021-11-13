@@ -60,7 +60,6 @@ if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 	$i = 0;
 	$bgcolor = 'class="tabelle_zeile1"';
 	
-	$text .= "<br>";
 	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe8]</b></div>";
 	
 	// Befehle für Admins
@@ -107,5 +106,5 @@ if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 	$text .= "</table>\n";
 }
 
-show_box_title_content($box,$text);
+zeige_tabelle_zentriert($box,$text);
 ?>

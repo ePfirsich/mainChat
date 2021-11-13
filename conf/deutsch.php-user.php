@@ -7,7 +7,6 @@ $t['menue2'] = "Benutzer suchen";
 $t['menue3'] = "Admin: Benutzer exportieren";
 $t['menue4'] = "Raumliste";
 $t['menue5'] = "Einstellungen";
-$t['menue6'] = "";
 $t['menue7'] = "Top10/100";
 $t['menue8'] = "Meine Freunde";
 $t['menue10'] = "Admin: Benutzer importieren";
@@ -15,6 +14,7 @@ $t['menue11'] = "Admin: Benutzer löschen";
 $t['menue12'] = "Adminliste anzeigen";
 $t['menue13'] = "Benutzer";
 
+$t['sonst1'] = "Benutzer";
 $t['sonst2'] = "$chat Menü";
 $t['sonst4'] = "<b>Es wurden leider keine Benutzer gefunden!</b>";
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";

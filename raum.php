@@ -35,7 +35,7 @@ if (strlen($u_id) != 0) {
 	if ($u_level != "G") {
 		$text .= "<a href=\"raum.php?id=$id&aktion=neu\">" . $t['menue2'] . "</a>\n";
 	}
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 
 	if (isset($f['r_name'])) {
 		// In Namen die Leerzeichen und ' und " entfernen
@@ -293,7 +293,7 @@ if (strlen($u_id) != 0) {
 					. "</form>\n";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 				
 				mysqli_free_result($result);
 				
@@ -455,7 +455,7 @@ if (strlen($u_id) != 0) {
 			$text .= "</form>\n";
 			
 			// Box anzeigen
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 			
 			break;
 		
@@ -634,7 +634,7 @@ if (strlen($u_id) != 0) {
 				}
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 				
 				mysqli_free_result($result);
 			} else {
@@ -785,7 +785,7 @@ if (strlen($u_id) != 0) {
 					$text .= "</table>";
 					
 					// Box anzeigen
-					show_box_title_content($box, $text);
+					zeige_tabelle_zentriert($box, $text);
 					
 					mysqli_free_result($result);
 				}

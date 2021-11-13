@@ -3,7 +3,7 @@ require_once("functions.php");
 require_once("functions-func-raeume_auswahl.php");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten');
+zeige_header_anfang($title, 'mini');
 $meta_refresh = "";
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
@@ -56,39 +56,33 @@ if ($u_id) {
 		$neue_nachrichten = '';
 	}
 	
-	echo "<center><table>\n";
-	echo "<tr><td style=\"text-align:center;\"><b>";
-	echo $f1;
-	?>
-	<a href="user.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue2']; ?>"><span class="fa fa-user icon16"></span> <span><?php echo $t['menue2']; ?></span></a>&nbsp;
-	<a href="mail.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue10']; ?>"><span class="fa fa-envelope icon16"></span> <span><?php echo $t['menue10'] . $neue_nachrichten; ?></span></a>&nbsp;
-	<a href="edit.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue3']; ?>"><span class="fa fa-cog icon16"></span> <span><?php echo $t['menue3']; ?></span></a>&nbsp;
-	<?php
+	$box = $t['menue1'];
+	
+	$text = "<center>";
+	
+	$text .= "<a href=\"user.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue2'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['menue2'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"mail.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue10'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['menue10'] . $neue_nachrichten . "</span></a>&nbsp;";
+	$text .= " | <a href=\"forum.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue11'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['menue11'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"edit.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue3'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['menue3'] . "</span></a>&nbsp;";
 	if ($admin) {
-		?>
-		<a href="sperre.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue5']; ?>"><span class="fa fa-lock icon16"></span> <span><?php echo $t['menue5']; ?></span></a>&nbsp;
-		<a href="blacklist.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue12']; ?>"><span class="fa fa-list icon16"></span> <span><?php echo $t['menue12']; ?></span></a>&nbsp;
-		<?php
+		$text .= " | <a href=\"sperre.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue5'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['menue5'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"blacklist.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue12'] . "\"><span class=\"fa fa-list icon16\"></span> <span>" . $t['menue12'] . "</span></a>&nbsp;";
 	}
 	if ($admin) {
-		?>
-		<a href="user.php?id=<?php echo $id; ?>&aktion=statistik" target="chat" class="button" title="<?php echo $t['menue13']; ?>"><span class="fa fa-bar-chart icon16"></span> <span><?php echo $t['menue13']; ?></span></a>&nbsp;
-		<?php
+		$text .= " | <a href=\"user.php?id=" . $id . "\"&aktion=statistik\" target=\"chat\" title=\"" . $t['menue13'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['menue13'] . "</span></a>&nbsp;";
 	}
 	if ($o_js) {
-		?>
-		<a href="logout.php?id=<?php echo $id; ?>&reset=1&forum=1" onMouseOver="return(true)" onClick="neuesFenster('logout.php?id=<?php echo $id; ?>&reset=1&forum=1');return(false)" class="button" title="<?php echo $t['menue9']; ?>"><span class="fa fa-refresh icon16"></span> <span><?php echo $t['menue9']; ?></span></a>&nbsp;
-		<?php
+		$text .= " | <a href=\"logout.php?id=" . $id . "\"&reset=1&forum=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('logout.php?id=" . $id . "&reset=1&forum=1');return(false)\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
 	}
-	?>
-	<a href="hilfe.php?id=<?php echo $id; ?>" target="chat" class="button" title="<?php echo $t['menue4']; ?>"><span class="fa fa-question icon16"></span> <span><?php echo $t['menue4']; ?></span></a>&nbsp;
-	&nbsp;
-	<a href="index.php?id=<?php echo $id; ?>&aktion=logoff" target="_top" class="button" title="<?php echo $t['menue6']; ?>"><span class="fa fa-sign-out icon16"></span> <span><?php echo $t['menue6']; ?></span></a>
-	<?php
-	echo $f2;
-	echo "</b></td></tr></table></center>";
+	$text .= " | <a href=\"hilfe.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
+	$text .= " | &nbsp;<a href=\"index.php?id=" . $id . "\"&aktion=logoff\" target=\"_top\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['menue6'] . "</span></a>";
 	
-	// Chat und Raumauswajl anzeigen
+	$text .= "</center>";
+	
+	zeige_tabelle_zentriert($box, $text, true);
+	
+	
+	// Chat und Raumauswahl anzeigen
 	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<center><table style=\"margin-top: 7px;\">\n";
 	
 	// Anzahl der Benutzer insgesamt feststellen

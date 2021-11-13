@@ -203,7 +203,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= "</center><br>";
 		
 		// Box anzeigen
-		show_box_title_content($box, $text);
+		zeige_tabelle_zentriert($box, $text);
 		
 		// Kopf Tabelle "Private Nachricht"
 		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
@@ -236,7 +236,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= "</form>";
 			
 			// Box anzeigen
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 		}
 		
 		// Kopf Tabelle Benutzerinfo
@@ -454,7 +454,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= "$f2</td></tr></table>\n";
 		
 		// Box anzeigen
-		show_box_title_content($box, $text);
+		zeige_tabelle_zentriert($box, $text);
 		
 		// Admin-Menü 3
 		if ($admin) {
@@ -485,7 +485,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= $f2 . "</form>\n";
 			
 			// Box anzeigen
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 		}
 		
 

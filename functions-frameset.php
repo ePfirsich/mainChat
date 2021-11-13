@@ -8,7 +8,7 @@ function frameset_forum($hash_id) {
 	}
 	
 	?>
-	<frameset rows="<?php echo $frame_online_size; ?>,70,*" border="0" frameborder="0" framespacing="0">
+	<frameset rows="<?php echo $frame_online_size; ?>,100,*" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
 		<frame src="navigation-forum.php?id=<?php echo $hash_id; ?>&o_raum_alt=<?php echo $o_raum; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
@@ -36,7 +36,7 @@ function frameset_chat($hash_id) {
 	}
 	
 	?>
-	<frameset rows="<?php echo $frame_online_size;?>,30,*,<?php echo $frame_size_eingabe; ?>,<?php echo $frame_size_interaktiv; ?>,1" border="0" frameborder="0" framespacing="0">
+	<frameset rows="<?php echo $frame_online_size;?>,65,*,<?php echo $frame_size_eingabe; ?>,<?php echo $frame_size_interaktiv; ?>,1" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
 		<frame src="navigation-chat.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">

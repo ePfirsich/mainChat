@@ -137,7 +137,7 @@ if (strlen($u_id) != 0) {
 		
 		if ($aktion != "zeigalle") {
 			echo "<br>";
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 		}
 	}
 	
@@ -237,7 +237,7 @@ if (strlen($u_id) != 0) {
 				echo "<br>";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 				
 			} else {
 				echo "$t[sonst41]";
@@ -254,7 +254,7 @@ if (strlen($u_id) != 0) {
 				echo "<br>";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 			} else {
 				echo "$t[sonst41]";
 			}
@@ -278,7 +278,7 @@ if (strlen($u_id) != 0) {
 				echo "<br>";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 			} else {
 				echo "$t[sonst41]";
 			}
@@ -395,7 +395,7 @@ if (strlen($u_id) != 0) {
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 				
 				echo "<br>";
 				
@@ -653,7 +653,7 @@ if (strlen($u_id) != 0) {
 					. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
 					. $f2 . "</td></tr>" . "</table></form>\n";
 				
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 			}
 			
 			break;
@@ -829,7 +829,7 @@ if (strlen($u_id) != 0) {
 					
 					$text .= "<p style=\"text-align:center;\">" . $f1 . $t['sonst12'] . $f2 . "</p>";
 					
-					show_box_title_content($box, $text);
+					zeige_tabelle_zentriert($box, $text);
 					
 					// Raumauswahl
 					$text = '';
@@ -850,26 +850,33 @@ if (strlen($u_id) != 0) {
 					$text .= "</form>";
 					
 					// Box anzeigen
-					show_box_title_content($box, $text);
+					zeige_tabelle_zentriert($box, $text);
 						
 				} else {
-					$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
-					echo "<center>" . $f1 . "[<a onMouseOver=\"return(true)\" "
-						. $linkuser . ">" . $t['sonst19'] . "</a>]";
-					if ((!isset($beichtstuhl) || !$beichtstuhl) && (!isset($smilies_aus) || !$smilies_aus)) {
-						$linksmilies = "href=\"smilies-grafik.php" . "?id=$id\"";
-						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
+					$box = "<center>" . $t['sonst1'] . "</center>";
+					$text = "";
+					
+					$linkuser = "user.php?id=$id&aktion=chatuserliste";
+					$linksmilies = "smilies.php?id=$id";
+					$text .= "<center>";
+					$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
+					if (!isset($beichtstuhl) || !$beichtstuhl) {
+						$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
 					}
-					echo $f2 . "<br>\n" . $f1 . $larr[0]['r_name'] . $f2 . "<br>\n";
+					$text .= "<br><br>\n" . $larr[0]['r_name'] . "<br>\n";
 					
 					// Benutzerliste ausgeben
-					echo user_liste($larr, 0);
+					$text .= user_liste($larr, 0);
 				
 					if ($rows > 15) {
-						echo $f1."[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst19'] . "</a>]";
-						echo "&nbsp;[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst20'] . "</a>]";
-						echo $f2 . "</center>\n";
+						$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
+						if (!isset($beichtstuhl) || !$beichtstuhl) {
+							$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
+						}
+						$text .= "</center>\n";
 					}
+					
+					show_box_title_content($box, $text);
 				}
 				
 			}

@@ -77,7 +77,7 @@ if (strlen($u_id) != 0) {
 		$url = "href=\"$ur1\" ";
 		$text .= "| <a $url>$t[menue8]</a>\n";
 		
-		show_box_title_content($box, $text);
+		zeige_tabelle_zentriert($box, $text);
 	}
 	
 	if ($aktion == "edit2") {
@@ -149,7 +149,7 @@ if (strlen($u_id) != 0) {
 			$text .= "</form>\n";
 			
 			// Box anzeigen
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 			
 			break;
 		

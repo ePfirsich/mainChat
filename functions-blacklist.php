@@ -166,7 +166,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		$text .= "</table></form>\n";
 		
 		// Box anzeigen
-		show_box_title_content($box, $text);
+		zeige_tabelle_zentriert($box, $text);
 	}
 }
 
@@ -231,7 +231,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 			. "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 }
 
 function neuer_blacklist($f_userid, $blacklist) {

@@ -204,10 +204,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 			<tr style="background-color:#007ABE;">
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Smilies</span></td>
 			</tr>
-			<tr>
-				<td> Smiliesdatei:</td>
-				<td><input type="text" name="chat_smiliesdatei" size="40" value="<?php echo checkFormularInputFeld('smilies-grafik.php',$chat["smiliesdatei"]) ?>"></td>
-			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Smiliespfad:</td>
 				<td><input type="text" name="chat_smiliespfad" size="40" value="<?php echo checkFormularInputFeld('pics/smile/',$chat["smiliespfad"]) ?>"></td>

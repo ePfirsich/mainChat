@@ -44,7 +44,7 @@ function liste() {
 		$i = 0;
 		$bgcolor = 'class="tabelle_zeile1"';
 		
-		$text .= "<table class=\"tabelle_kopf\">\n";
+		$text .= "<table class=\"tabelle_kopf_zentriert\">\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[sonst23]</td>";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[sonst24]</td>";
@@ -235,7 +235,7 @@ if (strlen($u_id) > 0 && $admin) {
 	$text .= "| <a href=\"blacklist.php?id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['menue3'] . "</A>\n";
 	
 	echo "<br>";
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	// Soll Datensatz eingetragen oder geändert werden?
 	if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
@@ -413,7 +413,7 @@ if (strlen($u_id) > 0 && $admin) {
 				$text .= "<p>$t[sonst9]</p>\n";
 			}
 			
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 			
 			// Liste ausgeben
 			echo "<br>";
@@ -483,7 +483,7 @@ if (strlen($u_id) > 0 && $admin) {
 			
 			$text .= "</form>\n";
 			
-			show_box_title_content($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 			
 			// Liste ausgeben
 			echo liste();

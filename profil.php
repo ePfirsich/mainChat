@@ -42,7 +42,7 @@ if ($u_id) {
 	$ur1 = "user.php?id=$id";
 	$text .= "| <a href=\"$ur1\">$t[profil_benutzer]</a>\n";
 	
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	// Profil prüfen und ggf. neu eintragen
 	if ($los == "Eintragen" && $f['ui_userid']) {
@@ -235,7 +235,7 @@ if ($u_id) {
 				$text .= "</table>\n";
 				
 				// Box anzeigen
-				show_box_title_content($box, $text);
+				zeige_tabelle_zentriert($box, $text);
 				
 				mysqli_free_result($result);
 			}

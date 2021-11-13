@@ -22,18 +22,20 @@ zeige_header_ende();
 <?php
 // Login ok?
 if (strlen($u_id) != 0) {
+	$box = "<center>" . $t['sonst1'] . "</center>";
+	$text = "";
 	
 	// Menue ausgeben, Tabelle aufbauen
 	$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
-	$linksmilies = "href=\"smilies-grafik.php" . "?id=$id\"";
+	$linksmilies = "href=\"smilies.php" . "?id=$id\"";
 	
-	echo "<div style=\"text-align:center;\">$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
-		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2<br>";
+	$text .= "<div style=\"text-align:center;\"><a $linksmilies><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst3'] . "</a> | <a $linkuser><span class=\"fa fa-user icon16\"></span>" . $t['sonst2'] . "</a><br>";
 	
-	zeige_smilies('chat');
+	$text .= zeige_smilies('chat');
 	
-	echo "$f1" . "[<a onMouseOver=\"return(true)\" $linksmilies>" . $t['sonst3'] . "</a>]&nbsp;"
-		. "[<a onMouseOver=\"return(true)\" $linkuser>" . $t['sonst2'] . "</a>]$f2</div>";
+	$text .= "<a $linksmilies><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst3'] . "</a> | <a $linkuser><span class=\"fa fa-user icon16\"></span>" . $t['sonst2'] . "</a></div>";
+	
+	show_box_title_content($box, $text);
 	
 }
 ?>

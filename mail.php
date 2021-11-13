@@ -46,7 +46,7 @@ if ($u_id && $u_level != "G") {
 		. "<a href=\"mail.php?id=$id&aktion=papierkorbleeren\">" . $t['menue5'] . "</a>\n|\n"
 		. "<a href=\"mail.php?id=$id&aktion=mailboxzu\">" . $t['menue6'] . "</a>\n|\n"
 		. "<a href=\"hilfe.php?id=$id&aktion=hilfe-community#mail\">" . $t['menue7'] . "</a>\n";
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	switch ($aktion) {
 		
@@ -338,7 +338,7 @@ if ($u_id && $u_level != "G") {
 } else {
 	$box = $t['fehler1'];
 	$text = $t['fehler2'];
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 }
 ?>
 </body>

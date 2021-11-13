@@ -36,7 +36,7 @@ if ($u_id) {
 		$text .= "| <a href=\"freunde.php?id=$id&aktion=admins\">Alle Admins als Freund hinzufügen</a>\n";
 	}
 	$text .= "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community#freunde\">Hilfe</a>\n";
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	switch ($aktion) {
 		

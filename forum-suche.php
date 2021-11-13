@@ -225,9 +225,8 @@ function such_bereich() {
 		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">"
 		. $f2 . "</td></tr>\n" . "</table></form>\n";
 	
-	echo "<br>";
 	// Box anzeigen
-	show_box($box, $text, "98%; margin:auto");
+	zeige_tabelle_zentriert($box, $text);
 }
 
 function such_ergebnis() {
@@ -495,7 +494,7 @@ function such_ergebnis() {
 		$text .= "</table>\n";
 		
 		// Box anzeigen
-		show_box($box, $text, "98%; margin:auto");
+		zeige_tabelle_zentriert($box, $text);
 	}
 }
 

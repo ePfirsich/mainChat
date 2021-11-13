@@ -779,13 +779,11 @@ function maske_posting($mode) {
 			<td colspan="2" style="font-weight:bold;" class="tabelle_koerper_login"><?php echo $f1; ?><?php echo $t['posting_msg2']; ?><?php echo $f2; ?><br>
 				<?php
 				echo $f3 . "($t[desc_posting])$f4\n";
-				
-				$link_smilies = "forum-smilies-grafik.php?id=$id";
 				?>
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top; width:20%;" class="tabelle_koerper_login"><?php zeige_smilies('forum'); ?></td>
+			<td style="vertical-align:top; width:20%;" class="tabelle_koerper_login"><?php echo zeige_smilies('forum'); ?></td>
 			<td style="vertical-align:top;" class="tabelle_koerper_login"><textarea name="po_text" rows="15" cols="95" wrap="physical"><?php echo $po_text; ?></textarea></td>
 		</tr>
 			<?php

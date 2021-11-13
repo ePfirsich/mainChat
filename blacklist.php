@@ -33,7 +33,7 @@ if ($admin && $u_id) {
 	$text = "<a href=\"blacklist.php?id=$id&aktion=\">Blacklist zeigen</a>\n"
 		. "| <a href=\"blacklist.php?id=$id&aktion=neu\">Neuen Eintrag hinzufügen</a>\n"
 		. "| <a href=\"sperre.php?id=$id\">Zugangssperren</a>\n";
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 	if (!isset($neuer_blacklist)) {
 		$neuer_blacklist[] = "";

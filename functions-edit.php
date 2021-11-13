@@ -389,7 +389,7 @@ if (tests.dnd) {
 	$text .= "</form>\n";
 	
 	// Box anzeigen
-	show_box_title_content($box, $text);
+	zeige_tabelle_zentriert($box, $text);
 	
 }
 ?>

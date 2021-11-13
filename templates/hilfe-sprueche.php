@@ -2,9 +2,7 @@
 $text = $hilfe_spruchtext;
 $box = $t['hilfe3'];
 
-show_box_title_content($box, $text);
-
-echo "<br>";
+zeige_tabelle_zentriert($box, $text);
 
 // Liste mit Sprüchen ausgeben
 $text = "<br>";
@@ -56,5 +54,5 @@ while ($i < $anzahl) {
 
 $text .= "</table>\n";
 
-show_box_title_content($box,$text);
+zeige_tabelle_zentriert($box,$text);
 ?>

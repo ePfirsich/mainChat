@@ -127,7 +127,7 @@ function zeige_aktionen($aktion) {
 		. "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
-		show_box_title_content($box, $text);
+		zeige_tabelle_zentriert($box, $text);
 }
 
 function eintrag_aktionen($aktion_datensatz) {

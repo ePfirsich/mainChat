@@ -47,7 +47,7 @@ if (!$mysqli_link) {
 
 $box = $t['statistik1'];
 if ($fehler) {
-	show_box_title_content($box, $msg);
+	zeige_tabelle_zentriert($box, $msg);
 	return;
 }
 
@@ -55,7 +55,7 @@ if ($fehler) {
 echo "<br>";
 $text = "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=monat\">" . $t['statistik3'] . "</a>]\n"
 . "[<a href=\"$PHP_SELF?id=$id&aktion=statistik&type=stunde\">" . $t['statistik2'] . "</a>]";
-show_box_title_content($box, $text);
+zeige_tabelle_zentriert($box, $text);
 
 switch ($type) {
 	case "monat":
@@ -153,7 +153,7 @@ switch ($type) {
 			}
 		}
 		
-		show_box_title_content($t['statistik3'], $msg);
+		zeige_tabelle_zentriert($t['statistik3'], $msg);
 		break;
 	
 	case "stunde":
@@ -182,7 +182,7 @@ switch ($type) {
 			$msg .= statsPrintGraph($title, $STAT_TXT["0102"], $STAT_TXT["0103"]);
 		}
 		
-		show_box_title_content($t['statistik2'], $msg);
+		zeige_tabelle_zentriert($t['statistik2'], $msg);
 		break;
 } // switch
 

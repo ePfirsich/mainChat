@@ -150,7 +150,7 @@ function zeige_freunde($aktion, $zeilen) {
 		
 		$text .= "</form>\n";
 		
-		show_box_title_content($box,$text);
+		zeige_tabelle_zentriert($box,$text);
 		
 		echo "<br>";
 	}
@@ -215,7 +215,7 @@ function formular_neuer_freund($neuer_freund) {
 		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
-	show_box_title_content($box,$text);
+		zeige_tabelle_zentriert($box,$text);
 }
 
 function formular_editieren($f_id, $f_text) {
@@ -239,7 +239,7 @@ function formular_editieren($f_id, $f_text) {
 	
 	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"$eingabe_breite\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
 	
-	show_box_title_content($box,$text);
+	zeige_tabelle_zentriert($box,$text);
 }
 
 function neuer_freund($f_userid, $freund) {

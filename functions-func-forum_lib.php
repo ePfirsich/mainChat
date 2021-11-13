@@ -1204,7 +1204,7 @@ function ersetzte_smilies($text) {
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
 	
-	require("conf/" . $sprachconfig . "-smilies-grafik.php");
+	require("conf/" . $sprachconfig . "-smilies.php");
 	
 	while (list($i, $smilie_code) = each($test[0])) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);

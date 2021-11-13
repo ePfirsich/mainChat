@@ -83,10 +83,9 @@ body {
 	border-radius: 2px;
 	border-width: 0;
 	cursor: pointer;
-	/*font-weight: 400;*/
-	margin: 0;
 	padding: 6px 8px;
 	font-size: 11px;
+	display: inline-block;
 	text-decoration: none;
 	line-height: 1.48;
 	-webkit-appearance: none;
@@ -123,6 +122,17 @@ body {
 	margin-bottom: 10px;
 }
 /* Tabellenkopf ohne feste Breite - Ende ******************************************************************* */
+
+
+/* Tabellenkopf mit fester Breite zentriert - Anfang ******************************************************************* */
+.tabelle_kopf_zentriert {
+	border-radius: 3px;
+	background-color: var(--Tabellenkopf-Hintergrundfarbe);
+	width: 99%;
+	margin: auto;
+	margin-bottom: 10px;
+}
+/* Tabellenkopf mit fester Breite zentriert - Ende ******************************************************************* */
 
 
 /* Tabellenkopfzeile - Anfang ******************************************************************* */
@@ -275,9 +285,9 @@ body {
 /* Statistiken - Ende ******************************************************************* */
 
 
-/* Naxchrichten - Anfang ******************************************************************* */
+/* Nachrichten - Anfang ******************************************************************* */
 .nachrichten_neu {
 	color: var(--Nachrichten-neu);
 	font-weight: bold;
 }
-/* Naxchrichten - Ende ******************************************************************* */
+/* Nachrichten - Ende ******************************************************************* */

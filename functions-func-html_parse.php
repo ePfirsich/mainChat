@@ -11,7 +11,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	
 	global $admin, $smilies_pfad, $sprachconfig, $o_raum, $u_id, $u_level;
 	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
-	global $ist_moderiert, $smilies_aus;
+	global $ist_moderiert;
 	
 	// Grafik-Smilies ergänzen, falls Funktion aktiv und Raum ist nicht moderiert
 	// Für Gäste gesperrt
@@ -42,11 +42,8 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				$smilie_ok = TRUE;
 			}
 			
-			if ($smilies_aus == "1")
-				$smilie_ok = false;
-			
 			// Konfiguration für Smilies lesen
-			require("conf/" . $sprachconfig . "-smilies-grafik.php");
+			require("conf/" . $sprachconfig . "-smilies.php");
 			
 			if (!$smilie_ok) {
 				// Nur die Fehlermeldung ausgeben, falls es das angegeben Smile auch gibt

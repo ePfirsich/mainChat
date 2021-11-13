@@ -1,7 +1,7 @@
 <?php
 
 require_once("functions.php");
-require_once("conf/deutsch.php-smilies-grafik.php");
+require_once("conf/deutsch.php-smilies.php");
 
 // Benutzerdaten setzen
 id_lese($id);
