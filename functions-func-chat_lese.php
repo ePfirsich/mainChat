@@ -234,11 +234,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				
 				// Smilies ausgeben oder unterdrücken
 				if ($u_smilie == "N") {
-					$c_text = str_replace("<SMIL", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
-					$c_text = str_replace("SMIL>", "-->", $c_text);
+					$c_text = str_replace("<smil", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
+					$c_text = str_replace("smil>", "-->", $c_text);
 				} else {
-					$c_text = str_replace("<SMIL", "<IMG", $c_text);
-					$c_text = str_replace("SMIL>", ">", $c_text);
+					$c_text = str_replace("<smil", "<img", $c_text);
+					$c_text = str_replace("smil>", ">", $c_text);
 				}
 				
 				// bugfix: gegen große Is... wg. verwechslung mit kleinen Ls ...
