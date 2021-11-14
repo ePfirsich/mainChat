@@ -1212,7 +1212,7 @@ function zeige_beitraege($thread) {
 			$row2 = mysqli_fetch_object($result2);
 			
 			$uu_id = $row2->u_id;
-			$ui_avatar = $row2->ui_avatar;
+			$u_avatar_pfad = $row2->u_avatar_pfad;
 			
 		}
 		
@@ -1228,8 +1228,8 @@ function zeige_beitraege($thread) {
 		}
 		
 		if($result2 && mysqli_num_rows($result2) == 1) {
-			if($ui_avatar) { // Benutzerdefinierter Avatar
-				$ava = '<img src="./avatars/'.$ui_avatar.'" style="width:60px; height:60px;" alt="'.$ui_avatar.'" />';
+			if($u_avatar_pfad) { // Benutzerdefinierter Avatar
+				$ava = '<img src="./avatars/'.$u_avatar_pfad.'" style="width:60px; height:60px;" alt="'.$u_avatar_pfad.'" />';
 			} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
 				$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
 			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar

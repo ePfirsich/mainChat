@@ -56,7 +56,7 @@ $valid_fields = array(
 		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
-		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'avatar_status', 'ui_avatar', 'u_layout_farbe'),
+		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_avatar_pfad', 'u_layout_farbe'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
 		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')
 );
@@ -704,8 +704,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, "
-			. "`u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe` "
 			. "FROM `user` WHERE `u_id`=$id";
@@ -1433,21 +1432,21 @@ function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_h
 	return $mail->send();
 }
 
-function avadel($userid){
+function avatar_aktualisieren($userid){
 	global $mysqli_link;
 	
-	$query = "SELECT ui_avatar FROM user WHERE u_id=" . intval($userid);
+	$query = "SELECT u_avatar_pfad FROM user WHERE u_id=" . intval($userid);
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result AND mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_object($result);
-		$ui_avatar = $userdata->ui_avatar;
+		$u_avatar_pfad = $userdata->u_avatar_pfad;
 	}
 	
-	$ava = "./avatars/" . $ui_avatar;
+	$ava = "./avatars/" . $u_avatar_pfad;
 	
 	unlink($ava);
 	
-	$querydel = "UPDATE user SET ui_avatar='' WHERE u_id=" . intval($userid);
+	$querydel = "UPDATE user SET u_avatar_pfad='' WHERE u_id=" . intval($userid);
 	$resultdel = mysqli_query($mysqli_link, $querydel);
 	
 	if(!file_exists($ava) && $resultdel == 1){

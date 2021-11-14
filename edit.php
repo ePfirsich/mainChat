@@ -32,9 +32,9 @@ if (strlen($u_id) != 0) {
 		unset($f['u_auth']);
 		unset($f['u_passwort']);
 		unset($f['u_smilie']);
-		unset($f['avatar_status']);
-		unset($f['ui_avatar']);
-		unset($f['avadel']);
+		unset($f['u_avatare_anzeigen']);
+		unset($f['u_avatar_pfad']);
+		unset($f['u_avatar_pfad']);
 		unset($f['u_systemmeldungen']);
 		unset($f['u_punkte_anzeigen']);
 		unset($f['u_sicherer_modus']);
@@ -282,9 +282,9 @@ if (strlen($u_id) != 0) {
 				
 				
 				//Avatar loeschen
-				if($f['avadel']) {
+				if($f['u_avatar_pfad']) {
 					$uid = $f['u_id'];
-					avadel($uid);
+					avatar_aktualisieren($uid);
 					
 					if($uid == true){
 						echo "Avatar wurde erfolgreich gelöscht.";
@@ -598,9 +598,9 @@ if (strlen($u_id) != 0) {
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
-					$f['avatar_status'] = $row->avatar_status;
-					$f['ui_avatar'] = $row->ui_avatar;
-					$f['avadel'] = $row->ui_avatar;
+					$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
+					$f['u_avatar_pfad'] = $row->u_avatar_pfad;
+					$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
@@ -616,9 +616,9 @@ if (strlen($u_id) != 0) {
 				// Bei Änderungen an u_smilie, u_systemmeldungen, u_punkte_anzeigen, u_sicherer_modus chat-Fenster neu laden
 				if (($u_smilie != $f['u_smilie']
 					|| $u_systemmeldungen != $f['u_systemmeldungen']
-					|| $avatar_status != $f['avatar_status']
-					|| $ui_avatar != $f['ui_avatar']
-					|| $avadel != $f['avadel']
+					|| $u_avatare_anzeigen != $f['u_avatare_anzeigen']
+					|| $u_avatar_pfad != $f['u_avatar_pfad']
+					|| $u_avatar_pfad != $f['u_avatar_pfad']
 					|| $u_punkte_anzeigen != $f['u_punkte_anzeigen']
 					|| $u_sicherer_modus != $f['u_sicherer_modus']
 					|| $u_layout_farbe != $f['u_layout_farbe'])
@@ -670,9 +670,9 @@ if (strlen($u_id) != 0) {
 						$f['u_farbe'] = $row->u_farbe;
 						$f['u_zeilen'] = $row->u_zeilen;
 						$f['u_smilie'] = $row->u_smilie;
-						$f['avatar_status'] = $row->avatar_status;
-						$f['ui_avatar'] = $row->ui_avatar;
-						$f['avadel'] = $row->ui_avatar;
+						$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
+						$f['u_avatar_pfad'] = $row->u_avatar_pfad;
+						$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 						$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 						$f['u_eintritt'] = $row->u_eintritt;
 						$f['u_austritt'] = $row->u_austritt;
@@ -787,9 +787,9 @@ if (strlen($u_id) != 0) {
 					$f['u_farbe'] = $row->u_farbe;
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
-					$f['avatar_status'] = $row->avatar_status;
-					$f['ui_avatar'] = $row->ui_avatar;
-					$f['avadel'] = $row->ui_avatar;
+					$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
+					$f['u_avatar_pfad'] = $row->u_avatar_pfad;
+					$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
@@ -824,9 +824,9 @@ if (strlen($u_id) != 0) {
 				$f['u_farbe'] = $row->u_farbe;
 				$f['u_zeilen'] = $row->u_zeilen;
 				$f['u_smilie'] = $row->u_smilie;
-				$f['avatar_status'] = $row->avatar_status;
-				$f['ui_avatar'] = $row->ui_avatar;
-				$f['avadel'] = $row->ui_avatar;
+				$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
+				$f['u_avatar_pfad'] = $row->u_avatar_pfad;
+				$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 				$f['u_eintritt'] = $row->u_eintritt;
 				$f['u_austritt'] = $row->u_austritt;

@@ -22,7 +22,7 @@ if ($result2 && mysqli_num_rows($result2) == 1) {
 		
 		$move = move_uploaded_file($_FILES['file']['tmp_name'], "./avatars/".$dateiname_neu);
 
-		$query = "UPDATE user SET ui_avatar = '" . $dateiname_neu . "' WHERE u_id = '" . $u_id . "'";
+		$query = "UPDATE user SET u_avatar_pfad = '" . $dateiname_neu . "' WHERE u_id = '" . $u_id . "'";
 		mysqli_query($mysqli_link, $query);
 		
 		return("Fehler");

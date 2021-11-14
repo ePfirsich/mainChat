@@ -51,9 +51,9 @@ function user_edit($f, $admin, $u_level) {
 
 <article>
 	<div id='holder'>";
-		$ui_avatar = $f['ui_avatar'];
-		if($ui_avatar) { // Benutzerdefinierter Avatar
-			$text .= '<img src="./avatars/'.$ui_avatar.'" style="width:200px; height:200px;" alt="'.$ui_avatar.'" />';
+		$u_avatar_pfad = $f['u_avatar_pfad'];
+		if($u_avatar_pfad) { // Benutzerdefinierter Avatar
+			$text .= '<img src="./avatars/'.$u_avatar_pfad.'" style="width:200px; height:200px;" alt="'.$u_avatar_pfad.'" />';
 		} 
 	
 	$text .= "</div>
@@ -63,7 +63,7 @@ function user_edit($f, $admin, $u_level) {
 	<p id='formdata'>XHR2's FormData is not supported</p>
 	<p id='progress'>XHR2's upload progress isn't supported</p>
 	<p>" . $t['avatar_beschreibung2'] ." <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
-	<p>" . $t['avatar_loeschen'] . " <input type='checkbox' name=\"f[avadel]\" id=\"f[avadel]\" value='avadel'></p>
+	<p>" . $t['avatar_loeschen'] . " <input type='checkbox' name=\"f[u_avatar_pfad]\" id=\"f[u_avatar_pfad]\" value='u_avatar_pfad'></p>
 </article>
 <script>
 var holder = document.getElementById('holder'),
@@ -244,8 +244,8 @@ if (tests.dnd) {
 	
 	
 	// Alle Avatare anzeigen 1/0
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige57'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[avatar_status]\">";
-	if ($f['avatar_status'] == "1") {
+	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige57'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_avatare_anzeigen]\">";
+	if ($f['u_avatare_anzeigen'] == "1") {
 		$text .= "<option selected value=\"1\">$t[user_zeige36]";
 		$text .= "<option value=\"0\">$t[user_zeige37]";
 	} else {
