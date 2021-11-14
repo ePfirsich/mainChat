@@ -84,7 +84,7 @@ switch ($aktion) {
 		$box = $t['hilfe15'];
 		$text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
 		
-		show_box_title_content($box, $text);
+		zeige_tabelle_volle_breite($box, $text);
 		
 		echo "<br><br>";
 		break;

@@ -81,7 +81,7 @@ function show_who_is_online($result) {
 				} else {
 					// Nur offene, permanente Räume zeigen
 					if ($zeigen_alt) {
-						show_box_title_content(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
+						zeige_tabelle_volle_breite(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
 					}
 					$text = "$nick ";
 				}
@@ -93,7 +93,7 @@ function show_who_is_online($result) {
 			}
 		}
 		if ($zeigen_alt) {
-			show_box_title_content(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
+			zeige_tabelle_volle_breite(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
 		}
 		mysqli_free_result($result);
 	}

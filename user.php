@@ -876,7 +876,7 @@ if (strlen($u_id) != 0) {
 						$text .= "</center>\n";
 					}
 					
-					show_box_title_content($box, $text);
+					zeige_tabelle_volle_breite($box, $text);
 				}
 				
 			}

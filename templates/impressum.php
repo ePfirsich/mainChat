@@ -8,5 +8,5 @@ $text .= $impressum_strasse;
 $text .= "<br>";
 $text .= $impressum_plz_ort;
 
-show_box_title_content($box,$text);
+zeige_tabelle_volle_breite($box,$text);
 ?>

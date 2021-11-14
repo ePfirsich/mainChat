@@ -377,7 +377,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 switch ($aktion) {
 	case "impressum":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// Impressumg anzeigen
 		require_once('templates/impressum.php');
@@ -388,7 +388,7 @@ switch ($aktion) {
 		
 	case "datenschutz":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// Datenschutz anzeigen
 		require_once('templates/datenschutz.php');
@@ -399,7 +399,7 @@ switch ($aktion) {
 		
 	case "chatiquette":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// Datenschutz anzeigen
 		require_once('templates/chatiquette.php');
@@ -410,7 +410,7 @@ switch ($aktion) {
 		
 	case "nutzungsbestimmungen":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// Datenschutz anzeigen
 		require_once('templates/nutzungsbestimmungen.php');
@@ -421,7 +421,7 @@ switch ($aktion) {
 		
 	case "passwort_neu":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		unset($richtig);
 		unset($u_id);
@@ -572,7 +572,7 @@ switch ($aktion) {
 			$text .= "</table>";
 			$text .= "</form>";
 			
-			show_box($box,$text);
+			zeige_tabelle_variable_breite($box,$text);
 			
 		} else if ($richtig && $u_id) {
 			$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
@@ -608,7 +608,7 @@ switch ($aktion) {
 	
 	case "neubestaetigen":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		unset($fehlermeldung);
 		if ($email) {
@@ -682,7 +682,7 @@ switch ($aktion) {
 	
 	case "mailcheckm":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		echo "<p>" . $t['neu42'] . "</p>";
 		?>
@@ -708,7 +708,7 @@ switch ($aktion) {
 	
 	case "mailcheck":
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 		// der Form name@do.main entspricht
@@ -724,7 +724,7 @@ switch ($aktion) {
 				$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
 				$text .= "</form>";
 				
-				show_box($box,$text);
+				zeige_tabelle_variable_breite($box,$text);
 		} else if (!isset($email)) {
 			// Formular für die Erstregistierung ausgeben, 1. Schritt
 			echo "<p>" . $t['neu33'];
@@ -741,7 +741,7 @@ switch ($aktion) {
 			$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
 			$text .= "</form>";
 			
-			show_box($box,$text);
+			zeige_tabelle_variable_breite($box,$text);
 		} else {
 			// Mail verschicken, 2. Schritt
 			
@@ -937,7 +937,7 @@ switch ($aktion) {
 				<?php
 				
 				// Disclaimer ausgeben
-				show_box($login_titel, $logintext, "100%");
+				zeige_tabelle_variable_breite($login_titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "</form>";
 				zeige_fuss();
@@ -1153,7 +1153,7 @@ switch ($aktion) {
 				$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 				
 				// Box und Disclaimer ausgeben
-				show_box($titel, $logintext, "100%");
+				zeige_tabelle_variable_breite($titel, $logintext, "100%");
 				echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 				echo "</form>";
 				zeige_fuss();
@@ -1520,7 +1520,7 @@ switch ($aktion) {
 			$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 			
 			// Box und Disclaimer ausgeben
-			show_box($titel, $logintext, "100%");
+			zeige_tabelle_variable_breite($titel, $logintext, "100%");
 			echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 			echo "</form>";
 			zeige_fuss();
@@ -1532,7 +1532,7 @@ switch ($aktion) {
 	// Neu anmelden
 	
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		// Im Benutzername alle Sonderzeichen entfernen
 		if (isset($f['u_nick'])) {
@@ -1675,7 +1675,7 @@ switch ($aktion) {
 			<form action="index.php" name="form1" method="post">
 				<?php
 				$titel = $t['neu31'];
-				show_box($titel, $text, "");
+				zeige_tabelle_variable_breite($titel, $text, "");
 				?>
 			</form>
 			<?php
@@ -1697,7 +1697,7 @@ switch ($aktion) {
 				. "</form>\n";
 			$titel = $t['neu30'];
 
-			show_box($titel, $text, "");
+			zeige_tabelle_variable_breite($titel, $text, "");
 			echo "<br>";
 			
 			// Homepage muss http:// enthalten
@@ -1740,7 +1740,7 @@ switch ($aktion) {
 		// Homepage des Chats ausgeben
 		
 		// Gibt die Kopfzeile im Login aus
-		show_kopfzeile_login();
+		zeige_kopfzeile_login();
 		
 		if ($zusatznachricht) {
 			?>
@@ -1757,7 +1757,7 @@ switch ($aktion) {
 		$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
 		
 		// Box und Disclaimer ausgeben
-		show_box($titel, $logintext, "100%");
+		zeige_tabelle_variable_breite($titel, $logintext, "100%");
 		echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
 		echo "</form>";
 		
@@ -1818,7 +1818,7 @@ switch ($aktion) {
 								$t['default8']));
 				}
 				
-				show_box_title_content(str_replace("%chat%", $chat, $t['default5']), $text);
+				zeige_tabelle_volle_breite(str_replace("%chat%", $chat, $t['default5']), $text);
 			}
 			
 			if (!isset($unterdruecke_raeume))

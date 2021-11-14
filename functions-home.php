@@ -42,7 +42,7 @@ function edit_home(
 		. "</table>";
 			
 	// Box anzeigen
-	show_box_title_content($box, $text);
+	zeige_tabelle_volle_breite($box, $text);
 	
 	echo "<br>";
 		
@@ -58,7 +58,7 @@ function edit_home(
 	
 		
 	// Box anzeigen
-	show_box_title_content($box, $text);
+	zeige_tabelle_volle_breite($box, $text);
 	
 	echo "<br>";
 }

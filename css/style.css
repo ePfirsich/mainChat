@@ -64,8 +64,8 @@ body {
 .tabelle_kopf {
 	border-radius: 3px;
 	background-color: var(--Tabellenkopf-Hintergrundfarbe);
-	width: 100%;
 	margin-bottom: 10px;
+	width: 100%;
 }
 /* Tabellenkopf - Ende ******************************************************************* */
 

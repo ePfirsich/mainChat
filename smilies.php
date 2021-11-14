@@ -35,7 +35,7 @@ if (strlen($u_id) != 0) {
 	
 	$text .= "<a $linksmilies><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst3'] . "</a> | <a $linkuser><span class=\"fa fa-user icon16\"></span>" . $t['sonst2'] . "</a></div>";
 	
-	show_box_title_content($box, $text);
+	zeige_tabelle_volle_breite($box, $text);
 	
 }
 ?>

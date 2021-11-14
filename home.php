@@ -108,7 +108,7 @@ if (isset($u_id) && $u_id) {
 				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
 				. "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 			
-				show_box_title_content($box, $text);
+				zeige_tabelle_volle_breite($box, $text);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {

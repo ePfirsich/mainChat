@@ -772,8 +772,8 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
-function show_box($box, $text, $width = "") {
-	// Gibt Tabelle mit URL im Kopf und Inhalt aus 
+function zeige_tabelle_variable_breite($box, $text, $width = "") {
+	// Gibt Tabelle mit einstellbarer Breiter mit Kopf und Inhalt aus
 	
 	if (strlen($width) > 0) {
 		$width = "style=\"width:" . $width . ";\"";
@@ -792,8 +792,24 @@ function show_box($box, $text, $width = "") {
 	<?php
 }
 
+function zeige_tabelle_volle_breite($box, $text) {
+	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
+	global $f1, $f2;
+	?>
+	
+	<table class="tabelle_kopf">
+		<tr>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+		</tr>
+		<tr>
+			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
+		</tr>
+	</table>
+	<?php
+}
+
 function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
-	// Gibt Tabelle mit URL im Kopf und Inhalt aus
+	// Gibt zentrierte Tabelle mit 99% Breiter und optionalem Abstand nach oben URL mit Kopf und Inhalt aus
 	global $f1, $f2;
 	
 	$css = "";
@@ -814,23 +830,7 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 	<?php
 }
 
-function show_box_title_content($box, $text) {
-	// Gibt Tabelle mit Kopf und Inhalt aus
-	global $f1, $f2;
-	?>
-	
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
-		</tr>
-	</table>
-	<?php
-}
-
-function show_kopfzeile_login() {
+function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
 	global $t, $layout_kopf, $id;
 	
@@ -853,7 +853,7 @@ function show_kopfzeile_login() {
 	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue5]</a>\n";
 	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue6]</a>\n";
 	
-	show_box_title_content($box, $text);
+	zeige_tabelle_volle_breite($box, $text);
 	
 	zeige_kopf();
 	

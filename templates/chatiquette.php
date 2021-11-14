@@ -2,5 +2,5 @@
 $box = $t['menue4'];
 $text = "$chatiquette";
 
-show_box_title_content($box,$text);
+zeige_tabelle_volle_breite($box,$text);
 ?>
