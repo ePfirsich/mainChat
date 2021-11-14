@@ -4,7 +4,7 @@
 function kopf_forum($admin) {
 	global $id, $u_nick, $menue;
 	global $chat, $body_titel;
-	global $aktion;
+	global $aktion, $u_layout_farbe;
 	global $t;
 
 	$title = $body_titel;
@@ -661,7 +661,6 @@ function maske_posting($mode) {
 	switch ($mode) {
 		
 		case "neuer_thread":
-			//$kopfzeile = $t['thema_erstellen'];
 			$button = $t['neuer_thread_button'];
 			$titel = $t['thema_erstellen'];
 			
