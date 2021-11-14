@@ -227,7 +227,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 					"<br><b>$txt $neu->r_eintritt, $u_nick!</b><br>");
 			} else {
 				system_msg("", 0, $u_id, "",
-					"<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
+					"<br><b>$txt</b> $t[betrete_chat2], $u_nick!<br>");
 			}
 			
 			$raum = $raum_neu;
