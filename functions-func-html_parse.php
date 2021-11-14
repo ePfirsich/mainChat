@@ -9,7 +9,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// E-Mail Adressen in A-Tag mit Mailto
 	// privat ist wahr bei privater Nachricht
 	
-	global $admin, $smilies_pfad, $sprachconfig, $o_raum, $u_id, $u_level;
+	global $admin, $sprachconfig, $o_raum, $u_id, $u_level;
 	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
 	global $ist_moderiert;
 	
@@ -67,7 +67,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						// Falls smilie existiert, ersetzen
 						$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
 						if (isset($smilie[$smilie_code2])) {
-							$text = str_replace($smilie_code, "<smil src=\"" . $smilies_pfad . $smilie[$smilie_code2] . "\" smil>", $text);
+							$text = str_replace($smilie_code, "<smil " . $smilie[$smilie_code2] . " smil>", $text);
 						}
 					}
 				}

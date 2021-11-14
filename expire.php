@@ -86,9 +86,7 @@ if ($rows > 0) {
 
 if ($expire_privat) {
 	// Chat expire und Kopie in Log für alle privaten Zeilen, die älter als 15 Minuten sind
-	$query = "SELECT SQL_BUFFER_RESULT * FROM chat "
-		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 "
-		. "AND c_typ='P' ORDER BY c_raum,c_id";
+	$query = "SELECT SQL_BUFFER_RESULT * FROM chat  WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900  AND c_typ='P' ORDER BY c_raum,c_id";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	$rows = mysqli_num_rows($result);

@@ -1200,7 +1200,7 @@ function verschiebe_posting_ausfuehren() {
 }
 
 function ersetzte_smilies($text) {
-	global $sprachconfig, $smilies_pfad;
+	global $sprachconfig, $cssDeklarationen;
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
 	
@@ -1210,9 +1210,7 @@ function ersetzte_smilies($text) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
 		$smilie_code2 = chop($smilie_code2);
 		if ($smilie[$smilie_code2]) {
-			$text = str_replace($smilie_code,
-				"<img src=\"" . $smilies_pfad . $smilie[$smilie_code2] . "\">",
-				$text);
+			$text = str_replace($smilie_code, "<img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie[$smilie_code2] . "\">", $text);
 		}
 	}
 	

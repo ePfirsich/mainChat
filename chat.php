@@ -15,7 +15,7 @@ $refresh_zeit = 600;
 $sysmsg = TRUE;
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatausgabe');
+zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
 
 // Benutzerdaten gesetzt?
 if ($u_id) {

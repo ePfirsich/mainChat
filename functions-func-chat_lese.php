@@ -7,7 +7,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
 	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_farbe_bg, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
-	global $show_spruch_owner, $farbe_user_fest, $id, $o_dicecheck;
+	global $show_spruch_owner, $farbe_user_fest, $id, $o_dicecheck, $cssDeklarationen;
 	global $user_nick, $mysqli_link;
 	
 	$o_id = intval($o_id);
@@ -202,7 +202,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			}
 			
 			if ($ausgeben && ($text_ausgegeben || $row->c_br == "normal" || $row->c_br == "erste")) {
-				
 				// Letzte ID merken
 				$letzte_id = $row->c_id;
 				
@@ -234,11 +233,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				
 				// Smilies ausgeben oder unterdrücken
 				if ($u_smilie == "N") {
-					$c_text = str_replace("<smil", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
-					$c_text = str_replace("smil>", "-->", $c_text);
+					$c_text = str_replace("<smil ", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
+					$c_text = str_replace(" smil>", "-->", $c_text);
 				} else {
-					$c_text = str_replace("<smil", "<img", $c_text);
-					$c_text = str_replace("smil>", ">", $c_text);
+					$c_text = str_replace("<smil ", "<img src=\"images/smilies/$cssDeklarationen/", $c_text);
+					$c_text = str_replace(" smil>", "\">", $c_text);
 				}
 				
 				// bugfix: gegen große Is... wg. verwechslung mit kleinen Ls ...

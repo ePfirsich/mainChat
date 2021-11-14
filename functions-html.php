@@ -2,7 +2,7 @@
 
 function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout_farbe = 1) {
 	// Gibt den HTML-Header auf der Eingangsseite
-	global $metatag;
+	global $metatag, $cssDeklarationen;
 	
 //	echo "Test: " . $u_layout_farbe . "<br>";
 	?>

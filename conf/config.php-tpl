@@ -296,9 +296,6 @@ $frame_online="frame_online.php";	// URL oder Dateiname
 $frame_online_size=0;				// Höhe des Frames frame_online in Pixel
 
 
-// Pfad der Grafiken für die Smilies
-$smilies_pfad="images/smilies/";
-
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
 $smilies_anzahl="%smiliesanzahl%";
 

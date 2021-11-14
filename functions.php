@@ -953,7 +953,7 @@ function debug($text = "", $rundung = 3) {
 }
 
 function zeige_smilies($anzeigeort = 'chat') {
-	global $t, $f1, $f2, $smilie, $smilies_pfad, $smilietxt;
+	global $t, $f1, $f2, $smilie, $smilietxt, $cssDeklarationen;
 	
 	$text = "";
 	if( $anzeigeort == 'chat' ) { // Chatausgabe
@@ -968,7 +968,7 @@ function zeige_smilies($anzeigeort = 'chat') {
 			}
 			$text .= "<tr>";
 			$text .= "<td $farbe_tabelle>";
-			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
+			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
 			$text .= "</td>";
 			$text .= "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</td>";
 			$text .= "</tr>\n";
@@ -977,7 +977,7 @@ function zeige_smilies($anzeigeort = 'chat') {
 		$text .= "</table>";
 	} else { // Forumausgabe
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
-			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"" . $smilies_pfad . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
+			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
 			$zahl++;
 		}
 	}
