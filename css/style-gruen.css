@@ -1,0 +1,46 @@
+/* Farbdeklarationen - Anfang ******************************************************************* */
+:root{
+	--Tabellenkopf-Hintergrundfarbe: #004400;
+	--Tabellenkopf-Textfarbe: #ffffff;
+	--Tabellenkopf-Linkfarbe: #ffffff;
+	
+	--Tabelle-Geruest-Hintergrundfarbe: #000000;
+	
+	--Tabellenkoerper-Hintergrundfarbe: #ffffff;
+	--Tabellenkoerper-Textfarbe: #000000;
+	--Tabellenkoerper-Linkfarbe: #000000;
+	
+	--Tabellenkoerper-Login-Hintergrundfarbe: #158615;
+	--Tabellenkoerper-Login-Textfarbe: #000000;
+	--Tabellenkoerper-Login-Linkfarbe: #000000;
+	
+	--Button-Hintergrundfarbe: #cccccc;
+	--Button-Textfarbe: #000000;
+	
+	--Button-Hover-Hintergrundfarbe: #23282d;
+	--Button-Hover-Textfarbe: #ffffff;
+	
+	--FA-Iconfarbe: #0097D4;
+	--FA-Iconfarbe-Highlighted: #ff6600;
+	
+	--Tabelle-Zeile1: #E8E8FF;
+	--Tabelle-Zeile2: #D8D8EE;
+	
+	--Tabelle-Zeile-Moderator-1g: #d0e0d0;
+	--Tabelle-Zeile-Moderator-2g: #c0d0c0;
+	--Tabelle-Zeile-Moderator-1r: #e0d0d0;
+	--Tabelle-Zeile-Moderator-2r: #d0c0c0;
+	
+	--Moderatorenfarben-grau: #808080;
+	--Moderatorenfarben-schwarz: #000000;
+	
+	--Statistik-Balkenfarbe: #004400;
+	--Statistik-Navigation-Hintergrundfarbe: #BDC6D5;
+	--Statistik-Inhalt-Hintergrundfarbe: #E5E5E5;
+	
+	--Nachrichten-neu: #ff0000;
+	
+	--Chatunten-Hintergrundfarbe: #158615;
+	--Chateingabe-Hintergrundfarbe: #004400;
+}
+/* Farbdeklarationen - Ende ******************************************************************* */

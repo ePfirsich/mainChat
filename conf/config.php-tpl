@@ -297,7 +297,7 @@ $frame_online_size=0;				// Höhe des Frames frame_online in Pixel
 
 
 // Pfad der Grafiken für die Smilies
-$smilies_pfad="pics/smile/";
+$smilies_pfad="images/smilies/";
 
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
 $smilies_anzahl="%smiliesanzahl%";
@@ -333,8 +333,8 @@ $punkte_pro_posting=50;
 // Definition der Punkte für die Benutzergruppen
 $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 	6=>500000,7=>750000,8=>1000000,9=>5000000,10=>10000000);
-$punkte_grafik=array("<img src=\"pics/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
-			"<img src=\"pics/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
+$punkte_grafik=array("<img src=\"images/wuerfel/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
+			"<img src=\"images/wuerfel/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
 
 $chat_grafik['home']="<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\"></span>";
 $chat_grafik['mail']="<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>";

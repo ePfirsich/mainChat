@@ -85,7 +85,7 @@ if ($u_id) {
 	echo "<center><b>Bitte wählen Sie die Farbe aus:</b><BR>"
 	. "<a href=\"home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=$bg&oldcolor="
 	. urlencode($oldcolor) . "&nix\">"
-		. "<img src=\"pics/colors2.png\" ismap style=\"border:0px;\"></a>\n";
+		. "<img src=\"images/colors.png\" ismap style=\"border:0px;\"></a>\n";
 		echo "<br clear=all><img src=\"home_makecolor.php?x=135&y=25&text=neue%20Farbe&";
 	
 	if ($bg != "Y" && $bg != "N") {

@@ -198,8 +198,8 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 			
 			echo "<table style=\"width=100%;\">\n";
 			echo "<tr>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/ok.gif\" height=20 width=20 alt=\"" . $t['mod16'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/nope.gif\" height=20 width=20 alt=\"" . $t['mod17'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $t['mod16'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $t['mod17'] . "\"></td>";
 			echo "<td style=\"vertical-align:bottom;\"  class=\"tabelle_kopfzeile\">";
 			echo "<table style=\"width=100%;\"><tr><td>";
 			echo "<small><b>" . $t['mod2'];
@@ -208,11 +208,11 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 			echo "</b></small>";
 			echo "</td></tr></table>";
 			echo "</td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/ok.gif\" height=20 width=20 alt=\"" . $t['mod14'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/wdh.gif\" height=20 width=20 alt=\"" . $t['mod3'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/smile.gif\" height=20 width=20 alt=\"" . $t['mod4'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/time.gif\" height=20 width=20 alt=\"" . $t['mod5'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"pics/nope.gif\" height=20 width=20 alt=\"" . $t['mod15'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $t['mod14'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/wdh.gif\" height=20 width=20 alt=\"" . $t['mod3'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/smile.gif\" height=20 width=20 alt=\"" . $t['mod4'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/time.gif\" height=20 width=20 alt=\"" . $t['mod5'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $t['mod15'] . "\"></td>";
 			echo "</tr>\n";
 			
 			while ($row = mysqli_fetch_object($result)) {
