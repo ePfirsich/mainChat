@@ -275,6 +275,9 @@ $t['user_zeige65'] = "blau";
 $t['user_zeige66'] = "grün";
 $t['user_zeige67'] = "rot";
 $t['user_zeige68'] = "pink";
+$t['user_zeige69'] = "Darstellung der Nachrichten im Chat";
+$t['user_zeige70'] = "Standard";
+$t['user_zeige71'] = "Private Nachrichten und @-Nachrichten hervorheben";
 
 $t['avatar_beschreibung1'] = "Um den Avatar zu ändern, ziehen Sie einfach ein neues Bild auf die dafür vorgesehene Fläche.";
 $t['avatar_beschreibung2'] = "Fortschritt des Uploads:";

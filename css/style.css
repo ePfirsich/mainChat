@@ -246,3 +246,14 @@ body {
 	font-weight: bold;
 }
 /* Nachrichten - Ende ******************************************************************* */
+
+
+/* Private Nachrichten hervorheben - Anfang ******************************************************************* */
+.nachrichten_oeffentlich {
+	color: var(--Chatmodus-Nachrichten-oeffentlich);
+}
+
+.nachrichten_privat {
+	color: var(--Chatmodus-Nachrichten-privat);
+}
+/* Private Nachrichten hervorheben - Ende ******************************************************************* */

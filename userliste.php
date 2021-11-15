@@ -27,39 +27,48 @@ if ($rows > 0) {
 	$r_name_alt = "";
 	while ($i < $rows) {
 		if ($datenbank == "j") {
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo "(";
+			}
 			print "$dbase";
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo ") ";
+			}
 		}
 		
 		$row = @mysqli_fetch_array($result);
-		if ($klammer == "j")
+		if ($klammer == "j") {
 			echo "(";
+		}
 		echo $row['o_name'];
-		if ($klammer == "j")
+		if ($klammer == "j") {
 			echo ")";
+		}
 		echo " ";
 		if ($zeit != "n") {
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo "(";
+			}
 			echo $row['login'];
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo ")";
+			}
 		}
 		if ($raum != "n" && $webchatraumausgabe == 1) {
 			$room = $webchatprivatraum;
 			for ($j = 0; $j < count($webchatpredef); $j++) {
-				if ($webchatpredef[$j] == $row['r_name'])
+				if ($webchatpredef[$j] == $row['r_name']) {
 					$room = $row['r_name'];
+				}
 			}
 			echo " ";
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo "(";
+			}
 			echo "$room";
-			if ($klammer == "j")
+			if ($klammer == "j") {
 				echo ")";
+			}
 		}
 		echo "$br";
 		$i++;

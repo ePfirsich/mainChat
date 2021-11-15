@@ -37,8 +37,8 @@ if (strlen($u_id) > 0) {
 	// Falls $text eine Eingabezeile enthält -> verarbeiten
 	
 	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der Normalen eingabe
-	if ((($admin) || ($u_level == "M")) && isset($text) && (strlen($text) != 0)
-		&& (strlen($text) < (5 * $chat_max_eingabe))) {
+	if ((($admin) || ($u_level == "M")) && isset($text) && (strlen($text) != 0) && (strlen($text) < (5 * $chat_max_eingabe))) {
+		
 	} else if (isset($text) && strlen($text) != 0 && strlen($text) < $chat_max_eingabe) { // Normale Prüfung für Benutzer
 		// Spamschutz prüfen, falls kein Admin und kein Moderator
 		if (!$admin && ($u_level <> "M")) {
@@ -50,8 +50,7 @@ if (strlen($u_id) > 0) {
 			// Zeitpunkt sekundengenau bestimmen => Jeder Eintrag im Array entspricht einer Sekunde
 			// mktime ( int Stunde, int Minute, int Sekunde, int Monat, int Tag, int Jahr
 			$temp = getdate();
-			$aktuelle_zeit = mktime($temp["hours"], $temp["minutes"],
-				$temp["seconds"], $temp["mon"], $temp["mday"], $temp["year"]);
+			$aktuelle_zeit = mktime($temp["hours"], $temp["minutes"], $temp["seconds"], $temp["mon"], $temp["mday"], $temp["year"]);
 			
 			// Array-Keys auf die richtige Zeit umrechnen
 			// Alle Einträge im Array löschen, die älter als $chat_max_zeit Sekunden sind
@@ -106,6 +105,7 @@ if (strlen($u_id) > 0) {
 		if (strlen($u_farbe) == 0) {
 			$u_farbe = $user_farbe;
 		}
+		
 		chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $o_raum, isset($text) ? $text : "", "");
 	} else if ($fehler) { // Spam -> Fehler ausgeben
  	// Systemnachricht mit Fehlermeldung an Benutzer schreiben

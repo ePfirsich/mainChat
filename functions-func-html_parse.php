@@ -118,13 +118,14 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			// erst mal nick_replace, falls Wort mit "@" beginnt.
 			if (substr($txt[$j], 0, 1) == "@") {
 				$nick = nick_ergaenze($txt[$j], "raum", 1); // fehlermeldungen unterdrücken.
-				if (($admin || $u_level == "A") && $nick['u_nick'] == "")
+				if (($admin || $u_level == "A") && $nick['u_nick'] == "") {
 					$nick = nick_ergaenze($txt[$j], "online", 1);
+				}
 				// fehlermeldungen unterdrücken.
 				if ($nick['u_nick'] != "") {
-					if ($at_sonderbehandlung == 1) // in /me sprüchen kein [zu Nick] an den anfang stellen, sondern nur nick ergänzen
- {
-						$rep = $nick[u_nick];
+					if ($at_sonderbehandlung == 1) {
+					// in /me sprüchen kein [zu Nick] an den anfang stellen, sondern nur nick ergänzen
+						$rep = $nick['u_nick'];
 						$text = preg_replace("!$txt[$j]!", $rep, $text);
 					} else {
 						$rep = "[" . $t['chat_spruch6'] . "&nbsp;"

@@ -252,7 +252,7 @@ if (tests.dnd) {
 	
 	// Farbe des Chats
 	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige64'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_layout_farbe]\">";
-	if ($f['u_layout_farbe'] == "2") { //grün
+	if ($f['u_layout_farbe'] == "2") { // grün
 		$text .= "<option value=\"1\">$t[user_zeige65]";
 		$text .= "<option selected value=\"2\">$t[user_zeige66]";
 		$text .= "<option value=\"3\">$t[user_zeige67]";
@@ -272,6 +272,17 @@ if (tests.dnd) {
 		$text .= "<option value=\"2\">$t[user_zeige66]";
 		$text .= "<option value=\"3\">$t[user_zeige67]";
 		$text .= "<option value=\"4\">$t[user_zeige68]";
+	}
+	$text .= "</select>" . $f2 . "</td></tr>\n";
+	
+	// Darstellung der Nachrichten im Chat
+	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige69'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_layout_chat_darstellung]\">";
+	if ($f['u_layout_chat_darstellung'] == "2") { // Private Nachrichten hervorheben
+		$text .= "<option value=\"1\">$t[user_zeige70]";
+		$text .= "<option selected value=\"2\">$t[user_zeige71]";
+	} else { // Standard
+		$text .= "<option selected value=\"1\">$t[user_zeige70]";
+		$text .= "<option value=\"2\">$t[user_zeige71]";
 	}
 	$text .= "</select>" . $f2 . "</td></tr>\n";
 	

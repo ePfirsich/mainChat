@@ -5,9 +5,9 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	// $raum = ID des aktuellen Raums
 	// $u_id = ID des aktuellen Benutzers
 	
-	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
+	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin, $u_layout_chat_darstellung;
 	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_farbe_bg, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
-	global $show_spruch_owner, $farbe_user_fest, $id, $o_dicecheck, $cssDeklarationen;
+	global $show_spruch_owner, $id, $o_dicecheck, $cssDeklarationen;
 	global $user_nick, $mysqli_link;
 	
 	$o_id = intval($o_id);
@@ -322,14 +322,13 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					
 					// Falls dies eine Folgezeile ist, Von-Text unterdrücken
 					
-						if (strlen($row->c_von_user) != 0) {
-							if ($u_farbe_priv != "-")
-								$row->c_farbe = "#$u_farbe_priv";
+						// Darstellung der Nachrichten im Chat
+						if ($u_layout_chat_darstellung == '2') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -337,16 +336,32 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								$zende = "</span>" . $br;
 							}
 						} else {
-							if (!$erste_zeile) {
-								$zanfang = "";
+							if (strlen($row->c_von_user) != 0) {
+								if ($u_farbe_priv != "-")
+									$row->c_farbe = "#$u_farbe_priv";
+									if (!$erste_zeile) {
+										$zanfang = "";
+									} else {
+										$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+										$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+									}
+									if ($br == "") {
+										$zende = "";
+									} else {
+										$zende = "</span>" . $br;
+									}
 							} else {
-								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
-							}
-							if ($br == "") {
-								$zende = "";
-							} else {
-								$zende = "</span>" . $sm2 . $br;
+								if (!$erste_zeile) {
+									$zanfang = "";
+								} else {
+									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+								}
+								if ($br == "") {
+									$zende = "";
+								} else {
+									$zende = "</span>" . $sm2 . $br;
+								}
 							}
 						}
 						break;
@@ -428,17 +443,73 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							$row->c_farbe = $u_farbe_priv;
 						}
 						
-						// Nur Benutzername in Benutzerfarbe oder ganze Zeile
-						if ($farbe_user_fest) {
+						// Darstellung der Nachrichten im Chat
+						if ($u_layout_chat_darstellung == '2') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-								$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>" . $temp_von_user . ":</b> </span><span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"> ";
 								
-								// Neu für den Avatar
-								$tempuser = $temp_von_user;
 								
+								// Start des Avatars
+								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
+								$result3 = mysqli_query($mysqli_link, $query3);
+								
+								if ($result3 && mysqli_num_rows($result3) == 1) {
+									$row3 = mysqli_fetch_object($result3);
+									$u_avatare_anzeigen = $row3->u_avatare_anzeigen;
+								}
+								
+								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
+								$result2 = mysqli_query($mysqli_link, $query2);
+								
+								if ($result2 && mysqli_num_rows($result2) == 1) {
+									$row2 = mysqli_fetch_object($result2);
+									
+									$uu_id = $row2->u_id;
+									$u_avatar_pfad = $row2->u_avatar_pfad;
+									
+								}
+								
+								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
+								$result1 = mysqli_query($mysqli_link, $query1);
+								
+								if ($result1 && mysqli_num_rows($result1) == 1) {
+									$row1 = mysqli_fetch_object($result1);
+									$ui_gen = $row1->ui_geschlecht;
+								} else {
+									$ui_gen = 'leer';
+								}
+								
+								if($result3 && mysqli_num_rows($result3) == 1) {
+									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
+									if($u_avatare_anzeigen == 1) {
+										if($u_avatar_pfad) { // Benutzerdefinierter Avatar
+											$ava = '<img src="./avatars/'.$u_avatar_pfad.'" style="width:25px; height:25px;" alt="'.$u_avatar_pfad.'" /> ';
+										} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
+										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
+										} else { // Neutraler Standard-Avatar
+											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
+										}
+									} else {
+										$ava = "";
+									}
+								} else {
+									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
+								}
+								
+								if($u_avatare_anzeigen == 0) {
+									$ava = "";
+								}
+								// Ende des Avatars
+								
+								if($row->c_an_user == $u_id) {
+									$zanfang = $ava. "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								} else {
+									$zanfang = $ava. "<span class=\"nachrichten_oeffentlich\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								}
 							}
 							if ($br == "") {
 								$zende = "";

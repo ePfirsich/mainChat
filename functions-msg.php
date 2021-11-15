@@ -1056,8 +1056,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		// Nur für Admins und Tempadmins, schubst Benutzer in einen andere Raum
 			if ($admin || $u_level == "A") {
 				$user = nick_ergaenze($chatzeile[1], "raum", 1);
-				if ($user['u_nick'] == "")
+				if ($user['u_nick'] == "") {
 					$user = nick_ergaenze($chatzeile[1], "online", 1);
+				}
 				if ($user['u_nick'] != "") {
 					$raum = $chatzeile[2];
 					if ($raum == "") {
@@ -2790,46 +2791,38 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// da obriges seltener für den . passiert, und der . öfters aus versehen statt dem : erwischt wird
 						if ($temp == ":" || $temp == "@") {
 							$nick = nick_ergaenze($chatzeile[0], "raum", 0);
+							$f['c_an_user'] = $nick[u_id];
 							if ($nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
-								$f['c_text'] = "[" . $t['chat_spruch6']
-									. "&nbsp;$nick[u_nick]] "
+								$f['c_text'] = "[" . $t['chat_spruch6'] . "&nbsp;$nick[u_nick]] "
 									. html_parse($privat,
-										htmlspecialchars(
-											$chatzeile[1] . " " . $chatzeile[2]
-												. " " . $chatzeile[3]));
-								if ($nick['u_away'] != "") {
-									system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
+										htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]));
+								if ($nick['u_away'] != "") { system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
 								}
 							} else {
 								// keine Fehlermeldung, wird von nick_replace schon erzeugt...
 								// Ansonsten Chatzeile gefiltert ausgeben
-								$f['c_text'] = html_parse($privat,
-									htmlspecialchars($text));
+								$f['c_text'] = html_parse($privat, htmlspecialchars($text));
 							}
-						} elseif (isset($chatzeile[1]) && substr($chatzeile[1], 0, 1) == "@") {
+						} else if (isset($chatzeile[1]) && substr($chatzeile[1], 0, 1) == "@") {
 							$nick = nick_ergaenze($chatzeile[1], "raum", 0);
+							$f['c_an_user'] = $nick[u_id];
 							if ($nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
-								$f['c_text'] = "[" . $t['chat_spruch6']
-									. "&nbsp;$nick[u_nick]] "
+								$f['c_text'] = "[" . $t['chat_spruch6'] . "&nbsp;$nick[u_nick]] "
 									. html_parse($privat,
-										htmlspecialchars(
-											$chatzeile[0] . " " . $chatzeile[2]
-												. " " . $chatzeile[3]));
+										htmlspecialchars( $chatzeile[0] . " " . $chatzeile[2] . " " . $chatzeile[3]));
 									if ($nick['u_away'] != "") {
 										system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
 									}
 							} else {
 								// keine Fehlermeldung, wird von nick_replace schon erzeugt...
 								// Ansonsten Chatzeile gefiltert ausgeben
-								$f['c_text'] = html_parse($privat,
-									htmlspecialchars($text));
+								$f['c_text'] = html_parse($privat, htmlspecialchars($text));
 							}
 						} else {
 							// Chatzeile gefiltert ausgeben
-							$f['c_text'] = html_parse($privat,
-								htmlspecialchars($text));
+							$f['c_text'] = html_parse($privat, htmlspecialchars($text));
 						}
 						
 						// Attribute ergänzen und Nachricht schreiben
@@ -3162,7 +3155,7 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 		case "raum":
 			$fehler = $t['chat_msg44'];
 			$answer = $t['chat_msg42'];
-			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) as laenge "
+			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) AS laenge "
 				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' "
 				. "AND o_raum=$o_raum ORDER BY laenge";
 			break;
@@ -3174,7 +3167,7 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 				. "ORDER BY laenge";
 			break;
 		case "online":
-			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) as laenge "
+			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) AS laenge "
 				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' "
 				. "ORDER BY laenge";
 			$fehler = $t['chat_msg25'];
