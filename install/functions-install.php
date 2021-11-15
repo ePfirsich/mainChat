@@ -178,10 +178,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Teergruben, Moderation, Spam-S
 				<td> Admin zeigen, wer einen Spruch eingegeben hat:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["showspruch"],'chat_showspruch'); ?></td>
 			</tr>
-			<tr>
-				<td> Zusätzliche Adminfeatueres freischalten:</td>
-				<td><?php echo checkFormularRadioButton('1',$chat["adminfeatures"],'chat_adminfeatures'); ?></td>
-			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Lustige Texte einschalten:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["lustigefeatures"],'chat_lustigefeatures'); ?></td>

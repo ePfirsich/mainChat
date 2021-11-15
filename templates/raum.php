@@ -620,7 +620,7 @@ switch ($aktion) {
 			if ($result && mysqli_num_rows($result) > 0) {
 				
 				// extended==Ansicht mit Details im extra beiten Fenster
-				if ($admin && $adminfeatures == 1) {
+				if ($admin) {
 					if (isset($extended) && ($extended == 1)) {
 						$rlink = "<center>" . $f1
 							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">"

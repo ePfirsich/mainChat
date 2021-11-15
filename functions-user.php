@@ -7,7 +7,7 @@ require_once("functions-func-raeume_auswahl.php");
 
 function user_liste($larr, $anzahl) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
+	global $t, $admin, $u_level, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
@@ -32,13 +32,13 @@ function user_liste($larr, $anzahl) {
 	$r_topic = $larr[0]['r_topic'];
 	$level = "user";
 	$level2 = "user";
-	if ($r_besitzer == $u_id && $adminfeatures) {
+	if ($r_besitzer == $u_id) {
 		$level = "owner";
 	}
-	if (($admin || $u_level == "A") && $adminfeatures) {
+	if ($admin || $u_level == "A")) {
 		$level = "admin";
 	}
-	if (($u_level == "C" || $u_level == "S") && $adminfeatures) {
+	if ($u_level == "C" || $u_level == "S") {
 		$level2 = "admin";
 	}
 	
