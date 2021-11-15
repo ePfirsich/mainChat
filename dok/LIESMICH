@@ -145,20 +145,17 @@ Timeout aus und erstellt die Statistiken, die Sie im Verzeichnis
 "statistiken" aufgeschlüsselt nach Tag, Uhrzeit oder virtuellem Host abrufen
 können.
 
-Falls Sie in anderen Angeboten mit
-Ihren mainChat gelistet werden möchten, liefert Ihnen die Datei
-userliste.php eine kompatible Benutzerliste.
 
 
-4. Tipps
+3. Tipps
 
-4.1 Einsatz einer des vorcompilierten MySQL-Binary (Download unter www.mysql.com)
+3.1 Einsatz einer des vorcompilierten MySQL-Binary (Download unter www.mysql.com)
 
-4.2 Der Apache sollte selbst compiliert werden, um mehr als 256 Prozesse zu
+3.2 Der Apache sollte selbst compiliert werden, um mehr als 256 Prozesse zu
 ermöglichen (Patch der Apache-Sourcen notwendig). Hierbei sollten alle
 überflüssigen Module (z.B: mod_proxy, mod_gzip, o.ä.) deaktiviert werden.
 
-4.3 Verwenden einer optimierten Apache-Configurations-Datei. Z.B. hiermit 
+3.3 Verwenden einer optimierten Apache-Configurations-Datei. Z.B. hiermit 
 läuft bereits der Chat. Bei 1700 Clients ist der PHP-Accelerator und 
 2 GB Ram erforderlich:
 

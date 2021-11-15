@@ -1,4 +1,3 @@
 .project
 /conf/config.php
 /logs/*
-tests/_output/*
