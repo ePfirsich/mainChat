@@ -59,8 +59,7 @@ $hilfe_befehlstext = array(
 	"_TEXT_\tTEXT wird fett dargestellt\t \tWirkt in allen Texten, die öffentlich oder privat im Chat ausgegeben werden",
 	"/time \tGibt die aktuelle Uhrzeit aus",
 	"/farbe\tZeigt die aktuelle Farbe an\t/color",
-	"/farbe RRGGBB\tSetzt neue Farbe auf RRGGBB\t/color\tRR steht für Rot, GG für Grün und BB für Blau, jeweils von 00 bis FF",
-	"/clearedit \tEingabezeile nach Return löschen oder stehen lassen\t \tNochmalige Eingabe schaltet wieder zurück");
+	"/farbe RRGGBB\tSetzt neue Farbe auf RRGGBB\t/color\tRR steht für Rot, GG für Grün und BB für Blau, jeweils von 00 bis FF");
 
 $hilfe_befehlstext_admin_ok = 1;
 $hilfe_befehlstext_admin = array(

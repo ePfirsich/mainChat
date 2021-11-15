@@ -71,11 +71,7 @@ if ($aktion != "zeigalle" || $u_level != "S") {
 			window.focus();
 			function resetinput() {
 				document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-					<?php
-					if ($u_clearedit == 1) {
-						echo "	document.forms['form'].elements['text2'].value='';\n";
-					}
-					?>
+				document.forms['form'].elements['text2'].value='';
 				document.forms['form'].submit();
 				document.forms['form'].elements['text2'].focus();
 				document.forms['form'].elements['text2'].select();

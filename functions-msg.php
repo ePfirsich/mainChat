@@ -1334,19 +1334,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			break;
 		
-		case "/clearedit":
-		// löschen der Eingabezeile erzwingen oder alten Text stehen lassen
-		// alter Text wird dann zum überschreiben markiert.
-			if ($u_clearedit == 0) {
-				$f['u_clearedit'] = "1";
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg30']);
-			} else {
-				$f['u_clearedit'] = "0";
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg31']);
-			}
-			schreibe_db("user", $f, $u_id, "u_id");
-			break;
-		
 		case "/dice":
 		case "/wuerfel":
 		// Würfeln
