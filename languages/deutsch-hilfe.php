@@ -33,7 +33,7 @@ $hilfe_befehlstext = array(
 	"/raum RAUM\tWechselt in RAUM. Falls RAUM nicht existiert, wird er als temporärer Raum neu angelegt\t/channel, /go",
 	"/raum RAUM !\tWechselt in RAUM, auch wenn der Raum geschlossen ist (nur Admins und Raumbesitzer)\tforce, immer\tBitte Privatsphäre beachten!",
 	"/people\tListet alle offenen Räume mit Benutzern auf.",
-	"/weg\tSetzt oder löscht einen ich-bin-nicht-da Text.\t/away\tBeispiel: /away ich telefoniere",
+	"/weg\tSetzt oder löscht einen ich-bin-nicht-da Text.\t/away, /afk\tBeispiel: /away ich telefoniere",
 	"/msg NAME TEXT\tTEXT an Benutzer NAME flüstern\t/talk, /tell, /t\tDie Übermittlung ist privat und kann von niemandem mitgelesen werden",
 	"/msgf TEXT\tTEXT an alle Freunde flüstern\t/tf",
 	"/mail NAME TEXT\tSchreibt Mail mit dem Inhalt TEXT an den Benutzer NAME\t/m\tDer Betreff entspricht den ersten Worten",
