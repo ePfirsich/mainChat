@@ -128,12 +128,13 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
-		if ($u_id != 0) {
+		if (false && $u_id != 0) {
 			$where = "WHERE o_user=$u_id";
 		} else {
 			$where = "WHERE o_id=$o_id";
 		}
-		$query = "UPDATE online set o_punkte=o_punkte+" . intval($anzahl) . " " . $where;
+		$query = "UPDATE online SET o_punkte=o_punkte+" . intval($anzahl) . " " . $where;
+		
 		mysqli_query($mysqli_link, $query);
 	}
 	
@@ -148,9 +149,9 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			$text = str_replace("%text%", $text, $t['punkte2']);
 			$text = str_replace("%punkte%", $anzahl * (-1), $text);
 		}
-		if ($u_id != 0)
-			system_msg("", 0, $u_id,
-				(isset($system_farbe) ? $system_farbe : ""), $text);
+		if ($u_id != 0) {
+			system_msg("", 0, $u_id, (isset($system_farbe) ? $system_farbe : ""), $text);
+		}
 	}
 	
 	// Optional Punkte sofort in Benutzerdaten übertragen

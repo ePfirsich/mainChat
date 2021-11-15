@@ -2137,8 +2137,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
-						punkte($anzahl, $user['o_id'], $user['u_id'], "",
-							TRUE);
+						punkte($anzahl, $user['o_id'], $user['u_id'], "", TRUE);
 						$txt = str_replace("%user1%", $u_nick,
 							$t['punkte5']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
@@ -2147,9 +2146,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
-						punkte($anzahl, $user['o_id'], $user['u_id'],
-							str_replace("%user%", $u_nick, $t['punkte3']),
-							TRUE);
+						punkte($anzahl, $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte3']), TRUE);
 						$txt = str_replace("%user2%", $user['u_nick'],
 							$t['punkte8']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
@@ -2213,8 +2210,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					
 					// eine öffentliche Nachricht an alle schreiben
-					punkte($anzahl * (-1), $user['o_id'], $user['u_id'],
-						"", TRUE);
+					punkte($anzahl * (-1), $user['o_id'], $user['u_id'], "", TRUE);
 					
 					$txt = str_replace("%user%", $u_nick, $txt);
 					$txt = str_replace("%punkte%", $anzahl, $txt);
@@ -2225,8 +2221,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
-						punkte($anzahl * (-1), $user['o_id'],
-							$user['u_id'], "", TRUE);
+						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], "", TRUE);
 						$txt = str_replace("%user1%", $u_nick,
 							$t['punkte6']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
@@ -2235,10 +2230,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
-						punkte($anzahl * (-1), $user['o_id'],
-							$user['u_id'],
-							str_replace("%user%", $u_nick, $t['punkte4']),
-							TRUE);
+						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte4']), TRUE);
 						$txt = str_replace("%user2%", $user['u_nick'],
 							$t['punkte9']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
@@ -2632,14 +2624,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				break;
 		default:
 			if (!($o_knebel > 0)) {
-				
 				// Gibt Spruch aus, falls Eingabe mit = beginnt
 				if (preg_match("/^=/", $chatzeile[0])) {
 					
 					// Spruch suchen und ausgeben
 					if ($u_level == "G") {
-						system_msg("", 0, $u_id, $system_farbe,
-							$t['chat_msg55']);
+						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
 					} else {
 						
 						// Art des Spruchs
@@ -2778,7 +2768,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					
 				} else {
-					
 					// Gibt Fehler aus, falls Eingabe mit / beginnt
 					if (preg_match("/^\//", $chatzeile[0])) {
 						system_msg("", 0, $u_id, $system_farbe,
@@ -2786,7 +2775,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$t['chat_spruch5']));
 						
 					} else {
-						
 						// Normaler Text im Chat ausgeben
 						// Text filtern und in DB schreiben
 						
@@ -2819,8 +2807,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$f['c_text'] = html_parse($privat,
 									htmlspecialchars($text));
 							}
-						} elseif (isset($chatzeile[1])
-							&& substr($chatzeile[1], 0, 1) == "@") {
+						} elseif (isset($chatzeile[1]) && substr($chatzeile[1], 0, 1) == "@") {
 							$nick = nick_ergaenze($chatzeile[1], "raum", 0);
 							if ($nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
@@ -2853,52 +2840,42 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$f['c_farbe'] = $u_farbe;
 						
 						// Ist Raum moderiert? $ist_moderiert und $raum_einstellungen wurde in raum_ist_moderiert() gesetzt
-							
+						
 						if (!$ist_eingang && !$ist_moderiert) {
 							// raum ist nicht moderiert -> schreiben.
 							$back = schreibe_chat($f);
 							
 							// In Session merken, dass Text im Chat geschrieben wurde
-							$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
-								. "WHERE o_user=$u_id";
+							$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id";
 							$result = mysqli_query($mysqli_link, $query);
 							
 							// Punkte berechnen und Benutzer gutschreiben
 							// Punkte=Anzahl der Wörter mit mindestens 4 Buchstaben
 							// Punkte werden nur in permanenten, offen Räumen gutgeschrieben!
-							if ($u_level != "G"
-								&& ($raum_einstellungen['r_status1'] == "O"
-									|| $raum_einstellungen['r_status1'] == "m")
+							if ($u_level != "G" && ($raum_einstellungen['r_status1'] == "O" || $raum_einstellungen['r_status1'] == "m")
 								&& $raum_einstellungen['r_status2'] == "P") {
 								
 								// Punkte gutschreiben, wenn im Raum mindestens $punkte_ab_user Benutzer online sind
-								$query = "select count(o_id) from online where o_raum=$o_raum";
+								$query = "SELECT COUNT(o_id) FROM online WHERE o_raum=$o_raum";
 								$result = mysqli_query($mysqli_link, $query);
 								
-								if ($punktefeatures && $result
-									&& mysqli_result($result, 0, 0)
-										>= $punkte_ab_user) {
+								if ($punktefeatures && $result && mysqli_result($result, 0, 0) >= $punkte_ab_user) {
 									// löscht die * und _ aus dem Eingabetext, damit es für z.b. *_*_ keine Punkte mehr gibt
 									$punktetext = $f['c_text'];
-									$punktetext = str_replace('<i>', '',
-										$punktetext);
-									$punktetext = str_replace('<b>', '',
-										$punktetext);
-									$punktetext = str_replace('</i>', '',
-										$punktetext);
-									$punktetext = str_replace('</b>', '',
-										$punktetext);
+									$punktetext = str_replace('<i>', '', $punktetext);
+									$punktetext = str_replace('<b>', '', $punktetext);
+									$punktetext = str_replace('</i>', '', $punktetext);
+									$punktetext = str_replace('</b>', '', $punktetext);
 									
-									punkte(
-										strlen(
-											trim(
-												preg_replace(
-													'/(^[[:space:]]*|[[:space:]]+)[^[:space:]]+/',
-													"x",
-													preg_replace(
-														'/(^|[[:space:]]+)[^[:space:]]{1,3}/',
-														" ", $punktetext)))),
-										$o_id, "");
+									$anzahlPunkte = strlen(
+										trim(
+											preg_replace(
+												'/(^[[:space:]]*|[[:space:]]+)[^[:space:]]+/',
+												"x",
+												preg_replace('/(^|[[:space:]]+)[^[:space:]]{1,3}/', " ", $punktetext)
+												)));
+									
+									punkte($anzahlPunkte, $o_id);
 									
 									unset($punktetext);
 								}
