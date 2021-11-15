@@ -14,6 +14,9 @@ $t['menue8'] = "Aktionen";
 $t['menue9'] = "Freunde";
 $t['menue10'] = "Homepage";
 
+$t['edit_fehlermeldung'] = "Fehler";
+$t['edit_erfolgsmeldung'] = "Änderungen gespeichert!";
+
 $t['edit1'] = "Bitte eine gültige E-Mail Adresse eingeben!";
 $t['edit3'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!";
 $t['edit4'] = "<b>Fehler:</b> Sie müssen das Passwort zweimal gleich eingeben.";
@@ -22,7 +25,6 @@ $t['edit6'] = "<b>Hinweis:</b> Passwort wurde geändert.";
 $t['edit7'] = "<b>Der Benutzername ist schon vergeben oder der Benutzername ist im Chat gesperrt!";
 $t['edit9'] = "Benutzername %u_nick% geändert!";
 $t['edit10'] = "'%row->u_nick%' ändert den Benutzernamen auf '%u_nick%'.";
-$t['edit11'] = "Änderungen gespeichert.";
 $t['edit12'] = "<b>Hinweis:</b> Benutzer %u_nick% wurde aus dem Chat geworfen!";
 $t['edit13'] = "Benutzer %u_nick% ganz sicher löschen?";
 $t['edit14'] = "Benutzer %u_nick% ist noch online und kann nicht gelöscht werden!";
