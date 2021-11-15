@@ -6,9 +6,11 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	global $mysqli_link;
 	global $u_id;
 	
+	$box = $t['mod10'];
+	$text = "";
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
 	$result = mysqli_query($mysqli_link, $query);
-	echo "<table style=\"width:100%;\">";
+	$text .= "<table style=\"width:100%;\">";
 	if ($result > 0) {
 		$i = 0;
 		while ($row = mysqli_fetch_object($result)) {
@@ -18,28 +20,28 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			} else {
 				$bgcolor = 'class="tabelle_zeile2"';
 			}
-			echo "<tr>";
-			echo "<td align=left $bgcolor><small>";
-			echo "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?id=$id&text=";
-			echo urlencode($row->c_text);
-			echo "'; return(false);\">";
-			echo "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			echo "<a href=moderator.php?id=$id&mode=answeredit&answer=$row->c_id>$t[mod12]</a> ";
-			echo "<a href=moderator.php?id=$id&mode=answerdel&answer=$row->c_id>$t[mod13]</a> ";
-			echo "</small></td>";
-			echo "</tr>";
+			$text .= "<tr>";
+			$text .= "<td align=left $bgcolor><small>";
+			$text .= "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?id=$id&text=";
+			$text .= urlencode($row->c_text);
+			$text .= "'; return(false);\">";
+			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
+			$text .= "<a href=moderator.php?id=$id&mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
+			$text .= "<a href=moderator.php?id=$id&mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
+			$text .= "</small></td>";
+			$text .= "</tr>";
 		}
 		mysqli_free_result($result);
 	}
-	echo "</table>";
-	echo "<br><center>";
-	echo "<form>";
-	echo $t['mod11'] . "<br>";
-	echo "<input type=hidden name=id value=$id>";
-	echo "<input type=hidden name=mode value=answernew>";
+	$text .= "</table>";
+	$text .= "<br><center>";
+	$text .= "<form>";
+	$text .= $t['mod11'] . "<br>";
+	$text .= "<input type=hidden name=id value=$id>";
+	$text .= "<input type=hidden name=mode value=answernew>";
 	if ($answer != "")
-		echo "<input type=hidden name=answer value=$answer>";
-	echo "<textarea name=answertxt rows=5 cols=60>";
+		$text .= "<input type=hidden name=answer value=$answer>";
+		$text .= "<textarea name=answertxt rows=5 cols=60>";
 	if ($answer != "") {
 		$answer = intval($answer);
 		$query = "SELECT c_id,c_text FROM moderation WHERE c_id=$answer AND c_typ='P'";
@@ -49,10 +51,11 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 		}
 		mysqli_free_result($result);
 	}
-	echo "</textarea>";
-	echo "<br><input type=submit value=\"$t[mod1]\">";
-	echo "</form>";
-	echo "<a href=# onclick=window.close();>" . $t['mod10'] . "</a></center>";
+	$text .= "</textarea>";
+	$text .= "<br><input type=submit value=\"$t[mod1]\">";
+	$text .= "</form>";
+	
+	zeige_tabelle_zentriert($box,$text);
 }
 
 function bearbeite_moderationstexte($o_raum)

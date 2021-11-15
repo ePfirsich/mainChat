@@ -76,7 +76,7 @@ if ($u_id) {
 		$text .= " | <a href=\"inhalt.php?seite=statistik&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue13'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['menue13'] . "</span></a>&nbsp;";
 	}
 	if ($u_level == "M") {
-		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" onClick=\"neuesFenster('" . $mlnk[8] . "');return(false)\" title=\"" . $t['menue8'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['menue8'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['menue8'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['menue8'] . "</span></a>&nbsp;";
 	}
 	$text .= " | <a href=\"log.php?id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['menue7'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['menue7'] . "</span></a>&nbsp;";
 	if ($o_js) {
