@@ -1482,39 +1482,38 @@ function logout($o_id, $u_id) {
 	
 	// Nachrichten an Freunde verschicken
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
-	. "UNION "
-			. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-			. "ORDER BY f_zeit desc ";
+		. "UNION "
+		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
+		. "ORDER BY f_zeit desc ";
 			
-			$result = mysqli_query($mysqli_link, $query);
-			
-			if ($result && mysqli_num_rows($result) > 0) {
-				
-				while ($row = mysqli_fetch_object($result)) {
-					unset($f);
-					$f['aktion'] = "Logout";
-					$f['f_text'] = $row->f_text;
-					if ($row->f_userid == $u_id) {
-						if (ist_online($row->f_freundid)) {
-							$wann = "Sofort/Online";
-							$an_u_id = $row->f_freundid;
-						} else {
-							$wann = "Sofort/Offline";
-							$an_u_id = $row->f_freundid;
-						}
-					} else {
-						if (ist_online($row->f_userid)) {
-							$wann = "Sofort/Online";
-							$an_u_id = $row->f_userid;
-						} else {
-							$wann = "Sofort/Offline";
-							$an_u_id = $row->f_userid;
-						}
-					}
-					// Aktion ausführen
-					aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+	$result = mysqli_query($mysqli_link, $query);
+	
+	if ($result && mysqli_num_rows($result) > 0) {
+		while ($row = mysqli_fetch_object($result)) {
+			unset($f);
+			$f['aktion'] = "Logout";
+			$f['f_text'] = $row->f_text;
+			if ($row->f_userid == $u_id) {
+				if (ist_online($row->f_freundid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_freundid;
+				} else {
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_freundid;
+				}
+			} else {
+				if (ist_online($row->f_userid)) {
+					$wann = "Sofort/Online";
+					$an_u_id = $row->f_userid;
+				} else {
+					$wann = "Sofort/Offline";
+					$an_u_id = $row->f_userid;
 				}
 			}
-			mysqli_free_result($result);
+			// Aktion ausführen
+			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+		}
+	}
+	mysqli_free_result($result);
 }
 ?>
