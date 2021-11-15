@@ -35,7 +35,7 @@ function user_liste($larr, $anzahl) {
 	if ($r_besitzer == $u_id) {
 		$level = "owner";
 	}
-	if ($admin || $u_level == "A")) {
+	if ($admin || $u_level == "A") {
 		$level = "admin";
 	}
 	if ($u_level == "C" || $u_level == "S") {
