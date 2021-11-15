@@ -18,8 +18,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
 	global $mysqli_link, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
-	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $raumstatus1;
-	global $u_clearedit, $raum_max;
+	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $raumstatus1, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
