@@ -147,7 +147,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "nachrichten":
 			// Nachrichten anzeigen
-			require_once('functions-mail.php');
+			require_once('functions-nachrichten.php');
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
