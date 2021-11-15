@@ -3,10 +3,10 @@
 function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $t;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
-	$blurl = $PHP_SELF . "?id=$id&aktion=&sort=";
+	$blurl = "inhalt.php?seite=blacklist&id=$id&aktion=&sort=";
 	
 	switch ($sort) {
 		case "f_zeit desc":
@@ -199,7 +199,7 @@ function loesche_blacklist($f_blacklistid) {
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
 	
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link, $t;
+	global $id, $f1, $f2, $mysqli_link, $t;
 	
 	$eingabe_breite = 45;
 	

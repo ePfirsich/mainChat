@@ -30,15 +30,15 @@ if (!isset($sysmsg)) {
 	$sysmsg = 0;
 }
 if ($sysmsg) {
-	$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=0&back=$back\">" . $t['sonst3'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?seite=log&id=$id&sysmsg=0&back=$back\">" . $t['sonst3'] . "</a>";
 } else {
-	$umschalturl = "<a href=\"$PHP_SELF?id=$id&sysmsg=1&back=$back\">" . $t['sonst2'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?seite=log&id=$id&sysmsg=1&back=$back\">" . $t['sonst2'] . "</a>";
 }
 
 // Link zum Abspeichern
 if ($aktion != "abspeichern") {
 	echo "<center>" . $f1
-		. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
+	. "<b>[<a href=\"inhalt.php?seite=log&id=$id&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
 		. $t['sonst1'] . "</a>]</b>&nbsp;<b>[$umschalturl]</b>" . $f2
 		. "</center><br>\n";
 	flush();

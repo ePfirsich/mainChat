@@ -2,7 +2,7 @@
 
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id;
 	
 	$text = '';
 	
@@ -31,7 +31,7 @@ function zeige_freunde($aktion, $zeilen) {
 			break;
 	}
 	
-	$text .= "<form name=\"freund_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
+	$text .= "<form name=\"freund_loeschen\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
@@ -188,7 +188,7 @@ function loesche_freund($f_freundid, $f_userid) {
 function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	global $id, $f1, $f2, $mysqli_link;
 	
 	$eingabe_breite = 45;
 	
@@ -199,7 +199,7 @@ function formular_neuer_freund($neuer_freund) {
 	$box = "Neuen Freund eintragen:";
 	$text = '';
 	
-	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<table>";
@@ -220,7 +220,7 @@ function formular_neuer_freund($neuer_freund) {
 
 function formular_editieren($f_id, $f_text) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	global $id,  $f1, $f2, $mysqli_link;
 	
 	$text = '';
 	
@@ -232,7 +232,7 @@ function formular_editieren($f_id, $f_text) {
 	
 	$box = "Freundestext ändern:";
 	
-	$text .= "<form name=\"freund_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";

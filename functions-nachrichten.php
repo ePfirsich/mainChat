@@ -2,7 +2,7 @@
 
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
+	global $id, $f1, $f2, $mysqli_link;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
@@ -23,7 +23,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	}
 	$text = '';
 	
-	$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=POST>\n"
+	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=POST>\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
@@ -42,8 +42,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link, $u_id, $t;
-	global $PHP_SELF;
+	global $id, $f1, $f2, $mysqli_link, $u_id, $t;
 	global $u_punkte_gesamt;
 	
 	$eingabe_breite1 = 87;
@@ -132,7 +131,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			}
 			$email_select .= "</select>\n";
 			
-			$text .= "<form name=\"mail_neu\" action=\"$PHP_SELF\" method=post>\n"
+			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=post>\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
 				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"
@@ -176,7 +175,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
 	
-	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
 	$eingabe_breite = 55;
 	
@@ -213,7 +212,7 @@ function zeige_mailbox($aktion, $zeilen) {
 		$text = '';
 		$box = "$anzahl $titel";
 		
-		$text .= "<form name=\"mailbox\" action=\"$PHP_SELF\" method=\"post\">\n"
+		$text .= "<form name=\"mailbox\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 		
@@ -237,8 +236,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
 				
-				$url = "<a href=\"" . $PHP_SELF
-					. "?id=$id&aktion=zeige&m_id="
+				$url = "<a href=\"inhalt.php?seite=nachrichten&id=$id&aktion=zeige&m_id="
 					. $row->m_id . "\">";
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
 					$auf = "<b>" . $f1;
@@ -285,7 +283,7 @@ function zeige_mailbox($aktion, $zeilen) {
 function zeige_email($m_id) {
 	// Zeigt die Mail im Detail an
 	
-	global $id, $mysqli_link, $PHP_SELF, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
 	$query = "select mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
@@ -323,17 +321,17 @@ function zeige_email($m_id) {
 		
 		// Formular zur Löschen, Beantworten
 		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
-			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"post\">" . $f1
+			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
 			. "<input type=\"SUBMIT\" name=\"los\" value=\"antworten\">" . $f2 . "</form></td>\n"
-			. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"$PHP_SELF\" method=\"post\">" . $f1
+				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
 			. "<input type=\"SUBMIT\" name=\"los\" value=\"weiterleiten\">" . $f2 . "</form></td>\n"
-			. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"$PHP_SELF\" method=\"post\">" . $f1
+				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
@@ -359,7 +357,7 @@ function loesche_mail($m_id, $u_id) {
 	
 	// Löscht eine Mail der ID m_id
 	
-	global $id, $PHP_SELF, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $u_nick, $u_id;
 	
 	$query = "select m_zeit,m_id,m_status FROM mail "
 		. "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
