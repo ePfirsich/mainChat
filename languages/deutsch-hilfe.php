@@ -60,13 +60,6 @@ $hilfe_befehlstext = array(
 	"/time \tGibt die aktuelle Uhrzeit aus",
 	"/farbe\tZeigt die aktuelle Farbe an\t/color",
 	"/farbe RRGGBB\tSetzt neue Farbe auf RRGGBB\t/color\tRR steht für Rot, GG für Grün und BB für Blau, jeweils von 00 bis FF",
-	"/farbealle \tSetzt/zeigt die Farbe für andere Benutzer an\t/color2\tWerte in RRGGBB wie bei /farbe; abschalten mit \"/farbealle -\"",
-	"/farbenoise \tSetzt/zeigt die Farbe für Noises\t/color3\tWerte in RRGGBB wie bei /farbe; abschalten mit \"/farbenoise -\"",
-	"/farbepriv \tSetzt/zeigt die Farbe für private Nachrichten\t/color4\tWerte in RRGGBB wie bei /farbe; abschalten mit \"/farbepriv -\"",
-	"/farbesys \tSetzt/zeigt die Farbe für Systemnachrichten im Chat\t/color5\tWerte in RRGGBB wie bei /farbe; abschalten mit \"/farbesys -\"",
-	"/farbebg \tSetzt/zeigt die Farbe für den Hintergrund. Änderung wird erst nach neuem Laden aktiv.\t/color6\tWerte in RRGGBB wie bei /farbe; abschalten mit \"/farbebg -\"",
-	"/farbset X\tSetzt das vordefinierte Farbset X. \t \tDie möglichen Farbsets werden durch /farbset angezeigt. Beispiel: /farbset 3",
-	"/farbreset \tSetzt die Farbspielereien wieder zurück auf den Chat-Default",
 	"/clearedit \tEingabezeile nach Return löschen oder stehen lassen\t \tNochmalige Eingabe schaltet wieder zurück");
 
 $hilfe_befehlstext_admin_ok = 1;

@@ -17,11 +17,6 @@
 # u_zeilen		Anzahl der Zeilen, die der User im Chat wünscht (optional)
 # u_adminemail		E-Mail Adresse für Administatrion, muss angegeben werden
 # u_ip_historie 	Liste der IP-Adressen der letzten Logins
-# u_farbe_priv		Farbe für an den User gerichtete Nachrichten, default falls "-"
-# u_farbe_sys	 	Farbe für Nachrichten vom System, default falls "-"
-# u_farbe_bg			Farbe für Hintergrund, default falls "-"
-# u_farbe_alle		Farbe für alle anderen user, default falls "-"
-# u_farbe_noise 	Farbe für sog. Noises, default falls "-"
 # u_clearedit	 	soll Editzeile gelöscht oder nur markiert werden?
 # u_away		away-Text des Benutzers
 # u_smilie		User will Smilie-Grafiken sehen Y/N
@@ -437,11 +432,6 @@ CREATE TABLE user (
 	`u_url` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_farbe_allev varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-	`u_farbe_noise` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-	`u_farbe_priv` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-	`u_farbe_bg` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
-	`u_farbe_sys` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '-',
 	`u_clearedit` tinyint(1) unsigned NOT NULL default '1',
 	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_ip_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,

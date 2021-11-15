@@ -6,16 +6,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	// $u_id = ID des aktuellen Benutzers
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin, $u_layout_chat_darstellung;
-	global $u_farbe_alle, $u_farbe_noise, $u_farbe_priv, $u_farbe_sys, $u_farbe_bg, $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
+	global $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
 	global $show_spruch_owner, $id, $o_dicecheck, $cssDeklarationen;
 	global $user_nick, $mysqli_link;
 	
 	$o_id = intval($o_id);
-	
-	// Systemfarbe setzen
-	if ($u_farbe_sys != "-") {
-		$system_farbe = $u_farbe_sys;
-	}
 	
 	// Workaround, falls Benutzer in Community ist
 	if (!$raum) {
@@ -337,19 +332,17 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							}
 						} else {
 							if (strlen($row->c_von_user) != 0) {
-								if ($u_farbe_priv != "-")
-									$row->c_farbe = "#$u_farbe_priv";
-									if (!$erste_zeile) {
-										$zanfang = "";
-									} else {
-										$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
-										$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
-									}
-									if ($br == "") {
-										$zende = "";
-									} else {
-										$zende = "</span>" . $br;
-									}
+								if (!$erste_zeile) {
+									$zanfang = "";
+								} else {
+									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+								}
+								if ($br == "") {
+									$zende = "";
+								} else {
+									$zende = "</span>" . $br;
+								}
 							} else {
 								if (!$erste_zeile) {
 									$zanfang = "";
@@ -374,10 +367,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 						}
 						
 						if ($row->c_von_user_id != 0) {
-							// eigene Farbe für noise, falls gesetzt.
-							if ($u_farbe_noise != "-") {
-								$row->c_farbe = "#$u_farbe_noise";
-							}
 							// prüfe auf Würfelwurf, falls dicecheck aktiviert
 							$diceRoll = false;
 							$validDiceRoll = false;
@@ -433,15 +422,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					
 					default:
 					// N: Normal an alle mit Absender
-					// eigene Farbe, falls gesetzt
-						if ($row->c_von_user_id != $u_id && $u_farbe_alle != "-") {
-							$row->c_farbe = $u_farbe_alle;
-						}
-						
-						// eigene Farbe für nachricht an Privat, falls gesetzt.
-						if (preg_match("/\[.*&nbsp;$nick\]/i", $c_text) && $u_farbe_priv != "-") {
-							$row->c_farbe = $u_farbe_priv;
-						}
 						
 						// Darstellung der Nachrichten im Chat
 						if ($u_layout_chat_darstellung == '2') {

@@ -199,36 +199,6 @@ $farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
 			"FF00FF","A000A0");
 
 
-// Farbsets definieren
-$farbset1_farbe = "0000c0";
-$farbset1_farbe_alle = "202020";
-$farbset1_farbe_priv = "c02020";
-$farbset1_farbe_sys = "55555";
-$farbset1_farbe_bg = "f0f0f0";
-$farbset1_farbe_noise = "008000";
-
-$farbset2_farbe = "5050c0";
-$farbset2_farbe_alle = "2222cc";
-$farbset2_farbe_priv = "f06000";
-$farbset2_farbe_sys = "0070e0";
-$farbset2_farbe_bg = "d0f0ff";
-$farbset2_farbe_noise = "2090b0";
-
-$farbset3_farbe = "424242";
-$farbset3_farbe_alle = "0000c0";
-$farbset3_farbe_priv = "ff4040";
-$farbset3_farbe_sys = "707070";
-$farbset3_farbe_bg = "ffffff";
-$farbset3_farbe_noise = "008000";
-
-$farbset4_farbe = "000000";
-$farbset4_farbe_alle = "0000ff";
-$farbset4_farbe_priv = "ff0000";
-$farbset4_farbe_sys = "000000";
-$farbset4_farbe_bg = "ffffff";
-$farbset4_farbe_noise = "0000ff";
-
-
 // Zeichensatzgrößen
 $f1="<span style=\"font-size: small;\">";
 $f2="</span>";

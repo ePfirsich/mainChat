@@ -14,6 +14,7 @@ ALTER TABLE `user` ADD `u_avatar_pfad` varchar(255) NOT NULL DEFAULT '';
 ALTER TABLE `user` ADD `u_sicherer_modus` CHAR(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N';
 ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` DROP `u_farbe_alle`, DROP `u_farbe_noise`, DROP `u_farbe_priv`, DROP `u_farbe_bg`, DROP `u_farbe_sys`;
 
 CREATE TABLE `statistiken` (
   `c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

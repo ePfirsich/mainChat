@@ -23,13 +23,7 @@ if ($u_id) {
 	// Timestamp im Datensatz aktualisieren -> User im Chat / o_who=0
 	aktualisiere_online($u_id, $o_raum, 0);
 	
-	// eigene Farbe für BG gesetzt? dann die nehmen.
-	if ($u_farbe_bg != "" && $u_farbe_bg != "-") {
-		$farbe_chat_background1 = $u_farbe_bg;
-		$meta_refresh = "<style>body {background-color:#$u_farbe_bg !important;}</style>";
-	} else {
-		$meta_refresh = "";
-	}
+	$meta_refresh = "";
 	
 	// Algorithmus wählen
 	if ($sicherer_modus == 1 || $u_sicherer_modus == "Y") {

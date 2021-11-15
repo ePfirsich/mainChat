@@ -51,7 +51,7 @@ $valid_fields = array(
 	'thema' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
 	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
 	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
-		'u_farbe_alle', 'u_farbe_noise', 'u_farbe_priv', 'u_farbe_bg', 'u_farbe_sys', 'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
+		'u_clearedit', 'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_avatar_pfad', 'u_layout_farbe', 'u_layout_chat_darstellung'),
@@ -393,7 +393,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
-	global $u_farbe_alle, $u_farbe_sys, $u_farbe_bg, $u_farbe_priv, $u_farbe_noise, $u_clearedit, $u_layout_farbe, $u_layout_chat_darstellung;
+	global $u_clearedit, $u_layout_farbe, $u_layout_chat_darstellung;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
@@ -615,7 +615,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_farbe_bg`, `u_farbe_alle`, `u_farbe_priv`, `u_farbe_noise`, `u_farbe_sys`, `u_clearedit`, "
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_clearedit`, "
 			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` "
 			. "FROM `user` WHERE `u_id`=$id";
