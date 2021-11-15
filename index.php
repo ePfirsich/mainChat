@@ -206,10 +206,11 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	
 	if ($loginwhileipsperre <> 0) {
 		// Test auf Punkte 
-		$query = "SELECT u_id, u_nick,u_level,u_punkte_gesamt FROM user "
-			. "WHERE (u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
-			. "' AND (u_level in ('A','C','G','M','S','U')) ";
-		"AND u_passwort = encrypt('" . mysqli_real_escape_string($mysqli_link, $passwort) . "',u_passwort)";
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` "
+			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
+			. "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
+		"AND `u_passwort` = encrypt('" . mysqli_real_escape_string($mysqli_link, $passwort) . "',u_passwort)";
+		
 		// Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
 		$r = mysqli_query($mysqli_link, $query);
