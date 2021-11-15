@@ -65,7 +65,7 @@ function refresh() {
 }
 
 function sperren(host, ip, user) {
-	var url = 'sperre.php' + stdparm2 + '&aktion=neu';
+	var url = 'inhalt.php?seite=sperren' + stdparm2 + '&aktion=neu';
 	if (host)
 		url = url + '&hname=' + host;
 	if (ip)

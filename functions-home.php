@@ -68,8 +68,8 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	
 	global $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
 	
-	$url = "profil.php?id=$id&aktion=aendern";
-	$link = $f3 . "<b>[<a href=\"$url\">ÄNDERN</a>]</b>" . $f4;
+	$url = "inhalt.php?seite=profil&id=$id&aktion=aendern";
+	$link = $f3 . "<b>[<a href=\"$url\">ändern</a>]</b>" . $f4;
 	$text = "";
 	
 	if ($home['ui_userid']) {
@@ -224,7 +224,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		// Link auf Benutzereditor ausgeben
 		if ($aktion == "aendern") {
-			$url = "edit.php?id=$id";
+			$url = "inhalt.php?seite=einstellungen&id=$id";
 			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">Ändern</a>]</b>" . $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";
@@ -462,7 +462,7 @@ function home_aktionen($u_id, $u_nick, $home, $farben, $aktion) {
 	
 	$text = "<td style=\"vertical-align:top;\">" . $f1;
 	if ($id) {
-		$url = "mail.php?aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
+		$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=$u_nick&id=$id";
 		$text .= "<a href=\"$url\" target=\"_blank\">"
 			. "<b>Schreibe mir doch eine Mail!</b>&nbsp;$chat_grafik[mail]</A><br><br>";
 	} else {

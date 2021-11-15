@@ -13,7 +13,7 @@ $t['menue9'] = "Reset";
 $t['menue10'] = "Nachrichten";
 $t['menue11'] = "Forum";
 $t['menue12'] = "Blacklist";
-$t['menue13'] = "Statistiken";
+$t['menue13'] = "Statistik";
 
 $t['zum_chat'] = "Zum Chat";
 $t['forum_interaktiv_einzahl'] = "Insgesamt ist 1 Benutzer online.";

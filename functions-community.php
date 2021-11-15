@@ -31,7 +31,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 		
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
-			$ur1 = "mail.php?id=$id&aktion=";
+			$ur1 = "inhalt.php?seite=nachrichten&id=$id&aktion=";
 			$url = "href=\"$ur1\" target=\"_blank\"";
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['mail1']));
 		}
@@ -79,7 +79,7 @@ function profil_neu($u_id, $u_nick, $id) {
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 0) {
-		$ur1 = "profil.php?id=$id&aktion=neu";
+		$ur1 = "inhalt.php?seite=profil&id=$id&aktion=neu";
 		$url = "href=\"$ur1\" ";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
@@ -96,23 +96,27 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	
 	global $system_farbe, $mysqli_link, $t;
 	
+	$text = "";
 	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
 		$felder = explode(",", $txt);
-		echo "<select name=\"$name\">\n";
+		$text .= "<select name=\"$name\">\n";
 		while (list($key, $set_name) = each($felder)) {
 			$set_name = substr($set_name, 1, -1);
 			if ($set_name == $voreinstellung) {
-				echo "<option selected value=$set_name>$set_name\n";
+				$text .= "<option selected value=$set_name>$set_name\n";
 			} else {
-				echo "<option value=\"$set_name\">$set_name\n";
+				$text .= "<option value=\"$set_name\">$set_name\n";
 			}
 		}
-		echo "</select>\n";
+		$text .= "</select>\n";
 	}
+	
 	mysqli_free_result($result);
+	
+	return $text;
 }
 
 function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {

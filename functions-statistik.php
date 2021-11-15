@@ -56,7 +56,7 @@ function statsResetHours($zeit, $hours) {
 
 function statsPrintGraph($title, $text_l, $text_b) {
 	global $grapharray;
-	global $STAT_TXT;
+	global $t;
 	global $STAT_BAR_HEIGHT;
 	global $STAT_BAR_FONTBEG1;
 	global $STAT_BAR_FONTEND1;
@@ -73,12 +73,8 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		$h = 0;
 		$c = 2;
 		$d = 0;
-		$t = 0;
+		$time = 0;
 		$u = 0;
-		
-		if ($title == "") {
-			$title = $STAT_TXT["0080"];
-		}
 		
 		reset($grapharray);
 		
@@ -87,7 +83,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 				$b = $v;
 			
 			if ($v > 0) {
-				$t += $v;
+				$time += $v;
 				$u += 1;
 			}
 			
@@ -99,7 +95,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		else $h = 0;
 		
 		if ($u > 0)
-			$d = intval($t / $u);
+			$d = intval($time / $u);
 		else $d = 0;
 		
 		/* Linke Beschriftung und die Tabelle mit den Balken anzeigen lassen. */
@@ -109,15 +105,13 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		$msg .= "<div style=\"text-align:center;\">\n";
 		$msg .= "<table style=\"margin:auto;\">\n";
 		
-		if ($title != "") {
-			$msg .= "<tr>\n";
-			$msg .= "<td class=\"tabelle_kopfzeile\" colspan=\"$c\" style=\"text-align:center;\">";
-			$msg .= $STAT_BAR_FONTBEG3;
-			$msg .= $title;
-			$msg .= $STAT_BAR_FONTEND3;
-			$msg .= "</td>\n";
-			$msg .= "</tr>\n";
-		}
+		$msg .= "<tr>\n";
+		$msg .= "<td class=\"tabelle_kopfzeile\" colspan=\"$c\" style=\"text-align:center;\">";
+		$msg .= $STAT_BAR_FONTBEG3;
+		$msg .= $title;
+		$msg .= $STAT_BAR_FONTEND3;
+		$msg .= "</td>\n";
+		$msg .= "</tr>\n";
 		
 		$msg .= "<tr>\n";
 		$msg .= "<td class=\"tabelle_statistics_navigation\" style=\"width:20px;\">";
@@ -166,14 +160,14 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$msg .= "<td class=\"tabelle_statistics_navigation\">";
 			$msg .= $STAT_BAR_FONTBEG1;
 			$msg .= $i;
-			$msg .= $STAT_BAR_FONREND1;
+			$msg .= $STAT_BAR_FONTEND1;
 			$msg .= "</td>\n";
 		}
 		
 		$msg .= "<td class=\"tabelle_statistics_navigation\">";
 		$msg .= $STAT_BAR_FONTBEG2;
 		$msg .= $text_b;
-		$msg .= $STAT_BAR_FONREND2;
+		$msg .= $STAT_BAR_FONTEND2;
 		$msg .= "</td>\n";
 		$msg .= "</tr>\n";
 		$msg .= "</table>\n";
@@ -182,7 +176,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		/* Benutzer ausgeben. */
 		
 		$msg .= "<p style=\"text-align:center;\">";
-		$msg .= $STAT_TXT["0100"] . " $d - " . $STAT_TXT["0101"] . " $b";
+		$msg .= $t["statistik_durchschnitt"] . " $d - " . $t["statistik_hoechste_anzahl"] . " $b";
 		$msg .= "</p>\n";
 		$msg .= "</div>\n";
 	}

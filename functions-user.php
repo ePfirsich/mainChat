@@ -309,7 +309,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 		}
 		
-		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
+		$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
 		$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
 		$f4 . "</td></tr>\n";
 		
@@ -414,7 +414,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
 			}
 			$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
-			$mlnk[8] = "mail.php?id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
+			$mlnk[8] = "inhalt.php?seite=nachrichten&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
 			$text .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[user_zeige40]</a>]<br>\n"
 				. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
@@ -435,7 +435,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				. "&aktion=zeig&user=$user&schau_raum=$schau_raum";
 			$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
 			$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
-			$mlnk[6] = "sperre.php?id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
+			$mlnk[6] = "inhalt.php?seite=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
 				. urlencode($o_row->o_name);
 			$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
@@ -445,7 +445,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Adminmenue
 		if ($admin) {
-			$mlnk[10] = "blacklist.php?id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
+			$mlnk[10] = "inhalt.php?seite=blacklist&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
 			$text .= "[<a href=\"$mlnk[10]\" target=\"chat\">$t[user_zeige48]</a>]<br>\n";
 			
 		}
@@ -461,7 +461,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text = '';
 			$box = $t['user_zeige12'];
 			
-			$text .= "<form name=\"edit\" action=\"edit.php\" method=\"post\">\n" . $f1
+			$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n" . $f1
 				. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
 				. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$uu_id\">\n"

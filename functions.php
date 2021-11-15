@@ -495,8 +495,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen
 	
 	$query = "SELECT HIGH_PRIORITY *,UNIX_TIMESTAMP(o_timeout_zeit) as o_timeout_zeit,"
-		. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online "
-		. "WHERE o_hash='$id' ";
+		. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online WHERE o_hash='$id' ";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
@@ -540,9 +539,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			} else {
 				$admin = 0;
 			}
-			
 		} else {
-			
 			// Aus Sicherheitsgründen die Variablen löschen
 			$userdata = "";
 			$u_id = "";
@@ -552,7 +549,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			$admin = 0;
 		}
 	} else {
-		
 		// Aus Sicherheitsgründen die Variablen löschen
 		$u_id = "";
 		$u_nick = "";
@@ -561,7 +557,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		$admin = 0;
 	}
 	
-	//load user color
+	// Hole die Farbe des Benutzers
 	global $u_farbe, $user_farbe;
 	if (!empty($u_id)) {
 		$result = mysqli_query($mysqli_link, "SELECT u_farbe FROM user WHERE u_id = " . intval($u_id));
@@ -1140,7 +1136,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$grafikurl1 = "<a href=\"hilfe.php?aktion=hilfe-community\" target=\"_blank\">";
+		$grafikurl1 = "<a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community\" target=\"_blank\">";
 		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";
@@ -1169,7 +1165,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {
-		$url = "mail.php?aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
+		$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;

@@ -105,8 +105,8 @@ if (isset($u_id) && $u_id) {
 			$box = "Menü Freunde";
 			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">Meine Homepage zeigen</a>\n"
 				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
-				. "| <a href=\"profil.php?id=$id&aktion=aendern\">Profil ändern</a>\n"
-				. "| <a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
+				. "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">Profil ändern</a>\n"
+				. "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 			
 				zeige_tabelle_volle_breite($box, $text);
 			
@@ -246,7 +246,7 @@ if (isset($u_id) && $u_id) {
 				// Erst Profil anlegen
 				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
 					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
-					. "Bitte klicken Sie <a href=\"profil.php?id=$id&aktion=aendern\">"
+					. "Bitte klicken Sie <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">"
 					. "weiter zur Anlage eines Profils</A>.</P>\n";
 				
 			}

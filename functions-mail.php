@@ -225,7 +225,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
-				."<td style=\"font-weight:bold; width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\"></td>"
+				."<td style=\"font-weight:bold; width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggleMail(this.checked)\"></td>"
 				."<td style=\"font-weight:bold; width:40px; text-align:center;\">" . $f1 . $t['status'] . $f2 . "</td>"
 				."<td style=\"font-weight:bold;\">" . $f1 . $t['von'] . $f2 . "</td>"
 				."<td style=\"font-weight:bold;\">" . $f1 . $t['betreff'] . $f2 . "</td>"

@@ -59,7 +59,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	if ($result) {
 		$text = '';
 		
-		$text .= "<form name=\"blacklist_loeschen\" action=\"$PHP_SELF\" method=\"post\">\n"
+		$text .= "<form name=\"blacklist_loeschen\" action=\"inhalt.php?seite=blacklist\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
 			. "<table style=\"width:100%;\">";
@@ -156,7 +156,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				$i++;
 			}
 			
-			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">"
+			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleBlacklist(this.checked)\">"
 				. $f1 . " Alle Auswählen" . $f2 . "</td>\n"
 				. "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">" . $f1
 				. "<input type=\"submit\" name=\"los\" value=\"$button\">"
@@ -210,7 +210,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 	$box = $t['blacklist3'];
 	$text = '';
 	
-	$text .= "<form name=\"blacklist_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
+	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?seite=blacklist\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<table style=\"width:100%;\">";

@@ -47,251 +47,223 @@ function profil_editor($u_id, $u_nick, $f) {
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result);
 		mysqli_free_result($result);
-		$url = "edit.php?id=$id";
+		$url = "inhalt.php?seite=einstellungen&id=$id";
 		$userdaten_bearbeiten = "\n[<a href=\"$url\">Einstellungen ändern</a>]";
 	}
 	
-	?>
-	<form name="profil" action="profil.php" method="POST">
+	$text = "
+	<form name=\"profil\" action=\"inhalt.php?seite=profil\" method=\"post\">
 	<table>
 		<tr>
-			<td class="tabelle_kopfzeile" colspan="5">Ihre Benutzerdaten:</td>
+			<td class=\"tabelle_kopfzeile\" colspan=\"5\">Ihre Benutzerdaten:</td>
 		</tr>
 		<tr>
-			<td class="tabelle_zeile1" style="text-align:right;">Benutzer:</td>
-			<td class="tabelle_zeile1" colspan="2"><b><?php echo zeige_userdetails($userdata['u_id'], $userdata); ?></b></td>
-			<td class="tabelle_zeile1"><?php echo $userdaten_bearbeiten; ?></td>
-		</tr>
-		<?php
-		$bgcolor = 'class="tabelle_zeile1"';
-		if ($userdata['u_email']) {
-			?>
-			<tr>
-				<td style="text-align:right;" <?php echo $bgcolor; ?>>E-Mail:</td>
-				<td <?php echo $bgcolor; ?> colspan="3"><?php echo htmlspecialchars($userdata['u_email']); ?> (öffentlich)</td>
-			</tr>
-			<?php
-			if ($bgcolor == 'class="tabelle_zeile1"') {
-				$bgcolor = 'class="tabelle_zeile2"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile1"';
-			}
-		}
-		if ($userdata['u_adminemail']) {
-			?>
-			<tr>
-				<td style="text-align:right;" <?php echo $bgcolor; ?>>E-Mail:</td>
-				<td <?php echo $bgcolor; ?> colspan="3"><?php echo htmlspecialchars($userdata['u_adminemail']); ?> (intern, für Admins)</td>
-			</tr>
-			<?php
-			if ($bgcolor == 'class="tabelle_zeile1"') {
-				$bgcolor = 'class="tabelle_zeile2"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile1"';
-			}
-		}
-		if ($userdata['u_url']) {
-			?>
-			<tr>
-				<td style="text-align:right;" <?php echo $bgcolor; ?>>Homepage:</td>
-				<td <?php echo $bgcolor; ?> colspan="3"><a href="<?php echo htmlspecialchars($userdata['u_url']); ?>" target="_blank"><?php echo htmlspecialchars($userdata['u_url']); ?></a></td>
-			</tr>
-			<?php
-			if ($bgcolor == 'class="tabelle_zeile1"') {
-				$bgcolor = 'class="tabelle_zeile2"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile1"';
-			}
-		}
-		?>
-		<tr>
-			<td>
-				<input type="hidden" name="id" value="<?php echo $id; ?>">
-				<input type="hidden" name="aktion" value="neu">
-			</td>
-		</tr>
-		<?php
-		$bgcolor = 'class="tabelle_zeile1"';
-		?>
-		<tr>
-			<td colspan="5">&nbsp;</td>
-		</tr>
-		<tr>
-			<td class="tabelle_kopfzeile" colspan="5">Ihr neues Profil:</td>
-		</tr>
-		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Straße:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_strasse]\" value=\"" . $f['ui_strasse'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		?>
-		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>PLZ:</td>
-			<td <?php echo $bgcolor; ?>><?php echo $f1 . "<input type=\"text\" name=\"f[ui_plz]\" value=\"$f[ui_plz]\" size=8>" . $f2; ?></td>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Ort:</td>
-			<td style="width:100%;" <?php echo $bgcolor; ?>><?php echo $f1 . "<input type=\"text\" name=\"f[ui_ort]\" value=\"" . $f['ui_ort'] . "\" size=" . ($eingabe_breite - 15) . ">" . $f2; ?></td>
-		</tr>
-		<?php
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		
-		?>
-		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Land:</td>
-			<td  <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_land]\" value=\"" . $f['ui_land'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
+			<td class=\"tabelle_zeile1\" style=\"text-align:right;\">Benutzer:</td>
+			<td class=\"tabelle_zeile1\" colspan=\"2\"><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>
+			<td class=\"tabelle_zeile1\">$userdaten_bearbeiten</td>
+		</tr>";
 	
-		?>
+	$bgcolor = 'class="tabelle_zeile1"';
+	if ($userdata['u_email']) {
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Telefon:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_tel]\" value=\"" . $f['ui_tel'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>E-Mail:</td>
+			<td $bgcolor colspan=\"3\">" . htmlspecialchars($userdata['u_email']) ." (öffentlich)</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+	}
+	if ($userdata['u_adminemail']) {
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Mobil:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_handy]\" value=\"" . $f['ui_handy'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>E-Mail:</td>
+			<td $bgcolor colspan=\"3\">" . htmlspecialchars($userdata['u_adminemail']) . " (intern, für Admins)</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+	}
+	if ($userdata['u_url']) {
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Telefax:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_fax]\" value=\"" . $f['ui_fax'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Homepage:</td>
+			<td $bgcolor colspan=\"3\"><a href=\"" . htmlspecialchars($userdata['u_url']) . "\" target=\"_blank\">" . htmlspecialchars($userdata['u_url']) . "</a></td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+	}
+	$text .= "
+	<tr>
+		<td>
+			<input type=\"hidden\" name=\"id\" value=\"$id\">
+			<input type=\"hidden\" name=\"aktion\" value=\"neu\">
+		</td>
+	</tr>";
+	$bgcolor = 'class="tabelle_zeile1"';
+	$text .= "
+	<tr>
+		<td colspan=\"5\">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class=\"tabelle_kopfzeile\" colspan=\"5\">Ihr neues Profil:</td>
+	</tr>
+	<tr>
+		<td style=\"text-align:right;\" $bgcolor>Straße:</td>
+		<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_strasse]\" value=\"" . $f['ui_strasse'] . "\" size=$eingabe_breite>$f2</td>
+	</tr>";
+	if ($bgcolor == 'class="tabelle_zeile1"') {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>ICQ:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_icq]\" value=\"" . $f['ui_icq'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>PLZ:</td>
+			<td $bgcolor>$f1<input type=\"text\" name=\"f[ui_plz]\" value=\"$f[ui_plz]\" size=8>$f2</td>
+			<td style=\"text-align:right;\" $bgcolor>Ort:</td>
+			<td style=\"width:100%;\" $bgcolor>$f1<input type=\"text\" name=\"f[ui_ort]\" value=\"" . $f['ui_ort'] . "\" size=" . ($eingabe_breite - 15) . ">$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Geburtsdatum:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_geburt]\" value=\"" . $f['ui_geburt'] . "\" size=12>" . " (TT.MM.JAHR, z.B. 24.01.1969)" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Land:</td>
+			<td  $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_land]\" value=\"" . $f['ui_land'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Geschlecht:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1; autoselect("f[ui_geschlecht]", $f['ui_geschlecht'], "userinfo", "ui_geschlecht"); echo $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Telefon:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_tel]\" value=\"" . $f['ui_tel'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Beziehung:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1; autoselect("f[ui_beziehung]", $f['ui_beziehung'], "userinfo", "ui_beziehung"); echo $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Mobil:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_handy]\" value=\"" . $f['ui_handy'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Typ:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1; autoselect("f[ui_typ]", $f['ui_typ'], "userinfo", "ui_typ"); echo $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Telefax:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_fax]\" value=\"" . $f['ui_fax'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Beruf:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<input type=\"text\" name=\"f[ui_beruf]\" value=\"" . $f['ui_beruf'] . "\" size=$eingabe_breite>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>ICQ:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_icq]\" value=\"" . $f['ui_icq'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		
-		?>
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>Hobbies:</td>
-			<td <?php echo $bgcolor; ?> colspan="3"><?php echo $f1 . "<textarea name=\"f[ui_hobby]\" value=\"" . $f['ui_hobby'] . "\" rows=\"4\" cols=\"" . ($eingabe_breite - 6) . "\" wrap=\"virtual\">$f[ui_hobby]</textarea>" . $f2; ?></td>
-		</tr>
-		<?php
+			<td style=\"text-align:right;\" $bgcolor>Geburtsdatum:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_geburt]\" value=\"" . $f['ui_geburt'] . "\" size=12>" . " (TT.MM.JAHR, z.B. 24.01.1969)$f2</td>
+		</tr>";
 		if ($bgcolor == 'class="tabelle_zeile1"') {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		?>
-		
+		$text .= "
 		<tr>
-			<td style="text-align:right;" <?php echo $bgcolor; ?>>&nbsp;</td>
-			<td <?php echo $bgcolor; ?> colspan="3">
-				<?php echo $f1; ?>
-				<input type="hidden" name="f[ui_id]" value="<?php echo $f['ui_id']; ?>">
-				<input type="hidden" name="f[ui_userid]" value="<?php echo $u_id; ?>">
-				<input type="hidden" name="nick" value="<?php echo $userdata['u_nick']; ?>">
-				<input type="hidden" name="id" value="<?php echo $id; ?>">
-				<input type="hidden" name="aktion" value="neu">
-				<input type="submit" name="los" value="Eintragen">
-				<?php echo $f2; ?>
+			<td style=\"text-align:right;\" $bgcolor>Geschlecht:</td>
+			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_geschlecht]", $f['ui_geschlecht'], "userinfo", "ui_geschlecht") . $f2 . "</td>
+		</tr>";
+		if ($bgcolor == 'class="tabelle_zeile1"') {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "
+		<tr>
+			<td style=\"text-align:right;\" $bgcolor>Beziehung:</td>
+			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_beziehung]", $f['ui_beziehung'], "userinfo", "ui_beziehung") . $f2 . "</td>
+		</tr>";
+		if ($bgcolor == 'class="tabelle_zeile1"') {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "
+		<tr>
+			<td style=\"text-align:right;\" $bgcolor>Typ:</td>
+			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_typ]", $f['ui_typ'], "userinfo", "ui_typ") . $f2 . "</td>
+		</tr>";
+		if ($bgcolor == 'class="tabelle_zeile1"') {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "
+		<tr>
+			<td style=\"text-align:right;\" $bgcolor>Beruf:</td>
+			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_beruf]\" value=\"" . $f['ui_beruf'] . "\" size=$eingabe_breite>$f2</td>
+		</tr>";
+		if ($bgcolor == 'class="tabelle_zeile1"') {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "
+		<tr>
+			<td style=\"text-align:right;\" $bgcolor>Hobbies:</td>
+			<td $bgcolor colspan=\"3\">$f1<textarea name=\"f[ui_hobby]\" value=\"" . $f['ui_hobby'] . "\" rows=\"4\" cols=\"" . ($eingabe_breite - 6) . "\" wrap=\"virtual\">$f[ui_hobby]</textarea>$f2</td>
+		</tr>";
+		if ($bgcolor == 'class="tabelle_zeile1"') {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "
+		<tr>
+			<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
+			<td $bgcolor colspan=\"3\">
+				$f1
+				<input type=\"hidden\" name=\"f[ui_id]\" value=\"$f[ui_id]\">
+				<input type=\"hidden\" name=\"f[ui_userid]\" value=\"$u_id\">
+				<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">
+				<input type=\"hidden\" name=\"id\" value=\"\$id\">
+				<input type=\"hidden\" name=\"aktion\" value=\"neu\">
+				<input type=\"submit\" name=\"los\" value=\"Eintragen\">
+				$f2
 			</td>
 		</tr>
 	</table>
-	</form>
-	<?php
+	</form>";
+	
+	return $text;
 }
 
 ?>

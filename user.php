@@ -103,8 +103,8 @@ if (strlen($u_id) != 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
-	if ($aktion != "chatuserliste" && $aktion != "statistik") {
-		// Menü als erstes ausgeben, falls nicht Spezialfall im Chatwindow oder statistikfenster.
+	if ($aktion != "chatuserliste") {
+		// Menü als erstes ausgeben, falls nicht Spezialfall im Chatwindow
 		$box = $t['menue13'];
 		$text .= "<ul style=\"list-style-type: none; padding:0px;\">";
 		$text .= "<li><a href=\"user.php?id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
@@ -700,10 +700,6 @@ if (strlen($u_id) != 0) {
 				user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip);
 			} else echo "<p>$t[sonst11]</p>\n";
 			
-			break;
-		
-		case "statistik":
-			include "statistik.php";
 			break;
 		
 		default;

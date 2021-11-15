@@ -18,7 +18,7 @@ if ($u_id) {
 	// Menü als erstes ausgeben
 	echo "<br>";
 	$box = $t['aktion3'];
-	$text = "<a href=\"hilfe.php?id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
+	$text = "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 	zeige_tabelle_zentriert($box, $text);
 	
 	switch ($aktion) {
