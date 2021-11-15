@@ -71,7 +71,7 @@ function zeige_header_ende($zusatz_header = '') {
 	}
 	
 	function neuesFenster(url) {
-			hWnd=window.open(url,"chat_popup","resizable=yes,scrollbars=yes,width=800,height=600");
+			hWnd=window.open(url,"chat_popup","resizable=yes,scrollbars=yes,width=1,height=1");
 	}
 	</script>
 	<script language="JavaScript" src="jscript.js"></script>
