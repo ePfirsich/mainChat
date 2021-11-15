@@ -245,7 +245,7 @@ switch ($aktion) {
 			
 			// Formular löschen
 			$text .= "<p>$t[fehler7]</p>\n";
-			$text .= "<form name=\"$row->r_name\" action=\"raum.php\" method=\"post\">\n"
+			$text .= "<form name=\"$row->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
@@ -302,7 +302,7 @@ switch ($aktion) {
 		$box = $t['menue2'];
 			
 		// Raum neu anlegen, Eingabeformular
-		$text .= "<form name=\"$r_name\" action=\"raum.php\" method=\"post\">\n";
+		$text .= "<form name=\"$r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		
@@ -440,7 +440,7 @@ switch ($aktion) {
 				if ($admin || $rows->u_id == $u_id) {
 					$box = $t['sonst2'] . ': ' . $rows->r_name;
 					// für diesen Raum Admin
-					$text .= "<form name=\"$rows->r_name\" action=\"raum.php\" method=\"post\">\n";
+					$text .= "<form name=\"$rows->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<table style=\"width:100%;\">\n";
 					
@@ -623,7 +623,7 @@ switch ($aktion) {
 				if ($admin && $adminfeatures == 1) {
 					if (isset($extended) && ($extended == 1)) {
 						$rlink = "<center>" . $f1
-							. "<b><a href=\"raum.php?id=$id&order=$order\">"
+							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">"
 							. $t['menue7'] . "</a></b>" . $f2
 							. "</center>\n";
 						$text .= "<script language=\"javascript\">\n"
@@ -631,24 +631,24 @@ switch ($aktion) {
 							. "</script>\n";
 					} else {
 						$rlink = "<center>" . $f1
-							. "<b><a href=\"raum.php?id=$id&order=$order&extended=1\">"
+							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order&extended=1\">"
 							. $t['menue6'] . "</a></b>" . $f2
 							. "</center>\n";
 					}
 					$text .= "$rlink<br>";
 				}
-				$rlink = "<a href=\"raum.php?id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
 				$text .= "<table class=\"tabelle_kopf\">\n";
 				$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $t['sonst16'] . "</b></small></td>";
 				
-				$rlink = "<a href=\"raum.php?id=$id&order=r_status1,r_name\">Status</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\">Status</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 				
-				$rlink = "<a href=\"raum.php?id=$id&order=r_status2,r_name\">Art</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\">Art</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 				
-				$rlink = "<a href=\"raum.php?id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 				
 				if (isset($extended) && $extended) {
@@ -682,7 +682,7 @@ switch ($aktion) {
 					// "m" -> moderiert, "M" -> moderiert+geschlossen.
 					if ($row['r_status1'] == "O" || $row['r_status1'] == "m" || $uu_id == $u_id || $admin) {
 						
-						$rlink = "<a href=\"raum.php?id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
+						$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 						
 						// Anzahl der Benutzer online ermitteln
 						if ((isset($anzahl_user[$row['r_id']])) && ($anzahl_user[$row['r_id']] > 0)) {
