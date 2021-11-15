@@ -1,6 +1,9 @@
 <?php
 
-// Sprachdefinition deutsch aktion.php
+// Übersetzungen von "Aktionen"
+$t['titel'] = "Aktionen";
+
+$t['menue1'] = "Hilfe";
 
 $t['aktion1'] = "Tipps zur den Aktionen:";
 $t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit "

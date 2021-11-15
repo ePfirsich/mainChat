@@ -68,7 +68,7 @@ $user_eingeloggt = (strlen($u_id) != 0);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log');
+$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log', 'aktionen');
 $nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
 $nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
@@ -205,7 +205,7 @@ if(!$seite || $kein_seitenaufruf) {
 				$ur1 = "inhalt.php?seite=freunde&id=$id";
 				$url = "href=\"$ur1\" ";
 				$text .= "| <a $url>$t[menue9]</a>\n";
-				$ur1 = "aktion.php?id=$id";
+				$ur1 = "inhalt.php?seite=aktionen&id=$id";
 				$url = "href=\"$ur1\" ";
 				$text .= "| <a $url>$t[menue8]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
@@ -314,6 +314,19 @@ if(!$seite || $kein_seitenaufruf) {
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');
+			
+			break;
+			
+		case "aktionen":
+			// Aktion anzeigen
+			require_once('functions-aktionen.php');
+			
+			// Menü ausgeben
+			$box = $t['aktion3'];
+			$text = "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
+			zeige_tabelle_zentriert($box, $text);
+			
+			require_once('templates/aktionen.php');
 			
 			break;
 			

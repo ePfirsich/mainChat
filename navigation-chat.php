@@ -79,7 +79,7 @@ if ($u_id) {
 	if ($u_level == "M") {
 		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['menue11'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['menue11'] . "</span></a>&nbsp;";
 	}
-	$text .= " | <a href=\"log.php?id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['menue12'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['menue12'] . "</span></a>&nbsp;";
 	if ($o_js) {
 		$text .= " | <a href=\"reset.php?id=" . $id . "&reset=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue13'] . "</span></a>&nbsp;";
 	}
