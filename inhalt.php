@@ -53,6 +53,13 @@ function toggleBlacklist(tostat) {
 			 e.checked=tostat;
 	}
 }
+function toggleFreunde(tostat) {
+	for(i=0; i<document.forms["freund_loeschen"].elements.length; i++) {
+		 e = document.forms["freund_loeschen"].elements[i];
+		 if ( e.type=='checkbox' )
+			 e.checked=tostat;
+	}
+}
 </script>
 <?php
 zeige_header_ende();
@@ -61,12 +68,12 @@ $user_eingeloggt = (strlen($u_id) != 0);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'xxx');
-$nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'xxx', 'xxx', 'xxx');
-$nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren', 'xxx');
+$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen');
+$nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
+$nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
 	$kein_aufruf_unter_bestimmten_bedinungen = true;
-} else if( $user_eingeloggt && $u_level == "G" && in_array($seite, $nur_eingeloggten_seiten_und_registriert, true) ) {
+} else if( !$user_eingeloggt || ($user_eingeloggt && $u_level == "G" && in_array($seite, $nur_eingeloggten_seiten_und_registriert, true) ) ) {
 	$kein_aufruf_unter_bestimmten_bedinungen = true;
 } else if( $user_eingeloggt && !$admin && in_array($seite, $nur_eingeloggten_seiten_und_admin, true) ) {
 	$kein_aufruf_unter_bestimmten_bedinungen = true;
@@ -195,7 +202,7 @@ if(!$seite || $kein_seitenaufruf) {
 				$ur1 = "home.php?id=$id&aktion=aendern";
 				$url = "href=\"$ur1\" ";
 				$text .= "| <a $url>$t[menue10]</a>\n";
-				$ur1 = "freunde.php?id=$id";
+				$ur1 = "inhalt.php?seite=freunde&id=$id";
 				$url = "href=\"$ur1\" ";
 				$text .= "| <a $url>$t[menue9]</a>\n";
 				$ur1 = "aktion.php?id=$id";
@@ -275,6 +282,39 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			require_once('templates/sperren.php');
 				
+			break;
+			
+		case "freunde":
+			// Nachrichten anzeigen
+			require_once('functions-freunde.php');
+			
+			// Menü ausgeben
+			$box = $t['menue1'];
+			$text = "<a href=\"inhalt.php?seite=freunde&id=$id\">$t[menue2]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[menue3]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[menue4]</a>\n";
+			if ($admin) {
+				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[menue5]n</a>\n";
+			}
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[menue6]</a>\n";
+			zeige_tabelle_zentriert($box, $text);
+			
+			require_once('templates/freunde.php');
+			
+			break;
+				
+		case "top10":
+			// Nachrichten anzeigen
+			
+			// Menü ausgeben
+			$box = $t['menue1'];
+			$text = "<a href=\"inhalt.php?seite=top10&id=$id\">".$t['menue2']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=top10&aktion=top100&id=$id\">".$t['menue3']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#punkte&id=$id\">".$t['menue4']."</a>\n";
+			zeige_tabelle_zentriert($box, $text);
+				
+			require_once('templates/top10.php');
+					
 			break;
 		
 		default:

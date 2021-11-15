@@ -1,6 +1,7 @@
 <?php
 
-// Sprachdefinition deutsch top10.php
+// Übersetzungen von "Top 10/100"
+$t['titel'] = "Top 10/100";
 
 $t['top1'] = "Punkte";
 $t['top2'] = "Gesamtpunkte";

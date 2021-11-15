@@ -1,28 +1,4 @@
 <?php
-require_once("functions.php");
-
-// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
-id_lese($id);
-
-// Timestamp im Datensatz aktualisieren
-aktualisiere_online($u_id, $o_raum);
-
-$title = $body_titel . ' - Top 10';
-zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
-zeige_header_ende();
-?>
-<body>
-<?php
-// Menue ausgeben
-
-// Menü als erstes ausgeben
-echo "<br>";
-$box = $t['menue1'];
-$text = "<a href=\"top10.php?id=$id&aktion=top10\">".$t['menue2']."</a>\n";
-$text .= "| <a href=\"top10.php?id=$id&aktion=top100\">".$t['menue3']."</a>\n";
-$text .= "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#punkte\">".$t['menue4']."</a>\n";
-zeige_tabelle_zentriert($box, $text);
-
 switch ($aktion) {
 	case "top100":
 		$anzahl = 100;
@@ -130,5 +106,3 @@ if (is_array($array_user)) {
 }
 echo "</table>";
 ?>
-</body>
-</html>

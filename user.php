@@ -112,12 +112,12 @@ if (strlen($u_id) != 0) {
 		}
 		if ($u_level != "G") {
 			if ($punktefeatures) {
-				$ur1 = "top10.php?id=$id";
+				$ur1 = "inhalt.php?seite=top10&id=$id";
 				$url = "href=\"$ur1\" ";
 				$text .= "<li><a $url>$t[menue7]</a>\n";
 			}
 			;
-			$ur1 = "freunde.php?id=$id";
+			$ur1 = "inhalt.php?seite=freunde&id=$id";
 			$url = "href=\"$ur1\" ";
 			$text .= "<li><a $url>$t[menue8]</a>\n";
 		}

@@ -127,7 +127,7 @@ function zeige_freunde($aktion, $zeilen) {
 					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"freunde.php?id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?seite=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
 					. "</tr>\n";
 				
 				if (($i % 2) > 0) {
@@ -139,7 +139,7 @@ function zeige_freunde($aktion, $zeilen) {
 			}
 			
 			$text .= "<tr>"
-				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">" . $f1 . " Alle Auswählen" . $f2 . "</td>\n";
+				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleFreunde(this.checked)\">" . $f1 . " Alle Auswählen" . $f2 . "</td>\n";
 			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">" . $f1;
 			if ($aktion == "bestaetigen") {
 				$text .= "<input type=\"submit\" name=\"los\" value=\"$button2\">";
@@ -280,12 +280,12 @@ function neuer_freund($f_userid, $freund) {
 			$betreff = "Neue Freundesbewerbung";
 			$text = "Hallo $freund[u_nick]!\nIch möchte gerne Ihr Freund im $chat werden!\n"
 				. "wenn Sie das auch wollen und im $chat eingeloggt sind, so klicken Sie bitte "
-				. "<a href=\"freunde.php?id=<ID>&aktion=bestaetigen\">hier</a>.\n"
+				. "<a href=\"inhalt.php?seite=freunde&id=<ID>&aktion=bestaetigen\">hier</a>.\n"
 				. "Sollten Sie diese E-Mail als Weiterleitung bekommen, so müssen Sie sich erst in den Chat einloggen.\n\n";
 			
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
-				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"freunde.php?aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
+				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
 				
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
