@@ -7,19 +7,13 @@ id_lese($id);
 
 $title = $body_titel;
 zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
-$meta_refresh = "";
 
+$meta_refresh = "";
 // Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
 if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
 	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
-		// Benutzer ausloggen
-		$meta_refresh .= "<script>\n"
-			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
-			. "</script>\n";
-		require_once("functions-func-verlasse_chat.php");
-		require_once("functions-func-nachricht.php");
-		verlasse_chat($u_id, $u_nick, $o_raum);
-		logout($o_id, $u_id, "forum->logout");
+		// Aus dem Chat ausloggen
+		ausloggen($u_id, $u_nick, $o_raum, $o_id);
 		unset($u_id);
 		unset($o_id);
 	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
@@ -72,10 +66,10 @@ if ($u_id) {
 		$text .= " | <a href=\"inhalt.php?seite=statistik&id=" . $id . "\"\" target=\"chat\" title=\"" . $t['menue13'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['menue13'] . "</span></a>&nbsp;";
 	}
 	if ($o_js) {
-		$text .= " | <a href=\"logout.php?id=" . $id . "\"&reset=1&forum=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('logout.php?id=" . $id . "&reset=1&forum=1');return(false)\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"reset.php?id=" . $id . "\"&reset=1&forum=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1&forum=1');return(false)\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
 	}
 	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
-	$text .= " | &nbsp;<a href=\"index.php?id=" . $id . "\"&aktion=logoff\" target=\"_top\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['menue6'] . "</span></a>";
+	$text .= " | &nbsp;<a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['menue6'] . "</span></a>";
 	
 	$text .= "</center>";
 	

@@ -262,89 +262,6 @@ function schreibe_chat($f) {
 	return ($back);
 }
 
-function logout($o_id, $u_id, $info = "") {
-	// Logout aus dem Gesamtsystem
-	
-	global $u_farbe, $mysqli_link;
-	
-	// Tabellen online+user exklusiv locken
-	$query = "LOCK TABLES online WRITE, user WRITE";
-	$result = mysqli_query($mysqli_link, $query);
-	
-	$o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
-	
-	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_id=$o_id");
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_object($result);
-		$u_nick = $row->o_name;
-		if ($row->knebelrest > 0) {
-			$knebelzeit = $row->o_knebel;
-		} else {
-			$knebelzeit = NULL;
-		}
-		
-		$query = "update user set "
-			. "u_punkte_monat=u_punkte_monat+$row->o_punkte, "
-			. "u_punkte_jahr=u_punkte_jahr+$row->o_punkte, "
-			. "u_punkte_gesamt=u_punkte_gesamt+$row->o_punkte, "
-			. "u_knebel='$knebelzeit' " . "where u_id=$u_id";
-		$result2 = mysqli_query($mysqli_link, $query);
-	}
-	mysqli_free_result($result);
-	
-	// Benutzer löschen
-	$result2 = mysqli_query($mysqli_link, 
-		"DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id");
-	
-	// Lock freigeben
-	$query = "UNLOCK TABLES";
-	$result = mysqli_query($mysqli_link, $query);
-	
-	// Punkterepair 
-	$repair1 = "UPDATE user SET u_punkte_jahr = 0, u_punkte_monat = 0, u_punkte_datum_jahr = YEAR(NOW()), u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_jahr != YEAR(NOW()) AND u_id=$u_id";
-	mysqli_query($mysqli_link, $repair1);
-	$repair2 = "UPDATE user SET u_punkte_monat = 0, u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_monat != MONTH(NOW()) AND u_id=$u_id";
-	mysqli_query($mysqli_link, $repair2);
-	
-	// Nachrichten an Freunde verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
-		. "UNION "
-		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-		. "ORDER BY f_zeit desc ";
-	
-	$result = mysqli_query($mysqli_link, $query);
-	
-	if ($result && mysqli_num_rows($result) > 0) {
-		
-		while ($row = mysqli_fetch_object($result)) {
-			unset($f);
-			$f['aktion'] = "Logout";
-			$f['f_text'] = $row->f_text;
-			if ($row->f_userid == $u_id) {
-				if (ist_online($row->f_freundid)) {
-					$wann = "Sofort/Online";
-					$an_u_id = $row->f_freundid;
-				} else {
-					$wann = "Sofort/Offline";
-					$an_u_id = $row->f_freundid;
-				}
-			} else {
-				if (ist_online($row->f_userid)) {
-					$wann = "Sofort/Online";
-					$an_u_id = $row->f_userid;
-				} else {
-					$wann = "Sofort/Offline";
-					$an_u_id = $row->f_userid;
-				}
-			}
-			// Aktion ausführen
-			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
-		}
-	}
-	mysqli_free_result($result);
-}
-
 function global_msg($u_id, $r_id, $text) {
 	// Schreibt Text $text in Raum $r_id an alle Benutzer
 	// Art:		   N: Normal
@@ -1452,5 +1369,152 @@ function avatar_aktualisieren($userid){
 	}
 	
 	return $return;
+}
+
+function ausloggen($u_id, $u_nick, $o_raum, $o_id){
+	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
+	id_lese($id);
+	
+	// Logout falls noch online
+	if (strlen($u_id) > 0) {
+		verlasse_chat($u_id, $u_nick, $o_raum);
+		//sleep(2);
+		logout($o_id, $u_id);
+	}
+}
+
+function verlasse_chat($u_id, $u_nick, $raum) {
+	// user $u_id/$u_nick verlässt $raum
+	// Nachricht in Raum $raum wird erzeugt
+	// Liefert ID des geschriebenen Datensatzes zurück
+	
+	global $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
+	global $eintritt_individuell, $eintritt_useranzeige;
+	$back = 0;
+	
+	// Nachricht an alle
+	if ($raum && $u_id) {
+		$text = $t['chat_msg102'];
+		
+		if ($eintritt_individuell == "1") {
+			$query = "SELECT `u_austritt` FROM `user` WHERE `u_id` = $u_id";
+			$result = mysqli_query($mysqli_link, $query);
+			$row = mysqli_fetch_object($result);
+			if (strlen($row->u_austritt) > 0) {
+				$text = $row->u_austritt;
+				if ($eintritt_useranzeige == "1") {
+					$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " (<b>$u_nick</b> - verlässt Chat) ";
+				} else {
+					$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " <!-- (<b>$u_nick</b> - verlässt Chat) -->";
+				}
+			}
+			mysqli_free_result($result);
+			
+			$query = "SELECT r_name FROM raum where r_id = " . intval($raum);
+			$result = mysqli_query($mysqli_link, $query);
+			$row = mysqli_fetch_object($result);
+			if (isset($row->r_name)) {
+				$r_name = $row->r_name;
+			} else {
+				$r_name = "[unbekannt]";
+			}
+			
+			mysqli_free_result($result);
+		}
+		
+		$text = str_replace("%u_nick%", $u_nick, $text);
+		$text = str_replace("%user%", $u_nick, $text);
+		$text = str_replace("%r_name%", $r_name, $text);
+		
+		$text = preg_replace("|%nick%|i", $u_nick, $text);
+		$text = preg_replace("|%raum%|i", $r_name, $text);
+		
+		$back = global_msg($u_id, $raum, $text);
+	}
+	
+	return ($back);
+}
+
+function logout($o_id, $u_id) {
+	// Logout aus dem Gesamtsystem
+	
+	global $u_farbe, $mysqli_link;
+	
+	// Tabellen online+user exklusiv locken
+	$query = "LOCK TABLES online WRITE, user WRITE";
+	$result = mysqli_query($mysqli_link, $query);
+	
+	$o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
+	
+	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
+	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_id=$o_id");
+	if ($result && mysqli_num_rows($result) == 1) {
+		$row = mysqli_fetch_object($result);
+		$u_nick = $row->o_name;
+		if ($row->knebelrest > 0) {
+			$knebelzeit = $row->o_knebel;
+		} else {
+			$knebelzeit = NULL;
+		}
+		
+		$query = "update user set "
+				. "u_punkte_monat=u_punkte_monat+$row->o_punkte, "
+				. "u_punkte_jahr=u_punkte_jahr+$row->o_punkte, "
+				. "u_punkte_gesamt=u_punkte_gesamt+$row->o_punkte, "
+				. "u_knebel='$knebelzeit' " . "where u_id=$u_id";
+				$result2 = mysqli_query($mysqli_link, $query);
+	}
+	mysqli_free_result($result);
+	
+	// Benutzer löschen
+	$result2 = mysqli_query($mysqli_link,
+	"DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id");
+	
+	// Lock freigeben
+	$query = "UNLOCK TABLES";
+	$result = mysqli_query($mysqli_link, $query);
+	
+	// Punkterepair
+	$repair1 = "UPDATE user SET u_punkte_jahr = 0, u_punkte_monat = 0, u_punkte_datum_jahr = YEAR(NOW()), u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_jahr != YEAR(NOW()) AND u_id=$u_id";
+	mysqli_query($mysqli_link, $repair1);
+	$repair2 = "UPDATE user SET u_punkte_monat = 0, u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_monat != MONTH(NOW()) AND u_id=$u_id";
+	mysqli_query($mysqli_link, $repair2);
+	
+	// Nachrichten an Freunde verschicken
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
+	. "UNION "
+			. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
+			. "ORDER BY f_zeit desc ";
+			
+			$result = mysqli_query($mysqli_link, $query);
+			
+			if ($result && mysqli_num_rows($result) > 0) {
+				
+				while ($row = mysqli_fetch_object($result)) {
+					unset($f);
+					$f['aktion'] = "Logout";
+					$f['f_text'] = $row->f_text;
+					if ($row->f_userid == $u_id) {
+						if (ist_online($row->f_freundid)) {
+							$wann = "Sofort/Online";
+							$an_u_id = $row->f_freundid;
+						} else {
+							$wann = "Sofort/Offline";
+							$an_u_id = $row->f_freundid;
+						}
+					} else {
+						if (ist_online($row->f_userid)) {
+							$wann = "Sofort/Online";
+							$an_u_id = $row->f_userid;
+						} else {
+							$wann = "Sofort/Offline";
+							$an_u_id = $row->f_userid;
+						}
+					}
+					// Aktion ausführen
+					aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+				}
+			}
+			mysqli_free_result($result);
 }
 ?>

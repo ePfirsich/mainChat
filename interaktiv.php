@@ -8,27 +8,6 @@ $title = $body_titel;
 zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
 $meta_refresh = "";
 
-// Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
-if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
-	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
-		// Benutzer ausloggen
-		$meta_refresh .= "<script>\n"
-			. "window.open(\"logout.php?id=$id&aktion=logout\",'Logout',\"resizable=yes,scrollbars=yes,width=300,height=300\")\n"
-			. "</script>\n";
-		require_once("functions-func-verlasse_chat.php");
-		verlasse_chat($u_id, $u_nick, $o_raum);
-		logout($o_id, $u_id, "interaktiv->timeout");
-		unset($u_id);
-		unset($o_id);
-	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
-		// Warnung über bevorstehenden Logout ausgeben
-		system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
-		unset($f);
-		$f['o_timeout_warnung'] = "J";
-		schreibe_db("online", $f, $o_id, "o_id");
-	}
-}
-
 if (isset($u_id) && $u_id) {
 	$meta_refresh .= '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n"

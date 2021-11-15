@@ -285,9 +285,8 @@ if ($aktion == "logoff") {
 	
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {
-		verlasse_chat($u_id, $u_nick, $o_raum);
-		sleep(2);
-		logout($o_id, $u_id, "index->logout");
+		// Aus dem Chat ausloggen
+		ausloggen($u_id, $u_nick, $o_raum, $o_id);
 	}
 }
 

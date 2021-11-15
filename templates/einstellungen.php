@@ -157,8 +157,10 @@ switch ($aktion) {
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_object($result);
-					verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
-					logout($row->o_id, $f['u_id'], "edit->einständerung");
+					
+					// Aus dem Chat ausloggen
+					ausloggen($f['u_id'], $row->o_name, $row->o_raum, $row->o_id);
+
 					mysqli_free_result($result);
 				}
 			}
@@ -536,8 +538,10 @@ switch ($aktion) {
 				
 				if ($rows > 0) {
 					$row = mysqli_fetch_object($result);
-					verlasse_chat($f['u_id'], $f['u_nick'], $row->o_raum);
-					logout($row->o_id, $f['u_id'], "edit->levelZ");
+					
+					// Aus dem Chat ausloggen
+					ausloggen($f['u_id'], $f['u_nick'], $row->o_raum, $row->o_id);
+					
 					echo "<p><b>"
 						. str_replace("%u_nick%", htmlspecialchars($f['u_nick']),
 							$t['edit12']) . "</b></p>\n";
@@ -713,8 +717,10 @@ switch ($aktion) {
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
 					$row = mysqli_fetch_object($result);
-					verlasse_chat($f['u_id'], $row->o_name, $row->o_raum);
-					logout($row->o_id, $f['u_id'], "edit->pwänderung");
+					
+					// Aus dem Chat ausloggen
+					ausloggen($f['u_id'], $row->o_name, $row->o_raum, $row->o_id);
+					
 					mysqli_free_result($result);
 				}
 			} else {

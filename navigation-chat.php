@@ -5,34 +5,32 @@ require_once("functions.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
-if ($u_id) {
-	// Default für Farbe setzen, falls undefiniert
-	if (!isset($u_farbe)) {
-		$u_farbe = $user_farbe;
-	}
-
 $title = $body_titel;
 zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
-?>
-<script>
-function resetinput() {
-	document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-<?php
-	if ($u_clearedit == 1) {
-		echo "	document.forms['form'].elements['text2'].value='';\n";
+
+$meta_refresh = "";
+// Prüfung, ob Benutzer wegen Inaktivität ausgelogt werden soll
+if ($u_id && $chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
+	if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
+		// Aus dem Chat ausloggen
+		ausloggen($u_id, $u_nick, $o_raum, $o_id);
+		unset($u_id);
+		unset($o_id);
+	} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
+		// Warnung über bevorstehenden Logout ausgeben
+		system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
+		unset($f);
+		$f[o_timeout_warnung] = "J";
+		schreibe_db("online", $f, $o_id, "o_id");
 	}
-?>
-	document.forms['form'].submit();
-	document.forms['form'].elements['text2'].focus();
-	document.forms['form'].elements['text2'].select();
 }
-</script>
-<?php
-$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=navigation-chat.php?id=' . $id . '">';
-zeige_header_ende($meta_refresh);
-?>
-<body>
-<?php
+
+if ($u_id) {
+	$meta_refresh .= '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=navigation-chat.php?id=' . $id . '">';
+	zeige_header_ende($meta_refresh);
+	?>
+	<body>
+	<?php
 	// Anzahl der ungelesenen Nachrichten ermitteln
 	$query_nachrichten = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
 	$result_nachrichten = mysqli_query($mysqli_link, $query_nachrichten);
@@ -82,7 +80,7 @@ zeige_header_ende($meta_refresh);
 	}
 	$text .= " | <a href=\"log.php?id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['menue7'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['menue7'] . "</span></a>&nbsp;";
 	if ($o_js) {
-		$text .= " | <a href=\"logout.php?id=" . $id . "&reset=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('logout.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"reset.php?id=" . $id . "&reset=1\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
 	}
 	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['menue6'] . "</span></a>";

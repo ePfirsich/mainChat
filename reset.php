@@ -78,20 +78,6 @@ if (strlen($u_id) > 0) {
 	}
 }
 */
-
-switch ($aktion) {
-	case "logout":
-		$box = $t['hilfe15'];
-		$text = str_replace("%zeit%", $chat_timeout / 60, $t['hilfe16']);
-		
-		zeige_tabelle_volle_breite($box, $text);
-		
-		echo "<br><br>";
-		break;
-	
-	default;
-	// Übersicht
-}
 ?>
 <br>
 </body>

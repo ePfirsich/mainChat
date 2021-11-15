@@ -1,6 +1,4 @@
 <?php
-require_once("functions-func-verlasse_chat.php");
-
 function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	

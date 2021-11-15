@@ -2,7 +2,6 @@
 
 // Funktionen nur für index.php
 
-require_once("functions-func-verlasse_chat.php");
 require_once("functions-func-nachricht.php");
 
 function erzeuge_sequence($db, $id) {
@@ -170,7 +169,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$alteloginzeit = mysqli_result($result, 0, 1);
-		logout(mysqli_result($result, 0, 0), $u_id, "login");
+		logout(mysqli_result($result, 0, 0), $u_id);
 	}
 	mysqli_free_result($result);
 	

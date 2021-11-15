@@ -1,7 +1,6 @@
 <?php
 
 require_once("functions.php");
-require_once("functions-func-verlasse_chat.php");
 require_once("functions-func-nachricht.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
@@ -148,8 +147,8 @@ if (strlen($u_id) != 0) {
 		
 		if ($result && mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_object($result);
-			verlasse_chat($user, $row->o_name, $row->o_raum);
-			logout($row->o_id, $user, "user->kick " . $u_id . " " . $u_nick);
+			// Aus dem Chat ausloggen
+			ausloggen($user, $row->o_name, $row->o_raum, $row->o_id);
 			
 			mysqli_free_result($result);
 		} else {

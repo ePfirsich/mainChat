@@ -152,8 +152,10 @@ $result = mysqli_query($mysqli_link, $query);
 if ($result) {
 	while ($rows = mysqli_fetch_object($result)) {
 		// Chat verlassen und Nachricht an alle Benutzer im aktuellen Raum schreiben
-		verlasse_chat($rows->o_user, $rows->o_name, $rows->o_raum);
-		logout($rows->o_id, $rows->o_user, "expire->timeout $timeout");
+		
+		// Aus dem Chat ausloggen
+		ausloggen($rows->o_user, $rows->o_name, $rows->o_raum, $rows->o_id);
+		
 		echo "$rows->o_name ";
 	}
 	mysqli_free_result($result);

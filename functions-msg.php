@@ -2,7 +2,6 @@
 
 // Funktionen, die NUR von interaktiv.php verwendet werden.
 
-require_once("functions-func-verlasse_chat.php");
 require_once("functions-func-nachricht.php");
 require_once("functions-func-html_parse.php");
 require_once("functions-func-raum_gehe.php");
@@ -700,10 +699,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					htmlspecialchars($chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3])));
 			}
 			
-			// Logoff
-			verlasse_chat($u_id, $u_nick, $r_id);
-			sleep(2);
-			logout($o_id, $u_id, "/quit");
+			// Aus dem Chat ausloggen
+			ausloggen($u_id, $u_nick, $r_id, $o_id);
 			?>
 			<!DOCTYPE html>
 			<html dir="ltr" lang="de">
@@ -3045,13 +3042,12 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 			if ($rows2 > 0) {
 				// Benutzer rauswerfen
 				$o_id = mysqli_result($result2, 0, "o_id");
-				global_msg($u_id, $r_id,
-					"'$u_nick' $t[sperre2] '$s_user_name' $t[sperre7]");
+				global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre7]");
 				// 2 sek vor dem ausloggen warten, damit der Störer die Meldung auch noch lesen kann !!!
 				sleep(2);
-				verlasse_chat($s_user, $s_user_name, $r_id);
-				sleep(2);
-				logout($o_id, $s_user, "sperre in lobby");
+				
+				// Aus dem Chat ausloggen
+				ausloggen($s_user, $s_user_name, $r_id, $o_id);
 			} else {
 				system_msg("", 0, $u_id, $system_farbe,
 					str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
