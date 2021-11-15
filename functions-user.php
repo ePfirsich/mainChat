@@ -108,10 +108,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
 	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
-	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
+	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $chat_eingabe_breite, $t;
 	global $chat_grafik, $whotext, $beichtstuhl, $msgpopup, $chat_url;
-	
-	$eingabe_breite = 29;
 	
 	// Benutzer listen
 	$query = "SELECT `user`.*,"
@@ -222,8 +220,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
 			}
 			
-			$text .= "<input name=\"text2\" size=\"" . $eingabe_breite
-				. "\" maxlength=\"" . ($chat_max_eingabe - 50)
+			$text .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite
+			. "\" maxlength=\"" . ($chat_max_eingabe - 1)
 				. "\" value=\"\" type=\"text\">"
 				. "<input name=\"text\" value=\"\" type=\"hidden\">"
 				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"

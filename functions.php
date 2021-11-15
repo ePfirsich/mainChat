@@ -9,10 +9,8 @@ Header("Pragma: no-cache");
 Header("Cache-Control: no-cache");
 
 // Variable initialisieren, einbinden, Community-Funktionen laden
-if (!(isset($functions_init_geladen))) {
-	require_once "functions-init.php";
-}
-require_once "functions-community.php";
+require_once("functions-init.php");
+require_once("functions-community.php");
 
 // DB-Connect, ggf. 3 mal versuchen
 for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
