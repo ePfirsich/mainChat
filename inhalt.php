@@ -68,7 +68,7 @@ $user_eingeloggt = (strlen($u_id) != 0);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen');
+$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log');
 $nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
 $nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
@@ -285,7 +285,7 @@ if(!$seite || $kein_seitenaufruf) {
 			break;
 			
 		case "freunde":
-			// Nachrichten anzeigen
+			// Freunde anzeigen
 			require_once('functions-freunde.php');
 			
 			// Menü ausgeben
@@ -304,7 +304,7 @@ if(!$seite || $kein_seitenaufruf) {
 			break;
 				
 		case "top10":
-			// Nachrichten anzeigen
+			// Top 10/100 anzeigen
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -314,7 +314,15 @@ if(!$seite || $kein_seitenaufruf) {
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');
-					
+			
+			break;
+			
+		case "log":
+			// Log anzeigen
+			require_once('functions-log.php');
+			
+			require_once('templates/log.php');
+			
 			break;
 		
 		default:

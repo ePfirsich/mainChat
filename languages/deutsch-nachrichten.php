@@ -1,6 +1,6 @@
 <?php
 
-// Übersetzungen von "Mail"
+// Übersetzungen von "Nachrichten"
 $t['titel'] = "Nachrichten";
 
 $t['menue1'] = "Nachrichten";
