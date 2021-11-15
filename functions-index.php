@@ -165,7 +165,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	
 	// Prüfen, ob Benutzer noch online ist und ggf. ausloggen
 	$alteloginzeit = "";
-	$query = "select o_id, o_login FROM online WHERE o_user=$u_id ";
+	$query = "SELECT o_id, o_login FROM online WHERE o_user=$u_id ";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$alteloginzeit = mysqli_result($result, 0, 1);

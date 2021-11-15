@@ -1442,25 +1442,23 @@ function logout($o_id, $u_id) {
 	$query = "LOCK TABLES online WRITE, user WRITE";
 	$result = mysqli_query($mysqli_link, $query);
 	
-	$o_id = mysqli_real_escape_string($mysqli_link, $o_id); // sec
+	$o_id = mysqli_real_escape_string($mysqli_link, $o_id);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_id=$o_id");
+	$result = @mysqli_query($mysqli_link,  "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_user=$u_id");
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		$u_nick = $row->o_name;
+		$u_punkte = $row->o_punkte;
 		if ($row->knebelrest > 0) {
-			$knebelzeit = $row->o_knebel;
+			$knebelzeit = ", u_knebel='$row->o_knebel'";
 		} else {
-			$knebelzeit = NULL;
+			$knebelzeit = '';
 		}
 		
-		$query = "update user set "
-				. "u_punkte_monat=u_punkte_monat+$row->o_punkte, "
-				. "u_punkte_jahr=u_punkte_jahr+$row->o_punkte, "
-				. "u_punkte_gesamt=u_punkte_gesamt+$row->o_punkte, "
-				. "u_knebel='$knebelzeit' " . "where u_id=$u_id";
-				$result2 = mysqli_query($mysqli_link, $query);
+		$query = "UPDATE user SET u_punkte_monat=u_punkte_monat+" . intval($u_punkte) . ", u_punkte_jahr=u_punkte_jahr+" . intval($u_punkte) . ", "
+		. "u_punkte_gesamt=u_punkte_gesamt+" . intval($u_punkte) . $knebelzeit . " " . "WHERE u_id=$u_id";
+		$result2 = mysqli_query($mysqli_link, $query);
 	}
 	mysqli_free_result($result);
 	
