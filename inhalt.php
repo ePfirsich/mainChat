@@ -6,8 +6,6 @@ if( $id == '') {
 	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
 }
 
-$sprache = "deutsch";
-
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js
 id_lese($id);
 

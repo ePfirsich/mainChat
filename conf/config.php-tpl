@@ -16,8 +16,8 @@
 // Beispiel für Datenbankeinstellungen
 //$dbase="mainchat";			// Datenbank
 //$mysqlhost="localhost";		// Datenbankserver
-//$mysqluser="www";			// Datenbankuser
-//$mysqlpass="";			// Mysql-Passwort
+//$mysqluser="www";				// Datenbankuser
+//$mysqlpass="";				// Mysql-Passwort
 
 $dbase="%dbase%";					// Datenbank
 $mysqlhost="%host%";				// Datenbankserver
@@ -26,6 +26,7 @@ $mysqlpass="%pass%";				// Mysql-Passwort
 $webmaster="%webmaster%";			// Zuständige Person
 $hackmail="%hackmail%";				// Zuständige Person für Hackversuche
 $sprachconfig="%language%";			// Voreingestellte Sprachdatei
+$sprache = "deutsch";				// Sprache des Chats
 $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
 $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am Ende
