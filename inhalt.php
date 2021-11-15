@@ -22,7 +22,7 @@ require "languages/$sprache.php";
 
 // Übersetzungen der entsprechenden Seiten einbinden
 if (file_exists("languages/$sprache-$seite.php")) {
-	require "languages/$sprache-$seite.php";
+	require ("languages/$sprache-$seite.php");
 } else {
 	$kein_seitenaufruf = true;
 }
