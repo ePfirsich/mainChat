@@ -47,25 +47,26 @@ switch ($aktion) {
 			}
 			
 			if ($boxzu == true) {
-				echo "<p>$t[chat_msg105]</p>";
-				formular_neue_email($neue_email, $m_id);
+				$fehlertext = $t['chat_msg105'];
 				break;
-			}
-			
-			$m_u_level = mysqli_result($result, 0, "u_level");
-			if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
-				formular_neue_email2($neue_email, $m_id);
 			} else {
-				echo "<p><b>Fehler:</b> An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!</p>\n";
-				formular_neue_email($neue_email, $m_id);
+				$m_u_level = mysqli_result($result, 0, "u_level");
+				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
+					formular_neue_email2($neue_email, $m_id);
+				} else {
+					$fehlertext = $t['fehler_keine_mail_an_gast'];
+				}
 			}
-			
 			mysqli_free_result($result2);
-		} elseif ($neue_email['an_nick'] == "") {
-			echo "<P><b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!</P>\n";
-			formular_neue_email($neue_email, $m_id);
+		} else if ($neue_email['an_nick'] == "") {
+			$fehlertext = $t['fehler_kein_benutzername_angegeben'];
 		} else {
-			echo "<P><b>Fehler:</b> Der Benutzername '$neue_email[an_nick]' existiert nicht!</P>\n";
+			$fehlertext = $t['fehler_benutzername_existiert_nicht'];
+		}
+		
+		if($fehlertext != null && $fehlertext != '') {
+			// Box anzeigen
+			zeige_tabelle_zentriert($t['fehler1'], $fehlertext);
 			formular_neue_email($neue_email, $m_id);
 		}
 		mysqli_free_result($result);
