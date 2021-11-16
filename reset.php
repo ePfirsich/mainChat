@@ -26,7 +26,7 @@ if ($result && mysqli_num_rows($result) != 0) {
 mysqli_free_result($result);
 
 // Frameset refreshen, falls reset=1, dann Fenster schliessen
-if (isset($reset) && $reset && $o_js) {
+if ($o_js) {
 	if (isset($forum) && $forum) {
 		echo "<script>";
 		if ($frame_online != "") {
