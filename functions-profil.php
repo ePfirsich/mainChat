@@ -254,7 +254,7 @@ function profil_editor($u_id, $u_nick, $f) {
 				<input type=\"hidden\" name=\"f[ui_id]\" value=\"$f[ui_id]\">
 				<input type=\"hidden\" name=\"f[ui_userid]\" value=\"$u_id\">
 				<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">
-				<input type=\"hidden\" name=\"id\" value=\"\$id\">
+				<input type=\"hidden\" name=\"id\" value=\"$id\">
 				<input type=\"hidden\" name=\"aktion\" value=\"neu\">
 				<input type=\"submit\" name=\"los\" value=\"Eintragen\">
 				$f2
