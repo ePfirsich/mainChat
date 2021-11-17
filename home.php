@@ -19,7 +19,7 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	}
 	
 	$title = $body_titel . ' - Home';
-	zeige_header_anfang($title, 'mini');
+	zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 	zeige_header_ende();
 	?>
 	<body>
@@ -238,9 +238,8 @@ if (isset($u_id) && $u_id) {
 				if (!isset($bilder)) {
 					$bilder = "";
 				}
-				edit_home($ui_userid, $u_nick, $home, $einstellungen,
-					(isset($farben) ? $farben : null), $bilder, $aktion);
-				echo "<input type=\"submit\" name=\"los\" value=\"SPEICHERN\"></form>\n";
+				edit_home($ui_userid, $u_nick, $home, $einstellungen, (isset($farben) ? $farben : null), $bilder, $aktion);
+				echo "<input type=\"submit\" name=\"los\" value=\"Speichern\"></form>\n";
 				
 			} else {
 				// Erst Profil anlegen
