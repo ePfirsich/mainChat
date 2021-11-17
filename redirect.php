@@ -32,18 +32,9 @@ if ($url) {
 	<title>DEREFER</title>
 	<meta charset="utf-8">
 	<meta http-equiv="refresh" content="0; URL=<?php echo $url; ?>">
+	<link rel="stylesheet" href="css/style-blau.css" type="text/css">
 	<link rel="stylesheet" href="css/style.css" type="text/css">
-	<style type="text/css">
-	body {
-		background-color:#ffffff;
-	}
-	a, a:link {
-		color:#666666;
-	}
-	a:visited, a:active {
-		color:#666666;
-	}
-	</style>
+	<link rel="stylesheet" href="css/mini.css" type="text/css">
 	</head>
 	<body>
 		<table style="width:100%; height:100%;">
