@@ -1051,7 +1051,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$grafikurl1 = "<a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community\" target=\"_blank\">";
+		$grafikurl1 = "<a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community&id=$idtag\" target=\"chat\">";
 		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";

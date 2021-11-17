@@ -737,8 +737,7 @@ switch ($aktion) {
 					mysqli_free_result($result);
 				}
 			} else {
-				echo $f1 . "<p><b>Fehler: Aktion nicht erlaubt!</b></p>"
-					. $f2;
+				echo $f1 . "<p><b>Fehler: Aktion nicht erlaubt!</b></p>" . $f2;
 			}
 			
 		} else {

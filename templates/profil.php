@@ -160,14 +160,24 @@ switch ($aktion) {
 			$box = $t['profil_alle_profile'];
 			$text = '';
 			$text .= "<table class=\"tabelle_kopf\">\n"
-				. "<tr><td class=\"tabelle_kopfzeile\">Benutzername</td><td class=\"tabelle_kopfzeile\">Straße</td><td class=\"tabelle_kopfzeile\">PLZ Ort</td><td class=\"tabelle_kopfzeile\">Land</td><td class=\"tabelle_kopfzeile\">Admin-E-Mail</td><td class=\"tabelle_kopfzeile\">E-Mail</td><td class=\"tabelle_kopfzeile\">URL</td><td class=\"tabelle_kopfzeile\">Geburt</td><td class=\"tabelle_kopfzeile\">Geschlecht</td><td class=\"tabelle_kopfzeile\">Fam. Stand</td><td class=\"tabelle_kopfzeile\">Typ</td><td class=\"tabelle_kopfzeile\">Beruf</td><td class=\"tabelle_kopfzeile\">Hobby</td><td class=\"tabelle_kopfzeile\">Tel</td><td class=\"tabelle_kopfzeile\">Fax</td><td class=\"tabelle_kopfzeile\">Handy</td><td class=\"tabelle_kopfzeile\">ICQ</td></tr>";
+				. "<tr><td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td><td class=\"tabelle_kopfzeile\">$t[profil_strasse]</td><td class=\"tabelle_kopfzeile\">$t[profil_plzort]</td><td class=\"tabelle_kopfzeile\">$t[profil_land]</td><td class=\"tabelle_kopfzeile\">$t[profil_interne_email]</td><td class=\"tabelle_kopfzeile\">$t[profil_email]</td><td class=\"tabelle_kopfzeile\">$t[profil_homepage]</td><td class=\"tabelle_kopfzeile\">$t[profil_geburtsdatum]</td><td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td><td class=\"tabelle_kopfzeile\">$t[profil_beziehung]</td><td class=\"tabelle_kopfzeile\">$t[profil_typ]</td><td class=\"tabelle_kopfzeile\">$t[profil_beruf]</td><td class=\"tabelle_kopfzeile\">$t[profil_hobbies]</td><td class=\"tabelle_kopfzeile\">$t[profil_tel]</td><td class=\"tabelle_kopfzeile\">$t[profil_fax]</td><td class=\"tabelle_kopfzeile\">$t[profil_handy]</td><td class=\"tabelle_kopfzeile\">$t[profil_icq]</td></tr>";
 			
 			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				while ($row = mysqli_fetch_object($result)) {
+					$userdata = array();
+					$userdata['u_id'] = $row->u_id;
+					$userdata['u_nick'] = $row->u_nick;
+					$userdata['u_level'] = $row->u_level;
+					$userdata['u_punkte_gesamt'] = $row->u_punkte_gesamt;
+					$userdata['u_punkte_gruppe'] = $row->u_punkte_gruppe;
+					$userdata['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+					$userdata['u_chathomepage'] = $row->u_chathomepage;
+					$userdaten = zeige_userdetails($row->u_id, $userdata);
+					
 					$text .= "<tr><td class=\"tabelle_koerper\"><b>"
-						. htmlspecialchars($row->u_nick)
+						. $userdaten
 						. "</b></td><td class=\"tabelle_koerper\">"
 						. htmlspecialchars($row->ui_strasse)
 						. "</td><td class=\"tabelle_koerper\">"

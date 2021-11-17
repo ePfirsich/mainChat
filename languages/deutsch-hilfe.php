@@ -181,7 +181,7 @@ $hilfe_community = "<br>
 " . $legende
 . "
 </table>
-<p><b><A NAME=\"punkte\">Punkte</A></b><br>
+<p><b><a name=\"punkte\">Punkte</a></b><br>
 Unter dem Chat-Menüpunkt \"<b>Benutzer</b>\" führt der Link zur Benutzer Top10/100 Liste.
 Alle angemeldeten Benutzer bekommen pro einzelnes im Chat geschriebenes Wort
 einen Punkt. Die Voraussetzung ist, dass jedes Wort mindestens vier Buchstaben hat
@@ -203,7 +203,7 @@ daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<br>
 <b>Tipp 2:</b> Wer um Punkte bettelt, macht sich unbeliebt.<br>
 <b>Tipp 3:</b> Wer in leeren Räumen Texte schreibt, um die Punkte nach oben zu
 treiben, hat schnell keine Punkte mehr.<br><br>
-<b><a name=\"profil\">Profile</A></b><br>
+<b><a name=\"profil\">Profile</a></b><br>
 Unter dem Punkt \"<b>Einstellungen</b>\" kann ebenfalls jeder Einblick in sein Profil
 nehmen und es gegebenenfalls ändern. Hier kann der Benutzer Angaben über seine
 Anschrift, Telefon-, Handynummer, ICQ, Geburtsdatum, Geschlecht, Hobbys und
@@ -211,7 +211,7 @@ vieles mehr hinterlassen. Diese Profile sind im Chat öffentlich abrufbar.
 Das Ausfüllen der Profile ist für die Benutzer freiwillig. Admins haben in Ihrem
 eigenen Profil noch die Möglichkeit, sich die Profile aller Benutzer ausgeben zu
 lassen.<br><br>
-<b><A name=\"mail\">Chat-Mail</A></b><br>
+<b><A name=\"mail\">Chat-Mail</a></b><br>
 Die Chat-Mail (<b>MAIL</b>, <b>/mail</b>) ist eine im Chat integrierte Mailbox mit
 Weboberfläche. Im Chat selbst steht hinter jedem Nick ein Mailsymbol (blauer
 Briefumschlag). Somit kann jeder registrierte Benutzer im Chat anonym Mail
@@ -245,7 +245,7 @@ einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
 \"<b>Papierkorb zeigen</b>\" können Sie sich alle zum Löschen vorgesehenen Nachrichten noch
 einmal anschauen. Wenn Sie nun sicher sind, dass sie auch alle im Papierkorb
 befindlichen Nachrichten löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
-<b><A NAME=\"freunde\">Freunde</A></b><br>
+<b><a name=\"freunde\">Freunde</a></b><br>
 Bei den Freunden (<b>Einstellungen</b>, <b>/freunde</b>) können Sie einfach andere Benutzer im
 Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
 man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat
@@ -254,7 +254,7 @@ im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü
 befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
 und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
 selbst als Freund aufgenommen wurde.<br><br>
-<b><A NAME=\"aktionen\">Aktionen</A></b><br>
+<b><a name=\"aktionen\">Aktionen</a></b><br>
 Über den Menüpunkt \"<b>Einstellungen</b>\" im Chat gelangen Sie zu den sogenannten
 \"<b>Aktionen</b>\". Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit
 welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. der Login

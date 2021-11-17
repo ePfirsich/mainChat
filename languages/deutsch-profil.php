@@ -21,5 +21,23 @@ $t['profil_hilfe'] = "Hilfe";
 $t['profil_alle_profile'] = "Alle Profile";
 $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
+$t['profil_benutzername'] = "Benutzername";
+$t['profil_strasse'] = "Straße";
+$t['profil_plzort'] = "PLZ Ort";
+$t['profil_land'] = "Land";
+$t['profil_interne_email'] = "Interne E-Mail";
+$t['profil_email'] = "E-Mail";
+$t['profil_homepage'] = "Homepage";
+$t['profil_geburtsdatum'] = "Geburtsdatum";
+$t['profil_geschlecht'] = "Geschlecht";
+$t['profil_beziehung'] = "Beziehung";
+$t['profil_typ'] = "Typ";
+$t['profil_beruf'] = "Beruf";
+$t['profil_hobbies'] = "Hobbies";
+$t['profil_tel'] = "Tel";
+$t['profil_fax'] = "Fax";
+$t['profil_handy'] = "Handy";
+$t['profil_icq'] = "ICQ";
+
 $t['menue1'] = "Profil";
 ?>

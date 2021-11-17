@@ -55,8 +55,7 @@ if (isset($u_id) && $u_id) {
 		"ICQ" => TRUE, "Hobbies" => TRUE, "Beruf" => TRUE,
 		"Geschlecht" => TRUE, "Geburtsdatum" => TRUE, "Typ" => TRUE,
 		"Beziehung" => TRUE);
-	$farbliste = ARRAY(0 => "bgcolor", "info", "profil", "ui_text", "ui_bild1",
-		"ui_bild2", "ui_bild3", "text", "link", "vlink", "aktionen");
+	$farbliste = ARRAY(0 => "bgcolor", "info", "profil", "ui_text", "ui_bild1", "ui_bild2", "ui_bild3", "text", "link", "vlink", "aktionen");
 	
 	// Farben prüfen Voreinstellungen setzen
 	foreach ($farbliste as $val) {
