@@ -17,8 +17,6 @@ $t['menue13'] = "Benutzer";
 
 $t['adminliste'] = "Adminliste";
 
-$t['sonst1'] = "Benutzer";
-$t['sonst2'] = "$chat Menü";
 $t['sonst4'] = "<b>Es wurden leider keine Benutzer gefunden!</b>";
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
 $t['sonst6'] = "<b>Bitte neuen Suchtext eingeben:</b><br>(% ist Jokerzeichen)";
@@ -30,7 +28,6 @@ $t['sonst11'] = "<b>Der Benutzer ist nicht mehr in diesem Raum!</b>";
 $t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
 $t['sonst14'] = "Anderen Raum zur Ansicht zeigen";
-$t['sonst15'] = "Sie sind ausgeloggt";
 $t['sonst16'] = "Neue Suche:";
 $t['sonst17'] = "Benutzer suchen";
 $t['sonst18'] = "Benutzer";
@@ -46,7 +43,7 @@ $t['sonst28'] = "(online)";
 $t['sonst29'] = "letzte IPs:";
 $t['sonst30'] = "<b>Optionale Suchfelder nach Benutzerdaten</b>";
 $t['sonst31'] = "IP-Adresse:";
-$t['sonst32'] = "Anmeldung&nbsp;vor";
+$t['sonst32'] = "Anmeldung vor";
 $t['sonst33'] = "Letzter Login vor";
 $t['sonst34'] = "Tagen";
 $t['sonst35'] = "Stunden";
@@ -68,5 +65,4 @@ $t['sonst51'] = "Benutzer löschen";
 $t['sonst52'] = "Benutzer gelöscht.";
 $t['sonst53'] = "Es ist ein Fehler aufgetreten.";
 $t['sonst54'] = "Räume";
-$t['sonst55'] = "Private Nachrichten";
 ?>
