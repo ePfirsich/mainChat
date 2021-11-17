@@ -60,6 +60,13 @@ function toggleFreunde(tostat) {
 			 e.checked=tostat;
 	}
 }
+function resetinput() {
+	document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
+	document.forms['form'].elements['text2'].value='';
+	document.forms['form'].submit();
+	document.forms['form'].elements['text2'].focus();
+	document.forms['form'].elements['text2'].select();
+}
 </script>
 <?php
 zeige_header_ende();
@@ -68,7 +75,7 @@ $user_eingeloggt = (strlen($u_id) != 0);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log');
+$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log', 'benutzer');
 $nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
 $nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
@@ -137,6 +144,47 @@ if(!$seite || $kein_seitenaufruf) {
 			}
 			break;
 		
+		case "benutzer":
+			// Benutzer anzeigen
+			require_once('functions-user.php');
+			require_once("functions-func-nachricht.php");
+			
+			// Menü ausgeben
+			if ($aktion != "zeigalle") {
+				$box = $t['menue13'];
+				$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
+				if ($u_level != "G") {
+					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
+				}
+				
+				if ($adminlisteabrufbar && $u_level != "G") {
+					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
+				}
+				if ($u_level != "G") {
+					if ($punktefeatures) {
+						$ur1 = "inhalt.php?seite=top10&id=$id";
+						$url = "href=\"$ur1\" ";
+						$text .= "| <a $url>$t[menue7]</a>\n";
+					}
+					$ur1 = "inhalt.php?seite=freunde&id=$id";
+					$url = "href=\"$ur1\" ";
+					$text .= "| <a $url>$t[menue8]</a>\n";
+				}
+				if ($admin) {
+					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=zeigalle\">$t[menue3]</a>\n";
+					if ($userimport) {
+						$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=userimport\">$t[menue10]</a>\n";
+						$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=userloeschen\">$t[menue11]</a>\n";
+					}
+				}
+				
+				zeige_tabelle_zentriert($box, $text);
+			}
+	
+			require_once('templates/benutzer.php');
+	
+			break;
+		
 		case "raum":
 			// Raum anzeigen
 			
@@ -181,7 +229,7 @@ if(!$seite || $kein_seitenaufruf) {
 			if ($u_level == "S") {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
-			$text .= "| <a href=\"user.php?id=$id\">$t[profil_benutzer]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id\">$t[profil_benutzer]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/profil.php');

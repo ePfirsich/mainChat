@@ -42,7 +42,7 @@ if ($o_js) {
 		}
 		echo "opener_reload('navigation-chat.php?id=$id','1');\n";
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','2');\n";
-		echo "opener_reload('user.php?id=$id&aktion=chatuserliste','3');\n";
+		echo "opener_reload('user.php?id=$id','3');\n";
 		echo "opener_reload('eingabe.php?id=$id','4');\n"
 			. "opener_reload('moderator.php?id=$id','5');\n"
 			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','6');\n"
@@ -54,7 +54,7 @@ if ($o_js) {
 		}
 		echo "opener_reload('navigation-chat.php?id=$id','1');\n";
 		echo "opener_reload('chat.php?id=$id&back=$chat_back','2');\n";
-		echo "opener_reload('user.php?id=$id&aktion=chatuserliste','3');\n";
+		echo "opener_reload('user.php?id=$id','3');\n";
 		echo "opener_reload('eingabe.php?id=$id','4');\n"
 			. "opener_reload('interaktiv.php?id=$id&o_raum_alt=$o_raum','5');\n"
 			. "window.close();\n" . "</script>\n";

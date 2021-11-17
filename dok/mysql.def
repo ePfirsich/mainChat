@@ -182,16 +182,17 @@ CREATE TABLE blacklist (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE chat (
-	c_id int(11) unsigned NOT NULL default '0',
-	c_von_user varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	c_an_user int(11) unsigned NOT NULL default '0',
-	c_typ char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	c_raum int(11) NOT NULL default '0',
-	c_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	c_zeit timestamp NOT NULL,
-	c_farbe varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	c_von_user_id int(11) unsigned NOT NULL default '0',
-	c_br enum('normal','letzte','erste','mitte') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'normal',
+	`c_id` int(11) unsigned NOT NULL default '0',
+	`c_von_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`c_an_user` int(11) unsigned NOT NULL default '0',
+	`c_typ` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
+	`c_raum` int(11) NOT NULL default '0',
+	`c_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`c_zeit` timestamp NOT NULL,
+	`c_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`c_von_user_id` int(11) unsigned NOT NULL default '0',
+	`c_br` enum('normal','letzte','erste','mitte') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'normal',
+	`c_gelesen` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY	(c_id),
 	KEY c_an_user (c_an_user),
 	KEY c_raum (c_raum)

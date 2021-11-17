@@ -1,6 +1,7 @@
 <?php
 
-// Sprachdefinition deutsch user.php
+// Übersetzungen von "Benutzer"
+$t['titel'] = "Benutzer";
 
 $t['menue1'] = "Übersicht";
 $t['menue2'] = "Benutzer suchen";
@@ -13,6 +14,8 @@ $t['menue10'] = "Admin: Benutzer importieren";
 $t['menue11'] = "Admin: Benutzer löschen";
 $t['menue12'] = "Adminliste anzeigen";
 $t['menue13'] = "Benutzer";
+
+$t['adminliste'] = "Adminliste";
 
 $t['sonst1'] = "Benutzer";
 $t['sonst2'] = "$chat Menü";

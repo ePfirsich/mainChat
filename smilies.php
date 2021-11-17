@@ -26,7 +26,7 @@ if (strlen($u_id) != 0) {
 	$text = "";
 	
 	// Menue ausgeben, Tabelle aufbauen
-	$linkuser = "href=\"user.php?id=$id&aktion=chatuserliste\"";
+	$linkuser = "href=\"user.php?id=$id\"";
 	$linksmilies = "href=\"smilies.php" . "?id=$id\"";
 	
 	$text .= "<div style=\"text-align:center;\"><a $linksmilies><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst3'] . "</a> | <a $linkuser><span class=\"fa fa-user icon16\"></span>" . $t['sonst2'] . "</a><br>";

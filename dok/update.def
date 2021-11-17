@@ -3,6 +3,9 @@
 #
 
 DELETE FROM `aktion` WHERE `a_wie` = "SMS";
+DELETE FROM `aktion` WHERE `a_wie` = "OLM,SMS";
+DELETE FROM `aktion` WHERE `a_wie` = "E-Mail,SMS";
+DELETE FROM `aktion` WHERE `a_wie` = "Chat-Mail,SMS";
 ALTER TABLE `aktion` CHANGE `a_wie` `a_wie` SET('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'keine';
 ALTER TABLE `chat` CHANGE `c_raum` `c_raum` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `online` DROP `u_sms_extra`, DROP `o_vhost`;
@@ -15,6 +18,7 @@ ALTER TABLE `user` ADD `u_sicherer_modus` CHAR(1) CHARACTER SET utf8mb4 COLLATE 
 ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` DROP `u_farbe_alle`, DROP `u_farbe_noise`, DROP `u_farbe_priv`, DROP `u_farbe_bg`, DROP `u_farbe_sys`, DROP `u_clearedit`;
+ALTER TABLE `chat` ADD `c_gelesen` int(1) UNSIGNED NOT NULL DEFAULT 0;
 
 CREATE TABLE `statistiken` (
   `c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

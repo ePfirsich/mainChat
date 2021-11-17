@@ -1027,7 +1027,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$url = "user.php?id=$idtag&aktion=zeig&user=$user_id";
+		$url = "inhalt.php?seite=benutzer&id=$idtag&aktion=zeig&user=$user_id";
 		if($benutzername_fett) {
 			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
 		} else {

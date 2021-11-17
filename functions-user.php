@@ -5,7 +5,128 @@
 require_once("functions-func-html_parse.php");
 require_once("functions-func-raeume_auswahl.php");
 
-function user_liste($larr, $anzahl) {
+function user_pm_list($larr, $anzahl) {
+	// Gibt Benutzerliste $larr als Tabelle aus
+	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
+	global $f1, $f2, $f3, $f4, $homep_ext_link;
+	global $punkte_grafik, $leveltext, $chat_grafik;
+	
+	
+	$text = '';
+		
+	//Wichtiger SQL Teil
+	//SQL Teil für die richtige Berechnung der einzelnen PM Nachrichten
+	$pmu2 = mysqli_query($mysqli_link, "SELECT DISTINCT c_an_user FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id);
+	$pmue22 = mysqli_num_rows($pmu2);
+	$pmue2 = mysqli_fetch_all($pmu2);
+		
+	$pmu = mysqli_query($mysqli_link, "SELECT DISTINCT c_von_user_id FROM chat WHERE c_typ='P' AND c_an_user=".$u_id);
+	$pmuee = mysqli_num_rows($pmu);
+	$pmue = mysqli_fetch_all($pmu);	
+		
+	//echo "Test: ". $aanzahl;
+		
+	// Array mit oder ohne Javascript ausgeben
+	// Kopf Tabelle
+	$box = $t['sonst18'];
+	
+	flush();
+		$v = $larr[$k];
+	// Anzeige der Benutzer ohne JavaScript
+	if($pmue22 != 0)
+	{
+	for ($k = 0; $k < $pmue22; $k++) {
+	
+	$pmuea2 = $pmue2[$k][0]; 
+	
+	//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
+	$pmu3 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id);
+	$pmue33 = mysqli_num_rows($pmu3);
+		
+		if ( $k % 2 != 0 ) {
+			$farbe_tabelle = 'class="tabelle_zeile1"';
+		} else {
+			$farbe_tabelle = 'class="tabelle_zeile2"';
+		}
+		
+		if($pmue33 > 0) {
+			$pmue33t = " <b>(".$pmue33.")</b>";
+		} else {
+			$pmue33t = "";
+		}
+		
+		$user = zeige_userdetails($pmuea2, $v) . "" . $pmue33t;
+		
+		$trow .= "<tr>";
+		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+		
+		
+		$trow .= "</b>" . $user . $f2;
+		$trow .= "</td></tr>";
+	}
+	}
+	
+	if($pmuee !=0)
+	{
+	
+	$pxx = false;
+		
+	for ($k = 0; $k < $pmuee; $k++) {
+	
+	$pmuea = $pmue[$k][0]; 
+	
+	$pmu4 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea);
+	$pmue44 = mysqli_num_rows($pmu4);
+	$pmue4 = mysqli_fetch_all($pmu4);
+	
+	for ($k = 0; $k < $pmue22; $k++) {
+	
+	$pmuea2 = $pmue2[$k][0]; 
+	$pmuea3 = $pmue4[$k][0];
+	
+		if($pmuea == $pmuea2) {
+			$pxx = true;
+			//$pmue44 = "0";
+		}
+		
+	}	
+	
+	if(!$pxx)
+	{
+		
+		if ( $k % 2 != 0 ) {
+			$farbe_tabelle = 'class="tabelle_zeile1"';
+		} else {
+			$farbe_tabelle = 'class="tabelle_zeile2"';
+		}
+		
+		if($pmue44 > 0) {
+			$pmue44t = " <b>(".$pmue44.")</b>";
+		} else {
+			$pmue44t = "";
+		}
+		
+		$user = zeige_userdetails($pmuea, $v) . "" . $pmue44t;
+		
+		$trow .= "<tr>";
+		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+		
+		
+		$trow .= "</b>" . $user . $f2;
+		$trow .= "</td></tr>";
+	}
+	}
+		
+	}
+		
+	$text .= "<table style=\"width:100%;\">$trow</table>\n";
+	
+	return $text;
+}
+
+
+
+function user_liste($larr, $anzahl, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
@@ -41,11 +162,6 @@ function user_liste($larr, $anzahl) {
 	if ($u_level == "C" || $u_level == "S") {
 		$level2 = "admin";
 	}
-	
-	// Wartetext ausgeben
-	if ($anzahl > 10) {
-		$text .= $f1 . "<b>$t[sonst23] $anzahl $t[sonst36]</b><br>\n" . $f2;
-	}
 	flush();
 		
 	// Anzeige der Benutzer ohne JavaScript
@@ -55,7 +171,6 @@ function user_liste($larr, $anzahl) {
 		} else {
 			$farbe_tabelle = 'class="tabelle_zeile2"';
 		}
-
 		
 		if ($v['u_away']) {
 			$user = "(" . zeige_userdetails($v['u_id'], $v, FALSE, "&nbsp;", "", "", TRUE, FALSE, FALSE) . ")";
@@ -66,7 +181,7 @@ function user_liste($larr, $anzahl) {
 		$trow .= "<tr>";
 		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
 		
-		if ($aktion == "chatuserliste") {
+		if ($seitenleiste) {
 			if ($level == "admin") {
 				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
 			}
@@ -169,7 +284,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$row2 = mysqli_fetch_object($result2);
 			
 			$u_avatar_pfad = $row2->u_avatar_pfad;
-			
 		}
 		
 		$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$row->u_id'";
@@ -218,10 +332,11 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					. '&user=' . $user
 					. '&user_nick=' . $uu_nick
 					. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
+				$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
 			}
 			
 			$text .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite
-			. "\" maxlength=\"" . ($chat_max_eingabe - 1)
+				. "\" maxlength=\"" . ($chat_max_eingabe - 1)
 				. "\" value=\"\" type=\"text\">"
 				. "<input name=\"text\" value=\"\" type=\"hidden\">"
 				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
@@ -421,14 +536,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Adminmenue
 		if ($admin) {
-			$mlnk[7] = "user.php?id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
+			$mlnk[7] = "inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
 			$text .= "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</a>]<br>\n";
 		}
 		
 		// Adminmenue
 		if ($admin && $rows == 1) {
-			$mlnk[8] = "user.php?id=$id&kick_user_chat=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
-			$mlnk[3] = "user.php?id=$id&trace="
+			$mlnk[8] = "inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=zeig&user=$user&schau_raum=$schau_raum";
+			$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace="
 				. urlencode($host_name)
 				. "&aktion=zeig&user=$user&schau_raum=$schau_raum";
 			$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";

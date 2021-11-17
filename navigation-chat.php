@@ -60,7 +60,7 @@ if ($u_id) {
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
 		$text .= "<a href=\"chat.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['menue2'] . "</span></a>&nbsp;";
 		$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['menue3'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"user.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=benutzer&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
 	}
 	if ($u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
 		$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
