@@ -718,7 +718,7 @@ switch ($aktion) {
 		break;
 	
 	case "relogin":
-	// Login aus Forum oder Chat; Benutzerdaten setzen
+	// Login aus dem Forum in den Chat; Benutzerdaten setzen
 		id_lese($id);
 		$hash_id = $id;
 		
