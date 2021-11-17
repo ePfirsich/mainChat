@@ -1,13 +1,14 @@
 <?php
-require_once("functions-registerglobals.php");
+require_once("functions/functions-registerglobals.php");
 
 if (!isset($_SERVER["HTTP_REFERER"])) {
 	$_SERVER["HTTP_REFERER"] = "";
 }
 
 // Funktionen und Config laden, Host bestimmen
-require_once("functions-init.php");
-require_once("functions.php");
+require_once("functions/functions.php");
+require_once("functions/functions-init.php");
+require_once("languages/$sprache-index.php");
 
 zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
 
@@ -1434,7 +1435,7 @@ switch ($aktion) {
 					// Login ins Forum
 					betrete_forum($o_id, $u_id, $u_nick, $u_level);
 					
-					require_once("functions-frameset.php");
+					require_once("functions/functions-frameset.php");
 					
 					frameset_forum($hash_id);
 					
@@ -1444,7 +1445,7 @@ switch ($aktion) {
 					betrete_chat($o_id, $u_id, $u_nick, $u_level, $eintritt, $javascript);
 					$back = 1;
 					
-					require_once("functions-frameset.php");
+					require_once("functions/functions-frameset.php");
 
 					frameset_chat($hash_id);
 				}
@@ -1729,7 +1730,7 @@ switch ($aktion) {
 		// Chat betreten
 		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum, $o_js);
 		
-		require_once("functions-frameset.php");
+		require_once("functions/functions-frameset.php");
 		
 		frameset_chat($hash_id);
 		

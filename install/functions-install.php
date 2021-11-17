@@ -94,8 +94,8 @@ function step_1($chat) {
 				<td> Voreingestellte Sprachdatei:</td>
 				<td>
 					<select name="chat_language">
-						<option value="deutsch.php">Deutsch</option>
-						<option value="englisch.php">Englisch</option>
+						<option value="deutsch">deutsch</option>
+						<option value="englisch">englisch</option>
 					</select>
 				</td>
 			</tr>

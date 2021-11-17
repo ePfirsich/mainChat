@@ -1,6 +1,6 @@
 <?php
 
-require_once("functions.php");
+require_once("functions/functions.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 id_lese($id);
@@ -20,14 +20,16 @@ function colorsave() {
 	}
 	if ($x < 16) {
 		$R = floor($y);
-		if ($R == 256)
+		if ($R == 256) {
 			$R = 255;
+		}
 		$G = $R;
 		$B = $R;
 	} else {
 		$x = $x - 16;
-		if ($x > 256)
+		if ($x > 256) {
 			$x = 256;
+		}
 		$R = floor(($x % 64) / 4) * 16;
 		$G = floor(($y % 64) / 4) * 16;
 		$B = 0;

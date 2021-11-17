@@ -1,5 +1,6 @@
 <?php
-require_once("functions.php");
+require_once("functions/functions.php");
+require_once("languages/$sprache-chat.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
@@ -109,9 +110,9 @@ if (isset($u_id) && $u_id) {
 	echo $f1;
 	
 	if ($anzahl_raum == 1) {
-		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['sonst2']);
+		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv1']);
 	} else {
-		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['sonst3']);
+		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv2']);
 	}
 	if (!(($u_level == 'U' || $level == 'G')
 		&& (isset($useronline_anzeige_deaktivieren)
@@ -145,7 +146,7 @@ if (isset($u_id) && $u_id) {
 	
 	if ($zahl > 1) {
 		?>
-		<?php echo $f3; ?>&nbsp;&nbsp;<?php echo $t['sonst4']; ?><br>&nbsp;<nobr>
+		<?php echo $f3; ?>&nbsp;&nbsp;<?php echo $t['interaktiv3']; ?><br>&nbsp;<nobr>
 		<select name="r_id" onChange="document.form1.submit()">
 		<?php
 		// Admin sehen alle Räume, andere Benutzer nur die offenen

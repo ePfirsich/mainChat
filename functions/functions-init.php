@@ -1,6 +1,6 @@
 <?php
 
-require_once "functions-registerglobals.php";
+require_once("functions/functions-registerglobals.php");
 
 // Konfigurationsdatei einbinden
 $filenameConfig = 'conf/config.php';
@@ -24,7 +24,7 @@ if ( !file_exists($filenameConfig) ) {
 	<?php
 } else {
 	require $filenameConfig;
-	require_once("functions-html.php");
+	require_once("functions/functions-html.php");
 	require_once("conf/config.php");
 	
 
@@ -64,21 +64,15 @@ if ( !file_exists($filenameConfig) ) {
 	$chat_file = str_replace("html", "php", $chat_file);
 	
 	// Zentrale Sprachdatei einbinden
-	require "conf/$sprachconfig";
+	require_once("languages/$sprache.php");
 	
 	// Sprachdatei für functions.php einbinden
-	require "conf/" . $sprachconfig . "-functions.php";
+	require_once("languages/$sprache-functions.php");
 	
 	// Liegen lokale Functionen "functions-$chat_file" vor? Falls ja einbinden
-	$functions = "functions-" . $chat_file;
+	$functions = "functions/functions-" . $chat_file;
 	if (file_exists("$functions")) {
 		require "$functions";
-	}
-	
-	// Liegt lokale Sprachdatei "$sprachconfig-$chat_file" vor? Falls ja einbinden
-	$config = $sprachconfig . "-" . $chat_file;
-	if (file_exists("conf/$config")) {
-		require "conf/$config";
 	}
 	
 	// Globales

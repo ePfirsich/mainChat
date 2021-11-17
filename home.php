@@ -3,12 +3,13 @@
 // Kopf nur ausgeben, wenn $ui_userid oder mit $argv[0] aufgerufen
 // Sonst geht der redirekt nicht mehr.
 
-require_once("functions-registerglobals.php");
-require_once("functions.php");
+require_once("functions/functions-registerglobals.php");
+require_once("functions/functions.php");
+require_once("languages/$sprache-homepage.php");
 
 
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
-	include("functions-hash.php");
+	require_once("functions/functions-hash.php");
 	
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
 	if (isset($id)) {
@@ -290,7 +291,7 @@ if (isset($u_id) && $u_id) {
 			<?php
 	}
 } else {
-	require_once("functions-home.php");
+	require_once("functions/functions-home.php");
 	if (!isset($ui_userid)) {
 		$ui_userid = -1;
 	}

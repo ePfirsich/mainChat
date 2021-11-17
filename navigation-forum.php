@@ -1,7 +1,7 @@
 <?php
-require_once("functions.php");
-require_once("functions-func-raeume_auswahl.php");
-require ("languages/$sprache-navigation.php");
+require_once("functions/functions.php");
+require_once("functions/functions-func-raeume_auswahl.php");
+require_once("languages/$sprache-navigation.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);

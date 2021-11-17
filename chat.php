@@ -3,7 +3,7 @@
 // chat.php muss mit id=$hash_id aufgerufen werden
 // Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
 
-require_once("functions.php");
+require_once("functions/functions.php");
 
 // Benutzerdaten setzen
 id_lese($id);

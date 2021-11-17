@@ -1,7 +1,7 @@
 <?php
 
-require_once("functions.php");
-require_once("functions-forum.php");
+require_once("functions/functions.php");
+require_once("functions/functions-forum.php");
 // Benutzerdaten setzen
 id_lese($id);
 
@@ -44,7 +44,7 @@ $title = $body_titel;
 zeige_header_anfang($title, 'login', '', $u_layout_farbe);
 zeige_header_ende();
 
-require_once("functions-frameset.php");
+require_once("functions/functions-frameset.php");
 
 frameset_forum($id);
 ?>

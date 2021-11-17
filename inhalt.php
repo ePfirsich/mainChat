@@ -1,5 +1,5 @@
 <?php
-require_once("functions.php");
+require_once("functions/functions.php");
 $seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_URL);
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 if( $id == '') {
@@ -18,11 +18,11 @@ if( isset($u_id) ) {
 $kein_seitenaufruf = false;
 
 // Allgemeine Übersetzungen
-require "languages/$sprache.php";
+require_once("languages/$sprache.php");
 
 // Übersetzungen der entsprechenden Seiten einbinden
 if (file_exists("languages/$sprache-$seite.php")) {
-	require ("languages/$sprache-$seite.php");
+	require_once("languages/$sprache-$seite.php");
 } else {
 	$kein_seitenaufruf = true;
 }
@@ -146,8 +146,8 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "benutzer":
 			// Benutzer anzeigen
-			require_once('functions-user.php');
-			require_once("functions-func-nachricht.php");
+			require_once("functions/functions-user.php");
+			require_once("functions/functions-func-nachricht.php");
 			
 			// Menü ausgeben
 			if ($aktion != "zeigalle") {
@@ -202,7 +202,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "nachrichten":
 			// Nachrichten anzeigen
-			require_once('functions-nachrichten.php');
+			require_once("functions/functions-nachrichten.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -220,7 +220,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "profil":
 			// Profil anzeigen
-			require_once('functions-profil.php');
+			require_once("functions/functions-profil.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -238,8 +238,8 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "einstellungen":
 			// Einstellungen anzeigen
-			require_once("functions-msg.php");
-			require_once('functions-einstellungen.php');
+			require_once("functions/functions-msg.php");
+			require_once("functions/functions-einstellungen.php");
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
@@ -282,7 +282,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "statistik":
 			// Statistik anzeigen
-			require_once("functions-statistik.php");
+			require_once("functions/functions-statistik.php");
 			
 			// Menü ausgeben
 			$box = $t['statistik1'];
@@ -296,7 +296,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "blacklist":
 			// Blacklist anzeigen
-			require_once("functions-blacklist.php");
+			require_once("functions/functions-blacklist.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -311,7 +311,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "sperren":
 			// Sperren anzeigen
-			require_once("functions-sperren.php");
+			require_once("functions/functions-sperren.php");
 			
 			// Menü ausgeben
 			if (isset($uname)) {
@@ -351,7 +351,7 @@ if(!$seite || $kein_seitenaufruf) {
 			
 		case "freunde":
 			// Freunde anzeigen
-			require_once('functions-freunde.php');
+			require_once("functions/functions-freunde.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -384,7 +384,7 @@ if(!$seite || $kein_seitenaufruf) {
 			
 		case "log":
 			// Log anzeigen
-			require_once('functions-log.php');
+			require_once("functions/functions-log.php");
 			
 			require_once('templates/log.php');
 			

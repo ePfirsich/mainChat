@@ -1,7 +1,7 @@
 <?php
 
-require_once("functions.php");
-require_once("functions-func-chat_lese.php");
+require_once("functions/functions.php");
+require_once("functions/functions-func-chat_lese.php");
 
 // Benutzerdaten setzen
 id_lese($id);

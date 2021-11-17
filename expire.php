@@ -1,6 +1,6 @@
 <?php
 
-require_once("functions.php");
+require_once("functions/functions.php");
 umask(700);
 set_time_limit(120);
 

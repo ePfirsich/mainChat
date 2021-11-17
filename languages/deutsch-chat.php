@@ -1,7 +1,12 @@
 <?php
 
-// Sprachdefinition deutsch moderator.php
+// Übersetzungen für den Chat allgemein
 
+// Schreibe
+$t['floodsperre1'] = "<b>Zeile wird verworfen (Schutz gegen Flooding):</b>";
+$t['floodsperre2'] = "Für Chat-Flooding werden Punkte abgezogen: ";
+
+// Moderation
 $t['mod1'] = "ok";
 $t['mod2'] = "Text";
 $t['mod3'] = "Frage war schon da";
@@ -41,4 +46,13 @@ $t['moderation4'] = "<table style=\"margin:auto;\">"
 
 $t['moderation8'] = "<br><span style=\"font-size: smaller;\">Das Moderationsmodul ist derzeit deaktiviert.";
 
+// Interaktiv
+$t['interaktiv1'] = "In diesem Raum ist einer von<br>insgesamt %anzahl_gesamt% Benutzern online.";
+$t['interaktiv2'] = "In diesem Raum sind %anzahl_raum% von<br>insgesamt %anzahl_gesamt% Benutzern online.";
+$t['interaktiv3'] = "Anderen Raum betreten:";
+
+// Eingabe
+$t['farbe1'] = "Es wurde eine neue Farbe gesetzt, %u_nick%";
+$t['farbe2'] = "Farbe:";
+$t['eingabe1'] = "Zeilen";
 ?>

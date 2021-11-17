@@ -5,8 +5,8 @@
 //			u_id -> Benutzer, zu dem das Bild gehört
 //			feld -> Feldname in der DB
 
-require_once("functions-registerglobals.php");
-require_once("functions.php");
+require_once("functions/functions-registerglobals.php");
+require_once("functions/functions.php");
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -28,7 +28,7 @@ if (!is_numeric($u_id)) {
 	exit;
 }
 
-require("functions-init.php");
+require("functions/functions-init.php");
 
 $bild = "";
 $b_mime = "";

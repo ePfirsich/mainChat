@@ -1,7 +1,8 @@
 <?php
 
-require_once("functions.php");
+require_once("functions/functions.php");
 require_once("conf/deutsch.php-smilies.php");
+require_once("languages/$sprache-forum.php");
 
 // Benutzerdaten setzen
 id_lese($id);

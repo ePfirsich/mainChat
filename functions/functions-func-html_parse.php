@@ -9,7 +9,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// E-Mail Adressen in A-Tag mit Mailto
 	// privat ist wahr bei privater Nachricht
 	
-	global $admin, $sprachconfig, $o_raum, $u_id, $u_level;
+	global $admin, $sprache, $o_raum, $u_id, $u_level;
 	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
 	global $ist_moderiert;
 	
@@ -43,7 +43,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			}
 			
 			// Konfiguration für Smilies lesen
-			require("conf/" . $sprachconfig . "-smilies.php");
+			require_once("languages/$sprache-smilies.php");
 			
 			if (!$smilie_ok) {
 				// Nur die Fehlermeldung ausgeben, falls es das angegeben Smile auch gibt

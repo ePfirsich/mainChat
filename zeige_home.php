@@ -1,8 +1,8 @@
 <?php
 
-require_once("functions.php");
-require_once("functions-home.php");
-require("functions-hash.php");
+require_once("functions/functions.php");
+require_once("functions/functions-home.php");
+require_once("functions/functions-hash.php");
 
 $title = $body_titel . ' - Home';
 zeige_header_anfang($title, 'mini');

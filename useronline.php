@@ -1,6 +1,6 @@
 <?php
 
-require_once("functions.php");
+require_once("functions/functions.php");
 
 // Anzahl der Benutzer, die gerade online sind, als kurzliste ausgeben
 
