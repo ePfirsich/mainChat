@@ -39,7 +39,7 @@ if ($url) {
 	<body>
 		<table style="width:100%; height:100%;">
 			<tr>
-				<td align="center"><a href="<?php echo $url; ?>">Einen Moment bitte, die angeforderte Seite wird geladen...</a></td>
+				<td align="center"><a href="<?php echo $url; ?>">Einen Moment bitte, die angeforderte Seite wird aufgerufen...</a></td>
 			</tr>
 		</table>
 	</body>
