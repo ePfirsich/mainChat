@@ -123,12 +123,9 @@ if ($u_id) {
 	echo "</select>";
 	
 	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">"
-	. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
-	. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
-	
+		. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
 	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">&nbsp;</nobr><br>" . $f4 . "</td></tr></table></center></form>\n";
-	
-	
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
 	zeige_header_ende($meta_refresh);
