@@ -244,18 +244,9 @@ if(!$seite || $kein_seitenaufruf) {
 			// Menü ausgeben
 			if ($u_level != "G") {
 				$box = $t['menue4'];
-				$ur1 = "inhalt.php?seite=profil&id=$id&aktion=aendern";
-				$url = "href=\"$ur1\" ";
-				$text = "<a $url>$t[menue7]</a>\n";
-				$ur1 = "home.php?id=$id&aktion=aendern";
-				$url = "href=\"$ur1\" ";
-				$text .= "| <a $url>$t[menue10]</a>\n";
-				$ur1 = "inhalt.php?seite=freunde&id=$id";
-				$url = "href=\"$ur1\" ";
-				$text .= "| <a $url>$t[menue9]</a>\n";
-				$ur1 = "inhalt.php?seite=einstellungen&aktion=aktion&id=$id";
-				$url = "href=\"$ur1\" ";
-				$text .= "| <a $url>$t[menue8]</a>\n";
+				$text = "<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[menue7]</a>\n";
+				$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[menue10]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=einstellungen&aktion=aktion&id=$id\">$t[menue8]</a>\n";
 				$text .= "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">$t[menue11]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
 			}

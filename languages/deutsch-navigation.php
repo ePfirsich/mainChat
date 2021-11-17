@@ -17,6 +17,7 @@ $t['menue12'] = "Log";
 $t['menue13'] = "Reset";
 $t['menue14'] = "Hilfe";
 $t['menue15'] = "Logout";
+$t['menue16'] = "Freunde";
 
 $t['zum_chat'] = "Zum Chat";
 $t['forum_interaktiv_einzahl'] = "Insgesamt ist 1 Benutzer online.";

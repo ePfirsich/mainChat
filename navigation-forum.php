@@ -59,6 +59,9 @@ if ($u_id) {
 	$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
 	$text .= " | <a href=\"forum.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['menue6'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"inhalt.php?seite=einstellungen&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue7'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['menue7'] . "</span></a>&nbsp;";
+	if ($u_level != 'G') {
+		$text .= " | <a href=\"inhalt.php?seite=freunde&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue16'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['menue16'] . "</span></a>&nbsp;";
+	}
 	if ($admin) {
 		$text .= " | <a href=\"inhalt.php?seite=sperren&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue8'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['menue8'] . "</span></a>&nbsp;";
 		$text .= " | <a href=\"inhalt.php?seite=blacklist&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-list icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
