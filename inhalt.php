@@ -247,19 +247,23 @@ if(!$seite || $kein_seitenaufruf) {
 					// Ab in die Datenbank mit dem Eintrag
 					eintrag_aktionen($aktion_datensatz);
 					zeige_aktionen("normal");
+					
+					$box = $t['aktion1'];
+					$text = $t['aktion2'];
+					zeige_tabelle_zentriert($box, $text);
 					break;
 					
 				case "aktion":
 					zeige_aktionen("normal");
+					
+					$box = $t['aktion1'];
+					$text = $t['aktion2'];
+					zeige_tabelle_zentriert($box, $text);
 					break;
 					
 				default:
 					require_once('templates/einstellungen.php');
 			}
-			
-			$box = $t['aktion1'];
-			$text = $t['aktion2'];
-			zeige_tabelle_zentriert($box, $text);
 			
 			break;
 		
