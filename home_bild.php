@@ -55,7 +55,7 @@ if (!$mysqli_link) {
 $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
-	if (mysqli_result($result, 0, "u_chathomepage") != 'J') {
+	if (mysqli_result($result, 0, "u_chathomepage") != 'J' && $feld != "avatar") {
 		echo "Die Benutzernamepage dieses Benutzers ist deaktiviert!<br>";
 		exit;
 	}
