@@ -15,7 +15,6 @@ if (isset($farbe) && strlen($farbe) > 0) {
 	unset($f['u_passwort']);
 	unset($f['u_smilie']);
 	unset($f['u_avatare_anzeigen']);
-	unset($f['u_avatar_pfad']);
 	unset($f['u_systemmeldungen']);
 	unset($f['u_punkte_anzeigen']);
 	unset($f['u_sicherer_modus']);
@@ -144,7 +143,6 @@ switch ($aktion) {
 			$f['u_zeilen'] = $row->u_zeilen;
 			$f['u_smilie'] = $row->u_smilie;
 			$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
-			$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 			$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 			$f['u_eintritt'] = $row->u_eintritt;
 			$f['u_austritt'] = $row->u_austritt;
@@ -320,19 +318,6 @@ switch ($aktion) {
 			
 			$ok = 1;
 			$erfolgsmeldung = "";
-			
-			
-			//Avatar loeschen
-			if($f['u_avatar_pfad']) {
-				$uid = $f['u_id'];
-				avatar_aktualisieren($uid);
-				
-				if($uid == true){
-					echo "Avatar wurde erfolgreich gelöscht.";
-				} else {
-					echo "Beim Löschen des Avatars ist ein Fehler aufgetreten.";
-				}
-			}
 			
 			// Farbe aus Farb-Popup in Hidden-Feld
 			if ($farben['u_farbe'])
@@ -639,7 +624,6 @@ switch ($aktion) {
 				$f['u_zeilen'] = $row->u_zeilen;
 				$f['u_smilie'] = $row->u_smilie;
 				$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
-				$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 				$f['u_eintritt'] = $row->u_eintritt;
 				$f['u_austritt'] = $row->u_austritt;
@@ -657,7 +641,6 @@ switch ($aktion) {
 			if (($u_smilie != $f['u_smilie']
 				|| $u_systemmeldungen != $f['u_systemmeldungen']
 				|| $u_avatare_anzeigen != $f['u_avatare_anzeigen']
-				|| $u_avatar_pfad != $f['u_avatar_pfad']
 				|| $u_punkte_anzeigen != $f['u_punkte_anzeigen']
 				|| $u_sicherer_modus != $f['u_sicherer_modus']
 				|| $u_layout_farbe != $f['u_layout_farbe']
@@ -711,7 +694,6 @@ switch ($aktion) {
 					$f['u_zeilen'] = $row->u_zeilen;
 					$f['u_smilie'] = $row->u_smilie;
 					$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
-					$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 					$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 					$f['u_eintritt'] = $row->u_eintritt;
 					$f['u_austritt'] = $row->u_austritt;
@@ -832,7 +814,6 @@ switch ($aktion) {
 				$f['u_zeilen'] = $row->u_zeilen;
 				$f['u_smilie'] = $row->u_smilie;
 				$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
-				$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 				$f['u_eintritt'] = $row->u_eintritt;
 				$f['u_austritt'] = $row->u_austritt;
 				$f['u_systemmeldungen'] = $row->u_systemmeldungen;
@@ -868,7 +849,6 @@ switch ($aktion) {
 			$f['u_zeilen'] = $row->u_zeilen;
 			$f['u_smilie'] = $row->u_smilie;
 			$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
-			$f['u_avatar_pfad'] = $row->u_avatar_pfad;
 			$f['u_systemmeldungen'] = $row->u_systemmeldungen;
 			$f['u_eintritt'] = $row->u_eintritt;
 			$f['u_austritt'] = $row->u_austritt;

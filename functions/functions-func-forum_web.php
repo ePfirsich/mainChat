@@ -1203,45 +1203,31 @@ function zeige_beitraege($thread) {
 			}
 		}
 		
-		
 		// Start des Avatars
-		$query2 = "SELECT * FROM user WHERE u_nick = '$userdata[u_nick]'";
-		$result2 = mysqli_query($mysqli_link, $query2);
-		
-		if ($result2 && mysqli_num_rows($result2) == 1) {
-			$row2 = mysqli_fetch_object($result2);
-			
-			$uu_id = $row2->u_id;
-			$u_avatar_pfad = $row2->u_avatar_pfad;
-			
+		// Bildinfos lesen und in Array speichern
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$po_u_id";
+		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+		unset($bilder);
+		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+			while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
+				$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
+				$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
+				$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
+			}
 		}
 		
-		$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
-		$result1 = mysqli_query($mysqli_link, $query1);
-		
-		if ($result1 && mysqli_num_rows($result1) == 1) {
-			$row1 = mysqli_fetch_object($result1);
-			
-			$ui_gen = $row1->ui_geschlecht;
-		} else {
-			$ui_gen = 'leer';
-		}
-		
-		if($result2 && mysqli_num_rows($result2) == 1) {
-			if($u_avatar_pfad) { // Benutzerdefinierter Avatar
-				$ava = '<img src="./avatars/'.$u_avatar_pfad.'" style="width:60px; height:60px;" alt="'.$u_avatar_pfad.'" />';
-			} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-				$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
+		if (!isset($bilder)) {
+			if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+				$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" /> ';
 			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-				$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
+				$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" /> ';
 			} else { // Neutraler Standard-Avatar
-				$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
+				$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" /> ';
 			}
 		} else {
-			$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
+			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, "avatar", $bilder, "forum") ." ";
 		}
 		// Ende des Avatars
-		
 		
 		?>
 		<tr>
