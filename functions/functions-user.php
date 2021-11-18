@@ -278,7 +278,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Bildinfos lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$row->u_id";
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$row->u_id";
 		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
 		unset($bilder);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {

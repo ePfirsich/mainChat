@@ -47,7 +47,7 @@ $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
 $t['profil_benutzername'] = "Benutzername";
 $t['profil_wohnort'] = "Wohnort";
-$t['profil_wohnort_details'] = " (Dieses Feld muss man ermaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
+$t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
 $t['profil_email'] = "E-Mail";
 $t['profil_interne_email'] = "Interne E-Mail";
 $t['profil_interne_email_details'] = " (nicht öffentlich einsehbar; Notwendig um sich ein neues Passwort zuschicken zu lassen)";

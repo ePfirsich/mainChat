@@ -461,7 +461,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($u_avatare_anzeigen == 1) {
 										// Bildinfos lesen und in Array speichern
-										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$uu_id";
+										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
 										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
@@ -544,7 +544,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($u_avatare_anzeigen == 1) {
 										// Bildinfos lesen und in Array speichern
-										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$uu_id";
+										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
 										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
