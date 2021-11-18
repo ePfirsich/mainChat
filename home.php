@@ -47,7 +47,7 @@ if (isset($u_id) && $u_id) {
 	aktualisiere_online($u_id, $o_raum);
 	
 	// Voreinstellungen
-	$max_groesse = 60; // Maximale Bild- und Text größe in KB
+	$max_groesse = 50; // Maximale Bild- und Text größe in KB
 	$vor_einstellungen = ARRAY("Straße" => TRUE, "Tel" => TRUE, "Fax" => TRUE,
 		"Handy" => TRUE, "PLZ" => TRUE, "Ort" => TRUE, "Land" => TRUE,
 		"ICQ" => TRUE, "Hobbies" => TRUE, "Beruf" => TRUE,

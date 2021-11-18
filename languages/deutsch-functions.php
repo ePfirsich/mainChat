@@ -276,7 +276,7 @@ $t['user_zeige71'] = "Private Nachrichten und @-Nachrichten hervorheben";
 $t['user_zeige72'] = "ändern";
 $t['user_zeige73'] = "löschen";
 
-$t['user_kein_bild_hochgeladen'] = "<b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG, GIF und PNG Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 60 Kb sein!</b><br>";
+$t['user_kein_bild_hochgeladen'] = "<b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG, GIF und PNG Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 50 Kb sein!</b><br>";
 
 $t['avatar_beschreibung1'] = "Um den Avatar zu ändern, ziehen Sie einfach ein neues Bild auf die dafür vorgesehene Fläche.";
 $t['avatar_beschreibung2'] = "Fortschritt des Uploads:";

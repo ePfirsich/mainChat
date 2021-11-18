@@ -34,12 +34,15 @@ function profil_editor($u_id, $u_nick, $f) {
 		$f['ui_hobby'] = "";
 	if (!isset($f['ui_id']))
 		$f['ui_id'] = "";
-	if (!isset($f['ui_geschlecht']))
+	if (!isset($f['ui_geschlecht'])) {
 		$f['ui_geschlecht'] = "";
-	if (!isset($f['ui_beziehung']))
+	}
+	if (!isset($f['ui_beziehung'])) {
 		$f['ui_beziehung'] = "";
-	if (!isset($f['ui_typ']))
+	}
+	if (!isset($f['ui_typ'])) {
 		$f['ui_typ'] = "";
+	}
 	
 		// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
