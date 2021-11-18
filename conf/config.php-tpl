@@ -329,9 +329,6 @@ $knebelzeit=5;
 // Default Nickwechselzeit drunter geht nix (Sekunden)
 $nickwechsel=30;
 
-// Import und Löschen der Benutzerdaten 0 = nein / 1 = ja
-$userimport=0;
-
 // Maximale Anzahl der Tage wie lange ein Benutzer maximal auf der Blacklist steht
 $blacklistmaxdays=30;
 

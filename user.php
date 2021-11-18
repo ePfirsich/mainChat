@@ -80,22 +80,6 @@ if (strlen($u_id) != 0) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
-	if ($admin && isset($kick_user_chat) && $user) {
-		// Nur Admins: Benutzer sofort aus dem Chat kicken
-		$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
-		$result = mysqli_query($mysqli_link, $query);
-		
-		if ($result && mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_object($result);
-			// Aus dem Chat ausloggen
-			ausloggen($user, $row->o_name, $row->o_raum, $row->o_id);
-			
-			mysqli_free_result($result);
-		} else {
-			echo $t['sonst40'];
-		}
-	}
-	
 	// Beichtstuhlmodus
 	// ID der Lobby merken
 		if (isset($beichtstuhl) && $beichtstuhl && !$admin) {

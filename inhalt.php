@@ -150,36 +150,27 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-func-nachricht.php");
 			
 			// Menü ausgeben
-			if ($aktion != "zeigalle") {
-				$box = $t['menue13'];
-				$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
-				if ($u_level != "G") {
-					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
-				}
-				
-				if ($adminlisteabrufbar && $u_level != "G") {
-					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
-				}
-				if ($u_level != "G") {
-					if ($punktefeatures) {
-						$ur1 = "inhalt.php?seite=top10&id=$id";
-						$url = "href=\"$ur1\" ";
-						$text .= "| <a $url>$t[menue7]</a>\n";
-					}
-					$ur1 = "inhalt.php?seite=freunde&id=$id";
-					$url = "href=\"$ur1\" ";
-					$text .= "| <a $url>$t[menue8]</a>\n";
-				}
-				if ($admin) {
-					$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=zeigalle\">$t[menue3]</a>\n";
-					if ($userimport) {
-						$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=userimport\">$t[menue10]</a>\n";
-						$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=userloeschen\">$t[menue11]</a>\n";
-					}
-				}
-				
-				zeige_tabelle_zentriert($box, $text);
+			$box = $t['menue13'];
+			$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
+			if ($u_level != "G") {
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
 			}
+			
+			if ($adminlisteabrufbar && $u_level != "G") {
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
+			}
+			if ($u_level != "G") {
+				if ($punktefeatures) {
+					$ur1 = "inhalt.php?seite=top10&id=$id";
+					$url = "href=\"$ur1\" ";
+					$text .= "| <a $url>$t[menue7]</a>\n";
+				}
+				$ur1 = "inhalt.php?seite=freunde&id=$id";
+				$url = "href=\"$ur1\" ";
+				$text .= "| <a $url>$t[menue8]</a>\n";
+			}
+			
+			zeige_tabelle_zentriert($box, $text);
 	
 			require_once('templates/benutzer.php');
 	
