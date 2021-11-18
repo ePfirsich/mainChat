@@ -18,6 +18,20 @@ ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` DROP `u_farbe_alle`, DROP `u_farbe_noise`, DROP `u_farbe_priv`, DROP `u_farbe_bg`, DROP `u_farbe_sys`, DROP `u_clearedit`;
 ALTER TABLE `chat` ADD `c_gelesen` int(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `userinfo` DROP `ui_ort`, DROP `ui_einstellungen`, `ui_geschlecht`, DROP `ui_beziehung`, DROP `ui_typ`, DROP `ui_tel`, DROP `ui_fax`, DROP `ui_handy`, DROP `ui_icq`, DROP `ui_strasse`, DROP `ui_plz`, DROP `ui_land`;
+ALTER TABLE `userinfo` ADD `ui_wohnort` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL; 
+ALTER TABLE `userinfo` ADD `ui_geschlecht` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `userinfo` ADD `ui_beziehungsstatus` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `userinfo` ADD `ui_typ` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `userinfo` ADD `ui_lieblingsfilm` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsserie` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsbuch` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsschauspieler` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsgetraenk` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsgericht` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsspiel` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_lieblingsfarbe` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
 
 CREATE TABLE `statistiken` (
   `c_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

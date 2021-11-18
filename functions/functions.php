@@ -55,8 +55,8 @@ $valid_fields = array(
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
-	'userinfo' => array('ui_id', 'ui_userid', 'ui_strasse', 'ui_plz', 'ui_ort', 'ui_land', 'ui_geburt', 'ui_geschlecht', 'ui_beziehung', 'ui_typ', 'ui_beruf', 'ui_hobby', 
-		'ui_tel', 'ui_fax', 'ui_handy', 'ui_icq', 'ui_text', 'ui_farbe', 'ui_einstellungen')
+	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_farbe', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
+		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe')
 );
 
 // Funktionen
@@ -577,8 +577,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$query = "INSERT INTO $db SET $id_name=$id " . $q;
 		$result = mysqli_query($mysqli_link, $query);
 		if (!$result) {
-			echo "Fataler Fehler in $query: " . mysqli_errno($mysqli_link) . " - "
-				. mysqli_error($mysqli_link);
+			echo "Fataler Fehler in $query: " . mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
 			die();
 		}
 		if ($id == 0) {
@@ -1544,5 +1543,54 @@ function avatar_editieren_anzeigen(
 		}
 		
 		return ($text);
+}
+
+function zeige_profilinformationen_von_id($profilfeld, $key) {
+	// Löse die IDs in menschliche Informationen auf
+	global $t, $sprache;
+	
+	require_once("languages/$sprache-profil.php");
+	
+	if($profilfeld == "geschlecht") {
+		if($key == 1) {
+			return $t['profil_geschlecht_maennlich'];
+		} else if($key == 2) {
+			return $t['profil_geschlecht_weiblich'];
+		} else if($key == 3) {
+			return $t['profil_geschlecht_divers'];
+		} else {
+			return $t['profil_keine_angabe'];
+		}
+	} else if($profilfeld == "beziehungsstatus") {
+		if($key == 1) {
+			return $t['profil_verheiratet'];
+		} else if($key == 2) {
+			return $t['profil_ledig'];
+		} else if($key == 3) {
+			return $t['profil_vergeben'];
+		} else if($key == 4) {
+			return $t['profil_single'];
+		} else {
+			return $t['profil_keine_angabe'];
+		}
+	} else if($profilfeld == "typ") {
+		if($key == 1) {
+			return $t['profil_typ_zierlich'];
+		} else if($key == 2) {
+			return $t['profil_typ_schlank'];
+		} else if($key == 3) {
+			return $t['profil_typ_sportlich'];
+		} else if($key == 4) {
+			return $t['profil_typ_normal'];
+		} else if($key == 5) {
+			return $t['profil_typ_mollig'];
+		} else if($key == 6) {
+			return $t['profil_typ_dick'];
+		} else {
+			return $t['profil_keine_angabe'];
+		}
+	} else {
+		return '';
+	}
 }
 ?>

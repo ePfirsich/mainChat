@@ -63,123 +63,127 @@ function edit_home(
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	// Zeigt die Benutzerinfos im Profil an
 	
-	global $id, $f1, $f2, $f3, $f4, $vor_einstellungen;
+	global $id, $f1, $f2, $f3, $f4, $t;
 	
 	$url = "inhalt.php?seite=profil&id=$id&aktion=aendern";
 	$link = $f3 . "<b>[<a href=\"$url\">ändern</a>]</b>" . $f4;
 	$text = "";
 	
 	if ($home['ui_userid']) {
-		
 		// Profil vorhanden
 		
-		// Voreinstellungen fürs Profil
-		if (!$home['ui_einstellungen']) {
-			$ui_einstellungen = $vor_einstellungen;
-		} else {
-			$ui_einstellungen = unserialize($home['ui_einstellungen']);
+		// Wohnort
+		if( $home['ui_wohnort'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_wohnort'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_wohnort'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		// Profil ausgeben
-		if ($ui_einstellungen["Straße"] && $home['ui_strasse'])
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" WIDTH=20%>" . $f1
-				. "Straße:" . $f2 . "</td><td colspan=\"3\" WIDTH=80%>"
-				. htmlspecialchars($home['ui_strasse'])
-				. "</td></tr>\n";
-		
-		if (($ui_einstellungen["Ort"] || $ui_einstellungen["PLZ"]) && ($home['ui_plz'] || $home['ui_ort'])) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Ort:" . $f2 . "</td><td colspan=\"3\">";
-			if ($ui_einstellungen["PLZ"]) {
-				$text .= htmlspecialchars($home['ui_plz']) . "&nbsp;&nbsp;";
-			}
-			if ($ui_einstellungen["Ort"]) {
-				$text .= htmlspecialchars($home['ui_ort']);
-			}
-			$text .= "</td></tr>\n";
+		if( $home['ui_geburt'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_geburt'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_geburt'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Land"] && $home['ui_land']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Land:"
-				. $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_land'])
-				. "</td></tr>\n";
+		if( $home['ui_geschlecht'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_geschlecht'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("geschlecht", $home['ui_geschlecht']) . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Tel"] && $home['ui_tel']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Telefon:" . $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_tel'])
-				. "</td></tr>\n";
+		if( $home['ui_beziehungsstatus'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_beziehungsstatus'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("beziehungsstatus", $home['ui_beziehungsstatus']) . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Handy"] && $home['ui_handy']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Handy:"
-				. $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_handy'])
-				. "</td></tr>\n";
+		if( $home['ui_typ'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_typ'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("typ", $home['ui_typ']) . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Fax"] && $home['ui_fax']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Telefax" . $f2 . ":</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_fax'])
-				. "</td></tr>\n";
+		if( $home['ui_beruf'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_beruf'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_beruf'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["ICQ"] && $home['ui_icq']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "ICQ:"
-				. $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_icq'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsfilm'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsfilm'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsfilm'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Geburtsdatum"] && $home['ui_geburt']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Geburtsdatum:" . $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_geburt'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsserie'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsserie'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsserie'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Geschlecht"] && $home['ui_geschlecht']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Geschlecht:" . $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_geschlecht'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsbuch'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsbuch'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsbuch'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Beziehung"] && $home['ui_beziehung']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Beziehung:" . $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_beziehung'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsschauspieler'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsschauspieler'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsschauspieler'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Typ"] && $home['ui_typ']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Typ:"
-				. $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_typ'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsgetraenk'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsgetraenk'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsgetraenk'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Beruf"] && $home['ui_beruf']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1 . "Beruf:"
-				. $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_beruf'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsgericht'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsgericht'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsgericht'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
-		if ($ui_einstellungen["Hobbies"] && $home['ui_hobby']) {
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. "Hobbies:" . $f2 . "</td><td colspan=\"3\">"
-				. htmlspecialchars($home['ui_hobby'])
-				. "</td></tr>\n";
+		if( $home['ui_lieblingsspiel'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsspiel'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsspiel'] . $f2 . "</td>";
+			$text .= "</tr>\n";
 		}
 		
+		if( $home['ui_lieblingsfarbe'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsfarbe'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsfarbe'] . $f2 . "</td>";
+			$text .= "</tr>\n";
+		}
+		
+		if( $home['ui_hobby'] != "" ) {
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_hobby'] . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_hobby'] . $f2 . "</td>";
+			$text .= "</tr>\n";
+		}
 	} else {
 		
 		if ($aktion == "aendern") {
-			$text .= "<tr><td colspan=\"3\">Sie haben noch kein Profil erstellt</td>"
-				. "<td style=\"text-align:right;\">$link</td></tr>";
+			$text .= "<tr>\n";
+			$text .= "<td colspan=\"3\">Sie haben noch kein Profil erstellt</td>\n";
+			$text .= "<td style=\"text-align:right;\">$link</td>\n";
+			$text .= "</tr>\n";
 		}
 		
 	}
@@ -208,6 +212,8 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $o_js;
 	
+	
+	
 	// Benutzerdaten lesen
 	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
 		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
@@ -222,32 +228,36 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		// Link auf Benutzereditor ausgeben
 		if ($aktion == "aendern") {
 			$url = "inhalt.php?seite=einstellungen&id=$id";
-			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">Ändern</a>]</b>" . $f4;
+			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
 		} else {
 			$userdaten_bearbeiten = "&nbsp;";
 		}
 		
-		$text = "<tr><td style=\"vertical-align:top; text-align:right;\" width=20%>" . $f1
-			. "Benutzername:" . $f2 . "</td><td colspan=\"3\" width=\"80%\"><b>"
-			. zeige_userdetails($userdata['u_id'], $userdata)
-			. "</b></td></tr>\n";
+		$text = "";
+		
+		// Benutzername
+		$text .= "<tr>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_benutzername'] . $f2 . "</td>\n";
+		$text .= "<td colspan=\"3\"><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
+		$text .= "</tr>\n";
 		
 		// Onlinezeit oder letzter Login
+		$text .= "<tr>\n";
 		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-			$text .= "<tr><td>&nbsp;</td><td colspan=\"3\" style=\"vertical-align:top;\"><b>"
-				. $f1
-				. str_replace("%online%", gmdate("H:i:s", $online_zeit),
-					$t['chat_msg92']) . $f2 . "</b></td></tr>\n";
+			$text .= "<td>&nbsp;</td>";
+			$text .= "<td colspan=\"3\" style=\"vertical-align:top;\"><b>"
+				. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
 		} else {
-			$text .= "<tr><td>&nbsp;</td><td colspan=\"3\" style=\"vertical-align:top;\"><b>"
-				. $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94'])
-				. $f2 . "</b></td></tr>\n";
+			$text .= "<td>&nbsp;</td>";
+			$text .= "<td colspan=\"3\" style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
 		}
+		$text .= "</tr>\n";
 		
 		// Level
-		$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-			. $t['user_zeige8'] . ":" . $f2 . "</td>" . "<td colspan=\"3\"><b>"
-			. $f1 . $level[$userdata['u_level']] . $f2 . "</b></td></tr>\n";
+		$text .= "<tr>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_level'] . $f2 . "</td>\n";
+		$text .= "<td colspan=\"3\"><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
+		$text .= "</tr>\n";
 		
 		// Punkte
 		if ($userdata['u_punkte_gesamt']) {
@@ -257,31 +267,29 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 			if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
 				$userdata['u_punkte_jahr'] = 0;
 			}
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\">" . $f1
-				. $t['user_zeige38'] . ":" . $f2 . "</td>"
-				. "<td colspan=\"3\"><b>" . $f1 . $userdata['u_punkte_gesamt']
-				. "/" . $userdata['u_punkte_jahr'] . "/"
-				. $userdata['u_punkte_monat'] . "&nbsp;"
-				. str_replace("%jahr%", strftime("%Y", time()),
-					str_replace("%monat%", strftime("%B", time()),
-						$t['user_zeige39'])) . $f2 . "</b></td></tr>\n";
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
+			$text .= "<td colspan=\"3\"><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
+				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
+			$text .= "</tr>\n";
 		}
 		
 		// Farbwähler & Link auf Editor ausgeben
+		$text .= "<tr>\n";
 		if ($aktion == "aendern") {
-			if (!isset($home))
+			if (!isset($home)) {
 				$home = "";
-			$text .= "<tr><td colspan=\"4\" style=\"text-align:right;\">"
-				. $userdaten_bearbeiten . "<br>\n"
-				. home_farbe($u_id, $u_nick, $home, "info", $farben['info'])
-				. "</td></tr>\n";
+			}
+			$text .= "<tr>\n";
+			$text .= "<td colspan=\"4\" style=\"text-align:right;\">" . $userdaten_bearbeiten . "<br>\n" . home_farbe($u_id, $u_nick, $home, "info", $farben['info']) . "</td>\n";
 		} else {
-			$text .= "<tr><td colspan=\"4\">&nbsp;</td></tr>\n";
+			$text .= "<td colspan=\"4\">&nbsp;</td>\n";
 		}
+		$text .= "</tr>\n";
 	}
 	if (is_array($farben) && strlen($farben['info']) > 7) {
 		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['info'] . ";";
-	} elseif (is_array($farben) && strlen($farben['info']) == 7) {
+	} else if (is_array($farben) && strlen($farben['info']) == 7) {
 		$bg = "background-color:$farben[info];";
 	} else {
 		$bg = "";
@@ -356,7 +364,7 @@ function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><textarea cols="
 			. ($eingabe_breite2) . " rows=20 name=\"home[$feld]\">"
 			. $home[$feld] . "</textarea></td></tr>"
-			. "<tr><td style=\"vertical-align:top; text-align:right;\">"
+			. "<tr><td style=\"vertical-align:top; text-align:right; width: 150px;\">"
 			. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
 			. "</td></tr>";
 	} else {
@@ -417,7 +425,7 @@ function home_bild(
 	} elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
 		
 		$text = "<td style=\"text-align:center; vertical-align:top;\">$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"></td>";
-		$text .= "<td style=\"vertical-align:top; text-align:right;\">&nbsp;<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">&nbsp;<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
 		
 	} else {
 		
@@ -538,7 +546,7 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 	// Profileinstellungen öffentlich ja/nein
 	// Addresse öffentlich ja/nein
 	
-	global $f1, $f2, $vor_einstellungen;
+	global $f1, $f2, $t;
 	
 	// Homepage freigeben
 	if ($einstellungen['u_chathomepage'] == "J") {
@@ -546,28 +554,10 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 	} else {
 		$checked = "";
 	}
-	$text = "<tr><td style=\"text-align:right;\">" . $f1 . "Homepage freigeben: " . $f2
-		. "</td>"
-		. "<td><input type=\"checkbox\" name=\"einstellungen[u_chathomepage]\" $checked></td></tr>\n";
-	
-	// Voreinstellungen fürs Profil
-	if (!$home['ui_einstellungen']) {
-		$ui_einstellungen = $vor_einstellungen;
-	} else {
-		$ui_einstellungen = unserialize($home['ui_einstellungen']);
-	}
-	
-	// Einstellungen fürs Profil ausgeben
-	foreach ($vor_einstellungen as $key => $val) {
-		if ($ui_einstellungen[$key]) {
-			$checked = "checked";
-		} else {
-			$checked = "";
-		}
-		$text .= "<tr><td style=\"text-align:right;\">" . $f1 . $key . " zeigen:" . $f2
-			. "</td>"
-			. "<td><input type=\"checkbox\" name=\"einstellungen[$key]\" $checked></td></tr>\n";
-	}
+	$text = "<tr>\n";
+	$text .= "<td style=\"text-align:right;\">" . $f1 . $t['homepage_freigeben'] . $f2 . "</td>\n";
+	$text .= "<td><input type=\"checkbox\" name=\"einstellungen[u_chathomepage]\" $checked></td>\n";
+	$text .= "</tr>\n";
 	
 	return ("<table style=\"width:100%;\">$text</table>");
 	

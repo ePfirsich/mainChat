@@ -48,11 +48,6 @@ if (isset($u_id) && $u_id) {
 	
 	// Voreinstellungen
 	$max_groesse = 60; // Maximale Bild- und Text größe in KB
-	$vor_einstellungen = ARRAY("Straße" => TRUE, "Tel" => TRUE, "Fax" => TRUE,
-		"Handy" => TRUE, "PLZ" => TRUE, "Ort" => TRUE, "Land" => TRUE,
-		"ICQ" => TRUE, "Hobbies" => TRUE, "Beruf" => TRUE,
-		"Geschlecht" => TRUE, "Geburtsdatum" => TRUE, "Typ" => TRUE,
-		"Beziehung" => TRUE);
 	$farbliste = ARRAY(0 => "bgcolor", "info", "profil", "ui_text", "ui_bild1", "ui_bild2", "ui_bild3", "text", "link", "vlink", "aktionen");
 	
 	// Farben prüfen Voreinstellungen setzen
@@ -134,16 +129,14 @@ if (isset($u_id) && $u_id) {
 			if (isset($home) && is_array($home) && $home['ui_id']) {
 				
 				// Einstellungen für Homepage
-				if (isset($einstellungen['u_chathomepage'])
-					&& $einstellungen['u_chathomepage'] == "on") {
+				if (isset($einstellungen['u_chathomepage']) && $einstellungen['u_chathomepage'] == "on") {
 					$einstellungen['u_chathomepage'] = "J";
 				} else {
 					$einstellungen['u_chathomepage'] = "N";
 				}
 				
 				// Bei Änderung der Einstellung speichern
-				if ($einstellungen['u_chathomepage']
-					!= $userdata['u_chathomepage']) {
+				if ($einstellungen['u_chathomepage'] != $userdata['u_chathomepage']) {
 					unset($f);
 					$userdata['u_chathomepage'] = $einstellungen['u_chathomepage'];
 					$f['u_chathomepage'] = $einstellungen['u_chathomepage'];
@@ -158,29 +151,6 @@ if (isset($u_id) && $u_id) {
 						bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'], $_FILES[$val]['size']);
 					}
 				}
-				
-				// Einstellungen aus Checkboxen True/False setzen und in ui_einstellungen packen
-				if (is_array($einstellungen)) {
-					unset($einstellungen['u_chathomepage']);
-					foreach ($vor_einstellungen as $key => $val) {
-						if (isset($einstellungen[$key])
-							&& $einstellungen[$key] == "on") {
-							$einstellungen[$key] = TRUE;
-						} else {
-							$einstellungen[$key] = FALSE;
-						}
-					}
-					$home['ui_einstellungen'] = serialize($einstellungen);
-				}
-				
-				// Farben in ui_farbe packen
-				if (is_array($farben)) {
-					$home['ui_farbe'] = serialize($farben);
-				}
-				
-				// Änderungen in DB schreiben
-				$ui_id = schreibe_db("userinfo", $home, $home['ui_id'], "ui_id");
-				
 			}
 			
 			// Daten laden und Editor anzeigen
@@ -188,15 +158,19 @@ if (isset($u_id) && $u_id) {
 			$query = "SELECT * FROM userinfo WHERE ui_userid=" . intval($ui_userid);
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
-				
 				// Benutzerprofil aus der Datenbank lesen
-				$home = mysqli_fetch_array($result);
+				echo "test";
+				$home = array();
+				$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
+				
 				if ($home['ui_farbe']) {
 					$farbentemp = unserialize($home['ui_farbe']);
 					if (is_array($farbentemp)) {
 						$farben = $farbentemp;
 					}
 				}
+				
+
 				
 				// Einstellung für u_chathomepage aus Benutzerdaten lesen
 				$einstellungen['u_chathomepage'] = $userdata['u_chathomepage'];

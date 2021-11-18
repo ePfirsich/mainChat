@@ -156,14 +156,13 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	
 	// Optional Punkte sofort in Benutzerdaten übertragen
 	if ($sofort && $o_id) {
-		
 		// Tabellen online+user exklusiv locken
-		$query = "LOCK	TABLES online WRITE, user WRITE";
+		$query = "LOCK TABLES online WRITE, user WRITE";
 		$result = mysqli_query($mysqli_link, $query);
 		
 		// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 		$result = mysqli_query($mysqli_link, 
-			"select o_punkte,o_user FROM online WHERE o_id=" . intval($o_id));
+			"SELECT o_punkte,o_user FROM online WHERE o_id=" . intval($o_id));
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$u_id = $row->o_user;
@@ -177,19 +176,20 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 				$p_jahr = $row2->u_punkte_jahr + $row->o_punkte;
 				$p_monat = $row2->u_punkte_monat + $row->o_punkte;
 				
-				if ($p_gesamt < 0)
+				if ($p_gesamt < 0) {
 					$p_gesamt = 0;
-				if ($p_jahr < 0)
+				}
+				if ($p_jahr < 0) {
 					$p_jahr = 0;
-				if ($p_monat < 0)
+				}
+				if ($p_monat < 0) {
 					$p_monat = 0;
+				}
 			}
 			
-			$query = "update user set " . "u_punkte_monat=$p_monat, "
-				. "u_punkte_jahr=$p_jahr, " . "u_punkte_gesamt=$p_gesamt "
-				. "where u_id=$u_id";
+			$query = "UPDATE user SET " . "u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, " . "u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
 			$result2 = mysqli_query($mysqli_link, $query);
-			$result = mysqli_query($mysqli_link, "UPDATE online set o_punkte=0 WHERE o_id=" . intval($o_id));
+			$result = mysqli_query($mysqli_link, "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id));
 		}
 		
 		// Gruppe neu berechnen
@@ -216,8 +216,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	}
 }
 
-function punkte_offline($anzahl, $u_id)
-{
+function punkte_offline($anzahl, $u_id) {
 	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $u_id
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert

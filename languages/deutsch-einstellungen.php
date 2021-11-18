@@ -43,7 +43,7 @@ $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neue
 $t['edit23'] = "Mit dieser E-Mail ist bereits ein anderer Benutzer registriert.";
 $t['edit24'] = "<b>Hinweis:</b> Die Änderungen wurden gespeichert.";
 
-$t['aktion1'] = "Tipps zur den Aktionen:";
+$t['aktion1'] = "Tipps zur den Aktionen";
 $t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit "
 	. "welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. "
 	. "der Logon oder Logout eines <b>Freundes</b>, oder auch der Eingang einer neuen <b>Mail</b>.</p>"

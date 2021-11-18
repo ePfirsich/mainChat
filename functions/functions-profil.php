@@ -9,42 +9,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	$eingabe_breite = 45;
 	
-	// Voreinstellungen
-	if (!isset($f['ui_land']))
-		$f['ui_land'] = "Deutschland";
-	if (!isset($f['ui_strasse']))
-		$f['ui_strasse'] = "";
-	if (!isset($f['ui_plz']))
-		$f['ui_plz'] = "";
-	if (!isset($f['ui_ort']))
-		$f['ui_ort'] = "";
-	if (!isset($f['ui_tel']))
-		$f['ui_tel'] = "";
-	if (!isset($f['ui_handy']))
-		$f['ui_handy'] = "";
-	if (!isset($f['ui_fax']))
-		$f['ui_fax'] = "";
-	if (!isset($f['ui_icq']))
-		$f['ui_icq'] = "";
-	if (!isset($f['ui_geburt']))
-		$f['ui_geburt'] = "";
-	if (!isset($f['ui_beruf']))
-		$f['ui_beruf'] = "";
-	if (!isset($f['ui_hobby']))
-		$f['ui_hobby'] = "";
-	if (!isset($f['ui_id']))
-		$f['ui_id'] = "";
-	if (!isset($f['ui_geschlecht'])) {
-		$f['ui_geschlecht'] = "";
-	}
-	if (!isset($f['ui_beziehung'])) {
-		$f['ui_beziehung'] = "";
-	}
-	if (!isset($f['ui_typ'])) {
-		$f['ui_typ'] = "";
-	}
-	
-		// Benutzerdaten lesen
+	// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -54,217 +19,182 @@ function profil_editor($u_id, $u_nick, $f) {
 		$userdaten_bearbeiten = "\n[<a href=\"$url\">Einstellungen ändern</a>]";
 	}
 	
+	$zaehler = 0;
+	
 	$text = "
 	<form name=\"profil\" action=\"inhalt.php?seite=profil\" method=\"post\">
-	<table>
+	<table style=\"width:100%;\">
 		<tr>
-			<td class=\"tabelle_kopfzeile\" colspan=\"5\">Ihre Benutzerdaten:</td>
-		</tr>
-		<tr>
-			<td class=\"tabelle_zeile1\" style=\"text-align:right;\">Benutzer:</td>
-			<td class=\"tabelle_zeile1\" colspan=\"2\"><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>
-			<td class=\"tabelle_zeile1\">$userdaten_bearbeiten</td>
+			<td class=\"tabelle_kopfzeile\" colspan=\"2\">$t[ihre_benutzerdaten]</td>
 		</tr>";
 	
-	$bgcolor = 'class="tabelle_zeile1"';
-	if ($userdata['u_email']) {
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>E-Mail:</td>
-			<td $bgcolor colspan=\"3\">" . htmlspecialchars($userdata['u_email']) ." (öffentlich)</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-	}
+	// Benutzer
+	$name = $t['profil_benutzername'];
+	$value = "<b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b> $userdaten_bearbeiten";
+	$text .= zeige_profilfelder("text", $zaehler, $name, "", $value);
+	$zaehler++;
+	
+	// E-Mail
+	$name = $t['profil_email'];
+	$value = htmlspecialchars($userdata['u_email']);
+	$text .= zeige_profilfelder("text", $zaehler, $name, "", $value);
+	$zaehler++;
+	
 	if ($userdata['u_adminemail']) {
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>E-Mail:</td>
-			<td $bgcolor colspan=\"3\">" . htmlspecialchars($userdata['u_adminemail']) . " (intern, für Admins)</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
+		// Interne E-Mail
+		$name = $t['profil_interne_email'];
+		$value = htmlspecialchars($userdata['u_adminemail']) . $t['profil_interne_email_details'];
+		$text .= zeige_profilfelder("text", $zaehler, $name, "", $value);
+		$zaehler++;
 	}
 	if ($userdata['u_url']) {
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Homepage:</td>
-			<td $bgcolor colspan=\"3\"><a href=\"" . htmlspecialchars($userdata['u_url']) . "\" target=\"_blank\">" . htmlspecialchars($userdata['u_url']) . "</a></td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
+		// Homepage
+		$name = $t['profil_homepage'];
+		$value = "<a href=\"" . htmlspecialchars($userdata['u_url']) . "\" target=\"_blank\">" . htmlspecialchars($userdata['u_url']) . "</a>";
+		$text .= zeige_profilfelder("text", $zaehler, $name, "", $value);
+		$zaehler++;
 	}
+	
 	$text .= "
 	<tr>
-		<td>
-			<input type=\"hidden\" name=\"id\" value=\"$id\">
-			<input type=\"hidden\" name=\"aktion\" value=\"neu\">
-		</td>
+		<td>&nbsp;</td>
 	</tr>";
-	$bgcolor = 'class="tabelle_zeile1"';
+
 	$text .= "
 	<tr>
-		<td colspan=\"5\">&nbsp;</td>
+		<td colspan=\"2\">&nbsp;</td>
 	</tr>
 	<tr>
-		<td class=\"tabelle_kopfzeile\" colspan=\"5\">Ihr neues Profil:</td>
+		<td class=\"tabelle_kopfzeile\" colspan=\"2\">$t[ihr_profil]</td>
 	</tr>
-	<tr>
-		<td style=\"text-align:right;\" $bgcolor>Straße:</td>
-		<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_strasse]\" value=\"" . $f['ui_strasse'] . "\" size=$eingabe_breite>$f2</td>
-	</tr>";
-	if ($bgcolor == 'class="tabelle_zeile1"') {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
-	}
-	$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>PLZ:</td>
-			<td $bgcolor>$f1<input type=\"text\" name=\"f[ui_plz]\" value=\"$f[ui_plz]\" size=8>$f2</td>
-			<td style=\"text-align:right;\" $bgcolor>Ort:</td>
-			<td style=\"width:100%;\" $bgcolor>$f1<input type=\"text\" name=\"f[ui_ort]\" value=\"" . $f['ui_ort'] . "\" size=" . ($eingabe_breite - 15) . ">$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Land:</td>
-			<td  $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_land]\" value=\"" . $f['ui_land'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Telefon:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_tel]\" value=\"" . $f['ui_tel'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Mobil:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_handy]\" value=\"" . $f['ui_handy'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Telefax:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_fax]\" value=\"" . $f['ui_fax'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>ICQ:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_icq]\" value=\"" . $f['ui_icq'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Geburtsdatum:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_geburt]\" value=\"" . $f['ui_geburt'] . "\" size=12>" . " (TT.MM.JAHR, z.B. 24.01.1969)$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Geschlecht:</td>
-			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_geschlecht]", $f['ui_geschlecht'], "userinfo", "ui_geschlecht") . $f2 . "</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Beziehung:</td>
-			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_beziehung]", $f['ui_beziehung'], "userinfo", "ui_beziehung") . $f2 . "</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Typ:</td>
-			<td $bgcolor colspan=\"3\">" . $f1 . autoselect("f[ui_typ]", $f['ui_typ'], "userinfo", "ui_typ") . $f2 . "</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Beruf:</td>
-			<td $bgcolor colspan=\"3\">$f1<input type=\"text\" name=\"f[ui_beruf]\" value=\"" . $f['ui_beruf'] . "\" size=$eingabe_breite>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>Hobbies:</td>
-			<td $bgcolor colspan=\"3\">$f1<textarea name=\"f[ui_hobby]\" value=\"" . $f['ui_hobby'] . "\" rows=\"4\" cols=\"" . ($eingabe_breite - 6) . "\" wrap=\"virtual\">$f[ui_hobby]</textarea>$f2</td>
-		</tr>";
-		if ($bgcolor == 'class="tabelle_zeile1"') {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
+	<tr>";
+	
+	// Wohnort
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_wohnort'], "ui_wohnort", $f['ui_wohnort'], 0, "45", $t['profil_wohnort_details']);
+	$zaehler++;
+	
+	// Geburtsdatum
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_geburt'], "ui_geburt",  $f['ui_geburt'], 0, "12");
+	$zaehler++;
+	
+	// Geschlecht
+	$value = array($t['profil_keine_angabe'], $t['profil_geschlecht_maennlich'], $t['profil_geschlecht_weiblich'], $t['profil_geschlecht_divers']);
+	$text .= zeige_profilfelder("selectbox", $zaehler, $t['profil_geschlecht'], "ui_geschlecht", $value, $f['ui_geschlecht']);
+	$zaehler++;
+	
+	// Beziehungsstatus
+	$value = array($t['profil_keine_angabe'], $t['profil_verheiratet'], $t['profil_ledig'], $t['profil_single'], $t['profil_vergeben']);
+	$text .= zeige_profilfelder("selectbox", $zaehler, $t['profil_beziehungsstatus'], "ui_beziehungsstatus", $value, $f['ui_beziehungsstatus']);
+	$zaehler++;
+	
+	// Typ
+	$value = array($t['profil_keine_angabe'], $t['profil_typ_zierlich'], $t['profil_typ_schlank'], $t['profil_typ_sportlich'], $t['profil_typ_normal'], $t['profil_typ_mollig'], $t['profil_typ_dick']);
+	$text .= zeige_profilfelder("selectbox", $zaehler, $t['profil_typ'], "ui_typ", $value, $f['ui_typ']);
+	$zaehler++;
+	
+	// Beruf
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_beruf'], "ui_beruf", $f['ui_beruf']);
+	$zaehler++;
+	
+	// Lieblingsfilm
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsfilm'], "ui_lieblingsfilm", $f['ui_lieblingsfilm']);
+	$zaehler++;
+	
+	// Lieblingsserie
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsserie'], "ui_lieblingsserie", $f['ui_lieblingsserie']);
+	$zaehler++;
+	
+	// Lieblingsbuch
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsbuch'], "ui_lieblingsbuch", $f['ui_lieblingsbuch']);
+	$zaehler++;
+	
+	// Lieblingsschauspieler
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsschauspieler'], "ui_lieblingsschauspieler", $f['ui_lieblingsschauspieler']);
+	$zaehler++;
+	
+	// Lieblingsgetränk
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsgetraenk'], "ui_lieblingsgetraenk", $f['ui_lieblingsgetraenk']);
+	$zaehler++;
+	
+	// Lieblingsgericht
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsgericht'], "ui_lieblingsgericht", $f['ui_lieblingsgericht']);
+	$zaehler++;
+	
+	// Lieblingsspiel
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsspiel'], "ui_lieblingsspiel", $f['ui_lieblingsspiel']);
+	$zaehler++;
+	
+	// Lieblingsfarbe
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_lieblingsfarbe'], "ui_lieblingsfarbe", $f['ui_lieblingsfarbe']);
+	$zaehler++;
+	
+	// Hobbies
+	$text .= zeige_profilfelder("textarea", $zaehler, $t['profil_hobby'], "ui_hobby", $f['ui_hobby']);
+	$zaehler++;
+		
 		$text .= "
 		<tr>
 			<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
-			<td $bgcolor colspan=\"3\">
+			<td $bgcolor>
 				$f1
-				<input type=\"hidden\" name=\"f[ui_id]\" value=\"$f[ui_id]\">
-				<input type=\"hidden\" name=\"f[ui_userid]\" value=\"$u_id\">
+				<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">
+				<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">
 				<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">
 				<input type=\"hidden\" name=\"id\" value=\"$id\">
-				<input type=\"hidden\" name=\"aktion\" value=\"neu\">
+				<input type=\"hidden\" name=\"profilaenderungen\" value=\"true\">
+				<input type=\"hidden\" name=\"aktion\" value=\"aendern\">
 				<input type=\"submit\" name=\"los\" value=\"Eintragen\">
 				$f2
 			</td>
 		</tr>
 	</table>
 	</form>";
+	
+	return $text;
+}
+
+function zeige_profilfelder($art_der_anzeige, $zaehler, $name, $key, $value, $ausgewaehltes_feld_selectbox = 0, $breite_eingabefeld = "45", $beschreibung = "") {
+	// Hintergrundfarbe mit jeder Zeile wechseln
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	
+	$text = "";
+	
+	$text .= "<tr>\n";
+	if($art_der_anzeige == "selectbox") {
+		// Auswahlfeld anzeigen
+		$text .= "<td style=\"text-align:right; width:200px;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor>";
+		
+		//$text .= autoselect("f[ui_geschlecht]", $f['ui_geschlecht'], "userinfo", "ui_geschlecht");
+		$text .= "<select name=\"$key\">";
+		for ($i=0; $i<count($value);$i++) {
+			if($i == $ausgewaehltes_feld_selectbox) {
+				$selected = " selected";
+			} else {
+				$selected = "";
+			}
+			$text .= "<option$selected value=\"$i\">$value[$i]</option>\n";
+			$felder[$i];
+		}
+		$text .= "</select> $beschreibung</td>\n";
+	} else if($art_der_anzeige == "input") {
+		// Input anzeigen
+		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor><input type=\"text\" name=\"$key\" value=\"$value\" maxlenght=\"100\" size=\"$breite_eingabefeld\"> $beschreibung</td>\n";
+	} else if($art_der_anzeige == "textarea") {
+		// Textarea anzeigen
+		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor><textarea name=\"$key\" rows=\"4\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
+	} else {
+		// Text anzeigen
+		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor>$value $beschreibung</td>\n";
+	}
+	$text .= "</tr>\n";
 	
 	return $text;
 }

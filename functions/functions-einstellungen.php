@@ -325,7 +325,7 @@ function zeige_aktionen($aktion) {
 	
 	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";
 	$button = "Eintragen";
-	$box = "$t[aktion4] $u_nick $t[aktion5]:";
+	$box = "$t[aktion4] $u_nick $t[aktion5]";
 	$text = '';
 	
 	$text .= "<form name=\"freund_loeschen\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"

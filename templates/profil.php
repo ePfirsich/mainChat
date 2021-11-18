@@ -1,93 +1,147 @@
 <?php
-// Prüfung, ob für diesen user bereits ein profil vorliegt -> in $f lesen und merken
+// Prüfung, ob für diesen Benutzer bereits ein profil vorliegt -> in $f lesen und merken
 // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
 $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) != 0) {
-	if (!isset($f) || !is_array($f)) {
-		$f = mysqli_fetch_array($result);
-	} else {
-		$f['ui_id'] = mysqli_result($result, 0, "ui_id");
-	}
+	// Bestehendes Profil aus der Datenbank laden
+	
+	$f = array();
+	$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$profil_gefunden = true;
 } else {
+	// Neues Profil anlegen
+	
+	$f = array();
+	$f['ui_id'] = 0;
+	$f['ui_userid'] = $u_id;
+	$f['ui_wohnort'] = '';
+	$f['ui_geburt'] = '';
+	$f['ui_geschlecht'] = 0;
+	$f['ui_beziehungsstatus'] = 0;
+	$f['ui_typ'] = 0;
+	$f['ui_beruf'] = '';
+	$f['ui_lieblingsfilm'] = '';
+	$f['ui_lieblingsserie'] = '';
+	$f['ui_lieblingsbuch'] = '';
+	$f['ui_lieblingsschauspieler'] = '';
+	$f['ui_lieblingsgetraenk'] = '';
+	$f['ui_lieblingsgericht'] = '';
+	$f['ui_lieblingsspiel'] = '';
+	$f['ui_lieblingsfarbe'] = '';
+	$f['ui_hobby'] = '';
 	$profil_gefunden = false;
 }
 mysqli_free_result($result);
 
-
 // Profil prüfen und ggf. neu eintragen
-if ($los == "Eintragen" && $f['ui_userid']) {
+$profilaenderungen = filter_input(INPUT_POST, 'profilaenderungen', FILTER_SANITIZE_URL);
+if($profilaenderungen && $f['ui_userid']) {
+	if( !isset($f['ui_id']) || $f['ui_id'] == '' || $f['ui_id'] == 0) {
+		$f = array();
+		$f['ui_id'] = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_URL);
+	} else {
+		$ui_id_temp = $f['ui_id'];
+		$f = array();
+		$f['ui_id'] = $ui_id_temp;
+	}
+	$f['ui_userid'] = $u_id;
+	$f['ui_wohnort'] = filter_input(INPUT_POST, 'ui_wohnort', FILTER_SANITIZE_STRING);
+	$f['ui_geburt'] = filter_input(INPUT_POST, 'ui_geburt', FILTER_SANITIZE_STRING);
+	$f['ui_geschlecht'] = filter_input(INPUT_POST, 'ui_geschlecht', FILTER_SANITIZE_NUMBER_INT);
+	$f['ui_beziehungsstatus'] = filter_input(INPUT_POST, 'ui_beziehungsstatus', FILTER_SANITIZE_NUMBER_INT);
+	$f['ui_typ'] = filter_input(INPUT_POST, 'ui_typ', FILTER_SANITIZE_NUMBER_INT);
+	$f['ui_beruf'] = filter_input(INPUT_POST, 'ui_beruf', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsfilm'] = filter_input(INPUT_POST, 'ui_lieblingsfilm', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsserie'] = filter_input(INPUT_POST, 'ui_lieblingsserie', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsbuch'] = filter_input(INPUT_POST, 'ui_lieblingsbuch', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsschauspieler'] = filter_input(INPUT_POST, 'ui_lieblingsschauspieler', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsgetraenk'] = filter_input(INPUT_POST, 'ui_lieblingsgetraenk', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsgericht'] = filter_input(INPUT_POST, 'ui_lieblingsgericht', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsspiel'] = filter_input(INPUT_POST, 'ui_lieblingsspiel', FILTER_SANITIZE_STRING);
+	$f['ui_lieblingsfarbe'] = filter_input(INPUT_POST, 'ui_lieblingsfarbe', FILTER_SANITIZE_STRING);
+	$f['ui_hobby'] = filter_input(INPUT_POST, 'ui_hobby', FILTER_SANITIZE_STRING);
 	
 	// Schreibrechte?
 	if ($f['ui_userid'] == $u_id || $admin) {
-		
 		$fehler = "";
 		
 		// Prüfungen
-		if ($f['ui_plz'] != "" && !preg_match("/^[0-9]{4,5}$/i", $f['ui_plz'])) {
-			$fehler .= "Die Postleitzahl ist ungültig (z.B.: 97074)<br>\n";
+		if (strlen($f['ui_wohnort']) > 100) {
+			$fehler .= $t['profil_fehler_wohnort'];
 		}
 		
 		if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
-			$fehler .= "Das Geburtsdatum ist ungültig (z.B.: 24.01.1969)<br>\n";
+			$fehler .= $t['profil_fehler_geburt'];
 		}
 		
-		if ($f['ui_tel'] != "" && !preg_match("/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i", $f['ui_tel'])) {
-			$fehler .= "Die Telefonnummer ist ungültig (z.B.: 0049-931-123456 oder 0931/123456)<br>\n";
+		if ($f['ui_geschlecht'] != "" && $f['ui_geschlecht'] < 0 && $f['ui_geschlecht'] > 3) {
+			$fehler .= $t['profil_fehler_geschlecht'];
 		}
 		
-		if ($f['ui_fax'] != "" && !preg_match("/^([0-9]{0,4})[\/-]{0,1}([0-9]{3,5})[\/-]([0-9]{3,})$/i", $f['ui_fax'])) {
-			$fehler .= "Die Faxnummer ist ungültig (z.B.: 0049-931-123456 oder 0931/123456)<br>\n";
+		if ($f['ui_beziehungsstatus'] != "" && $f['ui_beziehungsstatus'] < 0 && $f['ui_beziehungsstatus'] > 4) {
+			$fehler .= $t['profil_fehler_beziehungsstatus'];
 		}
 		
-		if ($f['ui_handy'] != "" && !preg_match("/^01([0-9]{9,11})$/i", $f['ui_handy'])) {
-			$fehler .= "Die Handynummer ist ungültig (z.B.: 0170123456)<br>\n";
-		}
-		
-		if (strlen($f['ui_strasse']) > 100) {
-			$fehler .= "Die Straße ist länger als 100 Zeichen!<br>\n";
-		}
-		
-		if (strlen($f['ui_ort']) > 100) {
-			$fehler .= "Der Ort ist länger als 100 Zeichen!<br>\n";
-		}
-		
-		if (strlen($f['ui_land']) > 100) {
-			$fehler .= "Das Land ist länger als 100 Zeichen!<br>\n";
-		}
-		
-		if (strlen($f['ui_hobby']) > 255) {
-			$fehler .= "Die Hobbies sind länger als 255 Zeichen!<br>\n";
+		if ($f['ui_typ'] != "" && $f['ui_typ'] < 0 && $f['ui_typ'] > 6) {
+			$fehler .= $t['profil_fehler_typ'];
 		}
 		
 		if (strlen($f['ui_beruf']) > 100) {
-			$fehler .= "Der Beruf ist länger als 100 Zeichen!<br>\n";
+			$fehler .= $t['profil_fehler_beruf'];
 		}
 		
-		if (strlen($f['ui_icq']) > 100) {
-			$fehler .= "Die ICQ-Nummer ist länger als 100 Zeichen!<br>\n";
+		if (strlen($f['ui_lieblingsfilm']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsfilm'];
+		}
+		
+		if (strlen($f['ui_lieblingsserie']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsserie'];
+		}
+		
+		if (strlen($f['ui_lieblingsbuch']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsbuch'];
+		}
+		
+		if (strlen($f['ui_lieblingsschauspieler']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsschauspieler'];
+		}
+		
+		if (strlen($f['ui_lieblingsgetraenk']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsgetraenk'];
+		}
+		
+		if (strlen($f['ui_lieblingsgericht']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsgericht'];
+		}
+		
+		if (strlen($f['ui_lieblingsspiel']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsspiel'];
+		}
+		
+		if (strlen($f['ui_lieblingsfarbe']) > 100) {
+			$fehler .= $t['profil_fehler_lieblingsfarbe'];
+		}
+		
+		if (strlen($f['ui_hobby']) > 255) {
+			$fehler .= $t['profil_fehler_hobby'];
 		}
 		
 		if ($fehler != "") {
-			echo "<P><b>Es sind folgende Fehler aufgetreten:</b><br>$fehler\n"
-				. "<br><b>Bitte korrieren Sie die Fehler!</P>\n";
+			$box = $t['profil_fehlermeldung'];
+			zeige_tabelle_zentriert($box, $fehler);
 		} else {
-			
-			
-			$query = "SELECT ui_text,ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
+			$query = "SELECT ui_text, ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
-				
 				// Benutzerprofil aus der Datenbank lesen
 				$home = mysqli_fetch_array($result);
 				if ($home['ui_farbe']) {
 					$farbentemp = unserialize($home['ui_farbe']);
-					if (is_array($farbentemp))
+					if (is_array($farbentemp)) {
 						$farben = $farbentemp;
+					}
 				}
-			//echo 'ui_text:' . $home['ui_text'] . '<br>';
-			//echo 'ui_farbe:' . $home['ui_farbe'] . '<br>';
 			$f['ui_text'] = $home['ui_text'];
 			$f['ui_farbe'] = $home['ui_farbe'];
 			} else {
@@ -96,39 +150,40 @@ if ($los == "Eintragen" && $f['ui_userid']) {
 			}
 			
 			// Punkte gutschreiben?
-			if (!$profil_gefunden && strlen($f['ui_ort']) > 2
-				&& strlen($f['ui_plz']) > 3 && strlen($f['ui_strasse']) > 4) {
-				punkte(500, $o_id, $u_id,
-					"Sie haben Ihr Profil ausgefüllt. Dafür möchten wir uns bedanken:");
+			if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
+				punkte(500, $o_id, $u_id, $t['profil_punkte']);
+				$profil_gefunden = true;
 			}
 			
-			// HTML-Zeichen ersetzen
-			$f['ui_icq'] = htmlspecialchars($f['ui_icq']);
-			$f['ui_hobby'] = htmlspecialchars($f['ui_hobby']);
-			$f['ui_beruf'] = htmlspecialchars($f['ui_beruf']);
-			$f['ui_land'] = htmlspecialchars($f['ui_land']);
-			$f['ui_ort'] = htmlspecialchars($f['ui_ort']);
-			$f['ui_strasse'] = htmlspecialchars($f['ui_strasse']);
+			// Wenn noch kein Profil existiert, die ID aus dem Array entfernen
+			if($f['ui_id'] == 0) {
+				unset($f['ui_id']);
+				$ui_id = 0;
+			} else {
+				$ui_id = $f['ui_id'];
+			}
 			
 			// Datensatz schreiben
-			$f['ui_id'] = schreibe_db("userinfo", $f, $f['ui_id'], "ui_id");
-			echo "<P><b>Ihr Profil wurde gespeichert!</b></P>\n";
+			$f['ui_id'] = schreibe_db("userinfo", $f, $ui_id, "ui_id");
 			
+			$box = $t['profil_erfolgsmeldung'];
+			$text = $t['profil_erfolgsmeldung_details'];
+			zeige_tabelle_zentriert($box, $text);
 		}
 		
 	} else {
 		// Kein Recht die Daten zu schreiben!
-		echo "<P><b>Fehler:</b> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!</P>";
+		$box = $t['profil_fehlermeldung'];
+		$text = "<b>Fehler:</b> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!";
+		zeige_tabelle_zentriert($box, $text);
 	}
-	
 }
 
 switch ($aktion) {
-	
 	case "neu":
 	case "aendern":
 	// Neues Profil einrichten oder bestehendes Ändern
-		if ($profil_gefunden) {
+		if ($profil_gefunden == true) {
 			$box = $t['bestehendes_profil'];
 		} else {
 			$box = $t['neues_profil'];
@@ -154,15 +209,28 @@ switch ($aktion) {
 	
 	case "zeigealle":
 	// Alle Profile listen
+		$box = $t['profil_alle_profile'];
 		if (!$admin) {
-			echo "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
+			$text = "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
 		} else {
 			$box = $t['profil_alle_profile'];
 			$text = '';
-			$text .= "<table class=\"tabelle_kopf\">\n"
-				. "<tr><td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td><td class=\"tabelle_kopfzeile\">$t[profil_strasse]</td><td class=\"tabelle_kopfzeile\">$t[profil_plzort]</td><td class=\"tabelle_kopfzeile\">$t[profil_land]</td><td class=\"tabelle_kopfzeile\">$t[profil_interne_email]</td><td class=\"tabelle_kopfzeile\">$t[profil_email]</td><td class=\"tabelle_kopfzeile\">$t[profil_homepage]</td><td class=\"tabelle_kopfzeile\">$t[profil_geburtsdatum]</td><td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td><td class=\"tabelle_kopfzeile\">$t[profil_beziehung]</td><td class=\"tabelle_kopfzeile\">$t[profil_typ]</td><td class=\"tabelle_kopfzeile\">$t[profil_beruf]</td><td class=\"tabelle_kopfzeile\">$t[profil_hobbies]</td><td class=\"tabelle_kopfzeile\">$t[profil_tel]</td><td class=\"tabelle_kopfzeile\">$t[profil_fax]</td><td class=\"tabelle_kopfzeile\">$t[profil_handy]</td><td class=\"tabelle_kopfzeile\">$t[profil_icq]</td></tr>";
+			$text .= "<table class=\"tabelle_kopf\">\n";
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_wohnort]</td>\n";
+			if($admin) {
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_interne_email]</td>\n";
+			}
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_email]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_homepage]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geburt]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_beziehungsstatus]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_typ]</td>\n";
+			$text .= "</tr>";
 			
-			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id order by u_nick";
+			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id ORDER BY u_nick";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				while ($row = mysqli_fetch_object($result)) {
@@ -176,43 +244,19 @@ switch ($aktion) {
 					$userdata['u_chathomepage'] = $row->u_chathomepage;
 					$userdaten = zeige_userdetails($row->u_id, $userdata);
 					
-					$text .= "<tr><td class=\"tabelle_koerper\"><b>"
-						. $userdaten
-						. "</b></td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_strasse)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_plz)
-						. " "
-						. htmlspecialchars($row->ui_ort)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_land)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->u_adminemail)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->u_email)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->u_url)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_geburt)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_geschlecht)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_beziehung)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_typ)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_beruf)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_hobby)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_tel)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_fax)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_handy)
-						. "</td><td class=\"tabelle_koerper\">"
-						. htmlspecialchars($row->ui_icq)
-						. "</td></tr>\n";
+					$text .= "<tr>\n";
+					$text .= "<td class=\"tabelle_koerper\"><b>" . $userdaten . "</b></td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_wohnort) . "</td>\n";
+					if($admin) {
+						$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_adminemail) . "</td>\n";
+					}
+					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_email) . "</td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_url) . "</td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_geburt) . "</td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row->ui_geschlecht)) . "</td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row->ui_beziehungsstatus)) . "</td>\n";
+					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row->ui_typ)) . "</td>\n";
+					$text .= "</tr>\n";
 				}
 			}
 			$text .= "</table>\n";

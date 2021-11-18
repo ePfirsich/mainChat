@@ -217,7 +217,7 @@ if(!$seite || $kein_seitenaufruf) {
 			$box = $t['menue1'];
 			$text = "<a href=\"inhalt.php?seite=einstellungen&id=$id\">$t[profil_benutzereinstellungen_aendern]</a>\n";
 			$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
-			if ($u_level == "S") {
+			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
 			$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id\">$t[profil_benutzer]</a>\n";
