@@ -320,7 +320,7 @@ function zeige_aktionen($aktion) {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was;
+	global $id, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was, $t;
 	global $forumfeatures;
 	
 	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";

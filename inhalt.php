@@ -268,6 +268,7 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			$box = $t['aktion1'];
 			$text = $t['aktion2'];
+			zeige_tabelle_zentriert($box, $text);
 			
 			break;
 		
