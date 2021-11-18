@@ -54,11 +54,6 @@ function profil_editor($u_id, $u_nick, $f) {
 		$text .= zeige_profilfelder("text", $zaehler, $name, "", $value);
 		$zaehler++;
 	}
-	
-	$text .= "
-	<tr>
-		<td>&nbsp;</td>
-	</tr>";
 
 	$text .= "
 	<tr>
