@@ -86,7 +86,7 @@ if ($aktion == "edit2") {
 	}
 }
 
-$max_groesse = 30; // Maximale Bild- und Text größe in KB
+$max_groesse = 60; // Maximale Bild- und Text größe in KB
 
 // Auswahl
 switch ($aktion) {
