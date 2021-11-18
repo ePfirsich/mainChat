@@ -120,6 +120,7 @@ if (isset($u_id) && $u_id) {
 				}
 			}
 			
+			
 			// Prüfen & in DB schreiben
 			if (isset($home) && is_array($home) && strlen($home['ui_text']) > ($max_groesse * 1024)) {
 				echo "<p><b>Fehler: </b> Ihr Text ist grösser als $max_groesse!</p>";
@@ -127,7 +128,6 @@ if (isset($u_id) && $u_id) {
 			}
 			
 			if (isset($home) && is_array($home) && $home['ui_id']) {
-				
 				// Einstellungen für Homepage
 				if (isset($einstellungen['u_chathomepage']) && $einstellungen['u_chathomepage'] == "on") {
 					$einstellungen['u_chathomepage'] = "J";
@@ -151,6 +151,14 @@ if (isset($u_id) && $u_id) {
 						bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'], $_FILES[$val]['size']);
 					}
 				}
+				
+				// Farben in ui_farbe packen
+				if (is_array($farben)) {
+					$home['ui_farbe'] = serialize($farben);
+				}
+				
+				// Änderungen in DB schreiben
+				$ui_id = schreibe_db("userinfo", $home, $home['ui_id'], "ui_id");
 			}
 			
 			// Daten laden und Editor anzeigen
@@ -159,7 +167,6 @@ if (isset($u_id) && $u_id) {
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				// Benutzerprofil aus der Datenbank lesen
-				echo "test";
 				$home = array();
 				$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
 				
