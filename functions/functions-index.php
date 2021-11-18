@@ -546,7 +546,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	
 	if ($u_level != "G") {
-		aktion("Login", $u_id, $u_nick, $hash_id);
+		aktion($u_id, "Login", $u_id, $u_nick, $hash_id);
 	}
 	
 	// Nachrichten an Freude verschicken
@@ -579,7 +579,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 				}
 			}
 			// Aktion ausführen
-			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
@@ -610,8 +610,9 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
-	if ($u_level != "G")
-		aktion("Login", $u_id, $u_nick, $hash_id);
+	if ($u_level != "G") {
+		aktion($u_id, "Login", $u_id, $u_nick, $hash_id);
+	}
 	
 	// Nachrichten an Freude verschicken
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
@@ -642,7 +643,7 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 				}
 			}
 			// Aktion ausführen
-			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);

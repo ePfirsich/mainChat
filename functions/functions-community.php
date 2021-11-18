@@ -293,14 +293,13 @@ function punkte_offline($anzahl, $u_id) {
 }
 
 function aktion(
+	$u_id,
 	$typ,
 	$an_u_id,
 	$u_nick,
 	$id = "",
 	$suche_was = "",
-	$inhalt = "")
-{
-	
+	$inhalt = "") {
 	// Programmierbare Aktionen für Benutzer $an_u_id von Benutzer $u_nick
 	// Verschickt eine Nachricht (Aktion) zum Login, Raumwechsel, Sofort oder alle 5 Minuten aus (a_wann)
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
@@ -310,11 +309,11 @@ function aktion(
 	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
-	global $u_id, $t, $mysqli_link;
+	global $t, $mysqli_link;
 	
 	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
 	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
-	$query = "SELECT a_was,a_wie from aktion " . "WHERE a_user=$an_u_id "
+	$query = "SELECT a_was,a_wie FROM aktion " . "WHERE a_user=$an_u_id "
 		. "AND a_wann='$typ' ";
 	if ($suche_was != "")
 		$query .= "AND a_was='$suche_was'";
@@ -331,14 +330,12 @@ function aktion(
 	mysqli_free_result($result);
 	
 	switch ($typ) {
-		
 		case "Sofort/Offline":
 		case "Sofort/Online":
 			if ($suche_was != "" && isset($a_was)
 				&& is_array($a_was[$suche_was])) {
 				foreach ($a_was[$suche_was] as $wie => $was) {
-					aktion_sende($suche_was, $wie, $inhalt, $an_u_id,
-						$u_id, $u_nick, $id);
+					aktion_sende($suche_was, $wie, $inhalt, $an_u_id, $u_id, $u_nick, $id);
 				}
 			}
 			break;
@@ -374,28 +371,34 @@ function aktion(
 		case "Login":
 		default:
 		// Aktionen ausführen
-			if (isset($a_was["Freunde"]["OLM"]))
+			if (isset($a_was["Freunde"]["OLM"])) {
 				freunde_online($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Freunde"]["Chat-Mail"]))
+			}
+			if (isset($a_was["Freunde"]["Chat-Mail"])) {
 				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
-			if (isset($a_was["Freunde"]["E-Mail"]))
+			}
+			if (isset($a_was["Freunde"]["E-Mail"])) {
 				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+			}
 			
-			if (isset($a_was["Neue Mail"]["OLM"]))
+			if (isset($a_was["Neue Mail"]["OLM"])) {
 				mail_neu($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Neue Mail"]["E-Mail"]))
+			}
+			if (isset($a_was["Neue Mail"]["E-Mail"])) {
 				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+			}
 			
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
 				postings_neu($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
+			}
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
 				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
+			}
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
 				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
-		
+			}
 	}
 }
-;
 
 function aktion_sende(
 	$a_was,
@@ -577,7 +580,7 @@ function aktion_sende(
 
 function mail_sende($von, $an, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von an ID $an mit Text $text
-	global $u_nick, $mysqli_link, $t;
+	global $u_nick, $mysqli_link, $t, $u_id;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
@@ -632,20 +635,16 @@ function mail_sende($von, $an, $text, $betreff = "") {
 				$f['m_betreff'] = substr($f['m_betreff'], 0,
 					strrpos($f['m_betreff'], " ") + 1);
 			}
-			;
 		}
-		;
 		
 		$f['m_id'] = schreibe_db("mail", $f, "", "m_id");
 		
 		// Nachricht über neue E-Mail sofort erzeugen
 		if (ist_online($an)) {
-			aktion("Sofort/Online", $an, $u_nick, "", "Neue Mail", $f);
+			aktion($u_id, "Sofort/Online", $an, $u_nick, "", "Neue Mail", $f);
 		} else {
-			aktion("Sofort/Offline", $an, $u_nick, "", "Neue Mail", $f);
+			aktion($u_id, "Sofort/Offline", $an, $u_nick, "", "Neue Mail", $f);
 		}
-		;
-		
 	}
 	if (!isset($f['m_id']))
 		$f['m_id'] = "";

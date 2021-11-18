@@ -141,8 +141,7 @@ function gehe_forum($u_id, $u_nick, $o_id, $o_raum) {
 	
 	//Austrittstext im alten raum erzeugen
 	verlasse_chat($u_id, $u_nick, $o_raum);
-	system_msg("", 0, $u_id, "",
-		str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
+	system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	
 	//Daten in online-tabelle richten
 	$f['o_raum'] = -1; //-1 allgemein fuer community
@@ -1220,7 +1219,7 @@ function ersetzte_smilies($text) {
 
 // erzeugt Aktionen bei Antwort auf einen Beitrag
 function aktion_sofort($po_id, $po_vater_id, $thread) {
-	global $mysqli_link, $t;
+	global $mysqli_link, $t, $u_id;
 	//aktionen nur fuer Antworten
 	if ($po_vater_id > 0) {
 		
@@ -1265,9 +1264,11 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 		//Ist betroffener Benutzer Online?
 		$online = ist_online($user);
 		
-		if ($online)
+		if ($online) {
 			$wann = "Sofort/Online";
-		else $wann = "Sofort/Offline";
+		} else {
+			$wann = "Sofort/Offline";
+		}
 		
 		//Themaorder fuer dieses Thema holen
 		$sql = "select po_threadorder 
@@ -1291,8 +1292,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 		$text['po_ts_antwort'] = $po_ts_antwort;
 		$text['baum'] = $baum;
 		
-		aktion($wann, $user, $user_from_id, "", "Antwort auf eigenen Beitrag",
-			$text);
+		aktion($u_id, $wann, $user, $user_from_id, "", "Antwort auf eigenen Beitrag", $text);
 	}
 	
 }

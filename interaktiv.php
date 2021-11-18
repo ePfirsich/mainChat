@@ -24,7 +24,7 @@ if (isset($u_id) && $u_id) {
 	// Aktionen ausführen, falls nicht innerhalb der letzten 5
 	// Minuten geprüft wurde (letzte Prüfung=o_aktion)
 	if ( time() > ($o_aktion + 300) ) {
-		aktion("Alle 5 Minuten", $u_id, $u_nick, $id);
+		aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick, $id);
 	}
 	
 	// Wurde Raum r_id aus Formular übergeben? Falls ja Raum von $o_raum nach $r_id wechseln

@@ -965,7 +965,6 @@ function zeige_userdetails(
 		}
 		
 	} else if ($zeige_user_id) {
-		
 		// Benutzerdaten aus DB lesen
 		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d.%m.%y %H:%i') AS login "
@@ -1448,10 +1447,8 @@ function logout($o_id, $u_id) {
 	mysqli_query($mysqli_link, $repair2);
 	
 	// Nachrichten an Freunde verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
-		. "UNION "
-		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-		. "ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION "
+		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 			
 	$result = mysqli_query($mysqli_link, $query);
 	
@@ -1478,7 +1475,7 @@ function logout($o_id, $u_id) {
 				}
 			}
 			// Aktion ausführen
-			aktion($wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
