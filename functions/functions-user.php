@@ -33,98 +33,85 @@ function user_pm_list($larr, $anzahl) {
 	flush();
 		$v = $larr[$k];
 	// Anzeige der Benutzer ohne JavaScript
-	if($pmue22 != 0)
-	{
-	for ($k = 0; $k < $pmue22; $k++) {
-	
-	$pmuea2 = $pmue2[$k][0]; 
-	
-	//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
-	$pmu3 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id);
-	$pmue33 = mysqli_num_rows($pmu3);
-		
-		if ( $k % 2 != 0 ) {
-			$farbe_tabelle = 'class="tabelle_zeile1"';
-		} else {
-			$farbe_tabelle = 'class="tabelle_zeile2"';
+	if($pmue22 != 0) {
+		for ($k = 0; $k < $pmue22; $k++) {
+			$pmuea2 = $pmue2[$k][0]; 
+			
+			//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
+			$pmu3 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id);
+			$pmue33 = mysqli_num_rows($pmu3);
+			
+			if ( $k % 2 != 0 ) {
+				$farbe_tabelle = 'class="tabelle_zeile1"';
+			} else {
+				$farbe_tabelle = 'class="tabelle_zeile2"';
+			}
+			
+			if($pmue33 > 0) {
+				$pmue33t = " <b>(".$pmue33.")</b>";
+			} else {
+				$pmue33t = "";
+			}
+			
+			$user = zeige_userdetails($pmuea2, $v) . "" . $pmue33t;
+			
+			$trow .= "<tr>";
+			$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+			
+			$trow .= "</b>" . $user . $f2;
+			$trow .= "</td></tr>";
 		}
-		
-		if($pmue33 > 0) {
-			$pmue33t = " <b>(".$pmue33.")</b>";
-		} else {
-			$pmue33t = "";
-		}
-		
-		$user = zeige_userdetails($pmuea2, $v) . "" . $pmue33t;
-		
-		$trow .= "<tr>";
-		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
-		
-		
-		$trow .= "</b>" . $user . $f2;
-		$trow .= "</td></tr>";
-	}
 	}
 	
-	if($pmuee !=0)
-	{
-	
-	$pxx = false;
+	if($pmuee !=0) {
+		$pxx = false;
 		
-	for ($k = 0; $k < $pmuee; $k++) {
-	
-	$pmuea = $pmue[$k][0]; 
-	
-	$pmu4 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea);
-	$pmue44 = mysqli_num_rows($pmu4);
-	$pmue4 = mysqli_fetch_all($pmu4);
-	
-	for ($k = 0; $k < $pmue22; $k++) {
-	
-	$pmuea2 = $pmue2[$k][0]; 
-	$pmuea3 = $pmue4[$k][0];
-	
-		if($pmuea == $pmuea2) {
-			$pxx = true;
-			//$pmue44 = "0";
+		for ($k = 0; $k < $pmuee; $k++) {
+			$pmuea = $pmue[$k][0]; 
+			
+			$pmu4 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea);
+			$pmue44 = mysqli_num_rows($pmu4);
+			$pmue4 = mysqli_fetch_all($pmu4);
+			
+			for ($k = 0; $k < $pmue22; $k++) {
+				$pmuea2 = $pmue2[$k][0]; 
+				$pmuea3 = $pmue4[$k][0];
+				
+					if($pmuea == $pmuea2) {
+						$pxx = true;
+						//$pmue44 = "0";
+					}
+			}	
+			
+			if(!$pxx) {
+				if ( $k % 2 != 0 ) {
+					$farbe_tabelle = 'class="tabelle_zeile1"';
+				} else {
+					$farbe_tabelle = 'class="tabelle_zeile2"';
+				}
+				
+				if($pmue44 > 0) {
+					$pmue44t = " <b>(".$pmue44.")</b>";
+				} else {
+					$pmue44t = "";
+				}
+				
+				$user = zeige_userdetails($pmuea, $v) . "" . $pmue44t;
+				
+				$trow .= "<tr>";
+				$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+				
+				
+				$trow .= "</b>" . $user . $f2;
+				$trow .= "</td></tr>";
+			}
 		}
-		
-	}	
-	
-	if(!$pxx)
-	{
-		
-		if ( $k % 2 != 0 ) {
-			$farbe_tabelle = 'class="tabelle_zeile1"';
-		} else {
-			$farbe_tabelle = 'class="tabelle_zeile2"';
-		}
-		
-		if($pmue44 > 0) {
-			$pmue44t = " <b>(".$pmue44.")</b>";
-		} else {
-			$pmue44t = "";
-		}
-		
-		$user = zeige_userdetails($pmuea, $v) . "" . $pmue44t;
-		
-		$trow .= "<tr>";
-		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
-		
-		
-		$trow .= "</b>" . $user . $f2;
-		$trow .= "</td></tr>";
-	}
-	}
-		
 	}
 		
 	$text .= "<table style=\"width:100%;\">$trow</table>\n";
 	
 	return $text;
 }
-
-
 
 function user_liste($larr, $anzahl, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
@@ -277,40 +264,43 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		
 		// Avatare
-		$query2 = "SELECT * FROM user WHERE u_id LIKE '$row->u_id'";
-		$result2 = mysqli_query($mysqli_link, $query2);
+		$box = $t['user_zeige60'];
+		$text = "";
 		
-		if ($result2 && mysqli_num_rows($result2) == 1) {
-			$row2 = mysqli_fetch_object($result2);
-			
-			$u_avatar_pfad = $row2->u_avatar_pfad;
-		}
-		
-		$query1 = "SELECT * FROM userinfo WHERE ui_userid LIKE '$row->u_id'";
+		// Geschlecht holen
+		$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$row->u_id'";
 		$result1 = mysqli_query($mysqli_link, $query1);
-		
 		if ($result1 && mysqli_num_rows($result1) == 1) {
 			$row1 = mysqli_fetch_object($result1);
-			
 			$ui_gen = $row1->ui_geschlecht;
 		} else {
 			$ui_gen = 'leer';
 		}
 		
-		
-		//Avatar pruefen
-		$box = $t['user_zeige60'];
-		$text = "";
+		// Bildinfos lesen und in Array speichern
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$row->u_id";
+		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+		unset($bilder);
+		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+			while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
+				$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
+				$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
+				$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
+			}
+		}
+		mysqli_free_result($resultAvatar);
 		
 		$text .= "<br><center>";
-		if($u_avatar_pfad) { // Benutzerdefinierter Avatar
-			$text .= '<img src="./avatars/'.$u_avatar_pfad.'" style="width:200px; height:200px;" alt="'.$u_avatar_pfad.'" />';
-		} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-			$text .= '<img src="./avatars/no_avatar_m.jpg" style="width:200px; height:200px;" alt="" />';
-		} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-			$text .= '<img src="./avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
-		} else { // Neutraler Standard-Avatar
-			$text .= '<img src="./avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
+		if (!isset($bilder)) {
+			if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+				$text .= '<img src="./images/avatars/no_avatar_m.jpg" style="width:200px; height:200x;" alt="" />';
+			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+				$text .= '<img src="./images/avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
+			} else { // Neutraler Standard-Avatar
+				$text .= '<img src="./images/avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
+			}
+		} else {
+			$text .= avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder, "profil");
 		}
 		$text .= "</center><br>";
 		

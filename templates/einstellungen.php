@@ -86,8 +86,78 @@ if ($aktion == "edit2") {
 	}
 }
 
+$max_groesse = 30; // Maximale Bild- und Text größe in KB
+
 // Auswahl
 switch ($aktion) {
+	case "aendern":
+		// Avatar hochladen und löschen
+		
+		// Avatar löschen
+		if (isset($loesche) && $loesche <> "avatar") {
+			unset($loesche);
+		}
+		
+		if (isset($loesche) && $loesche && $u_id) {
+			$queryLoeschen = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($u_id);
+			$resultLoeschen = mysqli_query($mysqli_link, $queryLoeschen);
+			
+			$cache = "home_bild";
+			$cachepfad = $cache . "/" . substr($ui_userid, 0, 2) . "/" . $u_id . "/" . $loesche;
+			
+			if (file_exists($cachepfad)) {
+				unlink($cachepfad);
+				unlink($cachepfad . "-mime");
+			}
+			
+			// Box anzeigen
+			zeige_tabelle_zentriert($t['edit_erfolgsmeldung'], $t['edit_avatar_geloescht'] );
+		}
+		
+		// Avatar hochladen
+		if (isset($avatar_hochladen) && $avatar_hochladen) {
+			// hochgeladene Bilder in DB speichern
+			$bildliste = ARRAY("avatar");
+			foreach ($bildliste as $val) {
+				if (isset($_FILES[$val]) && is_uploaded_file($_FILES[$val]['tmp_name'])) {
+					// Abspeichern
+					bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'], $_FILES[$val]['size']);
+				}
+			}
+		}
+		
+		// Benutzer mit ID $u_id anzeigen
+		$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($u_id);
+		$result = mysqli_query($mysqli_link, $query);
+		$rows = mysqli_num_rows($result);
+		
+		if ($rows == 1) {
+			$row = mysqli_fetch_object($result);
+			$f['u_id'] = $u_id;
+			$f['u_nick'] = $row->u_nick;
+			$f['u_id'] = $row->u_id;
+			$f['u_email'] = $row->u_email;
+			$f['u_adminemail'] = $row->u_adminemail;
+			$f['u_url'] = $row->u_url;
+			$f['u_level'] = $row->u_level;
+			$f['u_farbe'] = $row->u_farbe;
+			$f['u_zeilen'] = $row->u_zeilen;
+			$f['u_smilie'] = $row->u_smilie;
+			$f['u_avatare_anzeigen'] = $row->u_avatare_anzeigen;
+			$f['u_avatar_pfad'] = $row->u_avatar_pfad;
+			$f['u_systemmeldungen'] = $row->u_systemmeldungen;
+			$f['u_eintritt'] = $row->u_eintritt;
+			$f['u_austritt'] = $row->u_austritt;
+			$f['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
+			$f['u_sicherer_modus'] = $row->u_sicherer_modus;
+			$f['u_layout_farbe'] = $row->u_layout_farbe;
+			$f['u_layout_chat_darstellung'] = $row->u_layout_chat_darstellung;
+			$f['u_signatur'] = $row->u_signatur;
+			user_edit($f, $admin, $u_level);
+			mysqli_free_result($result);
+		}
+		
+		break;
 	
 	case "andereadminmail":
 		$text = '';
@@ -212,9 +282,7 @@ switch ($aktion) {
 		break;
 	
 	case "edit":
-		if (((isset($eingabe) && $eingabe == "Ändern!")
-			|| (isset($farben['u_farbe']) && $farben['u_farbe']))
-			&& ($u_id == $f['u_id'] || $admin)) {
+		if (((isset($eingabe) && $eingabe == "Ändern!") || (isset($farben['u_farbe']) && $farben['u_farbe'])) && ($u_id == $f['u_id'] || $admin)) {
 			// In Namen die unerlaubten Zeichen entfernen
 			$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
 			
@@ -495,16 +563,14 @@ switch ($aktion) {
 				
 				// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 				if (isset($f['u_level']) && $f['u_level'] == "Z") {
-					$queryii = "SELECT u_nick,u_id from user,iignore "
-						. "WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
+					$queryii = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
 					$resultii = @mysqli_query($mysqli_link, $queryii);
 					$anzahlii = @mysqli_num_rows($resultii);
 					
 					if ($resultii && $anzahlii > 0) {
 						for ($i = 0; $i < $anzahlii; $i++) {
 							$rowii = @mysqli_fetch_object($resultii);
-							ignore($o_id, $f['u_id'], $f['u_nick'],
-								$rowii->u_id, $rowii->u_nick);
+							ignore($o_id, $f['u_id'], $f['u_nick'], $rowii->u_id, $rowii->u_nick);
 						}
 					}
 					mysqli_free_result($resultii);
@@ -517,8 +583,7 @@ switch ($aktion) {
 					if ($resultii && $anzahlii > 0) {
 						for ($i = 0; $i < $anzahlii; $i++) {
 							$rowii = @mysqli_fetch_object($resultii);
-							ignore($o_id, $rowii->u_id, $rowii->u_nick,
-								$f['u_id'], $f['u_nick']);
+							ignore($o_id, $rowii->u_id, $rowii->u_nick, $f['u_id'], $f['u_nick']);
 						}
 					}
 					mysqli_free_result($resultii);
@@ -552,9 +617,7 @@ switch ($aktion) {
 					// Aus dem Chat ausloggen
 					ausloggen($f['u_id'], $f['u_nick'], $row->o_raum, $row->o_id);
 					
-					echo "<p><b>"
-						. str_replace("%u_nick%", htmlspecialchars($f['u_nick']),
-							$t['edit12']) . "</b></p>\n";
+					echo "<p><b>" . str_replace("%u_nick%", htmlspecialchars($f['u_nick']), $t['edit12']) . "</b></p>\n";
 				}
 				mysqli_free_result($result);
 			}
@@ -620,8 +683,8 @@ switch ($aktion) {
 					. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$f[u_nick]\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 				echo $f1
-					. "<input type=\"SUBMIT\" name=\"eingabe\" value=\"Löschen!\">";
-				echo "&nbsp;<input type=\"SUBMIT\" name=\"eingabe\" value=\"Abbrechen\">"
+					. "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\">";
+				echo "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Abbrechen\">"
 					. $f2;
 				echo "</form>\n";
 			} else {
@@ -787,8 +850,7 @@ switch ($aktion) {
 		break;
 	
 	default:
-	// Benutzer mit ID $u_id anzeigen
-	
+		// Benutzer mit ID $u_id anzeigen
 		$query = "SELECT `user`.* FROM `user` WHERE u_id=" . intval($u_id);
 		$result = mysqli_query($mysqli_link, $query);
 		$rows = mysqli_num_rows($result);
@@ -819,4 +881,5 @@ switch ($aktion) {
 			mysqli_free_result($result);
 		}
 }
+
 ?>

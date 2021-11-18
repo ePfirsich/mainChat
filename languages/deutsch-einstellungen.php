@@ -17,6 +17,8 @@ $t['menue11'] = "Hilfe";
 
 $t['edit_fehlermeldung'] = "Fehler";
 $t['edit_erfolgsmeldung'] = "Änderungen gespeichert!";
+$t['edit_avatar_geloescht'] = "Der Avatar wurde erfolgreich gelöscht.";
+$t['edit_avatar'] = "Avatar";
 
 $t['edit1'] = "Bitte eine gültige E-Mail Adresse eingeben!";
 $t['edit3'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!";

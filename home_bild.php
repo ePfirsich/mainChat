@@ -18,7 +18,7 @@ $cache = "home_bild";
 $feld = mysqli_real_escape_string($mysqli_link, $feld);
 $u_id = intval($u_id);
 
-if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6") {
+if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6" && $feld != "avatar") {
 	echo "Fehlerhaftes 'feld' in home_bild.php'<br>";
 	exit;
 }

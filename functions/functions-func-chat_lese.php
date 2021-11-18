@@ -430,30 +430,26 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 								
-								
-								// Start des Avatars
+								// Anfang des Avatars
+								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
-								
 								if ($result3 && mysqli_num_rows($result3) == 1) {
 									$row3 = mysqli_fetch_object($result3);
 									$u_avatare_anzeigen = $row3->u_avatare_anzeigen;
 								}
 								
+								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
 								$result2 = mysqli_query($mysqli_link, $query2);
-								
 								if ($result2 && mysqli_num_rows($result2) == 1) {
 									$row2 = mysqli_fetch_object($result2);
-									
 									$uu_id = $row2->u_id;
-									$u_avatar_pfad = $row2->u_avatar_pfad;
-									
 								}
 								
+								// Geschlecht holen
 								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
 								$result1 = mysqli_query($mysqli_link, $query1);
-								
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
 									$ui_gen = $row1->ui_geschlecht;
@@ -464,14 +460,29 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($u_avatare_anzeigen == 1) {
-										if($u_avatar_pfad) { // Benutzerdefinierter Avatar
-											$ava = '<img src="./avatars/'.$u_avatar_pfad.'" style="width:25px; height:25px;" alt="'.$u_avatar_pfad.'" /> ';
-										} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
-										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
-										} else { // Neutraler Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
+										// Bildinfos lesen und in Array speichern
+										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$uu_id";
+										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+										unset($bilder);
+										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
+												$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
+												$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
+												$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
+											}
+										}
+										mysqli_free_result($result2);
+										
+										if (!isset($bilder)) {
+											if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
+											} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
+											} else { // Neutraler Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
+											}
+										} else {
+											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder) ." ";
 										}
 									} else {
 										$ava = "";
@@ -502,30 +513,26 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 								
-								
-								// Start des Avatars
+								// Anfang des Avatars
+								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
-								
 								if ($result3 && mysqli_num_rows($result3) == 1) {
 									$row3 = mysqli_fetch_object($result3);
 									$u_avatare_anzeigen = $row3->u_avatare_anzeigen;
 								}
 								
+								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
 								$result2 = mysqli_query($mysqli_link, $query2);
-								
 								if ($result2 && mysqli_num_rows($result2) == 1) {
 									$row2 = mysqli_fetch_object($result2);
-									
 									$uu_id = $row2->u_id;
-									$u_avatar_pfad = $row2->u_avatar_pfad;
-									
 								}
 								
+								// Geschlecht holen
 								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
 								$result1 = mysqli_query($mysqli_link, $query1);
-								
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
 									$ui_gen = $row1->ui_geschlecht;
@@ -536,14 +543,29 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($u_avatare_anzeigen == 1) {
-										if($u_avatar_pfad) { // Benutzerdefinierter Avatar
-											$ava = '<img src="./avatars/'.$u_avatar_pfad.'" style="width:25px; height:25px;" alt="'.$u_avatar_pfad.'" /> ';
-										} else if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
-										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
-										} else { // Neutraler Standard-Avatar
-											$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
+										// Bildinfos lesen und in Array speichern
+										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$uu_id";
+										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+										unset($bilder);
+										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
+												$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
+												$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
+												$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
+											}
+										}
+										mysqli_free_result($result2);
+										
+										if (!isset($bilder)) {
+											if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" /> ';
+											} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" /> ';
+											} else { // Neutraler Standard-Avatar
+												$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
+											}
+										} else {
+											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder) ." ";
 										}
 									} else {
 										$ava = "";
@@ -557,8 +579,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								}
 								// Ende des Avatars
 								
-								
-								$zanfang = $ava. "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								$zanfang = $ava . "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
 							}
 							if ($br == "") {
 								$zende = "";

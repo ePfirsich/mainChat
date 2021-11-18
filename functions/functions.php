@@ -160,16 +160,15 @@ function ist_online($user) {
 	
 	$user = mysqli_real_escape_string($mysqli_link, $user); // sec
 	
-	$query = "SELECT o_id,r_name FROM online left join raum on r_id=o_raum "
-		. "WHERE o_user=$user "
-		. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$query = "SELECT o_id,r_name FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		$ist_online_raum = mysqli_result($result, 0, "r_name");
-		if (!$ist_online_raum || $ist_online_raum == "NULL")
+		if (!$ist_online_raum || $ist_online_raum == "NULL") {
 			$ist_online_raum = "[" . $whotext[2] . "]";
+		}
 		mysqli_free_result($result);
 		return (1);
 	} else {
@@ -575,7 +574,6 @@ function schreibe_db($db, $f, $id, $id_name) {
 				}
 			}
 		}
-		
 		$query = "INSERT INTO $db SET $id_name=$id " . $q;
 		$result = mysqli_query($mysqli_link, $query);
 		if (!$result) {
@@ -1511,5 +1509,58 @@ function logout($o_id, $u_id) {
 		}
 	}
 	mysqli_free_result($result);
+}
+
+function avatar_editieren_anzeigen(
+	$u_id,
+	$u_nick,
+	$feld,
+	$bilder,
+	$aktion = "") {
+		
+		global $f1, $f2, $f3, $f4, $id, $t;
+		
+		$eingabe_breite = 55;
+		
+		if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
+			$width = $bilder[$feld]['b_width'];
+			$height = $bilder[$feld]['b_height'];
+			$mime = $bilder[$feld]['b_mime'];
+			
+			$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
+			
+			if (!isset($info)) {
+				$info = "";
+			}
+			if ($aktion == "aendern") {
+				$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
+				$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "<br><br></td>\n";
+			} else if ($aktion == "profil") {
+				if($width > 200) {
+					$width = 200;
+				}
+				if($height > 200) {
+					$height = 200;
+				}
+				$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
+			} else {
+				$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
+			}
+		} else if ($aktion == "aendern") {
+			$text = "<td style=\"vertical-align:top;\">";
+			$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?seite=einstellungen&id=$id&aktion=aendern\" method=\"post\">\n"
+			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+			. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
+		. "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n"
+		. "<input type=\"hidden\" name=\"avatar_hochladen\" value=\"avatar_hochladen\">\n";
+		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"><br>";
+		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
+		}
+		
+		if ($text && $aktion == "aendern") {
+			$text = "<table style=\"width:100%;\"><tr>" . $text . "</tr></table>";
+		}
+		
+		return ($text);
 }
 ?>

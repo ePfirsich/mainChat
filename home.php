@@ -41,9 +41,6 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	}
 }
 
-// Pfad auf Cache
-$cache = "home_bild";
-
 if (isset($u_id) && $u_id) {
 	
 	// Timestamp im Datensatz aktualisieren
@@ -116,8 +113,7 @@ if (isset($u_id) && $u_id) {
 			}
 			
 			if (isset($loesche) && $loesche && $ui_userid) {
-				$query = "DELETE FROM bild WHERE "
-					. "b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($ui_userid);
+				$query = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($ui_userid);
 				$result = mysqli_query($mysqli_link, $query);
 				
 				$cache = "home_bild";
@@ -155,11 +151,9 @@ if (isset($u_id) && $u_id) {
 				}
 				
 				// hochgeladene Bilder in DB speichern
-				$bildliste = ARRAY("ui_bild1", "ui_bild2", "ui_bild3",
-					"ui_bild4", "ui_bild5", "ui_bild6");
+				$bildliste = ARRAY("ui_bild1", "ui_bild2", "ui_bild3", "ui_bild4", "ui_bild5", "ui_bild6");
 				foreach ($bildliste as $val) {
-					if (isset($_FILES[$val])
-						&& is_uploaded_file($_FILES[$val]['tmp_name'])) {
+					if (isset($_FILES[$val]) && is_uploaded_file($_FILES[$val]['tmp_name'])) {
 						// Abspeichern
 						bild_holen($ui_userid, $val, $_FILES[$val]['tmp_name'], $_FILES[$val]['size']);
 					}
@@ -223,8 +217,7 @@ if (isset($u_id) && $u_id) {
 				// hidden Felder für die Farben erzeugen
 				$inputliste = "";
 				foreach ($farbliste as $val) {
-					$inputliste .= "<input type=\"hidden\" name=\"farben[$val]\" value=\""
-						. (isset($farben) ? $farben[$val] : "") . "\">\n";
+					$inputliste .= "<input type=\"hidden\" name=\"farben[$val]\" value=\"" . (isset($farben) ? $farben[$val] : "") . "\">\n";
 				}
 				
 				echo "<form enctype=\"multipart/form-data\" name=\"home\" action=\"$PHP_SELF\" method=\"post\">\n"

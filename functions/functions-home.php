@@ -28,14 +28,11 @@ function edit_home(
 		. "<br>\n"
 		. home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
 		. "</td>\n<td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
-		. home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion,
-			$bilder)
+		. home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion, $bilder)
 		. "<br>\n"
-		. home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion,
-			$bilder)
+		. home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion, $bilder)
 		. "<br>\n"
-		. home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion,
-			$bilder)
+		. home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion, $bilder)
 		. "<br>\n"
 		. home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
 		. "</td></tr>\n"
@@ -388,7 +385,7 @@ function home_bild(
 	$bilder,
 	$beschreibung = "") {
 	
-	global $PHP_SELF, $f1, $f2, $f3, $f4, $id;
+	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $t;
 	
 	$eingabe_breite = 55;
 	
@@ -405,27 +402,22 @@ function home_bild(
 		
 		if (!isset($info))
 			$info = "";
-		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" width=\"$width\" height=\"$height\" alt=\"$u_nick\"><br>" . $info . "</td>";
+		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "</td>";
 		
 		if ($aktion == "aendern") {
 			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
-				. $f4 . "<br>"
+				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "<br>"
 				. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
 				. "</td>\n";
 		} elseif ($aktion == "aendern_ohne_farbe") {
 			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">LÖSCHEN</A>]</b>"
-				. $f4 . "</td>\n";
+				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "</td>\n";
 		}
 		
 	} elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
 		
-		$text = "<td style=\"text-align:center; vertical-align:top;\"><b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG und GIF Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 30 Kb sein!</b><br>"
-			. "<input type=\"file\" name=\"$feld\" SIZE=\""
-			. ($eingabe_breite / 8) . "\"></td>";
-		$text .= "<td style=\"vertical-align:top; text-align:right;\">&nbsp;<br>"
-			. "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
+		$text = "<td style=\"text-align:center; vertical-align:top;\">$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"></td>";
+		$text .= "<td style=\"vertical-align:top; text-align:right;\">&nbsp;<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
 		
 	} else {
 		
@@ -633,9 +625,6 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 					break;
 				case 3:
 					$f['b_mime'] = "image/png";
-					break;
-				case 4:
-					$f['b_mime'] = "application/x-shockwave-flash";
 					break;
 				
 				default:

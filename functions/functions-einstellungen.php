@@ -11,6 +11,38 @@ function user_edit($f, $admin, $u_level) {
 	$input_breite = 32;
 	$passwort_breite = 15;
 	
+	if ($u_level != "G") {
+		// Avatar lesen und in Array speichern
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . intval($u_id);
+		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+			unset($bilder);
+			while ($row = mysqli_fetch_object($resultAvatar)) {
+				$bilder[$row->b_name]['b_mime'] = $row->b_mime;
+				$bilder[$row->b_name]['b_width'] = $row->b_width;
+				$bilder[$row->b_name]['b_height'] = $row->b_height;
+			}
+		}
+		mysqli_free_result($resultAvatar);
+		// Wenn kein Avatar gefunden wurde
+		if (!isset($bilder)) {
+			$bilder = "";
+		}
+		
+		$box = $t['edit_avatar'];
+		
+		// Avatar
+		$text = '';
+		$text .= "<table style=\"width:100%;\">";
+		$text .= "<tr>";
+		$text .= "<td style=\"width:450px; vertical-align:top;\">" . $f1 . "<b>" . $t['user_zeige60'] . "</b>" . $f2 . "</td>";
+		$text .= "<td>" . avatar_editieren_anzeigen($u_id, $f['u_nick'], "avatar", $bilder, "aendern") . "</td>";
+		$text .= "</tr>";
+		$text .= "</table>";
+		
+		zeige_tabelle_zentriert($box, $text);
+	}
+	
 	if (ist_online($f['u_id'])) {
 		$box = str_replace("%user%", $f['u_nick'], $t['user_zeige20']);
 	} else {
@@ -18,212 +50,83 @@ function user_edit($f, $admin, $u_level) {
 	}
 	
 	$text = '';
-	
 	// Ausgabe in Tabelle
 	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n";
+	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+	. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
+	. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n";
 	
 	$text .= "<table style=\"width:100%;\">";
 	
-	// Für alle außer Gäste
-	if ($u_level != "G") {
-		
-		//Avatar upload drag&drop
-		$_SESSION['u_id'] = $u_id;
-	
-		$text .= "<tr><td colspan=\"2\">
-<style>
-	#holder { border: 10px dashed #ccc; width: 200px; min-height: 200px; margin: 20px auto;}
-	#holder.hover { border: 10px dashed #0c0; }
-	#holder img { display: block; margin: 10px auto; }
-	#holder p { margin: 10px; font-size: 14px; }
-	progress { width: 80%; }
-	progress:after { content: '%'; }
-	.fail { background: #c00; padding: 2px; color: #fff; }
-	.hidden { display: none !important;}
-</style>
-
-<article>
-	<div id='holder'>";
-		$u_avatar_pfad = $f['u_avatar_pfad'];
-		if($u_avatar_pfad) { // Benutzerdefinierter Avatar
-			$text .= '<img src="./avatars/'.$u_avatar_pfad.'" style="width:200px; height:200px;" alt="'.$u_avatar_pfad.'" />';
-		} 
-	
-	$text .= "</div>
-	<p>" .$t['avatar_beschreibung1'] ."</p>
-	<p id='upload' class='hidden'><label>Drag & drop not supported, but you can still upload via this input field:<br><input type='file'></label></p>
-	<p id='filereader'>File API & FileReader API not supported</p>
-	<p id='formdata'>XHR2's FormData is not supported</p>
-	<p id='progress'>XHR2's upload progress isn't supported</p>
-	<p>" . $t['avatar_beschreibung2'] ." <progress id='uploadprogress' min='0' max='100' value='0'>0</progress></p>
-	<p>" . $t['avatar_loeschen'] . " <input type='checkbox' name=\"f[u_avatar_pfad]\" id=\"f[u_avatar_pfad]\" value='u_avatar_pfad'></p>
-</article>
-<script>
-var holder = document.getElementById('holder'),
-	tests = {
-		filereader: typeof FileReader != 'undefined',
-		dnd: 'draggable' in document.createElement('span'),
-		formdata: !!window.FormData,
-		progress: 'upload' in new XMLHttpRequest
-	},
-	support = {
-		filereader: document.getElementById('filereader'),
-		formdata: document.getElementById('formdata'),
-		progress: document.getElementById('progress')
-	},
-	acceptedTypes = {
-		'image/png': true,
-		'image/jpeg': true,
-		'image/gif': true
-	},
-	progress = document.getElementById('uploadprogress'),
-	fileupload = document.getElementById('upload');
-
-	'filereader formdata progress'.split(' ').forEach(function (api) {
-		if (tests[api] === false) {
-			support[api].className = 'fail';
-		} else {
-			//FFS. I could have done el.hidden = true, but IE doesn't support
-			// hidden, so I tried to create a polyfill that would extend the
-			// Element.prototype, but then IE10 doesn't even give me access
-			// to the Element object. Brilliant.
-			support[api].className = 'hidden';
-		}
-	}
-);
-
-function previewfile(file) {
-	if (tests.filereader === true && acceptedTypes[file.type] === true) {
-		var reader = new FileReader();
-		reader.onload = function (event) {
-		var image = new Image();
-		image.src = event.target.result;
-		image.width = 200; // a fake resize
-		holder.appendChild(image);
-	};
-		reader.readAsDataURL(file);
-	}
-}
-
-function readfiles(files) {
-	debugger;
-	var formData = tests.formdata ? new FormData() : null;
-	for (var i = 0; i < files.length; i++) {
-		if (tests.formdata) formData.append('file', files[i]);
-		previewfile(files[i]);
-	}
-	
-	// now post a new XHR request
-	if (tests.formdata) {
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', './avatar_upload.php');
-		xhr.onload = function() {
-			progress.value = progress.innerHTML = 100;
-		};
-		
-		if (tests.progress) {
-			xhr.upload.onprogress = function (event) {
-				if (event.lengthComputable) {
-					var complete = (event.loaded / event.total * 100 | 0);
-					progress.value = progress.innerHTML = complete;
-				}
-			}
-		}
-		xhr.send(formData);
-	}
-}
-
-if (tests.dnd) {
-	holder.ondragover = function () { this.className = 'hover'; return false; };
-	holder.ondragend = function () { this.className = ''; return false; };
-	holder.ondrop = function (e) {
-		this.className = '';
-		e.preventDefault();
-		readfiles(e.dataTransfer.files);
-	}
-} else {
-	fileupload.className = 'hidden';
-	fileupload.querySelector('input').onchange = function () {
-		readfiles(this.files);
-	};
-}
-</script></td></tr>";
-	
-	}
-	
 	// Benutzername
-	$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige18']
-		. "</b><br>\n" . $f2
-		. "<input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" SIZE=$input_breite>"
-		. "</td></tr>\n";
+	$text .= "<tr>";
+	$text .= "<td style=\"width:450px;\">" . $f1 . "<b>" . $t['user_zeige18'] . "</b>" . $f2 . "</td>";
+	$text .= "<td><input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" size=$input_breite></td>";
+	$text .= "</tr>";
 	
-	// Für alle außer Gäste
+	// E-Mail (Nicht für Gäste)
 	if ($u_level != "G") {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige6']
-			. "</b><br>\n" . $f2
-			. "<input type=\"text\" value=\"$f[u_email]\" name=\"f[u_email]\" SIZE=$input_breite>"
-			. "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige6'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"text\" value=\"$f[u_email]\" name=\"f[u_email]\" size=$input_breite></td>";
+		$text .= "</tr>";
 	}
 	
-	// Nur für Admins
+	// Interne E-Mail (Nur für Admins)
 	if ($admin) {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige3']
-			. "</b><br>\n" . $f2
-			. "<input type=\"text\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" SIZE=$input_breite>"
-			. "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige3'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"text\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" size=$input_breite></td>";
+		$text .= "</tr>\n";
 	} else if ($u_level == 'U') {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige3']
-			. "</b> (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=andereadminmail\">ändern</a>)<br>\n"
-			. $f2 . htmlspecialchars($f['u_adminemail'])
-			. "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige3'] . "</b> (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=andereadminmail\">$t[user_zeige72]</a>)" . $f2 . "</td>";
+		$text .= "<td>". htmlspecialchars($f['u_adminemail']) . "</td>";
+		$text .= "</tr>";
 	}
 	
 	if ($admin) {
-		if (!isset($f['u_kommentar']))
+		if (!isset($f['u_kommentar'])) {
 			$f['u_kommentar'] = "";
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige49']
-			. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
-			. htmlspecialchars($f['u_kommentar'])
-			. "\" name=\"f[u_kommentar]\" SIZE=$input_breite>" . "</td></tr>\n";
+		}
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige49'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_kommentar']) . "\" name=\"f[u_kommentar]\" size=$input_breite>" . "</td>";
+		$text .= "</tr>";
 	}
 	
 	// Für alle außer Gäste
 	if ($u_level != "G") {
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige7']
-			. "</b><br>\n" . $f2
-			. "<input type=\"text\" value=\"$f[u_url]\" name=\"f[u_url]\" SIZE=$input_breite>"
-			. "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige7'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"text\" value=\"$f[u_url]\" name=\"f[u_url]\" size=$input_breite></td>";
+		$text .= "</tr>";
 		
 		// Signatur
-			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige44']
-			. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
-			. htmlspecialchars($f['u_signatur'])
-			. "\" name=\"f[u_signatur]\" SIZE=$input_breite>" . "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige44'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_signatur']) . "\" name=\"f[u_signatur]\" size=$input_breite></td>";
+		$text .= "</tr>";
 		
 		if ($eintritt_individuell == "1") {
 			// Eintrittsnachricht
-			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige53']
-				. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
-				. htmlspecialchars($f['u_eintritt'])
-				. "\" name=\"f[u_eintritt]\" SIZE=$input_breite MAXLENGTH=\"100\">"
-				. "</td></tr>\n";
+			$text .= "<tr>";
+			$text .= "<td>". $f1 . "<b>" . $t['user_zeige53'] . "</b>" . $f2 . "</td>";
+			$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_eintritt']) . "\" name=\"f[u_eintritt]\" size=$input_breite maxlength=\"100\"></td>";
+			$text .= "</tr>";
+			
 			// Austrittsnachricht
-			$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige54']
-				. "</b><br>\n" . $f2 . "<input type=\"text\" value=\""
-				. htmlspecialchars($f['u_austritt'])
-				. "\" name=\"f[u_austritt]\" SIZE=$input_breite MAXLENGTH=\"100\">"
-				. "</td></tr>\n";
+			$text .= "<tr>";
+			$text .= "<td>". $f1 . "<b>" . $t['user_zeige54'] . "</b>" . $f2 . "</td>";
+			$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_austritt']) . "\" name=\"f[u_austritt]\" size=$input_breite maxlength=\"100\"></td>";
+			$text .= "</tr>";
 		}
 		
 		// Passwort
-		$text .= "<tr><td colspan=2>" . $f1 . "<b>" . $t['user_zeige19']
-			. "</b><br>\n" . $f2
-			. "<input type=\"PASSWORD\" name=\"passwort1\" SIZE=$passwort_breite>"
-			. "<input type=\"PASSWORD\" name=\"passwort2\" SIZE=$passwort_breite>"
-			. "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td>". $f1 . "<b>" . $t['user_zeige19'] . "</b>" . $f2 . "</td>";
+		$text .= "<td><input type=\"password\" name=\"passwort1\" size=$passwort_breite>" . "<input type=\"password\" name=\"passwort2\" size=$passwort_breite></td>";
+		$text .= "</tr>";
 	}
 	
 	// System Ein/Austrittsnachrichten Y/N
@@ -371,28 +274,24 @@ if (tests.dnd) {
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
 			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"f[u_farbe]\" size=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	} else if ($admin) {
 		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
 			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"f[u_farbe]\" SIZE=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"f[u_farbe]\" size=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	}
 	
 	$text .= "</table>\n";
 	
-	$text .= $f1
-		. "<hr size=2 noshade><input type=\"SUBMIT\" name=\"eingabe\" value=\"Ändern!\">"
-		. $f2;
+	$text .= $f1 . "<hr size=2 noshade><input type=\"SUBMIT\" name=\"eingabe\" value=\"Ändern!\">" . $f2;
 	
 	if ($admin) {
-		$text .= $f1
-			. "&nbsp;<input type=\"SUBMIT\" name=\"eingabe\" value=\"Löschen!\">"
-			. $f2;
+		$text .= $f1 . "&nbsp;<input type=\"SUBMIT\" name=\"eingabe\" value=\"Löschen!\">" . $f2;
 	}
 	
 	// Farbenliste & aktuelle Farbe
@@ -421,7 +320,7 @@ function zeige_aktionen($aktion) {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $PHP_SELF, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was;
+	global $id, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was;
 	global $forumfeatures;
 	
 	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";
@@ -577,5 +476,81 @@ function eintrag_aktionen($aktion_datensatz) {
 	$box = $t['edit_erfolgsmeldung'];
 	$text = $t['edit24'];
 	zeige_tabelle_zentriert($box, $text);
+}
+
+function bild_holen($u_id, $name, $ui_bild, $groesse) {
+	// Prüft hochgeladenes Bild und speichert es in die Datenbank
+	// u_id = ID des Benutzers, dem das Bild gehört
+	//
+	// Binäre Bildinformation -> home[ui_bild]
+	// WIDTH				  -> home[ui_bild_width]
+	// HEIGHT				 -> home[ui_bild_height]
+	// MIME-TYPE			  -> home[ui_bild_mime]
+	
+	global $max_groesse, $mysqli_link;
+	
+	if ($ui_bild && $groesse > 0 && $groesse < ($max_groesse * 1024)) {
+		
+		$image = getimagesize($ui_bild);
+		
+		if (is_array($image)) {
+			$fd = fopen($ui_bild, "rb");
+			if ($fd) {
+				$f['b_bild'] = fread($fd, filesize($ui_bild));
+				fclose($fd);
+			}
+			
+			switch ($image[2]) {
+				case 1:
+					$f['b_mime'] = "image/gif";
+					break;
+				case 2:
+					$f['b_mime'] = "image/jpeg";
+					break;
+				case 3:
+					$f['b_mime'] = "image/png";
+					break;
+					
+				default:
+					$f['b_mime'] = "";
+			}
+			
+			$f['b_width'] = $image[0];
+			$f['b_height'] = $image[1];
+			$f['b_user'] = $u_id;
+			$f['b_name'] = $name;
+			
+			if ($f['b_mime']) {
+				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
+				$result = mysqli_query($mysqli_link, $query);
+				if ($result && mysqli_num_rows($result) != 0) {
+					$b_id = mysqli_result($result, 0, 0);
+				}
+				schreibe_db("bild", $f, $b_id, "b_id");
+			} else {
+				echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+			}
+			
+			// Bild löschen
+			unlink($ui_bild);
+			
+			// Cache löschen
+			$cache = "home_bild";
+			$cachepfad = $cache . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $name;
+			if (file_exists($cachepfad)) {
+				unlink($cachepfad);
+				unlink($cachepfad . "-mime");
+			}
+			
+		} else {
+			echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+			unlink($ui_bild);
+		}
+		
+	} elseif ($groesse >= ($max_groesse * 1024)) {
+		echo "<P><b>Fehler: </b> Das Bild muss kleiner als $max_groesse KB sein!</P>\n";
+	}
+	
+	return ($home); // TODO: Wo wird $home definiert?
 }
 ?>
