@@ -198,12 +198,12 @@ switch ($aktion) {
 					
 					$query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
 					$result2 = mysqli_query($mysqli_link, $query);
-					mysqli_free_result($result2);
+					@mysqli_free_result($result2);
 					
 					// Gesperrte Räume löschen
 					$query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
 					$result2 = mysqli_query($mysqli_link, $query);
-					mysqli_free_result($result2);
+					@mysqli_free_result($result2);
 					
 					// ausgeben: Der Raum wurde gelöscht.
 					echo "<p>" . str_replace("%r_name%", $row->r_name, $t['fehler3']) . "</p>\n";

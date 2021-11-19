@@ -93,12 +93,12 @@ if(!$seite || $kein_seitenaufruf) {
 	// Seite nicht gefunden oder Datei für die Übersetzung nicht gefunden
 	$box = $t['fehler'];
 	$text = $t['seite_nicht_gefunden'];
-	zeige_tabelle_zentriert($box, $text, true);
+	zeige_tabelle_zentriert($box, $text);
 } else if($kein_aufruf_unter_bestimmten_bedinungen) {
 		// Seite nicht gefunden oder Datei für die Übersetzung nicht gefunden
 		$box = $t['fehler'];
 		$text = $t['kein_zugriff'];
-		zeige_tabelle_zentriert($box, $text, true);
+		zeige_tabelle_zentriert($box, $text);
 	} else {
 	// Seitenaufruf
 	switch ($seite) {
@@ -111,7 +111,7 @@ if(!$seite || $kein_seitenaufruf) {
 			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-befehle&id=$id\">$t[menue5]</a>\n";
 			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-sprueche&id=$id\">$t[menue6]</a>\n";
 			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community&id=$id\">$t[menue7]</a>\n";
-			zeige_tabelle_zentriert($box, $text, true);
+			zeige_tabelle_zentriert($box, $text);
 			
 			switch ($aktion) {
 				case "chatiquette":
@@ -182,9 +182,9 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=raum&id=$id\">" . $t['menue8'] . "</a>\n|\n";
+			$text = "<a href=\"inhalt.php?seite=raum&id=$id\">" . $t['menue8'] . "</a>\n";
 			if ($u_level != "G") {
-				$text .= "<a href=\"inhalt.php?seite=raum&aktion=neu&id=$id\">" . $t['menue2'] . "</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=raum&aktion=neu&id=$id\">" . $t['menue2'] . "</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -366,7 +366,7 @@ if(!$seite || $kein_seitenaufruf) {
 			// Seite nicht gefunden
 			$box = $t['fehler'];
 			$text = $t['seite_nicht_gefunden'];
-			zeige_tabelle_zentriert($box, $text, true);
+			zeige_tabelle_zentriert($box, $text);
 	}
 }
 ?>
