@@ -210,33 +210,6 @@ if($profilaenderungen && $f['ui_userid']) {
 }
 
 switch ($aktion) {
-	case "neu":
-	case "aendern":
-	// Neues Profil einrichten oder bestehendes Ändern
-		if ($profil_gefunden == true) {
-			$box = $t['bestehendes_profil'];
-		} else {
-			$box = $t['neues_profil'];
-		}
-		
-		$text = '';
-		
-		// Textkopf
-		if ($los != "Eintragen") {
-			$text .= $t['profil_informationen'];
-		}
-		
-		// Editor ausgeben
-		if (!isset($f)) {
-			$f[] = "";
-		}
-		$text .= profil_editor($u_id, $u_nick, $f);
-		
-		// Box anzeigen
-		zeige_tabelle_zentriert($box, $text);
-		
-		break;
-	
 	case "zeigealle":
 	// Alle Profile listen
 		$box = $t['profil_alle_profile'];
@@ -300,7 +273,27 @@ switch ($aktion) {
 		break;
 	
 	default:
-		echo "<P><b>Fehler:</b> Aufruf mit ungültigen Parametern!</P>\n";
-	
+		// Neues Profil einrichten oder bestehendes Ändern
+		if ($profil_gefunden == true) {
+			$box = $t['bestehendes_profil'];
+		} else {
+			$box = $t['neues_profil'];
+		}
+		
+		$text = '';
+		
+		// Textkopf
+		if ($los != "Eintragen") {
+			$text .= $t['profil_informationen'];
+		}
+		
+		// Editor ausgeben
+		if (!isset($f)) {
+			$f[] = "";
+		}
+		$text .= profil_editor($u_id, $u_nick, $f);
+		
+		// Box anzeigen
+		zeige_tabelle_zentriert($box, $text);
 }
 ?>

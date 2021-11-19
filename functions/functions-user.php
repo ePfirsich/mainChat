@@ -548,7 +548,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Adminmenue
 		if ($admin) {
-			$mlnk[10] = "inhalt.php?seite=blacklist&id=$id&aktion=neu&neuer_blacklist[u_nick]=$uu_nick";
+			$mlnk[10] = "inhalt.php?seite=sperren&id=$id&aktion=blacklist_neu&neuer_blacklist[u_nick]=$uu_nick";
 			$text .= "[<a href=\"$mlnk[10]\" target=\"chat\">$t[user_zeige48]</a>]<br>\n";
 			
 		}

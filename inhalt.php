@@ -77,7 +77,7 @@ $user_eingeloggt = (strlen($u_id) != 0);
 $kein_aufruf_unter_bestimmten_bedinungen = false;
 $nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log', 'benutzer');
 $nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
-$nur_eingeloggten_seiten_und_admin = array('statistik', 'blacklist', 'sperren');
+$nur_eingeloggten_seiten_und_admin = array('statistik', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
 	$kein_aufruf_unter_bestimmten_bedinungen = true;
 } else if( !$user_eingeloggt || ($user_eingeloggt && $u_level == "G" && in_array($seite, $nur_eingeloggten_seiten_und_registriert, true) ) ) {
@@ -215,8 +215,7 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=einstellungen&id=$id\">$t[profil_benutzereinstellungen_aendern]</a>\n";
-			$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
+			$text .= "<a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
@@ -235,8 +234,7 @@ if(!$seite || $kein_seitenaufruf) {
 			// Menü ausgeben
 			if ($u_level != "G") {
 				$box = $t['menue4'];
-				$text = "<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[menue7]</a>\n";
-				$text .= "| <a href=\"home.php?id=$id&aktion=aendern\">$t[menue10]</a>\n";
+				$text .= "<a href=\"home.php?id=$id&aktion=aendern\">$t[menue10]</a>\n";
 				$text .= "| <a href=\"inhalt.php?seite=einstellungen&aktion=aktion&id=$id\">$t[menue8]</a>\n";
 				$text .= "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">$t[menue11]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
@@ -281,21 +279,6 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			break;
 		
-		case "blacklist":
-			// Blacklist anzeigen
-			require_once("functions/functions-blacklist.php");
-			
-			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=blacklist&id=$id\">" . $t['menue2'] . "</a>\n"
-			. "| <a href=\"inhalt.php?seite=blacklist&aktion=neu&id=$id\">" . $t['menue3'] . "</a>\n"
-			. "| <a href=\"inhalt.php?seite=sperren&id=$id\">" . $t['menue4'] . "</a>\n";
-			zeige_tabelle_zentriert($box, $text);
-				
-			require_once('templates/blacklist.php');
-				
-			break;
-		
 		case "sperren":
 			// Sperren anzeigen
 			require_once("functions/functions-sperren.php");
@@ -329,7 +312,8 @@ if(!$seite || $kein_seitenaufruf) {
 			}
 			mysqli_free_result($result);
 			
-			$text .= "| <a href=\"inhalt.php?seite=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['menue3'] . "</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['menue3'] . "</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist_neu&id=$id\">" . $t['menue6'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/sperren.php');
