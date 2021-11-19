@@ -5,7 +5,7 @@
 
 require_once("functions/functions-registerglobals.php");
 require_once("functions/functions.php");
-require_once("languages/$sprache-homepage.php");
+require_once("languages/$sprache-profil.php");
 
 
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {

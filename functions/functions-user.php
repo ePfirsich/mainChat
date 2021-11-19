@@ -7,7 +7,7 @@ require_once("functions/functions-func-raeume_auswahl.php");
 
 function user_pm_list($larr, $anzahl) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
+	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
@@ -115,7 +115,7 @@ function user_pm_list($larr, $anzahl) {
 
 function user_liste($larr, $anzahl, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $o_js, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
+	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	

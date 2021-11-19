@@ -30,6 +30,7 @@ if ($result && mysqli_num_rows($result) != 0) {
 	$f['ui_lieblingsspiel'] = '';
 	$f['ui_lieblingsfarbe'] = '';
 	$f['ui_hobby'] = '';
+	$f['ui_text'] = '';
 	$profil_gefunden = false;
 }
 mysqli_free_result($result);
@@ -46,21 +47,52 @@ if($profilaenderungen && $f['ui_userid']) {
 		$f['ui_id'] = $ui_id_temp;
 	}
 	$f['ui_userid'] = $u_id;
-	$f['ui_wohnort'] = filter_input(INPUT_POST, 'ui_wohnort', FILTER_SANITIZE_STRING);
-	$f['ui_geburt'] = filter_input(INPUT_POST, 'ui_geburt', FILTER_SANITIZE_STRING);
+	$f['ui_wohnort'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_wohnort', FILTER_SANITIZE_STRING));
+	$f['ui_geburt'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_geburt', FILTER_SANITIZE_STRING));
 	$f['ui_geschlecht'] = filter_input(INPUT_POST, 'ui_geschlecht', FILTER_SANITIZE_NUMBER_INT);
 	$f['ui_beziehungsstatus'] = filter_input(INPUT_POST, 'ui_beziehungsstatus', FILTER_SANITIZE_NUMBER_INT);
 	$f['ui_typ'] = filter_input(INPUT_POST, 'ui_typ', FILTER_SANITIZE_NUMBER_INT);
-	$f['ui_beruf'] = filter_input(INPUT_POST, 'ui_beruf', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsfilm'] = filter_input(INPUT_POST, 'ui_lieblingsfilm', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsserie'] = filter_input(INPUT_POST, 'ui_lieblingsserie', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsbuch'] = filter_input(INPUT_POST, 'ui_lieblingsbuch', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsschauspieler'] = filter_input(INPUT_POST, 'ui_lieblingsschauspieler', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsgetraenk'] = filter_input(INPUT_POST, 'ui_lieblingsgetraenk', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsgericht'] = filter_input(INPUT_POST, 'ui_lieblingsgericht', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsspiel'] = filter_input(INPUT_POST, 'ui_lieblingsspiel', FILTER_SANITIZE_STRING);
-	$f['ui_lieblingsfarbe'] = filter_input(INPUT_POST, 'ui_lieblingsfarbe', FILTER_SANITIZE_STRING);
-	$f['ui_hobby'] = filter_input(INPUT_POST, 'ui_hobby', FILTER_SANITIZE_STRING);
+	$f['ui_beruf'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_beruf', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsfilm'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsfilm', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsserie'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsserie', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsbuch'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsbuch', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsschauspieler'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsschauspieler', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsgetraenk'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsgetraenk', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsgericht'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsgericht', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsspiel'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsspiel', FILTER_SANITIZE_STRING));
+	$f['ui_lieblingsfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsfarbe', FILTER_SANITIZE_STRING));
+	$f['ui_hobby'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_hobby', FILTER_SANITIZE_STRING));
+	$text_inhalt = htmlspecialchars(filter_input(INPUT_POST, 'ui_text'));
+	
+	// Spezialbehandlung für den Text über sich selbst - Anfang
+	
+	// Wieso ist "target" in der stopwordliste??
+	// Umschiffung der ausfilterung bei: target="_blank"
+	$text_inhalt = preg_replace("|target\s*=\s*.\"\s*\_blank\s*.\"|i", '####----TAR----####', $text_inhalt);
+	
+	// Problem: wenn zeichen z.b. b&#97;ckground codiert sind
+	// dann würde dadurch ein sicherheitsloch entstehen
+	$text_inhalt = unhtmlentities($text_inhalt);
+	
+	// $stopwordarray=array("background","java","script","activex","embed","target","javascript");
+	$stopwordarray = array("|background|i", "|java|i", "|script|i", "|activex|i", "|target|i", "|javascript|i");
+	$text_inhalt = str_replace("\n", "<br>\n", $text_inhalt);
+	
+	foreach ($stopwordarray as $stopword) {
+		// str_replace ist case sensitive, gefährlichen, wenn JavaScript geschrieben wird, oder Target, oder ActiveX
+		while (preg_match($stopword, $text_inhalt)) {
+			$text_inhalt = preg_replace($stopword, "", $text_inhalt);
+		}
+	}
+	
+	$text_inhalt = str_replace("####----TAR----####", "target=\"_blank\"", $text_inhalt);
+	
+	// Wir löschen die On-Handler aus der Homepage (einfache Version)
+	// on gefolgt von 3-12 Buchstaben wird durch off ersetzt
+	
+	$text_inhalt = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text_inhalt);
+	$f['ui_text'] = $text_inhalt;
+	// Spezialbehandlung für den Text über sich selbst - Ende
 	
 	// Schreibrechte?
 	if ($f['ui_userid'] == $u_id || $admin) {
@@ -131,7 +163,7 @@ if($profilaenderungen && $f['ui_userid']) {
 			$box = $t['profil_fehlermeldung'];
 			zeige_tabelle_zentriert($box, $fehler);
 		} else {
-			$query = "SELECT ui_text, ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
+			$query = "SELECT ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				// Benutzerprofil aus der Datenbank lesen
@@ -142,10 +174,8 @@ if($profilaenderungen && $f['ui_userid']) {
 						$farben = $farbentemp;
 					}
 				}
-			$f['ui_text'] = $home['ui_text'];
 			$f['ui_farbe'] = $home['ui_farbe'];
 			} else {
-				$f['ui_text'] = '';
 				$f['ui_farbe'] = '';
 			}
 			

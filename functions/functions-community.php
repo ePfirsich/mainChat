@@ -716,13 +716,12 @@ function email_versende(
 	}
 }
 
-function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM")
-{
+function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// Sind Freunde des Benutzers online?
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $mysqli_link, $system_farbe, $t, $o_js, $whotext;
+	global $mysqli_link, $system_farbe, $t, $whotext;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "

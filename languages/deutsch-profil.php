@@ -46,6 +46,7 @@ $t['profil_alle_profile'] = "Alle Profile";
 $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
 $t['profil_benutzername'] = "Benutzername";
+$t['profil_level'] = "Level";
 $t['profil_wohnort'] = "Wohnort";
 $t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
 $t['profil_email'] = "E-Mail";
@@ -80,6 +81,13 @@ $t['profil_lieblingsgetraenk'] = "Lieblingsgetränk";
 $t['profil_lieblingsgericht'] = "Lieblingsgericht";
 $t['profil_lieblingsspiel'] = "Lieblingsspiel";
 $t['profil_lieblingsfarbe'] = "Lieblingsfarbe";
+$t['profil_text'] = "Ihr Text über sich selbst";
+$t['profil_editieren'] = "editieren";
+$t['profil_farbe'] = "Farbe";
+$t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
+$t['profil_homepage_freigeben'] = "Homepage freigeben";
+$t['profil_home1'] = "Meine Homepage";
+$t['profil_home2'] = "Homepage Einstellungen";
 
 $t['menue1'] = "Profil";
 ?>

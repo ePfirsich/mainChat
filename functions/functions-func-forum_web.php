@@ -441,7 +441,7 @@ function show_pfad($th_id) {
 //Zeigt ein Thema mit allen Beiträgen an
 function show_thema() {
 	global $mysqli_link;
-	global $id, $o_js, $forum_admin, $th_id, $show_tree, $seite;
+	global $id, $forum_admin, $th_id, $show_tree, $seite;
 	global $t, $f1, $f2, $f3, $f4;
 	global $anzahl_po_seite, $chat_grafik;
 	global $admin, $anzahl_po_seite2, $u_id;
@@ -990,7 +990,7 @@ function navigation_posting(
 function verschiebe_posting() {
 	global $id, $mysqli_link, $po_id, $thread, $seite;
 	global $f1, $f2;
-	global $t, $o_js, $th_id, $fo_id;
+	global $t, $th_id, $fo_id;
 	
 	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
 				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick,
@@ -1059,8 +1059,7 @@ function verschiebe_posting() {
 
 // Zeigt das Thema an
 function show_posting() {
-	global $id, $mysqli_link, $po_id, $thread, $seite;
-	global $t, $o_js, $forum_admin;
+	global $id, $mysqli_link, $po_id, $thread, $seite, $t, $forum_admin;
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
 				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick,
@@ -1119,7 +1118,7 @@ function show_posting() {
 // Zeigt alle Beiträge aus einem Thema
 function zeige_beitraege($thread) {
 	global $mysqli_link, $f1, $f2, $seite, $th_id;
-	global $t, $id, $u_id, $o_js, $forum_admin;
+	global $t, $id, $u_id, $forum_admin;
 	
 	// Vom Benutzer gelesene Beiträge holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=$u_id";

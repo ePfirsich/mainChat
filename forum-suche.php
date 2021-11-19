@@ -233,7 +233,7 @@ function such_bereich() {
 function such_ergebnis() {
 	global $id, $f1, $f2, $f3, $f4, $mysqli_link, $check_name, $u_id;
 	global $farbe_hervorhebung_forum;
-	global $suche, $o_js, $farbe_neuesposting_forum, $t, $u_level;
+	global $suche, $farbe_neuesposting_forum, $t, $u_level;
 	
 	$eingabe_breite = 50;
 	$select_breite = 250;

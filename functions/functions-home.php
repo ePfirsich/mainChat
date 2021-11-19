@@ -17,7 +17,7 @@ function edit_home(
 	global $t;
 	
 	// HP-Tabelle ausgeben
-	$box = $t['home1'];
+	$box = $t['profil_home1'];
 	$text = '';
 	
 	$text .= "<table style=\"width:100%;\">"
@@ -41,9 +41,7 @@ function edit_home(
 	// Box anzeigen
 	zeige_tabelle_volle_breite($box, $text);
 	
-	echo "<br>";
-		
-	$box = $t['home2'];
+	$box = $t['profil_home2'];
 	$text = '';
 	
 	$text .= "<table style=\"width:100%;\">"
@@ -65,8 +63,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 	
 	global $id, $f1, $f2, $f3, $f4, $t;
 	
-	$url = "inhalt.php?seite=profil&id=$id&aktion=aendern";
-	$link = $f3 . "<b>[<a href=\"$url\">ändern</a>]</b>" . $f4;
+	$link = $f3 . "<b>[<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[profil_editieren]</a>]</b>" . $f4;
 	$text = "";
 	
 	if ($home['ui_userid']) {
@@ -75,113 +72,112 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 		// Wohnort
 		if( $home['ui_wohnort'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_wohnort'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_wohnort]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_wohnort'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_geburt'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_geburt'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_geburt]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_geburt'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_geschlecht'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_geschlecht'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_geschlecht]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("geschlecht", $home['ui_geschlecht']) . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_beziehungsstatus'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_beziehungsstatus'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_beziehungsstatus]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("beziehungsstatus", $home['ui_beziehungsstatus']) . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_typ'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_typ'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\"> $f1$t[profil_typ]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . zeige_profilinformationen_von_id("typ", $home['ui_typ']) . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_beruf'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_beruf'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_beruf]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_beruf'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsfilm'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsfilm'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsfilm]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsfilm'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsserie'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsserie'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsserie]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsserie'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsbuch'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsbuch'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsbuch]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsbuch'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsschauspieler'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsschauspieler'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsschauspieler]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsschauspieler'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsgetraenk'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsgetraenk'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsgetraenk]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsgetraenk'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsgericht'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsgericht'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsgericht]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsgericht'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsspiel'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsspiel'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsspiel]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsspiel'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsfarbe'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_lieblingsfarbe'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsfarbe]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_lieblingsfarbe'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_hobby'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_hobby'] . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_hobby]:$f2</td>\n";
 			$text .= "<td colspan=\"3\">" . $f1 . $home['ui_hobby'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
 	} else {
-		
 		if ($aktion == "aendern") {
 			$text .= "<tr>\n";
-			$text .= "<td colspan=\"3\">Sie haben noch kein Profil erstellt</td>\n";
+			$text .= "<td colspan=\"3\">$t[profil_noch_kein_profil_erstellt]</td>\n";
 			$text .= "<td style=\"text-align:right;\">$link</td>\n";
 			$text .= "</tr>\n";
 		}
@@ -210,7 +206,7 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 
 function home_info($u_id, $u_nick, $farben, $aktion) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $o_js;
+	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
 	
 	
 	
@@ -237,7 +233,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		// Benutzername
 		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_benutzername'] . $f2 . "</td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$t[profil_benutzername]:$f2</td>\n";
 		$text .= "<td colspan=\"3\"><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
 		$text .= "</tr>\n";
 		
@@ -255,7 +251,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		
 		// Level
 		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['homepage_level'] . $f2 . "</td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
 		$text .= "<td colspan=\"3\"><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
 		$text .= "</tr>\n";
 		
@@ -298,82 +294,32 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	return ("<table style=\"width:100%; $bg\">$text</table>");
 }
 
-function unhtmlentities($string) {
-	// replace numeric entities
-	// $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
-	$string = preg_replace_callback(
-		"~&#x([0-9a-f]+);~i",
-		function ($matches) {
-			return chr(hexdec($matches[1]));
-		},
-		$string
-		);
-	
-	//$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
-	$string = preg_replace_callback(
-		"/&#x([0-9a-f]+);/",
-		function ($matches) {
-			return chr(hexdec($matches[1]));
-		},
-		$string
-		);
-	
-	// replace literal entities
-	$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-	$trans_tbl = array_flip($trans_tbl);
-	
-	return strtr($string, $trans_tbl);
-}
-
 function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
 	// Gibt TEXT-AREA Feld für $feld aus
+	global $id, $f1, $f2, $f3, $f4, $t;
 	
-	global $f1, $f2;
-	
-	$eingabe_breite2 = 50;
-	
-	$text = $home[$feld];
-	
-	// Wieso ist "target" in der stopwordliste??
-	// Umschiffung der ausfilterung bei: target="_blank"
-	$text = preg_replace("|target\s*=\s*.\"\s*\_blank\s*.\"|i", '####----TAR----####', $text);
-	
-	// Problem: wenn zeichen z.b. b&#97;ckground codiert sind
-	// dann würde dadurch ein sicherheitsloch entstehen
-	$text = unhtmlentities($text);
-	
-	//	$stopwordarray=array("background","java","script","activex","embed","target","javascript");
-	$stopwordarray = array("|background|i", "|java|i", "|script|i",
-		"|activex|i", "|target|i", "|javascript|i");
-	$text = str_replace("\n", "<br>\n", $text);
-	
-	foreach ($stopwordarray as $stopword) {
-		// str_replace ist case sensitive, gefährlichen, wenn JavaScript geschrieben wird, oder Target, oder ActiveX
-		while (preg_match($stopword, $text))
-			$text = preg_replace($stopword, "", $text);
-	}
-	
-	$text = str_replace("####----TAR----####", "target=\"_blank\"", $text);
-	
-	// Wir löschen die On-Handler aus der Homepage (einfache Version)
-	// on gefolgt von 3-12 Buchstaben wird durch off ersetzt
-	
-	$text = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text);
+	$text_inhalt = $home[$feld];
 	
 	if ($aktion == "aendern") {
-		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">$f1<b>Ihr Text über sich selbst:</b>$f2<br><textarea cols="
-			. ($eingabe_breite2) . " rows=20 name=\"home[$feld]\">"
-			. $home[$feld] . "</textarea></td></tr>"
-			. "<tr><td style=\"vertical-align:top; text-align:right; width: 150px;\">"
-			. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
-			. "</td></tr>";
+		$text = "<tr>\n";
+		$text .= "<td style=\"vertical-align:top;\">$f1<b>$t[profil_text]:</b>$f2<br>";
+		$text .= "</tr>\n";
+		$text .= "<tr>\n";
+		$text .= "<td tyle=\"vertical-align:top;\">" . $text_inhalt . "</td>\n";
+		$text .="</tr>\n";
+		$text .="<tr>\n";
+		$text .="<td style=\"vertical-align:top; text-align:right; width: 150px;\">\n";
+		$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[profil_editieren]</a>]</b>" . $f4 . "<br>";
+		$text .= home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld]) . "</td>\n";
+		$text .= "</tr>\n";
 	} else {
-		$text = "<tr><td colspan=\"4\" style=\"vertical-align:top;\">" . $text . "</td></tr>";
+		$text = "<tr>\n";
+		$text .= "<td style=\"vertical-align:top;\">" . $text_inhalt . "</td>\n";
+		$text .= "</tr>\n";
 	}
 	
 	if (is_array($farben) && strlen($farben['ui_text']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
-			. $farben['ui_text'] . ";";
+		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['ui_text'] . ";";
 	} elseif (is_array($farben) && strlen($farben['ui_text']) == 7) {
 		$bg = "background-color:$farben[ui_text];";
 	} else {
@@ -555,7 +501,7 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 		$checked = "";
 	}
 	$text = "<tr>\n";
-	$text .= "<td style=\"text-align:right;\">" . $f1 . $t['homepage_freigeben'] . $f2 . "</td>\n";
+	$text .= "<td style=\"text-align:right;\">$f1$t[profil_homepage_freigeben]:$f2</td>\n";
 	$text .= "<td><input type=\"checkbox\" name=\"einstellungen[u_chathomepage]\" $checked></td>\n";
 	$text .= "</tr>\n";
 	
@@ -569,17 +515,13 @@ function home_farbe(
 	$home,
 	$feld,
 	$farbe = "#FFFFFF",
-	$mit_grafik = TRUE)
-{
+	$mit_grafik = TRUE) {
 	// gibt Link auf Farbwähler aus
 	
-	global $f3, $f4, $id;
+	global $f3, $f4, $id, $t;
 	
-	$url = "home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor="
-		. urlencode($farbe);
-	$link = $f3
-		. "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">FARBE</A>]</b>"
-		. $f4;
+	$url = "home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor=" . urlencode($farbe);
+	$link = $f3 . "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[profil_farbe]</a>]</b>" . $f4;
 	
 	return ($link);
 }

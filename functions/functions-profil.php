@@ -7,8 +7,6 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $f=Array der Profileinstellungen
 	global $mysqli_link, $t, $id, $f1, $f2;
 	
-	$eingabe_breite = 45;
-	
 	// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
@@ -65,7 +63,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	<tr>";
 	
 	// Wohnort
-	$text .= zeige_profilfelder("input", $zaehler, $t['profil_wohnort'], "ui_wohnort", $f['ui_wohnort'], 0, "45", $t['profil_wohnort_details']);
+	$text .= zeige_profilfelder("input", $zaehler, $t['profil_wohnort'], "ui_wohnort", $f['ui_wohnort'], 0, "70", $t['profil_wohnort_details']);
 	$zaehler++;
 	
 	// Geburtsdatum
@@ -126,6 +124,10 @@ function profil_editor($u_id, $u_nick, $f) {
 	// Hobbies
 	$text .= zeige_profilfelder("textarea", $zaehler, $t['profil_hobby'], "ui_hobby", $f['ui_hobby']);
 	$zaehler++;
+	
+	// Hobbies
+	$text .= zeige_profilfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
+	$zaehler++;
 		
 		$text .= "
 		<tr>
@@ -148,7 +150,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	return $text;
 }
 
-function zeige_profilfelder($art_der_anzeige, $zaehler, $name, $key, $value, $ausgewaehltes_feld_selectbox = 0, $breite_eingabefeld = "45", $beschreibung = "") {
+function zeige_profilfelder($art_der_anzeige, $zaehler, $name, $key, $value, $ausgewaehltes_feld_selectbox = 0, $breite_eingabefeld = "70", $beschreibung = "") {
 	// Hintergrundfarbe mit jeder Zeile wechseln
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
@@ -184,6 +186,10 @@ function zeige_profilfelder($art_der_anzeige, $zaehler, $name, $key, $value, $au
 		// Textarea anzeigen
 		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><textarea name=\"$key\" rows=\"4\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
+	} else if($art_der_anzeige == "textarea2") {
+		// Textarea2 anzeigen
+		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor><textarea name=\"$key\" rows=\"20\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
 	} else {
 		// Text anzeigen
 		$text .= "<td style=\"text-align:right;\" $bgcolor>$name</td>\n";
@@ -194,4 +200,30 @@ function zeige_profilfelder($art_der_anzeige, $zaehler, $name, $key, $value, $au
 	return $text;
 }
 
+function unhtmlentities($string) {
+	// replace numeric entities
+	// $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+	$string = preg_replace_callback(
+		"~&#x([0-9a-f]+);~i",
+		function ($matches) {
+			return chr(hexdec($matches[1]));
+		},
+		$string
+		);
+	
+	//$string = preg_replace('~&#([0-9]+);~e', 'chr("\\1")', $string);
+	$string = preg_replace_callback(
+		"/&#x([0-9a-f]+);/",
+		function ($matches) {
+			return chr(hexdec($matches[1]));
+		},
+		$string
+		);
+	
+	// replace literal entities
+	$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+	$trans_tbl = array_flip($trans_tbl);
+	
+	return strtr($string, $trans_tbl);
+}
 ?>
