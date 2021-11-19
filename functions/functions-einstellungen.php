@@ -85,6 +85,7 @@ function user_edit($f, $admin, $u_level) {
 		$text .= "</tr>";
 	}
 	
+	// Sperrkommentar
 	if ($admin) {
 		if (!isset($f['u_kommentar'])) {
 			$f['u_kommentar'] = "";
@@ -97,6 +98,7 @@ function user_edit($f, $admin, $u_level) {
 	
 	// Für alle außer Gäste
 	if ($u_level != "G") {
+		// Homepage
 		$text .= "<tr>";
 		$text .= "<td>". $f1 . "<b>" . $t['user_zeige7'] . "</b>" . $f2 . "</td>";
 		$text .= "<td><input type=\"text\" value=\"$f[u_url]\" name=\"f[u_url]\" size=$input_breite></td>";
