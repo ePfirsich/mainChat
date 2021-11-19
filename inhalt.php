@@ -178,6 +178,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "raum":
 			// Raum anzeigen
+			require_once("functions/functions-msg.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
