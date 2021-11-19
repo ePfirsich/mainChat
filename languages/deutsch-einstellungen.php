@@ -10,7 +10,7 @@ $t['menue4'] = "Einstellungen";
 $t['menue5'] = "Benutzer %u_nick% wurde gelöscht!";
 $t['menue6'] = "Keine Berechtigung zum Löschen von %u_nick%!";
 $t['menue7'] = "Profil";
-$t['menue8'] = "Aktionen";
+$t['menue8'] = "Benachrichtigungen";
 $t['menue9'] = "Freunde";
 $t['menue10'] = "Homepage";
 $t['menue11'] = "Hilfe";
@@ -43,8 +43,8 @@ $t['edit22'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neue
 $t['edit23'] = "Mit dieser E-Mail ist bereits ein anderer Benutzer registriert.";
 $t['edit24'] = "<b>Hinweis:</b> Die Änderungen wurden gespeichert.";
 
-$t['aktion1'] = "Tipps zur den Aktionen";
-$t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit "
+$t['aktion1'] = "Tipps zur den Benachrichtigungen";
+$t['aktion2'] = "<p>Mit den Benachrichtigungen steuern Sie, bei welchen Ereignissen Sie mit "
 	. "welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. "
 	. "der Logon oder Logout eines <b>Freundes</b>, oder auch der Eingang einer neuen <b>Mail</b>.</p>"
 	. "<p>Wann Sie die Nachricht erhalten wollen, wählen Sie aus der obersten Zeile aus. "
@@ -55,7 +55,7 @@ $t['aktion2'] = "<p>Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mi
 	. "<p>Die Art der Nachricht ist einstellbar, so gibt es <b>keine</b> Benachrichtigung, <b>Chat-Mail</b> (chat-interne Mail), eine <b>E-Mail</b> an Ihre nicht-öffentliche "
 	. "E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte Nachricht in Chat wie /msg)."
 	. "Zusätzlich sind auch Kombinationen von <b>E-Mail und OLM</b> sowie <b>Chat-Mail und OLM</b> möglich, wobei Sie in diesem Fall zwei Nachrichten erhalten.</p>";
-$t['aktion3'] = "Aktionen";
+$t['aktion3'] = "Benachrichtigungen";
 $t['aktion4'] = "Für";
-$t['aktion5'] = "sind folgende Aktionen eingetragen";
+$t['aktion5'] = "sind folgende Benachrichtigungen eingetragen";
 ?>

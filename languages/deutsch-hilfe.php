@@ -254,9 +254,9 @@ im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü
 befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
 und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
 selbst als Freund aufgenommen wurde.<br><br>
-<b><a name=\"aktionen\">Aktionen</a></b><br>
+<b><a name=\"aktionen\">Benachrichtigungen</a></b><br>
 Über den Menüpunkt \"<b>Einstellungen</b>\" im Chat gelangen Sie zu den sogenannten
-\"<b>Aktionen</b>\". Mit den Aktionen steuern Sie, bei welchen Ereignissen Sie mit
+\"<b>Benachrichtigungen</b>\". Mit den Benachrichtigungen steuern Sie, bei welchen Ereignissen Sie mit
 welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. der Login
 oder Logout eines Freundes oder auch der Eingang einer neuen Mail. Wann Sie
 die Nachricht erhalten wollen, wählen Sie aus der obersten Zeile aus.
