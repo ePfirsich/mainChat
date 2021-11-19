@@ -125,7 +125,6 @@ if ($ok) {
 		$ok = 0;
 		echo $t['neu55'] . "<br><br>";
 		zeige_fuss();
-		break;
 	}
 }
 
