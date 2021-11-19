@@ -11,7 +11,6 @@ if ($result && mysqli_num_rows($result) != 0) {
 	$profil_gefunden = true;
 } else {
 	// Neues Profil anlegen
-	
 	$f = array();
 	$f['ui_id'] = 0;
 	$f['ui_userid'] = $u_id;

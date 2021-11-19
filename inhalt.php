@@ -213,6 +213,7 @@ if(!$seite || $kein_seitenaufruf) {
 		case "profil":
 			// Profil anzeigen
 			require_once("functions/functions-profil.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['menue1'];
@@ -231,6 +232,7 @@ if(!$seite || $kein_seitenaufruf) {
 			// Einstellungen anzeigen
 			require_once("functions/functions-msg.php");
 			require_once("functions/functions-einstellungen.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
