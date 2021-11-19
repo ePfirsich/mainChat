@@ -204,13 +204,9 @@ daher gibt's erst nach dem Login einen Würfel mit mehr Augen.<br>
 <b>Tipp 3:</b> Wer in leeren Räumen Texte schreibt, um die Punkte nach oben zu
 treiben, hat schnell keine Punkte mehr.<br><br>
 <b><a name=\"profil\">Profile</a></b><br>
-Unter dem Punkt \"<b>Einstellungen</b>\" kann ebenfalls jeder Einblick in sein Profil
-nehmen und es gegebenenfalls ändern. Hier kann der Benutzer Angaben über seine
-Anschrift, Telefon-, Handynummer, ICQ, Geburtsdatum, Geschlecht, Hobbys und
-vieles mehr hinterlassen. Diese Profile sind im Chat öffentlich abrufbar.
-Das Ausfüllen der Profile ist für die Benutzer freiwillig. Admins haben in Ihrem
-eigenen Profil noch die Möglichkeit, sich die Profile aller Benutzer ausgeben zu
-lassen.<br><br>
+Unter dem Punkt \"<b>Profil</b>\" kann ebenfalls jeder Einblick in sein Profil
+nehmen und es gegebenenfalls ändern. Hier kann der Benutzer Angaben über seinen Wohnort, Geburtsdatum, Geschlecht Hobbys und vieles mehr hinterlassen. Diese Profile sind im Chat öffentlich abrufbar.
+Das Ausfüllen der Profile ist für die Benutzer freiwillig. Admins haben in Ihrem eigenen Profil noch die Möglichkeit, sich die Profile aller Benutzer ausgeben zu lassen.<br><br>
 <b><A name=\"mail\">Chat-Mail</a></b><br>
 Die Chat-Mail (<b>MAIL</b>, <b>/mail</b>) ist eine im Chat integrierte Mailbox mit
 Weboberfläche. Im Chat selbst steht hinter jedem Nick ein Mailsymbol (blauer
@@ -246,14 +242,10 @@ einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
 einmal anschauen. Wenn Sie nun sicher sind, dass sie auch alle im Papierkorb
 befindlichen Nachrichten löschen wollen, klicken Sie auf \"<b>Papierkorb leeren</b>\".<br><br>
 <b><a name=\"freunde\">Freunde</a></b><br>
-Bei den Freunden (<b>Einstellungen</b>, <b>/freunde</b>) können Sie einfach andere Benutzer im
-Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
-man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat
-informiert. Die Freunde-Liste ruft der Benutzer über den Punkt \"<b>USER</b>\" direkt
-im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü
-befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
-und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man
-selbst als Freund aufgenommen wurde.<br><br>
+Unter dem Punkt \"<b>Freunde</b>\" können Sie einfach andere Benutzer im Chat zu Freunden erklären oder aber aus der Freunde-Liste löschen. So wird
+man stets über den Login/Logoff oder die Anwesenheit von Freunden im Chat informiert. Die Freunde-Liste ruft der Benutzer über den Punkt \"<b>USER</b>\" direkt
+im Chat auf. Es erscheint ein Fenster, in dem sich auch das Main-Chat Menü befindet. Durch Klicken auf \"<b>meine Freunde</b>\" gelangt man nun auf die Liste
+und kann ersehen, wen man sich als Freund eingetragen hat oder von wem man selbst als Freund aufgenommen wurde.<br><br>
 <b><a name=\"aktionen\">Benachrichtigungen</a></b><br>
 Über den Menüpunkt \"<b>Einstellungen</b>\" im Chat gelangen Sie zu den sogenannten
 \"<b>Benachrichtigungen</b>\". Mit den Benachrichtigungen steuern Sie, bei welchen Ereignissen Sie mit
