@@ -146,6 +146,7 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "benutzer":
 			// Benutzer anzeigen
+			require_once("functions/functions-benutzer.php");
 			require_once("functions/functions-user.php");
 			require_once("functions/functions-func-nachricht.php");
 			
