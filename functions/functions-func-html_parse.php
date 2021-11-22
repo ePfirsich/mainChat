@@ -13,6 +13,8 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
 	global $ist_moderiert;
 	
+	$text_an_user = "";
+	
 	// Grafik-Smilies ergänzen, falls Funktion aktiv und Raum ist nicht moderiert
 	// Für Gäste gesperrt
 	// $ist_moderiert ist in raum_ist_moderiert() (Caching!) gesetzt worden!
@@ -28,7 +30,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				system_msg("", 0, $u_id, $system_farbe, $t[chat_msg55]);
 			}
 			
-			// Prüfen, ob im aktuellen Raum smilies erlaubt sind
+			// Prüfen, ob im aktuellen Raum Smilies erlaubt sind
 			if (!$privat) {
 				$query = "SELECT r_smilie FROM raum WHERE r_id=" . intval($o_raum);
 				$result = mysqli_query($mysqli_link, $query);
@@ -57,7 +59,6 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				if ($anzahl > 0) {
 					system_msg("", 0, $u_id, $system_farbe, $t[chat_msg76]);
 				}
-				
 			} else {
 				while (list($i, $smilie_code) = each($test[0])) {
 					if ($anzahl > $smilies_anzahl || $u_level == "G") {
@@ -84,14 +85,14 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	$text = str_replace("|", "###strich###", $text);
 	$text = str_replace("+", "###plus###", $text);
 	
-	// jetzt nach nach italic und bold parsen...  * in <I>, $_ in <b>
+	// Jetzt nach nach italic und bold parsen...  * in <I>, $_ in <b>
 	if (substr_count($text, "http://") == 0 && substr_count($text, "https://") == 0 && substr_count($text, "www.") == 0
 		&& !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $text)) {
 		$text = preg_replace('|\*(.*?)\*|', '<i>\1</i>',
 			preg_replace('|_(.*?)_|', '<b>\1</b>', $text));
 	}
 	
-	// erst mal testen ob www oder http oder email vorkommen
+	// Erst mal testen ob www oder http oder email vorkommen
 	if (preg_match("/(https?:|www\.|@)/i", $text)) {
 		// Zerlegen der Zeile in einzelne Bruchstücke. Trennzeichen siehe $split
 		// leider müssen zunächst erstmal in $text die gefundenen urls durch dummies 
@@ -102,7 +103,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 		$split = '/[ ,\[\]\(\)]/';
 		$txt = preg_split($split, $text);
 		
-		// wieviele Worte hat die Zeile?
+		// Wie viele Worte hat die Zeile?
 		for ($i = 500; $i >= 0; $i--) {
 			if ((isset($txt[$i])) && $txt[$i] != "")
 				break;
@@ -121,15 +122,15 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				if (($admin || $u_level == "A") && $nick['u_nick'] == "") {
 					$nick = nick_ergaenze($txt[$j], "online", 1);
 				}
-				// fehlermeldungen unterdrücken.
+				// Fehlermeldungen unterdrücken.
 				if ($nick['u_nick'] != "") {
 					if ($at_sonderbehandlung == 1) {
 					// in /me sprüchen kein [zu Nick] an den anfang stellen, sondern nur nick ergänzen
 						$rep = $nick['u_nick'];
 						$text = preg_replace("!$txt[$j]!", $rep, $text);
 					} else {
-						$rep = "[" . $t['chat_spruch6'] . "&nbsp;"
-							. $nick['u_nick'] . "] ";
+						$text_an_user = $nick['u_id'];
+						$rep = "[" . $t['chat_spruch6'] . "&nbsp;" . $nick['u_nick'] . "] ";
 						$text = $rep . preg_replace("!$txt[$j]!", "", $text);
 					}
 				}
@@ -175,9 +176,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					
 					// url aufbereiten
 					$txt[$j] = preg_replace("/" . $txt2 . "/",
-						"<a href=\"redirect.php?url="
-							. urlencode("http://$txt2")
-							. "\" target=_blank>http://$txt2</a>", $txt[$j]);
+						"<a href=\"redirect.php?url=" . urlencode("http://$txt2") . "\" target=_blank>http://$txt2</a>", $txt[$j]);
 				}
 				// http(s)://###### in <a href="http(s)://###" target=_blank>http(s)://###</A>
 				if (preg_match("!^https?://!", $txt[$j])) {
@@ -193,8 +192,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					
 					// url aufbereiten
 					$txt[$j] = preg_replace("!$txt2!",
-						"<a href=\"redirect.php?url=" . urlencode($txt2)
-							. "\" target=_blank>$txt2</a>", $txt[$j]);
+						"<a href=\"redirect.php?url=" . urlencode($txt2) . "\" target=_blank>$txt2</a>", $txt[$j]);
 				}
 			}
 		}
@@ -217,6 +215,6 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	$text = str_replace("###stern###", "*", $text);
 	$text = str_replace("###klaffe###", "@", $text);
 	
-	return $text;
+	return array($text, $text_an_user);
 }
 ?>
