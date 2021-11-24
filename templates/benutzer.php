@@ -415,7 +415,7 @@ switch ($aktion) {
 		
 		break;
 	
-	case "zeig":
+	case "benutzer_zeig":
 		if (!isset($zeigeip)) {
 			$zeigeip = 0;
 		}
@@ -423,7 +423,9 @@ switch ($aktion) {
 		if ($user) {
 			// Benutzer listen
 			user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip);
-		} else echo "<p>$t[sonst11]</p>\n";
+		} else {
+			echo "<p>$t[sonst11]</p>\n";
+		}
 		
 		break;
 	
@@ -444,8 +446,7 @@ switch ($aktion) {
 		
 		// Raum listen
 		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
-			. "FROM online LEFT JOIN raum ON o_raum=r_id "
-			. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
+			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
 			. "ORDER BY o_name";
 		
 		$result = mysqli_query($mysqli_link, $query);
