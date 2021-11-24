@@ -1,8 +1,7 @@
 <?php
-function liste() {
-	global $t;
+function sperren_liste() {
 	global $f1, $f2, $f3, $f4;
-	global $id;
+	global $id, $t;
 	global $raumsperre;
 	global $sperre_dialup;
 	global $mysqli_link;
@@ -22,13 +21,13 @@ function liste() {
 	}
 	
 	if ($raumsperre) {
-		$query = "delete from sperre where to_days(now())-to_days(s_zeit) > $raumsperre";
+		$query = "DELETE FROM sperre WHERE to_days(now())-to_days(s_zeit) > $raumsperre";
 		mysqli_query($mysqli_link, $query);
 	}
 	
 	// Alle Sperren ausgeben
-	$query = "SELECT u_nick,is_infotext,is_id,is_domain,UNIX_TIMESTAMP(is_zeit) as zeit,is_ip_byte,is_warn,"
-		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip "
+	$query = "SELECT u_nick,is_infotext,is_id,is_domain,UNIX_TIMESTAMP(is_zeit) AS zeit,is_ip_byte,is_warn,"
+		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) AS isip "
 		. "FROM ip_sperre,user WHERE is_owner=u_id "
 		. "ORDER BY is_zeit DESC,is_domain,is_ip";
 	$result = mysqli_query($mysqli_link, $query);
@@ -36,9 +35,15 @@ function liste() {
 	
 	if ($rows > 0) {
 		$i = 0;
-		$bgcolor = 'class="tabelle_zeile1"';
 		
 		$text .= "<table class=\"tabelle_kopf_zentriert\">\n";
+		$text .= "<tr>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">" . $t['sperren_menue1'] . "</td>";
+		$text .= "</tr>\n";
+		$text .= "<tr>\n";
+		$text .= "<td class=\"tabelle_koerper\">\n";
+		
+		$text .= "<table style=\"width:100%\">\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[sonst23]</td>";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[sonst24]</td>";
@@ -48,6 +53,12 @@ function liste() {
 		$text .= "</tr>\n";
 		
 		while ($i < $rows) {
+			if ($i % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			
 			// Ausgabe in Tabelle
 			$row = mysqli_fetch_object($result);
 			
@@ -68,12 +79,9 @@ function liste() {
 					$ip_name = @gethostbyaddr($row->isip);
 					if ($ip_name == $row->isip) {
 						unset($ip_name);
-						$text .= "<tr><td $bgcolor><b>"
-						. $f1 . $row->isip . $f2 . "</b></td>\n";
+						$text .= "<tr><td $bgcolor><b>" . $f1 . $row->isip . $f2 . "</b></td>\n";
 					} else {
-						$text .= "<tr><td $bgcolor><b>"
-						. $f1 . $row->isip . "<br>(" . $ip_name . $f2
-						. ")</b></td>\n";
+						$text .= "<tr><td $bgcolor><b>" . $f1 . $row->isip . "<br>(" . $ip_name . $f2 . ")</b></td>\n";
 					}
 				} else {
 					$text .= "<tr><td $bgcolor><b>" . $f1
@@ -112,18 +120,15 @@ function liste() {
 				
 				// Aktion
 				if ($row->is_domain == "-GLOBAL-") {
-					$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-					$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\">" . "[" . $t['sonst30'] ."]" . "</a>\n";
-					$text .= "</b>" . $f2 . "</td>\n";
+					$text .= "<td $bgcolor><a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
 				} elseif ($row->is_domain == "-GAST-") {
-					$text .= "<td $bgcolor>" . $f1 . "<b>\n";
-					$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\">" . "[" . $t['sonst30'] ."]" . "</a>\n";
-					echo "</b>" . $f2 . "</td>\n";
+					$text .= "<td $bgcolor><a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
 				} else {
-					$text .= "<td $bgcolor>" . $f1
-					. "<b>[<a href=\"inhalt.php?seite=sperren&id=$id&aktion=aendern&is_id=$row->is_id\">$t[sonst28]</a>]\n"
-					. "[<a href=\"inhalt.php?seite=sperren&id=$id&aktion=loeschen&is_id=$row->is_id\">$t[sonst29]</a>]\n";
-					$text .= "</b>" . $f2 . "</td>";
+					$text .= "<td $bgcolor>";
+					$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst28]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sonst28]</span></a>";
+					$text .= "&nbsp;";
+					$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst29]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst29]</span></a>";
+					$text .= "</td>";
 				}
 				$text .= "</tr>\n";
 				
@@ -140,6 +145,9 @@ function liste() {
 		
 		$text .= "</table>\n";
 		
+		$text .= "</td>\n";
+		$text .= "</tr>\n";
+		$text .= "</table>\n";
 	} else {
 		$text .= "<p style=\"text-align:center;\">$t[sonst4]</p>\n";
 	}

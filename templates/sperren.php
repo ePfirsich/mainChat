@@ -189,7 +189,7 @@ switch ($aktion) {
 			}
 			mysqli_free_result($result);
 		}
-		echo liste();
+		echo sperren_liste();
 		break;
 	
 	case "aendern":
@@ -267,7 +267,7 @@ switch ($aktion) {
 		zeige_tabelle_zentriert($box, $text);
 		
 		// Liste ausgeben
-		echo liste();
+		echo sperren_liste();
 		
 		break;
 	
@@ -336,14 +336,14 @@ switch ($aktion) {
 		zeige_tabelle_zentriert($box, $text);
 		
 		// Liste ausgeben
-		echo liste();
+		echo sperren_liste();
 		
 		break;
 	
 	default;
 	// Übersicht
 		// Liste ausgeben
-		echo liste();
+	echo sperren_liste();
 	
 }
 ?>
