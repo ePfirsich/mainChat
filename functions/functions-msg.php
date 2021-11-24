@@ -1586,6 +1586,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if ($nick['u_away'] != "") {
 							system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
 						}
+						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$nick['u_id']);
 					}
 				} else {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
