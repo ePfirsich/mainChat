@@ -216,23 +216,26 @@ function user_edit($f, $admin, $u_level) {
 	
 	$link = "";
 	// Farbe direkt einstellen
-	if ($f['u_id'] == $u_id) {
-		$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor=" . urlencode($f['u_farbe']);
-		$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[benutzer_farbauswahl]</a>]</b>";
-		$text .= "<tr><td>$f1<b>" . $t['benutzer_farbe'] . "</b>\n" . $f2
-			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">"
-			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
-			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
-	} else if ($admin) {
-		$text .= "<tr><td>$f1<b>" . $t['benutzer_farbe'] . "</b>\n" . $f2
-			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">"
-			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
-			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
+	if($f['u_id'] == $u_id || $admin) {
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+		$text .= "<td $bgcolor>\n";
+		if ($f['u_id'] == $u_id) {
+			$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor=" . urlencode($f['u_farbe']);
+			$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[benutzer_farbauswahl]</a>]</b>";
+		}
+		$text .= "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">";
+		$text .= "<input type=\"hidden\" name=\"farben[u_farbe]\">";
+		$text .= "&nbsp;" . $f3 . $link . $f4 . "\n";
+		$text .= "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
 	}
-	
-	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
@@ -240,28 +243,27 @@ function user_edit($f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	// Überschrift: Geänderte Einstellungen
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_geaenderte_einstellungen'], "", "", 0, "70", "");
+	
 	$text .= "<tr>";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor>\n";
+	$text .= "<td colspan=\"2\" $bgcolor>\n";
 	$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">\n";
-	if ($admin) {
-		$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\">";
-	}
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
-	
 	$text .= "</table>\n";
 	
 	// Farbenliste & aktuelle Farbe
-	
 	if ($f['u_id'] == $u_id) {
 		$text .= "\n<hr size=2 noshade><table><tr><td colspan=\"2\"><b>"
 			. $t['user_zeige10'] . "&nbsp;</b></td>" . "<td style=\"background-color:#". $f['u_farbe'] . ";\">&nbsp;&nbsp;&nbsp;</td>" . "</tr></table>";
 		$text .= "<table style=\"border-collapse: collapse;\"><tr>\n";
 		foreach ($farbe_chat_user as $key => $val) {
-			$text .= "<td style=\"padding-left:0px; padding-right:0px;\">"
-				. "<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=farbe_aendern&u_id=$f[u_id]&u_farbe=$val\">"
-				."<div style=\"background-color:#" . $val ." ; width:" . $farbe_chat_user_breite . "px; height:" .  $farbe_chat_user_hoehe . "px; border:0px;\"></div></a></td>\n";
+			$text .= "<td style=\"padding-left:0px; padding-right:0px;\">";
+			$text .= "<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=farbe_aendern&u_id=$f[u_id]&u_farbe=$val\">";
+			$text .= "<div style=\"background-color:#" . $val ." ; width:" . $farbe_chat_user_breite . "px; height:" .  $farbe_chat_user_hoehe . "px; border:0px;\"></div></a></td>\n";
 		}
 		$text .= "</tr></table>\n";
 	}

@@ -25,6 +25,7 @@ $t['benutzer_signatur'] = "Signatur für Nachrichten und Forum";
 $t['benutzer_eintrittsnachricht'] = "Eintrittsnachricht";
 $t['benutzer_austrittsnachricht'] = "Austrittsnachricht";
 $t['benutzer_passwort_aendern'] = "Passwort ändern";
+$t['benutzer_geaenderte_einstellungen'] = "Geänderte Einstellungen";
 $t['benutzer_neues_passwort'] = "Neues Passwort";
 $t['benutzer_neues_passwort_wiederholen'] = "Neues Passwort wiederholen";
 $t['benutzer_level'] = "Level";
