@@ -263,7 +263,7 @@ Nachricht in Chat wie /msg). Zusätzlich sind auch Kombinationen von E-Mail
 und OLM sowie Chat-Mail und OLM möglich, wobei Sie in diesem Fall zwei
 Nachrichten erhalten.<br><br>
 <b><a name=\"home\">Benutzer-Homepages</a></b><br>
-Unter dem Punkt \"<b>Einstellungen -> Homepage</b>\" kann ebenfalls jeder Benutzer mit
+Unter dem Punkt \"<b>Profil -> Homepage</b>\" kann ebenfalls jeder Benutzer mit
 wenigen Klicks seine eigene kleine Homepage erstellen, ohne jegliche
 HTML-Kenntnisse zu besitzen. Nach der \"<b>Freischaltung</b>\" der Homepage wird hinter dem
 Benutzernamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der
