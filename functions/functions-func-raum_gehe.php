@@ -83,12 +83,14 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			// oder falls user=raumbesitzer...
 			// macht wenig sinn, das ein RB in seinen Raum ein ! angeben muss
 			//if ($neu->r_besitzer==$u_id && $geschlossen) $raumwechsel=true;
-			if ($neu->r_besitzer == $u_id)
+			if ($neu->r_besitzer == $u_id) {
 				$raumwechsel = true;
+			}
 		} else {
 			// Raum offen, nur rein, wenn nicht gesperrt.
-			if ($gesperrt == 0 && $zuwenigpunkte == 0)
+			if ($gesperrt == 0 && $zuwenigpunkte == 0) {
 				$raumwechsel = true;
+			}
 		}
 		
 		// raumwechsel nicht erlaubt, wenn alter Raum teergrube (ausser für Admins + Tempadmins)
@@ -186,8 +188,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 					$online = mysqli_fetch_object($result2);
 					mysqli_free_result($result2);
 					
-					system_msg("", 0, $u_id, "",
-						"<script>parent.frames[3].location.href='eingabe.php?id=$online->o_hash';</script>");
+					system_msg("", 0, $u_id, "", "<script>parent.frames[4].location.href='eingabe.php?id=$online->o_hash';</script>");
 					
 					unset($online);
 				}

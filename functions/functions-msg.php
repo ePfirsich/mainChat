@@ -832,21 +832,18 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/rooms":
 		case "/j":
 		case "/join":
-			if ((($u_level == "G") || ($u_level == "U"))
-				&& ($single_room_verhalten == "1")) {
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0],
-						$t['chat_spruch5']));
+			if ((($u_level == "G") || ($u_level == "U")) && ($single_room_verhalten == "1")) {
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_spruch5']));
 			} else if ($chatzeile[1]) {
-				
 				// Raumname erzeugen
 				$chatzeile[1] = preg_replace("/[ \\'\"]/", "", $chatzeile[1]);
 				$f['r_name'] = htmlspecialchars($chatzeile[1]);
 				
-				if (!isset($chatzeile[2]))
+				if (!isset($chatzeile[2])) {
 					$chatzeile[2] = "";
+				}
 				// Admin oder Raumbesitzer darf das Betreten geschlossener Räume erzwingen (Prüfung in raum_gehe)
-				if ($beichtstuhl || $chatzeile[2] == "immer"
-					|| $chatzeile[2] == "force" || $chatzeile[2] == "!") {
+				if ($beichtstuhl || $chatzeile[2] == "immer" || $chatzeile[2] == "force" || $chatzeile[2] == "!") {
 					$raum_geschlossen = TRUE;
 				} else {
 					$raum_geschlossen = FALSE;
@@ -854,8 +851,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				// Raum wechseln 
 				$query = "SELECT r_id,(LENGTH(r_name)-length('$chatzeile[1]')) as laenge "
-					. "FROM raum WHERE r_name like '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "%' "
-					. "ORDER BY laenge";
+					. "FROM raum WHERE r_name like '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "%' ORDER BY laenge";
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if (mysqli_num_rows($result) != 0) {
@@ -864,8 +860,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu, $raum_geschlossen);
 						raum_user($r_id, $u_id);
 					}
-				} elseif ($u_level != "G" && strlen($f['r_name']) <= $raum_max
-					&& strlen($f['r_name']) > 3) {
+				} elseif ($u_level != "G" && strlen($f['r_name']) <= $raum_max && strlen($f['r_name']) > 3) {
 					// Neuen Raum anlegen, ausser Benutzer ist Gast
 					$f['r_topic'] = htmlspecialchars($u_nick . $t['chat_msg56']);
 					$f['r_eintritt'] = "";
@@ -905,15 +900,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				} else {
 					// Fehlermeldung
 					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%chatzeile%", $chatzeile[1],
-							$t['chat_msg11']));
+						str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg11']));
 				}
 				mysqli_free_result($result);
 			} else {
 				// Liste alle Räume auf
-				if ($admin)
+				if ($admin) {
 					$query = "SELECT r_name from raum order by r_name";
-				else $query = "SELECT r_name from raum WHERE r_status1 = 'O' order by r_name";
+				} else {
+					$query = "SELECT r_name from raum WHERE r_status1 = 'O' order by r_name";
+				}
 				
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
