@@ -22,7 +22,36 @@ if ($fehler) {
 }
 
 switch ($aktion) {
-	case "monat":
+	case "stunde":
+		
+		$h = 24;
+		$msg = "";
+		
+		$showtime = (time() - (($h - 1) * 60 * 60));
+		
+		statsResetHours($showtime, $h);
+		
+		$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
+		
+		if ($r0 > 0) {
+			$i = 0;
+			$n = @mysqli_num_rows($r0);
+			while ($i < $n) {
+				$x = @mysqli_result($r0, $i, "stunde");
+				$c_users = @mysqli_result($r0, $i, "c_users");
+				$grapharray["$x"] += $c_users;
+				$i++;
+			}
+			
+			$msg .= statsPrintGraph($chat, $t['statistik_benutzer'], $t['statistik_uhrzeit']);
+		}
+		
+		$box = $t['statistik2'];
+		zeige_tabelle_zentriert($box, $msg);
+		
+		break;
+		
+	default:
 		// Auswahlbox Monat
 		$y = urldecode($y);
 		$m = urldecode($m);
@@ -114,35 +143,5 @@ switch ($aktion) {
 		
 		$box = $t['statistik3'];
 		zeige_tabelle_zentriert($box, $msg);
-		break;
-	
-	case "stunde":
-		
-		$h = 24;
-		$msg = "";
-		
-		$showtime = (time() - (($h - 1) * 60 * 60));
-		
-		statsResetHours($showtime, $h);
-		
-		$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
-		
-		if ($r0 > 0) {
-			$i = 0;
-			$n = @mysqli_num_rows($r0);
-			while ($i < $n) {
-				$x = @mysqli_result($r0, $i, "stunde");
-				$c_users = @mysqli_result($r0, $i, "c_users");
-				$grapharray["$x"] += $c_users;
-				$i++;
-			}
-			
-			$msg .= statsPrintGraph($chat, $t['statistik_benutzer'], $t['statistik_uhrzeit']);
-		}
-		
-		$box = $t['statistik2'];
-		zeige_tabelle_zentriert($box, $msg);
-		break;
-} // switch
-
+}
 ?>
