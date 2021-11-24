@@ -84,7 +84,7 @@ if ($u_id) {
 	}
 	$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['navigation_menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_menue12'] . "</span></a>&nbsp;";
 	if ($o_js) {
-		$text .= " | <a href=\"reset.php?id=" . $id . "\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['navigation_menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['navigation_menue13'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"reset.php?id=" . $id . "\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "');return(false)\" title=\"" . $t['navigation_menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['navigation_menue13'] . "</span></a>&nbsp;";
 	}
 	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_menue14'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['navigation_menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_menue15'] . "</span></a>";

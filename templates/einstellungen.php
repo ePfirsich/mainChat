@@ -49,7 +49,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	}
 	
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
-	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL)) {
+	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "") {
 		$f['u_id'] = $temp_u_id;
 		$f['u_nick'] = filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL);
 		$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
@@ -224,13 +224,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_farbe'];
 				zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
-				
-				if ($o_js && $o_who == 0) {
-					echo "<script>\n";
-					echo "opener_reload('chat.php?id=$id&back=$chat_back','2');\n";
-					echo "opener_reload('eingabe.php?id=$id','4');\n";
-					echo "</script>\n";
-				}
 			}
 			
 			// Einstellungen des Benutzers mit ID $u_id anzeigen
@@ -633,14 +626,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						mysqli_free_result($resultii);
 					}
 					
-					// Eingabe-Frame mit Farben aktualisieren
-					if ($o_js && $o_who == 0 && isset($f['u_farbe']) && $f['u_farbe']) {
-						echo "<script>\n";
-						echo "opener_reload('chat.php?id=$id&back=$chat_back','2');\n";
-						echo "opener_reload('eingabe.php?id=$id','4');\n";
-						echo "</script>\n";
-					}
-					
 					// Falls Benutzer auf Level "Z" gesetzt wurde -> logoff
 					if (ist_online($f['u_id']) && isset($f['u_level']) && $f['u_level'] == "Z") {
 						// o_id und o_raum bestimmen
@@ -672,10 +657,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						|| $benutzerdaten_row->u_layout_farbe != $f['u_layout_farbe']
 						|| $benutzerdaten_row->u_layout_chat_darstellung != $f['u_layout_chat_darstellung'])
 						&& $o_who == 0) {
-							echo "<script>\n";
-							echo "opener_reload('chat.php?id=$id&back=$chat_back','2');\n";
-							echo "opener_reload('eingabe.php?id=$id','4');\n";
-							echo "</script>\n";
+							echo "<script>parent.frames[2].location.href='chat.php?id=$id&back=$chat_back';</script>";
+							echo "<script>parent.frames[4].location.href='eingabe.php?id=$id';</script>";
 					}
 				}
 				$fehlermeldung = "";

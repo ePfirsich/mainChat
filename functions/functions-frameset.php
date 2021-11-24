@@ -6,7 +6,6 @@ function frameset_forum($hash_id) {
 	if (!isset($frame_online)) {
 		$frame_online = "frame_online.php";
 	}
-	
 	?>
 	<frameset rows="<?php echo $frame_online_size; ?>,100,*" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online; ?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">
@@ -34,7 +33,6 @@ function frameset_chat($hash_id) {
 		$frame_size_interaktiv = $moderationsgroesse;
 		$frame_size_eingabe = 108;
 	}
-	
 	?>
 	<frameset rows="<?php echo $frame_online_size;?>,65,*,<?php echo $frame_size_eingabe; ?>,<?php echo $frame_size_interaktiv; ?>,1" border="0" frameborder="0" framespacing="0">
 		<frame src="<?php echo $frame_online;?>" name="frame_online" marginwidth="0" marginheight="0" scrolling="no">

@@ -504,7 +504,6 @@ if ($result && $rows == 1 && $login_ok) {
 			
 			frameset_forum($hash_id);
 			
-			die();
 		} else {
 			// Chat betreten
 			betrete_chat($o_id, $u_id, $u_nick, $u_level, $eintritt, $javascript);
