@@ -431,8 +431,8 @@ function eintrag_aktionen($aktion_datensatz) {
 			schreibe_db("aktion", $f, $temp[0], "a_id");
 		}
 	}
-	$box = $t['edit_erfolgsmeldung'];
-	$text = $t['edit_erfolgsmeldung'];
+	$box = $t['einstellungen_erfolgsmeldung'];
+	$text = $t['einstellungen_erfolgsmeldung_einstellungen'];
 	zeige_tabelle_zentriert($box, $text);
 }
 
