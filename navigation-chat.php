@@ -53,41 +53,41 @@ if ($u_id) {
 		}
 	}
 	
-	$box = $t['menue1'];
+	$box = $t['navigation_menue1'];
 	
 	$text = "<center>";
 	
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
-		$text .= "<a href=\"chat.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['menue2'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['menue3'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"inhalt.php?seite=benutzer&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['menue4'] . "</span></a>&nbsp;";
+		$text .= "<a href=\"chat.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue2'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_menue3'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=benutzer&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['navigation_menue4'] . "</span></a>&nbsp;";
 	}
 	if ($u_level != 'G' && (!isset($beichtstuhl) || !$beichtstuhl || $admin)) {
-		$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['navigation_menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
 	}
 	if ($forumfeatures && (!isset($beichtstuhl) || !$beichtstuhl || $admin) && ((isset($aktraum) && $aktraum->r_status1 <> "L") || $admin)) {
-		$text .= " | <a href=\"index-forum.php?id=" . $id . "\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['menue6'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"index-forum.php?id=" . $id . "\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue6'] . "</span></a>&nbsp;";
 	}
 	if (!isset($beichtstuhl) || !$beichtstuhl || $admin) {
-		$text .= " | <a href=\"inhalt.php?seite=einstellungen&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue7'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['menue7'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"inhalt.php?seite=profil&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue9'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['menue9'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=einstellungen&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue7'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['navigation_menue7'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=profil&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue9'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_menue9'] . "</span></a>&nbsp;";
 	}
 	if ($u_level != 'G') {
-		$text .= " | <a href=\"inhalt.php?seite=freunde&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue16'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['menue16'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=freunde&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue16'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['navigation_menue16'] . "</span></a>&nbsp;";
 	}
 	if ($admin) {
-		$text .= " | <a href=\"inhalt.php?seite=sperren&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue8'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['menue8'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"inhalt.php?seite=statistik&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue10'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['menue10'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=sperren&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue8'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['navigation_menue8'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=statistik&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue10'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['navigation_menue10'] . "</span></a>&nbsp;";
 	}
 	if ($u_level == "M") {
-		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['menue11'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['menue11'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['navigation_menue11'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['navigation_menue11'] . "</span></a>&nbsp;";
 	}
-	$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['menue12'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['navigation_menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_menue12'] . "</span></a>&nbsp;";
 	if ($o_js) {
-		$text .= " | <a href=\"reset.php?id=" . $id . "\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['menue13'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"reset.php?id=" . $id . "\" onMouseOver=\"return(true)\" onClick=\"neuesFenster('reset.php?id=" . $id . "&reset=1');return(false)\" title=\"" . $t['navigation_menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['navigation_menue13'] . "</span></a>&nbsp;";
 	}
-	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['menue14'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['menue15'] . "</span></a>";
+	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_menue14'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['navigation_menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_menue15'] . "</span></a>";
 	
 	$text .= "</center>";
 	

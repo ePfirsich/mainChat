@@ -1,5 +1,5 @@
 <?php
-$box = $t['menue7'];
+$box = $t['login_menue7'];
 $text = "<b>" . $t['impressum'] . "</b>";
 $text .= "<br>";
 $text .= $impressum_name;

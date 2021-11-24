@@ -63,7 +63,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				. $a['u_adminemail'] . $a['u_punkte_jahr']);
 			
 			$email = urlencode($a['u_adminemail']);
-			$link = $chat_url . "/index.php?aktion=passwort_neu&frame=1&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
+			$link = $chat_url . "/index.php?aktion=passwort_neu&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
 			
 			$text2 = str_replace("%link%", $link, $t['pwneu9']);
 			$text2 = str_replace("%hash%", $hash, $text2);

@@ -7,7 +7,6 @@
 # u_nick		Temp. Benutzername im Chat
 # u_passwort	Passwort
 # u_email		E-Mail Adresse
-# u_url			URL der Homepage
 # u_level		Userlevel A-Z
 # u_neu			Zeitpunkt der Erstanmeldung
 # u_login		Zeitpunkt des letzten Logins
@@ -18,7 +17,7 @@
 # u_adminemail		E-Mail Adresse für Administatrion, muss angegeben werden
 # u_ip_historie 	Liste der IP-Adressen der letzten Logins
 # u_away		away-Text des Benutzers
-# u_smilie		User will Smilie-Grafiken sehen Y/N
+# u_smilies		User will Smilie-Grafiken sehen Y/N
 # u_agb			User hat Nutzungsbestimmungen akzeptiert Y/N
 # u_punkte_gesamt	Gesamtpunktzahl des Users
 # u_punkte_monat	Punktzahl des aktuellen Monats
@@ -429,12 +428,10 @@ CREATE TABLE user (
 	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_adminemail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_url` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_ip_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_smilie` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
 	`u_agb` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
 	`u_zeilen` int(11) default NULL,
 	`u_punkte_gesamt` int(10) unsigned NOT NULL default '0',
@@ -454,13 +451,14 @@ CREATE TABLE user (
 	`u_profil_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_kommentar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_forum_postingproseite` int(11) NOT NULL default '20',
-	`u_systemmeldungen` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-	`u_punkte_anzeigen` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
+	`u_systemmeldungen` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`u_knebel` timestamp NOT NULL default '0000-00-00 00:00:00',
 	`u_avatare_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1,
-	`u_sicherer_modus` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	`u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`u_smilies` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY	(u_id),
 	UNIQUE KEY u_nick (u_nick),
 	KEY u_level (u_level),
@@ -489,6 +487,7 @@ CREATE TABLE userinfo (
 	`ui_lieblingsgericht` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`ui_lieblingsspiel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`ui_lieblingsfarbe` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`ui_homepage` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	PRIMARY KEY	(ui_id),
 	KEY ui_userid (ui_userid)
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

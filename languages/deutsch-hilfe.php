@@ -2,13 +2,11 @@
 // Übersetzungen von "Hilfe"
 $t['titel'] = "Hilfe";
 
-$t['menue1'] = "Hilfe";
-$t['menue2'] = "Login";
-$t['menue3'] = "Registrierung";
-$t['menue4'] = "Übersicht";
-$t['menue5'] = "Liste aller Befehle";
-$t['menue6'] = "Liste aller Sprüche";
-$t['menue7'] = "Punkte/Community";
+$t['hilfe_menue1'] = "Hilfe";
+$t['hilfe_menue4'] = "Übersicht";
+$t['hilfe_menue5'] = "Liste aller Befehle";
+$t['hilfe_menue6'] = "Liste aller Sprüche";
+$t['hilfe_menue7'] = "Punkte/Community";
 
 $t['hilfe0'] = "Übersicht über alle Befehle im Chat";
 $t['hilfe1'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";

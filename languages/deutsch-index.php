@@ -1,13 +1,13 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['menue1'] = "$chat";
-$t['menue2'] = "Login";
-$t['menue3'] = "Registrierung";
-$t['menue4'] = "Chatiquette";
-$t['menue5'] = "Nutzungsbestimmungen";
-$t['menue6'] = "Datenschutzerklärung";
-$t['menue7'] = "Impressum";
+$t['login_menue1'] = "$chat";
+$t['login_menue2'] = "Login";
+$t['login_menue3'] = "Registrierung";
+$t['login_menue4'] = "Chatiquette";
+$t['login_menue5'] = "Nutzungsbestimmungen";
+$t['login_menue6'] = "Datenschutzerklärung";
+$t['login_menue7'] = "Impressum";
 
 $chatiquette = "
 <p><b>Wie melde ich mich an? </b></p>
@@ -130,9 +130,6 @@ $t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser 
 	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</a>]</p>";
 $t['login27'] = "Passwort vergessen?";
 
-$t['neu1'] = "<p><b>Bitte das Feld 'Name' ausfüllen!</b></p>\n";
-$t['neu2'] = "<p><b>Bitte geben Sie als Benutzernamen mindestens 4 Zeichen ein!</b></p>\n";
-$t['neu3'] = "<p><b>Bitte geben Sie als Benutzernamen maximal 20 Zeichen ein!</b></p>\n";
 $t['neu4'] = "<p><b>Bitte geben Sie als Benutzernamen mindestens 4 und maximal 20 gültige Zeichen ein!</b><br>Die gültigen Zeichen sind: %zeichen%</p>\n";
 $t['neu5'] = "<p><b>Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!</b></p>\n";
 $t['neu6'] = "<p><b>Sie haben sich beim Passwort vertippt. Bitte neu versuchen!</b></p>\n";
@@ -142,25 +139,19 @@ $t['neu9'] = "<p><b>Dieser Benutzername ist leider schon vergeben! Bitte wählen
 $t['neu12'] = "Benutzername:";
 $t['neu13'] = "&nbsp;&nbsp;(Bitte&nbsp;nur&nbsp;ein&nbsp;Wort)";
 $t['neu14'] = "Passwort:";
-$t['neu15'] = "Passwort:";
+$t['neu15'] = "Passwort wiederholen:";
 $t['neu16'] = "&nbsp;(Wiederholung)";
 $t['neu17'] = "E-Mail:";
 $t['neu18'] = "(nur intern)";
 $t['neu19'] = "E-Mail:";
 $t['neu20'] = "&nbsp;&nbsp;(öffentlich)";
-$t['neu21'] = "Homepage:";
 $t['neu22'] = "Fertig";
-$t['neu23'] = "<p>Bitte beachten Sie, daß Ihr <b>Name</b> und Ihre <b>E-Mail</b>\n"
+$t['neu23'] = "<p>Bitte beachten Sie, daß Ihre <b>interne E-Mail</b>\n"
 	. "nur für interne Zwecke der Administration genutzt und dritten\n"
 	. "Personen nicht zugänglich gemacht wird (gem. <a href=\"index.php?aktion=datenschutz\">Datenschutzerklärung</a>). Falls Sie zum Beispiel Ihr Passwort\n"
 	. "vergessen und uns kontaktieren, können wir Ihnen an diese Adresse Ihr "
-	. "neues Passwort schicken. Die 2. optionale E-Mail Adresse (öffentlich) dagegen ist\n"
-	. "im Chat für alle anderen Mitglieder sichtbar.</p>\n"
-	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die Felder <b>E-Mail (öffentlich)</b> und\n"
-	. "<b>Homepage</b> sind öffentlich und müssen nicht ausgefüllt werden.\n"
-	. "Falls Sie <b>Benutzername</b> nicht ausfüllen, wird Ihr Name aus dem Feld\n"
-	. "<b>Name</b> als öffentlicher\n"
-	. "Benutzername automatisch eingesetzt.</p>\n"
+	. "neues Passwort schicken. Die 2. optionale E-Mail Adresse (öffentlich) dagegen ist im Chat für alle anderen Mitglieder sichtbar.</p>\n"
+	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die <b>E-Mail (öffentlich)</b> ist öffentlich und muss nicht ausgefüllt werden.</p>\n"
 	. "<p>Mit dem Abschluß der Registrierung (Klick auf Fertig) bestätigen Sie Ihr Einverständnis\n"
 	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"index.php?aktion=datenschutz\"><b>Datenschutzerklärung</b></a>.\n"
 	. "Außerdem erklären Sie sich mit unseren <a href=\"index.php?aktion=nutzungsbestimmungen\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";

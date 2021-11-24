@@ -138,15 +138,12 @@ set_time_limit(120);
 
 // Alle Systemnachrichten löschen
 // Alle leeren Nachrichten löschen
-$query = "DELETE FROM chat "
-	. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 "
-	. "AND c_typ='S' OR c_text='' OR c_text IS NULL OR c_zeit='' OR c_zeit IS NULL";
+$query = "DELETE FROM chat WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 AND c_typ='S' OR c_text='' OR c_text IS NULL OR c_zeit='' OR c_zeit IS NULL";
 $result = mysqli_query($mysqli_link, $query);
 
 // Benutzer ausloggen, wenn $timeout überschritten wurde
 echo "Benutzer ausloggen...";
-$query = "SELECT SQL_BUFFER_RESULT o_user,o_raum,o_id,o_who,o_name FROM online "
-	. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) > $timeout";
+$query = "SELECT SQL_BUFFER_RESULT o_user,o_raum,o_id,o_who,o_name FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) > $timeout";
 
 $result = mysqli_query($mysqli_link, $query);
 if ($result) {
@@ -164,9 +161,7 @@ echo "\n";
 
 // Gäste löschen, falls ausgelogt und älter als 4 Minuten
 echo "Gäste löschen\n";
-$query = "SELECT SQL_BUFFER_RESULT u_id FROM user left join online on o_user=u_id "
-	. "WHERE u_level='G' AND o_id IS NULL "
-	. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 240";
+$query = "SELECT SQL_BUFFER_RESULT u_id FROM user left join online on o_user=u_id WHERE u_level='G' AND o_id IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 240";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_object($result)) {

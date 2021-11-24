@@ -9,9 +9,6 @@ zeige_header_anfang($title, 'mini');
 ?>
 <script>
 window.focus()
-function win_reload(file,win_name) {
-	win_name.location.href=file;
-}
 function opener_reload(file,frame_number) {
 	opener.parent.frames[frame_number].location.href=file;
 }

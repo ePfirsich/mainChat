@@ -2,16 +2,15 @@
 // Übersetzungen von "Sperren"
 $t['titel'] = "Zugangssperren und Blacklist";
 
-$t['menue1'] = "Zugangssperre: Übersicht";
-$t['menue2'] = "Zugangssperre: Neu anlegen";
-$t['menue3'] = "Blacklist";
-$t['menue4'] = "Übersicht der Zugangssperren und Blacklist";
-$t['menue6'] = "Neuen Blacklist-Eintrag hinzufügen";
-
-$t['menue5a'] = "Loginsperre: Deaktivieren";
-$t['menue5b'] = "Loginsperre: Aktivieren";
-$t['menue6a'] = "Loginsperre Gast: Deaktivieren";
-$t['menue6b'] = "Loginsperre Gast: Aktivieren";
+$t['sperren_menue1'] = "Zugangssperre: Übersicht";
+$t['sperren_menue2'] = "Zugangssperre: Neu anlegen";
+$t['sperren_menue3'] = "Blacklist";
+$t['sperren_menue4'] = "Übersicht der Zugangssperren und Blacklist";
+$t['sperren_menue5a'] = "Loginsperre: Deaktivieren";
+$t['sperren_menue5b'] = "Loginsperre: Aktivieren";
+$t['sperren_sperren_menue6'] = "Neuen Blacklist-Eintrag hinzufügen";
+$t['sperren_menue6a'] = "Loginsperre Gast: Deaktivieren";
+$t['sperren_menue6b'] = "Loginsperre Gast: Aktivieren";
 
 $t['blacklist1'] = "Es gibt noch keine Blacklist-Einträge.";
 $t['blacklist2'] = "Blacklist-Einträge: ";

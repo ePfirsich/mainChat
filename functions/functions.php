@@ -50,13 +50,13 @@ $valid_fields = array(
 	'sperre' => array('s_id', 's_user', 's_raum', 's_zeit'),
 	'thema' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
 	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
-	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_url', 'u_level', 'u_farbe', 
-		'u_away', 'u_ip_historie', 'u_smilie', 'u_agb', 
+	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_level', 'u_farbe', 
+		'u_away', 'u_ip_historie', 'u_smilies', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_farbe', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
-		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe')
+		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage')
 );
 
 // Funktionen
@@ -390,7 +390,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilie, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
+	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilies, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_layout_farbe, $u_layout_chat_darstellung;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
@@ -613,7 +613,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, "
-			. "`u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
+			. "`u_away`, `u_email`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
 			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` "
 			. "FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
@@ -752,14 +752,14 @@ function zeige_kopfzeile_login() {
 	zeige_header_ende();
 	echo "<body>";
 	
-	$box = $t['menue1'];
-	$text = "<a href=\"index.php\">$t[menue2]</a>\n";
+	$box = $t['login_menue1'];
+	$text = "<a href=\"index.php\">$t[login_menue2]</a>\n";
 	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
-		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[menue3]</a>\n";
+		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[login_menue3]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[menue4]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[menue5]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[menue6]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[login_menue4]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[login_menue5]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[login_menue6]</a>\n";
 	
 	zeige_tabelle_volle_breite($box, $text);
 	
@@ -1487,59 +1487,59 @@ function avatar_editieren_anzeigen(
 	$feld,
 	$bilder,
 	$aktion = "") {
+	
+	global $f1, $f2, $f3, $f4, $id, $t;
+	
+	$eingabe_breite = 55;
+	
+	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
+		$width = $bilder[$feld]['b_width'];
+		$height = $bilder[$feld]['b_height'];
+		$mime = $bilder[$feld]['b_mime'];
 		
-		global $f1, $f2, $f3, $f4, $id, $t;
+		$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
 		
-		$eingabe_breite = 55;
-		
-		if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
-			$width = $bilder[$feld]['b_width'];
-			$height = $bilder[$feld]['b_height'];
-			$mime = $bilder[$feld]['b_mime'];
-			
-			$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
-			
-			if (!isset($info)) {
-				$info = "";
+		if (!isset($info)) {
+			$info = "";
+		}
+		if ($aktion == "avatar_aendern") {
+			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
+			$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[user_zeige73]</a>]</b>" . $f4 . "<br><br></td>\n";
+		} else if ($aktion == "profil") {
+			if($width > 200) {
+				$width = 200;
 			}
-			if ($aktion == "aendern") {
-				$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-				$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "<br><br></td>\n";
-			} else if ($aktion == "profil") {
-				if($width > 200) {
-					$width = 200;
-				}
-				if($height > 200) {
-					$height = 200;
-				}
-				$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
-			} else if ($aktion == "forum") {
-				if($width > 60) {
-					$width = 60;
-				}
-				if($height > 60) {
-					$height = 60;
-				}
-				$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
-			} else {
-				$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
+			if($height > 200) {
+				$height = 200;
 			}
-		} else if ($aktion == "aendern") {
-			$text = "<td style=\"vertical-align:top;\">";
-			$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?seite=einstellungen&id=$id&aktion=aendern\" method=\"post\">\n"
-			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
-		. "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n"
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
+		} else if ($aktion == "forum") {
+			if($width > 60) {
+				$width = 60;
+			}
+			if($height > 60) {
+				$height = 60;
+			}
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
+		} else {
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
+		}
+	} else if ($aktion == "avatar_aendern") {
+		$text = "<td style=\"vertical-align:top;\">";
+		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern\" method=\"post\">\n"
+		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
+		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
 		. "<input type=\"hidden\" name=\"avatar_hochladen\" value=\"avatar_hochladen\">\n";
-		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"><br>";
-		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
-		}
-		
-		if ($text && $aktion == "aendern") {
-			$text = "<table style=\"width:100%;\"><tr>" . $text . "</tr></table>";
-		}
-		
-		return ($text);
+	$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"><br>";
+	$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
+	}
+	
+	if ($text && $aktion == "avatar_aendern") {
+		$text = "<table style=\"width:100%;\"><tr>" . $text . "</tr></table>";
+	}
+	
+	return ($text);
 }
 
 function zeige_profilinformationen_von_id($profilfeld, $key) {

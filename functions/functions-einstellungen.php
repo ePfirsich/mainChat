@@ -13,7 +13,7 @@ function user_edit($f, $admin, $u_level) {
 	
 	if ($u_level != "G") {
 		// Avatar lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . intval($u_id);
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . $f['u_id'];
 		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 			unset($bilder);
@@ -35,8 +35,8 @@ function user_edit($f, $admin, $u_level) {
 		$text = '';
 		$text .= "<table style=\"width:100%;\">";
 		$text .= "<tr>";
-		$text .= "<td style=\"width:450px; vertical-align:top;\">" . $f1 . "<b>" . $t['user_zeige60'] . "</b>" . $f2 . "</td>";
-		$text .= "<td>" . avatar_editieren_anzeigen($u_id, $f['u_nick'], "avatar", $bilder, "aendern") . "</td>";
+		$text .= "<td style=\"width:450px; vertical-align:top;\">" . $f1 . "<b>" . $t['benutzer_avatar'] . "</b>" . $f2 . "</td>";
+		$text .= "<td>" . avatar_editieren_anzeigen($f['u_id'], $f['u_nick'], "avatar", $bilder, "avatar_aendern") . "</td>";
 		$text .= "</tr>";
 		$text .= "</table>";
 		
@@ -51,191 +51,131 @@ function user_edit($f, $admin, $u_level) {
 	
 	$text = '';
 	// Ausgabe in Tabelle
-	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
-	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-	. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$f[u_id]\">\n"
-	. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n";
+	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 	
+	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">";
 	
+	// Überschrift: Benutzerdaten
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
+	
 	// Benutzername
-	$text .= "<tr>";
-	$text .= "<td style=\"width:450px;\">" . $f1 . "<b>" . $t['user_zeige18'] . "</b>" . $f2 . "</td>";
-	$text .= "<td><input type=\"text\" value=\"$f[u_nick]\" name=\"f[u_nick]\" size=$input_breite></td>";
-	$text .= "</tr>";
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_benutzername'], "u_nick", $f['u_nick']);
+	$zaehler++;
 	
 	// E-Mail (Nicht für Gäste)
 	if ($u_level != "G") {
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige6'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"text\" value=\"$f[u_email]\" name=\"f[u_email]\" size=$input_breite></td>";
-		$text .= "</tr>";
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email'], "u_email", $f['u_email']);
+		$zaehler++;
 	}
 	
 	// Interne E-Mail (Nur für Admins)
 	if ($admin) {
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige3'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"text\" value=\"$f[u_adminemail]\" name=\"f[u_adminemail]\" size=$input_breite></td>";
-		$text .= "</tr>\n";
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_adminemail", $f['u_adminemail']);
+		$zaehler++;
 	} else if ($u_level == 'U') {
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige3'] . "</b> (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=andereadminmail\">$t[user_zeige72]</a>)" . $f2 . "</td>";
-		$text .= "<td>". htmlspecialchars($f['u_adminemail']) . "</td>";
-		$text .= "</tr>";
+		$value = $f['u_adminemail'] . " (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
+		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", $value);
+		$zaehler++;
 	}
 	
-	// Sperrkommentar
+	// Sperrkommentar (Nur für Admins)
 	if ($admin) {
 		if (!isset($f['u_kommentar'])) {
 			$f['u_kommentar'] = "";
 		}
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige49'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_kommentar']) . "\" name=\"f[u_kommentar]\" size=$input_breite>" . "</td>";
-		$text .= "</tr>";
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_kommentar'], "u_kommentar", $f['u_kommentar']);
+		$zaehler++;
 	}
 	
 	// Für alle außer Gäste
 	if ($u_level != "G") {
-		// Homepage
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige7'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"text\" value=\"$f[u_url]\" name=\"f[u_url]\" size=$input_breite></td>";
-		$text .= "</tr>";
-		
 		// Signatur
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige44'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_signatur']) . "\" name=\"f[u_signatur]\" size=$input_breite></td>";
-		$text .= "</tr>";
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_signatur'], "u_signatur", $f['u_signatur']);
+		$zaehler++;
 		
 		if ($eintritt_individuell == "1") {
 			// Eintrittsnachricht
-			$text .= "<tr>";
-			$text .= "<td>". $f1 . "<b>" . $t['user_zeige53'] . "</b>" . $f2 . "</td>";
-			$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_eintritt']) . "\" name=\"f[u_eintritt]\" size=$input_breite maxlength=\"100\"></td>";
-			$text .= "</tr>";
+			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_eintrittsnachricht'], "u_eintritt", $f['u_eintritt']);
+			$zaehler++;
 			
 			// Austrittsnachricht
-			$text .= "<tr>";
-			$text .= "<td>". $f1 . "<b>" . $t['user_zeige54'] . "</b>" . $f2 . "</td>";
-			$text .= "<td><input type=\"text\" value=\"" . htmlspecialchars($f['u_austritt']) . "\" name=\"f[u_austritt]\" size=$input_breite maxlength=\"100\"></td>";
-			$text .= "</tr>";
+			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_austrittsnachricht'], "u_austritt", $f['u_austritt']);
+			$zaehler++;
 		}
 		
-		// Passwort
-		$text .= "<tr>";
-		$text .= "<td>". $f1 . "<b>" . $t['user_zeige19'] . "</b>" . $f2 . "</td>";
-		$text .= "<td><input type=\"password\" name=\"passwort1\" size=$passwort_breite>" . "<input type=\"password\" name=\"passwort2\" size=$passwort_breite></td>";
-		$text .= "</tr>";
+		$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+		
+		// Überschrift: Passwort ändern
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_passwort_aendern'], "", "", 0, "70", "");
+		
+		// Neues Passwort
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "passwort1", $f['passwort1']);
+		$zaehler++;
+		
+		// Neues Passwort wiederholen
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "passwort2", $f['passwort2']);
+		$zaehler++;
 	}
 	
-	// System Ein/Austrittsnachrichten Y/N
-	$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>\n";
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige51'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_systemmeldungen]\">";
-	if ($f['u_systemmeldungen'] == "Y") {
-		$text .= "<option selected value=\"Y\">$t[user_zeige36]";
-		$text .= "<option value=\"N\">$t[user_zeige37]";
-	} else {
-		$text .= "<option value=\"Y\">$t[user_zeige36]";
-		$text .= "<option selected value=\"N\">$t[user_zeige37]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
+	// Überschrift: Allgemeine Einstellungen
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_allgemeine_einstellungen'], "", "", 0, "70", "");
 	
-	// Alle Avatare anzeigen 1/0
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige57'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_avatare_anzeigen]\">";
-	if ($f['u_avatare_anzeigen'] == "1") {
-		$text .= "<option selected value=\"1\">$t[user_zeige36]";
-		$text .= "<option value=\"0\">$t[user_zeige37]";
-	} else {
-		$text .= "<option value=\"1\">$t[user_zeige36]";
-		$text .= "<option selected value=\"0\">$t[user_zeige37]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	// System Ein/Austrittsnachrichten anzeigen/verbergen
+	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
+	$zaehler++;
+	
+	// Avatare im Chat anzeigen/verbergen
+	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_avatare_im_chat'], "u_avatare_anzeigen", $value, $f['u_avatare_anzeigen']);
+	$zaehler++;
 	
 	// Farbe des Chats
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige64'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_layout_farbe]\">";
-	if ($f['u_layout_farbe'] == "2") { // grün
-		$text .= "<option value=\"1\">$t[user_zeige65]";
-		$text .= "<option selected value=\"2\">$t[user_zeige66]";
-		$text .= "<option value=\"3\">$t[user_zeige67]";
-		$text .= "<option value=\"4\">$t[user_zeige68]";
-	} else if ($f['u_layout_farbe'] == "3") { // rot
-		$text .= "<option value=\"1\">$t[user_zeige65]";
-		$text .= "<option value=\"2\">$t[user_zeige66]";
-		$text .= "<option selected value=\"3\">$t[user_zeige67]";
-		$text .= "<option value=\"4\">$t[user_zeige68]";
-	} else if ($f['u_layout_farbe'] == "4") { // pink
-		$text .= "<option value=\"1\">$t[user_zeige65]";
-		$text .= "<option value=\"2\">$t[user_zeige66]";
-		$text .= "<option value=\"3\">$t[user_zeige67]";
-		$text .= "<option selected value=\"4\">$t[user_zeige68]";
-	} else { // blau
-		$text .= "<option selected value=\"1\">$t[user_zeige65]";
-		$text .= "<option value=\"2\">$t[user_zeige66]";
-		$text .= "<option value=\"3\">$t[user_zeige67]";
-		$text .= "<option value=\"4\">$t[user_zeige68]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	$value = array($t['benutzer_farbe_des_chats_blau'], $t['benutzer_farbe_des_chats_gruen'], $t['benutzer_farbe_des_chats_rot'], $t['benutzer_farbe_des_chats_pink']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_farbe_des_chats'], "u_layout_farbe", $value, $f['u_layout_farbe']);
+	$zaehler++;
 	
 	// Darstellung der Nachrichten im Chat
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige69'] . "</b>\n" . $f2 . "</td><td>" . $f1 . "<select name=\"f[u_layout_chat_darstellung]\">";
-	if ($f['u_layout_chat_darstellung'] == "2") { // Private Nachrichten hervorheben
-		$text .= "<option value=\"1\">$t[user_zeige70]";
-		$text .= "<option selected value=\"2\">$t[user_zeige71]";
-	} else { // Standard
-		$text .= "<option selected value=\"1\">$t[user_zeige70]";
-		$text .= "<option value=\"2\">$t[user_zeige71]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	$value = array($t['benutzer_darstellung_der_nachrichten_privat'], $t['benutzer_darstellung_der_nachrichten_standard']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_darstellung_der_nachrichten'], "u_layout_chat_darstellung", $value, $f['u_layout_chat_darstellung']);
+	$zaehler++;
 	
-	// Smilies Y/N
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige35'] . "</b>\n" . $f2
-		. "</td><td>" . $f1 . "<select name=\"f[u_smilie]\">";
-	if ($f['u_smilie'] == "Y") {
-		$text .= "<option selected value=\"Y\">$t[user_zeige36]";
-		$text .= "<option value=\"N\">$t[user_zeige37]";
-	} else {
-		$text .= "<option value=\"Y\">$t[user_zeige36]";
-		$text .= "<option selected value=\"N\">$t[user_zeige37]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	// Smilies
+	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_smilies'], "u_smilies", $value, $f['u_smilies']);
+	$zaehler++;
 	
-	// Punkte Anzeigen Y/N
+	// Eigenen Punktewürfel
 	if ($u_level <> 'G' && $punktefeatures) {
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige52'] . "</b>\n" . $f2
-			. "</td><td>" . $f1 . "<select name=\"f[u_punkte_anzeigen]\">";
-		if ($f['u_punkte_anzeigen'] == "Y") {
-			$text .= "<option selected value=\"Y\">$t[user_zeige36]";
-			$text .= "<option value=\"N\">$t[user_zeige37]";
-		} else {
-			$text .= "<option value=\"Y\">$t[user_zeige36]";
-			$text .= "<option selected value=\"N\">$t[user_zeige37]";
-		}
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+		$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_eigener_punktewuerfel'], "u_punkte_anzeigen", $value, $f['u_punkte_anzeigen']);
+		$zaehler++;
 	}
 	
-	// Sicherer Modus notwendig
-	$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige61'] . "</b>\n" . $f2
-	. "</td><td>" . $f1 . "<select name=\"f[u_sicherer_modus]\">";
-	if ($f['u_sicherer_modus'] == "Y") {
-		$text .= "<option value=\"N\">$t[user_zeige62]";
-		$text .= "<option selected value=\"Y\">$t[user_zeige63]";
-	} else {
-		$text .= "<option selected value=\"N\">$t[user_zeige62]";
-		$text .= "<option value=\"Y\">$t[user_zeige63]";
-	}
-	$text .= "</select>" . $f2 . "</td></tr>\n";
+	// Sicherer Modus
+	$value = array($t['benutzer_modus_normal'], $t['benutzer_modus_sicher']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_modus'], "u_sicherer_modus", $value, $f['u_sicherer_modus']);
+	$zaehler++;
 	
 	// Level nur für Admins
 	if ($admin) {
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['user_zeige8'] . "</b>\n" . $f2
-			. "</td><td>" . $f1 . "<select name=\"f[u_level]\">\n";
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		
+		$text .= "<tr>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_level'] . "</td>";
+		$text .= "<td $bgcolor>" . $f1 . "<select name=\"u_level\">\n";
 		
 		// Liste der Gruppen ausgeben
-		
 		reset($level);
 		$i = 0;
 		while ($i < count($level)) {
@@ -259,10 +199,17 @@ function user_edit($f, $admin, $u_level) {
 			next($level);
 			$i++;
 		}
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+		$text .= "</select>" . $f2 . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
 	}
 	
-	// Default für Farbe setzen, falls undefiniert
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	// Überschrift: Farbeinstellungen
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_farbeinstellungen'], "", "", 0, "70", "");
+	
+	// Standardfarbe setzen, falls undefiniert
 	if (strlen($f['u_farbe']) == 0) {
 		$f['u_farbe'] = $user_farbe;
 	}
@@ -270,31 +217,40 @@ function user_edit($f, $admin, $u_level) {
 	$link = "";
 	// Farbe direkt einstellen
 	if ($f['u_id'] == $u_id) {
-		$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor="
-			. urlencode($f['u_farbe']);
-		$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[user_zeige46]</A>]</b>";
-		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
-			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
+		$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor=" . urlencode($f['u_farbe']);
+		$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[benutzer_farbauswahl]</a>]</b>";
+		$text .= "<tr><td>$f1<b>" . $t['benutzer_farbe'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"f[u_farbe]\" size=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	} else if ($admin) {
-		$text .= "<tr><td colspan=2><hr size=2 noshade></td></tr>"
-			. "<tr><td>$f1<b>" . $t['user_zeige45'] . "</b>\n" . $f2
+		$text .= "<tr><td>$f1<b>" . $t['benutzer_farbe'] . "</b>\n" . $f2
 			. "</td><td>" . $f1
-			. "<input type=\"text\" name=\"f[u_farbe]\" size=7 value=\"$f[u_farbe]\">"
+			. "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">"
 			. "<input type=\"hidden\" name=\"farben[u_farbe]\">" . $f2
 			. "&nbsp;" . $f3 . $link . $f4 . "</td></tr>\n";
 	}
 	
-	$text .= "</table>\n";
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
-	$text .= $f1 . "<hr size=2 noshade><input type=\"SUBMIT\" name=\"eingabe\" value=\"Ändern!\">" . $f2;
-	
-	if ($admin) {
-		$text .= $f1 . "&nbsp;<input type=\"SUBMIT\" name=\"eingabe\" value=\"Löschen!\">" . $f2;
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
 	}
+	
+	$text .= "<tr>";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
+	$text .= "<td $bgcolor>\n";
+	$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">\n";
+	if ($admin) {
+		$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\">";
+	}
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	
+	$text .= "</table>\n";
 	
 	// Farbenliste & aktuelle Farbe
 	
@@ -304,7 +260,7 @@ function user_edit($f, $admin, $u_level) {
 		$text .= "<table style=\"border-collapse: collapse;\"><tr>\n";
 		foreach ($farbe_chat_user as $key => $val) {
 			$text .= "<td style=\"padding-left:0px; padding-right:0px;\">"
-				. "<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=edit&f[u_id]=$f[u_id]&farbe=$val\">"
+				. "<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=farbe_aendern&u_id=$f[u_id]&u_farbe=$val\">"
 				."<div style=\"background-color:#" . $val ." ; width:" . $farbe_chat_user_breite . "px; height:" .  $farbe_chat_user_hoehe . "px; border:0px;\"></div></a></td>\n";
 		}
 		$text .= "</tr></table>\n";
@@ -476,11 +432,12 @@ function eintrag_aktionen($aktion_datensatz) {
 		}
 	}
 	$box = $t['edit_erfolgsmeldung'];
-	$text = $t['edit24'];
+	$text = $t['edit_erfolgsmeldung'];
 	zeige_tabelle_zentriert($box, $text);
 }
 
 function bild_holen($u_id, $name, $ui_bild, $groesse) {
+	$fehlermeldung = '';
 	// Prüft hochgeladenes Bild und speichert es in die Datenbank
 	// u_id = ID des Benutzers, dem das Bild gehört
 	//
@@ -530,7 +487,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 				}
 				schreibe_db("bild", $f, $b_id, "b_id");
 			} else {
-				echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+				$fehlermeldung .= "Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!<br>";
 			}
 			
 			// Bild löschen
@@ -545,14 +502,14 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			}
 			
 		} else {
-			echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+			$fehlermeldung .= "Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</br>";
 			unlink($ui_bild);
 		}
 		
-	} elseif ($groesse >= ($max_groesse * 1024)) {
-		echo "<P><b>Fehler: </b> Das Bild muss kleiner als $max_groesse KB sein!</P>\n";
+	} else if ($groesse >= ($max_groesse * 1024)) {
+		$fehlermeldung .= "Das Bild muss kleiner als $max_groesse KB sein!<br>";
 	}
 	
-	return ($home); // TODO: Wo wird $home definiert?
+	return $fehlermeldung;
 }
 ?>

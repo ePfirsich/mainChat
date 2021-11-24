@@ -6,7 +6,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 	// $u_id = ID des aktuellen Benutzers
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin, $u_layout_chat_darstellung;
-	global $u_nick, $u_level, $u_smilie, $u_systemmeldungen;
+	global $u_nick, $u_level, $u_smilies, $u_systemmeldungen;
 	global $show_spruch_owner, $id, $o_dicecheck, $cssDeklarationen;
 	global $user_nick, $mysqli_link;
 	
@@ -227,7 +227,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$text_ausgegeben = TRUE;
 				
 				// Smilies ausgeben oder unterdrücken
-				if ($u_smilie == "N") {
+				if ($u_smilies == "0") {
 					$c_text = str_replace("<smil ", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
 					$c_text = str_replace(" smil>", "-->", $c_text);
 				} else {

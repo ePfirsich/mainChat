@@ -46,7 +46,7 @@ function such_bereich() {
 	
 	
 	$box = $t['titel'];
-	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[menue2]</span></a>";
+	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_menue2]</span></a>";
 	$text = '';
 	
 	

@@ -1,6 +1,6 @@
 <?php
 
-function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout_farbe = 1) {
+function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout_farbe = 0) {
 	// Gibt den HTML-Header auf der Eingangsseite
 	global $metatag, $cssDeklarationen;
 	?>
@@ -10,11 +10,11 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout
 	<title><?php echo $title; ?></title>
 	<meta charset="utf-8">
 	<?php echo $metatag;
-	if($u_layout_farbe == 2) { // grün
+	if($u_layout_farbe == 1) { // grün
 		$cssDeklarationen = "gruen";
-	} else if($u_layout_farbe == 3) { // rot
+	} else if($u_layout_farbe == 2) { // rot
 		$cssDeklarationen = "rot";
-	} else if($u_layout_farbe == 4) { // pink
+	} else if($u_layout_farbe == 3) { // pink
 		$cssDeklarationen = "pink";
 	} else { // blau
 		$cssDeklarationen = "blau";
@@ -55,16 +55,8 @@ function zeige_header_ende($zusatz_header = '') {
 			return(confirm(text));
 	}
 	
-	function win_reload(file,win_name) {
-		win_name.location.href=file;
-	}
-	
 	function opener_reload(file,frame_number) {
 		opener.parent.frames[frame_number].location.href=file;
-	}
-
-	function window_reload(file,win_name) {
-		win_name.location.href=file;
 	}
 	
 	function neuesFenster(url) {

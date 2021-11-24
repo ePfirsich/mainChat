@@ -27,40 +27,26 @@ function profil_editor($u_id, $u_nick, $f) {
 		</tr>";
 	
 	// Benutzer
-	$name = $t['profil_benutzername'];
 	$value = "<b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b> $userdaten_bearbeiten";
-	$text .= zeige_formularfelder("text", $zaehler, $name, "", $value);
+	$text .= zeige_formularfelder("text", $zaehler, $t['profil_benutzername'], "", $value);
 	$zaehler++;
 	
 	// E-Mail
-	$name = $t['profil_email'];
 	$value = htmlspecialchars($userdata['u_email']);
-	$text .= zeige_formularfelder("text", $zaehler, $name, "", $value);
+	$text .= zeige_formularfelder("text", $zaehler, $t['profil_email'], "", $value);
 	$zaehler++;
 	
 	if ($userdata['u_adminemail']) {
 		// Interne E-Mail
-		$name = $t['profil_interne_email'];
 		$value = htmlspecialchars($userdata['u_adminemail']) . $t['profil_interne_email_details'];
-		$text .= zeige_formularfelder("text", $zaehler, $name, "", $value);
-		$zaehler++;
-	}
-	if ($userdata['u_url']) {
-		// Homepage
-		$name = $t['profil_homepage'];
-		$value = "<a href=\"" . htmlspecialchars($userdata['u_url']) . "\" target=\"_blank\">" . htmlspecialchars($userdata['u_url']) . "</a>";
-		$text .= zeige_formularfelder("text", $zaehler, $name, "", $value);
+		$text .= zeige_formularfelder("text", $zaehler, $t['profil_interne_email'], "", $value);
 		$zaehler++;
 	}
 
-	$text .= "
-	<tr>
-		<td colspan=\"2\">&nbsp;</td>
-	</tr>
-	<tr>
-		<td class=\"tabelle_kopfzeile\" colspan=\"2\">$t[ihr_profil]</td>
-	</tr>
-	<tr>";
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	// Überschrift: Ihr Profil
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['ihr_profil'], "", "", 0, "70", "");
 	
 	// Wohnort
 	$text .= zeige_formularfelder("input", $zaehler, $t['profil_wohnort'], "ui_wohnort", $f['ui_wohnort'], 0, "70", $t['profil_wohnort_details']);
@@ -83,6 +69,10 @@ function profil_editor($u_id, $u_nick, $f) {
 	// Typ
 	$value = array($t['profil_keine_angabe'], $t['profil_typ_zierlich'], $t['profil_typ_schlank'], $t['profil_typ_sportlich'], $t['profil_typ_normal'], $t['profil_typ_mollig'], $t['profil_typ_dick']);
 	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_typ'], "ui_typ", $value, $f['ui_typ']);
+	$zaehler++;
+	
+	// Beruf
+	$text .= zeige_formularfelder("input", $zaehler, $t['profil_homepage'], "ui_homepage", $f['ui_homepage']);
 	$zaehler++;
 	
 	// Beruf
@@ -129,19 +119,22 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
 	$zaehler++;
 		
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	
 		$text .= "
 		<tr>
 			<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
 			<td $bgcolor>
-				$f1
 				<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">
 				<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">
 				<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">
 				<input type=\"hidden\" name=\"id\" value=\"$id\">
-				<input type=\"hidden\" name=\"profilaenderungen\" value=\"true\">
 				<input type=\"hidden\" name=\"aktion\" value=\"aendern\">
 				<input type=\"submit\" name=\"los\" value=\"Eintragen\">
-				$f2
 			</td>
 		</tr>
 	</table>

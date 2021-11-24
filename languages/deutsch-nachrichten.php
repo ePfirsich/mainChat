@@ -3,13 +3,13 @@
 // Übersetzungen von "Nachrichten"
 $t['titel'] = "Nachrichten";
 
-$t['menue1'] = "Nachrichten";
-$t['menue2'] = "Posteingang";
-$t['menue3'] = "Neue Nachricht schreiben";
-$t['menue4'] = "Papierkorb zeigen";
-$t['menue5'] = "Papierkorb leeren";
-$t['menue6'] = "Mailbox schließen";
-$t['menue7'] = "Hilfe";
+$t['nachrichten_menue1'] = "Nachrichten";
+$t['nachrichten_menue2'] = "Posteingang";
+$t['nachrichten_menue3'] = "Neue Nachricht schreiben";
+$t['nachrichten_menue4'] = "Papierkorb zeigen";
+$t['nachrichten_menue5'] = "Papierkorb leeren";
+$t['nachrichten_menue6'] = "Mailbox schließen";
+$t['nachrichten_menue7'] = "Hilfe";
 
 $t['nachrichten1'] = "Nachrichten im Posteingang";
 $t['nachrichten2'] = "Nachrichten im Papierkorb";

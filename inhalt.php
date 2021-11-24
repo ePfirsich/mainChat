@@ -37,7 +37,6 @@ if($t['titel'] != '') {
 zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
 ?>
 <script>
-window.focus()
 function toggleMail(tostat) {
 		for(i=0; i<document.forms["mailbox"].elements.length; i++) {
 			 e = document.forms["mailbox"].elements[i];
@@ -106,11 +105,11 @@ if(!$seite || $kein_seitenaufruf) {
 			// Hilfe anzeigen
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=hilfe&id=$id\">$t[menue4]</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-befehle&id=$id\">$t[menue5]</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-sprueche&id=$id\">$t[menue6]</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community&id=$id\">$t[menue7]</a>\n";
+			$box = $t['hilfe_menue1'];
+			$text = "<a href=\"inhalt.php?seite=hilfe&id=$id\">$t[hilfe_menue4]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-befehle&id=$id\">$t[hilfe_menue5]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-sprueche&id=$id\">$t[hilfe_menue6]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community&id=$id\">$t[hilfe_menue7]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			switch ($aktion) {
@@ -151,24 +150,24 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-func-nachricht.php");
 			
 			// Menü ausgeben
-			$box = $t['menue13'];
-			$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[menue1]</a>\n";
+			$box = $t['benutzer_menue13'];
+			$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[benutzer_menue1]</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[menue2]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[benutzer_menue2]</a>\n";
 			}
 			
 			if ($adminlisteabrufbar && $u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[menue12]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[benutzer_menue12]</a>\n";
 			}
 			if ($u_level != "G") {
 				if ($punktefeatures) {
 					$ur1 = "inhalt.php?seite=top10&id=$id";
 					$url = "href=\"$ur1\" ";
-					$text .= "| <a $url>$t[menue7]</a>\n";
+					$text .= "| <a $url>$t[benutzer_menue7]</a>\n";
 				}
 				$ur1 = "inhalt.php?seite=freunde&id=$id";
 				$url = "href=\"$ur1\" ";
-				$text .= "| <a $url>$t[menue8]</a>\n";
+				$text .= "| <a $url>$t[benutzer_menue8]</a>\n";
 			}
 			
 			zeige_tabelle_zentriert($box, $text);
@@ -182,10 +181,10 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-msg.php");
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=raum&id=$id\">" . $t['menue8'] . "</a>\n";
+			$box = $t['raum_menue1'];
+			$text = "<a href=\"inhalt.php?seite=raum&id=$id\">" . $t['raum_menue8'] . "</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?seite=raum&aktion=neu&id=$id\">" . $t['menue2'] . "</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=raum&aktion=neu&id=$id\">" . $t['raum_menue2'] . "</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -198,13 +197,13 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-nachrichten.php");
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=nachrichten&id=$id\">" . $t['menue2'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=neu&id=$id\">" . $t['menue3'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorb&id=$id\">" . $t['menue4'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\">" . $t['menue5'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=mailboxzu&id=$id\">" . $t['menue6'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#mail\">" . $t['menue7'] . "</a>\n";
+			$box = $t['nachrichten_menue1'];
+			$text = "<a href=\"inhalt.php?seite=nachrichten&id=$id\">" . $t['nachrichten_menue2'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=neu&id=$id\">" . $t['nachrichten_menue3'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorb&id=$id\">" . $t['nachrichten_menue4'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\">" . $t['nachrichten_menue5'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=mailboxzu&id=$id\">" . $t['nachrichten_menue6'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#mail\">" . $t['nachrichten_menue7'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/nachrichten.php');
@@ -217,7 +216,7 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
+			$box = $t['profil_menue1'];
 			$text .= "<a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
@@ -231,16 +230,18 @@ if(!$seite || $kein_seitenaufruf) {
 		
 		case "einstellungen":
 			// Einstellungen anzeigen
+			require_once("languages/$sprache-benutzer.php");
+			
 			require_once("functions/functions-msg.php");
 			require_once("functions/functions-einstellungen.php");
 			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
-				$box = $t['menue4'];
-				$text .= "<a href=\"inhalt.php?seite=einstellungen&id=$id\">$t[menue4]</a>\n";
-				$text .= "| <a href=\"inhalt.php?seite=einstellungen&aktion=aktion&id=$id\">$t[menue8]</a>\n";
-				$text .= "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">$t[menue11]</a>\n";
+				$box = $t['einstellungen_menue_titel'];
+				$text .= "<a href=\"inhalt.php?seite=einstellungen&id=$id\">$t[einstellungen_menue1]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=einstellungen&aktion=aktion&id=$id\">$t[einstellungen_menue2]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">$t[einstellungen_menue3]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
 			}
 			
@@ -295,29 +296,29 @@ if(!$seite || $kein_seitenaufruf) {
 				$uname = "";
 			}
 			
-			$box = $t['menue4'];
-			$text = "<a href=\"inhalt.php?seite=sperren&id=$id\">$t[menue1]</a>\n" . "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=neu\">$t[menue2]</a>\n";
+			$box = $t['sperren_menue4'];
+			$text = "<a href=\"inhalt.php?seite=sperren&id=$id\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=neu\">$t[sperren_menue2]</a>\n";
 			
 			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
-				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\">$t[menue5a]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
 			} else {
-				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre1\">$t[menue5b]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre1\">$t[sperren_menue5b]</a>\n";
 			}
 			mysqli_free_result($result);
 			
 			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
-				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\">$t[menue6a]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\">$t[sperren_menue6a]</a>\n";
 			} else {
-				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast1\">$t[menue6b]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast1\">$t[sperren_menue6b]</a>\n";
 			}
 			mysqli_free_result($result);
 			
-			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['menue3'] . "</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist_neu&id=$id\">" . $t['menue6'] . "</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['sperren_menue3'] . "</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=sperren&aktion=blacklist_neu&id=$id\">" . $t['sperren_menue6'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/sperren.php');
@@ -329,14 +330,14 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-freunde.php");
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=freunde&id=$id\">$t[menue2]</a>\n"
-			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[menue3]</a>\n"
-			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[menue4]</a>\n";
+			$box = $t['freunde_menue1'];
+			$text = "<a href=\"inhalt.php?seite=freunde&id=$id\">$t[freunde_menue2]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[freunde_menue3]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[freunde_menue4]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[menue5]n</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[freunde_menue5]n</a>\n";
 			}
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[menue6]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[freunde_menue6]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/freunde.php');
@@ -347,10 +348,10 @@ if(!$seite || $kein_seitenaufruf) {
 			// Top 10/100 anzeigen
 			
 			// Menü ausgeben
-			$box = $t['menue1'];
-			$text = "<a href=\"inhalt.php?seite=top10&id=$id\">".$t['menue2']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=top10&aktion=top100&id=$id\">".$t['menue3']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#punkte&id=$id\">".$t['menue4']."</a>\n";
+			$box = $t['top_menue1'];
+			$text = "<a href=\"inhalt.php?seite=top10&id=$id\">".$t['top_menue2']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=top10&aktion=top100&id=$id\">".$t['top_menue3']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#punkte&id=$id\">".$t['top_menue4']."</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');

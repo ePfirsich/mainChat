@@ -1,11 +1,15 @@
 <?php
-// Übersetzungen von "Raum"
+// Übersetzungen von "Profil"
 $t['titel'] = "Profil";
+
+$t['profil_menue1'] = "Profil";
 
 $t['bestehendes_profil'] = "Bestehendes Profil bearbeiten";
 $t['neues_profil'] = "Neues Profil anlegen";
-$t['ihr_profil'] = "Ihr Profil";
-$t['ihre_benutzerdaten'] = "Ihre Benutzerdaten";
+$t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
+. "Bitte klicken Sie <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\"><b>HIER</b> zur Anlage eines Profils</a>.";
+$t['ihr_profil'] = "Profil";
+$t['ihre_benutzerdaten'] = "Benutzerdaten";
 
 $t['profil_fehlermeldung'] = "Fehler";
 $t['profil_erfolgsmeldung'] = "Änderungen gespeichert";
@@ -17,6 +21,7 @@ $t['profil_fehler_geburt'] = "Das Geburtsdatum ist ungültig (z.B.: 24.01.1969)<
 $t['profil_fehler_geschlecht'] = "Es wurde ein falsches Geschlecht angegeben<br>\n";
 $t['profil_fehler_beziehungsstatus'] = "Es wurde ein falscher Beziehungsstatus angegeben<br>\n";
 $t['profil_fehler_typ'] = "Es wurde ein falscher Typ angegeben<br>\n";
+$t['profil_fehler_homepage'] = "Die Homepage ist länger als 160 Zeichen!<br>\n";
 $t['profil_fehler_beruf'] = "Der Beruf ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsfilm'] = "Der Lieblingsfilm ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblinggsserie'] = "Die Lieblinggsserie ist länger als 100 Zeichen!<br>\n";
@@ -71,6 +76,7 @@ $t['profil_typ_sportlich'] = "sportlich";
 $t['profil_typ_normal'] = "normal";
 $t['profil_typ_mollig'] = "mollig";
 $t['profil_typ_dick'] = "dick";
+$t['profil_homepage'] = "Webseite";
 $t['profil_beruf'] = "Beruf";
 $t['profil_hobby'] = "Hobbies";
 $t['profil_lieblingsfilm'] = "Lieblingsfilm";
@@ -88,6 +94,4 @@ $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
 $t['profil_homepage_freigeben'] = "Homepage freigeben";
 $t['profil_home1'] = "Meine Homepage";
 $t['profil_home2'] = "Homepage Einstellungen";
-
-$t['menue1'] = "Profil";
 ?>

@@ -13,10 +13,9 @@ DROP TABLE `sms`, `smsin`;
 ALTER TABLE `user` DROP `u_sms_ok`, DROP `u_sms_guthaben`, DROP `u_sms_extra`, DROP `u_frames`, DROP `u_name`, DROP `u_backup`;
 ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` MEDIUMTEXT CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '';
 ALTER TABLE `user` ADD `u_avatare_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1;
-ALTER TABLE `user` ADD `u_sicherer_modus` CHAR(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N';
-ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `user` ADD `u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1;
-ALTER TABLE `user` DROP `u_farbe_alle`, DROP `u_farbe_noise`, DROP `u_farbe_priv`, DROP `u_farbe_bg`, DROP `u_farbe_sys`, DROP `u_clearedit`;
+ALTER TABLE `user` DROP `u_url`, DROP `u_farbe_alle`, DROP `u_farbe_noise`, DROP `u_farbe_priv`, DROP `u_farbe_bg`, DROP `u_farbe_sys`, DROP `u_clearedit`;
 ALTER TABLE `chat` ADD `c_gelesen` int(1) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `userinfo` DROP `ui_ort`, DROP `ui_einstellungen`, `ui_geschlecht`, DROP `ui_beziehung`, DROP `ui_typ`, DROP `ui_tel`, DROP `ui_fax`, DROP `ui_handy`, DROP `ui_icq`, DROP `ui_strasse`, DROP `ui_plz`, DROP `ui_land`;
 ALTER TABLE `userinfo` ADD `ui_wohnort` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL; 
@@ -31,6 +30,14 @@ ALTER TABLE `userinfo` ADD `ui_lieblingsgetraenk` VARCHAR(100) CHARACTER SET utf
 ALTER TABLE `userinfo` ADD `ui_lieblingsgericht` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 ALTER TABLE `userinfo` ADD `ui_lieblingsspiel` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
 ALTER TABLE `userinfo` ADD `ui_lieblingsfarbe` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `userinfo` ADD `ui_homepage` VARCHAR(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+ALTER TABLE `user` DROP `u_systemmeldungen`;
+ALTER TABLE `user` ADD `u_systemmeldungen` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` DROP `u_smilie`;
+ALTER TABLE `user` ADD `u_smilies` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` DROP `u_punkte_anzeigen`;
+ALTER TABLE `user` ADD `u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` ADD `u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0;
 
 
 CREATE TABLE `statistiken` (

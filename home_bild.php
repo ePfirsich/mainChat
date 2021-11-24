@@ -5,7 +5,6 @@
 //			u_id -> Benutzer, zu dem das Bild gehört
 //			feld -> Feldname in der DB
 
-require_once("functions/functions-registerglobals.php");
 require_once("functions/functions.php");
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");

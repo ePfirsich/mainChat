@@ -22,7 +22,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$uu_id = $row->u_id;
 				$uu_email = htmlspecialchars($row->u_email);
 				$uu_adminemail = htmlspecialchars($row->u_adminemail);
-				$uu_url = htmlspecialchars($row->u_url);
 				$uu_level = $row->u_level;
 				$uu_farbe = $row->u_farbe;
 				$letzter_login = $row->letzter_login;
@@ -59,7 +58,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				
 				// Avatare
-				$box = $t['user_zeige60'];
+				$box = $t['benutzer_avatar'];
 				$text = "";
 				
 				// Geschlecht holen
@@ -147,7 +146,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				// Ausgabe in Tabelle
 				$text .= "<table class=\"tabelle_kopf\">";
-				$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige18'] . $f2 . "</b></td><td class=\"tabelle_koerper\">" . zeige_userdetails($user, $row);
+				$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['benutzer_benutzername'] . $f2 . "</b></td><td class=\"tabelle_koerper\">" . zeige_userdetails($user, $row);
 				
 				if ($uu_away != "") {
 					$text .= $f1 . "<br>($uu_away)<b>" . $f2;
@@ -202,30 +201,28 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				if ($admin) {
 					// Admin E-Mail
 					if (strlen($uu_adminemail) > 0) {
-						$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige3'] . $f2 . "</td><td class=\"tabelle_koerper\">"
+						$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_email_intern'] . $f2 . "</td><td class=\"tabelle_koerper\">"
 							. $f3 . "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>" . $f4 . "</td></tr>\n";
 					}
 				}
 				
 				$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige6'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
+				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_email'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
 				$f4 . "</td></tr>\n";
 				
 				if ($uu_chathomepage == "J") {
 					$url = "home.php?/".URLENCODE($uu_nick);
 					$url = "home.php?ui_userid=$uu_id&id=" . $id;
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
+					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_url'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 					$f4 . "</td></tr>\n";
-				} elseif (strlen($uu_url) > 0) {
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige7'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$uu_url\" target=\"_blank\">$uu_url</a>" . $f4 . "</td></tr>\n";
 				}
 				
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige8'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
+				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_level'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
 				
 				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige10'] . $f2 . "</td>" . "<td class=\"tabelle_koerper\" style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
 				
 				if ($uu_kommentar && $admin) {
-					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige49'] . $f2. "</td><td class=\"tabelle_koerper\">" . $f3;
+					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['benutzer_kommentar'] . $f2. "</td><td class=\"tabelle_koerper\">" . $f3;
 					$text .= htmlspecialchars($uu_kommentar) . "<br>\n";
 					$text .= $f4 . "</td></tr>\n";
 				}
@@ -359,31 +356,37 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$text = '';
 					$box = $t['user_zeige12'];
 					
-					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n" . $f1
-					. str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']) . $f2
-					. "\n" . "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-					. "<input type=\"hidden\" name=\"f[u_id]\" value=\"$uu_id\">\n"
-					. "<input type=\"hidden\" name=\"f[u_nick]\" value=\"$uu_nick\">\n"
-					. "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n"
-						. "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n"
-							. $f1
-							. "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">"
-								. "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
-								
-								$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
-								$result = mysqli_query($mysqli_link, $query);
-								$g = @mysqli_fetch_array($result);
-								
-								if ($g['u_chathomepage'] == "J") {
-									$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
-								}
-								if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
-									$text .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
-								}
-								$text .= $f2 . "</form>\n";
-								
-								// Box anzeigen
-								zeige_tabelle_zentriert($box, $text);
+					$text .= str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']);
+					
+					// Ändern
+					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+					$text .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
+					$text .= "</form>\n";
+					
+					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
+					$text .= "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n";
+					$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
+					
+					$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
+					$result = mysqli_query($mysqli_link, $query);
+					$g = @mysqli_fetch_array($result);
+					
+					if ($g['u_chathomepage'] == "J") {
+						$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
+					}
+					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
+						$text .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
+					}
+					$text .= "</form>\n";
+					
+					// Box anzeigen
+					zeige_tabelle_zentriert($box, $text);
 				}
 				
 				

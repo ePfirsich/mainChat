@@ -3,14 +3,11 @@
 // Übersetzungen von "Raum"
 $t['titel'] = "Räume";
 
-$t['menue1'] = "Räume";
-$t['menue2'] = "Neuer Raum";
-$t['menue3'] = "Benutzerliste";
-$t['menue4'] = "Einstellungen";
-$t['menue5'] = "$chat Menü";
-$t['menue6'] = "ausführliche Raumliste";
-$t['menue7'] = "einfache Raumliste";
-$t['menue8'] = "Übersicht";
+$t['raum_menue1'] = "Räume";
+$t['raum_menue2'] = "Neuer Raum";
+$t['raum_menue6'] = "ausführliche Raumliste";
+$t['raum_menue7'] = "einfache Raumliste";
+$t['raum_menue8'] = "Übersicht";
 
 $t['fehler0'] = "<b>Fehler:</b> Der Raum mit Namen '%r_name%' existiert bereits.";
 $t['fehler1'] = "<P><b>Der Name des Raums muss mehr als 3 Zeichen enthalten!</b></P>\n";

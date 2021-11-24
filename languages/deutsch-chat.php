@@ -53,6 +53,5 @@ $t['interaktiv3'] = "Anderen Raum betreten:";
 
 // Eingabe
 $t['farbe1'] = "Es wurde eine neue Farbe gesetzt, %u_nick%";
-$t['farbe2'] = "Farbe:";
 $t['eingabe1'] = "Zeilen";
 ?>

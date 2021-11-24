@@ -36,7 +36,7 @@ if ($o_js) {
 		echo "opener_reload('forum.php?id=$id','2');\n";
 		echo "window.close();\n" . "</script>\n";
 	} else if ($u_level == "M") {
-		echo "<script>";
+		echo "<script>\n";
 		if ($frame_online != "") {
 			echo "opener_reload('$frame_online','0');\n";
 		}
@@ -60,25 +60,6 @@ if ($o_js) {
 			. "window.close();\n" . "</script>\n";
 	}
 }
-
-/*
-// Chat neu aufbauen, damit nach Umstellung der Chat refresht wird
-if (strlen($u_id) > 0) {
-	unset($f['u_id']);
-	unset($f['u_level']);
-	unset($f['u_nick']);
-	unset($f['u_auth']);
-	unset($f['u_passwort']);
-	schreibe_db("user", $f, $u_id, "u_id");
-	if ($o_js) {
-		echo "<script language=JavaScript>"
-			. "opener_reload('chat.php?id=$id&back=$chat_back','1')\n"
-			. "opener_reload('eingabe.php?id=$id','3')"
-			. "</script>\n";
-	}
-}
-*/
 ?>
-<br>
 </body>
 </html>

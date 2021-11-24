@@ -258,7 +258,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$knebelzeit = NULL;
 	// Aktuelle Benutzerdaten aus Tabelle user lesen
 	// Query muss mit Code in schreibe_db übereinstimmen
-	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_email`, `u_adminemail`, `u_smilie`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_email`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -678,7 +678,7 @@ function zeige_fuss() {
 	?>
 	<div align="center"><?php echo $f3 . $mainchat_version; ?>
 	<br><br>
-	<a href="index.php?aktion=datenschutz"><?php echo $t['menue6']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['menue7']; ?></a><?php echo $f4 ?></div>
+	<a href="index.php?aktion=datenschutz"><?php echo $t['login_menue6']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_menue7']; ?></a><?php echo $f4 ?></div>
 	<?php
 	if (strlen($layout_fuss) > 0 && !$layout_parse) {
 		include($layout_fuss);

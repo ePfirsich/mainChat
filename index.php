@@ -1,6 +1,4 @@
 <?php
-require_once("functions/functions-registerglobals.php");
-
 if (!isset($_SERVER["HTTP_REFERER"])) {
 	$_SERVER["HTTP_REFERER"] = "";
 }
@@ -442,7 +440,7 @@ switch ($aktion) {
 					$a = mysqli_fetch_array($result);
 					$hash2 = md5($a['email'] . "+" . $a['datum']);
 					if ($hash == $hash2) {
-						$link = $chat_url . "/index.php?aktion=neu2&frame=1";
+						$link = $chat_url . "/index.php?aktion=neu2";
 						
 						$text2 = str_replace("%link%", $link, $t['neu53']);
 						$text2 = str_replace("%hash%", $hash, $text2);
@@ -622,8 +620,8 @@ switch ($aktion) {
 				
 				if (isset($anmeldung_nurmitbest) && strlen($anmeldung_nurmitbest) > 0) {
 					// Anmeldung mit externer Bestätigung
-					$link1 = $chat_url . "/index.php?aktion=neubestaetigen&frame=1";
-					$link2 = $chat_url . "/index.php?aktion=neu2&frame=1";
+					$link1 = $chat_url . "/index.php?aktion=neubestaetigen";
+					$link2 = $chat_url . "/index.php?aktion=neu2";
 					
 					$text2 = str_replace("%link1%", $link1, $t['neu47']);
 					$text2 = str_replace("%link2%", $link2, $text2);
@@ -637,8 +635,8 @@ switch ($aktion) {
 					echo $t['neu48'];
 				} else {
 					// Normale Anmeldung
-					$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash&frame=1";
-					$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2&frame=1";
+					$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash";
+					$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2";
 					
 					$text2 = str_replace("%link%", $link, $t['neu36']);
 					$text2 = str_replace("%link2%", $link2, $text2);

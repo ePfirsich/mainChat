@@ -107,8 +107,8 @@ $t['verschieben4'] = "VERSCHIEBEN";
 $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]";
 
 // Suche
-$t['menue1'] = "Forum durchsuchen";
-$t['menue2'] = "Zurück zum Forum";
+$t['forum_menue1'] = "Forum durchsuchen";
+$t['forum_menue2'] = "Zurück zum Forum";
 
 $t['sonst2'] = "Sie sind ausgeloggt";
 

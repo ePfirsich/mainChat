@@ -299,7 +299,7 @@ switch ($aktion) {
 			$r_name = "NeuerRaum";
 		}
 		
-		$box = $t['menue2'];
+		$box = $t['raum_menue2'];
 			
 		// Raum neu anlegen, Eingabeformular
 		$text .= "<form name=\"$r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
@@ -624,7 +624,7 @@ switch ($aktion) {
 					if (isset($extended) && ($extended == 1)) {
 						$rlink = "<center>" . $f1
 							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">"
-							. $t['menue7'] . "</a></b>" . $f2
+							. $t['raum_menue7'] . "</a></b>" . $f2
 							. "</center>\n";
 						$text .= "<script language=\"javascript\">\n"
 							. "window.resizeTo(800,600); window.focus();"
@@ -632,7 +632,7 @@ switch ($aktion) {
 					} else {
 						$rlink = "<center>" . $f1
 							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order&extended=1\">"
-							. $t['menue6'] . "</a></b>" . $f2
+							. $t['raum_menue6'] . "</a></b>" . $f2
 							. "</center>\n";
 					}
 					$text .= "$rlink<br>";

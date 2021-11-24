@@ -3,10 +3,8 @@
 // Kopf nur ausgeben, wenn $ui_userid oder mit $argv[0] aufgerufen
 // Sonst geht der redirekt nicht mehr.
 
-require_once("functions/functions-registerglobals.php");
 require_once("functions/functions.php");
 require_once("languages/$sprache-profil.php");
-
 
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	require_once("functions/functions-hash.php");
@@ -94,13 +92,13 @@ if (isset($u_id) && $u_id) {
 			
 			// Menü als erstes ausgeben
 			echo "<br>";
-			$box = "Menü Freunde";
+			$box = $t['profil_home1'];
 			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">Meine Homepage zeigen</a>\n"
 				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
 				. "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">Profil ändern</a>\n"
 				. "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 			
-				zeige_tabelle_volle_breite($box, $text);
+			zeige_tabelle_zentriert($box, $text);
 			
 			// Bild löschen
 			if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
@@ -217,11 +215,7 @@ if (isset($u_id) && $u_id) {
 				
 			} else {
 				// Erst Profil anlegen
-				echo "<P><b>Hinweis: </b> Sie haben leider noch kein Profil angelegt. Das Profil "
-					. "mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
-					. "Bitte klicken Sie <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">"
-					. "weiter zur Anlage eines Profils</A>.</P>\n";
-				
+				zeige_tabelle_zentriert($t['neues_profil'], $t['neues_profil_beschreibung']);
 			}
 			mysqli_free_result($result);
 			

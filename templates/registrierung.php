@@ -72,9 +72,6 @@ if (!isset($f['u_passwort'])) {
 if (!isset($f['u_email'])) {
 	$f['u_email'] = "";
 }
-if (!isset($f['u_url'])) {
-	$f['u_url'] = "";
-}
 
 $text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu12']
 	. "</td>" . "<td>" . $f1
@@ -82,13 +79,12 @@ $text = "<table><tr><td style=\"text-align: right; font-weight:bold;\">" . $t['n
 	. $f2 . "</td>" . "<td>" . $f1 . $t['neu13'] . $f2
 	. "</td></tr>" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu14']
 	. "</td>" . "<td>" . $f1
-	. "<input type=\"PASSWORD\" name=\"f[u_passwort]\" value=\"$f[u_passwort]\" size=\"40\">"
+	. "<input type=\"password\" name=\"f[u_passwort]\" value=\"$f[u_passwort]\" size=\"40\">"
 	. $f2 . "</td>" . "<td><b>*</b></td></tr>"
 	. "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu15'] . "</td>"
 	. "<td>"
-	. "<input type=\"PASSWORD\" name=\"u_passwort2\" value=\"$f[u_passwort]\" size=\"40\">"
-	. $f2 . "</td>" . "<td><b>*</b>" . $f1 . $t['neu16'] . $f2
-	. "</td></tr>";
+	. "<input type=\"password\" name=\"u_passwort2\" value=\"$f[u_passwort]\" size=\"40\">"
+	. $f2 . "</td>" . "<td><b>*</b></td></tr>";
 if (!isset($ro) || $ro == "") {
 	$text .= "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu17'] . "</td>"
 		. "<td>" . $f1
@@ -103,10 +99,7 @@ $text .= "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu19']
 	. "<td>" . $f1
 	. "<input type=\"text\" name=\"f[u_email]\" value=\"$f[u_email]\" size=\"40\">"
 	. $f2 . "</td>\n" . "<td>" . $f1 . $t['neu20'] . $f2
-	. "</td></tr>\n" . "<tr><td style=\"text-align: right; font-weight:bold;\">" . $t['neu21']
-	. "</td>\n" . "<td>" . $f1
-	. "<input type=\"text\" name=\"f[u_url]\" value=\"$f[u_url]\" size=\"40\">"
-	. $f2 . "</td>\n" . "<td>" . $f1
+	. "</td></tr>\n" . "<tr>\n" . "<td>" . $f1
 	. "<input type=\"hidden\" name=\"aktion\" value=\"neu\">\n"
 		. "<input type=\"hidden\" name=\"hash\" value=\""
 		. (isset($hash) ? $hash : "") . "\">\n";
@@ -161,11 +154,6 @@ if ($ok && $los == $t['neu22']) {
 	
 	zeige_tabelle_variable_breite($titel, $text, "");
 	echo "<br>";
-	
-	// Homepage muss http:// enthalten
-	if (!preg_match("|^(http://)|i", $f['u_url']) && strlen($f['u_url']) > 0) {
-		$f['u_url'] = "http://" . $f['u_url'];
-	}
 	
 	$f['u_level'] = "U";
 	$f['u_loginfehler'] = "";
