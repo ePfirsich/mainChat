@@ -38,6 +38,7 @@ ALTER TABLE `user` ADD `u_smilies` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` DROP `u_punkte_anzeigen`;
 ALTER TABLE `user` ADD `u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `raum` DROP `r_werbung`;
 
 
 CREATE TABLE `statistiken` (

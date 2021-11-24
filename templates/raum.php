@@ -4,25 +4,11 @@ if (isset($f['r_name'])) {
 	$ersetzen = array("'", "\"", "\\");
 	$f['r_name'] = str_replace($ersetzen, "", $f['r_name']);
 	
-	if (!isset($f['r_werbung'])) {
-		$f['r_werbung'] = "";
-	}
-	
 	// html unterdrücken
 	$f['r_name'] = htmlspecialchars($f['r_name']);
 	$f['r_topic'] = htmlspecialchars($f['r_topic']);
 	$f['r_eintritt'] = htmlspecialchars($f['r_eintritt']);
 	$f['r_austritt'] = htmlspecialchars($f['r_austritt']);
-	$f['r_werbung'] = htmlspecialchars($f['r_werbung']);
-	
-	// Nur Admin darf Werbung eintragen
-	if (!$admin) {
-		unset($f['r_werbung']);
-	}
-	
-	if (isset($f['r_werbung']) && strlen($f['r_werbung']) > 0 && strtolower(substr($f['r_werbung'], 0, 7)) != "http://") {
-		$f['r_werbung'] = "http://" . $f['r_werbung'];
-	}
 	
 	// In Permanenten Räumen darf ein RB keine Punkte Ändern
 	if (!$admin && $f['r_status2'] == "P") {
@@ -398,14 +384,6 @@ switch ($aktion) {
 			. " name=\"f[r_austritt]\">" . $r_austritt
 			. "</textarea>" . $f2 . "</td></tr>\n";
 		
-		if ($admin) {
-			$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12'] . "</b>" . $f2
-				. "</td>" . "<td>" . $f1
-				. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
-				 . "\" size=$eingabe_breite>"
-				. $f2 . "</td></tr>\n";
-		}
-		
 		$text .= "<tr><td colspan=\"2\">" . $f1
 			. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"
 			. $f2 . "</td></tr>\n";
@@ -543,16 +521,6 @@ switch ($aktion) {
 						. ($eingabe_breite) . " name=\"f[r_austritt]\">"
 						. $rows->r_austritt . "</textarea>"
 						. $f2 . "</td></tr>\n";
-					
-					// Werbung für Frame
-					if ($admin) {
-						$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst12']
-							. "</b>" . $f2 . "</td>" . "<td>" . $f1
-							. "<input type=\"text\" name=\"f[r_werbung]\" value=\""
-							. $rows->r_werbung
-							. "\" size=$eingabe_breite>" . $f2
-							. "</td></tr>\n";
-					}
 					
 					$text .= "<tr><td colspan=\"2\">" . $f1
 						. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"

@@ -62,10 +62,7 @@ if (isset($u_id) && $u_id) {
 	
 	// Optional via JavaScript den oberen Werbeframe mit dem Werbeframe des Raums neu laden
 	if ($o_js && $o_raum_alt != $o_raum) {
-		if (isset($row->r_werbung) && strlen($row->r_werbung) > 7) {
-			echo "<script>\n"
-				. "frame_online_reload('$row->r_werbung');\n</script>\n";
-		} elseif (isset($frame_online) && $frame_online != "") {
+		if (isset($frame_online) && $frame_online != "") {
 			echo "<script>\n"
 				. "frame_online_reload('$frame_online');\n</script>\n";
 		}

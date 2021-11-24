@@ -75,7 +75,6 @@
 # r_topic 		Titel des Raums
 # r_status2 		Status2 (permanent, temporär)
 # r_smilie		Smilies erlaubt (Y/N)
-# r_werbung		Name des Werbeframes, der diesem Raum zugeordnet ist
 # r_min_punkte		Anzahl der Punkte die ein User haben muss, bevor er den Raum betreten kann
 
 # Tabelle online	welcher User ist in welchem Raum online
@@ -366,7 +365,6 @@ CREATE TABLE raum (
 	r_topic text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 	r_status2 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	r_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-	r_werbung varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	r_min_punkte int(10) unsigned NOT NULL default '0',
 	PRIMARY KEY	(r_id),
 	KEY r_besitzer (r_besitzer),

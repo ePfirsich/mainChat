@@ -14,18 +14,7 @@ zeige_header_ende();
 // Timestamp im Datensatz aktualisieren
 aktualisiere_online($u_id, $o_raum);
 
-// Optional via JavaScript den oberen Werbeframe mit dem Werbeframe des Raums neu laden
-$query = "SELECT r_werbung FROM raum WHERE r_id=" . intval($o_raum);
-$result = mysqli_query($mysqli_link, $query);
-
-if ($result && mysqli_num_rows($result) != 0) {
-	$txt = mysqli_result($result, 0, 0);
-	if (strlen($txt) > 7)
-		$frame_online = $txt;
-}
-mysqli_free_result($result);
-
-// Frameset refreshen, falls reset=1, dann Fenster schliessen
+// Frameset refreshen
 if ($o_js) {
 	if (isset($forum) && $forum) {
 		echo "<script>";
