@@ -133,7 +133,6 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		
 		// Darf Raum nun betreten werden?
 		if ($raumwechsel) {
-			
 			// Raum verlassen
 			$back = nachricht_verlasse($raum_alt, $u_nick, $alt->r_name);
 			
@@ -169,8 +168,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 				}
 			// Trenner zwischen den Räumen, Austrittstext
 			system_msg("", 0, $u_id, "", " ");
-			system_msg("", 0, $u_id, "",
-				$txt . "<br>\n");
+			system_msg("", 0, $u_id, "", $txt . "<br>\n");
 			
 			// Raum betreten
 			nachricht_betrete($u_id, $raum_neu, $u_nick, $neu->r_name);

@@ -1533,21 +1533,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if (mysqli_num_rows($result) == 1) {
 								$nick = unserialize(
 									mysqli_result($result, 0, "o_userdata")
-										. mysqli_result($result, 0,
-											"o_userdata2")
-										. mysqli_result($result, 0,
-											"o_userdata3")
-										. mysqli_result($result, 0,
-											"o_userdata4"));
-								$nick['u_nick'] = mysqli_result($result, 0,
-									"o_name");
-								$nick['u_id'] = mysqli_result($result, 0,
-									"o_user");
+										. mysqli_result($result, 0, "o_userdata2")
+										. mysqli_result($result, 0, "o_userdata3")
+										. mysqli_result($result, 0, "o_userdata4"));
+								$nick['u_nick'] = mysqli_result($result, 0, "o_name");
+								$nick['u_id'] = mysqli_result($result, 0, "o_user");
 							} else {
 								$nick['u_nick'] = "";
-								system_msg("", 0, $u_id, $u_farbe,
-									str_replace("%chatzeile%", $chatzeile[1],
-										$t['chat_msg25']));
+								system_msg("", 0, $u_id, $u_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg25']));
 							}
 						}
 						mysqli_free_result($result);
@@ -1564,8 +1557,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($text != " ") {
 						// Wir prüfen, ob der Benutzer ignoriert wird, wenn ja => Fehlermeldung
 						
-						$query = "SELECT i_user_aktiv, i_user_passiv FROM iignore "
-							. "WHERE (i_user_aktiv='$u_id' AND i_user_passiv = '$nick[u_id]') OR "
+						$query = "SELECT i_user_aktiv, i_user_passiv FROM iignore WHERE (i_user_aktiv='$u_id' AND i_user_passiv = '$nick[u_id]') OR "
 							. " (i_user_passiv='$u_id' AND i_user_aktiv = '$nick[u_id]') ";
 						$result = mysqli_query($mysqli_link, $query);
 						$num = mysqli_num_rows($result);
@@ -1582,11 +1574,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
 						}
 						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$nick['u_id']);
+						reset_system("userliste");
 					}
 				} else {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nachricht%", $text, $t['chat_msg77']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
 				}
 			} elseif ($u_level == "G") {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);

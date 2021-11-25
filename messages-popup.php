@@ -29,6 +29,7 @@ if (strlen($u_id) > 0) {
 	}
 	
 	$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
+	reset_system("userliste");
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
 	zeige_header_ende();

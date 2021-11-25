@@ -651,16 +651,14 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
 					
 					// Bei Änderungen an u_smilies, u_systemmeldungen, u_punkte_anzeigen, u_sicherer_modus chat-Fenster neu laden
-					if (($benutzerdaten_row->u_smilies != $f['u_smilies']
+					if ($benutzerdaten_row->u_smilies != $f['u_smilies']
 						|| $benutzerdaten_row->u_systemmeldungen != $f['u_systemmeldungen']
 						|| $benutzerdaten_row->u_avatare_anzeigen != $f['u_avatare_anzeigen']
 						|| $benutzerdaten_row->u_punkte_anzeigen != $f['u_punkte_anzeigen']
 						|| $benutzerdaten_row->u_sicherer_modus != $f['u_sicherer_modus']
 						|| $benutzerdaten_row->u_layout_farbe != $f['u_layout_farbe']
-						|| $benutzerdaten_row->u_layout_chat_darstellung != $f['u_layout_chat_darstellung'])
-						&& $o_who == 0) {
-							echo "<script>parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';</script>";
-							echo "<script>parent.frames[3].location.href='eingabe.php?id=$id';</script>";
+						|| $benutzerdaten_row->u_layout_chat_darstellung != $f['u_layout_chat_darstellung']) {
+							reset_system($wo_online);
 					}
 				}
 				$fehlermeldung = "";

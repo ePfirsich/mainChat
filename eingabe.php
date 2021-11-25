@@ -79,12 +79,10 @@ zeige_header_ende();
 		}
 		echo "</select>"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
 			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 	} else {
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. "<input name=\"u_level\" value=\"$u_level\" type=\"hidden\">"
 			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
 	}
 	
@@ -95,7 +93,7 @@ zeige_header_ende();
 	</form>
 	<?php
 } else {
-	echo "<vody onLoad='parent.location.href=\"index.php\"'>\n";
+	echo "<body onLoad='parent.location.href=\"index.php\"'>\n";
 }
 
 ?>

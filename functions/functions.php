@@ -1590,4 +1590,45 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 		return '';
 	}
 }
+
+function reset_system($wo_online) {
+	global $id, $o_js, $u_level, $o_raum, $chat_back;
+	// Reset ausführen
+	if ($o_js) {
+		if ( $wo_online == "userliste" ) {
+			echo "<script>\n";
+			echo "parent.frames[2].location.href='user.php?id=$id';\n";
+			echo "</script>";
+		} else if ( $wo_online == "forum" ) {
+			echo "<script>\n";
+			echo "parent.frames[2].location.href='user.php?id=$id';\n";
+			echo "</script>";
+		} else if ( $wo_online == "chatfenster" ) {
+			echo "<script>\n";
+			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+			echo "</script>";
+		} else if ( $wo_online == "moderator" ) {
+			echo "<script>\n";
+			echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
+			echo "</script>";
+		} else if ($u_level == "M") {
+			echo "<script>\n";
+			echo "parent.frames[0].location.href='navigation.php?id=$id';";
+			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+			echo "parent.frames[2].location.href='user.php?id=$id';\n";
+			echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
+			echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
+			echo "parent.frames[5].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+			echo "</script>";
+		} else {
+			echo "<script>\n";
+			echo "parent.frames[0].location.href='navigation.php?id=$id';";
+			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+			echo "parent.frames[2].location.href='user.php?id=$id';\n";
+			echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
+			echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+			echo "</script>";
+		}
+	}
+}
 ?>
