@@ -2,9 +2,9 @@
 
 // Sprachdefinition deutsch user.php
 
+$t['ausgeloggt'] = "Sie sind ausgeloggt";
 $t['sonst1'] = "Benutzer";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
-$t['sonst15'] = "Sie sind ausgeloggt";
 $t['sonst18'] = "Benutzer";
 $t['sonst19'] = "Aktualisieren";
 $t['sonst20'] = "Smilies";

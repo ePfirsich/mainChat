@@ -71,12 +71,10 @@ echo "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
 	<?php
 $meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=user.php?id=' . $id . '">';
 zeige_header_ende($meta_refresh);
-?>
-<body>
-<?php
 
 // Login ok?
 if (strlen($u_id) != 0) {
+	echo "<body>\n";
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
@@ -234,7 +232,10 @@ if (strlen($u_id) != 0) {
 		}
 	
 } else {
-	echo "<p style=\"text-align: center;\">$t[sonst15]</p>\n";
+	?>
+	<body onLoad='javascript:parent.location.href="index.php"'>
+	<p style="text-align: center;"><?php echo $t['ausgeloggt']; ?></p>
+	<?php
 }
 ?>
 </body>

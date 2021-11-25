@@ -563,8 +563,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						unset($f['u_passwort2']);
 					}
 					
-					var_dump($f);
-				
 					if (isset($zeige_loesch) && $zeige_loesch != 1) {
 						// Änderungen anzeigen
 						$query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum FROM online WHERE o_user=" . intval($f[u_id]);
