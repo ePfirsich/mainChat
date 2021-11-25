@@ -148,7 +148,7 @@ function user_liste($larr, $anzahl, $seitenleiste = false) {
 	}
 	flush();
 		
-	// Anzeige der Benutzer ohne JavaScript
+	// Anzeige der Benutzer
 	for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
 		if ( $k % 2 != 0 ) {
 			$farbe_tabelle = 'class="tabelle_zeile1"';
@@ -174,7 +174,7 @@ function user_liste($larr, $anzahl, $seitenleiste = false) {
 				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
 			}
 			
-			if ($level == "admin") {
+			if ($level2 == "admin") {
 				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('" . $v['u_nick'] . "'); return(false)\">S</a>&nbsp;";
 			}
 			
