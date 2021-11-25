@@ -1,7 +1,4 @@
 <?php
-$input_breite = 32;
-$passwort_breite = 15;
-
 $f = array();
 $f['u_id'] = filter_input(INPUT_POST, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 if( $f['u_id'] == '') {
@@ -33,8 +30,6 @@ if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
 	$f = array();
 	$f = mysqli_fetch_array($benutzerdaten_result, MYSQLI_ASSOC);
 	$f['u_id'] = $temp_u_id;
-	$f['u_passwort'] = "";
-	$f['u_passwort2'] = "";
 }
 
 mysqli_free_result($benutzerdaten_result);
@@ -526,8 +521,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						
 							// Mit korrekten Wert überschreiben
 							$f['u_level'] = $benutzerdaten_row->u_level;
-							$f['u_passwort'] = "";
-							$f['u_passwort2'] = "";
+							unset($f['u_passwort']);
+							unset($f['u_passwort2']);
 							$f['u_adminemail'] = $benutzerdaten_row->u_adminemail;
 						}
 					}
@@ -538,15 +533,15 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if ($f['u_passwort'] != $f['u_passwort2']) {
 						$fehlermeldung .= $t['einstellungen_fehler_passwort1'];
 						
-						// Mit korrekten Wert überschreiben
-						$f['u_passwort'] = "";
-						$f['u_passwort2'] = "";
+						// Passwort zurücksetzen
+						unset($f['u_passwort']);
+						unset($f['u_passwort2']);
 					} else if (strlen($f['u_passwort']) < 4) {
 						$fehlermeldung .= $t['einstellungen_fehler_passwort2'];
 						
-						// Mit korrekten Wert überschreiben
-						$f['u_passwort'] = "";
-						$f['u_passwort2'] = "";
+						// Mit Passwort zurücksetzen
+						unset($f['u_passwort']);
+						unset($f['u_passwort2']);
 					}
 				}
 				
@@ -560,6 +555,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
 						$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_passwort'];
 						
+						unset($f['u_passwort2']);
+					} else {
+						// Wenn kein Passwort eingetragen ist, die Felder komplett löschen
+						unset($f['u_passwort']);
 						unset($f['u_passwort2']);
 					}
 					

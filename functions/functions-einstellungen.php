@@ -8,9 +8,6 @@ function user_edit($f, $admin, $u_level) {
 	global $eintritt_individuell;
 	global $mysqli_link;
 	
-	$input_breite = 32;
-	$passwort_breite = 15;
-	
 	if ($u_level != "G") {
 		// Avatar lesen und in Array speichern
 		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . $f['u_id'];
@@ -113,11 +110,11 @@ function user_edit($f, $admin, $u_level) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_passwort_aendern'], "", "", 0, "70", "");
 		
 		// Neues Passwort
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "u_passwort", $f['u_passwort']);
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "u_passwort", "");
 		$zaehler++;
 		
 		// Neues Passwort wiederholen
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "u_passwort2", $f['u_passwort2']);
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "u_passwort2", "");
 		$zaehler++;
 	}
 	
