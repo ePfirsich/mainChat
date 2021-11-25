@@ -18,7 +18,7 @@ function show_pfad_posting2($th_id) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	mysqli_free_result($query);
 	
-	return "$f3<a href=\"#\" onClick=\"opener_reload('forum.php?id=$id#$fo_id',1); return(false);\">$fo_name</a> > <a href=\"#\" onclick=\"opener_reload('forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1',1); return(false);\">$th_name</a>$f4";
+	return "$f3<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1\">$th_name</a>$f4";
 	
 }
 
@@ -366,8 +366,9 @@ function such_ergebnis() {
 		}
 		mysqli_free_result($query2);
 		
-		if (strlen(trim($boards)) == 0)
+		if (strlen(trim($boards)) == 0) {
 			$boards = " 1 = 2 ";
+		}
 		if (strlen(trim($abfrage)) == 0) {
 			$abfrage .= " (" . $boards . ") ";
 		} else {
@@ -423,17 +424,17 @@ function such_ergebnis() {
 		
 		$anzahl = mysqli_num_rows($query);
 		
-		$text .= "<tr><td colspan=\"3\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$f1 $t[ergebnis2] $anzahl";
+		$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$f1 $t[ergebnis2] $anzahl";
 		if ($anzahl > $maxpostingsprosuche) {
 			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
 		}
 		$text .= "$f2</td></tr>\n";
 		if ($anzahl > 0) {
-			
-			$text .= "<tr><td class=\"tabelle_koerper\">" . $f1
-				. "<b>$t[ergebnis3]<br>$t[ergebnis4]</b>" . $f2 . "</td>";
-			$text .= "<td class=\"tabelle_koerper\">" . $f1 . "<b>$t[ergebnis6]</b>" . $f2 . "</td>";
-			$text .= "<td class=\"tabelle_koerper\">" . $f1 . "<b>$t[ergebnis7]</b>" . $f2 . "</td>";
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[forum]</b>$f2</td>\n";
+			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[betreff]</b>$f2</td>\n";
+			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_am]</b>$f2</td>\n";
+			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_autor]</b>$f2</td>\n";
 			$text .= "</tr>";
 			
 			$i = 0;
@@ -456,7 +457,7 @@ function such_ergebnis() {
 					$col = '';
 				}
 				
-				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "<br>";
+				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "</td><td $bgcolor>";
 				$thread = vater_rekursiv($fund['po_id']);
 				$text .= $f1
 					. "<b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">

@@ -506,7 +506,7 @@ function show_thema() {
 		</tr>
 		<tr>
 			<td colspan="2" class="tabelle_kopfzeile">&nbsp;</td>
-			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['autor'] . $f4; ?></td>
+			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['geschrieben_von'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['forum_thema_erstellt_am'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['forum_anzahl_antworten'] . $f4; ?></td>
 			<td style="text-align:center;" class="tabelle_kopfzeile"><?php echo $f3 . $t['forum_letzte_Antwort'] . $f4; ?></td>
@@ -1236,7 +1236,7 @@ function zeige_beitraege($thread) {
 				<?php echo $f1 . $userdetails . $besonderer_status . $f2; ?>
 				</center>
 			</td>
-			<td class="tabelle_kopfzeile"><?php echo $f1 . $t['datum'] . $po_date . $f2; ?></td>
+			<td class="tabelle_kopfzeile"><?php echo $f1 . $t['geschrieben_am'] . $po_date . $f2; ?></td>
 		</tr>
 		<tr>
 			<td class="tabelle_zeile1"><?php echo $f1 . $po_text . $f2; ?></td>

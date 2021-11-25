@@ -60,8 +60,9 @@ $t['desc_topposting'] = "Beiträge dieser Kategorie stehen im jeweiligen Thema i
 $t['desc_threadgeschlossen'] = "Dieses Thema ist geschlossen. Hier können keine Antworten mehr erfolgen.";
 
 //Texte für Beitrags-Liste
-$t['autor'] = "von";
-$t['datum'] = "Geschrieben am ";
+$t['geschrieben_von'] = "von";
+$t['geschrieben_autor'] = "Autor";
+$t['geschrieben_am'] = "Geschrieben am ";
 
 //Texte für Maske Beiträge
 $t['neuer_thread_button'] = "Beitrag erstellen";
@@ -143,10 +144,8 @@ $t['option20'] = "Sortierung nach Autor - Aufsteigend";
 
 $t['ergebnis1'] = "Suchergebnisse";
 $t['ergebnis2'] = "Beiträge gefunden:";
-$t['ergebnis3'] = "Thema";
-$t['ergebnis4'] = "Betreff";
-$t['ergebnis6'] = "geschrieben am";
-$t['ergebnis7'] = "Autor";
+$t['forum'] = "Forum";
+$t['betreff'] = "Betreff";
 
 $t['fehler1'] = "Benutzername enthält ungültige Zeichen.";
 $t['fehler2'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
