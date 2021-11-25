@@ -87,7 +87,7 @@ if (is_array($array_user)) {
 		for ($j = 0; $j < 3; $j++) {
 			if (isset($array_user[$j]) && isset($array_user[$j][$i])
 				&& $array_user[$j][$i]['punkte']) {
-				$array_user[$j][$i]['u_punkte_anzeigen'] = 'Y';
+				$array_user[$j][$i]['u_punkte_anzeigen'] = '1';
 				echo "<td style=\"width:8%; text-align:right;\" $bgcolor>" . $f1 . $array_user[$j][$i]['punkte'] . $f2 . "</td>"
 			."<td style=\"width:24%\" $bgcolor>" . $f1 . zeige_userdetails($array_user[$j][$i]['u_id'], $array_user[$j][$i]) . $f2 . "</td>\n";
 			} else {

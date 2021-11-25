@@ -104,7 +104,7 @@ if (strlen($u_id) != 0) {
 		$larr[$i]['o_ip'] = $row['o_ip'];
 		$larr[$i]['isowner'] = $row['isowner'];
 		
-		if ($userdata['u_punkte_anzeigen'] != "N") {
+		if ($userdata['u_punkte_anzeigen'] != "0") {
 			$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
 		} else {
 			$larr[$i]['gruppe'] = 0;

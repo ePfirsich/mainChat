@@ -262,7 +262,7 @@ switch ($aktion) {
 						$larr[$i]['u_id'] = $row['u_id'];
 						$larr[$i]['u_away'] = $row['u_away'];
 						// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-						if ($row['u_punkte_anzeigen'] != "N") {
+						if ($row['u_punkte_anzeigen'] != "0") {
 							$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
 						} else {
 							$larr[$i]['gruppe'] = 0;
@@ -395,7 +395,7 @@ switch ($aktion) {
 				$larr[$i]['u_id'] = $row['u_id'];
 				$larr[$i]['u_away'] = $row['u_away'];
 				// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-				if ($row['u_punkte_anzeigen'] != "N") {
+				if ($row['u_punkte_anzeigen'] != "0") {
 					$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
 				} else {
 					$larr[$i]['gruppe'] = 0;
@@ -455,7 +455,7 @@ switch ($aktion) {
 			$larr[$i]['o_ip'] = $row['o_ip'];
 			$larr[$i]['isowner'] = $row['isowner'];
 			
-			if ($userdata['u_punkte_anzeigen'] != "N") {
+			if ($userdata['u_punkte_anzeigen'] != "0") {
 				$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
 			} else {
 				$larr[$i]['gruppe'] = 0;

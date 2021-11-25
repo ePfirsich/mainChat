@@ -920,7 +920,7 @@ function zeige_userdetails(
 			$userdaten['u_chathomepage'] = 'N';
 		}
 		if (!isset($userdaten['u_punkte_anzeigen'])) {
-			$userdaten['u_punkte_anzeigen'] = 'N';
+			$userdaten['u_punkte_anzeigen'] = '0';
 		}
 		
 		$user_id = $userdaten['u_id'];
@@ -948,15 +948,15 @@ function zeige_userdetails(
 			$user_chathomepage = "";
 		}
 		
-		if ($show_geschlecht == true)
+		if ($show_geschlecht == true) {
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
+		}
 		
 		if (isset($userdaten->u_punkte_anzeigen)) {
 			$user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
 		} else {
 			$user_punkte_anzeigen = "";
 		}
-		
 	} else if ($zeige_user_id) {
 		// Benutzerdaten aus DB lesen
 		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
@@ -1000,7 +1000,7 @@ function zeige_userdetails(
 	}
 	
 	// Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
-	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "Y" && $user_punkte_anzeigen != "N")) {
+	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "1" && $user_punkte_anzeigen != "0")) {
 		$query = "SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id`=" . intval($user_id);
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -1047,7 +1047,7 @@ function zeige_userdetails(
 		$grafikurl2 = "";
 	}
 	
-	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $user_punkte_anzeigen == "Y" ) {
+	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $user_punkte_anzeigen == "1" ) {
 		
 		if ($user_level == "C" || $user_level == "S") {
 			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;

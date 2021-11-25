@@ -36,7 +36,7 @@
 # u_profil_historie	Admin-Änderungen am Profil-Historie
 # u_kommentar		Kommentar, warum ein User gesperrt wurde
 # u_forum_postingproseite	Anzahl der Beiträge, die pro Seite im Forum angezeigt werden sollen
-# u_punkte_anzeigen	User will seinen PunkteWürfel zeigen Y/N
+# u_punkte_anzeigen	User will seinen PunkteWürfel zeigen
 # u_systemmeldungen	User will System Login/Logout Nachrichten sehen
 # u_knebel		Speichert die Restknebelzeit falls vorhanden
 
