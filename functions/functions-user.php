@@ -175,7 +175,7 @@ function user_liste($larr, $anzahl, $seitenleiste = false) {
 			}
 			
 			if ($level2 == "admin") {
-				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"sperren('" . $v['u_nick'] . "'); return(false)\">S</a>&nbsp;";
+				$trow .= "<a href=\"inhalt.php?seite=sperren&aktion=neu&id=$id&hname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {
