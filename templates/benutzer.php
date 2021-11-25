@@ -430,20 +430,6 @@ switch ($aktion) {
 		break;
 	
 	default;
-	// Beichtstuhlmodus
-	// ID der Lobby merken
-		if (isset($beichtstuhl) && $beichtstuhl && !$admin) {
-			// Id der Lobby als Voreinstellung ermitteln
-			$query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $lobby) . "' ";
-			$result = mysqli_query($mysqli_link, $query);
-			$rows = mysqli_num_rows($result);
-			
-			if ($rows > 0) {
-				$lobby_id = mysqli_result($result, 0, "r_id");
-			}
-			mysqli_free_result($result);
-		}
-		
 		// Raum listen
 		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
 			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
@@ -454,53 +440,33 @@ switch ($aktion) {
 		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 			// Array mit Benutzerdaten und Infotexten aufbauen
 			$userdata = unserialize(
-				$row['o_userdata'] . $row['o_userdata2']
-					. $row['o_userdata3'] . $row['o_userdata4']);
+				$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 			
-			if ((!isset($beichtstuhl) || !$beichtstuhl) || $admin
-				|| $userdata['u_id'] == $u_id || $lobby_id == $schau_raum
-				|| $userdata['u_level'] == "S"
-				|| $userdata['u_level'] == "C") {
-				
-				// Variable aus o_userdata setzen
-				$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
-				$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
-				$larr[$i]['u_level'] = $userdata['u_level'];
-				$larr[$i]['u_id'] = $userdata['u_id'];
-				$larr[$i]['u_away'] = $userdata['u_away'];
-				$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
-				$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
-				$larr[$i]['r_besitzer'] = $row['r_besitzer'];
-				$larr[$i]['r_topic'] = $row['r_topic'];
-				$larr[$i]['o_ip'] = $row['o_ip'];
-				$larr[$i]['isowner'] = $row['isowner'];
-				
-				if ($userdata['u_punkte_anzeigen'] != "N") {
-					$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
-				} else {
-					$larr[$i]['gruppe'] = 0;
-				}
-				$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
-				if (!$row['r_name'] || $row['r_name'] == "NULL") {
-					$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
-				} else {
-					$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
-				}
+			// Variable aus o_userdata setzen
+			$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
+			$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
+			$larr[$i]['u_level'] = $userdata['u_level'];
+			$larr[$i]['u_id'] = $userdata['u_id'];
+			$larr[$i]['u_away'] = $userdata['u_away'];
+			$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
+			$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
+			$larr[$i]['r_besitzer'] = $row['r_besitzer'];
+			$larr[$i]['r_topic'] = $row['r_topic'];
+			$larr[$i]['o_ip'] = $row['o_ip'];
+			$larr[$i]['isowner'] = $row['isowner'];
+			
+			if ($userdata['u_punkte_anzeigen'] != "N") {
+				$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
 			} else {
-				// Anonyme Benutzer
-				$larr[$i]['u_nick'] = $t['sonst37'];
-				$larr[$i]['u_level'] = $userdata['u_level'];
-				$larr[$i]['u_away'] = $userdata['u_away'];
-				$larr[$i]['r_besitzer'] = $row['r_besitzer'];
-				$larr[$i]['r_topic'] = $row['r_topic'];
-				$larr[$i]['o_ip'] = $row['o_ip'];
-				if (!$row['r_name'] || $row['r_name'] == "NULL") {
-					$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
-				} else {
-					$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
-				}
-				
+				$larr[$i]['gruppe'] = 0;
 			}
+			$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
+			if (!$row['r_name'] || $row['r_name'] == "NULL") {
+				$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
+			} else {
+				$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
+			}
+			
 			// Spezialbehandlung für Admins
 			if (!$admin) {
 				$larr[$i]['o_ip'] = "";

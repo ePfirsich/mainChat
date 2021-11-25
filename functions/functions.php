@@ -84,7 +84,7 @@ function onlinezeit($onlinezeit) {
 
 function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
-	global $timeout, $t, $leveltext, $mysqli_link, $beichtstuhl, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
+	global $timeout, $t, $leveltext, $mysqli_link, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
 		$query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
@@ -107,14 +107,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 				// Variable aus o_userdata setzen, Level und away beachten
 				$uu_id = $userdata['u_id'];
 				$uu_level = $userdata['u_level'];
-				
-				// Im Beichtstuhl-Modus Benutzernamen anonymisieren
-				if ($beichtstuhl && !$admin && $row->r_name != $lobby
-					&& $uu_id != $u_id && $uu_level != "C" && $uu_level != "S") {
-					$uu_nick = $t['raum_user11'];
-				} else {
-					$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE, TRUE);
-				}
+				$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE, TRUE);
 				
 				if ($userdata['u_away'] != "") {
 					$text .= "(" . $uu_nick . ")";

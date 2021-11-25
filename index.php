@@ -10,60 +10,51 @@ require_once("languages/$sprache-index.php");
 
 zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
 
-// Liste offener Räume definieren (optional)
-if ($raum_auswahl && (!isset($beichtstuhl) || !$beichtstuhl)) {
-	// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
-	if (strlen($eintrittsraum) == 0) {
-		$eintrittsraum = $lobby;
-	}
-	
-	// Raumauswahlliste erstellen
-	$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
-	
-	$result = @mysqli_query($mysqli_link, $query);
-	if ($result) {
-		$rows = mysqli_num_rows($result);
-	} else {
-		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
-		die();
-	}
-	if ($forumfeatures) {
-		$raeume = "<td><b>" . $t['login22'] . "</b><br>";
-	} else {
-		$raeume = "<td><b>" . $t['login12'] . "</b><br>";
-	}
-	$raeume .= $f1 . "<select name=\"eintritt\">";
-	
-	if ($forumfeatures) {
-		$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
-	}
-	if ($rows > 0) {
-		$i = 0;
-		while ($i < $rows) {
-			$r_id = mysqli_result($result, $i, "r_id");
-			$r_name = mysqli_result($result, $i, "r_name");
-			if ((!isset($eintritt) AND $r_name == $eintrittsraum)
-				|| (isset($eintritt) AND $r_id == $eintritt)) {
-				$raeume = $raeume
-					. "<option selected value=\"$r_id\">$r_name\n";
-			} else {
-				$raeume = $raeume . "<option value=\"$r_id\">$r_name\n";
-			}
-			$i++;
-		}
-	}
-	if ($forumfeatures)
-		$raeume = $raeume
-			. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
-	$raeume = $raeume . "</select>" . $f2 . "</td>\n";
-	mysqli_free_result($result);
-} else {
-	if (strlen($eintrittsraum) == 0) {
-		$eintrittsraum = $lobby;
-	}
-	$lobby_id = RaumNameToRaumID($eintrittsraum);
-	$raeume = "<td><input type=hidden name=\"eintritt\" value=$lobby_id></td>\n";
+// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
+if (strlen($eintrittsraum) == 0) {
+	$eintrittsraum = $lobby;
 }
+
+// Raumauswahlliste erstellen
+$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
+
+$result = @mysqli_query($mysqli_link, $query);
+if ($result) {
+	$rows = mysqli_num_rows($result);
+} else {
+	echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
+	die();
+}
+if ($forumfeatures) {
+	$raeume = "<td><b>" . $t['login22'] . "</b><br>";
+} else {
+	$raeume = "<td><b>" . $t['login12'] . "</b><br>";
+}
+$raeume .= $f1 . "<select name=\"eintritt\">";
+
+if ($forumfeatures) {
+	$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+}
+if ($rows > 0) {
+	$i = 0;
+	while ($i < $rows) {
+		$r_id = mysqli_result($result, $i, "r_id");
+		$r_name = mysqli_result($result, $i, "r_name");
+		if ((!isset($eintritt) AND $r_name == $eintrittsraum)
+			|| (isset($eintritt) AND $r_id == $eintritt)) {
+			$raeume = $raeume
+				. "<option selected value=\"$r_id\">$r_name\n";
+		} else {
+			$raeume = $raeume . "<option value=\"$r_id\">$r_name\n";
+		}
+		$i++;
+	}
+}
+if ($forumfeatures)
+	$raeume = $raeume
+		. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+$raeume = $raeume . "</select>" . $f2 . "</td>\n";
+mysqli_free_result($result);
 
 $eingabe_breite = 20;
 

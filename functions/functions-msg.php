@@ -20,7 +20,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	global $mysqli_link, $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
 	global $chat, $timeout, $datei_spruchliste, $t, $id, $ak, $check_name, $raumstatus1, $raum_max;
 	global $u_nick, $id, $lobby, $o_raum, $o_js, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
-	global $o_punkte, $beichtstuhl, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
+	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	global $single_room_verhalten;
 	
@@ -572,19 +572,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$f['inv_id'] = 0;
 								$f['inv_user'] = $nick['u_id'];
 								$f['inv_raum'] = $raum_id;
-								schreibe_db("invite", $f, $f['inv_id'],
-									"inv_id");
-								if (!$beichtstuhl) {
-									$msg = str_replace("%admin%", $u_nick,
-										$t['invite5']);
-								} else {
-									$msg = str_replace("%admin%", $u_nick,
-										$t['invite6']);
-								}
-								;
+								schreibe_db("invite", $f, $f['inv_id'], "inv_id");
+								$msg = str_replace("%admin%", $u_nick, $t['invite5']);
 								$msg = str_replace("%raum%", $r_name, $msg);
-								system_msg($u_nick, $u_id, $nick['u_id'],
-									$system_farbe, $msg);
+								system_msg($u_nick, $u_id, $nick['u_id'], $system_farbe, $msg);
 								$msg = $t['invite3'];
 							}
 							// altes result löschen.
@@ -711,7 +702,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/ignoriere":
 		// Benutzer ignorieren oder freigeben
 		
-			if (!$beichtstuhl && strlen($chatzeile[1]) > 0 && $u_level != "G") {
+			if (strlen($chatzeile[1]) > 0 && $u_level != "G") {
 				// Benutzername angegeben -> ignorieren oder aufheben
 				
 				// versuchen, den namen zu ergänzen.
@@ -843,7 +834,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$chatzeile[2] = "";
 				}
 				// Admin oder Raumbesitzer darf das Betreten geschlossener Räume erzwingen (Prüfung in raum_gehe)
-				if ($beichtstuhl || $chatzeile[2] == "immer" || $chatzeile[2] == "force" || $chatzeile[2] == "!") {
+				if ($chatzeile[2] == "immer" || $chatzeile[2] == "force" || $chatzeile[2] == "!") {
 					$raum_geschlossen = TRUE;
 				} else {
 					$raum_geschlossen = FALSE;
@@ -1513,8 +1504,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/msgpriv": // Extra behandlung für Private Nachrichten im Benutzerfenster, für den Fall, dass der Benutzer sich ausloggt, keine Nickergänzung
 		
 		// Private Nachricht 
-			if (!($o_knebel > 0) && $u_level != "G" && !$ist_eingang
-				&& (!$beichtstuhl || $admin)) {
+			if (!($o_knebel > 0) && $u_level != "G" && !$ist_eingang) {
 				
 				// Smilies und Text parsen
 				$privat = TRUE;

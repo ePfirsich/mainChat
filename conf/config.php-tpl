@@ -126,14 +126,6 @@ $raum_auswahl="%raumauswahl%";
 // 1=ja, 0=nein
 $unterdruecke_raeume="%unterdrueckeraeume%";
 
-// Beichtstuhl-Modus: Wenn beim Login kein Benutzer in der Lobby, aber ein Admin
-// alleine in einem Raum ist, wird dieser Raum betreten, ansonsten die
-// Lobby. Bei meheren Räumen mit einem Admin wird einer zufällig ausgewählt.
-// Die Benutzer sehen nur die Lobby und Räume mit einem Admin. In der
-// Raumübersicht erscheinen alle Benutzer, ausser in der Lobby, anonym.
-// 1=ja, 0=nein
-$beichtstuhl=0;
-
 
 // Zusatznachricht auf Chat-Eingangsseite bei Login
 $zusatznachricht="";

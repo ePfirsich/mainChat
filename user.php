@@ -77,160 +77,121 @@ if (strlen($u_id) != 0) {
 	echo "<body>\n";
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
+		
+	// Raum listen
+	$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
+		. "FROM online LEFT JOIN raum ON o_raum=r_id "
+		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
+		. "ORDER BY o_name";
 	
-	// Beichtstuhlmodus
-	// ID der Lobby merken
-		if (isset($beichtstuhl) && $beichtstuhl && !$admin) {
-			// Id der Lobby als Voreinstellung ermitteln
-			$query = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $lobby) . "' ";
-			$result = mysqli_query($mysqli_link, $query);
-			$rows = mysqli_num_rows($result);
-			
-			if ($rows > 0) {
-				$lobby_id = mysqli_result($result, 0, "r_id");
-			}
-			mysqli_free_result($result);
-		}
+	$result = mysqli_query($mysqli_link, $query);
+	
+	for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
+		// Array mit Benutzerdaten und Infotexten aufbauen
+		$userdata = unserialize(
+			$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 		
-		// Raum listen
-		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
-			. "FROM online LEFT JOIN raum ON o_raum=r_id "
-			. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
-			. "ORDER BY o_name";
+		// Variable aus o_userdata setzen
+		$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
+		$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
+		$larr[$i]['u_level'] = $userdata['u_level'];
+		$larr[$i]['u_id'] = $userdata['u_id'];
+		$larr[$i]['u_away'] = $userdata['u_away'];
+		$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
+		$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
+		$larr[$i]['r_besitzer'] = $row['r_besitzer'];
+		$larr[$i]['r_topic'] = $row['r_topic'];
+		$larr[$i]['o_ip'] = $row['o_ip'];
+		$larr[$i]['isowner'] = $row['isowner'];
 		
-		$result = mysqli_query($mysqli_link, $query);
-		
-		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
-			// Array mit Benutzerdaten und Infotexten aufbauen
-			$userdata = unserialize(
-				$row['o_userdata'] . $row['o_userdata2']
-					. $row['o_userdata3'] . $row['o_userdata4']);
-			
-			if ((!isset($beichtstuhl) || !$beichtstuhl) || $admin
-				|| $userdata['u_id'] == $u_id || $lobby_id == $schau_raum
-				|| $userdata['u_level'] == "S"
-				|| $userdata['u_level'] == "C") {
-				
-				// Variable aus o_userdata setzen
-				$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
-				$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
-				$larr[$i]['u_level'] = $userdata['u_level'];
-				$larr[$i]['u_id'] = $userdata['u_id'];
-				$larr[$i]['u_away'] = $userdata['u_away'];
-				$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
-				$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
-				$larr[$i]['r_besitzer'] = $row['r_besitzer'];
-				$larr[$i]['r_topic'] = $row['r_topic'];
-				$larr[$i]['o_ip'] = $row['o_ip'];
-				$larr[$i]['isowner'] = $row['isowner'];
-				
-				if ($userdata['u_punkte_anzeigen'] != "N") {
-					$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
-				} else {
-					$larr[$i]['gruppe'] = 0;
-				}
-				$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
-				if (!$row['r_name'] || $row['r_name'] == "NULL") {
-					$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
-				} else {
-					$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
-				}
-			} else {
-				// Anonyme Benutzer
-				$larr[$i]['u_nick'] = $t['sonst37'];
-				$larr[$i]['u_level'] = $userdata['u_level'];
-				$larr[$i]['u_away'] = $userdata['u_away'];
-				$larr[$i]['r_besitzer'] = $row['r_besitzer'];
-				$larr[$i]['r_topic'] = $row['r_topic'];
-				$larr[$i]['o_ip'] = $row['o_ip'];
-				if (!$row['r_name'] || $row['r_name'] == "NULL") {
-					$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
-				} else {
-					$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
-				}
-				
-			}
-			// Spezialbehandlung für Admins
-			if (!$admin) {
-				$larr[$i]['o_ip'] = "";
-			}
-			
-			// Raumbesitzer einstellen, falls Level=Benutzer
-			if ($larr[$i]['isowner'] && $userdata['u_level'] == "U") {
-				$larr[$i]['u_level'] = "B";
-			}
-			
-		}
-		mysqli_free_result($result);
-		
-		if (isset($larr)) {
-			$rows = count($larr);
+		if ($userdata['u_punkte_anzeigen'] != "N") {
+			$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
 		} else {
-			$rows = 0;
+			$larr[$i]['gruppe'] = 0;
+		}
+		$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
+		if (!$row['r_name'] || $row['r_name'] == "NULL") {
+			$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
+		} else {
+			$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
+		}
+
+		// Spezialbehandlung für Admins
+		if (!$admin) {
+			$larr[$i]['o_ip'] = "";
 		}
 		
-		// Fehlerbehandlung, falls Arry leer ist -> nichts gefunden
-		if (!$rows && $schau_raum > 0) {
-			
-			$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
-			$result = mysqli_query($mysqli_link, $query);
-			if ($result && mysqli_num_rows($result) != 0)
-				$r_name = mysqli_result($result, 0, 0);
-			echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13'])
-				. "</p>\n";
-			
-		} elseif (!$rows && $schau_raum < 0) {
-			
-			echo "<p>"
-				. str_replace("%whotext%", $whotext[($schau_raum * (-1))],
-					$t['sonst43']) . "</p>\n";
-			
-		} else { // array ist gefüllt -> Daten ausgeben
-			$pmu = mysqli_query($mysqli_link, "SELECT * FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id." OR c_typ='P' AND c_an_user=".$u_id);
-			$pmue = mysqli_num_rows($pmu);
-			if ($pmue > 0) {
-				//Anfang Ausgabe PM Liste Rechts.
-				$box = "<center>" . $t['sonst55'] . "</center>";
-				$text = "";
-			
-				$linkuser = "user.php?id=$id";
-				$text .= "<center>";
-			
-				// Benutzerliste rechte Seite ausgeben
-				$text .= user_pm_list($larr, 0);
-				
-				$text .= "</center>";
-				
-				zeige_tabelle_volle_breite($box, $text);
-			}
-			
-			//Anfang Benutzerliste Ausgabe rechts
-			$box = "<center>" . $t['sonst1'] . "</center>";
-			$text = "";
-			
-			$linkuser = "user.php?id=$id";
-			$linksmilies = "smilies.php?id=$id";
-			$text .= "<center>";
-			$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
-			if (!isset($beichtstuhl) || !$beichtstuhl) {
-				$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
-			}
-			$text .= "<br><br>\n" . $larr[0]['r_name'] . "<br>\n";
-			
-			// Benutzerliste rechte Seite ausgeben
-			$text .= user_liste($larr, 0, true);
+		// Raumbesitzer einstellen, falls Level=Benutzer
+		if ($larr[$i]['isowner'] && $userdata['u_level'] == "U") {
+			$larr[$i]['u_level'] = "B";
+		}
 		
-			if ($rows > 15) {
-				$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
-				if (!isset($beichtstuhl) || !$beichtstuhl) {
-					$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
-				}
-				$text .= "</center>\n";
-			}
+	}
+	mysqli_free_result($result);
+	
+	if (isset($larr)) {
+		$rows = count($larr);
+	} else {
+		$rows = 0;
+	}
+	
+	// Fehlerbehandlung, falls Arry leer ist -> nichts gefunden
+	if (!$rows && $schau_raum > 0) {
+		
+		$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
+		$result = mysqli_query($mysqli_link, $query);
+		if ($result && mysqli_num_rows($result) != 0)
+			$r_name = mysqli_result($result, 0, 0);
+		echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13'])
+			. "</p>\n";
+		
+	} elseif (!$rows && $schau_raum < 0) {
+		
+		echo "<p>"
+			. str_replace("%whotext%", $whotext[($schau_raum * (-1))],
+				$t['sonst43']) . "</p>\n";
+		
+	} else { // array ist gefüllt -> Daten ausgeben
+		$pmu = mysqli_query($mysqli_link, "SELECT * FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id." OR c_typ='P' AND c_an_user=".$u_id);
+		$pmue = mysqli_num_rows($pmu);
+		if ($pmue > 0) {
+			//Anfang Ausgabe PM Liste Rechts.
+			$box = "<center>" . $t['sonst55'] . "</center>";
+			$text = "";
+		
+			$linkuser = "user.php?id=$id";
+			$text .= "<center>";
+		
+			// Benutzerliste rechte Seite ausgeben
+			$text .= user_pm_list($larr, 0);
+			
+			$text .= "</center>";
 			
 			zeige_tabelle_volle_breite($box, $text);
 		}
+		
+		//Anfang Benutzerliste Ausgabe rechts
+		$box = "<center>" . $t['sonst1'] . "</center>";
+		$text = "";
+		
+		$linkuser = "user.php?id=$id";
+		$linksmilies = "smilies.php?id=$id";
+		$text .= "<center>";
+		$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
+		$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
+		$text .= "<br><br>\n" . $larr[0]['r_name'] . "<br>\n";
+		
+		// Benutzerliste rechte Seite ausgeben
+		$text .= user_liste($larr, 0, true);
 	
+		if ($rows > 15) {
+			$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";
+			$text .= " | <a href=\"$linksmilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['sonst20'] . "</a>";
+			$text .= "</center>\n";
+		}
+		
+		zeige_tabelle_volle_breite($box, $text);
+	}
 } else {
 	?>
 	<body onLoad='javascript:parent.location.href="index.php"'>

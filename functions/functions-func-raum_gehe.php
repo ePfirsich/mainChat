@@ -6,7 +6,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 	// Nachricht in Raum $r_id wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
 	
-	global $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $beichtstuhl, $lobby, $timeout;
+	global $mysqli_link, $chat, $admin, $u_level, $u_punkte_gesamt, $t, $lobby, $timeout;
 	global $id, $forumfeatures;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
@@ -103,34 +103,6 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			$raumwechsel = true;
 		}
 		
-		// Falls Beichtstuhl-Modus und $geschlossen!=TRUE, Anzahl der Benutzer im Raum
-		// ermitteln. Der Raum darf betreten werden, wenn:
-		// 1) genau ein Admin im Raum ist und
-		// 2) kein Benutzer im Raum ist oder
-		// 3) Raum temporär ist oder
-		// 4) der Raum Lobby ist oder
-		// 5) der Benutzer ein Admin ist
-		if ($raumwechsel && $beichtstuhl && !$admin) {
-			$query = "SELECT r_id,count(o_id) as anzahl, "
-				. "count(o_level='C') as CADMIN, count(o_level='S') as SADMIN, "
-				. "r_name='$lobby' as LOBBY, r_status2='T' AS STATUS "
-				. "FROM raum LEFT JOIN online ON o_raum=r_id "
-				. "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
-				. "OR r_name='Lobby' OR r_status2='T') "
-				. "AND r_id=" . intval($raum_neu) . " "
-				. "GROUP BY r_id HAVING anzahl=1 AND (CADMIN=1 OR SADMIN=1) OR LOBBY OR STATUS";
-			// system_msg("",0,$u_id,"","DEBUG $query");
-			$result = mysqli_query($mysqli_link, $query);
-			
-			if ($result && mysqli_num_rows($result) == 1) {
-				$raumwechsel = TRUE;
-			} else {
-				$raumwechsel = FALSE;
-			}
-			mysqli_free_result($result);
-			
-		}
-		
 		// Darf Raum nun betreten werden?
 		if ($raumwechsel) {
 			// Raum verlassen
@@ -178,7 +150,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			// bzw. wenn alter Raum Teergrube war, dann auch aktualisieren
 			// $u_id über Online Tabelle, da der Benutzer auch geschubst werden kann, deswegen dessen o_hash 
 			
-			if (($forumfeatures) && !$beichtstuhl && (($neu->r_status1 == "L") || ($alt->r_status1 == "L")) && ($u_level != "A") && (!$admin)) {
+			if (($forumfeatures) && (($neu->r_status1 == "L") || ($alt->r_status1 == "L")) && ($u_level != "A") && (!$admin)) {
 				$query2 = "SELECT o_hash FROM online WHERE o_id=" . intval($o_id);
 				$result2 = mysqli_query($mysqli_link, $query2);
 				

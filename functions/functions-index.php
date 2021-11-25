@@ -363,7 +363,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
-	global $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $beichtstuhl, $system_farbe, $u_punkte_gesamt;
+	global $chat, $mysqli_link, $lobby, $eintrittsraum, $t, $hash_id, $system_farbe, $u_punkte_gesamt;
 	global $raum_eintrittsnachricht_kurzform, $raum_eintrittsnachricht_anzeige_deaktivieren;
 	
 	// Falls eintrittsraum nicht definiert, lobby voreinstellen
@@ -374,7 +374,6 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	// Ist $raum geschlossen oder Benutzer ausgesperrt?
 	// ausnahme: geschlossener Raum ist Eingangsraum -> für e-rotic-räume
 	// die sind geschlossen, aber bei manchen kostenlosen chats default :-(
-	// Ausnahme ist Beichtstuhl-Modus, hier darf beim Login auch ein
 	// geschlossener Raum betreten werden
 	if (strlen($raum) > 0) {
 		$query4711 = "SELECT r_id,r_status1,r_besitzer,r_name,r_min_punkte FROM raum WHERE r_id=$raum";
@@ -399,12 +398,9 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 						}
 						
 						// oder man ist Raumbesiter dort
-						if ($rows->r_besitzer == $u_id)
+						if ($rows->r_besitzer == $u_id) {
 							$raumeintritt = true;
-						
-						// oder der Beichtstuhlmodus
-						if ($beichtstuhl)
-							$raumeintritt = true;
+						}
 						
 						// abweisen wenn $raumeintritt = false
 						if (!$raumeintritt) {
@@ -436,17 +432,14 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 				
 				unset($raum);
 				
-				if (!$beichtstuhl) {
-					$query1222b = "SELECT r_id FROM raum left join sperre on r_id = s_raum and s_user = '$u_id' " . "WHERE r_status1 = 'O' and r_status2 = 'P' and r_min_punkte <= $u_punkte_gesamt " . "and s_id is NULL " . "ORDER BY r_id ";
-					$result1222b = mysqli_query($mysqli_link, $query1222b);
-					if (($result1222b > 0) && (mysqli_num_rows($result1222b) > 0)) {
-						// Es gibt Räume, für die man noch nicht gesperrt ist.
-						// hiervon den ersten nehmen
-						$raum = mysqli_result($result1222b, 0, 0);
-					}
-					mysqli_free_result($result1222b);
+				$query1222b = "SELECT r_id FROM raum left join sperre on r_id = s_raum and s_user = '$u_id' " . "WHERE r_status1 = 'O' and r_status2 = 'P' and r_min_punkte <= $u_punkte_gesamt " . "and s_id is NULL " . "ORDER BY r_id ";
+				$result1222b = mysqli_query($mysqli_link, $query1222b);
+				if (($result1222b > 0) && (mysqli_num_rows($result1222b) > 0)) {
+					// Es gibt Räume, für die man noch nicht gesperrt ist.
+					// hiervon den ersten nehmen
+					$raum = mysqli_result($result1222b, 0, 0);
 				}
-				
+				mysqli_free_result($result1222b);
 			}
 			mysqli_free_result($result);
 		}
@@ -599,7 +592,7 @@ function id_erzeuge($u_id)
 function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
 	
-	global $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $beichtstuhl, $system_farbe;
+	global $mysqli_link, $chat, $lobby, $eintrittsraum, $t, $hash_id, $system_farbe;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;

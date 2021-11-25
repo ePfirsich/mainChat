@@ -6,7 +6,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	
 	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $chat_eingabe_breite, $t;
-	global $chat_grafik, $whotext, $beichtstuhl, $msgpopup, $chat_url;
+	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
 	$query = "SELECT `user`.*,"
@@ -303,9 +303,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
 					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
 					. "</b></td><td class=\"tabelle_koerper\">" . $f1;
-					if (!$beichtstuhl) {
-						$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
-					}
+					$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
 					$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
 					$mlnk[8] = "inhalt.php?seite=nachrichten&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 					$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
