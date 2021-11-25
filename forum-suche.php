@@ -521,7 +521,7 @@ if (strlen($u_id) > 0) {
 			such_bereich();
 	}
 } else {
-	echo "<p style=\"text-align:center;\">$t[sonst2]</p>\n";
+	echo "<p style=\"text-align:center;\">$t[ausgeloggt]</p>\n";
 }
 
 ?>

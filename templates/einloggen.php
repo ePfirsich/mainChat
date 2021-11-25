@@ -401,7 +401,7 @@ if ($result && $rows == 1 && $login_ok) {
 				$txt = str_replace("%ip_name%", $ip_name, $txt);
 				$txt = str_replace("%is_infotext%", $infotext, $txt);
 				while ($row2 = mysqli_fetch_object($result2)) {
-					$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=zeig&user=$u_id";
+					$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$u_id";
 					$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 					$ah2 = "</a>";
 					system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
@@ -484,7 +484,7 @@ if ($result && $rows == 1 && $login_ok) {
 			if ($result2 AND mysqli_num_rows($result2) > 0) {
 				$txt = str_replace("%raumname%", $raumname, $t['default7']);
 				while ($row2 = mysqli_fetch_object($result2)) {
-					$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=zeig&user=$u_id";
+					$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$u_id";
 					$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 					$ah2 = "</a>";
 					system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2, $txt));

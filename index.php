@@ -252,7 +252,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
-				$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=zeig&user=$t_u_id";
+				$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id";
 				$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe,

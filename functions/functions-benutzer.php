@@ -323,7 +323,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				// Adminmenue
 				if ($admin && $rows == 1) {
 					$mlnk[8] = "inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
-					$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=zeig&user=$user&schau_raum=$schau_raum";
+					$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
 					$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
 					$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
 					$mlnk[6] = "inhalt.php?seite=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
