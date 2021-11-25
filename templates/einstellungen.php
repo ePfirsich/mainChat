@@ -33,8 +33,8 @@ if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
 	$f = array();
 	$f = mysqli_fetch_array($benutzerdaten_result, MYSQLI_ASSOC);
 	$f['u_id'] = $temp_u_id;
-	$f['passwort1'] = "";
-	$f['passwort2'] = "";
+	$f['u_passwort'] = "";
+	$f['u_passwort2'] = "";
 }
 
 mysqli_free_result($benutzerdaten_result);
@@ -56,10 +56,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
 		$f['u_kommentar'] = htmlspecialchars(filter_input(INPUT_POST, 'u_kommentar', FILTER_SANITIZE_STRING));
 		$f['u_signatur'] = htmlspecialchars(filter_input(INPUT_POST, 'u_signatur', FILTER_SANITIZE_STRING));
-		$f['u_eintritt'] = htmlspecialchars(filter_input(INPUT_POST, 'u_eintritt', FILTER_SANITIZE_STRING));
-		$f['u_austritt'] = htmlspecialchars(filter_input(INPUT_POST, 'u_austritt', FILTER_SANITIZE_STRING));
-		$f['passwort1'] = htmlspecialchars(filter_input(INPUT_POST, 'passwort1', FILTER_SANITIZE_STRING));
-		$f['passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'passwort2', FILTER_SANITIZE_STRING));
+		$f['u_eintritt'] = htmlspecialchars(filter_input(INPUT_POST, 'u_eintritt'));
+		$f['u_austritt'] = htmlspecialchars(filter_input(INPUT_POST, 'u_austritt'));
+		$f['u_passwort'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort', FILTER_SANITIZE_STRING));
+		$f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
 		$f['u_systemmeldungen'] = filter_input(INPUT_POST, 'u_systemmeldungen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_avatare_anzeigen'] = filter_input(INPUT_POST, 'u_avatare_anzeigen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_layout_farbe'] = filter_input(INPUT_POST, 'u_layout_farbe', FILTER_SANITIZE_NUMBER_INT);
@@ -92,8 +92,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			unset($f['u_eintritt']);
 			unset($f['u_austritt']);
 		}
-		unset($f['passwort1']);
-		unset($f['passwort2']);
+		unset($f['u_passwort']);
+		unset($f['u_passwort2']);
 	}
 	if ( $u_level == 'G' && !$punktefeatures) {
 		unset($f['u_punkte_anzeigen']);
@@ -450,7 +450,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				if (isset($f['u_nick']) && $f['u_nick']) {
 					$query = "SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = '$f[u_id]'";
 					$result = mysqli_query($mysqli_link, $query);
-					$xyz = mysqli_fetch_array($result);
+					$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					$nick_historie = unserialize($xyz['u_nick_historie']);
 					$nick_alt = $xyz['u_nick'];
 					
@@ -518,35 +518,35 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// u_level  = Level des Benutzers, der ändert
 					// Admin (C) darf für anderen Admin (C oder S) nicht ändern: Level, Passwort, interne E-Mail
 					if ($u_id != $f['u_id'] && $u_level == "C" && ($uu_level == "S" || $uu_level == "C") ) {
-						if ( (isset($f['passwort1']) && $f['passwort1'] != "") ||
-							(isset($f['passwort2']) && $f['passwort2'] != "") ||
+						if ( (isset($f['u_passwort']) && $f['u_passwort'] != "") ||
+							(isset($f['u_passwort2']) && $f['u_passwort2'] != "") ||
 							(isset($f['u_level']) && $f['u_level'] != "") ||
 							(isset($f['u_adminemail']) && $f['u_adminemail'] != "") ) {
 							$fehlermeldung .= $t['einstellungen_fehler_level3'];
 						
 							// Mit korrekten Wert überschreiben
 							$f['u_level'] = $benutzerdaten_row->u_level;
-							$f['passwort1'] = "";
-							$f['passwort2'] = "";
+							$f['u_passwort'] = "";
+							$f['u_passwort2'] = "";
 							$f['u_adminemail'] = $benutzerdaten_row->u_adminemail;
 						}
 					}
 				}
 				
-				// Ist passwort gesetzt?
-				if (isset($f['passwort1']) && strlen($f['passwort1']) > 0) {
-					if ($f['passwort1'] != $f['passwort2']) {
+				// Ist das Passwort gesetzt?
+				if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
+					if ($f['u_passwort'] != $f['u_passwort2']) {
 						$fehlermeldung .= $t['einstellungen_fehler_passwort1'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['passwort1'] = "";
-						$f['passwort2'] = "";
-					} else if (strlen($passwort1) < 4) {
+						$f['u_passwort'] = "";
+						$f['u_passwort2'] = "";
+					} else if (strlen($f['u_passwort']) < 4) {
 						$fehlermeldung .= $t['einstellungen_fehler_passwort2'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['passwort1'] = "";
-						$f['passwort2'] = "";
+						$f['u_passwort'] = "";
+						$f['u_passwort2'] = "";
 					}
 				}
 				
@@ -557,9 +557,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// Benutzerdaten schreiben
 					
 					// Paswort neu eintragen
-					if (isset($f['passwort1']) && strlen($f['passwort1']) > 0) {
+					if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
 						$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_passwort'];
+						
+						unset($f['u_passwort2']);
 					}
+					
+					var_dump($f);
 				
 					if (isset($zeige_loesch) && $zeige_loesch != 1) {
 						// Änderungen anzeigen
@@ -578,7 +582,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					$query = "SELECT `u_profil_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
 					$result = mysqli_query($mysqli_link, $query);
-					$g = mysqli_fetch_array($result);
+					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					$g['u_profil_historie'] = unserialize($g['u_profil_historie']);
 					
@@ -730,7 +734,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$query = "SELECT `u_adminemail`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
 				$result = mysqli_query($mysqli_link, $query);
 				
-				$x = mysqli_fetch_array($result);
+				$x = mysqli_fetch_array($result, MYSQLI_ASSOC);
 				$f['u_adminemail'] = $x['u_adminemail'];
 				$pwdneu = genpassword(8);
 				$f['u_passwort'] = $pwdneu;

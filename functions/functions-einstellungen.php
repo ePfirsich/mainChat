@@ -113,11 +113,11 @@ function user_edit($f, $admin, $u_level) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_passwort_aendern'], "", "", 0, "70", "");
 		
 		// Neues Passwort
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "passwort1", $f['passwort1']);
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "u_passwort", $f['u_passwort']);
 		$zaehler++;
 		
 		// Neues Passwort wiederholen
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "passwort2", $f['passwort2']);
+		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "u_passwort2", $f['u_passwort2']);
 		$zaehler++;
 	}
 	
@@ -296,7 +296,7 @@ function zeige_aktionen($aktion) {
 		// Einstellungen aus Datenbank lesen
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			while ($row = mysqli_fetch_array($result)) {
+			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$was[$row['a_was']][$row['a_wann']] = $row;
 			}
 		}
