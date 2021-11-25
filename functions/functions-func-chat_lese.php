@@ -318,7 +318,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					// Falls dies eine Folgezeile ist, Von-Text unterdrücken
 					
 						// Darstellung der Nachrichten im Chat
-						if ($u_layout_chat_darstellung == '2') {
+						if ($u_layout_chat_darstellung == '0') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
@@ -424,7 +424,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					// N: Normal an alle mit Absender
 						
 						// Darstellung der Nachrichten im Chat
-						if ($u_layout_chat_darstellung == '2') {
+						if ($u_layout_chat_darstellung == '0') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
