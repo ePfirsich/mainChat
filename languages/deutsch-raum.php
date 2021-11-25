@@ -34,7 +34,6 @@ $t['sonst7'] = "Eintritt";
 $t['sonst8'] = "Austritt";
 $t['sonst9'] = "Eintragen";
 $t['sonst10'] = "Übersicht der Räume";
-$t['sonst11'] = "Sie sind ausgeloggt";
 $t['sonst13'] = "<p><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</p>";
 $t['sonst14'] = "Mindestpunkte";
 $t['sonst15'] = "Räume";

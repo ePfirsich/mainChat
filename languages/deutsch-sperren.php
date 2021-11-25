@@ -29,7 +29,6 @@ $t['sonst12'] = "IP-Adresse:";
 $t['sonst13'] = "Eintragen!";
 $t['sonst14'] = "Neue Zugangssperre anlegen";
 $t['sonst15'] = "Bitte nur eine Zeile ausfüllen!";
-$t['sonst16'] = "Sie sind ausgeloggt";
 $t['sonst18'] = "Sperre ändern";
 $t['sonst19'] = "Grund der Sperre (opt):";
 $t['sonst20'] = "WARNUNG";
