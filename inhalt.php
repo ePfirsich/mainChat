@@ -6,12 +6,30 @@ if( $id == '') {
 	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
 }
 
+$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+if( $aktion == "") {
+	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
+}
+
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js
 id_lese($id);
 
-if( isset($u_id) ) {
+if( isset($u_id) && strlen($u_id) != 0 ) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
+	
+	$user_eingeloggt = true;
+	
+	// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
+	if ($o_raum && $o_raum == "-1") {
+		$wo_online = "forum";
+		$reset = "1";
+	} else {
+		$wo_online = "chat";
+		$reset = "0";
+	}
+} else {
+	$user_eingeloggt = false;
 }
 
 // Wird die Seite aufgebaut?
@@ -69,8 +87,6 @@ function resetinput() {
 </script>
 <?php
 zeige_header_ende();
-
-$user_eingeloggt = (strlen($u_id) != 0);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
