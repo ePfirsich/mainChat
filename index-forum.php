@@ -8,8 +8,7 @@ id_lese($id);
 // Raumwechsel nicht erlaubt, wenn alter Raum Teergrube (ausser für Admins + Tempadmins)
 
 // Info zu altem Raum lesen
-$query = "SELECT r_name,r_status1,r_austritt from raum "
-	. "WHERE r_id=" . intval($o_raum);
+$query = "SELECT r_name,r_status1,r_austritt from raum WHERE r_id=" . intval($o_raum);
 
 $result = mysqli_query($mysqli_link, $query);
 

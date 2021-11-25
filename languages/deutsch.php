@@ -44,7 +44,7 @@ $hilfstext = array(
 	$leveltext['B'] = "Besitzer";
 	
 	// Texte Status Räume
-	// achtung: groß-kleinschreibung ist wichtig.
+	// Achtung: groß-kleinschreibung ist wichtig.
 	$raumstatus1['O'] = "offen";
 	$raumstatus1['G'] = "geschlossen";
 	$raumstatus1['L'] = "Teergrube";
