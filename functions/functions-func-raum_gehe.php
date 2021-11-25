@@ -188,7 +188,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 					$online = mysqli_fetch_object($result2);
 					mysqli_free_result($result2);
 					
-					system_msg("", 0, $u_id, "", "<script>parent.frames[4].location.href='eingabe.php?id=$online->o_hash';</script>");
+					system_msg("", 0, $u_id, "", "<script>parent.frames[3].location.href='eingabe.php?id=$online->o_hash';</script>");
 					
 					unset($online);
 				}

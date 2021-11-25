@@ -659,8 +659,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						|| $benutzerdaten_row->u_layout_farbe != $f['u_layout_farbe']
 						|| $benutzerdaten_row->u_layout_chat_darstellung != $f['u_layout_chat_darstellung'])
 						&& $o_who == 0) {
-							echo "<script>parent.frames[2].location.href='chat.php?id=$id&back=$chat_back';</script>";
-							echo "<script>parent.frames[4].location.href='eingabe.php?id=$id';</script>";
+							echo "<script>parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';</script>";
+							echo "<script>parent.frames[3].location.href='eingabe.php?id=$id';</script>";
 					}
 				}
 				$fehlermeldung = "";

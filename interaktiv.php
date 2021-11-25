@@ -11,9 +11,7 @@ $meta_refresh = "";
 
 if (isset($u_id) && $u_id) {
 	$meta_refresh .= '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
-	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n"
-		. " function frame_online_reload(file) {\n" . "  parent.frame_online.location.href=file;\n}\n"
-		. "</script>\n";
+	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n</script>\n";
 	zeige_header_ende($meta_refresh);
 	?>
 	<body>
@@ -58,14 +56,6 @@ if (isset($u_id) && $u_id) {
 	
 	if (!isset($o_raum_alt)) {
 		$o_raum_alt = -9;
-	}
-	
-	// Optional via JavaScript den oberen Werbeframe mit dem Werbeframe des Raums neu laden
-	if ($o_js && $o_raum_alt != $o_raum) {
-		if (isset($frame_online) && $frame_online != "") {
-			echo "<script>\n"
-				. "frame_online_reload('$frame_online');\n</script>\n";
-		}
 	}
 	
 	// Menue Ausgeben:

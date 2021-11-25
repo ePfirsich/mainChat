@@ -251,15 +251,10 @@ $forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
 $punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
 $msgpopup=1;									// Flüstern im Popup aktiv?
 
-$moderationsmodul="%modmodul%"; 	// Moderationsmodul freigeschalten? 1=ja, 0=nein
-$moderationsgroesse=280; 			// groesse des Moderationsframes...
-$moderationsexpire=30; 				// Anzahl minuten für moderierte Msgs, danach expire...
-$moderation_rueckwaerts=1; 			// neueste Nachrichten normalerweise unten (=0) sonst oben (=1)
-
-
-// Optionale URL des obersten Frames.
-$frame_online="frame_online.php";	// URL oder Dateiname
-$frame_online_size=0;				// Höhe des Frames frame_online in Pixel
+$moderationsmodul="%modmodul%";		// Moderationsmodul freigeschalten? 1=ja, 0=nein
+$moderationsgroesse=280;			// groesse des Moderationsframes...
+$moderationsexpire=30;				// Anzahl minuten für moderierte Msgs, danach expire...
+$moderation_rueckwaerts=1;			// neueste Nachrichten normalerweise unten (=0) sonst oben (=1)
 
 
 // Anzahl, wieviele Smilies pro Zeile maximal erlaubt sind
