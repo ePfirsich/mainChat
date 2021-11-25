@@ -90,7 +90,7 @@ function bearbeite_moderationstexte($o_raum)
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result > 0) {
 				if (mysqli_num_rows($result) > 0) {
-					$f = mysqli_fetch_array($result);
+					$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					switch ($action[$key]) {
 						case "ok":
 						case "clear":

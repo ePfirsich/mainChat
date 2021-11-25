@@ -187,7 +187,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$txt2 = "<b>[" . $t['chat_msg52'] . "&nbsp;"
 								. $t['chat_msg50'] . "]</b> " . $txt;
 						}
-						while ($row = mysqli_fetch_array($result)) {
+						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 							$text = str_replace("%user%", zeige_userdetails($u_id, $userdata, FALSE, "&nbsp;", "", "", FALSE), $t['chat_msg49']);
 							$text = str_replace("%raum%", $r_name, $text);
 							if (!($admin || $u_level == "A")) {
@@ -229,7 +229,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					. "ORDER BY o_ip";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result > 0) {
-					while ($row = mysqli_fetch_array($result)) {
+					while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 						if ($row['o_ip'] == $alt['o_ip']) {
 							$hostname = htmlspecialchars(
 								@gethostbyaddr($row['o_ip']));
@@ -301,7 +301,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$query = "SELECT o_ip FROM online WHERE o_user = $nick[u_id]";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
-						$o_nick = mysqli_fetch_array($result);
+						$o_nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						$onlineip = $o_nick[o_ip];
 						unset($o_nick);
 					}
@@ -316,7 +316,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
-						$nick = mysqli_fetch_array($result);
+						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						$uu_ip_historie = unserialize($nick['u_ip_historie']);
 						
 						if (is_array($uu_ip_historie)) {
@@ -351,7 +351,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				if ($result && mysqli_num_rows($result) >= 1) {
 					$txt = "";
-					while ($row = mysqli_fetch_array($result)) {
+					while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 						$userdaten = ARRAY(u_id => $row[o_user],
 							u_nick => $row[o_name]);
 						$txt .= "<b>" . $row['r_name'] . " "
@@ -379,7 +379,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
-						$nick = mysqli_fetch_array($result);
+						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					}
 					mysqli_free_result($result);
 				}
@@ -387,7 +387,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($nick['u_nick'] != "") {
 					$query = "SELECT `u_profil_historie` FROM `user` WHERE `u_nick` = '$nick[u_nick]'";
 					$result = mysqli_query($mysqli_link, $query);
-					$bla = mysqli_fetch_array($result);
+					$bla = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					$uu_profil_historie = unserialize($bla[u_profil_historie]);
 				} else {
 					system_msg("", 0, $u_id, $system_farbe,
@@ -1187,7 +1187,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if ((strlen($chatzeile[1]) > 0) && (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
 				$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
 				$result = mysqli_query($mysqli_link, $query);
-				$xyz = mysqli_fetch_array($result);
+				$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 				$nick_historie = unserialize($xyz['u_nick_historie']);
 				
 				if (is_array($nick_historie)) {
@@ -1224,7 +1224,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$rows = mysqli_num_rows($result);
 					if ($rows != 0) {
 						if ($rows == 1) {
-							$xyz = mysqli_fetch_array($result);
+							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 							if ($xyz[u_level] == 'Z') {
 								system_msg("", $u_id, $u_id, $system_farbe,
 									str_replace("%u_nick%", $f['u_nick'],
@@ -1256,7 +1256,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
 						$result = mysqli_query($mysqli_link, $query);
-						$xyz = mysqli_fetch_array($result);
+						$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						$nick_historie = unserialize($xyz['u_nick_historie']);
 						
 						$datum = time();
@@ -1264,8 +1264,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						if (is_array($nick_historie)) {
 							$i = 0;
-							while (($i < 3)
-								&& list($datum, $nick) = each($nick_historie)) {
+							while (($i < 3) && list($datum, $nick) = each($nick_historie)) {
 								$nick_historie_neu[$datum] = $nick;
 								$i++;
 							}
@@ -1615,7 +1614,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			$result = mysqli_query($mysqli_link, $query);
 			$fid = "";
 			$nicks = "";
-			while ($a = mysqli_fetch_array($result)) {
+			while ($a = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$query2 = "SELECT o_user,o_name FROM online WHERE (o_user = '$a[f_userid]' or o_user = '$a[f_freundid]') and o_user != '$u_id'";
 				$result2 = mysqli_query($mysqli_link, $query2);
 				if (mysqli_num_rows($result2) == 1) {
@@ -1651,7 +1650,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$query = "SELECT o_user FROM online";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) > 0) {
-						while ($row = mysqli_fetch_array($result)) {
+						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 							if ($row['o_user'] != $u_id) {
 								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $text, $userdata);
 							}
@@ -2045,7 +2044,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
-						$nick = mysqli_fetch_array($result);
+						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					}
 					mysqli_free_result($result);
 				}
@@ -2133,7 +2132,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
-							$nick = mysqli_fetch_array($result);
+							$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						}
 						mysqli_free_result($result);
 						
@@ -2311,7 +2310,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$query = "SELECT u_nick,u_id from user WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
-							$nick = mysqli_fetch_array($result);
+							$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						}
 						mysqli_free_result($result);
 						
@@ -2795,7 +2794,7 @@ function ignore(
 	
 	$query = "SELECT u_level FROM `user` WHERE u_id = '$i_user_passiv'";
 	$result2 = mysqli_query($mysqli_link, $query);
-	$a = mysqli_fetch_array($result2);
+	$a = mysqli_fetch_array($result2, MYSQLI_ASSOC);
 	
 	$isadmin = false;
 	if ($a['u_level'] == "C" || $a['u_level'] == "S" || $a['u_level'] == "A")
@@ -2852,7 +2851,7 @@ function ignore(
 	
 	if ($result) {
 		if (mysqli_num_rows($result) > 0) {
-			while ($iignore = mysqli_fetch_array($result)) {
+			while ($iignore = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$ignore[$iignore['i_user_passiv']] = TRUE;
 			}
 		} else {
@@ -3025,7 +3024,7 @@ function auto_knebel($text) {
 	// für temp-admins gibts nun auch keinen autoknebel mehr
 	$query = "SELECT o_level FROM online WHERE o_user = '$u_id'";
 	$result = mysqli_query($mysqli_link, $query);
-	$a = mysqli_fetch_array($result);
+	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	if ($a['o_level'] == "A" || $a['o_level'] == "S" || $a['o_level'] == "C"
 		|| $a['o_level'] == "M") {
 		$admin2 = true;
@@ -3055,9 +3054,9 @@ function auto_knebel($text) {
 					$query = "select o_knebel, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) as knebelneu "
 						. "from online where o_user=$u_id";
 					$result = mysqli_query($mysqli_link, $query);
-					$row = mysqli_fetch_array($result);
+					$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
-					// system_msg("",0,$u_id,$system_farbe,"DEBUG: $row[o_knebel] ... $row[knebelneu] ");				
+					// system_msg("",0,$u_id,$system_farbe,"DEBUG: $row[o_knebel] ... $row[knebelneu] ");
 					
 					// Nur wenn neue Zeit größer als alte, dann erneut knebeln
 					if ($row[o_knebel] <= $row[knebelneu]) {
@@ -3074,7 +3073,7 @@ function auto_knebel($text) {
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result > 0) {
 						if (mysqli_num_rows($result) > 0) {
-							while ($row = mysqli_fetch_array($result)) {
+							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 								$txt = str_replace("%user%",
 									zeige_userdetails($u_id, 0, FALSE, "", "", "", FALSE), $t['knebel8']);
 								$txt = str_replace("%raum%", $r_name, $txt);

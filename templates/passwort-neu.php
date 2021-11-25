@@ -14,7 +14,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_adminemail = '$email' LIMIT 1";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result);
+		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_adminemail'] . $a['u_punkte_jahr']);
 		if ($hash == $hash2) {
 			$richtig = 1;
@@ -56,7 +56,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		//$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_nick = '$nickname' OR u_adminemail = '$email' LIMIT 2";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
-			$a = mysqli_fetch_array($result);
+			$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			$hash = md5(
 				$a['u_id'] . $a['u_login'] . $a['u_nick']
 				. $a['u_passwort']
@@ -158,7 +158,7 @@ if (!$richtig) {
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		unset($f);
-		$a = mysqli_fetch_array($result);
+		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
 		$pwdneu = genpassword(8);
 		$f['u_passwort'] = $pwdneu;

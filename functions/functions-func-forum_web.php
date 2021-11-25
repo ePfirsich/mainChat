@@ -459,7 +459,7 @@ function show_thema() {
 	} else {
 		$query = "SELECT `u_forum_postingproseite` FROM `user` WHERE `u_id` = '$u_id'";
 		$result = mysqli_query($mysqli_link, $query);
-		$a = mysqli_fetch_array($result);
+		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$anzahl_po_seite2 = $a['u_forum_postingproseite'];
 		$anzahl_po_seite = $anzahl_po_seite2;
 	}

@@ -339,7 +339,7 @@ if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
 	$query = "SELECT * FROM mail_check WHERE email = '$email'";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result);
+		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$hash2 = md5($a['email'] . "+" . $a['datum']);
 		if ($hash == $hash2) {
 			
@@ -437,7 +437,7 @@ switch ($aktion) {
 				$query = "SELECT * FROM mail_check WHERE email = '$email'";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) == 1) {
-					$a = mysqli_fetch_array($result);
+					$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					$hash2 = md5($a['email'] . "+" . $a['datum']);
 					if ($hash == $hash2) {
 						$link = $chat_url . "/index.php?aktion=neu2";

@@ -11,7 +11,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
-		$userdata = mysqli_fetch_array($result);
+		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		mysqli_free_result($result);
 		$url = "inhalt.php?seite=einstellungen&id=$id";
 		$userdaten_bearbeiten = "\n[<a href=\"$url\">Einstellungen ändern</a>]";

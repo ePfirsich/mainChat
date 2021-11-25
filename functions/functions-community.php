@@ -4,7 +4,7 @@ function suche_vaterposting($poid)
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
 	$query = "SELECT po_vater_id FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
-	list($vp) = mysqli_fetch_array($result);
+	list($vp) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($vp);
 }
 
@@ -13,7 +13,7 @@ function suche_threadord($poid)
 	// Diese Funktion sucht die Themenorder des Vaterpostings
 	$query = "SELECT po_threadorder FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
-	list($to) = mysqli_fetch_array($result);
+	list($to) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($to);
 }
 
@@ -609,7 +609,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if (mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result);
+		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$zeit = $a['zeit'];
 	} else {
 		$zeit = 999;

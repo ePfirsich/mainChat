@@ -215,7 +215,7 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
-		$userdata = mysqli_fetch_array($result);
+		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$online_zeit = $userdata['online'];
 		$letzter_login = $userdata['login'];
 		

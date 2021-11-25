@@ -198,7 +198,7 @@ function schreibe_moderation() {
 	$query = "SELECT * FROM moderation WHERE c_moderator=$u_id AND c_typ='N'";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result > 0) {
-		while ($f = mysqli_fetch_array($result)) {
+		while ($f = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 			unset($c);
 			// vorbereiten für umspeichern... geht leider nicht 1:1, 
 			// weil fetch_array mehr zurückliefert als in $f[] sein darf...
@@ -818,7 +818,7 @@ function raum_ist_moderiert($raum) {
 	$query = "SELECT * FROM raum WHERE r_id=$raum";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
-		$raum_einstellungen = mysqli_fetch_array($result);
+		$raum_einstellungen = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$r_status1 = $raum_einstellungen['r_status1'];
 	}
 	mysqli_free_result($result);

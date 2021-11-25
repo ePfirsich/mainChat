@@ -119,21 +119,19 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
 					}
 					
-					$text .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite
-					. "\" maxlength=\"" . ($chat_max_eingabe - 1)
-					. "\" value=\"\" type=\"text\">"
+					$text .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
 						. "<input name=\"text\" value=\"\" type=\"hidden\">"
-							. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-							. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
-							. "<input type=\"submit\" value=\"Go!\">" . $f2
-							. "\n<script language=\"JavaScript\">\n\n"
-								. "document.forms['form'].elements['text2'].focus();\n"
-									. "\n</script>\n\n\n";
+						. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
+						. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
+						. "<input type=\"submit\" value=\"Go!\">" . $f2
+						. "\n<script language=\"JavaScript\">\n\n"
+						. "document.forms['form'].elements['text2'].focus();\n"
+						. "\n</script>\n\n\n";
 									
-									$text .= "</form>";
-									
-									// Box anzeigen
-									zeige_tabelle_zentriert($box, $text);
+					$text .= "</form>";
+					
+					// Box anzeigen
+					zeige_tabelle_zentriert($box, $text);
 				}
 				
 				// Kopf Tabelle Benutzerinfo
@@ -373,7 +371,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					
 					$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 					$result = mysqli_query($mysqli_link, $query);
-					$g = @mysqli_fetch_array($result);
+					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					if ($g['u_chathomepage'] == "J") {
 						$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;

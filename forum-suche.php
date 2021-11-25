@@ -26,7 +26,7 @@ function vater_rekursiv($vater) {
 	global $mysqli_link;
 	$query = "SELECT `po_id`, `po_vater_id` FROM posting WHERE `po_id` = " . intval($vater);
 	$result = mysqli_query($mysqli_link, $query);
-	$a = mysqli_fetch_array($result);
+	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	if (mysqli_num_rows($result) <> 1) {
 		return -1;
 	} else if ($a['po_vater_id'] <> 0) {

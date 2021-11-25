@@ -7,12 +7,12 @@ function pruefe_leserechte($th_id) {
 	
 	$query = "SELECT th_fo_id FROM thema WHERE th_id = " . intval($th_id);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$fo_id = $fo['th_fo_id'];
 	
 	$query = "SELECT fo_admin FROM forum WHERE fo_id = '$fo_id'";
 	$result = mysqli_query($mysqli_link, $query);
-	list($admin_forum) = mysqli_fetch_array($result);
+	list($admin_forum) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$leserechte = false;
 	if ($u_level == "G")
 		if ($admin_forum == 0 || (($admin_forum & 8) == 8))
@@ -34,7 +34,7 @@ function hole_themen_id_anhand_posting_id($po_id) {
 	// Prüft anhand der po_id ob gesperrt ist
 	$query = "SELECT po_th_id FROM posting WHERE po_id = " . intval($po_id);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	return ($fo['po_th_id']);
 }
@@ -46,12 +46,12 @@ function pruefe_schreibrechte($th_id) {
 	
 	$query = "SELECT th_fo_id FROM thema WHERE th_id = " . intval($th_id);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$fo_id = $fo['th_fo_id'];
 	
 	$query = "SELECT fo_admin FROM forum WHERE fo_id = '$fo_id'";
 	$result = mysqli_query($mysqli_link, $query);
-	list($admin_forum) = mysqli_fetch_array($result);
+	list($admin_forum) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	$schreibrechte = false;
 	if ($u_level == "G")
@@ -73,7 +73,7 @@ function ist_thread_gesperrt($thread) {
 	// Prüft anhand der thread auf den man antworten will, gesperrt ist
 	$query = "SELECT po_threadts, po_ts, po_threadgesperrt FROM posting WHERE po_id = " . intval($thread);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	$threadgesperrt = false;
 	
@@ -106,7 +106,7 @@ function ist_posting_gesperrt($po_id) {
 	// Prüft anhand der po_id ob gesperrt ist
 	$query = "SELECT po_gesperrt FROM posting WHERE po_id = " . intval($po_id);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	$postinggesperrt = false;
 	
@@ -120,7 +120,7 @@ function sperre_posting($po_id) {
 	global $mysqli_link;
 	$query = "SELECT po_gesperrt FROM posting WHERE po_id = " . intval($po_id);
 	$result = mysqli_query($mysqli_link, $query);
-	$fo = mysqli_fetch_array($result);
+	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	if (ist_posting_gesperrt($po_id)) {
 		// Beitrag entsperren
@@ -174,7 +174,7 @@ function thema_alles_gelesen($th_id, $u_id) {
 		if (!$u_gelesene[$th_id])
 			$u_gelesene[$th_id][0] = array();
 		
-		while ($a = mysqli_fetch_array($result)) {
+			while ($a = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 			array_push($u_gelesene[$th_id], $a['po_id']);
 			//wenn schon gelesen, dann wieder raus
 		}
@@ -202,7 +202,7 @@ function thread_alles_gelesen($th_id, $thread_id, $u_id) {
 	}
 	
 	// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
-	$a = mysqli_fetch_array($result);
+	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$b = explode(",", $a['po_threadorder']);
 	
 	for ($i = 0; $i < count($liste); $i++) {

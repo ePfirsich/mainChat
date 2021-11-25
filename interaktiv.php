@@ -135,7 +135,7 @@ if (isset($u_id) && $u_id) {
 	// Special: Bei nur einem Raum kein Auswahl
 	$query = "SELECT count(*) as zahl FROM raum";
 	$result = mysqli_query($mysqli_link, $query);
-	$a = mysqli_fetch_array($result);
+	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$zahl = $a['zahl'];
 	
 	if (($u_level == "U" || $u_level == "G") && ($single_room_verhalten == "1"))

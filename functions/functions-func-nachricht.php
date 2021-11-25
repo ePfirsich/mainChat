@@ -54,7 +54,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 		$sql = "SELECT count(c_id) as nummer FROM chat WHERE c_von_user = '' and c_typ='S' and c_raum = " . intval($r_id) . " and c_zeit > '"
 			. date("YmdHis", date("U") - 60) . "'";
 		$result = mysqli_query($mysqli_link, $sql);
-		$num = mysqli_fetch_array($result);
+		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$num = $num['nummer'];
 		if ($num < 15) {
 			$back = global_msg($u_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);

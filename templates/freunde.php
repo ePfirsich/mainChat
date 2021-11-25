@@ -86,7 +86,7 @@ switch ($aktion) {
 		$query = "SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_level`='S' OR `u_level`='C'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			while ($rows = mysqli_fetch_array($result)) {
+			while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				unset($neuer_freund);
 				$neuer_freund['u_nick'] = $rows['u_nick'];
 				$neuer_freund['u_id'] = $rows['u_id'];

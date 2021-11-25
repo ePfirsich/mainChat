@@ -181,7 +181,7 @@ if($aktion == "aendern" && $f['ui_userid']) {
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				// Benutzerprofil aus der Datenbank lesen
-				$home = mysqli_fetch_array($result);
+				$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
 				if ($home['ui_farbe']) {
 					$farbentemp = unserialize($home['ui_farbe']);
 					if (is_array($farbentemp)) {

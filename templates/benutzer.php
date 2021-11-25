@@ -238,7 +238,7 @@ switch ($aktion) {
 				// Einen Benutzer gefunden, alle Benutzerdaten ausgeben
 				if (!isset($zeigeip))
 					$zeigeip = 0;
-				while ($arr = mysqli_fetch_array($result)) {
+					while ($arr = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 					user_zeige($arr['u_id'], $admin, $schau_raum, $u_level,
 						$zeigeip);
 				}

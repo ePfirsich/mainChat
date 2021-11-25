@@ -637,7 +637,7 @@ switch ($aktion) {
 				$text .= "</tr>\n";
 				$i = 1;
 				$bgcolor = 'class="tabelle_zeile1"';
-				while ($row = mysqli_fetch_array($result)) {
+				while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 					$uu_id = $row['u_id'];
 					if ($row['r_status2'] == "P") {
 						$b1 = "<small><b>";

@@ -249,7 +249,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 		if (mysqli_num_rows($result) == 0) {
 			$ignore[0] = FALSE;
 		} else {
-			while ($iignore = mysqli_fetch_array($result)) {
+			while ($iignore = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$ignore[$iignore[i_user_passiv]] = TRUE;
 			}
 		}

@@ -280,7 +280,7 @@ function step_2($mysqli_link, $chat, $fpconfig) {
 				$tables = mysqli_query($mysqli_link, "SHOW TABLES FROM `".$chat['dbase']."` ");
 				for ($i = 0; $i < mysqli_num_rows($tables); $i++) {
 					mysqli_data_seek( $tables, $i );
-					$f = mysqli_fetch_array( $tables );
+					$f = mysqli_fetch_array($tables, MYSQLI_NUM);
 					$table = $f[0];
 					
 					?>
