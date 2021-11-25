@@ -38,29 +38,10 @@ function zeige_header_ende($zusatz_header = '') {
 	if($zusatz_header != '') {
 		echo $zusatz_header;
 	}
-	
-	// Fenstername
-	$fenster = str_replace("+", "", $u_nick);
-	$fenster = str_replace("-", "", $fenster);
-	$fenster = str_replace("ä", "", $fenster);
-	$fenster = str_replace("ö", "", $fenster);
-	$fenster = str_replace("ü", "", $fenster);
-	$fenster = str_replace("Ä", "", $fenster);
-	$fenster = str_replace("Ö", "", $fenster);
-	$fenster = str_replace("Ü", "", $fenster);
-	$fenster = str_replace("ß", "", $fenster);
 	?>
 	<script>
 	function ask(text) {
 			return(confirm(text));
-	}
-	
-	function opener_reload(file,frame_number) {
-		opener.parent.frames[frame_number].location.href=file;
-	}
-	
-	function neuesFenster(url) {
-			hWnd=window.open(url,"chat_popup","resizable=yes,scrollbars=yes,width=1,height=1");
 	}
 	</script>
 	<script language="JavaScript" src="jscript.js"></script>

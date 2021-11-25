@@ -6,14 +6,6 @@ require_once("functions/functions-hash.php");
 
 $title = $body_titel . ' - Home';
 zeige_header_anfang($title, 'mini');
-?>
-<script>
-window.focus()
-function opener_reload(file,frame_number) {
-	opener.parent.frames[frame_number].location.href=file;
-}
-</script>
-<?php
 
 // Pfad auf Cache
 $cache = "home_bild";
