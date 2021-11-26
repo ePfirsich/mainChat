@@ -483,10 +483,6 @@ if ($result && $rows == 1 && $login_ok) {
 	zeige_fuss();
 } else {
 	// Login fehlgeschlagen
-	
-	// Header ausgeben
-	zeige_header_ende();
-	echo "<body>";
 	zeige_kopf();
 	
 	unset($u_nick);
@@ -495,6 +491,9 @@ if ($result && $rows == 1 && $login_ok) {
 		// Kein Passwort eingegeben oder der Benutzername exitiert bereits
 		echo $t['login19'];
 	} else {
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
 		// Falsches Passwort oder Benutzername
 		echo $t['login7'];
 	}
