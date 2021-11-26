@@ -4,7 +4,6 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	// Gibt Liste aller Räume aus, wenn $offen=0
 	// Gibt Liste aller offenen (O,T) Räume aus, wenn $offen=1
 	// $raum ist Voreinstellung
-	// "L" sind geLOCKte Räume, werden auch nicht mit angezeigt.
 	// $nur_chat=TRUE -> Nur Räume zeigen
 	// $nur_chat=FALSE -> Räume + Community-Bereiche (whotext) zeigen
 	
@@ -79,8 +78,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	if ($offen) {
 		$query = "SELECT r_status1,r_name,r_id FROM raum ORDER BY r_name";
 	} elseif (is_array($rows)) {
-		$query = "SELECT r_status1,r_name,r_id FROM raum WHERE r_id IN ("
-			. implode(",", $rows) . ") ORDER BY r_name";
+		$query = "SELECT r_status1,r_name,r_id FROM raum WHERE r_id IN (" . implode(",", $rows) . ") ORDER BY r_name";
 	} else {
 		return 1;
 	}
@@ -89,10 +87,8 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	$text .= $zusatz_select;
 	while ($row = mysqli_fetch_object($result)) {
 		if ($row->r_status1 != "O") {
-			// L->t und G->g übersetzen
-			if ($row->r_status1 == "L") {
-				$status = "/t";
-			} elseif ($row->r_status1 == "G") {
+			// G->g übersetzen
+			if ($row->r_status1 == "G") {
 				$status = "/g";
 			} else {
 				$status = "/" . $row->r_status1;

@@ -220,13 +220,9 @@ switch ($aktion) {
 			// Raum zeigen
 			$row = mysqli_fetch_object($result);
 			$text .= "<table style=\"width:100%;\"><tr>\n";
-			$text .= "<td><b>$t[sonst2] $row->r_name</b></td></tr>\n";
-			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[sonst3]</b> "
-				. htmlspecialchars($row->r_topic) . $f2
-				. "</td></tr>\n";
-			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[sonst7]</b> "
-				. htmlspecialchars($row->r_eintritt) . $f2
-				. "</td></tr>\n";
+			$text .= "<td><b>$t[raeume_raum] $row->r_name</b></td></tr>\n";
+			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_topic]</b> " . htmlspecialchars($row->r_topic) . $f2 . "</td></tr>\n";
+			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_eintritt]</b> " . htmlspecialchars($row->r_eintritt) . $f2 . "</td></tr>\n";
 			$text .= "</table>\n";
 			
 			// Formular löschen
@@ -267,7 +263,7 @@ switch ($aktion) {
 			}
 			
 			if (isset($raumanlegenpunkte) && $u_punkte_gesamt < $raumanlegenpunkte) {
-				$text .= str_replace("%punkte%", $raumanlegenpunkte, $t['sonst13']);
+				$text .= str_replace("%punkte%", $raumanlegenpunkte, $t['fehler15']);
 				break;
 			}
 		}
@@ -292,13 +288,13 @@ switch ($aktion) {
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		
-		$text .= "<tr><td><b>$t[sonst2]</b></td>";
+		$text .= "<tr><td><b>$t[raeume_raum]</b></td>";
 		$text .= "<td>" . $f1 . "<input type=\"text\" name=\"f[r_name]\" "
 			. "value=\"$r_name\" size=$eingabe_breite>" . $f2
 			. "</td></tr>\n";
 		
 		// Status1 als Auswahl
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user5'] . "</b>" . $f2
+		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_status'] . "</b>" . $f2
 			. "</td>" . "<td>" . $f1 . "<select name=\"f[r_status1]\">\n";
 		
 		$i = 0;
@@ -317,7 +313,7 @@ switch ($aktion) {
 		$text .= "</select>" . $f2 . "</td></tr>\n";
 		
 		// Status2 als Auswahl
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user6'] . "</b>" . $f2
+		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_art'] . "</b>" . $f2
 			. "</td>" . "<td>" . $f1 . "<select name=\"f[r_status2]\">\n";
 		
 		$i = 0;
@@ -335,19 +331,19 @@ switch ($aktion) {
 		
 		$text .= "</select>" . $f2 . "</td></tr>\n";
 		
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7'] . "</b>" . $f2
+		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_smilies'] . "</b>" . $f2
 			. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
 		if ($r_smilie == "Y") {
-			$text .= "<option selected value=\"Y\">$t[raum_user8]";
-			$text .= "<option value=\"N\">$t[raum_user9]";
+			$text .= "<option selected value=\"Y\">$t[raum_erlaubt]";
+			$text .= "<option value=\"N\">$t[raum_verboten]";
 		} else {
-			$text .= "<option value=\"Y\">$t[raum_user8]";
-			$text .= "<option selected value=\"N\">$t[raum_user9]";
+			$text .= "<option value=\"Y\">$t[raum_erlaubt]";
+			$text .= "<option selected value=\"N\">$t[raum_verboten]";
 		}
 		$text .= "</select>" . $f2 . "</td></tr>\n";
 		
 		// Punkte zum Betreten des Raumes
-		$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
+		$text .= "<tr><td>" . $f1 . "<b>$t[raeume_mindestpunkte]</b>" . $f2 . "</td>";
 		$text .= "<td>" . $f1
 			. "<input type=\"text\" name=\"f[r_min_punkte]\" "
 			. "value=\"$r_min_punkte\" size=\"7\">" . $f2
@@ -369,16 +365,16 @@ switch ($aktion) {
 			$r_austritt = $rows->r_austritt;
 		}
 		
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['sonst3'] . "</b>" . $f2
+		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_topic'] . "</b>" . $f2
 			. "</td>" . "<td>" . $f1 . "<textarea rows=5 cols="
 			. ($eingabe_breite) . " name=\"f[r_topic]\">"
 			. $r_topic . "</textarea>" . $f2 . "</td></tr>\n";
-			$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['sonst7']
+		$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['raeume_eintritt']
 			. "</b>" . $f2 . "</td>" . "<td>" . $f1
 			. "<textarea rows=5 cols=" . ($eingabe_breite)
 			. " name=\"f[r_eintritt]\">" . $r_eintritt
 			. "</textarea>" . $f2 . "</td></tr>\n";
-		$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['sonst8']
+		$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['raeume_austritt']
 			. "</b>" . $f2 . "</td>" . "<td>" . $f1
 			. "<textarea rows=5 cols=" . ($eingabe_breite)
 			. " name=\"f[r_austritt]\">" . $r_austritt
@@ -416,13 +412,13 @@ switch ($aktion) {
 			while ($rows = mysqli_fetch_object($result)) {
 				// Ausgabe in Tabelle
 				if ($admin || $rows->u_id == $u_id) {
-					$box = $t['sonst2'] . ': ' . $rows->r_name;
+					$box = $t['raeume_raum'] . ': ' . $rows->r_name;
 					// für diesen Raum Admin
 					$text .= "<form name=\"$rows->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<table style=\"width:100%;\">\n";
 					
-					$text .= "<tr><td><b>$t[sonst2]</b></td>";
+					$text .= "<tr><td><b>$t[raeume_raum]</b></td>";
 					if ($rows->r_name == $lobby) {
 						$text .= "<td><b>$rows->r_name</b>"
 							. "<input type=\"hidden\" name=\"f[r_name]\" "
@@ -434,12 +430,12 @@ switch ($aktion) {
 							. "value=\"$rows->r_name\" size=$eingabe_breite>"
 							. $f2 . "</td></tr>\n";
 						
-							$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user2']
+							$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_raumbesitzer']
 							. "</b>" . $f2 . "</td>" . "<td>" . $f1
 							. $rows->u_nick . $f2 . "</td></tr>\n";
 						
 						// Status1 als Auswahl
-						$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user5']
+						$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_status']
 							. "</b>" . $f2 . "</td>" . "<td>" . $f1
 							. "<select name=\"f[r_status1]\">\n";
 						
@@ -460,7 +456,7 @@ switch ($aktion) {
 						$text .= "</select>" . $f2 . "</td></tr>\n";
 						
 						// Status2 als Auswahl
-						$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user6']
+						$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_art']
 							. "</b>" . $f2 . "</td>" . "<td>" . $f1
 							. "<select name=\"f[r_status2]\">\n";
 						
@@ -482,21 +478,21 @@ switch ($aktion) {
 						
 					}
 					
-					$text .= "<tr><td>" . $f1 . "<b>" . $t['raum_user7']
+					$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_smilies']
 						. "</b>" . $f2 . "</td><td>" . $f1
 						. "<select name=\"f[r_smilie]\">";
 					if ($rows->r_smilie == "Y") {
-						$text .= "<option selected value=\"Y\">$t[raum_user8]";
-						$text .= "<option value=\"N\">$t[raum_user9]";
+						$text .= "<option selected value=\"Y\">$t[raum_erlaubt]";
+						$text .= "<option value=\"N\">$t[raum_verboten]";
 					} else {
-						$text .= "<option value=\"Y\">$t[raum_user8]";
-						$text .= "<option selected value=\"N\">$t[raum_user9]";
+						$text .= "<option value=\"Y\">$t[raum_erlaubt]";
+						$text .= "<option selected value=\"N\">$t[raum_verboten]";
 					}
 					$text .= "</select>" . $f2 . "</td></tr>\n";
 					
-					if ($rows->r_name != $lobby && $rows->r_status1 != "L") {
+					if ($rows->r_name != $lobby) {
 						// Punkte zum Betreten des Raumes ändern
-						$text .= "<tr><td>" . $f1 . "<b>$t[sonst14]</b>" . $f2 . "</td>";
+						$text .= "<tr><td>" . $f1 . "<b>$t[raeume_mindestpunkte]</b>" . $f2 . "</td>";
 						$text .= "<td>" . $f1
 							. "<input type=\"text\" name=\"f[r_min_punkte]\" "
 							. "value=\"$rows->r_min_punkte\" size=\"7\">"
@@ -504,19 +500,19 @@ switch ($aktion) {
 					}
 					
 					$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['sonst3'] . "</b>" . $f2 . "</td>" . "<td>"
+						. $t['raeume_topic'] . "</b>" . $f2 . "</td>" . "<td>"
 						. $f1 . "<textarea rows=5 cols="
 						. ($eingabe_breite) . " name=\"f[r_topic]\">"
 						. $rows->r_topic . "</textarea>"
 						. $f2 . "</td></tr>\n";
 						$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['sonst7'] . "</b>" . $f2 . "</td>" . "<td>"
+						. $t['raeume_eintritt'] . "</b>" . $f2 . "</td>" . "<td>"
 						. $f1 . "<textarea rows=5 cols="
 						. ($eingabe_breite) . " name=\"f[r_eintritt]\">"
 						. $rows->r_eintritt . "</textarea>"
 						. $f2 . "</td></tr>\n";
 					$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['sonst8'] . "</b>" . $f2 . "</td>" . "<td>"
+						. $t['raeume_austritt'] . "</b>" . $f2 . "</td>" . "<td>"
 						. $f1 . "<textarea rows=5 cols="
 						. ($eingabe_breite) . " name=\"f[r_austritt]\">"
 						. $rows->r_austritt . "</textarea>"
@@ -535,23 +531,20 @@ switch ($aktion) {
 					$text .= "</form>\n";
 					
 				} else {
-					$box = $t['sonst2'] . ': ' . $rows->r_name;
+					$box = $t['raeume_raum'] . ': ' . $rows->r_name;
 					// Normalsterblicher
 					$text .= "<table style=\"width:100%;\">\n";
 					if ($rows->r_name) {
-						$text .= "<tr><td><b>$t[sonst2] $rows->r_name</b></td></tr>\n";
+						$text .= "<tr><td><b>$t[raeume_raum] $rows->r_name</b></td></tr>\n";
 					}
 					if ($rows->r_topic) {
 						$text .= "<tr><td colspan=\"2\">" . $f1
-							. "<b>$t[sonst3]</b> "
+						. "<b>$t[raeume_topic]</b> "
 							. htmlspecialchars($rows->r_topic)
 							. $f2 . "</td></tr>\n";
 					}
 					if ($rows->r_eintritt) {
-						$text .= "<tr><td colspan=\"2\">" . $f1
-							. "<b>$t[sonst7]</b> "
-							. htmlspecialchars($rows->r_eintritt) . $f2
-							. "</td></tr>\n";
+						$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_eintritt]</b> " . htmlspecialchars($rows->r_eintritt) . $f2 . "</td></tr>\n";
 					}
 					$text .= "</tr></table>\n";
 					
@@ -565,7 +558,7 @@ switch ($aktion) {
 			mysqli_free_result($result);
 		} else {
 			$text = "";
-			$box = $t['sonst15'];
+			$box = $t['titel'];
 			// Liste der Räume mit der Anzahl der Benutzer aufstellen
 			$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
 				. "LEFT JOIN online ON r_id=o_raum "
@@ -582,8 +575,7 @@ switch ($aktion) {
 			
 			// Liste der Räume und der Raumbesitzer lesen
 			$query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
-				. "FROM raum left join user on r_besitzer=u_id "
-				. "GROUP BY r_name ORDER BY $order";
+				. "FROM raum left join user on r_besitzer=u_id GROUP BY r_name ORDER BY $order";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				
@@ -605,32 +597,32 @@ switch ($aktion) {
 					}
 					$text .= "$rlink<br>";
 				}
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_name\">" . $t['sonst2'] . "</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_name\">" . $t['raeume_raum'] . "</a>";
 				$text .= "<table class=\"tabelle_kopf\">\n";
 				$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $t['sonst16'] . "</b></small></td>";
+				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $t['raeume_benutzer_online'] . "</b></small></td>";
 				
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\">Status</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\">" . $t['raeume_status'] . "</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 				
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\">Art</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\">" . $t['raeume_art'] . "</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
 				
-				$rlink = "<a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\">" . $t['raum_user2'] . "</a>";
+				$rlink = "<a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\">" . $t['raeume_raumbesitzer'] . "</a>";
 				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 				
 				if (isset($extended) && $extended) {
-					$rlink = $t['raum_user10'];
+					$rlink = $t['raeume_smilies'];
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					
-					$rlink = $t['sonst14'];
+					$rlink = $t['raeume_mindestpunkte'];
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 					
-					$rlink = $t['sonst3'];
+					$rlink = $t['raeume_topic'];
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					$rlink = $t['sonst7'];
+					$rlink = $t['raeume_eintritt'];
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					$rlink = $t['sonst8'];
+					$rlink = $t['raeume_austritt'];
 					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
 				}
 				
@@ -649,7 +641,6 @@ switch ($aktion) {
 					// raum nur anzeigen falls offen, moderiert, besitzer oder admin...
 					// "m" -> moderiert, "M" -> moderiert+geschlossen.
 					if ($row['r_status1'] == "O" || $row['r_status1'] == "m" || $uu_id == $u_id || $admin) {
-						
 						$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 						
 						// Anzahl der Benutzer online ermitteln
@@ -663,18 +654,23 @@ switch ($aktion) {
 						$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
 						$text .= "<td $bgcolor>$b1" . $ulink . "$b2&nbsp;</td>";
 						
-						$text .= "<td $bgcolor>$b1". substr($raumstatus1[$row['r_status1']], 0, 1) . "$b2&nbsp;</td>";
-						$text .= "<td $bgcolor>$b1" . substr($raumstatus2[$row['r_status2']], 0, 1) . "$b2&nbsp;</td>";
+						$text .= "<td $bgcolor>$b1". $raumstatus1[$row['r_status1']] . "$b2&nbsp;</td>";
+						$text .= "<td $bgcolor>$b1" . $raumstatus2[$row['r_status2']] . "$b2&nbsp;</td>";
 						$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 						if ((isset($extended)) && ($extended)) {
 							if ($row['r_smilie'] == "Y") {
-								$r_smilie = $t['raum_user8'];
+								$r_smilie = $t['raum_erlaubt'];
 							} else {
-								$r_smilie = $t['raum_user9'];
+								$r_smilie = $t['raum_verboten'];
 							}
 							$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
 							
-							$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . "&nbsp;$b2</td>";
+							if( $row['r_min_punkte'] == "1") {
+								$punkte_name = $t['raum_punkt'];
+							} else {
+								$punkte_name = $t['raum_punkte'];
+							}
+							$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . " $punkte_name$b2</td>";
 							
 							$temp = htmlspecialchars($row['r_topic']);
 							$temp = str_replace('&amp;lt;', '<', $temp);

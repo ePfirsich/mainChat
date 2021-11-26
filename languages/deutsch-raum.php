@@ -24,19 +24,25 @@ $t['fehler11'] = "<b>Der Status <i>%r_status%</i> ist nur in der kommerziellen V
 $t['fehler12'] = "<b>Dieser Raum kann nicht gelöscht werden.</b>";
 $t['fehler13'] = "<b>Diese Mindestpunktezahl kann nicht vergeben werden</b>";
 $t['fehler14'] = "<b>Die Mindestpunktezahl in einem permanenten Raum kann nur von einem Admin geändert werden.</b>";
+$t['fehler15'] = "<p><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</p>";
 
-$t['sonst2'] = "Raum";
-$t['sonst3'] = "Topic";
+$t['raeume_raum'] = "Raum";
+$t['raeume_benutzer_online'] = "Benutzer online";
+$t['raeume_status'] = "Status";
+$t['raeume_art'] = "Art";
+$t['raeume_raumbesitzer'] = "Raumbesitzer";
+$t['raeume_smilies'] = "Smilies";
+$t['raeume_mindestpunkte'] = "Mindestpunkte";
+$t['raeume_topic'] = "Topic";
+$t['raeume_eintritt'] = "Eintritt";
+$t['raeume_austritt'] = "Austritt";
+$t['raum_erlaubt'] = "Erlaubt";
+$t['raum_verboten'] = "Verboten";
+$t['raum_punkt'] = "Punkt";
+$t['raum_punkte'] = "Punkte";
+
 $t['sonst4'] = "Löschen";
 $t['sonst5'] = "Zurück";
 $t['sonst6'] = "Raum löschen";
-$t['sonst7'] = "Eintritt";
-$t['sonst8'] = "Austritt";
 $t['sonst9'] = "Eintragen";
-$t['sonst10'] = "Übersicht der Räume";
-$t['sonst13'] = "<p><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!</p>";
-$t['sonst14'] = "Mindestpunkte";
-$t['sonst15'] = "Räume";
-$t['sonst16'] = "Benutzer online";
-
 ?>

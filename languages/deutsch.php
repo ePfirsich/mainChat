@@ -47,7 +47,6 @@ $hilfstext = array(
 	// Achtung: groß-kleinschreibung ist wichtig.
 	$raumstatus1['O'] = "offen";
 	$raumstatus1['G'] = "geschlossen";
-	$raumstatus1['L'] = "Teergrube";
 	$raumstatus1['m'] = "moderiert";
 	$raumstatus1['M'] = "Moderiert+geschl.";
 	$raumstatus1['E'] = "Stiller Eingangsraum";

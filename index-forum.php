@@ -5,29 +5,6 @@ require_once("functions/functions-forum.php");
 // Benutzerdaten setzen
 id_lese($id);
 
-// Raumwechsel nicht erlaubt, wenn alter Raum Teergrube (ausser für Admins + Tempadmins)
-
-// Info zu altem Raum lesen
-$query = "SELECT r_name,r_status1,r_austritt from raum WHERE r_id=" . intval($o_raum);
-
-$result = mysqli_query($mysqli_link, $query);
-
-if ($result && mysqli_num_rows($result) == 1) {
-	$alt = mysqli_fetch_object($result);
-	mysqli_free_result($result);
-}
-
-if ($alt->r_status1 == "L" && $u_level != "A" && !$admin)
-	$darf_forum = false;
-else $darf_forum = true;
-
-if (!$darf_forum) {
-	// Da manche Benutzer immernoch übers Forum gehen, weil sie den link fürs Forum kopieren
-	// erstmal ein Logout, bis ich ne Möglichkeit gefunden habe, das schöner zu machen
-	Header("Location: index.php");
-	exit();
-}
-
 // Benutzerdaten u_gelesene_postings bereinigen
 bereinige_u_gelesene_postings($u_id);
 

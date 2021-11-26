@@ -18,15 +18,6 @@ $t['ignore4'] = "<b>$chat:</b> Benutzer '%i_user_name_passiv%' wird von Benutzer
 $t['ignore5'] = "<b>$chat:</b> Hey! Benutzer '%i_user_name_passiv%' ist Admin und kann nicht ignoriert werden!";
 
 $t['raum_user1'] = "<b>Benutzer im Raum %r_name%:</b> ";
-$t['raum_user2'] = "Raumbesitzer";
-$t['raum_user3'] = "<b>Fehler bei Liste in Raum!</b>";
-$t['raum_user4'] = "Gast";
-$t['raum_user5'] = "Status";
-$t['raum_user6'] = "Art";
-$t['raum_user7'] = "Smilie-Grafiken";
-$t['raum_user8'] = "Erlaubt";
-$t['raum_user9'] = "Verboten";
-$t['raum_user10'] = "Smilies";
 $t['raum_user12'] = "Da ist niemand.";
 
 $t['betrete_chat1'] = "Eintrittsnachricht";
