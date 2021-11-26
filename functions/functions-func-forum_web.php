@@ -1069,8 +1069,9 @@ function show_posting() {
 				WHERE po_id = " . intval($po_id);
 	
 	$query = mysqli_query($mysqli_link, $sql);
-	if ($query)
+	if ($query) {
 		$row = mysqli_fetch_object($query);
+	}
 	$th_id = $row->po_th_id;
 	$po_u_id = $row->po_u_id;
 	$po_date = $row->po_date;
@@ -1083,7 +1084,7 @@ function show_posting() {
 		return;
 	}
 	
-	$po_text = ersetzte_smilies(chat_parse(nl2br($row->po_text)));
+	$po_text = ersetze_smilies(chat_parse(nl2br($row->po_text)));
 	if (($row->u_nick != "Nobody") && ($row->u_level <> "Z")) {
 		$autor = zeige_userdetails($po_u_id, $row);
 	} else {
@@ -1148,7 +1149,7 @@ function zeige_beitraege($thread) {
 		$span = 0;
 		$tiefe = $beitrag['po_tiefe'];
 		
-		$po_text = ersetzte_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
+		$po_text = ersetze_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
 		$po_date = $beitrag['po_date'];
 		$po_gesperrt = $beitrag['po_gesperrt'];
 		$po_u_id = $beitrag['po_u_id'];

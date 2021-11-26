@@ -1198,12 +1198,10 @@ function verschiebe_posting_ausfuehren() {
 	
 }
 
-function ersetzte_smilies($text) {
-	global $sprache, $cssDeklarationen;
+function ersetze_smilies($text) {
+	global $sprache, $cssDeklarationen, $smilie;
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
-	
-	require_once("languages/$sprache-smilies.php");
 	
 	while (list($i, $smilie_code) = each($test[0])) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
@@ -1214,7 +1212,6 @@ function ersetzte_smilies($text) {
 	}
 	
 	return $text;
-	
 }
 
 // erzeugt Aktionen bei Antwort auf einen Beitrag
