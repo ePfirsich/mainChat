@@ -143,7 +143,7 @@ Er wird mittlerweile auf <a href="https://github.com/netzhuffle/mainchat">Github
 Eine Version, die unter PHP7 lauffähig ist, ist ebenfalls unter <a href="https://github.com/ePfirsich/mainChat">Github</a> zum Download verfügbar.<br>
 <span style="font-weight:bold;">Features:</span> Mail, Forum, Punkte, beliebig viele Räume und Benutzer, IRC-Befehle, 
 Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
-Freunde, Benutzer-Homepages, Profile, Privatnachrichten, öffentliche Nachrichten, Mehrsprachig, 
+Freunde, Benutzer-Homepages, Profile, Privatnachrichten, öffentliche Nachrichten, mehrsprachig, 
 vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vieles mehr.</p>
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
 				</td>
