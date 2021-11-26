@@ -208,7 +208,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_email'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
 				$f4 . "</td></tr>\n";
 				
-				if ($uu_chathomepage == "J") {
+				if ($uu_chathomepage == "1") {
 					$url = "home.php?/".URLENCODE($uu_nick);
 					$url = "home.php?ui_userid=$uu_id&id=" . $id;
 					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_url'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
@@ -371,7 +371,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$result = mysqli_query($mysqli_link, $query);
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
-					if ($g['u_chathomepage'] == "J") {
+					if ($g['u_chathomepage'] == "1") {
 						$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
 					}
 					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
@@ -383,12 +383,92 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					zeige_tabelle_zentriert($box, $text);
 				}
 				
-				
-				
 				// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
-				
 				mysqli_free_result($result);
 			}
 }
 
+function benutzer_suche($f, $suchtext) {
+	global $id, $t, $admin, $level, $f1, $f2;
+	// Suchergebnis mit Formular ausgeben
+	$box = $t['benutzer_suche_benutzer_suchen'];
+	$zaehler = 0;
+	
+	$text = "";
+	$text .= "<form name=\"suche\" action=\"inhalt.php?seite=benutzer\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
+	
+	// Überschrift: Benutzerdaten
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_suche_neue_suche'], "", "", 0, "70", "");
+	
+	// Suchtext eingeben
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_suchtext_eingeben'], "suchtext", $suchtext);
+	$zaehler++;
+	
+	if ($admin) {
+		// Suchformular nach IP-Adressen
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_ip_adresse'], "f[ip]", $f['ip']);
+		$zaehler++;
+		
+		// Liste der Gruppen ausgeben
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		
+		$text .= "<tr>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_suche_benutzergruppe'] . "</td>";
+		$text .= "<td $bgcolor>" . $f1 . "<select name=\"f[level]\">\n";
+		$text .= "<option value=\"\">$t[benutzer_suche_egal]\n";
+		
+		reset($level);
+		while (list($levelname, $levelbezeichnung) = each($level)) {
+			if ($levelname != "B") {
+				if ($f['level'] == $levelname) {
+					$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
+				} else {
+					$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
+				}
+			}
+		}
+		$text .= "</select>" . $f2 . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+	}
+	
+	// Anmeldung vor
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_anmeldung_vor'], "f[user_neu]", $f['user_neu'], 0, "10", $t['benutzer_suche_tagen']);
+	$zaehler++;
+	
+	// Letzter Login vor
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "f[user_login]", $f['user_login'], 0, "10", $t['benutzer_suche_stunden']);
+	$zaehler++;
+	
+	// Mit Homepage
+	$value = array($t['benutzer_suche_egal'], $t['benutzer_suche_ja']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_homepage'], "f[u_chathomepage]", $value, $f['u_chathomepage']);
+	$zaehler++;
+	
+	// Formular-Button anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "
+				<tr>
+					<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
+					<td $bgcolor>
+						<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">
+					</td>
+				</tr>";
+	$text .= "</table>";
+	
+	// Box anzeigen
+	zeige_tabelle_zentriert($box, $text);
+}
 ?>

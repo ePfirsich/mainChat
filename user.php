@@ -88,8 +88,7 @@ if (strlen($u_id) != 0) {
 	
 	for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 		// Array mit Benutzerdaten und Infotexten aufbauen
-		$userdata = unserialize(
-			$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
+		$userdata = unserialize( $row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 		
 		// Variable aus o_userdata setzen
 		$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
@@ -99,17 +98,12 @@ if (strlen($u_id) != 0) {
 		$larr[$i]['u_away'] = $userdata['u_away'];
 		$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
 		$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
+		$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
 		$larr[$i]['r_besitzer'] = $row['r_besitzer'];
 		$larr[$i]['r_topic'] = $row['r_topic'];
 		$larr[$i]['o_ip'] = $row['o_ip'];
 		$larr[$i]['isowner'] = $row['isowner'];
 		
-		if ($userdata['u_punkte_anzeigen'] != "0") {
-			$larr[$i]['gruppe'] = hexdec($userdata['u_punkte_gruppe']);
-		} else {
-			$larr[$i]['gruppe'] = 0;
-		}
-		$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
 		if (!$row['r_name'] || $row['r_name'] == "NULL") {
 			$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 		} else {
@@ -163,7 +157,7 @@ if (strlen($u_id) != 0) {
 			$text .= "<center>";
 		
 			// Benutzerliste rechte Seite ausgeben
-			$text .= user_pm_list($larr, 0);
+			$text .= user_pm_list($larr);
 			
 			$text .= "</center>";
 			
@@ -182,7 +176,7 @@ if (strlen($u_id) != 0) {
 		$text .= "<br><br>\n" . $larr[0]['r_name'] . "<br>\n";
 		
 		// Benutzerliste rechte Seite ausgeben
-		$text .= user_liste($larr, 0, true);
+		$text .= user_liste($larr, true);
 	
 		if ($rows > 15) {
 			$text .= "<a href=\"$linkuser\"><span class=\"fa fa-refresh icon16\"></span>" . $t['sonst19'] . "</a>";

@@ -1,5 +1,4 @@
 <?php
-
 // Kopf nur ausgeben, wenn $ui_userid oder mit $argv[0] aufgerufen
 // Sonst geht der redirekt nicht mehr.
 
@@ -126,13 +125,6 @@ if (isset($u_id) && $u_id) {
 			}
 			
 			if (isset($home) && is_array($home) && $home['ui_id']) {
-				// Einstellungen für Homepage
-				if (isset($einstellungen['u_chathomepage']) && $einstellungen['u_chathomepage'] == "on") {
-					$einstellungen['u_chathomepage'] = "J";
-				} else {
-					$einstellungen['u_chathomepage'] = "N";
-				}
-				
 				// Bei Änderung der Einstellung speichern
 				if ($einstellungen['u_chathomepage'] != $userdata['u_chathomepage']) {
 					unset($f);

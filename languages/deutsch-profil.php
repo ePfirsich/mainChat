@@ -11,6 +11,9 @@ $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. D
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
 
+$t['homepage_aktivieren'] = "aktivieren";
+$t['homepage_deaktivieren'] = "deaktivieren";
+
 $t['profil_fehlermeldung'] = "Fehler";
 $t['profil_erfolgsmeldung'] = "Änderungen gespeichert";
 $t['profil_erfolgsmeldung_details'] = "<b>Ihr Profil wurde gespeichert!</b>";

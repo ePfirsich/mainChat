@@ -917,7 +917,7 @@ function zeige_userdetails(
 		// Array wurde übergeben
 		
 		if (!isset($userdaten['u_chathomepage'])) {
-			$userdaten['u_chathomepage'] = 'N';
+			$userdaten['u_chathomepage'] = '0';
 		}
 		if (!isset($userdaten['u_punkte_anzeigen'])) {
 			$userdaten['u_punkte_anzeigen'] = '0';
@@ -1056,12 +1056,12 @@ function zeige_userdetails(
 		}
 	}
 	
-	if (!$extra_kompakt && ($user_chathomepage == "J" || $homep_ext_link != "")) {
+	if (!$extra_kompakt && ($user_chathomepage == "1" || $homep_ext_link != "")) {
 		if ($homep_ext_link != "" AND $user_level != "G") {
 			$url = $homep_ext_link . $user_nick;
 			$text2 .= "&nbsp;"
 				. "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-		} else if ($user_chathomepage == "J") {
+		} else if ($user_chathomepage == "1") {
 			$url = "home.php?/$user_nick";
 			//$url = "home.php?ui_userid=$user_id&id=$idtag";
 			$text2 .= "&nbsp;" . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";

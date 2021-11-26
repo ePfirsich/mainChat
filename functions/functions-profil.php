@@ -19,12 +19,11 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	$zaehler = 0;
 	
-	$text = "
-	<form name=\"profil\" action=\"inhalt.php?seite=profil\" method=\"post\">
-	<table style=\"width:100%;\">
-		<tr>
-			<td class=\"tabelle_kopfzeile\" colspan=\"2\">$t[ihre_benutzerdaten]</td>
-		</tr>";
+	$text = "<form name=\"profil\" action=\"inhalt.php?seite=profil\" method=\"post\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
+	
+	// Überschrift: Benutzerdaten
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['ihre_benutzerdaten'], "", "", 0, "70", "");
 	
 	// Benutzer
 	$value = "<b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b> $userdaten_bearbeiten";
@@ -115,10 +114,10 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("textarea", $zaehler, $t['profil_hobby'], "ui_hobby", $f['ui_hobby']);
 	$zaehler++;
 	
-	// Hobbies
+	// Text über sich selbst
 	$text .= zeige_formularfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
 	$zaehler++;
-		
+	
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
 	} else {

@@ -53,77 +53,12 @@ switch ($aktion) {
 		if (strlen($suchtext) > 3 || (isset($suchtext_eingabe) && $suchtext_eingabe == "Go!")) {
 			
 			// Suchergebnis mit Formular ausgeben
-			$box = $t['sonst16'];
-			$text = "<form name=\"suche\" action=\"inhalt.php?seite=benutzer\" method=\"post\">\n"
-				. "<table class=\"tabelle_kopf\">"
-				. "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst6'] . $f2
-				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-				. "</td></tr>" . "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1
-				. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
-				. $f2 . "</td></tr>\n";
-			
-			if ($admin) {
-				// Suchformular nach IP-Adressen
-				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2><br>" . $f1 . $t['sonst30']
-					. $f2 . "</td></tr>" . "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1
-					. $t['sonst31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1
-					. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
-					. $f2 . "</td></tr>\n";
-				
-				// Liste der Gruppen ausgeben
-				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst21']
-					. "</td>\n" . "<td class=\"tabelle_koerper\">&nbsp;<SELECT name=\"f[level]\">\n"
-					. "<option value=\"\">$t[sonst22]\n";
-				
-				reset($level);
-				while (list($levelname, $levelbezeichnung) = each($level)) {
-					if ($levelname != "B") {
-						if ($f['level'] == $levelname) {
-							$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
-						} else {
-							$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
-						}
-					}
-				}
-				$text .= "</select>" . $f2 . "</td></tr>\n";
-			}
-			
-			// Suche nach Neu & erstem Login
-			$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
-				. "</td><td class=\"tabelle_koerper\">" . $f1
-				. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
-				. $t['sonst34'] . $f2 . "</td></tr>\n"
-				. "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
-				. "</td><td class=\"tabelle_koerper\">" . $f1
-				. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
-				. $t['sonst35'] . $f2 . "</td></tr>\n";
-			
-			// Suche nach Benutzer mit Homepage
-			$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst38']
-				. "</td>\n"
-				. "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[u_chathomepage]\">\n";
-			if ($f['u_chathomepage'] == "J") {
-				$text .= "<option value=\"N\">$t[sonst22]\n"
-					. "<option selected value=\"J\">$t[sonst39]\n";
-			} else {
-				$text .= "<option selected value=\"N\">$t[sonst22]\n"
-					. "<option value=\"J\">$t[sonst39]\n";
-			}
-			$text .= "</select>" . $f2 . "</td></tr>\n";
-			
-			$text .= "<tr><td class=\"tabelle_koerper\" colspan=2 align=right>" . $f1
-				. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
-				. $f2 . "</td></tr>" . "</table></form>\n";
-			
-			// Box anzeigen
-			zeige_tabelle_zentriert($box, $text);
-			
-			echo "<br>";
+			benutzer_suche($f, $suchtext);
 			
 			// wenn einer nur nach % sucht, kanns auch weggelassen werden
-			if ($suchtext == "%")
+			if ($suchtext == "%") {
 				unset($suchtext);
+			}
 			
 			// Variablen säubern
 			unset($query);
@@ -164,40 +99,47 @@ switch ($aktion) {
 			// Subquerys, wenn parameter gesetzt, teils anhand des Levels
 			if ($admin) {
 				// Optional level ergänzen
-				if ($f['level'] && $subquery)
-					$subquery .= "AND u_level = '" . mysqli_real_escape_string($mysqli_link, $f[level]) . "' ";
-				elseif ($f['level'])
-					$subquery = " u_level = '" . mysqli_real_escape_string($mysqli_link, $f[level]) . "' ";
+				if ($f['level'] && $subquery) {
+					$subquery .= "AND u_level = '" . mysqli_real_escape_string($mysqli_link, $f['level']) . "' ";
+				} else if ($f['level']) {
+					$subquery = " u_level = '" . mysqli_real_escape_string($mysqli_link, $f['level']) . "' ";
+				}
 				
-				if ($f['ip'] && $subquery)
-					$subquery .= "AND u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f[ip]) . "%' ";
-				elseif ($f['ip'])
-					$subquery = " u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f[ip]) . "%' ";
+				if ($f['ip'] && $subquery) {
+					$subquery .= "AND u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f['ip']) . "%' ";
+				} else if ($f['ip']) {
+					$subquery = " u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f['ip']) . "%' ";
+				}
 			}
 			
-			if ($f['u_chathomepage'] == "J" && $subquery)
-				$subquery .= "AND u_chathomepage='J' ";
-			elseif ($f['u_chathomepage'] == "J")
-				$subquery = " u_chathomepage='J' ";
+			if ($f['u_chathomepage'] == "1" && $subquery) {
+				$subquery .= "AND u_chathomepage='1' ";
+			} else if ($f['u_chathomepage'] == "1") {
+				$subquery = " u_chathomepage='1' ";
+			}
 			
-			if ($f['user_neu'] && $subquery)
+			if ($f['user_neu'] && $subquery) {
 				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
-			elseif ($f['user_neu'])
+			} else if ($f['user_neu']) {
 				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
+			}
 			
-			if ($f['user_login'] && $subquery)
+			if ($f['user_login'] && $subquery) {
 				$subquery .= "AND date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
-			elseif ($f['user_login'])
+			} else if ($f['user_login']) {
 				$subquery = " date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
+			}
 			
-			if ($u_level == "U" && $subquery)
+			if ($u_level == "U" && $subquery) {
 				$subquery .= "AND u_level IN ('A','C','G','M','S','U') ";
-			elseif ($u_level == "U")
+			}else if ($u_level == "U") {
 				$subquery = " u_level IN ('A','C','G','M','S','U') ";
+			}
 			
 			// Zur Sicherheit, falls ein Gast die Such URL direkt aufruft
-			if ($u_level == "G")
+			if ($u_level == "G") {
 				$subquery = " 1=2 ";
+			}
 			
 			// Sortierung
 			if ($admin) {
@@ -208,12 +150,13 @@ switch ($aktion) {
 			
 			// Zusammensetzen der Query
 			$query = $select;
-			if ($where[0] == "WHERE " && $subquery)
+			if ($where[0] == "WHERE " && $subquery) {
 				$query .= $where[0] . " " . $subquery;
-			elseif ($where[0] != "WHERE " && $subquery)
+			} else if ($where[0] != "WHERE " && $subquery) {
 				$query .= $where[0] . " AND " . $subquery;
-			elseif ($where[0] != "WHERE ")
+			} else if ($where[0] != "WHERE ") {
 				$query .= $where[0];
+			}
 			
 			for ($i = 1; $i < count($where); $i++) {
 				if ($where[$i]) {
@@ -229,49 +172,44 @@ switch ($aktion) {
 			
 			if ($anzahl == 0) {
 				// Kein user gefunden
-				if ($suchtext == "%")
+				if ($suchtext == "%") {
 					$suchtext = "";
-				echo "<P>"
-					. str_replace("%suchtext%", $suchtext, $t['sonst5'])
-					. "</P>\n";
-			} elseif ($anzahl == 1) {
+				}
+				
+				$box = $t['benutzer_suchergebnisse'];
+				$text = str_replace("%suchtext%", $suchtext, $t['sonst5']);
+				
+				// Zeige die Tabelle mit den Suchergenissen an
+				zeige_tabelle_zentriert($box, $text);
+			} else if ($anzahl == 1) {
 				// Einen Benutzer gefunden, alle Benutzerdaten ausgeben
-				if (!isset($zeigeip))
+				if (!isset($zeigeip)) {
 					$zeigeip = 0;
-					while ($arr = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-					user_zeige($arr['u_id'], $admin, $schau_raum, $u_level,
-						$zeigeip);
+				}
+				while ($arr = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+					user_zeige($arr['u_id'], $admin, $schau_raum, $u_level, $zeigeip);
 				}
 			} else {
-				
 				// Bei mehr als 1000 Ergebnissen Fehlermeldung ausgeben
 				if ($anzahl > 2000) {
-					echo "<b>$t[sonst24]</b><br>";
+					$box = $t['benutzer_suchergebnisse'];
+					// Zeige die Tabelle mit den Suchergenissen an
+					zeige_tabelle_zentriert($box, $t['benutzer_suche_mehr_2000_benutzer']);
 				} else {
-					
 					// Mehrere Benutzer gefunden, als Tabelle ausgeben
 					for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
-						
 						// Array mit Benutzerdaten und Infotexten aufbauen
 						$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row['u_email']));
-						$larr[$i]['u_nick'] = strtr(
-							str_replace("\\", "",
-								htmlspecialchars($row['u_nick'])), "I",
-							"i");
+						$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
 						$larr[$i]['u_level'] = $row['u_level'];
 						$larr[$i]['u_id'] = $row['u_id'];
 						$larr[$i]['u_away'] = $row['u_away'];
-						// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-						if ($row['u_punkte_anzeigen'] != "0") {
-							$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
-						} else {
-							$larr[$i]['gruppe'] = 0;
-						}
+						$larr[$i]['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
+						$larr[$i]['u_punkte_gruppe'] = $row['u_punkte_gruppe'];
 						$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
+						
 						// Raumbesitzer einstellen, falls Level=Benutzer
-						if (isset($larr[$i]['isowner'])
-							&& $larr[$i]['isowner']
-							&& $userdata['u_level'] == "U") {
+						if (isset($larr[$i]['isowner']) && $larr[$i]['isowner'] && $userdata['u_level'] == "U") {
 							$larr[$i]['u_level'] = "B";
 						}
 						
@@ -279,103 +217,18 @@ switch ($aktion) {
 					}
 					mysqli_free_result($result);
 					
-					$rows = count($larr);
-					echo user_liste($larr, $rows);
+					$box = $t['benutzer_suchergebnisse'];
+					$text = user_liste($larr, false);
+					
+					// Zeige die Tabelle mit den Suchergenissen an
+					zeige_tabelle_zentriert($box, $text);
 				}
 				
 			}
 			
 		} else {
-			
-			// Suchformular ausgeben
-			$box = $t['sonst17'];
-			$text = "<form name=\"suche\" action=\"inhalt.php?seite=benutzer\" method=\"post\">\n"
-				. "<table class=\"tabelle_kopf\">";
-			if ($admin) {
-				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst25'] . $f2
-					. "</td></tr>";
-			} else {
-				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1 . $t['sonst7'] . $f2
-					. "</td></tr>";
-			}
-			
-			$text .= "<tr><td class=\"tabelle_koerper\" colspan=2>" . $f1
-			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
-				. "&nbsp;<input type=\"text\" name=\"suchtext\" value=\"$suchtext\" size=\"$eingabe_breite\">"
-				. $f2 . "</td></tr>\n";
-			
-			if ($admin) {
-				
-				if (!isset($f)) {
-					$f['ip'] = "";
-					$f['level'] = "";
-				}
-				
-				// Suchformular nach IP-Adressen
-				$text .= "<tr><td class=\"tabelle_koerper\" colspan=2><br>" . $f1 . $t['sonst30']
-					. $f2 . "</td></tr>" . "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1
-					. $t['sonst31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1
-					. "&nbsp;<input type=\"text\" name=\"f[ip]\" value=\"$f[ip]\" size=\"6\">"
-					. $f2 . "</td></tr>\n";
-				
-				// Liste der Gruppen ausgeben
-				$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst21']
-					. "</td>\n" . "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[level]\">\n"
-					. "<option value=\"\">$t[sonst22]\n";
-				
-				reset($level);
-				while (list($levelname, $levelbezeichnung) = each($level)) {
-					if ($levelname != "B") {
-						if ($f['level'] == $levelname) {
-							$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
-						} else {
-							$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
-						}
-					}
-				}
-				$text .= "</select>" . $f2 . "</td></tr>\n";
-				
-			}
-			
-			if (!isset($f['user_neu'])) {
-				$f['user_neu'] = "";
-			}
-			if (!isset($f['user_login'])) {
-				$f['user_login'] = "";
-			}
-			if (!isset($f['u_chathomepage'])) {
-				$f['u_chathomepage'] = "";
-			}
-			
-			// Suche nach Neu & erstem login
-			$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst32'] . $f2
-				. "</td><td class=\"tabelle_koerper\">" . $f1
-				. "&nbsp;<input type=\"text\" name=\"f[user_neu]\" value=\"$f[user_neu]\" size=\"6\">&nbsp;"
-				. $t['sonst34'] . $f2 . "</td></tr>\n"
-				. "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst33'] . $f2
-				. "</td><td class=\"tabelle_koerper\">" . $f1
-				. "&nbsp;<input type=\"text\" name=\"f[user_login]\" value=\"$f[user_login]\" size=\"6\">&nbsp;"
-				. $t['sonst35'] . $f2 . "</td></tr>\n";
-			
-			// Suche nach Benutzer mit Homepage
-			$text .= "<tr><td class=\"tabelle_koerper\" style=\"text-align: right;\">" . $f1 . $t['sonst38'] . $f2
-				. "</td>\n"
-				. "<td class=\"tabelle_koerper\">&nbsp;<select name=\"f[u_chathomepage]\">\n";
-			if ($f['u_chathomepage'] == "J") {
-				$text .= "<option value=\"N\">$t[sonst22]\n"
-					. "<option selected value=\"J\">$t[sonst39]\n";
-			} else {
-				$text .= "<option selected value=\"N\">$t[sonst22]\n"
-					. "<option value=\"J\">$t[sonst39]\n";
-			}
-			$text .= "</select></td></tr>\n";
-			
-			$text .= "<tr><td class=\"tabelle_koerper\" colspan=2 style=\"text-align: right;\">" . $f1
-				. "<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">"
-				. $f2 . "</td></tr>" . "</table></form>\n";
-			
-			zeige_tabelle_zentriert($box, $text);
+			// Suchergebnis mit Formular ausgeben
+			benutzer_suche($f, $suchtext);
 		}
 		
 		break;
@@ -409,7 +262,7 @@ switch ($aktion) {
 			$rows = count($larr);
 			
 			$box = $t['adminliste'];
-			$text = user_liste($larr, $rows);
+			$text = user_liste($larr, false);
 			zeige_tabelle_zentriert($box, $text);
 		}
 		
@@ -511,7 +364,7 @@ switch ($aktion) {
 			. "<br>";
 			
 			// Benutzerliste ausgeben
-			$text .= user_liste($larr, $rows);
+			$text .= user_liste($larr, false);
 			
 			$text .= "<p style=\"text-align:center;\">" . $f1 . $t['sonst12'] . $f2 . "</p>";
 			

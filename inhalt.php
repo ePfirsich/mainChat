@@ -164,6 +164,7 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-benutzer.php");
 			require_once("functions/functions-user.php");
 			require_once("functions/functions-func-nachricht.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['benutzer_menue13'];

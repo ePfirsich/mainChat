@@ -21,7 +21,6 @@ $t['sonst4'] = "<b>Keine Zugangssperren definiert.</b>";
 $t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
 $t['sonst6'] = "<b>Fehler:</b> Bitte als Domain mindestens 5 Zeichen ausfüllen!";
 $t['sonst7'] = "<b>Fehler:</b> Bitte mindestens das erste Feld der IP ausfüllen!";
-$t['sonst8'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
 $t['sonst9'] = "<b>Fehler:</b> Eintrag nicht gefunden!</b>";
 $t['sonst10'] = "<b>Hinweis:</b> Adresse %row->is_domain% gelöscht!</b>";
 $t['sonst11'] = "Domain:";

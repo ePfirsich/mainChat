@@ -15,7 +15,6 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor>";
 		
-		//$text .= autoselect("f[ui_geschlecht]", $f['ui_geschlecht'], "userinfo", "ui_geschlecht");
 		$text .= "<select name=\"$key\">";
 		for ($i=0; $i<count($value);$i++) {
 			if($i == $ausgewaehltes_feld_selectbox) {

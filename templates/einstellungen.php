@@ -704,7 +704,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
 					mysqli_query($mysqli_link, $query);
 					
-					$query = "UPDATE user SET u_login = u_login, u_chathomepage = 'N' WHERE u_id = " . intval($f['u_id']);
+					$query = "UPDATE user SET u_login = u_login, u_chathomepage = '0' WHERE u_id = " . intval($f['u_id']);
 					mysqli_query($mysqli_link, $query);
 					
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f['u_id']);

@@ -483,16 +483,23 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 	
 	global $f1, $f2, $t;
 	
-	// Homepage freigeben
-	if ($einstellungen['u_chathomepage'] == "J") {
-		$checked = "checked";
-	} else {
-		$checked = "";
+	// Homepage aktivieren/deaktivieren
+	$value = array($t['homepage_deaktivieren'], $t['homepage_aktivieren']);
+	
+	$text .= "<tr>";
+	$text .= "<td>$f1$t[profil_homepage_freigeben]:$f2";
+	
+	$text .= "<select name=\"einstellungen[u_chathomepage]\">";
+	for ($i=0; $i<count($value);$i++) {
+		if($i == $einstellungen['u_chathomepage']) {
+			$selected = " selected";
+		} else {
+			$selected = "";
+		}
+		$text .= "<option$selected value=\"$i\">$value[$i]</option>\n";
 	}
-	$text = "<tr>\n";
-	$text .= "<td style=\"text-align:right;\">$f1$t[profil_homepage_freigeben]:$f2</td>\n";
-	$text .= "<td><input type=\"checkbox\" name=\"einstellungen[u_chathomepage]\" $checked></td>\n";
-	$text .= "</tr>\n";
+	$text .= "</select></td>\n";
+	$text .= "</tr>";
 	
 	return ("<table style=\"width:100%;\">$text</table>");
 	
@@ -656,9 +663,9 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		
 		// Falls nicht freigeschaltet....
 		if (!isset($u_chathomepage)) {
-			$u_chathomepage = 'N';
+			$u_chathomepage = '0';
 		}
-		if (!$force && $u_chathomepage != "J") {
+		if (!$force && $u_chathomepage != "1") {
 			$ok = FALSE;
 		}
 	} else {
@@ -718,7 +725,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		echo "</td></tr></table>\n";
 		echo "</body>\n";
 		
-	} else if ($u_chathomepage != "J") {
+	} else if ($u_chathomepage != "1") {
 		echo "<body>"
 			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
 		echo "</body>\n";

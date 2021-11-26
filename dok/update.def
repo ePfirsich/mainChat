@@ -40,6 +40,8 @@ ALTER TABLE `user` ADD `u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `raum` DROP `r_werbung`;
 DELETE FROM `raum` WHERE `r_status1` = "L";
+ALTER TABLE `user` DROP `u_chathomepage`;
+ALTER TABLE `user` ADD `u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0;
 
 
 CREATE TABLE `statistiken` (

@@ -1,8 +1,8 @@
 <?php
-
 require_once("functions/functions.php");
 require_once("functions/functions-home.php");
 require_once("functions/functions-hash.php");
+require_once("languages/$sprache-profil.php");
 
 $title = $body_titel . ' - Home';
 zeige_header_anfang($title, 'mini');

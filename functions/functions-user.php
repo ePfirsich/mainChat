@@ -4,7 +4,7 @@
 
 require_once("functions/functions-func-raeume_auswahl.php");
 
-function user_pm_list($larr, $anzahl) {
+function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
@@ -23,12 +23,8 @@ function user_pm_list($larr, $anzahl) {
 	$pmuee = mysqli_num_rows($pmu);
 	$pmue = mysqli_fetch_all($pmu);	
 		
-	// Array mit oder ohne Javascript ausgeben
-	// Kopf Tabelle
-	$box = $t['sonst18'];
-	
 	flush();
-		$v = $larr[$k];
+	$v = $larr[$k];
 	// Anzeige der Benutzer ohne JavaScript
 	if($pmue22 != 0) {
 		for ($k = 0; $k < $pmue22; $k++) {
@@ -110,17 +106,13 @@ function user_pm_list($larr, $anzahl) {
 	return $text;
 }
 
-function user_liste($larr, $anzahl, $seitenleiste = false) {
+function user_liste($larr, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
 	global $f1, $f2, $f3, $f4, $homep_ext_link;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
 	$text = '';
-	
-	// Array mit oder ohne Javascript ausgeben
-	// Kopf Tabelle
-	$box = $t['sonst18'];
 	
 	if (!isset($larr[0]['r_name'])) {
 		$larr[0]['r_name'] = "";
