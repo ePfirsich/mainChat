@@ -41,7 +41,7 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 	} else if($art_der_anzeige == "textarea2") {
 		// Textarea2 anzeigen
 		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
-		$text .= "<td $bgcolor><textarea name=\"$key\" rows=\"20\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
+		$text .= "<td $bgcolor><textarea class=\"ckeditor\" name=\"$key\" rows=\"20\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "ueberschrift") {
 		// Überschrift anzeigen
 		$text .= "<td class=\"tabelle_kopfzeile\" colspan=\"2\">$name</td>";

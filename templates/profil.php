@@ -81,7 +81,7 @@ if($aktion == "aendern" && $f['ui_userid']) {
 	
 	// $stopwordarray=array("background","java","script","activex","embed","target","javascript");
 	$stopwordarray = array("|background|i", "|java|i", "|script|i", "|activex|i", "|target|i", "|javascript|i");
-	$text_inhalt = str_replace("\n", "<br>\n", $text_inhalt);
+	//$text_inhalt = str_replace("\n", "<br>\n", $text_inhalt);
 	
 	foreach ($stopwordarray as $stopword) {
 		// str_replace ist case sensitive, gefährlichen, wenn JavaScript geschrieben wird, oder Target, oder ActiveX
