@@ -649,7 +649,12 @@ switch ($aktion) {
 						} else {
 							$anzahl = 0;
 						}
-						$ulink = "<a href=\"user.php?id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl</A>";
+						// Bei 0 Benutzern keinen Link anzeigen
+						if( $anzahl == 0) {
+							$ulink = "$anzahl $t[raeume_benutzer]";
+						} else {
+							$ulink = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
+						}
 						
 						$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
 						$text .= "<td $bgcolor>$b1" . $ulink . "$b2&nbsp;</td>";

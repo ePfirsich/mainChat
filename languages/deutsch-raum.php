@@ -28,6 +28,7 @@ $t['fehler15'] = "<p><b>Fehler: </b><br>Um neue Räume anlegen zu dürfen, brauc
 
 $t['raeume_raum'] = "Raum";
 $t['raeume_benutzer_online'] = "Benutzer online";
+$t['raeume_benutzer'] = "Benutzer";
 $t['raeume_status'] = "Status";
 $t['raeume_art'] = "Art";
 $t['raeume_raumbesitzer'] = "Raumbesitzer";
