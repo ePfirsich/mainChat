@@ -447,6 +447,8 @@ switch ($aktion) {
 						if($smtp_on) {
 							mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 						} else {
+							// Der PHP-Vessand benötigt \n und nicht <br>
+							$text2 = str_replace("<br>", "\n", $text2);
 							mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 						}
 					} else {
@@ -649,6 +651,8 @@ switch ($aktion) {
 				if($smtp_on) {
 					mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 				} else {
+					// Der PHP-Vessand benötigt \n und nicht <br>
+					$text = str_replace("<br>", "\n", $text);
 					mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 				}
 				

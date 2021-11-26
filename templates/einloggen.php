@@ -466,6 +466,8 @@ if ($result && $rows == 1 && $login_ok) {
 		if($smtp_on) {
 			mailsmtp($webmaster, $betreff, $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 		} else {
+			// Der PHP-Vessand benötigt \n und nicht <br>
+			$text = str_replace("<br>", "\n", $text);
 			mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
 		}
 	}

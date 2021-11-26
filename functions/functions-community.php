@@ -705,6 +705,8 @@ function email_versende(
 		if($smtp_on) {
 			mailsmtp($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 		} else {
+			// Der PHP-Vessand benötigt \n und nicht <br>
+			$text = str_replace("<br>", "\n", $text);
 			mail($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], "From: $absender\nReply-To: $absender\n");
 		}
 		

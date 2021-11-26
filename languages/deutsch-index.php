@@ -90,15 +90,11 @@ Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstel
 $t['willkommen2'] = "<p><span style=\"font-size: large\"><b>Willkommen im $chat!</b></span></p><br>";
 $t['willkommen3'] = "Willkommen im $chat!";
 
-$t['login1'] = "<b>Login mit sicherer HTTPS-Anmeldung</b>";
-$t['login2'] = "<b>neue HTTPS-Anmeldung</b>";
 $t['login3'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
-	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen "
-	. "Sie es später wieder.</b></p><br><br>";
+	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
 $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
-	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster
-	. "\">Webmaster</a>.</b></p><br><br>\n";
+	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster . "\">Webmaster</a>.</b></p><br><br>\n";
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n" . "</noframes>\n";
 $t['login7'] = "<p><b>Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login8'] = "Benutzername:";
@@ -113,20 +109,17 @@ $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
 $t['login19'] = "<p><b>Dieser Benutzername ist durch ein Passwort geschützt! Bitte versuchen Sie es neu:</b></p>\n";
 $t['login20'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!";
-$t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!\n\n"
+$t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!<br><br>"
 	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
-	. "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den "
-	. "Provider ermitteln, über den der Loginversuch stattfand. "
-	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des "
-	. "Datums/Uhrzeit direkt an den Provider.\n";
+	. "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den Provider ermitteln, über den der Loginversuch stattfand. "
+	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des Datums/Uhrzeit direkt an den Provider.<br>";
 $t['login22'] = "Raum/Forum:";
 $t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
 	. "<p>Es sind im $chat bereits %online% Benutzer online. "
 	. "Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den $chat nicht mehr betreten.</p>"
 	. "%zusatztext%";
 $t['login25'] = "<p><b>Fehler beim Login:</b><br>Der Login als Admin (Superuser oder Chatadmin) "
-	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden "
-	. "Sie einen Browser mit aktivieren Cookies "
+	. "ohne aktivierte Cookies ist aus Sicherheitsgründen nicht gestattet. Bitte verwenden Sie einen Browser mit aktivieren Cookies "
 	. "</p><p>[<a href=\"%url%\">weiter zur Loginseite</a>]</p>";
 $t['login27'] = "Passwort vergessen?";
 

@@ -81,6 +81,8 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 			if($smtp_on) {
 				mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 			} else {
+				// Der PHP-Vessand benötigt \n und nicht <br>
+				$text2 = str_replace("<br>", "\n", $text2);
 				mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 			}
 			
@@ -170,6 +172,8 @@ if (!$richtig) {
 		if($smtp_on) {
 			$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 		} else {
+			// Der PHP-Vessand benötigt \n und nicht <br>
+			$t['pwneu14'] = str_replace("<br>", "\n", $t['pwneu14']);
 			$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
 		}
 		
