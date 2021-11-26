@@ -216,6 +216,10 @@ function home_info($u_id, $u_nick, $farben, $aktion) {
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		$userdata['u_chathomepage'] = 0;
+		$userdata['u_punkte_anzeigen'] = 0;
+		
 		$online_zeit = $userdata['online'];
 		$letzter_login = $userdata['login'];
 		
