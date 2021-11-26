@@ -54,8 +54,6 @@ function edit_home(
 		
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
-	
-	echo "<br>";
 }
 
 function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
