@@ -94,7 +94,7 @@ $t['profil_text'] = "Ihr Text über sich selbst";
 $t['profil_editieren'] = "editieren";
 $t['profil_farbe'] = "Farbe";
 $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
-$t['profil_homepage_freigeben'] = "Homepage freigeben";
+$t['profil_homepage_freigeben'] = "Homepage";
 $t['profil_home1'] = "Meine Homepage";
 $t['profil_home2'] = "Homepage Einstellungen";
 ?>

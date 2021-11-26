@@ -491,7 +491,7 @@ function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
 	$value = array($t['homepage_deaktivieren'], $t['homepage_aktivieren']);
 	
 	$text .= "<tr>";
-	$text .= "<td>$f1$t[profil_homepage_freigeben]:$f2";
+	$text .= "<td>$f1$t[profil_homepage_freigeben] $f2";
 	
 	$text .= "<select name=\"einstellungen[u_chathomepage]\">";
 	for ($i=0; $i<count($value);$i++) {
