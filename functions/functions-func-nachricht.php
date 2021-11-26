@@ -5,7 +5,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back zurück
 	global $mysqli_link, $nachricht_b, $lustigefeatures, $u_farbe;
-	global $eintritt_individuell, $eintritt_useranzeige;
+	global $eintritt_individuell;
 	
 	// Nachricht Standard
 	$text = $nachricht_b[0];
@@ -24,11 +24,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_eintritt) > 0) {
 			$text = $row->u_eintritt;
-			if ($eintritt_useranzeige == "1") {
-				$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
-			} else {
-				$text = htmlspecialchars($text) . " <!-- <b>($u_nick)</b> -->";
-			}
+			$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
 		}
 		mysqli_free_result($result);
 	}
@@ -69,7 +65,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back (ID des geschriebenen Datensatzes) zurück
 	global $chat, $nachricht_v, $lustigefeatures, $u_farbe, $u_id;
-	global $eintritt_individuell, $eintritt_useranzeige, $mysqli_link;
+	global $eintritt_individuell, $mysqli_link;
 	
 	// Nachricht Standard
 	$text = $nachricht_v[0];
@@ -88,9 +84,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_austritt) > 0) {
 			$text = $row->u_austritt;
-			if ($eintritt_useranzeige == "1")
-				$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
-			else $text = htmlspecialchars($text) . " <!-- <b>($u_nick)</b> -->";
+			$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
 		}
 		mysqli_free_result($result);
 	}

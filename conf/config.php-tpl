@@ -363,9 +363,6 @@ $mailloescheauspapierkorb=30;
 // Benutzer kann individuelle Eintrittsnachrichten benutzen
 $eintritt_individuell="1";
 
-// andere Benutzer sehen von wem die Eintrittsnachricht kommt
-$eintritt_useranzeige="0";
-
 // Auf Themen die Älter als x Monate sind kann man nicht antworten
 // $forum_thread_sperren = 0 deaktiviert dies
 $forum_thread_sperren=12;

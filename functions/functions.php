@@ -1350,7 +1350,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// Liefert ID des geschriebenen Datensatzes zurück
 	
 	global $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
-	global $eintritt_individuell, $eintritt_useranzeige;
+	global $eintritt_individuell;
 	$back = 0;
 	
 	// Nachricht an alle
@@ -1363,11 +1363,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 			$row = mysqli_fetch_object($result);
 			if (strlen($row->u_austritt) > 0) {
 				$text = $row->u_austritt;
-				if ($eintritt_useranzeige == "1") {
-					$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " (<b>$u_nick</b> - verlässt Chat) ";
-				} else {
-					$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " <!-- (<b>$u_nick</b> - verlässt Chat) -->";
-				}
+				$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " (<b>$u_nick</b> - verlässt Chat) ";
 			}
 			mysqli_free_result($result);
 			
