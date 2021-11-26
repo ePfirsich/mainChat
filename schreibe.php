@@ -14,11 +14,11 @@ if( $aktion == "") {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 }
 
-$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
+$text = filter_input(INPUT_POST, 'text');
 if( $text == '') {
-	$text = filter_input(INPUT_GET, 'text', FILTER_SANITIZE_STRING);
+	$text = filter_input(INPUT_GET, 'text');
 }
-$text2 = filter_input(INPUT_POST, 'text2', FILTER_SANITIZE_STRING);
+$text2 = filter_input(INPUT_POST, 'text2');
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
 
 
