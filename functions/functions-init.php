@@ -25,7 +25,6 @@ if ( !file_exists($filenameConfig) ) {
 } else {
 	require $filenameConfig;
 	require_once("functions/functions-html.php");
-	require_once("conf/config.php");
 	
 
 	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist

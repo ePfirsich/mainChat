@@ -1468,6 +1468,8 @@ function logout($o_id, $u_id) {
 		}
 	}
 	mysqli_free_result($result);
+	
+	echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 }
 
 function avatar_editieren_anzeigen(

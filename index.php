@@ -50,9 +50,9 @@ if ($rows > 0) {
 		$i++;
 	}
 }
-if ($forumfeatures)
-	$raeume = $raeume
-		. "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+if ($forumfeatures) {
+	$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+}
 $raeume = $raeume . "</select>" . $f2 . "</td>\n";
 mysqli_free_result($result);
 
