@@ -24,7 +24,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_eintritt) > 0) {
 			$text = $row->u_eintritt;
-			$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
+			$text = $text . "  <b>($u_nick)</b> ";
 		}
 		mysqli_free_result($result);
 	}
@@ -84,7 +84,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_austritt) > 0) {
 			$text = $row->u_austritt;
-			$text = htmlspecialchars($text) . "  <b>($u_nick)</b> ";
+			$text = $text . "  <b>($u_nick)</b> ";
 		}
 		mysqli_free_result($result);
 	}
