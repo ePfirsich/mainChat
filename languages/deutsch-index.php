@@ -178,10 +178,10 @@ $t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten 
 $t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
 $t['registrierung_absenden'] = "Absenden";
 
+$t['default1'] = "Statistik";
 $t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
 $t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
 $t['default4'] = "Benutzer online in %raum%:";
-$t['default5'] = "$chat:";
 $t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 $t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
 $t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.";

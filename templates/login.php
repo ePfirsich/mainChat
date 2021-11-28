@@ -52,7 +52,7 @@ if ($useranzahl > 1) {
 			$text .= str_replace("%themen%", $themen, str_replace("%beitraege%", $beitraege, $t['default8']));
 	}
 	
-	zeige_tabelle_volle_breite(str_replace("%chat%", $chat, $t['default5']), $text);
+	zeige_tabelle_volle_breite($t['default1'], $text);
 }
 
 if (!isset($unterdruecke_raeume)) {
