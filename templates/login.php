@@ -16,10 +16,11 @@ $query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, r_name='" . my
 	. "FROM online left join raum on o_raum=r_id  WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
 	. "ORDER BY lobby desc,r_name,o_who,o_name ";
 $result2 = mysqli_query($mysqli_link, $query);
-if ($result2)
+if ($result2) {
 	$onlineanzahl = mysqli_num_rows($result2);
+}
 // Anzahl der angemeldeten Benutzer ausgeben
-if ($onlineanzahl > 1 && $useranzahl > 1) {
+if ($useranzahl > 1) {
 	$text = str_replace("%onlineanzahl%", $onlineanzahl, $t['default2']) . str_replace("%useranzahl%", $useranzahl, $t['default3']);
 	
 	// Anzahl der Beiträge im Forum ausgeben
