@@ -358,12 +358,6 @@ function formular_neuer_blacklist($neuer_blacklist) {
 	
 	global $id, $f1, $f2, $mysqli_link, $t;
 	
-	$eingabe_breite = 45;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
-	
 	$box = $t['blacklist3'];
 	$text = '';
 	
@@ -383,7 +377,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 				. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[u_nick]\" value=\"" . htmlspecialchars($neuer_blacklist['u_nick']) . "\" size=20>" . $f2 . "</td></tr>\n"
 					. "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">Infotext:</td>"
 						. "<td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"neuer_blacklist[f_text]\" value=\"" . htmlspecialchars($neuer_blacklist['f_text'])
-						. "\" size=$eingabe_breite>" . "&nbsp;"
+						. "\" size=45>" . "&nbsp;"
 							. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 							. "</td></tr>\n" . "</table></form>\n";
 							

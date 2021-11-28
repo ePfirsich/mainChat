@@ -170,7 +170,6 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 	global $moderation_rueckwaerts;
 	global $moderationsexpire;
 	global $u_id;
-	global $o_js;
 	
 	// gegen DAU-Eingaben sichern...
 	$limit = max(intval($limit), 20);
@@ -189,13 +188,11 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 	$rows = 0;
 	if ($result > 0) {
 		$rows = mysqli_num_rows($result);
-		if ($o_js) {
-			echo "<SCRIPT LANGUAGE=Javascript>\n";
-			echo "function sel() {\n";
-			echo "	document.forms['modtext'].elements['ok'].focus();\n";
-			echo "}\n";
-			echo "</SCRIPT>\n";
-		}
+		echo "<script>\n";
+		echo "function sel() {\n";
+		echo "	document.forms['modtext'].elements['ok'].focus();\n";
+		echo "}\n";
+		echo "</script>\n";
 		echo "<form name=modtext action=\"moderator.php?id=$id\" method=\"post\">\n";
 		if ($rows > 0) {
 			

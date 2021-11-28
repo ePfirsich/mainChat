@@ -279,8 +279,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				if($smtp_on) {
 					$email_ok = mailsmtp($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['einstellungen_neues_passwort']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 				} else {
-					// Der PHP-Vessand benötigt \n und nicht <br>
-					$t['chat_msg112'] = str_replace("<br>", "\n", $t['chat_msg112']);
+					// Der PHP-Versand benötigt \n und nicht <br>
+					$t['einstellungen_neues_passwort'] = str_replace("<br>", "\n", $t['einstellungen_neues_passwort']);
 					$email_ok = mail($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['einstellungen_neues_passwort']), "From: $webmaster ($chat)");
 				}
 				
@@ -749,8 +749,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if($smtp_on) {
 						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 					} else {
-						// Der PHP-Vessand benötigt \n und nicht <br>
-						$t['chat_msg112'] = str_replace("<br>", "\n", $t['chat_msg112']);
+						// Der PHP-Versand benötigt \n und nicht <br>
+						$t['einstellungen_neues_passwort'] = str_replace("<br>", "\n", $t['einstellungen_neues_passwort']);
 						$ok = mail($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']), "From: $webmaster ($chat)");
 					}
 					

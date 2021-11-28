@@ -24,7 +24,6 @@ $chat["raumauswahl"] = filter_input(INPUT_POST, 'chat_raumauswahl', FILTER_SANIT
 $chat["unterdrueckeraeume"] = filter_input(INPUT_POST, 'chat_unterdrueckeraeume', FILTER_SANITIZE_STRING);
 $chat["lobby"] = filter_input(INPUT_POST, 'chat_lobby', FILTER_SANITIZE_STRING);
 $chat["layoutkopf"] = filter_input(INPUT_POST, 'chat_layoutkopf', FILTER_SANITIZE_STRING);
-$chat["layoutfuss"] = filter_input(INPUT_POST, 'chat_layoutfuss', FILTER_SANITIZE_STRING);
 $chat["description"] = filter_input(INPUT_POST, 'chat_description', FILTER_SANITIZE_STRING);
 $chat["keywords"] = filter_input(INPUT_POST, 'chat_keywords', FILTER_SANITIZE_STRING);
 $chat["metalanguage"] = filter_input(INPUT_POST, 'chat_metalanguage', FILTER_SANITIZE_STRING);

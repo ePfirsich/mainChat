@@ -8,7 +8,7 @@ require_once("languages/$sprache-profil.php");
 if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 	require_once("functions/functions-hash.php");
 	
-	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, o_js
+	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level
 	if (isset($id)) {
 		id_lese($id);
 	} else {

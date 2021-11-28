@@ -176,9 +176,6 @@ if (strlen($u_id) > 0) {
 	}
 } else {
 	// Benutzer wird nicht gefunden. Login ausgeben
-	echo "Benutzer nicht gefunden! ($id, $u_id, $u_nick)<br>";
-	sleep(5);
-	
 	zeige_header_ende();
 	?>
 	<body onLoad='javascript:parent.location.href="index.php"'>

@@ -1,5 +1,4 @@
 <?php
-$box = $t['login_menue7'];
 $text = "<b>" . $t['impressum'] . "</b>";
 $text .= "<br>";
 $text .= $impressum_name;
@@ -8,5 +7,5 @@ $text .= $impressum_strasse;
 $text .= "<br>";
 $text .= $impressum_plz_ort;
 
-zeige_tabelle_volle_breite($box,$text);
+zeige_tabelle_volle_breite($t['login_impressum'], $text);
 ?>

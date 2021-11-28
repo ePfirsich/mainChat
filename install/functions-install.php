@@ -112,12 +112,8 @@ function step_1($chat) {
 				<td><input type="text" name="chat_lobby" size="40" value="<?php echo checkFormularInputFeld('Lobby',$chat["lobby"]) ?>">*</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Anzeige Indexseite oben:</td>
+				<td> Anzeige Login oben:</td>
 				<td><input type="text" name="chat_layoutkopf" size="40" value="<?php echo checkFormularInputFeld('',$chat["layoutkopf"]) ?>"></td>
-			</tr>
-			<tr>
-				<td> Anzeige Indexseite unten:</td>
-				<td><input type="text" name="chat_layoutfuss" size="40" value="<?php echo checkFormularInputFeld('',$chat["layoutfuss"]) ?>"></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td colspan="2">Metatag:</td>

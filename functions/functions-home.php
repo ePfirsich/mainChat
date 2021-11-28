@@ -343,8 +343,6 @@ function home_bild(
 	
 	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $t;
 	
-	$eingabe_breite = 55;
-	
 	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
 		
 		$width = $bilder[$feld]['b_width'];
@@ -372,7 +370,7 @@ function home_bild(
 		
 	} elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
 		
-		$text = "<td style=\"text-align:center; vertical-align:top;\">$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"></td>";
+		$text = "<td style=\"text-align:center; vertical-align:top;\">$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\"></td>";
 		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">&nbsp;<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
 		
 	} else {

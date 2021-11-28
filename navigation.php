@@ -97,9 +97,7 @@ if ($u_id) {
 	if ($wo_online == "chat") {
 		$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['navigation_menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_menue12'] . "</span></a>&nbsp;";
 	}
-	if ($o_js) {
-		$text .= " | <a href=\"schreibe.php?id=$id&aktion=reset\"  target=\"schreibe\" title=\"" . $t['navigation_menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['navigation_menue13'] . "</span></a>&nbsp;";
-	}
+	$text .= " | <a href=\"schreibe.php?id=$id&aktion=reset\"  target=\"schreibe\" title=\"" . $t['navigation_menue13'] . "\"><span class=\"fa fa-refresh icon16\"></span> <span>" . $t['navigation_menue13'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_menue14'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['navigation_menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_menue15'] . "</span></a>";
 	

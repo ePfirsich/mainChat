@@ -4,7 +4,7 @@ require_once("functions/functions.php");
 require_once("functions/functions-func-forum_lib.php");
 require_once("languages/$sprache-forum.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
 id_lese($id);
 
 function show_pfad_posting2($th_id) {
@@ -41,9 +41,7 @@ function such_bereich() {
 	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
 	global $suche, $t;
 	
-	$eingabe_breite = 50;
 	$select_breite = 250;
-	
 	
 	$box = $t['titel'];
 	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_menue2]</span></a>";
@@ -59,7 +57,7 @@ function such_bereich() {
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
 		. $f1 . "<input type=\"text\" name=\"suche[text]\" value=\""
 		. htmlspecialchars($suche['text'])
-		. "\" size=$eingabe_breite>" . $f2 . "</td></tr>\n";
+		. "\" size=50>" . $f2 . "</td></tr>\n";
 	
 	// Suche in Board/Thema
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
@@ -235,7 +233,6 @@ function such_ergebnis() {
 	global $farbe_hervorhebung_forum;
 	global $suche, $farbe_neuesposting_forum, $t, $u_level;
 	
-	$eingabe_breite = 50;
 	$select_breite = 250;
 	$maxpostingsprosuche = 1000;
 	$box = $t['ergebnis1'];

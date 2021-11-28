@@ -18,7 +18,7 @@
 # u_ip_historie 	Liste der IP-Adressen der letzten Logins
 # u_away		away-Text des Benutzers
 # u_smilies		User will Smilie-Grafiken sehen Y/N
-# u_agb			User hat Nutzungsbestimmungen akzeptiert Y/N
+# u_agb			User hat Nutzungsbestimmungen akzeptiert
 # u_punkte_gesamt	Gesamtpunktzahl des Users
 # u_punkte_monat	Punktzahl des aktuellen Monats
 # u_punkte_jahr		Punktzahl des aktuellen Jahrs
@@ -89,7 +89,6 @@
 # o_aktiv 		Wann war der User zuletzt aktiv
 # o_chat_id 		ID des letzten Eintrags im Chat
 # o_browser 		Verwendeter Browser
-# o_js			javascript ist an (=1) oder aus (=0)
 # o_knebel		zeitstempel, wie lange ein user geknebelt ist
 # o_http_stuff		Komprimierte HTTP-Headerinformationen
 # o_http_stuff2		Headerinformationen Feld 2
@@ -300,7 +299,6 @@ CREATE TABLE online (
 	o_chat_id int(11) unsigned NOT NULL default '0',
 	o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_js tinyint(1) NOT NULL default '0',
 	o_knebel timestamp NOT NULL default '00000000000000',
 	o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	o_http_stuff2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
@@ -330,7 +328,6 @@ CREATE TABLE online (
 	KEY o_hash (o_hash),
 	KEY o_ip (o_ip),
 	KEY o_browser (o_browser),
-	KEY o_js (o_js),
 	KEY o_level (o_level)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -430,7 +427,6 @@ CREATE TABLE user (
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_ip_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_agb` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
 	`u_zeilen` int(11) default NULL,
 	`u_punkte_gesamt` int(10) unsigned NOT NULL default '0',
 	`u_punkte_monat` int(10) unsigned NOT NULL default '0',
@@ -457,6 +453,7 @@ CREATE TABLE user (
 	`u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	PRIMARY KEY	(u_id),
 	UNIQUE KEY u_nick (u_nick),
 	KEY u_level (u_level),

@@ -9,68 +9,7 @@ require_once("functions/functions-init.php");
 require_once("languages/$sprache-index.php");
 
 zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
-
-// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
-if (strlen($eintrittsraum) == 0) {
-	$eintrittsraum = $lobby;
-}
-
-// Raumauswahlliste erstellen
-$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
-
-$result = @mysqli_query($mysqli_link, $query);
-if ($result) {
-	$rows = mysqli_num_rows($result);
-} else {
-	echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
-	die();
-}
-if ($forumfeatures) {
-	$raeume = "<td><b>" . $t['login22'] . "</b><br>";
-} else {
-	$raeume = "<td><b>" . $t['login12'] . "</b><br>";
-}
-$raeume .= $f1 . "<select name=\"eintritt\">";
-
-if ($forumfeatures) {
-	$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
-}
-if ($rows > 0) {
-	$i = 0;
-	while ($i < $rows) {
-		$r_id = mysqli_result($result, $i, "r_id");
-		$r_name = mysqli_result($result, $i, "r_name");
-		if ((!isset($eintritt) AND $r_name == $eintrittsraum)
-			|| (isset($eintritt) AND $r_id == $eintritt)) {
-			$raeume = $raeume
-				. "<option selected value=\"$r_id\">$r_name\n";
-		} else {
-			$raeume = $raeume . "<option value=\"$r_id\">$r_name\n";
-		}
-		$i++;
-	}
-}
-if ($forumfeatures) {
-	$raeume = $raeume . "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
-}
-$raeume = $raeume . "</select>" . $f2 . "</td>\n";
-mysqli_free_result($result);
-
-$eingabe_breite = 20;
-
-// Logintext definieren
-$logintext = "<table style=\"width:100%;\"><tr><td><b>"	. $t['login8'] . "</b><br>" . $f1 . "<input type=\"text\" name=\"login\" value=\"";
-if (isset($login)) {
-	$logintext .= $login;
-}
-$logintext .= "\" size=$eingabe_breite>" . $f2 . "</td>\n" . "<td><b>"
-	. $t['login9'] . "</b><br>" . $f1
-	. "<input type=\"password\" name=\"passwort\" size=$eingabe_breite>"
-	. $f2 . "</td>\n" . $raeume . "<td><br>" . $f1
-	. "<b><input type=\"submit\" name=\"los\" value=\"" . $t['login10']
-	. "\"></b>\n"
-	. "<input type=\"hidden\" name=\"aktion\" value=\"login\">" . $f2
-	. "</td>\n" . "</tr></table>\n" . $t['login3'];
+zeige_header_ende();
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;
@@ -260,11 +199,10 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 
 if ($abweisen && (strlen($aktion) > 0) && $aktion <> "relogin") {
 	$aktion = "abweisen";
-	unset($logintext);
 }
 
 // Login ist für alle Benutzer gesperrt
-if (($chat_offline_kunde) || ((isset($chat_offline)) && (strlen($chat_offline) > 0))) {
+if ($chat_offline) {
 	$aktion = "gesperrt";
 }
 
@@ -286,427 +224,139 @@ if ($los == $t['login18'] && $aktion == "login")
 
 // Titeltext der Loginbox setzen, Link auf Registrierung optional ausgeben
 
-if ($neuregistrierung_deaktivieren) {
-	$login_titel = $t['default1'];
-	if ($aktion == "neu") {
-		$aktion = "";
-	}
-	if ($aktion == "neu2") {
-		$aktion = "";
-	}
-	if ($aktion == "mailcheckm") {
-		$aktion = "";
-	}
-} else if ($t['login14']) {
-	$login_titel = $t['default1'] . " [<a href=\"index.php?aktion=neu\">" . $t['login14'] . "</a>]";
-} else {
-	$login_titel = $t['default1'];
-}
-
-if ($aktion == "neu" && isset($f['u_adminemail']) && $hash != md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-	zeige_kopf();
-	echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . $chat_url . "/index.php\">hier</a> neu an.</p>";
-	
-	zeige_fuss();
-	exit;
-}
-
-if ($aktion == "neu" && $los != $t['neu22']) {
-	$aktion = "mailcheck";
-}
-if ($aktion == "neu2") {
-	$aktion = "mailcheckm";
-}
-if (isset($f['u_adminemail'])) {
-	$ro = "readonly";
-}
-
-if ($aktion == "mailcheck" && isset($email) && isset($hash)) {
-	$email = mysqli_real_escape_string($mysqli_link, $email);
-	$query = "SELECT * FROM mail_check WHERE email = '$email'";
-	$result = mysqli_query($mysqli_link, $query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$hash2 = md5($a['email'] . "+" . $a['datum']);
-		if ($hash == $hash2) {
-			
-			$aktion = "neu";
-			$ro = "readonly";
-			$f['u_adminemail'] = $email;
-		} else {
-			// Header ausgeben
-			zeige_header_ende();
-			?>
-			<body>
-			<?php
-			zeige_kopf();
-			echo "<p><b>Fehler:</b> Die URL ist nicht korrekt! Bitte melden Sie sich <a href=\"" . mysqli_real_escape_string($mysqli_link, $chat_url) . "/index.php\">hier</a> neu an.</p>";
-			$query = "DELETE FROM mail_check WHERE email = '$email'";
-			mysqli_query($mysqli_link, $query);
-			zeige_fuss();
-			exit;
-		}
-	} else {
-		// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
-		echo "<p><b>Fehler:</b> Diese Mail wurde bereits für eine Anmeldung benutzt! Bitte melden Sie sich " . "<a href=\"" . $chat_url . "/index.php\">hier</a> neu an.</p>";
-		zeige_fuss();
-		exit;
-	}
-}
-
 switch ($aktion) {
 	case "impressum":
+		// Impressumg anzeigen
+		
+		echo "<body>";
+		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		// Impressumg anzeigen
 		require_once('templates/impressum.php');
-		
-		zeige_fuss();
 		
 		break;
 		
 	case "datenschutz":
+		// Datenschutz anzeigen
+		
+		echo "<body>";
+		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		// Datenschutz anzeigen
 		require_once('templates/datenschutz.php');
-		
-		zeige_fuss();
 		
 		break;
 		
 	case "chatiquette":
+		// Chatiquette anzeigen
+		
+		echo "<body>";
+		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		// Datenschutz anzeigen
 		require_once('templates/chatiquette.php');
-		
-		zeige_fuss();
 		
 		break;
 		
 	case "nutzungsbestimmungen":
+		// Nutzungsbestimmungen anzeigen
+		
+		echo "<body>";
+		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		// Datenschutz anzeigen
 		require_once('templates/nutzungsbestimmungen.php');
-		
-		zeige_fuss();
 		
 		break;
 		
 	case "passwort_neu":
 		// Neues Passwort anfordern
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
 		require_once('templates/passwort-neu.php');
 		
 		break;
 	
-	case "neubestaetigen":
+	case "neu2":
+		// Eingabe der Werte für die Registrierung aus der E-Mail
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		unset($fehlermeldung);
-		if ($email) {
-			$email = mysqli_real_escape_string($mysqli_link, $email);
-			if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})",
-				mysqli_real_escape_string($mysqli_link, $email))) {
-				$fehlermeldung = $t['neu51'];
-			} else {
-				$query = "SELECT * FROM mail_check WHERE email = '$email'";
-				$result = mysqli_query($mysqli_link, $query);
-				if ($result && mysqli_num_rows($result) == 1) {
-					$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-					$hash2 = md5($a['email'] . "+" . $a['datum']);
-					if ($hash == $hash2) {
-						$link = $chat_url . "/index.php?aktion=neu2";
-						
-						$text2 = str_replace("%link%", $link, $t['neu53']);
-						$text2 = str_replace("%hash%", $hash, $text2);
-						$email = urldecode($email);
-						$text2 = str_replace("%email%", $email, $text2);
-						
-						$mailbetreff = $t['neu38'];
-						$mailempfaenger = $email;
-						
-						echo $t['neu54'];
-						
-						// E-Mail versenden
-						if($smtp_on) {
-							mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-						} else {
-							// Der PHP-Vessand benötigt \n und nicht <br>
-							$text2 = str_replace("<br>", "\n", $text2);
-							mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
-						}
-					} else {
-						$fehlermeldung = $t['neu52'];
-					}
-				} else {
-					$fehlermeldung = $t['neu51'];
-				}
-				mysqli_free_result($result);
-			}
-		}
+		require_once('templates/neu2.php');
 		
-		if (!$email || $fehlermeldung) {
-			// Formular für die Freischaltung/Bestätigung der Mailadress
-			echo "<p>" . $t['neu50'] . "</p>";
-			if ($fehlermeldung) {
-				echo "<p style=\"color:#ff0000; font-weight:bold;\">$fehlermeldung</p>\n";
-			}
-			?>
-			<form action="index.php">
-				<table>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['neu49']; ?></td>
-						<td><input name="email" width="50" value="<?php echo $email; ?>"></td>
-					</tr>
-					<tr>
-						<td class="tabelle_kopfzeile"><?php echo $t['neu43']; ?></td>
-						<td class="tabelle_kopfzeile"><input name="hash" width="50" value="<?php echo $hash; ?>"></td>
-					</tr>
-					<input type="hidden" name="aktion" value="neubestaetigen">
-					<tr>
-						<td colspan="2" class="tabelle_kopfzeile"><input type="submit" value="Absenden"></td>
-					</tr>
-				</table>
-			</form>
-			<?php
-		}
-		
-		zeige_fuss();
-		break;
-	
-	case "mailcheckm":
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
-		
-		echo "<p>" . $t['neu42'] . "</p>";
-		?>
-		<form action="index.php">
-			<table>
-				<tr>
-					<td class="tabelle_kopfzeile"><?php echo $t['neu17']; ?></td>
-					<td class="tabelle_kopfzeile"><input name="email" width="50"></td>
-				</tr>
-				<tr>
-					<td class="tabelle_kopfzeile"><?php echo $t['neu43']; ?></td>
-					<td class="tabelle_kopfzeile"><input name="hash" width="50"></td>
-				</tr>
-				<input type="hidden" name="aktion" value="neu">
-				<tr>
-					<td colspan="2" class="tabelle_kopfzeile"><input type=submit value="Absenden"></td>
-				</tr>
-			</table>
-		</form>
-		<?php
-		zeige_fuss();
-		break;
-	
-	case "mailcheck":
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
-		
-		// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
-		// der Form name@do.main entspricht
-		if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email)) ) {
-			echo str_replace("%email%", $email, $t['neu41']);
-			$email = "";
-			
-			$box = $t['neu31'];
-			$text = '';
-			$text .= "<form action=\"index.php\">";
-			$text .= $t['neu34'] . " <input name=\"email\" maxlength=\"80\">";
-			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"mailcheck\">";
-			$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
-			$text .= "</form>";
-			
-			zeige_tabelle_variable_breite($box,$text);
-		} else if (!isset($email)) {
-			// Formular für die Erstregistierung ausgeben, 1. Schritt
-			echo "<p>" . $t['neu33'];
-			if (isset($anmeldung_nurmitbest) && strlen($anmeldung_nurmitbest) > 0) { // Anmeldung mit Externer Bestätigung
-				echo $t['neu45'];
-			}
-			
-			$box = $t['neu31'];
-			$text = '';
-			$text .= "<form action=\"index.php\">";
-			$text .= $t['neu34'] . " <input name=\"email\" maxlength=\"80\">";
-			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"mailcheck\">";
-			$text .= "<input type=\"submit\" value=\"". $t['neu35'] . "\">";
-			$text .= "</form>";
-			
-			zeige_tabelle_variable_breite($box,$text);
-		} else {
-			// Mail verschicken, 2. Schritt
-			
-			$email = trim($email);
-			
-			// wir prüfen ob Benutzer gesperrt ist
-			// entweder Benutzer = gesperrt
-			$query = "SELECT * FROM `user` WHERE ( (`u_adminemail`='$email') OR (`u_email`='$email') ) AND `u_level`='Z'";
-			$result = mysqli_query($mysqli_link, $query);
-			$num = mysqli_num_rows($result);
-			$gesperrt = false;
-			if ($num >= 1) {
-				$gesperrt = true;
-				echo $t['neu40'];
-			}
-			
-			// oder user ist auf Blacklist
-			$query = "select u_nick from blacklist left join user on f_blacklistid=u_id "
-				. "WHERE user.u_adminemail ='$email'";
-			$result = mysqli_query($mysqli_link, $query);
-			$num = mysqli_num_rows($result);
-			if ($num >= 1) {
-				$gesperrt = true;
-				echo $t['neu40'];
-			}
-			
-			// oder Domain ist lt. Config verboten
-			if ($domaingesperrtdbase != $dbase) {
-				$domaingesperrt = array();
-			}
-			
-			for ($i = 0; $i < count($domaingesperrt); $i++) {
-				$teststring = strtolower($email);
-				if (isset($domaingesperrt[$i]) && $domaingesperrt[$i]
-					&& (preg_match($domaingesperrt[$i], $teststring))) {
-					$gesperrt = true;
-					echo $t['neu40'];
-				}
-			}
-			unset($teststring);
-			
-			if ( !$gesperrt ) {
-				$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '$email'";
-				$result = mysqli_query($mysqli_link, $query);
-				$num = mysqli_num_rows($result);
-				// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-				if ($num >= 1) {
-					$gesperrt = true;
-					echo $t['neu55'] . "<br><br>";
-				}
-			}
-			
-			if (!$gesperrt) {
-				// Überprüfung auf Formular mehrmals abgeschickt
-				$query = "DELETE FROM mail_check WHERE email = '$email'";
-				mysqli_query($mysqli_link, $query);
-				
-				$hash = md5($email . "+" . date("Y-m-d"));
-				$email = urlencode($email);
-				
-				if (isset($anmeldung_nurmitbest) && strlen($anmeldung_nurmitbest) > 0) {
-					// Anmeldung mit externer Bestätigung
-					$link1 = $chat_url . "/index.php?aktion=neubestaetigen";
-					$link2 = $chat_url . "/index.php?aktion=neu2";
-					
-					$text2 = str_replace("%link1%", $link1, $t['neu47']);
-					$text2 = str_replace("%link2%", $link2, $text2);
-					$text2 = str_replace("%hash%", $hash, $text2);
-					$email = urldecode($email);
-					$text2 = str_replace("%email%", $email, $text2);
-					
-					$mailbetreff = $t['neu46'];
-					$mailempfaenger = $anmeldung_nurmitbest;
-					
-					echo $t['neu48'];
-				} else {
-					// Normale Anmeldung
-					$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash";
-					$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2";
-					
-					$text2 = str_replace("%link%", $link, $t['neu36']);
-					$text2 = str_replace("%link2%", $link2, $text2);
-					$text2 = str_replace("%hash%", $hash, $text2);
-					$email = urldecode($email);
-					$text2 = str_replace("%email%", $email, $text2);
-					
-					$mailbetreff = $t['neu38'];
-					$mailempfaenger = $email;
-					
-					echo $t['neu37'];
-				}
-				
-				$header = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
-				$header .= "Mime-Version: 1.0\r\n";
-				$header .= "Content-type: text/plain; charset=utf-8";
-				
-				// E-Mail versenden
-				if($smtp_on) {
-					mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-				} else {
-					// Der PHP-Vessand benötigt \n und nicht <br>
-					$text = str_replace("<br>", "\n", $text);
-					mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
-				}
-				
-				$email = mysqli_real_escape_string($mysqli_link, $email);
-				$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";
-				$result = mysqli_query($mysqli_link, $query);
-				
-			}
-		}
-		
-		zeige_fuss();
 		break;
 	
 	case "abweisen":
-	// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
+		echo "<body>";
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
 		
 		echo $t['login4'];
-		
-		zeige_fuss();
 		
 		break;
 	
 	case "gesperrt":
-	// Header ausgeben
-		zeige_header_ende();
-		?>
-		<body>
-		<?php
-		zeige_kopf();
+		echo "<body>";
 		
-		if ($chat_offline_kunde) {
-			echo $chat_offline_kunde_txt;
-		} else {
-			echo $chat_offline;
-		}
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
 		
-		zeige_fuss();
+		zeige_tabelle_volle_breite($t['willkommen'], $t['chat_offline']);
 		
 		break;
 	
 	case "login":
 		// In den Chat einloggen
+		
+		require_once("functions/functions-formulare.php");
+		
 		require_once('templates/einloggen.php');
+		
+		echo "<body>";
+		
+		break;
+	
+	case "registrierung":
+		// Registrierung mit Eingabe der E-Mail zum Senden der E-Mail
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
+		require_once('templates/registrierung.php');
 		
 		break;
 	
 	case "neu":
-		// Registrierung
-		require_once('templates/registrierung.php');
+		// Vervollständigung der Registrierung aus dem Link der E-Mail
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
+		require_once('templates/neu.php');
 		
 		break;
 	
@@ -716,7 +366,7 @@ switch ($aktion) {
 		$hash_id = $id;
 		
 		// Chat betreten
-		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum, $o_js);
+		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
 		
 		require_once("functions/functions-frameset.php");
 		
@@ -725,9 +375,18 @@ switch ($aktion) {
 		break;
 	
 	default:
-		// Homepage des Chats ausgeben
+		// Login ausgeben
+		
+		require_once("functions/functions-formulare.php");
+		
+		echo "<body>";
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
 		require_once('templates/login.php');
 }
+zeige_fuss();
 ?>
 </body>
 </html>

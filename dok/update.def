@@ -42,6 +42,10 @@ ALTER TABLE `raum` DROP `r_werbung`;
 DELETE FROM `raum` WHERE `r_status1` = "L";
 ALTER TABLE `user` DROP `u_chathomepage`;
 ALTER TABLE `user` ADD `u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `user` DROP `u_agb`;
+ALTER TABLE `user` ADD `u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0;
+ALTER TABLE `online` DROP `o_js`;
+UPDATE `user` SET `u_agb` = 1;
 
 
 CREATE TABLE `statistiken` (

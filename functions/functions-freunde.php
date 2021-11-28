@@ -190,12 +190,6 @@ function formular_neuer_freund($neuer_freund) {
 	
 	global $id, $f1, $f2, $mysqli_link;
 	
-	$eingabe_breite = 45;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
-	
 	$box = "Neuen Freund eintragen:";
 	$text = '';
 	
@@ -211,7 +205,7 @@ function formular_neuer_freund($neuer_freund) {
 		. "<tr><td style=\"text-align:right;\"><b>Infotext:</b></td><td>"
 		. $f1 . "<input type=\"text\" name=\"neuer_freund[f_text]\" value=\""
 		. htmlentities($neuer_freund['f_text'])
-		. "\" size=$eingabe_breite>" . "&nbsp;"
+		. "\" size=45>" . "&nbsp;"
 		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
 		. "</td></tr>\n" . "</table></form>\n";
 	
@@ -224,12 +218,6 @@ function formular_editieren($f_id, $f_text) {
 	
 	$text = '';
 	
-	$eingabe_breite = 45;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
-	
 	$box = "Freundestext ändern:";
 	
 	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
@@ -237,7 +225,7 @@ function formular_editieren($f_id, $f_text) {
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
 	
-	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"$eingabe_breite\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
+	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
 	
 	zeige_tabelle_zentriert($box,$text);
 }

@@ -234,17 +234,16 @@ function user_edit($f, $admin, $u_level) {
 		$zaehler++;
 	}
 	
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
-	}
-	
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	// Überschrift: Geänderte Einstellungen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_geaenderte_einstellungen'], "", "", 0, "70", "");
 	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
 	$text .= "<tr>";
 	$text .= "<td colspan=\"2\" $bgcolor>\n";
 	$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">\n";
@@ -270,7 +269,6 @@ function user_edit($f, $admin, $u_level) {
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
-	
 }
 
 function zeige_aktionen($aktion) {

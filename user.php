@@ -4,7 +4,7 @@ require_once("functions/functions.php");
 require_once("functions/functions-func-nachricht.php");
 require_once("languages/$sprache-user.php");
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js, u_level, admin
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
 id_lese($id);
 
 if (!isset($suchtext)) {
@@ -38,8 +38,6 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 
 $title = $body_titel . ' - Benutzer';
 zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
-
-$eingabe_breite = 31;
 
 // Target Sonderzeichen raus...
 $fenster = str_replace("+", "", $u_nick);

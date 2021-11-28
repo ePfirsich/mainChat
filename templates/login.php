@@ -1,25 +1,6 @@
 <?php
-// Gibt die Kopfzeile im Login aus
-zeige_kopfzeile_login();
-
-if ($zusatznachricht) {
-	?>
-	<p><span style="font-size: x-large;"><?php echo $zusatznachricht; ?></span></p>
-	<?php
-}
-
 // Box für Login
-?>
-<form action="index.php" target="_top" name="form1" method="post">
-<?php
-
-$titel = $login_titel;
-$titel .= "[<a href=\"" . $_SERVER['PHP_SELF'] . "?aktion=passwort_neu\">" . $t['login27'] . "</a>]";
-
-// Box und Disclaimer ausgeben
-zeige_tabelle_variable_breite($titel, $logintext, "100%");
-echo "<script language=javascript>\n<!-- start hiding\ndocument.write(\"<input type=hidden name=javascript value=on>\");\n" . "// end hiding -->\n</script>\n";
-echo "</form>";
+zeige_chat_login();
 
 // Wie viele Benutzer sind in der DB?
 $query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
@@ -60,7 +41,7 @@ if ($onlineanzahl > 1 && $useranzahl > 1) {
 		}
 		
 		// Anzahl Beiträge 
-		$query = "select count(po_id) from posting";
+		$query = "SELECT count(po_id) FROM posting";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result AND mysqli_num_rows($result) > 0) {
 			$beitraege = mysqli_result($result, 0, 0);
@@ -83,9 +64,4 @@ if (!$unterdruecke_raeume && $abweisen == false) {
 		show_who_is_online($result2);
 	}
 }
-// result wird in "show_who_is_online" freigegeben
-// mysqli_free_result($result2);
-
-// Fuss
-zeige_fuss();
 ?>

@@ -67,14 +67,8 @@ $smtp_auth = true;						// SMTP Autorisierung erforderlich
 $smtp_autoTLS = true;					// Ist TLS aktiviert oder deaktiviert?
 
 
-// Chat abschalten und Infotext ausgeben (optional, nur chat_offline oder chat_offline_kunde benutzen)
-// $chat_offline="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
-
 // Chat abschalten 1=ja/0=nein
-$chat_offline_kunde=0;
-
-// Infotext ausgeben, falls Chat über chat_offline_kunde abgeschalten wurde
-$chat_offline_kunde_txt="<p style=\"text-align:center; font-weight:bold;\">Der $chat ist derzeit offline.</p>";
+$chat_offline=0;
 
 // Chat auf eine Maximalanzahl von Benutzern nach Level einschränken
 // Für Admins gilt C/S/M, für Benutzer U und für Gäste G
@@ -126,14 +120,8 @@ $raum_auswahl="%raumauswahl%";
 // 1=ja, 0=nein
 $unterdruecke_raeume="%unterdrueckeraeume%";
 
-
-// Zusatznachricht auf Chat-Eingangsseite bei Login
-$zusatznachricht="";
-
-
 // Lobby (Defaultraum)
 $lobby="%lobby%";
-
 
 // Voreingestellter Eintrittsraum für Login (optional, kann von lobby abweichen)
 $eintrittsraum="Lobby";
@@ -145,11 +133,6 @@ $max_user_liste=200;
 
 // Layoutdateien (mindestens leere Dateien, kein BODY-Tag!)
 $layout_kopf="%layoutkopf%";				// Wird auf Indexseite oben eingefügt
-$layout_fuss="%layoutfuss%";				// Wird auf Indexseite an das Ende eingefügt
-
-// Alle Pfade in den Layoutdateien auf folgende URL umrechnen
-// Falls URL
-$layout_parse="";
 
 
 // Diese Farben werden nur noch als Standard-Farben für die Benutzerseiten verwendet.
@@ -352,11 +335,6 @@ $homep_ext_link = "";
 // $loginwhileipsperre = 0 // deaktiviert das umgehen
 $loginwhileipsperre = 10000;
 
-
-// Soll bei der Anmeldung der Benutzer sich nicht einfach so anmelden können,
-// hier die Mailadresse der Person eintragen die die Anmeldung (Mailadresse) bestätigen.
-$anmeldung_nurmitbest = "";
-
 // Nachrichten werden nach x Tagen nach Löschzeitpunkt beim Öffnen der Mailbox aus dem Papierkorb gelöscht (deaktivieren mit sehr hoher tageszahl)
 $mailloescheauspapierkorb=30;
 
@@ -372,9 +350,6 @@ $forum_aenderungsanzeige="1";
 
 // Benutzer können sich eine Liste der Admins abrufen
 $adminlisteabrufbar="1";
-
-// Captcha Abfrage anzeigen?
-$captcha_text=1;
 
 // Im Expire werden alle Benutzer gelöscht, die sich längere Zeit nicht eingeloggt haben
 // Angabe in Sekunden: default =26 Wochen =15724800 Sekunden

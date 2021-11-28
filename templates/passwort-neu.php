@@ -1,12 +1,10 @@
 <?php
-// Gibt die Kopfzeile im Login aus
-zeige_kopfzeile_login();
-
 unset($richtig);
 unset($u_id);
 
 $richtig = 0;
 $fehlermeldung = "";
+$email_gesendet = false;
 
 if (isset($email) && isset($nickname) && isset($hash)) {
 	$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
@@ -81,12 +79,12 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 			if($smtp_on) {
 				mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 			} else {
-				// Der PHP-Vessand benötigt \n und nicht <br>
+				// Der PHP-Versand benötigt \n und nicht <br>
 				$text2 = str_replace("<br>", "\n", $text2);
 				mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
 			}
 			
-			echo $t['pwneu7'];
+			$email_gesendet = true;
 			unset($hash);
 		} else {
 			if($nickname != "") {
@@ -98,62 +96,85 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		}
 		mysqli_free_result($result);
 	}
-} else {
-	echo $t['pwneu1'];
 }
 
 if (!$richtig) {
-	if ($fehlermeldung <> "") {
-		if (isset($hash)) {
-			echo $t['pwneu7'];
-		} else {
-			echo $t['pwneu1'];
-		}
-		echo "<p style=\"color:#ff0000; font-weight:bold;\">$fehlermeldung</p>\n";
+	// Fehlermeldungen ausgeben
+	if ($fehlermeldung != "") {
+		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
 	}
-	$box = $t['pwneu16'];
-	$text = '';
+	
+	if ($email_gesendet) {
+		$text = $t['login_passwort_schritt2'];
+	} else {
+		$text = $t['login_passwort_schritt1'];
+	}
+	
 	$text .= "<form action=\"index.php\">\n";
-	$text .= "<table>\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\">";
+	
 	if ( (isset($email) || isset($nickname)) && $email <> "" && $nickname <> "" && (isset($hash) || $fehlermeldung == "") ) {
+		// Eingabe des Sicherheitscodes, der per E-Mail zugeschickt wurde
+		
+		$text .= "<input type=\"hidden\" name=\"nickname\" value=\"$nickname\">";
+		$text .= "<input type=\"hidden\" name=\"email\" value=\"$email\">";
+		$text .= "<table style=\"width:100%;\">\n";
 		if (!isset($hash)) {
 			$hash = "";
 		}
-		$text .="<tr>";
-		$text .="<td style=\"font-weight:bold;\">$t[pwneu2]</td>";
-		$text .="<td><input type=hidden name=\"nickname\" width=\"50\" value=\"$nickname\">$nickname</td>";
-		$text .="</tr>";
-		$text .="<tr>";
-		$text .="<td style=\"font-weight:bold;\">$t[pwneu3]</td>";
-		$text .="<td style=\"font-weight:bold;\"><input type=\"hidden\" name=\"email\" width=\"50\" value=\"$email\">$email</td>";
-		$text .="</tr>";
-		$text .="<tr>";
-		$text .="<td style=\"font-weight:bold;\">$t[pwneu10]</td>";
-		$text .="<td style=\"font-weight:bold;\"><input name=\"hash\" width=\"50\" value=\"$hash\"></td>";
-		$text .="</tr>";
+		
+		// Überschrift: Neues Passwort anfordern
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
+		
+		// Benutzername
+		$text .= zeige_formularfelder("text", $zaehler, $t['login_benutzername'], "", $nickname);
+		$zaehler++;
+		
+		// E-Mail
+		$text .= zeige_formularfelder("text", $zaehler, $t['login_email'], "", $email);
+		$zaehler++;
+		
+		// Sicherheitsocde
+		$text .= zeige_formularfelder("input", $zaehler, $t['login_passwort_sicherheitscode'], "hash", $hash);
+		$zaehler++;
 	} else {
+		// Formular zum Anfordern eines neuen Passworts
+		
+		$text .= "<table style=\"width:100%;\">\n";
 		if (!isset($nickname)) {
 			$nickname = "";
 		}
 		if (!isset($email)) {
 			$email = "";
 		}
-		$text .="<tr>";
-		$text .="<td style=\"font-weight:bold;\">$t[pwneu2]</td>";
-		$text .="<td style=\"font-weight:bold;\"><input name=\"nickname\" width=\"50\" value=\"$nickname\"></td>";
-		$text .="</tr>";
-		$text .="<tr>";
-		$text .="<td style=\"font-weight:bold;\">$t[pwneu3]</td>";
-		$text .="<td style=\"font-weight:bold;\"><input name=\"email\" width=\"50\" value=\"$email\"></td>";
-		$text .="</tr>";
+		
+		// Überschrift: Neues Passwort anfordern
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
+		
+		// Benutzername
+		$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "nickname", $nickname);
+		$zaehler++;
+		
+		// E-Mail
+		$text .= zeige_formularfelder("input", $zaehler, $t['login_email'], "email", $email);
+		$zaehler++;
 	}
-	$text .="<tr>";
-	$text .="<td colspan=\"2\" style=\"font-weight:bold;\"><input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\"><input type=\"submit\" value=\"Absenden\"></td>";
-	$text .="</tr>";
+	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td colspan=\"2\" $bgcolor>\n";
+	$text .= "<input type=\"submit\" value=\"Absenden\">\n";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	
 	$text .= "</table>";
 	$text .= "</form>";
 	
-	zeige_tabelle_variable_breite($box,$text);
+	zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 	
 } else if ($richtig && $u_id) {
 	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
@@ -172,19 +193,19 @@ if (!$richtig) {
 		if($smtp_on) {
 			$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 		} else {
-			// Der PHP-Vessand benötigt \n und nicht <br>
+			// Der PHP-Versand benötigt \n und nicht <br>
 			$t['pwneu14'] = str_replace("<br>", "\n", $t['pwneu14']);
 			$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
 		}
 		
 		if ($ok) {
-			echo $t['pwneu12'];
+			$text = $t['login_passwort_schritt3'];
+			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 			schreibe_db("user", $f, $f['u_id'], "u_id");
 		} else {
-			echo $t['pwneu13'];
+			$text = $t['login_fehlermeldung_passwort_versand'];
+			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		}
 	}
 }
-
-zeige_fuss();
 ?>

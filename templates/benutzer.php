@@ -28,8 +28,6 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 	$raum_subquery = "AND r_id=$schau_raum";
 }
 
-$eingabe_breite = 31;
-
 if ($admin && isset($kick_user_chat) && $user) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
 	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";

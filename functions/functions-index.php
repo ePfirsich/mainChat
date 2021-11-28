@@ -98,11 +98,11 @@ function show_who_is_online($result) {
 	}
 }
 
-function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($u_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
-	// javascript=JS WAHR/FALSCH, ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
+	// ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
 	global $mysqli_link, $punkte_gruppe;
 	
@@ -151,7 +151,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	
 	// Aktionen initialisieren, nicht für Gäste
 	if ($u_level != "G") {
-		$query = "select a_id FROM aktion WHERE a_user=$u_id ";
+		$query = "SELECT a_id FROM aktion WHERE a_user=$u_id ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && (mysqli_num_rows($result) == 0 || mysqli_num_rows($result) > 20)) {
 			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
@@ -222,8 +222,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	}
 	
 	// u_agb, ip_historie und Temp-Admin schreiben
-	if ($u_agb == "Y")
+	if ($u_agb == "1") {
 		$f['u_agb'] = $u_agb;
+	}
 	$f['u_ip_historie'] = serialize($ip_historie_neu);
 	if ($u_level == "A") {
 		// falls Status bisher Temp-Admin -> zurücksetzen.
@@ -316,7 +317,6 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	$f['o_who'] = "1";
 	$f['o_browser'] = $browser;
 	$f['o_name'] = $userdata['u_nick'];
-	$f['o_js'] = $javascript;
 	$f['o_level'] = $userdata['u_level'];
 	$f['o_http_stuff'] = $http_stuff_array[0];
 	$f['o_http_stuff2'] = $http_stuff_array[1];
@@ -358,7 +358,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $javascript, $ip_historie, $u
 	return ($o_id);
 }
 
-function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
+function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	// Benutzer $u_id betritt Raum $raum (r_id)
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
@@ -543,7 +543,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum, $javascript) {
 	}
 	
 	// Nachrichten an Freude verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' " . "UNION " . "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	
@@ -643,49 +643,33 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	
 }
 
-function zeige_kopf() {
-	// Gibt den HTML-Kopf auf der Eingangsseite aus
-	global $layout_kopf, $layout_parse;
+function zeige_willkomensnachricht() {
+	// Zeigt die Willkommensnachricht auf der Eingangsseite aus
+	global $layout_kopf, $t;
 	
-	if (strlen($layout_kopf) > 0 && !$layout_parse) {
-		// Direkt einlesen
-		include($layout_kopf);
-	} elseif (strlen($layout_kopf) > 0 && $layout_parse) {
-		// Lesen und ersetzen
-		$fd = fopen($layout_kopf, "r");
-		$out = @fread($fd, 100000);
-		@fclose($fd);
-		$out = preg_replace("/src=\"\//i", "src=\"" . $layout_parse, $out);
-		$out = preg_replace("/href=\"\//i", "href=\"" . $layout_parse, $out);
-		$out = preg_replace("/action=\"\//i", "action=\"" . $layout_parse, $out);
-		$out = preg_replace("/background=\"\//i", "background=\"" . $layout_parse, $out);
-		$out = preg_replace("/" . $layout_parse . "\//i", $layout_parse, $out);
-		echo $out;
+	$text = "";
+	
+	// Eigenen Text anzeigen
+	if (isset($layout_kopf) && $layout_kopf != "") {
+		$text .= $layout_kopf;
 	}
+	
+	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
+	if (!isset($layout_kopf) || $layout_kopf == "") {
+		$text .= $t['willkommen2'];
+	}
+	
+	return $text;
 }
 
 function zeige_fuss() {
 	// Gibt den HTML-Fuss auf der Eingangsseite aus
-	global $layout_fuss, $layout_parse;
 	global $f3, $f4, $mainchat_version, $t;
 	?>
 	<div align="center"><?php echo $f3 . $mainchat_version; ?>
 	<br><br>
-	<a href="index.php?aktion=datenschutz"><?php echo $t['login_menue6']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_menue7']; ?></a><?php echo $f4 ?></div>
+	<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a><?php echo $f4 ?></div>
 	<?php
-	if (strlen($layout_fuss) > 0 && !$layout_parse) {
-		include($layout_fuss);
-	} elseif (strlen($layout_fuss) > 0 && $layout_parse) {
-		// Lesen und ersetzen
-		$fd = fopen($layout_fuss, "r");
-		$out = @fread($fd, 100000);
-		@fclose($fd);
-		$out = preg_replace("/src=\"\//i", "src=\"" . $layout_parse, $out);
-		$out = preg_replace("/href=\"\//i", "href=\"" . $layout_parse, $out);
-		$out = preg_replace("/action=\"\//i", "action=\"" . $layout_parse, $out);
-		$out = preg_replace("/" . $layout_parse . "\//i", $layout_parse, $out);
-		echo $out;
-	}
 }
 
 function RaumNameToRaumID($eintrittsraum) {
@@ -872,5 +856,129 @@ function auth_user($login, $passwort) {
 			return (0);
 		}
 	}
+}
+
+function zeige_chat_login() {
+	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $f1, $f2;
+	
+	// Kopfzeile
+	if ($neuregistrierung_deaktivieren) {
+		$login_titel = $t['login_formular_kopfzeile'];
+		// Alle Adressen für die Registrierung auf den Login umleiten
+		if ($aktion == "neu" || $aktion == "neu2") {
+			$aktion = "";
+		}
+	} else {
+		$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?aktion=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
+	}
+	$login_titel .= "[<a href=\"index.php?aktion=passwort_neu\">" . $t['login_passwort_vergessen'] . "</a>]";
+	
+	
+	// Räume
+	if ($forumfeatures) {
+		$raeume_titel = $t['login_raum_forum'];
+	} else {
+		$raeume_titel = $t['login_raum'];
+	}
+	
+	// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
+	if (strlen($eintrittsraum) == 0) {
+		$eintrittsraum = $lobby;
+	}
+	
+	// Raumauswahlliste erstellen
+	$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
+	
+	$result = @mysqli_query($mysqli_link, $query);
+	if ($result) {
+		$rows = mysqli_num_rows($result);
+	} else {
+		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
+		die();
+	}
+
+	$raeume = $f1 . "<select name=\"eintritt\">";
+	
+	if ($forumfeatures) {
+		$raeume .= "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+	}
+	
+	if ($rows > 0) {
+		$i = 0;
+		while ($i < $rows) {
+			$r_id = mysqli_result($result, $i, "r_id");
+			$r_name = mysqli_result($result, $i, "r_name");
+			if ((!isset($eintritt) && $r_name == $eintrittsraum)
+				|| (isset($eintritt) && $r_id == $eintritt)) {
+					$raeume .= "<option selected value=\"$r_id\">$r_name\n";
+				} else {
+					$raeume .= "<option value=\"$r_id\">$r_name\n";
+				}
+				$i++;
+		}
+	}
+	if ($forumfeatures) {
+		$raeume .= "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
+	}
+	$raeume .= "</select>" . $f2;
+	mysqli_free_result($result);
+	
+	// Willkommenstext anzeigen
+	$text = zeige_willkomensnachricht();
+	
+	// Logintext definieren
+	$zaehler = 0;
+	$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
+	
+	// Überschrift: Neuen Account registrieren
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
+	
+	// Hinweis zum Gastlogin
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
+	$text .= "</tr>\n";
+	
+	// Benutzername
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "login", "");
+	$zaehler++;
+	
+	// Passwort
+	$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort'], "passwort", "");
+	$zaehler++;
+	
+	// Räume
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
+	$text .= "<td $bgcolor>$raeume</td>\n";
+	$text .= "</tr>\n";
+	
+	// Login
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"". $t['login_login'] . "\"></td>\n";
+	$text .= "</tr>\n";
+	
+	$text .= "</table>\n";
+	$text .= "</form>\n";
+	
+	// Box anzeigen
+	zeige_tabelle_volle_breite($t['login_login'], $text);
 }
 ?>

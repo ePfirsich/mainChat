@@ -1,6 +1,5 @@
 <?php
-$box = $t['login_menue5'];
-$text = $t['agb'] . "\n";
+$text = $t['chat_agb'] . "\n";
 
-zeige_tabelle_volle_breite($box,$text);
+zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
 ?>

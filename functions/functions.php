@@ -40,7 +40,7 @@ $valid_fields = array(
 	'mail' => array('m_id', 'm_status', 'm_von_uid', 'm_an_uid', 'm_zeit', 'm_geloescht_ts', 'm_betreff', 'm_text'),
 	'mail_check' => array('email', 'datum', 'u_id'),
 	'moderation' => array('c_id', 'c_von_user', 'c_an_user', 'c_typ', 'c_raum', 'c_text', 'c_zeit', 'c_farbe', 'c_von_user_id', 'c_moderator'),
-	'online' => array('o_id', 'o_user', 'o_raum', 'o_hash', 'o_timestamp', 'o_ip', 'o_who', 'o_aktiv', 'o_chat_id', 'o_browser', 'o_name', 'o_js', 'o_knebel', 
+	'online' => array('o_id', 'o_user', 'o_raum', 'o_hash', 'o_timestamp', 'o_ip', 'o_who', 'o_aktiv', 'o_chat_id', 'o_browser', 'o_name', 'o_knebel', 
 		'o_http_stuff', 'o_http_stuff2', 'o_userdata', 'o_userdata2', 'o_userdata3', 'o_userdata4', 'o_level', 'o_ignore', 'o_login', 'o_punkte', 'o_aktion', 
 		'o_timeout_zeit', 'o_timeout_warnung', 'o_chat_historie', 'o_spam_zeilen', 'o_spam_byte', 'o_spam_zeit'),
 	'posting' => array('po_id', 'po_th_id', 'po_u_id', 'po_vater_id', 'po_ts', 'po_tiefe', 'po_threadorder', 'po_threadts', 'po_gesperrt', 'po_threadgesperrt', 
@@ -383,7 +383,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $o_js, $u_level, $u_farbe, $u_smilies, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
+	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_smilies, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_layout_farbe, $u_layout_chat_darstellung;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
@@ -673,26 +673,6 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
-function zeige_tabelle_variable_breite($box, $text, $width = "") {
-	// Gibt Tabelle mit einstellbarer Breiter mit Kopf und Inhalt aus
-	
-	if (strlen($width) > 0) {
-		$width = "style=\"width:" . $width . ";\"";
-	}
-	?>
-	
-	<table class="tabelle_kopf2" <?php echo $width; ?>>
-	
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper_login"><?php echo $text; ?></td>
-		</tr>
-	</table>
-	<?php
-}
-
 function zeige_tabelle_volle_breite($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 	global $f1, $f2;
@@ -733,32 +713,18 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $layout_kopf, $id;
+	global $t, $id;
 	
-	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-	if (isset($layout_kopf) && $layout_kopf != "") {
-		$willkommen = "";
-	} else {
-		$willkommen = $t['willkommen2'];
-	}
-	
-	zeige_header_ende();
-	echo "<body>";
-	
-	$box = $t['login_menue1'];
-	$text = "<a href=\"index.php\">$t[login_menue2]</a>\n";
+	$box = $t['login_chatname'];
+	$text = "<a href=\"index.php\">$t[login_login]</a>\n";
 	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
-		$text .= "| <a href=\"index.php?id=$id&aktion=neu\">$t[login_menue3]</a>\n";
+		$text .= "| <a href=\"index.php?id=$id&aktion=registrierung\">$t[login_registrierung]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[login_menue4]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[login_menue5]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[login_menue6]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[login_chatiquette]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
+	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[login_datenschutzerklaerung]</a>\n";
 	
 	zeige_tabelle_volle_breite($box, $text);
-	
-	zeige_kopf();
-	
-	echo $willkommen;
 }
 
 function coreCheckName($name, $check_name) {
@@ -1341,6 +1307,7 @@ function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 		verlasse_chat($u_id, $u_nick, $o_raum);
 		//sleep(2);
 		logout($o_id, $u_id);
+		echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 	}
 }
 
@@ -1468,8 +1435,6 @@ function logout($o_id, $u_id) {
 		}
 	}
 	mysqli_free_result($result);
-	
-	echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 }
 
 function avatar_editieren_anzeigen(
@@ -1480,8 +1445,6 @@ function avatar_editieren_anzeigen(
 	$aktion = "") {
 	
 	global $f1, $f2, $f3, $f4, $id, $t;
-	
-	$eingabe_breite = 55;
 	
 	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
 		$width = $bilder[$feld]['b_width'];
@@ -1522,7 +1485,7 @@ function avatar_editieren_anzeigen(
 		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
 		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
 		. "<input type=\"hidden\" name=\"avatar_hochladen\" value=\"avatar_hochladen\">\n";
-	$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . ($eingabe_breite / 8) . "\"><br>";
+	$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\"><br>";
 	$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
 	}
 	
@@ -1583,43 +1546,41 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 }
 
 function reset_system($wo_online) {
-	global $id, $o_js, $u_level, $o_raum, $chat_back;
+	global $id, $u_level, $o_raum, $chat_back;
 	// Reset ausführen
-	if ($o_js) {
-		if ( $wo_online == "userliste" ) {
-			echo "<script>\n";
-			echo "parent.frames[2].location.href='user.php?id=$id';\n";
-			echo "</script>";
-		} else if ( $wo_online == "forum" ) {
-			echo "<script>\n";
-			echo "parent.frames[2].location.href='user.php?id=$id';\n";
-			echo "</script>";
-		} else if ( $wo_online == "chatfenster" ) {
-			echo "<script>\n";
-			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
-			echo "</script>";
-		} else if ( $wo_online == "moderator" ) {
-			echo "<script>\n";
-			echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
-			echo "</script>";
-		} else if ($u_level == "M") {
-			echo "<script>\n";
-			echo "parent.frames[0].location.href='navigation.php?id=$id';";
-			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
-			echo "parent.frames[2].location.href='user.php?id=$id';\n";
-			echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
-			echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
-			echo "parent.frames[5].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
-			echo "</script>";
-		} else {
-			echo "<script>\n";
-			echo "parent.frames[0].location.href='navigation.php?id=$id';";
-			echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
-			echo "parent.frames[2].location.href='user.php?id=$id';\n";
-			echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
-			echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
-			echo "</script>";
-		}
+	if ( $wo_online == "userliste" ) {
+		echo "<script>\n";
+		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "</script>";
+	} else if ( $wo_online == "forum" ) {
+		echo "<script>\n";
+		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "</script>";
+	} else if ( $wo_online == "chatfenster" ) {
+		echo "<script>\n";
+		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "</script>";
+	} else if ( $wo_online == "moderator" ) {
+		echo "<script>\n";
+		echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
+		echo "</script>";
+	} else if ($u_level == "M") {
+		echo "<script>\n";
+		echo "parent.frames[0].location.href='navigation.php?id=$id';";
+		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
+		echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
+		echo "parent.frames[5].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "</script>";
+	} else {
+		echo "<script>\n";
+		echo "parent.frames[0].location.href='navigation.php?id=$id';";
+		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
+		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "</script>";
 	}
 }
 ?>

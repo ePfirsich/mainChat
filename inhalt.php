@@ -11,7 +11,7 @@ if( $aktion == "") {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 }
 
-// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, o_js
+// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);
 
 if( isset($u_id) && strlen($u_id) != 0 ) {

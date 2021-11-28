@@ -2,6 +2,10 @@
 body {
 	font-family: Tahoma, Helvetica, sans-serif;
 }
+
+.fehlermeldung {
+	color: var(--Fehlermeldung-Farbe);
+}
 /* Allgemeines - Ende ******************************************************************* */
 
 
@@ -68,15 +72,6 @@ body {
 	width: 100%;
 }
 /* Tabellenkopf - Ende ******************************************************************* */
-
-
-/* Tabellenkopf ohne feste Breite - Anfang ******************************************************************* */
-.tabelle_kopf2 {
-	border-radius: 3px;
-	background-color: var(--Tabellenkopf-Hintergrundfarbe);
-	margin-bottom: 10px;
-}
-/* Tabellenkopf ohne feste Breite - Ende ******************************************************************* */
 
 
 /* Tabellenkopf mit fester Breite zentriert - Anfang ******************************************************************* */

@@ -250,6 +250,5 @@ if (strlen($u_id) > 0) {
 	</body>
 	</html>
 	<?php
-	exit;
 }
 ?>
