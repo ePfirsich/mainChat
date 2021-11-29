@@ -859,7 +859,7 @@ function auth_user($login, $passwort) {
 }
 
 function zeige_chat_login() {
-	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $f1, $f2;
+	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $f1, $f2;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
@@ -926,24 +926,14 @@ function zeige_chat_login() {
 	// Willkommenstext anzeigen
 	$text = zeige_willkomensnachricht();
 	
-	// Logintext definieren
+	// Benutzerlogin
 	$zaehler = 0;
 	$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
 	
-	// Überschrift: Neuen Account registrieren
+	// Überschrift: Login ioder neu registrierten/Passwort vergessen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
-	
-	// Hinweis zum Gastlogin
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
-	}
-	$text .= "<tr>\n";
-	$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
-	$text .= "</tr>\n";
 	
 	// Benutzername
 	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "login", "");
@@ -977,6 +967,53 @@ function zeige_chat_login() {
 	
 	$text .= "</table>\n";
 	$text .= "</form>\n";
+	
+	if($gast_login) {
+		// Gastlogin
+		$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
+		$text .= "<table style=\"width:100%;\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
+		$text .= "<input type=\"hidden\" name=\"login\" value=\"\">\n";
+		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
+		
+		// Überschrift: Gastlogin
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_gastlogin'], "", "", 0, "70", "");
+		
+		// Hinweis zum Gastlogin
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
+		$text .= "</tr>\n";
+		
+		// Räume
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
+		$text .= "<td $bgcolor>$raeume</td>\n";
+		$text .= "</tr>\n";
+		
+		// Login
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor></td>\n";
+		$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"". $t['login_login'] . "\"></td>\n";
+		$text .= "</tr>\n";
+		
+		$text .= "</table>\n";
+		$text .= "</form>\n";
+	}
 	
 	// Box anzeigen
 	zeige_tabelle_volle_breite($t['login_login'], $text);

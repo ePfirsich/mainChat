@@ -32,7 +32,7 @@ if (!isset($passwort) || $passwort == "") {
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$fehlermeldung = $t['login_gastlogin'];
+		$fehlermeldung = $t['login_fehlermeldung_gastlogin'];
 		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
 		
 		$kein_gastlogin_ausblenden = true;

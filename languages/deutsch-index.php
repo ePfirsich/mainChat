@@ -100,7 +100,6 @@ $t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlosse
 $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster . "\">Webmaster</a>.</b></p><br><br>\n";
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
-$t['login_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
 $t['login20'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!";
@@ -149,6 +148,7 @@ $t['registrierung_email_text'] = "Willkommen beim $chat!<br><br>Um nun die Regis
 
 $t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>";
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
+$t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
 
 $t['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail Adresse!<br>";
 $t['registrierung_fehler_gesperrte_email'] = "Diese E-Mail-Adresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster.<br>";
@@ -192,7 +192,7 @@ $t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_a
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
 $t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
-$t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken ohne einen Benutzernamen einzugeben.";
+$t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
 $t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
 $t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
