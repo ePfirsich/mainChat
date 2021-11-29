@@ -8,7 +8,7 @@ id_lese($id);
 // Benutzerdaten u_gelesene_postings bereinigen
 bereinige_u_gelesene_postings($u_id);
 
-// Bereinige Anzahl Themen und Antworten wenn ein SU das Forum betritt
+// Bereinige Anzahl Themen und Antworten wenn ein Superuser das Forum betritt
 if ($u_level == "S") {
 	bereinige_anz_in_thema();
 }

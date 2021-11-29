@@ -36,9 +36,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-$query = "SELECT * FROM ip_sperre "
-	. "WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
-	. " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
+$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 	. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 $result = mysqli_query($mysqli_link, $query);
 $rows = mysqli_num_rows($result);
@@ -95,9 +93,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_object($result)) {
 		$part = explode("*", $row->is_domain, 2);
 		if ((strlen($part[0]) > 0) && (strlen($part[1]) > 0)) {
-			if (substr($ip_name, 0, strlen($part[0])) == $part[0]
-				&& substr($ip_name, strlen($ip_name) - strlen($part[1]),
-					strlen($part[1])) == $part[1]) {
+			if (substr($ip_name, 0, strlen($part[0])) == $part[0] && substr($ip_name, strlen($ip_name) - strlen($part[1]), strlen($part[1])) == $part[1]) {
 				
 				// IP stimmt überein
 				if ($row->is_warn == "ja") {
@@ -118,9 +114,7 @@ mysqli_free_result($result);
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
 if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	// test: ist user=admin -> dann nicht abweisen...
-	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='"
-		. mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
-		. "' AND (u_level in ('S','C'))";
+	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (u_level in ('S','C'))";
 	$r = mysqli_query($mysqli_link, $query);
 	$rw = mysqli_num_rows($r);
 	
@@ -131,13 +125,12 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	
 	// Prüfung nun auf Admin beendet
 	// Nun Prüfung ob genug Punkte
-	$durchgangwegenpunkte = 0;
+	$durchgangwegenpunkte = false;
 	
 	if ($loginwhileipsperre <> 0) {
 		// Test auf Punkte 
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` "
-			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name))
-			. "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
+			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
 		
 		// Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
@@ -149,18 +142,17 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			if ($row->u_punkte_gesamt >= $loginwhileipsperre) {
 				// genügend Punkte
 				// Login zulassen
-				$durchgangwegenpunkte = 1;
+				$durchgangwegenpunkte = true;
 				$abweisen = false;
 				$t_u_id = $row->u_id;
 				$t_u_nick = $row->u_nick;
-				$infotext = str_replace("%punkte%", $row->u_punkte_gesamt,
-					$t['ipsperre2']);
+				$infotext = str_replace("%punkte%", $row->u_punkte_gesamt, $t['ipsperre2']);
 			}
 		}
 		mysqli_free_result($r);
 	}
 	
-	if ($durchgangwegenpunkte == 1) {
+	if ($durchgangwegenpunkte) {
 		// Wenn Benutzer wegen Punkte durch IP Sperre kommen, dann Meldung an alle Admins
 		if ($eintritt == 'forum') {
 			$raumname = " (" . $whotext[2] . ")";
@@ -175,7 +167,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			mysqli_free_result($result2);
 		}
 		
-		$query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
+		$query2 = "SELECT o_user FROM online WHERE o_level='S' OR o_level='C'";
 		$result2 = mysqli_query($mysqli_link, $query2);
 		if ($result2 AND mysqli_num_rows($result2) > 0) {
 			$txt = str_replace("%ip_adr%", $ip_adr, $t['ipsperre1']);
@@ -185,9 +177,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 				$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id";
 				$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 				$ah2 = "</a>";
-				system_msg("", 0, $row2->o_user, $system_farbe,
-					str_replace("%u_nick%",
-						$ah1 . $t_u_nick . $ah2 . $raumname, $txt));
+				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
 			}
 			unset($infotext);
 			unset($t_u_id);

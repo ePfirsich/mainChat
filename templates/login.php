@@ -58,7 +58,7 @@ if ($useranzahl > 1) {
 if (!isset($unterdruecke_raeume)) {
 	$unterdruecke_raeume = 0;
 }
-if (!$unterdruecke_raeume && $abweisen == false) {
+if (!$unterdruecke_raeume && !$abweisen) {
 	
 	// Wer ist online? Boxen mit Benutzern erzeugen, Topic ist Raumname
 	if ($onlineanzahl) {

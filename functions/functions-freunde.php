@@ -66,18 +66,12 @@ function zeige_freunde($aktion, $zeilen) {
 			while ($row = mysqli_fetch_object($result)) {
 				// Benutzer aus der Datenbank lesen
 				if ($row->f_userid != $u_id) {
-					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-						. "date_format(u_login,'%d.%m.%y %H:%i') AS login, "
-						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-						. "FROM user LEFT JOIN online ON o_user=u_id "
-						. "WHERE u_id=$row->f_userid ";
+					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_userid ";
 					$result2 = mysqli_query($mysqli_link, $query);
 				} elseif ($row->f_freundid != $u_id) {
-					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-						. "date_format(u_login,'%d.%m.%y %H:%i') AS login, "
-						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-						. "FROM user LEFT JOIN online ON o_user=u_id "
-						. "WHERE u_id=$row->f_freundid ";
+					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_freundid ";
 					$result2 = mysqli_query($mysqli_link, $query);
 				}
 				if ($result2 && mysqli_num_rows($result2) > 0) {
