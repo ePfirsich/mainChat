@@ -649,14 +649,12 @@ function zeige_willkomensnachricht() {
 	
 	$text = "";
 	
-	// Eigenen Text anzeigen
 	if (isset($layout_kopf) && $layout_kopf != "") {
+		// Eigenen Text anzeigen
 		$text .= $layout_kopf;
-	}
-	
-	// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-	if (!isset($layout_kopf) || $layout_kopf == "") {
-		$text .= $t['willkommen2'];
+	} else {
+		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
+		$text .= "<h2>".$t['willkommen']."</h2><br>";
 	}
 	
 	return $text;
