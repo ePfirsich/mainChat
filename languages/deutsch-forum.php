@@ -103,7 +103,7 @@ $t['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 $t['verschieben1'] = "Verschiebe Thema: ";
 $t['verschieben2'] = "vom Thema: ";
 $t['verschieben3'] = "nach Thema: ";
-$t['verschieben4'] = "VERSCHIEBEN";
+$t['verschieben4'] = "verschieben";
 
 $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]";
 
@@ -119,7 +119,7 @@ $t['suche1'] = "Suchwörter";
 $t['suche2'] = "Suche in Board / Thema";
 $t['suche3'] = "Sucheinstellungen";
 $t['suche4'] = "nur Beiträge von Benutzer";
-$t['suche5'] = "SUCHEN";
+$t['suche5'] = "Suchen";
 
 $t['option1'] = "komplettes Forum";
 $t['option2'] = "Nach allen Wörtern suchen";

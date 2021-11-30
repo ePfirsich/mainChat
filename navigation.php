@@ -70,7 +70,7 @@ if ($u_id) {
 	$text = "<center>";
 	if($wo_online == "chat") {
 		$text .= "<a href=\"chat.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue2'] . "</span></a>&nbsp;";
-		$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_menue3'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_menue3'] . "</span></a>&nbsp;|&nbsp;";
 	}
 	$text .= "<a href=\"inhalt.php?seite=benutzer&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['navigation_menue4'] . "</span></a>&nbsp;";
 	if ($u_level != 'G') {

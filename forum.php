@@ -77,7 +77,7 @@ if (strlen($u_id) > 0) {
 			if ($u_level != "G") {
 				maske_thema();
 			} else {
-				echo "<P>" . $t[forum_gast] . "</P>";
+				echo "<p>" . $t[forum_gast] . "</p>";
 				forum_liste();
 			}
 			break;
