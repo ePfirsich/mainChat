@@ -78,9 +78,7 @@ if (strlen($u_id) != 0) {
 		
 	// Raum listen
 	$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
-		. "FROM online LEFT JOIN raum ON o_raum=r_id "
-		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery "
-		. "ORDER BY o_name";
+		. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery ORDER BY o_name";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	

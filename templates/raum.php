@@ -560,10 +560,8 @@ switch ($aktion) {
 			$text = "";
 			$box = $t['titel'];
 			// Liste der Räume mit der Anzahl der Benutzer aufstellen
-			$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
-				. "LEFT JOIN online ON r_id=o_raum "
-				. "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout OR o_id IS NULL) "
-				. "GROUP BY r_id";
+			$query = "SELECT r_id,count(o_id) as anzahl FROM raum LEFT JOIN online ON r_id=o_raum "
+				. "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout OR o_id IS NULL) GROUP BY r_id";
 			
 			//system_msg("",0,$u_id,"#000000","Debug: ".$query);
 			$result = mysqli_query($mysqli_link, $query);

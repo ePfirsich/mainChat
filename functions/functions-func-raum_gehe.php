@@ -58,9 +58,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		// wenn hier nach Erweitertefeatures oder Punkte geprüft werden würde, was Sinn machen würde,
 		// kommen Benutzer aus Kostenlosen chats, die mit der mainChat Community verbunden sind, trotzdem in den Raum, 
 		// trotz zu wenigen Punkten
-		if (($neu->r_name != $lobby)
-			&& ($neu->r_min_punkte > ($u_punkte_gesamt + $o_punkte)) && !$admin
-			&& $u_level != "A") {
+		if (($neu->r_name != $lobby) && ($neu->r_min_punkte > ($u_punkte_gesamt + $o_punkte)) && !$admin && $u_level != "A") {
 			$zuwenigpunkte = 1;
 		} else {
 			$zuwenigpunkte = 0;
@@ -76,8 +74,9 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			$query = "SELECT inv_user FROM invite WHERE inv_raum=$neu->r_id AND inv_user=$u_id";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result > 0) {
-				if (mysqli_num_rows($result) > 0)
+				if (mysqli_num_rows($result) > 0) {
 					$raumwechsel = true;
+				}
 				mysqli_free_result($result);
 			}
 			// oder falls user=raumbesitzer...
@@ -130,9 +129,10 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			if ($raum_austrittsnachricht_anzeige_deaktivieren == "1") {
 				unset($txt);
 			}
-				if (!isset($txt)) {
-				$txt = "";
-				}
+			if (!isset($txt)) {
+			$txt = "";
+			}
+			
 			// Trenner zwischen den Räumen, Austrittstext
 			system_msg("", 0, $u_id, "", " ");
 			system_msg("", 0, $u_id, "", $txt . "<br>\n");
@@ -167,19 +167,16 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			
 			if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 			} else if (strlen($neu->r_eintritt) > 0) {
-				system_msg("", 0, $u_id, "",
-					"<br><b>$txt $neu->r_eintritt, $u_nick!</b><br>");
+				system_msg("", 0, $u_id, "", "<br><b>$txt $neu->r_eintritt, $u_nick!</b><br>");
 			} else {
-				system_msg("", 0, $u_id, "",
-					"<br><b>$txt</b> $t[betrete_chat2], $u_nick!<br>");
+				system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!<br>");
 			}
 			
 			$raum = $raum_neu;
 			
 		} else {
 			// Raum kann nicht betreten werden
-			system_msg("", 0, $u_id, "",
-				str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
+			system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
 			
 			// Nachricht das gesperrt ausgeben
 			if ($gesperrt) {
@@ -201,7 +198,6 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			$raum = $raum_alt;
 		}
 	}
-	
 	return ($raum);
 }
 ?>

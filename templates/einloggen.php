@@ -12,11 +12,8 @@ if (!isset($passwort) || $passwort == "") {
 	// Falls Gast-Login erlaubt ist:
 	if ($gast_login) {
 		// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
-		$query4711 = "SELECT o_id FROM online "
-			. "WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
-			. "' " . "AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' "
-			. "AND o_level='G' "
-			. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
+			. "' AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 		$result = mysqli_query($mysqli_link, $query4711);
 		if ($result) {
 			$rows = mysqli_num_rows($result);

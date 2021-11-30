@@ -64,8 +64,7 @@ if (isset($u_id) && $u_id) {
 	// Benutzer-Menue
 	
 	// Anzahl der Benutzer insgesamt feststellen
-	$query = "SELECT count(o_id) as anzahl FROM online "
-		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$query = "SELECT count(o_id) as anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");

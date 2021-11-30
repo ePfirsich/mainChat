@@ -224,9 +224,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		// sucht nach doppelten IPs
 			if ($admin) {
 				$query = "SELECT o_ip,o_user,o_raum,o_browser,r_name,o_name "
-					. "FROM online left join raum on o_raum=r_id "
-					. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
-					. "ORDER BY o_ip";
+					. "FROM online left join raum on o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ORDER BY o_ip";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result > 0) {
 					while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
@@ -342,8 +340,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$temp = str_replace("%ip%", $onlineip, $temp);
 				system_msg("", 0, $u_id, $system_farbe, $temp);
 				
-				$query = "SELECT o_ip,o_user,o_raum,o_browser,r_name,o_name "
-					. "FROM online left join raum on o_raum=r_id "
+				$query = "SELECT o_ip,o_user,o_raum,o_browser,r_name,o_name FROM online left join raum on o_raum=r_id "
 					. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
 					. "AND o_ip = '" . mysqli_real_escape_string($mysqli_link, $onlineip) . "' " . "ORDER BY o_user";
 				
@@ -2682,9 +2679,7 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 		
 		if ($rows == 0) {
 			// Ist Benutzer s_user in diesem Raum? $o_id ermitteln
-			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id "
-				. "AND o_user=$s_user "
-				. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id AND o_user=$s_user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			
 			$result2 = mysqli_query($mysqli_link, $query2);
 			$rows2 = mysqli_num_rows($result2);
@@ -2730,9 +2725,7 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 			// Benutzer aus Chat werfen
 			
 			// Ist Benutzer s_user in diesem Raum? $o_id ermitteln
-			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id "
-				. "AND o_user=$s_user "
-				. "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id AND o_user=$s_user AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			
 			$result2 = mysqli_query($mysqli_link, $query2);
 			$rows2 = mysqli_num_rows($result2);
