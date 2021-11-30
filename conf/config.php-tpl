@@ -146,8 +146,6 @@ $farbe_mini_vlink="#000080";
 
 // Layout
 $chat_eingabe_breite=111;		// Breite des Text-Eingabefelds des Chats
-$farbe_chat_user_breite=12;	// Breite der Farbauswahlfelder
-$farbe_chat_user_hoehe=16;	// Höhe der Farbauswahlfelder
 
 $metatag="<meta name=\"description\" content=\"%description%\">\n".
 	"<meta name=\"keywords\" content=\"%keywords%\">\n".

@@ -217,7 +217,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_level'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
 				
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige10'] . $f2 . "</td>" . "<td class=\"tabelle_koerper\" style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
+				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_farbe'] . $f2 . "</td>" . "<td class=\"tabelle_koerper\" style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
 				
 				if ($uu_kommentar && $admin) {
 					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['benutzer_kommentar'] . $f2. "</td><td class=\"tabelle_koerper\">" . $f3;

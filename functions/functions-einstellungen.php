@@ -3,7 +3,7 @@ function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
 	global $id, $level, $f1, $f2, $f3, $f4;
-	global $farbe_chat_user, $farbe_chat_user_breite, $farbe_chat_user_hoehe, $user_farbe, $t;
+	global $farbe_chat_user, $user_farbe, $t;
 	global $u_id, $punktefeatures;
 	global $eintritt_individuell;
 	global $mysqli_link;
@@ -211,28 +211,31 @@ function user_edit($f, $admin, $u_level) {
 		$f['u_farbe'] = $user_farbe;
 	}
 	
-	$link = "";
-	// Farbe direkt einstellen
-	if($f['u_id'] == $u_id || $admin) {
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
-		$text .= "<td $bgcolor>\n";
-		if ($f['u_id'] == $u_id) {
-			$url = "home_farben.php?id=$id&mit_grafik=0&feld=u_farbe&bg=Y&oldcolor=" . urlencode($f['u_farbe']);
-			$link = "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[benutzer_farbauswahl]</a>]</b>";
-		}
-		$text .= "<input type=\"text\" name=\"u_farbe\" size=7 value=\"$f[u_farbe]\">";
-		$text .= "<input type=\"hidden\" name=\"farben[u_farbe]\">";
-		$text .= "&nbsp;" . $f3 . $link . $f4 . "\n";
-		$text .= "</td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
+	// Farbe ändern
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
 	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"u_farbe\" value=\"$f[u_farbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['u_farbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
 	
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
@@ -250,19 +253,6 @@ function user_edit($f, $admin, $u_level) {
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
-	
-	// Farbenliste & aktuelle Farbe
-	if ($f['u_id'] == $u_id) {
-		$text .= "\n<hr size=2 noshade><table><tr><td colspan=\"2\"><b>"
-			. $t['user_zeige10'] . "&nbsp;</b></td>" . "<td style=\"background-color:#". $f['u_farbe'] . ";\">&nbsp;&nbsp;&nbsp;</td>" . "</tr></table>";
-		$text .= "<table style=\"border-collapse: collapse;\"><tr>\n";
-		foreach ($farbe_chat_user as $key => $val) {
-			$text .= "<td style=\"padding-left:0px; padding-right:0px;\">";
-			$text .= "<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=farbe_aendern&u_id=$f[u_id]&u_farbe=$val\">";
-			$text .= "<div style=\"background-color:#" . $val ." ; width:" . $farbe_chat_user_breite . "px; height:" .  $farbe_chat_user_hoehe . "px; border:0px;\"></div></a></td>\n";
-		}
-		$text .= "</tr></table>\n";
-	}
 	
 	// Fuß der Tabelle
 	$text .= "</form>\n";

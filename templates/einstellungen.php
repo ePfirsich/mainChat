@@ -68,12 +68,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$f['u_farbe'] = filter_input(INPUT_GET, 'u_farbe', FILTER_SANITIZE_URL);
 		}
 	}
-	if($aktion == "farbe_aendern" && $temp_u_id) {
-		$f['u_farbe'] = filter_input(INPUT_POST, 'u_farbe', FILTER_SANITIZE_URL);
-		if($f['u_farbe'] == "") {
-			$f['u_farbe'] = filter_input(INPUT_GET, 'u_farbe', FILTER_SANITIZE_URL);
-		}
-	}
 	
 	// Werte aus dem Array entfernen, welche die aktuelle Benutzergruppe nicht bearbeiten darf
 	if (!$admin) {
@@ -178,29 +172,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			zeige_tabelle_zentriert($box, $text);
 			
 			break;
-		
-		case "farbe_aendern":
-			$fehlermeldung = "";
-			if ( $u_id != $f['u_id'] ) {
-				$fehlermeldung .= $t['einstellungen_fehler_allgemein'];
-			}
-			
-			// Farbe direkt über Input-Feld
-			if (substr($f['u_farbe'], 0, 1) == "#") {
-				$f['u_farbe'] = substr($f['u_farbe'], 1, 6);
-			}
-			if (strlen($f['u_farbe']) != 6) {
-				$fehlermeldung .= $t['einstellungen_fehler_farbe'];
-				
-				// Mit korrekten Wert überschreiben
-				$f['u_farbe'] = $benutzerdaten_row->u_farbe;
-			} else if (!preg_match("/[a-f0-9]{6}/i", $f['u_farbe'])) {
-				$fehlermeldung .= $t['einstellungen_fehler_farbe'];
-				
-				// Mit korrekten Wert überschreiben
-				$f['u_farbe'] = $benutzerdaten_row->u_farbe;
-			}
-			
 			
 			if($fehlermeldung != "") {
 				// Fehlermeldung anzeigen

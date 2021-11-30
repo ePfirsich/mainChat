@@ -45,7 +45,12 @@ function zeige_header_ende($zusatz_header = '') {
 			return(confirm(text));
 	}
 	</script>
-	<script language="JavaScript" src="jscript.js"></script>
+	<script type="text/javascript" src="js/jscript.js"></script>
+	
+	<!-- jQuery Color picker -->
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<link rel="stylesheet" href="css/wheelcolorpicker.css" type="text/css">
+	<script type="text/javascript" src="js/jquery.wheelcolorpicker.min.js"></script>
 	</head>
 	<?php
 }

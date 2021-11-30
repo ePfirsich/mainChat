@@ -197,7 +197,6 @@ $t['user_zeige2'] = "Name";
 $t['user_zeige4'] = "Adresse";
 $t['user_zeige5'] = "Browser";
 $t['user_zeige9'] = "Letzter Login";
-$t['user_zeige10'] = "Farbe";
 $t['user_zeige11'] = "Private Nachricht an %uu_nick%";
 $t['user_zeige12'] = "<b>Admin-Menü:</b>";
 $t['user_zeige13'] = "<p>Benutzerdaten von %uu_nick% bearbeiten:</p>";
