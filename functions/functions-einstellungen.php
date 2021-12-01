@@ -121,6 +121,42 @@ function user_edit($f, $admin, $u_level) {
 	
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
+	// Überschrift: Farbeinstellungen
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_farbeinstellungen'], "", "", 0, "70", "");
+	
+	// Standardfarbe setzen, falls undefiniert
+	if (strlen($f['u_farbe']) == 0) {
+		$f['u_farbe'] = $user_farbe;
+	}
+	
+	// Farbe ändern
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"u_farbe\" value=\"$f[u_farbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['u_farbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
 	// Überschrift: Allgemeine Einstellungen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_allgemeine_einstellungen'], "", "", 0, "70", "");
 	
@@ -201,42 +237,6 @@ function user_edit($f, $admin, $u_level) {
 		$text .= "</tr>\n";
 		$zaehler++;
 	}
-	
-	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
-	
-	// Überschrift: Farbeinstellungen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_farbeinstellungen'], "", "", 0, "70", "");
-	
-	// Standardfarbe setzen, falls undefiniert
-	if (strlen($f['u_farbe']) == 0) {
-		$f['u_farbe'] = $user_farbe;
-	}
-	
-	// Farbe ändern
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
-	}
-	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
-	$text .= "<td $bgcolor>";
-	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"u_farbe\" value=\"$f[u_farbe]\" />";
-	$text .= "</td>\n";
-	$text .= "</tr>\n";
-	$zaehler++;
-	
-	// Farbe anzeigen
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
-	}
-	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_aktuell_gespeicherte_farbe'] . "</td>\n";
-	$text .= "<td style=\"background-color:#" . $f['u_farbe'] . ";\">&nbsp;</td>\n";
-	$text .= "</tr>\n";
-	$zaehler++;
 	
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
