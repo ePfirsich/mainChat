@@ -43,6 +43,10 @@ $t['einstellungen_fehler_fehlende_berechtigung'] = "Sie wollten die Einstellunge
 $t['einstellungen_fehler_passwort1'] = "Sie müssen das Passwort zweimal gleich eingeben.<br>";
 $t['einstellungen_fehler_passwort2'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein<br>";
 
+$t['einstellungen_speichern'] = "Speichern";
+$t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
+$t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für die Farbe)";
+
 $t['edit9'] = "Benutzername %u_nick% geändert!";
 $t['edit10'] = "'%row->u_nick%' ändert den Benutzernamen auf '%u_nick%'.";
 $t['edit19'] = "Kommentar";

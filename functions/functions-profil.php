@@ -20,6 +20,11 @@ function profil_editor($u_id, $u_nick, $f) {
 	$zaehler = 0;
 	
 	$text = "<form name=\"profil\" action=\"inhalt.php?seite=profil\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">\n";
+	$text .= "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten
@@ -124,20 +129,13 @@ function profil_editor($u_id, $u_nick, $f) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	
-		$text .= "
-		<tr>
-			<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
-			<td $bgcolor>
-				<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">
-				<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">
-				<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">
-				<input type=\"hidden\" name=\"id\" value=\"$id\">
-				<input type=\"hidden\" name=\"aktion\" value=\"aendern\">
-				<input type=\"submit\" name=\"los\" value=\"Eintragen\">
-			</td>
-		</tr>
-	</table>
-	</form>";
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
+	$text .= "</tr>\n";
+
+	$text .= "</table>\n";
+	$text .= "</form>\n";
 	
 	return $text;
 }

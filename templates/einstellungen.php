@@ -163,7 +163,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			$text .= "<tr>\n";
 			$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_level'] . "</td>";
-			$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"Ändern!\"></td>\n";
+			$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
 			$text .= "</tr>\n";
 			$text .= "</table>\n";
 			$text .= "</form>\n";
@@ -325,7 +325,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$fehlermeldung = "";
 			$fehlermeldung = "";
 			
-			if (((isset($eingabe) && $eingabe == "Ändern!") || (isset($farben['u_farbe']) && $farben['u_farbe'])) && ($u_id == $f['u_id'] || $admin)) {
+			if (((isset($eingabe) && $eingabe == $t['einstellungen_speichern']) || (isset($farben['u_farbe']) && $farben['u_farbe'])) && ($u_id == $f['u_id'] || $admin)) {
 				// In Namen die unerlaubten Zeichen entfernen
 				$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
 				

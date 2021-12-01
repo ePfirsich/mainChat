@@ -286,7 +286,7 @@ switch ($aktion) {
 		break;
 	
 	default:
-		// Neues Profil einrichten oder bestehendes Ändern
+		// Neues Profil einrichten oder bestehendes ändern
 		if ($profil_gefunden == true) {
 			$box = $t['bestehendes_profil'];
 		} else {
@@ -296,7 +296,7 @@ switch ($aktion) {
 		$text = '';
 		
 		// Textkopf
-		if ($los != "Eintragen") {
+		if ($los != $t['einstellungen_speichern']) {
 			$text .= $t['profil_informationen'];
 		}
 		

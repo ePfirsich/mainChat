@@ -10,7 +10,7 @@ if (isset($f['r_name'])) {
 	$f['r_eintritt'] = htmlspecialchars($f['r_eintritt']);
 	$f['r_austritt'] = htmlspecialchars($f['r_austritt']);
 	
-	// In Permanenten Räumen darf ein RB keine Punkte Ändern
+	// In Permanenten Räumen darf ein RB keine Punkte ändern
 	if (!$admin && $f['r_status2'] == "P") {
 		echo "<p>" . $t['fehler14'] . "</p>\n";
 		unset($f['r_min_punkte']);

@@ -97,4 +97,8 @@ $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
 $t['profil_homepage_freigeben'] = "Homepage";
 $t['profil_home1'] = "Meine Homepage";
 $t['profil_home2'] = "Homepage Einstellungen";
+
+$t['einstellungen_speichern'] = "Speichern";
+$t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
+$t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für den Text über sich selbst)";
 ?>

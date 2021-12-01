@@ -248,9 +248,8 @@ function user_edit($f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>";
-	$text .= "<td colspan=\"2\" $bgcolor>\n";
-	$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Ändern!\">\n";
-	$text .= "</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -269,7 +268,7 @@ function zeige_aktionen($aktion) {
 	global $forumfeatures;
 	
 	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";
-	$button = "Eintragen";
+	$button = $t['einstellungen_speichern'];
 	$box = "$t[aktion4] $u_nick $t[aktion5]";
 	$text = '';
 	
