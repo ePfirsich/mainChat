@@ -35,12 +35,8 @@ $t['profil_fehler_chathomepage'] = "Es wurde eine falsche Eingabe bei der Aktivi
 $t['profil_fehler_hobby'] = "Die Hobbies ist länger als 255 Zeichen!<br>\n";
 
 
-$t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen "
-. "Angaben aus. Falls Sie die eine oder andere Information über sich "
-. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. "
-. "Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie "
-. "es in den Homepage-Einstellungen freigeben.</p>\n"
-. "<p><b>Vielen Dank, dass Sie Ihr Profil ausfüllen!</b></p>\n";
+$t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen Angaben aus. Falls Sie die eine oder andere Information über sich "
+. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie es in den Homepage-Einstellungen freigeben.</p>\n";
 
 $t['profil_benutzereinstellungen_aendern'] = "Benutzereinstellungen ändern";
 $t['profil_homepage_bearbeiten'] = "Homepage bearbeiten";
