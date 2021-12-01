@@ -64,11 +64,11 @@ if (strlen($u_id) != 0) {
 			// Menue ausgeben, Tabelle aufbauen
 			$text .= "<div style=\"text-align:center;\">";
 			$text .= $text_navigation;
-			$text .= "<br><br>";
+			$text .= "</div><br>";
 			
 			$text .= zeige_smilies('chat');
 			
-			$text .= "<br>";
+			$text .= "<br><div style=\"text-align:center;\">";
 			$text .= $text_navigation;
 			$text .= "</div>";
 			
@@ -147,7 +147,7 @@ if (strlen($u_id) != 0) {
 			
 			$text .= "<div style=\"text-align:center;\">";
 			$text .= $text_navigation;
-			$text .= "<br><br>";
+			$text .= "</div><br>";
 			
 			$text .= $larr[0]['r_name'] . "<br>\n";
 			
@@ -155,7 +155,7 @@ if (strlen($u_id) != 0) {
 			$text .= user_liste($larr, true);
 			
 			if ($rows > 15) {
-				$text .= "<br>";
+				$text .= "<br><div style=\"text-align:center;\">";
 				$text .= $text_navigation;
 			}
 			$text .= "</div>";

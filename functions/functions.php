@@ -833,7 +833,7 @@ function zeige_smilies($anzeigeort = 'chat') {
 				$farbe_tabelle = 'class="tabelle_zeile2"';
 			}
 			$text .= "<tr>";
-			$text .= "<td $farbe_tabelle>";
+			$text .= "<td $farbe_tabelle style=\"text-align:center;\">";
 			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
 			$text .= "</td>";
 			$text .= "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</td>";
