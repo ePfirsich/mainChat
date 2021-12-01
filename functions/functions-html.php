@@ -34,7 +34,6 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout
 
 function zeige_header_ende($zusatz_header = '') {
 	// Gibt den HTML-Header auf der Eingangsseite
-	global $u_nick;
 	
 	if($zusatz_header != '') {
 		echo $zusatz_header;

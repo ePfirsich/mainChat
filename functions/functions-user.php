@@ -193,5 +193,4 @@ function user_liste($larr, $seitenleiste = false) {
 	
 	return $text;
 }
-
 ?>

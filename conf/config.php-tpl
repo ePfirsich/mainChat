@@ -369,15 +369,6 @@ $single_room_verhalten = "0";
 // Die Anzeige wieviele Benutzer im Raum sind, bzw. wieviele im Chat sind, wird nicht mehr angezeigt
 $useronline_anzeige_deaktivieren = "0";
 
-// Deaktiviert rechts in der Benutzerleiste das ansprechen per @ und >
-$userleiste_inaktiv_ansprechen = "0";
-
-// Deaktiviert rechts in der Benutzerleiste das Mailsymbol
-$userleiste_inaktiv_mailsymbol = "0";
-
-// Deaktiviert rechts in der Benutzerleiste das anklicken des Benutzernamens
-$userleiste_inaktiv_userfunktionen = "0";
-
 // Deaktiviert die Anzeige "Benutzer im Raum" beim Betreten des Raumes
 $unterdruecke_user_im_raum_anzeige = "0";
 ?>
