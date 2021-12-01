@@ -140,12 +140,12 @@ if (strlen($u_id) != 0) {
 				$text .= user_pm_list($larr);
 				
 				$text .= "</center>";
+				
+				zeige_tabelle_volle_breite($box, $text);
 			}
 			
 			//Anfang Benutzerliste Ausgabe rechts
-			$text = "";
-			
-			$text .= "<div style=\"text-align:center;\">";
+			$text = "<div style=\"text-align:center;\">";
 			$text .= $text_navigation;
 			$text .= "</div><br>";
 			
