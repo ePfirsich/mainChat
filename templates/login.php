@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($aktion)) {
+	die;
+}
+
 // Box für Login
 zeige_chat_login();
 

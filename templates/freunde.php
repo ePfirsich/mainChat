@@ -1,4 +1,8 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
 switch ($aktion) {
 	case "editinfotext":
 		if ((strlen($editeintrag) > 0) && (preg_match("/^[0-9]+$/", trim($editeintrag)) == 1)) {

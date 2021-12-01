@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 switch ($aktion) {
 	case "top100":
 		$anzahl = 100;

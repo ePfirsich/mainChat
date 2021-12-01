@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 // Falls Abspeichern, Header senden
 if ($aktion == "abspeichern") {
 	$dateiname = "log-" . date("YmdHi") . ".htm";

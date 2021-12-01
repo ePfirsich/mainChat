@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 $f = array();
 $f['u_id'] = filter_input(INPUT_POST, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 if( $f['u_id'] == '') {

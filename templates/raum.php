@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 if (isset($f['r_name'])) {
 	// In Namen die Leerzeichen und ' und " entfernen
 	$ersetzen = array("'", "\"", "\\");

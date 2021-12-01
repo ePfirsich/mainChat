@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 if ($mailloescheauspapierkorb < 1)
 	$mailloescheauspapierkorb = 14;

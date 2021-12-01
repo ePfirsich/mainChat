@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($aktion)) {
+	die;
+}
+
 $text = "<b>" . $t['impressum'] . "</b>";
 $text .= "<br>";
 $text .= $impressum_name;

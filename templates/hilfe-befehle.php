@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 // Erklärung zu den Befehlen
 $text = '';
 $box = $t['hilfe0'];

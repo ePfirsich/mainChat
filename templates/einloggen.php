@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($aktion)) {
+	die;
+}
+
 // Sequence für online- und chat-Tabelle erzeugen
 erzeuge_sequence("online", "o_id");
 erzeuge_sequence("chat", "c_id");
