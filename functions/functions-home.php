@@ -4,7 +4,6 @@ function edit_home(
 	$u_id,
 	$u_nick,
 	$home,
-	$einstellungen,
 	$farben,
 	$bilder,
 	$aktion) {
@@ -45,9 +44,7 @@ function edit_home(
 	$text = '';
 	
 	$text .= "<table style=\"width:100%;\">"
-		. "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">\n"
-		. home_einstellungen($u_id, $u_nick, $home, $einstellungen)
-		. "</td><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
+		. "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
 		. home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
 		. "</td></tr></table>\n";
 	
@@ -473,36 +470,6 @@ function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
 	*/
 	
 	return ("<table style=\"width:100%; $bg\">$text</table>");
-}
-
-function home_einstellungen($u_id, $u_nick, $home, $einstellungen) {
-	// Einstellungen für Homepage:
-	// Homepage öffentlich ja/nein
-	// Profileinstellungen öffentlich ja/nein
-	// Addresse öffentlich ja/nein
-	
-	global $f1, $f2, $t;
-	
-	// Homepage aktivieren/deaktivieren
-	$value = array($t['homepage_deaktivieren'], $t['homepage_aktivieren']);
-	
-	$text .= "<tr>";
-	$text .= "<td>$f1$t[profil_homepage_freigeben] $f2";
-	
-	$text .= "<select name=\"einstellungen[u_chathomepage]\">";
-	for ($i=0; $i<count($value);$i++) {
-		if($i == $einstellungen['u_chathomepage']) {
-			$selected = " selected";
-		} else {
-			$selected = "";
-		}
-		$text .= "<option$selected value=\"$i\">$value[$i]</option>\n";
-	}
-	$text .= "</select></td>\n";
-	$text .= "</tr>";
-	
-	return ("<table style=\"width:100%;\">$text</table>");
-	
 }
 
 function home_farbe(

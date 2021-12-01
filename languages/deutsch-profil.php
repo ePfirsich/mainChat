@@ -11,9 +11,6 @@ $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. D
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
 
-$t['homepage_aktivieren'] = "aktivieren";
-$t['homepage_deaktivieren'] = "deaktivieren";
-
 $t['profil_fehlermeldung'] = "Fehler";
 $t['profil_erfolgsmeldung'] = "Änderungen gespeichert";
 $t['profil_erfolgsmeldung_details'] = "<b>Ihr Profil wurde gespeichert!</b>";
@@ -34,6 +31,7 @@ $t['profil_fehler_lieblingsgetränk'] = "Das Lieblingsgetränk ist länger als 1
 $t['profil_fehler_lieblingsgericht'] = "Das Lieblingsgericht ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsspiel'] = "Der Lieblingsspiel ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsfarbe'] = "Die Lieblingsfarbe ist länger als 100 Zeichen!<br>\n";
+$t['profil_fehler_chathomepage'] = "Es wurde eine falsche Eingabe bei der Aktivierung/Deaktivierung der Homepage getätigt.<br>\n";
 $t['profil_fehler_hobby'] = "Die Hobbies ist länger als 255 Zeichen!<br>\n";
 
 
@@ -60,9 +58,14 @@ $t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten d
 $t['profil_email'] = "E-Mail";
 $t['profil_interne_email'] = "Interne E-Mail";
 $t['profil_interne_email_details'] = " (nicht öffentlich einsehbar; Notwendig um sich ein neues Passwort zuschicken zu lassen)";
-$t['profil_homepage'] = "Homepage";
 $t['profil_geburt'] = "Geburtsdatum";
 $t['profil_geschlecht'] = "Geschlecht";
+$t['profil_homepage'] = "Homepage";
+$t['profil_homepage_aktivieren'] = "aktivieren";
+$t['profil_homepage_deaktivieren'] = "deaktivieren";
+$t['profil_homepage_zur_vorschau'] = ">>Zur Vorschau der Homepage<<";
+$t['profil_homepage_zur_homepage'] = ">>Zur Homepage<<";
+
 $t['profil_geschlecht_maennlich'] = "männlich";
 $t['profil_geschlecht_weiblich'] = "weiblich";
 $t['profil_geschlecht_divers'] = "divers";
@@ -79,7 +82,7 @@ $t['profil_typ_sportlich'] = "sportlich";
 $t['profil_typ_normal'] = "normal";
 $t['profil_typ_mollig'] = "mollig";
 $t['profil_typ_dick'] = "dick";
-$t['profil_homepage'] = "Webseite";
+$t['profil_webseite'] = "Webseite";
 $t['profil_beruf'] = "Beruf";
 $t['profil_hobby'] = "Hobbies";
 $t['profil_lieblingsfilm'] = "Lieblingsfilm";

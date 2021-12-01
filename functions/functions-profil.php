@@ -25,6 +25,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten
@@ -76,7 +77,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$zaehler++;
 	
 	// Beruf
-	$text .= zeige_formularfelder("input", $zaehler, $t['profil_homepage'], "ui_homepage", $f['ui_homepage']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['profil_webseite'], "ui_homepage", $f['ui_homepage']);
 	$zaehler++;
 	
 	// Beruf
@@ -121,6 +122,16 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	// Text über sich selbst
 	$text .= zeige_formularfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
+	$zaehler++;
+	
+	// Homepage freigeben
+	if($f['u_chathomepage'] == 1) {
+		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $t['profil_homepage_zur_homepage'] . "</a>";
+	} else {
+		$u_chathomepage_link = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $t['profil_homepage_zur_vorschau'] . "</a>";
+	}
+	$value = array($t['profil_homepage_deaktivieren'], $t['profil_homepage_aktivieren']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_homepage'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {

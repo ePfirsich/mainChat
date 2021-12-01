@@ -93,8 +93,7 @@ if (isset($u_id) && $u_id) {
 			echo "<br>";
 			$box = $t['profil_home1'];
 			$text = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">Meine Homepage zeigen</a>\n"
-				. "| <a href=\"home.php?id=$id&aktion=aendern\">Meine Homepage bearbeiten</a>\n"
-				. "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">Profil ändern</a>\n"
+				. "| <a href=\"inhalt.php?seite=profil&id=$id\">Profil ändern</a>\n"
 				. "| <a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#home\">Hilfe</a>\n";
 			
 			zeige_tabelle_zentriert($box, $text);
@@ -126,13 +125,6 @@ if (isset($u_id) && $u_id) {
 			
 			if (isset($home) && is_array($home) && $home['ui_id']) {
 				// Bei Änderung der Einstellung speichern
-				if ($einstellungen['u_chathomepage'] != $userdata['u_chathomepage']) {
-					unset($f);
-					$userdata['u_chathomepage'] = $einstellungen['u_chathomepage'];
-					$f['u_chathomepage'] = $einstellungen['u_chathomepage'];
-					schreibe_db("user", $f, $ui_userid, "u_id");
-				}
-				
 				// hochgeladene Bilder in DB speichern
 				$bildliste = ARRAY("ui_bild1", "ui_bild2", "ui_bild3", "ui_bild4", "ui_bild5", "ui_bild6");
 				foreach ($bildliste as $val) {
@@ -167,11 +159,6 @@ if (isset($u_id) && $u_id) {
 					}
 				}
 				
-
-				
-				// Einstellung für u_chathomepage aus Benutzerdaten lesen
-				$einstellungen['u_chathomepage'] = $userdata['u_chathomepage'];
-				
 				// Bildinfos lesen und in Array speichern
 				$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=" . intval($ui_userid);
 				$result2 = mysqli_query($mysqli_link, $query);
@@ -202,7 +189,7 @@ if (isset($u_id) && $u_id) {
 				if (!isset($bilder)) {
 					$bilder = "";
 				}
-				edit_home($ui_userid, $u_nick, $home, $einstellungen, (isset($farben) ? $farben : null), $bilder, $aktion);
+				edit_home($ui_userid, $u_nick, $home, (isset($farben) ? $farben : null), $bilder, $aktion);
 				echo "<input type=\"submit\" name=\"los\" value=\"Speichern\"></form>\n";
 				
 			} else {
@@ -217,8 +204,9 @@ if (isset($u_id) && $u_id) {
 			$hash = genhash($ui_userid);
 			//$url = "home.php?/$user_nick";
 			$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash";
-			if (isset($preview) && $preview == "yes")
+			if (isset($preview) && $preview == "yes") {
 				$url = "zeige_home.php?ui_userid=$ui_userid&hash=$hash&preview=yes&preview_id=$id";
+			}
 			?>
 			<!DOCTYPE html>
 			<html dir="ltr" lang="de">

@@ -52,6 +52,7 @@ function user_edit($f, $admin, $u_level) {
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">";

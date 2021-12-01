@@ -1,4 +1,9 @@
 <?php
+// Direkten Aufruf der Datei verbieten
+if( !isset($u_id)) {
+	die;
+}
+
 // Prüfung, ob für diesen Benutzer bereits ein profil vorliegt -> in $f lesen und merken
 // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
 $query = "SELECT * FROM `userinfo` WHERE `ui_userid`=$u_id";
@@ -8,6 +13,7 @@ if ($result && mysqli_num_rows($result) != 0) {
 	
 	$f = array();
 	$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$f['u_chathomepage'] = $userdata['u_chathomepage'];
 	$profil_gefunden = true;
 } else {
 	// Neues Profil anlegen
@@ -41,7 +47,7 @@ if( $aktion == '') {
 }
 
 // Profil prüfen und ggf. neu eintragen
-if($aktion == "aendern" && $f['ui_userid']) {
+if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL) == "gefuellt") {
 	if( !isset($f['ui_id']) || $f['ui_id'] == '' || $f['ui_id'] == 0) {
 		$f = array();
 		$f['ui_id'] = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_URL);
@@ -67,6 +73,7 @@ if($aktion == "aendern" && $f['ui_userid']) {
 	$f['ui_lieblingsspiel'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsspiel', FILTER_SANITIZE_STRING));
 	$f['ui_lieblingsfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsfarbe', FILTER_SANITIZE_STRING));
 	$f['ui_hobby'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_hobby', FILTER_SANITIZE_STRING));
+	$f['u_chathomepage'] = filter_input(INPUT_POST, 'u_chathomepage', FILTER_SANITIZE_NUMBER_INT);
 	$text_inhalt = htmlspecialchars(filter_input(INPUT_POST, 'ui_text'));
 	
 	// Spezialbehandlung für den Text über sich selbst - Anfang
@@ -99,125 +106,133 @@ if($aktion == "aendern" && $f['ui_userid']) {
 	$f['ui_text'] = $text_inhalt;
 	// Spezialbehandlung für den Text über sich selbst - Ende
 	
-	// Schreibrechte?
-	if ($f['ui_userid'] == $u_id || $admin) {
-		$fehlermeldung = "";
-		
-		// Prüfungen
-		if (strlen($f['ui_wohnort']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_wohnort'];
-		}
-		
-		if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
-			$fehlermeldung .= $t['profil_fehler_geburt'];
-		}
-		
-		if ($f['ui_geschlecht'] != "" && $f['ui_geschlecht'] < 0 && $f['ui_geschlecht'] > 3) {
-			$fehlermeldung .= $t['profil_fehler_geschlecht'];
-		}
-		
-		if ($f['ui_beziehungsstatus'] != "" && $f['ui_beziehungsstatus'] < 0 && $f['ui_beziehungsstatus'] > 4) {
-			$fehlermeldung .= $t['profil_fehler_beziehungsstatus'];
-		}
-		
-		if ($f['ui_typ'] != "" && $f['ui_typ'] < 0 && $f['ui_typ'] > 6) {
-			$fehlermeldung .= $t['profil_fehler_typ'];
-		}
-		
-		// Homepage muss http:// oder https://enthalten
-		if (isset($f['ui_webseite']) && strlen($f['ui_webseite']) > 0 && !preg_match("/^http:\/\//i", $f['ui_webseite']) && !preg_match("/^https:\/\//i", $f['ui_webseite']) ) {
-			$f['ui_webseite'] = "http://" . $f['ui_webseite'];
-		}
-		
-		if (strlen($f['ui_webseite']) > 160) {
-			$fehlermeldung .= $t['profil_fehler_homepage'];
-		}
-		
-		if (strlen($f['ui_beruf']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_beruf'];
-		}
-		
-		if (strlen($f['ui_lieblingsfilm']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsfilm'];
-		}
-		
-		if (strlen($f['ui_lieblingsserie']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsserie'];
-		}
-		
-		if (strlen($f['ui_lieblingsbuch']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsbuch'];
-		}
-		
-		if (strlen($f['ui_lieblingsschauspieler']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsschauspieler'];
-		}
-		
-		if (strlen($f['ui_lieblingsgetraenk']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsgetraenk'];
-		}
-		
-		if (strlen($f['ui_lieblingsgericht']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsgericht'];
-		}
-		
-		if (strlen($f['ui_lieblingsspiel']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsspiel'];
-		}
-		
-		if (strlen($f['ui_lieblingsfarbe']) > 100) {
-			$fehlermeldung .= $t['profil_fehler_lieblingsfarbe'];
-		}
-		
-		if (strlen($f['ui_hobby']) > 255) {
-			$fehlermeldung .= $t['profil_fehler_hobby'];
-		}
-		
-		if ($fehlermeldung != "") {
-			$box = $t['profil_fehlermeldung'];
-			zeige_tabelle_zentriert($box, $fehlermeldung);
-		} else {
-			$query = "SELECT ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
-			$result = mysqli_query($mysqli_link, $query);
-			if ($result && mysqli_num_rows($result) == 1) {
-				// Benutzerprofil aus der Datenbank lesen
-				$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				if ($home['ui_farbe']) {
-					$farbentemp = unserialize($home['ui_farbe']);
-					if (is_array($farbentemp)) {
-						$farben = $farbentemp;
-					}
-				}
-			$f['ui_farbe'] = $home['ui_farbe'];
-			} else {
-				$f['ui_farbe'] = '';
-			}
-			
-			// Punkte gutschreiben?
-			if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
-				punkte(500, $o_id, $u_id, $t['profil_punkte']);
-				$profil_gefunden = true;
-			}
-			
-			// Wenn noch kein Profil existiert, die ID aus dem Array entfernen
-			if($f['ui_id'] == 0) {
-				unset($f['ui_id']);
-				$ui_id = 0;
-			} else {
-				$ui_id = $f['ui_id'];
-			}
-			
-			// Datensatz schreiben
-			$f['ui_id'] = schreibe_db("userinfo", $f, $ui_id, "ui_id");
-			
-			$box = $t['profil_erfolgsmeldung'];
-			$text = $t['profil_erfolgsmeldung_details'];
-			zeige_tabelle_zentriert($box, $text);
-		}
-	} else {
-		// Kein Recht die Daten zu schreiben!
+	$fehlermeldung = "";
+	
+	// Prüfungen
+	if (strlen($f['ui_wohnort']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_wohnort'];
+	}
+	
+	if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
+		$fehlermeldung .= $t['profil_fehler_geburt'];
+	}
+	
+	if ($f['ui_geschlecht'] != "" && $f['ui_geschlecht'] < 0 && $f['ui_geschlecht'] > 3) {
+		$fehlermeldung .= $t['profil_fehler_geschlecht'];
+	}
+	
+	if ($f['ui_beziehungsstatus'] != "" && $f['ui_beziehungsstatus'] < 0 && $f['ui_beziehungsstatus'] > 4) {
+		$fehlermeldung .= $t['profil_fehler_beziehungsstatus'];
+	}
+	
+	if ($f['ui_typ'] != "" && $f['ui_typ'] < 0 && $f['ui_typ'] > 6) {
+		$fehlermeldung .= $t['profil_fehler_typ'];
+	}
+	
+	// Homepage muss http:// oder https://enthalten
+	if (isset($f['ui_webseite']) && strlen($f['ui_webseite']) > 0 && !preg_match("/^http:\/\//i", $f['ui_webseite']) && !preg_match("/^https:\/\//i", $f['ui_webseite']) ) {
+		$f['ui_webseite'] = "http://" . $f['ui_webseite'];
+	}
+	
+	if (strlen($f['ui_webseite']) > 160) {
+		$fehlermeldung .= $t['profil_fehler_homepage'];
+	}
+	
+	if (strlen($f['ui_beruf']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_beruf'];
+	}
+	
+	if (strlen($f['ui_lieblingsfilm']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsfilm'];
+	}
+	
+	if (strlen($f['ui_lieblingsserie']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsserie'];
+	}
+	
+	if (strlen($f['ui_lieblingsbuch']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsbuch'];
+	}
+	
+	if (strlen($f['ui_lieblingsschauspieler']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsschauspieler'];
+	}
+	
+	if (strlen($f['ui_lieblingsgetraenk']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsgetraenk'];
+	}
+	
+	if (strlen($f['ui_lieblingsgericht']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsgericht'];
+	}
+	
+	if (strlen($f['ui_lieblingsspiel']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsspiel'];
+	}
+	
+	if (strlen($f['ui_lieblingsfarbe']) > 100) {
+		$fehlermeldung .= $t['profil_fehler_lieblingsfarbe'];
+	}
+	
+	if (strlen($f['ui_hobby']) > 255) {
+		$fehlermeldung .= $t['profil_fehler_hobby'];
+	}
+	
+	if ($f['u_chathomepage'] != "" && $f['u_chathomepage'] < 0 && $f['u_chathomepage'] > 1) {
+		$fehlermeldung .= $t['profil_fehler_chathomepage'];
+	}
+	
+	if ($fehlermeldung != "") {
 		$box = $t['profil_fehlermeldung'];
-		$text = "<b>Fehler:</b> Sie haben keine Berechtigung, das Profil von '$nick' zu verändern!";
+		zeige_tabelle_zentriert($box, $fehlermeldung);
+	} else {
+		$query = "SELECT ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
+		$result = mysqli_query($mysqli_link, $query);
+		if ($result && mysqli_num_rows($result) == 1) {
+			// Benutzerprofil aus der Datenbank lesen
+			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
+			if ($home['ui_farbe']) {
+				$farbentemp = unserialize($home['ui_farbe']);
+				if (is_array($farbentemp)) {
+					$farben = $farbentemp;
+				}
+			}
+		$f['ui_farbe'] = $home['ui_farbe'];
+		} else {
+			$f['ui_farbe'] = '';
+		}
+		
+		// Punkte gutschreiben?
+		if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
+			punkte(500, $o_id, $u_id, $t['profil_punkte']);
+			$profil_gefunden = true;
+		}
+		
+		// Wenn noch kein Profil existiert, die ID aus dem Array entfernen
+		if($f['ui_id'] == 0) {
+			unset($f['ui_id']);
+			$ui_id = 0;
+		} else {
+			$ui_id = $f['ui_id'];
+		}
+		
+		// Datensatz schreiben
+		
+		// Sonderfall für "u_chathomepage", da dies in der Tabelle "user" gespeichert wird
+		$userArray = array();
+		$userArray['u_chathomepage'] = $f['u_chathomepage'];
+		schreibe_db("user", $userArray, $u_id, "u_id");
+		unset($f['u_chathomepage']);
+		
+		
+		// Alle restlichen Daten in die Tabelle "userinfo" schreiben
+		schreibe_db("userinfo", $f, $ui_id, "ui_id");
+		
+		$f['u_chathomepage'] = $userArray['u_chathomepage'];
+		unset($userArray);
+		
+		$box = $t['profil_erfolgsmeldung'];
+		$text = $t['profil_erfolgsmeldung_details'];
 		zeige_tabelle_zentriert($box, $text);
 	}
 }

@@ -49,7 +49,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	}
 	
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
-	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "") {
+	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL) == "gefuellt") {
 		$f['u_id'] = $temp_u_id;
 		$f['u_nick'] = filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL);
 		$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);

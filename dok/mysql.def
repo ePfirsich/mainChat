@@ -26,7 +26,7 @@
 # u_punkte_datum_jahr	Jahr, auf die sich u_punkte_datum_jahr bezieht
 # u_punkte_gruppe	Grafik-Symbol für die Punktegruppe
 # u_gelesene_postings	ID der gelesenen Beiträge im Forum
-# u_chathomepage	Chathomepage freigeschalten J/N
+# u_chathomepage	Chathomepage freigeschalten
 # u_eintritt		Eintrittstext
 # u_austritt		Austrittstext
 # u_signatur		Signatur für Mail und Forum
