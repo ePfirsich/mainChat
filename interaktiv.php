@@ -99,6 +99,10 @@ if (isset($u_id) && $u_id) {
 		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv2']);
 	}
 	
+	if ( !($u_level == 'U' || $level == 'G') ) {
+		echo " " . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $txt) . $f2 . "</td>";
+	}
+	
 	if ($u_level != "M") {
 		?>
 		<td></td>
