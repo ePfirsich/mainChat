@@ -37,6 +37,13 @@ if ($result && mysqli_num_rows($result) != 0) {
 	$f['ui_lieblingsfarbe'] = '';
 	$f['ui_hobby'] = '';
 	$f['ui_text'] = '';
+	$f['ui_hintergrundfarbe'] = $standard_ui_hintergrundfarbe;
+	$f['ui_ueberschriften_textfarbe'] = $standard_ui_ueberschriften_textfarbe;
+	$f['ui_ueberschriften_hintergrundfarbe'] = $standard_ui_ueberschriften_hintergrundfarbe;
+	$f['ui_inhalt_textfarbe'] = $standard_ui_inhalt_textfarbe;
+	$f['ui_inhalt_linkfarbe'] = $standard_ui_inhalt_linkfarbe;
+	$f['ui_inhalt_linkfarbe_aktiv'] = $standard_ui_inhalt_linkfarbe_aktiv;
+	$f['ui_inhalt_hintergrundfarbe'] = $standard_ui_inhalt_hintergrundfarbe;
 	$profil_gefunden = false;
 }
 mysqli_free_result($result);
@@ -74,6 +81,13 @@ if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular
 	$f['ui_lieblingsfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_lieblingsfarbe', FILTER_SANITIZE_STRING));
 	$f['ui_hobby'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_hobby', FILTER_SANITIZE_STRING));
 	$f['u_chathomepage'] = filter_input(INPUT_POST, 'u_chathomepage', FILTER_SANITIZE_NUMBER_INT);
+	$f['ui_hintergrundfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_hintergrundfarbe', FILTER_SANITIZE_URL));
+	$f['ui_ueberschriften_textfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_ueberschriften_textfarbe', FILTER_SANITIZE_URL));
+	$f['ui_ueberschriften_hintergrundfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_ueberschriften_hintergrundfarbe', FILTER_SANITIZE_URL));
+	$f['ui_inhalt_textfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_inhalt_textfarbe', FILTER_SANITIZE_URL));
+	$f['ui_inhalt_linkfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_inhalt_linkfarbe', FILTER_SANITIZE_URL));
+	$f['ui_inhalt_linkfarbe_aktiv'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_inhalt_linkfarbe_aktiv', FILTER_SANITIZE_URL));
+	$f['ui_inhalt_hintergrundfarbe'] = htmlspecialchars(filter_input(INPUT_POST, 'ui_inhalt_hintergrundfarbe', FILTER_SANITIZE_URL));
 	$text_inhalt = htmlspecialchars(filter_input(INPUT_POST, 'ui_text'));
 	
 	// Spezialbehandlung für den Text über sich selbst - Anfang
@@ -182,26 +196,39 @@ if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular
 		$fehlermeldung .= $t['profil_fehler_chathomepage'];
 	}
 	
+	if ($f['ui_hintergrundfarbe'] == "" || strlen($f['ui_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_hintergrundfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_hintergrundfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_ueberschriften_textfarbe'] == "" || strlen($f['ui_ueberschriften_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_textfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_ueberschriften_textfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_ueberschriften_hintergrundfarbe'] == "" || strlen($f['ui_ueberschriften_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_hintergrundfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_ueberschriften_hintergrundfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_inhalt_textfarbe'] == "" || strlen($f['ui_inhalt_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_textfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_textfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_inhalt_linkfarbe'] == "" || strlen($f['ui_inhalt_linkfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_linkfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_inhalt_linkfarbe_aktiv'] == "" || strlen($f['ui_inhalt_linkfarbe_aktiv']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe_aktiv'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_linkfarbe_aktiv'], $t['profil_fehler_farbe']);
+	}
+	
+	if ($f['ui_inhalt_hintergrundfarbe'] == "" || strlen($f['ui_inhalt_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_hintergrundfarbe'])) {
+		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_hintergrundfarbe'], $t['profil_fehler_farbe']);
+	}
+	
+	
 	if ($fehlermeldung != "") {
 		$box = $t['profil_fehlermeldung'];
 		zeige_tabelle_zentriert($box, $fehlermeldung);
 	} else {
-		$query = "SELECT ui_farbe FROM userinfo WHERE ui_userid=" . intval($u_id);
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			// Benutzerprofil aus der Datenbank lesen
-			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			if ($home['ui_farbe']) {
-				$farbentemp = unserialize($home['ui_farbe']);
-				if (is_array($farbentemp)) {
-					$farben = $farbentemp;
-				}
-			}
-		$f['ui_farbe'] = $home['ui_farbe'];
-		} else {
-			$f['ui_farbe'] = '';
-		}
-		
 		// Punkte gutschreiben?
 		if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
 			punkte(500, $o_id, $u_id, $t['profil_punkte']);

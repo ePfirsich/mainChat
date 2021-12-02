@@ -33,6 +33,7 @@ $t['profil_fehler_lieblingsspiel'] = "Der Lieblingsspiel ist länger als 100 Zei
 $t['profil_fehler_lieblingsfarbe'] = "Die Lieblingsfarbe ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_chathomepage'] = "Es wurde eine falsche Eingabe bei der Aktivierung/Deaktivierung der Homepage getätigt.<br>\n";
 $t['profil_fehler_hobby'] = "Die Hobbies ist länger als 255 Zeichen!<br>\n";
+$t['profil_fehler_farbe'] = "Die %farbe% muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>\n";
 
 
 $t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen Angaben aus. Falls Sie die eine oder andere Information über sich "
@@ -52,8 +53,6 @@ $t['profil_level'] = "Level";
 $t['profil_wohnort'] = "Wohnort";
 $t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
 $t['profil_email'] = "E-Mail";
-$t['profil_interne_email'] = "Interne E-Mail";
-$t['profil_interne_email_details'] = " (nicht öffentlich einsehbar; Notwendig um sich ein neues Passwort zuschicken zu lassen)";
 $t['profil_geburt'] = "Geburtsdatum";
 $t['profil_geschlecht'] = "Geschlecht";
 $t['profil_homepage'] = "Homepage";
@@ -91,6 +90,18 @@ $t['profil_lieblingsspiel'] = "Lieblingsspiel";
 $t['profil_lieblingsfarbe'] = "Lieblingsfarbe";
 $t['profil_text'] = "Ihr Text über sich selbst";
 $t['profil_editieren'] = "editieren";
+$t['profil_farbeinstellungen'] = "Farbeinstellungen";
+$t['profil_allgemeines'] = "Allgemeines";
+$t['profil_aktuell_gespeicherte_farbe'] = "Aktuell gespeicherte Farbe";
+
+$t['profil_hintergrundfarbe'] = "Hintergrundfarbe der Seite";
+$t['profil_ueberschriften_textfarbe'] = "Textfarbe der Überschriften";
+$t['profil_ueberschriften_hintergrundfarbe'] = "Hintergrundfarbe der Überschriften und Rahmenfarbe der Tabelle";
+$t['profil_inhalt_textfarbe'] = "Textfarbe des Inhalts";
+$t['profil_inhalt_linkfarbe'] = "Linkfarbe des Inhalts";
+$t['profil_inhalt_linkfarbe_aktiv'] = "Linkfarbe des Inhalts (aktiv)";
+$t['profil_inhalt_hintergrundfarbe'] = "Hintergrundfarbe des Inhalts";
+
 $t['profil_farbe'] = "Farbe";
 $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
 $t['profil_homepage_freigeben'] = "Homepage";
@@ -100,4 +111,12 @@ $t['profil_home2'] = "Homepage Einstellungen";
 $t['einstellungen_speichern'] = "Speichern";
 $t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
 $t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für den Text über sich selbst)";
+
+$t['homepage_von'] = "Chat-Homepage von";
+$t['homepage_informationen'] = "Informationen";
+$t['homepage_text_ueber_mich'] = "Etwas über mich";
+$t['homepage_bilder'] = "Bilder";
+$t['homepage_hintergrundgrafik'] = "Hintergrundgrafik";
+$t['homepage_hintergrundgrafik_des_inhalts'] = "Hintergrundgrafik des Inhalts";
+$t['homepage_hintergrundgrafik_der_grafiken'] = "Hintergrundgrafik der Grafiken";
 ?>

@@ -328,31 +328,15 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				unset($f['u_adminemail']);
 			}
 			$fehlermeldung = "";
-			$fehlermeldung = "";
 			
-			if (((isset($eingabe) && $eingabe == $t['einstellungen_speichern']) || (isset($farben['u_farbe']) && $farben['u_farbe'])) && ($u_id == $f['u_id'] || $admin)) {
+			if ( (isset($eingabe) && $eingabe == $t['einstellungen_speichern']) && ($u_id == $f['u_id'] || $admin) ) {
 				// In Namen die unerlaubten Zeichen entfernen
 				$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
 				
 				$fehlermeldung = "";
 				
-				// Farbe aus Farb-Popup in Hidden-Feld
-				if ($farben['u_farbe']) {
-					$f['u_farbe'] = $farben['u_farbe'];
-				}
-				
-				// Farbe direkt über Input-Feld
-				if (substr($f['u_farbe'], 0, 1) == "#") {
-					$f['u_farbe'] = substr($f['u_farbe'], 1, 6);
-				}
-				
 				// Farbe überprüfen
-				if (strlen($f['u_farbe']) != 6) {
-					$fehlermeldung .= $t['einstellungen_fehler_farbe'];
-					
-					// Mit korrekten Wert überschreiben
-					$f['u_farbe'] = $benutzerdaten_row->u_farbe;
-				} else if (!preg_match("/[a-f0-9]{6}/i", $f['u_farbe'])) {
+				if (strlen($f['u_farbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['u_farbe'])) {
 					$fehlermeldung .= $t['einstellungen_fehler_farbe'];
 					
 					// Mit korrekten Wert überschreiben

@@ -13,53 +13,144 @@ function edit_home(
 	// einstellungen = Array der Einstellungen
 	// farben = Array mit Benutzerfarben
 	// bilder = Array mit Bildinfos
-	global $t;
+	global $t, $f1, $f2;
 	
 	// HP-Tabelle ausgeben
 	$box = $t['profil_home1'];
-	$text = '';
+	$text = '<br>';
 	
-	$text .= "<table style=\"width:100%;\">"
-		. "<tr><td style=\"vertical-align:top; width:60%;\" class=\"tabelle_zeile2\">"
-		. home_info($u_id, $u_nick, $farben, $aktion)
-		. "<br>\n"
-		. home_profil($u_id, $u_nick, $home, $farben, $aktion)
-		. "<br>\n"
-		. home_text($u_id, $u_nick, $home, "ui_text", $farben, $aktion)
-		. "</td>\n<td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
-		. home_bild($u_id, $u_nick, $home, "ui_bild1", $farben, $aktion, $bilder)
-		. "<br>\n"
-		. home_bild($u_id, $u_nick, $home, "ui_bild2", $farben, $aktion, $bilder)
-		. "<br>\n"
-		. home_bild($u_id, $u_nick, $home, "ui_bild3", $farben, $aktion, $bilder)
-		. "<br>\n"
-		. home_aktionen($u_id, $u_nick, $home, $farben, $aktion)
-		. "</td></tr>\n"
-		. "</table>";
+	$text .= home_info($u_id, $u_nick, $home, "ui_text", $farben, $aktion, $bilder, $u_nick);
 			
 	// Box anzeigen
-	zeige_tabelle_zentriert($box, $text);
+	zeige_tabelle_zentriert($box, $f2.$text.$f1);
 	
 	$box = $t['profil_home2'];
 	$text = '';
 	
-	$text .= "<table style=\"width:100%;\">"
-		. "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">"
-		. home_hintergrund($u_id, $u_nick, $farben, $home, $bilder)
-		. "</td></tr></table>\n";
+	$text .= "<table style=\"width:100%;\">";
+	$text .= "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">";
 	
+	$text .= "<table style=\"width:100%;\">";
+	$text .= "<tr>\n";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik]</td>";
+	$text .= "</tr>\n";
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild4", $farben, $aktion, $bilder);
+	$text .= "<tr>\n";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_des_inhalts]</td>";
+	$text .= "</tr>\n";
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild5", $farben, $aktion, $bilder);
+	$text .= "<tr>\n";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_der_grafiken]</td>";
+	$text .= "</tr>\n";
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild6", $farben, $aktion, $bilder);
+	$text .= "</table>";
+
+	$text .= "</td></tr></table>\n";
 		
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
-	// Zeigt die Benutzerinfos im Profil an
+function home_info($u_id, $u_nick, $home, $feld, $farben, $aktion, $bilder, $nicknamen) {
+	// Zeigt die öffentlichen Benutzerdaten an
+	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
 	
-	global $id, $f1, $f2, $f3, $f4, $t;
-	
-	$link = $f3 . "<b>[<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[profil_editieren]</a>]</b>" . $f4;
 	$text = "";
+	
+	$text .= "<table style=\"border-radius: 3px; background-color: #$home[ui_ueberschriften_hintergrundfarbe]; width: 99%; margin: auto; margin-bottom: 10px;\">\n";
+	$text .= "<tr>\n";
+	$text .= "<td colspan=\"2\" style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_von] $nicknamen</td>\n";
+	$text .= "</tr>\n";
+	$text .= "<tr>\n";
+	
+	
+	// Informationen / Text über mich - Start
+	if (true) {
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild5);";
+	} else {
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe];";
+	}
+	$text .= "<td style=\"color: #$home[ui_inhalt_textfarbe]; $tabellenhintergrund padding-left:2px; padding-right:2px; width:60%; vertical-align:top;\">\n";
+	
+	$text .= "<table style=\"width:100%;\">\n";
+	$text .= "<tr>\n";
+	$text .= "<td colspan=\"2\" style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_informationen]</td>\n";
+	$text .= "</tr>\n";
+	
+	// Benutzerdaten lesen
+	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
+		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
+		$result = mysqli_query($mysqli_link, $query);
+		if ($result && mysqli_num_rows($result) == 1) {
+			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
+			
+			$userdata['u_chathomepage'] = 0;
+			$userdata['u_punkte_anzeigen'] = 0;
+			
+			$online_zeit = $userdata['online'];
+			$letzter_login = $userdata['login'];
+			
+			mysqli_free_result($result);
+			
+			// Link auf Benutzereditor ausgeben
+			if ($aktion == "aendern") {
+				$url = "inhalt.php?seite=einstellungen&id=$id";
+				$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
+			} else {
+				$userdaten_bearbeiten = "&nbsp;";
+			}
+			
+			// Benutzername
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_benutzername]:$f2</td>\n";
+			$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
+			$text .= "</tr>\n";
+			
+			// Onlinezeit oder letzter Login
+			$text .= "<tr>\n";
+			if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
+				$text .= "<td>&nbsp;</td>";
+				$text .= "<td style=\"vertical-align:top;\"><b>"
+					. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
+			} else {
+				$text .= "<td>&nbsp;</td>";
+				$text .= "<td style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
+			}
+			$text .= "</tr>\n";
+			
+			// Level
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
+			$text .= "<td><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
+			$text .= "</tr>\n";
+			
+			// Punkte
+			if ($userdata['u_punkte_gesamt']) {
+				if ($userdata['u_punkte_datum_monat'] != date("n", time())) {
+					$userdata['u_punkte_monat'] = 0;
+				}
+				if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
+					$userdata['u_punkte_jahr'] = 0;
+				}
+				$text .= "<tr>\n";
+				$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
+				$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
+					. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
+					$text .= "</tr>\n";
+			}
+			
+			// Farbwähler & Link auf Editor ausgeben
+			$text .= "<tr>\n";
+			$text .= "<td colspan=\"4\">&nbsp;</td>\n";
+			$text .= "</tr>\n";
+		}
+		if (is_array($farben) && strlen($farben['info']) > 7) {
+			$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['info'] . ";";
+		} else if (is_array($farben) && strlen($farben['info']) == 7) {
+			$bg = "background-color:$farben[info];";
+		} else {
+			$bg = "";
+		}
 	
 	if ($home['ui_userid']) {
 		// Profil vorhanden
@@ -169,163 +260,65 @@ function home_profil($u_id, $u_nick, $home, $farben, $aktion) {
 			$text .= "<td>" . $f1 . $home['ui_hobby'] . $f2 . "</td>";
 			$text .= "</tr>\n";
 		}
-	} else {
-		if ($aktion == "aendern") {
+		
+		if( $home['ui_homepage'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td>$t[profil_noch_kein_profil_erstellt]</td>\n";
-			$text .= "<td style=\"text-align:right;\">$link</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_webseite]:$f2</td>\n";
+			$text .= "<td>$f1<a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" target=\"_blank\">" . $home['ui_homepage'] . "</a>$f2</td>";
 			$text .= "</tr>\n";
 		}
-		
 	}
-	
-	// Farbwähler und Profil-Link ausgeben
-	if ($aktion == "aendern") {
-		$text .= "<tr><td style=\"text-align:right;\">" . $link . "<br>\n"
-			. home_farbe($u_id, $u_nick, $home, "profil", $farben['profil'])
-			. "</td></tr>\n";
-	} else {
-		$text .= "<tr><td>&nbsp;</td></tr>\n";
-	}
-	
-	if (is_array($farben) && strlen($farben['profil']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['profil'] . ";";
-	} elseif (is_array($farben) && strlen($farben['profil']) == 7) {
-		$bg = "background-color:$farben[profil];";
-	} else {
-		$bg = "";
-	}
-	
-	return ("<table style=\"width:100%; $bg\">$text</table>");
-}
-
-function home_info($u_id, $u_nick, $farben, $aktion) {
-	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
-	
-	
-	
-	// Benutzerdaten lesen
-	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
-		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		
-		$userdata['u_chathomepage'] = 0;
-		$userdata['u_punkte_anzeigen'] = 0;
-		
-		$online_zeit = $userdata['online'];
-		$letzter_login = $userdata['login'];
-		
-		mysqli_free_result($result);
-		
-		// Link auf Benutzereditor ausgeben
-		if ($aktion == "aendern") {
-			$url = "inhalt.php?seite=einstellungen&id=$id";
-			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
-		} else {
-			$userdaten_bearbeiten = "&nbsp;";
-		}
-		
-		$text = "";
-		
-		// Benutzername
-		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$t[profil_benutzername]:$f2</td>\n";
-		$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
-		$text .= "</tr>\n";
-		
-		// Onlinezeit oder letzter Login
-		$text .= "<tr>\n";
-		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-			$text .= "<td>&nbsp;</td>";
-			$text .= "<td style=\"vertical-align:top;\"><b>"
-				. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
-		} else {
-			$text .= "<td>&nbsp;</td>";
-			$text .= "<td style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
-		}
-		$text .= "</tr>\n";
-		
-		// Level
-		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
-		$text .= "<td><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
-		$text .= "</tr>\n";
-		
-		// Punkte
-		if ($userdata['u_punkte_gesamt']) {
-			if ($userdata['u_punkte_datum_monat'] != date("n", time())) {
-				$userdata['u_punkte_monat'] = 0;
-			}
-			if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
-				$userdata['u_punkte_jahr'] = 0;
-			}
-			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
-			$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
-				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
-			$text .= "</tr>\n";
-		}
-		
-		// Farbwähler & Link auf Editor ausgeben
-		$text .= "<tr>\n";
-		if ($aktion == "aendern") {
-			if (!isset($home)) {
-				$home = "";
-			}
-			$text .= "<tr>\n";
-			$text .= "<td colspan=\"4\" style=\"text-align:right;\">" . $userdaten_bearbeiten . "<br>\n" . home_farbe($u_id, $u_nick, $home, "info", $farben['info']) . "</td>\n";
-		} else {
-			$text .= "<td colspan=\"4\">&nbsp;</td>\n";
-		}
-		$text .= "</tr>\n";
-	}
-	if (is_array($farben) && strlen($farben['info']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['info'] . ";";
-	} else if (is_array($farben) && strlen($farben['info']) == 7) {
-		$bg = "background-color:$farben[info];";
-	} else {
-		$bg = "";
-	}
-	
-	return ("<table style=\"width:100%; $bg\">$text</table>");
-}
-
-function home_text($u_id, $u_nick, $home, $feld, $farben, $aktion) {
-	// Gibt TEXT-AREA Feld für $feld aus
-	global $id, $f1, $f2, $f3, $f4, $t;
 	
 	$text_inhalt = $home[$feld];
 	
-	if ($aktion == "aendern") {
-		$text = "<tr>\n";
-		$text .= "<td style=\"vertical-align:top;\">$f1<b>$t[profil_text]:</b>$f2<br>";
+	if($text_inhalt != "") {
+		$text .= "<tr>\n";
+		$text .= "<td colspan=\"2\">&nbsp;</td></tr>\n";
+		$text .= "<tr>\n";
+		
+		$text .= "<tr>\n";
+		$text .= "<td colspan=\"2\" style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_text_ueber_mich]</td>\n";
 		$text .= "</tr>\n";
 		$text .= "<tr>\n";
-		$text .= "<td tyle=\"vertical-align:top;\">" . $text_inhalt . "</td>\n";
-		$text .="</tr>\n";
-		$text .="<tr>\n";
-		$text .="<td style=\"vertical-align:top; text-align:right; width: 150px;\">\n";
-		$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\">$t[profil_editieren]</a>]</b>" . $f4 . "<br>";
-		$text .= home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld]) . "</td>\n";
-		$text .= "</tr>\n";
-	} else {
-		$text = "<tr>\n";
-		$text .= "<td style=\"vertical-align:top;\">" . $text_inhalt . "</td>\n";
+		$text .= "<td colspan=\"2\" style=\"vertical-align:top;\">" . $text_inhalt . "</td>\n";
 		$text .= "</tr>\n";
 	}
+	$text .= "</table>\n";
+	// Informationen / Text über mich - Ende
 	
-	if (is_array($farben) && strlen($farben['ui_text']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['ui_text'] . ";";
-	} elseif (is_array($farben) && strlen($farben['ui_text']) == 7) {
-		$bg = "background-color:$farben[ui_text];";
+	$text .= "</td>\n";
+	
+	if (true) {
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild6);";
 	} else {
-		$bg = "";
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe];";
 	}
 	
-	return ("<table style=\"width:100%; $bg\">$text</table>");
+	$text .= "<td style=\"color: #$home[ui_inhalt_textfarbe]; $tabellenhintergrund padding-left:2px; padding-right:2px; vertical-align:top;\">\n";
+
+	// Bilder - Start
+	$text .= "<table style=\"width:100%;\">\n";
+	$text .= "<tr>\n";
+	$text .= "<td style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_bilder]</td>\n";
+	$text .= "</tr>\n";
+	$text .= "<tr>\n";
+	
+	if (!isset($bilder)) {
+		$bilder = "";
+	}
+	
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $farben, $aktion, $bilder);
+	
+	$text .= "</table>\n";
+	// Bilder - Ende
+	
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	
+	return $text;
 }
 
 function home_bild(
@@ -335,10 +328,13 @@ function home_bild(
 	$feld,
 	$farben,
 	$aktion,
-	$bilder,
-	$beschreibung = "") {
+	$bilder) {
 	
 	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $t;
+	
+	$text = "";
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:center; vertical-align:top;\"><br>";
 	
 	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
 		
@@ -346,147 +342,32 @@ function home_bild(
 		$height = $bilder[$feld]['b_height'];
 		$mime = $bilder[$feld]['b_mime'];
 		
-		if ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
-			$info = $f3 . "<br>Info: " . $width . "x" . $height . " als "
-				. $mime . $f4;
+		if ($aktion == "aendern") {
+			$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
+		} else {
+			$info = "";
 		}
 		
-		if (!isset($info))
-			$info = "";
-		$text = "<td style=\"text-align:center; vertical-align:top;\" ><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "</td>";
+		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
 		if ($aktion == "aendern") {
-			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "<br>"
-				. home_farbe($u_id, $u_nick, $home, $feld, $farben[$feld])
-				. "</td>\n";
-		} elseif ($aktion == "aendern_ohne_farbe") {
-			$text .= "<td style=\"vertical-align:bottom; text-align:right;\">" . $f3
-				. "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4 . "</td>\n";
+			$text .= "<br>" . $f3 . "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4;
 		}
+	} else if ($aktion == "aendern") {
 		
-	} elseif ($aktion == "aendern" || $aktion == "aendern_ohne_farbe") {
-		
-		$text = "<td style=\"text-align:center; vertical-align:top;\">$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\"></td>";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">&nbsp;<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"><br></td>\n";
+		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
+		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\">";
 		
 	} else {
-		
-		$text = "";
-		
+		$text .= "";
 	}
 	
-	if (!isset($farben[$feld])) {
-		$bg = "";
-	} elseif (strlen($farben[$feld]) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
-			. $farben[$feld] . ";";
-	} elseif (strlen($farben[$feld]) == 7) {
-		$bg = "background-color:$farben[$feld];";
-	} else {
-		$bg = "";
-	}
+	$text .= "<br>";
+	$text .= "<br>";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
 	
-	if ($beschreibung)
-		$text = "<td style=\"text-align:right;\">" . $f1 . $beschreibung . $f2 . "</td>"
-			. $text;
-	if ($text && $beschreibung) {
-		$text = "<tr>" . $text . "</tr>";
-	} elseif ($text) {
-		$text = "<table style=\"width:100%; $bg\"><tr>" . $text . "</tr></table>";
-	}
-	
-	return ($text);
-}
-
-function home_aktionen($u_id, $u_nick, $home, $farben, $aktion) {
-	// userdata wurde in home_info gesetzt
-	global $chat, $id, $chat_grafik, $f1, $f2, $userdata, $id;
-	
-	$text = "<td style=\"vertical-align:top;\">" . $f1;
-	
-	if ( $home['ui_homepage'] ) {
-		$text .= "Mehr über mich: <b><a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" target=\"_blank\">" . $home['ui_homepage'] . "</b></a><br>\n";
-	}
-	
-	$text .= $f2 . "</td>";
-	if ($aktion == "aendern") {
-		$text .= "<td style=\"vertical-align:bottom; text-align:right;\">"
-			. home_farbe($u_id, $u_nick, $home, "aktionen", $farben['aktionen'])
-			. "</td>";
-	}
-	
-	if (is_array($farben) && strlen($farben['aktionen']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
-			. $farben['aktionen'] . ";";
-	} elseif (is_array($farben) && strlen($farben['aktionen']) == 7) {
-		$bg = "background-color:$farben[aktionen];";
-	} else {
-		$bg = "";
-	}
-	
-	$text = "<table style=\"width:100%; $bg\"><tr>"
-		. $text . "</tr></table>";
-	
-	return ($text);
-}
-
-function home_hintergrund($u_id, $u_nick, $farben, $home, $bilder) {
-	// Einstellungen für den Hintergrund
-	global $f1, $f2;
-	
-	$aktion = "aendern_ohne_farbe";
-	
-	$text = "<tr><td style=\"text-align:right;\">" . $f1 . "Hintergrund: " . $f2 . "</td>"
-		. "<td style=\"background-color:$farben[bgcolor];\">&nbsp;</td>" . "<td>"
-		. home_farbe($u_id, $u_nick, $home, "bgcolor", $farben['bgcolor'])
-		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1 . "Textfarbe: " . $f2
-		. "</td>" . "<td style=\"background-color:$farben[text];\">&nbsp;</td>" . "<td>"
-		. home_farbe($u_id, $u_nick, $home, "text", $farben['text'], FALSE)
-		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1 . "Linkfarbe: " . $f2
-		. "</td>" . "<td style=\"background-color:$farben[link];\">&nbsp;</td>" . "<td>"
-		. home_farbe($u_id, $u_nick, $home, "link", $farben['link'], FALSE)
-		. "</td></tr>" . "<tr><td style=\"text-align:right;\">" . $f1
-		. "Linkfarbe (aktiv): " . $f2 . "</td>"
-		. "<td style=\"background-color:$farben[vlink];\">&nbsp;</td>" . "<td>"
-		. home_farbe($u_id, $u_nick, $home, "vlink", $farben['vlink'], FALSE)
-		. "</td></tr>"
-		. home_bild($u_id, $u_nick, $home, "ui_bild4", $farben, $aktion,
-			$bilder, "Hintergrundgrafik&nbsp;1:")
-		. home_bild($u_id, $u_nick, $home, "ui_bild5", $farben, $aktion,
-			$bilder, "Hintergrundgrafik&nbsp;2:")
-		. home_bild($u_id, $u_nick, $home, "ui_bild6", $farben, $aktion,
-			$bilder, "Hintergrundgrafik&nbsp;3:");
-	
-	/*
-	if (strlen($farben['info']) > 7) {
-		$bg = "background-image:home_bild.php?u_id=$u_id&feld="
-			. $farben['info'] . ";";
-	} elseif (strlen($farben['info']) == 7) {
-		$bg = "background-color:$farben[info];";
-	} else {
-		$bg = "";
-	}
-	*/
-	
-	return ("<table style=\"width:100%; $bg\">$text</table>");
-}
-
-function home_farbe(
-	$u_id,
-	$u_nick,
-	$home,
-	$feld,
-	$farbe = "#FFFFFF",
-	$mit_grafik = TRUE) {
-	// gibt Link auf Farbwähler aus
-	
-	global $f3, $f4, $id, $t;
-	
-	$url = "home_farben.php?id=$id&mit_grafik=$mit_grafik&feld=$feld&bg=Y&oldcolor=" . urlencode($farbe);
-	$link = $f3 . "<b>[<a href=\"$url\" target=\"Farben\" onclick=\"window.open('$url','Farben','resizable=yes,scrollbars=yes,width=400,height=500'); return(false);\">$t[profil_farbe]</a>]</b>" . $f4;
-	
-	return ($link);
+	return $text;
 }
 
 function bild_holen($u_id, $name, $ui_bild, $groesse) {
@@ -572,7 +453,7 @@ function home_url_parse($tag, $url)
 
 function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	// Zeigt die Homepage des Benutzers u_id an
-	global $mysqli_link, $argv, $argc, $id, $check_name;
+	global $mysqli_link, $argv, $argc, $id, $check_name, $t;
 	
 	if ($u_id && $u_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
@@ -641,66 +522,39 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 	
 	$aktion = "einfach";
 	
-	if (isset($farben['bgcolor']) && strlen($farben['bgcolor']) > 7) {
-		$bg = "background-image: url(\"home_bild.php?u_id=$u_id&feld=" . $farben['bgcolor'] . "\");";
-	} elseif (isset($farben['bgcolor']) && strlen($farben['bgcolor']) == 7) {
-		$bg = "background-color:$farben[bgcolor];";
+	if (true) {
+		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild4);";
 	} else {
-		$bg = "";
+		$bg = "background-color:#$home[ui_hintergrundfarbe];";
 	}
 	
 	if ($ok) {
-			if (is_array($farben)) {
-			?>
-			<style>
-			body {
-				color:<?php echo $farben['text']; ?>;
-				<?php echo $bg; ?>
-			}
-			
-			a {
-				color:<?php echo $farben['link']; ?>;
-			}
-			
-			a:active {
-				color:<?php echo $farben['vlink']; ?>;
-			}
-			</style>
-			<?php
-		}
 		?>
+		<style>
+		body {
+			color:#<?php echo $home['ui_inhalt_textfarbe']; ?>;
+			<?php echo $bg; ?>
+		}
+		
+		a {
+			color:#<?php echo $home['ui_inhalt_linkfarbe']; ?>;
+		}
+		
+		a:active {
+			color:#<?php echo $home['ui_inhalt_linkfarbe']; ?>;
+		}
+		</style>
 		</head>
 		<body>
 		<?php
-		echo "<table style=\"width:100%; height:100%;\">"
-			. "<tr><td style=\"vertical-align:top; width:60%;\">"
-			. home_info($u_id, $row->u_nick, $farben, $aktion)
-			. home_profil($u_id, $row->u_nick, $home, $farben, $aktion);
-		
-		if (!isset($bilder)) {
-			$bilder = "";
-		}
-		
-		$txt = home_text($u_id, $row->u_nick, $home, "ui_text", $farben, $aktion);
-		echo $txt;
-		echo "</td>\n<td style=\"vertical-align:top; width:40%;\">"
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben, $aktion, $bilder)
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben, $aktion, $bilder)
-			. home_bild($u_id, $row->u_nick, $home, "ui_bild3", $farben, $aktion, $bilder)
-			. home_aktionen($u_id, $row->u_nick, $home, $farben, $aktion);
-		
-		echo "</td></tr></table>\n";
-		echo "</body>\n";
-		
+		echo home_info($u_id, $row->u_nick, $home, "ui_text", $farben, $aktion, $bilder, $nicknamen);
 	} else if ($u_chathomepage != "1") {
 		echo "<body>"
 			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
-		echo "</body>\n";
 		
 	} else {
 		echo "<body>"
 			. "<p><b>Fehler: Aufruf ohne gültige Parameter!</b></p>";
-		echo "</body>\n";
 		
 	}
 }

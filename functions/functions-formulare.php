@@ -12,7 +12,7 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 	$text .= "<tr>\n";
 	if($art_der_anzeige == "selectbox") {
 		// Auswahlfeld anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor>";
 		
 		$text .= "<select name=\"$key\">";
@@ -28,19 +28,19 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		$text .= "</select> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "input") {
 		// Input anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><input type=\"text\" name=\"$key\" value=\"$value\" maxlenght=\"160\" size=\"$breite_eingabefeld\"> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "password") {
 		// Password-Feld anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><input type=\"password\" name=\"$key\" value=\"$value\" maxlenght=\"160\" size=\"$breite_eingabefeld\"> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "textarea") {
 		// Textarea anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><textarea name=\"$key\" rows=\"4\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "textarea2") {
 		// Textarea2 anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><textarea class=\"ckeditor\" name=\"$key\" rows=\"20\" cols=\"" . ($breite_eingabefeld - 10) . "\" maxlenght=\"255\">$value</textarea> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "ueberschrift") {
 		// Überschrift anzeigen
@@ -50,7 +50,7 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		$text .= "<td colspan=\"2\">&nbsp;</td>";
 	} else {
 		// Text anzeigen
-		$text .= "<td style=\"text-align:right; width:300px;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor>$value $beschreibung</td>\n";
 	}
 	$text .= "</tr>\n";

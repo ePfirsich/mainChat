@@ -46,6 +46,20 @@ ALTER TABLE `user` DROP `u_agb`;
 ALTER TABLE `user` ADD `u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `online` DROP `o_js`;
 UPDATE `user` SET `u_agb` = 1;
+ALTER TABLE `userinfo` ADD `ui_hintergrundfarbe` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_ueberschriften_textfarbe` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_ueberschriften_hintergrundfarbe` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_inhalt_textfarbe` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_inhalt_linkfarbe` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_inhalt_linkfarbe_aktiv` VARCHAR(6) NULL DEFAULT NULL;
+ALTER TABLE `userinfo` ADD `ui_inhalt_hintergrundfarbe` VARCHAR(6) NULL DEFAULT NULL;
+UPDATE `userinfo` SET `ui_hintergrundfarbe` = "ffffff";
+UPDATE `userinfo` SET `ui_ueberschriften_textfarbe` = "ffffff";
+UPDATE `userinfo` SET `ui_ueberschriften_hintergrundfarbe` = "007ABE";
+UPDATE `userinfo` SET `ui_inhalt_textfarbe` = "000000";
+UPDATE `userinfo` SET `ui_inhalt_linkfarbe` = "000000";
+UPDATE `userinfo` SET `ui_inhalt_linkfarbe_aktiv` = "000000";
+UPDATE `userinfo` SET `ui_inhalt_hintergrundfarbe` = "ffffff";
 
 
 CREATE TABLE `statistiken` (

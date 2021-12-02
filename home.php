@@ -190,7 +190,7 @@ if (isset($u_id) && $u_id) {
 					$bilder = "";
 				}
 				edit_home($ui_userid, $u_nick, $home, (isset($farben) ? $farben : null), $bilder, $aktion);
-				echo "<input type=\"submit\" name=\"los\" value=\"Speichern\"></form>\n";
+				echo "</form>\n";
 				
 			} else {
 				// Erst Profil anlegen

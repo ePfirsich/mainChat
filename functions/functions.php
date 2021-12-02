@@ -56,7 +56,8 @@ $valid_fields = array(
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_farbe', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
-		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage')
+		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage',
+		'ui_hintergrundfarbe', 'ui_ueberschriften_textfarbe', 'ui_ueberschriften_hintergrundfarbe', 'ui_inhalt_textfarbe', 'ui_inhalt_linkfarbe', 'ui_inhalt_linkfarbe_aktiv', 'ui_inhalt_hintergrundfarbe')
 );
 
 // Funktionen
@@ -870,7 +871,7 @@ function zeige_userdetails(
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
 	global $id, $system_farbe, $mysqli_link, $t, $show_geschlecht;
-	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik, $homep_ext_link;
+	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik;
 	
 	$text = "";
 	if ($mit_id) {
@@ -1022,16 +1023,9 @@ function zeige_userdetails(
 		}
 	}
 	
-	if (!$extra_kompakt && ($user_chathomepage == "1" || $homep_ext_link != "")) {
-		if ($homep_ext_link != "" AND $user_level != "G") {
-			$url = $homep_ext_link . $user_nick;
-			$text2 .= "&nbsp;"
-				. "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-		} else if ($user_chathomepage == "1") {
-			$url = "home.php?/$user_nick";
-			//$url = "home.php?ui_userid=$user_id&id=$idtag";
-			$text2 .= "&nbsp;" . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-		}
+	if (!$extra_kompakt && $user_chathomepage == "1") {
+		$url = "home.php?/$user_nick";
+		$text2 .= "&nbsp;" . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 	}
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {

@@ -40,15 +40,197 @@ function profil_editor($u_id, $u_nick, $f) {
 	$value = htmlspecialchars($userdata['u_email']);
 	$text .= zeige_formularfelder("text", $zaehler, $t['profil_email'], "", $value);
 	$zaehler++;
-	
-	if ($userdata['u_adminemail']) {
-		// Interne E-Mail
-		$value = htmlspecialchars($userdata['u_adminemail']) . $t['profil_interne_email_details'];
-		$text .= zeige_formularfelder("text", $zaehler, $t['profil_interne_email'], "", $value);
-		$zaehler++;
-	}
 
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	// Überschrift: Farbeinstellungen
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['profil_farbeinstellungen'], "", "", 0, "70", "");
+	
+	// Hintergrundfarbe der Seite
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_hintergrundfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_hintergrundfarbe\" value=\"$f[ui_hintergrundfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_hintergrundfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Textfarbe der Überschriften
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_ueberschriften_textfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_ueberschriften_textfarbe\" value=\"$f[ui_ueberschriften_textfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_ueberschriften_textfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Hintergrundfarbe der Überschriften und Rahmenfarbe der Tabelle
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_ueberschriften_hintergrundfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_ueberschriften_hintergrundfarbe\" value=\"$f[ui_ueberschriften_hintergrundfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_ueberschriften_hintergrundfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Textfarbe des Inhalts
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_inhalt_textfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_inhalt_textfarbe\" value=\"$f[ui_inhalt_textfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_inhalt_textfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Linkfarbe des Inhalts
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_inhalt_linkfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_inhalt_linkfarbe\" value=\"$f[ui_inhalt_linkfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_inhalt_linkfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Linkfarbe des Inhalts (aktiv)
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_inhalt_linkfarbe_aktiv'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_inhalt_linkfarbe_aktiv\" value=\"$f[ui_inhalt_linkfarbe_aktiv]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_inhalt_linkfarbe_aktiv'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Hintergrundfarbe des Inhalts
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_inhalt_hintergrundfarbe'] . "</td>\n";
+	$text .= "<td $bgcolor>";
+	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"ui_inhalt_hintergrundfarbe\" value=\"$f[ui_inhalt_hintergrundfarbe]\" />";
+	$text .= "</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	// Farbe anzeigen
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['profil_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"background-color:#" . $f['ui_inhalt_hintergrundfarbe'] . ";\">&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	
 	
 	// Überschrift: Ihr Profil
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['ihr_profil'], "", "", 0, "70", "");
@@ -124,6 +306,11 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
 	$zaehler++;
 	
+	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+	
+	// Überschrift: Allgemeines
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['profil_allgemeines'], "", "", 0, "70", "");
+	
 	// Homepage freigeben
 	if($f['u_chathomepage'] == 1) {
 		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $t['profil_homepage_zur_homepage'] . "</a>";
@@ -141,8 +328,8 @@ function profil_editor($u_id, $u_nick, $f) {
 	}
 	
 	$text .= "<tr>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 
 	$text .= "</table>\n";

@@ -25,7 +25,7 @@ $t['einstellungen_erfolgsmeldung_kick'] = "Benutzer %u_nick% wurde aus dem Chat 
 
 $t['einstellungen_fehlermeldung'] = "Fehler";
 $t['einstellungen_fehler_allgemein'] = "Irgendetwas ist schief gelaufen.<br>";
-$t['einstellungen_fehler_farbe'] = "Es wurde eine ungültige Farbe eingegeben.<br>";
+$t['einstellungen_fehler_farbe'] = "Die Farbe muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>";
 $t['einstellungen_fehler_benutzername1'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!<br>";
 $t['einstellungen_fehler_benutzername2'] = "Der Benutzername ist schon vergeben oder der Benutzername ist im Chat gesperrt!<br>";
 $t['einstellungen_fehler_benutzername3'] = "Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!<br>";

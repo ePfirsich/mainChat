@@ -98,12 +98,6 @@ if (isset($u_id) && $u_id) {
 	} else {
 		$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv2']);
 	}
-	if (!(($u_level == 'U' || $level == 'G')
-		&& (isset($useronline_anzeige_deaktivieren)
-			&& $useronline_anzeige_deaktivieren == "1"))) {
-		echo " " . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $txt) . $f2
-			. "</td>";
-	}
 	
 	if ($u_level != "M") {
 		?>
@@ -120,13 +114,10 @@ if (isset($u_id) && $u_id) {
 	}
 	
 	// Special: Bei nur einem Raum kein Auswahl
-	$query = "SELECT count(*) as zahl FROM raum";
+	$query = "SELECT COUNT(*) AS zahl FROM raum";
 	$result = mysqli_query($mysqli_link, $query);
 	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	$zahl = $a['zahl'];
-	
-	if (($u_level == "U" || $u_level == "G") && ($single_room_verhalten == "1"))
-		$zahl = 0;
 	
 	if ($zahl > 1) {
 		?>

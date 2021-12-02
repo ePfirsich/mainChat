@@ -37,7 +37,7 @@ $cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $fel
 
 $mysqli_link = 0;
 // DB-Connect, ggf. 50 mal versuchen (insgesamt 10 sek)
-for ($c = 0; $c++ < 50 AND !$mysqli_link;) {
+for ($c = 0; $c++ < 50 && !$mysqli_link;) {
 	$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
 	if ($mysqli_link) {
 		@mysqli_select_db($mysqli_link, $dbase);
@@ -46,7 +46,7 @@ for ($c = 0; $c++ < 50 AND !$mysqli_link;) {
 	usleep(200000);
 }
 if (!$mysqli_link) {
-	echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später nocheinmal!<br>";
+	echo "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<br>";
 	exit;
 }
 
@@ -54,12 +54,14 @@ if (!$mysqli_link) {
 $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
+	/*
 	if (mysqli_result($result, 0, "u_chathomepage") != '1' && $feld != "avatar") {
-		echo "Die Benutzernamepage dieses Benutzers ist deaktiviert!<br>";
+		echo "Die Chat-Homepage dieses Benutzers ist deaktiviert!<br>";
 		exit;
 	}
+	*/
 } else {
-	echo "Die Benutzer-ID wurde nicht gefunden!<br>";
+	echo "Der Benutzer wurde nicht gefunden!<br>";
 	exit;
 }
 mysqli_free_result($result);

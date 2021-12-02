@@ -22,7 +22,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	global $u_nick, $id, $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
-	global $single_room_verhalten;
 	
 	// Text $text parsen, Befehle ausführen, Texte im Chat ausgeben
 	
@@ -820,9 +819,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/rooms":
 		case "/j":
 		case "/join":
-			if ((($u_level == "G") || ($u_level == "U")) && ($single_room_verhalten == "1")) {
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_spruch5']));
-			} else if ($chatzeile[1]) {
+			if ($chatzeile[1]) {
 				// Raumname erzeugen
 				$chatzeile[1] = preg_replace("/[ \\'\"]/", "", $chatzeile[1]);
 				$f['r_name'] = htmlspecialchars($chatzeile[1]);

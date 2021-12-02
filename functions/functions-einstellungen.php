@@ -249,8 +249,8 @@ function user_edit($f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
