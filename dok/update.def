@@ -60,6 +60,7 @@ UPDATE `userinfo` SET `ui_inhalt_textfarbe` = "000000";
 UPDATE `userinfo` SET `ui_inhalt_linkfarbe` = "000000";
 UPDATE `userinfo` SET `ui_inhalt_linkfarbe_aktiv` = "000000";
 UPDATE `userinfo` SET `ui_inhalt_hintergrundfarbe` = "ffffff";
+ALTER TABLE `userinfo` DROP `ui_farbe`;
 
 
 CREATE TABLE `statistiken` (
