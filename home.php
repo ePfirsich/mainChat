@@ -45,41 +45,6 @@ if (isset($u_id) && $u_id) {
 	
 	// Voreinstellungen
 	$max_groesse = 60; // Maximale Bild- und Text größe in KB
-	$farbliste = ARRAY(0 => "bgcolor", "info", "profil", "ui_text", "ui_bild1", "ui_bild2", "ui_bild3", "text", "link", "vlink", "aktionen");
-	
-	// Farben prüfen Voreinstellungen setzen
-	foreach ($farbliste as $val) {
-		if (isset($farben) && isset($farben[$val])) {
-			if (strlen($farben[$val]) == 0) {
-				// Voreinstellung
-				switch ($val) {
-					case "bgcolor":
-						$farben[$val] = $farbe_mini_background;
-						break;
-					case "text":
-						$farben[$val] = $farbe_mini_text;
-						break;
-					case "link":
-						$farben[$val] = $farbe_mini_link;
-						break;
-					case "vlink":
-						$farben[$val] = $farbe_mini_vlink;
-						break;
-					default:
-						$farben[$val] = $farbe_tabelle_zeile2;
-				}
-			} elseif (substr($farben[$val], 0, -1) == "ui_bild") {
-				
-			} elseif (substr($farben[$val], 0, 1) != "#") {
-				// Raute ergänzen
-				$farben[$val] = "#" . $farben[$val];
-			}
-			// Auf 7 Zeichen kürzen
-			if (substr($farben[$val], 0, 1) == "#") {
-				$farben[$val] = substr($farben[$val], 0, 7);
-			}
-		}
-	}
 	
 	switch ($aktion) {
 		
@@ -134,11 +99,6 @@ if (isset($u_id) && $u_id) {
 					}
 				}
 				
-				// Farben in ui_farbe packen
-				if (is_array($farben)) {
-					$home['ui_farbe'] = serialize($farben);
-				}
-				
 				// Änderungen in DB schreiben
 				$ui_id = schreibe_db("userinfo", $home, $home['ui_id'], "ui_id");
 			}
@@ -151,13 +111,6 @@ if (isset($u_id) && $u_id) {
 				// Benutzerprofil aus der Datenbank lesen
 				$home = array();
 				$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				
-				if ($home['ui_farbe']) {
-					$farbentemp = unserialize($home['ui_farbe']);
-					if (is_array($farbentemp)) {
-						$farben = $farbentemp;
-					}
-				}
 				
 				// Bildinfos lesen und in Array speichern
 				$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=" . intval($ui_userid);
@@ -172,14 +125,7 @@ if (isset($u_id) && $u_id) {
 				}
 				mysqli_free_result($result2);
 				
-				// hidden Felder für die Farben erzeugen
-				$inputliste = "";
-				foreach ($farbliste as $val) {
-					$inputliste .= "<input type=\"hidden\" name=\"farben[$val]\" value=\"" . (isset($farben) ? $farben[$val] : "") . "\">\n";
-				}
-				
 				echo "<form enctype=\"multipart/form-data\" name=\"home\" action=\"$PHP_SELF\" method=\"post\">\n"
-					. $inputliste
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
 					. "<input type=\"hidden\" name=\"ui_userid\" value=\"$ui_userid\">\n"
@@ -189,7 +135,7 @@ if (isset($u_id) && $u_id) {
 				if (!isset($bilder)) {
 					$bilder = "";
 				}
-				edit_home($ui_userid, $u_nick, $home, (isset($farben) ? $farben : null), $bilder, $aktion);
+				edit_home($ui_userid, $u_nick, $home, $bilder, $aktion);
 				echo "</form>\n";
 				
 			} else {

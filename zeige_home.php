@@ -15,20 +15,18 @@ if (!checkhash($hash, $ui_userid)) {
 	exit;
 }
 
-if (!$ui_userid)
+if (!$ui_userid) {
 	$ui_userid = $u_id;
+}
 
 if (isset($preview) && $preview == "yes") {
 	id_lese($preview_id);
 }
 
-if (!isset($farben))
-	$farben = "";
-
 if (isset($u_id) && $ui_userid == $u_id) {
-	zeige_home($ui_userid, TRUE, $farben);
+	zeige_home($ui_userid, TRUE);
 } else {
-	zeige_home($ui_userid, FALSE, $farben);
+	zeige_home($ui_userid, FALSE);
 }
 ?>
 </html>

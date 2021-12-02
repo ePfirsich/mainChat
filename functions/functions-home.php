@@ -4,14 +4,12 @@ function edit_home(
 	$u_id,
 	$u_nick,
 	$home,
-	$farben,
 	$bilder,
 	$aktion) {
 	// Editor für die eigene Homepage im Chat
 	// u_id = Benutzer-Id
 	// home = Array des Benutzerprofiles mit Einstellungen
 	// einstellungen = Array der Einstellungen
-	// farben = Array mit Benutzerfarben
 	// bilder = Array mit Bildinfos
 	global $t, $f1, $f2;
 	
@@ -19,7 +17,7 @@ function edit_home(
 	$box = $t['profil_home1'];
 	$text = '<br>';
 	
-	$text .= home_info($u_id, $u_nick, $home, "ui_text", $farben, $aktion, $bilder, $u_nick);
+	$text .= home_info($u_id, $u_nick, $home, "ui_text", $aktion, $bilder, $u_nick);
 			
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $f2.$text.$f1);
@@ -34,15 +32,15 @@ function edit_home(
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild4", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild4", $aktion, $bilder);
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_des_inhalts]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild5", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild5", $aktion, $bilder);
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_der_grafiken]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild6", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $u_nick, $home, "ui_bild6", $aktion, $bilder);
 	$text .= "</table>";
 
 	$text .= "</td></tr></table>\n";
@@ -51,7 +49,7 @@ function edit_home(
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function home_info($u_id, $u_nick, $home, $feld, $farben, $aktion, $bilder, $nicknamen) {
+function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
 	
@@ -80,77 +78,70 @@ function home_info($u_id, $u_nick, $home, $feld, $farben, $aktion, $bilder, $nic
 	// Benutzerdaten lesen
 	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
 		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
-		$result = mysqli_query($mysqli_link, $query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			
-			$userdata['u_chathomepage'] = 0;
-			$userdata['u_punkte_anzeigen'] = 0;
-			
-			$online_zeit = $userdata['online'];
-			$letzter_login = $userdata['login'];
-			
-			mysqli_free_result($result);
-			
-			// Link auf Benutzereditor ausgeben
-			if ($aktion == "aendern") {
-				$url = "inhalt.php?seite=einstellungen&id=$id";
-				$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
-			} else {
-				$userdaten_bearbeiten = "&nbsp;";
-			}
-			
-			// Benutzername
-			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_benutzername]:$f2</td>\n";
-			$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
-			$text .= "</tr>\n";
-			
-			// Onlinezeit oder letzter Login
-			$text .= "<tr>\n";
-			if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
-				$text .= "<td>&nbsp;</td>";
-				$text .= "<td style=\"vertical-align:top;\"><b>"
-					. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
-			} else {
-				$text .= "<td>&nbsp;</td>";
-				$text .= "<td style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
-			}
-			$text .= "</tr>\n";
-			
-			// Level
-			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
-			$text .= "<td><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
-			$text .= "</tr>\n";
-			
-			// Punkte
-			if ($userdata['u_punkte_gesamt']) {
-				if ($userdata['u_punkte_datum_monat'] != date("n", time())) {
-					$userdata['u_punkte_monat'] = 0;
-				}
-				if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
-					$userdata['u_punkte_jahr'] = 0;
-				}
-				$text .= "<tr>\n";
-				$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
-				$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
-					. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
-					$text .= "</tr>\n";
-			}
-			
-			// Farbwähler & Link auf Editor ausgeben
-			$text .= "<tr>\n";
-			$text .= "<td colspan=\"4\">&nbsp;</td>\n";
-			$text .= "</tr>\n";
-		}
-		if (is_array($farben) && strlen($farben['info']) > 7) {
-			$bg = "background-image:home_bild.php?u_id=$u_id&feld=" . $farben['info'] . ";";
-		} else if (is_array($farben) && strlen($farben['info']) == 7) {
-			$bg = "background-color:$farben[info];";
+	$result = mysqli_query($mysqli_link, $query);
+	if ($result && mysqli_num_rows($result) == 1) {
+		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		
+		$userdata['u_chathomepage'] = 0;
+		$userdata['u_punkte_anzeigen'] = 0;
+		
+		$online_zeit = $userdata['online'];
+		$letzter_login = $userdata['login'];
+		
+		mysqli_free_result($result);
+		
+		// Link auf Benutzereditor ausgeben
+		if ($aktion == "aendern") {
+			$url = "inhalt.php?seite=einstellungen&id=$id";
+			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
 		} else {
-			$bg = "";
+			$userdaten_bearbeiten = "&nbsp;";
 		}
+		
+		// Benutzername
+		$text .= "<tr>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_benutzername]:$f2</td>\n";
+		$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
+		$text .= "</tr>\n";
+		
+		// Onlinezeit oder letzter Login
+		$text .= "<tr>\n";
+		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
+			$text .= "<td>&nbsp;</td>";
+			$text .= "<td style=\"vertical-align:top;\"><b>"
+				. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
+		} else {
+			$text .= "<td>&nbsp;</td>";
+			$text .= "<td style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
+		}
+		$text .= "</tr>\n";
+		
+		// Level
+		$text .= "<tr>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
+		$text .= "<td><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
+		$text .= "</tr>\n";
+		
+		// Punkte
+		if ($userdata['u_punkte_gesamt']) {
+			if ($userdata['u_punkte_datum_monat'] != date("n", time())) {
+				$userdata['u_punkte_monat'] = 0;
+			}
+			if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
+				$userdata['u_punkte_jahr'] = 0;
+			}
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
+			$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
+				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
+				$text .= "</tr>\n";
+		}
+		
+		// Farbwähler & Link auf Editor ausgeben
+		$text .= "<tr>\n";
+		$text .= "<td colspan=\"4\">&nbsp;</td>\n";
+		$text .= "</tr>\n";
+	}
 	
 	if ($home['ui_userid']) {
 		// Profil vorhanden
@@ -307,9 +298,9 @@ function home_info($u_id, $u_nick, $home, $feld, $farben, $aktion, $bilder, $nic
 		$bilder = "";
 	}
 	
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $farben, $aktion, $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $farben, $aktion, $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $farben, $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $aktion, $bilder);
 	
 	$text .= "</table>\n";
 	// Bilder - Ende
@@ -326,7 +317,6 @@ function home_bild(
 	$u_nick,
 	$home,
 	$feld,
-	$farben,
 	$aktion,
 	$bilder) {
 	
@@ -451,7 +441,7 @@ function home_url_parse($tag, $url)
 	return ("$tag=\"redirect.php?url=" . urlencode($url) . "\" target=\"_blank\"");
 }
 
-function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
+function zeige_home($u_id, $force = FALSE) {
 	// Zeigt die Homepage des Benutzers u_id an
 	global $mysqli_link, $argv, $argc, $id, $check_name, $t;
 	
@@ -485,11 +475,6 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			if ($home['ui_farbe']) {
-				$farben = unserialize($home['ui_farbe']);
-			} else {
-				$farben = $defaultfarben;
-			}
 			$ok = TRUE;
 		} else {
 			$ok = FALSE;
@@ -547,7 +532,7 @@ function zeige_home($u_id, $force = FALSE, $defaultfarben = "") {
 		</head>
 		<body>
 		<?php
-		echo home_info($u_id, $row->u_nick, $home, "ui_text", $farben, $aktion, $bilder, $nicknamen);
+		echo home_info($u_id, $row->u_nick, $home, "ui_text", $aktion, $bilder, $nicknamen);
 	} else if ($u_chathomepage != "1") {
 		echo "<body>"
 			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
