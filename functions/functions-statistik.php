@@ -58,12 +58,8 @@ function statsPrintGraph($title, $text_l, $text_b) {
 	global $grapharray;
 	global $t;
 	global $STAT_BAR_HEIGHT;
-	global $STAT_BAR_FONTBEG1;
-	global $STAT_BAR_FONTEND1;
-	global $STAT_BAR_FONTBEG2;
-	global $STAT_BAR_FONTEND2;
-	global $STAT_BAR_FONTBEG3;
-	global $STAT_BAR_FONTEND3;
+	global $f1;
+	global $f2;
 	$msg = "";
 	
 	if ((isset($grapharray)) && (count($grapharray) > 0)) {
@@ -106,16 +102,11 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		$msg .= "<table style=\"margin:auto;\">\n";
 		
 		$msg .= "<tr>\n";
-		$msg .= "<td class=\"tabelle_kopfzeile\" colspan=\"$c\" style=\"text-align:center;\">";
-		$msg .= $STAT_BAR_FONTBEG3;
-		$msg .= $title;
-		$msg .= $STAT_BAR_FONTEND3;
-		$msg .= "</td>\n";
+		$msg .= "<td class=\"tabelle_kopfzeile\" colspan=\"$c\" style=\"text-align:center;\"><span style=\"font-weight:bold;\">$title</span></td>\n";
 		$msg .= "</tr>\n";
 		
 		$msg .= "<tr>\n";
-		$msg .= "<td class=\"tabelle_statistics_navigation\" style=\"width:20px;\">";
-		$msg .= $STAT_BAR_FONTBEG2;
+		$msg .= "<td class=\"tabelle_statistics_navigation\" style=\"width:20px;\">$f1<span style=\"font-weight:bold;\">";
 		
 		$t0 = 0;
 		$t1 = strlen($text_l);
@@ -126,8 +117,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$t0++;
 		}
 		
-		$msg .= $STAT_BAR_FONTEND2;
-		$msg .= "</td>\n";
+		$msg .= "</span>$f2</td>\n";
 		
 		while (list($i, $v) = each($grapharray)) {
 			if ($v > 0) {
@@ -158,17 +148,13 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		while (list($i, $v) = each($grapharray)) {
 			$msg .= "<td class=\"tabelle_statistics_navigation\">";
-			$msg .= $STAT_BAR_FONTBEG1;
+			$msg .= $f1;
 			$msg .= $i;
-			$msg .= $STAT_BAR_FONTEND1;
+			$msg .= $f2;
 			$msg .= "</td>\n";
 		}
 		
-		$msg .= "<td class=\"tabelle_statistics_navigation\">";
-		$msg .= $STAT_BAR_FONTBEG2;
-		$msg .= $text_b;
-		$msg .= $STAT_BAR_FONTEND2;
-		$msg .= "</td>\n";
+		$msg .= "<td class=\"tabelle_statistics_navigation\">$f1<span style=\"font-weight:bold;\">$text_b</span>$f2</td>\n";
 		$msg .= "</tr>\n";
 		$msg .= "</table>\n";
 		
