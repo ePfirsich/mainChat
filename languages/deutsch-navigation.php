@@ -20,4 +20,6 @@ $t['navigation_menue15'] = "Logout";
 $t['navigation_menue16'] = "Freunde";
 
 $t['zum_chat'] = "Zum Chat";
+$t['forum_interaktiv_einzahl'] = "Insgesamt ist 1 Benutzer online.";
+$t['forum_interaktiv_mehrzahl'] = "Insgesamt sind %anzahl_gesamt% Benutzer online.";
 ?>

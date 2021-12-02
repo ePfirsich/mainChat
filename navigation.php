@@ -120,6 +120,12 @@ if ($u_id) {
 		
 		echo "<tr><td style=\"text-align:center;\">";
 		
+		if($anzahl_gesamt == 1) {
+			echo $f1 . $t['forum_interaktiv_einzahl'] . $f2 . "&nbsp;";
+		} else {
+			echo $f1 . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_mehrzahl']) . $f2 . "&nbsp;";
+		}
+		
 		// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
 		if (strlen($eintrittsraum) == 0) {
 			$eintrittsraum = $lobby;
