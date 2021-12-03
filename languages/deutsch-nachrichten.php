@@ -3,18 +3,29 @@
 // Übersetzungen von "Nachrichten"
 $t['titel'] = "Nachrichten";
 
-$t['nachrichten_menue1'] = "Nachrichten";
-$t['nachrichten_menue2'] = "Posteingang";
-$t['nachrichten_menue3'] = "Neue Nachricht schreiben";
-$t['nachrichten_menue4'] = "Papierkorb zeigen";
-$t['nachrichten_menue5'] = "Papierkorb leeren";
-$t['nachrichten_menue6'] = "Mailbox schließen";
-$t['nachrichten_menue7'] = "Hilfe";
+$t['nachrichten_titel'] = "Nachrichten";
+$t['nachrichten_posteingang'] = "Posteingang";
+$t['nachrichten_postausgang'] = "Postausgang";
+$t['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";
+$t['nachrichten_papierkorb'] = "Papierkorb";
+$t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
+$t['nachrichten_nachrichten_deaktivieren'] = "Mailbox schließen";
+$t['nachrichten_hilfe'] = "Hilfe";
 
-$t['nachrichten1'] = "Nachrichten im Posteingang";
-$t['nachrichten2'] = "Nachrichten im Papierkorb";
-$t['nachrichten3'] = "Art des Versands:";
-$t['nachrichten4'] = "Nachricht";
+$t['nachrichten_posteingang2'] = "Nachrichten im Posteingang";
+$t['nachrichten_postausgang2'] = "Nachrichten im Postausgang";
+$t['nachrichten_papierkorb'] = "Nachrichten im Papierkorb";
+$t['nachrichten_art_des_versands'] = "Art des Versands:";
+$t['nachrichten_art_des_versands_nachricht'] = "Nachricht";
+$t['nachrichten_art_des_versands_email'] = "E-Mail";
+$t['nachrichten_neue_nachricht_an'] = "Neue Nachricht an ";
+
+$t['nachrichten_fehlermeldung'] = "Fehler";
+$t['nachrichten_erfolgsmeldung'] = "Erfolgreich versendet!";
+$t['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschickt.";
+$t['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
+$t['nachrichten_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
+$t['nachrichten_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
 
 $t['betreff'] = "Betreff";
 $t['datum'] = "Datum";
@@ -31,7 +42,4 @@ $t['fehler2'] = "Sie sind nicht eingeloggt oder nur als Gast im Chat eingeloggt.
 $t['fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!";
 $t['fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!";
 $t['fehler_benutzername_existiert_nicht'] = "Der Benutzername '$neue_email[an_nick]' existiert nicht!";
-$t['fehler1'] = "Fehler";
-$t['fehler1'] = "Fehler";
-$t['fehler1'] = "Fehler";
 ?>

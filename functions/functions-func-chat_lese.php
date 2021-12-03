@@ -185,7 +185,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			
 			// Systemnachrichten, die <<< oder >>> an Stelle 4-16 enthalten herausfiltern
 			$ausgeben = true;
-			if ($u_systemmeldungen == "N") {
+			if ($u_systemmeldungen == "0") {
 				if (($row->c_typ == "S") && (substr($row->c_text, 3, 12) == "&gt;&gt;&gt;" || substr($row->c_text, 3, 12) == "&lt;&lt;&lt;")) {
 					$ausgeben = false;
 				}

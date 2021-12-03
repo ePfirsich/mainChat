@@ -211,13 +211,13 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-nachrichten.php");
 			
 			// Menü ausgeben
-			$box = $t['nachrichten_menue1'];
-			$text = "<a href=\"inhalt.php?seite=nachrichten&id=$id\">" . $t['nachrichten_menue2'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=neu&id=$id\">" . $t['nachrichten_menue3'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorb&id=$id\">" . $t['nachrichten_menue4'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\">" . $t['nachrichten_menue5'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=nachrichten&aktion=mailboxzu&id=$id\">" . $t['nachrichten_menue6'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#mail\">" . $t['nachrichten_menue7'] . "</a>\n";
+			$box = $t['nachrichten_titel'];
+			$text = "<a href=\"inhalt.php?seite=nachrichten&id=$id\">" . $t['nachrichten_posteingang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=postausgang&id=$id\">" . $t['nachrichten_postausgang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=neu&id=$id\">" . $t['nachrichten_neue_nachricht'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=papierkorb&id=$id\">" . $t['nachrichten_papierkorb'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=nachrichten&aktion=mailboxzu&id=$id\">" . $t['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?seite=hilfe&id=$id&aktion=hilfe-community#mail\">" . $t['nachrichten_hilfe'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/nachrichten.php');

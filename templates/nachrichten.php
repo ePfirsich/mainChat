@@ -5,12 +5,11 @@ if( !isset($u_id)) {
 }
 
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-if ($mailloescheauspapierkorb < 1)
+if ($mailloescheauspapierkorb < 1) {
 	$mailloescheauspapierkorb = 14;
+}
 $query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AND m_geloescht_ts < '"
-	. date("YmdHis",
-		mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb),
-			date("Y"))) . "'";
+	. date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y"))) . "'";
 $result2 = mysqli_query($mysqli_link, $query2);
 
 switch ($aktion) {
@@ -119,24 +118,29 @@ switch ($aktion) {
 		if ($ok) {
 			
 			if ($neue_email['typ'] == 1) {
-				
 				// E-Mail an externe Adresse versenden
-				if ($neue_email['m_id'] = email_versende($u_id,
-					$neue_email['m_an_uid'], $neue_email['m_text'],
-					$neue_email['m_betreff'], TRUE)) {
-					echo "<p>Ihre E-Mail an '$an_nick' wurde verschickt.</p>";
+				if ($neue_email['m_id'] = email_versende($u_id, $neue_email['m_an_uid'], $neue_email['m_text'], $neue_email['m_betreff'], TRUE)) {
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);
+					
+					zeige_tabelle_zentriert($t['nachrichten_erfolgsmeldung'], $erfolgsmeldung);
 				} else {
-					echo "<p><b>Fehler: </b>Ihre E-Mail an '$an_nick' wurde nicht verschickt.</p>";
+					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_nachricht']);
+					
+					zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlermeldung);
 				}
 			} else {
 				$result = mail_sende($u_id, $neue_email['m_an_uid'],
 					$neue_email['m_text'], $neue_email['m_betreff']);
 				if ($result[0]) {
-					echo "<p>Ihre Nachricht an '$an_nick' wurde verschickt.</p>";
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_email']);
 					$neue_email['m_id'] = $result[0];
+					
+					zeige_tabelle_zentriert($t['nachrichten_erfolgsmeldung'], $erfolgsmeldung);
 				} else {
-					echo "<p><b>Fehler: </b>Ihre Nachricht an '$an_nick' wurde nicht verschickt.</p>";
-					echo "<p>$result[1]</p>";
+					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_email']);
+					$fehlermeldung .= "<br>$result[1]";
+					
+					zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlermeldung);
 				}
 				
 			}
@@ -254,10 +258,13 @@ switch ($aktion) {
 		break;
 	
 	case "zeige":
-	// Eine Mail als Detailansicht zeigen
-		zeige_email($m_id);
-		echo "<br>";
-		zeige_mailbox("normal", "");
+		// Eine Mail als Detailansicht zeigen
+		zeige_email($m_id, "empfangen");
+		break;
+		
+	case "postausgang":
+		// Postausgang zeigen
+		zeige_mailbox("postausgang", "");
 		break;
 	
 	case "papierkorbleeren":

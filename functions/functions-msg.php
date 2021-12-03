@@ -2041,18 +2041,15 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$result = mail_sende($u_id, $nick['u_id'], $text);
 						if ($result[0])
 							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%chatzeile%", $chatzeile[1],
-									$t['chat_msg80']));
+								str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg80']));
 						else system_msg("", 0, $u_id, $system_farbe, $result[1]);
 					} else {
-						system_msg("", 0, $u_id, $system_farbe,
-							$t['chat_msg81']);
+						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg81']);
 					}
 				} elseif ($nick['u_level'] == "G" || $nick['u_level'] == "Z") {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
 					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%chatzeile%", $chatzeile[1],
-							$t['chat_msg95']));
+						str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg95']));
 					system_msg("", 0, $u_id, $system_farbe,
 						str_replace("%nachricht%", $text, $t['chat_msg77']));
 				} else {
@@ -2060,24 +2057,18 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					// ignoriere Benutzer dürfen kein Mail schicken
 					if ($ignore == true) {
 						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%user%", $nick['u_nick'],
-								$t['chat_msg103']));
+							str_replace("%user%", $nick['u_nick'], $t['chat_msg103']));
 					} else {
 						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%chatzeile%", $chatzeile[1],
-								$t['chat_msg8']));
+							str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
 						system_msg("", 0, $u_id, $system_farbe,
 							str_replace("%nachricht%", $text, $t['chat_msg77']));
 					}
 				}
-			} elseif ($u_level == "G") {
-				
+			} else if ($u_level == "G") {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-				
-			} elseif (strlen($text) <= 1) {
-				
+			} else if (strlen($text) <= 1) {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg81']);
-				
 			} else {
 				// user ist geknebelt...
 				$zeit = gmdate("H:i:s", $o_knebel);

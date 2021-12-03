@@ -53,7 +53,7 @@ $valid_fields = array(
 	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_email', 'u_level', 'u_farbe', 
 		'u_away', 'u_ip_historie', 'u_smilies', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
-		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 
+		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 'u_emails_akzeptieren',
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
 		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage',
@@ -315,8 +315,7 @@ function priv_msg(
 	$an_user,
 	$farbe,
 	$text,
-	$userdata = "")
-{
+	$userdata = "") {
 	// Schreibt privaten Text von $von_user an Benutzer $an_user
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
@@ -385,7 +384,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Liefert Benutzer- und Online-Variable
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_smilies, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
-	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
+	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion, $u_emails_akzeptieren;
 	global $u_layout_farbe, $u_layout_chat_darstellung;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
@@ -402,8 +401,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen
 	
-	$query = "SELECT HIGH_PRIORITY *,UNIX_TIMESTAMP(o_timeout_zeit) as o_timeout_zeit,"
-		. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online WHERE o_hash='$id' ";
+	$query = "SELECT HIGH_PRIORITY *,UNIX_TIMESTAMP(o_timeout_zeit) as o_timeout_zeit, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online WHERE o_hash='$id' ";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
@@ -466,7 +464,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	}
 	
 	// Hole die Farbe des Benutzers
-	global $u_farbe, $user_farbe;
+	global $user_farbe;
 	if (!empty($u_id)) {
 		$result = mysqli_query($mysqli_link, "SELECT u_farbe FROM user WHERE u_id = " . intval($u_id));
 		$row = mysqli_fetch_row($result);
@@ -608,7 +606,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 		// Query muss mit dem Code in login() übereinstimmen
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, "
 			. "`u_away`, `u_email`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
-			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` "
+			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_emails_akzeptieren` "
 			. "FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -1222,13 +1220,11 @@ function chat_parse($text) {
 	return $text;
 }
 
-function gensalt($length)
-{
+function gensalt($length) {
 	return genpassword($length);
 }
 
-function genpassword($length)
-{
+function genpassword($length) {
 	// Generiert ein Passwort
 	// wird auch für gensalt() genutzt
 	$vowels = array("a", "e", "i", "o", "u");

@@ -1,6 +1,8 @@
 <?php
 
 // Übersetzungen von "Benutzer"
+$t['titel'] = "Benutzer";
+
 $t['benutzer_titel'] = "Benutzer";
 $t['benutzer_uebersicht'] = "Übersicht";
 $t['benutzer_benutzer_suchen'] = "Benutzer suchen";
@@ -11,6 +13,8 @@ $t['adminliste'] = "Adminliste";
 
 $t['einstellungen_anzeigen'] = "Anzeigen";
 $t['einstellungen_unterdruecken'] = "Unterdrücken";
+$t['einstellungen_erlauben'] = "Erlauben";
+$t['einstellungen_verbieten'] = "Verbieten";
 
 $t['benutzer_benutzerdaten'] = "Benutzerdaten";
 $t['benutzer_benutzername'] = "Benutzername";
@@ -34,6 +38,7 @@ $t['benutzer_onlinezeit_details'] = "(Std/Min/Sek)";
 
 $t['benutzer_allgemeine_einstellungen'] = "Allgemeine Einstellungen";
 $t['benutzer_systemmeldungen'] = "Ein/Austrittsnachrichten";
+$t['benutzer_emails_akzeptieren'] = "E-Mails von anderen Benutzern akzeptieren";
 $t['benutzer_avatare_im_chat'] = "Avatare im Chat";
 $t['benutzer_farbe_des_chats'] = "Farbe des Chats";
 $t['benutzer_farbe_des_chats_blau'] = "blau";

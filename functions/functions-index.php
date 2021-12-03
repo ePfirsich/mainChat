@@ -98,7 +98,7 @@ function show_who_is_online($result) {
 	}
 }
 
-function login($u_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
@@ -213,9 +213,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punk
 	// Aktuelle IP/Datum zu ip_historie hinzufügen
 	$datum = time();
 	$ip_historie_neu[$datum] = $ip;
-	if (is_array($ip_historie)) {
+	if (is_array($u_ip_historie)) {
 		$i = 0;
-		while (($i < 3) AND list($datum, $ip_adr) = each($ip_historie)) {
+		while (($i < 3) AND list($datum, $ip_adr) = each($u_ip_historie)) {
 			$ip_historie_neu[$datum] = $ip_adr;
 			$i++;
 		}
@@ -259,7 +259,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punk
 	$knebelzeit = NULL;
 	// Aktuelle Benutzerdaten aus Tabelle user lesen
 	// Query muss mit Code in schreibe_db übereinstimmen
-	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_email`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_email`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_systemmeldungen`, `u_emails_akzeptieren`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung` FROM `user` WHERE `u_id`=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";

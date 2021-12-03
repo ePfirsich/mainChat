@@ -42,8 +42,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
-	global $id, $f1, $f2, $mysqli_link, $u_id, $t;
-	global $u_punkte_gesamt;
+	global $id, $f1, $f2, $mysqli_link, $u_id, $t, $u_emails_akzeptieren;
 	
 	$eingabe_breite1 = 87;
 	$eingabe_breite2 = 75;
@@ -69,8 +68,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	if ($m_id) {
 		// Alte Mail lesen und als Kopie in Formular schreiben
 		$box = "Nachricht weiterleiten an ";
-		$query = "select m_betreff,m_text from mail "
-			. "where m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
+		$query = "SELECT m_betreff,m_text FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
@@ -78,22 +76,18 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			$neue_email['m_betreff'] = $row->m_betreff . " [Weiterleitung]";
 			$neue_email['m_text'] = $row->m_text;
 			
-			$neue_email['m_text'] = str_replace("<b>", "_",
-				$neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</b>", "_",
-				$neue_email['m_text']);
+			$neue_email['m_text'] = str_replace("<b>", "_", $neue_email['m_text']);
+			$neue_email['m_text'] = str_replace("</b>", "_", $neue_email['m_text']);
 			
-			$neue_email['m_text'] = str_replace("<i>", "*",
-				$neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</i>", "*",
-				$neue_email['m_text']);
+			$neue_email['m_text'] = str_replace("<i>", "*", $neue_email['m_text']);
+			$neue_email['m_text'] = str_replace("</i>", "*", $neue_email['m_text']);
 			
 		}
 		mysqli_free_result($result);
 		
 	} else {
 		// Neue Mail versenden
-		$box = "Neue Nachricht an ";
+		$box = $t['nachrichten_neue_nachricht_an'];
 	}
 	
 	// Signatur anfügen
@@ -102,32 +96,25 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	
 	// Benutzerdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
-		$query = "SELECT u_nick,u_email,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+		$query = "SELECT u_nick, u_adminemail, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
-			$box .= zeige_userdetails($row->u_id, $row, TRUE, "&nbsp;", $row->online, $row->login);
+			$box .= $row->u_nick;
 			
-			$email = "";
-			$email_select = "&nbsp;";
-			// E-Mail Adresse vorhanden?
-			$email_bekannt = false;
-			if (strlen($row->u_email) > 0) {
-				$email = $f1 . " (E-Mail: <a href=\"mailto:$row->u_email\">" . htmlspecialchars($row->u_email) . "</a>)" . $f2;
-				$email_bekannt = true;
-			}
+			$email_select = "<select name=\"neue_email[typ]\">";
 			
-			$email_select = "<b>$t[nachrichten3]</b>&nbsp;<select name=\"neue_email[typ]\">";
 			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
-				$email_select .= "<option value=\"0\">$t[nachrichten4]\n";
-				if ($email_bekannt) {
-					$email_select .= "<option selected value=\"1\">E-Mail an " . $row->u_email . "\n";
+				$email_select .= "<option value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
+				if ($row->u_emails_akzeptieren == "1") {
+					$email_select .= "<option selected value=\"1\">$t[nachrichten_art_des_versands_email]\n";
 				}
 			} else {
-				$email_select .= "<option selected value=\"0\">$t[nachrichten4]\n";
-				if ($email_bekannt)
-					$email_select .= "<option value=\"1\">E-Mail an " . $row->u_email . "\n";
+				$email_select .= "<option selected value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
+				if ($row->u_emails_akzeptieren == "1") {
+					$email_select .= "<option value=\"1\">$t[nachrichten_art_des_versands_email]\n";
+				}
 			}
 			$email_select .= "</select>\n";
 			
@@ -145,23 +132,28 @@ function formular_neue_email2($neue_email, $m_id = "") {
 				$neue_email['m_betreff'] = "";
 			}
 			
-			$text .= "<tr><td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['betreff']."</b></td><td colspan=2 class =\"tabelle_zeile2\">"
-			. $f1
-			. "<input type=\"text\" name=\"neue_email[m_betreff]\" value=\""
-			. $neue_email['m_betreff'] . "\" size="
-			. ($eingabe_breite1)
-			. "
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['betreff']."</b></td>\n";
+			$text .= "<td class =\"tabelle_zeile2\"><input type=\"text\" name=\"neue_email[m_betreff]\" value=\"" . $neue_email['m_betreff'] . "\" size=" . ($eingabe_breite1) . "
 			 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-			. $f2 . "<input name=\"counter\" size=3></td></tr>"
-			. "<tr><td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td><td colspan=2 class=\"tabelle_zeile1\">"
-			. $f1 . "<textarea cols=" . ($eingabe_breite2)
-			. " ROWS=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-			. $neue_email['m_text'] . "</textarea>\n" . $f2
-			. "</td></tr>"
-			. "<tr><td class=\"tabelle_zeile2\">&nbsp;</td><td class=\"tabelle_zeile2\">$email_select</td>"
-			. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">" . $f1
-			. "<input type=\"submit\" name=\"los\" value=\"Versenden\">"
-			. $f2 . "</td></tr>\n" . "</table></form>\n";
+			. "<input name=\"counter\" size=3></td></tr>\n";
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td>\n";
+			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=" . ($eingabe_breite2)
+			. " rows=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
+			. $neue_email['m_text'] . "</textarea></td>\n";
+			$text .= "</tr>\n";
+			
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_zeile2\"><b>$t[nachrichten_art_des_versands]</b></td>\n";
+			$text .= "<td class=\"tabelle_zeile2\">$email_select</td>\n";
+			$text .= "</tr>\n";
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_zeile1\">&nbsp;</td>\n";
+			$text .= "<td class=\"tabelle_zeile1\"><input type=\"submit\" name=\"los\" value=\"Versenden\"></td>\n";
+			$text .= "</tr>\n";
+			$text .= "</table>\n";
+			$text .= "</form>\n";
 			
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
@@ -183,27 +175,29 @@ function zeige_mailbox($aktion, $zeilen) {
 		$eingabe_breite = 30;
 	}
 	
+	$art = "empfangen";
 	switch ($aktion) {
-		case "alle";
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id ORDER BY m_zeit desc";
-				$button = $t['loeschen'];
-			$titel = $t['nachrichten1'];
-			break;
-		
 		case "geloescht":
 			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
+				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
 			$button = $t['wiederherstellen'];
-			$titel = $t['nachrichten2'];
+			$titel = $t['nachrichten_papierkorb'];
+			break;
+		
+		case "postausgang":
+		$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
+			$button = $t['loeschen'];
+			$titel = $t['nachrichten_postausgang2'];
+			$art = "gesendet";
 			break;
 		
 		case "normal":
 		default;
 			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
-				. "FROM mail LEFT JOIN user on m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
+				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
-			$titel = $t['nachrichten1'];
+			$titel = $t['nachrichten_posteingang2'];
 	}
 	
 	$result = mysqli_query($mysqli_link, $query);
@@ -211,6 +205,10 @@ function zeige_mailbox($aktion, $zeilen) {
 		$anzahl = mysqli_num_rows($result);
 		$text = '';
 		$box = "$anzahl $titel";
+		
+		if($aktion == "geloescht") {
+			$text .= "<br><a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
+		}
 		
 		$text .= "<form name=\"mailbox\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
@@ -224,20 +222,24 @@ function zeige_mailbox($aktion, $zeilen) {
 			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
-				."<td style=\"font-weight:bold; width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggleMail(this.checked)\"></td>"
-				."<td style=\"font-weight:bold; width:40px; text-align:center;\">" . $f1 . $t['status'] . $f2 . "</td>"
-				."<td style=\"font-weight:bold;\">" . $f1 . $t['von'] . $f2 . "</td>"
-				."<td style=\"font-weight:bold;\">" . $f1 . $t['betreff'] . $f2 . "</td>"
-				."<td style=\"font-weight:bold;\">" . $f1 . $t['datum'] . $f2 . "</td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggleMail(this.checked)\"></td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $f1 . $t['status'] . $f2 . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['von'] . $f2 . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['betreff'] . $f2 . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['datum'] . $f2 . "</td>"
 				."</tr>\n";
 				
 			
 			$i = 0;
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
-				
-				$url = "<a href=\"inhalt.php?seite=nachrichten&id=$id&aktion=zeige&m_id="
-					. $row->m_id . "\">";
+				if($art == "gesendet") {
+					$url = "";
+					$url2 = "";
+				} else {
+					$url = "<a href=\"inhalt.php?seite=nachrichten&id=$id&aktion=zeige&m_id=". $row->m_id . "\">";
+					$url2 = "</a>";
+				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
 					$auf = "<b>" . $f1;
 					$zu = $f2 . "</b>";
@@ -257,7 +259,7 @@ function zeige_mailbox($aktion, $zeilen) {
 				$text .= "<tr>"
 					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"loesche_email[]\" value=\"" . $row->m_id . "\">" . $zu . "</td>"
 					. "<td $bgcolor style=\"text-align:center; padding-left: 5px;\">" . $status . "</td>"
-					. "<td $bgcolor>" . $auf . $url . $von_nick . "</a>" . $zu . "</td>" . "<td style=\"width:50%;\" $bgcolor>" . $auf . $url . htmlspecialchars($row->m_betreff) . "</a>" . $zu . "</td>"
+					. "<td $bgcolor>" . $auf . $url . $von_nick . $url2 . $zu . "</td>" . "<td style=\"width:50%;\" $bgcolor>" . $auf . $url . htmlspecialchars($row->m_betreff) . "</a>" . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
 					. "</tr>\n";
 				
@@ -268,9 +270,11 @@ function zeige_mailbox($aktion, $zeilen) {
 				}
 				$i++;
 			}
-			
-			$text .= "<tr><td $bgcolor colspan=\"5\"><input type=\"submit\" name=\"los\" value=\"$button\"></td>\n"
-				. "</tr></table>\n";
+			if($aktion != "postausgang") {
+				$text .= "<tr><td $bgcolor colspan=\"5\"><input type=\"submit\" name=\"los\" value=\"$button\"></td>\n";
+			}
+			$text .= "</tr>\n";
+			$text .= "</table>\n";
 		}
 		
 		$text .= "</form>\n";
@@ -280,14 +284,18 @@ function zeige_mailbox($aktion, $zeilen) {
 	}
 }
 
-function zeige_email($m_id) {
+function zeige_email($m_id, $art) {
 	// Zeigt die Mail im Detail an
 	
 	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
-	$query = "select mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
-		. "FROM mail LEFT JOIN user on m_von_uid=u_id "
-		. "WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " order by m_zeit desc";
+	if($art == "gesendet") {
+		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
+			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_von_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
+	} else {
+		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
+			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
+	}
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {

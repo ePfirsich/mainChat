@@ -658,9 +658,7 @@ function email_versende(
 	$an_user_id,
 	$text,
 	$betreff,
-	$an_u_email = FALSE)
-{
-	
+	$an_u_email = FALSE) {
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
 	// Falls an_u_email=TRUE wird Mail an u_email Adressen verschickt,
 	// sonst an u_adminemail (interne Adresse)
@@ -675,7 +673,7 @@ function email_versende(
 	$betreff = strip_tags(strtr($betreff, $trans));
 	
 	// Absender ermitteln
-	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
+	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$abrow = mysqli_fetch_object($result);
@@ -683,23 +681,19 @@ function email_versende(
 	mysqli_free_result($result);
 	
 	// Empfänger ermitteln und E-Mail versenden, Footer steht in $t[mail4]
-	$query = "SELECT `u_adminemail`, `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
+	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		
 		// Empfänger
-		if ($an_u_email && $row->u_email) {
-			$adresse = $row->u_email;
-		} else {
-			$adresse = $row->u_adminemail;
-		}
+		$adresse = $row->u_adminemail;
 		
 		// Absender
-		if ($abrow->u_email == "") {
+		if ($abrow->u_adminemail == "") {
 			$absender = $chat . " <" . $adresse . ">";
 		} else {
-			$absender = $abrow->u_nick . " <" . $abrow->u_email . ">";
+			$absender = $abrow->u_nick . " <" . $abrow->u_adminemail . ">";
 		}
 		// E-Mail versenden
 		if($smtp_on) {
@@ -1054,8 +1048,7 @@ function erzeuge_baum($threadorder, $po_id, $thread)
 	
 }
 
-function erzeuge_fuss($text)
-{
+function erzeuge_fuss($text) {
 	//generiert den Fuss eines Beitrags (Signatur)
 	
 	global $t, $u_id, $mysqli_link;

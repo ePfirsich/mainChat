@@ -454,6 +454,7 @@ CREATE TABLE user (
 	`u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`u_emails_akzeptieren` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	PRIMARY KEY	(u_id),
 	UNIQUE KEY u_nick (u_nick),
 	KEY u_level (u_level),

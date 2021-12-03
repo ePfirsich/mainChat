@@ -22,7 +22,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	$temp_u_id = $u_id;
 }
 
-$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, "
+$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
 	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id LIMIT 1";
 
 $benutzerdaten_result = mysqli_query($mysqli_link, $benutzerdaten_query);
@@ -61,6 +61,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$f['u_passwort'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort', FILTER_SANITIZE_STRING));
 		$f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
 		$f['u_systemmeldungen'] = filter_input(INPUT_POST, 'u_systemmeldungen', FILTER_SANITIZE_NUMBER_INT);
+		$f['u_emails_akzeptieren'] = filter_input(INPUT_POST, 'u_emails_akzeptieren', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_avatare_anzeigen'] = filter_input(INPUT_POST, 'u_avatare_anzeigen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_layout_farbe'] = filter_input(INPUT_POST, 'u_layout_farbe', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_layout_chat_darstellung'] = filter_input(INPUT_POST, 'u_layout_chat_darstellung', FILTER_SANITIZE_NUMBER_INT);
@@ -611,7 +612,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
 					
-					// Bei Änderungen an u_smilies, u_systemmeldungen, u_punkte_anzeigen, u_sicherer_modus chat-Fenster neu laden
+					// Bei Änderungen, welche die Darstellung im Chat betrifft, das Chat-Fenster neu laden
 					if ($benutzerdaten_row->u_smilies != $f['u_smilies']
 						|| $benutzerdaten_row->u_systemmeldungen != $f['u_systemmeldungen']
 						|| $benutzerdaten_row->u_avatare_anzeigen != $f['u_avatare_anzeigen']

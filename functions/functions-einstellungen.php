@@ -164,6 +164,15 @@ function user_edit($f, $admin, $u_level) {
 	// Überschrift: Allgemeine Einstellungen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_allgemeine_einstellungen'], "", "", 0, "70", "");
 	
+	// E-Mails von anderen Benutzern akzeptieren
+	if ($u_level != 'G') {
+		$value = array($t['einstellungen_verbieten'], $t['einstellungen_erlauben']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_emails_akzeptieren'], "u_emails_akzeptieren", $value, $f['u_emails_akzeptieren']);
+		$zaehler++;
+	} else {
+		$text .=  "<input type=\"hidden\" name=\"u_emails_akzeptieren\" value=\"$f[u_emails_akzeptieren]\">\n";
+	}
+	
 	// System Ein/Austrittsnachrichten anzeigen/verbergen
 	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
 	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
