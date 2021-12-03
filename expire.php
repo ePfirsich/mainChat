@@ -161,7 +161,7 @@ echo "\n";
 
 // Gäste löschen, falls ausgelogt und älter als 4 Minuten
 echo "Gäste löschen\n";
-$query = "SELECT SQL_BUFFER_RESULT u_id FROM user left join online on o_user=u_id WHERE u_level='G' AND o_id IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 240";
+$query = "SELECT SQL_BUFFER_RESULT u_id FROM user LEFT JOIN online ON o_user=u_id WHERE u_level='G' AND o_id IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > 240";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_object($result)) {

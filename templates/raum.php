@@ -577,8 +577,7 @@ switch ($aktion) {
 			mysqli_free_result($result);
 			
 			// Liste der Räume und der Raumbesitzer lesen
-			$query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
-				. "FROM raum left join user on r_besitzer=u_id GROUP BY r_name ORDER BY $order";
+			$query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM raum left join user on r_besitzer=u_id GROUP BY r_name ORDER BY $order";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				

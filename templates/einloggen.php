@@ -180,8 +180,7 @@ if(!$kein_gastlogin_ausblenden) {
 		
 		// Benutzer online bestimmen
 		if ($chat_max[$u_level] != 0) {
-			$query = "SELECT count(o_id) FROM online "
-				. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$query = "SELECT count(o_id) FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			$result2 = mysqli_query($mysqli_link, $query);
 			if ($result2) {
 				$onlineanzahl = mysqli_result($result2, 0, 0);

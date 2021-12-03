@@ -712,8 +712,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					// testen, ob nicht DAU sich selbst ignoriert...
 					if ($i_user_passiv != $u_id) {
-						ignore($o_id, $u_id, $u_nick, $i_user_passiv,
-							$i_user_name_passiv);
+						ignore($o_id, $u_id, $u_nick, $i_user_passiv, $i_user_name_passiv);
 					} else {
 						system_msg("", 0, $u_id, $u_farbe, $t['chat_msg7']);
 					}

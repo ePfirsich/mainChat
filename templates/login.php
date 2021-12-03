@@ -18,7 +18,7 @@ if ($result) {
 
 // Benutzer online und Räume bestimmen -> merken
 $query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' AS lobby "
-	. "FROM online left join raum on o_raum=r_id  WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
+	. "FROM online LEFT JOIN raum on o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout "
 	. "ORDER BY lobby desc,r_name,o_who,o_name ";
 $result2 = mysqli_query($mysqli_link, $query);
 if ($result2) {
