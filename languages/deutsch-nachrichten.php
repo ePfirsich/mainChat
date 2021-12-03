@@ -26,6 +26,10 @@ $t['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschic
 $t['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
 $t['nachrichten_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
 $t['nachrichten_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
+$t['nachrichten_fehler_text_zu_lang'] = "Der Text ist zu lange!<br>";
+$t['nachrichten_fehler_kein_text'] = "Bitte geben Sie einen Text zum Versenden ein!<br>";
+$t['nachrichten_fehler_kein_betreff'] = "Bitte geben Sie einen Betreff zum Versenden ein!<br>";
+$t['nachrichten_fehler_betreff_zu_lang'] = "Bitte geben im Betreff weniger als 254 Zeichen ein!<br>";
 
 $t['betreff'] = "Betreff";
 $t['datum'] = "Datum";

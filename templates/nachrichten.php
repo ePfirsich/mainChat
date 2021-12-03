@@ -83,22 +83,22 @@ switch ($aktion) {
 		// Betreff prüfen
 		$neue_email['m_betreff'] = htmlspecialchars($neue_email['m_betreff']);
 		if (strlen($neue_email['m_betreff']) < 1) {
-			echo "<b>Fehler:</b> Bitte geben Sie einen Betreff zum Versenden ein!<br>\n";
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $t['nachrichten_fehler_kein_betreff']);
 			$ok = FALSE;
 		}
 		if (strlen($neue_email['m_betreff']) > 254) {
-			echo "<b>Fehler:</b> Bitte geben im Betreff weniger als 254 Zeichen ein!<br>\n";
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $t['nachrichten_fehler_betreff_zu_lang']);
 			$ok = FALSE;
 		}
 		
 		// Text prüfen
 		$neue_email['m_text'] = chat_parse(htmlspecialchars($neue_email['m_text']));
 		if (strlen($neue_email['m_text']) < 4) {
-			echo "<b>Fehler:</b> Bitte geben Sie einen Text zum Versenden ein!<br>\n";
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $t['nachrichten_fehler_kein_text']);
 			$ok = FALSE;
 		}
 		if (strlen($neue_email['m_text']) > 10000) {
-			echo "<b>Fehler:</b> Der Text ist zu lange!<br>\n";
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $t['nachrichten_fehler_text_zu_lang']);
 			$ok = FALSE;
 		}
 		
