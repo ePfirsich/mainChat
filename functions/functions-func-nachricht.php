@@ -101,12 +101,11 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
 	if (raum_ist_moderiert($r_id)) {
-		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> "
-			. $text);
+		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> " . $text);
 	} else {
 		$back = global_msg($u_id, $r_id, "<b>&lt;&lt;&lt;</b> " . $text);
 	}
-	return ($back);
 	
+	return ($back);
 }
 ?>
