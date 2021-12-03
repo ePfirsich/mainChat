@@ -50,7 +50,7 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		$text .= "<td colspan=\"2\">&nbsp;</td>";
 	} else {
 		// Text anzeigen
-		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
+		$text .= "<td style=\"text-align:right; width:25%; vertical-align:top;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor>$value $beschreibung</td>\n";
 	}
 	$text .= "</tr>\n";

@@ -131,10 +131,10 @@ function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 				$userdata['u_punkte_jahr'] = 0;
 			}
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['user_zeige38'] . ":" . $f2 . "</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['benutzer_punkte'] . ":" . $f2 . "</td>\n";
 			$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
-				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['user_zeige39'])) . $f2 . "</b></td>\n";
-				$text .= "</tr>\n";
+				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['benutzer_punkte_anzeige'])) . $f2 . "</b></td>\n";
+			$text .= "</tr>\n";
 		}
 		
 		// Farbwähler & Link auf Editor ausgeben
@@ -341,7 +341,7 @@ function home_bild(
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
 		if ($aktion == "aendern") {
-			$text .= "<br>" . $f3 . "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[user_zeige73]</a>]</b>" . $f4;
+			$text .= "<br>" . $f3 . "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4;
 		}
 	} else if ($aktion == "aendern") {
 		

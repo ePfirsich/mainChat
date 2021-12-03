@@ -56,11 +56,15 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					}
 				}
 				
+				// Ausgabe des Benutzers
+				$zaehler = 0;
+				$text = "";
+				$text .= "<table style=\"width:100%;\">";
+				
+				// Überschrift: Avatar
+				$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_avatar'], "", "", 0, "70", "");
 				
 				// Avatare
-				$box = $t['benutzer_avatar'];
-				$text = "";
-				
 				// Geschlecht holen
 				$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$row->u_id'";
 				$result1 = mysqli_query($mysqli_link, $query1);
@@ -84,42 +88,51 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				}
 				mysqli_free_result($resultAvatar);
 				
-				$text .= "<br><center>";
+				$value = "";
 				if (!isset($bilder)) {
 					if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-						$text .= '<img src="./images/avatars/no_avatar_m.jpg" style="width:200px; height:200x;" alt="" />';
+						$value .= '<img src="./images/avatars/no_avatar_m.jpg" style="width:200px; height:200x;" alt="" />';
 					} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-						$text .= '<img src="./images/avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
+						$value .= '<img src="./images/avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
 					} else { // Neutraler Standard-Avatar
-						$text .= '<img src="./images/avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
+						$value .= '<img src="./images/avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
 					}
 				} else {
-					$text .= avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder, "profil");
+					$value .= avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder, "profil");
 				}
-				$text .= "</center><br>";
 				
-				// Box anzeigen
-				zeige_tabelle_zentriert($box, $text);
+				// Avatar
+				if ($zaehler % 2 != 0) {
+					$bgcolor = 'class="tabelle_zeile2"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile1"';
+				}
+				$text .= "<tr>\n";
+				$text .= "<td colspan=\"2\" style=\"text-align:center;\" $bgcolor>" . $value . "</td>\n";
+				$text .= "</tr>\n";
+				$zaehler++;
 				
-				// Kopf Tabelle "Private Nachricht"
+				// "Private Nachricht"
 				if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
-					$box = str_replace("%uu_nick%", $uu_nick, $t['user_zeige11']);
-					$text = '';
+					$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 					
-					$text .= "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+					// Überschrift: Private Nachricht
+					$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_private_nachricht'], "", "", 0, "70", "");
+					
+					$value = "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 					
 					// Eingabeformular für private Nachricht ausgeben
-					$text .= $f1;
+					$value .= $f1;
 					
 					if ($msgpopup) {
-						$text .= '<iframe src="messages-popup.php?id=' . $id
+						$value .= '<iframe src="messages-popup.php?id=' . $id
 						. '&user=' . $user
 						. '&user_nick=' . $uu_nick
 						. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
 						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
 					}
 					
-					$text .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
+					$value .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
 						. "<input name=\"text\" value=\"\" type=\"hidden\">"
 						. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 						. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
@@ -127,56 +140,55 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 						. "\n<script language=\"JavaScript\">\n\n"
 						. "document.forms['form'].elements['text2'].focus();\n"
 						. "\n</script>\n\n\n";
-									
-					$text .= "</form>";
+					$value .= "</form>";
 					
-					// Box anzeigen
-					zeige_tabelle_zentriert($box, $text);
+					// Private Nachricht
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					$text .= "<tr>\n";
+					$text .= "<td colspan=\"2\" $bgcolor>" . $value . "</td>\n";
+					$text .= "</tr>\n";
+					$zaehler++;
 				}
 				
-				// Kopf Tabelle Benutzerinfo
-				$text = '';
-				if (isset($onlinezeit) && $onlinezeit) {
-					$box = str_replace("%user%", $uu_nick, $t['user_zeige20']);
-				} else {
-					$box = str_replace("%user%", $uu_nick, $t['user_zeige21']);
-				}
+				$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 				
-				// Ausgabe in Tabelle
-				$text .= "<table class=\"tabelle_kopf\">";
-				$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['benutzer_benutzername'] . $f2 . "</b></td><td class=\"tabelle_koerper\">" . zeige_userdetails($user, $row);
+				// Überschrift: Benutzerdaten
+				$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
 				
+				// Benutzername
+				$value = zeige_userdetails($user, $row);
 				if ($uu_away != "") {
-					$text .= $f1 . "<br>($uu_away)<b>" . $f2;
+					$value .= "<br>($uu_away)";
 				}
-				
-				$text .= "</b></td></tr>\n";
+				$text .= zeige_formularfelder("text", $zaehler, "<b>".$t['benutzer_benutzername']."</b>", "", $value);
+				$zaehler++;
 				
 				// Raum
 				if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
-					$text .= "<tr><td class=\"tabelle_koerper\"><b>" . $f1 . $t['user_zeige23'] . $f2
-					. "</b></td><td class=\"tabelle_koerper\"><b>" . $f1 . $o_row->r_name . "&nbsp;["
-						. $whotext[$o_row->o_who] . "]" . $f2 . "</b></td></tr>\n";
+					$value = "<b>" . $o_row->r_name . "&nbsp;[" . $whotext[$o_row->o_who] . "]</b>";
+					$text .= zeige_formularfelder("text", $zaehler, "<b>".$t['benutzer_raum']."</b>", "", $value);
+					$zaehler++;
 				} else if (isset($o_row) && $o_row->o_who) {
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . "&nbsp;" . $f2 . "</td>" . "<td class=\"tabelle_koerper\"><b>" . $f1
-					. "[" . $whotext[$o_row->o_who] . "]" . $f2
-					. "</b></td></tr>\n";
+					$value = "<b>" . "[" . $whotext[$o_row->o_who] . "]</b>";
+					$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
+					$zaehler++;
 				}
 				if (isset($onlinezeit) && $onlinezeit) {
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige33'] . $f2
-					. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:bottom;\">" . $f3
-					. gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['sonst27'] . $f4
-					. "</td></tr>\n";
+					$value = gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['benutzer_onlinezeit_details'];
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_onlinezeit'], "", $value);
+					$zaehler++;
 				} else {
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige9'] . $f2
-					. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "$letzter_login" . $f2
-					. "</td></tr>\n";
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_letzter_login'], "", $letzter_login);
+					$zaehler++;
 				}
 				
 				if ($erster_login && $erster_login != "01.01.1970 01:00") {
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige32'] . $f2
-					. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "$erster_login" . $f2
-					. "</td></tr>\n";
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_erster_login'], "", $erster_login);
+					$zaehler++;
 				}
 				
 				// Punkte
@@ -187,201 +199,215 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					if ($row->u_punkte_datum_jahr != date("Y", time())) {
 						$uu_punkte_jahr = 0;
 					}
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['user_zeige38'] . $f2
-					. "</td><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f3 . $uu_punkte_gesamt . "/"
-						. $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
-							. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2),
-								str_replace("%monat%",
-									substr(strftime("%B", time()), 0, 3),
-									$t['user_zeige39'])) . $f4 . "</td></tr>\n";
+					$value = $uu_punkte_gesamt . "/" . $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
+							. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2), str_replace("%monat%", substr(strftime("%B", time()), 0, 3), $t['benutzer_punkte_anzeige']));
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_punkte'], "", $value);
+					$zaehler++;
 				}
 				
+				// Interne E-Mail
 				if ($admin) {
-					// Admin E-Mail
-					if (strlen($uu_adminemail) > 0) {
-						$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_email_intern'] . $f2 . "</td><td class=\"tabelle_koerper\">"
-							. $f3 . "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>" . $f4 . "</td></tr>\n";
-					}
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>");
+					$zaehler++;
 				}
 				
+				// E-Mail
 				$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_email'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
-				$f4 . "</td></tr>\n";
+				$value = "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
+				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email'], "", $value);
+				$zaehler++;
 				
+				// Chat-Homepage
 				if ($uu_chathomepage == "1") {
 					$url = "home.php?/".URLENCODE($uu_nick);
-					$url = "home.php?ui_userid=$uu_id&id=" . $id;
-					$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_url'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3 . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-					$f4 . "</td></tr>\n";
+					$value = "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_url'], "", $value);
+					$zaehler++;
 				}
 				
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_level'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f1 . "$level[$uu_level]" . $f2 . "</td></tr>\n";
+				// Level
+				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_level'], "", $level[$uu_level]);
+				$zaehler++;
 				
-				$text .= "<tr><td class=\"tabelle_koerper\">" . $f1 . $t['benutzer_farbe'] . $f2 . "</td>" . "<td class=\"tabelle_koerper\" style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td></tr>\n";
+				// Farbe
+				if ($zaehler % 2 != 0) {
+					$bgcolor = 'class="tabelle_zeile2"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile1"';
+				}
+				$text .= "<tr>\n";
+				$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+				$text .= "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td>\n";
+				$text .= "</tr>\n";
+				$zaehler++;
 				
+				// Kommentar
 				if ($uu_kommentar && $admin) {
-					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['benutzer_kommentar'] . $f2. "</td><td class=\"tabelle_koerper\">" . $f3;
-					$text .= htmlspecialchars($uu_kommentar) . "<br>\n";
-					$text .= $f4 . "</td></tr>\n";
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_kommentar'], "", htmlspecialchars($uu_kommentar));
+					$zaehler++;
 				}
 				
+				// Profil-Edit-Historie
 				if ($admin) {
 					if (is_array($uu_profil_historie)) {
+						$value = "";
 						while (list($datum, $nick) = each($uu_profil_historie)) {
-							if (!isset($erstes)) {
-								$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['sonst44'] . $f2
-								. "</td><td class=\"tabelle_koerper\">" . $f3;
-								$erstes = TRUE;
-							} else {
-								$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3;
-							}
-							$text .= $nick . "&nbsp;("
-								. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
-								. ")" . $f4 . "</td></tr>\n";
+							$value .= $nick . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")<br>";
 						}
-						$text .= "</tr>";
+						$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_profil_edit_historie'], "", $value);
+						$zaehler++;
 					}
 					
 					// IPs ausgeben
 					if (isset($o_row) && $o_row->o_ip) {
-						$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige4'] . $f2
-						. "</td><td class=\"tabelle_koerper\">" . $f3 . $host_name . $f4 . "</td></tr>\n"
-							. "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . "IP" . $f2 . "</td><td class=\"tabelle_koerper\">"
-								. $f3 . $o_row->o_ip . " " . $t['sonst28'] . $f4
-								. "</td></tr>\n";
+						// IP-Adresse
+						$value = $host_name . "<br>" . $o_row->o_ip . " " . $t['benutzer_ip_adressen_online'];
 								
-								if ($zeigeip == 1 && is_array($ip_historie)) {
-									while (list($datum, $ip_adr) = each($ip_historie)) {
-										$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3 . $ip_adr . "&nbsp;("
-											. str_replace(" ", "&nbsp;",
-												date("d.m.y H:i", $datum)) . ")" . $f4
-												. "</td></tr>\n";
-									}
-								}
-								
-								$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige5'] . $f2
-								. "</td><td class=\"tabelle_koerper\">" . $f3 . htmlspecialchars($o_row->o_browser)
-								. $f4 . "</td></tr>\n" . "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1
-								. $t['user_zeige22'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3
-								. "<a href=\"" . $chat_url . "\" target=_blank>$chat_url" . "</a>" . $f4 . "</td></tr>\n";
-								
-								if ($o_http_stuff) {
-									$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['user_zeige31'] . $f2 . "</td><td class=\"tabelle_koerper\">" . $f3;
-									if (is_array($http_stuff)) {
-										while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each($http_stuff)) {
-											if ($o_http_stuff_inhalt) {
-												$text .= "<b>"
-													. htmlspecialchars($o_http_stuff_name)
-													. ":</b>&nbsp;"
-														. htmlspecialchars($o_http_stuff_inhalt)
-														. "<br>\n";
-											}
-										}
-									}
-									$text .= $f4 . "</td></tr>\n";
-								}
-					} elseif ($zeigeip == 1 && is_array($ip_historie)) {
-						while (list($datum, $ip_adr) = each($ip_historie)) {
-							if (!$erstes) {
-								$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\">" . $f1 . $t['sonst29'] . $f2
-								. "</td><td class=\"tabelle_koerper\">" . $f3;
-								$erstes = TRUE;
-							} else {
-								$text .= "<tr><td class=\"tabelle_koerper\"></td><td class=\"tabelle_koerper\">" . $f3;
+						if ($zeigeip == 1 && is_array($ip_historie)) {
+							while (list($datum, $ip_adr) = each($ip_historie)) {
+								$value .= "<br>" . $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")";
 							}
-							$text .= $ip_adr . "&nbsp;("
-								. str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum))
-								. ")" . $f4 . "</td></tr>\n";
 						}
+						
+						$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_ip_adressen'], "", $value);
+						$zaehler++;
+						
+						// Browser
+						$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_browser'], "", htmlspecialchars($o_row->o_browser));
+						$zaehler++;
+						
+						// HTTP-Info
+						if ($o_http_stuff) {
+							$value = "";
+							if (is_array($http_stuff)) {
+								while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each($http_stuff)) {
+									if ($o_http_stuff_inhalt) {
+										$value .= "<b>" . htmlspecialchars($o_http_stuff_name) . ":</b>&nbsp;" . htmlspecialchars($o_http_stuff_inhalt) . "<br>\n";
+									}
+								}
+							}
+							$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_http_info'], "", $value);
+							$zaehler++;
+						}
+					} else if ($zeigeip == 1 && is_array($ip_historie)) {
+						$value = "";
+						while (list($datum, $ip_adr) = each($ip_historie)) {
+							$value .= $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")" . $f4 . "<br>";
+						}
+						$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_letzte_ip_adressen'], "", $value);
+						$zaehler++;
 					}
 					
 				}
 				
 				// Benutzermenue mit Aktionen
 				if ($u_level != "G") {
+					$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+					
+					// Überschrift: Interaktionen
+					$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_interaktionen'], "", "", 0, "70", "");
+					
+					$value = "";
+					
 					$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
 					$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
-					$text .= "<tr><td class=\"tabelle_koerper\" style=\"vertical-align:top;\"><b>" . $f1 . $t['user_zeige24'] . $f2
-					. "</b></td><td class=\"tabelle_koerper\">" . $f1;
-					$text .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[user_zeige29]</a>]<br>\n";
-					$text .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[user_zeige30]</a>]<br>\n";
+					$value .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[benutzer_ignorieren]</a>]<br>\n";
+					$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
 					$mlnk[8] = "inhalt.php?seite=nachrichten&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 					$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
-					$text .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[user_zeige40]</a>]<br>\n"
-					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[user_zeige41]</a>]<br>\n";
+					$value .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[benutzer_nachricht_senden]</a>]<br>\n"
+					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
 					
-				}
-				
-				// Adminmenue
-				if ($admin) {
-					$mlnk[7] = "inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
-					$text .= "[<a href=\"$mlnk[7]\">" . $t['user_zeige34'] . "</a>]<br>\n";
-				}
-				
-				// Adminmenue
-				if ($admin && $rows == 1) {
-					$mlnk[8] = "inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
-					$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
-					$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
-					$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
-					$mlnk[6] = "inhalt.php?seite=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
-					. urlencode($o_row->o_name);
-					$text .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[user_zeige28]</a>]<br>\n"
-					. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[user_zeige27]</a>]<br>\n"
-					. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[user_zeige26]</a>]<br>\n";
-					$text .= "[<a href=\"$mlnk[8]\">" . $t['user_zeige47'] . "</a>]<br>\n";
-				}
-				
-				// Adminmenue
-				if ($admin) {
-					$mlnk[10] = "inhalt.php?seite=sperren&id=$id&aktion=blacklist_neu&neuer_blacklist[u_nick]=$uu_nick";
-					$text .= "[<a href=\"$mlnk[10]\" target=\"chat\">$t[user_zeige48]</a>]<br>\n";
+					// Adminmenue
+					if ($admin) {
+						$mlnk[7] = "inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
+						$value .= "[<a href=\"$mlnk[7]\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+					}
 					
+					// Adminmenue
+					if ($admin && $rows == 1) {
+						$mlnk[8] = "inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
+						$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
+						$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
+						$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
+						$mlnk[6] = "inhalt.php?seite=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname="
+						. urlencode($o_row->o_name);
+						$value .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[benutzer_knebeln]</a>]<br>\n"
+						. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[benutzer_kicken]</a>]<br>\n"
+						. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
+						$value .= "[<a href=\"$mlnk[8]\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
+					}
+					
+					// Adminmenue
+					if ($admin) {
+						$mlnk[10] = "inhalt.php?seite=sperren&id=$id&aktion=blacklist_neu&neuer_blacklist[u_nick]=$uu_nick";
+						$value .= "[<a href=\"$mlnk[10]\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+					}
+					
+					$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
+					$zaehler++;
 				}
-				
-				// Tabellenende
-				$text .= "$f2</td></tr></table>\n";
-				
-				// Box anzeigen
-				zeige_tabelle_zentriert($box, $text);
 				
 				// Admin-Menü 3
 				if ($admin) {
-					$text = '';
-					$box = $t['user_zeige12'];
+					$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 					
-					$text .= str_replace("%uu_nick%", $uu_nick, $t['user_zeige13']);
+					// Überschrift: Admin
+					$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_admin'], "", "", 0, "70", "");
 					
 					// Ändern
-					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
-					$text .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
-					$text .= "</form>\n";
+					$value = "";
+					$value .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+					$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+					$value .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
+					$value .= "</form>\n";
 					
-					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
-					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
-					$text .= "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n";
-					$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
-					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
+					$value .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+					$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+					$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
+					$value .= "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n";
+					$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
+					$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
 					
 					$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 					$result = mysqli_query($mysqli_link, $query);
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					if ($g['u_chathomepage'] == "1") {
-						$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
+						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
 					}
 					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
-						$text .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
+						$value .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
 					}
-					$text .= "</form>\n";
+					$value .= "</form>\n";
 					
-					// Box anzeigen
-					zeige_tabelle_zentriert($box, $text);
+					// Avatar
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					$text .= "<tr>\n";
+					$text .= "<td colspan=\"2\" $bgcolor>" . $value . "</td>\n";
+					$text .= "</tr>\n";
+					$zaehler++;
 				}
+				
+				
+				// Tabellenende
+				$text .= "</table>\n";
+				
+				// Kopf Tabelle Benutzerinfo
+				if (isset($onlinezeit) && $onlinezeit) {
+					$box = str_replace("%user%", $uu_nick, $t['benutzer_online']);
+				} else {
+					$box = str_replace("%user%", $uu_nick, $t['benutzer_offline']);
+				}
+				
+				// Box anzeigen
+				zeige_tabelle_zentriert($box, $text);
 				
 				// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
 				mysqli_free_result($result);

@@ -8,7 +8,15 @@ function user_edit($f, $admin, $u_level) {
 	global $eintritt_individuell;
 	global $mysqli_link;
 	
+	// Ausgabe des Benutzers
+	$zaehler = 0;
+	$text = "";
+	$text .= "<table style=\"width:100%;\">";
+	
 	if ($u_level != "G") {
+		// Überschrift: Avatar
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_avatar'], "", "", 0, "70", "");
+		
 		// Avatar lesen und in Array speichern
 		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . $f['u_id'];
 		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
@@ -26,27 +34,23 @@ function user_edit($f, $admin, $u_level) {
 			$bilder = "";
 		}
 		
-		$box = $t['edit_avatar'];
+		// Avatar
+		$value = avatar_editieren_anzeigen($f['u_id'], $f['u_nick'], "avatar", $bilder, "avatar_aendern");
 		
 		// Avatar
-		$text = '';
-		$text .= "<table style=\"width:100%;\">";
-		$text .= "<tr>";
-		$text .= "<td style=\"width:450px; vertical-align:top;\">" . $f1 . "<b>" . $t['benutzer_avatar'] . "</b>" . $f2 . "</td>";
-		$text .= "<td>" . avatar_editieren_anzeigen($f['u_id'], $f['u_nick'], "avatar", $bilder, "avatar_aendern") . "</td>";
-		$text .= "</tr>";
-		$text .= "</table>";
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td colspan=\"2\" style=\"text-align:center;\" $bgcolor>" . $value . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
 		
-		zeige_tabelle_zentriert($box, $text);
+		$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	}
 	
-	if (ist_online($f['u_id'])) {
-		$box = str_replace("%user%", $f['u_nick'], $t['user_zeige20']);
-	} else {
-		$box = str_replace("%user%", $f['u_nick'], $t['user_zeige21']);
-	}
-	
-	$text = '';
 	// Ausgabe in Tabelle
 	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
@@ -256,6 +260,13 @@ function user_edit($f, $admin, $u_level) {
 	
 	// Fuß der Tabelle
 	$text .= "</form>\n";
+	
+	// Kopf Tabelle Benutzerinfo
+	if (isset($onlinezeit) && $onlinezeit) {
+		$box = str_replace("%user%", $f['u_nick'], $t['benutzer_online']);
+	} else {
+		$box = str_replace("%user%", $f['u_nick'], $t['benutzer_offline']);
+	}
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);

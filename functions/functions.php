@@ -1452,7 +1452,7 @@ function avatar_editieren_anzeigen(
 		}
 		if ($aktion == "avatar_aendern") {
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[user_zeige73]</a>]</b>" . $f4 . "<br><br></td>\n";
+			$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4 . "<br><br></td>\n";
 		} else if ($aktion == "profil") {
 			if($width > 200) {
 				$width = 200;

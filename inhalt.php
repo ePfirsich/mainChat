@@ -167,24 +167,21 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
-			$box = $t['benutzer_menue13'];
-			$text = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum\">$t[benutzer_menue1]</a>\n";
+			$box = $t['benutzer_titel'];
+			$text = "<a href=\"inhalt.php?seite=benutzer&id=$id\">$t[benutzer_uebersicht]</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=suche\">$t[benutzer_menue2]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&aktion=suche\">$t[benutzer_benutzer_suchen]</a>\n";
 			}
 			
 			if ($adminlisteabrufbar && $u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=$schau_raum&aktion=adminliste\">$t[benutzer_menue12]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id&aktion=adminliste\">$t[benutzer_adminliste_anzeigen]</a>\n";
 			}
 			if ($u_level != "G") {
 				if ($punktefeatures) {
 					$ur1 = "inhalt.php?seite=top10&id=$id";
 					$url = "href=\"$ur1\" ";
-					$text .= "| <a $url>$t[benutzer_menue7]</a>\n";
+					$text .= "| <a $url>$t[benutzer_top10]</a>\n";
 				}
-				$ur1 = "inhalt.php?seite=freunde&id=$id";
-				$url = "href=\"$ur1\" ";
-				$text .= "| <a $url>$t[benutzer_menue8]</a>\n";
 			}
 			
 			zeige_tabelle_zentriert($box, $text);

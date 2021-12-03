@@ -1,14 +1,11 @@
 <?php
 
 // Übersetzungen von "Benutzer"
-$t['titel'] = "Benutzer";
-
-$t['benutzer_menue1'] = "Übersicht";
-$t['benutzer_menue2'] = "Benutzer suchen";
-$t['benutzer_menue7'] = "Top10/100";
-$t['benutzer_menue8'] = "Meine Freunde";
-$t['benutzer_menue12'] = "Adminliste anzeigen";
-$t['benutzer_menue13'] = "Benutzer";
+$t['benutzer_titel'] = "Benutzer";
+$t['benutzer_uebersicht'] = "Übersicht";
+$t['benutzer_benutzer_suchen'] = "Benutzer suchen";
+$t['benutzer_adminliste_anzeigen'] = "Adminliste anzeigen";
+$t['benutzer_top10'] = "Top10/100";
 
 $t['adminliste'] = "Adminliste";
 
@@ -29,6 +26,11 @@ $t['benutzer_geaenderte_einstellungen'] = "Geänderte Einstellungen";
 $t['benutzer_neues_passwort'] = "Neues Passwort";
 $t['benutzer_neues_passwort_wiederholen'] = "Neues Passwort wiederholen";
 $t['benutzer_level'] = "Level";
+$t['benutzer_raum'] = "Raum";
+$t['benutzer_erster_login'] = "Erster Login";
+$t['benutzer_letzter_login'] = "Letzter Login";
+$t['benutzer_onlinezeit'] = "Onlinezeit";
+$t['benutzer_onlinezeit_details'] = "(Std/Min/Sek)";
 
 $t['benutzer_allgemeine_einstellungen'] = "Allgemeine Einstellungen";
 $t['benutzer_systemmeldungen'] = "Ein/Austrittsnachrichten";
@@ -54,6 +56,9 @@ $t['benutzer_avatar_loeschen'] = "löschen";
 
 $t['benutzer_farbeinstellungen'] = "Farbeinstellungen";
 
+$t['benutzer_private_nachricht'] = "Private Nachricht";
+$t['benutzer_admin'] = "Admin";
+
 $t['benutzer_suche_mit_homepage'] = "Mit Homepage";
 $t['benutzer_suche_egal'] = "egal";
 $t['benutzer_suche_ja'] = "Ja";
@@ -68,20 +73,35 @@ $t['benutzer_suche_tagen'] = "Tagen";
 $t['benutzer_suche_stunden'] = "Stunden";
 $t['benutzer_suche_mehr_2000_benutzer'] = "Mehr als 2000 Benutzer können nicht dargestellt werden. Bitte die Suche genauer spezifizieren!";
 $t['benutzer_suchergebnisse'] = "Suchergebnisse";
+$t['benutzer_profil_edit_historie'] = "Profil-Edit Historie";
+$t['benutzer_ip_adressen'] = "IP-Adressen";
+$t['benutzer_letzte_ip_adressen'] = "letzte IP-Adressen";
+$t['benutzer_browser'] = "Browser";
+$t['benutzer_http_info'] = "HTTP-Info";
+$t['benutzer_vhost'] = "vHost";
+$t['benutzer_ip_adressen_online'] = "(online)";
+
+$t['benutzer_interaktionen'] = "Interaktionen";
+
+$t['benutzer_ignorieren'] = "Ignorieren Ja/Nein";
+$t['benutzer_einladen_ausladen'] = "Einladen/Ausladen";
+$t['benutzer_nachricht_senden'] = "Nachricht senden";
+$t['benutzer_freund'] = "Freund Ja/Nein";
+$t['benutzer_weitere_ip_adressen'] = "Weitere IP-Adressen zeigen";
+$t['benutzer_knebeln'] = "Knebeln (G)";
+$t['benutzer_kicken'] = "Kicken (K)";
+$t['benutzer_sperren'] = "Sperren (S)";
+$t['benutzer_aus_dem_chat_kicken'] = "Aus dem Chat kicken";
+$t['benutzer_blacklist'] = "-> Blacklist";
 
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
 $t['sonst7'] = "<b>Bitte einen Benutzernamen oder eine E-Mail Adresse als Suchtext eingeben:</b> (% ist Jokerzeichen)";
-$t['sonst9'] = "<b>Den Benutzer gibt es nicht!</b>";
 $t['sonst11'] = "<b>Der Benutzer ist nicht mehr in diesem Raum!</b>";
 $t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
 $t['sonst14'] = "Anderen Raum zur Ansicht zeigen";
-$t['sonst27'] = "(Std/Min/Sek)";
-$t['sonst28'] = "(online)";
-$t['sonst29'] = "letzte IPs:";
 $t['sonst40'] = "<p><b>Fehler:</b> Dieser Benutzer kann nicht gekickt werden!</p>";
 $t['sonst42'] = "Raum: ";
 $t['sonst43'] = "Im [%whotext%] ist niemand";
-$t['sonst44'] = "Profil-Edit Historie";
 $t['sonst54'] = "Räume";
 ?>

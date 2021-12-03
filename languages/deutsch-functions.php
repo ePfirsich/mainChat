@@ -192,37 +192,12 @@ $t['chat_spruch6'] = "zu";
 
 $t['chat_lese1'] = "privat";
 
-$t['user_zeige1'] = "Benutzer";
-$t['user_zeige2'] = "Name";
-$t['user_zeige4'] = "Adresse";
-$t['user_zeige5'] = "Browser";
-$t['user_zeige9'] = "Letzter Login";
-$t['user_zeige11'] = "Private Nachricht an %uu_nick%";
-$t['user_zeige12'] = "<b>Admin-Menü:</b>";
-$t['user_zeige13'] = "<p>Benutzerdaten von %uu_nick% bearbeiten:</p>";
-$t['user_zeige20'] = "Benutzer %user% (ONLINE)";
-$t['user_zeige21'] = "Benutzer %user% (OFFLINE)";
-$t['user_zeige22'] = "vHost";
-$t['user_zeige23'] = "Raum";
-$t['user_zeige24'] = "Diesen Benutzer";
-$t['user_zeige26'] = "Sperren (S)";
-$t['user_zeige27'] = "Kicken (K)";
-$t['user_zeige28'] = "Knebeln (G)";
-$t['user_zeige29'] = "Ignorieren Ja/Nein";
-$t['user_zeige30'] = "Einladen/Ausladen";
-$t['user_zeige31'] = "HTTP-Info";
-$t['user_zeige32'] = "Erster Login";
-$t['user_zeige33'] = "Onlinezeit";
-$t['user_zeige34'] = "Weitere IPs zeigen";
-$t['user_zeige38'] = "Punkte";
-$t['user_zeige39'] = "(Alle/%jahr%/%monat%)";
-$t['user_zeige40'] = "Nachricht senden";
-$t['user_zeige41'] = "Freund Ja/Nein";
-$t['user_zeige42'] = "(Voreinstellung %vor%)";
-$t['user_zeige46'] = "Farbauswahl";
-$t['user_zeige47'] = "Aus dem Chat kicken";
-$t['user_zeige48'] = "-> Blacklist";
-$t['user_zeige73'] = "löschen";
+$t['benutzer_online'] = "Benutzer %user% (ONLINE)";
+$t['benutzer_offline'] = "Benutzer %user% (OFFLINE)";
+$t['benutzer_avatar_loeschen'] = "löschen";
+
+$t['benutzer_punkte'] = "Punkte";
+$t['benutzer_punkte_anzeige'] = "(Alle/%jahr%/%monat%)";
 
 $t['user_kein_bild_hochgeladen'] = "<b>Kein Bild hochgeladen - Achtung: Nur Bilder im JPG, GIF und PNG Format hochladen! Kein BMP Format! Die Bilder dürfen nicht grösser als 60 Kb sein!</b><br>";
 
