@@ -857,7 +857,7 @@ function auth_user($login, $passwort) {
 }
 
 function zeige_chat_login() {
-	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $f1, $f2;
+	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $f1, $f2, $temp_gast_sperre;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
@@ -966,7 +966,7 @@ function zeige_chat_login() {
 	$text .= "</table>\n";
 	$text .= "</form>\n";
 	
-	if($gast_login) {
+	if($gast_login && !$temp_gast_sperre) {
 		// Gastlogin
 		$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
