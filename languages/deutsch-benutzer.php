@@ -18,7 +18,6 @@ $t['einstellungen_verbieten'] = "Verbieten";
 
 $t['benutzer_benutzerdaten'] = "Benutzerdaten";
 $t['benutzer_benutzername'] = "Benutzername";
-$t['benutzer_email'] = "E-Mail";
 $t['benutzer_email_intern'] = "Interne E-Mail";
 $t['benutzer_kommentar'] = "Sperrkommentar";
 $t['benutzer_url'] = "Homepage";

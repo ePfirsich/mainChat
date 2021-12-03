@@ -15,7 +15,6 @@ $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 $f['u_nick'] = filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL);
 $f['u_passwort'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort', FILTER_SANITIZE_STRING));
 $f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
-$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 $f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 
@@ -76,9 +75,6 @@ if( isset($formular) && $formular == "abgesendet") {
 			$f['u_passwort2'] = "";
 		}
 		
-		if (strlen($f['u_email']) != 0 && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_email'])) {
-			$fehlermeldung .= $t['registrierung_fehler_email_falsch'];
-		}
 		if (strlen($f['u_adminemail']) == 0 || !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_adminemail'])) {
 			$fehlermeldung .= $t['registrierung_fehler_adminemail_falsch'];
 		}
@@ -114,7 +110,6 @@ if( isset($formular) && $formular == "abgesendet") {
 	$f['u_nick'] = "";
 	$f['u_passwort'] = "";
 	$f['u_passwort2'] = "";
-	$f['u_email'] = "";
 	$f['u_adminemail'] = $email;
 	$f['hash'] = $hash;
 }
@@ -148,10 +143,6 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	
 	// Passwort wiederholen
 	$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort_wiederholen'], "u_passwort2", $f['u_passwort2'], 0, "70", "*");
-	$zaehler++;
-	
-	// E-Mail (öffentlich)
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_email'], "u_email", $f['u_email'], 0, "70", $t['login_email_nur_intern']);
 	$zaehler++;
 	
 	// Registrierung absenden

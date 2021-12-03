@@ -35,11 +35,6 @@ function profil_editor($u_id, $u_nick, $f) {
 	$value = "<b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b> $userdaten_bearbeiten";
 	$text .= zeige_formularfelder("text", $zaehler, $t['profil_benutzername'], "", $value);
 	$zaehler++;
-	
-	// E-Mail
-	$value = htmlspecialchars($userdata['u_email']);
-	$text .= zeige_formularfelder("text", $zaehler, $t['profil_email'], "", $value);
-	$zaehler++;
 
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	

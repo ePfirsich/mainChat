@@ -22,7 +22,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	$temp_u_id = $u_id;
 }
 
-$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
+$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
 	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id LIMIT 1";
 
 $benutzerdaten_result = mysqli_query($mysqli_link, $benutzerdaten_query);
@@ -52,7 +52,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL) == "gefuellt") {
 		$f['u_id'] = $temp_u_id;
 		$f['u_nick'] = filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL);
-		$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 		$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
 		$f['u_kommentar'] = htmlspecialchars(filter_input(INPUT_POST, 'u_kommentar', FILTER_SANITIZE_STRING));
 		$f['u_signatur'] = htmlspecialchars(filter_input(INPUT_POST, 'u_signatur', FILTER_SANITIZE_STRING));
@@ -81,7 +80,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		unset($f['u_level']);
 	}
 	if ($u_level == "G") {
-		unset($f['u_email']);
 		unset($f['u_signatur']);
 		if ($eintritt_individuell != "1") {
 			unset($f['u_eintritt']);
@@ -342,14 +340,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Mit korrekten Wert überschreiben
 					$f['u_farbe'] = $benutzerdaten_row->u_farbe;
-				}
-				
-				// E-Mail überprüfen
-				if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
-					$fehlermeldung .= $t['einstellungen_fehler_email1'];
-					
-					// Mit korrekten Wert überschreiben
-					$f['u_email'] = $benutzerdaten_row->u_email;
 				}
 				
 				// Admin E-Mail kontrollieren

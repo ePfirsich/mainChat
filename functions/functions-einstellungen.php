@@ -68,12 +68,6 @@ function user_edit($f, $admin, $u_level) {
 	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_benutzername'], "u_nick", $f['u_nick']);
 	$zaehler++;
 	
-	// E-Mail (Nicht für Gäste)
-	if ($u_level != "G") {
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email'], "u_email", $f['u_email']);
-		$zaehler++;
-	}
-	
 	// Interne E-Mail (Nur für Admins)
 	if ($admin) {
 		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_adminemail", $f['u_adminemail']);

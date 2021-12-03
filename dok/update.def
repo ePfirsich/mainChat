@@ -62,6 +62,7 @@ UPDATE `userinfo` SET `ui_inhalt_linkfarbe_aktiv` = "000000";
 UPDATE `userinfo` SET `ui_inhalt_hintergrundfarbe` = "ffffff";
 ALTER TABLE `userinfo` DROP `ui_farbe`;
 ALTER TABLE `user` ADD `u_emails_akzeptieren` int(1) UNSIGNED NOT NULL DEFAULT 1;
+ALTER TABLE `user` DROP `u_email`;
 
 
 CREATE TABLE `statistiken` (

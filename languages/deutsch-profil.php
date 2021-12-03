@@ -52,7 +52,6 @@ $t['profil_benutzername'] = "Benutzername";
 $t['profil_level'] = "Level";
 $t['profil_wohnort'] = "Wohnort";
 $t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
-$t['profil_email'] = "E-Mail";
 $t['profil_geburt'] = "Geburtsdatum";
 $t['profil_geschlecht'] = "Geschlecht";
 $t['profil_homepage'] = "Homepage";

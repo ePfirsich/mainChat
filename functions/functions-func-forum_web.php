@@ -992,12 +992,9 @@ function verschiebe_posting() {
 	global $f1, $f2;
 	global $t, $th_id, $fo_id;
 	
-	$sql = "select po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
-				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick,
-		u_email, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				from posting
-				left join user on po_u_id = u_id
-				where po_id = " . intval($thread);
+	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
+				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
+				FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($thread);
 	
 	$query = mysqli_query($mysqli_link, $sql);
 	if ($query)
@@ -1062,11 +1059,8 @@ function show_posting() {
 	global $id, $mysqli_link, $po_id, $thread, $seite, $t, $forum_admin;
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
-				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick,
-		u_email, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				FROM posting
-				LEFT JOIN user ON po_u_id = u_id
-				WHERE po_id = " . intval($po_id);
+				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
+				FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
 	
 	$query = mysqli_query($mysqli_link, $sql);
 	if ($query) {

@@ -81,20 +81,17 @@ switch ($aktion) {
 			} elseif (strpos($suchtext, "%") >= 0) {
 				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 				if ($admin) {
-					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext' "
-						. " OR u_adminemail LIKE '$suchtext') ";
+					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_adminemail LIKE '$suchtext') ";
 				} else {
-					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
+					$where[0] = "WHERE (u_nick LIKE '$suchtext') ";
 				}
 			} else {
 				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 				if ($admin) {
 					$where[1] = "WHERE u_nick = '$suchtext' ";
-					$where[2] = "WHERE u_email = '$suchtext' ";
 					$where[3] = "WHERE u_adminemail = '$suchtext' ";
 				} else {
 					$where[0] = "WHERE u_nick = '$suchtext' ";
-					$where[1] = "WHERE u_email = '$suchtext' ";
 				}
 				
 			}
@@ -202,7 +199,6 @@ switch ($aktion) {
 					// Mehrere Benutzer gefunden, als Tabelle ausgeben
 					for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 						// Array mit Benutzerdaten und Infotexten aufbauen
-						$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row['u_email']));
 						$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
 						$larr[$i]['u_level'] = $row['u_level'];
 						$larr[$i]['u_id'] = $row['u_id'];
@@ -244,7 +240,6 @@ switch ($aktion) {
 			
 			for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 				// Array mit Benutzerdaten und Infotexten aufbauen
-				$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($row['u_email']));
 				$larr[$i]['u_nick'] = strtr(str_replace("\\", "", htmlspecialchars($row['u_nick'])),
 					"I", "i");
 				$larr[$i]['u_level'] = $row['u_level'];
@@ -299,7 +294,6 @@ switch ($aktion) {
 				$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 			
 			// Variable aus o_userdata setzen
-			$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
 			$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
 			$larr[$i]['u_level'] = $userdata['u_level'];
 			$larr[$i]['u_id'] = $userdata['u_id'];

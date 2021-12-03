@@ -20,7 +20,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$uu_away = $row->u_away;
 				$uu_nick = htmlspecialchars($row->u_nick);
 				$uu_id = $row->u_id;
-				$uu_email = htmlspecialchars($row->u_email);
 				$uu_adminemail = htmlspecialchars($row->u_adminemail);
 				$uu_level = $row->u_level;
 				$uu_farbe = $row->u_farbe;
@@ -210,12 +209,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>");
 					$zaehler++;
 				}
-				
-				// E-Mail
-				$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($uu_nick) . "&id=" . $id;
-				$value = "<a href=\"$url\" target=\"chat\">$chat_grafik[mail]</a>";
-				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email'], "", $value);
-				$zaehler++;
 				
 				// Chat-Homepage
 				if ($uu_chathomepage == "1") {

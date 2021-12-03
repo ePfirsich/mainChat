@@ -280,7 +280,6 @@ switch ($aktion) {
 			if($admin) {
 				$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_interne_email]</td>\n";
 			}
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_email]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_homepage]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geburt]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td>\n";
@@ -308,7 +307,6 @@ switch ($aktion) {
 					if($admin) {
 						$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_adminemail) . "</td>\n";
 					}
-					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_email) . "</td>\n";
 					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_homepage) . "</td>\n";
 					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_geburt) . "</td>\n";
 					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row->ui_geschlecht)) . "</td>\n";

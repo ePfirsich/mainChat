@@ -92,7 +92,6 @@ if (strlen($u_id) != 0) {
 				$userdata = unserialize( $row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 				
 				// Variable aus o_userdata setzen
-				$larr[$i]['u_email'] = str_replace("\\", "", htmlspecialchars($userdata['u_email']));
 				$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
 				$larr[$i]['u_level'] = $userdata['u_level'];
 				$larr[$i]['u_id'] = $userdata['u_id'];
