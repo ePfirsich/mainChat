@@ -309,6 +309,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							} else {
 								$zende = "</span>" . $sm2 . $br;
 							}
+							reset_system("userliste_interaktiv");
 						}
 						break;
 					
@@ -324,6 +325,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 							} else {
 								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+								reset_system("userliste");
 							}
 							if ($br == "") {
 								$zende = "";
@@ -337,6 +339,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								} else {
 									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+									reset_system("userliste");
 								}
 								if ($br == "") {
 									$zende = "";
@@ -349,6 +352,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								} else {
 									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
 									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+									reset_system("userliste");
 								}
 								if ($br == "") {
 									$zende = "";
@@ -604,12 +608,12 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 		}
 	}
 	
-	if (isset($result))
+	if (isset($result)) {
 		mysqli_free_result($result);
+	}
 	
 	flush();
 	return ($text_ausgegeben);
-	
 }
 
 ?>

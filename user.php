@@ -34,12 +34,15 @@ echo "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
 	?>
 </script>
 <?php
+/*
 // Kein Refresh für die Smilies
 if($aktion == "smilies") {
 	$meta_refresh = "";
 } else {
 	$meta_refresh = '<meta http-equiv="refresh" content="10; URL=user.php?id=' . $id . '&aktion='.$aktion.'">';
 }
+*/
+$meta_refresh = "";
 zeige_header_ende($meta_refresh);
 
 // Login ok?

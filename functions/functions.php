@@ -1320,11 +1320,11 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 			$row = mysqli_fetch_object($result);
 			if (strlen($row->u_austritt) > 0) {
 				$text = $row->u_austritt;
-				$text = "<b>&lt;&lt;&lt;</b> " . htmlspecialchars($text) . " (<b>$u_nick</b> - verlässt Chat) ";
+				$text = "<b>&lt;&lt;&lt;</b> " . $text . " (<b>$u_nick</b> - verlässt Chat) ";
 			}
 			mysqli_free_result($result);
 			
-			$query = "SELECT r_name FROM raum where r_id = " . intval($raum);
+			$query = "SELECT r_name FROM raum WHERE r_id = " . intval($raum);
 			$result = mysqli_query($mysqli_link, $query);
 			$row = mysqli_fetch_object($result);
 			if (isset($row->r_name)) {
@@ -1542,6 +1542,11 @@ function reset_system($wo_online) {
 		echo "<script>\n";
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
 		echo "</script>";
+	} else if ( $wo_online == "userliste_interaktiv" ) {
+			echo "<script>\n";
+			echo "parent.frames[2].location.href='user.php?id=$id';\n";
+			echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+			echo "</script>";
 	} else if ( $wo_online == "forum" ) {
 		echo "<script>\n";
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
