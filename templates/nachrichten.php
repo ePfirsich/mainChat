@@ -120,11 +120,11 @@ switch ($aktion) {
 			if ($neue_email['typ'] == 1) {
 				// E-Mail an externe Adresse versenden
 				if ($neue_email['m_id'] = email_versende($u_id, $neue_email['m_an_uid'], $neue_email['m_text'], $neue_email['m_betreff'], TRUE)) {
-					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_email']);
 					
 					zeige_tabelle_zentriert($t['nachrichten_erfolgsmeldung'], $erfolgsmeldung);
 				} else {
-					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_nachricht']);
+					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_email']);
 					
 					zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlermeldung);
 				}
@@ -132,12 +132,12 @@ switch ($aktion) {
 				$result = mail_sende($u_id, $neue_email['m_an_uid'],
 					$neue_email['m_text'], $neue_email['m_betreff']);
 				if ($result[0]) {
-					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_email']);
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);
 					$neue_email['m_id'] = $result[0];
 					
 					zeige_tabelle_zentriert($t['nachrichten_erfolgsmeldung'], $erfolgsmeldung);
 				} else {
-					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_email']);
+					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_nicht_versendet_nachricht']);
 					$fehlermeldung .= "<br>$result[1]";
 					
 					zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlermeldung);
