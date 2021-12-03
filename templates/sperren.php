@@ -87,15 +87,22 @@ if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
 				$f['is_ip'] = $ip1 . "...";
 			}
 			$f['is_owner'] = $u_id;
-			if (!isset($f['is_id']))
+			if (!isset($f['is_id'])) {
 				$f['is_id'] = 0;
+			}
 			schreibe_db("ip_sperre", $f, $f['is_id'], "is_id");
 		} else {
-			echo "<p>$t[sonst6]</p>\n";
+			$value = $t['sperren_fehlermeldung_domain'];
+			
+			// Box anzeigen
+			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
 			$aktion = "neu";
 		}
 	} else {
-		echo "<p>$t[sonst7]</p>\n";
+		$value = $t['sperren_fehlermeldung_ip_ausfuellen'];
+		
+		// Box anzeigen
+		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
 		$aktion = "neu";
 	}
 }
@@ -171,9 +178,7 @@ switch ($aktion) {
 				$result2 = mysqli_query($mysqli_link, $query2);
 				
 				if (strlen($row->is_domain) > 0) {
-					echo "<p>"
-						. str_replace("%row->is_domain%", $row->is_domain,
-							$t['sonst10']) . "</p>\n";
+					$value = str_replace("%domain%", $row->is_domain, $t['sperren_erfolgsmeldung_adresse']);
 				} else {
 					if ($row->is_ip_byte == 1) {
 						$isip = $row->isip . ".xxx.yyy.zzz";
@@ -184,12 +189,15 @@ switch ($aktion) {
 					} else {
 						$isip = $row->isip;
 					}
-					echo "<p>"
-						. str_replace("%row->is_domain%", $row->is_domain,
-							$t['sonst10']) . "</p>\n";
+					$value = str_replace("%domain%", $isip, $t['sperren_erfolgsmeldung_adresse']);
 				}
+				// Box anzeigen
+				zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $value);
 			} else {
-				echo "<p>$t[sonst9]</p>\n";
+				$value = $t['sperren_fehlermeldung_eintrag_nicht_gefunden'];
+				
+				// Box anzeigen
+				zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
 			}
 			mysqli_free_result($result);
 		}

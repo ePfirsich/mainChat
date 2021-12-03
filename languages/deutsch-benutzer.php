@@ -99,7 +99,6 @@ $t['benutzer_aus_dem_chat_kicken'] = "Aus dem Chat kicken";
 $t['benutzer_blacklist'] = "-> Blacklist";
 
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
-$t['sonst7'] = "<b>Bitte einen Benutzernamen oder eine E-Mail Adresse als Suchtext eingeben:</b> (% ist Jokerzeichen)";
 $t['sonst11'] = "<b>Der Benutzer ist nicht mehr in diesem Raum!</b>";
 $t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";

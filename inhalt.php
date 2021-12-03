@@ -235,7 +235,6 @@ if(!$seite || $kein_seitenaufruf) {
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
-			$text .= "| <a href=\"inhalt.php?seite=benutzer&id=$id\">$t[profil_benutzer]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/profil.php');

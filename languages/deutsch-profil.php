@@ -41,7 +41,6 @@ $t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felde
 
 $t['profil_benutzereinstellungen_aendern'] = "Benutzereinstellungen ändern";
 $t['profil_homepage_bearbeiten'] = "Homepage bearbeiten";
-$t['profil_benutzer'] = "Benutzer";
 $t['profil_datenschutzhinweis'] = "Datenschutzhinweis";
 $t['profil_hilfe'] = "Hilfe";
 

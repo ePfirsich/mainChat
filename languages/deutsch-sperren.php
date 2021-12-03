@@ -16,13 +16,18 @@ $t['blacklist1'] = "Es gibt noch keine Blacklist-Einträge.";
 $t['blacklist2'] = "Blacklist-Einträge: ";
 $t['blacklist3'] = "Neuen Blacklist-Eintrag hinzufügen:";
 
+$t['sperren_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!";
+$t['sperren_erfolgsmeldung_adresse'] = "Adresse %domain% gelöscht!</b><br>";
+
+$t['sperren_fehlermeldung'] = "Fehler";
+
 $t['sonst2'] = "Übersicht über alle Zugangssperren";
 $t['sonst4'] = "<b>Keine Zugangssperren definiert.</b>";
 $t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
-$t['sonst6'] = "<b>Fehler:</b> Bitte als Domain mindestens 5 Zeichen ausfüllen!";
-$t['sonst7'] = "<b>Fehler:</b> Bitte mindestens das erste Feld der IP ausfüllen!";
-$t['sonst9'] = "<b>Fehler:</b> Eintrag nicht gefunden!</b>";
-$t['sonst10'] = "<b>Hinweis:</b> Adresse %row->is_domain% gelöscht!</b>";
+$t['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
+$t['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";
+$t['sperren_fehlermeldung_eintrag_nicht_gefunden'] = "<b>Fehler:</b> Eintrag nicht gefunden!</b><br>";
+
 $t['sonst11'] = "Domain:";
 $t['sonst12'] = "IP-Adresse:";
 $t['sonst13'] = "Eintragen!";

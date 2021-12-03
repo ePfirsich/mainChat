@@ -10,7 +10,7 @@ zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
 $meta_refresh = "";
 
 if (isset($u_id) && $u_id) {
-	//$meta_refresh .= '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+	//$meta_refresh .= '<meta http-equiv="refresh" content="10; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
 	$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n</script>\n";
 	zeige_header_ende($meta_refresh);
 	?>

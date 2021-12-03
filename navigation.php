@@ -39,7 +39,7 @@ if ($u_id) {
 		}
 	}
 
-	$meta_refresh = '<meta http-equiv="refresh" content="' . intval($timeout / 3) . '; URL=navigation.php?id=' . $id . '">';
+	$meta_refresh = '<meta http-equiv="refresh" content="10; URL=navigation.php?id=' . $id . '">';
 	zeige_header_ende($meta_refresh);
 	echo "<body>\n";
 	
