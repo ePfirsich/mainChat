@@ -16,7 +16,7 @@ $bgcolor = 'class="tabelle_zeile1"';
 
 $text .= "<div style=\"text-align:center;\">$t[hilfe1]</div>";
 // Befehle für alle Benutzer
-$text .= "<table class=\"tabelle_kopf\">\n";
+$text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
 $text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
 $text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";
@@ -68,7 +68,7 @@ if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe8]</b></div>";
 	
 	// Befehle für Admins
-	$text .= "<table class=\"tabelle_kopf\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
 	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";

@@ -22,7 +22,8 @@ $i = 0;
 $bgcolor = 'class="tabelle_zeile1"';
 
 // Sprüche ausgeben
-$text .= "<table class=\"tabelle_kopf\">\n";
+
+$text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
 $text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe21]</td>";
 $text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:center;\">$t[hilfe22]</td>";
