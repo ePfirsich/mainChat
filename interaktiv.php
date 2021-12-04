@@ -28,7 +28,7 @@ if (isset($u_id) && $u_id) {
 	// Wurde Raum r_id aus Formular übergeben? Falls ja Raum von $o_raum nach $r_id wechseln
 	if (isset($r_id) && $o_raum != $r_id) {
 		// Raum wechseln
-		$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $r_id, 0);
+		$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $r_id);
 		if ($o_raum == $r_id) {
 			// Benutzer in Raum ausgeben
 			raum_user($r_id, $u_id);

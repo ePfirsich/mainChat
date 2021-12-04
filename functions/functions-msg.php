@@ -826,22 +826,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if (!isset($chatzeile[2])) {
 					$chatzeile[2] = "";
 				}
-				// Admin oder Raumbesitzer darf das Betreten geschlossener Räume erzwingen (Prüfung in raum_gehe)
-				if ($chatzeile[2] == "immer" || $chatzeile[2] == "force" || $chatzeile[2] == "!") {
-					$raum_geschlossen = TRUE;
-				} else {
-					$raum_geschlossen = FALSE;
-				}
 				
 				// Raum wechseln 
-				$query = "SELECT r_id,(LENGTH(r_name)-length('$chatzeile[1]')) as laenge "
+				$query = "SELECT r_id,(LENGTH(r_name)-length('$chatzeile[1]')) AS laenge "
 					. "FROM raum WHERE r_name like '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "%' ORDER BY laenge";
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if (mysqli_num_rows($result) != 0) {
 					$r_id_neu = mysqli_result($result, 0, "r_id");
 					if ($r_id_neu != $r_id) {
-						$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu, $raum_geschlossen);
+						$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu);
 						raum_user($r_id, $u_id);
 					}
 				} elseif ($u_level != "G" && strlen($f['r_name']) <= $raum_max && strlen($f['r_name']) > 3) {
@@ -876,7 +870,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// Hier wird der Raum angelegt
 						$r_id_neu = schreibe_db("raum", $f, $f['r_id'], "r_id");
 						if ($r_id_neu != $r_id) {
-							$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu, $raum_geschlossen);
+							$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu);
 							raum_user($r_id, $u_id);
 						}
 						
@@ -890,9 +884,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} else {
 				// Liste alle Räume auf
 				if ($admin) {
-					$query = "SELECT r_name from raum order by r_name";
+					$query = "SELECT r_name FROM raum ORDER BY r_name";
 				} else {
-					$query = "SELECT r_name from raum WHERE r_status1 = 'O' order by r_name";
+					$query = "SELECT r_name FROM raum WHERE r_status1 = 'O' ORDER BY r_name";
 				}
 				
 				$result = mysqli_query($mysqli_link, $query);
@@ -1033,9 +1027,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($user['u_nick'] != "") {
 					$raum = $chatzeile[2];
 					if ($raum == "") {
-						$query = "select r_id,r_name from raum where r_id=$o_raum";
+						$query = "SELECT r_id,r_name FROM raum WHERE r_id=$o_raum";
 					} else {
-						$query = "select r_id,r_name from raum where r_name like '$raum%'";
+						$query = "SELECT r_id,r_name FROM raum WHERE r_name like '$raum%'";
 					}
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result > 0) {
@@ -1043,7 +1037,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$raum = mysqli_result($result, 0, "r_name");
 						mysqli_free_result($result);
 					}
-					$query = "select o_raum,o_id,r_name from online,raum where o_user=$user[u_id] AND r_id=o_raum";
+					$query = "SELECT o_raum,o_id,r_name FROM online,raum WHERE o_user=$user[u_id] AND r_id=o_raum";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result > 0) {
 						$raumalt = mysqli_result($result, 0, "r_name");
@@ -1054,10 +1048,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					// $text="Schubbern...$user[u_nick]/$user[u_id] $raumalt/$uo_raum -&gt; $raum/$raumid";
 					$text = "<b>$chat:</b> $user[u_nick]: $raumalt -&gt; $raum";
 					system_msg("", 0, $u_id, $system_farbe, $text);
-					global_msg($u_id, $o_raum,
-						"'$u_nick' $t[sperre2] '$user[u_nick]' $t[sperre8] $raum");
-					raum_gehe($uo_id, $user['u_id'], $user['u_nick'], $uo_raum,
-						$raumid, TRUE);
+					global_msg($u_id, $o_raum, "'$u_nick' $t[sperre2] '$user[u_nick]' $t[sperre8] $raum");
+					raum_gehe($uo_id, $user['u_id'], $user['u_nick'], $uo_raum, $raumid);
 				}
 			}
 			break;
@@ -1675,13 +1667,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							schreibe_db("raum", $f, $row->r_id, "r_id");
 							
 							// Raum leeren
-							$query = "SELECT o_user,o_name FROM online "
-								. "WHERE o_raum=$row->r_id ";
+							$query = "SELECT o_user,o_name FROM online WHERE o_raum=$row->r_id ";
 							
 							$result2 = mysqli_query($mysqli_link, $query);
 							while ($row2 = mysqli_fetch_object($result2)) {
 								system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg62']));
-								$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $row->r_id, $lobby_id, FALSE);
+								$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $row->r_id, $lobby_id);
 								raum_user($lobby_id, $row2->o_user);
 								$i++;
 							}
@@ -2673,9 +2664,8 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 				schreibe_db("sperre", $f, "", "s_id");
 				
 				// Benutzer aus Raum werfen
-				global_msg($u_id, $r_id,
-					"'$u_nick' $t[sperre2] '$s_user_name' $t[sperre3]");
-				raum_gehe($o_id, $s_user, $s_user_name, $r_id, $lobby_id, FALSE);
+				global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre3]");
+				raum_gehe($o_id, $s_user, $s_user_name, $r_id, $lobby_id);
 				
 			} else {
 				// Benutzer ist nicht in diesem Raum... meldung ausgeben.

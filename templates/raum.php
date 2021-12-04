@@ -114,7 +114,7 @@ if (strlen($f['r_name']) > 3 && strlen($f['r_name']) < $raum_max && $los == "$t[
 	if ($rows == 0) {
 		// Raum neu eintragen und in Raum gehen
 		$raum_neu = schreibe_db("raum", $f, "", "r_id");
-		$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu, TRUE);
+		$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu);
 		raum_user($o_raum, $u_id);
 	} else {
 		echo "<p>" . str_replace("%r_name%", $f['r_name'], $t['fehler0']) . "</p>\n";
@@ -181,7 +181,7 @@ switch ($aktion) {
 					$result2 = mysqli_query($mysqli_link, $query);
 					while ($row2 = mysqli_fetch_object($result2)) {
 						system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['fehler4']));
-						$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id, FALSE);
+						$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id);
 						raum_user($lobby_id, $row2->o_user);
 						$i++;
 					}

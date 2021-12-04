@@ -1,8 +1,7 @@
 <?php
 
-function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
+function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	// user $u_id/$u_nick geht von $raum_alt in Raum $raum_neu
-	// falls $geschlossen=TRUE -> auch geschlossene Räume betreten
 	// Nachricht in Raum $r_id wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
 	
@@ -93,7 +92,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 		}
 		
 		// für admin Raumwechsel erlaubt.
-		if ($admin && $geschlossen) {
+		if ($admin) {
 			$raumwechsel = true;
 		}
 		
@@ -176,7 +175,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu, $geschlossen) {
 			
 		} else {
 			// Raum kann nicht betreten werden
-			system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
+			system_msg("", 0, $u_id, "", "xxx".str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
 			
 			// Nachricht das gesperrt ausgeben
 			if ($gesperrt) {

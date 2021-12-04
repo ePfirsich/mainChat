@@ -25,12 +25,13 @@ if ($u_id) {
 	
 	// Prüfung, ob Benutzer wegen Inaktivität ausgeloggt werden soll
 	if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
-		if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
+		//if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 			// Aus dem Chat ausloggen
-			ausloggen($u_id, $u_nick, $o_raum, $o_id);
-			unset($u_id);
-			unset($o_id);
-		} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
+			//ausloggen($u_id, $u_nick, $o_raum, $o_id);
+			//unset($u_id);
+			//unset($o_id);
+		//} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
+		 if ( (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
 			// Warnung über bevorstehenden Logout ausgeben
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
 			unset($f);
