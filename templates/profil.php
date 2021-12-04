@@ -273,7 +273,7 @@ switch ($aktion) {
 		} else {
 			$box = $t['profil_alle_profile'];
 			$text = '';
-			$text .= "<table class=\"tabelle_kopf\">\n";
+			$text .= "<table style=\"width:100%;\">\n";
 			$text .= "<tr>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_wohnort]</td>\n";
@@ -290,7 +290,14 @@ switch ($aktion) {
 			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id ORDER BY u_nick";
 			$result = mysqli_query($mysqli_link, $query);
 			if ($result && mysqli_num_rows($result) > 0) {
+				$zaehler = 0;
 				while ($row = mysqli_fetch_object($result)) {
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					
 					$userdata = array();
 					$userdata['u_id'] = $row->u_id;
 					$userdata['u_nick'] = $row->u_nick;
@@ -302,17 +309,19 @@ switch ($aktion) {
 					$userdaten = zeige_userdetails($row->u_id, $userdata);
 					
 					$text .= "<tr>\n";
-					$text .= "<td class=\"tabelle_koerper\"><b>" . $userdaten . "</b></td>\n";
-					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_wohnort) . "</td>\n";
+					$text .= "<td $bgcolor><b>" . $userdaten . "</b></td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_wohnort) . "</td>\n";
 					if($admin) {
-						$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->u_adminemail) . "</td>\n";
+						$text .= "<td $bgcolor>" . htmlspecialchars($row->u_adminemail) . "</td>\n";
 					}
-					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_homepage) . "</td>\n";
-					$text .= "<td class=\"tabelle_koerper\">" . htmlspecialchars($row->ui_geburt) . "</td>\n";
-					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row->ui_geschlecht)) . "</td>\n";
-					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row->ui_beziehungsstatus)) . "</td>\n";
-					$text .= "<td class=\"tabelle_koerper\">" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row->ui_typ)) . "</td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_homepage) . "</td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_geburt) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row->ui_geschlecht)) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row->ui_beziehungsstatus)) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row->ui_typ)) . "</td>\n";
 					$text .= "</tr>\n";
+					
+					$zaehler++;
 				}
 			}
 			$text .= "</table>\n";

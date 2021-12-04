@@ -2,7 +2,6 @@
 // Übersetzungen von "Hilfe"
 $t['titel'] = "Hilfe";
 
-$t['hilfe_menue1'] = "Hilfe";
 $t['hilfe_menue4'] = "Übersicht";
 $t['hilfe_menue5'] = "Liste aller Befehle";
 $t['hilfe_menue6'] = "Liste aller Sprüche";

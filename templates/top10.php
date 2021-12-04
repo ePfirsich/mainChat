@@ -17,7 +17,7 @@ switch ($aktion) {
 }
 
 $bgcolor = 'class="tabelle_zeile1"';
-echo "<table class=\"tabelle_kopf\">\n"
+echo "<table class=\"tabelle_kopf_zentriert\">\n"
 	. "<tr>"
 	. "<td class=\"tabelle_kopfzeile\" style=\"width:4%;\">&nbsp;</td>"
 	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top1'] ." " . strftime("%B", time()) . "</td>"
@@ -26,7 +26,7 @@ echo "<table class=\"tabelle_kopf\">\n"
 	. "</tr>\n";
 
 // im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
-$query = "select * from top10cache where t_eintrag=1 "
+$query = "SELECT * from top10cache where t_eintrag=1 "
 	. "AND date_add(t_zeit, interval '6' hour)>=NOW()";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
@@ -35,11 +35,11 @@ if ($result && mysqli_num_rows($result) > 0) {
 } else {
 	unset($array_user);
 	// Top 100 Punkte im aktuellen Monat als Array aufbauen
-	$query = "select u_punkte_monat as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
-		. "where u_punkte_monat!=0 " . "and u_punkte_datum_monat="
+	$query = "SELECT u_punkte_monat as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
+		. "WHERE u_punkte_monat!=0 " . "and u_punkte_datum_monat="
 		. date("n", time()) . " and u_punkte_datum_jahr="
 		. date("Y", time()) . " and u_level != 'Z' "
-		. "order by u_punkte_monat desc,u_punkte_gesamt desc,u_punkte_jahr desc limit 0,100";
+		. "ORDER BY u_punkte_monat desc,u_punkte_gesamt desc,u_punkte_jahr desc limit 0,100";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
 		$array_anzahl[0] = mysqli_num_rows($result);
@@ -50,10 +50,10 @@ if ($result && mysqli_num_rows($result) > 0) {
 	mysqli_free_result($result);
 	
 	// Top 100 Punkte im aktuellen Jahr als Array aufbauen
-	$query = "select u_punkte_jahr as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
-		. "where u_punkte_jahr!=0 " . "and u_punkte_datum_jahr="
+	$query = "SELECT u_punkte_jahr as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
+		. "WHERE u_punkte_jahr!=0 " . "and u_punkte_datum_jahr="
 		. date("Y", time()) . "  and u_level != 'Z' "
-		. "order by u_punkte_jahr desc,u_punkte_gesamt desc,u_punkte_monat desc limit 0,100";
+		. "ORDER BY u_punkte_jahr desc,u_punkte_gesamt desc,u_punkte_monat desc limit 0,100";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
 		$array_anzahl[1] = mysqli_num_rows($result);
@@ -64,9 +64,9 @@ if ($result && mysqli_num_rows($result) > 0) {
 	mysqli_free_result($result);
 	
 	// Top 100 Gesamtpunkte als Array aufbauen
-	$query = "select u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
-		. "where u_punkte_gesamt!=0  and u_level != 'Z' "
-		. "order by u_punkte_gesamt desc,u_punkte_monat desc,u_punkte_jahr desc limit 0,100";
+	$query = "SELECT u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage from user "
+		. "WHERE u_punkte_gesamt!=0  and u_level != 'Z' "
+		. "ORDER BY u_punkte_gesamt desc,u_punkte_monat desc,u_punkte_jahr desc limit 0,100";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) > 0) {
 		$array_anzahl[2] = mysqli_num_rows($result);

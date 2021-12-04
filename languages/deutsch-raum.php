@@ -3,7 +3,6 @@
 // Übersetzungen von "Raum"
 $t['titel'] = "Räume";
 
-$t['raum_menue1'] = "Räume";
 $t['raum_menue2'] = "Neuer Raum";
 $t['raum_menue6'] = "ausführliche Raumliste";
 $t['raum_menue7'] = "einfache Raumliste";

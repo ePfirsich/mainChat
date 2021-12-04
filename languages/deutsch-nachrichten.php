@@ -3,7 +3,6 @@
 // Übersetzungen von "Nachrichten"
 $t['titel'] = "Nachrichten";
 
-$t['nachrichten_titel'] = "Nachrichten";
 $t['nachrichten_posteingang'] = "Posteingang";
 $t['nachrichten_postausgang'] = "Postausgang";
 $t['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";

@@ -3,7 +3,6 @@
 // Übersetzungen von "Benutzer"
 $t['titel'] = "Benutzer";
 
-$t['benutzer_titel'] = "Benutzer";
 $t['benutzer_uebersicht'] = "Übersicht";
 $t['benutzer_benutzer_suchen'] = "Benutzer suchen";
 $t['benutzer_adminliste_anzeigen'] = "Adminliste anzeigen";

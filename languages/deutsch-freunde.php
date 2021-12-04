@@ -3,7 +3,6 @@
 // Übersetzungen von "Raum"
 $t['titel'] = "Freunde";
 
-$t['freunde_menue1'] = "Freunde";
 $t['freunde_menue2'] = "Meine Freunde listen";
 $t['freunde_menue3'] = "Neuen Freund hinzufügen";
 $t['freunde_menue4'] = "Freundschaften bestätigen";

@@ -20,7 +20,7 @@ if ($r1 > 0) {
 	$msg = $t['statistik5'];
 }
 
-$box = $t['statistik1'];
+$box = $t['titel'];
 if ($fehler) {
 	zeige_tabelle_zentriert($box, $msg);
 	return;

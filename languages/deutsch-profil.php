@@ -2,8 +2,6 @@
 // Übersetzungen von "Profil"
 $t['titel'] = "Profil";
 
-$t['profil_menue1'] = "Profil";
-
 $t['bestehendes_profil'] = "Bestehendes Profil bearbeiten";
 $t['neues_profil'] = "Neues Profil anlegen";
 $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "

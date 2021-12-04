@@ -3,7 +3,6 @@
 // Übersetzungen von "Einstellungen"
 $t['titel'] = "Einstellungen";
 
-$t['einstellungen_menue_titel'] = "Einstellungen";
 $t['einstellungen_menue1'] = "Einstellungen";
 $t['einstellungen_menue2'] = "Benachrichtigungen";
 $t['einstellungen_menue3'] = "Hilfe";

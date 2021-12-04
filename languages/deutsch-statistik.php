@@ -2,7 +2,6 @@
 // Übersetzungen von "Statistik"
 $t['titel'] = "Statistik";
 
-$t['statistik1'] = "Chat-Statistik";
 $t['statistik2'] = "Chat-Statistik nach Stunden";
 $t['statistik3'] = "Chat-Statistik nach Monaten";
 $t['statistik4'] = "Es ist ein Fehler bei der Datenbankverbindung aufgetreten.";
