@@ -128,8 +128,7 @@ if ($expire_privat) {
 	
 } else {
 	// Chat expire für alle privaten Zeilen, die älter als 15 Minuten sind
-	$query = "DELETE FROM chat "
-		. "WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 "
+	$query = "DELETE FROM chat WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 900 "
 		. "AND c_typ='P' OR c_zeit='' OR c_zeit=0";
 	$result = mysqli_query($mysqli_link, $query);
 }
@@ -149,11 +148,10 @@ $result = mysqli_query($mysqli_link, $query);
 if ($result) {
 	while ($rows = mysqli_fetch_object($result)) {
 		// Chat verlassen und Nachricht an alle Benutzer im aktuellen Raum schreiben
+		echo "Folgender Benutzer wurde ausgeloggt: " . $rows->o_name . "<br>";
 		
 		// Aus dem Chat ausloggen
 		ausloggen($rows->o_user, $rows->o_name, $rows->o_raum, $rows->o_id);
-		
-		echo "$rows->o_name ";
 	}
 	mysqli_free_result($result);
 }
@@ -182,8 +180,7 @@ mysqli_free_result($result);
 // Leere temporäre Räume löschen, deren Besitzer nicht online ist
 echo "Leere temporäre Räume löschen\n";
 $query = "SELECT SQL_BUFFER_RESULT r_id,r_name FROM raum "
-	. "LEFT JOIN online ON o_user=r_besitzer "
-	. "WHERE r_status2 LIKE 'T' AND o_timestamp IS NULL";
+	. "LEFT JOIN online ON o_user=r_besitzer WHERE r_status2 LIKE 'T' AND o_timestamp IS NULL";
 
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) > 0) {
