@@ -14,6 +14,11 @@ if( $aktion == "") {
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
 if( isset($u_id) && strlen($u_id) != 0 ) {
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
@@ -52,7 +57,10 @@ if($t['titel'] != '') {
 	$title = $body_titel;
 }
 
-zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 ?>
 <script>
 function toggleMail(tostat) {

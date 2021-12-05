@@ -49,6 +49,10 @@ if ($aktion != "abspeichern") {
 	flush();
 }
 
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "chatausgabe");
+
 // Log ausgeben
-chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back);
+chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten);
 ?>

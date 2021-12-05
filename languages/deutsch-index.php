@@ -95,7 +95,7 @@ $t['login_formular_kopfzeile'] = "Login oder";
 $t['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";
 
-$t['login4'] = "<p><b>Der Chat ist im Moment aus technischen Gründen geschlossen! "
+$t['chat_login_nicht_möglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>"
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
 $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster . "\">Webmaster</a>.</b></p><br><br>\n";
@@ -184,7 +184,7 @@ $t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
 $t['default4'] = "Benutzer online in %raum%:";
 $t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 $t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
-$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Diskussionsthemen.";
+$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Foren.";
 $t['default9'] = "Raum ";
 $t['default10'] = "Community-Bereich ";
 

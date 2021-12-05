@@ -5,8 +5,16 @@ require_once("languages/$sprache-chat.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
+zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
 $meta_refresh = "";
 
 if (isset($u_id) && $u_id) {
@@ -64,7 +72,7 @@ if (isset($u_id) && $u_id) {
 	// Benutzer-Menue
 	
 	// Anzahl der Benutzer insgesamt feststellen
-	$query = "SELECT count(o_id) as anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
+	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");

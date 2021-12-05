@@ -2,13 +2,16 @@
 
 //Kopf fuer das Forum
 function kopf_forum($admin) {
-	global $id, $u_nick, $menue;
+	global $id, $u_id, $u_nick, $menue;
 	global $chat, $body_titel;
-	global $aktion, $u_layout_farbe;
+	global $aktion;
 	global $t;
+	
+	// Hole alle benötigten Einstellungen des Benutzers
+	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 	$title = $body_titel;
-	zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
+	zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
 	zeige_header_ende();
 	?>
 	<body>
@@ -658,6 +661,9 @@ function maske_posting($mode) {
 	global $t, $mysqli_link;
 	global $forum_admin, $u_nick;
 	
+	// Hole alle benötigten Einstellungen des Benutzers
+	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+	
 	switch ($mode) {
 		
 		case "neuer_thread":
@@ -782,7 +788,7 @@ function maske_posting($mode) {
 			</td>
 		</tr>
 		<tr>
-			<td style="vertical-align:top; width:20%;" class="tabelle_koerper_login"><?php echo zeige_smilies('forum'); ?></td>
+			<td style="vertical-align:top; width:20%;" class="tabelle_koerper_login"><?php echo zeige_smilies('forum', $benutzerdaten); ?></td>
 			<td style="vertical-align:top;" class="tabelle_koerper_login"><textarea name="po_text" rows="15" cols="95" wrap="physical"><?php echo $po_text; ?></textarea></td>
 		</tr>
 			<?php
@@ -850,14 +856,7 @@ function verbuche_punkte($u_id) {
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
-		?>
-		<table class="tabelle_gerust">
-			<tr>
-				<td class="tabelle_koerper_login" style="font-weight:bold;"><?php echo $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id); ?></td>
-			</tr>
-		</table>
-		<br>
-		<?php
+		zeige_tabelle_zentriert($t['forum_punkte_erhalten'], $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id) );
 	}
 }
 

@@ -8,6 +8,14 @@ require_once("functions/functions.php");
 // Benutzerdaten setzen
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "chatausgabe");
+
 // Zeit in Sekunden bis auch im Normalmodus die Seite neu geladen wird
 $refresh_zeit = 600;
 
@@ -15,7 +23,7 @@ $refresh_zeit = 600;
 $sysmsg = TRUE;
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
+zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
 
 // Benutzerdaten gesetzt?
 if ($u_id) {
@@ -26,7 +34,7 @@ if ($u_id) {
 	$meta_refresh = "";
 	
 	// Algorithmus wählen
-	if ($sicherer_modus == 1 || $u_sicherer_modus == "1") {
+	if ($sicherer_modus == 1 ||$benutzerdaten['u_sicherer_modus'] == "1") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
@@ -36,7 +44,7 @@ if ($u_id) {
 		<?php
 		
 		// Chatausgabe, $letzte_id ist global
-		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back);
+		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back, $benutzerdaten);
 	} else {
 		// Endlos-Push-Methode - Normalmodus
 		
@@ -111,7 +119,7 @@ if ($u_id) {
 			
 			// Chatausgabe, $letzte_id ist global
 			// Falls Result=wahr wurde Text ausgegeben, Timer für Userliste zurücksetzen
-			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $trigger_letzte_Zeilen)) {
+			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $trigger_letzte_Zeilen, $benutzerdaten)) {
 				$i = 0;
 			}
 			

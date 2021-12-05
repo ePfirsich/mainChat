@@ -38,7 +38,7 @@ $t['thema_editieren'] = "editieren";
 $t['thema_zitieren'] = "zitieren";
 $t['thema_sperren'] = "sperren";
 $t['thema_loeschen'] = "löschen";
-$t['thema_loeschen2'] = "Wollen Sie dieses Thema wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESES Thema gelöscht!";
+$t['thema_loeschen2'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!";
 $t['thema_verschieben'] = "verschieben";
 $t['thema_weiterleiten'] = "weiterleiten";
 $t['thema_privat'] = "Mail";
@@ -90,6 +90,8 @@ $t['missing_potext'] = "<br>Sie haben keinen Text für Ihren Beitrag eingegeben!
 
 // Sonstiges
 $t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.";
+$t['forum_punkte_erhalten'] = "Punkte erhalten!";
+$t['forum_punkte_abgezogen'] = "Punkte abgezogen!";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 

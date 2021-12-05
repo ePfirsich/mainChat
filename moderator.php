@@ -6,10 +6,18 @@ require_once("languages/$sprache-chat.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
 $title = $body_titel;
 
 if (strlen($u_id) > 0) {
-	zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
+	// Hole alle benötigten Einstellungen des Benutzers
+	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+	
+	zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
 	// Falls keine Texte zur Moderation gefunden wurden, nach 10 Sek reload
 	$moderations_zeilen = anzahl_moderationstexte($o_raum);
 	if ($moderations_zeilen == 0) {

@@ -274,8 +274,7 @@ function global_msg($u_id, $r_id, $text) {
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($u_id) {
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
-			. "WHERE o_user=$u_id";
+		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 	}
 	return ($back);
@@ -301,8 +300,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
-			. "WHERE o_user=$von_user_id";
+		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$von_user_id";
 		$result = mysqli_query($mysqli_link, $query);
 	}
 	
@@ -342,8 +340,7 @@ function priv_msg(
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
 		$von_user_id = mysqli_real_escape_string($mysqli_link, $von_user_id); // sec
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' "
-			. "WHERE o_user=$von_user_id";
+		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$von_user_id";
 		$result = mysqli_query($mysqli_link, $query);
 	}
 	
@@ -383,9 +380,8 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_smilies, $u_systemmeldungen, $u_punkte_anzeigen, $u_sicherer_modus, $u_zeilen;
-	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion, $u_emails_akzeptieren;
-	global $u_layout_farbe, $u_layout_chat_darstellung;
+	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $u_zeilen;
+	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
 	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
@@ -604,10 +600,8 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, "
-			. "`u_away`, `u_adminemail`, `u_smilies`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
-			. "`u_chathomepage`, `u_systemmeldungen`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_emails_akzeptieren` "
-			. "FROM `user` WHERE `u_id`=$id";
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
+			. "`u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$id";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -817,8 +811,8 @@ function debug($text = "", $rundung = 3) {
 	return ($erg);
 }
 
-function zeige_smilies($anzeigeort = 'chat') {
-	global $t, $f1, $f2, $smilie, $smilietxt, $cssDeklarationen;
+function zeige_smilies($anzeigeort, $benutzerdaten) {
+	global $t, $f1, $f2, $smilie, $smilietxt;
 	
 	$text = "";
 	if( $anzeigeort == 'chat' ) { // Chatausgabe
@@ -833,7 +827,7 @@ function zeige_smilies($anzeigeort = 'chat') {
 			}
 			$text .= "<tr>";
 			$text .= "<td $farbe_tabelle style=\"text-align:center;\">";
-			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
+			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
 			$text .= "</td>";
 			$text .= "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</td>";
 			$text .= "</tr>\n";
@@ -842,7 +836,7 @@ function zeige_smilies($anzeigeort = 'chat') {
 		$text .= "</table>";
 	} else { // Forumausgabe
 		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
-			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
+			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
 			$zahl++;
 		}
 	}
@@ -1352,7 +1346,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 function logout($o_id, $u_id) {
 	// Logout aus dem Gesamtsystem
 	
-	global $u_farbe, $mysqli_link;
+	global $mysqli_link;
 	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
@@ -1577,5 +1571,39 @@ function reset_system($wo_online) {
 		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	}
+}
+
+function hole_benutzer_einstellungen($u_id, $ort) {
+	global $mysqli_link;
+	
+	if($ort == "chatausgabe") {
+		// Benötigte Einstellugen für das Chatfenster
+		$benutzer_query = "SELECT `u_systemmeldungen`, `u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_sicherer_modus` FROM `user` WHERE `u_id`=$u_id";
+		$benutzer_result = mysqli_query($mysqli_link, $benutzer_query);
+		
+		$benutzerdaten = array();
+		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+	} else if($ort == "chateingabe") {
+		// Benötigte Einstellugen für die Eingabe
+		$benutzer_query = "SELECT `u_layout_farbe`, `u_sicherer_modus` FROM `user` WHERE `u_id`=$u_id";
+		$benutzer_result = mysqli_query($mysqli_link, $benutzer_query);
+		
+		$benutzerdaten = array();
+		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+	} else if($ort == "standard") {
+		// Benötigte Einstellungen für alle anderen Seiten
+		$benutzer_query = "SELECT `u_layout_farbe` FROM `user` WHERE `u_id`=$u_id";
+		$benutzer_result = mysqli_query($mysqli_link, $benutzer_query);
+		
+		$benutzerdaten = array();
+		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+	} else {
+		// Benötigte Einstellugen für alle Seiten im Login
+		
+		$benutzerdaten = array();
+		$benutzerdaten['u_layout_farbe'] = 0;
+	}
+	
+	return $benutzerdaten;
 }
 ?>

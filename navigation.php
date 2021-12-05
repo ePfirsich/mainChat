@@ -5,8 +5,11 @@ require_once("languages/$sprache-navigation.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
 $title = $body_titel;
-zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 
 if ($u_id) {
 	// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
@@ -25,13 +28,12 @@ if ($u_id) {
 	
 	// Prüfung, ob Benutzer wegen Inaktivität ausgeloggt werden soll
 	if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o_timeout_zeit) {
-		//if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
+		if ($o_timeout_warnung == "J" && $chat_timeout < (time() - $o_timeout_zeit)) {
 			// Aus dem Chat ausloggen
-			//ausloggen($u_id, $u_nick, $o_raum, $o_id);
-			//unset($u_id);
-			//unset($o_id);
-		//} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
-		 if ( (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
+			ausloggen($u_id, $u_nick, $o_raum, $o_id);
+			unset($u_id);
+			unset($o_id);
+		} else if ($o_timeout_warnung != "J" && (($chat_timeout / 4) * 3) < (time() - $o_timeout_zeit)) {
 			// Warnung über bevorstehenden Logout ausgeben
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $t['chat_msg101']));
 			unset($f);

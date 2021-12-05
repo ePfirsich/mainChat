@@ -13,8 +13,16 @@ if( $aktion == "") {
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
 $title = $body_titel . ' - Benutzer';
-zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 
 // Target Sonderzeichen raus...
 $fenster = str_replace("+", "", $u_nick);
@@ -73,7 +81,7 @@ if (strlen($u_id) != 0) {
 			$text .= $text_navigation;
 			$text .= "</div><br>";
 			
-			$text .= zeige_smilies('chat');
+			$text .= zeige_smilies('chat', $benutzerdaten);
 			
 			$text .= "<br><div style=\"text-align:center;\">";
 			$text .= $text_navigation;

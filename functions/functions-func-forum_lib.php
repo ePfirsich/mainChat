@@ -869,7 +869,7 @@ function hole_letzten($root_id, $new_po_id) {
 function loesche_posting() {
 	global $mysqli_link, $th_id, $po_id, $thread;
 	global $arr_delete;
-	global $punkte_pro_posting;
+	global $punkte_pro_posting, $t;
 	
 	$arr_delete = array();
 	
@@ -886,7 +886,7 @@ function loesche_posting() {
 	//ansonsten wird es eh geloescht
 	if ($po_id != $thread) {
 		
-		$sql = "select po_threadorder, po_ts from posting where po_id=" . intval($thread);
+		$sql = "SELECT po_threadorder, po_ts FROM posting WHERE po_id=" . intval($thread);
 		$query = mysqli_query($mysqli_link, $sql);
 		$threadorder = mysqli_result($query, 0, "po_threadorder");
 		$new_ts = mysqli_result($query, 0, "po_ts");
@@ -905,44 +905,36 @@ function loesche_posting() {
 			$new_threadorder = implode(",", $arr_new_threadorder);
 			$arr_new_threadorder = explode(",", $new_threadorder);
 			for ($i = 0; $i < count($arr_new_threadorder); $i++) {
-				$sql = "select po_ts from posting where po_id = " . intval($arr_new_threadorder[$i]);
+				$sql = "SELECT po_ts FROM posting WHERE po_id = " . intval($arr_new_threadorder[$i]);
 				$query = mysqli_query($mysqli_link, $sql);
 				$ts = mysqli_result($query, 0, "po_ts");
-				if ($ts > $new_ts)
+				if ($ts > $new_ts) {
 					$new_ts = $ts;
+				}
 			}
 			
 		}
 		
 		$new_threadorder = implode(",", $arr_new_threadorder);
 		
-		$sql = "update posting
-						set po_threadorder = '$new_threadorder', po_threadts = $new_ts
-						where po_id = $thread";
+		$sql = "UPDATE posting SET po_threadorder = '$new_threadorder', po_threadts = $new_ts WHERE po_id = $thread";
 		mysqli_query($mysqli_link, $sql);
 		
 		//eventuell letzter Beitrag auf Ebene neu markieren
-		$sql = "select po_vater_id, po_threadorder from posting where po_id = " . intval($po_id);
+		$sql = "SELECT po_vater_id, po_threadorder FROM posting WHERE po_id = " . intval($po_id);
 		$query = mysqli_query($mysqli_link, $sql);
 		$threadorder = mysqli_result($query, 0, "po_threadorder");
 		$vater_id = mysqli_result($query, 0, "po_vater_id");
 		
 		//falls letztes posting, dann neu setzen
 		if ($threadorder == "1") {
-			
-			$sql = "select po_id from posting
-								where po_vater_id = $vater_id
-								and po_id <> " . intval($po_id) . "
-								order by po_ts desc
-								limit 1";
+			$sql = "SELECT po_id FROM posting WHERE po_vater_id = $vater_id AND po_id <> " . intval($po_id) . " ORDER BY po_ts desc LIMIT 1";
 			$query = mysqli_query($mysqli_link, $sql);
 			if (mysqli_num_rows($query) > 0) {
 				
 				$po_id_update = mysqli_result($query, 0, "po_id");
 				
-				$sql = "update posting
-										set po_threadorder = '1'
-										where po_id = $po_id_update";
+				$sql = "UPDATE posting SET po_threadorder = '1' WHERE po_id = $po_id_update";
 				mysqli_query($mysqli_link, $sql);
 			}
 		}
@@ -976,41 +968,29 @@ function loesche_posting() {
 		
 	}
 	
-	$sql = "update thema
-				set th_anzthreads = $anzthreads,
-				th_anzreplys = $anzreplys,
-				th_postings = '$new_postings'
-				where th_id = " . intval($th_id);
+	$sql = "UPDATE thema SET th_anzthreads = $anzthreads, th_anzreplys = $anzreplys, th_postings = '$new_postings' WHERE th_id = " . intval($th_id);
 	mysqli_query($mysqli_link, $sql);
 	
 	// Punkte abziehen
-	?>
-	<table class="tabelle_gerust">
-		<tr>
-			<td style="font-weight:bold; vertical-align:bottom;" class="tabelle_koerper_login">
-			<?
-			reset($arr_delete);
-			while (list($k, $v) = @each($arr_delete)) {
-				$sql = "select po_u_id from posting where po_id = " . intval($v);
-				$result = mysqli_query($mysqli_link, $sql);
-				if ($result && mysqli_num_rows($result) == 1) {
-					$po_u_id = mysqli_result($result, 0, 0);
-					if ($po_u_id)
-						echo $t['forum_punkte2']
-							. punkte_offline($punkte_pro_posting * (-1), $po_u_id)
-							. "<br>";
-				}
-				mysqli_free_result($result);
+	reset($arr_delete);
+	$zusammenfassung = "";
+	while (list($k, $v) = @each($arr_delete)) {
+		$sql = "SELECT po_u_id FROM posting WHERE po_id = " . intval($v);
+		$result = mysqli_query($mysqli_link, $sql);
+		if ($result && mysqli_num_rows($result) == 1) {
+			$po_u_id = mysqli_result($result, 0, 0);
+			if ($po_u_id) {
+				$zusammenfassung .= $t['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $po_u_id) . "<br>";
 			}
-			?>
-			</td>
-		</tr>
-	</table>
-	<br>
-	<?php
+		}
+		mysqli_free_result($result);
+	}
+
+	zeige_tabelle_zentriert($t['forum_punkte_abgezogen'], $zusammenfassung);
+	
 	reset($arr_delete);
 	while (list($k, $v) = @each($arr_delete)) {
-		$sql = "delete from posting where po_id = " . intval($v);
+		$sql = "DELETE FROM posting WHERE po_id = " . intval($v);
 		mysqli_query($mysqli_link, $sql);
 	}
 	
@@ -1199,7 +1179,10 @@ function verschiebe_posting_ausfuehren() {
 }
 
 function ersetze_smilies($text) {
-	global $sprache, $cssDeklarationen, $smilie;
+	global $sprache, $smilie, $u_id;
+	
+	// Hole alle benötigten Einstellungen des Benutzers
+	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 	
 	preg_match_all("/(&amp;[^ |^<]+)/", $text, $test, PREG_PATTERN_ORDER);
 	
@@ -1207,7 +1190,7 @@ function ersetze_smilies($text) {
 		$smilie_code2 = str_replace("&amp;", "&", $smilie_code);
 		$smilie_code2 = chop($smilie_code2);
 		if ($smilie[$smilie_code2]) {
-			$text = str_replace($smilie_code, "<img src=\"images/smilies/" . $cssDeklarationen . "/" . $smilie[$smilie_code2] . "\">", $text);
+			$text = str_replace($smilie_code, "<img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie[$smilie_code2] . "\">", $text);
 		}
 	}
 	
@@ -1220,12 +1203,8 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 	//aktionen nur fuer Antworten
 	if ($po_vater_id > 0) {
 		
-		$sql = "select po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%Y') as po_date, po_titel,
-			th_name, fo_name 
-			from posting, thema, forum
-			where po_id = " . intval($po_vater_id) . "
-			and po_th_id = th_id
-			and th_fo_id = fo_id";
+		$sql = "SELECT po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%Y') AS po_date, po_titel, th_name, fo_name 
+			FROM posting, thema, forum WHERE po_id = " . intval($po_vater_id) . " AND po_th_id = th_id AND th_fo_id = fo_id";
 		
 		$query = mysqli_query($mysqli_link, $sql);
 		

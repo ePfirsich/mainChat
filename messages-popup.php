@@ -6,8 +6,16 @@ require_once("functions/functions-func-chat_lese.php");
 // Benutzerdaten setzen
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "chatausgabe");
+
 $title = $body_titel;
-zeige_header_anfang($title, 'chatausgabe', '', $u_layout_farbe);
+zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
 
 // Benutzerdaten gesetzt?
 if (strlen($u_id) > 0) {
@@ -24,7 +32,7 @@ if (strlen($u_id) > 0) {
 	aktualisiere_online($u_id, $o_raum, 2);
 	
 	// Aktuelle Privat- und Systemnachrichten oder Statusmeldung ausgeben
-	if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, TRUE, $user)) {
+	if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, $benutzerdaten, TRUE, $user)) {
 		echo $t['chat_msg106'];
 	}
 	

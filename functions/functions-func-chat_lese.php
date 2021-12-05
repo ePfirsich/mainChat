@@ -1,18 +1,18 @@
 <?php
 
-function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = FALSE, $nur_privat_user = "") {
+function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten, $nur_privat = FALSE, $nur_privat_user = "") {
 	// Gibt Text gefiltert aus
 	// $raum = ID des aktuellen Raums
 	// $u_id = ID des aktuellen Benutzers
 	
-	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin, $u_layout_chat_darstellung;
-	global $u_nick, $u_level, $u_smilies, $u_systemmeldungen;
-	global $show_spruch_owner, $id, $o_dicecheck, $cssDeklarationen;
+	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
+	global $u_nick, $u_level;
+	global $show_spruch_owner, $id, $o_dicecheck;
 	global $user_nick, $mysqli_link;
 	
 	$o_id = intval($o_id);
 	
-	// Workaround, falls Benutzer in Community ist
+	// Workaround, falls Benutzer im Forum ist
 	if (!$raum) {
 		$raum = "-1";
 	}
@@ -185,7 +185,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 			
 			// Systemnachrichten, die <<< oder >>> an Stelle 4-16 enthalten herausfiltern
 			$ausgeben = true;
-			if ($u_systemmeldungen == "0") {
+			if ($benutzerdaten['u_systemmeldungen'] == "0") {
 				if (($row->c_typ == "S") && (substr($row->c_text, 3, 12) == "&gt;&gt;&gt;" || substr($row->c_text, 3, 12) == "&lt;&lt;&lt;")) {
 					$ausgeben = false;
 				}
@@ -227,11 +227,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 				$text_ausgegeben = TRUE;
 				
 				// Smilies ausgeben oder unterdrücken
-				if ($u_smilies == "0") {
+				if ($benutzerdaten['u_smilies'] == "0") {
 					$c_text = str_replace("<smil ", "<small>&lt;SMILIE&gt;</small><!--", $c_text);
 					$c_text = str_replace(" smil>", "-->", $c_text);
 				} else {
-					$c_text = str_replace("<smil ", "<img src=\"images/smilies/$cssDeklarationen/", $c_text);
+					$c_text = str_replace("<smil ", "<img src=\"images/smilies/style-$benutzerdaten[u_layout_farbe]/", $c_text);
 					$c_text = str_replace(" smil>", "\">", $c_text);
 				}
 				
@@ -319,7 +319,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					// Falls dies eine Folgezeile ist, Von-Text unterdrücken
 					
 						// Darstellung der Nachrichten im Chat
-						if ($u_layout_chat_darstellung == '0') {
+						if ($benutzerdaten['u_layout_chat_darstellung'] == '0') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
@@ -428,7 +428,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 					// N: Normal an alle mit Absender
 						
 						// Darstellung der Nachrichten im Chat
-						if ($u_layout_chat_darstellung == '0') {
+						if ($benutzerdaten['u_layout_chat_darstellung'] == '0') {
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
@@ -438,10 +438,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
-								if ($result3 && mysqli_num_rows($result3) == 1) {
-									$row3 = mysqli_fetch_object($result3);
-									$u_avatare_anzeigen = $row3->u_avatare_anzeigen;
-								}
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
@@ -463,7 +459,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								
 								if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
-									if($u_avatare_anzeigen == 1) {
+									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
 										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
@@ -495,7 +491,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
 								}
 								
-								if($u_avatare_anzeigen == 0) {
+								if($benutzerdaten['u_avatare_anzeigen'] == 0) {
 									$ava = "";
 								}
 								// Ende des Avatars
@@ -521,10 +517,6 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
 								$result3 = mysqli_query($mysqli_link, $query3);
-								if ($result3 && mysqli_num_rows($result3) == 1) {
-									$row3 = mysqli_fetch_object($result3);
-									$u_avatare_anzeigen = $row3->u_avatare_anzeigen;
-								}
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
@@ -546,7 +538,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 								
 								if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
-									if($u_avatare_anzeigen == 1) {
+									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
 										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
@@ -578,7 +570,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $nur_privat = F
 									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
 								}
 								
-								if($u_avatare_anzeigen == 0) {
+								if($benutzerdaten['u_avatare_anzeigen'] == 0) {
 									$ava = "";
 								}
 								// Ende des Avatars

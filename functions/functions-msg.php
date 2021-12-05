@@ -1407,9 +1407,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 
 							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, "&nbsp;", $r->online_zeit, $row->login, FALSE) . ", ";
 							
-							if ($row->u_adminemail && $admin)  {
-								$text .= "%adminemail%&nbsp;" . htmlspecialchars($row->u_adminemail) . ", ";
-							}
 							$text .= "<b>[" . $whotext[$r->o_who] . "]</b>";
 							if ($r->o_who == 0) {
 								$text .= ", %raum%&nbsp;" . $r->r_name;
@@ -1444,9 +1441,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Benutzer ist nicht online
 							$text = $text . zeige_userdetails($row->u_id, $row, TRUE, "&nbsp;", "", $row->login, FALSE) . ", ";
 							
-							if ($row->u_adminemail && $admin) {
-								$text = $text . "%adminemail%&nbsp;" . htmlspecialchars($row->u_adminemail) . ", ";
-							}
 							if ($row->u_away) {
 								$awaytext = htmlspecialchars($row->u_away);
 								$awaytext = str_replace('&lt;b&gt;', '<b>', $awaytext);

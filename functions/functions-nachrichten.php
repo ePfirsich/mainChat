@@ -42,7 +42,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
-	global $id, $f1, $f2, $mysqli_link, $u_id, $t, $u_emails_akzeptieren;
+	global $id, $f1, $f2, $mysqli_link, $u_id, $t;
 	
 	$eingabe_breite1 = 87;
 	$eingabe_breite2 = 75;
@@ -96,7 +96,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	
 	// Benutzerdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
-		$query = "SELECT u_nick, u_adminemail, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+		$query = "SELECT u_nick, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {

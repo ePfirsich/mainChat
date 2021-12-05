@@ -7,6 +7,11 @@ require_once("languages/$sprache-forum.php");
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
 function show_pfad_posting2($th_id) {
 	global $mysqli_link, $f3, $f4, $id, $thread;
 	//Infos über Forum und Thema holen
@@ -497,8 +502,11 @@ function such_ergebnis() {
 	}
 }
 
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
 $title = $body_titel . ' - Forum-Suche';
-zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 zeige_header_ende();
 ?>
 <body>

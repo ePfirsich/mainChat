@@ -64,8 +64,7 @@ if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 
 if (!$abweisen && $ip_adr && $ip_adr != $_SERVER["REMOTE_ADDR"]) {
 	$ip_name = @gethostbyaddr($ip_adr);
-	$query = "SELECT * FROM ip_sperre "
-		. "WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
+	$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
 		. " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 		. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 	$result = mysqli_query($mysqli_link, $query);
@@ -132,7 +131,6 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` "
 			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
 		
-		// Nutzt die MYSQL -> Unix crypt um DES, SHA256, etc. automatisch zu erkennen
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
 		$r = mysqli_query($mysqli_link, $query);
 		$rw = mysqli_num_rows($r);
@@ -209,8 +207,9 @@ if ($aktion == "logoff") {
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
-if ($los == $t['login18'] && $aktion == "login")
+if ($los == $t['login18'] && $aktion == "login") {
 	$aktion = "";
+}
 
 // Titeltext der Loginbox setzen, Link auf Registrierung optional ausgeben
 
@@ -297,7 +296,7 @@ switch ($aktion) {
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		echo $t['login4'];
+		zeige_tabelle_volle_breite($t['willkommen'], $t['chat_login_nicht_möglich']);
 		
 		break;
 	
@@ -351,7 +350,7 @@ switch ($aktion) {
 		break;
 	
 	case "relogin":
-	// Login aus dem Forum in den Chat; Benutzerdaten setzen
+		// Login aus dem Forum in den Chat; Benutzerdaten setzen
 		id_lese($id);
 		$hash_id = $id;
 		

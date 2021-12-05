@@ -31,8 +31,16 @@ $u_level = $level_row->o_level;
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);
 
+// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
+if( !isset($u_id)) {
+	die;
+}
+
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
+
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten', '', $u_layout_farbe);
+zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
 
 if (strlen($u_id) > 0) {
 	// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
@@ -166,7 +174,7 @@ if (strlen($u_id) > 0) {
 		aktualisiere_online($u_id, $o_raum);
 		
 		// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
-		if ($o_who != 2 && $sicherer_modus == 1 || $u_sicherer_modus == "1") {
+		if ($o_who != 2 && ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") ) {
 			reset_system("chatfenster");
 		}
 		// falls Moderator, moderationsfenster nach Eingabe neu laden, falls Benutzer im Chat

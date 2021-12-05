@@ -15,8 +15,11 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 		$u_nick = "";
 	}
 	
+	// Hole alle benötigten Einstellungen des Benutzers
+	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+	
 	$title = $body_titel . ' - Home';
-	zeige_header_anfang($title, 'mini', '', $u_layout_farbe);
+	zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 	zeige_header_ende();
 	?>
 	<body>

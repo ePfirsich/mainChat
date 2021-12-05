@@ -23,7 +23,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 }
 
 $benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
-	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id LIMIT 1";
+	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id";
 
 $benutzerdaten_result = mysqli_query($mysqli_link, $benutzerdaten_query);
 if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
