@@ -486,6 +486,7 @@ function benutzer_suche($f, $suchtext) {
 					</td>
 				</tr>";
 	$text .= "</table>";
+	$text .= "</form>";
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
