@@ -202,6 +202,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			break;
 		
 		case "email_aendern_final":
+			$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
+			
 			$fehlermeldung = "";
 			
 			if ( $u_id != $f['u_id'] ) {

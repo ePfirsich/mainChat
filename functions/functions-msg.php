@@ -1180,21 +1180,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$chatzeile[1] = coreCheckName($chatzeile[1], $check_name);
 				
 				// Länge prüfen
-				if (strlen($chatzeile[1]) < 4 || strlen($chatzeile[1]) > 20
-					|| $differenz < $nickwechsel) {
-					if ($differenz < $nickwechsel)
-						system_msg("", $u_id, $u_id, $system_farbe,
-							str_replace("%nickwechsel%", $nickwechsel,
-								$t['chat_msg107']));
-					else system_msg("", $u_id, $u_id, $system_farbe,
-						str_replace("%chatzeile%", $chatzeile[1],
-							$t['chat_msg18']));
+				if (strlen($chatzeile[1]) < 4 || strlen($chatzeile[1]) > 20 || $differenz < $nickwechsel) {
+					if ($differenz < $nickwechsel) {
+						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%nickwechsel%", $nickwechsel, $t['chat_msg107']));
+					} else {
+						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg18']));
+					}
 					
 				} else {
 					$f['u_nick'] = $chatzeile[1];
-					$query = "SELECT u_id, u_level FROM user "
-						. "WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "' "
-						. "AND u_id != $u_id";
+					$query = "SELECT u_id, u_level FROM user WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "' AND u_id != $u_id";
 					
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
@@ -1202,18 +1197,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if ($rows == 1) {
 							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 							if ($xyz[u_level] == 'Z') {
-								system_msg("", $u_id, $u_id, $system_farbe,
-									str_replace("%u_nick%", $f['u_nick'],
-										$t['chat_msg115']));
+								system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg115']));
 							} else {
-								system_msg("", $u_id, $u_id, $system_farbe,
-									str_replace("%u_nick%", $f['u_nick'],
-										$t['chat_msg19']));
+								system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg19']));
 							}
 						} else {
-							system_msg("", $u_id, $u_id, $system_farbe,
-								str_replace("%u_nick%", $f['u_nick'],
-									$t['chat_msg19']));
+							system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg19']));
 						}
 					} else {
 						// Nick in Datenbank ändern
