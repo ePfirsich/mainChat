@@ -12,7 +12,7 @@ $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_URL);
 
 // Daten aus dem Formular
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
-$f['u_nick'] = filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL);
+$f['u_nick'] = htmlspecialchars(filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_STRING));
 $f['u_passwort'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort', FILTER_SANITIZE_STRING));
 $f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
 $f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
