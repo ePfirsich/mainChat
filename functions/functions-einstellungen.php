@@ -168,9 +168,11 @@ function user_edit($f, $admin, $u_level) {
 	}
 	
 	// System Ein/Austrittsnachrichten anzeigen/verbergen
-	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
-	$zaehler++;
+	if ($u_level != "G") {
+		$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
+		$zaehler++;
+	}
 	
 	// Avatare im Chat anzeigen/verbergen
 	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
@@ -183,9 +185,11 @@ function user_edit($f, $admin, $u_level) {
 	$zaehler++;
 	
 	// Darstellung der Nachrichten im Chat
-	$value = array($t['benutzer_darstellung_der_nachrichten_privat'], $t['benutzer_darstellung_der_nachrichten_standard']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_darstellung_der_nachrichten'], "u_layout_chat_darstellung", $value, $f['u_layout_chat_darstellung']);
-	$zaehler++;
+	if ($u_level != "G") {
+		$value = array($t['benutzer_darstellung_der_nachrichten_privat'], $t['benutzer_darstellung_der_nachrichten_standard']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_darstellung_der_nachrichten'], "u_layout_chat_darstellung", $value, $f['u_layout_chat_darstellung']);
+		$zaehler++;
+	}
 	
 	// Smilies
 	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);

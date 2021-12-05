@@ -81,10 +81,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	}
 	if ($u_level == "G") {
 		unset($f['u_signatur']);
-		if ($eintritt_individuell != "1") {
-			unset($f['u_eintritt']);
-			unset($f['u_austritt']);
-		}
+		unset($f['u_systemmeldungen']);
+		unset($f['u_layout_chat_darstellung']);
+		unset($f['u_eintritt']);
+		unset($f['u_austritt']);
 		unset($f['u_passwort']);
 		unset($f['u_passwort2']);
 	}
