@@ -46,16 +46,13 @@ if ($u_id) {
 	zeige_header_ende($meta_refresh);
 	echo "<body>\n";
 	
-	// Das wird nur im Forum benötigt, da es im Chat momentan noch in anderen Frames (schreibe.php, etc) durchgeführt wird
-	if($wo_online == "forum") {
-		// Timestamp im Datensatz aktualisieren
-		aktualisiere_online($u_id, $o_raum);
-	
-		// Aktionen ausführen, falls nicht innerhalb der letzten 5
-		// Minuten geprüft wurde (letzte Prüfung=o_aktion)
-		if ( time() > ($o_aktion + 300) ) {
-			aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick, $id);
-		}
+	// Timestamp im Datensatz aktualisieren
+	aktualisiere_online($u_id, $o_raum);
+
+	// Aktionen ausführen, falls nicht innerhalb der letzten 5
+	// Minuten geprüft wurde (letzte Prüfung=o_aktion)
+	if ( time() > ($o_aktion + 300) ) {
+		aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick, $id);
 	}
 	
 	// Anzahl der ungelesenen Nachrichten ermitteln

@@ -86,7 +86,7 @@ $webchatpredef=array("Lobby",
 // alle nicht genannten Räume in diesem Raum zusammenfassen
 $webchatprivatraum="privat";
 
-// Zeit bis wann Benutzer als ausgeloggt gilt, wenn der den Chat verlassen hat ohne
+// Zeit bis wann Benutzer als ausgeloggt gilt, wenn er den Chat verlassen hat ohne
 // auf Ende zu klicken oder den Browser beendet. Der unterste Frame
 // wird 3x so oft neu geladen wie timeout dauert
 // Optimal sind 90 Sekunden

@@ -24,6 +24,7 @@ if (isset($u_id) && $u_id) {
 	?>
 	<body>
 	<?php
+	/*
 	// Timestamp im Datensatz aktualisieren
 	aktualisiere_online($u_id, $o_raum);
 	
@@ -32,6 +33,7 @@ if (isset($u_id) && $u_id) {
 	if ( time() > ($o_aktion + 300) ) {
 		aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick, $id);
 	}
+	*/
 	
 	// Wurde Raum r_id aus Formular übergeben? Falls ja Raum von $o_raum nach $r_id wechseln
 	if (isset($r_id) && $o_raum != $r_id) {
@@ -49,8 +51,7 @@ if (isset($u_id) && $u_id) {
 	}
 	
 	// Daten für Raum lesen
-	$query = "SELECT raum.* FROM raum,online WHERE r_id=o_raum "
-		. "AND o_id=$o_id ORDER BY o_aktiv DESC";
+	$query = "SELECT raum.* FROM raum,online WHERE r_id=o_raum AND o_id=$o_id ORDER BY o_aktiv DESC";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	
@@ -123,7 +124,7 @@ if (isset($u_id) && $u_id) {
 		<?php
 	}
 	
-	// Special: Bei nur einem Raum kein Auswahl
+	// Special: Bei nur einem Raum keine Auswahl
 	$query = "SELECT COUNT(*) AS zahl FROM raum";
 	$result = mysqli_query($mysqli_link, $query);
 	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
