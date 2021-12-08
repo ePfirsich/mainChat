@@ -42,10 +42,6 @@ if ( isset($ui_userid) || (isset($aktion) && $aktion != "") ) {
 }
 
 if (isset($u_id) && $u_id) {
-	
-	// Timestamp im Datensatz aktualisieren
-	aktualisiere_online($u_id, $o_raum);
-	
 	// Voreinstellungen
 	$max_groesse = 60; // Maximale Bild- und Text größe in KB
 	
@@ -83,7 +79,6 @@ if (isset($u_id) && $u_id) {
 					unlink($cachepfad . "-mime");
 				}
 			}
-			
 			
 			// Prüfen & in DB schreiben
 			if (isset($home) && is_array($home) && strlen($home['ui_text']) > ($max_groesse * 1024)) {

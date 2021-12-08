@@ -20,9 +20,6 @@ if( !isset($u_id) || $u_id == "") {
 }
 
 if( isset($u_id) && strlen($u_id) != 0 ) {
-	// Timestamp im Datensatz aktualisieren
-	aktualisiere_online($u_id, $o_raum);
-	
 	$user_eingeloggt = true;
 	
 	// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält

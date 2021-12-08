@@ -113,8 +113,6 @@ $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]
 $t['forum_menue1'] = "Forum durchsuchen";
 $t['forum_menue2'] = "Zurück zum Forum";
 
-$t['ausgeloggt'] = "Sie sind ausgeloggt";
-
 $t['titel'] = "Suchabfrage";
 
 $t['suche1'] = "Suchwörter";

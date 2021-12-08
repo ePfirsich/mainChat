@@ -511,25 +511,17 @@ zeige_header_ende();
 ?>
 <body>
 <?php
-// Timestamp im Datensatz aktualisieren
-aktualisiere_online($u_id, $o_raum);
-
-if (strlen($u_id) > 0) {
-	// Auswahl
-	switch ($aktion) {
-		case "suche":
-			such_bereich();
-			echo '<br>';
-			flush();
-			such_ergebnis();
-			break;
-		default;
-			such_bereich();
-	}
-} else {
-	echo "<p style=\"text-align:center;\">$t[ausgeloggt]</p>\n";
+// Auswahl
+switch ($aktion) {
+	case "suche":
+		such_bereich();
+		echo '<br>';
+		flush();
+		such_ergebnis();
+		break;
+	default;
+		such_bereich();
 }
-
 ?>
 </body>
 </html>

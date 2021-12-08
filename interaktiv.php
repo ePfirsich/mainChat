@@ -25,9 +25,6 @@ if (isset($u_id) && $u_id) {
 	<body>
 	<?php
 	/*
-	// Timestamp im Datensatz aktualisieren
-	aktualisiere_online($u_id, $o_raum);
-	
 	// Aktionen ausführen, falls nicht innerhalb der letzten 5
 	// Minuten geprüft wurde (letzte Prüfung=o_aktion)
 	if ( time() > ($o_aktion + 300) ) {
