@@ -74,9 +74,6 @@ $t['chat_msg14'] = "<b>Fehler:</b> Benutzer '%chatzeile%' existiert nicht!";
 $t['chat_msg15'] = "<b>Fehler:</b> Keine Rechte um jemanden aus diesem Raum zu werfen!";
 $t['chat_msg16'] = "<b>In diesem Raum gesperrte Benutzer:</b>";
 $t['chat_msg17'] = "In diesem Raum ist niemand gesperrt.";
-$t['chat_msg18'] = "<b>Fehler:</b> Der Benutzername '%chatzeile%' muss mindestens 4 und maximal 20 Zeichen haben!</b>";
-$t['chat_msg19'] = "<b>Fehler:</b> '%u_nick%' ist leider schon als Benutzername vergeben!</b>";
-$t['chat_msg20'] = "'%uu_nick%' ändert den Benutzernamen auf '%u_nick%'";
 $t['chat_msg21'] = "<b>$chat:</b> <span style=\"color:#%u_farbe%;\">Neue Farbe ist '%u_farbe%'.</span>";
 $t['chat_msg22'] = "<b>$chat:</b> Aktuelle Farbe ist '%u_farbe%'.";
 $t['chat_msg23'] = "<b>Fehler:</b> Bitte Farbe als RRGGBB (Rot-Grün-Blau) in Hexadezimal eingeben!";
@@ -156,14 +153,13 @@ $t['chat_msg103'] = "Sie werden von '%user%' ignoriert und dürfen ihm keine Mai
 $t['chat_msg104'] = "<b>$chat:</b> Mail wurde nicht verschickt: Mailbombing-Schutz aktiv!";
 $t['chat_msg105'] = "<b>$chat:</b> Mail kann NICHT verschickt werden: Dieser Benutzer hat seine Mailbox zugeschlossen!";
 $t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
-$t['chat_msg107'] = "<b>$chat:</b> Fehler! Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!";
+
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
 $t['chat_msg110'] = "Passwort neu + E-Mail";
 $t['chat_msg111'] = "Passwort wurde neu gesetzt und an den Benutzer per E-Mail gesendet!";
 $t['chat_msg112'] = "Ihr neues Passwort für den $chat";
 $t['chat_msg114'] = "Heute ist der %datum% um %uhrzeit% Uhr Chat-Zeit.";
-$t['chat_msg115'] = "<b>Fehler:</b> Benutzername '%u_nick%' ist im Chat gesperrt!";
 $t['chat_msg116'] = "<b>Fehler:</b> Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da Sie von diesem Benutzer ignoriert werden!";
 $t['chat_msg117'] = "<b>Fehler:</b> Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da dieser Benutzer gesperrt ist!";
 $t['chat_msg118'] = "<b>Fehler:</b> Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da dieser Benutzer ein Gast ist!";

@@ -360,7 +360,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 					$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
-					$value .= "<input type=\"hidden\" name=\"zeige_loesch\" value=\"1\">\n";
 					$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 					$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
 					

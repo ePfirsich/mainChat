@@ -11,7 +11,6 @@ $hilfstext = array(
 	"<b>/msg NAME TEXT -</b> TEXT an Benutzer NAME flüstern",
 	"<b>/me TEXT -</b> Spruch im Raum",
 	"<b>/weg TEXT-</b> setzt oder löscht einen ich-bin-nicht-da Text",
-	"<b>/nick NAME -</b> Setzt Benutzername auf NAME",
 	"<b>/ignore NAME -</b> Ignoriert Benutzer NAME, ohne Angabe von NAME werden alle ignorierten Benutzer gezeigt",
 	"<b>/kick NAME -</b> Sperrt Benutzer NAME aus dem aktuellen Raum aus (oder Freigabe)",
 	"<b>/farbe RRGGBB -</b> Setzt neue Farbe auf RRGGBB, ohne Angabe von RRGGBB wird die aktuelle Farbe angezeigt",

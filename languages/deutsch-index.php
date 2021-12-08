@@ -12,7 +12,7 @@ $t['login_impressum'] = "Impressum";
 
 $chatiquette = "
 <p><b>Wie melde ich mich an? </b></p>
-<p>Wenn man den Chat als Gast betritt, sollte man sich sofort einen Namen zulegen (/nick name), da die meisten Benutzer sich nur
+<p>Wenn man den Chat als Gast betritt, sollte man sich sofort einen Namen zulegen (Zu finden in den Einstellungen), da die meisten Benutzer sich nur
 ungerne mit einer (austauschbaren) Zahl unterhalten. Im realen Leben wird man ja auch mit seinem Namen angesprochen. Über den
 Namen ist man leichter ansprechbar und unverwechselbar.
 Merkt man nach einiger Zeit, dass man öfter in den Chat kommen möchte, empfiehlt es sich, einen festen Account (Benutzernamen)

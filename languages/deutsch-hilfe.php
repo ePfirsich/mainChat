@@ -36,7 +36,6 @@ $hilfe_befehlstext = array(
 	"/mail NAME TEXT\tSchreibt Mail mit dem Inhalt TEXT an den Benutzer NAME\t/m\tDer Betreff entspricht den ersten Worten",
 	"/me TEXT\tSpruch an alle im Raum<br>Kommentar in die Runde\t/txt\tDer Text wendet sich nicht an einen bestimmten Benutzer, sondern ist für alle im Raum bestimmt",
 	"/op TEXT\tRuft einen Admin\t \tDer Text wird an die Admins geschickt, die gerade online sind",
-	"/nick NAME\tSetzt Benutzername auf NAME\t/name\tDer neue Benutzername wird dauerhaft gespeichert",
 	"/ignoriere\tZeigt die ignorierten Benutzer an\t/ignore, /ig",
 	"/ignoriere NAME\tIgnoriert Benutzer NAME\t/ignore, /ig\tNochmalige Eingabe gibt den Benutzer NAME wieder frei",
 	"/kick NAME\tSperrt Benutzer NAME aus dem aktuellen Raum dauerhaft aus\t/plop\tNochmalige Eingabe gibt den Eintritt für diesen Benutzer wieder frei",

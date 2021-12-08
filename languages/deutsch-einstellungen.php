@@ -12,21 +12,25 @@ $t['edit_avatar_hochgeladen'] = "Der Avatar wurde erfolgreich hochgeladen.";
 
 $t['einstellungen_neues_passwort'] = "Hallo!<br>Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>Viel Spass noch im $chat<br>";
 
-$t['einstellungen_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!";
-$t['einstellungen_erfolgsmeldung_einstellungen'] = "Die Einstellungen wurden erfolgreich gespeichert!";
-$t['einstellungen_erfolgsmeldung_email'] = "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mail-Adresse gesendet.";
-$t['einstellungen_erfolgsmeldung_farbe'] = "Die Farbe wurde erfolgreich geändert.";
-$t['einstellungen_erfolgsmeldung_loeschen'] = "Benutzer %u_nick% wurde gelöscht!";
+$t['einstellungen_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!<br>";
+$t['einstellungen_erfolgsmeldung_einstellungen'] = "Die Einstellungen wurden erfolgreich gespeichert!<br>";
+$t['einstellungen_erfolgsmeldung_email'] = "Die Änderungen wurden gespeichert und Sie wurden ausgeloggt. Ihr neues Passwort wurde an Ihre neue E-Mail-Adresse gesendet.<br>";
+$t['einstellungen_erfolgsmeldung_farbe'] = "Die Farbe wurde erfolgreich geändert.<br>";
+$t['einstellungen_erfolgsmeldung_loeschen'] = "Benutzer %u_nick% wurde gelöscht!<br>";
 $t['einstellungen_erfolgsmeldung_passwort'] = "Das Passwort wurde erfolgreich geändert.<br>";
+$t['einstellungen_erfolgsmeldung_benutzername_geaendert'] = "Der Benutzername wurde in %u_nick% geändert!<br>";
+$t['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'] = "'%u_nick_alt%' ändert den Benutzernamen auf '%u_nick%'.<br>";
 
 $t['einstellungen_erfolgsmeldung_kick'] = "Benutzer %u_nick% wurde aus dem Chat geworfen!<br>";
 
 $t['einstellungen_fehlermeldung'] = "Fehler";
 $t['einstellungen_fehler_allgemein'] = "Irgendetwas ist schief gelaufen.<br>";
 $t['einstellungen_fehler_farbe'] = "Die Farbe muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>";
-$t['einstellungen_fehler_benutzername1'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!<br>";
-$t['einstellungen_fehler_benutzername2'] = "Der Benutzername ist schon vergeben oder der Benutzername ist im Chat gesperrt!<br>";
-$t['einstellungen_fehler_benutzername3'] = "Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!<br>";
+$t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!<br>";
+$t['einstellungen_fehler_benutzername_zeitsperre'] = "Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!<br>";
+$t['einstellungen_fehler_benutzername_gesperrt'] = "Der Benutzername '%u_nick%' ist im Chat gesperrt!<br>";
+$t['einstellungen_fehler_benutzername_belegt'] = "Der Benutzername '%u_nick%' ist leider schon belegt!<br>";
+
 $t['einstellungen_fehler_level1'] = "Das Moderationsmodul ist derzeit deaktiviert.<br>";
 $t['einstellungen_fehler_level2'] = "Benutzer auf Level Gast darf auf keinen anderen Level gesetzt werden!<br>";
 $t['einstellungen_fehler_level3'] = "Die Benutzerlevel Superuser, Moderator oder ChatAdmin können nur von einem Superuser gesetzt werden.<br>";
@@ -45,8 +49,6 @@ $t['einstellungen_speichern'] = "Speichern";
 $t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
 $t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für die Farbe)";
 
-$t['edit9'] = "Benutzername %u_nick% geändert!";
-$t['edit10'] = "'%row->u_nick%' ändert den Benutzernamen auf '%u_nick%'.";
 $t['edit19'] = "Kommentar";
 
 $t['benutzer_loeschen_online'] = "Benutzer %u_nick% ist noch online und kann nicht gelöscht werden!";

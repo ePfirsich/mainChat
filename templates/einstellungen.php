@@ -365,39 +365,23 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 				}
 				
-				// Benutzername muss 4-20 Zeichen haben
-				if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
-					// immernoch keine 4-20 Zeichen?
-					// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
-					// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20 
-					// Zeichen eingegeben hat
+				// Wurde der Benutzername geändert?
+				if ($f['u_nick'] != $benutzerdaten_row->u_nick) {
+					// Benutzername muss 4-20 Zeichen haben
 					if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
-						$fehlermeldung .= $t['einstellungen_fehler_benutzername1'];
-						
-						// Mit korrekten Wert überschreiben
-						$f['u_nick'] = $benutzerdaten_row->u_nick;
+						// immernoch keine 4-20 Zeichen?
+						// Hier müsste aus den oberen beiden Fällen der Benutzername nun da sein,
+						// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20
+						// Zeichen eingegeben hat
+						if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
+							$fehlermeldung .= $t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'];
+							
+							// Mit korrekten Wert überschreiben
+							$f['u_nick'] = $benutzerdaten_row->u_nick;
+						}
 					}
-				}
-				
-				// Gibt es den Benutzernamen schon?
-				if ($f['u_nick']) {
-					$query = "SELECT u_id FROM user WHERE u_nick = '$f[u_nick]' AND u_id!=$f[u_id]";
-					// echo "Debug: $query<br>";
-					$result = mysqli_query($mysqli_link, $query);
-					$rows = mysqli_num_rows($result);
-					if ($rows != 0) {
-						$fehlermeldung .= $t['einstellungen_fehler_benutzername1'];
-						
-						// Mit korrekten Wert überschreiben
-						$f['u_nick'] = $benutzerdaten_row->u_nick;
-					}
-				} else {
-					// Benutzername nicht schreiben (keine Änderung oder ungültiger Text)
-					$f['u_nick'] = $benutzerdaten_row->u_nick;
-				}
-				
-				// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, dann Benutzername nicht speichern
-				if (isset($f['u_nick']) && $f['u_nick']) {
+					
+					// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, dann Benutzername nicht speichern
 					$query = "SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = '$f[u_id]'";
 					$result = mysqli_query($mysqli_link, $query);
 					$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -413,12 +397,11 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						$differenz = 999;
 					}
 					
-					if ($nick_alt <> $f['u_nick']) {
-						
+					if (!$admin && $nick_alt <> $f['u_nick']) {
 						if ($differenz < $nickwechsel) {
-							$fehlermeldung .= str_replace("%nickwechsel%", $nickwechsel, $t['einstellungen_fehler_benutzername3']);
+							$fehlermeldung .= str_replace("%nickwechsel%", $nickwechsel, $t['einstellungen_fehler_benutzername_zeitsperre']);
 							
-							// Mit korrekten Wert überschreiben
+							// Mit "altem" Benutzername wieder überschreiben
 							$f['u_nick'] = $benutzerdaten_row->u_nick;
 						} else {
 							$datum = time();
@@ -431,6 +414,32 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 								}
 							}
 							$f['u_nick_historie'] = serialize($nick_historie_neu);
+						}
+					}
+					
+					// Existiert der Benutzername schon oder ist der Benutername gesperrt?
+					$query = "SELECT u_id, u_level FROM user WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "' AND u_id != $u_id";
+					$result = mysqli_query($mysqli_link, $query);
+					$rows = mysqli_num_rows($result);
+					if ($rows != 0) {
+						if ($rows == 1) {
+							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+							if ($xyz[u_level] == 'Z') {
+								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_gesperrt']);
+								
+								// Mit "altem" Benutzername wieder überschreiben
+								$f['u_nick'] = $benutzerdaten_row->u_nick;
+							} else {
+								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_belegt']);
+								
+								// Mit "altem" Benutzername wieder überschreiben
+								$f['u_nick'] .= $benutzerdaten_row->u_nick;
+							}
+						} else {
+							$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_belegt']);
+							
+							// Mit "altem" Benutzername wieder überschreiben
+							$f['u_nick'] = $benutzerdaten_row->u_nick;
 						}
 					}
 				}
@@ -517,19 +526,27 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						unset($f['u_passwort2']);
 					}
 					
-					if (isset($zeige_loesch) && $zeige_loesch != 1) {
-						// Änderungen anzeigen
-						$query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_raum FROM online WHERE o_user=" . intval($f[u_id]);
+					// Änderungen anzeigen
+					if ($f['u_nick'] != $benutzerdaten_row->u_nick) {
+						$erfolgsmeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_erfolgsmeldung_benutzername_geaendert']);
+						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row->u_nick, $t['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
+						
+						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
 						$result = mysqli_query($mysqli_link, $query);
-						if ($result && mysqli_num_rows($result) == 1) {
-							$row = mysqli_fetch_object($result);
-							$userdata = unserialize($row->o_userdata . $row->o_userdata2 . $row->o_userdata3 . $row->o_userdata4);
-							if ($f['u_nick'] && ($f['u_nick'] != $userdata['u_nick'])) {
-								$erfolgsmeldung .= "<p><b>" . str_replace("%u_nick%", $f['u_nick'], $t['edit9']) . "</b></p>\n";
-								global_msg($u_id, $row->o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%row->u_nick%", $userdata['u_nick'], $t['edit10'])));
+						$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+						$nick_historie = unserialize($xyz['u_nick_historie']);
+						
+						$datum = time();
+						$nick_historie_neu[$datum] = $u_nick;
+						
+						if (is_array($nick_historie)) {
+							$i = 0;
+							while (($i < 3) && list($datum, $nick) = each($nick_historie)) {
+								$nick_historie_neu[$datum] = $nick;
+								$i++;
 							}
 						}
-						mysqli_free_result($result);
+						$f['u_nick_historie'] = serialize($nick_historie_neu);
 					}
 					
 					$query = "SELECT `u_profil_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);

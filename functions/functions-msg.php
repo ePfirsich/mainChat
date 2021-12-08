@@ -1090,31 +1090,24 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// Auf admin prüfen
 						if ($s_user_level == "S" || $s_user_level == "C"
 							|| $s_user_level == "M" || $s_user_level == "A") {
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%u_nick%", $u_nick,
-									str_replace("%s_user_name%", $s_user_name,
-										$t['chat_msg13'])));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, str_replace("%s_user_name%", $s_user_name, $t['chat_msg13'])));
 						} else {
 							// Sperren oder freigeben
-							sperre($r_id, $u_id, $u_nick, $s_user,
-								$s_user_name, $admin);
+							sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin);
 						}
 						
 					} else {
 						// user nicht gefunden oder nicht online? dann testen, ob gesperrt, damit man das 
 						// gesperrt auch wieder raus bekommt.
-						$query = "SELECT u_nick,u_id from user left join sperre "
-							. " on u_id = s_user "
+						$query = "SELECT u_nick,u_id FROM user LEFT JOIN sperre ON u_id = s_user "
 							. "WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' and s_raum = $r_id ";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
 							$row = mysqli_fetch_object($result);
-							sperre($r_id, $u_id, $u_nick, $row->u_id,
-								$row->u_nick, $admin);
+							sperre($r_id, $u_id, $u_nick, $row->u_id, $row->u_nick, $admin);
 						} else {
 							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%chatzeile%", $chatzeile[1],
-									$t['chat_msg14']));
+								str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg14']));
 						}
 						mysqli_free_result($result);
 					}
@@ -1126,9 +1119,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} elseif ($r_besitzer == $u_id || $admin || $u_level == "A") {
 				// Liste der für diesen Raum gesperrten Benutzer ausgeben
 				
-				$query = "SELECT u_nick FROM sperre,user "
-					. "WHERE s_user=u_id AND s_raum=$r_id "
-					. "ORDER BY u_nick";
+				$query = "SELECT u_nick FROM sperre, user WHERE s_user=u_id AND s_raum=$r_id ORDER BY u_nick";
 				$result = mysqli_query($mysqli_link, $query);
 				$rows = mysqli_num_rows($result);
 				
@@ -1157,113 +1148,22 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			
 			break;
 		
-		case "/name":
-		case "/nick":
-			// Prüft und ändert Benutzernamen
-			if ((strlen($chatzeile[1]) > 0) && (coreCheckName($chatzeile[1], $check_name) != $u_nick)) {
-				$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
-				$result = mysqli_query($mysqli_link, $query);
-				$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				$nick_historie = unserialize($xyz['u_nick_historie']);
-				
-				if (is_array($nick_historie)) {
-					reset($nick_historie);
-					list($key, $value) = each($nick_historie);
-					$differenz = time() - $key;
-				}
-				if (!isset($differenz))
-					$differenz = 999;
-				if ($admin)
-					$differenz = 999;
-				
-				// Sonderzeichen filtern
-				$chatzeile[1] = coreCheckName($chatzeile[1], $check_name);
-				
-				// Länge prüfen
-				if (strlen($chatzeile[1]) < 4 || strlen($chatzeile[1]) > 20 || $differenz < $nickwechsel) {
-					if ($differenz < $nickwechsel) {
-						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%nickwechsel%", $nickwechsel, $t['chat_msg107']));
-					} else {
-						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg18']));
-					}
-					
-				} else {
-					$f['u_nick'] = $chatzeile[1];
-					$query = "SELECT u_id, u_level FROM user WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f[u_nick]) . "' AND u_id != $u_id";
-					
-					$result = mysqli_query($mysqli_link, $query);
-					$rows = mysqli_num_rows($result);
-					if ($rows != 0) {
-						if ($rows == 1) {
-							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
-							if ($xyz[u_level] == 'Z') {
-								system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg115']));
-							} else {
-								system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg19']));
-							}
-						} else {
-							system_msg("", $u_id, $u_id, $system_farbe, str_replace("%u_nick%", $f['u_nick'], $t['chat_msg19']));
-						}
-					} else {
-						// Nick in Datenbank ändern
-						schreibe_db("user", $f, $u_id, "u_id");
-						
-						// Bei Moderation private Nachricht, sonst Nachricht an alle
-						if (!$ist_moderiert || $u_level == "M") {
-							global_msg($u_id, $r_id,
-								str_replace("%u_nick%", $f['u_nick'],
-									str_replace("%uu_nick%", $u_nick, $t['chat_msg20'])));
-						} else {
-							system_msg("", $u_id, $u_id, $system_farbe,
-								str_replace("%u_nick%", $f['u_nick'],
-									str_replace("%uu_nick%", $u_nick, $t['chat_msg20'])));
-						} // Neuen Namen setzen und alte Benutzernamen in der Datenbank speichern
-						
-						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = '$u_id'";
-						$result = mysqli_query($mysqli_link, $query);
-						$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
-						$nick_historie = unserialize($xyz['u_nick_historie']);
-						
-						$datum = time();
-						$nick_historie_neu[$datum] = $u_nick;
-						
-						if (is_array($nick_historie)) {
-							$i = 0;
-							while (($i < 3) && list($datum, $nick) = each($nick_historie)) {
-								$nick_historie_neu[$datum] = $nick;
-								$i++;
-							}
-						}
-						
-						$f['u_nick_historie'] = serialize($nick_historie_neu);
-						$u_id = schreibe_db("user", $f, $u_id, "u_id");
-						
-						$u_nick = $f['u_nick'];
-					}
-					mysqli_free_result($result);
-				}
-			}
-			break;
-		
 		case "/color":
 		case "/farbe":
 			// Zeigt oder ändert Farbe
 			if (strlen($chatzeile[1]) == 6) {
 				if (preg_match("/[a-f0-9]{6}/i", $chatzeile[1])) {
-					if (isset($f))
+					if (isset($f)) {
 						unset($f);
-					$f['u_farbe'] = substr(htmlspecialchars($chatzeile[1]), 0,
-						6);
+					}
+					$f['u_farbe'] = substr(htmlspecialchars($chatzeile[1]), 0, 6);
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%u_farbe%", $f['u_farbe'],
-							$t['chat_msg21']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $f['u_farbe'], $t['chat_msg21']));
 				} else {
 					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg23']);
 				}
 			} else if (strlen($chatzeile[1]) == 0) {
-				system_msg("", 0, $u_id, $system_farbe,
-					str_replace("%u_farbe%", $u_farbe, $t['chat_msg22']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $u_farbe, $t['chat_msg22']));
 			} else {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg23']);
 			}
