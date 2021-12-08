@@ -9,7 +9,7 @@ require_once("languages/$sprache-chat.php");
 id_lese($id);
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
-if( !isset($u_id)) {
+if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
@@ -38,10 +38,7 @@ if ($u_id) {
 	// Eingabeformular mit Menu und Farbauswahl
 	reset($farbe_chat_user);
 	$i = 0;
-	echo "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
-	
-	echo "<table style=\"border-collapse:collapse;\"><tr>"
-		. "<td>&nbsp;</td><td colspan=" . (count($farbe_chat_user) + 3) . ">";
+	echo "<div style=\"margin-top: 2px;\"><form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 	
 	// Typ Eingabefeld für Chateingabe setzen
 	if ($u_level == "M") {
@@ -53,14 +50,6 @@ if ($u_id) {
 			. $chat_eingabe_breite . "\">";
 	}
 	
-	$chat_eingabe_breite = $chat_eingabe_breite - 11;
-	$mindestbreite = 44;
-	
-	// Bei zu schmaler Eingabenzeilen diese für rundes Layout auf Mindesbreite setzen
-	if ($chat_eingabe_breite < $mindestbreite) {
-		$chat_eingabe_breite = $mindestbreite;
-	}
-	
 	// Unterscheidung Normal oder sicherer Modus
 	if ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") {
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
@@ -69,19 +58,13 @@ if ($u_id) {
 			echo "<option " . ($chat_back == $i ? "selected" : "") . " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
 		}
 		echo "</select>"
-			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">";
 	} else {
 		echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
-			. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-			. $f1 . "<input type=\"submit\" value=\"Go!\">" . $f2;
+			. "<input name=\"id\" value=\"$id\" type=\"hidden\">";
 	}
-	
-	echo "</td>";
 	?>
-	</tr>
-	</table>
-	</form>
+	</form></div>
 	<?php
 } else {
 	echo "<body onLoad='parent.location.href=\"index.php\"'>\n";

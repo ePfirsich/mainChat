@@ -9,7 +9,7 @@ require_once("functions/functions.php");
 id_lese($id);
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
-if( !isset($u_id)) {
+if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
