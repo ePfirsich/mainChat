@@ -715,7 +715,6 @@ function zeige_kopfzeile_login() {
 	}
 	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[login_chatiquette]</a>\n";
 	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=datenschutz\">$t[login_datenschutzerklaerung]</a>\n";
 	
 	zeige_tabelle_volle_breite($box, $text);
 }
