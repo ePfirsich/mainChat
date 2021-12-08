@@ -14,13 +14,13 @@ function frameset_forum($hash_id) {
 }
 
 function frameset_chat($hash_id) {
-	global $t, $u_level, $moderationsgroesse, $back;
+	global $t, $u_level, $back;
 	
-	$frame_size_interaktiv = 60;
+	$frame_size_interaktiv = 65;
 	$frame_size_eingabe = 28;
 	
 	if ($u_level == "M") {
-		$frame_size_interaktiv = $moderationsgroesse;
+		$frame_size_interaktiv = 280;
 		$frame_size_eingabe = 108;
 	}
 	?>

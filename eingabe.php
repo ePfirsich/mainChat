@@ -36,7 +36,7 @@ zeige_header_ende();
 // Eingabeformular mit Menu und Farbauswahl
 reset($farbe_chat_user);
 $i = 0;
-echo "<div style=\"margin-top: 2px;\"><form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+echo "<div style=\"margin-top: 3px;\"><form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 
 // Typ Eingabefeld für Chateingabe setzen
 if ($u_level == "M") {
