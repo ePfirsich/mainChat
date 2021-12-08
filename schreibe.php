@@ -170,9 +170,6 @@ if (strlen($u_id) > 0) {
 		?>
 		<body>
 		<?php
-		// Timestamp im Datensatz aktualisieren
-		aktualisiere_online($u_id, $o_raum);
-		
 		// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
 		if ($o_who != 2 && ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") ) {
 			reset_system("chatfenster");
