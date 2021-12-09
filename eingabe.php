@@ -50,7 +50,7 @@ if ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") {
 	echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
 		. "<select name=\"user_chat_back\">\n";
 	for ($i = 5; $i < 40; $i++) {
-		echo "<option " . ($chat_back == $i ? "selected" : "") . " value=\"$i\">$i&nbsp;$t[eingabe1]\n";
+		echo "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i&nbsp;$t[eingabe1]\n";
 	}
 	echo "</select>";
 } else {
