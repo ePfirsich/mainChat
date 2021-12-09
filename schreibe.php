@@ -1,5 +1,4 @@
 <?php
-
 require_once("functions/functions.php");
 require_once("functions/functions-msg.php");
 require_once("languages/$sprache-chat.php");
@@ -24,9 +23,7 @@ $text2 = filter_input(INPUT_POST, 'text2');
 if (isset($text2) && strlen($text2) != 0) {
 	$text = $text2;
 }
-
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
-
 $user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUMBER_INT);
 
 // Das Level aus der Tabelle "online" holen
