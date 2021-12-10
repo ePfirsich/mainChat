@@ -2,6 +2,10 @@
 // Übersetzungen von "Profil"
 $t['titel'] = "Profil";
 
+$t['profil_profil_bearbeiten'] = "Profil bearbeiten";
+$t['profil_bilder_hochladen'] = "Profilbilder und Hintergrundbilder hochladen";
+$t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
+
 $t['bestehendes_profil'] = "Bestehendes Profil bearbeiten";
 $t['neues_profil'] = "Neues Profil anlegen";
 $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
@@ -38,12 +42,9 @@ $t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felde
 . "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie es in den Homepage-Einstellungen freigeben.</p>\n";
 
 $t['profil_benutzereinstellungen_aendern'] = "Benutzereinstellungen ändern";
-$t['profil_homepage_bearbeiten'] = "Homepage bearbeiten";
-$t['profil_datenschutzhinweis'] = "Datenschutzhinweis";
 $t['profil_hilfe'] = "Hilfe";
 
 $t['profil_alle_profile'] = "Alle Profile";
-$t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
 $t['profil_benutzername'] = "Benutzername";
 $t['profil_level'] = "Level";
@@ -101,7 +102,6 @@ $t['profil_inhalt_hintergrundfarbe'] = "Hintergrundfarbe des Inhalts";
 $t['profil_farbe'] = "Farbe";
 $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
 $t['profil_homepage_freigeben'] = "Homepage";
-$t['profil_home1'] = "Meine Homepage";
 $t['profil_home2'] = "Homepage Einstellungen";
 
 $t['einstellungen_speichern'] = "Speichern";

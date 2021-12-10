@@ -95,7 +95,7 @@ zeige_header_ende();
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'einstellungen', 'log', 'benutzer');
+$nur_eingeloggten_seiten = array('raum', 'profil', 'profilbilder', 'einstellungen', 'log', 'benutzer');
 $nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
 $nur_eingeloggten_seiten_und_admin = array('statistik', 'sperren');
 if( !$user_eingeloggt && in_array($seite, $nur_eingeloggten_seiten, true) ) {
@@ -236,7 +236,8 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text .= "<a href=\"home.php?id=$id&aktion=aendern\">$t[profil_homepage_bearbeiten]</a>\n";
+			$text .= "<a href=\"inhalt.php?seite=profil&id=$id\">$t[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=profilbilder&id=$id\">$t[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
@@ -244,6 +245,25 @@ if(!$seite || $kein_seitenaufruf) {
 				
 			require_once('templates/profil.php');
 				
+			break;
+			
+		case "profilbilder":
+			// Profil anzeigen
+			require_once("functions/functions-profilbilder.php");
+			require_once("functions/functions-formulare.php");
+			require_once("languages/$sprache-profil.php");
+			
+			// Menü ausgeben
+			$box = $t['titel'];
+			$text .= "<a href=\"inhalt.php?seite=profil&id=$id\">$t[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=profilbilder&id=$id\">$t[profil_bilder_hochladen]</a>\n";
+			if ($admin) {
+				$text .= "| <a href=\"inhalt.php?seite=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
+			}
+			zeige_tabelle_zentriert($box, $text);
+			
+			require_once('templates/profilbilder.php');
+			
 			break;
 		
 		case "einstellungen":

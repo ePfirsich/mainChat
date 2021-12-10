@@ -1,55 +1,6 @@
 <?php
 
-function edit_home(
-	$u_id,
-	$u_nick,
-	$home,
-	$bilder,
-	$aktion) {
-	// Editor für die eigene Homepage im Chat
-	// u_id = Benutzer-Id
-	// home = Array des Benutzerprofiles mit Einstellungen
-	// einstellungen = Array der Einstellungen
-	// bilder = Array mit Bildinfos
-	global $t, $f1, $f2;
-	
-	// HP-Tabelle ausgeben
-	$box = $t['profil_home1'];
-	$text = '<br>';
-	
-	$text .= home_info($u_id, $u_nick, $home, "ui_text", $aktion, $bilder, $u_nick);
-			
-	// Box anzeigen
-	zeige_tabelle_zentriert($box, $f2.$text.$f1);
-	
-	$box = $t['profil_home2'];
-	$text = '';
-	
-	$text .= "<table style=\"width:100%;\">";
-	$text .= "<tr><td style=\"vertical-align:top;\" class=\"tabelle_zeile2\">";
-	
-	$text .= "<table style=\"width:100%;\">";
-	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik]</td>";
-	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild4", $aktion, $bilder);
-	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_des_inhalts]</td>";
-	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild5", $aktion, $bilder);
-	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_der_grafiken]</td>";
-	$text .= "</tr>\n";
-	$text .= home_bild($u_id, $u_nick, $home, "ui_bild6", $aktion, $bilder);
-	$text .= "</table>";
-
-	$text .= "</td></tr></table>\n";
-		
-	// Box anzeigen
-	zeige_tabelle_zentriert($box, $text);
-}
-
-function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
+function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
 	
@@ -57,7 +8,7 @@ function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 	
 	$text .= "<table style=\"border-radius: 3px; background-color: #$home[ui_ueberschriften_hintergrundfarbe]; width: 99%; margin: auto; margin-bottom: 10px;\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td colspan=\"2\" style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_von] $nicknamen</td>\n";
+	$text .= "<td colspan=\"2\" style=\"background-color: #$home[ui_ueberschriften_hintergrundfarbe]; color: #$home[ui_ueberschriften_textfarbe]; font-weight: bold; padding: 5px;\">$t[homepage_von] $u_nick</td>\n";
 	$text .= "</tr>\n";
 	$text .= "<tr>\n";
 	
@@ -89,14 +40,6 @@ function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 		$letzter_login = $userdata['login'];
 		
 		mysqli_free_result($result);
-		
-		// Link auf Benutzereditor ausgeben
-		if ($aktion == "aendern") {
-			$url = "inhalt.php?seite=einstellungen&id=$id";
-			$userdaten_bearbeiten = $f3 . "<b>[<a href=\"$url\" target=\"chat\">ändern</a>]</b>" . $f4;
-		} else {
-			$userdaten_bearbeiten = "&nbsp;";
-		}
 		
 		// Benutzername
 		$text .= "<tr>\n";
@@ -137,9 +80,9 @@ function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 			$text .= "</tr>\n";
 		}
 		
-		// Farbwähler & Link auf Editor ausgeben
+		// Leerzeile
 		$text .= "<tr>\n";
-		$text .= "<td colspan=\"4\">&nbsp;</td>\n";
+		$text .= "<td colspan=\"2\">&nbsp;</td>\n";
 		$text .= "</tr>\n";
 	}
 	
@@ -298,9 +241,9 @@ function home_info($u_id, $u_nick, $home, $feld, $aktion, $bilder, $nicknamen) {
 		$bilder = "";
 	}
 	
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $aktion, $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $aktion, $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $aktion, $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $bilder);
+	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $bilder);
 	
 	$text .= "</table>\n";
 	// Bilder - Ende
@@ -317,7 +260,6 @@ function home_bild(
 	$u_nick,
 	$home,
 	$feld,
-	$aktion,
 	$bilder) {
 	
 	global $f3, $f4, $id, $t;
@@ -332,22 +274,7 @@ function home_bild(
 		$height = $bilder[$feld]['b_height'];
 		$mime = $bilder[$feld]['b_mime'];
 		
-		if ($aktion == "aendern") {
-			$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
-		} else {
-			$info = "";
-		}
-		
-		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
-		
-		if ($aktion == "aendern") {
-			$text .= "<br>" . $f3 . "<b>[<a href=\"home.php?id=$id&aktion=aendern&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4;
-		}
-	} else if ($aktion == "aendern") {
-		
-		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
-		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\">";
-		
+		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>";
 	} else {
 		$text .= "";
 	}
@@ -505,8 +432,6 @@ function zeige_home($u_id, $force = FALSE) {
 		$ok = FALSE;
 	}
 	
-	$aktion = "einfach";
-	
 	if (true) {
 		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild4);";
 	} else {
@@ -532,7 +457,7 @@ function zeige_home($u_id, $force = FALSE) {
 		</head>
 		<body>
 		<?php
-		echo home_info($u_id, $row->u_nick, $home, "ui_text", $aktion, $bilder, $nicknamen);
+		echo home_info($u_id, $row->u_nick, $home, "ui_text", $bilder);
 	} else if ($u_chathomepage != "1") {
 		echo "<body>"
 			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
