@@ -23,7 +23,7 @@ $title = $body_titel;
 zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 zeige_header_ende();
 ?>
-<body>
+<body style="background-color: var(--Chatunten-Hintergrundfarbe);">
 <?php
 // Eingabeformular mit Menu und Farbauswahl
 reset($farbe_chat_user);
