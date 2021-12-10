@@ -109,7 +109,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$resultLoeschen = mysqli_query($mysqli_link, $queryLoeschen);
 				
 				$cache = "home_bild";
-				$cachepfad = $cache . "/" . substr($ui_userid, 0, 2) . "/" . $f['u_id'] . "/" . $loesche;
+				$cachepfad = $cache . "/" . substr($f['u_id'], 0, 2) . "/" . $f['u_id'] . "/" . $loesche;
 				
 				if (file_exists($cachepfad)) {
 					unlink($cachepfad);
