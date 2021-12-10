@@ -127,6 +127,10 @@ function user_liste($larr, $seitenleiste = false) {
 	$r_name = $larr[0]['r_name'];
 	$r_besitzer = $larr[0]['r_besitzer'];
 	$r_topic = $larr[0]['r_topic'];
+	if($admin) {
+		$o_ip = $larr[0]['o_ip'];
+		$host_name = htmlspecialchars(gethostbyaddr($o_ip));
+	}
 	$level = "user";
 	$level2 = "user";
 	if ($r_besitzer == $u_id) {
@@ -167,7 +171,7 @@ function user_liste($larr, $seitenleiste = false) {
 			}
 			
 			if ($level2 == "admin") {
-				$trow .= "<a href=\"inhalt.php?seite=sperren&aktion=neu&id=$id&hname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
+				$trow .= "<a href=\"inhalt.php?seite=sperren&aktion=neu&id=$id&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {
