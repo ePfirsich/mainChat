@@ -59,7 +59,6 @@ function user_edit($f, $admin, $u_level) {
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
 	
 	$zaehler = 0;
-	$text .= "<table style=\"width:100%;\">";
 	
 	// Überschrift: Benutzerdaten
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
