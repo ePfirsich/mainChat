@@ -94,7 +94,6 @@ $t['benutzer_weitere_ip_adressen'] = "Weitere IP-Adressen zeigen";
 $t['benutzer_knebeln'] = "Knebeln (G)";
 $t['benutzer_kicken'] = "Kicken (K)";
 $t['benutzer_sperren'] = "Sperren (S)";
-$t['benutzer_aus_dem_chat_kicken'] = "Aus dem Chat kicken";
 $t['benutzer_blacklist'] = "-> Blacklist";
 
 $t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
