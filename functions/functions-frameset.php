@@ -2,10 +2,9 @@
 function frameset_forum($hash_id) {
 	global $t;
 	?>
-	<frameset rows="100,*,1" border="0" frameborder="0" framespacing="0">
+	<frameset rows="100,*" border="0" frameborder="0" framespacing="0">
 		<frame src="navigation.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
-		<frame src="schreibe.php?id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
 	</frameset>
 	<noframes>
 	<?php echo (isset($t['login6']) ? $t['login6'] : ""); ?>

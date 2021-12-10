@@ -108,7 +108,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if ((isset($txt[$i])) && $txt[$i] != "")
 				break;
 		}
-		$text2 = $text;
+		
 		// Schleife über alle Worte...
 		for ($j = 0; $j <= $i; $j++) {
 			// test, ob am Ende der URL noch ein Sonderzeichen steht...

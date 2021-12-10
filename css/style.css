@@ -116,11 +116,11 @@ body {
 /* Linkfarbe */
 .tabelle_koerper a, .tabelle_koerper a:link, .tabelle_koerper a:visited {
 	color: var(--Tabellenkoerper-Linkfarbe);
-	text-decoration:none;
+	text-decoration:underline;
 }
 .tabelle_koerper a:hover {
 	color: var(--Tabellenkoerper-Linkfarbe);
-	text-decoration:none;
+	text-decoration:underline;
 }
 /* Tabellenkoerper - Ende ******************************************************************* */
 

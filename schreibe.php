@@ -17,12 +17,7 @@ $text = filter_input(INPUT_POST, 'text');
 if( $text == '') {
 	$text = filter_input(INPUT_GET, 'text');
 }
-$text2 = filter_input(INPUT_POST, 'text2');
 
-// Sonderfix für das Rotieren von text und text2 für ohne javascript...
-if (isset($text2) && $text2 != "") {
-	$text = $text2;
-}
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
 $user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUMBER_INT);
 
@@ -46,22 +41,7 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 $title = $body_titel;
 zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 
-// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
-if ($o_raum && $o_raum == "-1") {
-	$wo_online = "forum";
-} else {
-	$wo_online = "chat";
-}
-
-// Reset ausführen
-if($aktion == "reset") {
-	reset_system($wo_online);
-}
-
-// Dies ist alles nur für den Chat relevant
-if($wo_online == "chat") {
-	schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten);
-}
+schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten);
 ?>
 </body>
 </html>

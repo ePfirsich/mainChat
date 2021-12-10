@@ -5,17 +5,17 @@ user = new Array;
 
 function sendtext(text) {
 	parent.frames['schreibe'].location = 'schreibe.php' + stdparm2 + '&text=' + text;
-	parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
+	parent.frames['eingabe'].document.forms['form'].elements['text'].focus();
 }
 
 function sendtext_opener(text) {
 	opener.parent.frames['schreibe'].location = 'schreibe.php' + stdparm2 + '&text=' + text;
-	opener.parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
+	opener.parent.frames['eingabe'].document.forms['form'].elements['text'].focus();
 }
 
 function appendtext_chat(text) {
-	parent.frames['eingabe'].document.forms['form'].elements['text2'].value += text;
-	parent.frames['eingabe'].document.forms['form'].elements['text2'].focus();
+	parent.frames['eingabe'].document.forms['form'].elements['text'].value += text;
+	parent.frames['eingabe'].document.forms['form'].elements['text'].focus();
 }
 
 function insertAtCursor(myField, myValue) {
