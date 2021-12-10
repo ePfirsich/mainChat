@@ -25,7 +25,7 @@ function kopf_forum($admin) {
 				<?php if (($admin) && (!$aktion)) { ?>
 					<a href="forum.php?id=<?php echo $id; ?>&aktion=forum_neu" class="button" title="<?php echo $t['kategorie_anlegen']; ?>"><span class="fa fa-plus icon16"></span> <span><?php echo $t['kategorie_anlegen']; ?></span></a>
 				<?php } ?>
-					<a href="forum-suche.php?id=<?php echo $id; ?>" class="button" title="<?php echo $t['button_suche']; ?>"><span class="fa fa-search icon16"></span> <span><?php echo $t['button_suche']; ?></span></a>
+					<a href="forum.php?aktion=suche&id=<?php echo $id; ?>" class="button" title="<?php echo $t['button_suche']; ?>"><span class="fa fa-search icon16"></span> <span><?php echo $t['button_suche']; ?></span></a>
 			</td>
 		</tr>
 	</table>

@@ -1,17 +1,4 @@
 <?php
-
-require_once("functions/functions.php");
-require_once("functions/functions-func-forum_lib.php");
-require_once("languages/$sprache-forum.php");
-
-// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
-id_lese($id);
-
-// Direkten Aufruf der Datei verbieten (nicht eingeloggt)
-if( !isset($u_id) || $u_id == "") {
-	die;
-}
-
 function show_pfad_posting2($th_id) {
 	global $mysqli_link, $f3, $f4, $id, $thread;
 	//Infos über Forum und Thema holen
@@ -52,23 +39,19 @@ function such_bereich() {
 	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_menue2]</span></a>";
 	$text = '';
 	
-	
-	$text .= "<form name=\"suche_neu\" action=\"$PHP_SELF\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n"
+	$text .= "<form name=\"suche_neu\" action=\"forum.php\" method=\"post\">\n"
+	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+	. "<input type=\"hidden\" name=\"aktion\" value=\"suchergebnisse\">\n"
 		. "<table>";
-	
+		
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<input type=\"text\" name=\"suche[text]\" value=\""
-		. htmlspecialchars($suche['text'])
-		. "\" size=50>" . $f2 . "</td></tr>\n";
-	
+	. $f1 . "<input type=\"text\" name=\"suche[text]\" value=\"" . htmlspecialchars($suche['text']) . "\" size=50>" . $f2 . "</td></tr>\n";
+		
 	// Suche in Board/Thema
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<select name=\"suche[thema]\" size=\"1\" STYLE=\"width: "
-		. $select_breite . "px;\">";
-	
+	. $f1 . "<select name=\"suche[thema]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+		
 	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = mysqli_query($mysqli_link, $sql);
 	$themaalt = "";
@@ -85,7 +68,7 @@ function such_bereich() {
 					$text .= "selected ";
 				}
 				$text .= "value=\"B" . $thema['fo_id'] . "\">" . $thema['fo_name']
-					. "</option>";
+				. "</option>";
 				$themaalt = $thema['fo_name'];
 			}
 			$text .= "<option ";
@@ -102,9 +85,7 @@ function such_bereich() {
 	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<select name=\"suche[modus]\" size=\"1\" STYLE=\"width: "
-		. $select_breite . "px;\">";
+	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\">" . $f1 . "<select name=\"suche[modus]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['modus'] <> "O") {
 		$text .= "selected ";
@@ -118,10 +99,8 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Betreff/Text
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
-		. "<select name=\"suche[ort]\" size=\"1\" STYLE=\"width: "
-		. $select_breite . "px;\">";
-		$text .= "<option ";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1 . "<select name=\"suche[ort]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<option ";
 	if ($suche['ort'] <> "B" && $suche['ort'] <> "T") {
 		$text .= "selected ";
 	}
@@ -139,10 +118,8 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Zeit
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
-		. "<select name=\"suche[zeit]\" size=\"1\" STYLE=\"width: "
-		. $select_breite . "px;\">";
-		$text .= "<option ";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1 . "<select name=\"suche[zeit]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<option ";
 	if (substr($suche['zeit'], 0, 1) <> "B") {
 		$text .= "selected ";
 	}
@@ -185,9 +162,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Sortierung
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1
-		. "<select name=\"suche[sort]\" size=\"1\" STYLE=\"width: "
-		. $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\">" . $f1 . "<select name=\"suche[sort]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if (substr($suche['sort'], 0, 1) <> "S") {
 		$text .= "selected ";
@@ -221,13 +196,10 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// nur von Benutzer
-	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td><td class=\"tabelle_zeile1\">"
-		. $f1 . "<input type=\"text\" name=\"suche[username]\" value=\""
-		. htmlspecialchars($suche['username'])
-		. "\" size=\"20\">" . $f2 . "</td></tr>\n"
-		. "<tr><td colspan=\"2\" style=\"text-align:center;\" class=\"tabelle_zeile1\">"
-		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">"
-		. $f2 . "</td></tr>\n" . "</table></form>\n";
+	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td><td class=\"tabelle_zeile1\">" . $f1 . "<input type=\"text\" name=\"suche[username]\" value=\""
+	. htmlspecialchars($suche['username']) . "\" size=\"20\">" . $f2 . "</td></tr>\n"
+	. "<tr><td colspan=\"2\" style=\"text-align:center;\" class=\"tabelle_zeile1\">"
+	. $f1 . "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\">" . $f2 . "</td></tr>\n" . "</table></form>\n";
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
@@ -244,13 +216,15 @@ function such_ergebnis() {
 	
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
 	$query = mysqli_query($mysqli_link, $sql);
-	if (mysqli_num_rows($query) > 0)
+	if (mysqli_num_rows($query) > 0) {
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
+	}
 	$u_gelesene = unserialize($gelesene);
 	
 	$fehler = "";
-	if ($suche['username'] <> coreCheckName($suche['username'], $check_name))
+	if ($suche['username'] <> coreCheckName($suche['username'], $check_name)) {
 		$fehler .= $t['fehler1'];
+	}
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
 	if (strlen($fehler) == 0 && $suche['username'] <> "") {
@@ -263,19 +237,19 @@ function such_ergebnis() {
 		}
 	}
 	
-	if (trim($suche['username']) == "" && trim($suche['text']) == ""
-		&& (!($suche['zeit'] == "B1" || $suche['zeit'] == "B7"
-			|| $suche['zeit'] == "B14")))
+	if (trim($suche['username']) == "" && trim($suche['text']) == "" && (!($suche['zeit'] == "B1" || $suche['zeit'] == "B7" || $suche['zeit'] == "B14"))) {
 		$fehler .= $t['fehler2'];
-	if ($suche['modus'] <> "A" && $suche['modus'] <> "O")
+	}
+	if ($suche['modus'] <> "A" && $suche['modus'] <> "O") {
 		$fehler .= $t['fehler3'];
-	if ($suche['ort'] <> "V" && $suche['ort'] <> "B" && $suche['ort'] <> "T")
+	}
+	if ($suche['ort'] <> "V" && $suche['ort'] <> "B" && $suche['ort'] <> "T") {
 		$fehler .= $t['fehler4'];
-	if (!$suche['thema'] == "ALL"
-		&& !preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema'])
-		&& !preg_match("/^B([0-9])+$/i", $suche['thema']))
+	}
+	if (!$suche['thema'] == "ALL" && !preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema']) && !preg_match("/^B([0-9])+$/i", $suche['thema'])) {
 		$fehler .= $t['fehler5'];
-	
+	}
+		
 	if (strlen($fehler) > 0) {
 		echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold; text-align:center;\">$fehler</p>";
 	} else {
@@ -291,16 +265,16 @@ function such_ergebnis() {
 				} else {
 					if ($suche['modus'] == "O") {
 						$querytext .= " OR po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-							. "%\"";
+						. "%\"";
 					} else {
 						$querytext .= " AND po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-							. "%\"";
+						. "%\"";
 					}
 				}
 				
 				if (strlen($querybetreff) == 0) {
 					$querybetreff = "po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-						. "%\"";
+					. "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
 						$querybetreff .= " OR po_titel LIKE \"%"
@@ -336,8 +310,7 @@ function such_ergebnis() {
 		}
 		
 		$boards = "";
-		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id "
-			. "WHERE th_anzthreads <> 0 " . "ORDER BY fo_order, th_order ";
+		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 		$query2 = mysqli_query($mysqli_link, $sql2);
 		while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
 			if (pruefe_leserechte($thema['th_id'])) {
@@ -347,8 +320,7 @@ function such_ergebnis() {
 					} else {
 						$boards .= " OR po_th_id = " . intval($thema['th_id']);
 					}
-				} else if (preg_match("/^B([0-9])+T([0-9])+$/i",
-					$suche['thema'])) {
+				} else if (preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema'])) {
 					$tempthema = substr($suche['thema'],
 						-1 * strpos($suche['thema'], "T"), 4);
 					if ($thema['th_id'] = $tempthema) {
@@ -400,128 +372,100 @@ function such_ergebnis() {
 		
 		if ($u_level <> "S" and $u_level <> "C")
 			$abfrage .= " AND po_gesperrt = 'N' ";
-		
-		if ($suche['sort'] == "SZD") {
-			$abfrage .= " ORDER BY po_ts DESC";
-		} else if ($suche['sort'] == "SZA") {
-			$abfrage .= " ORDER BY po_ts ASC";
-		} else if ($suche['sort'] == "SBD") {
-			$abfrage .= " ORDER BY po_titel DESC, po_ts DESC";
-		} else if ($suche['sort'] == "SBA") {
-			$abfrage .= " ORDER BY po_titel ASC, po_ts ASC";
-		} else if ($suche['sort'] == "SAD") {
-			$abfrage .= " ORDER BY u_nick DESC, po_ts DESC";
-		} else if ($suche['sort'] == "SAA") {
-			$abfrage .= " ORDER BY u_nick ASC, po_ts ASC";
-		} else {
-			$abfrage .= " ORDER BY po_ts DESC";
-		}
-		
-		$text = '';
-		$text .= "<table>";
-		
-		flush();
-		$sql = $sql . " " . $abfrage;
-		$query = mysqli_query($mysqli_link, $sql);
-		
-		$anzahl = mysqli_num_rows($query);
-		
-		$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$f1 $t[ergebnis2] $anzahl";
-		if ($anzahl > $maxpostingsprosuche) {
-			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
-		}
-		$text .= "$f2</td></tr>\n";
-		if ($anzahl > 0) {
-			$text .= "<tr>\n";
-			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[forum]</b>$f2</td>\n";
-			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[betreff]</b>$f2</td>\n";
-			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_am]</b>$f2</td>\n";
-			$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_autor]</b>$f2</td>\n";
-			$text .= "</tr>";
 			
-			$i = 0;
-			while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-				$i++;
-				
-				if ($i > $maxpostingsprosuche) {
-					break;
-				}
-				
-				if (($i % 2) > 0) {
-					$bgcolor = 'class="tabelle_zeile1"';
-				} else {
-					$bgcolor = 'class="tabelle_zeile2"';
-				}
-				
-				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
-					$col = "color:$farbe_neuesposting_forum;";
-				} else {
-					$col = '';
-				}
-				
-				$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "</td><td $bgcolor>";
-				$thread = vater_rekursiv($fund['po_id']);
-				$text .= $f1
-					. "<b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
-						<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
-				if ($fund['po_gesperrt'] == 'Y') {
-					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
-				}
-				$text .= $f2 . "</b></td>";
-				
-				$text .= "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
-				
-				if (!$fund['u_nick']) {
-					$text .= "<td $bgcolor>$f3<b>Nobody</b>$f4</td>\n";
-				} else {
-					
-					$userdata = array();
-					$userdata['u_id'] = $fund['po_u_id'];
-					$userdata['u_nick'] = $fund['u_nick'];
-					$userdata['u_level'] = $fund['u_level'];
-					$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
-					$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
-					$userdata['u_chathomepage'] = $fund['u_chathomepage'];
-					$userlink = zeige_userdetails($fund['po_u_id'], $userdata);
-					if ($fund['u_level'] == 'Z') {
-						$text .= "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
-					} else {
-						$text .= "<td $bgcolor>$f1 $userlink $f2</td>\n";
-					}
-				}
-				
-				$text .= "</tr>";
+			if ($suche['sort'] == "SZD") {
+				$abfrage .= " ORDER BY po_ts DESC";
+			} else if ($suche['sort'] == "SZA") {
+				$abfrage .= " ORDER BY po_ts ASC";
+			} else if ($suche['sort'] == "SBD") {
+				$abfrage .= " ORDER BY po_titel DESC, po_ts DESC";
+			} else if ($suche['sort'] == "SBA") {
+				$abfrage .= " ORDER BY po_titel ASC, po_ts ASC";
+			} else if ($suche['sort'] == "SAD") {
+				$abfrage .= " ORDER BY u_nick DESC, po_ts DESC";
+			} else if ($suche['sort'] == "SAA") {
+				$abfrage .= " ORDER BY u_nick ASC, po_ts ASC";
+			} else {
+				$abfrage .= " ORDER BY po_ts DESC";
 			}
-			mysqli_free_result($query);
 			
-		}
+			$text = '';
+			$text .= "<table>";
+			
+			flush();
+			$sql = $sql . " " . $abfrage;
+			$query = mysqli_query($mysqli_link, $sql);
+			
+			$anzahl = mysqli_num_rows($query);
+			
+			$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$f1 $t[ergebnis2] $anzahl";
+			if ($anzahl > $maxpostingsprosuche) {
+				$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
+			}
+			$text .= "$f2</td></tr>\n";
+			if ($anzahl > 0) {
+				$text .= "<tr>\n";
+				$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[forum]</b>$f2</td>\n";
+				$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[betreff]</b>$f2</td>\n";
+				$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_am]</b>$f2</td>\n";
+				$text .= "<td class=\"tabelle_koerper\">$f1<b>$t[geschrieben_autor]</b>$f2</td>\n";
+				$text .= "</tr>";
+				
+				$i = 0;
+				while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+					$i++;
+					
+					if ($i > $maxpostingsprosuche) {
+						break;
+					}
+					
+					if (($i % 2) > 0) {
+						$bgcolor = 'class="tabelle_zeile1"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile2"';
+					}
+					
+					if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
+						$col = "color:$farbe_neuesposting_forum;";
+					} else {
+						$col = '';
+					}
+					
+					$text .= "<tr><td $bgcolor>" . show_pfad_posting2($fund['po_th_id']) . "</td><td $bgcolor>";
+					$thread = vater_rekursiv($fund['po_id']);
+					$text .= $f1 . "<b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+					<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
+					if ($fund['po_gesperrt'] == 'Y') {
+						$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
+					}
+					$text .= $f2 . "</b></td>";
+					$text .= "<td $bgcolor>" . $f1 . $fund['po_zeit'] . $f2 . "</td>";
+					
+					if (!$fund['u_nick']) {
+						$text .= "<td $bgcolor>$f3<b>Nobody</b>$f4</td>\n";
+					} else {
+						$userdata = array();
+						$userdata['u_id'] = $fund['po_u_id'];
+						$userdata['u_nick'] = $fund['u_nick'];
+						$userdata['u_level'] = $fund['u_level'];
+						$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
+						$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
+						$userdata['u_chathomepage'] = $fund['u_chathomepage'];
+						$userlink = zeige_userdetails($fund['po_u_id'], $userdata);
+						if ($fund['u_level'] == 'Z') {
+							$text .= "<td $bgcolor>$f1 $userdata[u_nick] $f2</td>\n";
+						} else {
+							$text .= "<td $bgcolor>$f1 $userlink $f2</td>\n";
+						}
+					}
+					$text .= "</tr>";
+				}
+				mysqli_free_result($query);
+			}
 		$text .= "</table>\n";
 		
 		// Box anzeigen
 		zeige_tabelle_zentriert($box, $text);
 	}
 }
-
-// Hole alle benötigten Einstellungen des Benutzers
-$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
-
-$title = $body_titel . ' - Forum-Suche';
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
-zeige_header_ende();
 ?>
-<body>
-<?php
-// Auswahl
-switch ($aktion) {
-	case "suche":
-		such_bereich();
-		echo '<br>';
-		flush();
-		such_ergebnis();
-		break;
-	default;
-		such_bereich();
-}
-?>
-</body>
-</html>

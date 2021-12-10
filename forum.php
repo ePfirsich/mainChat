@@ -12,7 +12,7 @@ if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
-// In Session merken, dass Text im Chat geschrieben wurde
+// In Session merken, dass Text im "Chat" geschrieben wurde
 $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' " . "WHERE o_user=" . intval($u_id);
 $result = mysqli_query($mysqli_link, $query);
 
@@ -30,10 +30,23 @@ kopf_forum($forum_admin);
 
 switch ($aktion) {
 	
+	// Suche
+	case "suchergebnisse":
+		such_bereich();
+		echo '<br>';
+		flush();
+		such_ergebnis();
+		break;
+		
+	case "suche":
+		such_bereich();
+		break;
+	
 	//Aktionen, die das Forum betreffen
 	case "forum_neu":
 		maske_forum();
 		break;
+	
 	case "forum_anlegen":
 		$missing = check_input("forum");
 		if (!$missing) {
@@ -44,6 +57,7 @@ switch ($aktion) {
 			maske_forum();
 		}
 		break;
+	
 	case "forum_editieren":
 		$missing = check_input("forum");
 		if (!$missing) {
@@ -54,17 +68,21 @@ switch ($aktion) {
 			maske_forum($fo_id);
 		}
 		break;
+	
 	case "forum_up":
 		forum_up($fo_id, $fo_order);
 		forum_liste();
 		break;
+	
 	case "forum_down":
 		forum_down($fo_id, $fo_order);
 		forum_liste();
 		break;
+	
 	case "forum_edit":
 		maske_forum($fo_id);
 		break;
+	
 	case "forum_delete":
 		if ($forum_admin) {
 			loesche_forum($fo_id);
@@ -81,6 +99,7 @@ switch ($aktion) {
 			forum_liste();
 		}
 		break;
+	
 	case "thema_anlegen":
 		$missing = check_input("thema");
 		if (!$missing) {
@@ -91,9 +110,11 @@ switch ($aktion) {
 			maske_thema();
 		}
 		break;
+	
 	case "thema_edit":
 		maske_thema($th_id);
 		break;
+	
 	case "thema_editieren":
 		$missing = check_input("thema");
 		if (!$missing) {
@@ -104,6 +125,7 @@ switch ($aktion) {
 			maske_thema($th_id);
 		}
 		break;
+	
 	case "thema_up":
 		thema_up($th_id, $th_order, $fo_id);
 		forum_liste();
@@ -112,9 +134,11 @@ switch ($aktion) {
 		thema_down($th_id, $th_order, $fo_id);
 		forum_liste();
 		break;
+	
 	case "show_thema":
 		show_thema();
 		break;
+	
 	case "thema_delete":
 		if ($forum_admin) {
 			loesche_thema($th_id);
