@@ -34,7 +34,7 @@ if ($u_level == "M") {
 } else {
 	$text_typ = "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" size=\"" . $chat_eingabe_breite . "\">\n";
 }
-$text = "<form>";
+$text = "<form name=\"form\">";
 $text .= $text_typ;
 // Unterscheidung Normal oder sicherer Modus
 if ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") {
