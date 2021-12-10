@@ -6,7 +6,7 @@ require_once("functions/functions-func-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {
-	global $u_id, $t, $o_raum, $admin, $u_level, $chat_max_eingabe, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who;
+	global $u_id, $t, $o_raum, $admin, $u_level, $chat_max_eingabe, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
 	
@@ -17,11 +17,6 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 		$f['u_zeilen'] = $user_chat_back;
 		schreibe_db("user", $f, $u_id, "u_id");
 		$chat_back = $user_chat_back;
-	}
-	
-	// Sonderfix für das Rotieren von text und text2 für ohne javascript...
-	if (isset($text2) && strlen($text2) != 0) {
-		$text = $text2;
 	}
 	
 	// Falls private Nachricht, Benutzernamen ergänzen
