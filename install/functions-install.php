@@ -44,7 +44,7 @@ function step_1($chat) {
 		</tr>
 	</table>
 
-	<form action="<?php echo $PHP_SELF ?>" method="post">
+	<form action="install.php" method="post">
 		<table style="width:100%; border:0px;">
 			<tr style="background-color:#007ABE;">
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Datenbank Einstellungen</span></td>

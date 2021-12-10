@@ -144,7 +144,7 @@ $t['registrierung_email_text'] = "Willkommen beim $chat!<br><br>Um nun die Regis
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein<br><br>"
-		. "-- <br>   $chat (" . $chat_url . $PHP_SELF . ")<br>";
+		. "-- <br>   $chat ($chat_url)<br>";
 
 $t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>";
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";

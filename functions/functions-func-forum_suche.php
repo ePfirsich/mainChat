@@ -30,8 +30,7 @@ function vater_rekursiv($vater) {
 }
 
 function such_bereich() {
-	global $id, $PHP_SELF, $f1, $f2, $mysqli_link;
-	global $suche, $t;
+	global $id, $f1, $f2, $mysqli_link, $suche, $t;
 	
 	$select_breite = 250;
 	

@@ -123,7 +123,7 @@ if (isset($u_id) && $u_id) {
 				}
 				mysqli_free_result($result2);
 				
-				echo "<form enctype=\"multipart/form-data\" name=\"home\" action=\"$PHP_SELF\" method=\"post\">\n"
+				echo "<form enctype=\"multipart/form-data\" name=\"home\" action=\"home.php\" method=\"post\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 					. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
 					. "<input type=\"hidden\" name=\"ui_userid\" value=\"$ui_userid\">\n"

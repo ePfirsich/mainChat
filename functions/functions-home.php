@@ -320,7 +320,7 @@ function home_bild(
 	$aktion,
 	$bilder) {
 	
-	global $PHP_SELF, $f1, $f2, $f3, $f4, $id, $t;
+	global $f3, $f4, $id, $t;
 	
 	$text = "";
 	$text .= "<tr>\n";
@@ -341,7 +341,7 @@ function home_bild(
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
 		if ($aktion == "aendern") {
-			$text .= "<br>" . $f3 . "<b>[<a href=\"$PHP_SELF?id=$id&aktion=aendern&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4;
+			$text .= "<br>" . $f3 . "<b>[<a href=\"home.php?id=$id&aktion=aendern&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4;
 		}
 	} else if ($aktion == "aendern") {
 		

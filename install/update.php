@@ -124,7 +124,7 @@ switch ($aktion) {
 		</tr>
 	</table>
 
-	<form action="<?php echo $PHP_SELF ?>" method="post">
+	<form action="update.php" method="post">
 		<table style="width:100%; border:0px;">
 			<tr>
 				<td colspan="2">
