@@ -198,7 +198,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 		if( $home['ui_homepage'] != "" ) {
 			$text .= "<tr>\n";
 			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_webseite]:$f2</td>\n";
-			$text .= "<td>$f1<a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" target=\"_blank\">" . $home['ui_homepage'] . "</a>$f2</td>";
+			$text .= "<td>$f1<a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" rel=\"nofollow\" target=\"_blank\">" . $home['ui_homepage'] . "</a>$f2</td>";
 			$text .= "</tr>\n";
 		}
 	}
