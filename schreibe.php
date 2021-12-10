@@ -20,7 +20,7 @@ if( $text == '') {
 $text2 = filter_input(INPUT_POST, 'text2');
 
 // Sonderfix für das Rotieren von text und text2 für ohne javascript...
-if (isset($text2) && strlen($text2) != 0) {
+if (isset($text2) && $text2 != "") {
 	$text = $text2;
 }
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
@@ -44,7 +44,7 @@ if( !isset($u_id) || $u_id == "") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 
 // Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
 if ($o_raum && $o_raum == "-1") {

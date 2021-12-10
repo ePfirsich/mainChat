@@ -16,32 +16,23 @@ function frameset_forum($hash_id) {
 function frameset_chat($hash_id) {
 	global $t, $u_level, $back;
 	
-	$frame_size_interaktiv = 65;
-	$frame_size_eingabe = 28;
-	
 	if ($u_level == "M") {
-		$frame_size_interaktiv = 280;
-		$frame_size_eingabe = 108;
+		echo "<frameset rows=\"65,*,94,65,280,1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+	} else {
+		echo "<frameset rows=\"65,*,34,65,1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	}
 	?>
-	<frameset rows="65,*,<?php echo $frame_size_eingabe; ?>,<?php echo $frame_size_interaktiv; ?>,1" border="0" frameborder="0" framespacing="0">
 		<frame src="navigation.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
 			<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
 			<frame src="user.php?id=<?php echo $hash_id; ?>" name="userliste" marginwidth="4" marginheight="0">
 		</frameset>
 		<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
 		<?php
 		if ($u_level == "M") {
 			?>
-			<frameset cols="*,220" border="0" frameborder="0" framespacing="0">
-				<frame src="moderator.php?id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
-				<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
-			</frameset>
-			<?php
-		} else {
-			?>
-			<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+			<frame src="moderator.php?id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
 			<?php
 		}
 		?>

@@ -118,7 +118,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					// Überschrift: Private Nachricht
 					$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_private_nachricht'], "", "", 0, "70", "");
 					
-					$value = "<form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
+					$value = "<form>";
 					
 					// Eingabeformular für private Nachricht ausgeben
 					$value .= $f1;
@@ -131,14 +131,10 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
 					}
 					
-					$value .= "<input name=\"text2\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
-						. "<input name=\"text\" value=\"\" type=\"hidden\">"
+					$value .= "<input name=\"text\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
 						. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 						. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
-						. "<input type=\"submit\" value=\"Go!\">" . $f2
-						. "\n<script language=\"JavaScript\">\n\n"
-						. "document.forms['form'].elements['text2'].focus();\n"
-						. "\n</script>\n\n\n";
+						. "<input type=\"submit\" value=\"Go!\">" . $f2;
 					$value .= "</form>";
 					
 					// Private Nachricht
@@ -400,6 +396,25 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				// Box anzeigen
 				zeige_tabelle_zentriert($box, $text);
+				
+				?>
+				<span id="out"></span>
+				<script>
+				document.querySelector('form').addEventListener('submit', event => {
+					event.preventDefault();
+					fetch('schreibe.php', {
+						method: 'post',
+						body: new FormData(document.querySelector('form'))
+					}).then(res => {
+						return res.text();
+						}).then(res => {
+							//console.log(res);
+							document.querySelector('input[name="text"]').value = '';
+							document.getElementById('out').innerHTML = res;
+						});
+				})
+				</script>
+				<?php
 				
 				// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
 				mysqli_free_result($result);

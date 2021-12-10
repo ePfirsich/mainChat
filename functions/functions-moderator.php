@@ -55,7 +55,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	$text .= "<br><input type=submit value=\"$t[mod1]\">";
 	$text .= "</form>";
 	
-	zeige_tabelle_zentriert($box,$text);
+	zeige_tabelle_volle_breite($box,$text);
 }
 
 function bearbeite_moderationstexte($o_raum)

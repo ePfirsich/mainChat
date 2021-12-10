@@ -693,10 +693,27 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 	?>
 	
 	<table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
-	
 		<tr>
 			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
+		<tr>
+			<td class="tabelle_koerper"><?php echo $f1 . $text . $f2; ?></td>
+		</tr>
+	</table>
+	<?php
+}
+
+function zeige_tabelle_zentriert_ohne_kopfzeile($text, $margin_top = false) {
+	// Gibt zentrierte Tabelle mit 99% Breiter und optionalem Abstand nach oben URL mit Kopf und Inhalt aus
+	global $f1, $f2;
+	
+	$css = "";
+	if ($margin_top) {
+		$css = "style=\"margin-top: 5px;\"";
+	}
+	?>
+	
+	<table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
 		<tr>
 			<td class="tabelle_koerper"><?php echo $f1 . $text . $f2; ?></td>
 		</tr>

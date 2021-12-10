@@ -82,13 +82,6 @@ function toggleFreunde(tostat) {
 			 e.checked=tostat;
 	}
 }
-function resetinput() {
-	document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-	document.forms['form'].elements['text2'].value='';
-	document.forms['form'].submit();
-	document.forms['form'].elements['text2'].focus();
-	document.forms['form'].elements['text2'].select();
-}
 </script>
 <?php
 zeige_header_ende();

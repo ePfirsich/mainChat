@@ -1,9 +1,12 @@
 <?php
-
-// eingabe.php muss mit id=$hash_id aufgerufen werden
-
 require_once("functions/functions.php");
+require_once("functions/functions-schreibe.php");
 require_once("languages/$sprache-chat.php");
+
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+if( $id == '') {
+	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
+}
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);
@@ -17,48 +20,51 @@ if( !isset($u_id) || $u_id == "") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chateingabe', '', $benutzerdaten['u_layout_farbe']);
-?>
-	<script>
-	function resetinput() {
-		document.forms['form'].elements['text'].value=document.forms['form'].elements['text2'].value;
-		document.forms['form'].elements['text2'].value='';
-		document.forms['form'].submit();
-		document.forms['form'].elements['text2'].focus();
-		document.forms['form'].elements['text2'].select();
-	}
-	</script>
-<?php
+zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 zeige_header_ende();
 ?>
 <body>
 <?php
 // Eingabeformular mit Menu und Farbauswahl
 reset($farbe_chat_user);
-$i = 0;
-echo "<div style=\"margin-top: 3px;\"><form name=\"form\" method=\"post\" target=\"schreibe\" action=\"schreibe.php\" onSubmit=\"resetinput(); return false;\">";
 
 // Typ Eingabefeld für Chateingabe setzen
 if ($u_level == "M") {
-	$text2_typ = "<textarea rows=\"3\" name=\"text2\" autofocus autocomplete=\"off\" cols=\"" . $chat_eingabe_breite . "\"></textarea>";
+	$text_typ = "<textarea rows=\"3\" name=\"text\" autofocus autocomplete=\"off\" cols=\"" . $chat_eingabe_breite . "\"></textarea>\n";
 } else {
-	$text2_typ = "<input type=\"text\" name=\"text2\" autofocus autocomplete=\"off\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" size=\"" . $chat_eingabe_breite . "\">";
+	$text_typ = "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" size=\"" . $chat_eingabe_breite . "\">\n";
 }
-
+$text = "<form>";
+$text .= $text_typ;
 // Unterscheidung Normal oder sicherer Modus
 if ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") {
-	echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">"
-		. "<select name=\"user_chat_back\">\n";
-	for ($i = 5; $i < 40; $i++) {
-		echo "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i&nbsp;$t[eingabe1]\n";
+	$text .= "<select name=\"user_chat_back\">\n";
+	for ($i = 10; $i <= 40; $i++) {
+		$text .= "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i $t[eingabe1]\n";
 	}
-	echo "</select>";
-} else {
-	echo $text2_typ . "<input name=\"text\" value=\"\" type=\"hidden\">";
+	$text .= "</select>\n";
 }
-echo "<input name=\"id\" value=\"$id\" type=\"hidden\">";
+$text .= "<input name=\"id\" value=\"$id\" type=\"hidden\">\n";
+$text .= "<button type=\"submit\">Go!</button>";
+$text .= "</form>";
+
+zeige_tabelle_zentriert_ohne_kopfzeile($text, true);
 ?>
-</form>
-</div>
+<span id="out"></span>
+<script>
+	document.querySelector('form').addEventListener('submit', event => {
+		event.preventDefault();
+		fetch('schreibe.php', {
+			method: 'post',
+			body: new FormData(document.querySelector('form'))
+		}).then(res => {
+			return res.text();
+		}).then(res => {
+			//console.log(res);
+			document.querySelector('input[name="text"]').value = '';
+			document.getElementById('out').innerHTML = res;
+		});
+	})
+</script>
 </body>
 </html>
