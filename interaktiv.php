@@ -17,7 +17,9 @@ $title = $body_titel;
 zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
 $meta_refresh = "";
 
-//$meta_refresh .= '<meta http-equiv="refresh" content="10; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+// Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sie sich in anderen Räumen einloggen
+$meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
+
 $meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n</script>\n";
 zeige_header_ende($meta_refresh);
 ?>
