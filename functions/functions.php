@@ -435,7 +435,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 				$chat_back = $u_zeilen;
 			}
 			
-			// ChatAdmin oder Superuser oder moderator?
+			// ChatAdmin oder Superuser oder Moderator?
 			if ($u_level == "S" || $u_level == "C" || ($moderationsmodul == 1 && $u_level == "M" && isset($r_status1) && strtolower($r_status1) == "m")) {
 				$admin = 1;
 			} else {

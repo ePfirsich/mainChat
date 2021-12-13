@@ -27,7 +27,14 @@ if ($u_level == "S" || $u_level == "C") {
 	$forum_admin = FALSE;
 }
 
-kopf_forum($forum_admin);
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
+$title = $body_titel;
+zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
+zeige_header_ende();
+
+echo "<body>\n";
 
 switch ($aktion) {
 	// Suche
@@ -406,5 +413,6 @@ switch ($aktion) {
 		zeige_tabelle_zentriert($box, $text);
 		break;
 }
-fuss_forum();
 ?>
+</body>
+</html>

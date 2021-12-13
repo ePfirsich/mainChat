@@ -31,9 +31,9 @@ $text .= "</tr>\n";
 while ($i < $anzahl) {
 	// Farben umschalten
 	if (($i % 2) > 0) {
-		$bgcolor = 'class="tabelle_zeile1 smaller"';
+		$bgcolor = 'class="tabelle_zeile1"';
 	} else {
-		$bgcolor = 'class="tabelle_zeile2 smaller"';
+		$bgcolor = 'class="tabelle_zeile2"';
 	}
 	
 	$spname = key($spruchliste);

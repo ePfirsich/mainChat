@@ -1,32 +1,4 @@
 <?php
-
-//Kopf fuer das Forum
-function kopf_forum($forum_admin) {
-	global $id, $u_id, $u_nick, $menue;
-	global $chat, $body_titel;
-	global $aktion;
-	global $t;
-	
-	// Hole alle benötigten Einstellungen des Benutzers
-	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
-
-	$title = $body_titel;
-	zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
-	zeige_header_ende();
-	
-	echo "<body>\n";
-}
-
-//Fuss für das Forum
-function fuss_forum() {
-	?>
-	<br>
-	<br>
-	</body>
-	</html>
-	<?php
-}
-
 //Zeigt fehlende Eingaben an
 function show_missing($missing) {
 	global $farbe_hervorhebung_forum;
@@ -1170,10 +1142,10 @@ function show_posting() {
 		$text .= "$ava <br>\n";
 		$text .= $userdetails . $besonderer_status;
 		$text .= "</td>\n";
-		$text .= "<td class=\"tabelle_kopfzeile smaller\">$t[geschrieben_am]$po_date</td>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]$po_date</td>\n";
 		$text .= "</tr>\n";
 		$text .= "<tr>\n";
-		$text .= "<td class=\"tabelle_zeile1 smaller\">$po_text</td>\n";
+		$text .= "<td class=\"tabelle_zeile1\">$po_text</td>\n";
 		$text .= "</tr>\n";
 		
 		$text .= "<tr>\n";

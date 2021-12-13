@@ -16,8 +16,9 @@ switch ($aktion) {
 	
 	case "neu":
 	// Formular für neue E-Mail ausgeben
-		if (!isset($neue_email))
+		if (!isset($neue_email)) {
 			$neue_email = array();
+		}
 		formular_neue_email($neue_email);
 		break;
 	
@@ -26,8 +27,9 @@ switch ($aktion) {
 		$neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
 		$neue_email['an_nick'] = mysqli_real_escape_string($mysqli_link, coreCheckName($neue_email['an_nick'], $check_name));
 		
-		if (!isset($m_id))
+		if (!isset($m_id)) {
 			$m_id = "";
+		}
 		
 		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
 		$result = mysqli_query($mysqli_link, $query);

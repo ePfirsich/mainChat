@@ -307,7 +307,6 @@ function zeige_aktionen($aktion) {
 		$text .= "<tr><td></td>";
 		
 		$i = 0;
-		$bgcolor = 'class="tabelle_zeile1 smaller"';
 		
 		// Alle möglichen a_wann in Array lesen
 		$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
@@ -359,6 +358,11 @@ function zeige_aktionen($aktion) {
 		// Tabelle zeilenweise ausgeben
 		$i = 0;
 		foreach ($def_was as $def_was_eintrag) {
+			if (($i % 2) > 0) {
+				$bgcolor = 'class="tabelle_zeile1"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile2"';
+			}
 			
 			$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $def_was_eintrag . "</td>\n";
 			foreach ($a_wann as $a_wann_eintrag) {
@@ -386,11 +390,6 @@ function zeige_aktionen($aktion) {
 			}
 			$text .= "</tr>\n";
 			
-			if (($i % 2) > 0) {
-				$bgcolor = 'class="tabelle_zeile1 smaller"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile2 smaller"';
-			}
 			$i++;
 		}
 		

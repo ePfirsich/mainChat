@@ -23,7 +23,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	}
 	$text = '';
 	
-	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=POST>\n"
+	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";

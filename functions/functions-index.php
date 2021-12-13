@@ -1,12 +1,9 @@
 <?php
-
 // Funktionen nur für index.php
-
 require_once("functions/functions-func-nachricht.php");
 
 function erzeuge_sequence($db, $id) {
-	//  Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
-	
+	// Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
 	global $mysqli_link;
 	
 	$query = "select se_nextid from sequence where se_name='$db'";
@@ -45,7 +42,6 @@ function erzeuge_sequence($db, $id) {
 function show_who_is_online($result) {
 	// Funktion gibt Liste der Räume mit Benutzern aus
 	// $result ist gültiges Ergebnis einer Query, die o_userdata* und r_name enthalten muss
-	
 	global $t, $whotext;
 	
 	$text = "";
@@ -422,7 +418,6 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 		$query4711 = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum) . " AND s_user=$u_id";
 		$result = mysqli_query($mysqli_link, $query4711);
 		if ($result > 0) {
-			
 			$rows = mysqli_num_rows($result);
 			if (($rows != 0) || ($r_min_punkte > $u_punkte_gesamt)) {
 				// Aktueller Raum ist gesperrt, oder zu wenige Punkte
@@ -445,10 +440,8 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 		}
 	}
 	
-	// print $raum;
 	// Welchen Raum betreten?
 	if (strlen($raum) == 0) {
-		
 		// Id des Eintrittsraums als Voreinstellung ermitteln
 		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_name='$eintrittsraum' ";
 		$result = mysqli_query($mysqli_link, $query4711);
@@ -464,22 +457,24 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 		}
 		// lobby  nicht gefunden? --> lobby anlegen.
 		if ($rows == 0) {
-			// lobby neu anlegen.
+			// Lobby neu anlegen
 			$query4711 = "INSERT INTO raum " . "(r_id,r_name,r_eintritt,r_austritt,r_status1,r_besitzer,r_topic,r_status2,r_smilie) " . "VALUES (0,'$lobby','Willkommen','','O',1,'Eingangshalle','P','')";
 			$result = mysqli_query($mysqli_link, $query4711);
 			// neu lesen.
 			$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_name='$lobby' ";
 			$result = mysqli_query($mysqli_link, $query4711);
-			if ($result)
+			if ($result) {
 				$rows = mysqli_num_rows($result);
+			}
 		}
 		
 	} else {
 		// Gewählten Raum ermitteln
 		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_id=$raum ";
 		$result = mysqli_query($mysqli_link, $query4711);
-		if ($result)
+		if ($result) {
 			$rows = mysqli_num_rows($result);
+		}
 	}
 	
 	if ($result && $rows == 1) {
@@ -518,8 +513,9 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 		unset($txt);
 	}
 	
-	if ($raum_eintrittsnachricht_kurzform == "1")
+	if ($raum_eintrittsnachricht_kurzform == "1") {
 		unset($txt);
+	}
 	
 	if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 	} else if (strlen($r_eintritt) > 0) {
@@ -537,7 +533,6 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	}
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
-	
 	if ($u_level != "G") {
 		aktion($u_id, "Login", $u_id, $u_nick, $hash_id);
 	}
@@ -580,13 +575,11 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	return ($back);
 }
 
-function id_erzeuge($u_id)
-{
+function id_erzeuge($u_id) {
 	// Erzeugt eindeutige ID für jeden Benutzer
 	
 	$id = md5(uniqid(mt_rand()));
 	return $id;
-	
 }
 
 function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
@@ -641,33 +634,6 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	}
 	mysqli_free_result($result);
 	
-}
-
-function zeige_willkomensnachricht() {
-	// Zeigt die Willkommensnachricht auf der Eingangsseite aus
-	global $layout_kopf, $t;
-	
-	$text = "";
-	
-	if (isset($layout_kopf) && $layout_kopf != "") {
-		// Eigenen Text anzeigen
-		$text .= $layout_kopf;
-	} else {
-		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-		$text .= "<h2>".$t['willkommen']."</h2><br>";
-	}
-	
-	return $text;
-}
-
-function zeige_fuss() {
-	// Gibt den HTML-Fuss auf der Eingangsseite aus
-	global $mainchat_version, $t;
-	?>
-	<div align="center"  class="smaller"><?php echo $mainchat_version; ?>
-	<br><br>
-	<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
-	<?php
 }
 
 function RaumNameToRaumID($eintrittsraum) {
@@ -921,8 +887,14 @@ function zeige_chat_login() {
 	$raeume .= "</select>";
 	mysqli_free_result($result);
 	
-	// Willkommenstext anzeigen
-	$text = zeige_willkomensnachricht();
+	// Zeigt die Willkommensnachricht auf der Eingangsseite aus
+	if (isset($layout_kopf) && $layout_kopf != "") {
+		// Eigenen Text anzeigen
+		$text = $layout_kopf;
+	} else {
+		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
+		$text.= "<h2>".$t['willkommen']."</h2><br>";
+	}
 	
 	// Benutzerlogin
 	$zaehler = 0;

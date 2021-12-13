@@ -284,23 +284,30 @@ switch ($aktion) {
 	case "neu":
 	// Werte von [SPERREN] aus Benutzerliste übernehmen, falls vorhanden...
 		$text = '';
-		if (isset($hname))
+		if (isset($hname)) {
 			$f['is_domain'] = $hname;
-		elseif (isset($ipaddr))
+		} else if (isset($ipaddr)) {
 			list($ip1, $ip2, $ip3, $ip4) = preg_split("/\./", $ipaddr, 4);
-		if (isset($uname))
+		}
+		if (isset($uname)) {
 			$f['is_infotext'] = "Benutzername " . $uname;
+		}
 		
-		if (!isset($f['is_domain']))
+		if (!isset($f['is_domain'])) {
 			$f['is_domain'] = "";
-		if (!isset($ip1))
+		}
+		if (!isset($ip1)) {
 			$ip1 = "";
-		if (!isset($ip2))
+		}
+		if (!isset($ip2)) {
 			$ip2 = "";
-		if (!isset($ip3))
+		}
+		if (!isset($ip3)) {
 			$ip3 = "";
-		if (!isset($ip4))
+		}
+		if (!isset($ip4)) {
 			$ip4 = "";
+		}
 		
 		// Sperre neu anlegen, Eingabeformular
 		$box = $t['sonst14'];

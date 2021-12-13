@@ -375,7 +375,10 @@ switch ($aktion) {
 		
 		require_once('templates/login.php');
 }
-zeige_fuss();
+
 ?>
+<div align="center" class="smaller"><?php echo $mainchat_version; ?>
+<br><br>
+<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
 </body>
 </html>
