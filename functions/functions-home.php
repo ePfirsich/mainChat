@@ -2,7 +2,7 @@
 
 function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t;
+	global $mysqli_link, $id, $userdata, $t, $level, $t;
 	
 	$text = "";
 	
@@ -43,7 +43,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 		
 		// Benutzername
 		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_benutzername]:$f2</td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_benutzername]:</td>\n";
 		$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
 		$text .= "</tr>\n";
 		
@@ -51,18 +51,18 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 		$text .= "<tr>\n";
 		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
 			$text .= "<td>&nbsp;</td>";
-			$text .= "<td style=\"vertical-align:top;\"><b>"
-				. $f1 . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . $f2 . "</b></td>\n";
+			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>"
+				. str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']) . "</b></td>\n";
 		} else {
 			$text .= "<td>&nbsp;</td>";
-			$text .= "<td style=\"vertical-align:top;\"><b>" . $f1 . str_replace("%login%", $letzter_login, $t['chat_msg94']) . $f2 . "</b></td>\n";
+			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>" . str_replace("%login%", $letzter_login, $t['chat_msg94']) . "</b></td>\n";
 		}
 		$text .= "</tr>\n";
 		
 		// Level
 		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_level]:$f2</td>\n";
-		$text .= "<td><b>" . $f1 . $level[$userdata['u_level']] . $f2 . "</b></td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_level]:</td>\n";
+		$text .= "<td class=\"smaller\"><b>" . $level[$userdata['u_level']] . "</b></td>\n";
 		$text .= "</tr>\n";
 		
 		// Punkte
@@ -74,9 +74,9 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 				$userdata['u_punkte_jahr'] = 0;
 			}
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">" . $f1 . $t['benutzer_punkte'] . ":" . $f2 . "</td>\n";
-			$text .= "<td><b>" . $f1 . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
-				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['benutzer_punkte_anzeige'])) . $f2 . "</b></td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">" . $t['benutzer_punkte'] . ":" . "</td>\n";
+			$text .= "<td class=\"smaller\"><b>" . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
+				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $t['benutzer_punkte_anzeige'])) . "</b></td>\n";
 			$text .= "</tr>\n";
 		}
 		
@@ -92,113 +92,113 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 		// Wohnort
 		if( $home['ui_wohnort'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_wohnort]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_wohnort'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_wohnort]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_wohnort'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_geburt'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_geburt]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_geburt'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_geburt]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_geburt'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_geschlecht'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_geschlecht]:$f2</td>\n";
-			$text .= "<td>" . $f1 . zeige_profilinformationen_von_id("geschlecht", $home['ui_geschlecht']) . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_geschlecht]:</td>\n";
+			$text .= "<td class=\"smaller\">" . zeige_profilinformationen_von_id("geschlecht", $home['ui_geschlecht']) . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_beziehungsstatus'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_beziehungsstatus]:$f2</td>\n";
-			$text .= "<td>" . $f1 . zeige_profilinformationen_von_id("beziehungsstatus", $home['ui_beziehungsstatus']) . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_beziehungsstatus]:</td>\n";
+			$text .= "<td class=\"smaller\">" . zeige_profilinformationen_von_id("beziehungsstatus", $home['ui_beziehungsstatus']) . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_typ'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\"> $f1$t[profil_typ]:$f2</td>\n";
-			$text .= "<td>" . $f1 . zeige_profilinformationen_von_id("typ", $home['ui_typ']) . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\"> $t[profil_typ]:</td>\n";
+			$text .= "<td class=\"smaller\">" . zeige_profilinformationen_von_id("typ", $home['ui_typ']) . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_beruf'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_beruf]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_beruf'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_beruf]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_beruf'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsfilm'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsfilm]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsfilm'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsfilm]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsfilm'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsserie'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsserie]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsserie'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsserie]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsserie'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsbuch'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsbuch]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsbuch'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsbuch]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsbuch'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsschauspieler'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsschauspieler]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsschauspieler'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsschauspieler]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsschauspieler'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsgetraenk'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsgetraenk]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsgetraenk'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsgetraenk]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsgetraenk'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsgericht'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsgericht]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsgericht'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsgericht]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsgericht'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsspiel'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsspiel]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsspiel'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsspiel]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsspiel'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_lieblingsfarbe'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_lieblingsfarbe]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_lieblingsfarbe'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_lieblingsfarbe]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_lieblingsfarbe'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_hobby'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_hobby]:$f2</td>\n";
-			$text .= "<td>" . $f1 . $home['ui_hobby'] . $f2 . "</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_hobby]:</td>\n";
+			$text .= "<td class=\"smaller\">" . $home['ui_hobby'] . "</td>";
 			$text .= "</tr>\n";
 		}
 		
 		if( $home['ui_homepage'] != "" ) {
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\">$f1$t[profil_webseite]:$f2</td>\n";
-			$text .= "<td>$f1<a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" rel=\"nofollow\" target=\"_blank\">" . $home['ui_homepage'] . "</a>$f2</td>";
+			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$t[profil_webseite]:</td>\n";
+			$text .= "<td class=\"smaller\"><a href=\"redirect.php?url=" . urlencode($home['ui_homepage']) . "\" rel=\"nofollow\" target=\"_blank\">" . $home['ui_homepage'] . "</a></td>";
 			$text .= "</tr>\n";
 		}
 	}
@@ -255,14 +255,9 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	return $text;
 }
 
-function home_bild(
-	$u_id,
-	$u_nick,
-	$home,
-	$feld,
-	$bilder) {
+function home_bild($u_id, $u_nick, $home, $feld, $bilder) {
 	
-	global $f3, $f4, $id, $t;
+	global $id, $t;
 	
 	$text = "";
 	$text .= "<tr>\n";

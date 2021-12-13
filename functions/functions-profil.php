@@ -5,7 +5,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=Benutzer-ID
 	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
-	global $mysqli_link, $t, $id, $f1, $f2;
+	global $mysqli_link, $t, $id;
 	
 	// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
@@ -316,16 +316,18 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_homepage'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);
 	$zaehler++;
 	
+	
+	// Speichern oder zurücksetzen
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
 	} else {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
-	
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
 	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
+	
 
 	$text .= "</table>\n";
 	$text .= "</form>\n";

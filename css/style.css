@@ -6,6 +6,10 @@ body {
 .fehlermeldung {
 	color: var(--Fehlermeldung-Farbe);
 }
+
+.smaller {
+	font-size: smaller;
+}
 /* Allgemeines - Ende ******************************************************************* */
 
 
@@ -141,26 +145,6 @@ body {
 	border-collapse:collapse;
 }
 /* Tabelle Gerüst2 - Ende ******************************************************************* */
-
-
-/* Tabellenkoerper Login - Anfang ******************************************************************* */
-.tabelle_koerper_login {
-	color: var(--Tabellenkoerper-Login-Textfarbe);
-	background-color: var(--Tabellenkoerper-Login-Hintergrundfarbe);
-	padding-left:2px;
-	padding-right:2px;
-}
-
-/* Linkfarbe */
-.tabelle_koerper_login a, .tabelle_koerper_login a:link, .tabelle_koerper_login a:visited {
-	color: var(--Tabellenkoerper-Login-Linkfarbe);
-	text-decoration:none;
-}
-.tabelle_koerper_login a:hover {
-	color: var(--Tabellenkoerper-Login-Linkfarbe);
-	text-decoration:none;
-}
-/* Tabellenkoerper Login - Ende ******************************************************************* */
 
 
 /* Tabellenzeile 1 - Anfang ******************************************************************* */

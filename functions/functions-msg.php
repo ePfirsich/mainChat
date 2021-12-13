@@ -394,9 +394,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					system_msg("", 0, $u_id, $system_farbe,
 						"Das Profil von <b>$nick[u_nick]</b> wurde zuletzt geändert von: ");
 					while (list($datum, $nick) = each($uu_profil_historie)) {
-						$zeile = $nick . "&nbsp;("
-							. str_replace(" ", "&nbsp;",
-								date("d.m.y H:i", $datum)) . ")" . $f4;
+						$zeile = $nick . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")";
 						system_msg("", 0, $u_id, $system_farbe, $zeile);
 					}
 				}

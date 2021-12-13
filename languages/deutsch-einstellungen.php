@@ -30,6 +30,9 @@ $t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'] = "Der Benutzername
 $t['einstellungen_fehler_benutzername_zeitsperre'] = "Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!<br>";
 $t['einstellungen_fehler_benutzername_gesperrt'] = "Der Benutzername '%u_nick%' ist im Chat gesperrt!<br>";
 $t['einstellungen_fehler_benutzername_belegt'] = "Der Benutzername '%u_nick%' ist leider schon belegt!<br>";
+$t['einstellungen_fehler_email_nicht_versendet'] = "Die E-Mail konnte nicht verschickt werden. Das Passwort wurde beibehalten!<br>";
+$t['einstellungen_fehler_email_leer'] = "Keine E-Mail Adresse hinterlegt!<br>";
+$t['einstellungen_fehler_aktion_nicht_erlaubt'] = "Fehler: Aktion nicht erlaubt!<br>";
 
 $t['einstellungen_fehler_level1'] = "Das Moderationsmodul ist derzeit deaktiviert.<br>";
 $t['einstellungen_fehler_level2'] = "Benutzer auf Level Gast darf auf keinen anderen Level gesetzt werden!<br>";

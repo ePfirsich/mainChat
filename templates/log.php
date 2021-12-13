@@ -42,10 +42,8 @@ if ($sysmsg) {
 
 // Link zum Abspeichern
 if ($aktion != "abspeichern") {
-	echo "<center>" . $f1
-	. "<b>[<a href=\"inhalt.php?seite=log&id=$id&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
-		. $t['sonst1'] . "</a>]</b>&nbsp;<b>[$umschalturl]</b>" . $f2
-		. "</center><br>\n";
+	echo "<div style=\"text-align:center;\" class=\"smaller\"><b>[<a href=\"inhalt.php?seite=log&id=$id&aktion=abspeichern&sysmsg=$sysmsg&back=$back\">"
+		. $t['sonst1'] . "</a>]&nbsp;[$umschalturl]</b></div><br>\n";
 	flush();
 }
 

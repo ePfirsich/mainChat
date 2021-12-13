@@ -85,9 +85,7 @@ if ($result && mysqli_num_rows($result) != 0) {
 }
 
 $text .= "<tr>\n";
-$text .= "<td>&nbsp;</td>\n";
-$text .= "<td>\n";
-$text .= $f1;
+$text .= "<td class=\"smaller\">\n";
 
 if ($anzahl_raum == 1) {
 	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv1']);
@@ -95,10 +93,9 @@ if ($anzahl_raum == 1) {
 	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv2']);
 }
 
-$text .= " " . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $txt) . $f2 . "</td>";
+$text .= " " . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $txt) . "</td>";
 
-$text .= "<td></td>\n";
-$text .= "<td>\n";
+$text .= "<td class=\"smaller\">\n";
 
 // Special: Bei nur einem Raum keine Auswahl
 $query = "SELECT COUNT(*) AS zahl FROM raum";
@@ -107,7 +104,7 @@ $a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $zahl = $a['zahl'];
 
 if ($zahl > 1) {
-	$text .= "$f3&nbsp;&nbsp;$t[interaktiv3]<br>&nbsp;<nobr>\n";
+	$text .= "$t[interaktiv3]<br>\n";
 	$text .= "<select name=\"r_id\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere Benutzer nur die offenen
@@ -120,7 +117,7 @@ if ($zahl > 1) {
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">\n";
 	$text .= "<input type=\"hidden\" name=\"neuer_raum\" value=\"1\">\n";
-	$text .= "<input type=\"submit\" name=\"raum_submit\" value=\"Go!\">&nbsp;</nobr>$f4</td>\n";
+	$text .= "<input type=\"submit\" name=\"raum_submit\" value=\"Go!\"></td>\n";
 }
 $text .= "</tr>\n";
 $text .= "</table>\n";

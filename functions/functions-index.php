@@ -662,11 +662,11 @@ function zeige_willkomensnachricht() {
 
 function zeige_fuss() {
 	// Gibt den HTML-Fuss auf der Eingangsseite aus
-	global $f3, $f4, $mainchat_version, $t;
+	global $mainchat_version, $t;
 	?>
-	<div align="center"><?php echo $f3 . $mainchat_version; ?>
+	<div align="center"  class="smaller"><?php echo $mainchat_version; ?>
 	<br><br>
-	<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a><?php echo $f4 ?></div>
+	<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
 	<?php
 }
 
@@ -857,7 +857,7 @@ function auth_user($login, $passwort) {
 }
 
 function zeige_chat_login() {
-	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $f1, $f2, $temp_gast_sperre;
+	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
@@ -895,7 +895,7 @@ function zeige_chat_login() {
 		die();
 	}
 
-	$raeume = $f1 . "<select name=\"eintritt\">";
+	$raeume = "<select name=\"eintritt\">";
 	
 	if ($forumfeatures) {
 		$raeume .= "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
@@ -918,7 +918,7 @@ function zeige_chat_login() {
 	if ($forumfeatures) {
 		$raeume .= "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 	}
-	$raeume .= "</select>" . $f2;
+	$raeume .= "</select>";
 	mysqli_free_result($result);
 	
 	// Willkommenstext anzeigen

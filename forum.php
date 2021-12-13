@@ -1,6 +1,7 @@
 <?php
 
 require_once("functions/functions.php");
+require_once("functions/functions-formulare.php");
 require_once("languages/$sprache-smilies.php");
 require_once("languages/$sprache-forum.php");
 
@@ -29,32 +30,49 @@ if ($u_level == "S" || $u_level == "C") {
 kopf_forum($forum_admin);
 
 switch ($aktion) {
-	
 	// Suche
 	case "suchergebnisse":
-		such_bereich();
+		// Suche anzeigen
+		$box = $chat."-Forum";
+		$text = such_bereich();
+		zeige_tabelle_zentriert($box, $text);
+		
 		echo '<br>';
 		flush();
 		such_ergebnis();
 		break;
 		
 	case "suche":
-		such_bereich();
+		// Suche anzeigen
+		$box = $chat."-Forum";
+		$text = such_bereich();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	//Aktionen, die das Forum betreffen
 	case "forum_neu":
-		maske_forum();
+		// Forum anzeigen
+		$box = $chat."-Forum";
+		$text = maske_forum();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_anlegen":
 		$missing = check_input("forum");
 		if (!$missing) {
 			schreibe_forum();
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			show_missing($missing);
-			maske_forum();
+			
+			// Forum anzeigen
+			$box = $chat."-Forum";
+			$text = maske_forum();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
@@ -62,41 +80,71 @@ switch ($aktion) {
 		$missing = check_input("forum");
 		if (!$missing) {
 			aendere_forum();
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			show_missing($missing);
-			maske_forum($fo_id);
+			
+			// Forum anzeigen
+			$box = $chat."-Forum";
+			$text = maske_forum($fo_id);
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
 	case "forum_up":
 		forum_up($fo_id, $fo_order);
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_down":
 		forum_down($fo_id, $fo_order);
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_edit":
-		maske_forum($fo_id);
+		// Forum anzeigen
+		$box = $chat."-Forum";
+		$text = maske_forum($fo_id);
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_delete":
 		if ($forum_admin) {
 			loesche_forum($fo_id);
 		}
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	//Aktionen, die ein Thema betreffen
 	case "thema_neu":
 		if ($u_level != "G") {
-			maske_thema();
+			// Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_thema();
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo "<p>" . $t[forum_gast] . "</p>";
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
@@ -104,69 +152,118 @@ switch ($aktion) {
 		$missing = check_input("thema");
 		if (!$missing) {
 			schreibe_thema();
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			show_missing($missing);
-			maske_thema();
+			
+			// Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_thema();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
 	case "thema_edit":
-		maske_thema($th_id);
+		// Thema erstellen
+		$box = $chat."-Forum";
+		$text = maske_thema($th_id);
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "thema_editieren":
 		$missing = check_input("thema");
 		if (!$missing) {
 			schreibe_thema($th_id);
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			show_missing($missing);
-			maske_thema($th_id);
+			
+			// Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_thema($th_id);
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
 	case "thema_up":
 		thema_up($th_id, $th_order, $fo_id);
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	case "thema_down":
 		thema_down($th_id, $th_order, $fo_id);
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "show_thema":
-		show_thema();
+		// Forum anzeigen
+		$box = $chat."-Forum";
+		$text = show_thema();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "thema_delete":
 		if ($forum_admin) {
 			loesche_thema($th_id);
 		}
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "thema_alles_gelesen":
 		thema_alles_gelesen($th_id, $u_id);
-		forum_liste();
+		
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	//Aktionen, die einen Beitrag betreffen
 	case "thread_neu":
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		
-		if ($schreibrechte)
-			maske_posting("neuer_thread");
-		else {
+		if ($schreibrechte) {
+			// Neues Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_posting("neuer_thread");
+			zeige_tabelle_zentriert($box, $text);
+		} else {
 			print $t[schreibrechte];
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
 	case "sperre_posting":
 		if ($forum_admin) {
 			sperre_posting($po_id);
-			show_posting();
+			
+			// Thema zeigen
+			$box = $chat."-Forum";
+			$text = show_posting();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
@@ -190,15 +287,27 @@ switch ($aktion) {
 						verbuche_punkte($u_id);
 					
 				}
-				//show_thema($th_id);
-				show_posting();
+				
+				// Thema zeigen
+				$box = $chat."-Forum";
+				$text = show_posting();
+				zeige_tabelle_zentriert($box, $text);
 			} else {
 				show_missing($missing);
-				maske_posting($mode);
+				
+				// Neues Thema erstellen
+				$box = $chat."-Forum";
+				$text = maske_posting($mode);
+				zeige_tabelle_zentriert($box, $text);
 			}
 		} else {
 			echo $t[schreibrechte];
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = "<a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_zur_uebersicht]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_zur_uebersicht]</span></a>\n";
+			$text .= forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	case "show_posting":
@@ -206,10 +315,14 @@ switch ($aktion) {
 		// $leserechte=pruefe_leserechte($th_id);
 	
 		// Richtig, die $th_id anhand der $po_id zu bestimmen und zu prüfen
-		$leserechte = pruefe_leserechte(
-			hole_themen_id_anhand_posting_id($po_id));
+		$leserechte = pruefe_leserechte(hole_themen_id_anhand_posting_id($po_id));
 		if ($leserechte) {
-			show_posting();
+			
+			// Thema zeigen
+			$box = $chat."-Forum";
+			$text = show_posting();
+			zeige_tabelle_zentriert($box, $text);
+			
 			markiere_als_gelesen($po_id, $u_id, $th_id);
 		} else {
 			print $t[leserechte];
@@ -218,33 +331,58 @@ switch ($aktion) {
 	case "reply":
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
-			maske_posting("reply");
+			// Neues Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_posting("reply");
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo $t[schreibrechte];
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	case "answer":
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
-			maske_posting("answer");
+			// Neues Thema erstellen
+			$box = $chat."-Forum";
+			$text = maske_posting("answer");
+			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo $t[schreibrechte];
-			forum_liste();
+			
+			// Forenübersicht anzeigen
+			$box = $chat."-Forum";
+			$text = forum_liste();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	case "edit":
-		maske_posting("edit");
+		// Neues Thema erstellen
+		$box = $chat."-Forum";
+		$text = maske_posting("edit");
+		zeige_tabelle_zentriert($box, $text);
+		
 		break;
 	case "delete_posting":
 		if ($forum_admin) {
 			loesche_posting();
 		}
-		show_thema();
+		
+		// Forum anzeigen
+		$box = $chat."-Forum";
+		$text = show_thema();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	case "verschiebe_posting":
 		if ($forum_admin) {
-			verschiebe_posting();
+			// Thema verschieben
+			$box = $chat."-Forum";
+			$text = verschiebe_posting();
+			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
@@ -253,12 +391,19 @@ switch ($aktion) {
 			verschiebe_posting_ausfuehren();
 		}
 		$th_id = $verschiebe_von;
-		show_thema();
+		
+		// Forum anzeigen
+		$box = $chat."-Forum";
+		$text = show_thema();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	//Default
 	default:
-		forum_liste();
+		// Forenübersicht anzeigen
+		$box = $chat."-Forum";
+		$text = forum_liste();
+		zeige_tabelle_zentriert($box, $text);
 		break;
 }
 fuss_forum();

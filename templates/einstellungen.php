@@ -150,7 +150,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$text = '';
 			$box = $t['einstellungen_interne_email_aendern'];
 	
-			$text .= $f1 . $t['einstellungen_interne_email_aendern_text1'] . "<br><br>" . $t['einstellungen_interne_email_aendern_text2'] . "\n" . $f2;
+			$text .= $t['einstellungen_interne_email_aendern_text1'] . "<br><br>" . $t['einstellungen_interne_email_aendern_text2'] . "\n";
 			$text .= "<form name=\"$u_nick\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
@@ -710,11 +710,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// Prüfung ob der Benutzer das überhaupt darf...
 				
 				if ($f['u_adminemail'] == "") {
-					echo $f1
-						. "<p><b>Fehler: Keine E-Mail Adresse hinterlegt!</b></p>"
-						. $f2;
+					$fehlermeldung .= $t['einstellungen_fehler_email_leer'];
+					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+					$fehlermeldung = "";
 				} else if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || $u_level == "S") {
-					
 					// E-Mail versenden
 					if($smtp_on) {
 						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
@@ -731,7 +730,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						$fehlermeldung = "";
 						schreibe_db("user", $f, $f['u_id'], "u_id");
 					} else {
-						$fehlermeldung .= "<p><b>Fehler: Die Mail konnte nicht verschickt werden. Das Passwort wurde beibehalten!</b></p>";
+						$fehlermeldung .= $t['einstellungen_fehler_email_nicht_versendet'];
 						zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 						$fehlermeldung = "";
 					}
@@ -749,7 +748,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						mysqli_free_result($result);
 					}
 				} else {
-					echo $f1 . "<p><b>Fehler: Aktion nicht erlaubt!</b></p>" . $f2;
+					$fehlermeldung .= $t['einstellungen_fehler_aktion_nicht_erlaubt'];
+					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+					$fehlermeldung = "";
 				}
 				
 			} else {

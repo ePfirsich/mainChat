@@ -73,36 +73,36 @@ $box = $t['navigation_menue1'];
 
 $text = "<center>";
 if($wo_online == "chat") {
-	$text .= "<a href=\"chat.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue2'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"inhalt.php?seite=raum&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_menue3'] . "</span></a>&nbsp;|&nbsp;";
+	$text .= "<a href=\"chat.php?id=$id\" target=\"chat\" title=\"" . $t['navigation_menue2'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue2'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=raum&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue3'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_menue3'] . "</span></a>&nbsp;|&nbsp;";
 }
-$text .= "<a href=\"inhalt.php?seite=benutzer&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['navigation_menue4'] . "</span></a>&nbsp;";
+$text .= "<a href=\"inhalt.php?seite=benutzer&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue4'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['navigation_menue4'] . "</span></a>&nbsp;";
 if ($u_level != 'G') {
-	$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['navigation_menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=nachrichten&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue5'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['navigation_menue5'] . $neue_nachrichten . "</span></a>&nbsp;";
 }
 if($wo_online == "forum") {
-	$text .= " | <a href=\"forum.php?id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue6'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"forum.php?id=$id\" target=\"chat\" title=\"" . $t['navigation_menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue6'] . "</span></a>&nbsp;";
 } else if ($wo_online == "chat" && $forumfeatures) {
-	$text .= " | <a href=\"index-forum.php?id=" . $id . "\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue6'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"index-forum.php?id=$id\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_menue6'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_menue6'] . "</span></a>&nbsp;";
 }
-$text .= " | <a href=\"inhalt.php?seite=einstellungen&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue7'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['navigation_menue7'] . "</span></a>&nbsp;";
-$text .= " | <a href=\"inhalt.php?seite=profil&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue9'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_menue9'] . "</span></a>&nbsp;";
+$text .= " | <a href=\"inhalt.php?seite=einstellungen&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue7'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['navigation_menue7'] . "</span></a>&nbsp;";
+$text .= " | <a href=\"inhalt.php?seite=profil&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue9'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_menue9'] . "</span></a>&nbsp;";
 if ($u_level != 'G') {
-	$text .= " | <a href=\"inhalt.php?seite=freunde&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue16'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['navigation_menue16'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=freunde&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue16'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['navigation_menue16'] . "</span></a>&nbsp;";
 }
 if ($admin) {
-	$text .= " | <a href=\"inhalt.php?seite=sperren&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue8'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['navigation_menue8'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"inhalt.php?seite=statistik&id=" . $id . "\"\" target=\"chat\" title=\"" . $t['navigation_menue10'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['navigation_menue10'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=sperren&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue8'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['navigation_menue8'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=statistik&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue10'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['navigation_menue10'] . "</span></a>&nbsp;";
 }
 
 if ($wo_online == "chat" && $u_level == "M") {
 		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['navigation_menue11'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['navigation_menue11'] . "</span></a>&nbsp;";
 }
 if ($wo_online == "chat") {
-	$text .= " | <a href=\"inhalt.php?seite=log&id=" . $id . "&back=500\" target=\"_blank\" title=\"" . $t['navigation_menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_menue12'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?seite=log&id=$id&back=500\" target=\"_blank\" title=\"" . $t['navigation_menue12'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_menue12'] . "</span></a>&nbsp;";
 }
-$text .= " | <a href=\"inhalt.php?seite=hilfe&id=" . $id . "\" target=\"chat\" title=\"" . $t['navigation_menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_menue14'] . "</span></a>&nbsp;";
-$text .= " | <a href=\"index.php?id=" . $id . "&aktion=logoff\" target=\"_top\" title=\"" . $t['navigation_menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_menue15'] . "</span></a>";
+$text .= " | <a href=\"inhalt.php?seite=hilfe&id=$id\" target=\"chat\" title=\"" . $t['navigation_menue14'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_menue14'] . "</span></a>&nbsp;";
+$text .= " | <a href=\"index.php?id=$id&aktion=logoff\" target=\"_top\" title=\"" . $t['navigation_menue15'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_menue15'] . "</span></a>";
 
 $text .= "</center>";
 
@@ -111,7 +111,7 @@ zeige_tabelle_zentriert($box, $text, true);
 // Die direkte Raumauswahl wird nur im Forum angezeigt
 if($wo_online == "forum") {
 	// Chat und Raumauswahl anzeigen
-	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<center><table style=\"margin-top: 7px;\">\n";
+	echo "<form action=\"" . "index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<div style=\"margin-top: 7px; text-align:center;\" class=\"smaller\">\n";
 	
 	// Anzahl der Benutzer insgesamt feststellen
 	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
@@ -121,12 +121,10 @@ if($wo_online == "forum") {
 		mysqli_free_result($result);
 	}
 	
-	echo "<tr><td style=\"text-align:center;\">";
-	
 	if($anzahl_gesamt == 1) {
-		echo $f1 . $t['forum_interaktiv_einzahl'] . $f2 . "&nbsp;";
+		echo $t['forum_interaktiv_einzahl'] . "&nbsp;";
 	} else {
-		echo $f1 . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_mehrzahl']) . $f2 . "&nbsp;";
+		echo str_replace("%anzahl_gesamt%", $anzahl_gesamt, $t['forum_interaktiv_mehrzahl']) . "&nbsp;";
 	}
 	
 	// Falls eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
@@ -142,7 +140,7 @@ if($wo_online == "forum") {
 		$lobby_id = 1;
 	}
 	
-	echo $f3 . "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
+	echo "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere Benutzer nur die offenen
 	if ($admin) {
@@ -151,12 +149,14 @@ if($wo_online == "forum") {
 		echo raeume_auswahl($lobby_id, FALSE, TRUE);
 	}
 	
-	echo "</select>";
+	echo "</select>\n";
 	
-	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">"
-		. "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">";
-	echo " <input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">&nbsp;</nobr><br>" . $f4 . "</td></tr></table></center></form>\n";
+	echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	echo "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">\n";
+	echo "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">\n";
+	echo "<input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">&nbsp;</nobr>\n";
+	echo "</div>\n";
+	echo "</form>\n";
 }
 ?>
 </body>

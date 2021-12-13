@@ -668,7 +668,6 @@ function zerlege($daten) {
 
 function zeige_tabelle_volle_breite($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
-	global $f1, $f2;
 	?>
 	
 	<table class="tabelle_kopf">
@@ -676,7 +675,7 @@ function zeige_tabelle_volle_breite($box, $text) {
 			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
 		<tr>
-			<td class="tabelle_koerper"><?php echo  $f1 . $text . $f2; ?></td>
+			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -684,7 +683,6 @@ function zeige_tabelle_volle_breite($box, $text) {
 
 function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 	// Gibt zentrierte Tabelle mit 99% Breiter und optionalem Abstand nach oben URL mit Kopf und Inhalt aus
-	global $f1, $f2;
 	
 	$css = "";
 	if ($margin_top) {
@@ -697,7 +695,7 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
 		<tr>
-			<td class="tabelle_koerper"><?php echo $f1 . $text . $f2; ?></td>
+			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -705,7 +703,6 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false) {
 
 function zeige_tabelle_zentriert_ohne_kopfzeile($text, $margin_top = false) {
 	// Gibt zentrierte Tabelle mit 99% Breiter und optionalem Abstand nach oben URL mit Kopf und Inhalt aus
-	global $f1, $f2;
 	
 	$css = "";
 	if ($margin_top) {
@@ -715,7 +712,7 @@ function zeige_tabelle_zentriert_ohne_kopfzeile($text, $margin_top = false) {
 	
 	<table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
 		<tr>
-			<td class="tabelle_koerper"><?php echo $f1 . $text . $f2; ?></td>
+			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
 		</tr>
 	</table>
 	<?php
@@ -828,7 +825,7 @@ function debug($text = "", $rundung = 3) {
 }
 
 function zeige_smilies($anzeigeort, $benutzerdaten) {
-	global $t, $f1, $f2, $smilie, $smilietxt;
+	global $t, $smilie, $smilietxt;
 	
 	$text = "";
 	if( $anzeigeort == 'chat' ) { // Chatausgabe
@@ -845,7 +842,7 @@ function zeige_smilies($anzeigeort, $benutzerdaten) {
 			$text .= "<td $farbe_tabelle style=\"text-align:center;\">";
 			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
 			$text .= "</td>";
-			$text .= "<td $farbe_tabelle>" . $f1 . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . $f2 . "</td>";
+			$text .= "<td $farbe_tabelle><span class=\"smaller\">" . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . "</span></td>";
 			$text .= "</tr>\n";
 			$zahl++;
 		}
@@ -879,7 +876,7 @@ function zeige_userdetails(
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
 	global $id, $system_farbe, $mysqli_link, $t, $show_geschlecht;
-	global $f1, $f2, $leveltext, $punkte_grafik, $chat_grafik;
+	global $leveltext, $punkte_grafik, $chat_grafik;
 	
 	$text = "";
 	if ($mit_id) {
@@ -1063,7 +1060,7 @@ function zeige_userdetails(
 	}
 	
 	if ($text2 != "") {
-		$text .= $f1 . $text2 . $f2;
+		$text .= "<span class=\"smaller\">" . $text2 . "</span>";
 	}
 	
 	return ($fett1 . $text . $fett2);
@@ -1444,21 +1441,21 @@ function avatar_editieren_anzeigen(
 	$bilder,
 	$aktion = "") {
 	
-	global $f1, $f2, $f3, $f4, $id, $t;
+	global $id, $t;
 	
 	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
 		$width = $bilder[$feld]['b_width'];
 		$height = $bilder[$feld]['b_height'];
 		$mime = $bilder[$feld]['b_mime'];
 		
-		$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
+		$info = "<br>Info: " . $width . "x" . $height . " als " . $mime;
 		
 		if (!isset($info)) {
 			$info = "";
 		}
 		if ($aktion == "avatar_aendern") {
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= $f3 . "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4 . "<br><br></td>\n";
+			$text .= "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b><br><br></td>\n";
 		} else if ($aktion == "profil") {
 			if($width > 200) {
 				$width = 200;

@@ -2,7 +2,7 @@
 function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
-	global $id, $level, $f1, $f2, $f3, $f4;
+	global $id, $level;
 	global $farbe_chat_user, $user_farbe, $t;
 	global $u_id, $punktefeatures;
 	global $eintritt_individuell;
@@ -217,7 +217,7 @@ function user_edit($f, $admin, $u_level) {
 		
 		$text .= "<tr>\n";
 		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_level'] . "</td>";
-		$text .= "<td $bgcolor>" . $f1 . "<select name=\"u_level\">\n";
+		$text .= "<td $bgcolor><select name=\"u_level\">\n";
 		
 		// Liste der Gruppen ausgeben
 		reset($level);
@@ -243,7 +243,7 @@ function user_edit($f, $admin, $u_level) {
 			next($level);
 			$i++;
 		}
-		$text .= "</select>" . $f2 . "</td>\n";
+		$text .= "</select></td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 	}
@@ -282,7 +282,7 @@ function zeige_aktionen($aktion) {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $f1, $f2, $f3, $f4, $mysqli_link, $u_nick, $u_id, $def_was, $t;
+	global $id, $mysqli_link, $u_nick, $u_id, $def_was, $t;
 	global $forumfeatures;
 	
 	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";
@@ -307,7 +307,7 @@ function zeige_aktionen($aktion) {
 		$text .= "<tr><td></td>";
 		
 		$i = 0;
-		$bgcolor = 'class="tabelle_zeile1"';
+		$bgcolor = 'class="tabelle_zeile1 smaller"';
 		
 		// Alle möglichen a_wann in Array lesen
 		$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
@@ -352,7 +352,7 @@ function zeige_aktionen($aktion) {
 		
 		// Zeile der a_wann ausgeben
 		foreach ($a_wann as $a_wann_eintrag) {
-			$text .= "<td style=\"text-align:center;\"><b>" . $f1 . $a_wann_eintrag . $f2 . "</b></td>\n";
+			$text .= "<td style=\"text-align:center;\" class=\"smaller\"><b>" . $a_wann_eintrag . "</b></td>\n";
 		}
 		$text .= "</tr>\n";
 		
@@ -360,9 +360,9 @@ function zeige_aktionen($aktion) {
 		$i = 0;
 		foreach ($def_was as $def_was_eintrag) {
 			
-			$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $f1 . $def_was_eintrag . $f2 . "</td>\n";
+			$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $def_was_eintrag . "</td>\n";
 			foreach ($a_wann as $a_wann_eintrag) {
-				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $f3
+				$text .= "<td style=\"text-align:center;\" $bgcolor>"
 				. "<select name=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
 				
 				// Zwischen offline/online unterscheiden
@@ -381,22 +381,21 @@ function zeige_aktionen($aktion) {
 									. str_replace(",", " + ", $auswahl) . "\n";
 					}
 				}
-				$text .= "</select>" . $f4 . "</td>\n";
+				$text .= "</select></td>\n";
 				
 			}
 			$text .= "</tr>\n";
 			
 			if (($i % 2) > 0) {
-				$bgcolor = 'class="tabelle_zeile1"';
+				$bgcolor = 'class="tabelle_zeile1 smaller"';
 			} else {
-				$bgcolor = 'class="tabelle_zeile2"';
+				$bgcolor = 'class="tabelle_zeile2 smaller"';
 			}
 			$i++;
 		}
 		
 		$text .= "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
-		. $f1 . "<input type=\"submit\" name=\"los\" value=\"$button\">" . $f2
-		. "</td></tr>\n" . "</table></form>\n";
+		. "<input type=\"submit\" name=\"los\" value=\"$button\">" . "</td></tr>\n" . "</table></form>\n";
 		
 		// Box anzeigen
 		zeige_tabelle_zentriert($box, $text);

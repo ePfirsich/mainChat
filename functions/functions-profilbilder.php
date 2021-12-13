@@ -2,7 +2,7 @@
 
 function home_info($home) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $f1, $f2, $f3, $f4, $userdata, $t, $level, $t, $u_id, $u_nick;
+	global $mysqli_link, $id, $userdata, $t, $level, $t, $u_id, $u_nick;
 	
 	$text = "";
 	
@@ -70,7 +70,7 @@ function home_bild(
 	$feld,
 	$bilder) {
 	
-	global $u_id, $u_nick, $f3, $f4, $id, $t;
+	global $u_id, $u_nick, $id, $t;
 	
 	$text = "";
 	$text .= "<tr>\n";
@@ -82,11 +82,11 @@ function home_bild(
 		$height = $bilder[$feld]['b_height'];
 		$mime = $bilder[$feld]['b_mime'];
 		
-		$info = $f3 . "<br>Info: " . $width . "x" . $height . " als " . $mime . $f4;
+		$info = "<br>Info: " . $width . "x" . $height . " als " . $mime;
 		
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
-		$text .= "<br>" . $f3 . "<b>[<a href=\"inhalt.php?seite=profilbilder&id=$id&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>" . $f4;
+		$text .= "<br><b>[<a href=\"inhalt.php?seite=profilbilder&id=$id&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>";
 	} else {
 		
 		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";

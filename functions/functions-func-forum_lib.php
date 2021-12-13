@@ -481,36 +481,40 @@ function forum_down($fo_id, $fo_order) {
 
 //Komplettes Forum mit allen Themen und postings loeschen
 function loesche_forum($fo_id) {
-	global $mysqli_link;
+	global $mysqli_link, $t;
 	
-	if (!$fo_id)
+	if (!$fo_id) {
 		return;
+	}
 	
 	$fo_id = intval($fo_id);
 	
-	$sql = "select fo_name from forum where fo_id=$fo_id";
+	$sql = "SELECT fo_name FROM forum WHERE fo_id=$fo_id";
 	$query = mysqli_query($mysqli_link, $sql);
 	$fo_name = mysqli_result($query, 0, "fo_name");
 	mysqli_free_result($query);
 	
-	$sql = "select th_id from thema where th_fo_id=$fo_id";
+	$sql = "SELECT th_id FROM thema WHERE th_fo_id=$fo_id";
 	$query = mysqli_query($mysqli_link, $sql);
 	while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		
-		$delsql = "delete from posting where po_th_id=$thema[th_id]";
+		$delsql = "DELETE FROM posting WHERE po_th_id=$thema[th_id]";
 		mysqli_query($mysqli_link, $delsql);
 		
 	}
 	mysqli_free_result($query);
 	
-	$sql = "delete from thema where th_fo_id=$fo_id";
+	$sql = "DELETE FROM thema WHERE th_fo_id=$fo_id";
 	mysqli_query($mysqli_link, $sql);
 	
-	$sql = "delete from forum where fo_id=$fo_id";
+	$sql = "DELETE FROM forum WHERE fo_id=$fo_id";
 	mysqli_query($mysqli_link, $sql);
 	
-	echo "<b>Forum $fo_name komplett gelöscht!</b><br>";
+	$box = $t['erfolgsmeldung'];
+	$text = str_replace("%forum%", $fo_name, $t['forum_geloescht']);
 	
+	// Box anzeigen
+	zeige_tabelle_zentriert($box, $text);
 }
 
 //Thema in Datenbank schreiben
@@ -631,26 +635,30 @@ function thema_down($th_id, $th_order, $fo_id) {
 
 //Komplettes Thema mit allen Beiträgen loeschen
 function loesche_thema($th_id) {
-	global $mysqli_link;
+	global $mysqli_link, $t;
 	
-	if (!$th_id)
+	if (!$th_id) {
 		return;
+	}
 	
 	$th_id = intval($th_id);
 	
-	$sql = "select th_name from thema where th_id=$th_id";
+	$sql = "SELECT th_name FROM thema WHERE th_id=$th_id";
 	$query = mysqli_query($mysqli_link, $sql);
 	$th_name = @mysqli_result($query, 0, "th_name");
 	mysqli_free_result($query);
 	
-	$delsql = "delete from posting where po_th_id=$th_id";
+	$delsql = "DELETE FROM posting WHERE po_th_id=$th_id";
 	mysqli_query($mysqli_link, $delsql);
 	
-	$sql = "delete from thema where th_id=$th_id";
+	$sql = "DELETE FROM thema WHERE th_id=$th_id";
 	mysqli_query($mysqli_link, $sql);
 	
-	echo "<b>Thema $th_name komplett gelöscht!</b><br>";
+	$box = $t['erfolgsmeldung'];
+	$text =  str_replace("%kategorie%", $th_name, $t['kategorie_geloescht']);
 	
+	// Box anzeigen
+	zeige_tabelle_zentriert($box, $text);
 }
 
 //schreibt neuen/editierten Beitrag in die Datenbank

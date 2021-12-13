@@ -2,7 +2,7 @@
 
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $id, $f1, $f2, $mysqli_link;
+	global $id, $mysqli_link;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
@@ -32,8 +32,8 @@ function formular_neue_email($neue_email, $m_id = "") {
 	$neue_email['an_nick'] = "";
 	}
 	$text .= "<b>Benutzername:</b> "
-		. $f1 . "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" size=20>" . "&nbsp;"
-		. "<input type=\"submit\" name=\"los\" value=\"Weiter\">" . $f2;
+		. "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" size=20>" . "&nbsp;"
+		. "<input type=\"submit\" name=\"los\" value=\"Weiter\">";
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
@@ -42,7 +42,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	
-	global $id, $f1, $f2, $mysqli_link, $u_id, $t;
+	global $id, $mysqli_link, $u_id, $t;
 	
 	$eingabe_breite1 = 87;
 	$eingabe_breite2 = 75;
@@ -167,7 +167,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
 	
-	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
 	$eingabe_breite = 55;
 	
@@ -223,10 +223,10 @@ function zeige_mailbox($aktion, $zeilen) {
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
 				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggleMail(this.checked)\"></td>"
-				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $f1 . $t['status'] . $f2 . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['von'] . $f2 . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['betreff'] . $f2 . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $f1 . $t['datum'] . $f2 . "</td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $t['status'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['von'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['betreff'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['datum'] . "</td>"
 				."</tr>\n";
 				
 			
@@ -241,12 +241,12 @@ function zeige_mailbox($aktion, $zeilen) {
 					$url2 = "</a>";
 				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
-					$auf = "<b>" . $f1;
-					$zu = $f2 . "</b>";
+					$auf = "<b>";
+					$zu = "</b>";
 					$status = "<span class=\"fa fa-commenting icon24\" alt=\"Neue Nachrichten\" title=\"Neue Nachrichten\"></span>";
 				} else {
-					$auf = $f1;
-					$zu = $f2;
+					$auf = "";
+					$zu = "";
 					$status = "<span class=\"fa fa-commenting-o icon24\" alt=\"Keine neuen Nachrichten\" title=\"Keine neuen Nachrichten\"></span>";
 				}
 				
@@ -287,7 +287,7 @@ function zeige_mailbox($aktion, $zeilen) {
 function zeige_email($m_id, $art) {
 	// Zeigt die Mail im Detail an
 	
-	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $chat, $t;
 	
 	if($art == "gesendet") {
 		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
@@ -316,36 +316,33 @@ function zeige_email($m_id, $art) {
 		// Mail ausgeben
 		$text .= "<table style=\"width:100%;\">";
 		$text .= "<tr>"
-			."<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>" . $f1 . "Von" . $f2 . "</b></td>"
+			."<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>Von</b></td>"
 			."<td colspan=3 class=\"tabelle_zeile1\">" . $von_nick . "</td>"
 			."</tr>\n"
 			. "<tr>"
-			."<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>" . $f1 . "Am" . $f2 . "</b></td>"
-			."<td colspan=3 class=\"tabelle_zeile2\">" . $f1 . $row->zeit . $f2 . "</td>"
+			."<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>Am</b></td>"
+			."<td colspan=3 class=\"tabelle_zeile2 smaller\">" . $row->zeit . "</td>"
 			."</tr>\n"
-			. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td colspan=3 class=\"tabelle_zeile1\">"
-			. $f1 . str_replace("\n", "<br>\n", $row->m_text)
-			. $f2 . "</td></tr>\n";
+			. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td colspan=3 class=\"tabelle_zeile1\">" . str_replace("\n", "<br>\n", $row->m_text) . "</td></tr>\n";
 		
 		// Formular zur Löschen, Beantworten
 		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
-			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
+			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
-			. "<input type=\"SUBMIT\" name=\"los\" value=\"antworten\">" . $f2 . "</form></td>\n"
-				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
+			. "<input type=\"SUBMIT\" name=\"los\" value=\"antworten\">" . "</form></td>\n"
+				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
-			. "<input type=\"SUBMIT\" name=\"los\" value=\"weiterleiten\">" . $f2 . "</form></td>\n"
-				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">" . $f1
+			. "<input type=\"SUBMIT\" name=\"los\" value=\"weiterleiten\">" . "</form></td>\n"
+				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"".$t['loeschen']."\">" . $f2
+			. "<input type=\"submit\" name=\"los\" value=\"".$t['loeschen']."\">"
 			. "</form></td></tr>\n";
-		
 		$text .= "</table>\n";
 		
 		// Box anzeigen

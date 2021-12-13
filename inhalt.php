@@ -366,7 +366,7 @@ if(!$seite || $kein_seitenaufruf) {
 			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[freunde_menue3]</a>\n"
 			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[freunde_menue4]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[freunde_menue5]n</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[freunde_menue5]</a>\n";
 			}
 			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[freunde_menue6]</a>\n";
 			zeige_tabelle_zentriert($box, $text);

@@ -228,19 +228,17 @@ switch ($aktion) {
 				$text .= "<tr><td><b>$t[sonst19]</b></td>";
 				
 				// Infotext
-				$text .= "<td>" . $f1
-					. "<input type=\"text\" name=\"f[is_infotext]\" "
-					. "value=\"$row->is_infotext\" size=\"24\">" . $f2
+				$text .= "<td class=\"smaller\">"
+					. "<input type=\"text\" name=\"f[is_infotext]\" value=\"$row->is_infotext\" size=\"24\">"
 					. "</td></tr>\n";
 				
 				// Domain/IP-Adresse
 				if (strlen($row->is_domain) > 0) {
 					$text .= "<tr><td><b>$t[sonst11]</b></td>";
-					$text .= "<td>" . $f1
-						. "<input type=\"text\" name=\"f[is_domain]\" " . "value=\"$row->is_domain\" size=\"24\">\n";
+					$text .= "<td class=\"smaller\"><input type=\"text\" name=\"f[is_domain]\" " . "value=\"$row->is_domain\" size=\"24\">\n";
 				} else {
 					$text .= "<tr><td><b>$t[sonst12]</b></td>";
-					$text .= "<td>" . $f1
+					$text .= "<td class=\"smaller\">"
 						. "<input type=\"text\" name=\"ip1\" "
 						. "value=\"$ip[0]\" size=\"3\" maxlength=\"3\"><b>.</b>"
 						. "<input type=\"text\" name=\"ip2\" "
@@ -252,7 +250,7 @@ switch ($aktion) {
 				}
 				
 				// Warnung ja/nein
-				$text .= "<tr><td><b>$t[sonst22]</b></td><td>" . $f1
+				$text .= "<tr><td><b>$t[sonst22]</b></td><td class=\"smaller\">"
 					. "<select name=\"f[is_warn]\">";
 				if ($row->is_warn == "ja") {
 					$text .= "<option selected value=\"ja\">$t[sonst20]";
@@ -264,7 +262,7 @@ switch ($aktion) {
 				$text .= "</select>";
 				
 				// Submitknopf
-				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b>\n" . $f2 . "</td></tr>\n";
+				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b></td></tr>\n";
 				$text .= "</table>\n";
 				
 				$text .= "<input type=\"hidden\" name=\"f[is_id]\" value=\"$is_id\">\n"
@@ -310,27 +308,20 @@ switch ($aktion) {
 		$text .= "<form name=\"Sperre\" action=\"inhalt.php?seite=sperren\" method=\"post\">\n";
 		
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-		$text .= $f1 . $t['sonst15'] . $f2 . "<br>\n";
+		$text .= $t['sonst15'] . "<br>\n";
 		$text .= "<table>\n";
 		
 		$text .= "<tr><td><b>$t[sonst19]</b></td>";
-		$text .= "<td>" . $f1 . "<input type=\"text\" name=\"f[is_infotext]\" "
-			. "value=\"$f[is_infotext]\" size=\"24\">" . $f2 . "</td></tr>\n";
+		$text .= "<td class=\"smaller\"><input type=\"text\" name=\"f[is_infotext]\" value=\"$f[is_infotext]\" size=\"24\"></td></tr>\n";
 		$text .= "<tr><td><b>$t[sonst11]</b></td>";
-		$text .= "<td>" . $f1 . "<input type=\"text\" name=\"f[is_domain]\" "
-			. "value=\"$f[is_domain]\" size=\"24\">" . $f2 . "</td></tr>\n";
+		$text .= "<td class=\"smaller\"><input type=\"text\" name=\"f[is_domain]\" value=\"$f[is_domain]\" size=\"24\"></td></tr>\n";
 		$text .= "<tr><td><b>$t[sonst12]</b></td>";
-		$text .= "<td>" . $f1 . "<input type=\"text\" name=\"ip1\" "
-			. "value=\"$ip1\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip2\" "
-			. "value=\"$ip2\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip3\" "
-			. "value=\"$ip3\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip4\" "
-			. "value=\"$ip4\" size=\"3\" maxlength=\"3\">" . $f2 . "</td></tr>\n";
+		$text .= "<td class=\"smaller\"><input type=\"text\" name=\"ip1\" value=\"$ip1\" size=\"3\" maxlength=\"3\"><b>.</b>"
+			. "<input type=\"text\" name=\"ip2\" value=\"$ip2\" size=\"3\" maxlength=\"3\"><b>.</b>"
+			. "<input type=\"text\" name=\"ip3\" value=\"$ip3\" size=\"3\" maxlength=\"3\"><b>.</b>"
+			. "<input type=\"text\" name=\"ip4\" value=\"$ip4\" size=\"3\" maxlength=\"3\"></td></tr>\n";
 		
-			$text .= "<tr><td><b>$t[sonst22]</b></td><td>" . $f1
-			. "<select name=\"f[is_warn]\">";
+			$text .= "<tr><td><b>$t[sonst22]</b></td><td class=\"smaller\"><select name=\"f[is_warn]\">";
 		if (isset($f['is_warn']) && $f['is_warn'] == "ja") {
 			$text .= "<option selected value=\"ja\">$t[sonst20]";
 			$text .= "<option value=\"nein\">$t[sonst21]";
@@ -340,7 +331,7 @@ switch ($aktion) {
 		}
 		$text .= "</select>&nbsp;&nbsp;&nbsp;"
 			. "<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b>\n"
-			. $f2 . "</td></tr>\n";
+			. "</td></tr>\n";
 		$text .= "</table>\n";
 		
 		$text .= "</form>\n";

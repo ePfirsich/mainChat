@@ -57,9 +57,6 @@ function statsResetHours($zeit, $hours) {
 function statsPrintGraph($title, $text_l, $text_b) {
 	global $grapharray;
 	global $t;
-	global $STAT_BAR_HEIGHT;
-	global $f1;
-	global $f2;
 	$msg = "";
 	
 	if ((isset($grapharray)) && (count($grapharray) > 0)) {
@@ -87,7 +84,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		}
 		
 		if ($b > 0)
-			$h = ($STAT_BAR_HEIGHT / $b);
+			$h = (300 / $b);
 		else $h = 0;
 		
 		if ($u > 0)
@@ -106,7 +103,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		$msg .= "</tr>\n";
 		
 		$msg .= "<tr>\n";
-		$msg .= "<td class=\"tabelle_statistics_navigation\" style=\"width:20px;\">$f1<span style=\"font-weight:bold;\">";
+		$msg .= "<td class=\"tabelle_statistics_navigation smaller\" style=\"width:20px;\"><span style=\"font-weight:bold;\">";
 		
 		$t0 = 0;
 		$t1 = strlen($text_l);
@@ -117,7 +114,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$t0++;
 		}
 		
-		$msg .= "</span>$f2</td>\n";
+		$msg .= "</span></td>\n";
 		
 		while (list($i, $v) = each($grapharray)) {
 			if ($v > 0) {
@@ -147,14 +144,12 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		reset($grapharray);
 		
 		while (list($i, $v) = each($grapharray)) {
-			$msg .= "<td class=\"tabelle_statistics_navigation\">";
-			$msg .= $f1;
+			$msg .= "<td class=\"tabelle_statistics_navigation smaller\">";
 			$msg .= $i;
-			$msg .= $f2;
 			$msg .= "</td>\n";
 		}
 		
-		$msg .= "<td class=\"tabelle_statistics_navigation\">$f1<span style=\"font-weight:bold;\">$text_b</span>$f2</td>\n";
+		$msg .= "<td class=\"tabelle_statistics_navigation smaller\"><span style=\"font-weight:bold;\">$text_b</span></td>\n";
 		$msg .= "</tr>\n";
 		$msg .= "</table>\n";
 		

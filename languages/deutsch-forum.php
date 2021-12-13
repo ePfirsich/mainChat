@@ -17,7 +17,12 @@ $t['kategorie_themen'] = "Themen";
 $t['kategorie_beitraege'] = "Beiträge";
 $t['kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
+$t['erfolgsmeldung'] = "Erfolgreich";
+$t['kategorie_geloescht'] = "Die Kategorie wurde %kategorie% komplett gelöscht!";
+$t['forum_geloescht'] = "Das Forum wurde %forum% komplett gelöscht!";
+
 // Forum
+$t['forum_zur_uebersicht'] = "Zur Forenübersicht";
 $t['forum_name'] = "Name des Forums:";
 $t['forum_anlegen'] = "Neues Forum anlegen";
 $t['forum_editieren_mit_Name'] = "Forum xxx editieren";
@@ -45,11 +50,11 @@ $t['thema_privat'] = "Mail";
 
 //Texte für Maske Forum
 $t['forum_msg2'] = "Öffentlich zugänglich:";
-$t['forum_msg3'] = "Gäste dürfen:";
-$t['forum_msg4'] = "Benutzer dürfen:";
-$t['forum_msg5'] = "nur lesen";
-$t['forum_msg6'] = "lesen und schreiben";
-$t['forum_msg7'] = "weder lesen noch schreiben";
+$t['forum_berechtigungen_gaeste_duerfen'] = "Gäste dürfen:";
+$t['forum_berechtigungen_benutzer_duerfen'] = "Benutzer dürfen:";
+$t['forum_berechtigungen_nur_lesen'] = "nur lesen";
+$t['forum_berechtigungen__lesen_noch_schreiben'] = "lesen und schreiben";
+$t['forum_berechtigungen_weder_lesen_noch_schreiben'] = "weder lesen noch schreiben";
 
 //Texte für Beschreibungen der Folder
 $t['desc_folder'] = "Keine neuen Beiträge seit Ihrem letzten Besuch.";
@@ -67,9 +72,9 @@ $t['geschrieben_am'] = "Geschrieben am ";
 //Texte für Maske Beiträge
 $t['neuer_thread_button'] = "Beitrag erstellen";
 $t['edit_button'] = "Beitrag editieren";
-$t['posting_msg1'] = "Titel:";
-$t['posting_msg2'] = "Beitrag:";
-$t['posting_msg3'] = "Autor:";
+$t['forum_titel'] = "Titel";
+$t['forum_beitrag'] = "Beitrag";
+$t['posting_msg3'] = "Autor";
 $t['posting_msg4'] = "(Benutzername oder Benutzer_ID)";
 $t['posting_thema_anpinnen'] = "Thema anpinnen";
 $t['posting_thema_gesperrt'] = "Thema gesperrt";
@@ -102,9 +107,9 @@ $t['schreibrechte'] = "<P>Fehler! Sie haben keine Schreibrechte für dieses Foru
 $t['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 
 //Texte fürs Verschieben
-$t['verschieben1'] = "Verschiebe Thema: ";
-$t['verschieben2'] = "vom Thema: ";
-$t['verschieben3'] = "nach Thema: ";
+$t['verschieben_verschiebe_thema'] = "Verschiebe Thema: ";
+$t['verschieben_von_forum'] = "vom Forum";
+$t['verschieben_nach_forum'] = "nach Forum";
 $t['verschieben4'] = "verschieben";
 
 $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]";
@@ -113,7 +118,7 @@ $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]
 $t['forum_menue1'] = "Forum durchsuchen";
 $t['forum_menue2'] = "Zurück zum Forum";
 
-$t['titel'] = "Suchabfrage";
+$t['forum_suche'] = "Suchabfrage";
 
 $t['suche1'] = "Suchwörter";
 $t['suche2'] = "Suche in Board / Thema";

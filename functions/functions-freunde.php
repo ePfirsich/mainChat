@@ -2,7 +2,7 @@
 
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id;
 	
 	$text = '';
 	
@@ -54,16 +54,22 @@ function zeige_freunde($aktion, $zeilen) {
 			
 			$text .= "<table style=\"width:100%;\">";
 			$text .= "<tr>"
-				."<td style=\"width:5%;\">" . $f1 . "Markieren" . $f2. "</td>"
-				."<td style=\"width:35%;\">" . $f1 . "Benutzername" . $f2 . "</td>"
-				. "<td style=\"width:35%;\">" . $f1 . "Info" . $f2 . "</td>"
-				."<td style=\"width:20%; text-align:center;\">" . $f1 . "Datum des Eintrags" . $f2 . "</td>"
-				."<td style=\"width:5%; text-align:center;\">" . $f1 . "Aktion" . $f2 . "</td>"
+				."<td style=\"width:5%;\" class=\"tabelle_kopfzeile\">" . "Markieren" . "</td>"
+				."<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">" . "Benutzername" . "</td>"
+				. "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">" . "Info" . "</td>"
+				."<td style=\"width:20%; text-align:center;\" class=\"tabelle_kopfzeile\">" . "Datum des Eintrags" . "</td>"
+				."<td style=\"width:5%; text-align:center;\" class=\"tabelle_kopfzeile\">" . "Aktion" . "</td>"
 				."</tr>\n";
 			
 			$i = 0;
-			$bgcolor = 'class="tabelle_zeile1"';
+			
 			while ($row = mysqli_fetch_object($result)) {
+				if (($i % 2) > 0) {
+					$bgcolor = 'class="tabelle_zeile1 smaller"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile2 smaller"';
+				}
+				
 				// Benutzer aus der Datenbank lesen
 				if ($row->f_userid != $u_id) {
 					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
@@ -93,13 +99,13 @@ function zeige_freunde($aktion, $zeilen) {
 				if ($row2->o_id) {
 					$txt = $freund_nick . "<br>online&nbsp;"
 						. gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
-					$auf = "<b>" . $f1;
-					$zu = $f2 . "</b>";
+					$auf = "<b>";
+					$zu = "</b>";
 				} else {
 					$txt = $freund_nick . "<br>Letzter&nbsp;Login:&nbsp;"
 						. str_replace(" ", "&nbsp;", $row2->login);
-					$auf = $f1;
-					$zu = $f2;
+					$auf = "";
+					$zu = "";
 				}
 				
 				// Infotext setzen
@@ -123,22 +129,17 @@ function zeige_freunde($aktion, $zeilen) {
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?seite=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
 					. "</tr>\n";
-				
-				if (($i % 2) > 0) {
-					$bgcolor = 'class="tabelle_zeile1"';
-				} else {
-					$bgcolor = 'class="tabelle_zeile2"';
-				}
+
 				$i++;
 			}
 			
 			$text .= "<tr>"
-				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleFreunde(this.checked)\">" . $f1 . " Alle Auswählen" . $f2 . "</td>\n";
-			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">" . $f1;
+				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleFreunde(this.checked)\">Alle Auswählen</td>\n";
+			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">";
 			if ($aktion == "bestaetigen") {
 				$text .= "<input type=\"submit\" name=\"los\" value=\"$button2\">";
 			}
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$button\">" . $f2
+			$text .= "<input type=\"submit\" name=\"los\" value=\"$button\">"
 				. "</td></tr></table>\n";
 		}
 		
@@ -155,7 +156,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
 	
-	global $id, $mysqli_link, $f1, $f2, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id;
 	
 	if (!$f_userid || !$f_freundid) {
 		echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
@@ -182,7 +183,7 @@ function loesche_freund($f_freundid, $f_userid) {
 function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	
-	global $id, $f1, $f2, $mysqli_link;
+	global $id, $mysqli_link;
 	
 	$box = "Neuen Freund eintragen:";
 	$text = '';
@@ -193,14 +194,10 @@ function formular_neuer_freund($neuer_freund) {
 		. "<table>";
 	
 	$text .= "<tr><td style=\"text-align:right;\"><b>Benutzername:</b></td><td>"
-		. $f1 . "<input type=\"text\" name=\"neuer_freund[u_nick]\" value=\""
-		. $neuer_freund['u_nick'] . "\" size=20>" . $f2
+		. "<input type=\"text\" name=\"neuer_freund[u_nick]\" value=\"" . $neuer_freund['u_nick'] . "\" size=20>"
 		. "</td></tr>\n"
 		. "<tr><td style=\"text-align:right;\"><b>Infotext:</b></td><td>"
-		. $f1 . "<input type=\"text\" name=\"neuer_freund[f_text]\" value=\""
-		. htmlentities($neuer_freund['f_text'])
-		. "\" size=45>" . "&nbsp;"
-		. "<input type=\"submit\" name=\"los\" value=\"Eintragen\">" . $f2
+		. "<input type=\"text\" name=\"neuer_freund[f_text]\" value=\"" . htmlentities($neuer_freund['f_text']) . "\" size=45>" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"Eintragen\">"
 		. "</td></tr>\n" . "</table></form>\n";
 	
 		zeige_tabelle_zentriert($box,$text);
@@ -208,7 +205,7 @@ function formular_neuer_freund($neuer_freund) {
 
 function formular_editieren($f_id, $f_text) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id,  $f1, $f2, $mysqli_link;
+	global $id, $mysqli_link;
 	
 	$text = '';
 	
@@ -219,7 +216,7 @@ function formular_editieren($f_id, $f_text) {
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
 	
-	$text .= "<b>Infotext:</b> " . $f1 . "<input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\">" . $f2 . "</form>\n";
+	$text .= "<b>Infotext:</b> <input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\"></form>\n";
 	
 	zeige_tabelle_zentriert($box,$text);
 }

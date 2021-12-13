@@ -73,7 +73,7 @@ if ($result && mysqli_num_rows($result) == 1) {
 	$text .= "</form>";
 	
 	// Box anzeigen
-	zeige_tabelle_zentriert($box, $f2.$text.$f1);
+	zeige_tabelle_zentriert($box, $text);
 } else {
 	// Erst Profil anlegen
 	zeige_tabelle_zentriert($t['neues_profil'], $t['neues_profil_beschreibung']);

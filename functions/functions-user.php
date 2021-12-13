@@ -7,7 +7,6 @@ require_once("functions/functions-func-raeume_auswahl.php");
 function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
-	global $f1, $f2, $f3, $f4;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
 	
@@ -49,10 +48,7 @@ function user_pm_list($larr) {
 			$user = zeige_userdetails($pmuea2, $v) . "" . $pmue33t;
 			
 			$trow .= "<tr>";
-			$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
-			
-			$trow .= "</b>" . $user . $f2;
-			$trow .= "</td></tr>";
+			$trow .= "<td $farbe_tabelle><span class=\"smaller\">" . $user . "</td></tr>";
 		}
 	}
 	
@@ -92,11 +88,7 @@ function user_pm_list($larr) {
 				$user = zeige_userdetails($pmuea, $v) . "" . $pmue44t;
 				
 				$trow .= "<tr>";
-				$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
-				
-				
-				$trow .= "</b>" . $user . $f2;
-				$trow .= "</td></tr>";
+				$trow .= "<td $farbe_tabelle><span class=\"smaller\">" . $user . "</td></tr>";
 			}
 		}
 	}
@@ -109,7 +101,6 @@ function user_pm_list($larr) {
 function user_liste($larr, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
 	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
-	global $f1, $f2, $f3, $f4;
 	global $punkte_grafik, $leveltext, $chat_grafik;
 	
 	$text = '';
@@ -159,7 +150,7 @@ function user_liste($larr, $seitenleiste = false) {
 		}
 		
 		$trow .= "<tr>";
-		$trow .= "<td $farbe_tabelle>" . $f1 . "<b>";
+		$trow .= "<td $farbe_tabelle><span class=\"smaller\"><b>";
 		
 		if ($seitenleiste) {
 			if ($level == "admin") {
@@ -189,8 +180,7 @@ function user_liste($larr, $seitenleiste = false) {
 			}
 		}
 		
-		$trow .= "</b>" . $user . $f2;
-		$trow .= "</td></tr>";
+		$trow .= "</b>" . $user . "</td></tr>";
 	}
 	
 	$text .= "<table style=\"width:100%;\">$trow</table>\n";

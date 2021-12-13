@@ -355,15 +355,12 @@ switch ($aktion) {
 		} else { // array ist gefüllt -> Daten ausgeben
 			$box = $t['sonst54'];
 			$text = '';
-			$text .= "<b>" . $larr[0]['r_name'] . "</b><br>"
-			. ($larr[0]['r_topic'] ? $f1 . "Topic: "
-					. $larr[0]['r_topic'] . $f2 . "<br>" : "")
-			. "<br>";
+			$text .= "<b>" . $larr[0]['r_name'] . "</b><br>" . ($larr[0]['r_topic'] ? "<span class=\"smaller\">Topic: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";
 			
 			// Benutzerliste ausgeben
 			$text .= user_liste($larr, false);
 			
-			$text .= "<p style=\"text-align:center;\">" . $f1 . $t['sonst12'] . $f2 . "</p>";
+			$text .= "<p style=\"text-align:center;\" class=\"smaller\">" . $t['sonst12'] . "</p>";
 			
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -373,7 +370,6 @@ switch ($aktion) {
 			
 			$text .= "<form name=\"raum\" action=\"inhalt.php?seite=benutzer\" method=\"post\">";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
-			$text .= $f1;
 			$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
 			if ($admin) {
 				$text .= raeume_auswahl($schau_raum, TRUE, FALSE, FALSE);
@@ -382,7 +378,6 @@ switch ($aktion) {
 			}
 			$text .= "</select>";
 			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Go!\">";
-			$text .= $f2;
 			$text .= "</form>";
 			
 			// Box anzeigen

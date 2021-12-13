@@ -19,10 +19,8 @@ $spruchliste = file("conf/$datei_spruchliste");
 reset($spruchliste);
 $anzahl = count($spruchliste);
 $i = 0;
-$bgcolor = 'class="tabelle_zeile1"';
 
 // Sprüche ausgeben
-
 $text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
 $text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe21]</td>";
@@ -31,6 +29,13 @@ $text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe23]</td>";
 $text .= "</tr>\n";
 
 while ($i < $anzahl) {
+	// Farben umschalten
+	if (($i % 2) > 0) {
+		$bgcolor = 'class="tabelle_zeile1 smaller"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile2 smaller"';
+	}
+	
 	$spname = key($spruchliste);
 	$spruchtmp = preg_split("/\t/",
 		substr($spruchliste[$spname], 0,
@@ -42,20 +47,13 @@ while ($i < $anzahl) {
 		preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
 	
 	$text .= "<tr>"
-		. "<td style=\"width:15%;\" $bgcolor>" . $f1 . "&nbsp;<b>$spruchtmp[0]</b>" . $f2 . "</td>\n"
-			. "<td style=\"width:10%; text-align:center;\" $bgcolor>" . $f1 . "<b>$spruchtmp[1]</b>" . $f2 . "</td>\n"
-				. "<td style=\"width:75%;\" $bgcolor>" . $f1 . "&lt;$spruchtmp[2]&gt;" . $f2 . "</td>\n"
-					. "</tr>\n";
-					next($spruchliste);
-					
-					// Farben umschalten
-					if (($i % 2) > 0) {
-						$bgcolor = 'class="tabelle_zeile1"';
-					} else {
-						$bgcolor = 'class="tabelle_zeile2"';
-					}
-					
-					$i++;
+		. "<td style=\"width:15%;\" $bgcolor>&nbsp;<b>$spruchtmp[0]</b></td>\n"
+		. "<td style=\"width:10%; text-align:center;\" $bgcolor><b>$spruchtmp[1]</b></td>\n"
+		. "<td style=\"width:75%;\" $bgcolor>&lt;$spruchtmp[2]&gt;</td>\n"
+		. "</tr>\n";
+	next($spruchliste);
+	
+	$i++;
 }
 
 $text .= "</table>\n";

@@ -4,6 +4,8 @@ if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
+require_once("functions/functions-formulare.php");
+
 if (isset($f['r_name'])) {
 	// In Namen die Leerzeichen und ' und " entfernen
 	$ersetzen = array("'", "\"", "\\");
@@ -218,20 +220,41 @@ switch ($aktion) {
 		
 		$result = mysqli_query($mysqli_link, $query);
 		
-		if ($result AND mysqli_num_rows($result) > 0) {
+		if ($result && mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_object($result);
+			
 			// Kopf Tabelle
 			$box = $t['sonst6'];
+			$zaehler = 0;
+			$text = "<table style=\"width:100%;\">\n";
 			
-			// Raum zeigen
-			$row = mysqli_fetch_object($result);
-			$text .= "<table style=\"width:100%;\"><tr>\n";
-			$text .= "<td><b>$t[raeume_raum] $row->r_name</b></td></tr>\n";
-			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_topic]</b> " . htmlspecialchars($row->r_topic) . $f2 . "</td></tr>\n";
-			$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_eintritt]</b> " . htmlspecialchars($row->r_eintritt) . $f2 . "</td></tr>\n";
-			$text .= "</table>\n";
+			// Raum
+			$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raum'], "", $row->r_name);
+			$zaehler++;
+			
+			// Topic
+			$text .= zeige_formularfelder("text", $zaehler, $t['raeume_topic'], "", htmlspecialchars($row->r_topic));
+			$zaehler++;
+			
+			
+			// Eintrittsnachricht
+			$text .= zeige_formularfelder("text", $zaehler, $t['raeume_eintritt'], "", htmlspecialchars($row->r_eintritt));
+			$zaehler++;
+			
+			
+			// Austrittsnachricht
+			$text .= zeige_formularfelder("text", $zaehler, $t['raeume_austritt'], "", htmlspecialchars($row->r_austritt));
+			$zaehler++;
+			
 			
 			// Formular löschen
-			$text .= "<p>$t[fehler7]</p>\n";
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>";
+			$text .= "<td $bgcolor colspan=\"2\">$t[raum_wirklich_loeschen]<br>\n";
 			$text .= "<form name=\"$row->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
@@ -240,6 +263,13 @@ switch ($aktion) {
 				. "&nbsp;"
 				. "<input type=\"submit\" name=\"loesch2\" value=\"$t[sonst5]\">"
 				. "</form>\n";
+			$text .= "</td>\n";
+			$text .= "</tr>\n";
+			$zaehler++;
+			
+			
+			$text .= "</table>\n";
+			
 			
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
@@ -287,72 +317,105 @@ switch ($aktion) {
 		}
 		
 		$box = $t['raum_menue2'];
+		
+		$zaehler = 0;
 			
 		// Raum neu anlegen, Eingabeformular
 		$text .= "<form name=\"$r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		
-		$text .= "<tr><td><b>$t[raeume_raum]</b></td>";
-		$text .= "<td>" . $f1 . "<input type=\"text\" name=\"f[r_name]\" "
-			. "value=\"$r_name\" size=$eingabe_breite>" . $f2
-			. "</td></tr>\n";
+		$text .= zeige_formularfelder("input", $zaehler, $t['raeume_raum'], "f[r_name]", $r_name);
+		$zaehler++;
+		
 		
 		// Status1 als Auswahl
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_status'] . "</b>" . $f2
-			. "</td>" . "<td>" . $f1 . "<select name=\"f[r_status1]\">\n";
+		$selectbox = "<select name=\"f[r_status1]\">\n";
 		
 		$i = 0;
 		while ($i < count($raumstatus1)) {
 			$keynum = key($raumstatus1);
 			$status1 = $raumstatus1[$keynum];
 			if ($keynum == $r_status1) {
-				$text .= "<option selected value=\"$keynum\">$status1\n";
+				$selectbox .= "<option selected value=\"$keynum\">$status1\n";
 			} else {
-				$text .= "<option value=\"$keynum\">$status1\n";
+				$selectbox .= "<option value=\"$keynum\">$status1\n";
 			}
 			next($raumstatus1);
 			$i++;
 		}
 		
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+		$selectbox .= "</select>\n";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>";
+		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_status]</td>\n";
+		$text .= "<td $bgcolor>$selectbox</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
 		
 		// Status2 als Auswahl
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_art'] . "</b>" . $f2
-			. "</td>" . "<td>" . $f1 . "<select name=\"f[r_status2]\">\n";
+		$selectbox = "<select name=\"f[r_status2]\">\n";
 		
 		$i = 0;
 		while ($i < count($raumstatus2)) {
 			$keynum = key($raumstatus2);
 			$status2 = $raumstatus2[$keynum];
 			if ($keynum == $r_status2) {
-				$text .= "<option selected value=\"$keynum\">$status2\n";
+				$selectbox .= "<option selected value=\"$keynum\">$status2\n";
 			} else {
-				$text .= "<option value=\"$keynum\">$status2\n";
+				$selectbox .= "<option value=\"$keynum\">$status2\n";
 			}
 			next($raumstatus2);
 			$i++;
 		}
 		
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+		$selectbox .= "</select>\n";
 		
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_smilies'] . "</b>" . $f2
-			. "</td><td>" . $f1 . "<select name=\"f[r_smilie]\">";
-		if ($r_smilie == "Y") {
-			$text .= "<option selected value=\"Y\">$t[raum_erlaubt]";
-			$text .= "<option value=\"N\">$t[raum_verboten]";
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
-			$text .= "<option value=\"Y\">$t[raum_erlaubt]";
-			$text .= "<option selected value=\"N\">$t[raum_verboten]";
+			$bgcolor = 'class="tabelle_zeile1"';
 		}
-		$text .= "</select>" . $f2 . "</td></tr>\n";
+		$text .= "<tr>";
+		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_art]</td>\n";
+		$text .= "<td $bgcolor>$selectbox</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
 		
-		// Punkte zum Betreten des Raumes
-		$text .= "<tr><td>" . $f1 . "<b>$t[raeume_mindestpunkte]</b>" . $f2 . "</td>";
-		$text .= "<td>" . $f1
-			. "<input type=\"text\" name=\"f[r_min_punkte]\" "
-			. "value=\"$r_min_punkte\" size=\"7\">" . $f2
-			. "</td></tr>\n";
+		
+		// Smilies
+		$selectbox = "<select name=\"f[r_smilie]\">";
+		if ($r_smilie == "Y") {
+			$selectbox .= "<option selected value=\"Y\">$t[raum_erlaubt]";
+			$selectbox .= "<option value=\"N\">$t[raum_verboten]";
+		} else {
+			$selectbox .= "<option value=\"Y\">$t[raum_erlaubt]";
+			$selectbox .= "<option selected value=\"N\">$t[raum_verboten]";
+		}
+		$selectbox .= "</select>\n";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>";
+		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_smilies]</td>\n";
+		$text .= "<td $bgcolor>$selectbox</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		
+		// Mindestpunkte
+		$text .= zeige_formularfelder("input", $zaehler, $t['raeume_mindestpunkte'], "f[r_min_punkte]",  $r_min_punkte, 0, "7");
+		$zaehler++;
+		
 		
 		if (!isset($rows->r_topic)) {
 			$r_topic = "";
@@ -370,24 +433,35 @@ switch ($aktion) {
 			$r_austritt = $rows->r_austritt;
 		}
 		
-		$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_topic'] . "</b>" . $f2
-			. "</td>" . "<td>" . $f1 . "<textarea rows=5 cols="
-			. ($eingabe_breite) . " name=\"f[r_topic]\">"
-			. $r_topic . "</textarea>" . $f2 . "</td></tr>\n";
-		$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['raeume_eintritt']
-			. "</b>" . $f2 . "</td>" . "<td>" . $f1
-			. "<textarea rows=5 cols=" . ($eingabe_breite)
-			. " name=\"f[r_eintritt]\">" . $r_eintritt
-			. "</textarea>" . $f2 . "</td></tr>\n";
-		$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>" . $t['raeume_austritt']
-			. "</b>" . $f2 . "</td>" . "<td>" . $f1
-			. "<textarea rows=5 cols=" . ($eingabe_breite)
-			. " name=\"f[r_austritt]\">" . $r_austritt
-			. "</textarea>" . $f2 . "</td></tr>\n";
 		
-		$text .= "<tr><td colspan=\"2\">" . $f1
-			. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"
-			. $f2 . "</td></tr>\n";
+		// Topic
+		$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_topic'], "f[r_topic]", $r_topic);
+		$zaehler++;
+		
+		
+		// Eintrittsnachricht
+		$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_eintritt'], "f[r_eintritt]", $r_eintritt);
+		$zaehler++;
+		
+		
+		// Austrittsnachricht
+		$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_austritt'], "f[r_austritt]", $r_austritt);
+		$zaehler++;
+		
+		
+		// Eintragen
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>";
+		$text .= "<td $bgcolor style=\"text-align:right\">&nbsp;</td>\n";
+		$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[sonst9]\"></td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		
 		$text .= "</table>\n";
 		$text .= "<input type=\"hidden\" name=\"neu\" value=\"1\">";
 		$text .= "<input type=\"hidden\" name=\"f[r_besitzer]\" value=\"$u_id\">";
@@ -399,12 +473,13 @@ switch ($aktion) {
 		break;
 	
 	case "edit":
-		// kein eigener Fall, wird in default abgehandelt. 
+		// kein eigener Fall, wird in default abgehandelt.
 	default;
 		// Alle Räume
-	$text = "";
-		if (!isset($order))
-			$order = "r_name";
+		$text = "";
+		if (!isset($order)) {
+				$order = "r_name";
+		}
 		
 		// Anzeige aller Räume als Liste oder eines Raums im Editor
 		if ($aktion == "edit") {
@@ -418,31 +493,27 @@ switch ($aktion) {
 				// Ausgabe in Tabelle
 				if ($admin || $rows->u_id == $u_id) {
 					$box = $t['raeume_raum'] . ': ' . $rows->r_name;
-					// für diesen Raum Admin
+					// Für diesen Raum Admin
 					$text .= "<form name=\"$rows->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<table style=\"width:100%;\">\n";
 					
-					$text .= "<tr><td><b>$t[raeume_raum]</b></td>";
 					if ($rows->r_name == $lobby) {
-						$text .= "<td><b>$rows->r_name</b>"
-							. "<input type=\"hidden\" name=\"f[r_name]\" "
-							. "value=\"$rows->r_name\" size=$eingabe_breite>"
-							. $f2 . "</td></tr>\n";
+						// Raum
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raum'], "", $rows->r_name . "<input type=\"hidden\" name=\"f[r_name]\" value=\"$rows->r_name\" size=$eingabe_breite>");
+						$zaehler++;
 					} else {
-						$text .= "<td>" . $f1
-							. "<input type=\"text\" name=\"f[r_name]\" "
-							. "value=\"$rows->r_name\" size=$eingabe_breite>"
-							. $f2 . "</td></tr>\n";
+						// Raum
+						$text .= zeige_formularfelder("input", $zaehler, $t['raeume_raum'], "f[r_name]", $rows->r_name);
+						$zaehler++;
 						
-							$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_raumbesitzer']
-							. "</b>" . $f2 . "</td>" . "<td>" . $f1
-							. $rows->u_nick . $f2 . "</td></tr>\n";
+						// Raumbesitzer
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raumbesitzer'], "", $rows->u_nick);
+						$zaehler++;
 						
-						// Status1 als Auswahl
-						$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_status']
-							. "</b>" . $f2 . "</td>" . "<td>" . $f1
-							. "<select name=\"f[r_status1]\">\n";
+						
+						// Status
+						$selectbox = "<select name=\"f[r_status1]\">\n";
 						
 						$a = 0;
 						reset($raumstatus1);
@@ -450,20 +521,31 @@ switch ($aktion) {
 							$keynum = key($raumstatus1);
 							$status1 = $raumstatus1[$keynum];
 							if ($keynum == $rows->r_status1) {
-								$text .= "<option selected value=\"$keynum\">$status1\n";
+								$selectbox .= "<option selected value=\"$keynum\">$status1\n";
 							} else {
-								$text .= "<option value=\"$keynum\">$status1\n";
+								$selectbox .= "<option value=\"$keynum\">$status1\n";
 							}
 							next($raumstatus1);
 							$a++;
 						}
 						
-						$text .= "</select>" . $f2 . "</td></tr>\n";
+						$selectbox .= "</select>\n";
 						
-						// Status2 als Auswahl
-						$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_art']
-							. "</b>" . $f2 . "</td>" . "<td>" . $f1
-							. "<select name=\"f[r_status2]\">\n";
+						if ($zaehler % 2 != 0) {
+							$bgcolor = 'class="tabelle_zeile2"';
+						} else {
+							$bgcolor = 'class="tabelle_zeile1"';
+						}
+						
+						$text .= "<tr>";
+						$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_status]</td>\n";
+						$text .= "<td $bgcolor>$selectbox</td>\n";
+						$text .= "</tr>\n";
+						$zaehler++;
+						
+						
+						// Art
+						$selectbox = "<select name=\"f[r_status2]\">\n";
 						
 						$a = 0;
 						reset($raumstatus2);
@@ -471,63 +553,88 @@ switch ($aktion) {
 							$keynum = key($raumstatus2);
 							$status2 = $raumstatus2[$keynum];
 							if ($keynum == $rows->r_status2) {
-								$text .= "<option selected value=\"$keynum\">$status2\n";
+								$selectbox .= "<option selected value=\"$keynum\">$status2\n";
 							} else {
-								$text .= "<option value=\"$keynum\">$status2\n";
+								$selectbox .= "<option value=\"$keynum\">$status2\n";
 							}
 							next($raumstatus2);
 							$a++;
 						}
 						
-						$text .= "</select>" . $f2 . "</td></tr>\n";
+						$selectbox .= "</select>\n";
 						
+						if ($zaehler % 2 != 0) {
+							$bgcolor = 'class="tabelle_zeile2"';
+						} else {
+							$bgcolor = 'class="tabelle_zeile1"';
+						}
+						
+						$text .= "<tr>";
+						$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_art]</td>\n";
+						$text .= "<td $bgcolor>$selectbox</td>\n";
+						$text .= "</tr>\n";
+						$zaehler++;
 					}
 					
-					$text .= "<tr><td>" . $f1 . "<b>" . $t['raeume_smilies']
-						. "</b>" . $f2 . "</td><td>" . $f1
-						. "<select name=\"f[r_smilie]\">";
+					
+					// Smilies
+					$selectbox = "<select name=\"f[r_smilie]\">";
 					if ($rows->r_smilie == "Y") {
-						$text .= "<option selected value=\"Y\">$t[raum_erlaubt]";
-						$text .= "<option value=\"N\">$t[raum_verboten]";
+						$selectbox .= "<option selected value=\"Y\">$t[raum_erlaubt]";
+						$selectbox .= "<option value=\"N\">$t[raum_verboten]";
 					} else {
-						$text .= "<option value=\"Y\">$t[raum_erlaubt]";
-						$text .= "<option selected value=\"N\">$t[raum_verboten]";
+						$selectbox .= "<option value=\"Y\">$t[raum_erlaubt]";
+						$selectbox .= "<option selected value=\"N\">$t[raum_verboten]";
 					}
-					$text .= "</select>" . $f2 . "</td></tr>\n";
+					$selectbox .= "</select>\n";
 					
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					
+					$text .= "<tr>";
+					$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_smilies]</td>\n";
+					$text .= "<td $bgcolor>$selectbox</td>\n";
+					$text .= "</tr>\n";
+					$zaehler++;
+					
+					
+					// Mindestpunkte
 					if ($rows->r_name != $lobby) {
-						// Punkte zum Betreten des Raumes ändern
-						$text .= "<tr><td>" . $f1 . "<b>$t[raeume_mindestpunkte]</b>" . $f2 . "</td>";
-						$text .= "<td>" . $f1
-							. "<input type=\"text\" name=\"f[r_min_punkte]\" "
-							. "value=\"$rows->r_min_punkte\" size=\"7\">"
-							. $f2 . "</td></tr>\n";
+						$text .= zeige_formularfelder("input", $zaehler, $t['raeume_mindestpunkte'], "f[r_min_punkte]",  $rows->r_min_punkte, 0, "7");
+						$zaehler++;
 					}
 					
-					$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['raeume_topic'] . "</b>" . $f2 . "</td>" . "<td>"
-						. $f1 . "<textarea rows=5 cols="
-						. ($eingabe_breite) . " name=\"f[r_topic]\">"
-						. $rows->r_topic . "</textarea>"
-						. $f2 . "</td></tr>\n";
-						$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['raeume_eintritt'] . "</b>" . $f2 . "</td>" . "<td>"
-						. $f1 . "<textarea rows=5 cols="
-						. ($eingabe_breite) . " name=\"f[r_eintritt]\">"
-						. $rows->r_eintritt . "</textarea>"
-						. $f2 . "</td></tr>\n";
-					$text .= "<tr style=\"vertical-align:top;\"><td>" . $f1 . "<b>"
-						. $t['raeume_austritt'] . "</b>" . $f2 . "</td>" . "<td>"
-						. $f1 . "<textarea rows=5 cols="
-						. ($eingabe_breite) . " name=\"f[r_austritt]\">"
-						. $rows->r_austritt . "</textarea>"
-						. $f2 . "</td></tr>\n";
 					
-					$text .= "<tr><td colspan=\"2\">" . $f1
-						. "<input type=\"submit\" name=\"los\" value=\"$t[sonst9]\">"
-						. "&nbsp;&nbsp;"
-						. "<input type=\"submit\" name=\"loesch\" value=\"$t[sonst4]\">"
-						. $f2 . "</td></tr>\n";
+					// Topic
+					$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_topic'], "f[r_topic]", $rows->r_topic);
+					$zaehler++;
+					
+					
+					// Eintrittsnachricht
+					$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_eintritt'], "f[r_eintritt]", $rows->r_eintritt);
+					$zaehler++;
+					
+					
+					// Austrittsnachricht
+					$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_austritt'], "f[r_austritt]", $rows->r_austritt);
+					$zaehler++;
+					
+					
+					// Eintragen
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					$text .= "<tr>";
+					$text .= "<td $bgcolor style=\"text-align:right\"><input type=\"submit\" name=\"loesch\" value=\"$t[sonst4]\"></td>\n";
+					$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[sonst9]\"></td>\n";
+					$text .= "</tr>\n";
+					$zaehler++;
+					
 					
 					$text .= "</table>\n";
 					
@@ -538,21 +645,28 @@ switch ($aktion) {
 				} else {
 					$box = $t['raeume_raum'] . ': ' . $rows->r_name;
 					// Normalsterblicher
-					$text .= "<table style=\"width:100%;\">\n";
-					if ($rows->r_name) {
-						$text .= "<tr><td><b>$t[raeume_raum] $rows->r_name</b></td></tr>\n";
-					}
-					if ($rows->r_topic) {
-						$text .= "<tr><td colspan=\"2\">" . $f1
-						. "<b>$t[raeume_topic]</b> "
-							. htmlspecialchars($rows->r_topic)
-							. $f2 . "</td></tr>\n";
-					}
-					if ($rows->r_eintritt) {
-						$text .= "<tr><td colspan=\"2\">" . $f1 . "<b>$t[raeume_eintritt]</b> " . htmlspecialchars($rows->r_eintritt) . $f2 . "</td></tr>\n";
-					}
-					$text .= "</tr></table>\n";
 					
+					
+					$zaehler = 0;
+					$text = "<table style=\"width:100%;\">\n";
+					
+					
+					// Topic
+					$text .= zeige_formularfelder("text", $zaehler, $t['raeume_topic'], "", htmlspecialchars($rows->r_topic));
+					$zaehler++;
+					
+					
+					// Eintrittsnachricht
+					$text .= zeige_formularfelder("text", $zaehler, $t['raeume_eintritt'], "", htmlspecialchars($rows->r_eintritt));
+					$zaehler++;
+					
+					
+					// Austrittsnachricht
+					$text .= zeige_formularfelder("text", $zaehler, $t['raeume_austritt'], "", htmlspecialchars($rows->r_austritt));
+					$zaehler++;
+					
+					
+					$text .= "</table>\n";
 				}
 				
 			}
@@ -584,48 +698,27 @@ switch ($aktion) {
 				// extended==Ansicht mit Details im extra beiten Fenster
 				if ($admin) {
 					if (isset($extended) && ($extended == 1)) {
-						$rlink = "<center>" . $f1
-							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">"
-							. $t['raum_menue7'] . "</a></b>" . $f2
-							. "</center>\n";
+						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">" . $t['raum_menue7'] . "</a></b>" . "</span></center>\n";
 						$text .= "<script language=\"javascript\">\n"
 							. "window.resizeTo(800,600); window.focus();"
 							. "</script>\n";
 					} else {
-						$rlink = "<center>" . $f1
-							. "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order&extended=1\">"
-							. $t['raum_menue6'] . "</a></b>" . $f2
-							. "</center>\n";
+						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order&extended=1\">" . $t['raum_menue6'] . "</a></b>" . "</span></center>\n";
 					}
 					$text .= "$rlink<br>";
 				}
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_name\">" . $t['raeume_raum'] . "</a>";
-				$text .= "<table class=\"tabelle_kopf\">\n";
-				$text .= "<tr><td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $t['raeume_benutzer_online'] . "</b></small></td>";
-				
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\">" . $t['raeume_status'] . "</a>";
-				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-				
-				$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\">" . $t['raeume_art'] . "</a>";
-				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b>&nbsp;</small></td>";
-				
-				$rlink = "<a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\">" . $t['raeume_raumbesitzer'] . "</a>";
-				$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-				
+				$text .= "<table style=\"width:100%\">\n";
+				$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?seite=raum&id=$id&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_benutzer_online]</td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
 				if (isset($extended) && $extended) {
-					$rlink = $t['raeume_smilies'];
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					
-					$rlink = $t['raeume_mindestpunkte'];
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					
-					$rlink = $t['raeume_topic'];
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					$rlink = $t['raeume_eintritt'];
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
-					$rlink = $t['raeume_austritt'];
-					$text .= "<td class=\"tabelle_koerper_login\"><small><b>" . $rlink . "</b></small></td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_smilies]</td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_mindestpunkte]</td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_topic]</td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_eintritt]</td>";
+					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_austritt]</td>";
 				}
 				
 				$text .= "</tr>\n";

@@ -4,7 +4,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $level, $id, $f1, $f2, $f3, $f4;
+	global $mysqli_link, $level, $id;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $chat_eingabe_breite, $t;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
@@ -121,8 +121,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$value = "<form>";
 					
 					// Eingabeformular für private Nachricht ausgeben
-					$value .= $f1;
-					
 					if ($msgpopup) {
 						$value .= '<iframe src="messages-popup.php?id=' . $id
 						. '&user=' . $user
@@ -134,7 +132,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$value .= "<input name=\"text\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
 						. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 						. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
-						. "<input type=\"submit\" value=\"Go!\">" . $f2;
+						. "<input type=\"submit\" value=\"Go!\">";
 					$value .= "</form>";
 					
 					// Private Nachricht
@@ -144,7 +142,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 						$bgcolor = 'class="tabelle_zeile1"';
 					}
 					$text .= "<tr>\n";
-					$text .= "<td colspan=\"2\" $bgcolor>" . $value . "</td>\n";
+					$text .= "<td colspan=\"2\" $bgcolor class=\"smaller\">" . $value . "</td>\n";
 					$text .= "</tr>\n";
 					$zaehler++;
 				}
@@ -281,7 +279,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					} else if ($zeigeip == 1 && is_array($ip_historie)) {
 						$value = "";
 						while (list($datum, $ip_adr) = each($ip_historie)) {
-							$value .= $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")" . $f4 . "<br>";
+							$value .= $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")" . "<br>";
 						}
 						$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_letzte_ip_adressen'], "", $value);
 						$zaehler++;
@@ -356,7 +354,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					if ($g['u_chathomepage'] == "1") {
-						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">" . $f2;
+						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">";
 					}
 					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
 						$value .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
@@ -414,7 +412,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 }
 
 function benutzer_suche($f, $suchtext) {
-	global $id, $t, $admin, $level, $f1, $f2;
+	global $id, $t, $admin, $level;
 	// Suchergebnis mit Formular ausgeben
 	$box = $t['benutzer_suche_benutzer_suchen'];
 	$zaehler = 0;
@@ -446,7 +444,7 @@ function benutzer_suche($f, $suchtext) {
 		
 		$text .= "<tr>\n";
 		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_suche_benutzergruppe'] . "</td>";
-		$text .= "<td $bgcolor>" . $f1 . "<select name=\"f[level]\">\n";
+		$text .= "<td $bgcolor><select name=\"f[level]\">\n";
 		$text .= "<option value=\"\">$t[benutzer_suche_egal]\n";
 		
 		reset($level);
@@ -459,7 +457,7 @@ function benutzer_suche($f, $suchtext) {
 				}
 			}
 		}
-		$text .= "</select>" . $f2 . "</td>\n";
+		$text .= "</select></td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		

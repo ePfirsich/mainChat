@@ -41,9 +41,6 @@ $standard_ui_inhalt_linkfarbe = "000000";
 $standard_ui_inhalt_linkfarbe_aktiv = "000000";
 $standard_ui_inhalt_hintergrundfarbe = "ffffff";
 
-// Statisiken
-$STAT_BAR_HEIGHT = 300; // Höhe einer Statistiktabelle in Pixel
-
 
 // Daten für das Impressum
 $impressum_name = "";
@@ -165,13 +162,6 @@ $farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
 			"FF8888","004400","00BB00","44FF44","0000AA",
 			"4444FF","AAAAFF","FFA000","606000","A0A000",
 			"FF00FF","A000A0");
-
-
-// Zeichensatzgrößen
-$f1="<span style=\"font-size: small;\">";
-$f2="</span>";
-$f3="<span style=\"font-size: x-small;\">";
-$f4="</span>";
 
 
 // Sollen Gäste automatisch einen Namen zugewiesen bekommen?
