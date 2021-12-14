@@ -201,7 +201,8 @@ switch ($aktion) {
 			}
 			mysqli_free_result($result);
 		}
-		echo sperren_liste();
+		sperren_liste();
+		
 		break;
 	
 	case "aendern":
@@ -253,11 +254,11 @@ switch ($aktion) {
 				$text .= "<tr><td><b>$t[sonst22]</b></td><td class=\"smaller\">"
 					. "<select name=\"f[is_warn]\">";
 				if ($row->is_warn == "ja") {
-					$text .= "<option selected value=\"ja\">$t[sonst20]";
-					$text .= "<option value=\"nein\">$t[sonst21]";
+					$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
+					$text .= "<option value=\"nein\">$t[sperren_sperre]";
 				} else {
-					$text .= "<option value=\"ja\">$t[sonst20]";
-					$text .= "<option selected value=\"nein\">$t[sonst21]";
+					$text .= "<option value=\"ja\">$t[sperren_warnung]";
+					$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 				}
 				$text .= "</select>";
 				
@@ -277,7 +278,7 @@ switch ($aktion) {
 		zeige_tabelle_zentriert($box, $text);
 		
 		// Liste ausgeben
-		echo sperren_liste();
+		sperren_liste();
 		
 		break;
 	
@@ -330,11 +331,11 @@ switch ($aktion) {
 		
 			$text .= "<tr><td><b>$t[sonst22]</b></td><td class=\"smaller\"><select name=\"f[is_warn]\">";
 		if (isset($f['is_warn']) && $f['is_warn'] == "ja") {
-			$text .= "<option selected value=\"ja\">$t[sonst20]";
-			$text .= "<option value=\"nein\">$t[sonst21]";
+			$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
+			$text .= "<option value=\"nein\">$t[sperren_sperre]";
 		} else {
-			$text .= "<option value=\"ja\">$t[sonst20]";
-			$text .= "<option selected value=\"nein\">$t[sonst21]";
+			$text .= "<option value=\"ja\">$t[sperren_warnung]";
+			$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 		}
 		$text .= "</select>&nbsp;&nbsp;&nbsp;"
 			. "<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b>\n"
@@ -346,14 +347,13 @@ switch ($aktion) {
 		zeige_tabelle_zentriert($box, $text);
 		
 		// Liste ausgeben
-		echo sperren_liste();
+		sperren_liste();
 		
 		break;
 	
 	default;
 	// Übersicht
 		// Liste ausgeben
-	echo sperren_liste();
-	
+		sperren_liste();
 }
 ?>

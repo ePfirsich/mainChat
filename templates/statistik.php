@@ -75,17 +75,13 @@ switch ($aktion) {
 		$y = SPrintF("%04d", $y);
 		
 		$msg = "";
-		$msg .= "<center>\n";
 		$msg .= "<form name=\"form\" action=\"inhalt.php?seite=statistik\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
 		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
-		$msg .= "<table>\n";
-		$msg .= "<tr>\n";
-		$msg .= "<td class=\"tabelle_koerper\">" . $STAT_TITLE_FONTBEG0 . "\n";
+		$msg .= "<div style=\"margin-top:2px; text-align:center;\">\n";
 		$msg .= $t["statistik_monat"];
-		$msg .= $STAT_TITLE_FONTEND0 . "</td>\n";
-		$msg .= "<td class=\"tabelle_koerper\">" . $STAT_TITLE_FONTBEG0 . "\n";
+		$msg .= " " . "\n";
 		$msg .= "<select name=\"m\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($t_month)) {
@@ -113,13 +109,9 @@ switch ($aktion) {
 		}
 		
 		$msg .= "</select>\n";
-		$msg .= $STAT_TITLE_FONTEND0;
 		$msg .= "<input type=\"submit\" value=\"" . $t["statistik_anzeigen"] . "\">\n";
-		$msg .= "</td>\n";
-		$msg .= "</tr>\n";
-		$msg .= "</table>\n";
+		$msg .= "</div>\n";
 		$msg .= "</form>\n";
-		$msg .= "</center>\n";
 		
 		// Statistiken einzeln nach Monaten
 		$r1 = @mysqli_query($mysqli_link, "SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");

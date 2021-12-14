@@ -26,21 +26,12 @@ function sperren_liste() {
 	
 	// Alle Sperren ausgeben
 	$query = "SELECT u_nick,is_infotext,is_id,is_domain,UNIX_TIMESTAMP(is_zeit) AS zeit,is_ip_byte,is_warn,"
-		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) AS isip "
-		. "FROM ip_sperre,user WHERE is_owner=u_id "
-		. "ORDER BY is_zeit DESC,is_domain,is_ip";
+		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) AS isip FROM ip_sperre,user WHERE is_owner=u_id ORDER BY is_zeit DESC,is_domain,is_ip";
 	$result = mysqli_query($mysqli_link, $query);
 	$rows = mysqli_num_rows($result);
 	
 	if ($rows > 0) {
 		$i = 0;
-		
-		$text .= "<table class=\"tabelle_kopf_zentriert\">\n";
-		$text .= "<tr>\n";
-		$text .= "<td class=\"tabelle_kopfzeile\">" . $t['sperren_menue1'] . "</td>";
-		$text .= "</tr>\n";
-		$text .= "<tr>\n";
-		$text .= "<td class=\"tabelle_koerper\">\n";
 		
 		$text .= "<table style=\"width:100%\">\n";
 		$text .= "<tr>\n";
@@ -53,9 +44,9 @@ function sperren_liste() {
 		
 		while ($i < $rows) {
 			if ($i % 2 != 0) {
-				$bgcolor = 'class="tabelle_zeile2 smaller"';
+				$bgcolor = 'class="tabelle_zeile2"';
 			} else {
-				$bgcolor = 'class="tabelle_zeile1 smaller"';
+				$bgcolor = 'class="tabelle_zeile1"';
 			}
 			
 			// Ausgabe in Tabelle
@@ -101,9 +92,9 @@ function sperren_liste() {
 			
 			// Nur Warnung ja/nein
 			if ($row->is_warn == "ja") {
-				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sonst20'] . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sperren_warnung'] . "</td>\n";
 			} else {
-				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sonst21'] . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sperren_sperre'] . "</td>\n";
 			}
 			
 			// Eintrag - Benutzer und Datum
@@ -126,29 +117,17 @@ function sperren_liste() {
 			}
 			$text .= "</tr>\n";
 			
-			// Farben umschalten
-			if (($i % 2) > 0) {
-				$bgcolor = 'class="tabelle_zeile1 smaller"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile2 smaller"';
-			}
-			
 			$i++;
-			
 		}
 		
 		$text .= "</table>\n";
-		
-		$text .= "</td>\n";
-		$text .= "</tr>\n";
-		$text .= "</table>\n";
 	} else {
-		$text .= "<p style=\"text-align:center;\">$t[sonst4]</p>\n";
+		$text .= "<p style=\"text-align:center;\">$t[sperren_keine_zugangssperren_definiert]</p>\n";
 	}
 	
-	return $text;
-	
 	mysqli_free_result($result);
+	
+	zeige_tabelle_zentriert($t['sperren_menue1'], $text);
 }
 
 function zeige_blacklist($aktion, $zeilen, $sort) {
@@ -193,8 +172,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	switch ($aktion) {
 		case "normal":
 		default;
-		$query = "SELECT u_nick,f_id,f_text,f_userid,f_blacklistid,date_format(f_zeit,'%d.%m.%y %H:%i') AS zeit "
-				. "FROM blacklist left join user on f_blacklistid=u_id ORDER BY $qsort";
+		$query = "SELECT u_nick,f_id,f_text,f_userid,f_blacklistid,date_format(f_zeit,'%d.%m.%y %H:%i') AS zeit FROM blacklist LEFT JOIN user ON f_blacklistid=u_id ORDER BY $qsort";
 		$button = "LÖSCHEN";
 		
 		// blacklist-expire
@@ -303,12 +281,14 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $f_blacklistid Benutzer-ID des Blacklist-Eintrags
-	
 	global $id, $mysqli_link, $mysqli_link;
-	global $u_id, $u_nick, $admin;
+	global $u_id, $u_nick, $admin, $t;
 	
 	if (!$admin || !$f_blacklistid) {
-		echo "Fehler beim Löschen des Blacklist-Eintrags $f_blacklistid!<br>";
+		// Box anzeigen
+		$fehlermeldung = str_replace("%userid%", $f_userid, $t['sperren_fehlermeldung_fehler_beim_loeschen']);
+		$fehlermeldung = str_replace("%eintrag%", $blacklist['u_id'], $fehlermeldung);
+		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
 		return (0);
 	}
 	
@@ -321,14 +301,16 @@ function loesche_blacklist($f_blacklistid) {
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$f_nick = mysqli_result($result, 0, 0);
-		echo "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr in der Blackliste eingetragen.</P>";
+		
+		// Box anzeigen
+		$erfolgsmeldung = str_replace("%username%", $f_nick, $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht']);
+		zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $erfolgsmeldung);
 	}
 	mysqli_free_result($result);
 }
 
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
-	
 	global $id, $mysqli_link, $t;
 	
 	$box = $t['blacklist3'];
@@ -358,42 +340,42 @@ function formular_neuer_blacklist($neuer_blacklist) {
 
 function neuer_blacklist($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
-	
-	global $id, $mysqli_link;
+	global $id, $mysqli_link, $t;
 	
 	if (!$blacklist['u_id'] || !$f_userid) {
-		echo "Fehler beim Anlegen des Blacklist-Eintrags: $f_userid,$blacklist[u_id]!<br>";
+		// Box anzeigen
+		$fehlermeldung = str_replace("%userid%", $f_userid, $t['sperren_fehlermeldung_fehler_beim_anlegen']);
+		$fehlermeldung = str_replace("%eintrag%", $blacklist['u_id'], $fehlermeldung);
+		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
 	} else {
-		
 		$blacklist['u_id'] = mysqli_real_escape_string($mysqli_link, $blacklist['u_id']); // sec
 		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid); // sec
 		
 		// Prüfen ob Blacklist-Eintrag bereits in Tabelle steht
-		$query = "SELECT f_id from blacklist WHERE "
-			. "(f_userid=$blacklist[u_id] AND f_blacklistid=$f_userid) "
-			. "OR " . "(f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";
+		$query = "SELECT f_id from blacklist WHERE (f_userid=$blacklist[u_id] AND f_blacklistid=$f_userid) OR (f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";
 			
-			$result = mysqli_query($mysqli_link, $query);
-			if ($result && mysqli_num_rows($result) > 0) {
-				
-				echo "<P><b>Fehler:</b> '$blacklist[u_nick]' ist bereits in der Blackliste eingetragen!</P>\n";
-				
-			} elseif ($blacklist['u_id'] == $f_userid) {
-				
-				// Eigener Blacklist-Eintrag ist verboten
-				echo "<P><b>Fehler:</b> Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!</P>\n";
-			} else {
-				
-				// Benutzer ist noch kein Blacklist-Eintrag -> hinzufügen
-				$f['f_userid'] = $f_userid;
-				$f['f_blacklistid'] = $blacklist['u_id'];
-				$f['f_text'] = htmlspecialchars($blacklist['f_text']);
-				schreibe_db("blacklist", $f, 0, "f_id");
-				
-				echo "<P><b>Hinweis:</b> '$blacklist[u_nick]' ist jetzt in der Blacklist eingetragen.</P>";
-				
-			}
+		$result = mysqli_query($mysqli_link, $query);
+		if ($result && mysqli_num_rows($result) > 0) {
 			
+			// Box anzeigen
+			$fehlermeldung = str_replace("%username%", $blacklist['u_nick'], $t['sperren_fehlermeldung_eintrag_bereits_vorhanden']);
+			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
+		} else if ($blacklist['u_id'] == $f_userid) {
+			// Eigener Blacklist-Eintrag ist verboten
+			
+			// Box anzeigen
+			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich']);
+		} else {
+			// Benutzer ist noch kein Blacklist-Eintrag -> hinzufügen
+			$f['f_userid'] = $f_userid;
+			$f['f_blacklistid'] = $blacklist['u_id'];
+			$f['f_text'] = htmlspecialchars($blacklist['f_text']);
+			schreibe_db("blacklist", $f, 0, "f_id");
+			
+			// Box anzeigen
+			$erfolgsmeldung = str_replace("%username%", $blacklist['u_nick'], $t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich']);
+			zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $erfolgsmeldung);
+		}
 	}
 }
 ?>

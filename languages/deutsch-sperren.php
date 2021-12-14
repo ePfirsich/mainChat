@@ -16,16 +16,22 @@ $t['blacklist2'] = "Blacklist-Einträge: ";
 $t['blacklist3'] = "Neuen Blacklist-Eintrag hinzufügen:";
 
 $t['sperren_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!";
-$t['sperren_erfolgsmeldung_adresse'] = "Adresse %domain% gelöscht!</b><br>";
+$t['sperren_erfolgsmeldung_adresse'] = "Adresse %domain% gelöscht!<br>";
+$t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich'] = "'%username%' ist jetzt in der Blacklist eingetragen.<br>";
+$t['sperren_erfolgsmeldung_blacklisteintrag_geloescht'] = "'%username%' wurde aus der Blackliste gelöscht.<br>";
 
 $t['sperren_fehlermeldung'] = "Fehler";
-
-$t['sonst2'] = "Übersicht über alle Zugangssperren";
-$t['sonst4'] = "<b>Keine Zugangssperren definiert.</b>";
-$t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
 $t['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
 $t['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";
-$t['sperren_fehlermeldung_eintrag_nicht_gefunden'] = "<b>Fehler:</b> Eintrag nicht gefunden!</b><br>";
+$t['sperren_fehlermeldung_eintrag_nicht_gefunden'] = "Eintrag nicht gefunden!<br>";
+$t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich'] = "Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!<br>";
+$t['sperren_fehlermeldung_eintrag_bereits_vorhanden'] = "'%username%' ist bereits in der Blackliste eingetragen!<br>";
+$t['sperren_fehlermeldung_fehler_beim_anlegen'] = "Fehler beim Anlegen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
+$t['sperren_fehlermeldung_fehler_beim_loeschen'] = "Fehler beim Löschen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
+
+$t['sonst2'] = "Übersicht über alle Zugangssperren";
+$t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
+$t['sperren_keine_zugangssperren_definiert'] = "<b>Keine Zugangssperren definiert.</b>";
 
 $t['sonst11'] = "Domain:";
 $t['sonst12'] = "IP-Adresse:";
@@ -34,8 +40,8 @@ $t['sonst14'] = "Neue Zugangssperre anlegen";
 $t['sonst15'] = "Bitte nur eine Zeile ausfüllen!";
 $t['sonst18'] = "Sperre ändern";
 $t['sonst19'] = "Grund der Sperre (opt):";
-$t['sonst20'] = "WARNUNG";
-$t['sonst21'] = "SPERRE";
+$t['sperren_warnung'] = "WARNUNG";
+$t['sperren_sperre'] = "SPERRE";
 $t['sonst22'] = "Art (Warnung sperrt nicht):";
 $t['sonst23'] = "Adresse";
 $t['sonst24'] = "Info";
