@@ -3,6 +3,7 @@
 if( !isset($u_id) || $u_id == "") {
 	die;
 }
+
 switch ($aktion) {
 	case "editinfotext":
 		if ((strlen($editeintrag) > 0) && (preg_match("/^[0-9]+$/", trim($editeintrag)) == 1)) {
@@ -41,7 +42,8 @@ switch ($aktion) {
 		break;
 	
 	case "neu2":
-	// Neuer Freund, 2. Schritt: Benutzername Prüfen
+		// Neuer Freund, 2. Schritt: Benutzername Prüfen
+		$fehlermeldung = "";
 		$neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
 		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund['u_nick']) . "'";
 		$result = mysqli_query($mysqli_link, $query);
@@ -56,31 +58,31 @@ switch ($aktion) {
 			if ($num >= 1) {
 				$ignore = true;
 			}
-			;
+			
 			mysqli_free_result($result2);
 			
 			if ($ignore) {
-				echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg116']));
-				formular_neuer_freund($neuer_freund);
+				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
 			} else if ($neuer_freund['u_level'] == 'Z') {
-				echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg117']));
-				formular_neuer_freund($neuer_freund);
+				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
 			} else if ($neuer_freund['u_level'] == 'G') {
-				echo (str_replace("%u_nick%", $neuer_freund['u_nick'], $t['chat_msg118']));
-				formular_neuer_freund($neuer_freund);
-			} else {
-				$back = neuer_freund($u_id, $neuer_freund);
-				echo "<p>$back</p>";
-				formular_neuer_freund($neuer_freund);
-				zeige_freunde("normal", "");
+				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gast']);
 			}
+		} else if ($neuer_freund['u_nick'] == "") {
+			$fehlermeldung = $t['freunde_fehlermeldung_kein_benutzername_angegeben'];
+		} else {
+			$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
+		}
+		
+		if($fehlermeldung != "") {
+			zeige_tabelle_zentriert($t['freunde_fehlermeldung'], $fehlermeldung);
 			
-		} elseif ($neuer_freund['u_nick'] == "") {
-			echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
 			formular_neuer_freund($neuer_freund);
 		} else {
-			echo "<b>Fehler:</b> Der Benutzername '$neuer_freund[u_nick]' existiert nicht!<br>\n";
+			// Hinzufügen des Freundes erfolgreich
+			neuer_freund($u_id, $neuer_freund);
 			formular_neuer_freund($neuer_freund);
+			zeige_freunde("normal", "");
 		}
 		mysqli_free_result($result);
 		break;
@@ -97,7 +99,7 @@ switch ($aktion) {
 				$neuer_freund['f_text'] = $level[$rows['u_level']];
 				neuer_freund($u_id, $neuer_freund);
 			}
-			;
+			zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $value);
 		}
 		zeige_freunde("normal", "");
 		mysqli_free_result($result);
@@ -105,21 +107,28 @@ switch ($aktion) {
 	
 	case "bearbeite":
 	// Freund löschen
-		if ($los == "LÖSCHEN") {
+		if ($los == $t['freunde_loeschen']) {
 			if (isset($f_freundid) && is_array($f_freundid)) {
 				// Mehrere Freunde löschen
+				$value = "";
 				foreach ($f_freundid as $key => $loesche_id) {
-					loesche_freund($loesche_id, $u_id);
+					$value .= loesche_freund($loesche_id, $u_id);
 				}
 				
+				// Box anzeigen
+				zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $value);
 			} else {
 				// Einen Freund löschen
-				if (isset($f_freundid) && $f_freundid)
-					loesche_freund($f_freundid, $u_id);
+				if (isset($f_freundid) && $f_freundid) {
+					$value = loesche_freund($f_freundid, $u_id);
+				}
+				
+				// Box anzeigen
+				zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $value);
 			}
 		}
 		
-		if ($los == "BESTÄTIGEN") {
+		if ($los == $t['freunde_bestaetigen']) {
 			if (isset($f_freundid) && is_array($f_freundid)) {
 				// Mehrere Freunde bestätigen
 				foreach ($f_freundid as $key => $bearbeite_id) {
@@ -128,8 +137,9 @@ switch ($aktion) {
 				
 			} else {
 				// Einen Freund bestätigen
-				if (isset($f_freundid) && $f_freundid)
+				if (isset($f_freundid) && $f_freundid) {
 					bestaetige_freund($f_freundid, $u_id);
+				}
 			}
 		}
 		

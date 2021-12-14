@@ -362,13 +362,13 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?seite=freunde&id=$id\">$t[freunde_menue2]</a>\n"
-			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[freunde_menue3]</a>\n"
-			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[freunde_menue4]</a>\n";
+			$text = "<a href=\"inhalt.php?seite=freunde&id=$id\">$t[freunde_meine_freunde]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=neu&id=$id\">$t[freunde_neuen_freund_hinzufuegen]</a>\n"
+			. "| <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=$id\">$t[freunde_freundesanfragen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[freunde_menue5]</a>\n";
+				$text .= "| <a href=\"inhalt.php?seite=freunde&aktion=admins&id=$id\">$t[freunde_alle_admins_als_freund_hinzufuegen]</a>\n";
 			}
-			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[freunde_menue6]</a>\n";
+			$text .= "| <a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community#freunde&id=$id\">$t[freunde_hilfe]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/freunde.php');

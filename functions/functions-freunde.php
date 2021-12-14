@@ -2,7 +2,7 @@
 
 function zeige_freunde($aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $t;
 	
 	$text = '';
 	
@@ -11,23 +11,13 @@ function zeige_freunde($aktion, $zeilen) {
 		default:
 			$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%d.%m.%y %H:%i') as zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
 				. "UNION "
-				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%d.%m.%y %H:%i') as zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-				. "ORDER BY f_zeit desc ";
-			$button = "LÖSCHEN";
-			$titel1 = "hat";
-			$titel2 = "bestätigte(n) Freunde";
+				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%d.%m.%y %H:%i') as zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+				$box = $t['freunde_meine_freunde'];
 			break;
 		
 		case "bestaetigen":
-			$query = "SELECT f_id,f_text,f_userid,f_freundid,"
-				. "date_format(f_zeit,'%d.%m.%y %H:%i') as zeit "
-				. "from freunde " . "WHERE ( "
-				. " f_freundid=$u_id) AND (f_status='beworben') "
-				. "order by f_zeit desc";
-			$button = "LÖSCHEN";
-			$button2 = "BESTÄTIGEN";
-			$titel1 = "hat";
-			$titel2 = "noch zu bestätigende Freunde";
+			$query = "SELECT f_id,f_text,f_userid,f_freundid, date_format(f_zeit,'%d.%m.%y %H:%i') AS zeit FROM freunde WHERE f_freundid=$u_id AND f_status='beworben' ORDER BY f_zeit desc";
+			$box = $t['freunde_freundesanfragen'];
 			break;
 	}
 	
@@ -41,28 +31,25 @@ function zeige_freunde($aktion, $zeilen) {
 		$anzahl = mysqli_num_rows($result);
 		if ($anzahl == 0) {
 			// Keine Freunde
-			$box = "$u_nick $titel1 noch keine $titel2:";
-			
-			if ($aktion == "normal")
-				$text.= "Sie haben keine Freunde eingestellt.";
-			if ($aktion == "bestaetigen")
-				$text.= "Sie haben keine Freunde zu bestaetigen.";
+			if ($aktion == "normal") {
+				$text.= $t['freunde_keine_freunde_vorhanden'];
+			}
+			if ($aktion == "bestaetigen") {
+				$text.= $t['freunde_anfragen'];
+			}
 			
 		} else {
 			// Freunde anzeigen
-			$box = "$u_nick $titel1 $anzahl $titel2:";
-			
-			$text .= "<table style=\"width:100%;\">";
-			$text .= "<tr>"
-				."<td style=\"width:5%;\" class=\"tabelle_kopfzeile\">" . "Markieren" . "</td>"
-				."<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">" . "Benutzername" . "</td>"
-				. "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">" . "Info" . "</td>"
-				."<td style=\"width:20%; text-align:center;\" class=\"tabelle_kopfzeile\">" . "Datum des Eintrags" . "</td>"
-				."<td style=\"width:5%; text-align:center;\" class=\"tabelle_kopfzeile\">" . "Aktion" . "</td>"
-				."</tr>\n";
+			$text .= "<table style=\"width:100%;\">\n";
+			$text .= "<tr>\n";
+			$text .= "<td style=\"width:5%;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
+			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\" colspan=\"2\">" . $t['freunde_benutzername'] . "</td>\n";
+			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">" . $t['freunde_info'] . "</td>\n";
+			$text .= "<td style=\"width:20%; text-align:center;\" class=\"tabelle_kopfzeile\">" . $t['freunde_datum_des_eintrags'] . "</td>\n";
+			$text .= "<td style=\"width:5%; text-align:center;\" class=\"tabelle_kopfzeile\">" . $t['freunde_aktion'] . "</td>\n";
+			$text .= "</tr>\n";
 			
 			$i = 0;
-			
 			while ($row = mysqli_fetch_object($result)) {
 				if (($i % 2) > 0) {
 					$bgcolor = 'class="tabelle_zeile1"';
@@ -81,13 +68,10 @@ function zeige_freunde($aktion, $zeilen) {
 					$result2 = mysqli_query($mysqli_link, $query);
 				}
 				if ($result2 && mysqli_num_rows($result2) > 0) {
-					
 					// Benutzer gefunden -> Ausgeben
 					$row2 = mysqli_fetch_object($result2);
 					$freund_nick = "<b>" . zeige_userdetails($row2->u_id, $row2) . "</b>";
-					
 				} else {
-					
 					// Benutzer nicht gefunden, Freund löschen
 					$freund_nick = "NOBODY";
 					$query = "DELETE from freunde WHERE f_id=$row->f_id";
@@ -97,15 +81,15 @@ function zeige_freunde($aktion, $zeilen) {
 				
 				// Unterscheidung online ja/nein, Text ausgeben
 				if ($row2->o_id) {
-					$txt = $freund_nick . "<br>online&nbsp;"
-						. gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
+					$txt = $freund_nick . "<br>online&nbsp;" . gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
 					$auf = "<b>";
 					$zu = "</b>";
+					$status = "<span class=\"fa fa-user icon16 user_online\"></span>";
 				} else {
-					$txt = $freund_nick . "<br>Letzter&nbsp;Login:&nbsp;"
-						. str_replace(" ", "&nbsp;", $row2->login);
+					$txt = $freund_nick . "<br>Letzter&nbsp;Login:&nbsp;" . str_replace(" ", "&nbsp;", $row2->login);
 					$auf = "";
 					$zu = "";
+					$status = "<span class=\"fa fa-user icon16 user_offline\"></span>";
 				}
 				
 				// Infotext setzen
@@ -124,10 +108,11 @@ function zeige_freunde($aktion, $zeilen) {
 				
 				$text .= "<tr>"
 					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>"
+					. "<td style=\"width:15px; text-align:center\" $bgcolor>$status</td>"
 					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?seite=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[ÄNDERN]</a>" . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?seite=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[$t[freunde_aendern]]</a>" . $zu . "</td>"
 					. "</tr>\n";
 
 				$i++;
@@ -135,11 +120,11 @@ function zeige_freunde($aktion, $zeilen) {
 			
 			$text .= "<tr>"
 				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleFreunde(this.checked)\">Alle Auswählen</td>\n";
-			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\">";
+			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\">";
 			if ($aktion == "bestaetigen") {
-				$text .= "<input type=\"submit\" name=\"los\" value=\"$button2\">";
+				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[freunde_bestaetigen]\">";
 			}
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$button\">"
+			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[freunde_loeschen]\">"
 				. "</td></tr></table>\n";
 		}
 		
@@ -155,8 +140,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// Löscht Freund aus der Tabelle mit f_userid und f_freundid
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
-	
-	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id;
+	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $t;
 	
 	if (!$f_userid || !$f_freundid) {
 		echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
@@ -165,24 +149,23 @@ function loesche_freund($f_freundid, $f_userid) {
 	$f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
 	$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
 	
-	$query = "DELETE from freunde WHERE "
-		. "(f_userid=$f_userid AND f_freundid=$f_freundid) " . "OR "
-		. "(f_userid=$f_freundid AND f_freundid=$f_userid)";
+	$query = "DELETE from freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
 	$result = mysqli_query($mysqli_link, $query);
 	
 	$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_freundid";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$f_nick = mysqli_result($result, 0, 0);
-		$back = "<P><b>Hinweis:</b> '$f_nick' ist nicht mehr Ihr Freund.</P>";
+		
+		$value = str_replace("%user%", $f_nick, $t['freunde_erfolgsmeldung_freund_geloescht']);
 	}
 	mysqli_free_result($result);
-	return ($back);
+	
+	return $value;
 }
 
 function formular_neuer_freund($neuer_freund) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	
 	global $id, $mysqli_link;
 	
 	$box = "Neuen Freund eintragen:";
@@ -200,55 +183,51 @@ function formular_neuer_freund($neuer_freund) {
 		. "<input type=\"text\" name=\"neuer_freund[f_text]\" value=\"" . htmlentities($neuer_freund['f_text']) . "\" size=45>" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"Eintragen\">"
 		. "</td></tr>\n" . "</table></form>\n";
 	
-		zeige_tabelle_zentriert($box,$text);
+	zeige_tabelle_zentriert($box,$text);
 }
 
 function formular_editieren($f_id, $f_text) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id, $mysqli_link;
+	global $id, $mysqli_link, $t;
+	
+	
+	$box = $t['freunde_freunestext_aendern'];
 	
 	$text = '';
-	
-	$box = "Freundestext ändern:";
-	
 	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
 	
-	$text .= "<b>Infotext:</b> <input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"ÄNDERN\"></form>\n";
+	$text .= "<b>Infotext:</b> <input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"$t[freunde_aendern]\"></form>\n";
 	
 	zeige_tabelle_zentriert($box,$text);
 }
 
 function neuer_freund($f_userid, $freund) {
 	// Trägt neuen Freund in der Datenbank ein
+	global $id, $mysqli_link, $chat, $system_farbe, $t;
 	
-	global $id, $mysqli_link, $chat, $system_farbe;
-	
+	$fehlermeldung = "";
 	if (!$freund['u_id'] || !$f_userid) {
-		echo "Fehler beim Anlegen des Freundes: $f_userid,$freund[u_id]!<br>";
+		$fehlermeldung = $t['freunde_fehlermeldung_fehler_beim_hinzufuegen'];
 	} else {
-		
 		// Prüfen ob Freund bereits in Tabelle steht
 		$freund['u_id'] = mysqli_real_escape_string($mysqli_link, $freund['u_id']);
 		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
-		
-		$query = "SELECT f_id from freunde WHERE "
-			. "(f_userid=$freund[u_id] AND f_freundid=$f_userid) " . "OR "
-			. "(f_userid=$f_userid AND f_freundid=$freund[u_id])";
+		$query = "SELECT f_id from freunde WHERE (f_userid=$freund[u_id] AND f_freundid=$f_userid) OR (f_userid=$f_userid AND f_freundid=$freund[u_id])";
 		
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			
-			$back = "<P><b>Fehler:</b> '$freund[u_nick]' ist bereits als Ihr Freund eingetragen!</P>\n";
-			
-		} elseif ($freund['u_id'] == $f_userid) {
-			
+			$fehlermeldung = str_replace("%nickname%", $freund[u_nick], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+		} else if ($freund['u_id'] == $f_userid) {
 			// Eigener Freund ist verboten
-			$back = "<P><b>Fehler:</b> Sie können sich nicht selbst als Freund eintragen!</P>\n";
+			$fehlermeldung = $t['freunde_fehlermeldung_selbst_als_freund'];
+		}
+		
+		if($fehlermeldung != "") {
+			zeige_tabelle_zentriert($t['freunde_fehlermeldung'], $fehlermeldung);
 		} else {
-			
 			// Benutzer ist noch kein Freund -> hinzufügen
 			$f['f_userid'] = $f_userid;
 			$f['f_freundid'] = $freund['u_id'];
@@ -268,12 +247,11 @@ function neuer_freund($f_userid, $freund) {
 				
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
-			$back = "<b>Hinweis:</b> Sie bewerben sich nun bei '$freund[u_nick]' als Freund.";
 			
+			$erfolgsmeldung = str_replace("%nickname%", $freund[u_nick], $t['freunde_erfolgsmeldung_freundesanfrage']);
+			zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $erfolgsmeldung);
 		}
-		
 	}
-	return ($back);
 }
 
 function edit_freund($f_id, $f_text) {
