@@ -10,7 +10,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Nachricht Standard
 	$text = $nachricht_b[0];
 	
-	// Nachricht Lustiege ein/austrittsnachrichten
+	// Nachricht Lustige Ein-/Austrittsnachrichten
 	if ($lustigefeatures) {
 		reset($nachricht_b);
 		$anzahl = count($nachricht_b);
@@ -42,12 +42,11 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
 	$back = 0;
 	if (raum_ist_moderiert($r_id)) {
-		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&gt;&gt;&gt;</b> "
-			. $text);
+		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&gt;&gt;&gt;</b> " . $text);
 	} else {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
 		
-		$sql = "SELECT count(c_id) as nummer FROM chat WHERE c_von_user = '' and c_typ='S' and c_raum = " . intval($r_id) . " and c_zeit > '"
+		$sql = "SELECT COUNT(c_id) as nummer FROM chat WHERE c_von_user = '' AND c_typ='S' AND c_raum = " . intval($r_id) . " AND c_zeit > '"
 			. date("YmdHis", date("U") - 60) . "'";
 		$result = mysqli_query($mysqli_link, $sql);
 		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -70,7 +69,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Nachricht Standard
 	$text = $nachricht_v[0];
 	
-	// Nachricht Lustiege ein/austrittsnachrichten
+	// Nachricht Lustige Ein-/Austrittsnachrichten
 	if ($lustigefeatures) {
 		reset($nachricht_v);
 		$anzahl = count($nachricht_v);

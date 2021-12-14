@@ -1312,14 +1312,21 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// user $u_id/$u_nick verlässt $raum
 	// Nachricht in Raum $raum wird erzeugt
 	// Liefert ID des geschriebenen Datensatzes zurück
-	
-	global $mysqli_link, $chat, $system_farbe, $t, $lustigefeatures;
-	global $eintritt_individuell;
+	global $mysqli_link, $chat, $system_farbe, $t, $nachricht_vc;
+	global $eintritt_individuell, $lustigefeatures;
 	$back = 0;
 	
 	// Nachricht an alle
 	if ($raum && $u_id) {
-		$text = $t['chat_msg102'];
+		// Nachricht Standard
+		$text = $nachricht_vc[0];
+		
+		// Nachricht Lustige Ein-/Austrittsnachrichten
+		if ($lustigefeatures) {
+			reset($nachricht_vc);
+			$anzahl = count($nachricht_vc);
+			$text = $nachricht_vc[mt_rand(1, $anzahl) - 1];
+		}
 		
 		if ($eintritt_individuell == "1") {
 			$query = "SELECT `u_austritt` FROM `user` WHERE `u_id` = $u_id";
