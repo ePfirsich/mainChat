@@ -2,7 +2,7 @@
 
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $id, $mysqli_link;
+	global $id, $mysqli_link, $t;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
@@ -17,9 +17,9 @@ function formular_neue_email($neue_email, $m_id = "") {
 	}
 	
 	if ($m_id) {
-		$box = "Mail weiterleiten an:";
+		$box = $t['nachrichten_weiterleiten'];
 	} else {
-		$box = "Neue Mail senden:";
+		$box = $t['nachrichten_neu'];
 	}
 	$text = '';
 	
@@ -31,7 +31,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	if (!isset($neue_email['an_nick'])) {
 	$neue_email['an_nick'] = "";
 	}
-	$text .= "<b>Benutzername:</b> "
+	$text .= $t['nachrichten_benutzername']
 		. "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" size=20>" . "&nbsp;"
 		. "<input type=\"submit\" name=\"los\" value=\"Weiter\">";
 	

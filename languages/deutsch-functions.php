@@ -151,9 +151,7 @@ $t['chat_msg101'] = "<b>$chat:</b> Sie werden nach %zeit% Minuten automatisch au
 $t['chat_msg102'] = "<b>&lt;&lt;&lt;</b> '%user%' verlässt diesen Raum und den Chat.";
 $t['chat_msg103'] = "Sie werden von '%user%' ignoriert und dürfen ihm keine Mail schicken";
 $t['chat_msg104'] = "<b>$chat:</b> Mail wurde nicht verschickt: Mailbombing-Schutz aktiv!";
-$t['chat_msg105'] = "<b>$chat:</b> Mail kann NICHT verschickt werden: Dieser Benutzer hat seine Mailbox zugeschlossen!";
 $t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
-
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
 $t['chat_msg110'] = "Passwort neu + E-Mail";

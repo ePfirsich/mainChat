@@ -53,11 +53,11 @@ switch ($aktion) {
 			}
 			
 			if ($boxzu == true) {
-				$fehlertext = $t['chat_msg105'];
-				break;
+				$fehlertext = $t['fehler_mailbox_geschlossen'];
 			} else {
 				$m_u_level = mysqli_result($result, 0, "u_level");
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
+					// Alles in Ordnung
 					formular_neue_email2($neue_email, $m_id);
 				} else {
 					$fehlertext = $t['fehler_keine_mail_an_gast'];
@@ -111,14 +111,15 @@ switch ($aktion) {
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, "u_nick");
 		} else {
-			echo "<b>Fehler:</b> Der Benutzer mit der ID '$neue_email[m_an_uid]' existiert nicht!<br>\n";
+			$fehlertext = $t['fehler_kein_benutzername_angegeben'];
+			zeige_tabelle_zentriert($t['fehler1'], $fehlertext);
+			
 			$ok = FALSE;
 		}
 		mysqli_free_result($result);
 		
 		// Mail schreiben
 		if ($ok) {
-			
 			if ($neue_email['typ'] == 1) {
 				// E-Mail an externe Adresse versenden
 				if ($neue_email['m_id'] = email_versende($u_id, $neue_email['m_an_uid'], $neue_email['m_text'], $neue_email['m_betreff'], TRUE)) {

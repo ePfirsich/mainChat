@@ -11,6 +11,10 @@ $t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
 $t['nachrichten_nachrichten_deaktivieren'] = "Mailbox schließen";
 $t['nachrichten_hilfe'] = "Hilfe";
 
+$t['nachrichten_benutzername'] = "Benutzername";
+$t['nachrichten_weiterleiten'] = "Nachricht weiterleiten";
+$t['nachrichten_neu'] = "Neue Nachricht senden";
+
 $t['nachrichten_posteingang2'] = "Nachrichten im Posteingang";
 $t['nachrichten_postausgang2'] = "Nachrichten im Postausgang";
 $t['nachrichten_papierkorb'] = "Nachrichten im Papierkorb";
@@ -37,12 +41,13 @@ $t['status'] = "Status";
 $t['loeschen'] = "löschen";
 $t['wiederherstellen'] = "wiederherstellen";
 
-$t['sonst2'] = "Mail zeigen:";
+$t['sonst2'] = "Nachricht zeigen:";
 
 $t['fehler1'] = "Fehler";
 $t['fehler2'] = "Sie sind nicht eingeloggt oder nur als Gast im Chat eingeloggt.<br><br>>><a href=\"index.php\">Zurück zum Login</a><<";
 
-$t['fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!";
-$t['fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!";
-$t['fehler_benutzername_existiert_nicht'] = "Der Benutzername '$neue_email[an_nick]' existiert nicht!";
+$t['fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
+$t['fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
+$t['fehler_benutzername_existiert_nicht'] = "Der Benutzername existiert nicht!<br>";
+$t['fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer seine Mailbox geschlossen hat!";
 ?>
