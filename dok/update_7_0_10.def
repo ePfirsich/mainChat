@@ -1,0 +1,5 @@
+# mainChat-Datenbank für MySQL
+#
+#
+
+ALTER TABLE `aktion` DROP `a_text`;

@@ -148,7 +148,6 @@ CREATE TABLE aktion (
 	a_wann enum('Sofort/Offline','Sofort/Online','Login','Alle 5 Minuten') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Login',
 	a_was varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	a_wie set('keine','Chat-Mail','E-Mail','OLM') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'keine',
-	a_text varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	a_zeit timestamp NOT NULL,
 	PRIMARY KEY	(a_id),
 	KEY a_user (a_user),

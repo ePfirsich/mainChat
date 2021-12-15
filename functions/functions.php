@@ -28,7 +28,7 @@ if (!(isset($mysqli_link))) {
 
 // Deklaration der gültigen Tabellenfelder die in die Datenbank geschrieben werden dürfen 
 $valid_fields = array(
-	'aktion' => array('a_id', 'a_user', 'a_wann', 'a_was', 'a_wie', 'a_text', 'a_zeit'),
+	'aktion' => array('a_id', 'a_user', 'a_wann', 'a_was', 'a_wie', 'a_zeit'),
 	'bild' => array('b_id', 'b_user', 'b_name', 'b_bild', 'b_mime', 'b_width', 'b_height'),
 	'blacklist' => array('f_id', 'f_userid', 'f_blacklistid', 'f_zeit', 'f_text'),
 	'chat' => array('c_id', 'c_von_user', 'c_an_user', 'c_typ', 'c_raum', 'c_text', 'c_zeit', 'c_farbe', 'c_von_user_id', 'c_br'),

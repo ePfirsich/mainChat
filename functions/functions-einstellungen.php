@@ -429,7 +429,6 @@ function eintrag_aktionen($aktion_datensatz) {
 			$f['a_was'] = $def_was_eintrag;
 			$f['a_wann'] = $a_wann_eintrag;
 			$f['a_user'] = $u_id;
-			$f['a_text'] = $u_nick;
 			schreibe_db("aktion", $f, $temp[0], "a_id");
 		}
 	}

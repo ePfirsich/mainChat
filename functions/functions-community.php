@@ -304,7 +304,6 @@ function aktion(
 	// Verschickt eine Nachricht (Aktion) zum Login, Raumwechsel, Sofort oder alle 5 Minuten aus (a_wann)
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
-	// Pro Funktion kann ein Infotext hinterlegt werden (a_text)
 	// typ = "Sofort/Offline", "Sofort/Online", "Login", "Alle 5 Minuten"
 	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden

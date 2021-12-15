@@ -150,11 +150,11 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 		$query = "SELECT a_id FROM aktion WHERE a_user=$u_id ";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && (mysqli_num_rows($result) == 0 || mysqli_num_rows($result) > 20)) {
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Login', a_was='Freunde', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
-			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_text='" . mysqli_real_escape_string($mysqli_link, $u_nick) . "', a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_wann='Login', a_was='Freunde', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
+			mysqli_query($mysqli_link, "INSERT INTO aktion set a_user=$u_id, a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
 		}
 		mysqli_free_result($result);
 	}
