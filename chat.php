@@ -53,7 +53,6 @@ if( !isset($u_id) || $u_id == "") {
 		//	"}\n".
 		//	"setTimeout(\"scroll()\",100);\n".
 		//	"</script>\n".
-		//	"$stylesheet</HEAD>\n";
 		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
 			. "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";

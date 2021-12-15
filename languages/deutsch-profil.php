@@ -115,4 +115,6 @@ $t['homepage_bilder'] = "Bilder";
 $t['homepage_hintergrundgrafik'] = "Hintergrundgrafik";
 $t['homepage_hintergrundgrafik_des_inhalts'] = "Hintergrundgrafik des Inhalts";
 $t['homepage_hintergrundgrafik_der_grafiken'] = "Hintergrundgrafik der Grafiken";
+
+$t['homepage_falscher_aufruf'] = "Der Benutzer hat keine Homepage oder die Homepage des Benutzers ist deaktiviert.";
 ?>

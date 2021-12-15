@@ -289,7 +289,6 @@ function zeige_home($u_id, $force = FALSE) {
 	if ($u_id && $u_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$u_id";
-		
 	} else if ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
 		$nicknamen = $new_string=substr($_SERVER['QUERY_STRING'],1);
 		// Aufruf als home.php?USERNAME
@@ -372,14 +371,9 @@ function zeige_home($u_id, $force = FALSE) {
 		<body>
 		<?php
 		echo home_info($u_id, $row->u_nick, $home, "ui_text", $bilder);
-	} else if ($u_chathomepage != "1") {
-		echo "<body>"
-			. "<p><b>Fehler: Dieser Benutzer hat keine Homepage!</b></p>";
-		
 	} else {
-		echo "<body>"
-			. "<p><b>Fehler: Aufruf ohne gültige Parameter!</b></p>";
-		
+		echo "<body>\n";
+		zeige_tabelle_zentriert($t['profil_fehlermeldung'], $t['homepage_falscher_aufruf']);
 	}
 }
 ?>
