@@ -157,13 +157,6 @@ $user_farbe="0000AA";			// für Benutzer
 $system_farbe="000000";			// System
 
 
-// Farben für den Text im Chat:
-$farbe_chat_user=array(1=>"303030","606060","909090","880000","FF0000",
-			"FF8888","004400","00BB00","44FF44","0000AA",
-			"4444FF","AAAAFF","FFA000","606000","A0A000",
-			"FF00FF","A000A0");
-
-
 // Sollen Gäste automatisch einen Namen zugewiesen bekommen?
 // 1= Ja, 0= Nein
 $gast_name_auto=0;

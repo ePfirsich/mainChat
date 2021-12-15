@@ -2,16 +2,13 @@
 function user_edit($f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
-	global $id, $level;
-	global $farbe_chat_user, $user_farbe, $t;
-	global $u_id, $punktefeatures;
-	global $eintritt_individuell;
+	global $id, $level, $user_farbe, $t;
+	global $u_id, $punktefeatures, $eintritt_individuell;
 	global $mysqli_link;
 	
 	// Ausgabe des Benutzers
 	$zaehler = 0;
-	$text = "";
-	$text .= "<table style=\"width:100%;\">";
+	$text = "<table style=\"width:100%;\">";
 	
 	if ($u_level != "G") {
 		// Überschrift: Avatar

@@ -22,11 +22,8 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 $title = $body_titel;
 zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
 zeige_header_ende();
-?>
-<body style="background-color: var(--Chatunten-Hintergrundfarbe);">
-<?php
-// Eingabeformular mit Menu und Farbauswahl
-reset($farbe_chat_user);
+
+echo "<body style=\"background-color: var(--Chatunten-Hintergrundfarbe);\">";
 
 // Typ Eingabefeld für Chateingabe setzen
 if ($u_level == "M") {

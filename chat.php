@@ -56,8 +56,7 @@ if( !isset($u_id) || $u_id == "") {
 		//	"$stylesheet</HEAD>\n";
 		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
-			. "<script language=JavaScript>\n"
-			. "setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
+			. "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
 		zeige_header_ende($meta_refresh);
 		
 		// Voreinstellungen
