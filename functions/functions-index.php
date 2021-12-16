@@ -893,14 +893,14 @@ function zeige_chat_login() {
 		$text = $layout_kopf;
 	} else {
 		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-		$text.= "<h2>".$t['willkommen']."</h2><br>";
+		$text.= "<h2>".$t['willkommen']."</h2><br>\n";
 	}
 	
 	// Benutzerlogin
 	$zaehler = 0;
 	$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
-	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Login ioder neu registrierten/Passwort vergessen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
@@ -941,10 +941,10 @@ function zeige_chat_login() {
 	if($gast_login && !$temp_gast_sperre) {
 		// Gastlogin
 		$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
-		$text .= "<table style=\"width:100%;\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
 		$text .= "<input type=\"hidden\" name=\"login\" value=\"\">\n";
 		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
+		$text .= "<table style=\"width:100%;\">\n";
 		
 		// Überschrift: Gastlogin
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_gastlogin'], "", "", 0, "70", "");
