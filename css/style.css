@@ -5,6 +5,14 @@ body {
 	font-family: Tahoma, Helvetica, sans-serif;
 }
 
+a, a:link, a:visited {
+	color: var(--Tabellenkoerper-Linkfarbe);
+}
+
+a:hover {
+	color: var(--Tabellenkoerper-Linkfarbe);
+}
+
 /* Linkfarbe */
 .tabelle_koerper a, .tabelle_koerper a:link, .tabelle_koerper a:visited {
 	color: var(--Tabellenkoerper-Linkfarbe);
