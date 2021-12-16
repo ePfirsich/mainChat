@@ -32,21 +32,17 @@ $fenster = str_replace("Ö", "", $fenster);
 $fenster = str_replace("Ü", "", $fenster);
 $fenster = str_replace("ß", "", $fenster);
 
-echo "<script>\n" . "  var id='$id';\n"
+$meta_refresh = "<script>\n" . "  var id='$id';\n"
 . "  var u_nick='" . $fenster . "';\n" . "  var raum='$schau_raum';\n";
-echo "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
-	. "  var stdparm2='?id='+id;\n";
-	?>
-</script>
-<?php
+$meta_refresh .= "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
+	. "  var stdparm2='?id='+id;\n</script>\n";
+
 // Kein Refresh für die Smilies
 if($aktion == "smilies") {
-	$meta_refresh = "";
 } else {
 	// Normalerweise kein Refresh nötig, aber da Browser den Tab freezen, kann die Userliste nicht aktuell sein
-	$meta_refresh = '<meta http-equiv="refresh" content="60; URL=user.php?id=' . $id . '&aktion='.$aktion.'">';
+	$meta_refresh .= '<meta http-equiv="refresh" content="60; URL=user.php?id=' . $id . '&aktion='.$aktion.'">';
 }
-$meta_refresh = "";
 $title = $body_titel . ' - Benutzer';
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
@@ -164,8 +160,8 @@ switch ($aktion) {
 		if ($rows > 15) {
 			$text .= "<br><div style=\"text-align:center;\">";
 			$text .= $text_navigation;
+			$text .= "</div>";
 		}
-		$text .= "</div>";
 }
 
 // Inhalt anzeigen
