@@ -22,8 +22,6 @@ if( !isset($u_id) || $u_id == "") {
 	$sysmsg = TRUE;
 	
 	$title = $body_titel;
-	zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
-	
 	$meta_refresh = "";
 
 	// Algorithmus wählen
@@ -31,7 +29,7 @@ if( !isset($u_id) || $u_id == "") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
-		zeige_header_ende($meta_refresh);
+		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 		?>
 		<body>
 		<?php
@@ -56,7 +54,7 @@ if( !isset($u_id) || $u_id == "") {
 		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
 			. "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
-		zeige_header_ende($meta_refresh);
+			zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 		
 		// Voreinstellungen
 		$j = 0;

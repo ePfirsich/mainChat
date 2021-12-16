@@ -13,18 +13,15 @@ if( !isset($u_id) || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-$title = $body_titel;
-zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
-$meta_refresh = "";
-
 // Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sie sich in anderen Räumen einloggen
+$meta_refresh = "";
 $meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
-
 $meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n</script>\n";
-zeige_header_ende($meta_refresh);
-?>
-<body>
-<?php
+$title = $body_titel;
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+
+echo "<body class=\"chatunten\">";
+
 /*
 // Aktionen ausführen, falls nicht innerhalb der letzten 5
 // Minuten geprüft wurde (letzte Prüfung=o_aktion)

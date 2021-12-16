@@ -11,22 +11,20 @@ if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
-$title = $body_titel;
-
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-zeige_header_anfang($title, 'chatunten', '', $benutzerdaten['u_layout_farbe']);
 // Falls keine Texte zur Moderation gefunden wurden, nach 10 Sek reload
 $moderations_zeilen = anzahl_moderationstexte($o_raum);
 if ($moderations_zeilen == 0) {
 	$meta_refresh = '<meta http-equiv="refresh" content="10; URL=moderator.php?id=' . $id . '">';
 }
 $meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n" . "</script>\n";
-zeige_header_ende($meta_refresh);
-?>
-<body>
-<?php
+$title = $body_titel;
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+
+echo "<body class=\"chatunten\">";
+
 if ($moderationsmodul == 1) {
 	if (!isset($mode))
 		$mode = "";

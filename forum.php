@@ -31,8 +31,7 @@ if ($u_level == "S" || $u_level == "C") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'chatausgabe', '', $benutzerdaten['u_layout_farbe']);
-zeige_header_ende();
+zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
 echo "<body>\n";
 

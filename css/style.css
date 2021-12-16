@@ -1,6 +1,16 @@
 /* Allgemeines - Anfang ******************************************************************* */
 body {
+	color: var(--Textfarbe);
+	background-color: var(--Hintergrundfarbe);
 	font-family: Tahoma, Helvetica, sans-serif;
+}
+
+/* Linkfarbe */
+.tabelle_koerper a, .tabelle_koerper a:link, .tabelle_koerper a:visited {
+	color: var(--Tabellenkoerper-Linkfarbe);
+}
+.tabelle_koerper a:hover {
+	color: var(--Tabellenkoerper-Linkfarbe);
 }
 
 .fehlermeldung {
@@ -9,6 +19,10 @@ body {
 
 .smaller {
 	font-size: smaller;
+}
+
+.chatunten {
+	background-color: var(--Chatunten-Hintergrundfarbe);
 }
 /* Allgemeines - Ende ******************************************************************* */
 
@@ -127,11 +141,9 @@ body {
 
 /* Linkfarbe */
 .tabelle_koerper a, .tabelle_koerper a:link, .tabelle_koerper a:visited {
-	color: var(--Tabellenkoerper-Linkfarbe);
 	text-decoration:underline;
 }
 .tabelle_koerper a:hover {
-	color: var(--Tabellenkoerper-Linkfarbe);
 	text-decoration:underline;
 }
 /* Tabellenkoerper - Ende ******************************************************************* */
@@ -159,6 +171,11 @@ body {
 .tabelle_zeile1 {
 	background-color: var(--Tabelle-Zeile1);
 	padding: 2px;
+	text-decoration:none;
+}
+
+.tabelle_zeile1 a, .tabelle_zeile1 a:active {
+	text-decoration:none !important;
 }
 /* Tabellenzeile 1 - Ende ******************************************************************* */
 
@@ -167,6 +184,11 @@ body {
 .tabelle_zeile2 {
 	background-color: var(--Tabelle-Zeile2);
 	padding: 2px;
+	text-decoration:none;
+}
+
+.tabelle_zeile2 a, .tabelle_zeile2 a:active {
+	text-decoration:none !important;
 }
 /* Tabellenzeile 2 - Ende ******************************************************************* */
 

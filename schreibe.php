@@ -39,7 +39,7 @@ if( !isset($u_id) || $u_id == "") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
+zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
 schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten);
 ?>

@@ -21,9 +21,6 @@ if( !isset($u_id) || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-$title = $body_titel . ' - Benutzer';
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
-
 // Target Sonderzeichen raus...
 $fenster = str_replace("+", "", $u_nick);
 $fenster = str_replace("-", "", $fenster);
@@ -50,7 +47,8 @@ if($aktion == "smilies") {
 	$meta_refresh = '<meta http-equiv="refresh" content="60; URL=user.php?id=' . $id . '&aktion='.$aktion.'">';
 }
 $meta_refresh = "";
-zeige_header_ende($meta_refresh);
+$title = $body_titel . ' - Benutzer';
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
 // Login ok?
 echo "<body>\n";

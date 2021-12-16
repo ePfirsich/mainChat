@@ -1,5 +1,8 @@
 /* Farbdeklarationen - Anfang ******************************************************************* */
 :root{
+	--Textfarbe: #000000;
+	--Hintergrundfarbe: #ffffff;
+	
 	--Tabellenkopf-Hintergrundfarbe: #004400;
 	--Tabellenkopf-Textfarbe: #ffffff;
 	--Tabellenkopf-Linkfarbe: #ffffff;
@@ -9,10 +12,6 @@
 	--Tabellenkoerper-Hintergrundfarbe: #ffffff;
 	--Tabellenkoerper-Textfarbe: #000000;
 	--Tabellenkoerper-Linkfarbe: #000000;
-	
-	--Tabellenkoerper-Login-Hintergrundfarbe: #158615;
-	--Tabellenkoerper-Login-Textfarbe: #000000;
-	--Tabellenkoerper-Login-Linkfarbe: #000000;
 	
 	--Button-Hintergrundfarbe: #cccccc;
 	--Button-Textfarbe: #000000;

@@ -47,6 +47,35 @@ if (file_exists("languages/$sprache-$seite.php")) {
 	$kein_seitenaufruf = true;
 }
 
+// Hole alle benötigten Einstellungen des Benutzers
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
+
+$meta_refresh = "
+<script>
+function toggleMail(tostat) {
+	for(i=0; i<document.forms[\"mailbox\"].elements.length; i++) {
+		 e = document.forms[\"mailbox\"].elements[i];
+		 if ( e.type=='checkbox' )
+			 e.checked=tostat;
+	}
+}
+
+function toggleBlacklist(tostat) {
+	for(i=0; i<document.forms[\"blacklist_loeschen\"].elements.length; i++) {
+		 e = document.forms[\"blacklist_loeschen\"].elements[i];
+		 if ( e.type=='checkbox' )
+			 e.checked=tostat;
+	}
+}
+function toggleFreunde(tostat) {
+	for(i=0; i<document.forms[\"freund_loeschen\"].elements.length; i++) {
+		 e = document.forms[\"freund_loeschen\"].elements[i];
+		 if ( e.type=='checkbox' )
+			 e.checked=tostat;
+	}
+}
+</script>";
+
 // Titel aus der entsprechenden Übersetzung holen
 if($t['titel'] != '') {
 	$title = $body_titel . ' - ' . $t['titel'];
@@ -54,37 +83,7 @@ if($t['titel'] != '') {
 	$title = $body_titel;
 }
 
-// Hole alle benötigten Einstellungen des Benutzers
-$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
-
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
-?>
-<script>
-function toggleMail(tostat) {
-		for(i=0; i<document.forms["mailbox"].elements.length; i++) {
-			 e = document.forms["mailbox"].elements[i];
-			 if ( e.type=='checkbox' )
-				 e.checked=tostat;
-		}
-}
-
-function toggleBlacklist(tostat) {
-	for(i=0; i<document.forms["blacklist_loeschen"].elements.length; i++) {
-		 e = document.forms["blacklist_loeschen"].elements[i];
-		 if ( e.type=='checkbox' )
-			 e.checked=tostat;
-	}
-}
-function toggleFreunde(tostat) {
-	for(i=0; i<document.forms["freund_loeschen"].elements.length; i++) {
-		 e = document.forms["freund_loeschen"].elements[i];
-		 if ( e.type=='checkbox' )
-			 e.checked=tostat;
-	}
-}
-</script>
-<?php
-zeige_header_ende();
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;

@@ -13,9 +13,6 @@ if( !isset($u_id) || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-$title = $body_titel;
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
-
 // Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
 if ($o_raum && $o_raum == "-1") {
 	$wo_online = "forum";
@@ -47,7 +44,8 @@ if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o
 }
 
 $meta_refresh = '<meta http-equiv="refresh" content="10; URL=navigation.php?id=' . $id . '">';
-zeige_header_ende($meta_refresh);
+$title = $body_titel;
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 echo "<body>\n";
 
 // Timestamp im Datensatz aktualisieren

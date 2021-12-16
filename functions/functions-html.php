@@ -1,7 +1,7 @@
 <?php
 
-function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout_farbe = 0) {
-	// Gibt den HTML-Header auf der Eingangsseite
+function zeige_header($title, $u_layout_farbe, $zusatz_header = '') {
+	// Gibt den HTML-Header aus
 	global $metatag;
 	?>
 	<!DOCTYPE html>
@@ -11,20 +11,11 @@ function zeige_header_anfang($title, $stylesheet, $zusatz_header = '', $u_layout
 	<meta charset="utf-8">
 	<?php echo $metatag; ?>
 	<link rel="stylesheet" href="css/style-<?php echo $u_layout_farbe; ?>.css" type="text/css">
-	<link rel="stylesheet" href="css/style.css" type="text/css">
-	<link rel="stylesheet" href="css/<?php echo $stylesheet; ?>.css" type="text/css">
+	<link rel="stylesheet" href="css/style.css?v=001" type="text/css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 	<script src="ckeditor/ckeditor.js"></script>
 	<?php
-	if($zusatz_header != '') {
-		echo $zusatz_header;
-	}
-}
-
-function zeige_header_ende($zusatz_header = '') {
-	// Gibt den HTML-Header auf der Eingangsseite
-	
 	if($zusatz_header != '') {
 		echo $zusatz_header;
 	}
@@ -34,7 +25,7 @@ function zeige_header_ende($zusatz_header = '') {
 			return(confirm(text));
 	}
 	</script>
-	<script type="text/javascript" src="js/jscript.js"></script>
+	<script type="text/javascript" src="js/jscript.js?v=001"></script>
 	
 	<!-- jQuery Color picker -->
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

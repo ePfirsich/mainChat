@@ -140,16 +140,13 @@ $farbe_mini_vlink="#000080";
 // Layout
 $chat_eingabe_breite=111;		// Breite des Text-Eingabefelds des Chats
 
+// Dieser Inhalt wird im <head> ausgegeben
 $metatag="<meta name=\"description\" content=\"%description%\">\n".
 	"<meta name=\"keywords\" content=\"%keywords%\">\n".
 	"<meta name=\"language\" content=\"%metalanguage%\">\n";
 
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen
 $noframes="%noframes%\n";
-
-
-// Zusatztexte, die auf der Indexseite im <HEAD> ausgegeben werden, optional
-$zusatztext_kopf="";
 
 
 // Voreinstellung für Farben im Chat:

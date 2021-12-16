@@ -5,12 +5,9 @@ umask(700);
 set_time_limit(120);
 
 $title = $body_titel;
-zeige_header_anfang($title, 'login');
-zeige_header_ende();
-?>
-<body>
-<pre>
-<?php
+zeige_header($title, 0);
+
+echo "<body>";
 
 // Verzeichnis für Logs definieren
 if (strlen($log) == 0) {

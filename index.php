@@ -8,8 +8,7 @@ require_once("functions/functions.php");
 require_once("functions/functions-init.php");
 require_once("languages/$sprache-index.php");
 
-zeige_header_anfang($body_titel, 'login', $zusatztext_kopf);
-zeige_header_ende();
+zeige_header($body_titel, 0);
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;
@@ -215,7 +214,7 @@ if ($los == $t['login18'] && $aktion == "login") {
 
 switch ($aktion) {
 	case "impressum":
-		// Impressumg anzeigen
+		// Impressum anzeigen
 		
 		echo "<body>";
 		

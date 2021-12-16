@@ -10,7 +10,7 @@ $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 $ui_userid_get = filter_input(INPUT_GET, 'ui_userid', FILTER_SANITIZE_NUMBER_INT);
 
 $title = $body_titel . ' - Home';
-zeige_header_anfang($title, 'mini');
+zeige_header($title, 0);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);

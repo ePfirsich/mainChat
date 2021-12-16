@@ -20,10 +20,9 @@ if( !isset($u_id) || $u_id == "") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
 
 $title = $body_titel;
-zeige_header_anfang($title, 'mini', '', $benutzerdaten['u_layout_farbe']);
-zeige_header_ende();
+zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
-echo "<body style=\"background-color: var(--Chatunten-Hintergrundfarbe);\">";
+echo "<body class=\"chatunten\">";
 
 // Typ Eingabefeld für Chateingabe setzen
 if ($u_level == "M") {
