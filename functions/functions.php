@@ -73,16 +73,6 @@ function mysqli_result($res,$row=0,$col=0){
 	return false;
 }
 
-function onlinezeit($onlinezeit) {
-	// Alternative zu gmdate("H:i:s", $onlinezeit), jedoch geht hier Std > 24
-	$zeit = ":" . substr("00" . ($onlinezeit % 60), -2); // Sekunden
-	$onlinezeit = floor($onlinezeit / 60);
-	$zeit = ":" . substr("00" . ($onlinezeit % 60), -2) . $zeit;
-	$onlinezeit = floor($onlinezeit / 60);
-	$zeit = substr("00" . ($onlinezeit), -2) . $zeit;
-	return ($zeit);
-}
-
 function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
 	global $timeout, $t, $leveltext, $mysqli_link, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
