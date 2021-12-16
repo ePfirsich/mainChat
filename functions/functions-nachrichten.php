@@ -210,7 +210,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			$text .= "<br><a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
 		}
 		
-		$text .= "<form name=\"mailbox\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
+		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 		
@@ -222,7 +222,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
-				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggleMail(this.checked)\"></td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\"></td>"
 				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $t['status'] . "</td>"
 				."<td class=\"tabelle_kopfzeile\">" . $t['von'] . "</td>"
 				."<td class=\"tabelle_kopfzeile\">" . $t['betreff'] . "</td>"

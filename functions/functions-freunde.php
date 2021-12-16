@@ -21,7 +21,7 @@ function zeige_freunde($aktion, $zeilen) {
 			break;
 	}
 	
-	$text .= "<form name=\"freund_loeschen\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
+	$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
@@ -119,7 +119,7 @@ function zeige_freunde($aktion, $zeilen) {
 			}
 			
 			$text .= "<tr>"
-				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggleFreunde(this.checked)\">Alle Auswählen</td>\n";
+				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">Alle Auswählen</td>\n";
 			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\">";
 			if ($aktion == "bestaetigen") {
 				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[freunde_bestaetigen]\">";

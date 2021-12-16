@@ -4,18 +4,6 @@ if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
-// Falls Abspeichern, Header senden
-if ($aktion == "abspeichern") {
-	$dateiname = "log-" . date("YmdHi") . ".htm";
-	
-	header("Content-Description: File Transfer");
-	header("Content-Type: application/octet-stream");
-	header("Content-Disposition: attachment; filename=\"$dateiname\"");
-	header("Content-Location: $dateiname");
-	header("Cache-Control: maxage=15"); //In seconds
-	header("Pragma: public");
-}
-
 // Voreinstellungen
 // Trigger für die Ausgabe der letzten 100 Nachrichten setzen
 if ($back == 0) {

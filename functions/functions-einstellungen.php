@@ -287,7 +287,7 @@ function zeige_aktionen($aktion) {
 	$box = "$t[aktion4] $u_nick $t[aktion5]";
 	$text = '';
 	
-	$text .= "<form name=\"freund_loeschen\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
+	$text .= "<form action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
 	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 	. "<input type=\"hidden\" name=\"aktion\" value=\"aktion-eintragen\">\n"
 		. "<table style=\"width:100%;\">";

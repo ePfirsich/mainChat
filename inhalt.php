@@ -50,31 +50,33 @@ if (file_exists("languages/$sprache-$seite.php")) {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-$meta_refresh = "
-<script>
-function toggleMail(tostat) {
-	for(i=0; i<document.forms[\"mailbox\"].elements.length; i++) {
-		 e = document.forms[\"mailbox\"].elements[i];
-		 if ( e.type=='checkbox' )
-			 e.checked=tostat;
-	}
+if($seite == "log" && $aktion == "abspeichern") {
+	// Falls Abspeichern, Header senden
+	$dateiname = "log-" . date("YmdHi") . ".htm";
+	
+	header("Content-Description: File Transfer");
+	header("Content-Type: application/octet-stream");
+	header("Content-Disposition: attachment; filename=\"$dateiname\"");
+	header("Content-Location: $dateiname");
+	header("Cache-Control: maxage=15"); //In seconds
+	header("Pragma: public");
+	$minimalistisch = true;
+} else {
+	$minimalistisch = false;
 }
 
-function toggleBlacklist(tostat) {
-	for(i=0; i<document.forms[\"blacklist_loeschen\"].elements.length; i++) {
-		 e = document.forms[\"blacklist_loeschen\"].elements[i];
-		 if ( e.type=='checkbox' )
-			 e.checked=tostat;
-	}
+$meta_refresh = "";
+if($seite == "sperren" || $seite == "freunde" || $seite == "nachrichten") {
+$meta_refresh = "<script>
+		function toggle(tostat) {
+			for(i=0; i<document.forms[\"eintraege_loeschen\"].elements.length; i++) {
+				 e = document.forms[\"eintraege_loeschen\"].elements[i];
+				 if ( e.type=='checkbox' )
+					 e.checked=tostat;
+			}
+		}
+	</script>\n";
 }
-function toggleFreunde(tostat) {
-	for(i=0; i<document.forms[\"freund_loeschen\"].elements.length; i++) {
-		 e = document.forms[\"freund_loeschen\"].elements[i];
-		 if ( e.type=='checkbox' )
-			 e.checked=tostat;
-	}
-}
-</script>";
 
 // Titel aus der entsprechenden Übersetzung holen
 if($t['titel'] != '') {
@@ -83,7 +85,7 @@ if($t['titel'] != '') {
 	$title = $body_titel;
 }
 
-zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh, $minimalistisch);
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
