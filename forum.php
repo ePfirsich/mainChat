@@ -14,7 +14,7 @@ if( !isset($u_id) || $u_id == "") {
 }
 
 // In Session merken, dass Text im "Chat" geschrieben wurde
-$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' " . "WHERE o_user=" . intval($u_id);
+$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=" . intval($u_id);
 $result = mysqli_query($mysqli_link, $query);
 
 //gelesene Beiträge lesen

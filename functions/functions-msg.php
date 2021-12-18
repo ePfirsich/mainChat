@@ -2404,7 +2404,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$back = schreibe_chat($f);
 							
 							// In Session merken, dass Text im Chat geschrieben wurde
-							$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id";
+							$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 							$result = mysqli_query($mysqli_link, $query);
 							
 							// Punkte berechnen und Benutzer gutschreiben
@@ -2447,7 +2447,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$back = schreibe_chat($f);
 								
 								// In Session merken, dass Text im Chat geschrieben wurde
-								$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id";
+								$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 								$result = mysqli_query($mysqli_link, $query);
 								
 							} else {
@@ -2456,7 +2456,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 									$back = schreibe_moderiert($f);
 									
 									// In Session merken, dass Text im Chat geschrieben wurde
-									$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id";
+									$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 									$result = mysqli_query($mysqli_link, $query);
 									
 									system_msg("", 0, $u_id, $system_farbe, $t['moderiert2']);

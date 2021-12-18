@@ -285,7 +285,7 @@ switch ($aktion) {
 	// Raum neu anlegen, Voreinstellungen
 		$r_status1 = "O";
 		$r_status2 = "T";
-		$r_smilie = "Y";
+		$r_smilie = 1;
 		$r_min_punkte = "0";
 		
 		$text = "";
@@ -390,25 +390,8 @@ switch ($aktion) {
 		
 		
 		// Smilies
-		$selectbox = "<select name=\"f[r_smilie]\">";
-		if ($r_smilie == "Y") {
-			$selectbox .= "<option selected value=\"Y\">$t[raum_erlaubt]";
-			$selectbox .= "<option value=\"N\">$t[raum_verboten]";
-		} else {
-			$selectbox .= "<option value=\"Y\">$t[raum_erlaubt]";
-			$selectbox .= "<option selected value=\"N\">$t[raum_verboten]";
-		}
-		$selectbox .= "</select>\n";
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>";
-		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_smilies]</td>\n";
-		$text .= "<td $bgcolor>$selectbox</td>\n";
-		$text .= "</tr>\n";
+		$value = array($t['raum_verboten'], $t['raum_erlaubt']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['raeume_smilies'], "f[r_smilie]", $value, $r_smilie);
 		$zaehler++;
 		
 		
@@ -578,26 +561,8 @@ switch ($aktion) {
 					
 					
 					// Smilies
-					$selectbox = "<select name=\"f[r_smilie]\">";
-					if ($rows->r_smilie == "Y") {
-						$selectbox .= "<option selected value=\"Y\">$t[raum_erlaubt]";
-						$selectbox .= "<option value=\"N\">$t[raum_verboten]";
-					} else {
-						$selectbox .= "<option value=\"Y\">$t[raum_erlaubt]";
-						$selectbox .= "<option selected value=\"N\">$t[raum_verboten]";
-					}
-					$selectbox .= "</select>\n";
-					
-					if ($zaehler % 2 != 0) {
-						$bgcolor = 'class="tabelle_zeile2"';
-					} else {
-						$bgcolor = 'class="tabelle_zeile1"';
-					}
-					
-					$text .= "<tr>";
-					$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_smilies]</td>\n";
-					$text .= "<td $bgcolor>$selectbox</td>\n";
-					$text .= "</tr>\n";
+					$value = array($t['raum_verboten'], $t['raum_erlaubt']);
+					$text .= zeige_formularfelder("selectbox", $zaehler, $t['raeume_smilies'], "f[r_smilie]", $value, $rows->r_smilie);
 					$zaehler++;
 					
 					
@@ -758,7 +723,7 @@ switch ($aktion) {
 						$text .= "<td $bgcolor>$b1" . $raumstatus2[$row['r_status2']] . "$b2&nbsp;</td>";
 						$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 						if ((isset($extended)) && ($extended)) {
-							if ($row['r_smilie'] == "Y") {
+							if ($row['r_smilie'] == 1) {
 								$r_smilie = $t['raum_erlaubt'];
 							} else {
 								$r_smilie = $t['raum_verboten'];

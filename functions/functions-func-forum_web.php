@@ -515,9 +515,9 @@ function show_thema() {
 		array_pop($arr_postings);
 		
 		if ($ungelesene === 0) {
-			if ($posting['po_topposting'] == 'Y') { // Topposting 
+			if ($posting['po_topposting'] == 1) { // Top Posting 
 				$folder = $chat_grafik['forum_topthema'];
-			} elseif ($posting['po_threadgesperrt'] == 'Y') { // Geschlossenes Thema
+			} else if ($posting['po_threadgesperrt'] == 1) { // Geschlossenes Thema
 				$folder = $chat_grafik['forum_threadgeschlossen'];
 			} else {
 				$folder = $chat_grafik['forum_ordnerneu'];
@@ -538,10 +538,10 @@ function show_thema() {
 		
 		$text .= "<tr><td style=\"text-align:center;\" $farbe>$folder</nobr></td>\n";
 			
-		if ($posting['po_gesperrt'] == 'Y' and !$forum_admin) {
+		if ($posting['po_gesperrt'] == 1 && !$forum_admin) {
 			$text .= "<td $farbe style=\"font-weight:bold; font-size: smaller;\">&nbsp;"
 				. substr($posting['po_titel'], 0, 40) . " <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
-		} else if ($posting['po_gesperrt'] == 'Y' and $forum_admin) {
+		} else if ($posting['po_gesperrt'] == 1 && $forum_admin) {
 			$text .= "<td $farbe style=\"font-weight:bold;\" class=\"smaller\">&nbsp;<a href=\"forum.php?id=$id&th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
 				. substr($posting['po_titel'], 0, 40) . "</a> <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
 		} else {
@@ -759,31 +759,25 @@ function maske_posting($mode) {
 	
 	// Nur im Obersten Vater die TOP und gesperrt Einstellungen ändern lassen
 	if ($forum_admin && ($mode == "edit") && $po_id == $thread) {
-		$text .= "<tr><td style=\"text-align:right;\" $bgcolor>$t[posting_thema_gesperrt]</td>\n";
-		$text .= "<td $bgcolor><select name=\"po_threadgesperrt\"><option ";
-		if ($po_threadgesperrt == 'Y') {
-			$text .= "selected ";
-		}
-		$text .= "value=\"Y\">Ja</option><option ";
-		if ($po_threadgesperrt == 'N') {
-			$text .= "selected ";
-		}
-		$text .= "value=\"N\">Nein</select></td></tr>\n";
+		// Thema gesperrt
+		$value = array($t['posting_nein'], $t['posting_ja']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['posting_thema_gesperrt'], "po_threadgesperrt", $value, $po_threadgesperrt);
+		$zaehler++;
 		
-		$text .= "<tr><td style=\"text-align:right;\" $bgcolor>$t[posting_thema_anpinnen]</td>\n";
-		$text .= "<td $bgcolor><select name=\"po_topposting\"><option ";
-		if ($po_topposting == 'Y') {
-			$text .= "selected ";
-		}
-		$text .= "value=\"Y\">Ja</option><option ";
-		if ($po_topposting == 'N') {
-			$text .= "selected ";
-		}
-		$text .= "value=\"N\">Nein</select></td></tr>\n";
+		
+		// Thema anpinnen
+		$value = array($t['posting_nein'], $t['posting_ja']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $t['posting_thema_anpinnen'], "po_topposting", $value, $po_topposting);
+		$zaehler++;
 	}
 	
 	
 	// Beitrag erstellen/editieren
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
 	$text .= "<tr>\n";
 	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
 	$text .= "<td $bgcolor><input type=\"submit\" value=\"$button\"></td>\n";
@@ -1002,7 +996,7 @@ function show_posting() {
 	$po_titel = $row->po_titel;
 	$po_gesperrt = $row->po_gesperrt;
 	
-	if ($po_gesperrt == 'Y' and !$forum_admin) {
+	if ($po_gesperrt == 1 && !$forum_admin) {
 		echo ('Beitrag gesperrt');
 		return;
 	}
@@ -1085,7 +1079,7 @@ function show_posting() {
 			$col = '';
 		}
 		
-		if ($po_gesperrt == 'Y') {
+		if ($po_gesperrt == 1) {
 			$besonderer_status = " <span style=\"color:#ff0000;\">(gesperrt)</span>" . $col;
 		} else {
 			$besonderer_status = $col;

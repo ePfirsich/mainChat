@@ -78,6 +78,8 @@ $t['posting_msg3'] = "Autor";
 $t['posting_msg4'] = "(Benutzername oder Benutzer_ID)";
 $t['posting_thema_anpinnen'] = "Thema anpinnen";
 $t['posting_thema_gesperrt'] = "Thema gesperrt";
+$t['posting_ja'] = "Ja";
+$t['posting_nein'] = "Nein";
 $t['page'] = "Seite";
 $t['last'] = "vorheriger";
 $t['next'] = "nächster";
@@ -102,8 +104,8 @@ $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 
 $t['forum_postingsproseite'] = "Anzeige Beiträge pro Seite: ";
 $t['speichern'] = "Speichern";
-$t['leserechte'] = "<P>Fehler! Sie haben keine Leserechte in diesem Forum!</P>";
-$t['schreibrechte'] = "<P>Fehler! Sie haben keine Schreibrechte für dieses Forum!</P>";
+$t['leserechte'] = "<p>Fehler! Sie haben keine Leserechte in diesem Forum!</p>";
+$t['schreibrechte'] = "<p>Fehler! Sie haben keine Schreibrechte für dieses Forum!</p>";
 $t['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 
 //Texte fürs Verschieben

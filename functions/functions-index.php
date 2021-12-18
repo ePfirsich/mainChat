@@ -334,9 +334,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Timestamps im Datensatz aktualisieren -> Benutzer gilt als eingeloggt
 	if ($alteloginzeit != "") {
-		$query = "UPDATE online SET o_aktiv=NULL, o_login='$alteloginzeit', o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id ";
+		$query = "UPDATE online SET o_aktiv=NULL, o_login='$alteloginzeit', o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id ";
 	} else {
-		$query = "UPDATE online SET o_aktiv=NULL, o_login=NULL, o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung='N' WHERE o_user=$u_id ";
+		$query = "UPDATE online SET o_aktiv=NULL, o_login=NULL, o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id ";
 	}
 	$result = mysqli_query($mysqli_link, $query);
 	
@@ -455,13 +455,13 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 			if ($result)
 				$rows = mysqli_num_rows($result);
 		}
-		// lobby  nicht gefunden? --> lobby anlegen.
+		// Lobby  nicht gefunden? --> Lobby anlegen.
 		if ($rows == 0) {
 			// Lobby neu anlegen
-			$query4711 = "INSERT INTO raum " . "(r_id,r_name,r_eintritt,r_austritt,r_status1,r_besitzer,r_topic,r_status2,r_smilie) " . "VALUES (0,'$lobby','Willkommen','','O',1,'Eingangshalle','P','')";
+			$query4711 = "INSERT INTO raum (r_id,r_name,r_eintritt,r_austritt,r_status1,r_besitzer,r_topic,r_status2,r_smilie) VALUES (0,'$lobby','Willkommen','','O',1,'Eingangshalle','P',1)";
 			$result = mysqli_query($mysqli_link, $query4711);
 			// neu lesen.
-			$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_name='$lobby' ";
+			$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic FROM raum WHERE r_name='$lobby' ";
 			$result = mysqli_query($mysqli_link, $query4711);
 			if ($result) {
 				$rows = mysqli_num_rows($result);
@@ -470,7 +470,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 		
 	} else {
 		// Gewählten Raum ermitteln
-		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_id=$raum ";
+		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic FROM raum WHERE r_id=$raum ";
 		$result = mysqli_query($mysqli_link, $query4711);
 		if ($result) {
 			$rows = mysqli_num_rows($result);

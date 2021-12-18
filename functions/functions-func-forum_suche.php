@@ -377,7 +377,7 @@ function such_ergebnis() {
 		}
 		
 		if ($u_level <> "S" and $u_level <> "C")
-			$abfrage .= " AND po_gesperrt = 'N' ";
+			$abfrage .= " AND po_gesperrt = 0 ";
 			
 			if ($suche['sort'] == "SZD") {
 				$abfrage .= " ORDER BY po_ts DESC";
@@ -440,7 +440,7 @@ function such_ergebnis() {
 					$thread = vater_rekursiv($fund['po_id']);
 					$text .= "<span class=\"smaller\"><b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
 					<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
-					if ($fund['po_gesperrt'] == 'Y') {
+					if ($fund['po_gesperrt'] == 1) {
 						$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
 					}
 					$text .= "</b></span></td>";

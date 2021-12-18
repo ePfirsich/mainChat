@@ -34,8 +34,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if (!$privat) {
 				$query = "SELECT r_smilie FROM raum WHERE r_id=" . intval($o_raum);
 				$result = mysqli_query($mysqli_link, $query);
-				if ($result && mysqli_num_rows($result) > 0
-					&& mysqli_result($result, 0, 0) != "Y") {
+				if ($result && mysqli_num_rows($result) > 0 && mysqli_result($result, 0, 0) == 0) {
 					$smilie_ok = FALSE;
 				} else {
 					$smilie_ok = TRUE;

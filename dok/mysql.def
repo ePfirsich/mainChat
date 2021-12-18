@@ -3,113 +3,109 @@
 #
 
 # Tabelle user 		Userdaten, Level
-# u_id 			ID
-# u_nick		Temp. Benutzername im Chat
-# u_passwort	Passwort
-# u_level		Userlevel A-Z
-# u_neu			Zeitpunkt der Erstanmeldung
-# u_login		Zeitpunkt des letzten Logins
-# u_farbe		Voreingestellte Farbe
-# u_cookie		Falls 1 -> Cookie erwünscht
-# u_auth		Normalerweise unbelegt, legt die Authentisierung (Cookies, HTTP-Auth) für den User fest
-# u_zeilen		Anzahl der Zeilen, die der User im Chat wünscht (optional)
-# u_adminemail		E-Mail Adresse für Administatrion, muss angegeben werden
-# u_ip_historie 	Liste der IP-Adressen der letzten Logins
-# u_away		away-Text des Benutzers
-# u_smilies		User will Smilie-Grafiken sehen Y/N
-# u_agb			User hat Nutzungsbestimmungen akzeptiert
-# u_punkte_gesamt	Gesamtpunktzahl des Users
-# u_punkte_monat	Punktzahl des aktuellen Monats
-# u_punkte_jahr		Punktzahl des aktuellen Jahrs
-# u_punkte_datum_monat	Monat, auf die sich u_punkte_monat bezieht
-# u_punkte_datum_jahr	Jahr, auf die sich u_punkte_datum_jahr bezieht
-# u_punkte_gruppe	Grafik-Symbol für die Punktegruppe
-# u_gelesene_postings	ID der gelesenen Beiträge im Forum
-# u_chathomepage	Chathomepage freigeschalten
-# u_eintritt		Eintrittstext
-# u_austritt		Austrittstext
-# u_signatur		Signatur für Mail und Forum
-# u_lastclean		Zeitpunkt der letzten bereinigung von u_gelesene_postings
-# u_loginfehler		Array mit Datum und IP fehlerhafter Logins
-# u_nick_historie	Nickwechsel Historie
-# u_profil_historie	Admin-Änderungen am Profil-Historie
-# u_kommentar		Kommentar, warum ein User gesperrt wurde
+# u_id 						ID
+# u_nick					Temp. Benutzername im Chat
+# u_passwort				Passwort
+# u_level					Userlevel A-Z
+# u_neu						Zeitpunkt der Erstanmeldung
+# u_login					Zeitpunkt des letzten Logins
+# u_farbe					Voreingestellte Farbe
+# u_cookie					Falls 1 -> Cookie erwünscht
+# u_auth					Normalerweise unbelegt, legt die Authentisierung (Cookies, HTTP-Auth) für den User fest
+# u_zeilen					Anzahl der Zeilen, die der User im Chat wünscht (optional)
+# u_adminemail				E-Mail Adresse für Administatrion, muss angegeben werden
+# u_ip_historie 			Liste der IP-Adressen der letzten Logins
+# u_away					away-Text des Benutzers
+# u_smilies					Benutzer will Smilie-Grafiken sehen
+# u_agb						User hat Nutzungsbestimmungen akzeptiert
+# u_punkte_gesamt			Gesamtpunktzahl des Users
+# u_punkte_monat			Punktzahl des aktuellen Monats
+# u_punkte_jahr				Punktzahl des aktuellen Jahrs
+# u_punkte_datum_monat		Monat, auf die sich u_punkte_monat bezieht
+# u_punkte_datum_jahr		Jahr, auf die sich u_punkte_datum_jahr bezieht
+# u_punkte_gruppe			Grafik-Symbol für die Punktegruppe
+# u_gelesene_postings		ID der gelesenen Beiträge im Forum
+# u_chathomepage			Chathomepage freigeschalten
+# u_eintritt				Eintrittstext
+# u_austritt				Austrittstext
+# u_signatur				Signatur für Mail und Forum
+# u_lastclean				Zeitpunkt der letzten bereinigung von u_gelesene_postings
+# u_loginfehler				Array mit Datum und IP fehlerhafter Logins
+# u_nick_historie			Nickwechsel Historie
+# u_profil_historie			Admin-Änderungen am Profil-Historie
+# u_kommentar				Kommentar, warum ein User gesperrt wurde
 # u_forum_postingproseite	Anzahl der Beiträge, die pro Seite im Forum angezeigt werden sollen
-# u_punkte_anzeigen	User will seinen PunkteWürfel zeigen
-# u_systemmeldungen	User will System Login/Logout Nachrichten sehen
-# u_knebel		Speichert die Restknebelzeit falls vorhanden
+# u_punkte_anzeigen			User will seinen PunkteWürfel zeigen
+# u_systemmeldungen			User will System Login/Logout Nachrichten sehen
+# u_knebel					Speichert die Restknebelzeit falls vorhanden
 
 # Tabelle chat 		Chat-Nachrichten
-# c_id			ID
+# c_id				ID
 # c_von_user		Nachricht ist von User u_nick
 # c_von_user_id		ID c_von_user
 # c_an_user 		Nachricht ist an User u_id
-# c_typ 		Art der Nachricht (privat, System, normal)
-# c_raum 		Zeiger auf r_id
-# c_text 		Chatzeile
-# c_zeit 		Zeitstempel
-# c_farbe		Farbe der Textzeile
-# c_br			'normal','letzte','erste','mitte'
-#			normal oder letzte => Zeilenumbruch in dieser Chatzeile
+# c_typ 			Art der Nachricht (privat, System, normal)
+# c_raum 			Zeiger auf r_id
+# c_text 			Chatzeile
+# c_zeit 			Zeitstempel
+# c_farbe			Farbe der Textzeile
+# c_br				'normal','letzte','erste','mitte'
+#					normal oder letzte => Zeilenumbruch in dieser Chatzeile
 
 # Tabelle moderation	moderierte Chat-Nachrichten
-# c_id			ID
+# c_id				ID
 # c_von_user		Nachricht ist von User Benutzername
 # c_von_user_id		ID c_von_user
 # c_an_user 		Nachricht ist an User u_id
-# c_typ 		Art der Nachricht (privat, System, normal) ("N"= chatnachricht, "P"=vordefinierte Antwort)
-# c_raum 		Zeiger auf r_id
-# c_text 		Chatzeile
-# c_zeit 		Zeitstempel
-# c_farbe		Farbe der Textzeile
-# c_moderator	Id des Moderators, der diese Nachricht bearbeitet.
+# c_typ 			Art der Nachricht (privat, System, normal) ("N"= chatnachricht, "P"=vordefinierte Antwort)
+# c_raum 			Zeiger auf r_id
+# c_text 			Chatzeile
+# c_zeit 			Zeitstempel
+# c_farbe			Farbe der Textzeile
+# c_moderator		Id des Moderators, der diese Nachricht bearbeitet.
 
-# Tabelle raum		Beschreibung eines Raums
+# Tabelle raum	Beschreibung eines Raums
 # r_id 			ID
 # r_name 		Name des Raums
-# r_eintritt 		Eintrittstext
-# r_austritt 		Austrittstext
-# r_status1 		Status1 (offen, geschlossen, moderiert)
-# r_besitzer 		Besitzer des Raums -> u_id
+# r_eintritt 	Eintrittstext
+# r_austritt 	Austrittstext
+# r_status1 	Status1 (offen, geschlossen, moderiert)
+# r_besitzer 	Besitzer des Raums -> u_id
 # r_topic 		Titel des Raums
-# r_status2 		Status2 (permanent, temporär)
-# r_smilie		Smilies erlaubt (Y/N)
-# r_min_punkte		Anzahl der Punkte die ein User haben muss, bevor er den Raum betreten kann
+# r_status2 	Status2 (permanent, temporär)
+# r_smilie		Smilies erlaubt
+# r_min_punkte	Anzahl der Punkte die ein User haben muss, bevor er den Raum betreten kann
 
 # Tabelle online	welcher User ist in welchem Raum online
 # o_id int 		ID
 # o_user 		User -> u_id
 # o_raum 		Raum -> r_id
 # o_hash 		Hash aus IP-Adresse, User
-# o_timestamp 		Zeitpunkt der Änderung dieses Datensatzes
+# o_timestamp 	Zeitpunkt der Änderung dieses Datensatzes
 # o_ip 			IP von der zugegriffen wurde
 # o_who 		Bereich in der Community, in der sich der User befindet
-#			0=Chat, 1=Login, 2=Forum
+#				0=Chat, 1=Login, 2=Forum
 # o_aktiv 		Wann war der User zuletzt aktiv
-# o_chat_id 		ID des letzten Eintrags im Chat
-# o_browser 		Verwendeter Browser
+# o_chat_id 	ID des letzten Eintrags im Chat
+# o_browser 	Verwendeter Browser
 # o_knebel		zeitstempel, wie lange ein user geknebelt ist
-# o_http_stuff		Komprimierte HTTP-Headerinformationen
-# o_http_stuff2		Headerinformationen Feld 2
-# o_userdata		Komprimierte Userdaten aus Tabelle user
-# o_userdata2		Userdaten Feld 2
-# o_userdata3		Userdaten Feld 3
-# o_userdata4		Userdaten Feld 4
+# o_http_stuff	Komprimierte HTTP-Headerinformationen
+# o_http_stuff2	Headerinformationen Feld 2
+# o_userdata	Komprimierte Userdaten aus Tabelle user
+# o_userdata2	Userdaten Feld 2
+# o_userdata3	Userdaten Feld 3
+# o_userdata4	Userdaten Feld 4
 # o_ignore		Komprimierte Daten aus Tabelle ignore
 # o_level 		Aktueller Level des Users aus Tabelle user
 # o_login		Zeitpunkt des Logins
 # o_punkte		Aktuelle Anzahl der Punkte des Users
 # o_aktion		Zeitpunkt, wann die letzte Aktion ausgeführt wurde
 # o_timeout_zeit	Zeitpunkt, wann die letzte Zeile im Chat geschrieben wurde
-# o_timeout_warnung	J=Warnung über bevorstehenden Logout wurde angezeigt
-# o_chat_historie	Enthält die Anzehl der Zeichen mit Timestamp, die
-#									der User zuletzt schrieb
-# o_spam_zeit		Sekundengenauer Zeitpunkt (timestamp), aus den sich
-#							 	o_spam_zeilen und o_spam_byte bezieht
-# o_spam_zeilen		Enthält serialised die Anzahl der Zeilen pro
-#								 	Sekunde, die der User zuletzt schrieb
-# o_spam_byte		Enthält serialised die Anzahl der Bytes/Zeichen pro
-#								 	Sekunde, die der User zuletzt schrieb
+# o_timeout_warnung	1=Warnung über bevorstehenden Logout wurde angezeigt
+# o_chat_historie	Enthält die Anzehl der Zeichen mit Timestamp, die der User zuletzt schrieb
+# o_spam_zeit		Sekundengenauer Zeitpunkt (timestamp), aus den sich o_spam_zeilen und o_spam_byte bezieht
+# o_spam_zeilen		Enthält serialised die Anzahl der Zeilen pro Sekunde, die der User zuletzt schrieb
+# o_spam_byte		Enthält serialised die Anzahl der Bytes/Zeichen pro Sekunde, die der User zuletzt schrieb
 # o_dicecheck		Welcher Dicecheck vom User aktiviert ist
 
 # Tabelle sperre	welcher User ist in welchem Raum für wie lange gesperrt
@@ -286,36 +282,36 @@ CREATE TABLE moderation (
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE online (
-	o_id int(11) unsigned NOT NULL default '0',
-	o_user int(11) unsigned NOT NULL default '0',
-	o_raum int(11) NOT NULL default '0',
-	o_hash varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_timestamp timestamp NOT NULL,
-	o_ip varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_who smallint(3) unsigned default NULL,
-	o_aktiv timestamp NOT NULL default '00000000000000',
-	o_chat_id int(11) unsigned NOT NULL default '0',
-	o_browser varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_name varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_knebel timestamp NOT NULL default '00000000000000',
-	o_http_stuff varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_http_stuff2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_userdata varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_userdata2 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_userdata3 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_userdata4 varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_level char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_ignore varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_login timestamp NOT NULL default '00000000000000',
-	o_punkte int(11) NOT NULL default '0',
-	o_aktion int(11) unsigned NOT NULL default '0',
-	o_timeout_zeit varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
-	o_timeout_warnung char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	o_chat_historie varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_spam_zeilen varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_spam_byte varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_spam_zeit varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`o_id` int(11) unsigned NOT NULL default '0',
+	`o_user` int(11) unsigned NOT NULL default '0',
+	`o_raum` int(11) NOT NULL default '0',
+	`o_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_timestamp` timestamp NOT NULL,
+	`o_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_who` smallint(3) unsigned default NULL,
+	`o_aktiv` timestamp NOT NULL default '00000000000000',
+	`o_chat_id` int(11) unsigned NOT NULL default '0',
+	`o_browser` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_knebel` timestamp NOT NULL default '00000000000000',
+	`o_http_stuff` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_http_stuff2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_userdata varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_userdata2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_userdata3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_userdata4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_ignore` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_login` timestamp NOT NULL default '00000000000000',
+	`o_punkte` int(11) NOT NULL default '0',
+	`o_aktion` int(11) unsigned NOT NULL default '0',
+	`o_timeout_zeit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
+	`o_timeout_warnung` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`o_chat_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_spam_zeilen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_spam_byte` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_spam_zeit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`o_dicecheck` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	PRIMARY KEY	(o_id),
 	UNIQUE KEY o_user (o_user),
 	UNIQUE KEY o_name (o_name),
@@ -330,19 +326,19 @@ CREATE TABLE online (
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE posting (
-	po_id int(10) unsigned NOT NULL auto_increment,
-	po_th_id int(10) NOT NULL default '0',
-	po_u_id int(11) NOT NULL default '0',
-	po_vater_id int(10) NOT NULL default '0',
-	po_ts bigint(14) NOT NULL default '0',
-	po_tiefe smallint(3) NOT NULL default '0',
-	po_threadorder mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-	po_threadts bigint(14) NOT NULL default '0',
-	po_gesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	po_threadgesperrt char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	po_topposting char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'N',
-	po_titel varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	po_text longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+	`po_id` int(10) unsigned NOT NULL auto_increment,
+	`po_th_id` int(10) NOT NULL default '0',
+	`po_u_id` int(11) NOT NULL default '0',
+	`po_vater_id` int(10) NOT NULL default '0',
+	`po_ts` bigint(14) NOT NULL default '0',
+	`po_tiefe` smallint(3) NOT NULL default '0',
+	`po_threadorder` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	`po_threadts` bigint(14) NOT NULL default '0',
+	`po_gesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`po_threadgesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`po_topposting` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`po_titel` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`po_text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 	PRIMARY KEY	(po_id),
 	KEY po_th_id (po_th_id),
 	KEY po_u_id (po_u_id),
@@ -351,16 +347,16 @@ CREATE TABLE posting (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE raum (
-	r_id int(11) unsigned NOT NULL auto_increment,
-	r_name varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	r_eintritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-	r_austritt text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-	r_status1 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	r_besitzer int(11) unsigned NOT NULL default '0',
-	r_topic text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-	r_status2 char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
-	r_smilie char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'Y',
-	r_min_punkte int(10) unsigned NOT NULL default '0',
+	`r_id` int(11) unsigned NOT NULL auto_increment,
+	`r_name` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`r_eintritt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	`r_austritt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	`r_status1` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`r_besitzer` int(11) unsigned NOT NULL default '0',
+	`r_topic` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+	`r_status2` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
+	`r_smilie` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`r_min_punkte` int(10) unsigned NOT NULL default '0',
 	PRIMARY KEY	(r_id),
 	KEY r_besitzer (r_besitzer),
 	KEY r_status1 (r_status1),

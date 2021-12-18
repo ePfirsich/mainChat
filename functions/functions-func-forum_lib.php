@@ -71,13 +71,13 @@ function ist_thread_gesperrt($thread) {
 	global $forum_thread_sperren;
 	
 	// Prüft anhand der thread auf den man antworten will, gesperrt ist
-	$query = "SELECT po_threadts, po_ts, po_threadgesperrt FROM posting WHERE po_id = " . intval($thread);
+	$query = "SELECT `po_threadts`, `po_ts`, `po_threadgesperrt` FROM `posting` WHERE `po_id` = " . intval($thread);
 	$result = mysqli_query($mysqli_link, $query);
 	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	$threadgesperrt = false;
 	
-	if ($fo['po_threadgesperrt'] == 'Y') {
+	if ($fo['po_threadgesperrt'] == 1) {
 		$threadgesperrt = true;
 	}
 	
@@ -104,13 +104,13 @@ function ist_thread_gesperrt($thread) {
 function ist_posting_gesperrt($po_id) {
 	global $mysqli_link;
 	// Prüft anhand der po_id ob gesperrt ist
-	$query = "SELECT po_gesperrt FROM posting WHERE po_id = " . intval($po_id);
+	$query = "SELECT `po_gesperrt` FROM posting WHERE po_id = " . intval($po_id);
 	$result = mysqli_query($mysqli_link, $query);
 	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	$postinggesperrt = false;
 	
-	if ($fo['po_gesperrt'] == 'Y')
+	if ($fo['po_gesperrt'] == 1)
 		$postinggesperrt = true;
 	
 	return ($postinggesperrt);
@@ -118,17 +118,17 @@ function ist_posting_gesperrt($po_id) {
 
 function sperre_posting($po_id) {
 	global $mysqli_link;
-	$query = "SELECT po_gesperrt FROM posting WHERE po_id = " . intval($po_id);
+	$query = "SELECT `po_gesperrt` FROM posting WHERE po_id = " . intval($po_id);
 	$result = mysqli_query($mysqli_link, $query);
 	$fo = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	if (ist_posting_gesperrt($po_id)) {
 		// Beitrag entsperren
-		$query = "UPDATE posting SET po_gesperrt = 'N' WHERE po_id = " . intval($po_id);
+		$query = "UPDATE posting SET `po_gesperrt` = 0 WHERE po_id = " . intval($po_id);
 		$result = mysqli_query($mysqli_link, $query);
 	} else {
 		// Beitrag sperren
-		$query = "UPDATE posting SET po_gesperrt = 'Y' WHERE po_id = " . intval($po_id);
+		$query = "UPDATE posting SET `po_gesperrt` = 1 WHERE po_id = " . intval($po_id);
 		$result = mysqli_query($mysqli_link, $query);
 	}
 }
