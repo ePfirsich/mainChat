@@ -198,17 +198,17 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$zaehler++;
 				}
 				
-				// Interne E-Mail
+				// E-Mail
 				if ($admin) {
 					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>");
 					$zaehler++;
 				}
 				
-				// Chat-Homepage
+				// Benutzerseite
 				if ($uu_chathomepage == "1") {
 					$url = "home.php?/".URLENCODE($uu_nick);
 					$value = "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_url'], "", $value);
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_webseite'], "", $value);
 					$zaehler++;
 				}
 				
@@ -354,7 +354,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					if ($g['u_chathomepage'] == "1") {
-						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">";
+						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">";
 					}
 					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
 						$value .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
@@ -471,9 +471,9 @@ function benutzer_suche($f, $suchtext) {
 	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "f[user_login]", $f['user_login'], 0, "10", $t['benutzer_suche_stunden']);
 	$zaehler++;
 	
-	// Mit Homepage
+	// Mit Benutzerseite
 	$value = array($t['benutzer_suche_egal'], $t['benutzer_suche_ja']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_homepage'], "f[u_chathomepage]", $value, $f['u_chathomepage']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_benutzerseite'], "f[u_chathomepage]", $value, $f['u_chathomepage']);
 	$zaehler++;
 	
 	// Formular-Button anzeigen

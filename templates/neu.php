@@ -39,7 +39,7 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 
 // Eingaben prüfen
 if( isset($formular) && $formular == "abgesendet") {
-	// Sind der Hash und die interne E-Mail gesetzt
+	// Sind der Hash und die E-Mail gesetzt ?
 	if ( !isset($f['hash']) || $f['hash'] == "" || !isset($f['u_adminemail'])|| $f['u_adminemail'] == "" ) {
 		$fehlermeldung .= $t['registrierung_fehler_falscher_aufruf'];
 	}

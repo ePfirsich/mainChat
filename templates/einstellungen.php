@@ -148,9 +148,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		
 		case "email_aendern":
 			$text = '';
-			$box = $t['einstellungen_interne_email_aendern'];
+			$box = $t['einstellungen_email_aendern'];
 	
-			$text .= $t['einstellungen_interne_email_aendern_text1'] . "<br><br>" . $t['einstellungen_interne_email_aendern_text2'] . "\n";
+			$text .= $t['einstellungen_email_aendern_text1'] . "<br><br>" . $t['einstellungen_email_aendern_text2'] . "\n";
 			$text .= "<form name=\"$u_nick\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
@@ -475,7 +475,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// uu_level = Level des Benutzers, der geändert wird
 					// u_level  = Level des Benutzers, der ändert
-					// Admin (C) darf für anderen Admin (C oder S) nicht ändern: Level, Passwort, interne E-Mail
+					// Admin (C) darf für anderen Admin (C oder S) nicht ändern: Level, Passwort, E-Mail
 					if ($u_id != $f['u_id'] && $u_level == "C" && ($uu_level == "S" || $uu_level == "C") ) {
 						if ( (isset($f['u_passwort']) && $f['u_passwort'] != "") ||
 							(isset($f['u_passwort2']) && $f['u_passwort2'] != "") ||
@@ -669,7 +669,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// Benutzer mit ID $u_id anzeigen
 					user_edit($f, $admin, $u_level);
 				}
-			} elseif (isset($eingabe) && $eingabe == "Homepage löschen!" && $admin) {
+			} elseif (isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
 					mysqli_query($mysqli_link, $query);
@@ -680,7 +680,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f['u_id']);
 					mysqli_query($mysqli_link, $query);
 					
-					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_homepage']);
+					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_benutzerseite']);
 				} else {
 					$text = "";
 					$text .= "<form action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
@@ -689,7 +689,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						. "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n"
 						. "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n"
 						. "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n"
-						. "<input type=\"submit\" name=\"eingabe\" value=\"Homepage löschen!\">"
+						. "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">"
 						. "</form>\n";
 					
 					zeige_tabelle_zentriert($t['benutzer_loeschen_sicherheitsabfrage1'], $text);

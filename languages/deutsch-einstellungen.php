@@ -48,6 +48,7 @@ $t['einstellungen_fehler_fehlende_berechtigung'] = "Sie wollten die Einstellunge
 $t['einstellungen_fehler_passwort1'] = "Sie müssen das Passwort zweimal gleich eingeben.<br>";
 $t['einstellungen_fehler_passwort2'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein<br>";
 
+$t['einstellungen_benutzerseite_loeschen'] = "Benutzerseite löschen!";
 $t['einstellungen_speichern'] = "Speichern";
 $t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
 $t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für die Farbe)";
@@ -58,11 +59,11 @@ $t['benutzer_loeschen_online'] = "Benutzer %u_nick% ist noch online und kann nic
 $t['benutzer_loeschen_sicherheitsabfrage1'] = "Sicherheitsabfrage";
 $t['benutzer_loeschen_sicherheitsabfrage2'] = "Benutzer %u_nick% ganz sicher löschen?";
 $t['benutzer_loeschen_erledigt'] = "Der Löschvorgang war erfolgreich";
-$t['benutzer_loeschen_homepage'] = "Die Homepage wurde gelöscht!";
+$t['benutzer_loeschen_benutzerseite'] = "Die Benutzerseite wurde gelöscht!";
 
-$t['einstellungen_interne_email_aendern'] = "Interne E-Mail-Adresse ändern";
-$t['einstellungen_interne_email_aendern_text1'] = "Sie können hier Ihre Interne E-Mail-Adresse ändern.";
-$t['einstellungen_interne_email_aendern_text2'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neues Passwort an Ihre neue E-Mail-Adresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
+$t['einstellungen_email_aendern'] = "E-Mail-Adresse ändern";
+$t['einstellungen_email_aendern_text1'] = "Sie können hier Ihre E-Mail-Adresse ändern.";
+$t['einstellungen_email_aendern_text2'] = "Nach dem Ändern werden Sie automatisch ausgeloggt, und ein neues Passwort an Ihre neue E-Mail-Adresse gesendet. Mit dem neuen Passwort können Sie sich sofort "
 				. "einloggen und ggf. Ihr Passwort wieder anpassen.";
 
 $t['aktion1'] = "Tipps zur den Benachrichtigungen";
@@ -74,7 +75,7 @@ $t['aktion2'] = "<p>Mit den Benachrichtigungen steuern Sie, bei welchen Ereignis
 	. "oder zu dem Moment, in dem Sie eine <b>Neue Mail</b> erhalten), bei Ihrem <b>Login</b> in den Chat oder regelmäßig "
 	. "<b>alle 5 Minuten</b> (regelmäßige Information über die vorliegenden <b>Neuen Nachrichten</b> oder die Anwesendheit Ihrer <b>Freunde</b> im Chat)</p>"
 	. "<p>Die Benachrichtungen, die Sie erhalten, wenn Sie nicht im Chat sind (offline), wählen Sie unter <b>Sofort/Offline</b> aus.</p>"
-	. "<p>Die Art der Nachricht ist einstellbar, so gibt es <b>keine</b> Benachrichtigung, <b>Chat-Mail</b> (chat-interne Mail), eine <b>E-Mail</b> an Ihre nicht-öffentliche "
+	. "<p>Die Art der Nachricht ist einstellbar, so gibt es <b>keine</b> Benachrichtigung, <b>Chat-Mail</b> (Nachricht im Chat), eine <b>E-Mail</b> an Ihre "
 	. "E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte Nachricht in Chat wie /msg)."
 	. "Zusätzlich sind auch Kombinationen von <b>E-Mail und OLM</b> sowie <b>Chat-Mail und OLM</b> möglich, wobei Sie in diesem Fall zwei Nachrichten erhalten.</p>";
 $t['aktion3'] = "Benachrichtigungen";

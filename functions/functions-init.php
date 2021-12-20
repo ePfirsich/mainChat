@@ -26,7 +26,6 @@ if ( !file_exists($filenameConfig) ) {
 	require $filenameConfig;
 	require_once("functions/functions-html.php");
 	
-
 	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist
 	if( isset($_SERVER['HTTP_HOST']) ) {
 		$matches = array();
@@ -56,33 +55,24 @@ if ( !file_exists($filenameConfig) ) {
 	// Ende der aufgerufenen URL
 	
 	
-	// Pfad des Chats auf dem WWW-Server
-	$phpself = $_SERVER['PHP_SELF'];
-	
-	$chat_file = basename($phpself);
-	$chat_file = str_replace("html", "php", $chat_file);
-	
-	// Zentrale Sprachdatei einbinden
+	// Allgemeine Übersetzungen
 	require_once("languages/$sprache.php");
 	
-	// Sprachdatei für functions.php einbinden
-	require_once("languages/$sprache-functions.php");
-	
-	// Liegen lokale Functionen "functions-$chat_file" vor? Falls ja einbinden
-	$functions = "functions/functions-" . $chat_file;
-	if (file_exists("$functions")) {
-		require "$functions";
-	}
+	$chat_grafik['home']="<span class=\"fa fa-home icon16\" alt=\"$t[benutzer_benutzerseite]\" title=\"$t[benutzer_benutzerseite]\"></span>";
+	$chat_grafik['mail']="<span class=\"fa fa-envelope icon16\" alt=\"$t[benutzer_nachricht]\" title=\"$t[benutzer_nachricht]\"></span>";
+	$chat_grafik['geschlecht_weiblich'] = "&nbsp;<span class=\"fa fa-venus icon16\" alt=\"$t[benutzer_weiblich]\"  title=\"$t[benutzer_weiblich]\"></span>";
+	$chat_grafik['geschlecht_maennlich'] = "&nbsp;<span class=\"fa fa-mars icon16\" alt=\"$t[benutzer_maennlich]\" title=\"$t[benutzer_maennlich]\"></span>";
+	$chat_grafik['forum_ordnerneu']="<span class=\"fa fa-folder-o icon24\" alt=\"$t[forum_keine_neuen_beitraege]\" title=\"$t[forum_keine_neuen_beitraege]\"></span>";
+	$chat_grafik['forum_ordnerblau']="<span class=\"fa fa-folder icon24\" alt=\"$t[forum_neue_beitraege]\" title=\"$t[forum_neue_beitraege]\"></span>";
+	$chat_grafik['forum_ordnervoll']="<span class=\"fa fa-folder-open icon24\" alt=\"$t[forum_mehr_als_10_neue_beitraege]\" title=\"$t[forum_mehr_als_10_neue_beitraege]\"></span>";
+	$chat_grafik['forum_threadgeschlossen']="<span class=\"fa fa-lock icon24\" alt=\"$t[forum_thema_geschlossen]\" title=\"$t[forum_thema_geschlossen]\"></span>";
+	$chat_grafik['forum_topthema']="<span class=\"fa fa-thumb-tack icon24\" alt=\"$t[forum_angepinntes_thema]\" title=\"$t[forum_angepinntes_thema]\"></span>";
 	
 	// Globales
 	$crypted_password_extern = 0;
 	$upgrade_password = 0;
 	
 	ini_set("magic_quotes_runtime", 0);
-	
-	//apache_setenv('no-gzip', 1);
-	//ini_set('zlib.output_compression', 0);
-	//ini_set('implicit_flush', 1);
 	
 	if (substr(phpversion(), 0, strpos(phpversion(), '.')) >= 5) {
 		date_default_timezone_set('Europe/Berlin');

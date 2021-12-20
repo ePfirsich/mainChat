@@ -8,7 +8,7 @@ $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 
 $t['bestehendes_profil'] = "Bestehendes Profil bearbeiten";
 $t['neues_profil'] = "Neues Profil anlegen";
-$t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Homepage. "
+$t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Benutzerseite. "
 . "Bitte klicken Sie <a href=\"inhalt.php?seite=profil&id=$id&aktion=aendern\"><b>HIER</b> zur Anlage eines Profils</a>.";
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
@@ -23,7 +23,7 @@ $t['profil_fehler_geburt'] = "Das Geburtsdatum ist ungültig (z.B.: 24.01.1969)<
 $t['profil_fehler_geschlecht'] = "Es wurde ein falsches Geschlecht angegeben<br>\n";
 $t['profil_fehler_beziehungsstatus'] = "Es wurde ein falscher Beziehungsstatus angegeben<br>\n";
 $t['profil_fehler_typ'] = "Es wurde ein falscher Typ angegeben<br>\n";
-$t['profil_fehler_homepage'] = "Die Homepage ist länger als 160 Zeichen!<br>\n";
+$t['profil_fehler_homepage'] = "Die Adresse der Webseite ist länger als 160 Zeichen!<br>\n";
 $t['profil_fehler_beruf'] = "Der Beruf ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsfilm'] = "Der Lieblingsfilm ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblinggsserie'] = "Die Lieblinggsserie ist länger als 100 Zeichen!<br>\n";
@@ -33,13 +33,13 @@ $t['profil_fehler_lieblingsgetränk'] = "Das Lieblingsgetränk ist länger als 1
 $t['profil_fehler_lieblingsgericht'] = "Das Lieblingsgericht ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsspiel'] = "Der Lieblingsspiel ist länger als 100 Zeichen!<br>\n";
 $t['profil_fehler_lieblingsfarbe'] = "Die Lieblingsfarbe ist länger als 100 Zeichen!<br>\n";
-$t['profil_fehler_chathomepage'] = "Es wurde eine falsche Eingabe bei der Aktivierung/Deaktivierung der Homepage getätigt.<br>\n";
+$t['profil_fehler_chathomepage'] = "Es wurde eine falsche Eingabe bei der Aktivierung/Deaktivierung der Benutzerseite getätigt.<br>\n";
 $t['profil_fehler_hobby'] = "Die Hobbies ist länger als 255 Zeichen!<br>\n";
 $t['profil_fehler_farbe'] = "Die %farbe% muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>\n";
 
 
 $t['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen Angaben aus. Falls Sie die eine oder andere Information über sich "
-. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. Ihr Profil ist in Ihrer Homepage öffentlich abrufbar, falls Sie es in den Homepage-Einstellungen freigeben.</p>\n";
+. "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. Ihr Profil ist in Ihrer Benutzerseite öffentlich abrufbar, falls Sie es im Profil freigeben.</p>\n";
 
 $t['profil_benutzereinstellungen_aendern'] = "Benutzereinstellungen ändern";
 $t['profil_hilfe'] = "Hilfe";
@@ -49,15 +49,10 @@ $t['profil_alle_profile'] = "Alle Profile";
 $t['profil_benutzername'] = "Benutzername";
 $t['profil_level'] = "Level";
 $t['profil_wohnort'] = "Wohnort";
+$t['profil_email'] = "E-Mail";
 $t['profil_wohnort_details'] = " (Dieses Feld muss beim erstmaligen Bearbeiten des Profils zwingend angegeben werden, sonst gibt es keine Punkte.)";
 $t['profil_geburt'] = "Geburtsdatum";
 $t['profil_geschlecht'] = "Geschlecht";
-$t['profil_homepage'] = "Homepage";
-$t['profil_homepage_aktivieren'] = "aktivieren";
-$t['profil_homepage_deaktivieren'] = "deaktivieren";
-$t['profil_homepage_zur_vorschau'] = ">>Zur Vorschau der Homepage<<";
-$t['profil_homepage_zur_homepage'] = ">>Zur Homepage<<";
-
 $t['profil_geschlecht_maennlich'] = "männlich";
 $t['profil_geschlecht_weiblich'] = "weiblich";
 $t['profil_geschlecht_divers'] = "divers";
@@ -91,6 +86,12 @@ $t['profil_farbeinstellungen'] = "Farbeinstellungen";
 $t['profil_allgemeines'] = "Allgemeines";
 $t['profil_aktuell_gespeicherte_farbe'] = "Aktuell gespeicherte Farbe";
 
+$t['profil_benutzerseite'] = "Benutzerseite";
+$t['profil_benutzerseite_aktivieren'] = "aktivieren";
+$t['profil_benutzerseite_deaktivieren'] = "deaktivieren";
+$t['profil_benutzerseite_zur_vorschau'] = ">>Zur Vorschau der Benutzerseite<<";
+$t['profil_benutzerseite_zur_homepage'] = ">>Zur Benutzerseite<<";
+
 $t['profil_hintergrundfarbe'] = "Hintergrundfarbe der Seite";
 $t['profil_ueberschriften_textfarbe'] = "Textfarbe der Überschriften";
 $t['profil_ueberschriften_hintergrundfarbe'] = "Hintergrundfarbe der Überschriften und Rahmenfarbe der Tabelle";
@@ -101,14 +102,12 @@ $t['profil_inhalt_hintergrundfarbe'] = "Hintergrundfarbe des Inhalts";
 
 $t['profil_farbe'] = "Farbe";
 $t['profil_noch_kein_profil_erstellt'] = "Sie haben noch kein Profil erstellt";
-$t['profil_homepage_freigeben'] = "Homepage";
-$t['profil_home2'] = "Homepage Einstellungen";
 
 $t['einstellungen_speichern'] = "Speichern";
 $t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
 $t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für den Text über sich selbst)";
 
-$t['homepage_von'] = "Chat-Homepage von";
+$t['homepage_von'] = "Benutzerseite von";
 $t['homepage_informationen'] = "Informationen";
 $t['homepage_text_ueber_mich'] = "Etwas über mich";
 $t['homepage_bilder'] = "Bilder";
@@ -116,5 +115,5 @@ $t['homepage_hintergrundgrafik'] = "Hintergrundgrafik";
 $t['homepage_hintergrundgrafik_des_inhalts'] = "Hintergrundgrafik des Inhalts";
 $t['homepage_hintergrundgrafik_der_grafiken'] = "Hintergrundgrafik der Grafiken";
 
-$t['homepage_falscher_aufruf'] = "Der Benutzer hat keine Homepage oder die Homepage des Benutzers ist deaktiviert.";
+$t['homepage_falscher_aufruf'] = "Der Benutzer hat keine Benutzerseite oder die Benutzerseite des Benutzers ist deaktiviert.";
 ?>

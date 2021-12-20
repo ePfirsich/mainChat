@@ -64,7 +64,7 @@ function user_edit($f, $admin, $u_level) {
 	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_benutzername'], "u_nick", $f['u_nick']);
 	$zaehler++;
 	
-	// Interne E-Mail (Nur für Admins)
+	// E-Mail (Nur Admins können sie direkt ändern)
 	if ($admin) {
 		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_adminemail", $f['u_adminemail']);
 		$zaehler++;

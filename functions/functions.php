@@ -11,6 +11,7 @@ Header("Cache-Control: no-cache");
 // Variable initialisieren, einbinden, Community-Funktionen laden
 require_once("functions-init.php");
 require_once("functions-community.php");
+require_once("languages/$sprache-functions.php");
 
 // DB-Connect, ggf. 3 mal versuchen
 for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
@@ -856,7 +857,7 @@ function zeige_userdetails(
 	$mit_id = TRUE,
 	$extra_kompakt = FALSE,
 	$benutzername_fett = TRUE) {
-	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Homepage zurück
+		// Liefert Benutzernamen + Level + Gruppe + E-Mail + Benutzerseite zurück
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
 	// $online_zeit -> Zeit in Sekunden seit Login
@@ -1025,7 +1026,7 @@ function zeige_userdetails(
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {
 		$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
-		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">" . "<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>" . "</a>";
+		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">$chat_grafik[mail]</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
 	}

@@ -37,10 +37,7 @@ if( isset($u_id) && strlen($u_id) != 0 ) {
 // Wird die Seite aufgebaut?
 $kein_seitenaufruf = false;
 
-// Allgemeine Übersetzungen
-require_once("languages/$sprache.php");
-
-// Übersetzungen der entsprechenden Seiten einbinden
+// Übersetzungen der entsprechenden Seite einbinden
 if (file_exists("languages/$sprache-$seite.php")) {
 	require_once("languages/$sprache-$seite.php");
 } else {
@@ -164,6 +161,7 @@ if(!$seite || $kein_seitenaufruf) {
 			require_once("functions/functions-user.php");
 			require_once("functions/functions-func-nachricht.php");
 			require_once("functions/functions-formulare.php");
+			require_once("languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];

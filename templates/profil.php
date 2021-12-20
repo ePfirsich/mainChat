@@ -113,7 +113,7 @@ if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular
 	
 	$text_inhalt = str_replace("####----TAR----####", "target=\"_blank\"", $text_inhalt);
 	
-	// Wir löschen die On-Handler aus der Homepage (einfache Version)
+	// Wir löschen die On-Handler aus der Benutzerseite (einfache Version)
 	// on gefolgt von 3-12 Buchstaben wird durch off ersetzt
 	
 	$text_inhalt = preg_replace('|\son([a-z]{3,12})\s*=|i', ' off\\1=', $text_inhalt);
@@ -143,7 +143,7 @@ if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular
 		$fehlermeldung .= $t['profil_fehler_typ'];
 	}
 	
-	// Homepage muss http:// oder https://enthalten
+	// Webseite muss http:// oder https://enthalten
 	if (isset($f['ui_webseite']) && strlen($f['ui_webseite']) > 0 && !preg_match("/^http:\/\//i", $f['ui_webseite']) && !preg_match("/^https:\/\//i", $f['ui_webseite']) ) {
 		$f['ui_webseite'] = "http://" . $f['ui_webseite'];
 	}
@@ -278,9 +278,9 @@ switch ($aktion) {
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_wohnort]</td>\n";
 			if($admin) {
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_interne_email]</td>\n";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_email]</td>\n";
 			}
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_homepage]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_webseite]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geburt]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_beziehungsstatus]</td>\n";

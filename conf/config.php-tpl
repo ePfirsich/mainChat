@@ -32,7 +32,7 @@ $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am E
 $trigger_letzte_Zeilen = 1;			// Nur im Fehlerfal bearbeiten. Diese Variabel regelt die Ausgabe im Normalen Modus
 $sicherer_modus = "1";				// Sicherer Modus Aktivieren (1 = Aktiviert, 0 = Deaktiviert)
 
-// Chat-Homepages
+// Benutzerseiten
 $standard_ui_hintergrundfarbe = "ffffff";
 $standard_ui_ueberschriften_textfarbe = "ffffff";
 $standard_ui_ueberschriften_hintergrundfarbe = "007ABE";
@@ -242,15 +242,6 @@ $punkte_gruppe=array(1=>1000,2=>10000,3=>100000,4=>200000,5=>300000,
 $punkte_grafik=array("<img src=\"images/wuerfel/admingruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe/Admin\">",
 			"<img src=\"images/wuerfel/gruppe",".gif\" style=\"width:12px; height:12px; border:0px;\" alt =\"Benutzergruppe\">");
 
-$chat_grafik['home']="<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\"></span>";
-$chat_grafik['mail']="<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span>";
-$chat_grafik['geschlecht_weiblich'] = "&nbsp;<span class=\"fa fa-venus icon16\" alt=\"weiblich\"></span>";
-$chat_grafik['geschlecht_maennlich'] = "&nbsp;<span class=\"fa fa-mars icon16\" alt=\"männlich\"></span>";
-$chat_grafik['forum_ordnerneu']="<span class=\"fa fa-folder-o icon24\" alt=\"Keine neuen Beiträge\" title=\"Keine neuen Beiträge\"></span>";
-$chat_grafik['forum_ordnerblau']="<span class=\"fa fa-folder icon24\" alt=\"Neue Beiträge\" title=\"Neue Beiträge\"></span>";
-$chat_grafik['forum_ordnervoll']="<span class=\"fa fa-folder-open icon24\" alt=\"Mehr als 10 neue Beiträge\" title=\"Mehr als 10 neue Beiträge\"></span>";
-$chat_grafik['forum_threadgeschlossen']="<span class=\"fa fa-lock icon24\" alt=\"Thema geschlossen\" title=\"Thema geschlossen\"></span>";
-$chat_grafik['forum_topthema']="<span class=\"fa fa-thumb-tack icon24\" alt=\"Oben angeheftetes Thema\" title=\"Oben angeheftetes Thema\"></span>";
 
 //Einstellungen für das Forum
 

@@ -283,7 +283,7 @@ function home_bild($u_id, $u_nick, $home, $feld, $bilder) {
 }
 
 function zeige_home($u_id, $force = FALSE) {
-	// Zeigt die Homepage des Benutzers u_id an
+	// Zeigt die Benutzerseite des Benutzers u_id an
 	global $mysqli_link, $argv, $argc, $id, $check_name, $t;
 	
 	if ($u_id && $u_id <> -1) {

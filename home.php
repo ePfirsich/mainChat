@@ -37,7 +37,7 @@ if (!isset($ui_userid)) {
 }
 
 if($ui_userid != -1) {
-	// Die eigene Homepage darf immer aufgerufen werden
+	// Die eigene Benutzerseiten darf immer aufgerufen werden
 	zeige_home($ui_userid, true);
 } else {
 	zeige_home($ui_userid, false);

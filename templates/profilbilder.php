@@ -9,7 +9,7 @@ require_once("functions/functions-hash.php");
 // Voreinstellungen
 $max_groesse = 60; // Maximale Bild- und Text größe in KB
 
-// Homepage für Benutzer $u_id bearbeiten
+// Benutzerseite für Benutzer $u_id bearbeiten
 
 // Bild löschen
 if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {

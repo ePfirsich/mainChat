@@ -32,7 +32,7 @@ function step_1($chat) {
 			<td><img src="images/wizard.gif" style="width:110px; height:180px; border:0px;" alt=""></td>
 			<td style="font-size:15px; font-family: Arial;">
 				<p align="center"><span style="font-weight:bold;">Hinweise</span><br>
-					Alle Rechte an mainChat vorbehalten, (C) fidion GmbH<br>
+					Alle Rechte an mainChat vorbehalten, &copy; fidion GmbH<br>
 					Weitere Informationen zur Installation finden Sie hier [<a href="liesmich.php" target="_blank">LIESMICH</a>]
 				</p>
 			</td>
@@ -138,7 +138,7 @@ Er wird mittlerweile auf <a href="https://github.com/netzhuffle/mainchat">Github
 Eine Version, die unter PHP7 lauffähig ist, ist ebenfalls unter <a href="https://github.com/ePfirsich/mainChat">Github</a> zum Download verfügbar.<br>
 <span style="font-weight:bold;">Features:</span> Mail, Forum, Punkte, beliebig viele Räume und Benutzer, IRC-Befehle, 
 Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
-Freunde, Benutzer-Homepages, Profile, Privatnachrichten, öffentliche Nachrichten, mehrsprachig, 
+Freunde, Benutzerseiten, Profile, Privatnachrichten, öffentliche Nachrichten, mehrsprachig, 
 vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vieles mehr.</p>
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
 				</td>

@@ -306,14 +306,14 @@ function profil_editor($u_id, $u_nick, $f) {
 	// Überschrift: Allgemeines
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['profil_allgemeines'], "", "", 0, "70", "");
 	
-	// Homepage freigeben
+	// Benutzerseite freigeben
 	if($f['u_chathomepage'] == 1) {
-		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $t['profil_homepage_zur_homepage'] . "</a>";
+		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $t['profil_benutzerseite_zur_homepage'] . "</a>";
 	} else {
-		$u_chathomepage_link = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $t['profil_homepage_zur_vorschau'] . "</a>";
+		$u_chathomepage_link = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $t['profil_benutzerseite_zur_vorschau'] . "</a>";
 	}
-	$value = array($t['profil_homepage_deaktivieren'], $t['profil_homepage_aktivieren']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_homepage'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);
+	$value = array($t['profil_benutzerseite_deaktivieren'], $t['profil_benutzerseite_aktivieren']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_benutzerseite'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);
 	$zaehler++;
 	
 	

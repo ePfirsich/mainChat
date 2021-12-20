@@ -35,13 +35,13 @@ $b_mime = "";
 // Überprüfen, ob ein gecached Bild vorhanden ist
 $cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
 
-// Prüfe ob der Benutzer existiert und Chat-Homepage aktiviert ist
+// Prüfe ob der Benutzer existiert und die Benutzerseiten aktiviert ist
 $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
 $result = mysqli_query($mysqli_link, $query);
 if ($result && mysqli_num_rows($result) == 1) {
 	/*
 	if (mysqli_result($result, 0, "u_chathomepage") != '1' && $feld != "avatar") {
-		echo "Die Chat-Homepage dieses Benutzers ist deaktiviert!<br>";
+		echo "Die Benutzerseiten dieses Benutzers ist deaktiviert!<br>";
 		exit;
 	}
 	*/

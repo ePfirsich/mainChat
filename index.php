@@ -6,6 +6,7 @@ if (!isset($_SERVER["HTTP_REFERER"])) {
 // Funktionen und Config laden, Host bestimmen
 require_once("functions/functions.php");
 require_once("functions/functions-init.php");
+require_once("functions/functions-index.php");
 require_once("languages/$sprache-index.php");
 
 zeige_header($body_titel, 0);

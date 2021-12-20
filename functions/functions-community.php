@@ -659,8 +659,7 @@ function email_versende(
 	$betreff,
 	$an_u_email = FALSE) {
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
-	// Falls an_u_email=TRUE wird Mail an u_email Adressen verschickt,
-	// sonst an u_adminemail (interne Adresse)
+	// Falls an_u_email=TRUE wird E-Mail an u_adminemail (E-Mail Adresse)
 	
 	global $chat, $mysqli_link, $t;
 	

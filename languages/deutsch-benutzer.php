@@ -17,9 +17,9 @@ $t['einstellungen_verbieten'] = "Verbieten";
 
 $t['benutzer_benutzerdaten'] = "Benutzerdaten";
 $t['benutzer_benutzername'] = "Benutzername";
-$t['benutzer_email_intern'] = "Interne E-Mail";
+$t['benutzer_email_intern'] = "E-Mail";
 $t['benutzer_kommentar'] = "Sperrkommentar";
-$t['benutzer_url'] = "Homepage";
+$t['benutzer_webseite'] = "Webseite";
 $t['benutzer_signatur'] = "Signatur für Nachrichten und Forum";
 $t['benutzer_eintrittsnachricht'] = "Eintrittsnachricht";
 $t['benutzer_austrittsnachricht'] = "Austrittsnachricht";
@@ -62,7 +62,7 @@ $t['benutzer_farbeinstellungen'] = "Farbeinstellungen";
 $t['benutzer_private_nachricht'] = "Private Nachricht";
 $t['benutzer_admin'] = "Admin";
 
-$t['benutzer_suche_mit_homepage'] = "Mit Homepage";
+$t['benutzer_suche_mit_benutzerseite'] = "Mit Benutzerseite";
 $t['benutzer_suche_egal'] = "egal";
 $t['benutzer_suche_ja'] = "Ja";
 $t['benutzer_suche_suchtext_eingeben'] = "<b>Bitte Suchtext eingeben</b><br>(% ist Jokerzeichen)";

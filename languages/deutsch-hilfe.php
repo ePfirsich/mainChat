@@ -13,7 +13,7 @@ $t['hilfe3'] = "Hilfe zu den voreingestellten Sprüchen";
 $t['hilfe4'] = "Übersicht über alle voreingestellten Sprüche";
 $t['hilfe6'] = "Hilfe";
 $t['hilfe8'] = "Zusätzliche Befehle für Admins";
-$t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Homepage";
+$t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Benutzerseite";
 $t['hilfe17'] = "Befehl";
 $t['hilfe18'] = "Funktion";
 $t['hilfe19'] = "Aliase";
@@ -108,8 +108,7 @@ $hilfe_uebersichtstext = "<p><b>Erste Hilfe bei Problemen:</b><br>"
 	. "Die Nickergänzung funktioniert unter anderem beim Chatten und beim Flüstern. "
 	. "Ein @ vor dem Beginn des Benutzername wird ebenfalls zum vollen Benutzernamen ergänzt.</p>"
 	. "<p><b>Einstellungen:</b><br>"
-	. "Jeder Benutzer kann optional eine E-Mail-Adresse und eine Homepage eintragen, "
-	. "die in der Benutzerliste im Fenster angezeigt werden. Neben dem Passwort, das neu gesetzt werden kann, "
+	. "Neben dem Passwort, das neu gesetzt werden kann, "
 	. "ist auch der Wechsel der Farbe durch Klick auf eines der bunten Felder möglich."
 	. "<br>Zudem kann jeder Benutzer seine Systemeintrittsnachricht und -austrittsnachricht in den Raum ändern. (Dies "
 	. "muss vom Chatbetreiber freigeschaltet sein.) Um hier automatisiert den eigenen Benutzernamen einzutragen, kann man "
@@ -169,8 +168,8 @@ $legende = "<tr><td colspan=\"2\" class=\"tabelle_zeile1\" style=\"padding: 5px;
 	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"images/wuerfel/gruppe9.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">Benutzer: 5.000.000 - 9.999.999 Punkte</td></tr>"
 	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"images/wuerfel/gruppe10.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">Benutzer: ab 10.000.000 Punkten</td></tr>"
 	. "<tr><td colspan=\"2\" class=\"tabelle_zeile2\" style=\"padding: 5px; font-weight:bold;\">Weitere Symbole:</td></tr>"
-	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Homepage\" title=\"Homepage\"></span><br></td><td class=\"tabelle_zeile1\">Homepage des Benutzers</td></tr>"
-	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope icon16\" alt=\"Mail\" title=\"Mail\"></span><br></td><td class=\"tabelle_zeile2\">E-Mail des Benutzers</td></tr>";
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Benutzerseite\" title=\"Benutzerseite\"></span><br></td><td class=\"tabelle_zeile1\">Benutzerseite des Benutzers</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope icon16\" alt=\"Nachricht\" title=\"Nachricht\"></span><br></td><td class=\"tabelle_zeile2\">Nachricht an den Benutzer</td></tr>";
 
 $hilfe_community = "<br>
 <table style=\"float:right;\">
@@ -228,10 +227,8 @@ Um eine neue Nachricht zu verfassen, geben Sie unter dem Punkt \"<b>Neue Nachric
 in das Feld \"<b>Benutzername</b>\" den Benutzernamen des Benutzers ein, dem Sie eine Nachricht
 zukommen lassen möchten und klicken Sie dann auf \"<b>weiter</b>\". Nun befinden Sie
 sich in der Texteingabe für Ihre Mail. Am Fuße der Box können Sie übrigens
-auswählen, ob Sie die Nachricht an die Chat-interne Mailbox des Benutzers oder
-an seine reguläre E-Mail Adresse schicken möchten, sofern der Benutzer diese als
-öffentlich in seinem Chatprofil angegeben hat. Sind Betreff und Textfeld
-fertig ausgefüllt, verschicken Sie die Mail mit Klick auf den
+auswählen, ob Sie die Nachricht als Nachricht im Chat des Benutzers oder an seine reguläre E-Mail Adresse schicken möchten, sofern der Benutzer dies in den Einstellungen erlaubt.
+Sind Betreff und Textfeld fertig ausgefüllt, verschicken Sie die Mail mit Klick auf den
 \"<b>Senden</b>\"-Button. Wenn Sie eine empfangene Mail löschen, so wird sie zuerst
 einmal in den Papierkorb verschoben. Durch Klick auf den Menüpunkt
 \"<b>Papierkorb zeigen</b>\" können Sie sich alle zum Löschen vorgesehenen Nachrichten noch
@@ -255,19 +252,15 @@ erhalten), bei Ihrem Login in den Chat oder regelmäßig <b>alle 5 Minuten</b>
 Anwesendheit Ihrer Freunde im Chat) Die Benachrichtigungen, die Sie
 erhalten, wenn Sie nicht im Chat sind (offline), wählen Sie unter
 <b>Sofort/Offline</b> aus. Die Art der Nachricht ist einstellbar: so gibt es <b>keine</b>
-Benachrichtigung, <b>Chat-Mail</b> (chat-interne Mail), eine <b>E-Mail</b> an Ihre
-nicht-öffentliche E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte
+Benachrichtigung, <b>Chat-Mail</b> (Nachricht im Chat), eine <b>E-Mail</b> an Ihre E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte
 Nachricht in Chat wie /msg). Zusätzlich sind auch Kombinationen von E-Mail
 und OLM sowie Chat-Mail und OLM möglich, wobei Sie in diesem Fall zwei
 Nachrichten erhalten.<br><br>
-<b><a name=\"home\">Benutzer-Homepages</a></b><br>
-Unter dem Punkt \"<b>Profil -> Homepage</b>\" kann ebenfalls jeder Benutzer mit
-wenigen Klicks seine eigene kleine Homepage erstellen, ohne jegliche
-HTML-Kenntnisse zu besitzen. Nach der \"<b>Freischaltung</b>\" der Homepage wird hinter dem
-Benutzernamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Homepage ansehen kann. In der
-\"Suche nach Benutzern\" (<b>USER -> Suche</b>) ist die gezielte Suche nach Benutzern mit freigeschalteter Homepage
-möglich.<br><br>
-Ihre Homepage kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
+<b><a name=\"home\">Benutzerseite</a></b><br>
+Unter dem Punkt \"<b>Profil</b>\" kann ebenfalls jeder Benutzer mit wenigen Klicks seine eigene kleine Benutzerseite erstellen.
+Nach der \"<b>Aktivierung</b>\" der Benutzerseite wird hinter dem Benutzernamen ein <b>Haus-Symbol</b> angezeigt, über das man sich die Benutzerseite ansehen kann. In der
+\"Suche nach Benutzern\" (<b>Benutzer -> Suche</b>) ist die gezielte Suche nach Benutzern mit aktivierter Benutzerseite möglich.<br><br>
+Ihre Benutzerseite kann natürlich auch mit folgender Adresse von außerhalb des Chats abgerufen werden:<br>
 <b> %chat_url%/home.php?/NICKNAME</b><br><br>
 Grundsätzlich immer dargestellt werden</p>
 <ul>
@@ -277,16 +270,16 @@ Grundsätzlich immer dargestellt werden</p>
 <li><i>Punkte</i>
 </ul><p>
 	
-Weiter kann der Chatuser entscheiden:</p>
+Weiter kann der Benutzer entscheiden:</p>
 <ul>
-<li><i>welche Daten aus seinem Benutzerprofil auf der Homepage dargestellt werden sollen.</i>
+<li><i>welche Daten aus seinem Benutzerprofil auf der Benutzerseite dargestellt werden sollen.</i>
 </ul>
 <p>
 <p>Außerdem hat er der die Möglichkeit:</p>
 <ul>
-<li><i>Schrift-, Hintergrund- und Linkfarben sowie Hintergrundbilder für seine Homepage zu bestimmen,</i>
+<li><i>Schrift-, Hintergrund- und Linkfarben sowie Hintergrundbilder für seine Benutzerseite zu bestimmen,</i>
 <li><i>beliebige Texte (auch mit HTML) in das Textfeld einzugeben,</i>
-<li><i>Bilder von seinem eigenen Rechner hochzuladen und in seine Homepage einzufügen.</i>
+<li><i>Bilder von seinem eigenen Rechner hochzuladen und in seine Benutzerseite einzufügen.</i>
 </ul>
 </p>";
 ?>

@@ -4,6 +4,7 @@
 // Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
 
 require_once("functions/functions.php");
+require_once("functions/functions-chat.php");
 
 // Benutzerdaten setzen
 id_lese($id);

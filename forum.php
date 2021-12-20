@@ -1,6 +1,7 @@
 <?php
 
 require_once("functions/functions.php");
+require_once("functions/functions-forum.php");
 require_once("functions/functions-formulare.php");
 require_once("languages/$sprache-smilies.php");
 require_once("languages/$sprache-forum.php");

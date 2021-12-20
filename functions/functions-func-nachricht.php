@@ -1,5 +1,4 @@
 <?php
-
 function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name

@@ -58,8 +58,7 @@ $hilfstext = array(
 	$whotext[2] = "FORUM";
 	
 	// Texte möglicher Namen für Gäste
-	$gast_name = array(1 => "Urzel", "Murzel", "Hurzel", "Kurzel", "Wurzel",
-		"Purzel");
+	$gast_name = array(1 => "Urzel", "Murzel", "Hurzel", "Kurzel", "Wurzel", "Purzel");
 	
 	$hilfe_spruchtext = "<b>Format:</b> '=SPRUCH USER ZUSATZTEXT'<br><br>"
 		. "Je nach Typ muss USER (=Name eines Benutzers im Chat) oder "
@@ -79,4 +78,15 @@ $hilfstext = array(
 $t['fehler'] = "Fehler";
 $t['seite_nicht_gefunden'] = "Die von Ihnen angeforderte Seite wurde nicht gefunden. Bitte überprüfen Sie die Adresse oder gehen Sie zurück auf die Startseite.";
 $t['kein_zugriff'] = "Diese Seite bzw. dieser Bereich steht möglicherweise nur angemeldeten Benutzern zur Verfügung.";
+
+$t['benutzer_nachricht'] = "Nachricht";
+$t['benutzer_benutzerseite'] = "Benutzerseite";
+$t['benutzer_weiblich'] = "weiblich";
+$t['benutzer_maennlich'] = "männlich";
+
+$t['forum_keine_neuen_beitraege'] = "Keine neuen Beiträge";
+$t['forum_neue_beitraege'] = "Neue Beiträge";
+$t['forum_mehr_als_10_neue_beitraege'] = "Mehr als 10 neue Beiträge";
+$t['forum_thema_geschlossen'] = "Thema geschlossen";
+$t['forum_angepinntes_thema'] = "Angepinntes Thema";
 ?>
