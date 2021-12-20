@@ -91,7 +91,6 @@ if (!isset($passwort) || $passwort == "") {
 		$f['u_passwort'] = mt_rand(1, 10000);
 		$f['u_nick'] = $login;
 		$passwort = $f['u_passwort'];
-		$f['u_loginfehler'] = '';
 		
 		// Prüfung, ob dieser Benutzer bereits existiert
 		$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
@@ -107,31 +106,6 @@ if (!isset($passwort) || $passwort == "") {
 if(!$kein_gastlogin_ausblenden) {
 	// Login als registrierter Benutzer
 	
-	// Testen, ob frühere Loginversuche fehlschlugen (nur Admins)
-	$query4711 = "SELECT u_id,u_nick,u_loginfehler,u_login FROM user "
-		. "WHERE (u_nick = '$login') "
-		. "AND (u_level='S' OR u_level='C') ";
-	$result = mysqli_query($mysqli_link, $query4711);
-	if ($result) {
-		$rows = mysqli_num_rows($result);
-	}
-	
-	// Voreinstellung: Weiter mit Login
-	$login_ok = true;
-	
-	if ($result && $rows == 1) {
-		$userdata = mysqli_fetch_object($result);
-		if ($userdata->u_loginfehler) {
-			// Nach zwei fehlgeschlagenen Logins und dem letzen Versuch keine 5 min vergangen 
-			// -> Login sperren und merken
-			$u_loginfehler = unserialize($userdata->u_loginfehler);
-			$letzter_eintrag = end($u_loginfehler);
-			if ((time() - $letzter_eintrag[login]) < 300 && count($u_loginfehler) > 9) {
-				$login_ok = false;
-			}
-		}
-	}
-	
 	// Passwort prüfen und Benutzerdaten lesen
 	$rows = 0;
 	$result = auth_user($login, $passwort);
@@ -139,28 +113,7 @@ if(!$kein_gastlogin_ausblenden) {
 		$rows = mysqli_num_rows($result);
 	}
 	
-	// Login fehlgeschlagen
-	if ($rows == 0 && isset($userdata) && is_array($userdata) && $userdata) {
-		// Fehllogin bei Admin: falsches Passwort oder Benutzername -> max 100 Loginversuche in Benutzerdaten merken
-		if ($userdata->u_loginfehler) {
-			$u_loginfehler = unserialize($userdata->u_loginfehler);
-		}
-		if (count($u_loginfehler) < 100) {
-			unset($f);
-			unset($temp);
-			$f['nick'] = substr($userdata->u_nick, 0, 20);
-			$f['pw'] = substr($passwort, 0, 20);
-			$f['login'] = time();
-			$f['ip'] = substr($_SERVER["REMOTE_ADDR"], 0, 20);
-			$u_loginfehler[] = $f;
-			$temp['u_loginfehler'] = serialize($u_loginfehler);
-			$temp['u_login'] = $userdata->u_login;
-			schreibe_db("user", $temp, $userdata->u_id, "u_id");
-		}
-	}
-	
-	// güliger Account gefunden, weiter mit Login oder Fehlermeldungen ausgeben
-	if ($result && $rows == 1 && $login_ok) {
+	if ($result && $rows == 1) {
 		// Login Ok, Benutzerdaten setzen
 		$row = mysqli_fetch_object($result);
 		$u_id = $row->u_id;
@@ -380,34 +333,6 @@ if(!$kein_gastlogin_ausblenden) {
 				}
 			}
 		}
-	} elseif (!$login_ok) {
-		if ($rows == 0) {
-			// Zu viele fehlgeschlagenen Logins, aktueller Login ist
-			// wieder fehlgeschlagen, daher Mail an Betreiber verschicken
-			if ($userdata->u_loginfehler) {
-				$u_loginfehler = unserialize($userdata->u_loginfehler);
-			}
-			$betreff = str_replace("%login%", $login, $t['login20']);
-			$text = str_replace("%login%", $login, $t['login21']) . "\n";
-			foreach ($u_loginfehler as $key => $val) {
-				$text .= "[" . substr("00" . $key, -3) . "] " . date("M d Y H:i:s", $val[login]) . " \tIP: $val[ip] \tPW: $val[pw]\n";
-			}
-			$text .= "\n-- \n   $chat (".$chat_url . $_SERVER['PHP_SELF'] . " | " . $chat_url . ")\n";
-			
-			// E-Mail versenden
-			if($smtp_on) {
-				mailsmtp($webmaster, $betreff, $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-			} else {
-				// Der PHP-Versand benötigt \n und nicht <br>
-				$text = str_replace("<br>", "\n", $text);
-				mail($webmaster, $betreff, $text, "From: $hackmail\nReply-To: $hackmail\nCC: $hackmail\n");
-			}
-		}
-		
-		// Fehlermeldung ausgeben
-		
-		unset($u_nick);
-		echo "<div style=\"text-align: center;\"><b>" . str_replace("%login%", $login, $t['login20']) . "</b></div>";
 	} else {
 		// Login fehlgeschlagen
 		

@@ -54,7 +54,7 @@ $valid_fields = array(
 	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_level', 'u_farbe', 
 		'u_away', 'u_ip_historie', 'u_smilies', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
-		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_loginfehler', 'u_emails_akzeptieren',
+		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_emails_akzeptieren',
 		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_forum_postingproseite', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
 	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
 		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage',
@@ -464,11 +464,10 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 }
 
 function iCrypt($passwort, $salt) {
-	
-	global $crypted_password_extern, $upgrade_password;
+	global $upgrade_password;
 	
 	$v_passwort = "";
-	if ($upgrade_password == 1 && $crypted_password_extern == 0) {
+	if ($upgrade_password == 1) {
 		$salt = "";
 		if (defined("CRYPT_SHA256")) {
 			$salt = '$5$rounds=5000$' . gensalt(16) . '$';
@@ -479,15 +478,13 @@ function iCrypt($passwort, $salt) {
 		}
 		$upgrade_password = 0;
 		$v_passwort = crypt($passwort, $salt);
-	} elseif ($crypted_password_extern == 0) {
+	} else {
 		$upgrade_password = 0;
 		if ($salt == 'MD5') {
 			$v_passwort = md5($passwort);
 		} else {
 			$v_passwort = crypt($passwort, $salt);
 		}
-	} else {
-		$v_passwort = $passwort;
 	}
 	return ($v_passwort);
 }

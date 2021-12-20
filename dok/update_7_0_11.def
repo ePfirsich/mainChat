@@ -1,0 +1,5 @@
+# mainChat-Datenbank für MySQL
+#
+#
+
+ALTER TABLE `user` DROP `u_loginfehler`;

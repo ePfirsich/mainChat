@@ -117,7 +117,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	// Benutzerdaten ändern
 	
 	// Login als letzten Login merken, dabei away und loginfehler zurücksetzen.
-	$query = "UPDATE user SET u_login=NOW(),u_away='',u_loginfehler='' WHERE u_id=$u_id";
+	$query = "UPDATE user SET u_login=NOW(),u_away='' WHERE u_id=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -597,14 +597,14 @@ function RaumNameToRaumID($eintrittsraum) {
 	return ($lobby_id);
 }
 
-function getsalt($feldname, $login) {
+function getsalt($login) {
 	// Versucht den Salt und die Verschlüsselung des Benutzers zu erkennen
 	// $login muss "sicher" kommen
 	global $mysqli_link;
 	global $upgrade_password;
 	
 	$salt = "-9";
-	$query = "SELECT `u_passwort` FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' ";
+	$query = "SELECT `u_passwort` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' ";
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -714,11 +714,9 @@ function auth_user($login, $passwort) {
 	// passwort = Passwort
 	
 	global $mysqli_link;
-	global $crypted_password_extern, $upgrade_password;
+	global $upgrade_password;
 	
-	$feldname = "u_nick";
-	
-	$v_salt = getsalt($feldname, $login);
+	$v_salt = getsalt($login);
 	
 	if ($v_salt == -9) {
 		// Benutzer nicht gefunden
@@ -730,18 +728,13 @@ function auth_user($login, $passwort) {
 		// Nachdem die Verschlüsselung nun bekannt ist
 		// Übergebenes PW verschlüsseln und gegen DB Prüfen
 		
-		if ($crypted_password_extern == 1) {
-			// Nichts tun, da das $passwort von einem Externen System bereits
-			// verschlüsselt übergeben wurde, daher auch nicht "upgraden"
-			$v_passwort = $passwort;
-			$upgrade_password = 0;
-		} else if ($v_salt == 'MD5') {
+		if ($v_salt == 'MD5') {
 			$v_passwort = md5($passwort);
 		} else {
 			$v_passwort = crypt($passwort, $v_salt);
 		}
 		
-		$query = "SELECT * FROM `user` WHERE $feldname = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort`='" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+		$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$usergefunden = mysqli_result($result, 0, "u_id");

@@ -183,7 +183,6 @@ if ($weiter_zu_login) {
 	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 	
 	$f['u_level'] = "U";
-	$f['u_loginfehler'] = "";
 	
 	$u_id = schreibe_db("user", $f, "", "u_id");
 	$result = mysqli_query($mysqli_link, "UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");

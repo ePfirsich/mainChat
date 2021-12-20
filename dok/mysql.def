@@ -30,7 +30,6 @@
 # u_austritt				Austrittstext
 # u_signatur				Signatur für Mail und Forum
 # u_lastclean				Zeitpunkt der letzten bereinigung von u_gelesene_postings
-# u_loginfehler				Array mit Datum und IP fehlerhafter Logins
 # u_nick_historie			Nickwechsel Historie
 # u_profil_historie			Admin-Änderungen am Profil-Historie
 # u_kommentar				Kommentar, warum ein User gesperrt wurde
@@ -432,7 +431,6 @@ CREATE TABLE user (
 	`u_austritt` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_signatur` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_lastclean` bigint(14) NOT NULL default '0',
-	`u_loginfehler` blob NOT NULL,
 	`u_nick_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_profil_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_kommentar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
@@ -487,4 +485,4 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';
-INSERT INTO user set u_id=1,u_nick='admin',u_passwort='adpexzg3FUZAk',u_level='S',u_loginfehler='';
+INSERT INTO user set u_id=1,u_nick='admin',u_passwort='adpexzg3FUZAk',u_level='S';
