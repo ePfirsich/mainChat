@@ -301,6 +301,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("textarea2", $zaehler, $t['profil_text'], "ui_text", $f['ui_text']);
 	$zaehler++;
 	
+	// Leerzeile
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	// Überschrift: Allgemeines

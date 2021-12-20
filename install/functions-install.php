@@ -99,33 +99,39 @@ function step_1($chat) {
 				</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
+				<td> Voreingestellte Sprache:</td>
+				<td>
+					<select name="chat_content_language">
+						<option value="de">de</option>
+						<option value="en">en</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
 				<td> Beim Login Auswahl des Raums möglich:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["raumauswahl"],'chat_raumauswahl'); ?></td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> Beim Login Boxen mit Benutzern unterdrücken:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["unterdrueckeraeume"],'chat_unterdrueckeraeume'); ?></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td> Lobby (Defaultraum):</td>
 				<td><input type="text" name="chat_lobby" size="40" value="<?php echo checkFormularInputFeld('Lobby',$chat["lobby"]) ?>">*</td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> Anzeige Login oben:</td>
 				<td><input type="text" name="chat_layoutkopf" size="40" value="<?php echo checkFormularInputFeld('',$chat["layoutkopf"]) ?>"></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td colspan="2">Metatag:</td>
 			</tr>
-			<tr >
+			<tr style="background-color:#85D4FF;">
 				<td> Description:</td>
 				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die kostenlose Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Keywords:</td><td><textarea cols="30" rows="3" name="chat_keywords"><?php echo checkFormularInputFeld('Chat Community HTML kostenlos frei openSource, Smilies',$chat["keywords"]) ?></textarea></td>
-			</tr>
 			<tr>
-				<td> Sprache:</td><td><input type="text" name="chat_metalanguage" size="40" value="<?php echo checkFormularInputFeld('deutsch, de',$chat["metalanguage"]) ?>"></td>
+				<td> Keywords:</td><td><textarea cols="30" rows="3" name="chat_keywords"><?php echo checkFormularInputFeld('Chat Community HTML kostenlos frei openSource, Smilies',$chat["keywords"]) ?></textarea></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td colspan="2">Text für Startseite im Bereich NOFRAMES für Suchmaschinen:</td>

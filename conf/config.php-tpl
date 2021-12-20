@@ -25,7 +25,8 @@ $mysqluser="%user%";				// Datenbankuser
 $mysqlpass="%pass%";				// Mysql-Passwort
 $webmaster="%webmaster%";			// Zuständige Person
 $kontakt="%kontakt%";				// Zuständige Person für Hackversuche
-$sprache = "%language%";			// Sprache des Chats
+$sprache = "%language%";			// Sprache der Sprachdateien
+$spracheChat = "%content_language%";// Sprache des Chats
 $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
 $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am Ende
@@ -132,8 +133,7 @@ $chat_eingabe_breite=111;		// Breite des Text-Eingabefelds des Chats
 
 // Dieser Inhalt wird im <head> ausgegeben
 $metatag="<meta name=\"description\" content=\"%description%\">\n".
-	"<meta name=\"keywords\" content=\"%keywords%\">\n".
-	"<meta name=\"language\" content=\"%metalanguage%\">\n";
+	"<meta name=\"keywords\" content=\"%keywords%\">\n";
 
 // Text für Startseite im Bereich NOFRAMES für Suchmaschinen
 $noframes="%noframes%\n";
