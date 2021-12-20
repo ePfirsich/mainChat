@@ -48,8 +48,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 	}
 	
+	$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
-	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL) == "gefuellt") {
+	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && $formular == "gefuellt") {
 		$f['u_id'] = $temp_u_id;
 		$f['u_nick'] = htmlspecialchars(filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_STRING));
 		$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);

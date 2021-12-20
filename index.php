@@ -262,6 +262,19 @@ switch ($aktion) {
 		
 		break;
 		
+	case "kontakt":
+		// Kontaktformular anzeigen
+		require_once("functions/functions-formulare.php");
+		
+		echo "<body>";
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
+		require_once('templates/kontakt.php');
+		
+		break;
+		
 	case "passwort_neu":
 		// Neues Passwort anfordern
 		
@@ -380,6 +393,8 @@ switch ($aktion) {
 ?>
 <div align="center" class="smaller"><?php echo $mainchat_version; ?>
 <br><br>
-<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | <a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
+<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | 
+<a href="index.php?aktion=kontakt"><?php echo $t['login_kontakt']; ?></a> |
+<a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
 </body>
 </html>

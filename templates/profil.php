@@ -53,8 +53,9 @@ if( $aktion == '') {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 }
 
+$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 // Profil prüfen und ggf. neu eintragen
-if($aktion == "aendern" && $f['ui_userid'] && filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL) == "gefuellt") {
+if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 	if( !isset($f['ui_id']) || $f['ui_id'] == '' || $f['ui_id'] == 0) {
 		$f = array();
 		$f['ui_id'] = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_URL);

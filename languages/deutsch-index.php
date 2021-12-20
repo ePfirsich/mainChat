@@ -9,6 +9,37 @@ $t['login_chatiquette'] = "Chatiquette";
 $t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
 $t['login_datenschutzerklaerung'] = "Datenschutzerklärung";
 $t['login_impressum'] = "Impressum";
+$t['login_kontakt'] = "Kontakt";
+
+$t['kontakt_beschreibung'] = "Über das Kontaktformular können Sie uns jederzeit eine Nachricht zukommen lassen.";
+$t['kontakt_absender'] = "Absender";
+$t['kontakt_email'] = "E-Mail Adresse";
+$t['kontakt_betreff'] = "Betreff";
+$t['kontakt_nachricht'] = "Nachricht";
+$t['kontakt_sicherheitsfrage'] = "Sicherheitsfrage: ";
+$t['kontakt_frage'] = "Wie heißt dieser Chat?";
+$t['kontakt_antwort'] = "mainChat";
+$t['kontakt_datenschutz'] = "Datenschutzerklärung";
+$t['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?aktion=datenschutz\">Datenschutzerklärung</a> gelesen und stimme dieser zu.";
+
+$t['kontakt_zuruecksetzen'] = "Zurücksetzen";
+$t['kontakt_absenden'] = "Absenden";
+
+$t['kontakt_fehler'] = "Fehlermeldung";
+$t['kontakt_fehler_absender'] = "Bitte geben Sie einen Absender an.<br>";
+$t['kontakt_fehler_email'] = "Bitte geben Sie eine korrekte E-Mail Adresse an.<br>";
+$t['kontakt_fehler_betreff'] = "Bitte geben Sie ein Betreff an.<br>";
+$t['kontakt_fehler_nachricht'] = "Bitte geben Sie eine Nachricht an.<br>";
+$t['kontakt_fehler_sicherheitsfrage'] = "Die Sicherheitsfrage wurde falsch beantwortet.<br>";
+$t['kontakt_fehler_datenschutz'] = "Bitte stimmen Sie der Datenschutzerklärung zu.<br>";
+
+$t['kontakt_erfolgsmeldung'] = "Erfolgsmeldung";
+$t['kontakt_erfolgsmeldung_email_versendet'] = "Die Nachricht wurde erfolgreich versendet.<br>";
+
+$t['kontakt_inhalt'] = "$chat,<br><br>
+%name% hat folgende Nachricht über das Kontaktformular gesendet:<br><br>
+%nachricht%<br><br>
+E-Mail Adresse: %email%";
 
 $chatiquette = "
 <p><b>Wie melde ich mich an? </b></p>
