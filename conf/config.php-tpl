@@ -71,8 +71,7 @@ $chat_max['S']=0;
 $chat_max['G']=200;
 $chat_max['U']=200;
 $chat_max['M']=0;
-$chat_max['zusatztext']="<p style=\"font-weight:bold;\">Bitte benutzen Sie stattdessen ".
-"<a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a>.</p>";
+$chat_max['zusatztext']="<p style=\"font-weight:bold;\">Bitte benutzen Sie stattdessen <a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a>.</p>";
 
 // WebChat-Statistiken
 $webchatraumausgabe=1;			// Ausgabe mit Raum für Webchat 1=ja/0=nein
@@ -126,15 +125,6 @@ $max_user_liste=200;
 
 // Layoutdateien (mindestens leere Dateien, kein BODY-Tag!)
 $layout_kopf="%layoutkopf%";				// Wird auf Indexseite oben eingefügt
-
-
-// Diese Farben werden nur noch als Standard-Farben für die Benutzerseiten verwendet.
-// Alle anderen Farbeinstellungen werden in den Stylesheets im Ordner "css" vorgenommen.
-$farbe_tabelle_zeile2="#D8D8EE";
-$farbe_mini_background="#FFFFFF";
-$farbe_mini_text="#000000";
-$farbe_mini_link="#0000FF";
-$farbe_mini_vlink="#000080";
 
 
 // Layout
