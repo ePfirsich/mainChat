@@ -5,7 +5,7 @@ Des Weiteren wurden hier viele optische Verbesserungen und eine Umstellung auf H
 
 Wichtig
 ------------
-Die optischen Anpassung und die Umstellung auf HTML5 sind noch nicht komplett abgeschlossen.
+Bitte nur veröffentlichte Releases installieren, da die update.php im Ordner "install" nur für Releases und nicht für einzelne Änderungen aktualisiert wird.
 
 Installation
 ------------
