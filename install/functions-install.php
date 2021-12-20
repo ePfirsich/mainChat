@@ -78,18 +78,18 @@ function step_1($chat) {
 				<td><input type="text" name="chat_webmaster" size="40" value="<?php echo checkFormularInputFeld('',$chat["webmaster"]) ?>">*</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Zuständige Person für Hackversuche:</td>
-				<td><input type="text" name="chat_hackmail" size="40" value="<?php echo checkFormularInputFeld('',$chat["hackmail"]) ?>">*</td>
+				<td> E-Mail Kontakt:</td>
+				<td><input type="text" name="chat_kontakt" size="40" value="<?php echo checkFormularInputFeld('',$chat["kontakt"]) ?>">*</td>
 			</tr>
 			<tr>
 				<td> Name des Chats:</td>
 				<td><input type="text" name="chat_chatname" size="40" value="<?php echo checkFormularInputFeld('',$chat["chatname"]) ?>">*</td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> URL des Chats: (Mit https:// davor, aber ohne / am Ende)</td>
 				<td><input type="text" name="chat_chaturl" size="40" value="<?php echo checkFormularInputFeld('https://www.deinChat.de',$chat["chaturl"]) ?>">*</td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td> Voreingestellte Sprachdatei:</td>
 				<td>
 					<select name="chat_language">
@@ -98,36 +98,36 @@ function step_1($chat) {
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> Beim Login Auswahl des Raums möglich:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["raumauswahl"],'chat_raumauswahl'); ?></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td> Beim Login Boxen mit Benutzern unterdrücken:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["unterdrueckeraeume"],'chat_unterdrueckeraeume'); ?></td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> Lobby (Defaultraum):</td>
 				<td><input type="text" name="chat_lobby" size="40" value="<?php echo checkFormularInputFeld('Lobby',$chat["lobby"]) ?>">*</td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td> Anzeige Login oben:</td>
 				<td><input type="text" name="chat_layoutkopf" size="40" value="<?php echo checkFormularInputFeld('',$chat["layoutkopf"]) ?>"></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td colspan="2">Metatag:</td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr >
 				<td> Description:</td>
 				<td><textarea cols="30" rows="5" name="chat_description"><?php echo checkFormularInputFeld('mainChat - Die kostenlose Chat-Community für jede Homepage',$chat["description"]) ?></textarea></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> Keywords:</td><td><textarea cols="30" rows="3" name="chat_keywords"><?php echo checkFormularInputFeld('Chat Community HTML kostenlos frei openSource, Smilies',$chat["keywords"]) ?></textarea></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Language:</td><td><input type="text" name="chat_metalanguage" size="40" value="<?php echo checkFormularInputFeld('deutsch, de',$chat["metalanguage"]) ?>"></td>
-			</tr>
 			<tr>
+				<td> Sprache:</td><td><input type="text" name="chat_metalanguage" size="40" value="<?php echo checkFormularInputFeld('deutsch, de',$chat["metalanguage"]) ?>"></td>
+			</tr>
+			<tr style="background-color:#85D4FF;">
 				<td colspan="2">Text für Startseite im Bereich NOFRAMES für Suchmaschinen:</td>
 			</tr>
 			<tr>
@@ -143,16 +143,16 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
 				</td>
 			</tr>
-			<tr>
+			<tr style="background-color:#85D4FF;">
 				<td> Anonymer Gast-Login möglich:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["gastlogin"],'chat_gastlogin'); ?></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
+			<tr>
 				<td> Beliebig viele Gast-Login von einer IP:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["gastloginanzahl"],'chat_gastloginanzahl'); ?></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
-				<td> Erste Buchstabe groß:</td>
+				<td> Erster Buchstabe im Benutzernamen immmer groß:</td>
 				<td><?php echo checkFormularRadioButton('0',$chat["uppername"],'chat_uppername'); ?></td>
 			</tr>
 			<tr>
@@ -162,14 +162,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Sonstige Einstellungen</span></td>
 			</tr>
 			<tr>
-				<td> Verzeichnis für Logdateien:</td>
-				<td><input type="text" name="chat_log" size="40" value="logs" value="<?php echo checkFormularInputFeld('logs',$chat["log"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Datei in der alle Sprüche sind:</td>
-				<td><input type="text" name="chat_spruchliste" size="40" value="<?php echo checkFormularInputFeld('sprueche.conf',$chat["spruchliste"]) ?>"></td>
-			</tr>
-			<tr style="background-color:#85D4FF;">
 				<td> Admin zeigen, wer einen Spruch eingegeben hat:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["showspruch"],'chat_showspruch'); ?></td>
 			</tr>
@@ -185,8 +177,8 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 				<td> Punktezählung einschalten:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["punktefeatures"],'chat_punktefeatures'); ?></td>
 			</tr>
-			<tr style="background-color:#85D4FF;">
-				<td> Moderationsmodul freigeschalten:</td>
+			<tr>
+				<td> Moderationsmodul freischalten:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["modmodul"],'chat_modmodul'); ?></td>
 			</tr>
 			<tr>
@@ -204,9 +196,6 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 			</tr>
 			<tr style="background-color:#007ABE;">
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Einstellungen für das Forum</span></td>
-			</tr>
-			<tr>
-				<td colspan="2">Mit * gekennzeichnete Felder sind Pflichtfelder</td>
 			</tr>
 			<tr>
 				<td colspan="2"><br></td>

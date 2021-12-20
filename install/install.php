@@ -16,7 +16,7 @@ $chat["user"] = filter_input(INPUT_POST, 'chat_user', FILTER_SANITIZE_STRING);
 $chat["pass"] = filter_input(INPUT_POST, 'chat_pass', FILTER_SANITIZE_STRING);
 $chat["pass2"] = filter_input(INPUT_POST, 'chat_pass2', FILTER_SANITIZE_STRING);
 $chat["webmaster"] = filter_input(INPUT_POST, 'chat_webmaster', FILTER_SANITIZE_STRING);
-$chat["hackmail"] = filter_input(INPUT_POST, 'chat_hackmail', FILTER_SANITIZE_STRING);
+$chat["kontakt"] = filter_input(INPUT_POST, 'chat_kontakt', FILTER_SANITIZE_STRING);
 $chat["chatname"] = filter_input(INPUT_POST, 'chat_chatname', FILTER_SANITIZE_STRING);
 $chat["chaturl"] = filter_input(INPUT_POST, 'chat_chaturl', FILTER_SANITIZE_STRING);
 $chat["language"] = filter_input(INPUT_POST, 'chat_language', FILTER_SANITIZE_STRING);
@@ -31,8 +31,6 @@ $chat["noframes"] = filter_input(INPUT_POST, 'chat_noframes', FILTER_SANITIZE_ST
 $chat["gastlogin"] = filter_input(INPUT_POST, 'chat_gastlogin', FILTER_SANITIZE_STRING);
 $chat["gastloginanzahl"] = filter_input(INPUT_POST, 'chat_gastloginanzahl', FILTER_SANITIZE_STRING);
 $chat["uppername"] = filter_input(INPUT_POST, 'chat_uppername', FILTER_SANITIZE_STRING);
-$chat["log"] = filter_input(INPUT_POST, 'chat_log', FILTER_SANITIZE_STRING);
-$chat["spruchliste"] = filter_input(INPUT_POST, 'chat_spruchliste', FILTER_SANITIZE_STRING);
 $chat["showspruch"] = filter_input(INPUT_POST, 'chat_showspruch', FILTER_SANITIZE_STRING);
 $chat["lustigefeatures"] = filter_input(INPUT_POST, 'chat_lustigefeatures', FILTER_SANITIZE_STRING);
 $chat["forumfeatures"] = filter_input(INPUT_POST, 'chat_forumfeatures', FILTER_SANITIZE_STRING);
@@ -59,10 +57,8 @@ switch ($aktion) {
 			if ($chat["lobby"] == "" || $chat["dbase"] == ""
 				|| $chat["host"] == "" || $chat["user"] == ""
 				|| $chat["pass"] != $chat["pass2"]
-				|| ($chat["webmaster"] == ""
-					|| (!preg_match($regexemail, $chat["webmaster"])))
-				|| ($chat["hackmail"] == ""
-					|| (!preg_match($regexemail, $chat["hackmail"])))
+				|| ($chat["webmaster"] == "" || (!preg_match($regexemail, $chat["webmaster"])))
+				|| ($chat["kontakt"] == "" || (!preg_match($regexemail, $chat["kontakt"])))
 				|| $chat["chatname"] == ""|| $chat["chaturl"] == "") {
 				?>
 				<table style="width:100%;" align="center">
@@ -70,30 +66,39 @@ switch ($aktion) {
 						<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff; background-color:#007ABE;"><b>FEHLER</b></td>
 					</tr>
 				<?php
-				if ($chat["lobby"] == "")
-					echo "<tr style=\"color:#ff0000;font-weigth:bold;\"><td>Bitte tragen Sie ein Lobby Defaultraum ein!</td></tr>\n";
-				if ($chat["dbase"] == "")
+				if ($chat["lobby"] == "") {
+					echo "<tr style=\"color:#ff0000;font-weigth:bold;\"><td>Bitte tragen Sie ein Lobby Standardraum ein!</td></tr>\n";
+				}
+				if ($chat["dbase"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Datenbanknamen ein!</td></tr>\n";
-				if ($chat["host"] == "")
+				}
+				if ($chat["host"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Datenbankserver ein!</td></tr>\n";
-				if ($chat["user"] == "")
+				}
+				if ($chat["user"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Datenbankuser ein!</td></tr>\n";
-				if ($chat["pass"] != $chat["pass2"])
+				}
+				if ($chat["pass"] != $chat["pass2"]) {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Das Passwort stimmt nicht überein!</td></tr>\n";
-				if ($chat["webmaster"] == "")
+				}
+				if ($chat["webmaster"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie einen Webmaster ein!</td></tr>\n";
-				if ((!preg_match($regexemail, $chat["webmaster"]))
-					&& ($chat["webmaster"] != ""))
+				}
+				if ((!preg_match($regexemail, $chat["webmaster"])) && ($chat["webmaster"] != "")) {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Ungültige Email-Adresse Webmaster!</td></tr>\n";
-				if ($chat["hackmail"] == "")
+				}
+				if ($chat["kontakt"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie eine zuständige Person bei Hackversuchen ein!</td></tr>\n";
-				if ((!preg_match($regexemail, $chat["hackmail"]))
-					&& ($chat["hackmail"] != ""))
-					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Ungültige Email-Adresse Hackmail!</td></tr>\n";
-				if ($chat["chatname"] == "")
+				}
+				if ((!preg_match($regexemail, $chat["kontakt"])) && ($chat["kontakt"] != "")) {
+					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Ungültige Email-Adresse Kontakt!</td></tr>\n";
+				}
+				if ($chat["chatname"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Chatnamen ein!</td></tr>\n";
-					if ($chat["chaturl"] == "")
-						echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Chat-URL ein!</td></tr>\n";
+				}
+				if ($chat["chaturl"] == "") {
+					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie den Chat-URL ein!</td></tr>\n";
+				}
 				echo "<tr><td colspan=\"2\"><br><br></td></tr></table>\n";
 				step_1($chat);
 			} else {

@@ -24,7 +24,7 @@ $mysqlhost="%host%";				// Datenbankserver
 $mysqluser="%user%";				// Datenbankuser
 $mysqlpass="%pass%";				// Mysql-Passwort
 $webmaster="%webmaster%";			// Zuständige Person
-$hackmail="%hackmail%";				// Zuständige Person für Hackversuche
+$kontakt="%kontakt%";				// Zuständige Person für Hackversuche
 $sprache = "%language%";			// Sprache des Chats
 $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
@@ -177,8 +177,8 @@ $raum_max=25;
 
 
 // Sonstige Einstellungen
-$log="%log%";				// Verzeichnis für Logdateien
-$datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
+$log="logs";						// Verzeichnis für Logdateien 
+$datei_spruchliste="sprueche.conf";	// Datei in der alle Sprüche enthalten sind
 
 
 $chat_status_klein = true; // Statusmsgs des Chats kleiner ausgeben?
