@@ -181,7 +181,7 @@ $log="%log%";				// Verzeichnis für Logdateien
 $datei_spruchliste="%spruchliste%";	// Datei in der alle Sprüche enthalten sind
 
 
-$chat_status_klein=1; // Statusmsgs des Chats kleiner ausgeben? 1=ja, 2=normal
+$chat_status_klein = true; // Statusmsgs des Chats kleiner ausgeben?
 
 
 $show_spruch_owner="%showspruch%"; 				// admins zeigen, wer einen Spruch eingegeben hat? 1=ja 0=nein
