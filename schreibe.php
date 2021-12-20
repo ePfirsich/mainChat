@@ -1,6 +1,7 @@
 <?php
 require_once("functions/functions.php");
 require_once("functions/functions-msg.php");
+require_once("functions/functions-schreibe.php");
 require_once("languages/$sprache-chat.php");
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
