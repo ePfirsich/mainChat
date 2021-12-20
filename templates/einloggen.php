@@ -340,7 +340,7 @@ if(!$kein_gastlogin_ausblenden) {
 					$query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
 					$result2 = mysqli_query($mysqli_link, $query2);
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
-						$txt = str_replace("%ip_adr%", $ip_adr, $t['default6']);
+						$txt = str_replace("%ip_adr%", $ip_adr, $t['login_warnung']);
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
@@ -417,8 +417,7 @@ if(!$kein_gastlogin_ausblenden) {
 		zeige_kopfzeile_login();
 		
 		// Falsches Passwort oder Benutzername
-		$fehlermeldung = $t['login_fehlermeldung_login_fehlgeschlagen'];
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $t['login_fehlermeldung_login_fehlgeschlagen']);
 		
 		// Box für Login
 		zeige_chat_login();

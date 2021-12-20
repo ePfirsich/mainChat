@@ -285,8 +285,4 @@ $t['betreff_new_posting'] = "Neue Antwort auf Ihren Beitrag %po_titel%";
 $t['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
 $t['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
 $t['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
-
-// Sonstiges
-$t['userliste1'] = "%raum_alt% (%user_im_raum% Benutzer im Raum)</span><br>\n<span class=\"text\">%nicks%<br>\n";
-$t['userliste2'] = "Gerade sind %anzahl_online% Benutzer online, insgesamt sind %anzahl_user% Benutzer angemeldet <br><br>\n%userliste%";
 ?>

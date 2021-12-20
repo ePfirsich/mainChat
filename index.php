@@ -373,7 +373,8 @@ switch ($aktion) {
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/login.php');
+		// Box für Login
+		zeige_chat_login();
 }
 
 ?>

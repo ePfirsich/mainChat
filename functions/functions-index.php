@@ -39,61 +39,6 @@ function erzeuge_sequence($db, $id) {
 	mysqli_free_result($result);
 }
 
-function show_who_is_online($result) {
-	// Funktion gibt Liste der Räume mit Benutzern aus
-	// $result ist gültiges Ergebnis einer Query, die o_userdata* und r_name enthalten muss
-	global $t, $whotext;
-	
-	$text = "";
-	$r_name_alt = "";
-	$zeigen_alt = TRUE;
-	if ($result) {
-		while ($row = mysqli_fetch_object($result)) {
-			if (($row->o_level == "S") || ($row->o_level == "C")) {
-				$nick = "<b>$row->o_name</b>";
-			} else {
-				$nick = $row->o_name;
-			}
-			
-			// Unterscheidung Raum oder Community-Modul
-			if (!$row->r_name || $row->r_name == "NULL") {
-				$r_name = $t['default10'] . $whotext[$row->o_who];
-				$zeigen = TRUE;
-			} else {
-				// Nur offene, permanente Räume zeigen
-				if (($row->r_status1 == 'O' || $row->r_status1 == 'm') && $row->r_status2 == 'P') {
-					$zeigen = TRUE;
-				} else {
-					$zeigen = FALSE;
-				}
-				$r_name = $t['default9'] . $row->r_name;
-			}
-			
-			// Textwechsel
-			if ($r_name_alt != $r_name) {
-				if (strlen($text) == 0) {
-					$text = "$nick ";
-				} else {
-					// Nur offene, permanente Räume zeigen
-					if ($zeigen_alt) {
-						zeige_tabelle_volle_breite(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
-					}
-					$text = "$nick ";
-				}
-				;
-				$r_name_alt = $r_name;
-				$zeigen_alt = $zeigen;
-			} else {
-				$text .= "$nick ";
-			}
-		}
-		if ($zeigen_alt) {
-			zeige_tabelle_volle_breite(str_replace("%raum%", $r_name_alt, $t['default4']), $text);
-		}
-		mysqli_free_result($result);
-	}
-}
-
 function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
@@ -824,6 +769,7 @@ function auth_user($login, $passwort) {
 
 function zeige_chat_login() {
 	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
+	global $lobby, $timeout, $whotext;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
@@ -923,6 +869,7 @@ function zeige_chat_login() {
 	$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
 	$text .= "<td $bgcolor>$raeume</td>\n";
 	$text .= "</tr>\n";
+	$zaehler++;
 	
 	// Login
 	if ($zaehler % 2 != 0) {
@@ -969,6 +916,7 @@ function zeige_chat_login() {
 		$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
 		$text .= "<td $bgcolor>$raeume</td>\n";
 		$text .= "</tr>\n";
+		$zaehler++;
 		
 		// Login
 		if ($zaehler % 2 != 0) {
@@ -984,6 +932,147 @@ function zeige_chat_login() {
 		$text .= "</table>\n";
 		$text .= "</form>\n";
 	}
+	
+	// Wie viele Benutzer sind im Chat registriert?
+	$query = "SELECT COUNT(u_id) FROM `user` WHERE `u_level` IN ('A','C','G','M','S','U')";
+	$result = mysqli_query($mysqli_link, $query);
+	$rows = mysqli_num_rows($result);
+	if ($result) {
+		$useranzahl = mysqli_result($result, 0, 0);
+		mysqli_free_result($result);
+		
+		// Benutzer online und Räume bestimmen -> merken
+		$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' AS lobby "
+			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ORDER BY lobby desc,r_name,o_who,o_name ";
+		$result2 = mysqli_query($mysqli_link, $query);
+		if ($result2) {
+			$onlineanzahl = mysqli_num_rows($result2);
+		}
+		// Anzahl der angemeldeten Benutzer ausgeben
+		if ($useranzahl > 1) {
+			$text .= "<table style=\"width:100%;\">\n";
+			
+			// Leerzeile
+			$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+			
+			// Überschrift: Statistik
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_statistik'], "", "", 0, "70", "");
+			
+			$textStatistik = str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']) . str_replace("%useranzahl%", $useranzahl, $t['login_benutzer_registriert']);
+			
+			// Anzahl der Beiträge im Forum ausgeben
+			if ($forumfeatures) {
+				// Anzahl Themen
+				$query = "SELECT COUNT(th_id) FROM thema";
+				$result = mysqli_query($mysqli_link, $query);
+				if ($result AND mysqli_num_rows($result) > 0) {
+					$themen = mysqli_result($result, 0, 0);
+					mysqli_free_result($result);
+				}
+				
+				// Dummy Themen abziehen
+				$query = "SELECT count(th_id) FROM thema WHERE th_name = 'dummy-thema'";
+				$result = mysqli_query($mysqli_link, $query);
+				if ($result AND mysqli_num_rows($result) > 0) {
+					$themen = $themen - mysqli_result($result, 0, 0);
+					mysqli_free_result($result);
+				}
+				
+				// Anzahl Beiträge
+				$query = "SELECT count(po_id) FROM posting";
+				$result = mysqli_query($mysqli_link, $query);
+				if ($result AND mysqli_num_rows($result) > 0) {
+					$beitraege = mysqli_result($result, 0, 0);
+					mysqli_free_result($result);
+				}
+				if ($beitraege && $themen) {
+					$textStatistik .= str_replace("%themen%", $themen, str_replace("%beitraege%", $beitraege, $t['login_forum_beitraege']));
+				}
+			}
+			
+			$text .= "<tr>\n";
+			$text .= "<td colspan=\"2\" $bgcolor>$textStatistik</td>\n";
+			$text .= "</tr>\n";
+			
+			
+			if (!isset($unterdruecke_raeume)) {
+				$unterdruecke_raeume = 0;
+			}
+			if (!$unterdruecke_raeume && !$abweisen) {
+				// Wer ist online? Boxen mit Benutzern erzeugen, Topic ist Raumname
+				if ($onlineanzahl) {
+					// Gibt eine Liste der Räume mit Benutzern aus
+					$benutzeranzeige = "";
+					$r_name_alt = "";
+					$zeigen_alt = false;
+					if ($result2) {
+						while ($row = mysqli_fetch_object($result2)) {
+							if (($row->o_level == "S") || ($row->o_level == "C")) {
+								$nick = "<b>$row->o_name</b>";
+							} else {
+								$nick = $row->o_name;
+							}
+							
+							// Unterscheidung Raum oder Community-Modul
+							if (!$row->r_name || $row->r_name == "NULL") {
+								$r_name = $t['login_community_bereich'] . $whotext[$row->o_who];
+								$zeigen = TRUE;
+							} else {
+								// Nur offene, permanente Räume zeigen
+								if (($row->r_status1 == 'O' || $row->r_status1 == 'm') && $row->r_status2 == 'P') {
+									$zeigen = TRUE;
+								} else {
+									$zeigen = FALSE;
+								}
+								$r_name = $t['login_raum'] . $row->r_name;
+							}
+							
+							// Textwechsel
+							if ($r_name_alt != $r_name) {
+								if (strlen($text) == 0) {
+									$benutzeranzeige = "$nick ";
+								} else {
+									// Nur offene, permanente Räume zeigen
+									if ($zeigen_alt) {
+										// Leerzeile
+										//$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+										
+										// Überschrift: Raum
+										$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%raum%", $r_name_alt, $t['login_benutzer_online_raum']), "", "", 0, "70", "");
+										
+										// Benutzer anzeigen
+										$text .= "<tr>\n";
+										$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
+										$text .= "</tr>\n";
+									}
+									$benutzeranzeige = "$nick ";
+								}
+								$r_name_alt = $r_name;
+								$zeigen_alt = $zeigen;
+							} else {
+								$benutzeranzeige .= "$nick ";
+							}
+						}
+						if ($zeigen_alt) {
+							// Leerzeile
+							//$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+							
+							// Überschrift: Raum
+							$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%raum%", $r_name_alt, $t['login_benutzer_online_raum']), "", "", 0, "70", "");
+							
+							// Benutzer anzeigen
+							$text .= "<tr>\n";
+							$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
+							$text .= "</tr>\n";
+						}
+						mysqli_free_result($result2);
+					}
+				}
+			}
+			$text .= "</table>\n";
+		}
+	}
+	
 	
 	// Box anzeigen
 	zeige_tabelle_volle_breite($t['login_login'], $text);

@@ -178,15 +178,14 @@ $t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten 
 $t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
 $t['registrierung_absenden'] = "Absenden";
 
-$t['default1'] = "Statistik";
-$t['default2'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
-$t['default3'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
-$t['default4'] = "Benutzer online in %raum%:";
-$t['default6'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
-$t['default7'] = "<b>$chat:</b> Benutzer '<b>%u_nick%</b>' betritt Raum '%raumname%'.";
-$t['default8'] = "Im Forum finden sich %beitraege% Beiträge in %themen% Foren.";
-$t['default9'] = "Raum ";
-$t['default10'] = "Community-Bereich ";
+$t['login_statistik'] = "Statistik";
+$t['login_benutzer_online'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
+$t['login_benutzer_registriert'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
+$t['login_benutzer_online_raum'] = "Benutzer online in %raum%:";
+$t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
+$t['login_raum'] = "Raum ";
+$t['login_community_bereich'] = "Community-Bereich ";
+$t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 
 $t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
