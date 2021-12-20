@@ -1,5 +1,4 @@
 <?php
-
 function checkFormularInputFeld($defaultValue, $insertedValue) {
 	if ($insertedValue != null && $insertedValue != '') {
 		return $insertedValue;

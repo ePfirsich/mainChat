@@ -7,6 +7,7 @@
 <body>
 <?php
 
+require_once("functions-update.php");
 require("../conf/config.php");
 
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);
@@ -57,17 +58,7 @@ switch ($aktion) {
 					
 					// Update auf 7.0.10
 					$mysqldatei = "../dok/update_7_0_10.def";
-					$mysqlfp = fopen($mysqldatei, "r");
-					$mysqlinhalt = fread($mysqlfp, filesize($mysqldatei));
-					$mysqlarray = explode(';', $mysqlinhalt);
-					
-					foreach ($mysqlarray as $key => $value) {
-						// Das letzte Element ist immer nur ein leerer String
-						if($value == "") {
-							break;
-						}
-						mysqli_query($mysqli_link, $value);
-					}
+					checkFormularInputFeld($mysqli_link, $mysqldatei);
 					?>
 					<table style="width:100%; border:0px;">
 						<tr style="background-color:#007ABE;">
@@ -129,31 +120,11 @@ switch ($aktion) {
 					
 					// Update auf 7.0.9
 					$mysqldatei = "../dok/update_unter_7_0_0.def";
-					$mysqlfp = fopen($mysqldatei, "r");
-					$mysqlinhalt = fread($mysqlfp, filesize($mysqldatei));
-					$mysqlarray = explode(';', $mysqlinhalt);
-					
-					foreach ($mysqlarray as $key => $value) {
-						// Das letzte Element ist immer nur ein leerer String
-						if($value == "") {
-							break;
-						}
-						mysqli_query($mysqli_link, $value);
-					}
+					checkFormularInputFeld($mysqli_link, $mysqldatei);
 					
 					// Update auf 7.0.10
 					$mysqldatei = "../dok/update_7_0_10.def";
-					$mysqlfp = fopen($mysqldatei, "r");
-					$mysqlinhalt = fread($mysqlfp, filesize($mysqldatei));
-					$mysqlarray = explode(';', $mysqlinhalt);
-					
-					foreach ($mysqlarray as $key => $value) {
-						// Das letzte Element ist immer nur ein leerer String
-						if($value == "") {
-							break;
-						}
-						mysqli_query($mysqli_link, $value);
-					}
+					checkFormularInputFeld($mysqli_link, $mysqldatei);
 					?>
 					<table style="width:100%; border:0px;">
 						<tr style="background-color:#007ABE;">
@@ -206,7 +177,9 @@ switch ($aktion) {
 		</tr>
 	</table>
 	
-	Es muss nur eine Aktualisierung durchgeführt werden.
+	Bitte bei jeder Aktualisierung die <b>config.php</b> mit der <b>config.php-tpl abgleichen, ob Felder hinzugekommen oder entfernt wurden.</b><br>
+	<br>
+	Es muss immer nur <b>eine Aktualisierung</b> durchgeführt werden.
 	
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_auf_7_0_10">
