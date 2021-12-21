@@ -22,7 +22,6 @@ function statsResetMonth($year, $month) {
 	$i = 1;
 	
 	while ($i <= 31) {
-		
 		if (checkdate($month, $i, $year)) {
 			$x = SPrintF("%02d", $i);
 			
@@ -49,8 +48,9 @@ function statsResetHours($zeit, $hours) {
 		$i++;
 		$c++;
 		
-		if ($c > 23)
+		if ($c > 23) {
 			$c = 0;
+		}
 	}
 }
 
@@ -83,13 +83,17 @@ function statsPrintGraph($title, $text_l, $text_b) {
 			$c++;
 		}
 		
-		if ($b > 0)
+		if ($b > 0) {
 			$h = (300 / $b);
-		else $h = 0;
+		} else {
+			$h = 0;
+		}
 		
-		if ($u > 0)
+		if ($u > 0) {
 			$d = intval($time / $u);
-		else $d = 0;
+		} else {
+			$d = 0;
+		}
 		
 		/* Linke Beschriftung und die Tabelle mit den Balken anzeigen lassen. */
 		

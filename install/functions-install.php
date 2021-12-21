@@ -176,7 +176,7 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 				<td><?php echo checkFormularRadioButton('1',$chat["lustigefeatures"],'chat_lustigefeatures'); ?></td>
 			</tr>
 			<tr>
-				<td> Extra Module der Community (Forum):</td>
+				<td> Forum aktivieren:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["forumfeatures"],'chat_forumfeatures'); ?></td>
 			</tr>
 			<tr style="background-color:#85D4FF;">

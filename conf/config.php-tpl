@@ -186,7 +186,7 @@ $chat_status_klein = true; // Statusmsgs des Chats kleiner ausgeben?
 
 $show_spruch_owner="%showspruch%"; 				// admins zeigen, wer einen Spruch eingegeben hat? 1=ja 0=nein
 $lustigefeatures="%lustigefeatures%";			// Lustige Texte einschalten? 1=ja, 0=nein
-$forumfeatures="%forumfeatures%";				// Extra Module der Community (Forum)
+$forumfeatures="%forumfeatures%";				// Forum aktivieren, 1=ja, 0=nein
 $punktefeatures="%punktefeatures%";				// Punktezählung einschalten, 1=ja, 0=nein
 $msgpopup=1;									// Flüstern im Popup aktiv?
 

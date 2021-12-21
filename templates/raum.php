@@ -144,8 +144,6 @@ if (strlen($f['r_name']) >= $raum_max) {
 	echo $t['fehler2'];
 }
 
-$eingabe_breite = 54;
-
 // Auswahl
 switch ($aktion) {
 	
@@ -483,7 +481,7 @@ switch ($aktion) {
 					
 					if ($rows->r_name == $lobby) {
 						// Raum
-						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raum'], "", $rows->r_name . "<input type=\"hidden\" name=\"f[r_name]\" value=\"$rows->r_name\" size=$eingabe_breite>");
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raum'], "", $rows->r_name . "<input type=\"hidden\" name=\"f[r_name]\" value=\"$rows->r_name\" size=\"54\">");
 						$zaehler++;
 					} else {
 						// Raum

@@ -19,30 +19,29 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	}
 	
 	// Liste der Räume mit der Anzahl der Benutzer aufstellen
-	$query = "SELECT r_id,count(o_id) as anzahl FROM raum "
-		. "LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
+	$query = "SELECT r_id,count(o_id) as anzahl FROM raum LEFT JOIN online ON r_id=o_raum " . "$subquery1 " . "GROUP BY r_id";
 	
 	$result = mysqli_query($mysqli_link, $query);
-	while ($row = mysqli_fetch_object($result))
+	while ($row = mysqli_fetch_object($result)) {
 		$anzahl_user[$row->r_id] = $row->anzahl;
-		mysqli_free_result($result);
+	}
+	mysqli_free_result($result);
 	
 	// Optional Formularzusatz für Community-Module  ergänzen
 	$zusatz_select = "";
 	if ($forumfeatures && !$nur_chat) {
-		$query = "SELECT o_who,count(o_who) as anzahl FROM online "
-			. "WHERE o_who>1 " . "GROUP BY o_who ";
+		$query = "SELECT o_who,count(o_who) as anzahl FROM online WHERE o_who>1 " . "GROUP BY o_who ";
 		
 		$result = mysqli_query($mysqli_link, $query);
-		while ($row = mysqli_fetch_object($result))
+		while ($row = mysqli_fetch_object($result)) {
 			$anzahl_who[$row->o_who] = $row->anzahl;
-			mysqli_free_result($result);
+		}
+		mysqli_free_result($result);
 		
 		foreach ($whotext as $key => $whotxt) {
-			if ($key > 1 && isset($anzahl_who) && $anzahl_who[$key])
-				$zusatz_select .= "<OPTION VALUE=\"" . ($key * (-1))
-					. "\">&gt;&gt;" . $whotxt . "&lt;&lt; ("
-					. $anzahl_who[$key] . ")\n";
+			if ($key > 1 && isset($anzahl_who) && $anzahl_who[$key]) {
+				$zusatz_select .= "<OPTION VALUE=\"" . ($key * (-1)) . "\">&gt;&gt;" . $whotxt . "&lt;&lt; (" . $anzahl_who[$key] . ")\n";
+			}
 		}
 	}
 	
@@ -50,8 +49,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	if (!$offen) {
 		
 		// Liste der Räume aufstellen und die Anzahl der Benutzer ergänzen
-		$query = "SELECT r_id FROM raum LEFT JOIN invite ON inv_raum=r_id "
-			. "WHERE inv_user='$u_id' ";
+		$query = "SELECT r_id FROM raum LEFT JOIN invite ON inv_raum=r_id WHERE inv_user='$u_id' ";
 		
 		$rows = array();
 		$result = mysqli_query($mysqli_link, $query);
@@ -62,8 +60,7 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 			mysqli_free_result($result);
 		}
 		
-		$query = "SELECT r_id FROM raum "
-			. "WHERE r_status1='O' OR r_status1 like binary 'm' OR r_besitzer=$u_id OR r_id=" . intval($o_raum);
+		$query = "SELECT r_id FROM raum WHERE r_status1='O' OR r_status1 like binary 'm' OR r_besitzer=$u_id OR r_id=" . intval($o_raum);
 		
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result) {

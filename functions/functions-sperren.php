@@ -9,9 +9,10 @@ function sperren_liste() {
 	$text = '';
 	
 	for ($i = 0; $i < count($sperre_dialup); $i++) {
-		if ($sperr != "")
+		if ($sperr != "") {
 			$sperr .= " OR ";
-			$sperr .= "is_domain like '%" . mysqli_real_escape_string($mysqli_link, $sperre_dialup[$i]) . "%' ";
+		}
+		$sperr .= "is_domain like '%" . mysqli_real_escape_string($mysqli_link, $sperre_dialup[$i]) . "%' ";
 	}
 	
 	if (count($sperre_dialup) >= 1) {

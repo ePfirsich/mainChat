@@ -59,13 +59,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/besitzeraum":
 		// Übernimmt Besitzrechte eines Raums
 			if (!$admin) {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			} else {
-				$query = "SELECT r_id,o_name,r_name FROM raum,online "
-					. "WHERE r_besitzer=o_user AND "
+				$query = "SELECT r_id,o_name,r_name FROM raum,online WHERE r_besitzer=o_user AND "
 					. ($chatzeile[1] ? "r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'"
 						: "r_id=$r_id");
 				
@@ -98,8 +94,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					system_msg("", 0, $u_id, $system_farbe,
 						str_replace("%rr_name%", $rr_name,
 							str_replace("%uu_nick%", $uu_name,
-								str_replace("%u_nick%", $u_nick,
-									$t['chat_msg2']))));
+								str_replace("%u_nick%", $u_nick, $t['chat_msg2']))));
 				} else {
 					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg3']);
 				}
@@ -111,9 +106,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if ($admin || $u_level == "A") {
 				$query = "SELECT o_userdata,o_userdata2,o_userdata3,o_userdata4,o_level,r_name, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-					. "FROM online left join raum on r_id=o_raum "
-					. "WHERE (o_level='S' OR o_level='C' OR o_level='A') "
-					. "ORDER BY r_name";
+					. "FROM online left join raum on r_id=o_raum WHERE (o_level='S' OR o_level='C' OR o_level='A') ORDER BY r_name";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_object($result)) {
@@ -163,8 +156,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$result = mysqli_query($mysqli_link, $query);
 				$r_name = mysqli_result($result, 0, "r_name");
 				$tempadm = "";
-				if (strtolower($chatzeile[0] != "/int"))
+				if (strtolower($chatzeile[0] != "/int")) {
 					$tempadm = " OR o_level='A'";
+				}
 				
 				$query = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C'$tempadm)";
 				$result = mysqli_query($mysqli_link, $query);
@@ -175,16 +169,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$txt = html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 						if (!($admin || $u_level == "A")) {
 							// Admins wissen, daß das an alle Admins geht. daher nicht nötig.
-							system_msg("", 0, $u_id, $system_farbe,
-								$t['chat_msg47']);
+							system_msg("", 0, $u_id, $system_farbe, $t['chat_msg47']);
 							$txt = "<b>" . $txt . "</b>";
 						}
 						if (strtolower($chatzeile[0]) == "/int") {
-							$txt2 = "<b>[=====$t[chat_msg52]&nbsp;"
-								. $t['chat_msg51'] . "=====]</b> " . $txt;
+							$txt2 = "<b>[=====$t[chat_msg52]&nbsp;" . $t['chat_msg51'] . "=====]</b> " . $txt;
 						} else {
-							$txt2 = "<b>[" . $t['chat_msg52'] . "&nbsp;"
-								. $t['chat_msg50'] . "]</b> " . $txt;
+							$txt2 = "<b>[" . $t['chat_msg52'] . "&nbsp;" . $t['chat_msg50'] . "]</b> " . $txt;
 						}
 						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 							$text = str_replace("%user%", zeige_userdetails($u_id, $userdata, FALSE, "&nbsp;", "", "", FALSE), $t['chat_msg49']);
@@ -196,13 +187,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if (($admin || $u_level == "A") && $row['o_user'] == $u_id) {
 								// falls eigener nick:
 								if (strtolower($chatzeile[0]) == "/int") {
-									system_msg("", $u_id, $u_id, $system_farbe,
-										"<b>"
+									system_msg("", $u_id, $u_id, $system_farbe, "<b>"
 										. zeige_userdetails($u_id, $userdata, FALSE, "&nbsp;", "", "", FALSE)
 											. "&nbsp; ===== $t[chat_msg24] $t[chat_msg51]: =====</b> $txt");
 								} else {
-									system_msg("", $u_id, $u_id, $system_farbe,
-										"<b>"
+									system_msg("", $u_id, $u_id, $system_farbe, "<b>"
 										. zeige_userdetails($u_id, $userdata, FALSE, "&nbsp;", "", "", FALSE)
 											. "&nbsp; $t[chat_msg24] $t[chat_msg50]: </b> $txt");
 								}
@@ -258,11 +247,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$alt = $row;
 					}
 					if ($dupecount > 0) {
-						system_msg("", 0, $u_id, $system_farbe,
-							"<br>\n" . $t['chat_msg45']);
+						system_msg("", 0, $u_id, $system_farbe, "<br>\n" . $t['chat_msg45']);
 					} else {
-						system_msg("", 0, $u_id, $system_farbe,
-							$t['chat_msg46']);
+						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg46']);
 					}
 				}
 			}
@@ -271,10 +258,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/pp":
 		case "/ip":
 			if (!$admin) {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 				break;
 			}
 			
@@ -286,10 +270,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				break;
 			}
 			
-			if ($admin
-				&& preg_match(
-					"/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/",
-					$chatzeile[1])) {
+			if ($admin && preg_match( "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/", $chatzeile[1])) {
 				$onlineip = $chatzeile[1];
 			} else if ($admin) {
 				$nick = nick_ergaenze($chatzeile[1], "online", 1);
@@ -304,13 +285,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					mysqli_free_result($result);
 				} else {
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%u_nick%", $chatzeile[1], $t['chat_msg120']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $chatzeile[1], $t['chat_msg120']));
 					
 					// Nick nich Online - Hole IP aus Historie der Benutzertabelle
-					$query = "SELECT u_nick, u_id, u_ip_historie FROM user "
-						. "WHERE u_nick='"
-						. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
+					$query = "SELECT u_nick, u_id, u_ip_historie FROM user WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
 						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -321,8 +299,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								break;
 							}
 							$temp = $t['chat_msg123'];
-							$temp = str_replace("%datum%",
-								date("d.m.y H:i", $onlinedatum), $temp);
+							$temp = str_replace("%datum%", date("d.m.y H:i", $onlinedatum), $temp);
 							$temp = str_replace("%ip%", $onlineip, $temp);
 							system_msg("", 0, $u_id, $system_farbe, $temp);
 						}
@@ -366,13 +343,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/edithistory":
 		case "/edithistorie":
 			if ($admin) {
-				
 				$nick = nick_ergaenze($chatzeile[1], "online", 1);
 				
 				// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
 				if ($nick['u_nick'] == "") {
-					$query = "SELECT `u_nick`, `u_id` FROM `user` WHERE `u_nick`='"
-					. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
+					$query = "SELECT `u_nick`, `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
 						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -386,13 +361,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$bla = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					$uu_profil_historie = unserialize($bla[u_profil_historie]);
 				} else {
-					system_msg("", 0, $u_id, $system_farbe,
-						"Es konnte kein eindeutiger Nick gefunden werden!");
+					system_msg("", 0, $u_id, $system_farbe, "Es konnte kein eindeutiger Nick gefunden werden!");
 				}
 				
 				if (is_array($uu_profil_historie)) {
-					system_msg("", 0, $u_id, $system_farbe,
-						"Das Profil von <b>$nick[u_nick]</b> wurde zuletzt geändert von: ");
+					system_msg("", 0, $u_id, $system_farbe, "Das Profil von <b>$nick[u_nick]</b> wurde zuletzt geändert von: ");
 					while (list($datum, $nick) = each($uu_profil_historie)) {
 						$zeile = $nick . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")";
 						system_msg("", 0, $u_id, $system_farbe, $zeile);
@@ -400,10 +373,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				
 			} else {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			}
 			
 			break;
@@ -417,10 +387,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		//   /gag user 0  - freigabe...
 		
 			if (!$admin AND $u_level != "A") {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 				break;
 			}
 			
@@ -431,38 +398,39 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				system_msg("", 0, $u_id, $system_farbe, "<b>$chat</b>: $temp");
 				
 			} else {
-				
 				// knebel setzen, default=5 min...
-				if (!$knebelzeit)
+				if (!$knebelzeit) {
 					$knebelzeit = 5;
+				}
 				
 				// knebelzeit übergeben? dann setzen, absolut, vorzeichen ignorieren
-				if (isset($chatzeile[2]) && $chatzeile[2] != "")
+				if (isset($chatzeile[2]) && $chatzeile[2] != "") {
 					$knebelzeit = abs(intval($chatzeile[2]));
+				}
 				
 				// maximal 1440 Minuten
-				if ($knebelzeit > 1440)
+				if ($knebelzeit > 1440) {
 					$knebelzeit = 1440;
+				}
 				
 				// Benutzer finden, zuerst im aktuellen Raum, dann global
 				$nick = nick_ergaenze($chatzeile[1], "raum", 1);
-				if (!$nick['u_nick'])
+				if (!$nick['u_nick']) {
 					$nick = nick_ergaenze($chatzeile[1], "online", 0);
+				}
 				
 				// Admins dürfen,
-				if ($nick['u_nick'])
+				if ($nick['u_nick']) {
 					switch ($nick['u_level']) {
 						case "C":
 						case "S":
 						case "M":
 						case "A":
-							$txt = str_replace("%admin%", $nick['u_nick'],
-								$t['knebel5']);
+							$txt = str_replace("%admin%", $nick['u_nick'], $t['knebel5']);
 							system_msg("", 0, $u_id, $system_farbe, $txt);
 							break;
 						default:
-							$query = "update online set o_knebel=FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) "
-								. "where o_user=$nick[u_id]";
+							$query = "UPDATE online SET o_knebel=FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) WHERE o_user=$nick[u_id]";
 							mysqli_query($mysqli_link, $query);
 							$txt = ($knebelzeit ? $t['knebel4'] : $t['knebel3']);
 							$txt = str_replace("%admin%", $u_nick, $txt);
@@ -470,17 +438,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$txt = str_replace("%zeit%", $knebelzeit, $txt);
 							global_msg($u_id, $o_raum, $txt);
 					}
+				}
 			}
 			
 			// 	knebel listen 
 			if ($chatzeile[0] == "/gaga" && $admin) {
-				$query = "select o_id,o_raum,o_user,o_userdata,o_userdata2,o_userdata3,o_userdata4,"
-					. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as knebel from online "
-					. "where o_knebel>NOW()";
+				$query = "SELECT o_id,o_raum,o_user,o_userdata,o_userdata2,o_userdata3,o_userdata4,"
+					. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebel from online WHERE o_knebel>NOW()";
 			} else {
-				$query = "select o_id,o_raum,o_user,o_userdata,o_userdata2,o_userdata3,o_userdata4,"
-					. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as knebel from online "
-					. "where o_raum=$o_raum AND o_knebel>NOW()";
+				$query = "SELECT o_id,o_raum,o_user,o_userdata,o_userdata2,o_userdata3,o_userdata4,"
+					. "UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebel FROM online WHERE o_raum=$o_raum AND o_knebel>NOW()";
 			}
 			$result = mysqli_query($mysqli_link, $query);
 			$txt = "";
@@ -496,13 +463,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				mysqli_free_result($result);
 			} else {
-				system_msg("", 0, $u_id, $system_farbe,
-					"Fehler beim Zugriff auf die Datenbank. <!--"
-						. mysqli_errno($mysqli_link) . " " . mysqli_error($mysqli_link) . "-->");
+				system_msg("", 0, $u_id, $system_farbe, "Fehler beim Zugriff auf die Datenbank. <!--" . mysqli_errno($mysqli_link) . " " . mysqli_error($mysqli_link) . "-->");
 			}
 			if ($txt != "")
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>$chat</b>:$t[knebel1]: " . $txt);
+				system_msg("", 0, $u_id, $system_farbe, "<b>$chat</b>:$t[knebel1]: " . $txt);
 			break;
 		
 		case "/einlad":
@@ -583,8 +547,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					} else {
 						// Nick nicht gefunden, d.h. nicht Online, aber vielleicht doch eingeladen zum runterwerfen?
 						$query = "SELECT u_nick,u_id from user,invite "
-							. "WHERE inv_raum=$raum_id AND inv_user=u_id AND u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'"
-							. "ORDER BY u_nick";
+							. "WHERE inv_raum=$raum_id AND inv_user=u_id AND u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'" . "ORDER BY u_nick";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
 							$row = mysqli_fetch_object($result);
@@ -601,9 +564,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				}
 				// Invite-Liste ausgeben...
-				$query = "SELECT u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe,inv_id "
-					. "FROM invite LEFT JOIN user ON u_id=inv_user "
-					. "WHERE inv_raum=$raum_id";
+				$query = "SELECT u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe,inv_id FROM invite LEFT JOIN user ON u_id=inv_user WHERE inv_raum=$raum_id";
 				$result = mysqli_query($mysqli_link, $query);
 				$txt = "";
 				if ($result && mysqli_num_rows($result) > 0) {
@@ -643,20 +604,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				while ($i < $anzahl) {
 					$spname = key($spruchliste);
 					if (preg_match("/" . $suchtext . "/i", $spruchliste[$spname])) {
-						$spruchtmp = preg_split("/\t/",
-							substr($spruchliste[$spname], 0,
-								strlen($spruchliste[$spname]) - 1), 3);
+						$spruchtmp = preg_split("/\t/", substr($spruchliste[$spname], 0, strlen($spruchliste[$spname]) - 1), 3);
 						
 						$spruchtmp[2] = str_replace("<", "&lt;", $spruchtmp[2]);
 						$spruchtmp[2] = str_replace(">", "&gt;", $spruchtmp[2]);
-						$spruchtmp[2] = preg_replace('|\*(.*?)\*|',
-							'<i>\1</i>',
-							preg_replace('|_(.*?)_|', '<b>\1</b>',
-								$spruchtmp[2]));
+						$spruchtmp[2] = preg_replace('|\*(.*?)\*|', '<i>\1</i>', preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
 						
-						$txt = "<b>$t[chat_msg4] <I>" . $spruchtmp[0] . " "
-							. $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2]
-							. "&gt;";
+						$txt = "<b>$t[chat_msg4] <I>" . $spruchtmp[0] . " " . $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2] . "&gt;";
 						system_msg("", 0, $u_id, $system_farbe, $txt);
 					}
 					next($spruchliste);
@@ -718,8 +672,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					// user nicht gefunden oder nicht online? dann testen, ob ignoriert, damit man das 
 					// ignore auch wieder raus bekommt.
 					$query = "SELECT u_nick,u_id from user,iignore "
-						. "WHERE i_user_aktiv=$u_id AND i_user_passiv=u_id AND u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'"
-						. "ORDER BY u_nick";
+						. "WHERE i_user_aktiv=$u_id AND i_user_passiv=u_id AND u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "'" . "ORDER BY u_nick";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
 						$row = mysqli_fetch_object($result);
@@ -734,8 +687,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			// Alle ignorierten user > 16 werden gelöscht
 			// Wenn mehr als 16 gebraucht werden, grössere Änderung in Tabelle online Feld o_ignore
 			// Denn da passt nur ein Array mit 255 chars rein.
-			$query = "SELECT u_nick,u_id from user,iignore "
-				. "WHERE i_user_aktiv=$u_id AND u_id=i_user_passiv order by i_id";
+			$query = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=$u_id AND u_id=i_user_passiv order by i_id";
 			$result = @mysqli_query($mysqli_link, $query);
 			$anzahl = @mysqli_num_rows($result) - 16;
 			
@@ -750,11 +702,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if ($u_level == "G") {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
 			} else {
-				
 				// Liste der Benutzer ausgeben, die von mir ignoriert werden
-				$query = "SELECT i_id,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
-					. "FROM iignore LEFT JOIN user on i_user_passiv=u_id "
-					. "WHERE i_user_aktiv=$u_id ORDER BY u_nick,i_id";
+				$query = "SELECT i_id,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM iignore LEFT JOIN user on i_user_passiv=u_id WHERE i_user_aktiv=$u_id ORDER BY u_nick,i_id";
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if ($result && mysqli_num_rows($result) > 0) {
@@ -776,15 +725,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					system_msg("", 0, $u_id, $system_farbe, $text . "");
 				} else {
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%u_nick%", $u_nick, $t['chat_msg9']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, $t['chat_msg9']));
 				}
 				mysqli_free_result($result);
 				
 				// Liste der Benutzer ausgeben, die mich ignorieren
-				$query = "SELECT i_id,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe "
-					. "FROM iignore LEFT JOIN user on i_user_aktiv=u_id "
-					. "WHERE i_user_passiv=$u_id ORDER BY u_nick,i_id";
+				$query = "SELECT i_id,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM iignore LEFT JOIN user on i_user_aktiv=u_id WHERE i_user_passiv=$u_id ORDER BY u_nick,i_id";
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if ($result && mysqli_num_rows($result) > 0) {
@@ -849,17 +795,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					// ab hier neu: wir prüfen ob community an ist, der Benutzer kein Admin und $raumanlegenpunkte gesetzt
 					
 					if (!$admin && $raumanlegenpunkte) {
-						$result = mysqli_query($mysqli_link, 
-							"SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
+						$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
 						if ($result && mysqli_num_rows($result) == 1) {
 							$u_punkte_gesamt = mysqli_result($result, 0, 0);
 						}
 						
 						if ($u_punkte_gesamt < $raumanlegenpunkte) {
 							// Fehlermeldung und Raum nicht anlegen
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%punkte%", $raumanlegenpunkte,
-									$t['chat_msg108']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%punkte%", $raumanlegenpunkte, $t['chat_msg108']));
 							$raumanlegen = false;
 						}
 					}
@@ -871,7 +814,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$r_id = raum_gehe($o_id, $u_id, $u_nick, $r_id, $r_id_neu);
 							raum_user($r_id, $u_id);
 						}
-						
 					}
 				} else {
 					// Fehlermeldung
@@ -927,8 +869,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					mysqli_free_result($result);
 				} else {
 					// Raum nicht gefunden -> Fehlermeldung
-					$txt = str_replace("%raumname%", $chatzeile[1],
-						$t['chat_msg53']);
+					$txt = str_replace("%raumname%", $chatzeile[1], $t['chat_msg53']);
 					system_msg("", $u_id, $u_id, $system_farbe, $txt);
 				}
 				break;
@@ -964,9 +905,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} else {
 				if (!($o_knebel > 0)) {
 					if ($u_level == "M" || !$ist_moderiert) {
-						hidden_msg($u_nick, $u_id, $u_farbe, $r_id,
-							$u_nick . " "
-							. html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 1)[0] );
+						hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . " " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 1)[0] );
 					} else {
 						system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
 					}
@@ -1072,9 +1011,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($r_besitzer == $u_id || $admin || $u_level == "A") {
 					// Ist Benutzer im aktuellen Raum eingeloggt?
 					$query = "SELECT o_user,o_name,o_level,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "')) as laenge "
-						. "FROM online "
-						. "WHERE o_name LIKE '%" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "%' "
-						. "ORDER BY laenge";
+						. "FROM online WHERE o_name LIKE '%" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "%' ORDER BY laenge";
 					
 					$result = mysqli_query($mysqli_link, $query);
 					$rows = mysqli_num_rows($result);
@@ -1086,8 +1023,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$s_user_level = mysqli_result($result, 0, "o_level");
 						
 						// Auf admin prüfen
-						if ($s_user_level == "S" || $s_user_level == "C"
-							|| $s_user_level == "M" || $s_user_level == "A") {
+						if ($s_user_level == "S" || $s_user_level == "C" || $s_user_level == "M" || $s_user_level == "A") {
 							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, str_replace("%s_user_name%", $s_user_name, $t['chat_msg13'])));
 						} else {
 							// Sperren oder freigeben
@@ -1097,15 +1033,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					} else {
 						// user nicht gefunden oder nicht online? dann testen, ob gesperrt, damit man das 
 						// gesperrt auch wieder raus bekommt.
-						$query = "SELECT u_nick,u_id FROM user LEFT JOIN sperre ON u_id = s_user "
-							. "WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' and s_raum = $r_id ";
+						$query = "SELECT u_nick,u_id FROM user LEFT JOIN sperre ON u_id = s_user WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' AND s_raum = $r_id ";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
 							$row = mysqli_fetch_object($result);
 							sperre($r_id, $u_id, $u_nick, $row->u_id, $row->u_nick, $admin);
 						} else {
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg14']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg14']));
 						}
 						mysqli_free_result($result);
 					}
@@ -1138,10 +1072,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				mysqli_free_result($result);
 			} else {
 				// Keine Berechtigung zur Ausgabe der gesperrten user
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			}
 			
 			break;
@@ -1176,8 +1107,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			$i = 0;
 			while ($i < $anzahl) {
 				$hhkey = key($hilfstext);
-				system_msg("", 0, $u_id, "",
-					"<SMALL>" . $hilfstext[$hhkey] . "</SMALL>");
+				system_msg("", 0, $u_id, "", "<SMALL>" . $hilfstext[$hhkey] . "</SMALL>");
 				next($hilfstext);
 				$i++;
 			}
@@ -1199,29 +1129,30 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				
 				if (preg_match("!^\d+[wW]\d+$!", $chatzeile[1])) {
-					
 					$w = preg_split("![wW]!", $chatzeile[1]);
-					if ($w[0] > 30)
+					if ($w[0] > 30) {
 						$w[0] = 30;
-					if ($w[1] == 0)
-						$w[1] = 6;
-					$t['chat_msg34'] = str_replace("%user%", $u_nick,
-						$t['chat_msg34']);
-					if ($w[0] == 1)
-						$tmp = "einem ";
-					else $tmp = htmlspecialchars("$w[0] ");
-					if (preg_match("!w!", $chatzeile[1]))
-						$tmp = $tmp . "kleinen ";
-					else $tmp = $tmp . "großen ";
-					if ($w[0] == 1) {
-						$tmp = $tmp
-							. htmlspecialchars(" $w[1]-seitigen Würfel");
-					} else {
-						$tmp = $tmp
-							. htmlspecialchars(" $w[1]-seitigen Würfeln");
 					}
-					$t['chat_msg34'] = str_replace("%wuerfel%", $tmp,
-						$t['chat_msg34']);
+					if ($w[1] == 0) {
+						$w[1] = 6;
+					}
+					$t['chat_msg34'] = str_replace("%user%", $u_nick, $t['chat_msg34']);
+					if ($w[0] == 1) {
+						$tmp = "einem ";
+					} else {
+						$tmp = htmlspecialchars("$w[0] ");
+					}
+					if (preg_match("!w!", $chatzeile[1])) {
+						$tmp = $tmp . "kleinen ";
+					} else {
+						$tmp = $tmp . "großen ";
+					}
+					if ($w[0] == 1) {
+						$tmp = $tmp . htmlspecialchars(" $w[1]-seitigen Würfel");
+					} else {
+						$tmp = $tmp . htmlspecialchars(" $w[1]-seitigen Würfeln");
+					}
+					$t['chat_msg34'] = str_replace("%wuerfel%", $tmp, $t['chat_msg34']);
 					
 					$summe = 0;
 					for ($i = 0; $i < $w[0]; $i++) {
@@ -1234,16 +1165,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					// Bei Moderation private Nachricht, sonst Nachricht an alle
 					if (!$ist_moderiert || $u_level == "M") {
-						hidden_msg($u_nick, $u_id, $u_farbe, $r_id,
-							$t['chat_msg34']);
+						hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $t['chat_msg34']);
 					} else {
-						system_msg("", $u_id, $u_id, $system_farbe,
-							$t['moderiert1']);
+						system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
 					}
 					
 				} else {
-					system_msg("", $u_id, $u_id, $system_farbe,
-						$t['chat_msg35']);
+					system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg35']);
 				}
 			}
 			break;
@@ -1275,8 +1203,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						// suche für Benutzer zeigt die gesperrten nicht an
 						$query = "SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` "
 							. "FROM `user` WHERE u_nick $sucheper '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' "
-							. "AND `u_level` in ('A','C','G','M','S','U') "
-							. "ORDER BY `u_nick` LIMIT $max_user_liste";
+							. "AND `u_level` in ('A','C','G','M','S','U') ORDER BY `u_nick` LIMIT $max_user_liste";
 					}
 					
 					$result = @mysqli_query($mysqli_link, $query);
@@ -1285,8 +1212,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$text = "<b>WHOIS $chatzeile[1]:</b><br>\n";
 					while ($row = @mysqli_fetch_object($result)) {
 						$q2 = "SELECT r_name, o_ip, o_browser ,o_id, o_who,"
-							. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
-							. "FROM online LEFT JOIN raum on r_id=o_raum WHERE o_user=$row->u_id ";
+							. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit FROM online LEFT JOIN raum on r_id=o_raum WHERE o_user=$row->u_id ";
 						$r2 = mysqli_query($mysqli_link, $q2);
 						if ($r2 && mysqli_num_rows($r2) > 0) {
 							// Benutzer ist online
@@ -1301,20 +1227,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							
 							if ($row->u_away) {
 								$awaytext = htmlspecialchars($row->u_away);
-								$awaytext = str_replace('&lt;b&gt;', '<b>',
-									$awaytext);
-								$awaytext = str_replace('&lt;/b&gt;', '</b>',
-									$awaytext);
-								$awaytext = str_replace('&lt;i&gt;', '<I>',
-									$awaytext);
-								$awaytext = str_replace('&lt;/i&gt;', '</I>',
-									$awaytext);
-								$awaytext = str_replace('&amp;lt;', '<',
-									$awaytext);
-								$awaytext = str_replace('&amp;gt;', '>',
-									$awaytext);
-								$awaytext = str_replace('&amp;quot;', '"',
-									$awaytext);
+								$awaytext = str_replace('&lt;b&gt;', '<b>', $awaytext);
+								$awaytext = str_replace('&lt;/b&gt;', '</b>', $awaytext);
+								$awaytext = str_replace('&lt;i&gt;', '<I>', $awaytext);
+								$awaytext = str_replace('&lt;/i&gt;', '</I>', $awaytext);
+								$awaytext = str_replace('&amp;lt;', '<', $awaytext);
+								$awaytext = str_replace('&amp;gt;', '>', $awaytext);
+								$awaytext = str_replace('&amp;quot;', '"', $awaytext);
 								$text = $text . ", (" . $awaytext . ")";
 							}
 							
@@ -1438,11 +1357,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			} elseif ($ist_eingang) {
-				system_msg("", 0, $u_id, $system_farbe,
-					$raum_einstellungen['r_topic']);
+				system_msg("", 0, $u_id, $system_farbe, $raum_einstellungen['r_topic']);
 			} elseif (!$admin) {
-				system_msg("", 0, $u_id, $system_farbe,
-					str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			}
 			break;
 		
@@ -1450,20 +1367,21 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/msgf":
 			$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
 				. "UNION "
-				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-				. "ORDER BY f_zeit desc ";
+				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 			
 			$result = mysqli_query($mysqli_link, $query);
 			$fid = "";
 			$nicks = "";
 			while ($a = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-				$query2 = "SELECT o_user,o_name FROM online WHERE (o_user = '$a[f_userid]' or o_user = '$a[f_freundid]') and o_user != '$u_id'";
+				$query2 = "SELECT o_user,o_name FROM online WHERE (o_user = '$a[f_userid]' or o_user = '$a[f_freundid]') AND o_user != '$u_id'";
 				$result2 = mysqli_query($mysqli_link, $query2);
 				if (mysqli_num_rows($result2) == 1) {
-					if ($a[f_userid] != $u_id)
+					if ($a[f_userid] != $u_id) {
 						$fid[] = $a[f_userid];
-					if ($a[f_freundid] != $u_id)
+					}
+					if ($a[f_freundid] != $u_id) {
 						$fid[] = $a[f_freundid];
+					}
 				}
 			}
 			
@@ -1482,7 +1400,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/toall":
 		// Private nachricht an alle Benutzer
 			if ($admin || $u_level == "A") {
-				
 				// Smilies und Text parsen
 				$privat = TRUE;
 				$text = html_parse($privat, $t['chat_msg100'] . htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
@@ -1513,16 +1430,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/loescheraum":
 		// Raum löschen
 			if ($chatzeile[1]) {
-				
 				// Rechte prüfen 
-				$query = "SELECT r_id,r_name,r_besitzer FROM raum "
-					. "WHERE r_name like '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' ";
+				$query = "SELECT r_id,r_name,r_besitzer FROM raum WHERE r_name like '" . mysqli_real_escape_string($mysqli_link, $chatzeile[1]) . "' ";
 				$result = mysqli_query($mysqli_link, $query);
 				
 				if (mysqli_num_rows($result) != 0) {
 					$row = mysqli_fetch_object($result);
 					if ($admin || $row->r_besitzer == $u_id) {
-						
 						// Lobby suchen
 						$query = "SELECT r_id FROM raum WHERE r_name='$lobby' ";
 						$result2 = mysqli_query($mysqli_link, $query);
@@ -1531,18 +1445,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 						mysqli_free_result($result2);
 						if (!$lobby_id) {
-							system_msg("", 0, $u_id, $system_farbe,
-								$t['chat_msg63']);
+							system_msg("", 0, $u_id, $system_farbe, $t['chat_msg63']);
 							exit;
 						}
 						
 						// Löschen falls nicht Lobby
 						if ($row->r_id == $lobby_id) {
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%r_name%", $row->r_name,
-									$t['chat_msg63']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg63']));
 						} else {
-							
 							// Raum darf gelöscht werden, Raum schließen
 							$f['r_status1'] = "G";
 							schreibe_db("raum", $f, $row->r_id, "r_id");
@@ -1569,15 +1479,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							mysqli_free_result($result2);
 							
 							// Meldung an Benutzer
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%r_name%", $row->r_name,
-									$t['chat_msg58']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg58']));
 						}
 						
 					} else {
-						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%r_name%", $row->r_name,
-								$t['chat_msg57']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg57']));
 					}
 				} else {
 					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg3']);
@@ -1593,8 +1499,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/schenke":
 		// aktuellen Raum Übergeben
 		// Rechte prüfen 
-			$query = "SELECT r_id,r_name,r_besitzer FROM raum "
-				. "WHERE r_id=$o_raum ";
+			$query = "SELECT r_id,r_name,r_besitzer FROM raum WHERE r_id=$o_raum ";
 			$result = mysqli_query($mysqli_link, $query);
 			
 			if (mysqli_num_rows($result) != 0) {
@@ -1605,13 +1510,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$nick = nick_ergaenze($chatzeile[1], "raum", 1);
 					
 					// Empfänger im Chat suchen
-					if ($nick['u_nick'] == "")
+					if ($nick['u_nick'] == "") {
 						$nick = nick_ergaenze($chatzeile[1], "online", 0);
+					}
 					
 					// Falls Empfänger gefunden und Empfänger ist nicht sich selbst, Nachricht versenden
-					if (($nick['u_nick'] != "") && ($nick['u_id'])
-						&& $nick['u_nick'] != $u_nick
-						&& $nick['u_level'] != "G" && $r_id) {
+					if (($nick['u_nick'] != "") && ($nick['u_id']) && $nick['u_nick'] != $u_nick && $nick['u_level'] != "G" && $r_id) {
 						// Raum übergeben
 						$text = $t['chat_msg60'];
 						$text = str_replace("%user%", $nick['u_nick'], $text);
@@ -1619,19 +1523,15 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$text = str_replace("%absender%", $u_nick, $text);
 						
 						system_msg("", $u_id, $u_id, $system_farbe, $text);
-						system_msg("", $u_id, $nick['u_id'], $system_farbe,
-							$text);
+						system_msg("", $u_id, $nick['u_id'], $system_farbe, $text);
 						$f['r_besitzer'] = $nick['u_id'];
 						schreibe_db("raum", $f, $r_id, "r_id");
 					} else {
-						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%r_name%", $row->r_name,
-								$t['chat_msg69']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg69']));
 					}
 					
 				} else {
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%r_name%", $row->r_name, $t['chat_msg61']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg61']));
 				}
 			} else {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg3']);
@@ -1643,8 +1543,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/aendereraum":
 		// aktuellen Raum auf den Status G/O/m ändern
 		// Rechte prüfen 
-			$query = "SELECT r_id,r_name,r_besitzer,r_status1 FROM raum "
-				. "WHERE r_id=$o_raum ";
+			$query = "SELECT r_id,r_name,r_besitzer,r_status1 FROM raum WHERE r_id=$o_raum ";
 			$result = mysqli_query($mysqli_link, $query);
 			
 			if (mysqli_num_rows($result) != 0) {
@@ -1652,13 +1551,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($admin || $row->r_besitzer == $u_id) {
 					
 					switch (strtolower($chatzeile[1])) {
-						
 						case "m":
 						case "moderiert":
-							if ($moderationsmodul == 0)
-								system_msg("", $u_id, $u_id, $system_farbe,
-									$t['chat_msg74']);
-							else $f['r_status1'] = "m";
+							if ($moderationsmodul == 0) {
+								system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg74']);
+							} else {
+								$f['r_status1'] = "m";
+							}
 							break;
 						
 						case "o":
@@ -1673,40 +1572,27 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						default:
 							unset($f['r_status1']);
-							$text = $t['chat_msg71'] . $raumstatus1[O] . ", "
-								. $raumstatus1['G'] . ", " . $raumstatus1['m']
-								. ".";
+							$text = $t['chat_msg71'] . $raumstatus1[O] . ", " . $raumstatus1['G'] . ", " . $raumstatus1['m'] . ".";
 							system_msg("", $u_id, $u_id, $system_farbe, $text);
 						
 					}
 					
 					if ($f['r_status1'] == $row->r_status1) {
 						// Raum nicht verändert
-						system_msg("", $u_id, $u_id, $system_farbe,
-							str_replace("%status%",
-								$raumstatus1[$f['r_status1']],
-								str_replace("%r_name%", $row->r_name,
-									$t['chat_msg75'])));
+						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%status%", $raumstatus1[$f['r_status1']], str_replace("%r_name%", $row->r_name, $t['chat_msg75'])));
 					} elseif ($f['r_status1'] && $r_id) {
 						// Raum ändern
-						system_msg("", $u_id, $u_id, $system_farbe,
-							str_replace("%status%",
-								$raumstatus1[$f['r_status1']],
-								str_replace("%r_name%", $row->r_name,
-									$t['chat_msg73'])));
+						system_msg("", $u_id, $u_id, $system_farbe, str_replace("%status%", $raumstatus1[$f['r_status1']], str_replace("%r_name%", $row->r_name, $t['chat_msg73'])));
 						schreibe_db("raum", $f, $r_id, "r_id");
 					} else {
 						// Fehler
 						if (strlen($chatzeile[1]) > 0) {
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%r_name%", $row->r_name,
-									$t['chat_msg70']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg70']));
 						}
 					}
 					
 				} else {
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%r_name%", $row->r_name, $t['chat_msg72']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name%", $row->r_name, $t['chat_msg72']));
 				}
 			} else {
 				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg3']);
@@ -1759,28 +1645,21 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
 						punkte($anzahl, $user['o_id'], $user['u_id'], "", TRUE);
-						$txt = str_replace("%user1%", $u_nick,
-							$t['punkte5']);
+						$txt = str_replace("%user1%", $u_nick, $t['punkte5']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
-						global_msg($u_id, $o_raum,
-							str_replace("%user%", $u_nick, $txt));
+						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
 						punkte($anzahl, $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte3']), TRUE);
-						$txt = str_replace("%user2%", $user['u_nick'],
-							$t['punkte8']);
+						$txt = str_replace("%user2%", $user['u_nick'], $t['punkte8']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
-						global_msg($u_id, $o_raum,
-							str_replace("%user%", $u_nick, $txt));
+						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					}
 				}
 			} else {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			}
 			break;
 		
@@ -1835,54 +1714,42 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					$txt = str_replace("%user%", $u_nick, $txt);
 					$txt = str_replace("%punkte%", $anzahl, $txt);
-					global_msg($u_id, $o_raum,
-						str_replace("%user%", $u_nick, $txt));
+					global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					
 				} elseif ($user['u_nick'] != "") {
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
 						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], "", TRUE);
-						$txt = str_replace("%user1%", $u_nick,
-							$t['punkte6']);
+						$txt = str_replace("%user1%", $u_nick, $t['punkte6']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
-						global_msg($u_id, $o_raum,
-							str_replace("%user%", $u_nick, $txt));
+						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
 						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte4']), TRUE);
-						$txt = str_replace("%user2%", $user['u_nick'],
-							$t['punkte9']);
+						$txt = str_replace("%user2%", $user['u_nick'], $t['punkte9']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
-						global_msg($u_id, $o_raum,
-							str_replace("%user%", $u_nick, $txt));
+						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					}
 				}
 			} else {
-				system_msg("", 0, $u_id, $system_farbe,
-					"<b>He $u_nick!</b> "
-						. str_replace("%chatzeile%", $chatzeile[0],
-							$t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
 			}
 			break;
 		
 		case "/mail":
 		case "/m":
 		// Mail schreiben
-			$text = chat_parse(
-				htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]));
+			$text = chat_parse(htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]));
 			
-			if (!($o_knebel > 0) && $u_level != "G"
-				&& strlen($text) > 1) {
-				
+			if (!($o_knebel > 0) && $u_level != "G" && strlen($text) > 1) {
 				// Empfänger im Chat suchen
 				$nick = nick_ergaenze($chatzeile[1], "online", 1);
 				
 				// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
 				if ($nick['u_nick'] == "") {
-					$query = "SELECT u_nick,u_id from user " . "WHERE u_nick='"
-						. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
+					$query = "SELECT u_nick,u_id from user " . "WHERE u_nick='" . mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 					$result = mysqli_query($mysqli_link, $query);
 					if ($result && mysqli_num_rows($result) == 1) {
 						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -1904,30 +1771,26 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					&& $ignore == false) {
 					if (strlen($text) > 4) {
 						$result = mail_sende($u_id, $nick['u_id'], $text);
-						if ($result[0])
-							system_msg("", 0, $u_id, $system_farbe,
-								str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg80']));
-						else system_msg("", 0, $u_id, $system_farbe, $result[1]);
+						if ($result[0]) {
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg80']));
+						} else {
+							system_msg("", 0, $u_id, $system_farbe, $result[1]);
+						}
 					} else {
 						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg81']);
 					}
 				} elseif ($nick['u_level'] == "G" || $nick['u_level'] == "Z") {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg95']));
-					system_msg("", 0, $u_id, $system_farbe,
-						str_replace("%nachricht%", $text, $t['chat_msg77']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg95']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
 				} else {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
 					// ignoriere Benutzer dürfen kein Mail schicken
 					if ($ignore == true) {
-						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%user%", $nick['u_nick'], $t['chat_msg103']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%user%", $nick['u_nick'], $t['chat_msg103']));
 					} else {
-						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
-						system_msg("", 0, $u_id, $system_farbe,
-							str_replace("%nachricht%", $text, $t['chat_msg77']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
 					}
 				}
 			} else if ($u_level == "G") {
@@ -1957,8 +1820,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
 					if ($nick['u_nick'] == "") {
-						$query = "SELECT u_nick,u_id,u_level from user "
-							. "WHERE u_nick='"
+						$query = "SELECT u_nick,u_id,u_level FROM user WHERE u_nick='"
 								. mysqli_real_escape_string($mysqli_link, coreCheckName($chatzeile[1], $check_name)) . "'";
 						$result = mysqli_query($mysqli_link, $query);
 						if ($result && mysqli_num_rows($result) == 1) {
@@ -2028,8 +1890,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				// Listet alle Freunde auf
 				$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
 					. "UNION "
-					. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' "
-					. "ORDER BY f_zeit desc ";
+					. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 				
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result && mysqli_num_rows($result) > 0) {
@@ -2043,16 +1904,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if ($row->f_userid != $u_id) {
 							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
 								. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
-								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-								. "from user left join online on o_user=u_id "
-								. "WHERE u_id=$row->f_userid ";
+								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_userid ";
 							$result2 = mysqli_query($mysqli_link, $query);
 						} elseif ($row->f_freundid != $u_id) {
 							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
 								. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
-								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-								. "from user left join online on o_user=u_id "
-								. "WHERE u_id=$row->f_freundid ";
+								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_freundid ";
 							$result2 = mysqli_query($mysqli_link, $query);
 						}
 						if ($result2 && mysqli_num_rows($result2) > 0) {
@@ -2332,7 +2189,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							}
 						}
 					}
-					
 				} else {
 					// Gibt Fehler aus, falls Eingabe mit / beginnt
 					if (preg_match("/^\//", $chatzeile[0])) {
@@ -2385,7 +2241,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if($chat_text[1] != "") {
 								$f['c_an_user'] = $chat_text[1];
 							}
-								
+							
 							// Chatzeile gefiltert ausgeben
 							$f['c_text'] = $chat_text[0];
 						}
@@ -2475,9 +2331,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			}
-		
 	}
-	
 }
 
 function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
@@ -2503,15 +2357,14 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 	mysqli_free_result($result);
 	
 	if ($r_id != $lobby_id) {
-		$query = "SELECT s_id FROM sperre " . "WHERE s_user=$s_user "
-			. "AND  s_raum=$r_id";
+		$query = "SELECT s_id FROM sperre WHERE s_user=$s_user AND  s_raum=$r_id";
 		
 		$result = mysqli_query($mysqli_link, $query);
 		$rows = mysqli_num_rows($result);
 		
 		if ($rows == 0) {
 			// Ist Benutzer s_user in diesem Raum? $o_id ermitteln
-			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id AND o_user=$s_user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$query2 = "SELECT o_id FROM online WHERE o_raum=$r_id AND o_user=$s_user AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			
 			$result2 = mysqli_query($mysqli_link, $query2);
 			$rows2 = mysqli_num_rows($result2);
@@ -2529,21 +2382,18 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 				
 			} else {
 				// Benutzer ist nicht in diesem Raum... meldung ausgeben.
-				system_msg("", 0, $u_id, $system_farbe,
-					str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
 				// trotzdem in Seprre eintragen.
 				$f['s_user'] = $s_user;
 				$f['s_raum'] = $r_id;
 				schreibe_db("sperre", $f, "", "s_id");
 			}
-			
 		} else {
 			// Sperre löschen
 			$s_id = mysqli_result($result, 0, "s_id");
 			$query2 = "DELETE FROM sperre WHERE s_id=$s_id ";
 			$result2 = mysqli_query($mysqli_link, $query2);
-			global_msg($u_id, $r_id,
-				"'$u_nick' $t[sperre2] '$s_user_name' $t[sperre5]");
+			global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre5]");
 		}
 		
 		mysqli_free_result($result);
@@ -2556,7 +2406,7 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 			// Benutzer aus Chat werfen
 			
 			// Ist Benutzer s_user in diesem Raum? $o_id ermitteln
-			$query2 = "SELECT o_id FROM online " . "WHERE o_raum=$r_id AND o_user=$s_user AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$query2 = "SELECT o_id FROM online WHERE o_raum=$r_id AND o_user=$s_user AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			
 			$result2 = mysqli_query($mysqli_link, $query2);
 			$rows2 = mysqli_num_rows($result2);
@@ -2571,20 +2421,13 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 				// Aus dem Chat ausloggen
 				ausloggen($s_user, $s_user_name, $r_id, $o_id);
 			} else {
-				system_msg("", 0, $u_id, $system_farbe,
-					str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
 			}
 		}
 	}
 }
 
-function ignore(
-	$o_id,
-	$i_user_aktiv,
-	$i_user_name_aktiv,
-	$i_user_passiv,
-	$i_user_name_passiv)
-{
+function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_user_name_passiv) {
 	// Unterdrückt Mitteilungen von i_user_passiv an i_user_aktiv
 	// Schaltet bei neuem Aufruf wieder zurück
 	
@@ -2593,8 +2436,7 @@ function ignore(
 	$i_user_aktiv = intval($i_user_aktiv);
 	$i_user_passiv = intval($i_user_passiv);
 	
-	$query = "SELECT * FROM iignore " . "WHERE i_user_aktiv=$i_user_aktiv "
-		. "AND i_user_passiv=$i_user_passiv ";
+	$query = "SELECT * FROM iignore " . "WHERE i_user_aktiv=$i_user_aktiv AND i_user_passiv=$i_user_passiv ";
 	
 	$result = mysqli_query($mysqli_link, $query);
 	
@@ -2613,36 +2455,22 @@ function ignore(
 			$f['i_user_passiv'] = $i_user_passiv;
 			schreibe_db("iignore", $f, "", "i_id");
 			
-			system_msg("", 0, $i_user_aktiv,
-				(isset($system_farbe) ? $system_farbe : ""),
-				str_replace("%i_user_name_passiv%", $i_user_name_passiv,
-					$t['ignore1']));
-			system_msg("", 0, $i_user_passiv,
-				(isset($system_farbe) ? $system_farbe : ""),
-				str_replace("%i_user_name_passiv%", $i_user_name_passiv,
-					str_replace("%i_user_name_aktiv%", $i_user_name_aktiv,
-						$t['ignore2'])));
+			system_msg("", 0, $i_user_aktiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore1']));
+			system_msg("", 0, $i_user_passiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $t['ignore2'])));
 		} else {
-			system_msg("", 0, $i_user_aktiv, $system_farbe,
-				str_replace("%i_user_name_passiv%", $i_user_name_passiv,
-					$t['ignore5']));
+			system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore5']));
 		}
 		
 		mysqli_free_result($result);
 		
-	} elseif ($result && mysqli_num_rows($result) > 0) {
+	} else if ($result && mysqli_num_rows($result) > 0) {
 		// Ignore löschen
 		$i_id = mysqli_result($result, 0, "i_id");
 		$query2 = "DELETE FROM iignore WHERE i_id=$i_id ";
 		$result2 = mysqli_query($mysqli_link, $query2);
 		
-		system_msg("", 0, $i_user_aktiv, $system_farbe,
-			str_replace("%i_user_name_passiv%", $i_user_name_passiv,
-				$t['ignore3']));
-		system_msg("", 0, $i_user_passiv, $system_farbe,
-			str_replace("%i_user_name_passiv%", $i_user_name_passiv,
-				str_replace("%i_user_name_aktiv%", $i_user_name_aktiv,
-					$t['ignore4'])));
+		system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore3']));
+		system_msg("", 0, $i_user_passiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $t['ignore4'])));
 		
 		mysqli_free_result($result);
 		
@@ -2673,7 +2501,6 @@ function ignore(
 }
 
 function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
-	//
 	// gibt ein assoziativ_array $nick[u_nick], $nick[u_id] zurück, falls ein Nick ergänzt werden konnt.
 	// falls kein Nick gefunden wurde oder mehrere Nicks gefunden wurde, werd bereits hier die Fehlerausgaben 
 	// erzeugt
@@ -2692,10 +2519,12 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 	$letzes_zeichen = substr($part, -1);
 	
 	// ":" und "," am Ende kürzen.
-	if (preg_match("![:,]$!", $part))
+	if (preg_match("![:,]$!", $part)) {
 		$part = substr($part, 0, strlen($part) - 1);
-	if (substr($part, 0, 1) == "@")
+	}
+	if (substr($part, 0, 1) == "@") {
 		$part = substr($part, 1, strlen($part) - 1);
+	}
 	
 	// sonderfall für Gäste -> falls nur Ziffern -> Gast ergänzen
 	if (preg_match("!\d$!", $part))
@@ -2708,20 +2537,17 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 			$fehler = $t['chat_msg44'];
 			$answer = $t['chat_msg42'];
 			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) AS laenge "
-				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' "
-				. "AND o_raum=$o_raum ORDER BY laenge";
+				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' AND o_raum=$o_raum ORDER BY laenge";
 			break;
 		case "chat":
 			$fehler = $t['chat_msg26'];
 			$answer = $t['chat_msg43'];
-			$query = "SELECT *,(LENGTH(u_nick)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) as laenge "
-				. "FROM user " . "WHERE u_nick RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' "
-				. "ORDER BY laenge";
+			$query = "SELECT *,(LENGTH(u_nick)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) AS laenge "
+				. "FROM user " . "WHERE u_nick RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' ORDER BY laenge";
 			break;
 		case "online":
 			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . mysqli_real_escape_string($mysqli_link, $part) . "')) AS laenge "
-				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' "
-				. "ORDER BY laenge";
+				. "FROM online " . "WHERE o_name RLIKE '^" . mysqli_real_escape_string($mysqli_link, $ziff . $part) . "' ORDER BY laenge";
 			$fehler = $t['chat_msg25'];
 			$answer = $t['chat_msg32'];
 			break;
@@ -2748,11 +2574,9 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 			}
 		}
 		if ($rows == 1 || $ok == 1) {
-			// gefunden.
+			// gefunden
 			if ($rows == 1) {
-				
 				if ($scope != "chat") {
-					
 					// Daten aus online Tabelle lesen, auspacken
 					$nickcomplete = unserialize(
 						mysqli_result($result, 0, "o_userdata")
@@ -2762,7 +2586,6 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 					$nickcomplete['o_id'] = mysqli_result($result, 0, "o_id");
 					
 				} else {
-					
 					// Daten aus Benutzertabelle lesen
 					mysqli_data_seek($result, 0);
 					$nickcomplete = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -2815,9 +2638,7 @@ function auto_knebel($text) {
 	// Prüfen ob private Nachricht
 	$chatzeile = preg_split("/ /", $text, 2);
 	$chatzeile[0] = strtolower($chatzeile[0]);
-	if (($chatzeile[0] == '/msg') or ($chatzeile[0] == '/talk')
-		or ($chatzeile[0] == '/tell') or ($chatzeile[0] == '/msgpriv')
-		or ($chatzeile[0] == '/t')) {
+	if (($chatzeile[0] == '/msg') || ($chatzeile[0] == '/talk') || ($chatzeile[0] == '/tell') || ($chatzeile[0] == '/msgpriv') || ($chatzeile[0] == '/t')) {
 		$privatnachricht = true;
 	} else {
 		$privatnachricht = false;
@@ -2857,8 +2678,7 @@ function auto_knebel($text) {
 					system_msg("", 0, $u_id, $system_farbe, $t['knebel7']);
 					
 					// Hole aktuelle Knebelendzeit und geplante neue
-					$query = "select o_knebel, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) as knebelneu "
-						. "from online where o_user=$u_id";
+					$query = "SELECT o_knebel, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) AS knebelneu FROM online WHERE o_user=$u_id";
 					$result = mysqli_query($mysqli_link, $query);
 					$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
@@ -2866,8 +2686,7 @@ function auto_knebel($text) {
 					
 					// Nur wenn neue Zeit größer als alte, dann erneut knebeln
 					if ($row[o_knebel] <= $row[knebelneu]) {
-						$query = "update online set o_knebel=FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) "
-							. "where o_user=$u_id";
+						$query = "UPDATE online SET o_knebel=FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) WHERE o_user=$u_id";
 						$result = mysqli_query($mysqli_link, $query);
 					}
 					
@@ -2880,21 +2699,13 @@ function auto_knebel($text) {
 					if ($result > 0) {
 						if (mysqli_num_rows($result) > 0) {
 							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-								$txt = str_replace("%user%",
-									zeige_userdetails($u_id, 0, FALSE, "", "", "", FALSE), $t['knebel8']);
+								$txt = str_replace("%user%", zeige_userdetails($u_id, 0, FALSE, "", "", "", FALSE), $t['knebel8']);
 								$txt = str_replace("%raum%", $r_name, $txt);
-								system_msg("", 0, $row['o_user'],
-									$system_farbe, $txt);
+								system_msg("", 0, $row['o_user'], $system_farbe, $txt);
 								if (!$privatnachricht) {
-									system_msg("", 0, $row['o_user'],
-										$system_farbe,
-										$t['knebel9'] . " "
-											. htmlspecialchars($text));
+									system_msg("", 0, $row['o_user'], $system_farbe, $t['knebel9'] . " " . htmlspecialchars($text));
 								} else {
-									system_msg("", 0, $row['o_user'],
-										$system_farbe,
-										$t['knebel10'] . " "
-											. htmlspecialchars($treffer[0]));
+									system_msg("", 0, $row['o_user'], $system_farbe, $t['knebel10'] . " " . htmlspecialchars($treffer[0]));
 								}
 							}
 						}

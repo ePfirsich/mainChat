@@ -129,7 +129,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 				unset($txt);
 			}
 			if (!isset($txt)) {
-			$txt = "";
+				$txt = "";
 			}
 			
 			// Trenner zwischen den Räumen, Austrittstext

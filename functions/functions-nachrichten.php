@@ -41,18 +41,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
-	
 	global $id, $mysqli_link, $u_id, $t;
-	
-	$eingabe_breite1 = 87;
-	$eingabe_breite2 = 75;
-	
-	if (!$eingabe_breite1) {
-		$eingabe_breite1 = 30;
-	}
-	if (!$eingabe_breite2) {
-		$eingabe_breite2 = 40;
-	}
 	
 	echo '<script language="JavaScript">
 	function zaehle()
@@ -134,13 +123,11 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			
 			$text .= "<tr>\n";
 			$text .= "<td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['betreff']."</b></td>\n";
-			$text .= "<td class =\"tabelle_zeile2\"><input type=\"text\" name=\"neue_email[m_betreff]\" value=\"" . $neue_email['m_betreff'] . "\" size=" . ($eingabe_breite1) . "
-			 ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
+			$text .= "<td class =\"tabelle_zeile2\"><input type=\"text\" name=\"neue_email[m_betreff]\" value=\"" . $neue_email['m_betreff'] . "\" size=\"87\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 			. "<input name=\"counter\" size=3></td></tr>\n";
 			$text .= "<tr>\n";
 			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td>\n";
-			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=" . ($eingabe_breite2)
-			. " rows=20 name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
+			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 			. $neue_email['m_text'] . "</textarea></td>\n";
 			$text .= "</tr>\n";
 			
@@ -166,26 +153,19 @@ function formular_neue_email2($neue_email, $m_id = "") {
 
 function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	
 	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $chat, $t;
-	
-	$eingabe_breite = 55;
-	
-	if (!$eingabe_breite) {
-		$eingabe_breite = 30;
-	}
 	
 	$art = "empfangen";
 	switch ($aktion) {
 		case "geloescht":
-			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
 			$button = $t['wiederherstellen'];
 			$titel = $t['nachrichten_papierkorb'];
 			break;
 		
 		case "postausgang":
-		$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+		$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
 			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
 			$titel = $t['nachrichten_postausgang2'];
@@ -194,7 +174,7 @@ function zeige_mailbox($aktion, $zeilen) {
 		
 		case "normal":
 		default;
-			$query = "select m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
 			$titel = $t['nachrichten_posteingang2'];
@@ -331,12 +311,12 @@ function zeige_email($m_id, $art) {
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
-			. "<input type=\"SUBMIT\" name=\"los\" value=\"antworten\">" . "</form></td>\n"
+			. "<input type=\"submit\" name=\"los\" value=\"antworten\">" . "</form></td>\n"
 				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
-			. "<input type=\"SUBMIT\" name=\"los\" value=\"weiterleiten\">" . "</form></td>\n"
+			. "<input type=\"submit\" name=\"los\" value=\"weiterleiten\">" . "</form></td>\n"
 				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
@@ -364,8 +344,7 @@ function loesche_mail($m_id, $u_id) {
 	
 	global $id, $mysqli_link, $u_nick, $u_id;
 	
-	$query = "select m_zeit,m_id,m_status FROM mail "
-		. "WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
+	$query = "SELECT m_zeit,m_id,m_status FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		
@@ -382,7 +361,7 @@ function loesche_mail($m_id, $u_id) {
 		;
 		schreibe_db("mail", $f, $row->m_id, "m_id");
 	} else {
-		echo "<P><b>Fehler:</b> Diese Mail nicht kann nicht gelöscht werden!</P>";
+		echo "<P><b>Fehler:</b> Diese Nachricht nicht kann nicht gelöscht werden!</P>";
 	}
 	mysqli_free_result($result);
 	
