@@ -964,7 +964,7 @@ function zeige_chat_login() {
 				}
 				
 				// Dummy Themen abziehen
-				$query = "SELECT count(th_id) FROM thema WHERE th_name = 'dummy-thema'";
+				$query = "SELECT COUNT(th_id) FROM thema WHERE th_name = 'dummy-thema'";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$themen = $themen - mysqli_result($result, 0, 0);
@@ -972,7 +972,7 @@ function zeige_chat_login() {
 				}
 				
 				// Anzahl Beiträge
-				$query = "SELECT count(po_id) FROM posting";
+				$query = "SELECT COUNT(po_id) FROM posting";
 				$result = mysqli_query($mysqli_link, $query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$beitraege = mysqli_result($result, 0, 0);
@@ -997,68 +997,52 @@ function zeige_chat_login() {
 					// Gibt eine Liste der Räume mit Benutzern aus
 					$benutzeranzeige = "";
 					$r_name_alt = "";
-					$zeigen_alt = false;
+					$runde = 0;
 					if ($result2) {
 						while ($row = mysqli_fetch_object($result2)) {
-							if (($row->o_level == "S") || ($row->o_level == "C")) {
-								$nick = "<b>$row->o_name</b>";
-							} else {
-								$nick = $row->o_name;
-							}
-							
-							// Unterscheidung Raum oder Community-Modul
-							if (!$row->r_name || $row->r_name == "NULL") {
-								$r_name = $t['login_community_bereich'] . $whotext[$row->o_who];
-								$zeigen = TRUE;
-							} else {
-								// Nur offene, permanente Räume zeigen
-								if (($row->r_status1 == 'O' || $row->r_status1 == 'm') && $row->r_status2 == 'P') {
-									$zeigen = TRUE;
+							// Nur offene, permanente Räume und das Forum zeigen
+							if ( (($row->r_status1 == 'O' || $row->r_status1 == 'm') && $row->r_status2 == 'P') || (!$row->r_name && !$row->r_status1 && !$row->r_status2) ) {
+								// Admins fett schreiben
+								if (($row->o_level == "S") || ($row->o_level == "C")) {
+									$nick = "<b>$row->o_name</b> ";
 								} else {
-									$zeigen = FALSE;
+									$nick = "$row->o_name ";
 								}
-								$r_name = $t['login_raum'] . $row->r_name;
-							}
-							
-							// Textwechsel
-							if ($r_name_alt != $r_name) {
-								if (strlen($text) == 0) {
-									$benutzeranzeige = "$nick ";
-								} else {
-									// Nur offene, permanente Räume zeigen
-									if ($zeigen_alt) {
-										// Leerzeile
-										//$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
-										
-										// Überschrift: Raum
-										$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%raum%", $r_name_alt, $t['login_benutzer_online_raum']), "", "", 0, "70", "");
-										
-										// Benutzer anzeigen
-										$text .= "<tr>\n";
-										$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
-										$text .= "</tr>\n";
+								
+								// Wenn es sich um einen neuen Raum handelt, dem Raumname davor hinzufügen
+								if($row->r_name != $r_name_alt) {
+									// Wenn es sich nicht um den 1. Raum handelt, einen Zeilenumbruch hinzufügen
+									if($runde != 0) {
+										$benutzeranzeige .= "<br>";
 									}
-									$benutzeranzeige = "$nick ";
+									// Benutzer befindet sich im Forum
+									if(!$row->r_name && !$row->r_status1 && !$row->r_status2) {
+										$benutzeranzeige .= $t['login_benutzer_online_forum'];
+									} else {
+										$benutzeranzeige .= str_replace("%raum%", $row->r_name, $t['login_benutzer_online_raum']);
+									}
 								}
-								$r_name_alt = $r_name;
-								$zeigen_alt = $zeigen;
-							} else {
-								$benutzeranzeige .= "$nick ";
+								// Benutzer hinzufügen
+								$benutzeranzeige .= $nick;
+								
+								$r_name_alt = $row->r_name;
+								$runde++;
 							}
 						}
-						if ($zeigen_alt) {
+						mysqli_free_result($result2);
+						
+						// Die Box nur anzeigen, wenn sich Benutzer in öffentlichen Räumen oder im FORUM befinden
+						if($benutzeranzeige != "") {
 							// Leerzeile
-							//$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
-							
-							// Überschrift: Raum
-							$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%raum%", $r_name_alt, $t['login_benutzer_online_raum']), "", "", 0, "70", "");
+							$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 							
 							// Benutzer anzeigen
+							$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_benutzer_online_uebersicht'], "", "", 0, "70", "");
+							
 							$text .= "<tr>\n";
 							$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
 							$text .= "</tr>\n";
 						}
-						mysqli_free_result($result2);
 					}
 				}
 			}

@@ -133,11 +133,6 @@ $t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
 $t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
-$t['login20'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!";
-$t['login21'] = "Zu viele Fehlversuche beim Login. Der Account %login% wurde für einige Zeit gesperrt!<br><br>"
-	. "Hinweis: Diese Mail wurde automatisch erzeugt und wird an den Webmaster verschickt. "
-	. "Über http://www.ripe.net/perl/whois können Sie unter Angabe der IP-Adresse den Provider ermitteln, über den der Loginversuch stattfand. "
-	. "Um den Verursacher zu ermitteln, wenden Sie sich bitte unter Angabe der IP und des Datums/Uhrzeit direkt an den Provider.<br>";
 $t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
 	. "<p>Es sind im $chat bereits %online% Benutzer online. "
 	. "Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den $chat nicht mehr betreten.</p>"
@@ -152,11 +147,21 @@ $t['login_passwort'] = "Passwort";
 $t['login_passwort_wiederholen'] = "Passwort wiederholen";
 $t['login_passwort_vergessen'] = "Passwort vergessen?";
 $t['login_email'] = "E-Mail";
-$t['login_email_nur_intern'] = "(nur intern)";
 $t['login_freischalt_code'] = "Freischalt-Code";
 $t['login_weiter_zum_chat'] = "Weiter zum Chat";
 $t['login_raum'] = "Raum:";
 $t['login_raum_forum'] = "Raum/Forum";
+$t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
+$t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
+$t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
+$t['login_statistik'] = "Statistik";
+$t['login_benutzer_online'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
+$t['login_benutzer_registriert'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
+$t['login_benutzer_online_uebersicht'] = "Momentan sind folgende Benutzer online";
+$t['login_benutzer_online_raum'] = "Raum %raum%: ";
+$t['login_benutzer_online_forum'] = "FORUM: ";
+$t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
+$t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 
 $t['registrierung_informationen'] = "<p>Die E-Mail Adresse (öffentlich) dagegen ist im Chat für alle anderen Mitglieder sichtbar.</p>\n"
 	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die <b>E-Mail (öffentlich)</b> ist öffentlich und muss nicht ausgefüllt werden.</p>\n"
@@ -202,36 +207,20 @@ $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und
 $t['registrierung_email_angeben'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['registrierung_email_versendet'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
-	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort "
-	. "angegebenen Link!</p>";
+	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort angegebenen Link!</p>";
 $t['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
 $t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.";
 $t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
 $t['registrierung_absenden'] = "Absenden";
 
-$t['login_statistik'] = "Statistik";
-$t['login_benutzer_online'] = "Gerade sind <b>%onlineanzahl% Benutzer online</b>, ";
-$t['login_benutzer_registriert'] = "insgesamt sind %useranzahl% Benutzer registriert. ";
-$t['login_benutzer_online_raum'] = "Benutzer online in %raum%:";
-$t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
-$t['login_raum'] = "Raum ";
-$t['login_community_bereich'] = "Community-Bereich ";
-$t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
-
 $t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
-$t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
-$t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
 $t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
-	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. "
-	. "Pro Mitglied ist nur ein Account zulässig.</li>"
-	. "<li>Im $chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. "
-	. "Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
-	. "anstößige Äußerungen, Schreiben nur in Großbuchstaben (wird als Anschreien gewertet), Spam und "
-	. "nationalsozialistische Sprüche oder Benutzernamen. </li>"
+	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. Pro Mitglied ist nur ein Account zulässig.</li>"
+	. "<li>Im $chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
+	. "anstößige Äußerungen, Schreiben nur in Großbuchstaben (wird als Anschreien gewertet), Spam und nationalsozialistische Sprüche oder Benutzernamen. </li>"
 	. "<li>Das öffentliche Posten von Links im Allgemeinen und das Einfügen von URLs zum Zweck der Werbung, insbesondere für andere Internet-Angebote, ist nicht gestattet.</li>"
 	. "<li>Admins haben das Recht, Benutzer bei Verstößen gegen diese Regeln aus dem $chat zu werfen. Davon wird meist, außer in Extremfällen, erst nach einer Vorwarnung Gebrauch gemacht. </li>"
 	. "<li>Admins dürfen zu Administrationszwecken die Benutzerdaten einsehen und ggf. die IP-Adresse des Benutzers ermitteln, um die IP-Adresse oder den Provider zu sperren. </li>"
