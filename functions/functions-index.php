@@ -762,7 +762,7 @@ function auth_user($login, $passwort) {
 
 function zeige_chat_login() {
 	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
-	global $lobby, $timeout, $whotext;
+	global $lobby, $timeout, $whotext, $layout_kopf;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
