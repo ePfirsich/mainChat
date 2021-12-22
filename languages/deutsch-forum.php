@@ -154,6 +154,7 @@ $t['ergebnis2'] = "Beiträge gefunden:";
 $t['forum'] = "Forum";
 $t['betreff'] = "Betreff";
 
+$t['fehlermeldung'] = "Fehler";
 $t['fehler1'] = "Benutzername enthält ungültige Zeichen.";
 $t['fehler2'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
 $t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.";

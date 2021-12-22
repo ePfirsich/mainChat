@@ -235,10 +235,6 @@ $punkte_grafik=array("<img src=\"images/wuerfel/admingruppe",".gif\" style=\"wid
 
 //Einstellungen für das Forum
 
-//Farben für hervorhebungen
-$farbe_hervorhebung_forum = "#FF0000";
-$farbe_neuesposting_forum = "#009900";
-
 //Anzahl der Beiträge pro Seite auf Themenübersicht
 $anzahl_po_seite = 20;
 

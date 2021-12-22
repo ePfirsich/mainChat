@@ -1,15 +1,7 @@
 <?php
-//Zeigt fehlende Eingaben an
-function show_missing($missing) {
-	global $farbe_hervorhebung_forum;
-	
-	echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold; text-align:center;\">$missing</p>";
-}
-
 //Eingabemaske für neues Forum
 function maske_forum($fo_id = 0) {
-	global $id, $mysqli_link;
-	global $t;
+	global $id, $mysqli_link, $t;
 	
 	if ($fo_id > 0) {
 		$fo_id = intval($fo_id);
@@ -40,10 +32,6 @@ function maske_forum($fo_id = 0) {
 	// Name der Kategorie
 	$text .= zeige_formularfelder("input", $zaehler, $t['kategorie_name'], "fo_name",  $fo_name);
 	$zaehler++;
-	
-	// Forumsrechte für Gast einstellen
-
-	
 	
 	// Gäste dürfen
 	if ($zaehler % 2 != 0) {
@@ -378,8 +366,7 @@ function maske_thema($th_id = 0) {
 
 //Zeigt Pfad und Seiten in Themaliste an
 function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
-	global $id, $thread, $anzahl_po_seite;
-	global $seite, $t, $farbe_hervorhebung_forum;
+	global $id, $thread, $anzahl_po_seite, $seite, $t;
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
@@ -392,9 +379,8 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 	if ($anz_seiten > 1) {
 			$text .= "<td style=\"text-align:right;\" class=\"smaller\">$t[page] ";
 			for ($page = 1; $page <= $anz_seiten; $page++) {
-				
 				if ($page == $seite) {
-					$col = "color:$farbe_hervorhebung_forum;";
+					$col = "font-weight:bold;";
 				} else {
 					$col = '';
 				}
@@ -1173,15 +1159,6 @@ function show_posting() {
 	
 	$text .= "</table>\n";
 	
-	
-	return $text;
-}
-
-// Zeigt alle Beiträge aus einem Thema
-function zeige_beitraege($thread) {
-
-	
-
 	
 	return $text;
 }

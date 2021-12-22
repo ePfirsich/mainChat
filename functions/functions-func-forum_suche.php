@@ -54,7 +54,7 @@ function such_bereich() {
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
 	. "<select name=\"suche[thema]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 		
-	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
+	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = mysqli_query($mysqli_link, $sql);
 	$themaalt = "";
 	$text .= "<option ";
@@ -74,13 +74,10 @@ function such_bereich() {
 				$themaalt = $thema['fo_name'];
 			}
 			$text .= "<option ";
-			if ($suche['thema']
-				== "B" . $thema['fo_id'] . "T" . $thema['th_id']) {
+			if ($suche['thema'] == "B" . $thema['fo_id'] . "T" . $thema['th_id']) {
 					$text .= "selected ";
-				}
-				$text .= "value=\"B" . $thema['fo_id'] . "T" . $thema['th_id']
-				. "\">&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;" . $thema['th_name']
-				. "</option>";
+			}
+			$text .= "value=\"B" . $thema['fo_id'] . "T" . $thema['th_id'] . "\">&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;" . $thema['th_name'] . "</option>";
 		}
 	}
 	$text .= "</select></td></tr>\n";
@@ -213,10 +210,8 @@ function such_bereich() {
 
 function such_ergebnis() {
 	global $id, $mysqli_link, $check_name, $u_id;
-	global $farbe_hervorhebung_forum;
-	global $suche, $farbe_neuesposting_forum, $t, $u_level;
+	global $suche, $t, $u_level;
 	
-	$select_breite = 250;
 	$maxpostingsprosuche = 1000;
 	$box = $t['ergebnis1'];
 	
@@ -257,7 +252,7 @@ function such_ergebnis() {
 	}
 		
 	if (strlen($fehler) > 0) {
-		echo "<p style=\"color:$farbe_hervorhebung_forum; font-weight:bold; text-align:center;\">$fehler</p>";
+		zeige_tabelle_zentriert($t['fehlermeldung'], $fehler);
 	} else {
 		$querytext = "";
 		$querybetreff = "";
@@ -270,37 +265,31 @@ function such_ergebnis() {
 					$querytext = "po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querytext .= " OR po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-						. "%\"";
+						$querytext .= " OR po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 					} else {
-						$querytext .= " AND po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-						. "%\"";
+						$querytext .= " AND po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 					}
 				}
 				
 				if (strlen($querybetreff) == 0) {
-					$querybetreff = "po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i])
-					. "%\"";
+					$querybetreff = "po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querybetreff .= " OR po_titel LIKE \"%"
-							. mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querybetreff .= " OR po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 					} else {
-						$querybetreff .= " AND po_titel LIKE \"%"
-							. mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querybetreff .= " AND po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
 					}
 				}
-				
 			}
 			$querytext = " (" . $querytext . ") ";
 			$querybetreff = " (" . $querybetreff . ") ";
 		}
 		
-		$sql = "SELECT posting.*, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_zeit, u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage FROM posting left join user on po_u_id = u_id WHERE ";
+		$sql = "SELECT posting.*, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_zeit, u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage FROM posting LEFT JOIN user ON po_u_id = u_id WHERE ";
 		
 		$abfrage = "";
 		if ($suche['ort'] == "V" && $querybetreff <> "") {
-			$abfrage = " (" . $querybetreff . " or " . $querytext . ") ";
+			$abfrage = " (" . $querybetreff . " OR " . $querytext . ") ";
 		} else if ($suche['ort'] == "B" && $querybetreff <> "") {
 			$abfrage = " " . $querybetreff . " ";
 		} else if ($suche['ort'] == "T" && $querytext <> "") {
@@ -316,7 +305,7 @@ function such_ergebnis() {
 		}
 		
 		$boards = "";
-		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
+		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 		$query2 = mysqli_query($mysqli_link, $sql2);
 		while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
 			if (pruefe_leserechte($thema['th_id'])) {
@@ -376,97 +365,98 @@ function such_ergebnis() {
 			$abfrage .= " AND (po_ts >= $sucheab) ";
 		}
 		
-		if ($u_level <> "S" and $u_level <> "C")
+		if ($u_level <> "S" and $u_level <> "C") {
 			$abfrage .= " AND po_gesperrt = 0 ";
+		}
+		
+		if ($suche['sort'] == "SZD") {
+			$abfrage .= " ORDER BY po_ts DESC";
+		} else if ($suche['sort'] == "SZA") {
+			$abfrage .= " ORDER BY po_ts ASC";
+		} else if ($suche['sort'] == "SBD") {
+			$abfrage .= " ORDER BY po_titel DESC, po_ts DESC";
+		} else if ($suche['sort'] == "SBA") {
+			$abfrage .= " ORDER BY po_titel ASC, po_ts ASC";
+		} else if ($suche['sort'] == "SAD") {
+			$abfrage .= " ORDER BY u_nick DESC, po_ts DESC";
+		} else if ($suche['sort'] == "SAA") {
+			$abfrage .= " ORDER BY u_nick ASC, po_ts ASC";
+		} else {
+			$abfrage .= " ORDER BY po_ts DESC";
+		}
 			
-			if ($suche['sort'] == "SZD") {
-				$abfrage .= " ORDER BY po_ts DESC";
-			} else if ($suche['sort'] == "SZA") {
-				$abfrage .= " ORDER BY po_ts ASC";
-			} else if ($suche['sort'] == "SBD") {
-				$abfrage .= " ORDER BY po_titel DESC, po_ts DESC";
-			} else if ($suche['sort'] == "SBA") {
-				$abfrage .= " ORDER BY po_titel ASC, po_ts ASC";
-			} else if ($suche['sort'] == "SAD") {
-				$abfrage .= " ORDER BY u_nick DESC, po_ts DESC";
-			} else if ($suche['sort'] == "SAA") {
-				$abfrage .= " ORDER BY u_nick ASC, po_ts ASC";
-			} else {
-				$abfrage .= " ORDER BY po_ts DESC";
-			}
+		$text = "<table style=\"width:100%;\">\n";
+		
+		flush();
+		$sql = $sql . " " . $abfrage;
+		$query = mysqli_query($mysqli_link, $sql);
+		
+		$anzahl = mysqli_num_rows($query);
+		
+		$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$t[ergebnis2] $anzahl";
+		if ($anzahl > $maxpostingsprosuche) {
+			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
+		}
+		$text .= "</td></tr>\n";
+		if ($anzahl > 0) {
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[forum]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[betreff]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_autor]</td>\n";
+			$text .= "</tr>";
 			
-			$text = "<table style=\"width:100%;\">\n";
-			
-			flush();
-			$sql = $sql . " " . $abfrage;
-			$query = mysqli_query($mysqli_link, $sql);
-			
-			$anzahl = mysqli_num_rows($query);
-			
-			$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$t[ergebnis2] $anzahl";
-			if ($anzahl > $maxpostingsprosuche) {
-				$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
-			}
-			$text .= "</td></tr>\n";
-			if ($anzahl > 0) {
-				$text .= "<tr>\n";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[forum]</td>\n";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[betreff]</td>\n";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]</td>\n";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_autor]</td>\n";
-				$text .= "</tr>";
+			$i = 0;
+			while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+				$i++;
 				
-				$i = 0;
-				while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-					$i++;
-					
-					if ($i > $maxpostingsprosuche) {
-						break;
-					}
-					
-					if (($i % 2) > 0) {
-						$bgcolor = 'class="tabelle_zeile1"';
-					} else {
-						$bgcolor = 'class="tabelle_zeile2"';
-					}
-					
-					if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
-						$col = "color:$farbe_neuesposting_forum;";
-					} else {
-						$col = '';
-					}
-					
-					$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $id, $thread) . "</span></td><td $bgcolor>";
-					$thread = vater_rekursiv($fund['po_id']);
-					$text .= "<span class=\"smaller\"><b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
-					<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
-					if ($fund['po_gesperrt'] == 1) {
-						$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
-					}
-					$text .= "</b></span></td>";
-					$text .= "<td $bgcolor><span class=\"smaller\">" . $fund['po_zeit'] . "</span></td>";
-					
-					if (!$fund['u_nick']) {
-						$text .= "<td $bgcolor><span class=\"smaller\"><b>Nobody</b></span></td>\n";
-					} else {
-						$userdata = array();
-						$userdata['u_id'] = $fund['po_u_id'];
-						$userdata['u_nick'] = $fund['u_nick'];
-						$userdata['u_level'] = $fund['u_level'];
-						$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
-						$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
-						$userdata['u_chathomepage'] = $fund['u_chathomepage'];
-						$userlink = zeige_userdetails($fund['po_u_id'], $userdata);
-						if ($fund['u_level'] == 'Z') {
-							$text .= "<td $bgcolor><span class=\"smaller\">$userdata[u_nick]</span></td>\n";
-						} else {
-							$text .= "<td $bgcolor><span class=\"smaller\">$userlink</span></td>\n";
-						}
-					}
-					$text .= "</tr>";
+				if ($i > $maxpostingsprosuche) {
+					break;
 				}
-				mysqli_free_result($query);
+				
+				if (($i % 2) > 0) {
+					$bgcolor = 'class="tabelle_zeile1"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile2"';
+				}
+				
+				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
+					$col = "font-weight:bold;";
+				} else {
+					$col = '';
+				}
+				
+				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $id, $thread) . "</span></td><td $bgcolor>";
+				$thread = vater_rekursiv($fund['po_id']);
+				$text .= "<span class=\"smaller\"><b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+				<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
+				if ($fund['po_gesperrt'] == 1) {
+					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
+				}
+				$text .= "</b></span></td>";
+				$text .= "<td $bgcolor><span class=\"smaller\">" . $fund['po_zeit'] . "</span></td>";
+				
+				if (!$fund['u_nick']) {
+					$text .= "<td $bgcolor><span class=\"smaller\"><b>Nobody</b></span></td>\n";
+				} else {
+					$userdata = array();
+					$userdata['u_id'] = $fund['po_u_id'];
+					$userdata['u_nick'] = $fund['u_nick'];
+					$userdata['u_level'] = $fund['u_level'];
+					$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
+					$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
+					$userdata['u_chathomepage'] = $fund['u_chathomepage'];
+					$userlink = zeige_userdetails($fund['po_u_id'], $userdata);
+					if ($fund['u_level'] == 'Z') {
+						$text .= "<td $bgcolor><span class=\"smaller\">$userdata[u_nick]</span></td>\n";
+					} else {
+						$text .= "<td $bgcolor><span class=\"smaller\">$userlink</span></td>\n";
+					}
+				}
+				$text .= "</tr>";
 			}
+			mysqli_free_result($query);
+		}
 		$text .= "</table>\n";
 		
 		// Box anzeigen

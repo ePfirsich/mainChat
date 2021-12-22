@@ -74,7 +74,7 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			show_missing($missing);
+			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Forum anzeigen
 			$box = $chat."-Forum";
@@ -93,7 +93,7 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			show_missing($missing);
+			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Forum anzeigen
 			$box = $chat."-Forum";
@@ -165,7 +165,7 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			show_missing($missing);
+			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Thema erstellen
 			$box = $chat."-Forum";
@@ -191,7 +191,7 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			show_missing($missing);
+			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Thema erstellen
 			$box = $chat."-Forum";
@@ -300,7 +300,7 @@ switch ($aktion) {
 				$text = show_posting();
 				zeige_tabelle_zentriert($box, $text);
 			} else {
-				show_missing($missing);
+				zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 				
 				// Neues Thema erstellen
 				$box = $chat."-Forum";
