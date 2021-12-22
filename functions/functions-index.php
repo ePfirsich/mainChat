@@ -951,7 +951,7 @@ function zeige_chat_login() {
 			// Überschrift: Statistik
 			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_statistik'], "", "", 0, "70", "");
 			
-			$textStatistik = str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']) . str_replace("%useranzahl%", $useranzahl, $t['login_benutzer_registriert']);
+			$textStatistik = str_replace("%useranzahl%", $useranzahl, $t['login_benutzer_registriert']);
 			
 			// Anzahl der Beiträge im Forum ausgeben
 			if ($forumfeatures) {
@@ -1037,7 +1037,7 @@ function zeige_chat_login() {
 							$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 							
 							// Benutzer anzeigen
-							$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_benutzer_online_uebersicht'], "", "", 0, "70", "");
+							$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']), "", "", 0, "70", "");
 							
 							$text .= "<tr>\n";
 							$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
