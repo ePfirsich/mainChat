@@ -156,6 +156,7 @@ $t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie ei
 $t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
 $t['login_statistik'] = "Statistik";
 $t['login_benutzer_online'] = "Momentan sind <b>%onlineanzahl% Benutzer online</b>";
+$t['login_benutzer_niemand_online'] = "Es befinden sind keine Benutzer öffentlichen Räumen oder im Forum.";
 $t['login_benutzer_registriert'] = "Insgesamt sind %useranzahl% Benutzer registriert. ";
 $t['login_benutzer_online_raum'] = "Raum %raum%: ";
 $t['login_benutzer_online_forum'] = "FORUM: ";

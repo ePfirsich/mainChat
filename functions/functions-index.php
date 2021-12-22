@@ -1031,18 +1031,20 @@ function zeige_chat_login() {
 						}
 						mysqli_free_result($result2);
 						
-						// Die Box nur anzeigen, wenn sich Benutzer in öffentlichen Räumen oder im FORUM befinden
-						if($benutzeranzeige != "") {
-							// Leerzeile
-							$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
-							
-							// Benutzer anzeigen
-							$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']), "", "", 0, "70", "");
-							
-							$text .= "<tr>\n";
-							$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
-							$text .= "</tr>\n";
+						// Leerzeile
+						$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
+						
+						// Meldung, wenn sich keine Benutzer in öffentlichen Räumen oder im Forum befinden
+						if($benutzeranzeige == "") {
+							$benutzeranzeige = $t['login_benutzer_niemand_online'];
 						}
+						
+						// Benutzer anzeigen
+						$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']), "", "", 0, "70", "");
+						
+						$text .= "<tr>\n";
+						$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
+						$text .= "</tr>\n";
 					}
 				}
 			}
