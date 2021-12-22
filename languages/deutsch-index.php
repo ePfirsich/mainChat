@@ -158,8 +158,8 @@ $t['login_statistik'] = "Statistik";
 $t['login_benutzer_online'] = "Momentan sind <b>%onlineanzahl% Benutzer online</b>";
 $t['login_benutzer_niemand_online'] = "Es befinden sind keine Benutzer öffentlichen Räumen oder im Forum.";
 $t['login_benutzer_registriert'] = "Insgesamt sind %useranzahl% Benutzer registriert. ";
-$t['login_benutzer_online_raum'] = "Raum %raum%: ";
-$t['login_benutzer_online_forum'] = "FORUM: ";
+$t['login_benutzer_online_raum'] = "<b>Raum %raum%:</b> ";
+$t['login_benutzer_online_forum'] = "<b>Forum:</b> ";
 $t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
 $t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 
