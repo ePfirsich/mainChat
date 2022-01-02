@@ -140,10 +140,9 @@ function step_1($chat) {
 				<td colspan="2">
 					<textarea cols="80" rows="5" name="chat_noframes">
 <p><span style="font-weight:bold;">mainChat</span> ist die schnelle HTML Chat Community in PHP.
-Er wird mittlerweile auf <a href="https://github.com/netzhuffle/mainchat">Github</a> kostenlos zum Download angeboten.<br>
-Eine Version, die unter PHP7 lauffähig ist, ist ebenfalls unter <a href="https://github.com/ePfirsich/mainChat">Github</a> zum Download verfügbar.<br>
-<span style="font-weight:bold;">Features:</span> Mail, Forum, Punkte, beliebig viele Räume und Benutzer, IRC-Befehle, 
-Smilie-Grafiken (Smilies), Gäste, Administratoren, Top10 / Top100 Listen, 
+Er wird mittlerweile auf <a href="https://github.com/ePfirsich/mainChat">Github</a> zum Download verfügbar.<br>
+<span style="font-weight:bold;">Features:</span> Nachrichten, Forum, Punkte, beliebig viele Räume und Benutzer, IRC-Befehle, 
+Smilies, Gäste, Administratoren, Top10 / Top100 Listen, 
 Freunde, Benutzerseiten, Profile, Privatnachrichten, öffentliche Nachrichten, mehrsprachig, 
 vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vieles mehr.</p>
 <p style="text-align:center;"><a href="index.php">weiter</a></p></textarea>
