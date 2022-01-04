@@ -57,85 +57,97 @@ $smilietxt["&nein"] = "nein";
 $smilie["&zunge"] = "zunge.gif";
 $smilietxt["&zunge"] = "Zunge raus strecken";
 
-$smilie["&langeweile"] = "kaugummi.gif";
-$smilietxt["&langeweile"] = "Langeweile";
-$smilie["&normal"] = "normal.gif";
-$smilietxt["&normal"] = "Normal";
-$smilie["&aerger"] = "aerger.gif";
-$smilietxt["&aerger"] = "Ärgerlich";
-$smilie["&alien"] = "alien.gif";
-$smilietxt["&alien"] = "Alien";
-$smilie["&megaphon"] = "megaphon.gif";
-$smilietxt["&megaphon"] = "Anschreien";
-$smilie["&augen"] = "augen.gif";
-$smilietxt["&augen"] = "Augen";
-$smilie["&baeh"] = "baeh.gif";
-$smilietxt["&baeh"] = "Zum&nbsp;ko....";
-$smilie["&drei"] = "drei.gif";
-$smilietxt["&drei"] = "Lass&nbsp;uns...";
-$smilie["&duell"] = "schwert.gif";
-$smilietxt["&duell"] = "Duell";
+$smilie["&dafuer"] = "dafuer.gif";
+$smilietxt["&dafuer"] = "dafür";
+
+$smilie["&dagegen"] = "dagegen.gif";
+$smilietxt["&dagegen"] = "dagegen";
+
+$smilie["&valentine"] = "valentine.gif";
+$smilietxt["&valentine"] = "Be my Valentine!";
+
+$smilie["&iloveyou"] = "iloveyou.gif";
+$smilietxt["&iloveyou"] = "Ich liebe dich!";
+
+$smilie["&kissme"] = "kissme.gif";
+$smilietxt["&kissme"] = "Küss mich!";
+
+$smilie["&haudrauf"] = "haudrauf.gif";
+$smilietxt["&haudrauf"] = "Drauf hauen";
+
+$smilie["&kotzen"] = "kotzen.gif";
+$smilietxt["&kotzen"] = "kotzen";
+
 $smilie["&engel"] = "engel.gif";
 $smilietxt["&engel"] = "Engel";
-$smilie["&argh"] = "erschreckt-blau.gif";
-$smilietxt["&argh"] = "Argh!";
-$smilie["&gaehn"] = "gaehn.gif";
-$smilietxt["&gaehn"] = "Gähnen";
-$smilie["&grins"] = "grins.gif";
-$smilietxt["&grins"] = "Grinsen";
-$smilie["&hammer"] = "hammer.gif";
-$smilietxt["&hammer"] = "Hammer";
-$smilie["&herz"] = "herz.gif";
-$smilietxt["&herz"] = "Herz";
-$smilie["&heult"] = "heult.gif";
-$smilietxt["&heult"] = "Heulen";
-$smilie["&hund"] = "hund.gif";
-$smilietxt["&hund"] = "Hund";
-$smilie["&irre"] = "irre.gif";
-$smilietxt["&irre"] = "Total&nbsp;irre";
-$smilie["&kanibale"] = "kanibale.gif";
-$smilietxt["&kanibale"] = "Kanibale";
-$smilie["&karneval"] = "karneval.gif";
-$smilietxt["&karneval"] = "Karneval";
-$smilie["&kuess"] = "kuess.gif";
-$smilietxt["&kuess"] = "Küssen";
-$smilie["&laber"] = "laber.gif";
-$smilietxt["&laber"] = "Labern";
-$smilie["&lach"] = "lach.gif";
-$smilietxt["&lach"] = "Lachen";
-$smilie["&lach2"] = "lach2.gif";
-$smilietxt["&lach2"] = "Lachen2";
-$smilie["&plemplem"] = "augendreh.gif";
-$smilietxt["&plemplem"] = "Plemplem";
-$smilie["&prost"] = "prost.gif";
-$smilietxt["&prost"] = "Prost!";
-$smilie["&raucht"] = "raucht.gif";
-$smilietxt["&raucht"] = "Rauchen";
-$smilie["&rotenase"] = "rotenase.gif";
-$smilietxt["&rotenase"] = "Rote&nbsp;Nase";
-$smilie["&rotier"] = "rotier.gif";
-$smilietxt["&rotier"] = "Rotieren";
-$smilie["&rotier2"] = "rotier2.gif";
-$smilietxt["&rotier2"] = "Rotieren2";
-$smilie["&unterhalten"] = "unterhalten.gif";
-$smilietxt["&unterhalten"] = "Schimpfen";
-$smilie["&schlaf"] = "schlaf.gif";
-$smilietxt["&schlaf"] = "Schlafen";
-$smilie["&spreche"] = "spreche.gif";
-$smilietxt["&spreche"] = "Sprechen";
-$smilie["&tot"] = "totenkopf.gif";
-$smilietxt["&tot"] = "Tot";
-$smilie["&traurig2"] = "traurig2.gif";
-$smilietxt["&traurig2"] = "Traurig";
-$smilie["&sehrtraurig"] = "boesegruen.gif";
-$smilietxt["&sehrtraurig"] = "Sehr&nbsp;traurig";
+
+$smilie["&bussi"] = "bussi.gif";
+$smilietxt["&bussi"] = "Bussi";
+
+$smilie["&druecker"] = "druecker.gif";
+$smilietxt["&druecker"] = "Ganz dolle Umarmumg!";
+
 $smilie["&winke"] = "winke.gif";
 $smilietxt["&winke"] = "Winken";
-$smilie["&winke2"] = "winke2.gif";
-$smilietxt["&winke2"] = "Winken2";
-$smilie["&zuzweit"] = "zuzweit.gif";
-$smilietxt["&zuzweit"] = "Zu&nbsp;zweit";
-$smilie["&zwinker"] = "zwinker.gif";
-$smilietxt["&zwinker"] = "Zwinkern";
+
+$smilie["&hexe"] = "hexe.gif";
+$smilietxt["&hexe"] = "Hexe";
+
+$smilie["&weihnachten"] = "weihnachten.gif";
+$smilietxt["&weihnachten"] = "Weihnachten";
+
+$smilie["&nikolaus"] = "nikolaus.gif";
+$smilietxt["&nikolaus"] = "Nikolaus";
+
+$smilie["&neujahr"] = "prost_neujahr.gif";
+$smilietxt["&neujahr"] = "Porst Neujahr!";
+
+$smilie["&baden"] = "baden.gif";
+$smilietxt["&baden"] = "baden";
+
+$smilie["&ansage"] = "ansage.gif";
+$smilietxt["&ansage"] = "Ansage";
+
+$smilie["&jongleur"] = "jongleur.gif";
+$smilietxt["&jongleur"] = "Jongleur";
+
+$smilie["&lachen"] = "lachen.gif";
+$smilietxt["&lachen"] = "lachen";
+
+$smilie["&hurra"] = "hurra.gif";
+$smilietxt["&hurra"] = "Hurra!!!";
+
+$smilie["&schnueff"] = "schnueff.gif";
+$smilietxt["&schnueff"] = "schnüff";
+
+$smilie["&birthday"] = "birthday.gif";
+$smilietxt["&birthday"] = "Happy Birthday!";
+
+$smilie["&prost"] = "prost.gif";
+$smilietxt["&prost"] = "Prost!";
+
+$smilie["&party"] = "party.gif";
+$smilietxt["&party"] = "Party!!!";
+
+$smilie["&hunger"] = "hunger.gif";
+$smilietxt["&hunger"] = "Hunger";
+
+$smilie["&eis"] = "eis.gif";
+$smilietxt["&eis"] = "Eis";
+
+$smilie["&horn"] = "horn.gif";
+$smilietxt["&horn"] = "Horn";
+
+$smilie["&cowboy"] = "cowboy.gif";
+$smilietxt["&cowboy"] = "Cowboy";
+
+$smilie["&sonnig"] = "sonne1.gif";
+$smilietxt["&sonnig"] = "sonnig";
+
+$smilie["&bewoelkt"] = "sonne2.gif";
+$smilietxt["&bewoelkt"] = "bewölkt";
+
+$smilie["&regen"] = "sonne3.gif";
+$smilietxt["&regen"] = "regnerisch";
 
 ?>
