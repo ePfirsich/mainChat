@@ -71,23 +71,11 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 			$text2 = str_replace("%link%", $link, $t['pwneu9']);
 			$text2 = str_replace("%hash%", $hash, $text2);
 			$text2 = str_replace("%nickname%", $a['u_nick'], $text2);
-			$email = urldecode($a['u_adminemail']);
 			$text2 = str_replace("%email%", $email, $text2);
-			
-			$mailbetreff = $t['pwneu8'];
-			$mailempfaenger = $email;
-			$header = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
-			$header .= "Mime-Version: 1.0\r\n";
-			$header .= "Content-type: text/plain; charset=utf-8";
+			$email = urldecode($a['u_adminemail']);
 			
 			// E-Mail versenden
-			if($smtp_on) {
-				mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-			} else {
-				// Der PHP-Versand benötigt \n und nicht <br>
-				$text2 = str_replace("<br>", "\n", $text2);
-				mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
-			}
+			email_senden($email, $t['pwneu8'], $text2);
 			
 			$email_gesendet = true;
 			unset($hash);
@@ -195,13 +183,7 @@ if (!$richtig) {
 		$text = str_replace("%nickname%", $a['u_nick'], $text);
 		
 		// E-Mail versenden
-		if($smtp_on) {
-			$ok = mailsmtp($a['u_adminemail'], $t['pwneu14'], $text, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-		} else {
-			// Der PHP-Versand benötigt \n und nicht <br>
-			$t['pwneu14'] = str_replace("<br>", "\n", $t['pwneu14']);
-			$ok = mail($a['u_adminemail'], $t['pwneu14'], $text, "From: $webmaster ($chat)");
-		}
+		$ok = email_senden($a['u_adminemail'], $t['pwneu14'], $text);
 		
 		if ($ok) {
 			$text = $t['login_passwort_schritt3'];

@@ -324,7 +324,6 @@ function aktion(
 				$a_was[$row->a_was][$a_wie] = TRUE;
 			}
 		}
-		
 	}
 	mysqli_free_result($result);
 	
@@ -408,7 +407,6 @@ function aktion_sende(
 	$u_nick,
 	$id = "")
 {
-	
 	// Versendet eine Nachricht an Benutzer $an_u_id von $von_u_id/$u_nick
 	// Der Inhalt der Nachricht wird in $inhalt übergeben
 	// Die Session-ID $id kann optional übergeben werden
@@ -427,17 +425,16 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$txt = str_replace("%u_nick%", $userlink,
-							$t['freunde1']);
+						$txt = str_replace("%u_nick%", $userlink, $t['freunde1']);
 						$txt = str_replace("%raum%", $inhalt['raum'], $txt);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$txt = str_replace("%u_nick%", $userlink,
-							$t['freunde5']);
+						$txt = str_replace("%u_nick%", $userlink, $t['freunde5']);
 					} else {
 						$txt = str_replace("%u_nick%", $u_nick, $t['freunde2']);
 					}
-					if ($inhalt['f_text'])
+					if ($inhalt['f_text']) {
 						$txt .= " (" . $inhalt['f_text'] . ")";
+					}
 					system_msg("", 0, $an_u_id, $system_farbe, $txt);
 					break;
 				
@@ -450,17 +447,13 @@ function aktion_sende(
 					system_msg("", 0, $an_u_id, $system_farbe, $txt);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$text = str_replace("%po_titel%", $inhalt['po_titel'],
-						$t['msg_new_posting_olm']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_olm']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
-					$text = str_replace("%user_from_nick%",
-						$inhalt['user_from_nick'], $text);
-					$text = str_replace("%po_titel_antwort%",
-						$inhalt['po_titel_antwort'], $text);
-					$text = str_replace("%po_ts_antwort%",
-						$inhalt['po_ts_antwort'], $text);
+					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
+					$text = str_replace("%po_titel_antwort%", $inhalt['po_titel_antwort'], $text);
+					$text = str_replace("%po_ts_antwort%", $inhalt['po_ts_antwort'], $text);
 					system_msg("", 0, $an_u_id, $system_farbe, $text);
 					break;
 			}
@@ -472,20 +465,15 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde3']);
-						$betreff = str_replace("%raum%", $inhalt['raum'],
-							$betreff);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde3']);
+						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt[aktion] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['mail9'] . $betreff . " ("
-							. $inhalt['f_text'] . ")";
+						$txt = $t['mail9'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
 						$txt = $t['mail9'] . $betreff;
 					}
@@ -498,19 +486,14 @@ function aktion_sende(
 				// Eine neue Chat-Mail kann keine Chat-Mail auslösen
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'],
-						$t['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'],
-						$t['msg_new_posting_chatmail']);
+					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $t['betreff_new_posting']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_chatmail']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
-					$text = str_replace("%user_from_nick%",
-						$inhalt['user_from_nick'], $text);
-					$text = str_replace("%po_titel_antwort%",
-						$inhalt['po_titel_antwort'], $text);
-					$text = str_replace("%po_ts_antwort%",
-						$inhalt['po_ts_antwort'], $text);
+					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
+					$text = str_replace("%po_titel_antwort%", $inhalt['po_titel_antwort'], $text);
+					$text = str_replace("%po_ts_antwort%", $inhalt['po_ts_antwort'], $text);
 					$text = str_replace("%baum%", $inhalt['baum'], $text);
 					
 					mail_sende($von_u_id, $an_u_id, $text, $betreff);
@@ -524,20 +507,15 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde3']);
-						$betreff = str_replace("%raum%", $inhalt['raum'],
-							$betreff);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde3']);
+						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick,
-							$t['freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['mail8'] . $betreff . " ("
-							. $inhalt['f_text'] . ")";
+						$txt = $t['mail8'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
 						$txt = $t['mail8'] . $betreff;
 					}
@@ -551,23 +529,17 @@ function aktion_sende(
 					schreibe_db("mail", $f, $inhalt['m_id'], "m_id");
 					
 					// Nachricht versenden
-					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'],
-						$t['mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
+					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $t['mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'],
-						$t['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'],
-						$t['msg_new_posting_email']);
+					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $t['betreff_new_posting']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_email']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
-					$text = str_replace("%user_from_nick%",
-						$inhalt['user_from_nick'], $text);
-					$text = str_replace("%po_titel_antwort%",
-						$inhalt['po_titel_antwort'], $text);
-					$text = str_replace("%po_ts_antwort%",
-						$inhalt['po_ts_antwort'], $text);
+					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
+					$text = str_replace("%po_titel_antwort%", $inhalt['po_titel_antwort'], $text);
+					$text = str_replace("%po_ts_antwort%", $inhalt['po_ts_antwort'], $text);
 					$text = str_replace("%baum%", $inhalt['baum'], $text);
 					
 					email_versende($von_u_id, $an_u_id, $text, $betreff);
@@ -678,7 +650,7 @@ function email_versende(
 	}
 	mysqli_free_result($result);
 	
-	// Empfänger ermitteln und E-Mail versenden, Footer steht in $t[mail4]
+	// Empfänger ermitteln und E-Mail versenden
 	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -687,20 +659,13 @@ function email_versende(
 		// Empfänger
 		$adresse = $row->u_adminemail;
 		
-		// Absender
-		if ($abrow->u_adminemail == "") {
-			$absender = $chat . " <" . $adresse . ">";
-		} else {
-			$absender = $abrow->u_nick . " <" . $abrow->u_adminemail . ">";
-		}
+		$inhalt = str_replace("%user%", $row->u_nick, $text);
+		$nachricht = str_replace("%name%", $abrow->u_nick, $t['mail4']);
+		$nachricht = str_replace("%nachricht%", $text, $nachricht);
+		$nachricht = str_replace("%email%", $abrow->u_adminemail, $nachricht);
+		
 		// E-Mail versenden
-		if($smtp_on) {
-			mailsmtp($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-		} else {
-			// Der PHP-Vessand benötigt \n und nicht <br>
-			$text = str_replace("<br>", "\n", $text);
-			mail($adresse, $betreff, str_replace("%user%", $row->u_nick, $text) . $t['mail4'], "From: $absender\nReply-To: $absender\n");
-		}
+		email_senden($adresse, $betreff, $nachricht);
 		
 		mysqli_free_result($result);
 		return (TRUE);

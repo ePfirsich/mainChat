@@ -54,15 +54,14 @@ if($formular == "gefuellt") {
 		$nachricht = str_replace("%nachricht%", $kontakt_nachricht, $nachricht);
 		$nachricht = str_replace("%email%", $kontakt_email, $nachricht);
 		
-		if($smtp_on) {
-			$email_ok = mailsmtp($kontakt_email, $kontakt_betreff, $nachricht, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-		} else {
-			// Der PHP-Versand benötigt \n und nicht <br>
-			$nachricht = str_replace("<br>", "\n", $nachricht);
-			$email_ok = mail($kontakt_email, $kontakt_betreff, $nachricht, "From: $webmaster ($chat)");
-		}
+		$email_ok = email_senden($kontakt_email, $kontakt_betreff, $nachricht);
 		
 		zeige_tabelle_volle_breite($t['kontakt_erfolgsmeldung'], $t['kontakt_erfolgsmeldung_email_versendet']);
+		$kontakt_absender = "";
+		$kontakt_email = "";
+		$kontakt_betreff = "";
+		$kontakt_nachricht = "";
+		$kontakt_frage = "";
 	}
 	
 }

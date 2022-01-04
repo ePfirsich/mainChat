@@ -144,15 +144,16 @@ if(!$kein_gastlogin_ausblenden) {
 		// Login erfolgreich ?
 		if ($u_level == "Z") {
 			// Benutzer gesperrt -> Fehlermeldung ausgeben
-			echo str_replace("%u_nick%", $u_nick, $t['login5']);
+			$fehlermeldung = str_replace("%u_nick%", $u_nick, $t['chat_login_account_gesperrt']);
+			zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
 		} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 			// Maximale Anzahl der Benutzer im Chat erreicht -> Fehlermeldung ausgeben
-			
-			$txt = str_replace("%online%", $onlineanzahl, $t['login24']);
+			$txt = str_replace("%online%", $onlineanzahl, $t['chat_login_zu_viele_benutzer_online']);
 			$txt = str_replace("%max%", $chat_max[$u_level], $txt);
 			$txt = str_replace("%leveltxt%", $level[$u_level], $txt);
 			$txt = str_replace("%zusatztext%", $chat_max[zusatztext], $txt);
-			echo $txt;
+			
+			zeige_tabelle_volle_breite($t['login_fehlermeldung'], $txt);
 			
 			unset($u_nick);
 		} else {

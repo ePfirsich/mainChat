@@ -253,14 +253,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$pwdneu = genpassword(8);
 				$p['u_passwort'] = $pwdneu;
 				
+				$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
+				
 				// E-Mail versenden
-				if($smtp_on) {
-					$email_ok = mailsmtp($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['einstellungen_neues_passwort']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-				} else {
-					// Der PHP-Versand benötigt \n und nicht <br>
-					$t['einstellungen_neues_passwort'] = str_replace("<br>", "\n", $t['einstellungen_neues_passwort']);
-					$email_ok = mail($p['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $p['u_passwort'], $t['einstellungen_neues_passwort']), "From: $webmaster ($chat)");
-				}
+				$email_ok = email_senden($f['u_adminemail'], $t['chat_msg112'], $inhalt);
 				
 				if($email_ok) {
 					// Neues Passwort in der Datenbank speichern
@@ -715,15 +711,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 					$fehlermeldung = "";
 				} else if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || $u_level == "S") {
-					// E-Mail versenden
-					if($smtp_on) {
-						$ok = mailsmtp($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']), $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-					} else {
-						// Der PHP-Versand benötigt \n und nicht <br>
-						$t['einstellungen_neues_passwort'] = str_replace("<br>", "\n", $t['einstellungen_neues_passwort']);
-						$ok = mail($f['u_adminemail'], $t['chat_msg112'], str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']), "From: $webmaster ($chat)");
-					}
+					$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
 					
+					// E-Mail versenden
+					$ok = email_senden($f['u_adminemail'], $t['chat_msg112'], $inhalt);
 					
 					if($ok) {
 						$erfolgsmeldung .= $t['chat_msg111'];

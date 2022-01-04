@@ -110,29 +110,14 @@ if($fehlermeldung == "" && isset($email)) {
 		$text2 = str_replace("%link%", $link, $t['registrierung_email_text']);
 		$text2 = str_replace("%link2%", $link2, $text2);
 		$text2 = str_replace("%hash%", $hash, $text2);
-		$email = urldecode($email);
 		$text2 = str_replace("%email%", $email, $text2);
-		
-		$mailbetreff = $t['registrierung_email_titel'];
-		$mailempfaenger = $email;
+		$email = urldecode($email);
 		
 		$text = $t['registrierung_email_versendet'];
-		
-		
 		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 		
-		$header = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
-		$header .= "Mime-Version: 1.0\r\n";
-		$header .= "Content-type: text/plain; charset=utf-8";
-		
 		// E-Mail versenden
-		if($smtp_on) {
-			mailsmtp($mailempfaenger, $mailbetreff, $text2, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
-		} else {
-			// Der PHP-Versand benötigt \n und nicht <br>
-			$text2 = str_replace("<br>", "\n", $text2);
-			mail($mailempfaenger, $mailbetreff, $text2, "From: $webmaster ($chat)" . $header);
-		}
+		email_senden($email, $t['registrierung_email_titel'], $text2);
 		
 		$email = mysqli_real_escape_string($mysqli_link, $email);
 		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";

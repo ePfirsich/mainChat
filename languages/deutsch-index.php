@@ -36,7 +36,7 @@ $t['kontakt_fehler_datenschutz'] = "Bitte stimmen Sie der Datenschutzerklärung 
 $t['kontakt_erfolgsmeldung'] = "Erfolgsmeldung";
 $t['kontakt_erfolgsmeldung_email_versendet'] = "Die Nachricht wurde erfolgreich versendet.<br>";
 
-$t['kontakt_inhalt'] = "$chat,<br><br>
+$t['kontakt_inhalt'] = "$chat<br><br>
 %name% hat folgende Nachricht über das Kontaktformular gesendet:<br><br>
 %nachricht%<br><br>
 E-Mail Adresse: %email%";
@@ -120,7 +120,7 @@ Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstel
 ";
 
 $t['willkommen'] = "Willkommen im $chat!";
-$t['chat_offline'] = "Der $chat ist derzeit offline.";
+$t['chat_offline'] = "Der Chat ist derzeit leider offline.";
 
 $t['login_formular_kopfzeile'] = "Login oder";
 $t['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
@@ -128,15 +128,13 @@ $t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren
 
 $t['chat_login_nicht_möglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>"
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
-$t['login5'] = "<p><b>Leider ist der Account %u_nick% derzeit gesperrt.\n"
-	. "Bitte wenden Sie sich an unseren <a href=\"mailto:" . $webmaster . "\">Webmaster</a>.</b></p><br><br>\n";
-$t['login6'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
+$t['chat_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>"
+	. "Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?aktion=kontakt\">Kontaktformular</a>.<br>";
+$t['chat_login_fehlermeldung_frames'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
-$t['login24'] = "<p><b>Der Login ist leider nicht möglich!</b></p>"
-	. "<p>Es sind im $chat bereits %online% Benutzer online. "
-	. "Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den $chat nicht mehr betreten.</p>"
-	. "%zusatztext%";
+$t['chat_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>"
+	. "Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
 
 $t['login_gast'] = "Gast";
 $t['login_login'] = "Login";
@@ -174,7 +172,7 @@ $t['registrierung_erfolgreich2'] = "Sie wurden nun im $chat registriert!<br>";
 $t['registrierung_erfolgreich3'] = "<b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b><br>";
 
 $t['registrierung_email_titel'] = "Ihre Registrierung im $chat";
-$t['registrierung_email_text'] = "Willkommen beim $chat!<br><br>Um nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
+$t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
 	. "<br><br>%link% <br><br>Sollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
 	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
@@ -204,7 +202,7 @@ $t['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leid
 $t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?aktion=registrierung\">Zurück zur Registrierung!</a><br>";
 
 $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
-$t['registrierung_email_angeben'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu für den $chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
+$t['registrierung_email_angeben'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['registrierung_email_versendet'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
 $t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort angegebenen Link!</p>";
@@ -216,19 +214,17 @@ $t['registrierung_absenden'] = "Absenden";
 $t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im $chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. Pro Mitglied ist nur ein Account zulässig.</li>"
-	. "<li>Im $chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
-	. "anstößige Äußerungen, Schreiben nur in Großbuchstaben (wird als Anschreien gewertet), Spam und nationalsozialistische Sprüche oder Benutzernamen. </li>"
+	. "<li>Im Chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
+	. "anstößige Äußerungen, Schreiben nur in Großbuchstaben (wird als Anschreien gewertet), Spam und nationalsozialistische Sprüche oder Benutzernamen.</li>"
 	. "<li>Das öffentliche Posten von Links im Allgemeinen und das Einfügen von URLs zum Zweck der Werbung, insbesondere für andere Internet-Angebote, ist nicht gestattet.</li>"
-	. "<li>Admins haben das Recht, Benutzer bei Verstößen gegen diese Regeln aus dem $chat zu werfen. Davon wird meist, außer in Extremfällen, erst nach einer Vorwarnung Gebrauch gemacht. </li>"
-	. "<li>Admins dürfen zu Administrationszwecken die Benutzerdaten einsehen und ggf. die IP-Adresse des Benutzers ermitteln, um die IP-Adresse oder den Provider zu sperren. </li>"
-	. "<li>Der Betreiber des $chat behält sich das Recht vor, bei Verstößen gegen die Regeln von seinem Hausrecht Gebrauch zu machen, den Benutzer aus dem $chat auszusperren und gegebenenfalls zur Anzeige "
-	. "zu bringen. </li>"
-	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im $chat. </li>"
-	. "<li>Mit dem Login oder der Registrierung in den $chat erklären Sie sich mit "
-	. "der Datenspeicherung gemäß unserer <a href=\"index.php?aktion=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
+	. "<li>Admins haben das Recht, Benutzer bei Verstößen gegen diese Regeln aus dem Chat zu werfen. Davon wird meist, außer in Extremfällen, erst nach einer Vorwarnung Gebrauch gemacht.</li>"
+	. "<li>Admins dürfen zu Administrationszwecken die Benutzerdaten einsehen und ggf. die IP-Adresse des Benutzers ermitteln, um die IP-Adresse oder den Provider zu sperren.</li>"
+	. "<li>Der Betreiber behält sich das Recht vor, bei Verstößen gegen die Regeln von seinem Hausrecht Gebrauch zu machen, den Benutzer aus dem Chat auszusperren und gegebenenfalls zur Anzeige zu bringen.</li>"
+	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im Chat.</li>"
+	. "<li>Mit dem Login oder der Registrierung erklären Sie sich mit der Datenspeicherung gemäß unserer <a href=\"index.php?aktion=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
 $t['login_passwort_schritt1'] = "<b>Neues Passwort, 1. Schritt (von 3):</b> Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "

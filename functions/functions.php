@@ -1614,4 +1614,24 @@ function hole_benutzer_einstellungen($u_id, $ort) {
 	
 	return $benutzerdaten;
 }
+
+function email_senden($empfaenger, $betreff, $inhalt) {
+	global $smtp_on, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS;
+	
+	$absender = $smtp_sender;
+	$charset = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
+	$charset .= "Mime-Version: 1.0\r\n";
+	$charset .= "Content-type: text/plain; charset=utf-8";
+	
+	// E-Mail versenden
+	if($smtp_on) {
+		$rueckmeldung = mailsmtp($empfaenger, $betreff, $inhalt . $charset, $absender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
+	} else {
+		// Der PHP-Vessand benötigt \n und nicht <br>
+		$inhalt = str_replace("<br>", "\n", $inhalt);
+		$rueckmeldung = mail($empfaenger, $betreff, $inhalt, "From: $absender ($chat)" . $charset);
+	}
+	
+	return $rueckmeldung;
+}
 ?>

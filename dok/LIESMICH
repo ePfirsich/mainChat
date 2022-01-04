@@ -95,7 +95,6 @@ $dbase		Die verwendete Datenbank. Beispiel: "mainchat"
 $mysqlhost	Name des Datenbankservers. Hier den Rechnernamen eintragen.
                 Bei lokaler Datenbank genügt "localhost".
 $mysqluser	Name des Datenbankusers.
-$webmaster	E-Mail Adresse der zuständigen Person. Bitte eintragen.
 
 
 Definition der Farben:

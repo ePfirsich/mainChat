@@ -74,8 +74,8 @@ function step_1($chat) {
 				<td colspan="2" style="font-size:15px;text-align:center;color:#ffffff;"><span style="font-weight:bold;">Globale Einstellungen</span></td>
 			</tr>
 			<tr>
-				<td> E-Mail Webmaster:</td>
-				<td><input type="text" name="chat_webmaster" size="40" value="<?php echo checkFormularInputFeld('',$chat["webmaster"]) ?>">*</td>
+				<td> E-Mail zum Versenden von allen E-Mails:</td>
+				<td><input type="text" name="chat_email_absender" size="40" value="<?php echo checkFormularInputFeld('',$chat["email_absender"]) ?>">*</td>
 			</tr>
 			<tr style="background-color:#85D4FF;">
 				<td> E-Mail Kontakt:</td>

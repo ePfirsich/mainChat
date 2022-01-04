@@ -15,7 +15,7 @@ $chat["dbase"] = filter_input(INPUT_POST, 'chat_dbase', FILTER_SANITIZE_STRING);
 $chat["user"] = filter_input(INPUT_POST, 'chat_user', FILTER_SANITIZE_STRING);
 $chat["pass"] = filter_input(INPUT_POST, 'chat_pass', FILTER_SANITIZE_STRING);
 $chat["pass2"] = filter_input(INPUT_POST, 'chat_pass2', FILTER_SANITIZE_STRING);
-$chat["webmaster"] = filter_input(INPUT_POST, 'chat_webmaster', FILTER_SANITIZE_STRING);
+$chat["email_absender"] = filter_input(INPUT_POST, 'chat_email_absender', FILTER_SANITIZE_STRING);
 $chat["kontakt"] = filter_input(INPUT_POST, 'chat_kontakt', FILTER_SANITIZE_STRING);
 $chat["chatname"] = filter_input(INPUT_POST, 'chat_chatname', FILTER_SANITIZE_STRING);
 $chat["chaturl"] = filter_input(INPUT_POST, 'chat_chaturl', FILTER_SANITIZE_STRING);
@@ -57,7 +57,7 @@ switch ($aktion) {
 			if ($chat["lobby"] == "" || $chat["dbase"] == ""
 				|| $chat["host"] == "" || $chat["user"] == ""
 				|| $chat["pass"] != $chat["pass2"]
-				|| ($chat["webmaster"] == "" || (!preg_match($regexemail, $chat["webmaster"])))
+				|| ($chat["email_absender"] == "" || (!preg_match($regexemail, $chat["email_absender"])))
 				|| ($chat["kontakt"] == "" || (!preg_match($regexemail, $chat["kontakt"])))
 				|| $chat["chatname"] == ""|| $chat["chaturl"] == "") {
 				?>
@@ -81,10 +81,10 @@ switch ($aktion) {
 				if ($chat["pass"] != $chat["pass2"]) {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Das Passwort stimmt nicht überein!</td></tr>\n";
 				}
-				if ($chat["webmaster"] == "") {
+				if ($chat["email_absender"] == "") {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Bitte tragen Sie einen Webmaster ein!</td></tr>\n";
 				}
-				if ((!preg_match($regexemail, $chat["webmaster"])) && ($chat["webmaster"] != "")) {
+				if ((!preg_match($regexemail, $chat["email_absender"])) && ($chat["email_absender"] != "")) {
 					echo "<tr style=\"color:#ff0000; font-weigth:bold;\"><td>Ungültige Email-Adresse Webmaster!</td></tr>\n";
 				}
 				if ($chat["kontakt"] == "") {
