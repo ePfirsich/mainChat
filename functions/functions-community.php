@@ -1,6 +1,5 @@
 <?php
-function suche_vaterposting($poid)
-{
+function suche_vaterposting($poid) {
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
 	$query = "SELECT po_vater_id FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
@@ -8,8 +7,7 @@ function suche_vaterposting($poid)
 	return ($vp);
 }
 
-function suche_threadord($poid)
-{
+function suche_threadord($poid) {
 	// Diese Funktion sucht die Themenorder des Vaterpostings
 	$query = "SELECT po_threadorder FROM posting WHERE po_id = '" . intval($poid) . "'";
 	$result = mysqli_query($mysqli_link, $query);
@@ -24,7 +22,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	
 	global $system_farbe, $mysqli_link, $t, $chat;
 	
-	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
+	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
 	$result = mysqli_query($mysqli_link, $query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -167,9 +165,8 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			$row = mysqli_fetch_object($result);
 			$u_id = $row->o_user;
 			
-			// es können maximal die punkte abgezogen werden, die man auch hat
-			$result2 = mysqli_query($mysqli_link, 
-				"SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
+			// Es können maximal die punkte abgezogen werden, die man auch hat
+			$result2 = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
 			if ($result2 && mysqli_num_rows($result2) == 1) {
 				$row2 = mysqli_fetch_object($result2);
 				$p_gesamt = $row2->u_punkte_gesamt + $row->o_punkte;
@@ -187,7 +184,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 				}
 			}
 			
-			$query = "UPDATE user SET " . "u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, " . "u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
+			$query = "UPDATE user SET u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
 			$result2 = mysqli_query($mysqli_link, $query);
 			$result = mysqli_query($mysqli_link, "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id));
 		}
@@ -195,8 +192,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 		// Gruppe neu berechnen
 		unset($f);
 		$f['u_punkte_gruppe'] = 0;
-		$result = mysqli_query($mysqli_link, 
-			"SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
+		$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
 		if ($result && mysqli_num_rows($result) == 1) {
 			$u_punkte_gesamt = mysqli_result($result, 0, 0);
 			foreach ($punkte_gruppe as $key => $value) {
@@ -225,15 +221,14 @@ function punkte_offline($anzahl, $u_id) {
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
-	$query = "LOCK	 TABLES online WRITE, user WRITE";
+	$query = "LOCK TABLES online WRITE, user WRITE";
 	$result = mysqli_query($mysqli_link, $query);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	if ($u_id && ($anzahl > 0 || $anzahl < 0)) {
 		
 		// es können maximal die punkte abgezogen werden, die man auch hat
-		$result2 = mysqli_query($mysqli_link, 
-			"SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
+		$result2 = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
 		if ($result2 && mysqli_num_rows($result2) == 1) {
 			$row2 = mysqli_fetch_object($result2);
 			$p_gesamt = $row2->u_punkte_gesamt + $anzahl;
@@ -248,9 +243,7 @@ function punkte_offline($anzahl, $u_id) {
 				$p_monat = 0;
 		}
 		
-		$query = "update user set " . "u_login=u_login, "
-			. "u_punkte_monat=$p_monat, " . "u_punkte_jahr=$p_jahr, "
-			. "u_punkte_gesamt=$p_gesamt " . "where u_id=$u_id";
+		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
 		$result = mysqli_query($mysqli_link, $query);
 		
 	}
@@ -258,8 +251,7 @@ function punkte_offline($anzahl, $u_id) {
 	// Gruppe neu berechnen
 	unset($f);
 	$f['u_punkte_gruppe'] = 0;
-	$result = mysqli_query($mysqli_link, 
-		"SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id");
+	$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id");
 	if ($result && mysqli_num_rows($result) == 1) {
 		$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
 		$u_nick = mysqli_result($result, 0, "u_nick");
@@ -312,10 +304,10 @@ function aktion(
 	
 	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
 	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
-	$query = "SELECT a_was,a_wie FROM aktion " . "WHERE a_user=$an_u_id "
-		. "AND a_wann='$typ' ";
-	if ($suche_was != "")
+	$query = "SELECT a_was, a_wie FROM aktion WHERE a_user=$an_u_id AND a_wann='$typ' ";
+	if ($suche_was != "") {
 		$query .= "AND a_was='$suche_was'";
+	}
 	$result = mysqli_query($mysqli_link, $query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		while ($row = mysqli_fetch_object($result)) {
@@ -603,8 +595,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 			$f['m_betreff'] = $text;
 			if (strlen($f['m_betreff']) > 5) {
 				$f['m_betreff'] = substr($f['m_betreff'], 0, 30);
-				$f['m_betreff'] = substr($f['m_betreff'], 0,
-					strrpos($f['m_betreff'], " ") + 1);
+				$f['m_betreff'] = substr($f['m_betreff'], 0, strrpos($f['m_betreff'], " ") + 1);
 			}
 		}
 		
@@ -696,17 +687,13 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 			
 			// Benutzer aus DB lesen
 			if ($row->f_userid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-					. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
+				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-					. "from user, online " . "WHERE o_user=u_id "
-					. "AND u_id=$row->f_userid ";
+					. "FROM user, online WHERE o_user=u_id AND u_id=$row->f_userid ";
 			} elseif ($row->f_freundid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-					. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
+				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-					. "from user,online " . "WHERE o_user=u_id "
-					. "AND u_id=$row->f_freundid ";
+					. "FROM user,online WHERE o_user=u_id AND u_id=$row->f_freundid ";
 			}
 			// system_msg("",0,$u_id,$system_farbe,"DEBUG: $nachricht, $query");
 			$result2 = mysqli_query($mysqli_link, $query);
@@ -718,18 +705,17 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 					
 					case "OLM":
 					// Onlinenachricht an u_id versenden
-						if ($i > 0)
+						if ($i > 0) {
 							$txt .= "<br>";
+						}
 						
-						$q2 = "SELECT r_name,o_id,o_who,"
-							. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
-							. "FROM online left join raum on r_id=o_raum WHERE o_user=$row2->u_id ";
+						$q2 = "SELECT r_name,o_id,o_who, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
+							. "FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$row2->u_id ";
 						$r2 = mysqli_query($mysqli_link, $q2);
 						if ($r2 && mysqli_num_rows($r2) > 0) {
 							$r = mysqli_fetch_object($r2);
 							if ($r->o_who == 0) {
-								$raum = $t['chat_msg67'] . " <b>" . $r->r_name
-									. "</b>";
+								$raum = $t['chat_msg67'] . " <b>" . $r->r_name . "</b>";
 							} else {
 								$raum = "<b>[" . $whotext[$r->o_who] . "]</b>";
 							}
@@ -737,36 +723,38 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 						mysqli_free_result($r2);
 						
 						$weiterer = $t['chat_msg90'];
-						$weiterer = str_replace("%u_nick%",
-							zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online, "", FALSE), $weiterer);
+						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online, "", FALSE), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
 						$txt .= $weiterer;
 						
-						if ($row->f_text)
+						if ($row->f_text) {
 							$txt .= " (" . $row->f_text . ")";
+						}
 						break;
 					
 					case "Chat-Mail":
 					// Chat-Mail an u_id versenden
-						if ($i > 0)
+						if ($i > 0) {
 							$txt .= "\n\n";
+						}
 						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
-						$txt = str_replace("%online%",
-							gmdate("H:i:s", $row2->online), $txt);
-						if ($row->f_text)
+						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
+						if ($row->f_text) {
 							$txt .= " (" . $row->f_text . ")";
+						}
 						break;
 					
 					case "E-Mail":
 					// E-Mail an u_id versenden
-						if ($i > 0)
+						if ($i > 0) {
 							$txt .= "\n\n";
+						}
 						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
-						$txt = str_replace("%online%",
-							gmdate("H:i:s", $row2->online), $txt);
-						if ($row->f_text)
+						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
+						if ($row->f_text) {
 							$txt .= " (" . $row->f_text . ")";
+						}
 						break;
 				}
 				$i++;
@@ -783,9 +771,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 				
 				case "Chat-Mail":
 					$betreff = str_replace("%anzahl%", $i, $t['mail6']);
-					mail_sende(0, $u_id,
-						str_replace("%user%", $u_nick, $t['mail5']) . $txt,
-						$betreff);
+					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $t['mail5']) . $txt, $betreff);
 					break;
 				
 				case "E-Mail":
@@ -819,43 +805,16 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
 	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
-	
-	//	$sql = "select a.po_id as po_id_own, a.po_th_id as po_th_id,
-	//		a.po_titel as po_titel_own,
-	//		date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own,
-	//		th_name, fo_name,
-	//		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply,
-	//		b.po_titel as po_titel_reply,
-	//		date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
-	//		u_nick, 
-	//		c.po_threadorder as threadord, c.po_id as po_id_thread
-	//		from posting a, posting b, thema, forum, user 
-	//		left join posting c on c.po_threadorder REGEXP concat(\"(^|[^0-9])\",a.po_id,\"($|[^0-9])\") 
-	//		where a.po_u_id = $an_u_id 
-	//		and a.po_id = b.po_vater_id 
-	//		and a.po_th_id = th_id 
-	//		and fo_id=th_fo_id 
-	//		and b.po_u_id = u_id 
-	//		and a.po_u_id <> b.po_u_id";
-	
-	// Vereinfachter Query ohne Left join, ist nun viel viel schneller. Fehlende Felder werden über zwei weitere Queries gesucht.
 	$sql = "
-		select a.po_id as po_id_own, a.po_th_id as po_th_id,
-		a.po_titel as po_titel_own,
+		SELECT a.po_id as po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own,
 		date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own,
 		th_name, fo_name,
-		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply,
-		b.po_titel as po_titel_reply,
+		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply,
 		date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
 		u_nick, a.po_threadorder as threadord, a.po_id as po_id_thread
-		from posting a, posting b, thema, forum, user 
-		where a.po_u_id = " . intval($an_u_id) . "
-		and a.po_id = b.po_vater_id 
-		and a.po_th_id = th_id 
-		and fo_id=th_fo_id 
-		and b.po_u_id = u_id 
-		and a.po_u_id <> b.po_u_id
-		";
+		FROM posting a, posting b, thema, forum, user 
+		WHERE a.po_u_id = " . intval($an_u_id) . "
+		AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
 	
 	$query = mysqli_query($mysqli_link, $sql);
 	while ($postings = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -866,96 +825,55 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 				$u_gelesene[$postings['po_th_id']])) {
 				$poid = $postings['po_id_own'];
 				$postings['po_id_thread'] = suche_vaterposting($poid);
-				$postings['threadord'] = suche_threadord(
-					$postings['po_id_thread']);
+				$postings['threadord'] = suche_threadord( $postings['po_id_thread']);
 				
 				//Nachricht versenden
 				switch ($nachricht) {
 					case "OLM":
-						$text = str_replace("%po_titel%",
-							$postings['po_titel_own'],
-							$t['msg_new_posting_olm']);
-						$text = str_replace("%po_ts%",
-							$postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'],
-							$text);
-						$text = str_replace("%thema%", $postings['th_name'],
-							$text);
-						$text = str_replace("%user_from_nick%",
-							$postings['u_nick'], $text);
-						$text = str_replace("%po_titel_antwort%",
-							$postings['po_titel_reply'], $text);
-						$text = str_replace("%po_ts_antwort%",
-							$postings['po_date_reply'], $text);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_olm']);
+						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['fo_name'], $text);
+						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
+						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
+						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
 						
 						system_msg("", 0, $an_u_id, $system_farbe, $text);
 						break;
 					case "Chat-Mail":
 						if ($postings['threadord']) {
-							$baum = erzeuge_baum($postings['threadord'],
-								$postings['po_id_own'],
-								$postings['po_id_thread']);
+							$baum = erzeuge_baum($postings['threadord'], $postings['po_id_own'], $postings['po_id_thread']);
 						} else {
-							
-							$baum = $postings['po_titel_own'] . " -> "
-								. $postings['po_titel_reply'];
-							
+							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
 						}
-						$betreff = str_replace("%po_titel%",
-							$postings['po_titel_own'],
-							$t['betreff_new_posting']);
-						$text = str_replace("%po_titel%",
-							$postings['po_titel_own'],
-							$t['msg_new_posting_chatmail']);
-						$text = str_replace("%po_ts%",
-							$postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'],
-							$text);
-						$text = str_replace("%thema%", $postings['th_name'],
-							$text);
-						$text = str_replace("%user_from_nick%",
-							$postings['u_nick'], $text);
-						$text = str_replace("%po_titel_antwort%",
-							$postings['po_titel_reply'], $text);
-						$text = str_replace("%po_ts_antwort%",
-							$postings['po_date_reply'], $text);
+						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $t['betreff_new_posting']);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_chatmail']);
+						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['fo_name'], $text);
+						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
+						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
+						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
 						$text = str_replace("%baum%", $baum, $text);
-						mail_sende($postings['po_u_id_reply'], $an_u_id, $text,
-							$betreff);
+						mail_sende($postings['po_u_id_reply'], $an_u_id, $text, $betreff);
 						break;
 					case "E-Mail":
 						if ($postings['threadord']) {
-							$baum = erzeuge_baum($postings['threadord'],
-								$postings['po_id_own'],
-								$postings['po_id_thread']);
+							$baum = erzeuge_baum($postings['threadord'], $postings['po_id_own'], $postings['po_id_thread']);
 						} else {
-							
-							$baum = $postings['po_titel_own'] . " -> "
-								. $postings['po_titel_reply'];
-							
+							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
 						}
 						
-						$betreff = str_replace("%po_titel%",
-							$postings['po_titel_own'],
-							$t['betreff_new_posting']);
-						$text = str_replace("%po_titel%",
-							$postings['po_titel_own'],
-							$t['msg_new_posting_email']);
-						$text = str_replace("%po_ts%",
-							$postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'],
-							$text);
-						$text = str_replace("%thema%", $postings['th_name'],
-							$text);
-						$text = str_replace("%user_from_nick%",
-							$postings['u_nick'], $text);
-						$text = str_replace("%po_titel_antwort%",
-							$postings['po_titel_reply'], $text);
-						$text = str_replace("%po_ts_antwort%",
-							$postings['po_date_reply'], $text);
+						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $t['betreff_new_posting']);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_email']);
+						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['fo_name'], $text);
+						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
+						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
+						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
 						$text = str_replace("%baum%", $baum, $text);
-						email_versende($postings['po_u_id_reply'], $an_u_id,
-							$text, $betreff);
+						email_versende($postings['po_u_id_reply'], $an_u_id, $text, $betreff);
 						break;
 					
 				}
@@ -967,17 +885,13 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 	
 }
 
-function erzeuge_baum($threadorder, $po_id, $thread)
-{
-	
+function erzeuge_baum($threadorder, $po_id, $thread) {
 	global $mysqli_link;
 	
 	$in_stat = $thread . "," . $threadorder;
 	
 	//erst mal alle Beiträge des Themas holen
-	$sql = "select po_id, po_titel, po_vater_id
-				from posting
-				where po_id in ($in_stat)";
+	$sql = "SELECT po_id, po_titel, po_vater_id FROM posting WHERE po_id in ($in_stat)";
 	$query = mysqli_query($mysqli_link, $sql);
 	
 	//alle postings in feld einlesen
@@ -1013,7 +927,6 @@ function erzeuge_baum($threadorder, $po_id, $thread)
 
 function erzeuge_fuss($text) {
 	//generiert den Fuss eines Beitrags (Signatur)
-	
 	global $t, $u_id, $mysqli_link;
 	
 	$query = "SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
@@ -1131,8 +1044,7 @@ function word_wrap(
 	return $new_message;
 }
 
-function erzeuge_umbruch($text, $breite)
-{
+function erzeuge_umbruch($text, $breite) {
 	//bricht text nach breite zeichen um
 	
 	if (strstr($text, "&gt;&nbsp;")) {
@@ -1151,16 +1063,14 @@ function erzeuge_umbruch($text, $breite)
 		return implode("\n", $arr_text);
 	} else {
 		// neue version, verhaut die umbrüche nicht mehr
-		$text = word_wrap($text, $breite, $returns = "AUTO", $spacer = "",
-			$joiner = ' ');
+		$text = word_wrap($text, $breite, $returns = "AUTO", $spacer = "", $joiner = ' ');
 		return ($text);
 	}
 	
 }
 
 function erzeuge_quoting($text, $autor, $date) {
-	//fügt > vor die zeilen und fügt zu beginn xxx schrieb am xxx an
-	
+	// Fügt > vor die zeilen und fügt zu beginn xxx schrieb am xxx an
 	global $t;
 	
 	$kopf = $t['kopfzeile'];
@@ -1170,7 +1080,6 @@ function erzeuge_quoting($text, $autor, $date) {
 	$arr_zeilen = explode("\n", $text);
 	
 	while (list($k, $zeile) = @each($arr_zeilen)) {
-		
 		$arr_zeilen[$k] = "&gt;&nbsp;" . $zeile;
 	}
 	
