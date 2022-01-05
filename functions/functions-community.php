@@ -625,7 +625,7 @@ function email_versende(
 	$betreff,
 	$an_u_email = FALSE) {
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
-	// Falls an_u_email=TRUE wird E-Mail an u_adminemail (E-Mail Adresse)
+		// Falls an_u_email=TRUE wird E-Mail an u_email (E-Mail Adresse)
 	
 	global $t;
 	
@@ -637,7 +637,7 @@ function email_versende(
 	$betreff = strip_tags(strtr($betreff, $trans));
 	
 	// Absender ermitteln
-	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
+	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$abrow = mysqli_fetch_object($result);
@@ -645,18 +645,18 @@ function email_versende(
 	mysqli_free_result($result);
 	
 	// Empfänger ermitteln und E-Mail versenden
-	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
+	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		
 		// Empfänger
-		$adresse = $row->u_adminemail;
+		$adresse = $row->u_email;
 		
 		$inhalt = str_replace("%user%", $row->u_nick, $text);
 		$nachricht = str_replace("%name%", $abrow->u_nick, $t['mail4']);
 		$nachricht = str_replace("%nachricht%", $text, $nachricht);
-		$nachricht = str_replace("%email%", $abrow->u_adminemail, $nachricht);
+		$nachricht = str_replace("%email%", $abrow->u_email, $nachricht);
 		
 		// E-Mail versenden
 		email_senden($adresse, $betreff, $nachricht);

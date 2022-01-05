@@ -22,7 +22,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	$temp_u_id = $u_id;
 }
 
-$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
+$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
 	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id";
 
 	$benutzerdaten_result = sqlQuery($benutzerdaten_query);
@@ -53,7 +53,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && $formular == "gefuellt") {
 		$f['u_id'] = $temp_u_id;
 		$f['u_nick'] = htmlspecialchars(filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_STRING));
-		$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
+		$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 		$f['u_kommentar'] = htmlspecialchars(filter_input(INPUT_POST, 'u_kommentar', FILTER_SANITIZE_STRING));
 		$f['u_signatur'] = htmlspecialchars(filter_input(INPUT_POST, 'u_signatur', FILTER_SANITIZE_STRING));
 		$f['u_eintritt'] = htmlspecialchars(filter_input(INPUT_POST, 'u_eintritt'));
@@ -157,7 +157,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";
 			$text .= "<table style=\"width:100%;\">";
-			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_adminemail", $f['u_adminemail']);
+			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
 			$zaehler++;
 			
 			if ($zaehler % 2 != 0) {
@@ -203,7 +203,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			break;
 		
 		case "email_aendern_final":
-			$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
+			$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 			
 			$fehlermeldung = "";
 			
@@ -212,14 +212,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$aktion = "email_aendern";
 			}
 			
-			if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
-				//if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,10})", $f['u_adminemail'])) ) {
+			if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
 				$fehlermeldung .= $t['einstellungen_fehler_email1'];
 				$aktion = "email_aendern";
 			}
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-			$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+			$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
 			$result = sqlQuery($query);
 			$num = mysqli_num_rows($result);
 			if ($num > 1) {
@@ -232,7 +231,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$domaingesperrt = array();
 			}
 			for ($i = 0; $i < count($domaingesperrt); $i++) {
-				$teststring = strtolower($f['u_adminemail']);
+				$teststring = strtolower($f['u_email']);
 				if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
 					$fehlermeldung .= $t['einstellungen_fehler_email1'];
 					$aktion = "email_aendern";
@@ -249,14 +248,14 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Länge des Feldes und Format Mailadresse werden weiter oben geprüft
 				$p['u_id'] = $f['u_id'];
-				$p['u_adminemail'] = $f['u_adminemail'];
+				$p['u_email'] = $f['u_email'];
 				$pwdneu = genpassword(8);
 				$p['u_passwort'] = $pwdneu;
 				
 				$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
 				
 				// E-Mail versenden
-				$email_ok = email_senden($f['u_adminemail'], $t['chat_msg112'], $inhalt);
+				$email_ok = email_senden($f['u_email'], $t['chat_msg112'], $inhalt);
 				
 				if($email_ok) {
 					// Neues Passwort in der Datenbank speichern
@@ -323,7 +322,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		
 		case "editieren":
 			if (!$admin) {
-				unset($f['u_adminemail']);
+				unset($f['u_email']);
 			}
 			$fehlermeldung = "";
 			
@@ -343,22 +342,22 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Admin E-Mail kontrollieren
 				if ($admin) {
-					if (isset($f['u_adminemail']) && (strlen($f['u_adminemail']) > 0) && (filter_var($f['u_adminemail'], FILTER_VALIDATE_EMAIL) == false) ) {
+					if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
 						$fehlermeldung .= $t['einstellungen_fehler_email1'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_adminemail'] = $benutzerdaten_row->u_adminemail;
+						$f['u_email'] = $benutzerdaten_row->u_email;
 					}
 					
 					// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-					$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+					$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
 					$result = sqlQuery($query);
 					$num = mysqli_num_rows($result);
 					if ($num > 1) {
 						$fehlermeldung .= $t['einstellungen_fehler_email2'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_adminemail'] = $benutzerdaten_row->u_adminemail;
+						$f['u_email'] = $benutzerdaten_row->u_email;
 					}
 				}
 				
@@ -477,14 +476,14 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						if ( (isset($f['u_passwort']) && $f['u_passwort'] != "") ||
 							(isset($f['u_passwort2']) && $f['u_passwort2'] != "") ||
 							(isset($f['u_level']) && $f['u_level'] != "") ||
-							(isset($f['u_adminemail']) && $f['u_adminemail'] != "") ) {
+							(isset($f['u_email']) && $f['u_email'] != "") ) {
 							$fehlermeldung .= $t['einstellungen_fehler_level3'];
 						
 							// Mit korrekten Wert überschreiben
 							$f['u_level'] = $benutzerdaten_row->u_level;
 							unset($f['u_passwort']);
 							unset($f['u_passwort2']);
-							$f['u_adminemail'] = $benutzerdaten_row->u_adminemail;
+							$f['u_email'] = $benutzerdaten_row->u_email;
 						}
 					}
 				}
@@ -695,18 +694,18 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				}
 			} else if (isset($eingabe) && $eingabe == $t['chat_msg110'] && $admin) {
 				// Admin E-Mail-Adresse aus DB holen
-				$query = "SELECT `u_adminemail`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
+				$query = "SELECT `u_email`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
 				$result = sqlQuery($query);
 				
 				$x = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				$f['u_adminemail'] = $x['u_adminemail'];
+				$f['u_email'] = $x['u_email'];
 				$pwdneu = genpassword(8);
 				$f['u_passwort'] = $pwdneu;
 				$uu_level = $x['u_level'];
 				
 				// Prüfung ob der Benutzer das überhaupt darf...
 				
-				if ($f['u_adminemail'] == "") {
+				if ($f['u_email'] == "") {
 					$fehlermeldung .= $t['einstellungen_fehler_email_leer'];
 					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 					$fehlermeldung = "";
@@ -714,7 +713,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
 					
 					// E-Mail versenden
-					$ok = email_senden($f['u_adminemail'], $t['chat_msg112'], $inhalt);
+					$ok = email_senden($f['u_email'], $t['chat_msg112'], $inhalt);
 					
 					if($ok) {
 						$erfolgsmeldung .= $t['chat_msg111'];

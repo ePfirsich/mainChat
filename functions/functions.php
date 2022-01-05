@@ -51,7 +51,7 @@ $valid_fields = array(
 	'sperre' => array('s_id', 's_user', 's_raum', 's_zeit'),
 	'thema' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
 	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
-	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_adminemail', 'u_level', 'u_farbe', 
+	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_email', 'u_level', 'u_farbe', 
 		'u_away', 'u_ip_historie', 'u_smilies', 'u_agb', 
 		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
 		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_emails_akzeptieren',

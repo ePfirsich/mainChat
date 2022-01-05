@@ -13,7 +13,7 @@
 # u_cookie					Falls 1 -> Cookie erwünscht
 # u_auth					Normalerweise unbelegt, legt die Authentisierung (Cookies, HTTP-Auth) für den User fest
 # u_zeilen					Anzahl der Zeilen, die der User im Chat wünscht (optional)
-# u_adminemail				E-Mail Adresse für Administatrion, muss angegeben werden
+# u_email					E-Mail Adresse für Administatrion, muss angegeben werden
 # u_ip_historie 			Liste der IP-Adressen der letzten Logins
 # u_away					away-Text des Benutzers
 # u_smilies					Benutzer will Smilie-Grafiken sehen
@@ -414,7 +414,7 @@ CREATE TABLE user (
 	`u_auth` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_nick` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_adminemail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_passwortanforderung` timestamp NULL DEFAULT NULL,
 	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
@@ -450,7 +450,7 @@ CREATE TABLE user (
 	PRIMARY KEY	(u_id),
 	UNIQUE KEY u_nick (u_nick),
 	KEY u_level (u_level),
-	KEY u_adminemail (u_adminemail),
+	KEY u_email (u_email),
 	FULLTEXT KEY u_ip_historie (u_ip_historie)
 ) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

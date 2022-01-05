@@ -15,7 +15,7 @@ $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 $f['u_nick'] = htmlspecialchars(filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_STRING));
 $f['u_passwort'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort', FILTER_SANITIZE_STRING));
 $f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
-$f['u_adminemail'] = filter_input(INPUT_POST, 'u_adminemail', FILTER_VALIDATE_EMAIL);
+$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 
 $formular_anzeigen = true;
@@ -28,7 +28,7 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 	$formular_anzeigen = false;
 } else if ($email != "" && $hash == md5($email . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
-} else if ($f['u_adminemail'] != "" && $f['hash'] == md5($f['u_adminemail'] . "+" . date("Y-m-d"))) {
+} else if ($f['u_email'] != "" && $f['hash'] == md5($f['u_email'] . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
 } else {
 	// Alle weiteren Fälle werden abgelehnt
@@ -40,7 +40,7 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 // Eingaben prüfen
 if( isset($formular) && $formular == "abgesendet") {
 	// Sind der Hash und die E-Mail gesetzt ?
-	if ( !isset($f['hash']) || $f['hash'] == "" || !isset($f['u_adminemail'])|| $f['u_adminemail'] == "" ) {
+	if ( !isset($f['hash']) || $f['hash'] == "" || !isset($f['u_email'])|| $f['u_email'] == "" ) {
 		$fehlermeldung .= $t['registrierung_fehler_falscher_aufruf'];
 	}
 	
@@ -75,7 +75,7 @@ if( isset($formular) && $formular == "abgesendet") {
 			$f['u_passwort2'] = "";
 		}
 		
-		if (strlen($f['u_adminemail']) == 0 || !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_adminemail'])) {
+		if (strlen($f['u_email']) == 0 || !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_email'])) {
 			$fehlermeldung .= $t['registrierung_fehler_adminemail_falsch'];
 		}
 		
@@ -92,7 +92,7 @@ if( isset($formular) && $formular == "abgesendet") {
 	}
 	
 	// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. registrierung
-	$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
@@ -110,7 +110,7 @@ if( isset($formular) && $formular == "abgesendet") {
 	$f['u_nick'] = "";
 	$f['u_passwort'] = "";
 	$f['u_passwort2'] = "";
-	$f['u_adminemail'] = $email;
+	$f['u_email'] = $email;
 	$f['hash'] = $hash;
 }
 
@@ -124,7 +124,7 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	$text .= "<form action=\"index.php\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";
-	$text .= "<input type=\"hidden\" name=\"u_adminemail\" value=\"$f[u_adminemail]\">\n";
+	$text .= "<input type=\"hidden\" name=\"u_email\" value=\"$f[u_email]\">\n";
 	$text .= "<input type=\"hidden\" name=\"hash\" value=\"$f[hash]\">\n";
 	
 	$zaehler = 0;
@@ -188,7 +188,7 @@ if ($weiter_zu_login) {
 	$result = sqlUpdate("UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
 	
 	// E-Mail überprüfen
-	$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
+	$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
 	$result = sqlUpdate($query);
 }
 ?>

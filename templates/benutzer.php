@@ -81,7 +81,7 @@ switch ($aktion) {
 			} elseif (strpos($suchtext, "%") >= 0) {
 				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 				if ($admin) {
-					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_adminemail LIKE '$suchtext') ";
+					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
 				} else {
 					$where[0] = "WHERE (u_nick LIKE '$suchtext') ";
 				}
@@ -89,7 +89,7 @@ switch ($aktion) {
 				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
 				if ($admin) {
 					$where[1] = "WHERE u_nick = '$suchtext' ";
-					$where[3] = "WHERE u_adminemail = '$suchtext' ";
+					$where[3] = "WHERE u_email = '$suchtext' ";
 				} else {
 					$where[0] = "WHERE u_nick = '$suchtext' ";
 				}

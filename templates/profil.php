@@ -313,7 +313,7 @@ switch ($aktion) {
 					$text .= "<td $bgcolor><b>" . $userdaten . "</b></td>\n";
 					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_wohnort) . "</td>\n";
 					if($admin) {
-						$text .= "<td $bgcolor>" . htmlspecialchars($row->u_adminemail) . "</td>\n";
+						$text .= "<td $bgcolor>" . htmlspecialchars($row->u_email) . "</td>\n";
 					}
 					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_homepage) . "</td>\n";
 					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_geburt) . "</td>\n";

@@ -56,15 +56,15 @@ if($fehlermeldung == "" && isset($email)) {
 	
 	// wir prüfen ob Benutzer gesperrt ist
 	// entweder Benutzer = gesperrt
-	$query = "SELECT * FROM `user` WHERE `u_adminemail`='$email' AND `u_level`='Z'";
+	$query = "SELECT * FROM `user` WHERE `u_email`='$email' AND `u_level`='Z'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
 	}
 	
-	// oder user ist auf Blacklist
-	$query = "SELECT u_nick FROM blacklist LEFT JOIN user ON f_blacklistid=u_id WHERE user.u_adminemail ='$email'";
+	// oder Benutzer ist auf Blacklist
+	$query = "SELECT u_nick FROM blacklist LEFT JOIN user ON f_blacklistid=u_id WHERE user.u_email ='$email'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
@@ -85,7 +85,7 @@ if($fehlermeldung == "" && isset($email)) {
 	}
 	unset($teststring);
 	
-	$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '$email'";
+	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '$email'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden

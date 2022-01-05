@@ -65,10 +65,10 @@ function user_edit($f, $admin, $u_level) {
 	
 	// E-Mail (Nur Admins können sie direkt ändern)
 	if ($admin) {
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_adminemail", $f['u_adminemail']);
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
 		$zaehler++;
 	} else if ($u_level == 'U') {
-		$value = $f['u_adminemail'] . " (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
+		$value = $f['u_email'] . " (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
 		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", $value);
 		$zaehler++;
 	}

@@ -13,11 +13,11 @@ $email_gesendet = false;
 if (isset($email) && isset($nickname) && isset($hash)) {
 	$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 	$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_adminemail = '$email' LIMIT 1";
+	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_email, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_email = '$email' LIMIT 1";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_adminemail'] . $a['u_punkte_jahr']);
+		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_email'] . $a['u_punkte_jahr']);
 		if ($hash == $hash2) {
 			$richtig = true;
 			$u_id = $a['u_id'];
@@ -50,9 +50,9 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	
 	if ($fehlermeldung == "") {
 		if($nickname != "") {
-			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_adminemail`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$nickname' LIMIT 2";
+			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$nickname' LIMIT 2";
 		} else {
-			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_adminemail`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_adminemail` = '$email' LIMIT 2";
+			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = '$email' LIMIT 2";
 		}
 		
 		$result = sqlQuery($query);
@@ -68,16 +68,16 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				$hash = md5(
 					$a['u_id'] . $a['u_login'] . $a['u_nick']
 					. $a['u_passwort']
-					. $a['u_adminemail'] . $a['u_punkte_jahr']);
+					. $a['u_email'] . $a['u_punkte_jahr']);
 				
-				$email = urlencode($a['u_adminemail']);
+				$email = urlencode($a['u_email']);
 				$link = $chat_url . "/index.php?aktion=passwort_neu&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
 				
 				$inhalt = str_replace("%link%", $link, $t['pwneu9']);
 				$inhalt = str_replace("%hash%", $hash, $inhalt);
 				$inhalt = str_replace("%nickname%", $a['u_nick'], $inhalt);
 				$inhalt = str_replace("%email%", $email, $inhalt);
-				$email = urldecode($a['u_adminemail']);
+				$email = urldecode($a['u_email']);
 				
 				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
 				$queryPasswortanforderung = "UPDATE `user` SET `u_passwortanforderung` = NOW() WHERE `u_id` = $a[u_id]";
@@ -180,7 +180,7 @@ if (!$richtig) {
 	zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 	
 } else if ($richtig && $u_id) {
-	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
+	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		unset($f);
@@ -193,7 +193,7 @@ if (!$richtig) {
 		$text = str_replace("%nickname%", $a['u_nick'], $text);
 		
 		// E-Mail versenden
-		$ok = email_senden($a['u_adminemail'], $t['pwneu14'], $text);
+		$ok = email_senden($a['u_email'], $t['pwneu14'], $text);
 		
 		if ($ok) {
 			$text = $t['login_passwort_schritt3'];

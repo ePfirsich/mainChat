@@ -18,7 +18,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$uu_away = $row->u_away;
 				$uu_nick = htmlspecialchars($row->u_nick);
 				$uu_id = $row->u_id;
-				$uu_adminemail = htmlspecialchars($row->u_adminemail);
+				$uu_email = htmlspecialchars($row->u_email);
 				$uu_level = $row->u_level;
 				$uu_farbe = $row->u_farbe;
 				$letzter_login = $row->letzter_login;
@@ -197,7 +197,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				// E-Mail
 				if ($admin) {
-					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_adminemail\">$uu_adminemail</a>");
+					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_email\">$uu_email</a>");
 					$zaehler++;
 				}
 				
