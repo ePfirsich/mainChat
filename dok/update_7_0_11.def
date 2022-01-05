@@ -4,4 +4,4 @@
 
 ALTER TABLE `user` DROP `u_loginfehler`;
 ALTER TABLE `user` CHANGE `u_login` `u_login` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP; 
-ALTER TABLE `user` ADD `u_passwortanforderung` TIMESTAMP CURRENT_TIMESTAMP NULL DEFAULT NULL AFTER `u_adminemail`;
+ALTER TABLE `user` ADD `u_passwortanforderung` TIMESTAMP NULL DEFAULT NULL AFTER `u_adminemail`;
