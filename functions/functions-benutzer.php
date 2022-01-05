@@ -307,8 +307,8 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					
 					// Adminmenue
 					if ($admin) {
-						$mlnk[7] = "inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
-						$value .= "[<a href=\"$mlnk[7]\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+						$value .= "[<a href=\"inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+						$value .= "[<a href=\"inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 					}
 					
 					// Adminmenue

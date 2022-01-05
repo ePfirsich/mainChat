@@ -45,7 +45,7 @@ if ($admin && isset($kick_user_chat) && $user) {
 		
 		mysqli_free_result($result);
 	} else {
-		echo $t['sonst40'];
+		zeige_tabelle_zentriert($t['benutzer_fehlermeldung'], $t['benutzer_fehlermeldung_kicken']);
 	}
 }
 
