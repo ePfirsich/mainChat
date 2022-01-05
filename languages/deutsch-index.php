@@ -232,9 +232,13 @@ $t['login_passwort_schritt1'] = "<b>Neues Passwort, 1. Schritt (von 3):</b> Sie 
 	. "eine E-Mail mit einem Sicherheitscode, der Sie berechtigt ein neues Passwort anzufordern.<br>";
 $t['login_passwort_schritt2'] = "<b>Neues Passwort, 2. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde ein Sicherheitscode gesendet. Geben Sie bitte diesen Sicherheitscode in das untere Feld ein.<br>";
 $t['login_passwort_schritt3'] = "<b>Neues Passwort, 3. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde soeben ein neues Passwort gesendet.<br>";
+
 $t['login_fehlermeldung_passwort_versand'] = "Die E-Mail konnte nicht versandt werden. Das Passwort wurde nicht geändert!<br>";
-$t['pwneu5'] = "Es wurde keine gültige E-Mail-Adresse angegeben!";
-$t['pwneu6'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.";
+$t['login_fehlermeldung_passwort_vergessen_email'] = "Es wurde keine gültige E-Mail-Adresse angegeben!<br>";
+$t['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.<br>";
+$t['login_fehlermeldung_passwort_vergessen_email2'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
+$t['login_fehlermeldung_passwort_vergessen_email_benutzername'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.<br>";
+$t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde bereits vor kurzem für diesen Benutzer ein neues Passwort angefordert.<br>";
 $t['pwneu8'] = "Ihre Passwortanforderung für den $chat";
 $t['pwneu9'] = "Hallo %nickname%,<br>
 <br>
@@ -248,7 +252,7 @@ Sicherheitscode: %hash%<br>
 --<br>
 Ihr $chat-Team  ";
 $t['login_passwort_sicherheitscode'] = "Sicherheitscode";
-$t['pwneu11'] = "Der angegebene Sicherheitscode ist leider nicht richtig.";
+$t['fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.";
 $t['pwneu14'] = "Ihr neues Passwort für den $chat";
 $t['pwneu15'] = "Hallo %nickname%,<br>
 <br>
@@ -256,8 +260,6 @@ Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>
 <br>
 Viel Spaß noch im $chat<br>";
 $t['login_passwort_anfordern'] = "Neues Passwort anfordern";
-$t['pwneu17'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.";
-$t['pwneu18'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
 
 $t['impressum'] = "Name und Anschrift";
 

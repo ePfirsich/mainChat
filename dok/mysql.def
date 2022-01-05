@@ -410,11 +410,12 @@ CREATE TABLE top10cache (
 CREATE TABLE user (
 	`u_id` int(11) unsigned NOT NULL auto_increment,
 	`u_neu` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_login` timestamp NOT NULL,
+	`u_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	`u_auth` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_nick` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_adminemail` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_passwortanforderung` timestamp NULL DEFAULT NULL,
 	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,

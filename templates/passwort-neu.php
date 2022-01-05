@@ -4,10 +4,9 @@ if( !isset($aktion)) {
 	die;
 }
 
-unset($richtig);
 unset($u_id);
 
-$richtig = 0;
+$richtig = false;
 $fehlermeldung = "";
 $email_gesendet = false;
 
@@ -20,17 +19,16 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_adminemail'] . $a['u_punkte_jahr']);
 		if ($hash == $hash2) {
-			$richtig = 1;
+			$richtig = true;
 			$u_id = $a['u_id'];
 		} else {
-			$fehlermeldung .= $t['pwneu11'];
+			$fehlermeldung .= $t['fehlermeldung_passwort_vergessen_sicherheitscode'];
 		}
 	} else {
-		$fehlermeldung .= $t['pwneu11'];
+		$fehlermeldung .= $t['fehlermeldung_passwort_vergessen_sicherheitscode'];
 	}
 	mysqli_free_result($result);
-} else if (isset($email) || isset($nickname)) {
-	
+} else if ( isset($email) || isset($nickname) ) {
 	if( isset($nickname) && $nickname != "" ) {
 		$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 	} else {
@@ -40,50 +38,62 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	if( isset($email) && $email != "" ) {
 		$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
 		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email))) {
-			$fehlermeldung .= $t['pwneu5'] . '<br>';
+			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email'];
 		}
 	} else {
 		$email = "";
 	}
 	
 	if( $email == "" && $nickname == "" ) {
-		$fehlermeldung .= $t['pwneu17'] . '<br>';
+		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email_benutzername'];
 	}
 	
 	if ($fehlermeldung == "") {
 		if($nickname != "") {
-			$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_nick = '$nickname' LIMIT 2";
+			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_adminemail`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$nickname' LIMIT 2";
 		} else {
-			$query1 = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_adminemail = '$email' LIMIT 2";
+			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_adminemail`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_adminemail` = '$email' LIMIT 2";
 		}
-		//$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user " . "WHERE u_nick = '$nickname' OR u_adminemail = '$email' LIMIT 2";
+		
 		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			$hash = md5(
-				$a['u_id'] . $a['u_login'] . $a['u_nick']
-				. $a['u_passwort']
-				. $a['u_adminemail'] . $a['u_punkte_jahr']);
 			
-			$email = urlencode($a['u_adminemail']);
-			$link = $chat_url . "/index.php?aktion=passwort_neu&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
-			
-			$text2 = str_replace("%link%", $link, $t['pwneu9']);
-			$text2 = str_replace("%hash%", $hash, $text2);
-			$text2 = str_replace("%nickname%", $a['u_nick'], $text2);
-			$text2 = str_replace("%email%", $email, $text2);
-			$email = urldecode($a['u_adminemail']);
-			
-			// E-Mail versenden
-			email_senden($email, $t['pwneu8'], $text2);
-			
-			$email_gesendet = true;
-			unset($hash);
+			// Es darf nur alle 2 Stunden ein neues Passwort angefordert werden
+			// 2 Stunden = 7200 Sekunde
+			if( ( time()-intval($a['u_passwortanforderung']) ) < 7200 ) {
+				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'];
+				$richtig = false;
+			} else {
+				$hash = md5(
+					$a['u_id'] . $a['u_login'] . $a['u_nick']
+					. $a['u_passwort']
+					. $a['u_adminemail'] . $a['u_punkte_jahr']);
+				
+				$email = urlencode($a['u_adminemail']);
+				$link = $chat_url . "/index.php?aktion=passwort_neu&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
+				
+				$inhalt = str_replace("%link%", $link, $t['pwneu9']);
+				$inhalt = str_replace("%hash%", $hash, $inhalt);
+				$inhalt = str_replace("%nickname%", $a['u_nick'], $inhalt);
+				$inhalt = str_replace("%email%", $email, $inhalt);
+				$email = urldecode($a['u_adminemail']);
+				
+				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
+				$queryPasswortanforderung = "UPDATE `user` SET `u_passwortanforderung` = NOW() WHERE `u_id` = $a[u_id]";
+				mysqli_query($mysqli_link, $queryPasswortanforderung);
+				
+				// E-Mail versenden
+				email_senden($email, $t['pwneu8'], $inhalt);
+				
+				$email_gesendet = true;
+				unset($hash);
+			}
 		} else {
 			if($nickname != "") {
-				$fehlermeldung .= $t['pwneu6'] . '<br>';
+				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_benutzername'];
 			} else {
-				$fehlermeldung .= $t['pwneu18'] . '<br>';
+				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email2'];
 			}
 			unset($hash);
 		}
