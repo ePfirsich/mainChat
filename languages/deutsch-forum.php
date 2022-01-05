@@ -20,8 +20,8 @@ $t['kategorie_beitraege'] = "Beiträge";
 $t['kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
 $t['erfolgsmeldung'] = "Erfolgreich";
-$t['kategorie_geloescht'] = "Die Kategorie wurde %kategorie% komplett gelöscht!";
-$t['forum_geloescht'] = "Das Forum wurde %forum% komplett gelöscht!";
+$t['kategorie_geloescht'] = "Die Kategorie %kategorie% wurde komplett gelöscht!";
+$t['forum_geloescht'] = "Das Forum %forum% wurde komplett gelöscht!";
 
 // Forum
 $t['forum_zur_uebersicht'] = "Zur Forenübersicht";
