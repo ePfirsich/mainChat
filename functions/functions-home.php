@@ -2,7 +2,7 @@
 
 function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $userdata, $t, $level, $t;
+	global $id, $userdata, $t, $level, $t;
 	
 	$text = "";
 	
@@ -27,9 +27,8 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	$text .= "</tr>\n";
 	
 	// Benutzerdaten lesen
-	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, "
-		. "date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d.%m.%y %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		
@@ -300,7 +299,7 @@ function zeige_home($u_id, $force = FALSE) {
 	
 	// Benutzerdaten lesen
 	if ($query) {
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$u_chathomepage = $row->u_chathomepage;
@@ -312,7 +311,7 @@ function zeige_home($u_id, $force = FALSE) {
 	// Profil lesen
 	if ($u_id) {
 		$query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			$ok = TRUE;
@@ -323,7 +322,7 @@ function zeige_home($u_id, $force = FALSE) {
 		
 		// Bildinfos lesen und in Array speichern
 		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$u_id";
-		$result2 = mysqli_query($mysqli_link, $query);
+		$result2 = sqlQuery($query);
 		if ($result2 && mysqli_num_rows($result2) > 0) {
 			unset($bilder);
 			while ($row2 = mysqli_fetch_object($result2)) {

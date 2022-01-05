@@ -36,7 +36,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 if ($admin && isset($kick_user_chat) && $user) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
 	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		$row = mysqli_fetch_object($result);
@@ -167,7 +167,7 @@ switch ($aktion) {
 			}
 			$query .= $sortierung;
 			
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			$anzahl = mysqli_num_rows($result);
 			
 			if ($anzahl == 0) {
@@ -235,7 +235,8 @@ switch ($aktion) {
 	case "adminliste":
 		if ($adminlisteabrufbar && $u_level != "G") {
 			
-			$result = mysqli_query($mysqli_link, 'SELECT * FROM `user` WHERE `u_level` = "S" OR `u_level` = "C" ORDER BY `u_nick` ');
+			$query = 'SELECT * FROM `user` WHERE `u_level` = "S" OR `u_level` = "C" ORDER BY `u_nick` ';
+			$result = sqlQuery($query);
 			$anzahl = mysqli_num_rows($result);
 			
 			for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
@@ -285,7 +286,7 @@ switch ($aktion) {
 		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
 			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery " . "ORDER BY o_name";
 		
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		
 		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 			// Array mit Benutzerdaten und Infotexten aufbauen
@@ -339,12 +340,11 @@ switch ($aktion) {
 		if (!$rows && $schau_raum > 0) {
 			
 			$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
-			$result = mysqli_query($mysqli_link, $query);
-			if ($result && mysqli_num_rows($result) != 0)
+			$result = sqlQuery($query);
+			if ($result && mysqli_num_rows($result) != 0) {
 				$r_name = mysqli_result($result, 0, 0);
-			echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13'])
-				. "</p>\n";
-			
+			}
+			echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13']) . "</p>\n";
 		} elseif (!$rows && $schau_raum < 0) {
 			
 			echo "<p>"

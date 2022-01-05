@@ -37,7 +37,7 @@ $cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $fel
 
 // Prüfe ob der Benutzer existiert und die Benutzerseiten aktiviert ist
 $query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) == 1) {
 	/*
 	if (mysqli_result($result, 0, "u_chathomepage") != '1' && $feld != "avatar") {
@@ -79,7 +79,7 @@ if (file_exists($cachepfad)) {
 		
 		// Größen aus DB
 		$query = "SELECT b_width, b_height, b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$b_width = mysqli_result($result, 0, "b_width");
 			$b_heigth = mysqli_result($result, 0, "b_height");
@@ -117,7 +117,7 @@ if ($anzeigeauscache) {
 	// Bild aus der DB lesen
 	
 	$query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$b_mime = mysqli_result($result, 0, "b_mime");
 		$bild = mysqli_result($result, 0, "b_bild");

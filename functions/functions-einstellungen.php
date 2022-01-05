@@ -4,7 +4,6 @@ function user_edit($f, $admin, $u_level) {
 	
 	global $id, $level, $user_farbe, $t;
 	global $u_id, $punktefeatures, $eintritt_individuell;
-	global $mysqli_link;
 	
 	// Ausgabe des Benutzers
 	$zaehler = 0;
@@ -16,7 +15,7 @@ function user_edit($f, $admin, $u_level) {
 		
 		// Avatar lesen und in Array speichern
 		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . $f['u_id'];
-		$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+		$resultAvatar = sqlQuery($queryAvatar);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 			unset($bilder);
 			while ($row = mysqli_fetch_object($resultAvatar)) {
@@ -279,10 +278,9 @@ function zeige_aktionen($aktion) {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $mysqli_link, $u_nick, $u_id, $def_was, $t;
+	global $id, $u_nick, $u_id, $def_was, $t;
 	global $forumfeatures;
 	
-	$query = "SELECT * FROM aktion " . "WHERE a_user=$u_id ";
 	$button = $t['einstellungen_speichern'];
 	$box = "$t[aktion4] $u_nick $t[aktion5]";
 	$text = '';
@@ -293,7 +291,8 @@ function zeige_aktionen($aktion) {
 		. "<table style=\"width:100%;\">";
 		
 		// Einstellungen aus Datenbank lesen
-		$result = mysqli_query($mysqli_link, $query);
+		$query = "SELECT * FROM aktion WHERE a_user=$u_id ";
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
 			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				$was[$row['a_was']][$row['a_wann']] = $row;
@@ -307,7 +306,7 @@ function zeige_aktionen($aktion) {
 		
 		// Alle möglichen a_wann in Array lesen
 		$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) != 0) {
 			$txt = str_replace("'", "",
 				substr(mysqli_result($result, 0, "Type"), 5, -1));
@@ -317,7 +316,7 @@ function zeige_aktionen($aktion) {
 		
 		// Alle möglichen a_wie in Array lesen
 		$query = "SHOW COLUMNS FROM aktion like 'a_wie'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) != 0) {
 			$txt = str_replace("'", "",
 				substr(mysqli_result($result, 0, "Type"), 4, -1));
@@ -404,7 +403,7 @@ function eintrag_aktionen($aktion_datensatz) {
 	
 	// Alle möglichen a_wann in Array lesen
 	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = str_replace("'", "", substr(mysqli_result($result, 0, "Type"), 5, -1));
 		$a_wann = explode(",", $txt);
@@ -419,7 +418,7 @@ function eintrag_aktionen($aktion_datensatz) {
 				$query = "DELETE FROM aktion "
 				. "WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
 				. "AND a_wann='" . mysqli_real_escape_string($mysqli_link, $a_wann_eintrag) . "' " . "AND a_user='$u_id'";
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlUpdate($query);
 			}
 			
 			$f['a_wie'] = $temp[1];
@@ -479,7 +478,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			
 			if ($f['b_mime']) {
 				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 				if ($result && mysqli_num_rows($result) != 0) {
 					$b_id = mysqli_result($result, 0, 0);
 				}

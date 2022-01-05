@@ -31,7 +31,8 @@ if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, $benutzerdaten, TRUE, $
 	echo $t['chat_msg106'];
 }
 
-$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
+$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user;
+$pmu = sqlUpdate($query, true);
 reset_system("userliste");
 ?>
 </body>

@@ -19,7 +19,7 @@ if (!isset($passwort) || $passwort == "") {
 		// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
 		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
 			. "' AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-		$result = mysqli_query($mysqli_link, $query4711);
+			$result = sqlQuery($query4711);
 		if ($result) {
 			$rows = mysqli_num_rows($result);
 		}
@@ -63,7 +63,7 @@ if (!isset($passwort) || $passwort == "") {
 				while ($rows != 0 && $i < 100) {
 					$login = $gast_name[mt_rand(1, $anzahl)];
 					$query4711 = "SELECT u_id FROM user WHERE u_nick='$login' ";
-					$result = mysqli_query($mysqli_link, $query4711);
+					$result = sqlQuery($query4711);
 					$rows = mysqli_num_rows($result);
 					$i++;
 				}
@@ -75,7 +75,7 @@ if (!isset($passwort) || $passwort == "") {
 				while ($rows != 0 && $i < 100) {
 					$login = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
 					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, $login) . "'";
-					$result = mysqli_query($mysqli_link, $query4711);
+					$result = sqlQuery($query4711);
 					$rows = mysqli_num_rows($result);
 					$i++;
 				}
@@ -94,7 +94,7 @@ if (!isset($passwort) || $passwort == "") {
 		
 		// Prüfung, ob dieser Benutzer bereits existiert
 		$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
-		$result = mysqli_query($mysqli_link, $query4711);
+		$result = sqlQuery($query4711);
 		
 		if (mysqli_num_rows($result) == 0) {
 			// Account in DB schreiben
@@ -133,8 +133,8 @@ if(!$kein_gastlogin_ausblenden) {
 		
 		// Benutzer online bestimmen
 		if ($chat_max[$u_level] != 0) {
-			$query = "SELECT count(o_id) FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-			$result2 = mysqli_query($mysqli_link, $query);
+			$query = "SELECT COUNT(o_id) FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$result2 = sqlQuery($query);
 			if ($result2) {
 				$onlineanzahl = mysqli_result($result2, 0, 0);
 			}
@@ -267,7 +267,7 @@ if(!$kein_gastlogin_ausblenden) {
 			if(!$rest_ausblenden) {
 				// Benutzer in Blacklist überprüfen
 				$query2 = "SELECT f_text FROM blacklist WHERE f_blacklistid=$u_id";
-				$result2 = mysqli_query($mysqli_link, $query2);
+				$result2 = sqlQuery($query2);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
 					$infotext = "Blacklist: " . mysqli_result($result2, 0, 0);
 					$warnung = true;
@@ -282,7 +282,7 @@ if(!$kein_gastlogin_ausblenden) {
 						$raumname = " (" . $whotext[2] . ")";
 					} else {
 						$query2 = "SELECT r_name from raum where r_id=" . intval($eintritt);
-						$result2 = mysqli_query($mysqli_link, $query2);
+						$result2 = sqlQuery($query2);
 						if ($result2 AND mysqli_num_rows($result2) > 0) {
 							$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
 						} else {
@@ -292,7 +292,7 @@ if(!$kein_gastlogin_ausblenden) {
 					}
 					
 					$query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
-					$result2 = mysqli_query($mysqli_link, $query2);
+					$result2 = sqlQuery($query2);
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
 						$txt = str_replace("%ip_adr%", $ip_adr, $t['login_warnung']);
 						$txt = str_replace("%ip_name%", $ip_name, $txt);

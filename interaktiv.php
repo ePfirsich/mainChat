@@ -48,8 +48,7 @@ if (isset($r_id) && $o_raum != $r_id) {
 
 // Daten für Raum lesen
 $query = "SELECT raum.* FROM raum,online WHERE r_id=o_raum AND o_id=$o_id ORDER BY o_aktiv DESC";
-
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 
 if ($result && mysqli_num_rows($result) != 0) {
 	$row = mysqli_fetch_object($result);
@@ -68,7 +67,7 @@ $text .= "<table style=\"height:100%;\">\n";
 
 // Anzahl der Benutzer insgesamt feststellen
 $query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) != 0) {
 	$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
 	mysqli_free_result($result);
@@ -76,7 +75,7 @@ if ($result && mysqli_num_rows($result) != 0) {
 
 // Anzahl der Benutzer in diesem Raum feststellen
 $query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE o_raum=$o_raum AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) != 0) {
 	$anzahl_raum = mysqli_result($result, 0, "anzahl");
 	mysqli_free_result($result);
@@ -97,7 +96,7 @@ $text .= "<td class=\"smaller\">\n";
 
 // Special: Bei nur einem Raum keine Auswahl
 $query = "SELECT COUNT(*) AS zahl FROM raum";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 $a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $zahl = $a['zahl'];
 
@@ -121,7 +120,7 @@ $text .= "</tr>\n";
 $text .= "</table>\n";
 $text .= "</form>\n";
 
-zeige_tabelle_zentriert_ohne_kopfzeile($text, true);
+zeige_tabelle_zentriert("", $text, true, false);
 ?>
 </body>
 </html>

@@ -59,7 +59,7 @@ if ( time() > ($o_aktion + 300) ) {
 
 // Anzahl der ungelesenen Nachrichten ermitteln
 $query_nachrichten = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
-$result_nachrichten = mysqli_query($mysqli_link, $query_nachrichten);
+$result_nachrichten = sqlQuery($query_nachrichten);
 
 if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {
 	$neue_nachrichten = " <span class=\"nachrichten_neu\">(".mysqli_num_rows($result_nachrichten).")</span>";
@@ -111,7 +111,7 @@ if($wo_online == "forum") {
 	
 	// Anzahl der Benutzer insgesamt feststellen
 	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
 		mysqli_free_result($result);
@@ -129,7 +129,7 @@ if($wo_online == "forum") {
 	}
 	
 	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	if (mysqli_num_rows($query) > 0) {
 		$lobby_id = mysqli_result($query, 0, "r_id");
 	} else {

@@ -2,7 +2,7 @@
 function suche_vaterposting($poid) {
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
 	$query = "SELECT po_vater_id FROM posting WHERE po_id = '" . intval($poid) . "'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	list($vp) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($vp);
 }
@@ -10,7 +10,7 @@ function suche_vaterposting($poid) {
 function suche_threadord($poid) {
 	// Diese Funktion sucht die Themenorder des Vaterpostings
 	$query = "SELECT po_threadorder FROM posting WHERE po_id = '" . intval($poid) . "'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	list($to) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($to);
 }
@@ -20,10 +20,10 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $mysqli_link, $t, $chat;
+	global $system_farbe, $t, $chat;
 	
 	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		
@@ -72,10 +72,10 @@ function profil_neu($u_id, $u_nick, $id) {
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Benutzers
 	
-	global $system_farbe, $mysqli_link, $t;
+	global $system_farbe, $t;
 	
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$ur1 = "inhalt.php?seite=profil&id=$id&aktion=neu";
 		$url = "href=\"$ur1\" ";
@@ -96,7 +96,7 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	
 	$text = "";
 	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
 		$felder = explode(",", $txt);
@@ -122,7 +122,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
-	global $t, $o_punkte, $mysqli_link, $punkte_gruppe;
+	global $t, $o_punkte, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
@@ -132,8 +132,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			$where = "WHERE o_id=$o_id";
 		}
 		$query = "UPDATE online SET o_punkte=o_punkte+" . intval($anzahl) . " " . $where;
-		
-		mysqli_query($mysqli_link, $query);
+		sqlUpdate($query);
 	}
 	
 	// Meldung an Benutzer ausgeben
@@ -156,17 +155,18 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	if ($sofort && $o_id) {
 		// Tabellen online+user exklusiv locken
 		$query = "LOCK TABLES online WRITE, user WRITE";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlUpdate($query, true);
 		
 		// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-		$result = mysqli_query($mysqli_link, 
-			"SELECT o_punkte,o_user FROM online WHERE o_id=" . intval($o_id));
+		$query = "SELECT o_punkte,o_user FROM online WHERE o_id=" . intval($o_id);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$u_id = $row->o_user;
 			
 			// Es können maximal die punkte abgezogen werden, die man auch hat
-			$result2 = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
+			$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id";
+			$result2 = sqlQuery($query);
 			if ($result2 && mysqli_num_rows($result2) == 1) {
 				$row2 = mysqli_fetch_object($result2);
 				$p_gesamt = $row2->u_punkte_gesamt + $row->o_punkte;
@@ -185,14 +185,16 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			}
 			
 			$query = "UPDATE user SET u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
-			$result2 = mysqli_query($mysqli_link, $query);
-			$result = mysqli_query($mysqli_link, "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id));
+			$result2 = sqlUpdate($query);
+			$query = "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id);
+			$result = sqlUpdate($query);
 		}
 		
 		// Gruppe neu berechnen
 		unset($f);
 		$f['u_punkte_gruppe'] = 0;
-		$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
+		$query = "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id";
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$u_punkte_gesamt = mysqli_result($result, 0, 0);
 			foreach ($punkte_gruppe as $key => $value) {
@@ -208,7 +210,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 		
 		// Lock freigeben
 		$query = "UNLOCK TABLES";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlUpdate($query, true);
 	}
 }
 
@@ -217,18 +219,19 @@ function punkte_offline($anzahl, $u_id) {
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
-	global $t, $mysqli_link, $punkte_gruppe;
+	global $t, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlUpdate($query, true);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	if ($u_id && ($anzahl > 0 || $anzahl < 0)) {
 		
 		// es können maximal die punkte abgezogen werden, die man auch hat
-		$result2 = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id");
+		$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id";
+		$result2 = sqlQuery($query);
 		if ($result2 && mysqli_num_rows($result2) == 1) {
 			$row2 = mysqli_fetch_object($result2);
 			$p_gesamt = $row2->u_punkte_gesamt + $anzahl;
@@ -244,14 +247,15 @@ function punkte_offline($anzahl, $u_id) {
 		}
 		
 		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlUpdate($query);
 		
 	}
 	
 	// Gruppe neu berechnen
 	unset($f);
 	$f['u_punkte_gruppe'] = 0;
-	$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id");
+	$query = "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
 		$u_nick = mysqli_result($result, 0, "u_nick");
@@ -267,7 +271,7 @@ function punkte_offline($anzahl, $u_id) {
 	
 	// Lock freigeben
 	$query = "UNLOCK TABLES";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlUpdate($query, true);
 	
 	// Meldung an Benutzer ausgeben
 	if ($anzahl > 0) {
@@ -300,7 +304,7 @@ function aktion(
 	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
-	global $t, $mysqli_link;
+	global $t;
 	
 	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
 	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
@@ -308,7 +312,7 @@ function aktion(
 	if ($suche_was != "") {
 		$query .= "AND a_was='$suche_was'";
 	}
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		while ($row = mysqli_fetch_object($result)) {
 			$wie = explode(",", $row->a_wie);
@@ -352,9 +356,8 @@ function aktion(
 				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
 			
 			// Merken, wann zuletzt die Aktionen ausgeführt wurden
-			$query = "UPDATE online SET o_aktion=" . time()
-				. " where o_user=$an_u_id";
-			$result = mysqli_query($mysqli_link, $query);
+			$query = "UPDATE online SET o_aktion=" . time() . " WHERE o_user=$an_u_id";
+			$result = sqlUpdate($query);
 			
 			break;
 		
@@ -543,14 +546,14 @@ function aktion_sende(
 
 function mail_sende($von, $an, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von an ID $an mit Text $text
-	global $u_nick, $mysqli_link, $t, $u_id;
+	global $u_nick, $t, $u_id;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
 	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per mainChat
 	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$mailversand_ok = false;
@@ -559,7 +562,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	
 	// Gesperrte Benutzer bekommen keine Chatmail Aktionen mehr
 	$query = "SELECT `u_id` FROM `user` WHERE `u_id`=" . intval($an) . " AND u_level='Z'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$mailversand_ok = false;
@@ -569,7 +572,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	// Mailbombing schutz!
 	$query = "SELECT `m_id`, now()-m_zeit AS `zeit` FROM `mail` WHERE `m_von_uid` = " . intval($von) . " AND `m_an_uid` = " . intval($an) . " ORDER BY `m_id` DESC LIMIT 0,1";
 	// system_msg("",0,$von,$system_farbe,"DEBUG: $query");
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	
 	if (mysqli_num_rows($result) == 1) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -624,7 +627,7 @@ function email_versende(
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
 	// Falls an_u_email=TRUE wird E-Mail an u_adminemail (E-Mail Adresse)
 	
-	global $chat, $mysqli_link, $t;
+	global $t;
 	
 	// Umwandlung der Entities rückgängig machen, Slashes und Tags entfernen
 	$trans = get_html_translation_table(HTML_ENTITIES);
@@ -635,7 +638,7 @@ function email_versende(
 	
 	// Absender ermitteln
 	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$abrow = mysqli_fetch_object($result);
 	}
@@ -643,7 +646,7 @@ function email_versende(
 	
 	// Empfänger ermitteln und E-Mail versenden
 	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		
@@ -671,13 +674,13 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $mysqli_link, $system_farbe, $t, $whotext;
+	global $system_farbe, $t, $whotext;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "
 		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "ORDER BY f_zeit desc ";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		
@@ -696,7 +699,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 					. "FROM user,online WHERE o_user=u_id AND u_id=$row->f_freundid ";
 			}
 			// system_msg("",0,$u_id,$system_farbe,"DEBUG: $nachricht, $query");
-			$result2 = mysqli_query($mysqli_link, $query);
+			$result2 = sqlQuery($query);
 			if ($result2 && mysqli_num_rows($result2) > 0) {
 				
 				// Nachricht erzeugen
@@ -709,9 +712,8 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 							$txt .= "<br>";
 						}
 						
-						$q2 = "SELECT r_name,o_id,o_who, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit "
-							. "FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$row2->u_id ";
-						$r2 = mysqli_query($mysqli_link, $q2);
+						$q2 = "SELECT r_name,o_id,o_who, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$row2->u_id ";
+						$r2 = sqlQuery($q2);
 						if ($r2 && mysqli_num_rows($r2) > 0) {
 							$r = mysqli_fetch_object($r2);
 							if ($r->o_who == 0) {
@@ -789,11 +791,11 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 //prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
 function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
-	global $mysqli_link, $t, $system_farbe;
+	global $t, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	if (mysqli_num_rows($query) > 0) {
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
 	}
@@ -816,7 +818,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 		WHERE a.po_u_id = " . intval($an_u_id) . "
 		AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
 	
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	while ($postings = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		
 		//falls posting noch nicht gelesen ist es neu
@@ -886,13 +888,11 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 }
 
 function erzeuge_baum($threadorder, $po_id, $thread) {
-	global $mysqli_link;
-	
 	$in_stat = $thread . "," . $threadorder;
 	
 	//erst mal alle Beiträge des Themas holen
 	$sql = "SELECT po_id, po_titel, po_vater_id FROM posting WHERE po_id in ($in_stat)";
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	
 	//alle postings in feld einlesen
 	$arr_postings = array();
@@ -927,10 +927,10 @@ function erzeuge_baum($threadorder, $po_id, $thread) {
 
 function erzeuge_fuss($text) {
 	//generiert den Fuss eines Beitrags (Signatur)
-	global $t, $u_id, $mysqli_link;
+	global $t, $u_id;
 	
 	$query = "SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 	}

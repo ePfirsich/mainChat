@@ -111,7 +111,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 	}
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
-	if ($o_who != 2 && ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") ) {
+	if ($o_who != 2 && ($sicherer_modus || $benutzerdaten['u_sicherer_modus'] == "1") ) {
 		reset_system("chatfenster");
 	}
 	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls Benutzer im Chat

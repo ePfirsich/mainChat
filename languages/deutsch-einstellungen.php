@@ -10,7 +10,7 @@ $t['einstellungen_menue3'] = "Hilfe";
 $t['edit_avatar_geloescht'] = "Der Avatar wurde erfolgreich gelöscht.";
 $t['edit_avatar_hochgeladen'] = "Der Avatar wurde erfolgreich hochgeladen.";
 
-$t['einstellungen_neues_passwort'] = "Hallo!<br>Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>Viel Spass noch im $chat<br>";
+$t['einstellungen_neues_passwort'] = "Hallo!<br>Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>";
 
 $t['einstellungen_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!<br>";
 $t['einstellungen_erfolgsmeldung_einstellungen'] = "Die Einstellungen wurden erfolgreich gespeichert!<br>";

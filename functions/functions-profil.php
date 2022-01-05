@@ -5,11 +5,11 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=Benutzer-ID
 	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
-	global $mysqli_link, $t, $id;
+	global $t, $id;
 	
 	// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		mysqli_free_result($result);

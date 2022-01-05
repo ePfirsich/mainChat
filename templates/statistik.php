@@ -8,16 +8,16 @@ if( !isset($u_id) || $u_id == "") {
 $fehler = false;
 
 //testen, ob statisiken überhaupt geschrieben werden
-$r1 = mysqli_query($mysqli_link, "SELECT DISTINCT `id` FROM statistiken");
+$r1 = sqlQuery("SELECT DISTINCT `id` FROM statistiken");
 if ($r1 > 0) {
 	if (mysqli_num_rows($r1) == 0) {
 		// Keine Enträge vorhanden
-		$msg = $t['statistik5'];
+		$msg = $t['statistik_keine_statistiken'];
 		$fehler = true;
 	}
 } else {
 	$fehler = true;
-	$msg = $t['statistik5'];
+	$msg = $t['statistik_keine_statistiken'];
 }
 
 $box = $t['titel'];
@@ -36,7 +36,7 @@ switch ($aktion) {
 		
 		statsResetHours($showtime, $h);
 		
-		$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
+		$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
 		
 		if ($r0 > 0) {
 			$i = 0;
@@ -48,10 +48,10 @@ switch ($aktion) {
 				$i++;
 			}
 			
-			$msg .= statsPrintGraph($chat, $t['statistik_benutzer'], $t['statistik_uhrzeit']);
+			$msg .= statsPrintGraph($t['statistik_stunden'], $t['statistik_benutzer'], $t['statistik_uhrzeit']);
 		}
 		
-		$box = $t['statistik2'];
+		$box = $t['statistik_nach_stunden'];
 		zeige_tabelle_zentriert($box, $msg);
 		
 		break;
@@ -86,6 +86,7 @@ switch ($aktion) {
 		
 		while (list($i, $n) = each($t_month)) {
 			if ($i == $m) {
+				$ausgewaehlterMonat = $n;
 				$msg .= "<option value=\"$i\" selected>$n\n";
 			} else {
 				$msg .= "<option value=\"$i\">$n\n";
@@ -101,10 +102,11 @@ switch ($aktion) {
 		while ($i < 2) {
 			$n = (date("Y", time()) - $i);
 			
-			if ($n == $y)
+			if ($n == $y) {
 				$msg .= "<option value=\"$n\" selected>$n\n";
-			else $msg .= "<option value=\"$n\">$n\n";
-			
+			} else {
+				$msg .= "<option value=\"$n\">$n\n";
+			}
 			$i++;
 		}
 		
@@ -114,12 +116,12 @@ switch ($aktion) {
 		$msg .= "</form>\n";
 		
 		// Statistiken einzeln nach Monaten
-		$r1 = @mysqli_query($mysqli_link, "SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");
+		$r1 = sqlQuery("SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");
 		
 		if ($r1 > 0) {
 			statsResetMonth($y, $m);
 			
-			$r0 = @mysqli_query($mysqli_link, "SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
+			$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
 			if ($r0 > 0) {
 				$i = 0;
 				$n = @mysqli_num_rows($r0);
@@ -128,17 +130,17 @@ switch ($aktion) {
 					$x = @mysqli_result($r0, $i, "tag");
 					$c_users = @mysqli_result($r0, $i, "c_users");
 					
-					if ($c_users > $grapharray["$x"])
+					if ($c_users > $grapharray["$x"]) {
 						$grapharray["$x"] = $c_users;
-					
+					}
 					$i++;
 				}
 				
-				$msg .= statsPrintGraph($chat, $t['statistik_benutzer'], $t['statistik_tag']);
+				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $y, $t['statistik_benutzer'], $t['statistik_tag']);
 			}
 		}
 		
-		$box = $t['statistik3'];
+		$box = $t['statistik_nach_monaten'];
 		zeige_tabelle_zentriert($box, $msg);
 }
 ?>

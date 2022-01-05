@@ -24,7 +24,8 @@ $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
 $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am Ende
 $trigger_letzte_Zeilen = 1;			// Nur im Fehlerfal bearbeiten. Diese Variabel regelt die Ausgabe im Normalen Modus
-$sicherer_modus = "1";				// Sicherer Modus Aktivieren (1 = Aktiviert, 0 = Deaktiviert)
+$sicherer_modus = false;			// Sicherer Modus Aktivieren
+$debug_modus = false;				// Bei aktiviertem Debug-Modus werden fehlgeschlagenen Datenbankabfragen an $kontakt gesendet
 
 // Benutzerseiten
 $standard_ui_hintergrundfarbe = "ffffff";
@@ -120,9 +121,6 @@ $max_user_liste=200;
 // Layoutdateien (mindestens leere Dateien, kein BODY-Tag!)
 $layout_kopf="%layoutkopf%";				// Wird auf Indexseite oben eingefügt
 
-
-// Layout
-$chat_eingabe_breite=111;		// Breite des Text-Eingabefelds des Chats
 
 // Dieser Inhalt wird im <head> ausgegeben
 $metatag="<meta name=\"description\" content=\"%description%\">\n".

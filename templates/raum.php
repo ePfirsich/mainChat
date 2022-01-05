@@ -65,7 +65,7 @@ $f['r_id'] = mysqli_real_escape_string($mysqli_link, $f['r_id']);
 $f['r_name'] = mysqli_real_escape_string($mysqli_link, $f['r_name']);
 
 $query = "SELECT r_id, r_besitzer, r_name FROM raum WHERE r_id = '$f[r_id]'";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 $num = mysqli_num_rows($result);
 if ($num == 1) {
 	$row = mysqli_fetch_object($result);
@@ -77,7 +77,7 @@ if ($num == 1) {
 
 // Gibt es den Raumnamen schon? Wenn ja dann Raum nicht speichern damit keine doppelten Raumnamen entstehen
 $query = "SELECT r_id, r_besitzer FROM raum WHERE r_name = '$f[r_name]' AND r_id != '$f[r_id]'";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 $num = mysqli_num_rows($result);
 if ($num >= 1) {
 	$f['r_id'] = "";
@@ -110,7 +110,7 @@ if (strlen($f['r_name']) > 3 && strlen($f['r_name']) < $raum_max && $los == "$t[
 	
 	// gibts den Raum schon?
 	$query = "SELECT r_id FROM raum " . "WHERE r_name LIKE '$f[r_name]' ";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
 	
 	if ($rows == 0) {
@@ -150,8 +150,7 @@ switch ($aktion) {
 	case "loesch2":
 	// Raum löschen
 		$query = "SELECT raum.*,u_id FROM raum left join user on r_besitzer=u_id WHERE r_id=$f[r_id] ";
-		
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		
 		if ($result AND mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_object($result);
@@ -160,7 +159,7 @@ switch ($aktion) {
 			if ($admin || ($row->r_besitzer == $u_id)) {
 				// Lobby suchen
 				$query = "SELECT r_id FROM raum WHERE r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "'";
-				$result2 = mysqli_query($mysqli_link, $query);
+				$result2 = sqlQuery($query);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
 					$lobby_id = mysqli_result($result2, 0, "r_id");
 				}
@@ -177,8 +176,8 @@ switch ($aktion) {
 					
 					// Raum leeren
 					$query = "SELECT o_user,o_name FROM online WHERE o_raum=$f[r_id] ";
+					$result2 = sqlQuery($query);
 					
-					$result2 = mysqli_query($mysqli_link, $query);
 					while ($row2 = mysqli_fetch_object($result2)) {
 						system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $t['fehler4']));
 						$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id);
@@ -188,12 +187,12 @@ switch ($aktion) {
 					mysqli_free_result($result2);
 					
 					$query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
-					$result2 = mysqli_query($mysqli_link, $query);
+					$result2 = sqlUpdate($query);
 					@mysqli_free_result($result2);
 					
 					// Gesperrte Räume löschen
 					$query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
-					$result2 = mysqli_query($mysqli_link, $query);
+					$result2 = sqlUpdate($query);
 					@mysqli_free_result($result2);
 					
 					// ausgeben: Der Raum wurde gelöscht.
@@ -215,8 +214,7 @@ switch ($aktion) {
 	// Raum löschen
 		$text = "";
 		$query = "SELECT raum.*,u_id FROM raum LEFT JOIN user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
-		
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		
 		if ($result && mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_object($result);
@@ -289,8 +287,8 @@ switch ($aktion) {
 		$text = "";
 		
 		if (!$admin) {
-			
-			$result = mysqli_query($mysqli_link, "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id");
+			$query = "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id";
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$u_punkte_gesamt = mysqli_result($result, 0, 0);
 			}
@@ -465,10 +463,8 @@ switch ($aktion) {
 		// Anzeige aller Räume als Liste oder eines Raums im Editor
 		if ($aktion == "edit") {
 			$text = "";
-			$query = "SELECT raum.*,u_id,u_nick "
-				. "FROM raum left join user on r_besitzer=u_id "
-				. "WHERE r_id=" . intval($raum) . " ORDER BY $order";
-			$result = mysqli_query($mysqli_link, $query);
+			$query = "SELECT raum.*,u_id,u_nick FROM raum left join user on r_besitzer=u_id WHERE r_id=" . intval($raum) . " ORDER BY $order";
+			$result = sqlQuery($query);
 			
 			while ($rows = mysqli_fetch_object($result)) {
 				// Ausgabe in Tabelle
@@ -644,9 +640,7 @@ switch ($aktion) {
 			// Liste der Räume mit der Anzahl der Benutzer aufstellen
 			$query = "SELECT r_id,count(o_id) as anzahl FROM raum LEFT JOIN online ON r_id=o_raum "
 				. "WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout OR o_id IS NULL) GROUP BY r_id";
-			
-			//system_msg("",0,$u_id,"#000000","Debug: ".$query);
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			
 			while ($row = mysqli_fetch_object($result)) {
 				$anzahl_user[$row->r_id] = $row->anzahl;
@@ -655,7 +649,7 @@ switch ($aktion) {
 			
 			// Liste der Räume und der Raumbesitzer lesen
 			$query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM raum left join user on r_besitzer=u_id GROUP BY r_name ORDER BY $order";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				
 				// extended==Ansicht mit Details im extra beiten Fenster

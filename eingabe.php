@@ -26,14 +26,14 @@ echo "<body class=\"chatunten\">";
 
 // Typ Eingabefeld für Chateingabe setzen
 if ($u_level == "M") {
-	$text_typ = "<textarea rows=\"3\" name=\"text\" autofocus autocomplete=\"off\" cols=\"" . $chat_eingabe_breite . "\"></textarea>\n";
+	$text_typ = "<textarea rows=\"3\" name=\"text\" autofocus autocomplete=\"off\" cols=\"111\"></textarea>\n";
 } else {
-	$text_typ = "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" size=\"" . $chat_eingabe_breite . "\">\n";
+	$text_typ = "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" size=\"111\">\n";
 }
 $text = "<form name=\"form\">";
 $text .= $text_typ;
 // Unterscheidung Normal oder sicherer Modus
-if ($sicherer_modus == 1 || $benutzerdaten['u_sicherer_modus'] == "1") {
+if ($sicherer_modus || $benutzerdaten['u_sicherer_modus'] == "1") {
 	$text .= "<select name=\"user_chat_back\">\n";
 	for ($i = 10; $i <= 40; $i++) {
 		$text .= "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i $t[eingabe1]\n";
@@ -44,7 +44,7 @@ $text .= "<input name=\"id\" value=\"$id\" type=\"hidden\">\n";
 $text .= "<button type=\"submit\">Go!</button>";
 $text .= "</form>";
 
-zeige_tabelle_zentriert_ohne_kopfzeile($text, true);
+zeige_tabelle_zentriert("", $text, true, false);
 ?>
 <span id="out"></span>
 <script>

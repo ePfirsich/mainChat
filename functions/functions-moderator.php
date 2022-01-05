@@ -1,15 +1,12 @@
 <?php
 
 function zeige_moderations_antworten($o_raum, $answer = "") {
-	global $t;
-	global $id;
-	global $mysqli_link;
-	global $u_id;
+	global $t, $id, $u_id;
 	
 	$box = $t['mod10'];
 	$text = "";
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$text .= "<table style=\"width:100%;\">";
 	if ($result > 0) {
 		$i = 0;
@@ -45,7 +42,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	if ($answer != "") {
 		$answer = intval($answer);
 		$query = "SELECT c_id,c_text FROM moderation WHERE c_id=$answer AND c_typ='P'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result > 0) {
 			echo mysqli_result($result, 0, "c_text");
 		}
@@ -58,14 +55,8 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	zeige_tabelle_volle_breite($box,$text);
 }
 
-function bearbeite_moderationstexte($o_raum)
-{
-	global $t;
-	global $id;
-	global $mysqli_link;
-	global $action;
-	global $u_id;
-	global $system_farbe;
+function bearbeite_moderationstexte($o_raum) {
+	global $t, $id, $action, $u_id, $system_farbe;
 	
 	if (is_array($action)) {
 		echo "<small>";
@@ -76,7 +67,7 @@ function bearbeite_moderationstexte($o_raum)
 			$key = key($action);
 			// nur markieren, was noch frei ist.
 			$query = "UPDATE moderation SET c_moderator=$u_id WHERE c_id=" . intval($key) . " AND c_typ='N' AND c_moderator=0";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlUpdate($query);
 			next($action);
 			$a++;
 		}
@@ -87,7 +78,7 @@ function bearbeite_moderationstexte($o_raum)
 			$key = key($action);
 			// nur auswählen, was bereits von diesem Moderator reserviert ist
 			$query = "SELECT * FROM moderation WHERE c_id=" . intval($key) . " AND c_typ='N' AND c_moderator=$u_id";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result > 0) {
 				if (mysqli_num_rows($result) > 0) {
 					$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -150,7 +141,7 @@ function bearbeite_moderationstexte($o_raum)
 					// jetzt noch aus moderierter Tabelle löschen.
 					mysqli_free_result($result);
 					$query = "DELETE FROM moderation WHERE c_id=" . intval($key) . " AND c_moderator=$u_id";
-					$result2 = mysqli_query($mysqli_link, $query);
+					$result2 = sqlUpdate($query);
 				} else {
 					echo "$t[mod9]<br>";
 				}
@@ -163,13 +154,7 @@ function bearbeite_moderationstexte($o_raum)
 }
 
 function zeige_moderationstexte($o_raum, $limit = 20) {
-	global $t;
-	global $id;
-	global $mysqli_link;
-	global $action;
-	global $moderation_rueckwaerts;
-	global $moderationsexpire;
-	global $u_id;
+	global $t, $id, $action, $moderation_rueckwaerts, $moderationsexpire, $u_id;
 	
 	// gegen DAU-Eingaben sichern...
 	$limit = max(intval($limit), 20);
@@ -178,12 +163,12 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		$moderationsexpire = 30;
 	$expiretime = $moderationsexpire * 60;
 	$query = "DELETE from moderation WHERE unix_timestamp(c_zeit)+$expiretime<unix_timestamp(NOW()) AND c_moderator=0 AND c_typ='N'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlUpdate($query);
 	
 	if ($moderation_rueckwaerts == 1)
 		$rev = " DESC";
 	$query = "SELECT c_id,c_text,c_von_user,c_moderator FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id $rev LIMIT 0, " . intval($limit);
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$i = 0;
 	$rows = 0;
 	if ($result > 0) {
@@ -276,13 +261,11 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 	return $rows;
 }
 
-function anzahl_moderationstexte($o_raum)
-{
+function anzahl_moderationstexte($o_raum) {
 	global $id;
-	global $mysqli_link;
 	
 	$query = "SELECT c_id FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result > 0) {
 		$rows = mysqli_num_rows($result);
 	}

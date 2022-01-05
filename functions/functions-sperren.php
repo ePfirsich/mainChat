@@ -17,18 +17,18 @@ function sperren_liste() {
 	
 	if (count($sperre_dialup) >= 1) {
 		$query = "DELETE FROM ip_sperre WHERE ($sperr) AND to_days(now())-to_days(is_zeit) > 3 ";
-		mysqli_query($mysqli_link, $query);
+		sqlUpdate($query, true);
 	}
 	
 	if ($raumsperre) {
 		$query = "DELETE FROM sperre WHERE to_days(now())-to_days(s_zeit) > $raumsperre";
-		mysqli_query($mysqli_link, $query);
+		sqlUpdate($query, true);
 	}
 	
 	// Alle Sperren ausgeben
 	$query = "SELECT u_nick,is_infotext,is_id,is_domain,UNIX_TIMESTAMP(is_zeit) AS zeit,is_ip_byte,is_warn,"
 		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) AS isip FROM ip_sperre,user WHERE is_owner=u_id ORDER BY is_zeit DESC,is_domain,is_ip";
-	$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
 	
 	if ($rows > 0) {
@@ -134,7 +134,7 @@ function sperren_liste() {
 function zeige_blacklist($aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $t;
+	global $id, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
 	$blurl = "inhalt.php?seite=sperren&aktion=blacklist&id=$id&sort=";
@@ -179,11 +179,11 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		// blacklist-expire
 		if ($blacklistmaxdays) {
 			$query2 = "DELETE FROM blacklist WHERE (TO_DAYS(NOW()) - TO_DAYS(f_zeit)>$blacklistmaxdays) ";
-			mysqli_query($mysqli_link, $query2);
+			sqlUpdate($query2);
 		}
 	}
 	
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result) {
 		$text = '';
 		
@@ -220,7 +220,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 				// Benutzer aus der Datenbank lesen
 				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, " . "date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 				. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_blacklistid ";
-				$result2 = mysqli_query($mysqli_link, $query);
+				$result2 = sqlQuery($query);
 				if ($result2 && mysqli_num_rows($result2) > 0) {
 					
 					// Benutzer gefunden -> Ausgeben
@@ -231,8 +231,8 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 					
 					// Benutzer nicht gefunden, Blacklist-Eintrag löschen
 					$blacklist_nick = "NOBODY";
-					$query = "DELETE from blacklist WHERE f_id=$row->f_id";
-					$result2 = mysqli_query($mysqli_link, $query);
+					$query = "DELETE FROM blacklist WHERE f_id=$row->f_id";
+					$result2 = sqlUpdate($query);
 					
 				}
 				
@@ -282,7 +282,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 function loesche_blacklist($f_blacklistid) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $f_blacklistid Benutzer-ID des Blacklist-Eintrags
-	global $id, $mysqli_link, $mysqli_link;
+	global $id;
 	global $u_id, $u_nick, $admin, $t;
 	
 	if (!$admin || !$f_blacklistid) {
@@ -295,11 +295,11 @@ function loesche_blacklist($f_blacklistid) {
 	
 	$f_blacklistid = intval($f_blacklistid);
 	
-	$query = "DELETE from blacklist WHERE f_blacklistid=$f_blacklistid";
-	$result = mysqli_query($mysqli_link, $query);
+	$query = "DELETE FROM blacklist WHERE f_blacklistid=$f_blacklistid";
+	$result = sqlUpdate($query);
 	
 	$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_blacklistid";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$f_nick = mysqli_result($result, 0, 0);
 		
@@ -312,7 +312,7 @@ function loesche_blacklist($f_blacklistid) {
 
 function formular_neuer_blacklist($neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
-	global $id, $mysqli_link, $t;
+	global $id, $t;
 	
 	$box = $t['blacklist3'];
 	$text = '';
@@ -355,7 +355,7 @@ function neuer_blacklist($f_userid, $blacklist) {
 		// Prüfen ob Blacklist-Eintrag bereits in Tabelle steht
 		$query = "SELECT f_id from blacklist WHERE (f_userid=$blacklist[u_id] AND f_blacklistid=$f_userid) OR (f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";
 			
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
 			
 			// Box anzeigen

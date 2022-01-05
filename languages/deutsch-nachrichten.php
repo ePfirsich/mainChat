@@ -43,9 +43,6 @@ $t['wiederherstellen'] = "wiederherstellen";
 
 $t['sonst2'] = "Nachricht zeigen:";
 
-$t['fehler1'] = "Fehler";
-$t['fehler2'] = "Sie sind nicht eingeloggt oder nur als Gast im Chat eingeloggt.<br><br>>><a href=\"index.php\">Zurück zum Login</a><<";
-
 $t['fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
 $t['fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
 $t['fehler_benutzername_existiert_nicht'] = "Der Benutzername existiert nicht!<br>";

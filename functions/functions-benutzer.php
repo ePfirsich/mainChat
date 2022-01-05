@@ -4,16 +4,14 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $mysqli_link, $level, $id;
-	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $chat_eingabe_breite, $t;
+	global $level, $id;
+	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
-	$query = "SELECT `user`.*,"
-		. "FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`,"
-		. "FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` "
+	$query = "SELECT `user`.*, FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`, FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` "
 			. "FROM `user` WHERE `u_id`=$user ";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			
 			if ($result && mysqli_num_rows($result) == 1) {
 				$row = mysqli_fetch_object($result);
@@ -41,7 +39,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				// IP bestimmen
 				unset($o_http_stuff);
 				$query = "SELECT r_name, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit FROM online LEFT JOIN raum ON o_raum=r_id WHERE o_user=$user ";
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 				
 				if ($result && $rows = mysqli_num_rows($result) == 1) {
 					$o_row = mysqli_fetch_object($result);
@@ -66,7 +64,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				// Avatare
 				// Geschlecht holen
 				$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$row->u_id'";
-				$result1 = mysqli_query($mysqli_link, $query1);
+				$result1 = sqlQuery($query1);
 				if ($result1 && mysqli_num_rows($result1) == 1) {
 					$row1 = mysqli_fetch_object($result1);
 					$ui_gen = $row1->ui_geschlecht;
@@ -76,7 +74,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				// Bildinfos lesen und in Array speichern
 				$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$row->u_id";
-				$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+				$resultAvatar = sqlQuery($queryAvatar);
 				unset($bilder);
 				if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 					while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
@@ -123,13 +121,12 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					// Eingabeformular für private Nachricht ausgeben
 					if ($msgpopup) {
 						$value .= '<iframe src="messages-popup.php?id=' . $id
-						. '&user=' . $user
-						. '&user_nick=' . $uu_nick
-						. '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
-						$pmu = mysqli_query($mysqli_link, "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user);
+						. '&user=' . $user . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
+						$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user;
+						$pmu = sqlUpdate($query, true);
 					}
 					
-					$value .= "<input name=\"text\" autocomplete=\"off\" size=\"" . $chat_eingabe_breite . "\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
+					$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
 						. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 						. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
 						. "<input type=\"submit\" value=\"Go!\">";
@@ -350,7 +347,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
 					
 					$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					if ($g['u_chathomepage'] == "1") {

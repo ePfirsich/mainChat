@@ -7,14 +7,14 @@ if( !isset($u_id) || $u_id == "") {
 switch ($aktion) {
 	case "loginsperre0":
 		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
-		$result2 = mysqli_query($mysqli_link, $query2);
+		$result2 = sqlUpdate($query2);
 		
 		unset($aktion);
 		break;
 	
 	case "loginsperregast0":
 		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GAST-' ";
-		$result2 = mysqli_query($mysqli_link, $query2);
+		$result2 = sqlUpdate($query2);
 		
 		unset($aktion);
 		break;
@@ -123,7 +123,7 @@ switch ($aktion) {
 		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
 		$neuer_blacklist['u_nick'] = mysqli_real_escape_string($mysqli_link, $neuer_blacklist['u_nick']); // sec
 		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$neuer_blacklist[u_nick]'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$neuer_blacklist['u_id'] = mysqli_result($result, 0, 0);
 			neuer_blacklist($u_id, $neuer_blacklist);
@@ -163,10 +163,9 @@ switch ($aktion) {
 	case "loeschen":
 	// ID gesetzt?
 		if (strlen($is_id) > 0) {
-			$query = "SELECT is_infotext,is_domain,is_ip_byte,SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip FROM ip_sperre "
-				. "WHERE is_id=" . intval($is_id);
+			$query = "SELECT is_infotext,is_domain,is_ip_byte,SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip FROM ip_sperre WHERE is_id=" . intval($is_id);
 			
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			$rows = mysqli_num_rows($result);
 			
 			if ($rows == 1) {
@@ -174,8 +173,7 @@ switch ($aktion) {
 				$row = mysqli_fetch_object($result);
 				
 				$query2 = "DELETE FROM ip_sperre WHERE is_id=" . intval($is_id);
-				
-				$result2 = mysqli_query($mysqli_link, $query2);
+				$result2 = sqlUpdate($query2);
 				
 				if (strlen($row->is_domain) > 0) {
 					$value = str_replace("%domain%", $row->is_domain, $t['sperren_erfolgsmeldung_adresse']);
@@ -209,10 +207,9 @@ switch ($aktion) {
 		$text = '';
 		// ID gesetzt?
 		if (strlen($is_id) > 0) {
-			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre "
-				. "WHERE is_id=" . intval($is_id);
+			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre WHERE is_id=" . intval($is_id);
 			
-			$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 			$rows = mysqli_num_rows($result);
 			
 			if ($rows == 1) {
@@ -236,7 +233,7 @@ switch ($aktion) {
 				// Domain/IP-Adresse
 				if (strlen($row->is_domain) > 0) {
 					$text .= "<tr><td><b>$t[sonst11]</b></td>";
-					$text .= "<td class=\"smaller\"><input type=\"text\" name=\"f[is_domain]\" " . "value=\"$row->is_domain\" size=\"24\">\n";
+					$text .= "<td class=\"smaller\"><input type=\"text\" name=\"f[is_domain]\" value=\"$row->is_domain\" size=\"24\">\n";
 				} else {
 					$text .= "<tr><td><b>$t[sonst12]</b></td>";
 					$text .= "<td class=\"smaller\">"

@@ -26,7 +26,7 @@ if( !isset($u_id) || $u_id == "") {
 	$meta_refresh = "";
 
 	// Algorithmus wählen
-	if ($sicherer_modus == 1 ||$benutzerdaten['u_sicherer_modus'] == "1") {
+	if ($sicherer_modus ||$benutzerdaten['u_sicherer_modus'] == "1") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";

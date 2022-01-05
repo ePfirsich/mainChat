@@ -16,7 +16,7 @@ if( !isset($u_id) || $u_id == "") {
 
 // In Session merken, dass Text im "Chat" geschrieben wurde
 $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=" . intval($u_id);
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlUpdate($query, true);
 
 //gelesene Beiträge lesen
 lese_gelesene_postings($u_id);
@@ -40,7 +40,7 @@ switch ($aktion) {
 	// Suche
 	case "suchergebnisse":
 		// Suche anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = such_bereich();
 		zeige_tabelle_zentriert($box, $text);
 		
@@ -51,7 +51,7 @@ switch ($aktion) {
 		
 	case "suche":
 		// Suche anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = such_bereich();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -59,7 +59,7 @@ switch ($aktion) {
 	//Aktionen, die das Forum betreffen
 	case "forum_neu":
 		// Forum anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = maske_forum();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -70,14 +70,14 @@ switch ($aktion) {
 			schreibe_forum();
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Forum anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_forum();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -89,14 +89,14 @@ switch ($aktion) {
 			aendere_forum();
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Forum anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_forum($fo_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -106,7 +106,7 @@ switch ($aktion) {
 		forum_up($fo_id, $fo_order);
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -115,14 +115,14 @@ switch ($aktion) {
 		forum_down($fo_id, $fo_order);
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_edit":
 		// Forum anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = maske_forum($fo_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -133,7 +133,7 @@ switch ($aktion) {
 		}
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -142,14 +142,14 @@ switch ($aktion) {
 	case "thema_neu":
 		if ($u_level != "G") {
 			// Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_thema();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo "<p>" . $t[forum_gast] . "</p>";
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -161,14 +161,14 @@ switch ($aktion) {
 			schreibe_thema();
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_thema();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -176,7 +176,7 @@ switch ($aktion) {
 	
 	case "thema_edit":
 		// Thema erstellen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = maske_thema($th_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -187,14 +187,14 @@ switch ($aktion) {
 			schreibe_thema($th_id);
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 			
 			// Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_thema($th_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -204,7 +204,7 @@ switch ($aktion) {
 		thema_up($th_id, $th_order, $fo_id);
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -212,14 +212,14 @@ switch ($aktion) {
 		thema_down($th_id, $th_order, $fo_id);
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "show_thema":
 		// Forum anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = show_thema();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -230,7 +230,7 @@ switch ($aktion) {
 		}
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -239,7 +239,7 @@ switch ($aktion) {
 		thema_alles_gelesen($th_id, $u_id);
 		
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -250,14 +250,14 @@ switch ($aktion) {
 		
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_posting("neuer_thread");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			print $t[schreibrechte];
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -268,7 +268,7 @@ switch ($aktion) {
 			sperre_posting($po_id);
 			
 			// Thema zeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = show_posting();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -296,14 +296,14 @@ switch ($aktion) {
 				}
 				
 				// Thema zeigen
-				$box = $chat."-Forum";
+				$box = $t['forum_header'];
 				$text = show_posting();
 				zeige_tabelle_zentriert($box, $text);
 			} else {
 				zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
 				
 				// Neues Thema erstellen
-				$box = $chat."-Forum";
+				$box = $t['forum_header'];
 				$text = maske_posting($mode);
 				zeige_tabelle_zentriert($box, $text);
 			}
@@ -311,7 +311,7 @@ switch ($aktion) {
 			echo $t[schreibrechte];
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = "<a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_zur_uebersicht]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_zur_uebersicht]</span></a>\n";
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
@@ -326,7 +326,7 @@ switch ($aktion) {
 		if ($leserechte) {
 			
 			// Thema zeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = show_posting();
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -339,14 +339,14 @@ switch ($aktion) {
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_posting("reply");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo $t[schreibrechte];
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -355,21 +355,21 @@ switch ($aktion) {
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = maske_posting("answer");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			echo $t[schreibrechte];
 			
 			// Forenübersicht anzeigen
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	case "edit":
 		// Neues Thema erstellen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = maske_posting("edit");
 		zeige_tabelle_zentriert($box, $text);
 		
@@ -380,14 +380,14 @@ switch ($aktion) {
 		}
 		
 		// Forum anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = show_thema();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	case "verschiebe_posting":
 		if ($forum_admin) {
 			// Thema verschieben
-			$box = $chat."-Forum";
+			$box = $t['forum_header'];
 			$text = verschiebe_posting();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -400,7 +400,7 @@ switch ($aktion) {
 		$th_id = $verschiebe_von;
 		
 		// Forum anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = show_thema();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -408,7 +408,7 @@ switch ($aktion) {
 	//Default
 	default:
 		// Forenübersicht anzeigen
-		$box = $chat."-Forum";
+		$box = $t['forum_header'];
 		$text = forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;

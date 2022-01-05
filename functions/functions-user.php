@@ -6,19 +6,21 @@ require_once("functions/functions-func-raeume_auswahl.php");
 
 function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
-	global $punkte_grafik, $leveltext, $chat_grafik;
+	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht;
+	global $punkte_grafik, $leveltext;
 	
 	
 	$text = '';
 		
 	//Wichtiger SQL Teil
 	//SQL Teil für die richtige Berechnung der einzelnen PM Nachrichten
-	$pmu2 = mysqli_query($mysqli_link, "SELECT DISTINCT c_an_user FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id);
+	$query = "SELECT DISTINCT c_an_user FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id;
+	$pmu2 = sqlQuery($query);
 	$pmue22 = mysqli_num_rows($pmu2);
 	$pmue2 = mysqli_fetch_all($pmu2);
-		
-	$pmu = mysqli_query($mysqli_link, "SELECT DISTINCT c_von_user_id FROM chat WHERE c_typ='P' AND c_an_user=".$u_id);
+	
+	$query = "SELECT DISTINCT c_von_user_id FROM chat WHERE c_typ='P' AND c_an_user=".$u_id;
+	$pmu = sqlQuery($query);
 	$pmuee = mysqli_num_rows($pmu);
 	$pmue = mysqli_fetch_all($pmu);	
 		
@@ -30,7 +32,8 @@ function user_pm_list($larr) {
 			$pmuea2 = $pmue2[$k][0]; 
 			
 			//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
-			$pmu3 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id);
+			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id;
+			$pmu3 = sqlQuery($query);
 			$pmue33 = mysqli_num_rows($pmu3);
 			
 			if ( $k % 2 != 0 ) {
@@ -58,7 +61,8 @@ function user_pm_list($larr) {
 		for ($k = 0; $k < $pmuee; $k++) {
 			$pmuea = $pmue[$k][0]; 
 			
-			$pmu4 = mysqli_query($mysqli_link, "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea);
+			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea;
+			$pmu4 = sqlQuery($query);
 			$pmue44 = mysqli_num_rows($pmu4);
 			$pmue4 = mysqli_fetch_all($pmu4);
 			
@@ -100,8 +104,8 @@ function user_pm_list($larr) {
 
 function user_liste($larr, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht, $mysqli_link;
-	global $punkte_grafik, $leveltext, $chat_grafik;
+	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht;
+	global $punkte_grafik, $leveltext;
 	
 	$text = '';
 	

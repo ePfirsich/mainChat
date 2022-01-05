@@ -2,6 +2,8 @@
 
 // Übersetzungen für das Forum allgemein
 
+$t['forum_header'] = "Forum";
+
 // Buttons
 $t['button_editieren'] = "editieren";
 $t['button_loeschen'] = "löschen";
@@ -155,9 +157,9 @@ $t['forum'] = "Forum";
 $t['betreff'] = "Betreff";
 
 $t['fehlermeldung'] = "Fehler";
-$t['fehler1'] = "Benutzername enthält ungültige Zeichen.";
-$t['fehler2'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
-$t['fehler3'] = "Sucheinstellung \'Wörter\' falsch.";
-$t['fehler4'] = "Sucheinstellung \'Suchort\' falsch.";
-$t['fehler5'] = "Falsches Board \/ Thema.";
+$t['forum_fehlermeldung_suche_benutzername'] = "Benutzername enthält ungültige Zeichen.";
+$t['forum_fehlermeldung_suche_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
+$t['forum_fehlermeldung_suche_sucheinstellung_woerter'] = "Sucheinstellung \'Wörter\' falsch.";
+$t['forum_fehlermeldung_suche_sucheinstellung_ort'] = "Sucheinstellung \'Suchort\' falsch.";
+$t['forum_fehlermeldung_suche_falsches_thema'] = "Falsches Foren \/ Thema.";
 ?>

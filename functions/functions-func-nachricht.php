@@ -3,8 +3,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back zurück
-	global $mysqli_link, $nachricht_b, $lustigefeatures, $u_farbe;
-	global $eintritt_individuell;
+	global $nachricht_b, $lustigefeatures, $u_farbe, $eintritt_individuell;
 	
 	// Nachricht Standard
 	$text = $nachricht_b[0];
@@ -19,7 +18,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
 		$query = "SELECT `u_eintritt` FROM `user` WHERE `u_id` = $u_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_eintritt) > 0) {
 			$text = $row->u_eintritt;
@@ -45,9 +44,8 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 	} else {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
 		
-		$sql = "SELECT COUNT(c_id) as nummer FROM chat WHERE c_von_user = '' AND c_typ='S' AND c_raum = " . intval($r_id) . " AND c_zeit > '"
-			. date("YmdHis", date("U") - 60) . "'";
-		$result = mysqli_query($mysqli_link, $sql);
+		$sql = "SELECT COUNT(c_id) as nummer FROM chat WHERE c_von_user = '' AND c_typ='S' AND c_raum = " . intval($r_id) . " AND c_zeit > '" . date("YmdHis", date("U") - 60) . "'";
+			$result = sqlQuery($sql);
 		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$num = $num['nummer'];
 		if ($num < 15) {
@@ -62,7 +60,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back (ID des geschriebenen Datensatzes) zurück
-	global $chat, $nachricht_v, $lustigefeatures, $u_farbe, $u_id;
+	global $nachricht_v, $lustigefeatures, $u_farbe, $u_id;
 	global $eintritt_individuell, $mysqli_link;
 	
 	// Nachricht Standard
@@ -78,7 +76,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
 		$query = "SELECT `u_austritt` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $u_nick) . "'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_austritt) > 0) {
 			$text = $row->u_austritt;

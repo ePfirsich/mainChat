@@ -10,7 +10,7 @@ if ($mailloescheauspapierkorb < 1) {
 }
 $query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AND m_geloescht_ts < '"
 	. date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y"))) . "'";
-$result2 = mysqli_query($mysqli_link, $query2);
+	$result2 = sqlUpdate($query2, true);
 
 switch ($aktion) {
 	
@@ -32,13 +32,13 @@ switch ($aktion) {
 		}
 		
 		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$neue_email['m_an_uid'] = mysqli_result($result, 0, "u_id");
 			
 			$ignore = false;
 			$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email['m_an_uid']) . "' AND i_user_passiv = '$u_id'";
-			$result2 = mysqli_query($mysqli_link, $query2);
+			$result2 = sqlQuery($query2);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
 				$ignore = true;
@@ -46,7 +46,7 @@ switch ($aktion) {
 			
 			$boxzu = false;
 			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email['m_an_uid']) . "' AND m_an_uid='" . intval($neue_email['m_an_uid']) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
-			$result2 = mysqli_query($mysqli_link, $query);
+			$result2 = sqlQuery($query);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
 				$boxzu = true;
@@ -72,7 +72,7 @@ switch ($aktion) {
 		
 		if($fehlertext != null && $fehlertext != '') {
 			// Box anzeigen
-			zeige_tabelle_zentriert($t['fehler1'], $fehlertext);
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlertext);
 			formular_neue_email($neue_email, $m_id);
 		}
 		mysqli_free_result($result);
@@ -107,12 +107,12 @@ switch ($aktion) {
 		// Benutzer-ID Prüfen
 		$neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
 		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $neue_email[m_an_uid]";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, "u_nick");
 		} else {
 			$fehlertext = $t['fehler_kein_benutzername_angegeben'];
-			zeige_tabelle_zentriert($t['fehler1'], $fehlertext);
+			zeige_tabelle_zentriert($t['nachrichten_fehlermeldung'], $fehlertext);
 			
 			$ok = FALSE;
 		}
@@ -178,10 +178,9 @@ switch ($aktion) {
 	case "antworten":
 	// Mail beantworten, Mail quoten und Absender lesen
 		$m_id = intval($m_id);
-		$query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit "
-			. "FROM mail WHERE m_an_uid=$u_id AND m_id=$m_id ";
+		$query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit FROM mail WHERE m_an_uid=$u_id AND m_id=$m_id ";
+		$result = sqlQuery($query);
 		
-		$result = mysqli_query($mysqli_link, $query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 		}
@@ -189,7 +188,7 @@ switch ($aktion) {
 		
 		// Benutzername prüfen
 		$query = "SELECT `u_id`, `u_nick` FROM `user` WHERE `u_id`=" . $row->m_von_uid;
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			
 			$row2 = mysqli_fetch_object($result);
@@ -223,12 +222,9 @@ switch ($aktion) {
 	
 	case "antworten_forum":
 	// Mail beantworten, Mail quoten und Absender lesen
-		$query = "select date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
-		po_titel, po_text, u_nick, u_id
-		from posting
-		left join user on po_u_id = u_id
-		where po_id = " . intval($po_vater_id);
-		$result = mysqli_query($mysqli_link, $query);
+		$query = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
+		po_titel, po_text, u_nick, u_id FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 		}
@@ -274,7 +270,7 @@ switch ($aktion) {
 		// Nachrichten mit Status geloescht löschen
 		echo "<br>";
 		$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlUpdate($query);
 		if (!isset($neue_email)) {
 			$neue_email[] = "";
 		}

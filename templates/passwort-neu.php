@@ -14,7 +14,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
 	$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
 	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_adminemail, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_adminemail = '$email' LIMIT 1";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_adminemail'] . $a['u_punkte_jahr']);
@@ -55,7 +55,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_adminemail`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_adminemail` = '$email' LIMIT 2";
 		}
 		
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			
@@ -81,7 +81,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				
 				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
 				$queryPasswortanforderung = "UPDATE `user` SET `u_passwortanforderung` = NOW() WHERE `u_id` = $a[u_id]";
-				mysqli_query($mysqli_link, $queryPasswortanforderung);
+				sqlUpdate($queryPasswortanforderung);
 				
 				// E-Mail versenden
 				email_senden($email, $t['pwneu8'], $inhalt);
@@ -181,7 +181,7 @@ if (!$richtig) {
 	
 } else if ($richtig && $u_id) {
 	$query = "SELECT `u_adminemail`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		unset($f);
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);

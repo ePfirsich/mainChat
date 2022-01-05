@@ -19,7 +19,7 @@ $ip_name = @gethostbyaddr($ip_adr);
 
 // Sperrt den Chat, wenn in der Sperre Domain "-GLOBAL-" ist
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
 	$abweisen = true;
 }
@@ -30,7 +30,7 @@ $temp_gast_sperre = false;
 // Wenn die dbase = "mainchat" und in Sperre = "-GAST-"
 // dann Gastlogin gesperrt
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
 	$temp_gast_sperre = true;
 }
@@ -38,7 +38,7 @@ mysqli_free_result($result);
 
 $query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 	. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 $rows = mysqli_num_rows($result);
 
 if ($rows > 0) {
@@ -67,7 +67,7 @@ if (!$abweisen && $ip_adr && $ip_adr != $_SERVER["REMOTE_ADDR"]) {
 	$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
 		. " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 		. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
 	
 	if ($rows > 0) {
@@ -87,7 +87,7 @@ if (!$abweisen && $ip_adr && $ip_adr != $_SERVER["REMOTE_ADDR"]) {
 
 // zweite Prüfung, gibts was, was mit "*" in der mitte schafft? für p3cea9*.t-online.de
 $query = "SELECT * FROM ip_sperre WHERE is_domain like '_%*%_'";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_object($result)) {
 		$part = explode("*", $row->is_domain, 2);
@@ -114,7 +114,7 @@ mysqli_free_result($result);
 if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	// test: ist user=admin -> dann nicht abweisen...
 	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (u_level in ('S','C'))";
-	$r = mysqli_query($mysqli_link, $query);
+	$r = sqlQuery($query);
 	$rw = mysqli_num_rows($r);
 	
 	if ($rw == 1 && (strlen($aktion) > 0)) {
@@ -132,7 +132,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
 		
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
-		$r = mysqli_query($mysqli_link, $query);
+		$r = sqlQuery($query);
 		$rw = mysqli_num_rows($r);
 		
 		if ($rw == 1 && strlen($aktion) > 0) {
@@ -156,7 +156,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			$raumname = " (" . $whotext[2] . ")";
 		} else {
 			$query2 = "SELECT r_name FROM raum WHERE r_id=" . intval($eintritt);
-			$result2 = mysqli_query($mysqli_link, $query2);
+			$result2 = sqlQuery($query2);
 			if ($result2 AND mysqli_num_rows($result2) > 0) {
 				$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
 			} else {
@@ -166,14 +166,13 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 		}
 		
 		$query2 = "SELECT o_user FROM online WHERE o_level='S' OR o_level='C'";
-		$result2 = mysqli_query($mysqli_link, $query2);
+		$result2 = sqlQuery($query2);
 		if ($result2 AND mysqli_num_rows($result2) > 0) {
 			$txt = str_replace("%ip_adr%", $ip_adr, $t['ipsperre1']);
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
-				$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id";
-				$ah1 = "<a href=\"$ur1\" target=\"chat\">";
+				$ah1 = "<a href=\"inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id\" target=\"chat\">";
 				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
 			}
@@ -390,11 +389,13 @@ switch ($aktion) {
 		zeige_chat_login();
 }
 
+$text = "<div align=\"center\">$mainchat_version\n";
+$text .= "<br><br>\n";
+$text .= "<a href=\"index.php?aktion=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?aktion=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?aktion=impressum\">$t[login_impressum]</a>\n";
+$text .= "</div>\n";
+
+// Box anzeigen
+zeige_tabelle_volle_breite("", $text, false);
 ?>
-<div align="center" class="smaller"><?php echo $mainchat_version; ?>
-<br><br>
-<a href="index.php?aktion=datenschutz"><?php echo $t['login_datenschutzerklaerung']; ?></a> | 
-<a href="index.php?aktion=kontakt"><?php echo $t['login_kontakt']; ?></a> |
-<a href="index.php?aktion=impressum"><?php echo $t['login_impressum']; ?></a></div>
 </body>
 </html>

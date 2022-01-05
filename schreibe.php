@@ -24,7 +24,7 @@ $user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUM
 
 // Das Level aus der Tabelle "online" holen
 $level_query = "SELECT `o_level` FROM `online` WHERE `o_hash`='$id';";
-$level_result = mysqli_query($mysqli_link, $level_query);
+$level_result = sqlQuery($level_query);
 $level_row = mysqli_fetch_object($level_result);
 $u_level = $level_row->o_level;
 

@@ -306,8 +306,8 @@ if(!$seite || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "[<a href=\"inhalt.php?seite=statistik&aktion=monat&id=$id\">" . $t['statistik3'] . "</a>]\n"
-					. "[<a href=\"inhalt.php?seite=statistik&aktion=stunde&id=$id\">" . $t['statistik2'] . "</a>]";
+			$text = "[<a href=\"inhalt.php?seite=statistik&aktion=monat&id=$id\">" . $t['statistik_nach_monaten'] . "</a>]\n"
+					. "[<a href=\"inhalt.php?seite=statistik&aktion=stunde&id=$id\">" . $t['statistik_nach_stunden'] . "</a>]";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/statistik.php');
@@ -330,7 +330,7 @@ if(!$seite || $kein_seitenaufruf) {
 			$text = "<a href=\"inhalt.php?seite=sperren&id=$id\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=neu\">$t[sperren_menue2]</a>\n";
 			
 			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
 			} else {
@@ -339,7 +339,7 @@ if(!$seite || $kein_seitenaufruf) {
 			mysqli_free_result($result);
 			
 			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				$text .= "| <a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\">$t[sperren_menue6a]</a>\n";
 			} else {

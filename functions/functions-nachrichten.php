@@ -2,12 +2,12 @@
 
 function formular_neue_email($neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $id, $mysqli_link, $t;
+	global $id, $t;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
-		$query = "select `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
-		$result = mysqli_query($mysqli_link, $query);
+		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, 0);
 			if (strlen($an_nick) > 0) {
@@ -41,7 +41,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 
 function formular_neue_email2($neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
-	global $id, $mysqli_link, $u_id, $t;
+	global $id, $u_id, $t;
 	
 	echo '<script language="JavaScript">
 	function zaehle()
@@ -58,7 +58,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 		// Alte Mail lesen und als Kopie in Formular schreiben
 		$box = "Nachricht weiterleiten an ";
 		$query = "SELECT m_betreff,m_text FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			
@@ -87,7 +87,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	if ($neue_email['m_an_uid']) {
 		$query = "SELECT u_nick, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$box .= $row->u_nick;
@@ -153,7 +153,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 
 function zeige_mailbox($aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $u_nick, $u_id, $chat, $t;
 	
 	$art = "empfangen";
 	switch ($aktion) {
@@ -180,7 +180,7 @@ function zeige_mailbox($aktion, $zeilen) {
 			$titel = $t['nachrichten_posteingang2'];
 	}
 	
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result) {
 		$anzahl = mysqli_num_rows($result);
 		$text = '';
@@ -267,7 +267,7 @@ function zeige_mailbox($aktion, $zeilen) {
 function zeige_email($m_id, $art) {
 	// Zeigt die Mail im Detail an
 	
-	global $id, $mysqli_link, $mysqli_link, $u_nick, $u_id, $chat, $t;
+	global $id, $u_nick, $u_id, $chat, $t;
 	
 	if($art == "gesendet") {
 		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
@@ -276,7 +276,7 @@ function zeige_email($m_id, $art) {
 		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
 	}
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
 		
@@ -339,13 +339,12 @@ function zeige_email($m_id, $art) {
 }
 
 function loesche_mail($m_id, $u_id) {
-	
 	// Löscht eine Mail der ID m_id
 	
-	global $id, $mysqli_link, $u_nick, $u_id;
+	global $id, $u_nick, $u_id;
 	
 	$query = "SELECT m_zeit,m_id,m_status FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		
 		$row = mysqli_fetch_object($result);

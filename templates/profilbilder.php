@@ -18,7 +18,7 @@ if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
 
 if (isset($loesche) && $loesche) {
 	$query = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=$u_id";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlUpdate($query);
 	
 	$cache = "home_bild";
 	$cachepfad = $cache . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $loesche;
@@ -52,7 +52,7 @@ if (isset($home) && is_array($home) && $home['ui_id']) {
 
 // Daten laden und Editor anzeigen
 $query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) == 1) {
 	unset($home);
 	$home = array();

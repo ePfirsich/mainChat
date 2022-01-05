@@ -57,7 +57,7 @@ if($fehlermeldung == "" && isset($email)) {
 	// wir prüfen ob Benutzer gesperrt ist
 	// entweder Benutzer = gesperrt
 	$query = "SELECT * FROM `user` WHERE `u_adminemail`='$email' AND `u_level`='Z'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
@@ -65,7 +65,7 @@ if($fehlermeldung == "" && isset($email)) {
 	
 	// oder user ist auf Blacklist
 	$query = "SELECT u_nick FROM blacklist LEFT JOIN user ON f_blacklistid=u_id WHERE user.u_adminemail ='$email'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
@@ -86,7 +86,7 @@ if($fehlermeldung == "" && isset($email)) {
 	unset($teststring);
 	
 	$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '$email'";
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
 	if ($num >= 1) {
@@ -98,7 +98,7 @@ if($fehlermeldung == "" && isset($email)) {
 	} else {
 		// Überprüfung auf Formular mehrmals abgeschickt
 		$query = "DELETE FROM mail_check WHERE email = '$email'";
-		mysqli_query($mysqli_link, $query);
+		sqlUpdate($query);
 		
 		$hash = md5($email . "+" . date("Y-m-d"));
 		$email = urlencode($email);
@@ -121,7 +121,7 @@ if($fehlermeldung == "" && isset($email)) {
 		
 		$email = mysqli_real_escape_string($mysqli_link, $email);
 		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlUpdate($query);
 	}
 }
 ?>

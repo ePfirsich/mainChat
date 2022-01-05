@@ -1,10 +1,9 @@
 <?php
 function show_pfad_posting2($th_id, $id, $thread) {
-	global $mysqli_link;
 	//Infos über Forum und Thema holen
 	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum`, `thema` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
 	
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	$fo_id = mysqli_result($query, 0, "fo_id");
 	$fo_name = htmlspecialchars( mysqli_result($query, 0, "fo_name") );
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
@@ -15,9 +14,8 @@ function show_pfad_posting2($th_id, $id, $thread) {
 }
 
 function vater_rekursiv($vater) {
-	global $mysqli_link;
 	$query = "SELECT `po_id`, `po_vater_id` FROM posting WHERE `po_id` = " . intval($vater);
-	$result = mysqli_query($mysqli_link, $query);
+	$result = sqlQuery($query);
 	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	if (mysqli_num_rows($result) <> 1) {
 		return -1;
@@ -30,7 +28,7 @@ function vater_rekursiv($vater) {
 }
 
 function such_bereich() {
-	global $id, $mysqli_link, $suche, $t;
+	global $id, $suche, $t;
 	
 	$select_breite = 250;
 	
@@ -55,7 +53,7 @@ function such_bereich() {
 	. "<select name=\"suche[thema]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 		
 	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	$themaalt = "";
 	$text .= "<option ";
 	if (substr($suche['thema'], 0, 1) <> "B") {
@@ -216,7 +214,7 @@ function such_ergebnis() {
 	$box = $t['ergebnis1'];
 	
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
-	$query = mysqli_query($mysqli_link, $sql);
+	$query = sqlQuery($sql);
 	if (mysqli_num_rows($query) > 0) {
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
 	}
@@ -224,13 +222,13 @@ function such_ergebnis() {
 	
 	$fehler = "";
 	if ($suche['username'] <> coreCheckName($suche['username'], $check_name)) {
-		$fehler .= $t['fehler1'];
+		$fehler .= $t['forum_fehlermeldung_suche_benutzername'];
 	}
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
 	if (strlen($fehler) == 0 && $suche['username'] <> "") {
 		$sql = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
-		$query = mysqli_query($mysqli_link, $sql);
+		$query = sqlQuery($sql);
 		if (mysqli_num_rows($query) == 1) {
 			$suche['u_id'] = mysqli_result($query, 0, "u_id");
 		} else {
@@ -239,16 +237,16 @@ function such_ergebnis() {
 	}
 	
 	if (trim($suche['username']) == "" && trim($suche['text']) == "" && (!($suche['zeit'] == "B1" || $suche['zeit'] == "B7" || $suche['zeit'] == "B14"))) {
-		$fehler .= $t['fehler2'];
+		$fehler .= $t['forum_fehlermeldung_suche_zeitangabe'];
 	}
 	if ($suche['modus'] <> "A" && $suche['modus'] <> "O") {
-		$fehler .= $t['fehler3'];
+		$fehler .= $t['forum_fehlermeldung_suche_sucheinstellung_woerter'];
 	}
 	if ($suche['ort'] <> "V" && $suche['ort'] <> "B" && $suche['ort'] <> "T") {
-		$fehler .= $t['fehler4'];
+		$fehler .= $t['forum_fehlermeldung_suche_sucheinstellung_ort'];
 	}
 	if (!$suche['thema'] == "ALL" && !preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema']) && !preg_match("/^B([0-9])+$/i", $suche['thema'])) {
-		$fehler .= $t['fehler5'];
+		$fehler .= $t['forum_fehlermeldung_suche_falsches_thema'];
 	}
 		
 	if (strlen($fehler) > 0) {
@@ -306,7 +304,7 @@ function such_ergebnis() {
 		
 		$boards = "";
 		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-		$query2 = mysqli_query($mysqli_link, $sql2);
+		$query2 = sqlQuery($sql2);
 		while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
 			if (pruefe_leserechte($thema['th_id'])) {
 				if ($suche['thema'] == "ALL") {
@@ -389,7 +387,7 @@ function such_ergebnis() {
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
-		$query = mysqli_query($mysqli_link, $sql);
+		$query = sqlQuery($sql);
 		
 		$anzahl = mysqli_num_rows($query);
 		

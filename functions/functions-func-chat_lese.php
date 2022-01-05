@@ -44,7 +44,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 	if ($back == 1) {
 		// o_chat_id lesen
 		$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$o_chat_id = mysqli_result($result, 0, "o_chat_id");
 		} else {
@@ -58,7 +58,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
 		
 		unset($rows);
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
@@ -67,28 +67,28 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		mysqli_free_result($result);
 		
 		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
 			}
 		}
 		mysqli_free_result($result);
-		if (isset($rows) && is_array($rows))
+		if (isset($rows) && is_array($rows)) {
 			sort($rows);
+		}
 		
 	} else if ($back > 1) {
 		// o_chat_id lesen (nicht bei Admins)
 		// Admins dürfen alle Nachrichten sehen
 		if (!$admin) {
 			$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$o_chat_id = mysqli_result($result, 0, "o_chat_id");
 			} else {
 				$o_chat_id = 0;
 			}
-			;
 			mysqli_free_result($result);
 		} else {
 			$o_chat_id = 0;
@@ -97,9 +97,9 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		// $back-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_id
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
+		$result = sqlQuery($query);
 		
 		unset($rows);
-		$result = mysqli_query($mysqli_link, $query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
@@ -107,8 +107,8 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		}
 		mysqli_free_result($result);
 		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
+		$result = sqlQuery($query);
 		
-		$result = mysqli_query($mysqli_link, $query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
@@ -138,9 +138,9 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		// Die letzten Nachrichten seit $letzte_id ausgeben
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum=$raum AND c_id > $letzte_id" . $qquery;
+		$result = sqlQuery($query);
 		
 		unset($rows);
-		$result = mysqli_query($mysqli_link, $query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
@@ -149,8 +149,8 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		mysqli_free_result($result);
 		
 		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id > $letzte_id" . $qquery;
+		$result = sqlQuery($query);
 		
-		$result = mysqli_query($mysqli_link, $query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
 				$rows[] = $row[0];
@@ -168,7 +168,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 	// Query aus Array erzeugen und die Chatzeilen lesen
 	if (isset($rows) && is_array($rows)) {
 		$query = "SELECT * FROM chat WHERE c_id IN (" . implode(",", $rows) . ") ORDER BY c_id";
-		$result = mysqli_query($mysqli_link, $query);
+		$result = sqlQuery($query);
 	} else {
 		unset($result);
 	}
@@ -437,11 +437,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 								// Anfang des Avatars
 								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
-								$result3 = mysqli_query($mysqli_link, $query3);
+								$result3 = sqlQuery($query3);
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
-								$result2 = mysqli_query($mysqli_link, $query2);
+								$result2 = sqlQuery($query2);
 								if ($result2 && mysqli_num_rows($result2) == 1) {
 									$row2 = mysqli_fetch_object($result2);
 									$uu_id = $row2->u_id;
@@ -449,7 +449,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 								
 								// Geschlecht holen
 								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
-								$result1 = mysqli_query($mysqli_link, $query1);
+								$result1 = sqlQuery($query1);
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
 									$ui_gen = $row1->ui_geschlecht;
@@ -462,7 +462,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
-										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+										$resultAvatar = sqlQuery($queryAvatar);
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
@@ -516,11 +516,11 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 								// Anfang des Avatars
 								// Sollen Avatare angezeigt werden?
 								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
-								$result3 = mysqli_query($mysqli_link, $query3);
+								$result3 = sqlQuery($query3);
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
-								$result2 = mysqli_query($mysqli_link, $query2);
+								$result2 = sqlQuery($query2);
 								if ($result2 && mysqli_num_rows($result2) == 1) {
 									$row2 = mysqli_fetch_object($result2);
 									$uu_id = $row2->u_id;
@@ -528,7 +528,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 								
 								// Geschlecht holen
 								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
-								$result1 = mysqli_query($mysqli_link, $query1);
+								$result1 = sqlQuery($query1);
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
 									$ui_gen = $row1->ui_geschlecht;
@@ -541,7 +541,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$uu_id";
-										$resultAvatar = mysqli_query($mysqli_link, $queryAvatar);
+										$resultAvatar = sqlQuery($queryAvatar);
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {

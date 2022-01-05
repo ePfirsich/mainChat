@@ -7,7 +7,7 @@ if( !isset($u_id) || $u_id == "") {
 // Prüfung, ob für diesen Benutzer bereits ein profil vorliegt -> in $f lesen und merken
 // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
 $query = "SELECT * FROM `userinfo` WHERE `ui_userid`=$u_id";
-$result = mysqli_query($mysqli_link, $query);
+$result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) != 0) {
 	// Bestehendes Profil aus der Datenbank laden
 	
@@ -289,7 +289,7 @@ switch ($aktion) {
 			$text .= "</tr>";
 			
 			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id ORDER BY u_nick";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) > 0) {
 				$zaehler = 0;
 				while ($row = mysqli_fetch_object($result)) {

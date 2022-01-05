@@ -84,9 +84,9 @@ switch ($aktion) {
 		// Raum listen
 		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
 			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout AND r_id=$o_raum ORDER BY o_name";
-			
-		$result = mysqli_query($mysqli_link, $query);
-			
+		
+		$result = sqlQuery($query);
+		
 		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 			// Array mit Benutzerdaten und Infotexten aufbauen
 			$userdata = unserialize( $row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
@@ -129,7 +129,9 @@ switch ($aktion) {
 			$rows = 0;
 		}
 		
-		$pmu = mysqli_query($mysqli_link, "SELECT * FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id." OR c_typ='P' AND c_an_user=".$u_id);
+		$query = "SELECT * FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id." OR c_typ='P' AND c_an_user=".$u_id;
+		
+		$pmu = sqlQuery($query);
 		$pmue = mysqli_num_rows($pmu);
 		if ($pmue > 0) {
 			//Anfang Ausgabe PM Liste Rechts.

@@ -25,10 +25,10 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 $benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_adminemail`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
 	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id";
 
-$benutzerdaten_result = mysqli_query($mysqli_link, $benutzerdaten_query);
+	$benutzerdaten_result = sqlQuery($benutzerdaten_query);
 if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
 	// Diese Zeile wird benötigt, um bei Falscheingaben den falschen Wert mit dem korrekten Wert zu überschreiben
-	$benutzerdaten_result2 = mysqli_query($mysqli_link, $benutzerdaten_query);
+	$benutzerdaten_result2 = sqlQuery($benutzerdaten_query);
 	$benutzerdaten_row = mysqli_fetch_object($benutzerdaten_result2);
 	
 	// Bestehendes Profil aus der Datenbank laden
@@ -107,7 +107,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			if (isset($loesche) && $loesche && $f['u_id']) {
 				$queryLoeschen = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($f['u_id']);
-				$resultLoeschen = mysqli_query($mysqli_link, $queryLoeschen);
+				$resultLoeschen = sqlUpdate($queryLoeschen);
 				
 				$cache = "home_bild";
 				$cachepfad = $cache . "/" . substr($f['u_id'], 0, 2) . "/" . $f['u_id'] . "/" . $loesche;
@@ -220,7 +220,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
 			$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
-			$result = mysqli_query($mysqli_link, $query);
+			$result = sqlQuery($query);
 			$num = mysqli_num_rows($result);
 			if ($num > 1) {
 				$fehlermeldung .= $t['einstellungen_fehler_email2'];
@@ -267,7 +267,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$p[u_id]' AND o_level !='C' AND o_level !='S'";
 					
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					if ($result && mysqli_num_rows($result) > 0) {
 						$row = mysqli_fetch_object($result);
 						
@@ -292,7 +292,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				} else {
 					// test, ob zu löschender Admin ist...
 					$query = "SELECT * FROM `user` WHERE `u_id`=$f[u_id] ";
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$del_level = mysqli_result($result, 0, "u_level");
 					if ($del_level != "S" && $del_level != "C" && $del_level != "M") {
 						
@@ -301,15 +301,15 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
 						
 						$query = "DELETE FROM `user` WHERE `u_id`=$f[u_id] ";
-						$result = mysqli_query($mysqli_link, $query);
+						$result = sqlUpdate($query);
 						
 						// Ignore-Einträge löschen
 						$query = "DELETE FROM iignore WHERE i_user_aktiv=$f[u_id] OR i_user_passiv=$f[u_id]";
-						$result = mysqli_query($mysqli_link, $query);
+						$result = sqlUpdate($query);
 						
 						// Gesperrte Räume löschen
 						$query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
-						$result = mysqli_query($mysqli_link, $query);
+						$result = sqlUpdate($query);
 					} else {
 						$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_loeschen2']);
 						zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
@@ -352,7 +352,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
 					$query = "SELECT `u_id` FROM `user` WHERE `u_adminemail` = '" . mysqli_real_escape_string($mysqli_link, $f['u_adminemail']) . "'";
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$num = mysqli_num_rows($result);
 					if ($num > 1) {
 						$fehlermeldung .= $t['einstellungen_fehler_email2'];
@@ -380,7 +380,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, dann Benutzername nicht speichern
 					$query = "SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = '$f[u_id]'";
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					$nick_historie = unserialize($xyz['u_nick_historie']);
 					$nick_alt = $xyz['u_nick'];
@@ -416,7 +416,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Existiert der Benutzername schon oder ist der Benutername gesperrt?
 					$query = "SELECT u_id, u_level FROM user WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "' AND u_id != $u_id";
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$rows = mysqli_num_rows($result);
 					if ($rows != 0) {
 						if ($rows == 1) {
@@ -529,7 +529,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row->u_nick, $t['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
 						
 						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
-						$result = mysqli_query($mysqli_link, $query);
+						$result = sqlQuery($query);
 						$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 						$nick_historie = unserialize($xyz['u_nick_historie']);
 						
@@ -547,7 +547,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 					
 					$query = "SELECT `u_profil_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 					
 					$g['u_profil_historie'] = unserialize($g['u_profil_historie']);
@@ -571,7 +571,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 					if (isset($f['u_level']) && $f['u_level'] == "Z") {
 						$queryii = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
-						$resultii = @mysqli_query($mysqli_link, $queryii);
+						$resultii = sqlQuery($queryii);
 						$anzahlii = @mysqli_num_rows($resultii);
 						
 						if ($resultii && $anzahlii > 0) {
@@ -584,7 +584,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					} else if ((isset($f['u_level']) && $f['u_level'] == "C") || (isset($f['u_level']) && $f['u_level'] == "S")) {
 						// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
 						$queryii = "SELECT u_nick,u_id FROM user,iignore ". "WHERE i_user_passiv=" . intval($f['u_id']) . " AND u_id=i_user_aktiv order by i_id";
-						$resultii = @mysqli_query($mysqli_link, $queryii);
+						$resultii = sqlQuery($queryii);
 						$anzahlii = @mysqli_num_rows($resultii);
 						
 						if ($resultii && $anzahlii > 0) {
@@ -600,7 +600,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if (ist_online($f['u_id']) && isset($f['u_level']) && $f['u_level'] == "Z") {
 						// o_id und o_raum bestimmen
 						$query = "SELECT o_id,o_raum FROM online WHERE o_user=" . intval($f[u_id]);
-						$result = mysqli_query($mysqli_link, $query);
+						$result = sqlQuery($query);
 						$rows = mysqli_num_rows($result);
 						
 						if ($rows > 0) {
@@ -669,13 +669,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			} elseif (isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
-					mysqli_query($mysqli_link, $query);
+					sqlUpdate($query);
 					
 					$query = "UPDATE user SET u_login = u_login, u_chathomepage = '0' WHERE u_id = " . intval($f['u_id']);
-					mysqli_query($mysqli_link, $query);
+					sqlUpdate($query);
 					
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f['u_id']);
-					mysqli_query($mysqli_link, $query);
+					sqlUpdate($query);
 					
 					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_benutzerseite']);
 				} else {
@@ -696,7 +696,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			} else if (isset($eingabe) && $eingabe == $t['chat_msg110'] && $admin) {
 				// Admin E-Mail-Adresse aus DB holen
 				$query = "SELECT `u_adminemail`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 				
 				$x = mysqli_fetch_array($result, MYSQLI_ASSOC);
 				$f['u_adminemail'] = $x['u_adminemail'];
@@ -730,7 +730,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$user = $f['u_nick'];
 					$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user=" . intval($f['u_id']) . " AND o_level!='C' AND o_level!='S'";
 					
-					$result = mysqli_query($mysqli_link, $query);
+					$result = sqlQuery($query);
 					if ($result && mysqli_num_rows($result) > 0) {
 						$row = mysqli_fetch_object($result);
 						

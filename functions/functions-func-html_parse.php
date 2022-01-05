@@ -10,8 +10,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// privat ist wahr bei privater Nachricht
 	
 	global $admin, $sprache, $o_raum, $u_id, $u_level;
-	global $t, $system_farbe, $mysqli_link, $smilies_anzahl;
-	global $ist_moderiert;
+	global $t, $system_farbe, $smilies_anzahl, $ist_moderiert;
 	
 	$text_an_user = "";
 	
@@ -33,7 +32,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			// Prüfen, ob im aktuellen Raum Smilies erlaubt sind
 			if (!$privat) {
 				$query = "SELECT r_smilie FROM raum WHERE r_id=" . intval($o_raum);
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 				if ($result && mysqli_num_rows($result) > 0 && mysqli_result($result, 0, 0) == 0) {
 					$smilie_ok = FALSE;
 				} else {

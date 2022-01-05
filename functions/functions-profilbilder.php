@@ -2,7 +2,7 @@
 
 function home_info($home) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $mysqli_link, $id, $userdata, $t, $level, $t, $u_id, $u_nick;
+	global $id, $userdata, $t, $level, $t, $u_id, $u_nick;
 	
 	$text = "";
 	
@@ -12,7 +12,7 @@ function home_info($home) {
 	
 	// Bildinfos lesen und in Array speichern
 	$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$u_id";
-	$result2 = mysqli_query($mysqli_link, $query);
+	$result2 = sqlQuery($query);
 	if ($result2 && mysqli_num_rows($result2) > 0) {
 		unset($bilder);
 		while ($row = mysqli_fetch_object($result2)) {
@@ -146,7 +146,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			
 			if ($f['b_mime']) {
 				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
-				$result = mysqli_query($mysqli_link, $query);
+				$result = sqlQuery($query);
 				if ($result && mysqli_num_rows($result) != 0) {
 					$b_id = mysqli_result($result, 0, 0);
 				}
