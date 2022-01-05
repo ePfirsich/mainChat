@@ -239,6 +239,8 @@ $t['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benut
 $t['login_fehlermeldung_passwort_vergessen_email2'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
 $t['login_fehlermeldung_passwort_vergessen_email_benutzername'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.<br>";
 $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde bereits vor kurzem für diesen Benutzer ein neues Passwort angefordert.<br>";
+$t['login_fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.<br>";
+
 $t['pwneu8'] = "Ihre Passwortanforderung für den $chat";
 $t['pwneu9'] = "Hallo %nickname%,<br>
 <br>
@@ -252,7 +254,6 @@ Sicherheitscode: %hash%<br>
 --<br>
 Ihr $chat-Team  ";
 $t['login_passwort_sicherheitscode'] = "Sicherheitscode";
-$t['fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.";
 $t['pwneu14'] = "Ihr neues Passwort für den $chat";
 $t['pwneu15'] = "Hallo %nickname%,<br>
 <br>

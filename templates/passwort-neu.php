@@ -22,10 +22,10 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 			$richtig = true;
 			$u_id = $a['u_id'];
 		} else {
-			$fehlermeldung .= $t['fehlermeldung_passwort_vergessen_sicherheitscode'];
+			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 		}
 	} else {
-		$fehlermeldung .= $t['fehlermeldung_passwort_vergessen_sicherheitscode'];
+		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 	}
 	mysqli_free_result($result);
 } else if ( isset($email) || isset($nickname) ) {
