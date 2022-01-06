@@ -273,15 +273,15 @@ if ($zeit == "03:10") {
 	echo " Sperren ";
 	flush();
 	$query = "DELETE from ip_sperre where now()-is_zeit > 36000 AND is_warn!='ja'";
-	$result = sqlUpdate($query);
+	$result = sqlUpdate($query, true);
 	
 	// Lösche alle Einträge in mail_check (E-Mail für Registrierung), die älter als 7 Tage sind
 	echo " mail_check ";
 	flush();
 	$query = "DELETE from mail_check where DATE_ADD(datum,INTERVAL 7 DAY)<now()";
-	$result = sqlUpdate($query);
+	$result = sqlUpdate($query, true);
 	
-	// alle invites löschen, für die es keine Benutzer mehr gibt.
+	// Alle invites löschen, für die es keine Benutzer mehr gibt.
 	echo " Einladungen ";
 	flush();
 	$query = "SELECT SQL_BUFFER_RESULT inv_id FROM invite LEFT JOIN user on inv_user=u_id WHERE u_id IS NULL";
