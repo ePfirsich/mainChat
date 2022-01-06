@@ -107,17 +107,18 @@ if($fehlermeldung == "" && isset($email)) {
 		$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash";
 		$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2";
 		
-		$text2 = str_replace("%link%", $link, $t['registrierung_email_text']);
-		$text2 = str_replace("%link2%", $link2, $text2);
-		$text2 = str_replace("%hash%", $hash, $text2);
-		$text2 = str_replace("%email%", $email, $text2);
 		$email = urldecode($email);
+		
+		$inhalt = str_replace("%link%", $link, $t['registrierung_email_text']);
+		$inhalt = str_replace("%link2%", $link2, $inhalt);
+		$inhalt = str_replace("%hash%", $hash, $inhalt);
+		$inhalt = str_replace("%email%", $email, $inhalt);
 		
 		$text = $t['registrierung_email_versendet'];
 		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 		
 		// E-Mail versenden
-		email_senden($email, $t['registrierung_email_titel'], $text2);
+		email_senden($email, $t['registrierung_email_titel'], $inhalt);
 		
 		$email = mysqli_real_escape_string($mysqli_link, $email);
 		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";

@@ -177,7 +177,7 @@ $t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registr
 	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
-	. "Sie den Link dann in den Browser ein<br><br>"
+	. "Sie den Link dann in den Browser ein.<br><br>"
 		. "-- <br>   $chat ($chat_url)<br>";
 
 $t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>";

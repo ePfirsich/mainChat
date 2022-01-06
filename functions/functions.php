@@ -1274,38 +1274,15 @@ function hole_geschlecht($userid) {
 	}
 	mysqli_free_result($result);
 	
-	if ($user_geschlecht == "männlich")
+	if ($user_geschlecht == "männlich") {
 		$user_geschlecht = "geschlecht_maennlich";
-	elseif ($user_geschlecht == "weiblich")
+	} else if ($user_geschlecht == "weiblich") {
 		$user_geschlecht = "geschlecht_weiblich";
-	else
+	} else {
 		$user_geschlecht = "";
+	}
 	
 	return $user_geschlecht;
-}
-
-function mailsmtp($mailempfaenger, $mailbetreff, $text2, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS) {
-	require 'PHPMailerAutoload.php';
-	
-	$mail = new PHPMailer;
-	
-	$mail->isSMTP();
-	//$mail->SMTPDebug = 2;
-	//$mail->Debugoutput = 'html';
-	$mail->Host = $smtp_host;
-	$mail->Port = $smtp_port;
-	$mail->SMTPSecure = $smtp_encryption;
-	$mail->SMTPAuth = $smtp_auth;
-	$mail->SMTPAutoTLS = $smtp_autoTLS;
-	$mail->Username = $smtp_username;
-	$mail->Password = $smtp_password;
-	$mail->setFrom($header, $chat);
-	$mail->addAddress($mailempfaenger);
-	$mail->Subject = $mailbetreff;
-	$mail->isHtml(true);
-	$mail->Body = $text2;
-	
-	return $mail->send();
 }
 
 function ausloggen($u_id, $u_nick, $o_raum, $o_id){
@@ -1649,7 +1626,7 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 	
 	// E-Mail versenden
 	if($smtp_on) {
-		$rueckmeldung = mailsmtp($empfaenger, $betreff, $inhalt . $charset, $absender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
+		$rueckmeldung = mailsmtp($empfaenger, $betreff, $inhalt, $absender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 	} else {
 		// Der PHP-Vessand benötigt \n und nicht <br>
 		$inhalt = str_replace("<br>", "\n", $inhalt);
@@ -1657,5 +1634,50 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 	}
 	
 	return $rueckmeldung;
+}
+
+function mailsmtp($mailempfaenger, $mailbetreff, $inhalt, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS) {
+	global $chat;
+	require 'PHPMailerAutoload.php';
+	
+	$inhalt = "<h1>$chat</h1>".$inhalt;
+	
+	$mail = new PHPMailer;
+	$mail->CharSet = 'UTF-8';
+	$mail->isSMTP();
+	//$mail->SMTPDebug = 2;
+	//$mail->Debugoutput = 'html';
+	$mail->Host = $smtp_host;
+	$mail->Port = $smtp_port;
+	$mail->SMTPSecure = $smtp_encryption;
+	$mail->SMTPAuth = $smtp_auth;
+	$mail->SMTPAutoTLS = $smtp_autoTLS;
+	$mail->Username = $smtp_username;
+	$mail->Password = $smtp_password;
+	$mail->setFrom($header, $chat);
+	
+	// Absender Adresse setzen
+	$mail->From = $header;
+	
+	// Absender Alias setzen
+	$mail->FromName = $chat;
+	
+	// Empfänger Adresse und Alias hinzufügen
+	$mail->addAddress($mailempfaenger);
+	//$mail->addAddress($mailempfaenger, $mailempfaengername);
+	
+	// Betreff
+	$mail->Subject = $mailbetreff;
+	
+	// HTML aktivieren
+	$mail->isHtml(true);
+	
+	// Der Nachrichteninhalt als HTML
+	$mail->Body = $inhalt;
+	
+	// Alternativer Nachrichteninhalt für Clients, die kein HTML darstellen
+	$mail->AltBody = strip_tags( $mail->Body );
+	
+	return $mail->send();
 }
 ?>
