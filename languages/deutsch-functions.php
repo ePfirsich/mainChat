@@ -2,6 +2,8 @@
 
 // Sprachdefinition deutsch functions.php
 
+$t['functions_fehler_keine_datenbankverbindung'] = "Beim Zugriff auf die Datenbank ist ein Fehler aufgetreten. Bitte versuchen Sie es später noch einmal!<br>";
+
 $t['sperre1'] = "<b>Fehler:</b> Lobby kann nicht ermittelt werden!";
 $t['sperre2'] = "gibt Benutzer";
 $t['sperre3'] = "einen Schubs und wirft ihn/sie aus dem Raum!";
