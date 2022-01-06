@@ -44,15 +44,15 @@ $impressum_plz_ort = "";
 
 
 //SMTP Einstellungen
-$smtp_on = false;						// Aktivieren oder Deaktivieren der SMTP Funktionen
-$smtp_host = "SMTPServer";				// E-Mail Server
-$smtp_port = 587;						// SMTP Port (587 = STARTTLS, 465 = TLS)
-$smtp_encryption = "tls";				// SMTP Encryption, bei Port 25 muss hier false eingetragen werden
-$smtp_username = $email_absender;			// SMTP Benutzername
-$smtp_password = "SMTP_Passwort";		// SMTP Passwort
-$smtp_sender = "SMTP_Senderadresse";	// SMTP Sender E-Mail Adresse
-$smtp_auth = true;						// SMTP Autorisierung erforderlich
-$smtp_autoTLS = true;					// Ist TLS aktiviert oder deaktiviert?
+$smtp_on = %smtp_on%;					// Aktivieren oder Deaktivieren der SMTP Funktionen
+$smtp_host = "%smtp_host%";				// E-Mail Server
+$smtp_port = %smtp_port%;				// SMTP Port (587 = STARTTLS, 465 = TLS)
+$smtp_encryption = "%smtp_encryption%";	// SMTP Encryption, bei Port 25 muss hier false eingetragen werden
+$smtp_username = "%smtp_username%";		// SMTP Benutzername
+$smtp_password = "%smtp_password%";		// SMTP Passwort
+$smtp_sender = "%smtp_sender%";			// SMTP Sender E-Mail Adresse
+$smtp_auth = %smtp_auth%;				// SMTP Autorisierung erforderlich
+$smtp_autoTLS = %smtp_autoTLS%;			// Ist TLS aktiviert oder deaktiviert?
 
 
 // Chat abschalten 1=ja/0=nein
