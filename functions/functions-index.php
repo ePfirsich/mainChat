@@ -597,116 +597,6 @@ function RaumNameToRaumID($eintrittsraum) {
 	return ($lobby_id);
 }
 
-function getsalt($login) {
-	// Versucht den Salt und die Verschlüsselung des Benutzers zu erkennen
-	// $login muss "sicher" kommen
-	global $mysqli_link;
-	global $upgrade_password;
-	
-	$salt = "-9";
-	$query = "SELECT `u_passwort` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' ";
-	$result = sqlQuery($query);
-	
-	if ($result && mysqli_num_rows($result) == 1) {
-		// Benutzer vorhanden, u_passwort untersuchen
-		$pass = mysqli_result($result, 0, "u_passwort");
-		
-		if (preg_match('#(^\$6\$rounds\=([0-9]{4,9})\$(.{1,16})\$)#i', $pass, $treffer)) {
-			// SHA 512 erkannt
-			$salt = $treffer[1];
-			
-			if (CRYPT_SHA512 == 0) {
-				// wenn SHA 512 nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: CRYPT SHA512 used, but not supported; SALT $salt</b><br>";
-				$salt = "-8";
-			}
-			
-		} else if ((preg_match('#(^\$5\$rounds\=([0-9]{4,9})\$(.{1,16})\$)#i', $pass, $treffer)) || (preg_match('#(^\$5\$(.{1,16})\$)#i', $pass, $treffer))) {
-			// SHA 256 erkannt
-			$salt = $treffer[1];
-			
-			if (CRYPT_SHA256 == 0) {
-				// wenn SHA 256 nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: CRYPT SHA256 used, but not supported; SALT $salt</b><br>";
-				$salt = "-7";
-			}
-			
-		} else if (preg_match('#(^\$2(a|x|y)\$([0-9]{1,2})\$(.{21}))#i', $pass, $treffer)) {
-			// Blowfish erkannt
-			$salt = $treffer[1] . '$';
-			
-			if (CRYPT_BLOWFISH == 0) {
-				// wenn Blowfish nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: CRYPT BLOWFISH used, but not supported; SALT $salt</b><br>";
-				$salt = "-6";
-			}
-			
-		} else if (preg_match('#(^\$1\$(.{0,8})\$)#i', $pass, $treffer)) {
-			// CRYPT MD5 erkannt
-			$salt = $treffer[1];
-			
-			if (CRYPT_MD5 == 0) {
-				// wenn Crypt MD5 nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: CRYPT MD5 used, but not supported; SALT $salt</b><br>";
-				$salt = "-5";
-			}
-			
-		} else if ((strlen($pass) == 20) && substr($pass, 0, 1) == '_') {
-			// Extended DES erkannt
-			$salt = substr($pass, 0, 9);
-			
-			if (CRYPT_EXT_DES == 0) {
-				// wenn Ext. DES nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: Ext. DES used, but not supported; SALT $salt</b><br>";
-				$salt = "-4";
-			} else {
-				if ((CRYPT_SHA256 == 1) || (CRYPT_MD5 == 1)) {
-					$upgrade_password = 1;
-				}
-			}
-		} else if ((strlen($pass) == 32) && preg_match('#(^[a-f0-9]{32}$)#i', $pass, $treffer)) {
-			// HASH MD5 erkannt
-			$salt = 'MD5';
-			
-			if (!function_exists('md5')) {
-				// wenn HASH MD5 nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: HASH MD5 used, but not supported; SALT $salt</b><br>";
-				$salt = "-3";
-			} else {
-				if ((CRYPT_SHA256 == 1) || (CRYPT_MD5 == 1)) {
-					$upgrade_password = 1;
-				}
-			}
-		} else if ((strlen($pass) == 13) && substr($pass, 0, 1) != '$') {
-			// Standard DES erkannt
-			$salt = substr($pass, 0, 2);
-			
-			if (!function_exists('crypt')) {
-				// wenn Std. DES nicht im System bekannt ist, Fehlermeldung
-				// Kann nur bei Systemänderung vorkommen
-				echo "<b>ERROR: Std. DES used, but not supported; SALT $salt</b><br>";
-				$salt = "-2";
-			} else {
-				if (defined("CRYPT_SHA256") || defined("CRYPT_MD5")) {
-					$upgrade_password = 1;
-				}
-			}
-		} else {
-			echo "<b>ERROR: Verschlüsselung nicht erkannt <!-- $pass --></b><br>";
-			$salt = "-1";
-		}
-		
-	}
-	
-	return $salt;
-}
-
 function auth_user($login, $passwort) {
 	// Passwort prüfen und Benutzerdaten lesen
 	// Funktion liefert das mysqli_result zurück, wenn auf EINEN Benutzer das login/passwort passt
@@ -714,49 +604,16 @@ function auth_user($login, $passwort) {
 	// passwort = Passwort
 	
 	global $mysqli_link;
-	global $upgrade_password;
 	
-	$v_salt = getsalt($login);
+	// Übergebenes Passwort hashen und gegen das gespeicherte Passwort prüfen
+	$v_passwort = encrypt_password($passwort);
 	
-	if ($v_salt == -9) {
-		// Benutzer nicht gefunden
-		return (0);
-	} else if (($v_salt > -9) && ($v_salt < 0)) {
-		echo "<b>ERROR: Passwortverschlüsselung ungültig</b><br>";
-		return (0);
+	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+	$result = sqlQuery($query);
+	if ($result && mysqli_num_rows($result) == 1) {
+		return ($result);
 	} else {
-		// Nachdem die Verschlüsselung nun bekannt ist
-		// Übergebenes PW verschlüsseln und gegen DB Prüfen
-		
-		if ($v_salt == 'MD5') {
-			$v_passwort = md5($passwort);
-		} else {
-			$v_passwort = crypt($passwort, $v_salt);
-		}
-		
-		$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$usergefunden = mysqli_result($result, 0, "u_id");
-			mysqli_free_result($result);
-			
-			if ($upgrade_password == 1) {
-				// PW war richtig => PW Verschlüsselung verbessern
-				// indem neu gespeichert wird, Verschlüsselung wird in schreibe_db bestimmt
-				unset($f);
-				$f['u_passwort'] = $passwort;
-				$f['u_salt'] = $v_salt; // Dummy, wird nicht gespeichert, nur übermittelt und seperat ausgewertet
-				$f['u_id'] = $usergefunden;
-				schreibe_db("user", $f, $f['u_id'], "u_id");
-			}
-			
-			// Neues PW ist nicht bekannt aber lt. oben richtig, daher neues $result erzeugen
-			$query = "SELECT * FROM `user` WHERE `u_id` = $usergefunden ";
-			$result = sqlQuery($query);
-			return ($result);
-		} else {
-			return (0);
-		}
+		return (0);
 	}
 }
 
@@ -774,7 +631,7 @@ function zeige_chat_login() {
 	} else {
 		$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?aktion=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
 	}
-	$login_titel .= "[<a href=\"index.php?aktion=passwort_neu\">" . $t['login_passwort_vergessen'] . "</a>]";
+	$login_titel .= "[<a href=\"index.php?aktion=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
 	
 	
 	// Räume
@@ -801,7 +658,6 @@ function zeige_chat_login() {
 	}
 
 	$raeume = "<select name=\"eintritt\">";
-	
 	if ($forumfeatures) {
 		$raeume .= "<option value=\"forum\">&gt;&gt;Forum&lt;&lt;\n";
 	}
@@ -832,7 +688,7 @@ function zeige_chat_login() {
 		$text = $layout_kopf;
 	} else {
 		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-		$text.= "<h2>".$t['willkommen']."</h2><br>\n";
+		$text.= "<h2>" . $t['willkommen'] . "</h2><br>\n";
 	}
 	
 	// Benutzerlogin

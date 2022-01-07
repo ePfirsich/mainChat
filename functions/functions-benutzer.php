@@ -353,9 +353,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					if ($g['u_chathomepage'] == "1") {
 						$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">";
 					}
-					if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || ($u_level == "S")) {
-						$value .= "<br><input type=\"submit\" name=\"eingabe\" value=\"$t[chat_msg110]\">";
-					}
 					$value .= "</form>\n";
 					
 					// Avatar

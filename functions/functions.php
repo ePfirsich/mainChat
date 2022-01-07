@@ -116,7 +116,7 @@ function sqlUpdate($query, $keineNachricht = false) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, 'Update fehlgeschlagen', $query.' -> '.mysqli_error(v));
+		email_senden($kontakt, 'Update fehlgeschlagen', $query.' -> '.mysqli_error($mysqli_link));
 		return false;
 	}
 	$ret = mysqli_affected_rows($mysqli_link);
@@ -509,32 +509,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	}
 }
 
-function iCrypt($passwort, $salt) {
-	global $upgrade_password;
-	
-	$v_passwort = "";
-	if ($upgrade_password == 1) {
-		$salt = "";
-		if (defined("CRYPT_SHA256")) {
-			$salt = '$5$rounds=5000$' . gensalt(16) . '$';
-		} elseif (CRYPT_MD5 == 1) {
-			$salt = '$1$' . gensalt(8) . '$';
-		} else {
-			$salt = gensalt(2); // für den Notfall Std. DES
-		}
-		$upgrade_password = 0;
-		$v_passwort = crypt($passwort, $salt);
-	} else {
-		$upgrade_password = 0;
-		if ($salt == 'MD5') {
-			$v_passwort = md5($passwort);
-		} else {
-			$v_passwort = crypt($passwort, $salt);
-		}
-	}
-	return ($v_passwort);
-}
-
 function schreibe_db($db, $f, $id, $id_name) {
 	// Assoziatives Array $f in DB $db schreiben 
 	// Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
@@ -582,13 +556,11 @@ function schreibe_db($db, $f, $id, $id_name) {
 		// Datensatz neu schreiben
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
-			if (($name != $id_name) && ($name != "u_salt")) {
+			if( $name != $id_name ) {
 				$q .= "," . mysqli_real_escape_string($mysqli_link, $name);
 				if ($name == "u_passwort") {
-					if (!isset($f['u_salt']))
-						$f['u_salt'] = substr($inhalt, 0, 2);
-					// Verschlüsseln
-						$q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
+					// Passwort hashen
+					$q .= "='" . mysqli_real_escape_string($mysqli_link, encrypt_password($inhalt)) . "'";
 				} else {
 					$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
 				}
@@ -608,21 +580,16 @@ function schreibe_db($db, $f, $id, $id_name) {
 		// bestehenden Datensatz updaten
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
-			if ($name != "u_salt") {
-				if ($q == "") {
-					$q = mysqli_real_escape_string($mysqli_link, $name);
-				} else {
-					$q .= "," . mysqli_real_escape_string($mysqli_link, $name);
-				}
-				if ($name == "u_passwort") {
-					// Verschlüsseln
-					if (!isset($f['u_salt'])) {
-						$f['u_salt'] = substr($inhalt, 0, 2);
-					}
-					$q .= "='" . mysqli_real_escape_string($mysqli_link, iCrypt($inhalt, $f['u_salt'])) . "'";
-				} else {
-					$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
-				}
+			if ($q == "") {
+				$q = mysqli_real_escape_string($mysqli_link, $name);
+			} else {
+				$q .= "," . mysqli_real_escape_string($mysqli_link, $name);
+			}
+			if ($name == "u_passwort") {
+				// Passwort hashen
+				$q .= "='" . mysqli_real_escape_string($mysqli_link, encrypt_password($inhalt)) . "'";
+			} else {
+				$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
 			}
 		}
 		$q = "UPDATE $db SET " . $q . " WHERE $id_name=$id";
@@ -632,8 +599,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, "
-			. "`u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$id";
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -1617,12 +1583,14 @@ function hole_benutzer_einstellungen($u_id, $ort) {
 }
 
 function email_senden($empfaenger, $betreff, $inhalt) {
-	global $smtp_on, $smtp_sender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS;
+	global $smtp_on, $smtp_sender, $chat, $chat_url, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS;
 	
 	$absender = $smtp_sender;
-	$charset = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
-	$charset .= "Mime-Version: 1.0\r\n";
-	$charset .= "Content-type: text/plain; charset=utf-8";
+	
+	// Anfang und Ende an jede E-Mail anhängen
+	$inhalt_anfang = "<h1>$chat</h1><br>";
+	$inhalt_ende = "<br><br>" . "-- <br>   $chat ($chat_url)<br>";
+	$inhalt = $inhalt_anfang . $inhalt . $inhalt_ende;
 	
 	// E-Mail versenden
 	if($smtp_on) {
@@ -1630,6 +1598,11 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 	} else {
 		// Der PHP-Vessand benötigt \n und nicht <br>
 		$inhalt = str_replace("<br>", "\n", $inhalt);
+		
+		$charset = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
+		$charset .= "Mime-Version: 1.0\r\n";
+		$charset .= "Content-type: text/plain; charset=utf-8";
+		
 		$rueckmeldung = mail($empfaenger, $betreff, $inhalt, "From: $absender ($chat)" . $charset);
 	}
 	
@@ -1638,9 +1611,7 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 
 function mailsmtp($mailempfaenger, $mailbetreff, $inhalt, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS) {
 	global $chat;
-	require 'PHPMailerAutoload.php';
-	
-	$inhalt = "<h1>$chat</h1>".$inhalt;
+	require_once("PHPMailerAutoload.php");
 	
 	$mail = new PHPMailer;
 	$mail->CharSet = 'UTF-8';
@@ -1679,5 +1650,36 @@ function mailsmtp($mailempfaenger, $mailbetreff, $inhalt, $header, $chat, $smtp_
 	$mail->AltBody = strip_tags( $mail->Body );
 	
 	return $mail->send();
+}
+
+/**
+ * Hasht das eingegebene Passwort
+ * @param string $password Eingegebenes Psswort des Mitglieds
+ * @return string Gibt das gehashte Passwort zurück
+ */
+function encrypt_password($password) {
+	global $secret_salt;
+	
+	$salted_password = $secret_salt.$password;
+	$password_hash = hash('sha256', $salted_password);
+	
+	return $password_hash;
+}
+
+function randomString() {
+	if(function_exists('random_bytes')) {
+		$bytes = random_bytes(16);
+		$str = bin2hex($bytes);
+	} else if(function_exists('openssl_random_pseudo_bytes')) {
+		$bytes = openssl_random_pseudo_bytes(16);
+		$str = bin2hex($bytes);
+	} else if(function_exists('mcrypt_create_iv')) {
+		$bytes = mcrypt_create_iv(16, MCRYPT_DEV_URANDOM);
+		$str = bin2hex($bytes);
+	} else {
+		//Bitte euer_geheim_string durch einen zufälligen String mit >12 Zeichen austauschen
+		$str = md5(uniqid('g158Y9EYN7h1V', true));
+	}
+	return $str;
 }
 ?>

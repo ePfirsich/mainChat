@@ -141,9 +141,11 @@ $t['login_login'] = "Login";
 $t['login_gastlogin'] = "Gastlogin";
 $t['login_benutzername'] = "Benutzername";
 $t['login_benutzername_beschreibung'] = "(Bitte nur ein Wort)";
+$t['login_passwort_benutzername'] = "Bitte ein neues Passwort für den Benutzernamen \"%u_nick%\" festlegen.";
 $t['login_passwort'] = "Passwort";
 $t['login_passwort_wiederholen'] = "Passwort wiederholen";
 $t['login_passwort_vergessen'] = "Passwort vergessen?";
+$t['login_neues_passwort_speichern'] = "Neues Passwort speichern";
 $t['login_email'] = "E-Mail";
 $t['login_freischalt_code'] = "Freischalt-Code";
 $t['login_weiter_zum_chat'] = "Weiter zum Chat";
@@ -177,8 +179,7 @@ $t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registr
 	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
-	. "Sie den Link dann in den Browser ein.<br><br>"
-		. "-- <br>   $chat ($chat_url)<br>";
+	. "Sie den Link dann in den Browser ein.";
 
 $t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>";
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
@@ -199,15 +200,15 @@ $t['registrierung_fehler_passwort_unterschiedlich'] = "Sie haben sich beim Passw
 $t['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!<br>";
 $t['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
 $t['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
-$t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_neu\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?aktion=registrierung\">Zurück zur Registrierung!</a><br>";
+$t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?aktion=registrierung\">Zurück zur Registrierung!</a><br>";
 
 $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
 $t['registrierung_email_angeben'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
 $t['registrierung_email_versendet'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
-$t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie bitte nun, bis Sie vom Webmaster eine E-Mail mit Ihrem "
+$t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie nun bitte, bis Ihre E-Mail bestätigt wurde und Sie eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort angegebenen Link!</p>";
 $t['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
-$t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst vom Webmaster bestätigt werden.";
+$t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst bestätigt werden.";
 $t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
 $t['registrierung_absenden'] = "Absenden";
 
@@ -227,13 +228,13 @@ $t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, re
 	. "<li>Mit dem Login oder der Registrierung erklären Sie sich mit der Datenspeicherung gemäß unserer <a href=\"index.php?aktion=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
-$t['login_passwort_schritt1'] = "<b>Neues Passwort, 1. Schritt (von 3):</b> Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "
+$t['login_passwort_schritt1'] = "Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "
 	. "Benutzernamen oder E-Mail-Adresse an. Wenn beide Felder ausgefüllt sind, wird der Benutzername überprüft. Wenn der Benutzername nicht bekannt ist, bitte nur das Feld E-Mail-Adresse ausfüllen. Sie erhalten anschließend  "
 	. "eine E-Mail mit einem Sicherheitscode, der Sie berechtigt ein neues Passwort anzufordern.<br>";
-$t['login_passwort_schritt2'] = "<b>Neues Passwort, 2. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde ein Sicherheitscode gesendet. Geben Sie bitte diesen Sicherheitscode in das untere Feld ein.<br>";
-$t['login_passwort_schritt3'] = "<b>Neues Passwort, 3. Schritt (von 3):</b> An Ihre E-Mail-Adresse wurde soeben ein neues Passwort gesendet.<br>";
+$t['login_passwort_schritt2'] = "Ein Link um Ihr Passwort zurückzusetzen wurde an Ihre E-Mail-Adresse gesendet.<br>";
 
-$t['login_fehlermeldung_passwort_versand'] = "Die E-Mail konnte nicht versandt werden. Das Passwort wurde nicht geändert!<br>";
+$t['login_fehlermeldung_passwort_vergessen_kein_code'] = "Es wurde eine falsche Adresse zum Zurücksetzen des Passworts aufgerufen. Bitte den Link in der E-Mail überprüfen.<br>";
+$t['login_fehlermeldung_passwort_vergessen_kein_benutzer'] = "Ein Benutzer mit dieser ID existiert leider nicht.<br>";
 $t['login_fehlermeldung_passwort_vergessen_email'] = "Es wurde keine gültige E-Mail-Adresse angegeben!<br>";
 $t['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.<br>";
 $t['login_fehlermeldung_passwort_vergessen_email2'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
@@ -241,26 +242,29 @@ $t['login_fehlermeldung_passwort_vergessen_email_benutzername'] = "Es wurde wede
 $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde bereits vor kurzem für diesen Benutzer ein neues Passwort angefordert.<br>";
 $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.<br>";
 
-$t['pwneu8'] = "Ihre Passwortanforderung für den $chat";
-$t['pwneu9'] = "Hallo %nickname%,<br>
-<br>
-Sie oder jemand unbefugtes möchte ein neues Passwort für Ihren Benutzernamen.<br>
-<br>
-Anbei erhalten Sie den Sicherheitscode, mit dem Sie sich ein neues Passwort erzeugen können. Ohne diesen wird kein neues Passwort erzeugt.<br>
-Geben Sie den Sicherheitscode bitte in das vorgegebene Feld ein - oder kopieren Sie es mit \"Copy and Paste\" (markieren, STRG+C und STRG+V)<br>
-<br>
-Sicherheitscode: %hash%<br>
-<br>
---<br>
-Ihr $chat-Team  ";
-$t['login_passwort_sicherheitscode'] = "Sicherheitscode";
-$t['pwneu14'] = "Ihr neues Passwort für den $chat";
-$t['pwneu15'] = "Hallo %nickname%,<br>
-<br>
-Ihr Passwort wurde geändert. Ihr neues Passwort lautet: %passwort%<br>
-<br>
-Viel Spaß noch im $chat<br>";
+$t['email_passwort_vergessen_titel'] = "Ihre Passwortanforderung für den $chat";
+$t['email_passwort_vergessen_inhalt'] = "Hallo %nickname%,<br />
+<br />
+für Ihren Account auf $chat_url wurde ein neues Passwort angefordert.<br />
+Um ein neues Passwort zu vergeben, rufen Sie innerhalb der nächsten 24 Stunden die folgende Website auf:<br />
+%webseite_passwort%<br />
+ <br />
+Sollte Ihnen das Passwort wieder eingefallen sein oder dieses nicht angefordert, so ignorieren Sie diese E-Mail einfach.";
 $t['login_passwort_anfordern'] = "Neues Passwort anfordern";
+
+$t['login_passwort_fehler_fehlermeldung'] = "Fehlermeldung";
+$t['login_passwort_fehler_kein_benutzer'] = "Es wurde kein passender Benutzer gefunden.<br>";
+$t['login_passwort_fehler_code_abgelaufen'] = "Dein Code ist leider abgelaufen.<br>";
+$t['login_passwort_fehler_code_ungueltig'] = "Der übergebene Code war ungültig. Stellen Sie sicher, dass Sie den genauen Link in der URL aufgerufen haben.<br>";
+$t['login_passwort_fehler_passwort_zweimal_eingaben'] = "Bitte zweimal das Passwort eingeben.<br>";
+$t['login_passwort_fehler_passwort_nicht_identisch'] = "Bitte zweimal das identische Passwörter eingeben.<br>";
+$t['login_passwort_fehler_passwort_zu_kurz'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein.<br>";
+
+$t['login_passwort_erfolgsmeldung'] = "Erfolgsmeldung";
+$t['login_passwort_erfolgreich_passwort_geaendert'] = "Das Passwort wurde erfolgreich geändert.<br><br><a href=\"index.php\">Zum Login</a>";
+$t['login_email_erfolgreich_geandert'] = "Die E-Mail-Adresse für %u_nick% wurde erfolgreich von %u_email% auf %u_email_neu% geändert.<br><br><a href=\"index.php\">Zum Login</a>";
+
+
 
 $t['impressum'] = "Name und Anschrift";
 

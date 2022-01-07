@@ -414,8 +414,12 @@ CREATE TABLE user (
 	`u_auth` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_nick` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`u_passwort` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
-	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_passwort_code` varchar(255) DEFAULT NULL,
+	`u_passwort_code_time` timestamp NULL DEFAULT NULL,
 	`u_passwortanforderung` timestamp NULL DEFAULT NULL,
+	`u_email` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_email_neu` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
+	`u_email_code` varchar(255) DEFAULT NULL,
 	`u_level` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default 'U',
 	`u_farbe` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
 	`u_away` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci default NULL,
@@ -486,4 +490,4 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';
-INSERT INTO user set u_id=1,u_nick='admin',u_passwort='adpexzg3FUZAk',u_level='S';
+INSERT INTO user set u_id=1,u_nick='admin',u_passwort='8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',u_level='S';

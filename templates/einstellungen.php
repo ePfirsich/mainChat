@@ -24,8 +24,8 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 
 $benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
 	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id";
-
-	$benutzerdaten_result = sqlQuery($benutzerdaten_query);
+$benutzerdaten_result = sqlQuery($benutzerdaten_query);
+	
 if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
 	// Diese Zeile wird benötigt, um bei Falscheingaben den falschen Wert mit dem korrekten Wert zu überschreiben
 	$benutzerdaten_result2 = sqlQuery($benutzerdaten_query);
@@ -148,33 +148,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			break;
 		
 		case "email_aendern":
-			$text = '';
-			$box = $t['einstellungen_email_aendern'];
-	
-			$text .= $t['einstellungen_email_aendern_text1'] . "<br><br>" . $t['einstellungen_email_aendern_text2'] . "\n";
-			$text .= "<form name=\"$u_nick\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-			$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
-			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";
-			$text .= "<table style=\"width:100%;\">";
-			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
-			$zaehler++;
-			
-			if ($zaehler % 2 != 0) {
-				$bgcolor = 'class="tabelle_zeile2"';
-			} else {
-				$bgcolor = 'class="tabelle_zeile1"';
-			}
-			
-			$text .= "<tr>\n";
-			$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_level'] . "</td>";
-			$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
-			$text .= "</tr>\n";
-			$text .= "</table>\n";
-			$text .= "</form>\n";
-			
-			// Box anzeigen
-			zeige_tabelle_zentriert($box, $text);
+			formular_email_aendern($f);
 			
 			break;
 			
@@ -209,12 +183,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			if ( $u_id != $f['u_id'] ) {
 				$fehlermeldung .= $t['einstellungen_fehler_allgemein'];
-				$aktion = "email_aendern";
 			}
 			
-			if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
+			if ( filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false ) {
 				$fehlermeldung .= $t['einstellungen_fehler_email1'];
-				$aktion = "email_aendern";
 			}
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
@@ -223,7 +195,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$num = mysqli_num_rows($result);
 			if ($num > 1) {
 				$fehlermeldung .= $t['einstellungen_fehler_email2'];
-				$aktion = "email_aendern";
 			}
 			
 			// oder Domain ist lt. Config verboten
@@ -234,7 +205,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$teststring = strtolower($f['u_email']);
 				if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
 					$fehlermeldung .= $t['einstellungen_fehler_email1'];
-					$aktion = "email_aendern";
 				}
 			}
 			
@@ -242,42 +212,32 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// Fehlermeldung anzeigen
 				zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 				$fehlermeldung = "";
+				
+				formular_email_aendern($f);
 			} else {
 				// Einstellungen speichern
 				unset($p);
 				
-				// Länge des Feldes und Format Mailadresse werden weiter oben geprüft
-				$p['u_id'] = $f['u_id'];
-				$p['u_email'] = $f['u_email'];
-				$pwdneu = genpassword(8);
-				$p['u_passwort'] = $pwdneu;
+				// Passwortcode generieren und in der Datenbank speichern
+				$emailcode = randomString();
+				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "' WHERE `u_id` = $f[u_id];";
+				sqlUpdate($queryEmailcode);
 				
-				$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
+				
+				// Kopie von index.php?aktion=passwort_zuruecksetzen
+				// ULR zusammenstellen
+				$webseite_email = $chat_url . "/index.php?aktion=email-bestaetigen&id=" . $f['u_id'] . "&code=".$emailcode;
+				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $t['einstellungen_email_aendern_email_inhalt']);
+				$inhalt = str_replace("%nickname%", $f['u_nick'], $inhalt);
+				$email = urldecode($f['u_email']);
 				
 				// E-Mail versenden
-				$email_ok = email_senden($f['u_email'], $t['chat_msg112'], $inhalt);
+				email_senden($email, $t['einstellungen_email_aendern_email_titel'], $inhalt);
 				
-				if($email_ok) {
-					// Neues Passwort in der Datenbank speichern
-					schreibe_db("user", $p, $p['u_id'], "u_id");
-					
-					$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_email'];
-					zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
-					
-					$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$p[u_id]' AND o_level !='C' AND o_level !='S'";
-					
-					$result = sqlQuery($query);
-					if ($result && mysqli_num_rows($result) > 0) {
-						$row = mysqli_fetch_object($result);
-						
-						// Aus dem Chat ausloggen
-						ausloggen($f['u_id'], $row->o_name, $row->o_raum, $row->o_id);
-						
-						mysqli_free_result($result);
-					}
-				} else {
-					$fehlermeldung .= $t['einstellungen_fehler_email3'];
-				}
+				$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
+				$text = str_replace("%u_email%", $f['u_email'], $t['einstellungen_email_aendern_bestaetigung']);
+				
+				zeige_tabelle_zentriert($box, $text);
 			}
 			
 			break;
@@ -665,7 +625,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// Benutzer mit ID $u_id anzeigen
 					user_edit($f, $admin, $u_level);
 				}
-			} elseif (isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
+			} else if(isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
 					sqlUpdate($query);
@@ -692,58 +652,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text = "";
 					
 				}
-			} else if (isset($eingabe) && $eingabe == $t['chat_msg110'] && $admin) {
-				// Admin E-Mail-Adresse aus DB holen
-				$query = "SELECT `u_email`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
-				$result = sqlQuery($query);
-				
-				$x = mysqli_fetch_array($result, MYSQLI_ASSOC);
-				$f['u_email'] = $x['u_email'];
-				$pwdneu = genpassword(8);
-				$f['u_passwort'] = $pwdneu;
-				$uu_level = $x['u_level'];
-				
-				// Prüfung ob der Benutzer das überhaupt darf...
-				
-				if ($f['u_email'] == "") {
-					$fehlermeldung .= $t['einstellungen_fehler_email_leer'];
-					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
-					$fehlermeldung = "";
-				} else if ((($u_level == "C" || $u_level == "A") && ($uu_level == "U" || $uu_level == "M" || $uu_level == "Z")) || $u_level == "S") {
-					$inhalt = str_replace("%passwort%", $f['u_passwort'], $t['einstellungen_neues_passwort']);
-					
-					// E-Mail versenden
-					$ok = email_senden($f['u_email'], $t['chat_msg112'], $inhalt);
-					
-					if($ok) {
-						$erfolgsmeldung .= $t['chat_msg111'];
-						zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
-						$fehlermeldung = "";
-						schreibe_db("user", $f, $f['u_id'], "u_id");
-					} else {
-						$fehlermeldung .= $t['einstellungen_fehler_email_nicht_versendet'];
-						zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
-						$fehlermeldung = "";
-					}
-					
-					$user = $f['u_nick'];
-					$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user=" . intval($f['u_id']) . " AND o_level!='C' AND o_level!='S'";
-					
-					$result = sqlQuery($query);
-					if ($result && mysqli_num_rows($result) > 0) {
-						$row = mysqli_fetch_object($result);
-						
-						// Aus dem Chat ausloggen
-						ausloggen($f['u_id'], $row->o_name, $row->o_raum, $row->o_id);
-						
-						mysqli_free_result($result);
-					}
-				} else {
-					$fehlermeldung .= $t['einstellungen_fehler_aktion_nicht_erlaubt'];
-					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
-					$fehlermeldung = "";
-				}
-				
 			} else {
 				// Einstellungen des Benutzers mit ID $u_id anzeigen
 				user_edit($f, $admin, $u_level);

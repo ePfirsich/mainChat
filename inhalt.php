@@ -281,16 +281,16 @@ if(!$seite || $kein_seitenaufruf) {
 					eintrag_aktionen($aktion_datensatz);
 					zeige_aktionen("normal");
 					
-					$box = $t['aktion1'];
-					$text = $t['aktion2'];
+					$box = $t['einstellungen_tipps_benachrichtigungen_titel'];
+					$text = $t['einstellungen_tipps_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					
 				case "aktion":
 					zeige_aktionen("normal");
 					
-					$box = $t['aktion1'];
-					$text = $t['aktion2'];
+					$box = $t['einstellungen_tipps_benachrichtigungen_titel'];
+					$text = $t['einstellungen_tipps_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					

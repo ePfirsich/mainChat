@@ -264,11 +264,7 @@ function user_edit($f, $admin, $u_level) {
 	$text .= "</form>\n";
 	
 	// Kopf Tabelle Benutzerinfo
-	if (isset($onlinezeit) && $onlinezeit) {
-		$box = str_replace("%user%", $f['u_nick'], $t['benutzer_online']);
-	} else {
-		$box = str_replace("%user%", $f['u_nick'], $t['benutzer_offline']);
-	}
+	$box = str_replace("%user%", $f['u_nick'], $t['einstellungen_benutzer']);
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
@@ -282,7 +278,8 @@ function zeige_aktionen($aktion) {
 	global $forumfeatures;
 	
 	$button = $t['einstellungen_speichern'];
-	$box = "$t[aktion4] $u_nick $t[aktion5]";
+	$box = str_replace("%u_nick%", $u_nick, $t['einstellungen_benachrichtigungen_inhalt']);
+	
 	$text = '';
 	
 	$text .= "<form action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
@@ -508,5 +505,35 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	}
 	
 	return $fehlermeldung;
+}
+
+function formular_email_aendern($f) {
+	global $id, $t, $u_nick;
+	$text = '';
+	$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
+	
+	$text .= $t['einstellungen_email_aendern_inhalt'] . "\n";
+	$text .= "<form name=\"$u_nick\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";
+	$text .= "<table style=\"width:100%;\">";
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
+	$zaehler++;
+	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	$text .= "</form>\n";
+	
+	zeige_tabelle_zentriert($box, $text);
 }
 ?>

@@ -69,8 +69,6 @@ if ( !file_exists($filenameConfig) ) {
 	$chat_grafik['forum_topthema']="<span class=\"fa fa-thumb-tack icon24\" alt=\"$t[forum_angepinntes_thema]\" title=\"$t[forum_angepinntes_thema]\"></span>";
 	
 	// Globales
-	$upgrade_password = 0;
-	
 	ini_set("magic_quotes_runtime", 0);
 	
 	if (substr(phpversion(), 0, strpos(phpversion(), '.')) >= 5) {

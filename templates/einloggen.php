@@ -10,7 +10,7 @@ erzeuge_sequence("chat", "c_id");
 
 $kein_gastlogin_ausblenden = false;
 
-// Weiter mit login
+// Weiter mit dem Login
 if (!isset($passwort) || $passwort == "") {
 	// Login als Gast
 	

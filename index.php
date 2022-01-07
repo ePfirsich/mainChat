@@ -274,7 +274,7 @@ switch ($aktion) {
 		
 		break;
 		
-	case "passwort_neu":
+	case "passwort-vergessen":
 		// Neues Passwort anfordern
 		
 		echo "<body>";
@@ -284,7 +284,35 @@ switch ($aktion) {
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/passwort-neu.php');
+		require_once('templates/passwort-vergessen.php');
+		
+		break;
+		
+	case "passwort-zuruecksetzen":
+		// Neues Passwort anfordern
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
+		require_once('templates/passwort-zuruecksetzen.php');
+		
+		break;
+		
+	case "email-bestaetigen":
+		// Neues Passwort anfordern
+		
+		echo "<body>";
+		
+		require_once("functions/functions-formulare.php");
+		
+		// Gibt die Kopfzeile im Login aus
+		zeige_kopfzeile_login();
+		
+		require_once('templates/email-bestaetigen.php');
 		
 		break;
 	

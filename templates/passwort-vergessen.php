@@ -6,7 +6,6 @@ if( !isset($aktion)) {
 
 unset($u_id);
 
-$richtig = false;
 $fehlermeldung = "";
 $email_gesendet = false;
 
@@ -19,7 +18,6 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_email'] . $a['u_punkte_jahr']);
 		if ($hash == $hash2) {
-			$richtig = true;
 			$u_id = $a['u_id'];
 		} else {
 			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
@@ -59,11 +57,10 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		if ($result && mysqli_num_rows($result) == 1) {
 			$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			
-			// Es darf nur alle 2 Stunden ein neues Passwort angefordert werden
-			// 2 Stunden = 7200 Sekunde
-			if( ( time()-intval($a['u_passwortanforderung']) ) < 7200 ) {
+			// Es darf nur alle 4 Stunden ein neues Passwort angefordert werden
+			// 4 Stunden = 14400 Sekunde
+			if( ( time()-intval($a['u_passwortanforderung']) ) < 14400 ) {
 				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'];
-				$richtig = false;
 			} else {
 				$hash = md5(
 					$a['u_id'] . $a['u_login'] . $a['u_nick']
@@ -71,12 +68,16 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 					. $a['u_email'] . $a['u_punkte_jahr']);
 				
 				$email = urlencode($a['u_email']);
-				$link = $chat_url . "/index.php?aktion=passwort_neu&email=" . $email . "&nickname=" . $nickname . "&hash=" . $hash;
 				
-				$inhalt = str_replace("%link%", $link, $t['pwneu9']);
-				$inhalt = str_replace("%hash%", $hash, $inhalt);
+				// Passwortcode generieren und in der Datenbank speichern
+				$passwordcode = randomString();
+				$queryPasswortcode = "UPDATE `user` SET `u_passwort_code` = '".sha1($passwordcode)."', `u_passwort_code_time` = NOW() WHERE `u_id` = $a[u_id];";
+				sqlUpdate($queryPasswortcode);
+				
+				// ULR zusammenstellen
+				$webseite_passwort = $chat_url . "/index.php?aktion=passwort-zuruecksetzen&id=" . $a['u_id'] . "&code=".$passwordcode;
+				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $t['email_passwort_vergessen_inhalt']);
 				$inhalt = str_replace("%nickname%", $a['u_nick'], $inhalt);
-				$inhalt = str_replace("%email%", $email, $inhalt);
 				$email = urldecode($a['u_email']);
 				
 				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
@@ -84,7 +85,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				sqlUpdate($queryPasswortanforderung);
 				
 				// E-Mail versenden
-				email_senden($email, $t['pwneu8'], $inhalt);
+				email_senden($email, $t['email_passwort_vergessen_titel'], $inhalt);
 				
 				$email_gesendet = true;
 				unset($hash);
@@ -101,68 +102,38 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	}
 }
 
-if (!$richtig) {
-	// Fehlermeldungen ausgeben
-	if ($fehlermeldung != "") {
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
-	}
+// Fehlermeldungen ausgeben
+if ($fehlermeldung != "") {
+	zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+}
+
+if ($email_gesendet) {
+	$text = $t['login_passwort_schritt2'];
+} else {
+	$text = $t['login_passwort_schritt1'];
 	
-	if ($email_gesendet) {
-		$text = $t['login_passwort_schritt2'];
-	} else {
-		$text = $t['login_passwort_schritt1'];
-	}
-	
+	// Formular zum Anfordern eines neuen Passworts
 	$text .= "<form action=\"index.php\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"passwort_neu\">";
-	
-	if ( (isset($email) || isset($nickname)) && $email <> "" && $nickname <> "" && (isset($hash) || $fehlermeldung == "") ) {
-		// Eingabe des Sicherheitscodes, der per E-Mail zugeschickt wurde
-		
-		$text .= "<input type=\"hidden\" name=\"nickname\" value=\"$nickname\">";
-		$text .= "<input type=\"hidden\" name=\"email\" value=\"$email\">";
-		$text .= "<table style=\"width:100%;\">\n";
-		if (!isset($hash)) {
-			$hash = "";
-		}
-		
-		// Überschrift: Neues Passwort anfordern
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
-		
-		// Benutzername
-		$text .= zeige_formularfelder("text", $zaehler, $t['login_benutzername'], "", $nickname);
-		$zaehler++;
-		
-		// E-Mail
-		$text .= zeige_formularfelder("text", $zaehler, $t['login_email'], "", $email);
-		$zaehler++;
-		
-		// Sicherheitsocde
-		$text .= zeige_formularfelder("input", $zaehler, $t['login_passwort_sicherheitscode'], "hash", $hash);
-		$zaehler++;
-	} else {
-		// Formular zum Anfordern eines neuen Passworts
-		
-		$text .= "<table style=\"width:100%;\">\n";
-		if (!isset($nickname)) {
-			$nickname = "";
-		}
-		if (!isset($email)) {
-			$email = "";
-		}
-		
-		// Überschrift: Neues Passwort anfordern
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
-		
-		// Benutzername
-		$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "nickname", $nickname);
-		$zaehler++;
-		
-		// E-Mail
-		$text .= zeige_formularfelder("input", $zaehler, $t['login_email'], "email", $email);
-		$zaehler++;
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"passwort_vergessen\">";
+	$text .= "<table style=\"width:100%;\">\n";
+	if (!isset($nickname)) {
+		$nickname = "";
+	}
+	if (!isset($email)) {
+		$email = "";
 	}
 	
+	// Überschrift: Neues Passwort anfordern
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
+	
+	// Benutzername
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "nickname", $nickname);
+	$zaehler++;
+	
+	// E-Mail
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_email'], "email", $email);
+	$zaehler++;
+
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
 	} else {
@@ -176,33 +147,7 @@ if (!$richtig) {
 	
 	$text .= "</table>";
 	$text .= "</form>";
-	
-	zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
-	
-} else if ($richtig && $u_id) {
-	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id` = '$u_id' LIMIT 2";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		unset($f);
-		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		
-		$pwdneu = genpassword(8);
-		$f['u_passwort'] = $pwdneu;
-		$f['u_id'] = $u_id;
-		$text = str_replace("%passwort%", $f['u_passwort'], $t['pwneu15']);
-		$text = str_replace("%nickname%", $a['u_nick'], $text);
-		
-		// E-Mail versenden
-		$ok = email_senden($a['u_email'], $t['pwneu14'], $text);
-		
-		if ($ok) {
-			$text = $t['login_passwort_schritt3'];
-			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
-			schreibe_db("user", $f, $f['u_id'], "u_id");
-		} else {
-			$text = $t['login_fehlermeldung_passwort_versand'];
-			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
-		}
-	}
 }
+
+zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 ?>

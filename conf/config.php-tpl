@@ -26,6 +26,8 @@ $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am E
 $trigger_letzte_Zeilen = 1;			// Nur im Fehlerfal bearbeiten. Diese Variabel regelt die Ausgabe im Normalen Modus
 $sicherer_modus = false;			// Sicherer Modus Aktivieren
 $debug_modus = false;				// Bei aktiviertem Debug-Modus werden fehlgeschlagenen Datenbankabfragen an $kontakt gesendet
+$secret_salt = "%secret_salt%";		// Zufallsgenerierte Zeichenkette zum Hashen des Passwortes (12-stellig reicht hier aus)
+									// Wenn dies im Laufenden Betrieb geändert wird, muss sich jeder Benutzer ein neues Passwort über "Passwort vergessen" anfordern.
 
 // Benutzerseiten
 $standard_ui_hintergrundfarbe = "ffffff";

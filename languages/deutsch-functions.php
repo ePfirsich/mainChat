@@ -166,9 +166,6 @@ $t['chat_msg104'] = "<b>$chat:</b> Mail wurde nicht verschickt: Mailbombing-Schu
 $t['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
 $t['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $t['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
-$t['chat_msg110'] = "Passwort neu + E-Mail";
-$t['chat_msg111'] = "Passwort wurde neu gesetzt und an den Benutzer per E-Mail gesendet!";
-$t['chat_msg112'] = "Ihr neues Passwort für den $chat";
 $t['chat_msg114'] = "Heute ist der %datum% um %uhrzeit% Uhr Chat-Zeit.";
 $t['freunde_fehlermeldung_ignoriert'] = "Der Benutzer '%nickname%' kann nicht als Freund hinzugefügt werden, da Sie von diesem Benutzer ignoriert werden!<br>";
 $t['freunde_fehlermeldung_gesperrt'] = "Der Benutzer '%nickname%' kann nicht als Freund hinzugefügt werden, da dieser Benutzer gesperrt ist!<br>";
@@ -241,8 +238,7 @@ $t['profil1'] = "<b>$chat:</b> Sie haben Ihr <a %link%>Profil</a> noch nicht aus
 $t['mail1'] = "<b>$chat:</b> Sie haben neue Nachrichten. <a %link%>Gleich lesen?</a>";
 $t['mail2'] = " Nachricht von '%nick%' am %zeit%: %betreff%";
 $t['mail3'] = "[Mail-Weiterleitung aus dem $chat]\n\n";
-$t['mail4'] = "$chat<br><br>
-%name% hat folgende Nachricht gesendet:<br><br>
+$t['mail4'] = "Der Benutzer \"%name%\" hat folgende Nachricht gesendet:<br><br>
 %nachricht%<br><br>
 E-Mail Adresse: %email%<br>
 Adresse des Chats: $chat_url";

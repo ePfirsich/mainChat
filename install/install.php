@@ -10,6 +10,7 @@
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);
 
 $chat = array();
+$chat["secret_salt"] = filter_input(INPUT_POST, 'chat_secret_salt', FILTER_SANITIZE_STRING);
 $chat["host"] = filter_input(INPUT_POST, 'chat_host', FILTER_SANITIZE_STRING);
 $chat["dbase"] = filter_input(INPUT_POST, 'chat_dbase', FILTER_SANITIZE_STRING);
 $chat["user"] = filter_input(INPUT_POST, 'chat_user', FILTER_SANITIZE_STRING);
