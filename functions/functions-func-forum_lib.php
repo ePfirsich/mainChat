@@ -11,7 +11,9 @@ function pruefe_leserechte($th_id) {
 	
 	$query = "SELECT fo_admin FROM forum WHERE fo_id = '$fo_id'";
 	$result = sqlQuery($query);
-	list($admin_forum) = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$ba = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$admin_forum = $ba['fo_admin'];
+	
 	$leserechte = false;
 	if ($u_level == "G") {
 		if ($admin_forum == 0 || (($admin_forum & 8) == 8)) {
@@ -52,7 +54,8 @@ function pruefe_schreibrechte($th_id) {
 	
 	$query = "SELECT fo_admin FROM forum WHERE fo_id = '$fo_id'";
 	$result = sqlQuery($query);
-	list($admin_forum) = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$ba = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$admin_forum = $ba['fo_admin'];
 	
 	$schreibrechte = false;
 	if ($u_level == "G") {
