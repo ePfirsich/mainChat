@@ -9,8 +9,7 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
-	$query = "SELECT `user`.*, FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`, FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` "
-			. "FROM `user` WHERE `u_id`=$user ";
+	$query = "SELECT `user`.*, FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`, FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$user ";
 			$result = sqlQuery($query);
 			
 			if ($result && mysqli_num_rows($result) == 1) {

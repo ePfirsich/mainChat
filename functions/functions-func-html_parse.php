@@ -103,8 +103,9 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 		
 		// Wie viele Worte hat die Zeile?
 		for ($i = 500; $i >= 0; $i--) {
-			if ((isset($txt[$i])) && $txt[$i] != "")
+			if ((isset($txt[$i])) && $txt[$i] != "") {
 				break;
+			}
 		}
 		
 		// Schleife über alle Worte...
@@ -141,9 +142,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if ($u_level != "G") {
 				// E-Mail Adressen in A-Tag mit Mailto
 				// E-Mail-Adresse -> Format = *@*.*
-				if (preg_match(
-					'/^[\w][\w.-]*@[[:alnum:].-]+\.[[:alnum:]-]{2,}$/',
-					$txt[$j])) {
+				if (preg_match( '/^[\w][\w.-]*@[[:alnum:].-]+\.[[:alnum:]-]{2,}$/', $txt[$j])) {
 					// Aber im Prinzip müsste man sich die RFCs für Mailadressen und Domainnamen nochmal anschauen!
 					// Wort=Mailadresse? -> im text durch dummie ersetzen, im wort durch href.
 					$text = preg_replace("/!$txt[$j]!/", "####$j####", $text);
@@ -152,8 +151,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						. " onclick=\"ww=window.open('mailto:" . $txt[$j]
 						. "','Chat_Klein','resizable=yes,scrollbars=yes,width=10,height=10'); ww.window.close(); return(false);\">"
 						. $txt[$j] . "</a>";
-					$txt[$j] = preg_replace("/" . $txt[$j] . "/", $rep,
-						$txt[$j]);
+					$txt[$j] = preg_replace("/" . $txt[$j] . "/", $rep, $txt[$j]);
 				}
 				
 				// www.###### in <a href="http://###" target=_blank>http://###</A>
@@ -173,8 +171,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						$text);
 					
 					// url aufbereiten
-					$txt[$j] = preg_replace("/" . $txt2 . "/",
-						"<a href=\"redirect.php?url=" . urlencode("http://$txt2") . "\" target=_blank>http://$txt2</a>", $txt[$j]);
+					$txt[$j] = preg_replace("/" . $txt2 . "/", "<a href=\"redirect.php?url=" . urlencode("http://$txt2") . "\" target=_blank>http://$txt2</a>", $txt[$j]);
 				}
 				// http(s)://###### in <a href="http(s)://###" target=_blank>http(s)://###</A>
 				if (preg_match("!^https?://!", $txt[$j])) {
@@ -189,8 +186,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					$text = preg_replace("!####\d*####/!", "$txt[$j]/", $text);
 					
 					// url aufbereiten
-					$txt[$j] = preg_replace("!$txt2!",
-						"<a href=\"redirect.php?url=" . urlencode($txt2) . "\" target=_blank>$txt2</a>", $txt[$j]);
+					$txt[$j] = preg_replace("!$txt2!", "<a href=\"redirect.php?url=" . urlencode($txt2) . "\" target=_blank>$txt2</a>", $txt[$j]);
 				}
 			}
 		}

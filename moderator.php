@@ -27,13 +27,16 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 echo "<body class=\"chatunten\">";
 
 if ($moderationsmodul == 1) {
-	if (!isset($mode))
+	if (!isset($mode)) {
 		$mode = "";
+	}
+	
 	switch ($mode) {
 		case "answer":
 		// antwort anzeigen
 			zeige_moderations_antworten($o_raum);
 			break;
+		
 		case "answernew":
 		// antwort anlegen oder nach editieren neu schreiben
 			unset($f);
@@ -50,10 +53,12 @@ if ($moderationsmodul == 1) {
 			schreibe_db("moderation", $f, $answer, "c_id");
 			zeige_moderations_antworten($o_raum);
 			break;
+		
 		case "answeredit":
 		// antwort editieren
 			zeige_moderations_antworten($o_raum, $answer);
 			break;
+		
 		case "answerdel":
 		// antwort löschem
 			if ($answer != "") {
@@ -63,6 +68,7 @@ if ($moderationsmodul == 1) {
 			}
 			zeige_moderations_antworten($o_raum);
 			break;
+		
 		default:
 		// moderationstexte bearbeiten...
 		// hierbei auch expire der moderierten Nachrichten...

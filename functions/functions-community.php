@@ -26,7 +26,6 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
-		
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
 			$ur1 = "inhalt.php?seite=nachrichten&id=$id&aktion=";
@@ -35,7 +34,6 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 		}
 		
 		while ($row = mysqli_fetch_object($result)) {
-			
 			// Nachricht verschicken
 			switch ($nachricht) {
 				case "OLM":
@@ -228,7 +226,6 @@ function punkte_offline($anzahl, $u_id) {
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	if ($u_id && ($anzahl > 0 || $anzahl < 0)) {
-		
 		// es können maximal die punkte abgezogen werden, die man auch hat
 		$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id";
 		$result2 = sqlQuery($query);
@@ -238,17 +235,19 @@ function punkte_offline($anzahl, $u_id) {
 			$p_jahr = $row2->u_punkte_jahr + $anzahl;
 			$p_monat = $row2->u_punkte_monat + $anzahl;
 			
-			if ($p_gesamt < 0)
+			if ($p_gesamt < 0) {
 				$p_gesamt = 0;
-			if ($p_jahr < 0)
+			}
+			if ($p_jahr < 0) {
 				$p_jahr = 0;
-			if ($p_monat < 0)
+			}
+			if ($p_monat < 0) {
 				$p_monat = 0;
+			}
 		}
 		
 		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
 		$result = sqlUpdate($query);
-		
 	}
 	
 	// Gruppe neu berechnen
@@ -336,24 +335,32 @@ function aktion(
 		
 		case "Alle 5 Minuten":
 		// Aktionen ausführen
-			if (isset($a_was["Freunde"]["OLM"]))
+			if (isset($a_was["Freunde"]["OLM"])) {
 				freunde_online($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Freunde"]["Chat-Mail"]))
+			}
+			if (isset($a_was["Freunde"]["Chat-Mail"])) {
 				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
-			if (isset($a_was["Freunde"]["E-Mail"]))
+			}
+			if (isset($a_was["Freunde"]["E-Mail"])) {
 				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+			}
 			
-			if (isset($a_was["Neue Mail"]["OLM"]))
+			if (isset($a_was["Neue Mail"]["OLM"])) {
 				mail_neu($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Neue Mail"]["E-Mail"]))
+			}
+			if (isset($a_was["Neue Mail"]["E-Mail"])) {
 				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+			}
 			
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"]))
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
 				postings_neu($an_u_id, $u_nick, $id, "OLM");
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"]))
+			}
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
 				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
-			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"]))
+			}
+			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
 				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
+			}
 			
 			// Merken, wann zuletzt die Aktionen ausgeführt wurden
 			$query = "UPDATE online SET o_aktion=" . time() . " WHERE o_user=$an_u_id";
@@ -413,7 +420,6 @@ function aktion_sende(
 	$userlink = zeige_userdetails($von_u_id, 0, FALSE, "&nbsp;", "", "", FALSE);
 	
 	switch ($a_wie) {
-		
 		case "OLM":
 		// Nachricht erzeugen
 			switch ($a_was) {
@@ -611,8 +617,9 @@ function mail_sende($von, $an, $text, $betreff = "") {
 			aktion($u_id, "Sofort/Offline", $an, $u_nick, "", "Neue Mail", $f);
 		}
 	}
-	if (!isset($f['m_id']))
+	if (!isset($f['m_id'])) {
 		$f['m_id'] = "";
+	}
 	$ret = array($f['m_id'], $fehlermeldung);
 	return ($ret);
 	
@@ -808,15 +815,11 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
 	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
 	$sql = "
-		SELECT a.po_id as po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own,
-		date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own,
-		th_name, fo_name,
-		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply,
-		date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
+		SELECT a.po_id as po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own, date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own, th_name, fo_name,
+		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply, date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
 		u_nick, a.po_threadorder as threadord, a.po_id as po_id_thread
 		FROM posting a, posting b, thema, forum, user 
-		WHERE a.po_u_id = " . intval($an_u_id) . "
-		AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
+		WHERE a.po_u_id = " . intval($an_u_id) . " AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
 	
 	$query = sqlQuery($sql);
 	while ($postings = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -881,7 +884,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 				}
 				
 			}
-		} // endif is_array
+		}
 	}
 	mysqli_free_result($query);
 	
@@ -915,10 +918,11 @@ function erzeuge_baum($threadorder, $po_id, $thread) {
 	$baum = "";
 	foreach ($arr_baum as $key => $id) {
 		
-		if ($key == 0)
+		if ($key == 0) {
 			$baum = $arr_postings[$id]['titel'];
-		else $baum .= " -> " . $arr_postings[$id]['titel'];
-		
+		} else {
+			$baum .= " -> " . $arr_postings[$id]['titel'];
+		}
 	}
 	
 	return $baum;

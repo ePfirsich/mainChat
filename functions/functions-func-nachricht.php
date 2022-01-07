@@ -45,7 +45,7 @@ function nachricht_betrete($u_id, $r_id, $u_nick, $r_name) {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
 		
 		$sql = "SELECT COUNT(c_id) as nummer FROM chat WHERE c_von_user = '' AND c_typ='S' AND c_raum = " . intval($r_id) . " AND c_zeit > '" . date("YmdHis", date("U") - 60) . "'";
-			$result = sqlQuery($sql);
+		$result = sqlQuery($sql);
 		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$num = $num['nummer'];
 		if ($num < 15) {
