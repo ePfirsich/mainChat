@@ -18,14 +18,14 @@ switch ($aktion) {
 		break;
 	
 	case "editinfotext2":
-		if ((strlen($f_id) > 0)
-			&& (preg_match("/^[0-9]+$/", trim($f_id)) == 1)) {
+		if ((strlen($f_id) > 0) && (preg_match("/^[0-9]+$/", trim($f_id)) == 1)) {
 			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . intval($f_id) . ")";
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				// f_id ist zahl und gehört zu dem Benutzer, also ist update möglich
 				$back = edit_freund($f_id, $f_text);
-				echo "<p>$back</p>";
+				zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $back);
+				
 				zeige_freunde("normal", "");
 			}
 			mysqli_free_result($result);
@@ -80,8 +80,11 @@ switch ($aktion) {
 			formular_neuer_freund($neuer_freund);
 		} else {
 			// Hinzufügen des Freundes erfolgreich
-			neuer_freund($u_id, $neuer_freund);
+			$rueckmeldung = neuer_freund($u_id, $neuer_freund);
+			zeige_tabelle_zentriert($t['freunde_rueckmeldung'], $rueckmeldung);
+			
 			formular_neuer_freund($neuer_freund);
+			
 			zeige_freunde("normal", "");
 		}
 		mysqli_free_result($result);
@@ -92,13 +95,15 @@ switch ($aktion) {
 		$query = "SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_level`='S' OR `u_level`='C'";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
+			$rueckmeldung = "";
 			while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
 				unset($neuer_freund);
 				$neuer_freund['u_nick'] = $rows['u_nick'];
 				$neuer_freund['u_id'] = $rows['u_id'];
 				$neuer_freund['f_text'] = $level[$rows['u_level']];
-				neuer_freund($u_id, $neuer_freund);
+				$rueckmeldung .= neuer_freund($u_id, $neuer_freund);
 			}
+			zeige_tabelle_zentriert($t['freunde_rueckmeldung'], $rueckmeldung);
 		}
 		zeige_freunde("normal", "");
 		mysqli_free_result($result);
@@ -129,17 +134,19 @@ switch ($aktion) {
 		
 		if ($los == $t['freunde_bestaetigen']) {
 			if (isset($f_freundid) && is_array($f_freundid)) {
+				$erfolgsmeldung = "";
 				// Mehrere Freunde bestätigen
 				foreach ($f_freundid as $key => $bearbeite_id) {
-					bestaetige_freund($bearbeite_id, $u_id);
+					$erfolgsmeldung .= bestaetige_freund($bearbeite_id, $u_id);
 				}
 				
 			} else {
 				// Einen Freund bestätigen
 				if (isset($f_freundid) && $f_freundid) {
-					bestaetige_freund($f_freundid, $u_id);
+					$erfolgsmeldung = bestaetige_freund($f_freundid, $u_id);
 				}
 			}
+			zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $erfolgsmeldung);
 		}
 		
 		zeige_freunde("normal", "");

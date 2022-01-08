@@ -355,6 +355,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "freunde":
 			// Freunde anzeigen
 			require_once("functions/functions-freunde.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
