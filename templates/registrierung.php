@@ -100,7 +100,7 @@ if($fehlermeldung == "" && isset($email)) {
 	} else {
 		// Überprüfung auf Formular mehrmals abgeschickt
 		$query = "DELETE FROM mail_check WHERE email = '$email'";
-		sqlUpdate($query);
+		sqlUpdate($query, true);
 		
 		$hash = md5($email . "+" . date("Y-m-d"));
 		$email = urlencode($email);
