@@ -248,13 +248,12 @@ function neuer_freund($f_userid, $freund) {
 			$f['f_status'] = "beworben";
 			schreibe_db("freunde", $f, 0, "f_id");
 			
-			$betreff = $t['freunde_freundesbewerbung'];
-			$text = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesbewerbung_text']);
+			$betreff = $t['freunde_freundesanfrage'];
+			$text = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_email']);
 			
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
-				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
-				
+				$msg = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_chat']);
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
 			

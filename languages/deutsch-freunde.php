@@ -16,11 +16,11 @@ $t['freunde_eintragen'] = "Eintragen";
 
 $t['freunde_freundestext_aendern'] = "Freundestext ändern";
 
-$t['freunde_freundesbewerbung'] = "Neue Freundesbewerbung";
-$t['freunde_freundesbewerbung_text'] = "Hallo %nickname%!\nIch möchte gerne Ihr Freund werden!\n"
-. "wenn Sie das auch wollen und eingeloggt sind, so klicken Sie bitte "
-	. "<a href=\"inhalt.php?bereich=freunde&id=<ID>&aktion=bestaetigen\">hier</a>.\n"
+$t['freunde_freundesanfrage'] = "Neue Freundesanfrage";
+$t['freunde_freundesanfrage_email'] = "Hallo %nickname%!\nIch möchte gerne Ihr Freund werden!\n"
+. "wenn Sie das auch wollen und eingeloggt sind, so klicken Sie bitte <a href=\"inhalt.php?bereich=freunde&id=<ID>&aktion=bestaetigen\">hier</a>.\n"
 	. "Sollten Sie diese E-Mail als Weiterleitung bekommen, so müssen Sie sich erst in den Chat einloggen.\n\n";
+$t['freunde_freundesanfrage_chat'] = "Hallo %nickname%, jemand möchte Ihr Freund werden. <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
 
 $t['freunde_keine_freunde_vorhanden'] = "Sie haben leider noch keine Freunde.";
 $t['freunde_anfragen'] = "Sie haben derzeit keine Freundesanfragen.";
