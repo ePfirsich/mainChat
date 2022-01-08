@@ -20,7 +20,7 @@ $t['kontakt_sicherheitsfrage'] = "Sicherheitsfrage: ";
 $t['kontakt_frage'] = "Wie heißt dieser Chat?";
 $t['kontakt_antwort'] = "mainChat";
 $t['kontakt_datenschutz'] = "Datenschutzerklärung";
-$t['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?aktion=datenschutz\">Datenschutzerklärung</a> gelesen und stimme dieser zu.";
+$t['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?bereich=datenschutz\">Datenschutzerklärung</a> gelesen und stimme dieser zu.";
 
 $t['kontakt_zuruecksetzen'] = "Zurücksetzen";
 $t['kontakt_absenden'] = "Absenden";
@@ -129,7 +129,7 @@ $t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren
 $t['chat_login_nicht_möglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>"
 	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
 $t['chat_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>"
-	. "Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?aktion=kontakt\">Kontaktformular</a>.<br>";
+	. "Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
 $t['chat_login_fehlermeldung_frames'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
 $t['login17'] = "Ich erkenne diese Bedingungen an";
 $t['login18'] = "Abbruch";
@@ -166,8 +166,8 @@ $t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> l
 $t['registrierung_informationen'] = "<p>Die E-Mail Adresse (öffentlich) dagegen ist im Chat für alle anderen Mitglieder sichtbar.</p>\n"
 	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die <b>E-Mail (öffentlich)</b> ist öffentlich und muss nicht ausgefüllt werden.</p>\n"
 	. "<p>Mit dem Abschluß der Registrierung (Klick auf Fertig) bestätigen Sie Ihr Einverständnis\n"
-	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"index.php?aktion=datenschutz\"><b>Datenschutzerklärung</b></a>.\n"
-	. "Außerdem erklären Sie sich mit unseren <a href=\"index.php?aktion=nutzungsbestimmungen\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
+	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"index.php?bereich=datenschutz\"><b>Datenschutzerklärung</b></a>.\n"
+	. "Außerdem erklären Sie sich mit unseren <a href=\"index.php?bereich=nutzungsbestimmungen\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
 $t['registrierung_informationen_freischaltcode'] = "Bitte geben Sie nun Ihre <b>E-Mail-Adresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.";
 $t['registrierung_erfolgreich'] = "Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!<br><br>";
 $t['registrierung_erfolgreich2'] = "Sie wurden nun im $chat registriert!<br>";
@@ -185,10 +185,11 @@ $t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>"
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
 $t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
 
-$t['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail Adresse!<br>";
+$t['registrierung_fehler_keine_email'] = "Es wurde keine E-Mail-Adresse angegeben!<br>";
+$t['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail-Adresse!<br>";
 $t['registrierung_fehler_gesperrte_email'] = "Diese E-Mail-Adresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster.<br>";
-$t['registrierung_fehler_email_link_falsch'] = "Bei der Registrierung ist ein Fehler aufgetreten.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?aktion=registrierung\">Registrierung</a>.<br>";
-$t['registrierung_fehler_email_freischaltcode'] = "Die Kombination aus der E-Mail und dem Freischalt-Code ist nicht gültig oder der Freischalt-Code ist abgelaufen.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?aktion=registrierung\">Registrierung</a>.<br>";
+$t['registrierung_fehler_email_link_falsch'] = "Bei der Registrierung ist ein Fehler aufgetreten.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
+$t['registrierung_fehler_email_freischaltcode'] = "Die Kombination aus der E-Mail und dem Freischalt-Code ist nicht gültig oder der Freischalt-Code ist abgelaufen.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
 
 $t['registrierung_fehler_falscher_aufruf'] = "Beim Aufruf dieser Seite ist ein Fehler aufgetreten.<br>";
 
@@ -200,12 +201,12 @@ $t['registrierung_fehler_passwort_unterschiedlich'] = "Sie haben sich beim Passw
 $t['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!<br>";
 $t['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
 $t['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
-$t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?aktion=passwort_vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?aktion=registrierung\">Zurück zur Registrierung!</a><br>";
+$t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?bereich=passwort-vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?bereich=registrierung\">Zurück zur Registrierung!</a><br>";
 
 $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
-$t['registrierung_email_angeben'] = "<p><b>Registrierung, 1. Schritt:</b> Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
-$t['registrierung_email_versendet'] = "<p><b>Registrierung, 2. Schritt:</b> Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
-$t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p><b>Registrierung, 2. Schritt:</b> Warten Sie nun bitte, bis Ihre E-Mail bestätigt wurde und Sie eine E-Mail mit Ihrem "
+$t['registrierung_email_angeben'] = "<p>Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
+$t['registrierung_email_versendet'] = "<p>Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
+$t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p>Warten Sie nun bitte, bis Ihre E-Mail bestätigt wurde und Sie eine E-Mail mit Ihrem "
 	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort angegebenen Link!</p>";
 $t['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
 $t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst bestätigt werden.";
@@ -225,7 +226,7 @@ $t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, re
 	. "<li>Admins dürfen zu Administrationszwecken die Benutzerdaten einsehen und ggf. die IP-Adresse des Benutzers ermitteln, um die IP-Adresse oder den Provider zu sperren.</li>"
 	. "<li>Der Betreiber behält sich das Recht vor, bei Verstößen gegen die Regeln von seinem Hausrecht Gebrauch zu machen, den Benutzer aus dem Chat auszusperren und gegebenenfalls zur Anzeige zu bringen.</li>"
 	. "<li>Der Betreiber haftet ausdrücklich nicht für die Inhalte im Chat.</li>"
-	. "<li>Mit dem Login oder der Registrierung erklären Sie sich mit der Datenspeicherung gemäß unserer <a href=\"index.php?aktion=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
+	. "<li>Mit dem Login oder der Registrierung erklären Sie sich mit der Datenspeicherung gemäß unserer <a href=\"index.php?bereich=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
 $t['login_passwort_schritt1'] = "Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "

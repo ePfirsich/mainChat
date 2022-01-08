@@ -106,14 +106,14 @@ function sperren_liste() {
 			
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperre0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?seite=sperren&id=$id&aktion=loginsperregast0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast0\" class=\"button\" title=\"$t[sonst30]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst30]</span></a></td>\n";
 			} else {
 				$text .= "<td $bgcolor>";
-				$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst28]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sonst28]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst28]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sonst28]</span></a>";
 				$text .= "&nbsp;";
-				$text .= "<a href=\"inhalt.php?seite=sperren&id=$id&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst29]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst29]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sonst29]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sonst29]</span></a>";
 				$text .= "</td>";
 			}
 			$text .= "</tr>\n";
@@ -137,7 +137,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	global $id, $u_nick, $u_id, $t;
 	global $blacklistmaxdays;
 	
-	$blurl = "inhalt.php?seite=sperren&aktion=blacklist&id=$id&sort=";
+	$blurl = "inhalt.php?bereich=sperren&aktion=blacklist&id=$id&sort=";
 	
 	switch ($sort) {
 		case "f_zeit desc":
@@ -187,7 +187,7 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 	if ($result) {
 		$text = '';
 		
-		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?seite=sperren\" method=\"post\">\n"
+		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_loesche\">\n"
 				. "<table style=\"width:100%;\">";
@@ -317,7 +317,7 @@ function formular_neuer_blacklist($neuer_blacklist) {
 	$box = $t['blacklist3'];
 	$text = '';
 	
-	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?seite=sperren\" method=\"post\">\n"
+	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_neu2\">\n"
 			. "<table style=\"width:100%;\">";

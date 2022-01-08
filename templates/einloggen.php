@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -184,7 +184,7 @@ if(!$kein_gastlogin_ausblenden) {
 				// Gibt die Kopfzeile im Login aus
 				zeige_kopfzeile_login();
 				
-				echo "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
+				echo "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
 				
 				if (!isset($eintritt)) {
 					$eintritt = RaumNameToRaumID($lobby);
@@ -250,7 +250,6 @@ if(!$kein_gastlogin_ausblenden) {
 				$text .= "<input type=\"hidden\" name=\"login\" value=\"$login\">\n";
 				$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$passwort\">\n";
 				$text .= "<input type=\"hidden\" name=\"eintritt\" value=\"$eintritt\">\n";
-				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
 				$text .= "</table>\n";
 				$text .= "</form>\n";
 				
@@ -298,7 +297,7 @@ if(!$kein_gastlogin_ausblenden) {
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
-							$ur1 = "inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$u_id";
+							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$u_id";
 							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 							$ah2 = "</a>";
 							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));

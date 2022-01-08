@@ -49,9 +49,6 @@ if ($result && mysqli_num_rows($result) != 0) {
 mysqli_free_result($result);
 
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
-if( $aktion == '') {
-	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
-}
 
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 // Profil prüfen und ggf. neu eintragen

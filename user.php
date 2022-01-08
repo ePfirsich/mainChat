@@ -5,10 +5,8 @@ require_once("functions/functions-user.php");
 require_once("functions/functions-func-nachricht.php");
 require_once("languages/$sprache-user.php");
 
-$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
-if( $aktion == "") {
-	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
-}
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
 id_lese($id);

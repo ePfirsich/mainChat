@@ -28,7 +28,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	if ($result && mysqli_num_rows($result) > 0) {
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
-			$ur1 = "inhalt.php?seite=nachrichten&id=$id&aktion=";
+			$ur1 = "inhalt.php?bereich=nachrichten&id=$id&aktion=";
 			$url = "href=\"$ur1\" target=\"_blank\"";
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['mail1']));
 		}
@@ -75,7 +75,7 @@ function profil_neu($u_id, $u_nick, $id) {
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 0) {
-		$ur1 = "inhalt.php?seite=profil&id=$id&aktion=neu";
+		$ur1 = "inhalt.php?bereich=profil&id=$id&aktion=neu";
 		$url = "href=\"$ur1\" ";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
@@ -632,7 +632,7 @@ function email_versende(
 	$betreff,
 	$an_u_email = FALSE) {
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
-		// Falls an_u_email=TRUE wird E-Mail an u_email (E-Mail Adresse)
+	// Falls an_u_email=TRUE wird E-Mail an u_email (E-Mail Adresse)
 	
 	global $t;
 	

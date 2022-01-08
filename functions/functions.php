@@ -1,6 +1,6 @@
 <?php
 // Version / Copyright - nicht entfernen!
-$mainchat_version = "mainChat 7.0.10 © by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2018 - Ab Version 7.0 durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/mainChat\" target=\"_blank\">GitHub</a>";
+$mainchat_version = "mainChat 7.1.0 © by <a href=\"https://www.fidion.de\" target=\"_blank\">fidion GmbH</a> 1999-2018 - Ab Version 7.0 durch <a href=\"https://www.anime-community.de\" target=\"_blank\">Andreas Völkl</a> auf <a href=\"https://github.com/ePfirsich/mainChat\" target=\"_blank\">GitHub</a>";
 
 // Caching unterdrücken
 Header("Last-Modified: " . gmDate("D, d M Y H:i:s", Time()) . " GMT");
@@ -167,7 +167,6 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 					$text = $text . ", ";
 				}
 			}
-			
 		} else {
 			if($keine_benutzer_anzeigen) {
 				$text = $t['raum_user12'];
@@ -197,7 +196,6 @@ function ist_online($user) {
 	global $timeout, $ist_online_raum, $mysqli_link, $whotext;
 	
 	$ist_online_raum = "";
-	
 	$user = mysqli_real_escape_string($mysqli_link, $user); // sec
 	
 	$query = "SELECT o_id,r_name FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
@@ -442,8 +440,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	}
 	
 	if ($ar = @mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		
-		// userdaten und ignore Arrays setzen
+		// Benutzerdaten und ignore Arrays setzen
 		$userdata = unserialize($ar['o_userdata'] . $ar['o_userdata2'] . $ar['o_userdata3'] . $ar['o_userdata4']);
 		$ignore = unserialize($ar['o_ignore']);
 		
@@ -707,10 +704,10 @@ function zeige_kopfzeile_login() {
 	$box = $t['login_chatname'];
 	$text = "<a href=\"index.php\">$t[login_login]</a>\n";
 	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
-		$text .= "| <a href=\"index.php?id=$id&aktion=registrierung\">$t[login_registrierung]</a>\n";
+		$text .= "| <a href=\"index.php?bereich=registrierung\">$t[login_registrierung]</a>\n";
 	}
-	$text .= "| <a href=\"index.php?id=$id&aktion=chatiquette\">$t[login_chatiquette]</a>\n";
-	$text .= "| <a href=\"index.php?id=$id&aktion=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
+	$text .= "| <a href=\"index.php?bereich=chatiquette\">$t[login_chatiquette]</a>\n";
+	$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
 	
 	zeige_tabelle_volle_breite($box, $text);
 }
@@ -772,8 +769,9 @@ function raum_ist_moderiert($raum) {
 	if (isset($r_status1) && ($r_status1 == "m" || $r_status1 == "M")) {
 		$query = "SELECT o_user FROM online WHERE o_raum=$raum AND o_level='M' ";
 		$result = sqlQuery($query);
-		if (mysqli_num_rows($result) > 0)
+		if (mysqli_num_rows($result) > 0) {
 			$moderiert = 1;
+		}
 		mysqli_free_result($result);
 	}
 	$ist_moderiert = $moderiert;
@@ -782,7 +780,6 @@ function raum_ist_moderiert($raum) {
 }
 
 function debug($text = "", $rundung = 3) {
-	
 	static $zeit;
 	static $durchlauf;
 	
@@ -797,10 +794,10 @@ function debug($text = "", $rundung = 3) {
 		$durchlauf++;
 		$laufzeit = $zeit_neu - $zeit;
 		$zeit = $zeit_neu;
-		$erg = $text . "_" . $durchlauf . ": " . round($laufzeit, $rundung)
-			. "s";
-		if ($durchlauf > 1)
+		$erg = $text . "_" . $durchlauf . ": " . round($laufzeit, $rundung) . "s";
+		if ($durchlauf > 1) {
 			$erg = ", " . $erg;
+		}
 	}
 	return ($erg);
 }
@@ -883,8 +880,9 @@ function zeige_userdetails(
 		$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
 		$user_chathomepage = htmlspecialchars($userdaten['u_chathomepage']);
 		
-		if ($show_geschlecht == true)
+		if ($show_geschlecht == true) {
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
+		}
 		
 		$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
 		
@@ -969,7 +967,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$url = "inhalt.php?seite=benutzer&id=$idtag&aktion=benutzer_zeig&user=$user_id";
+		$url = "inhalt.php?bereich=benutzer&id=$idtag&aktion=benutzer_zeig&user=$user_id";
 		if($benutzername_fett) {
 			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
 		} else {
@@ -993,7 +991,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$grafikurl1 = "<a href=\"inhalt.php?seite=hilfe&aktion=hilfe-community&id=$idtag\" target=\"chat\">";
+		$grafikurl1 = "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community&id=$idtag\" target=\"chat\">";
 		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";
@@ -1015,7 +1013,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {
-		$url = "inhalt.php?seite=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
+		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&neue_email[an_nick]=" . URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">$chat_grafik[mail]</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
@@ -1086,8 +1084,9 @@ function chat_parse($text) {
 		
 		// wieviele Worte hat die Zeile?
 		for ($i = 500; $i >= 0; $i--) {
-			if (isset($txt[$i]) && $txt[$i] != "")
+			if (isset($txt[$i]) && $txt[$i] != "") {
 				break;
+			}
 		}
 		$text2 = $text;
 		// Schleife über alle Worte...
@@ -1097,7 +1096,6 @@ function chat_parse($text) {
 			$txt[$j] = preg_replace("!\.$!", "", $txt[$j]);
 		}
 		for ($j = 0; $j <= $i; $j++) {
-			
 			// E-Mail Adressen in A-Tag mit Mailto
 			// E-Mail-Adresse -> Format = *@*.*
 			if (preg_match("/^.+@.+\..+/i", $txt[$j])
@@ -1137,15 +1135,12 @@ function chat_parse($text) {
 				$txt[$j] = str_replace($txt2,
 					"<a href=\"redirect.php?url="
 						. urlencode(
-							"http://"
-								. strtr(preg_replace("!\\\\\\?!", "?", $txt3),
-									$trans)) . "\" target=\"_blank\">http://"
+							"http://" . strtr(preg_replace("!\\\\\\?!", "?", $txt3), $trans)) . "\" target=\"_blank\">http://"
 						. preg_replace("!\\\\\\?!", "?", $txt2) . "</a>",
 					$txt[$j]);
 				
 				$txt[$j] = str_replace("###ausruf###", "!", $txt[$j]);
-				$txt[$j] = str_replace("%23%23%23ausruf%23%23%23", "!",
-					$txt[$j]);
+				$txt[$j] = str_replace("%23%23%23ausruf%23%23%23", "!", $txt[$j]);
 				
 			}
 			// http://###### in <a href="http://###" target=_blank>http://###</A>
@@ -1206,29 +1201,6 @@ function chat_parse($text) {
 	$text = str_replace("###ausruf###", "!", $text);
 	
 	return $text;
-}
-
-function gensalt($length) {
-	return genpassword($length);
-}
-
-function genpassword($length) {
-	// Generiert ein Passwort
-	// wird auch für gensalt() genutzt
-	$vowels = array("a", "e", "i", "o", "u");
-	$cons = array("b", "c", "d", "g", "h", "j", "k", "l", "m", "n", "p", "r",
-		"s", "t", "u", "v", "w", "tr", "cr", "br", "fr", "th", "dr", "ch",
-		"ph", "wr", "st", "sp", "sw", "pr", "sl", "cl");
-	$num_vowels = count($vowels);
-	$num_cons = count($cons);
-	
-	$password = "";
-	for ($i = 0; $i < $length; $i++) {
-		$password .= $cons[mt_rand(0, $num_cons - 1)]
-			. $vowels[mt_rand(0, $num_vowels - 1)];
-	}
-	
-	return substr($password, 0, $length);
 }
 
 function hole_geschlecht($userid) {
@@ -1403,7 +1375,7 @@ function avatar_editieren_anzeigen(
 	$u_nick,
 	$feld,
 	$bilder,
-	$aktion = "") {
+	$aufruf = "") {
 	
 	global $id, $t;
 	
@@ -1417,10 +1389,10 @@ function avatar_editieren_anzeigen(
 		if (!isset($info)) {
 			$info = "";
 		}
-		if ($aktion == "avatar_aendern") {
+		if ($aufruf == "avatar_aendern") {
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= "<b>[<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b><br><br></td>\n";
-		} else if ($aktion == "profil") {
+			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b><br><br></td>\n";
+		} else if ($aufruf == "profil") {
 			if($width > 200) {
 				$width = 200;
 			}
@@ -1428,7 +1400,7 @@ function avatar_editieren_anzeigen(
 				$height = 200;
 			}
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
-		} else if ($aktion == "forum") {
+		} else if ($aufruf == "forum") {
 			if($width > 60) {
 				$width = 60;
 			}
@@ -1439,9 +1411,9 @@ function avatar_editieren_anzeigen(
 		} else {
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
 		}
-	} else if ($aktion == "avatar_aendern") {
+	} else if ($aufruf == "avatar_aendern") {
 		$text = "<td style=\"vertical-align:top;\">";
-		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?seite=einstellungen&id=$id&aktion=avatar_aendern\" method=\"post\">\n"
+		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
 		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
@@ -1450,7 +1422,7 @@ function avatar_editieren_anzeigen(
 	$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
 	}
 	
-	if ($text && $aktion == "avatar_aendern") {
+	if ($text && $aufruf == "avatar_aendern") {
 		$text = "<table style=\"width:100%;\"><tr>" . $text . "</tr></table>";
 	}
 	
@@ -1514,10 +1486,10 @@ function reset_system($wo_online) {
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
 		echo "</script>";
 	} else if ( $wo_online == "userliste_interaktiv" ) {
-			echo "<script>\n";
-			echo "parent.frames[2].location.href='user.php?id=$id';\n";
-			echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
-			echo "</script>";
+		echo "<script>\n";
+		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "</script>";
 	} else if ( $wo_online == "forum" ) {
 		echo "<script>\n";
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
@@ -1574,7 +1546,6 @@ function hole_benutzer_einstellungen($u_id, $ort) {
 		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
 	} else {
 		// Benötigte Einstellugen für alle Seiten im Login
-		
 		$benutzerdaten = array();
 		$benutzerdaten['u_layout_farbe'] = 0;
 	}

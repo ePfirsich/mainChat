@@ -23,7 +23,7 @@ function formular_neue_email($neue_email, $m_id = "") {
 	}
 	$text = '';
 	
-	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
+	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
@@ -107,7 +107,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 			}
 			$email_select .= "</select>\n";
 			
-			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?seite=nachrichten\" method=post>\n"
+			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
 				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"
@@ -187,10 +187,10 @@ function zeige_mailbox($aktion, $zeilen) {
 		$box = "$anzahl $titel";
 		
 		if($aktion == "geloescht") {
-			$text .= "<br><a href=\"inhalt.php?seite=nachrichten&aktion=papierkorbleeren&id=$id\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
+			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren&id=$id\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
 		}
 		
-		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">\n"
+		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 		
@@ -217,7 +217,7 @@ function zeige_mailbox($aktion, $zeilen) {
 					$url = "";
 					$url2 = "";
 				} else {
-					$url = "<a href=\"inhalt.php?seite=nachrichten&id=$id&aktion=zeige&m_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige&m_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
@@ -307,17 +307,17 @@ function zeige_email($m_id, $art) {
 		
 		// Formular zur Löschen, Beantworten
 		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
-			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
+			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
 			. "<input type=\"submit\" name=\"los\" value=\"antworten\">" . "</form></td>\n"
-				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
+				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form name=\"mail_antworten\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
 			. "<input type=\"submit\" name=\"los\" value=\"weiterleiten\">" . "</form></td>\n"
-				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?seite=nachrichten\" method=\"post\">"
+				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form name=\"mail_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"

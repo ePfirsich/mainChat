@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -9,7 +9,11 @@ $fehlermeldung = "";
 if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email)) ) {
 	// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 	// der Form name@do.main entspricht
-	$fehlermeldung = str_replace("%email%", $email, $t['registrierung_fehler_ungueltige_email']);
+	if($email == "") {
+		$fehlermeldung = str_replace("%email%", $email, $t['registrierung_fehler_keine_email']);
+	} else {
+		$fehlermeldung = str_replace("%email%", $email, $t['registrierung_fehler_ungueltige_email']);
+	}
 	$email = "";
 	
 	zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
@@ -19,8 +23,7 @@ if (!isset($email) || $fehlermeldung != "") {
 	// Formular für die Erstregistierung 1. Schritt ausgeben
 	$text = $t['registrierung_email_angeben'];
 	
-	$text .= "<form action=\"index.php\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"registrierung\">\n";
+	$text .= "<form action=\"index.php?bereich=registrierung\" method=\"post\">\n";
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";
@@ -78,8 +81,7 @@ if($fehlermeldung == "" && isset($email)) {
 	
 	for ($i = 0; $i < count($domaingesperrt); $i++) {
 		$teststring = strtolower($email);
-		if (isset($domaingesperrt[$i]) && $domaingesperrt[$i]
-			&& (preg_match($domaingesperrt[$i], $teststring))) {
+		if (isset($domaingesperrt[$i]) && $domaingesperrt[$i] && (preg_match($domaingesperrt[$i], $teststring))) {
 			$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
 		}
 	}
@@ -104,8 +106,8 @@ if($fehlermeldung == "" && isset($email)) {
 		$email = urlencode($email);
 		
 		// Normale Anmeldung
-		$link = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu&email=$email&hash=$hash";
-		$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?aktion=neu2";
+		$link = $chat_url . $_SERVER['PHP_SELF'] . "?bereich=neu&email=$email&hash=$hash";
+		$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?bereich=neu2";
 		
 		$email = urldecode($email);
 		

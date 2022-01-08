@@ -48,7 +48,7 @@ function user_edit($f, $admin, $u_level) {
 	}
 	
 	// Ausgabe in Tabelle
-	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
+	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
@@ -68,7 +68,7 @@ function user_edit($f, $admin, $u_level) {
 		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
 		$zaehler++;
 	} else if ($u_level == 'U') {
-		$value = $f['u_email'] . " (<a href=\"inhalt.php?seite=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
+		$value = $f['u_email'] . " (<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
 		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", $value);
 		$zaehler++;
 	}
@@ -270,7 +270,7 @@ function user_edit($f, $admin, $u_level) {
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function zeige_aktionen($aktion) {
+function zeige_aktionen() {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
@@ -282,7 +282,7 @@ function zeige_aktionen($aktion) {
 	
 	$text = '';
 	
-	$text .= "<form action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
+	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
 	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 	. "<input type=\"hidden\" name=\"aktion\" value=\"aktion-eintragen\">\n"
 		. "<table style=\"width:100%;\">";
@@ -513,7 +513,7 @@ function formular_email_aendern($f) {
 	$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
 	
 	$text .= $t['einstellungen_email_aendern_inhalt'] . "\n";
-	$text .= "<form name=\"$u_nick\" action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n";
+	$text .= "<form name=\"$u_nick\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";

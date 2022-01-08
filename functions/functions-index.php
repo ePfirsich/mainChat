@@ -128,7 +128,6 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Punkte des Vormonats/Vorjahres löschen und Benutzergruppe ermitteln, falls nicht Gast
 	if ($u_level != "G") {
-		
 		// Ist u_punkte_monat vom aktuellen Monat?
 		if ($u_punkte_datum_monat != date("n", time())) {
 			$f['u_punkte_datum_monat'] = date("n", time());
@@ -619,19 +618,15 @@ function auth_user($login, $passwort) {
 
 function zeige_chat_login() {
 	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
-	global $lobby, $timeout, $whotext, $layout_kopf;
+	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
 		$login_titel = $t['login_formular_kopfzeile'];
-		// Alle Adressen für die Registrierung auf den Login umleiten
-		if ($aktion == "neu" || $aktion == "neu2") {
-			$aktion = "";
-		}
 	} else {
-		$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?aktion=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
+		$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
 	}
-	$login_titel .= "[<a href=\"index.php?aktion=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
+	$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
 	
 	
 	// Räume
@@ -648,13 +643,13 @@ function zeige_chat_login() {
 	
 	// Raumauswahlliste erstellen
 	$query = "SELECT r_name,r_id FROM raum WHERE (r_status1='O' OR r_status1='E' OR r_status1 LIKE BINARY 'm') AND r_status2='P' ORDER BY r_name";
-	$result = @sqlQuery($query);
+	$result = sqlQuery($query);
 	
 	if ($result) {
 		$rows = mysqli_num_rows($result);
 	} else {
-		echo "<p><b>Datenbankfehler:</b> " . mysqli_error($mysqli_link) . ", " . mysqli_errno($mysqli_link) . "</p>";
-		die();
+		// Kein öffentlicher Raum gefunden
+		die;
 	}
 
 	$raeume = "<select name=\"eintritt\">";
@@ -693,8 +688,7 @@ function zeige_chat_login() {
 	
 	// Benutzerlogin
 	$zaehler = 0;
-	$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
+	$text .= "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Login ioder neu registrierten/Passwort vergessen
@@ -736,8 +730,7 @@ function zeige_chat_login() {
 	
 	if($gast_login && !$temp_gast_sperre) {
 		// Gastlogin
-		$text .= "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
-		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
+		$text .= "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
 		$text .= "<input type=\"hidden\" name=\"login\" value=\"\">\n";
 		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
 		$text .= "<table style=\"width:100%;\">\n";

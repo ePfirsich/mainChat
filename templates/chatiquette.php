@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 

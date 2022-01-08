@@ -9,6 +9,13 @@ require_once("functions/functions-init.php");
 require_once("functions/functions-index.php");
 require_once("languages/$sprache-index.php");
 
+$bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
+$email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_STRING);
+if($email == "") {
+	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+}
+$hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
+
 zeige_header($body_titel, 0);
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
@@ -27,8 +34,7 @@ mysqli_free_result($result);
 
 // Gastsperre aktiv? Wird beim Login und beim Nutzungsbestimmungen Login ausgewertet
 $temp_gast_sperre = false;
-// Wenn die dbase = "mainchat" und in Sperre = "-GAST-"
-// dann Gastlogin gesperrt
+// Wenn in Sperre = "-GAST-" dann Gastlogin gesperrt
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 $result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
@@ -111,13 +117,13 @@ mysqli_free_result($result);
 
 // Wenn $abweisen=true, dann ist Login ist für diesen Benutzer gesperrt
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
-if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
+if ($abweisen && $bereich != "relogin" && strlen($login) > 0) {
 	// test: ist user=admin -> dann nicht abweisen...
 	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (u_level in ('S','C'))";
 	$r = sqlQuery($query);
 	$rw = mysqli_num_rows($r);
 	
-	if ($rw == 1 && (strlen($aktion) > 0)) {
+	if ($rw == 1 && (strlen($bereich) > 0)) {
 		$abweisen = false;
 	}
 	mysqli_free_result($r);
@@ -135,7 +141,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 		$r = sqlQuery($query);
 		$rw = mysqli_num_rows($r);
 		
-		if ($rw == 1 && strlen($aktion) > 0) {
+		if ($rw == 1 && strlen($bereich) > 0) {
 			$row = mysqli_fetch_object($r);
 			if ($row->u_punkte_gesamt >= $loginwhileipsperre) {
 				// genügend Punkte
@@ -172,7 +178,7 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
-				$ah1 = "<a href=\"inhalt.php?seite=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id\" target=\"chat\">";
+				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id\" target=\"chat\">";
 				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
 			}
@@ -184,17 +190,21 @@ if ($abweisen && $aktion != "relogin" && strlen($login) > 0) {
 	}
 }
 
-if ($abweisen && (strlen($aktion) > 0) && $aktion <> "relogin") {
-	$aktion = "abweisen";
+if($abweisen && (strlen($bereich) > 0) && $bereich <> "relogin") {
+	$bereich = "abweisen";
+}
+
+if($neuregistrierung_deaktivieren && ($bereich == "registrierung" || $bereich == "neu" || $bereich == "neu2")) {
+	$bereich = "";
 }
 
 // Login ist für alle Benutzer gesperrt
 if ($chat_offline) {
-	$aktion = "gesperrt";
+	$bereich = "gesperrt";
 }
 
 // Ausloggen, falls eingeloggt
-if ($aktion == "logoff") {
+if ($bereich == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 	id_lese($id);
 	
@@ -206,13 +216,13 @@ if ($aktion == "logoff") {
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
-if ($los == $t['login18'] && $aktion == "login") {
-	$aktion = "";
+if ($los == $t['login18'] && $bereich == "login") {
+	$bereich = "";
 }
 
 // Titeltext der Loginbox setzen, Link auf Registrierung optional ausgeben
 
-switch ($aktion) {
+switch ($bereich) {
 	case "impressum":
 		// Impressum anzeigen
 		
@@ -350,7 +360,7 @@ switch ($aktion) {
 		
 		break;
 	
-	case "login":
+	case "einloggen":
 		// In den Chat einloggen
 		
 		require_once("functions/functions-formulare.php");
@@ -419,7 +429,7 @@ switch ($aktion) {
 
 $text = "<div align=\"center\">$mainchat_version\n";
 $text .= "<br><br>\n";
-$text .= "<a href=\"index.php?aktion=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?aktion=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?aktion=impressum\">$t[login_impressum]</a>\n";
+$text .= "<a href=\"index.php?bereich=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$t[login_impressum]</a>\n";
 $text .= "</div>\n";
 
 // Box anzeigen

@@ -296,7 +296,7 @@ $adminlisteabrufbar="1";
 $nicknamen_expire=15724800; // = 26 Wochen
 
 // Es können sich keine neuen Benutzer mehr registrieren
-$neuregistrierung_deaktivieren = "0";
+$neuregistrierung_deaktivieren = false;
 
 // Die Anzeige der RAUM Ein/Austrittsnachricht wird grundsätzlich deaktiviert
 // bzw nur in Kurzform angezeigt (ohne den Text "Eintrittsnachricht Raum", "Austrittsnachricht Raum")

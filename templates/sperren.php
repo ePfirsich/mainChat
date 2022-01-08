@@ -218,7 +218,7 @@ switch ($aktion) {
 				$ip = explode(".", $row->is_ip);
 				
 				// Kopf Tabelle
-				$text .= "<form name=\"Sperre\" action=\"inhalt.php?seite=sperren\" method=\"post\">\n";
+				$text .= "<form name=\"Sperre\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 				
 				$box = $t['sonst18'];
 				
@@ -310,7 +310,7 @@ switch ($aktion) {
 		// Sperre neu anlegen, Eingabeformular
 		$box = $t['sonst14'];
 		
-		$text .= "<form name=\"Sperre\" action=\"inhalt.php?seite=sperren\" method=\"post\">\n";
+		$text .= "<form name=\"Sperre\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 		
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= $t['sonst15'] . "<br>\n";

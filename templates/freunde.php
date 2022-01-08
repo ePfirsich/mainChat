@@ -99,7 +99,6 @@ switch ($aktion) {
 				$neuer_freund['f_text'] = $level[$rows['u_level']];
 				neuer_freund($u_id, $neuer_freund);
 			}
-			zeige_tabelle_zentriert($t['freunde_erfolgsmeldung'], $value);
 		}
 		zeige_freunde("normal", "");
 		mysqli_free_result($result);

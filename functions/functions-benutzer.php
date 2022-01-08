@@ -296,27 +296,27 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
 					$value .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[benutzer_ignorieren]</a>]<br>\n";
 					$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-					$mlnk[8] = "inhalt.php?seite=nachrichten&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
+					$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&neue_email[an_nick]=$uu_nick";
 					$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
 					$value .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[benutzer_nachricht_senden]</a>]<br>\n"
 					. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
 					
 					// Adminmenue
 					if ($admin) {
-						$value .= "[<a href=\"inhalt.php?seite=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
-						$value .= "[<a href=\"inhalt.php?seite=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
+						$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+						$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 					}
 					
 					// Adminmenue
 					if ($admin && $rows == 1) {
-						$mlnk[3] = "inhalt.php?seite=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
+						$mlnk[3] = "inhalt.php?bereich=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
 						$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
 						$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
-						$mlnk[6] = "inhalt.php?seite=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name);
+						$mlnk[6] = "inhalt.php?bereich=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name);
 						$value .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[benutzer_knebeln]</a>]<br>\n"
 						. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[benutzer_kicken]</a>]<br>\n"
 						. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-						$value .= "[<a href=\"inhalt.php?seite=sperren&id=$id&aktion=blacklist_neu&neuer_blacklist[u_nick]=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+						$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&neuer_blacklist[u_nick]=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
 					}
 					
 					$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
@@ -332,13 +332,13 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 					
 					// Ändern
 					$value = "";
-					$value .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 					$value .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
 					$value .= "</form>\n";
 					
-					$value .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 					$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
@@ -411,7 +411,7 @@ function benutzer_suche($f, $suchtext) {
 	$zaehler = 0;
 	
 	$text = "";
-	$text .= "<form name=\"suche\" action=\"inhalt.php?seite=benutzer\" method=\"post\">\n";
+	$text .= "<form name=\"suche\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n";
 	$text .= "<table style=\"width:100%;\">\n";

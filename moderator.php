@@ -1,8 +1,9 @@
 <?php
-
 require_once("functions/functions.php");
 require_once("functions/functions-moderator.php");
 require_once("languages/$sprache-chat.php");
+
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);

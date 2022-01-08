@@ -21,7 +21,7 @@ function zeige_freunde($aktion, $zeilen) {
 			break;
 	}
 	
-	$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
+	$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
@@ -112,7 +112,7 @@ function zeige_freunde($aktion, $zeilen) {
 					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
 					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?seite=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[$t[freunde_aendern]]</a>" . $zu . "</td>"
+					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?bereich=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[$t[freunde_aendern]]</a>" . $zu . "</td>"
 					. "</tr>\n";
 
 				$i++;
@@ -171,7 +171,7 @@ function formular_neuer_freund($neuer_freund) {
 	$box = "Neuen Freund eintragen:";
 	$text = '';
 	
-	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
 		. "<table>";
@@ -194,7 +194,7 @@ function formular_editieren($f_id, $f_text) {
 	$box = $t['freunde_freunestext_aendern'];
 	
 	$text = '';
-	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?seite=freunde\" method=\"post\">\n"
+	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
 		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
@@ -219,7 +219,7 @@ function neuer_freund($f_userid, $freund) {
 		
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$fehlermeldung = str_replace("%nickname%", $freund[u_nick], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+			$fehlermeldung = str_replace("%nickname%", $freund['u_nick'], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
 		} else if ($freund['u_id'] == $f_userid) {
 			// Eigener Freund ist verboten
 			$fehlermeldung = $t['freunde_fehlermeldung_selbst_als_freund'];
@@ -240,7 +240,7 @@ function neuer_freund($f_userid, $freund) {
 			
 			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
 			if (ist_online($freund['u_id'])) {
-				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"inhalt.php?seite=freunde&aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
+				$msg = "Hallo $freund[u_nick], jemand möchte Ihr Freund werden. <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen&id=<ID>\" target=\"chat\">gleich zustimmen?</a>";
 				
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}

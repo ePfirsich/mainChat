@@ -251,7 +251,7 @@ switch ($aktion) {
 			}
 			$text .= "<tr>";
 			$text .= "<td $bgcolor colspan=\"2\">$t[raum_wirklich_loeschen]<br>\n";
-			$text .= "<form name=\"$row->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n"
+			$text .= "<form name=\"$row->r_name\" action=\"inhalt.php?bereich=raum\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"f[r_id]\" value=\"$row->r_id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
@@ -317,7 +317,7 @@ switch ($aktion) {
 		$zaehler = 0;
 			
 		// Raum neu anlegen, Eingabeformular
-		$text .= "<form name=\"$r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
+		$text .= "<form name=\"$r_name\" action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		
@@ -471,7 +471,7 @@ switch ($aktion) {
 				if ($admin || $rows->u_id == $u_id) {
 					$box = $t['raeume_raum'] . ': ' . $rows->r_name;
 					// Für diesen Raum Admin
-					$text .= "<form name=\"$rows->r_name\" action=\"inhalt.php?seite=raum\" method=\"post\">\n";
+					$text .= "<form name=\"$rows->r_name\" action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<table style=\"width:100%;\">\n";
 					
@@ -655,21 +655,21 @@ switch ($aktion) {
 				// extended==Ansicht mit Details im extra beiten Fenster
 				if ($admin) {
 					if (isset($extended) && ($extended == 1)) {
-						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order\">" . $t['raum_menue7'] . "</a></b>" . "</span></center>\n";
+						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&id=$id&order=$order\">" . $t['raum_menue7'] . "</a></b>" . "</span></center>\n";
 						$text .= "<script language=\"javascript\">\n"
 							. "window.resizeTo(800,600); window.focus();"
 							. "</script>\n";
 					} else {
-						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?seite=raum&id=$id&order=$order&extended=1\">" . $t['raum_menue6'] . "</a></b>" . "</span></center>\n";
+						$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&id=$id&order=$order&extended=1\">" . $t['raum_menue6'] . "</a></b>" . "</span></center>\n";
 					}
 					$text .= "$rlink<br>";
 				}
 				$text .= "<table style=\"width:100%\">\n";
-				$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?seite=raum&id=$id&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
 				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_benutzer_online]</td>";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?seite=raum&id=$id&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?seite=raum&id=$id&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?seite=raum6id=$id&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+				$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum6id=$id&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
 				if (isset($extended) && $extended) {
 					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_smilies]</td>";
 					$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_mindestpunkte]</td>";
@@ -693,7 +693,7 @@ switch ($aktion) {
 					// raum nur anzeigen falls offen, moderiert, besitzer oder admin...
 					// "m" -> moderiert, "M" -> moderiert+geschlossen.
 					if ($row['r_status1'] == "O" || $row['r_status1'] == "m" || $uu_id == $u_id || $admin) {
-						$rlink = "<a href=\"inhalt.php?seite=raum&id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
+						$rlink = "<a href=\"inhalt.php?bereich=raum&id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 						
 						// Anzahl der Benutzer online ermitteln
 						if ((isset($anzahl_user[$row['r_id']])) && ($anzahl_user[$row['r_id']] > 0)) {
@@ -705,7 +705,7 @@ switch ($aktion) {
 						if( $anzahl == 0) {
 							$ulink = "$anzahl $t[raeume_benutzer]";
 						} else {
-							$ulink = "<a href=\"inhalt.php?seite=benutzer&id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
+							$ulink = "<a href=\"inhalt.php?bereich=benutzer&id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
 						}
 						
 						$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";

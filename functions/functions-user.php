@@ -6,7 +6,7 @@ require_once("functions/functions-func-raeume_auswahl.php");
 
 function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $aktion, $u_id, $id, $show_geschlecht;
+	global $t, $admin, $u_level, $adminfeatures, $u_id, $id, $show_geschlecht;
 	global $punkte_grafik, $leveltext;
 	
 	
@@ -104,7 +104,7 @@ function user_pm_list($larr) {
 
 function user_liste($larr, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $aktion, $u_id, $id, $show_geschlecht;
+	global $t, $admin, $u_level, $u_id, $id, $show_geschlecht;
 	global $punkte_grafik, $leveltext;
 	
 	$text = '';
@@ -164,7 +164,7 @@ function user_liste($larr, $seitenleiste = false) {
 			if ($level2 == "admin") {
 				$o_ip = $larr[0]['o_ip'];
 				$host_name = htmlspecialchars(gethostbyaddr($o_ip));
-				$trow .= "<a href=\"inhalt.php?seite=sperren&aktion=neu&id=$id&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
+				$trow .= "<a href=\"inhalt.php?bereich=sperren&aktion=neu&id=$id&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {

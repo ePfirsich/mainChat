@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -28,7 +28,7 @@ if( isset($formular) && $formular == "abgesendet") {
 
 if($aktivierung_erfolgreich) {
 	// Weiterleitung zum Forumlar für die Registrierung
-	$url = "index.php?aktion=neu&email=$f[email]&hash=$f[hash]";
+	$url = "index.php?bereich=neu&email=$f[email]&hash=$f[hash]";
 	$text = str_replace("%url%", $url, $t['registrierung_freischaltcode_erfolgreich']);
 	
 	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
@@ -36,8 +36,7 @@ if($aktivierung_erfolgreich) {
 	// E-mail und Freischalt-Code eingeben
 	$text = $t['registrierung_informationen_freischaltcode'];
 	
-	$text .= "<form action=\"index.php\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
+	$text .= "<form action=\"index.php?bereich=neu2\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";
 	
 	$zaehler = 0;

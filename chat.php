@@ -6,6 +6,8 @@
 require_once("functions/functions.php");
 require_once("functions/functions-chat.php");
 
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+
 // Benutzerdaten setzen
 id_lese($id);
 

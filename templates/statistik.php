@@ -75,7 +75,7 @@ switch ($aktion) {
 		$y = SPrintF("%04d", $y);
 		
 		$msg = "";
-		$msg .= "<form name=\"form\" action=\"inhalt.php?seite=statistik\" method=\"post\">\n";
+		$msg .= "<form name=\"form\" action=\"inhalt.php?bereich=statistik\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
 		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";

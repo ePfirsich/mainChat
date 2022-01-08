@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -75,7 +75,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				sqlUpdate($queryPasswortcode);
 				
 				// ULR zusammenstellen
-				$webseite_passwort = $chat_url . "/index.php?aktion=passwort-zuruecksetzen&id=" . $a['u_id'] . "&code=".$passwordcode;
+				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&id=" . $a['u_id'] . "&code=".$passwordcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $t['email_passwort_vergessen_inhalt']);
 				$inhalt = str_replace("%nickname%", $a['u_nick'], $inhalt);
 				$email = urldecode($a['u_email']);
@@ -113,8 +113,7 @@ if ($email_gesendet) {
 	$text = $t['login_passwort_schritt1'];
 	
 	// Formular zum Anfordern eines neuen Passworts
-	$text .= "<form action=\"index.php\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"passwort_vergessen\">";
+	$text .= "<form action=\"index.php?bereich=passwort-vergessen\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	if (!isset($nickname)) {
 		$nickname = "";

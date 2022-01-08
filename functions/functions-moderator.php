@@ -32,7 +32,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	}
 	$text .= "</table>";
 	$text .= "<br><center>";
-	$text .= "<form>";
+	$text .= "<form method=\"post\">";
 	$text .= $t['mod11'] . "<br>";
 	$text .= "<input type=hidden name=id value=$id>";
 	$text .= "<input type=hidden name=mode value=answernew>";
@@ -159,10 +159,11 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 	// gegen DAU-Eingaben sichern...
 	$limit = max(intval($limit), 20);
 	// erst mal alle alten Msgs expiren...
-	if ($moderationsexpire == 0)
+	if ($moderationsexpire == 0) {
 		$moderationsexpire = 30;
+	}
 	$expiretime = $moderationsexpire * 60;
-	$query = "DELETE from moderation WHERE unix_timestamp(c_zeit)+$expiretime<unix_timestamp(NOW()) AND c_moderator=0 AND c_typ='N'";
+	$query = "DELETE FROM moderation WHERE unix_timestamp(c_zeit)+$expiretime<unix_timestamp(NOW()) AND c_moderator=0 AND c_typ='N'";
 	$result = sqlUpdate($query);
 	
 	if ($moderation_rueckwaerts == 1)
@@ -178,7 +179,7 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		echo "	document.forms['modtext'].elements['ok'].focus();\n";
 		echo "}\n";
 		echo "</script>\n";
-		echo "<form name=modtext action=\"moderator.php?id=$id\" method=\"post\">\n";
+		echo "<form name=\"modtext\" action=\"moderator.php\" method=\"post\">\n";
 		if ($rows > 0) {
 			
 			echo "<table style=\"width=100%;\">\n";

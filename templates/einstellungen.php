@@ -6,14 +6,7 @@ if( !isset($u_id) || $u_id == "") {
 
 $f = array();
 $f['u_id'] = filter_input(INPUT_POST, 'u_id', FILTER_SANITIZE_NUMBER_INT);
-if( $f['u_id'] == '') {
-	$f['u_id'] = filter_input(INPUT_GET, 'u_id', FILTER_SANITIZE_NUMBER_INT);
-}
-
 $eingabe = filter_input(INPUT_POST, 'eingabe', FILTER_SANITIZE_STRING);
-if( $eingabe == '') {
-	$eingabe = filter_input(INPUT_GET, 'eingabe', FILTER_SANITIZE_STRING);
-}
 
 if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	// Nur Admins dürfen andere Benutzer bearbeiten
@@ -70,9 +63,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$f['u_sicherer_modus'] = filter_input(INPUT_POST, 'u_sicherer_modus', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_level'] = filter_input(INPUT_POST, 'u_level', FILTER_SANITIZE_URL);
 		$f['u_farbe'] = filter_input(INPUT_POST, 'u_farbe', FILTER_SANITIZE_URL);
-		if($f['u_farbe'] == "") {
-			$f['u_farbe'] = filter_input(INPUT_GET, 'u_farbe', FILTER_SANITIZE_URL);
-		}
 	}
 	
 	// Werte aus dem Array entfernen, welche die aktuelle Benutzergruppe nicht bearbeiten darf
@@ -223,10 +213,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "' WHERE `u_id` = $f[u_id];";
 				sqlUpdate($queryEmailcode);
 				
-				
-				// Kopie von index.php?aktion=passwort_zuruecksetzen
 				// ULR zusammenstellen
-				$webseite_email = $chat_url . "/index.php?aktion=email-bestaetigen&id=" . $f['u_id'] . "&code=".$emailcode;
+				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&id=" . $f['u_id'] . "&code=".$emailcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $t['einstellungen_email_aendern_email_inhalt']);
 				$inhalt = str_replace("%nickname%", $f['u_nick'], $inhalt);
 				$email = urldecode($f['u_email']);
@@ -600,7 +588,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text = "";
 					// Nachfrage ob sicher
 					$text .= str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_sicherheitsabfrage2']);
-					$text .= "<br><form name=\"$f[u_nick]\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<br><form name=\"$f[u_nick]\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
@@ -609,7 +597,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text .= "</form>\n";
 					
 					// Abbrechen
-					$text .= "<form name=\"edit\" action=\"inhalt.php?seite=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Abbrechen\">";
@@ -639,7 +627,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_benutzerseite']);
 				} else {
 					$text = "";
-					$text .= "<form action=\"inhalt.php?seite=einstellungen\" method=\"post\">\n"
+					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
 						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 						. "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n"
 						. "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n"

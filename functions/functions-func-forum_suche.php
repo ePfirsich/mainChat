@@ -9,7 +9,7 @@ function show_pfad_posting2($th_id, $id, $thread) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	mysqli_free_result($query);
 	
-	return "<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=1\">$th_name</a>";
+	return "<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=1\">$th_name</a>";
 	
 }
 

@@ -8,10 +8,13 @@ switch ($aktion) {
 	case "top100":
 		$anzahl = 100;
 		break;
+	
 	case "top1000":
 		$anzahl = 1000;
 		break;
+	
 	case "top10":
+	
 	default:
 		$anzahl = 10;
 }

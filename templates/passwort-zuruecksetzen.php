@@ -24,8 +24,8 @@ if(!isset($mitgliedId) || !isset($code)) {
 			zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_passwort_fehler_code_ungueltig']);
 		} else {
 			// Der Code war korrekt, der Nutzer darf ein neues Passwort eingeben
-			$send = filter_input(INPUT_GET, 'send');
-			if(isset($send)) {
+			$send = filter_input(INPUT_GET, 'send', FILTER_SANITIZE_NUMBER_INT);
+			if($send == 1) {
 				$fehlermeldung = "";
 				$passwort = filter_input(INPUT_POST, 'passwort');
 				$passwort2 = filter_input(INPUT_POST, 'passwort2');
@@ -52,7 +52,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 				}
 			}
 			if($showForm) {
-				$text = "<form action=\"index.php?aktion=passwort-zuruecksetzen&send=1&id=" . htmlentities($mitgliedId) . "&code=" . htmlentities($code) . "\" method=\"post\">\n";
+				$text = "<form action=\"index.php?bereich=passwort-zuruecksetzen&send=1&id=" . htmlentities($mitgliedId) . "&code=" . htmlentities($code) . "\" method=\"post\">\n";
 				
 				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $t['login_passwort_benutzername']);
 				$text .= "<table style=\"width:100%;\">";

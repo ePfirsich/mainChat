@@ -13,7 +13,6 @@ $query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AN
 	$result2 = sqlUpdate($query2, true);
 
 switch ($aktion) {
-	
 	case "neu":
 	// Formular für neue E-Mail ausgeben
 		if (!isset($neue_email)) {

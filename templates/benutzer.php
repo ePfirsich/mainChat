@@ -367,7 +367,7 @@ switch ($aktion) {
 			$text = '';
 			$box = $t['sonst14'];
 			
-			$text .= "<form name=\"raum\" action=\"inhalt.php?seite=benutzer\" method=\"post\">";
+			$text .= "<form name=\"raum\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 			$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
 			if ($admin) {

@@ -369,7 +369,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a></td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=$seite\">$th_name</a></td>\n";
 	
 	if (!$anzahl_po_seite || $anzahl_po_seite == 0) {
 		$anzahl_po_seite = 20;
@@ -396,7 +396,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 
 //Zeigt ein Thema mit allen Beiträgen an
 function show_thema() {
-	global $id, $forum_admin, $th_id, $show_tree, $seite;
+	global $id, $forum_admin, $th_id, $seite;
 	global $anzahl_po_seite, $chat_grafik, $t;
 	global $admin, $anzahl_po_seite2, $u_id;
 	
@@ -590,7 +590,7 @@ function show_thema() {
 	$text .= "<table class=\"tabelle_gerust2\">\n";
 	$text .= "<tr>\n";
 	$text .= "<td>\n";
-	$text .= "<form action=\"forum.php\">\n";
+	$text .= "<form action=\"forum.php\" method=\"post\">\n";
 	$text .= "$t[forum_postingsproseite] <input name=\"anzahl_po_seite2\" size=\"3\" maxlength=\"4\" value=\"$anzahl_po_seite\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"show_thema\">\n";
@@ -623,6 +623,7 @@ function maske_posting($mode) {
 			}
 			
 			break;
+		
 		case "reply": // zitieren
 		//Daten des Vaters holen
 			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick
@@ -765,10 +766,12 @@ function maske_posting($mode) {
 	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
 	$text .= "<td $bgcolor><input type=\"submit\" value=\"$button\"></td>\n";
 	$text .= "</tr>\n";
+	$text .= "</table>\n";
 	
 	
 	$text .= show_pfad_posting($th_id, $titel);
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
+	
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
 	
 	if ($mode == "neuer_thread") {
@@ -779,7 +782,6 @@ function maske_posting($mode) {
 		$text .= "<input type=\"hidden\" name=\"thread\" value=\"$thread\">\n";
 		$text .= "<input type=\"hidden\" name=\"po_tiefe\" value=\"$tiefe\">\n";
 		$text .= "<input type=\"hidden\" name=\"po_vater_id\" value=\"$po_vater_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"show_tree\" value=\"$thread\">\n";
 	} else {
 		$tiefe = $po_tiefe;
 		$text .= "<input type=\"hidden\" name=\"thread\" value=\"$thread\">\n";
@@ -792,8 +794,6 @@ function maske_posting($mode) {
 	$text .= "<input type=\"hidden\" name=\"seite\" value=\"$seite\">";
 	$text .= "<input type=\"hidden\" name=\"mode\" value=\"$mode\">";
 	$text .= "</form>";
-	$text .= "</table>\n";
-	
 	
 	return $text;
 }
@@ -822,7 +822,7 @@ function show_pfad_posting($th_id, $po_titel) {
 	$text = "";
 	$text .= "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&show_tree=$thread&aktion=show_thema&seite=$seite\">$th_name</a> > $po_titel</td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=$seite\">$th_name</a> > $po_titel</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	

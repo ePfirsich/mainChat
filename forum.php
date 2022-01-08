@@ -1,10 +1,36 @@
 <?php
-
 require_once("functions/functions.php");
 require_once("functions/functions-forum.php");
 require_once("functions/functions-formulare.php");
 require_once("languages/$sprache-smilies.php");
 require_once("languages/$sprache-forum.php");
+
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+if($id == "") {
+	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
+}
+
+$th_id = filter_input(INPUT_GET, 'th_id', FILTER_SANITIZE_NUMBER_INT);
+if($th_id == "") {
+	$th_id = filter_input(INPUT_POST, 'th_id', FILTER_SANITIZE_NUMBER_INT);
+}
+
+$po_tiefe = filter_input(INPUT_GET, 'po_tiefe', FILTER_SANITIZE_NUMBER_INT);
+
+$fo_id = filter_input(INPUT_GET, 'fo_id', FILTER_SANITIZE_NUMBER_INT);
+$po_id = filter_input(INPUT_GET, 'po_id', FILTER_SANITIZE_NUMBER_INT);
+$seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_NUMBER_INT);
+$thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
+
+$po_vater_id = filter_input(INPUT_GET, 'po_vater_id', FILTER_SANITIZE_NUMBER_INT);
+if($po_vater_id == "") {
+	$po_vater_id = filter_input(INPUT_POST, 'po_vater_id', FILTER_SANITIZE_NUMBER_INT);
+}
+
+$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
+if($aktion == "") {
+	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+}
 
 // Benutzerdaten setzen
 id_lese($id);
@@ -289,10 +315,10 @@ switch ($aktion) {
 					markiere_als_gelesen($new_po_id, $u_id, $th_id);
 					aktion_sofort($new_po_id, $po_vater_id, $thread);
 					$po_id = $new_po_id;
-					// Punkte gutschreiben  
-					if ($u_id)
+					// Punkte gutschreiben
+					if ($u_id) {
 						verbuche_punkte($u_id);
-					
+					}
 				}
 				
 				// Thema zeigen
@@ -324,7 +350,6 @@ switch ($aktion) {
 		// Richtig, die $th_id anhand der $po_id zu bestimmen und zu prüfen
 		$leserechte = pruefe_leserechte(hole_themen_id_anhand_posting_id($po_id));
 		if ($leserechte) {
-			
 			// Thema zeigen
 			$box = $t['forum_header'];
 			$text = show_posting();

@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -69,7 +69,7 @@ if($formular == "gefuellt") {
 $text = $t['kontakt_beschreibung'];
 $text .= "<br><br>";
 
-$text .= "<form name=\"kontakt\" action=\"index.php?aktion=kontakt\" method=post>\n";
+$text .= "<form name=\"kontakt\" action=\"index.php?bereich=kontakt\" method=\"post\">\n";
 $text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
 $text .= "<table style=\"width:100%;\">\n";
 

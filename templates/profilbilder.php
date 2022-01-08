@@ -61,7 +61,7 @@ if ($result && mysqli_num_rows($result) == 1) {
 	// HP-Tabelle ausgeben
 	$box = $t['profil_bilder_hochladen'];
 	
-	$text = "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?seite=profilbilder\" method=\"post\">\n"
+	$text = "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=profilbilder\" method=\"post\">\n"
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
 			. "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n"

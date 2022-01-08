@@ -2,7 +2,6 @@
 
 if (ini_get('register_globals') == 0) {
 	// Initialisierung der Variablen
-	$aktion = "";
 	$los = "";
 	
 	// Lade alle Variablen in Lokale Variablen
@@ -22,5 +21,4 @@ if (ini_get('register_globals') == 0) {
 		$$varname = $value;
 	}
 }
-
 ?>

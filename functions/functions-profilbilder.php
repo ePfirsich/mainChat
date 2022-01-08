@@ -86,7 +86,7 @@ function home_bild(
 		
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
-		$text .= "<br><b>[<a href=\"inhalt.php?seite=profilbilder&id=$id&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>";
+		$text .= "<br><b>[<a href=\"inhalt.php?bereich=profilbilder&id=$id&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>";
 	} else {
 		
 		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";

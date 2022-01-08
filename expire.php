@@ -161,15 +161,15 @@ if ($result && mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_object($result)) {
 		// Benutzer löschen
 		$query = "DELETE FROM `user` WHERE u_id=$row->u_id";
-		$result3 = sqlUpdate($query);
+		$result3 = sqlUpdate($query, true);
 		
 		// Benutzer-Ignore Einträge löschen
 		$query = "DELETE FROM iignore WHERE i_user_aktiv=$row->u_id OR i_user_passiv=$row->u_id";
-		$result3 = sqlUpdate($query);
+		$result3 = sqlUpdate($query, true);
 		
 		// Gesperrte Räume löschen
 		$query3 = "DELETE FROM sperre WHERE s_user=$row->u_id";
-		$result3 = sqlUpdate($query3);
+		$result3 = sqlUpdate($query3, true);
 	}
 }
 mysqli_free_result($result);

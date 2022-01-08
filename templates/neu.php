@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($aktion)) {
+if( !isset($bereich)) {
 	die;
 }
 
@@ -121,8 +121,7 @@ if($fehlermeldung != "") {
 if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	$text = $t['registrierung_informationen'];
 	
-	$text .= "<form action=\"index.php\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu\">\n";
+	$text .= "<form action=\"index.php?bereich=neu\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_email\" value=\"$f[u_email]\">\n";
 	$text .= "<input type=\"hidden\" name=\"hash\" value=\"$f[hash]\">\n";
@@ -173,10 +172,9 @@ if ($weiter_zu_login) {
 	$text .= "<br>";
 	
 	// Daten in DB als Benutzer eintragen
-	$text .= "<form action=\"$chat_url\" name=\"login\" method=\"post\">\n";
+	$text .= "<form action=\"index.php?bereich=einloggen\" name=\"login\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"login\">\n";
 	$text .= "<input type=\"submit\" value=\"$t[login_weiter_zum_chat]\">\n";
 	$text .= "</form>\n";
 	
