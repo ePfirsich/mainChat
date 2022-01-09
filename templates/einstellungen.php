@@ -517,7 +517,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 					if (isset($f['u_level']) && $f['u_level'] == "Z") {
-						$queryii = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=" . intval($f[u_id]) . " AND u_id=i_user_passiv order by i_id";
+						$queryii = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=" . intval($f['u_id']) . " AND u_id=i_user_passiv order by i_id";
 						$resultii = sqlQuery($queryii);
 						$anzahlii = @mysqli_num_rows($resultii);
 						
