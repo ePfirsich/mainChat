@@ -193,7 +193,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 				
 				// Gesperrte Räume löschen
 				$query = "DELETE FROM sperre WHERE s_raum=$row->r_id";
-				$result4 = sqlUpdate($query);
+				$result4 = sqlUpdate($query, true);
 			}
 			mysqli_free_result($result3);
 		}

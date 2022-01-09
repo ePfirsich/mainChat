@@ -616,7 +616,7 @@ function auth_user($login, $passwort) {
 	}
 }
 
-function zeige_chat_login() {
+function zeige_chat_login($text = "") {
 	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
 	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren;
 	
@@ -680,7 +680,7 @@ function zeige_chat_login() {
 	// Zeigt die Willkommensnachricht auf der Eingangsseite aus
 	if (isset($layout_kopf) && $layout_kopf != "") {
 		// Eigenen Text anzeigen
-		$text = $layout_kopf;
+		$text .= $layout_kopf;
 	} else {
 		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
 		$text.= "<h2>" . $t['willkommen'] . "</h2><br>\n";

@@ -102,15 +102,18 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 	}
 }
 
+$text = "";
+
 // Fehlermeldungen ausgeben
 if ($fehlermeldung != "") {
-	zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+	$text .= hinweis($fehlermeldung, "fehler");
 }
 
 if ($email_gesendet) {
-	$text = $t['login_passwort_schritt2'];
+	$erfolgsmeldung = $t['login_passwort_schritt2'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 } else {
-	$text = $t['login_passwort_schritt1'];
+	$text .= $t['login_passwort_schritt1'];
 	
 	// Formular zum Anfordern eines neuen Passworts
 	$text .= "<form action=\"index.php?bereich=passwort-vergessen\" method=\"post\">\n";

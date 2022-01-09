@@ -282,7 +282,7 @@ function schreibe_chat($f) {
 				$i = $i + 255;
 				$back = schreibe_db("chat", $f, "", "c_id");
 			}
-			$query = "UNLOCK TABLES chat";
+			$query = "UNLOCK TABLES";
 			$result = sqlUpdate($query, true);
 		} else {
 			// Normale Zeile in Tabelle schreiben
@@ -1652,5 +1652,13 @@ function randomString() {
 		$str = md5(uniqid('g158Y9EYN7h1V', true));
 	}
 	return $str;
+}
+
+function hinweis($text, $typ = fehler) {
+	if($typ == "fehler") {
+		return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
+	} else {
+		return "<p class=\"erfolgreich\"><span class=\"fa fa-check-square icon24\" alt=\"$t[hinweis_erfolgreich]\" title=\"$t[hinweis_erfolgreich]\"></span> $text</p>\n";
+	}
 }
 ?>

@@ -365,7 +365,7 @@ function maske_thema($th_id = 0) {
 
 //Zeigt Pfad und Seiten in Themaliste an
 function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
-	global $id, $thread, $anzahl_po_seite, $seite, $t;
+	global $id, $anzahl_po_seite, $seite, $t;
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
@@ -804,8 +804,11 @@ function verbuche_punkte($u_id) {
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
-		zeige_tabelle_zentriert($t['forum_punkte_erhalten'], $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id) );
+		$erfolgsmeldung = $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id);
+		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	}
+	
+	return $text;
 }
 
 //Zeigt Pfad in Beiträgen an

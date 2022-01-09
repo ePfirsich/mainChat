@@ -8,12 +8,16 @@ $t['nachrichten_postausgang'] = "Postausgang";
 $t['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";
 $t['nachrichten_papierkorb'] = "Papierkorb";
 $t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
-$t['nachrichten_nachrichten_deaktivieren'] = "Mailbox schließen";
+$t['nachrichten_nachrichten_deaktivieren'] = "Posteingang schließen";
 $t['nachrichten_hilfe'] = "Hilfe";
 
 $t['nachrichten_benutzername'] = "Benutzername";
 $t['nachrichten_weiterleiten'] = "Nachricht weiterleiten";
 $t['nachrichten_neu'] = "Neue Nachricht senden";
+$t['nachrichten_weiter'] = "Weiter";
+
+$t['nachrichten_posteingang_geschlossen'] = "Ihr Posteingang ist geschlossen!";
+$t['nachrichten_posteingang_geschlossen_text'] = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Nachrichten empfangen möchten!";
 
 $t['nachrichten_posteingang2'] = "Nachrichten im Posteingang";
 $t['nachrichten_postausgang2'] = "Nachrichten im Postausgang";
@@ -23,16 +27,19 @@ $t['nachrichten_art_des_versands_nachricht'] = "Nachricht";
 $t['nachrichten_art_des_versands_email'] = "E-Mail";
 $t['nachrichten_neue_nachricht_an'] = "Neue Nachricht an ";
 
-$t['nachrichten_fehlermeldung'] = "Fehler";
-$t['nachrichten_erfolgsmeldung'] = "Erfolgreich versendet!";
 $t['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschickt.";
 $t['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
-$t['nachrichten_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
-$t['nachrichten_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
+
+$t['nachrichten_fehler_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
+$t['nachrichten_fehler_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
 $t['nachrichten_fehler_text_zu_lang'] = "Der Text ist zu lange!<br>";
 $t['nachrichten_fehler_kein_text'] = "Bitte geben Sie einen Text zum Versenden ein!<br>";
 $t['nachrichten_fehler_kein_betreff'] = "Bitte geben Sie einen Betreff zum Versenden ein!<br>";
 $t['nachrichten_fehler_betreff_zu_lang'] = "Bitte geben im Betreff weniger als 254 Zeichen ein!<br>";
+$t['nachrichten_fehler_benutzername_existiert_nicht'] = "Der Benutzername '%nick%' existiert nicht!<br>";
+$t['nachrichten_fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer seine Mailbox geschlossen hat!";
+$t['nachrichten_fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
+$t['nachrichten_fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
 
 $t['betreff'] = "Betreff";
 $t['datum'] = "Datum";
@@ -42,9 +49,4 @@ $t['loeschen'] = "löschen";
 $t['wiederherstellen'] = "wiederherstellen";
 
 $t['sonst2'] = "Nachricht zeigen:";
-
-$t['fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
-$t['fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
-$t['fehler_benutzername_existiert_nicht'] = "Der Benutzername existiert nicht!<br>";
-$t['fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer seine Mailbox geschlossen hat!";
 ?>

@@ -45,6 +45,7 @@
 	--Chatmodus-Nachrichten-oeffentlich: #6d0000;
 	--Chatmodus-Nachrichten-privat: #007ABE;
 	
-	--Fehlermeldung-Farbe: #FF0000;
+	--Fehler-Farbe: #C68989;
+	--Erfolgreich-Farbe: #84c684;
 }
 /* Farbdeklarationen - Ende ******************************************************************* */

@@ -11,32 +11,36 @@ $t['sperren_menue6'] = "Neuen Blacklist-Eintrag hinzufügen";
 $t['sperren_menue6a'] = "Loginsperre Gast: Deaktivieren";
 $t['sperren_menue6b'] = "Loginsperre Gast: Aktivieren";
 
-$t['blacklist1'] = "Es gibt noch keine Blacklist-Einträge.";
-$t['blacklist2'] = "Blacklist-Einträge: ";
-$t['blacklist3'] = "Neuen Blacklist-Eintrag hinzufügen:";
+$t['sperren_blacklist'] = "Blacklist";
+$t['sperren_blacklist_neu'] = "Neuen Blacklist-Eintrag hinzufügen:";
 
-$t['sperren_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!";
-$t['sperren_erfolgsmeldung_adresse'] = "Adresse %domain% gelöscht!<br>";
+$t['sperren_benutzername'] = "Benutzername";
+$t['sperren_info'] = "Info";
+
+$t['sperren_eintragen'] = "Eintragen";
+
+$t['sperren_erfolgsmeldung_adresse'] = "Die Sperre mit der Adresse %domain% wurde gelöscht!<br>";
 $t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich'] = "'%username%' ist jetzt in der Blacklist eingetragen.<br>";
 $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht'] = "'%username%' wurde aus der Blackliste gelöscht.<br>";
 
-$t['sperren_fehlermeldung'] = "Fehler";
 $t['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
 $t['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";
+$t['sperren_fehlermeldung_domain_oder_ip'] = "Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!<br>";
 $t['sperren_fehlermeldung_eintrag_nicht_gefunden'] = "Eintrag nicht gefunden!<br>";
 $t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich'] = "Sie können sich nicht selbst als Blacklist-Eintrag hinzufügen!<br>";
 $t['sperren_fehlermeldung_eintrag_bereits_vorhanden'] = "'%username%' ist bereits in der Blackliste eingetragen!<br>";
 $t['sperren_fehlermeldung_fehler_beim_anlegen'] = "Fehler beim Anlegen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
 $t['sperren_fehlermeldung_fehler_beim_loeschen'] = "Fehler beim Löschen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
+$t['sperren_fehlermeldung_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
+$t['sperren_fehlermeldung_benutzer_nicht_vorhanden'] = "Der Benutzername '%nickname%' existiert nicht!<br>";
 
 $t['sonst2'] = "Übersicht über alle Zugangssperren";
-$t['sonst5'] = "<b>Hinweis:</b> Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!";
+
 $t['sperren_keine_zugangssperren_definiert'] = "<b>Keine Zugangssperren definiert.</b>";
 
 $t['sonst11'] = "Domain:";
 $t['sonst12'] = "IP-Adresse:";
-$t['sonst13'] = "Eintragen!";
-$t['sonst14'] = "Neue Zugangssperre anlegen";
+$t['sperren_neue_zugangssperre'] = "Neue Zugangssperre anlegen";
 $t['sonst15'] = "Bitte nur eine Zeile ausfüllen!";
 $t['sonst18'] = "Sperre ändern";
 $t['sonst19'] = "Grund der Sperre (opt):";

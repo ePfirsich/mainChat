@@ -1,6 +1,6 @@
 <?php
 
-function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
+function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
@@ -54,7 +54,6 @@ function user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip) {
 				
 				// Ausgabe des Benutzers
 				$zaehler = 0;
-				$text = "";
 				$text .= "<table style=\"width:100%;\">";
 				
 				// Überschrift: Avatar

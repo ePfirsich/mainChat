@@ -25,22 +25,19 @@ $t['freunde_freundesanfrage_chat'] = "Hallo %nickname%, jemand möchte Ihr Freun
 $t['freunde_keine_freunde_vorhanden'] = "Sie haben leider noch keine Freunde.";
 $t['freunde_anfragen'] = "Sie haben derzeit keine Freundesanfragen.";
 
-$t['freunde_hinzufuegen'] = "Freund hinzufügen";
 $t['freunde_aendern'] = "Ändern";
 $t['freunde_bestaetigen'] = "Bestätigen";
 $t['freunde_loeschen'] = "Löschen";
 
-$t['freunde_rueckmeldung'] = "Rückmeldung";
-$t['freunde_erfolgsmeldung'] = "Erfolgsmeldung";
 $t['freunde_erfolgsmeldung_freund_geloescht'] = "Der Benutzer wurde als '%user%' Freund gelöscht.<br>";
 $t['freunde_erfolgsmeldung_freundesanfrage'] = "Sie haben '%nickname%' eine Freundesanfrage geschickt.<br>";
 $t['freunde_erfolgsmeldung_freundschaft_bestaetigt'] = "Die Freundschaft mit '%nickname%' wurde bestätigt!.<br>";
 $t['freunde_erfolgsmeldung_freund_text_geaendert'] = "Der Freundestext wurde geändert.<br>";
 
-$t['freunde_fehlermeldung'] = "Fehlermeldung";
-$t['freunde_fehlermeldung_fehler_beim_hinzufuegen'] = "Der Freund konnte nicht hinzufgefügt werden.";
+$t['freunde_fehlermeldung_fehler_beim_hinzufuegen'] = "Der Benutzer konnte nicht als Freund hinzugefügt werden.";
 $t['freunde_fehlermeldung_bereits_als_freund_vorhanden'] = "Der Benutzer '%nickname%' ist bereits als Ihr Freund eingetragen!<br>";
 $t['freunde_fehlermeldung_selbst_als_freund'] = "Sie können sich nicht selbst als Freund eintragen!";
 $t['freunde_fehlermeldung_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
 $t['freunde_fehlermeldung_benutzer_nicht_vorhanden'] = "Der Benutzername '%nickname%' existiert nicht!<br>";
+$t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich'] = "Der Benutzer '%nickname%' konnte nicht als Freund gelöscht werden!<br>";
 ?>

@@ -4,6 +4,7 @@ if( !isset($u_id) || $u_id == "") {
 	die;
 }
 
+$text = "";
 switch ($aktion) {
 	case "loginsperre0":
 		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
@@ -43,7 +44,7 @@ switch ($aktion) {
 }
 
 // Soll Datensatz eingetragen oder geändert werden? (Nur für Sperren relevant)
-if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
+if ((isset($eintragen)) && ($eintragen == $t['sperren_eintragen'])) {
 	if (!isset($f['is_infotext'])) {
 		$f['is_infotext'] = "";
 	}
@@ -57,7 +58,8 @@ if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
 	// IP zusamensetzen
 	$f['is_ip'] = $ip1 . "." . $ip2 . "." . $ip3 . "." . $ip4;
 	if (strlen($f['is_domain']) > 0 && $f['is_ip'] != "...") {
-		echo "<p>$t[sonst5]</p>\n";
+		$fehlermeldung = $t['sperren_fehlermeldung_domain_oder_ip'];
+		$text .= hinweis($fehlermeldung, "fehler");
 		$aktion = "neu";
 	} elseif (strlen($f['is_domain']) > 0) {
 		if (strlen($f['is_domain']) > 4) {
@@ -66,17 +68,16 @@ if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
 			$f['is_owner'] = $u_id;
 			schreibe_db("ip_sperre", $f, $f['is_id'], "is_id");
 		} else {
-			echo "<p>$t[sonst5]</p>\n";
+			$fehlermeldung = $t['sperren_fehlermeldung_domain_oder_ip'];
+			$text .= hinweis($fehlermeldung, "fehler");
 			$aktion = "neu";
 		}
 	} elseif ($f['is_ip'] != "...") {
 		if (strlen($ip1) > 0 && $ip1 < 256) {
 			// Eintrag IP in DB
-			if (strlen($ip4) > 0 && $ip4 < 256 && strlen($ip3) > 0
-				&& $ip3 < 256 && strlen($ip2) > 0 && $ip2 < 256) {
+			if (strlen($ip4) > 0 && $ip4 < 256 && strlen($ip3) > 0 && $ip3 < 256 && strlen($ip2) > 0 && $ip2 < 256) {
 				$f['is_ip_byte'] = 4;
-			} elseif (strlen($ip3) > 0 && $ip3 < 256 && strlen($ip2) > 0
-				&& $ip2 < 256) {
+			} elseif (strlen($ip3) > 0 && $ip3 < 256 && strlen($ip2) > 0 && $ip2 < 256) {
 				$f['is_ip_byte'] = 3;
 				$f['is_ip'] = $ip1 . "." . $ip2 . "." . $ip3 . ".";
 			} elseif (strlen($ip2) > 0 && $ip2 < 256) {
@@ -92,17 +93,13 @@ if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
 			}
 			schreibe_db("ip_sperre", $f, $f['is_id'], "is_id");
 		} else {
-			$value = $t['sperren_fehlermeldung_domain'];
-			
-			// Box anzeigen
-			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
+			$fehlermeldung = $t['sperren_fehlermeldung_domain'];
+			$text .= hinweis($fehlermeldung, "fehler");
 			$aktion = "neu";
 		}
 	} else {
-		$value = $t['sperren_fehlermeldung_ip_ausfuellen'];
-		
-		// Box anzeigen
-		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
+		$fehlermeldung = $t['sperren_fehlermeldung_ip_ausfuellen'];
+		$text .= hinweis($fehlermeldung, "fehler");
 		$aktion = "neu";
 	}
 }
@@ -111,12 +108,12 @@ if ((isset($eintragen)) && ($eintragen == $t['sonst13'])) {
 switch ($aktion) {
 	case "blacklist":
 		// Blacklist anzeigen
-		zeige_blacklist("normal", "", $sort);
+		zeige_blacklist("", "normal", "", $sort);
 		break;
 		
 	case "blacklist_neu":
 		// Formular für neuen Eintrag ausgeben
-		formular_neuer_blacklist($neuer_blacklist);
+		formular_neuer_blacklist("", $neuer_blacklist);
 		break;
 		
 	case "blacklist_neu2":
@@ -126,17 +123,20 @@ switch ($aktion) {
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$neuer_blacklist['u_id'] = mysqli_result($result, 0, 0);
-			neuer_blacklist($u_id, $neuer_blacklist);
+			$text .= neuer_blacklist_eintrag($u_id, $neuer_blacklist);
 			unset($neuer_blacklist);
 			$neuer_blacklist[] = "";
-			formular_neuer_blacklist($neuer_blacklist);
-			zeige_blacklist("normal", "", $sort);
-		} elseif ($neuer_blacklist['u_nick'] == "") {
-			echo "<b>Fehler:</b> Bitte geben Sie einen Benutzernamen an!<br>\n";
-			formular_neuer_blacklist($neuer_blacklist);
+			formular_neuer_blacklist($text, $neuer_blacklist);
+		} else if ($neuer_blacklist['u_nick'] == "") {
+			$fehlermeldung = $t['sperren_fehlermeldung_kein_benutzername_angegeben'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			formular_neuer_blacklist($text, $neuer_blacklist);
 		} else {
-			echo "<b>Fehler:</b> Der Benutzername '$neuer_blacklist[u_nick]' existiert nicht!<br>\n";
-			formular_neuer_blacklist($neuer_blacklist);
+			$fehlermeldung = str_replace("%nickname%", $neuer_blacklist['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			formular_neuer_blacklist($text, $neuer_blacklist);
 		}
 		mysqli_free_result($result);
 		break;
@@ -147,17 +147,16 @@ switch ($aktion) {
 		if (isset($f_blacklistid) && is_array($f_blacklistid)) {
 			// Mehrere Einträge löschen
 			foreach ($f_blacklistid as $key => $loesche_id) {
-				loesche_blacklist($loesche_id);
+				$text .= loesche_blacklist($loesche_id);
 			}
 			
 		} else {
 			// Einen Eintrag löschen
 			if (isset($f_blacklistid))
-				loesche_blacklist($f_blacklistid);
+				$text .= loesche_blacklist($f_blacklistid);
 		}
 		
-		formular_neuer_blacklist($neuer_blacklist);
-		zeige_blacklist("normal", "", $sort);
+		zeige_blacklist($text, "normal", "", $sort);
 		break;
 	
 	case "loeschen":
@@ -176,7 +175,8 @@ switch ($aktion) {
 				$result2 = sqlUpdate($query2);
 				
 				if (strlen($row->is_domain) > 0) {
-					$value = str_replace("%domain%", $row->is_domain, $t['sperren_erfolgsmeldung_adresse']);
+					$erfolgsmeldung = str_replace("%domain%", $row->is_domain, $t['sperren_erfolgsmeldung_adresse']);
+					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
 					if ($row->is_ip_byte == 1) {
 						$isip = $row->isip . ".xxx.yyy.zzz";
@@ -187,24 +187,20 @@ switch ($aktion) {
 					} else {
 						$isip = $row->isip;
 					}
-					$value = str_replace("%domain%", $isip, $t['sperren_erfolgsmeldung_adresse']);
+					$erfolgsmeldung = str_replace("%domain%", $isip, $t['sperren_erfolgsmeldung_adresse']);
+					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				}
-				// Box anzeigen
-				zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $value);
 			} else {
-				$value = $t['sperren_fehlermeldung_eintrag_nicht_gefunden'];
-				
-				// Box anzeigen
-				zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $value);
+				$fehlermeldung = $t['sperren_fehlermeldung_eintrag_nicht_gefunden'];
+				$text .= hinweis($fehlermeldung, "fehler");
 			}
 			mysqli_free_result($result);
 		}
-		sperren_liste();
+		sperren_liste($text);
 		
 		break;
 	
 	case "aendern":
-		$text = '';
 		// ID gesetzt?
 		if (strlen($is_id) > 0) {
 			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre WHERE is_id=" . intval($is_id);
@@ -260,7 +256,7 @@ switch ($aktion) {
 				$text .= "</select>";
 				
 				// Submitknopf
-				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b></td></tr>\n";
+				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sperren_eintragen]\" name=\"eintragen\"></b></td></tr>\n";
 				$text .= "</table>\n";
 				
 				$text .= "<input type=\"hidden\" name=\"f[is_id]\" value=\"$is_id\">\n"
@@ -274,21 +270,17 @@ switch ($aktion) {
 		
 		zeige_tabelle_zentriert($box, $text);
 		
-		// Liste ausgeben
-		sperren_liste();
-		
 		break;
 	
 	case "neu":
 	// Werte von [SPERREN] aus Benutzerliste übernehmen, falls vorhanden...
-		$text = '';
 		if (isset($hname)) {
 			$f['is_domain'] = $hname;
 		} else if (isset($ipaddr)) {
 			list($ip1, $ip2, $ip3, $ip4) = preg_split("/\./", $ipaddr, 4);
 		}
 		if (isset($uname)) {
-			$f['is_infotext'] = "Benutzername " . $uname;
+			$f['is_infotext'] = $t['sperren_benutzername'] . " " . $uname;
 		}
 		
 		if (!isset($f['is_domain'])) {
@@ -308,7 +300,7 @@ switch ($aktion) {
 		}
 		
 		// Sperre neu anlegen, Eingabeformular
-		$box = $t['sonst14'];
+		$box = $t['sperren_neue_zugangssperre'];
 		
 		$text .= "<form name=\"Sperre\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 		
@@ -335,7 +327,7 @@ switch ($aktion) {
 			$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 		}
 		$text .= "</select>&nbsp;&nbsp;&nbsp;"
-			. "<b><input type=\"submit\" value=\"$t[sonst13]\" name=\"eintragen\"></b>\n"
+			. "<b><input type=\"submit\" value=\"$t[sperren_eintragen]\" name=\"eintragen\"></b>\n"
 			. "</td></tr>\n";
 		$text .= "</table>\n";
 		
@@ -343,14 +335,11 @@ switch ($aktion) {
 		
 		zeige_tabelle_zentriert($box, $text);
 		
-		// Liste ausgeben
-		sperren_liste();
-		
 		break;
 	
 	default;
 	// Übersicht
 		// Liste ausgeben
-		sperren_liste();
+		sperren_liste("");
 }
 ?>

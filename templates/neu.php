@@ -114,12 +114,14 @@ if( isset($formular) && $formular == "abgesendet") {
 	$f['hash'] = $hash;
 }
 
+$text = "";
+
 if($fehlermeldung != "") {
-	zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+	$text .= hinweis($fehlermeldung, "fehler");
 }
 
 if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
-	$text = $t['registrierung_informationen'];
+	$text .= $t['registrierung_informationen'];
 	
 	$text .= "<form action=\"index.php?bereich=neu\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";

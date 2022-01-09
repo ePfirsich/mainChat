@@ -5,6 +5,7 @@ if( !isset($bereich)) {
 }
 
 $fehlermeldung = "";
+$text = "";
 
 if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email)) ) {
 	// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
@@ -16,12 +17,12 @@ if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_r
 	}
 	$email = "";
 	
-	zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+	$text .= hinweis($fehlermeldung, "fehler");
 }
 
 if (!isset($email) || $fehlermeldung != "") {
 	// Formular für die Erstregistierung 1. Schritt ausgeben
-	$text = $t['registrierung_email_angeben'];
+	$text .= $t['registrierung_email_angeben'];
 	
 	$text .= "<form action=\"index.php?bereich=registrierung\" method=\"post\">\n";
 	
@@ -96,7 +97,7 @@ if($fehlermeldung == "" && isset($email)) {
 	}
 	
 	if($fehlermeldung != "") {
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		// Überprüfung auf Formular mehrmals abgeschickt
 		$query = "DELETE FROM mail_check WHERE email = '$email'";

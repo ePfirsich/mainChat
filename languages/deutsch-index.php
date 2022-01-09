@@ -25,7 +25,6 @@ $t['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?berei
 $t['kontakt_zuruecksetzen'] = "Zurücksetzen";
 $t['kontakt_absenden'] = "Absenden";
 
-$t['kontakt_fehler'] = "Fehlermeldung";
 $t['kontakt_fehler_absender'] = "Bitte geben Sie einen Absender an.<br>";
 $t['kontakt_fehler_email'] = "Bitte geben Sie eine korrekte E-Mail Adresse an.<br>";
 $t['kontakt_fehler_betreff'] = "Bitte geben Sie ein Betreff an.<br>";
@@ -33,7 +32,6 @@ $t['kontakt_fehler_nachricht'] = "Bitte geben Sie eine Nachricht an.<br>";
 $t['kontakt_fehler_sicherheitsfrage'] = "Die Sicherheitsfrage wurde falsch beantwortet.<br>";
 $t['kontakt_fehler_datenschutz'] = "Bitte stimmen Sie der Datenschutzerklärung zu.<br>";
 
-$t['kontakt_erfolgsmeldung'] = "Erfolgsmeldung";
 $t['kontakt_erfolgsmeldung_email_versendet'] = "Die Nachricht wurde erfolgreich versendet.<br>";
 
 $t['kontakt_inhalt'] = "$chat<br><br>
@@ -147,6 +145,7 @@ $t['login_passwort_wiederholen'] = "Passwort wiederholen";
 $t['login_passwort_vergessen'] = "Passwort vergessen?";
 $t['login_neues_passwort_speichern'] = "Neues Passwort speichern";
 $t['login_email'] = "E-Mail";
+$t['login_email_aendern'] = "E-Mail-Adresse ändern";
 $t['login_freischalt_code'] = "Freischalt-Code";
 $t['login_weiter_zum_chat'] = "Weiter zum Chat";
 $t['login_raum'] = "Raum:";
@@ -181,7 +180,6 @@ $t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registr
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
 	. "Sie den Link dann in den Browser ein.";
 
-$t['login_fehlermeldung'] = "<span class=\"fehlermeldung\">Fehlermeldung</span>";
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
 $t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
 
@@ -253,7 +251,6 @@ Um ein neues Passwort zu vergeben, rufen Sie innerhalb der nächsten 24 Stunden 
 Sollte Ihnen das Passwort wieder eingefallen sein oder dieses nicht angefordert, so ignorieren Sie diese E-Mail einfach.";
 $t['login_passwort_anfordern'] = "Neues Passwort anfordern";
 
-$t['login_passwort_fehler_fehlermeldung'] = "Fehlermeldung";
 $t['login_passwort_fehler_kein_benutzer'] = "Es wurde kein passender Benutzer gefunden.<br>";
 $t['login_passwort_fehler_code_abgelaufen'] = "Dein Code ist leider abgelaufen.<br>";
 $t['login_passwort_fehler_code_ungueltig'] = "Der übergebene Code war ungültig. Stellen Sie sicher, dass Sie den genauen Link in der URL aufgerufen haben.<br>";

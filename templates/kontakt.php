@@ -22,33 +22,36 @@ if($formular == "gefuellt") {
 	$fehlermeldung = "";
 	
 	if( $kontakt_absender == "" || strlen($kontakt_absender) < 5 ) {
-		$fehlermeldung .= $t['kontakt_fehler_absender'];
+		$fehlermeldung = $t['kontakt_fehler_absender'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if( $kontakt_email == "" || strlen($kontakt_email) < 5 ) {
-		$fehlermeldung .= $t['kontakt_fehler_email'];
+		$fehlermeldung = $t['kontakt_fehler_email'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if( $kontakt_betreff == "" || strlen($kontakt_betreff) < 5 ) {
-		$fehlermeldung .= $t['kontakt_fehler_betreff'];
+		$fehlermeldung = $t['kontakt_fehler_betreff'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if( $kontakt_nachricht == "" || strlen($kontakt_nachricht) < 15 ) {
-		$fehlermeldung .= $t['kontakt_fehler_nachricht'];
+		$fehlermeldung = $t['kontakt_fehler_nachricht'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if( $kontakt_frage == "" || strtolower($kontakt_frage) != strtolower($t['kontakt_antwort']) ) {
-		$fehlermeldung .= $t['kontakt_fehler_sicherheitsfrage'];
+		$fehlermeldung = $t['kontakt_fehler_sicherheitsfrage'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if( $kontakt_datenschutz == "") {
-		$fehlermeldung .= $t['kontakt_fehler_datenschutz'];
+		$fehlermeldung = $t['kontakt_fehler_datenschutz'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
-	if($fehlermeldung != "") {
-		// Fehlermeldung ausgeben
-		zeige_tabelle_volle_breite($t['kontakt_fehler'], $fehlermeldung);
-	} else {
+	if($fehlermeldung == "") {
 		// E-Mail versenden
 		$nachricht = str_replace("%name%", $kontakt_absender, $t['kontakt_inhalt']);
 		$nachricht = str_replace("%nachricht%", $kontakt_nachricht, $nachricht);
@@ -56,7 +59,9 @@ if($formular == "gefuellt") {
 		
 		$email_ok = email_senden($kontakt_email, $kontakt_betreff, $nachricht);
 		
-		zeige_tabelle_volle_breite($t['kontakt_erfolgsmeldung'], $t['kontakt_erfolgsmeldung_email_versendet']);
+		$erfolgsmeldung = $t['kontakt_erfolgsmeldung_email_versendet'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		
 		$kontakt_absender = "";
 		$kontakt_email = "";
 		$kontakt_betreff = "";
@@ -66,7 +71,7 @@ if($formular == "gefuellt") {
 	
 }
 
-$text = $t['kontakt_beschreibung'];
+$text .= $t['kontakt_beschreibung'];
 $text .= "<br><br>";
 
 $text .= "<form name=\"kontakt\" action=\"index.php?bereich=kontakt\" method=\"post\">\n";

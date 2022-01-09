@@ -203,6 +203,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "nachrichten":
 			// Nachrichten anzeigen
 			require_once("functions/functions-nachrichten.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
@@ -275,19 +276,17 @@ if(!$bereich || $kein_seitenaufruf) {
 			switch ($aktion) {
 				case "aktion-eintragen":
 					// Ab in die Datenbank mit dem Eintrag
-					eintrag_aktionen($aktion_datensatz);
-					zeige_aktionen();
+					$text = eintrag_aktionen($aktion_datensatz);
+					$text .= zeige_aktionen();
 					
-					$box = $t['einstellungen_tipps_benachrichtigungen_titel'];
-					$text = $t['einstellungen_tipps_benachrichtigungen_inhalt'];
+					$box = $t['einstellungen_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					
 				case "aktion":
-					zeige_aktionen();
+					$text = zeige_aktionen();
 					
-					$box = $t['einstellungen_tipps_benachrichtigungen_titel'];
-					$text = $t['einstellungen_tipps_benachrichtigungen_inhalt'];
+					$box = $t['einstellungen_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					
@@ -314,6 +313,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "sperren":
 			// Sperren anzeigen
 			require_once("functions/functions-sperren.php");
+			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			if (isset($uname)) {

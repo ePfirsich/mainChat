@@ -1,6 +1,6 @@
 <?php
 
-function formular_neue_email($neue_email, $m_id = "") {
+function formular_neue_email($text, $neue_email, $m_id = "") {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
 	global $id, $t;
 	
@@ -21,25 +21,40 @@ function formular_neue_email($neue_email, $m_id = "") {
 	} else {
 		$box = $t['nachrichten_neu'];
 	}
-	$text = '';
 	
-	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n"
-		. "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
+	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
+	$text .= "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
+	
+	$zaehler = 0;
+	$text .= "<table style=\"width:100%;\">";
 	
 	if (!isset($neue_email['an_nick'])) {
 	$neue_email['an_nick'] = "";
 	}
-	$text .= $t['nachrichten_benutzername']
-		. "<input type=\"text\" name=\"neue_email[an_nick]\" value=\"" . $neue_email['an_nick'] . "\" size=20>" . "&nbsp;"
-		. "<input type=\"submit\" name=\"los\" value=\"Weiter\">";
+	
+	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "neue_email[an_nick]", $neue_email['an_nick']);
+	$zaehler++;
+	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>";
+	$text .= "<td $bgcolor>&nbsp;</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiter]\"></td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	
+	$text .= "</form>\n";
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function formular_neue_email2($neue_email, $m_id = "") {
+function formular_neue_email2($text, $neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	global $id, $u_id, $t;
 	
@@ -50,10 +65,8 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	text=document.mail_neu.elements["neue_email[m_text]"].value.length;
 	document.mail_neu.counter.value=betr+text;
 	}
-	</script>
-	';
+	</script>';
 	
-	$text = '';
 	if ($m_id) {
 		// Alte Mail lesen und als Kopie in Formular schreiben
 		$box = "Nachricht weiterleiten an ";
@@ -151,7 +164,7 @@ function formular_neue_email2($neue_email, $m_id = "") {
 	}
 }
 
-function zeige_mailbox($aktion, $zeilen) {
+function zeige_mailbox($text, $aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
 	global $id, $u_nick, $u_id, $chat, $t;
 	
@@ -183,7 +196,6 @@ function zeige_mailbox($aktion, $zeilen) {
 	$result = sqlQuery($query);
 	if ($result) {
 		$anzahl = mysqli_num_rows($result);
-		$text = '';
 		$box = "$anzahl $titel";
 		
 		if($aktion == "geloescht") {
@@ -209,7 +221,6 @@ function zeige_mailbox($aktion, $zeilen) {
 				."<td class=\"tabelle_kopfzeile\">" . $t['datum'] . "</td>"
 				."</tr>\n";
 				
-			
 			$i = 0;
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
@@ -258,10 +269,9 @@ function zeige_mailbox($aktion, $zeilen) {
 		}
 		
 		$text .= "</form>\n";
-		
-		// Box anzeigen
-		zeige_tabelle_zentriert($box, $text);
 	}
+	// Box anzeigen
+	zeige_tabelle_zentriert($box, $text);
 }
 
 function zeige_email($m_id, $art) {

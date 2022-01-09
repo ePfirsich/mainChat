@@ -97,8 +97,11 @@ $t['benutzer_sperren'] = "Sperren (S)";
 $t['benutzer_blacklist'] = "-> Blacklist";
 $t['benutzer_aus_dem_chat_kicken'] = "Aus dem Chat kicken";
 
-$t['sonst5'] = "<b>Es wurde leider kein Benutzer %suchtext% gefunden!</b>";
-$t['sonst11'] = "<b>Der Benutzer ist nicht mehr in diesem Raum!</b>";
+$t['benutzer_suche_kein_treffer'] = "Es wurde leider kein Benutzer %suchtext% gefunden!<br>";
+$t['benutzer_suche_treffer'] = "Es wurden %anzahl% Benutzer gefunden!<br>";
+$t['benutzer_suche_treffer_einzahl'] = "Es wurde ein Benutzer gefunden!<br>";
+
+$t['benutzer_nicht_mehr_in_diesem_raum'] = "Der Benutzer ist nicht mehr in diesem Raum!<br>";
 $t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
 $t['sonst14'] = "Anderen Raum zur Ansicht zeigen";
@@ -106,6 +109,5 @@ $t['sonst42'] = "Raum: ";
 $t['sonst43'] = "Im [%whotext%] ist niemand";
 $t['sonst54'] = "Räume";
 
-$t['benutzer_fehlermeldung'] = "Fehlermeldung";
 $t['benutzer_fehlermeldung_kicken'] = "Dieser Benutzer kann nicht gekickt werden!<br>"; 
 ?>

@@ -1,5 +1,5 @@
 <?php
-function user_edit($f, $admin, $u_level) {
+function user_edit($text, $f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
 	global $id, $level, $user_farbe, $t;
@@ -7,7 +7,7 @@ function user_edit($f, $admin, $u_level) {
 	
 	// Ausgabe des Benutzers
 	$zaehler = 0;
-	$text = "<table style=\"width:100%;\">";
+	$text .= "<table style=\"width:100%;\">";
 	
 	if ($u_level != "G") {
 		// Überschrift: Avatar
@@ -278,10 +278,8 @@ function zeige_aktionen() {
 	global $forumfeatures;
 	
 	$button = $t['einstellungen_speichern'];
-	$box = str_replace("%u_nick%", $u_nick, $t['einstellungen_benachrichtigungen_inhalt']);
 	
 	$text = '';
-	
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
 	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 	. "<input type=\"hidden\" name=\"aktion\" value=\"aktion-eintragen\">\n"
@@ -389,8 +387,7 @@ function zeige_aktionen() {
 		$text .= "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
 		. "<input type=\"submit\" name=\"los\" value=\"$button\">" . "</td></tr>\n" . "</table></form>\n";
 		
-		// Box anzeigen
-		zeige_tabelle_zentriert($box, $text);
+		return $text;
 }
 
 function eintrag_aktionen($aktion_datensatz) {
@@ -412,10 +409,9 @@ function eintrag_aktionen($aktion_datensatz) {
 			$temp = explode("|", $aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]);
 			
 			if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
-				$query = "DELETE FROM aktion "
-				. "WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
+				$query = "DELETE FROM aktion WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
 				. "AND a_wann='" . mysqli_real_escape_string($mysqli_link, $a_wann_eintrag) . "' " . "AND a_user='$u_id'";
-				$result = sqlUpdate($query);
+				$result = sqlUpdate($query, true);
 			}
 			
 			$f['a_wie'] = $temp[1];
@@ -425,9 +421,10 @@ function eintrag_aktionen($aktion_datensatz) {
 			schreibe_db("aktion", $f, $temp[0], "a_id");
 		}
 	}
-	$box = $t['einstellungen_erfolgsmeldung'];
-	$text = $t['einstellungen_erfolgsmeldung_einstellungen'];
-	zeige_tabelle_zentriert($box, $text);
+	$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_einstellungen'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	return $text;
 }
 
 function bild_holen($u_id, $name, $ui_bild, $groesse) {

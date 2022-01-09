@@ -1,8 +1,11 @@
 <?php
 $mitgliedId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 $code = filter_input(INPUT_GET, 'code');
+$text = "";
 if(!isset($mitgliedId) || !isset($code)) {
-	zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_fehlermeldung_passwort_vergessen_kein_code']);
+	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
+	$text = hinweis($fehlermeldung, "fehler");
+	zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 } else {
 	$showForm = true;
 	
@@ -10,18 +13,26 @@ if(!isset($mitgliedId) || !isset($code)) {
 	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . mysqli_real_escape_string($mysqli_link, $mitgliedId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
-		zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_fehlermeldung_passwort_vergessen_kein_benutzer']);
+		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
+		$text = hinweis($fehlermeldung, "fehler");
+		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 	} else {
 		$mitglied = mysqli_fetch_assoc($mdata);
 		
 		// Überprüfen ob ein Nutzer gefunden wurde und dieser auch ein Passwordcode hat
 		if($mitglied === null || $mitglied['u_passwort_code'] === null) {
-			zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_passwort_fehler_kein_benutzer']);
+			$fehlermeldung = $t['login_passwort_fehler_kein_benutzer'];
+			$text = hinweis($fehlermeldung, "fehler");
+			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		} else if($mitglied['u_passwort_code_time'] === null || strtotime($mitglied['u_passwort_code_time']) < (time()-24*3600) ) {
-			zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_passwort_fehler_code_abgelaufen']);
+			$fehlermeldung = $t['login_passwort_fehler_code_abgelaufen'];
+			$text = hinweis($fehlermeldung, "fehler");
+			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		} else if(sha1($code) != $mitglied['u_passwort_code']) {
 			// Überprüfe den Passwortcode
-			zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $t['login_passwort_fehler_code_ungueltig']);
+			$fehlermeldung = $t['login_passwort_fehler_code_ungueltig'];
+			$text = hinweis($fehlermeldung, "fehler");
+			zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		} else {
 			// Der Code war korrekt, der Nutzer darf ein neues Passwort eingeben
 			$send = filter_input(INPUT_GET, 'send', FILTER_SANITIZE_NUMBER_INT);
@@ -38,7 +49,8 @@ if(!isset($mitgliedId) || !isset($code)) {
 					$fehlermeldung .= $t['login_passwort_fehler_passwort_zu_kurz'];
 				}
 				if($fehlermeldung != "") {
-					zeige_tabelle_volle_breite($t['login_passwort_fehler_fehlermeldung'], $fehlermeldung);
+					$text = hinweis($fehlermeldung, "fehler");
+					zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 				} else {
 					// Speichere neues Passwort und lösche den Code
 					$passworthash = encrypt_password($passwort);

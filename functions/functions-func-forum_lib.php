@@ -490,7 +490,7 @@ function loesche_forum($fo_id) {
 	$query = sqlQuery($sql);
 	while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		$delsql = "DELETE FROM posting WHERE po_th_id=$thema[th_id]";
-		sqlUpdate($delsql);
+		sqlUpdate($delsql, true);
 		
 	}
 	mysqli_free_result($query);
@@ -501,11 +501,10 @@ function loesche_forum($fo_id) {
 	$sql = "DELETE FROM forum WHERE fo_id=$fo_id";
 	sqlUpdate($sql);
 	
-	$box = $t['erfolgsmeldung'];
-	$text = str_replace("%forum%", $fo_name, $t['forum_geloescht']);
+	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['forum_geloescht']);
+	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
-	// Box anzeigen
-	zeige_tabelle_zentriert($box, $text);
+	return $text;
 }
 
 //Thema in Datenbank schreiben
@@ -630,11 +629,10 @@ function loesche_thema($th_id) {
 	$sql = "DELETE FROM thema WHERE th_id=$th_id";
 	sqlUpdate($sql);
 	
-	$box = $t['erfolgsmeldung'];
-	$text =  str_replace("%kategorie%", $th_name, $t['kategorie_geloescht']);
+	$erfolgsmeldung = str_replace("%kategorie%", $th_name, $t['kategorie_geloescht']);
+	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
-	// Box anzeigen
-	zeige_tabelle_zentriert($box, $text);
+	return $text;
 }
 
 //schreibt neuen/editierten Beitrag in die Datenbank
@@ -746,7 +744,7 @@ function schreibe_posting() {
 			
 			//schliesslich noch die markierung des letzten in der Ebene entfernen
 			$sql = "UPDATE posting SET po_threadorder = '0' WHERE po_threadorder = '1' AND po_id <> $new_po_id AND po_vater_id = " . intval($po_vater_id);
-			sqlUpdate($sql);
+			sqlUpdate($sql, true);
 			
 			//Tabellen wieder freigeben
 			$sql = "UNLOCK TABLES";
@@ -834,8 +832,8 @@ function loesche_posting() {
 	$arr_delete = array();
 	
 	//tabelle posting und thema locken
-	$sql = "LOCK TABLES posting, thema WRITE";
-	@sqlUpdate($sql, true);
+	$sql = "LOCK TABLES posting WRITE, thema WRITE";
+	sqlUpdate($sql, true);
 	
 	//rekursiv alle zu loeschenden postings in feld einlesen
 	$arr_delete[] = $po_id;
@@ -916,14 +914,10 @@ function loesche_posting() {
 	
 	//th_anzthreads und th_anzreplys neu schreiben
 	if ($po_id == $thread) {
-		
 		$anzthreads--;
 		$anzreplys = $anzreplys - count($arr_delete) + 1;
-		
 	} else {
-		
 		$anzreplys = $anzreplys - count($arr_delete);
-		
 	}
 	
 	$sql = "UPDATE thema SET th_anzthreads = $anzthreads, th_anzreplys = $anzreplys, th_postings = '$new_postings' WHERE th_id = " . intval($th_id);
@@ -943,8 +937,7 @@ function loesche_posting() {
 		}
 		mysqli_free_result($result);
 	}
-
-	zeige_tabelle_zentriert($t['forum_punkte_abgezogen'], $zusammenfassung);
+	$text .= hinweis($zusammenfassung, "erfolgreich");
 	
 	reset($arr_delete);
 	while (list($k, $v) = @each($arr_delete)) {
@@ -954,7 +947,12 @@ function loesche_posting() {
 	
 	//Tabellen wieder freigeben
 	$sql = "UNLOCK TABLES";
-	@sqlUpdate($sql, true);
+	sqlUpdate($sql, true);
+	
+	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['thema_geloescht']);
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	return $text;
 	
 }
 

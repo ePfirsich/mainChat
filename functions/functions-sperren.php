@@ -1,12 +1,11 @@
 <?php
-function sperren_liste() {
+function sperren_liste($text) {
 	global $id, $t;
 	global $raumsperre;
 	global $sperre_dialup;
 	global $mysqli_link;
 	
 	$sperr = "";
-	$text = '';
 	
 	for ($i = 0; $i < count($sperre_dialup); $i++) {
 		if ($sperr != "") {
@@ -131,7 +130,7 @@ function sperren_liste() {
 	zeige_tabelle_zentriert($t['sperren_menue1'], $text);
 }
 
-function zeige_blacklist($aktion, $zeilen, $sort) {
+function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
 	global $id, $u_nick, $u_id, $t;
@@ -179,14 +178,12 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		// blacklist-expire
 		if ($blacklistmaxdays) {
 			$query2 = "DELETE FROM blacklist WHERE (TO_DAYS(NOW()) - TO_DAYS(f_zeit)>$blacklistmaxdays) ";
-			sqlUpdate($query2);
+			sqlUpdate($query2, true);
 		}
 	}
 	
 	$result = sqlQuery($query);
 	if ($result) {
-		$text = '';
-		
 		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_loesche\">\n"
@@ -195,14 +192,9 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		$anzahl = mysqli_num_rows($result);
 		if ($anzahl == 0) {
 			// Keine Blacklist-Einträge
-			$box = $t['blacklist1'];
-			
 			$text .= "<tr><td style=\"text-align:left;\" class=\"tabelle_zeile1\">Es sind keine Blacklist-Einträge vorhanden.</td></tr>";
 			
 		} else {
-			// Blacklist anzeigen
-			$box = $t['blacklist2'] . $anzahl;
-			
 			$text .= "<tr><td style=\"width:5%;\" class=\"smaller\">Löschen</td>"
 			. "<td style=\"width:35%;\" class=\"smaller\"><a href=\"" . $blurl . $usort . "\">Benutzername</a></td>"
 			. "<td style=\"width:35%;\" class=\"smaller\">Info</td>"
@@ -273,10 +265,12 @@ function zeige_blacklist($aktion, $zeilen, $sort) {
 		}
 		
 		$text .= "</table></form>\n";
-		
-		// Box anzeigen
-		zeige_tabelle_zentriert($box, $text);
 	}
+	
+	$box = $t['sperren_blacklist'];
+	
+	// Box anzeigen
+	zeige_tabelle_zentriert($box, $text);
 }
 
 function loesche_blacklist($f_blacklistid) {
@@ -285,43 +279,45 @@ function loesche_blacklist($f_blacklistid) {
 	global $id;
 	global $u_id, $u_nick, $admin, $t;
 	
+	$text = "";
 	if (!$admin || !$f_blacklistid) {
 		// Box anzeigen
 		$fehlermeldung = str_replace("%userid%", $f_userid, $t['sperren_fehlermeldung_fehler_beim_loeschen']);
 		$fehlermeldung = str_replace("%eintrag%", $blacklist['u_id'], $fehlermeldung);
-		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
-		return (0);
-	}
-	
-	$f_blacklistid = intval($f_blacklistid);
-	
-	$query = "DELETE FROM blacklist WHERE f_blacklistid=$f_blacklistid";
-	$result = sqlUpdate($query);
-	
-	$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_blacklistid";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$f_nick = mysqli_result($result, 0, 0);
+		$text .= hinweis($fehlermeldung, "fehler");
+	} else {
+		$f_blacklistid = intval($f_blacklistid);
 		
-		// Box anzeigen
-		$erfolgsmeldung = str_replace("%username%", $f_nick, $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht']);
-		zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $erfolgsmeldung);
+		$query = "DELETE FROM blacklist WHERE f_blacklistid=$f_blacklistid";
+		$result = sqlUpdate($query);
+		
+		$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_blacklistid";
+		$result = sqlQuery($query);
+		if ($result && mysqli_num_rows($result) != 0) {
+			$f_nick = mysqli_result($result, 0, 0);
+			
+			$erfolgsmeldung = str_replace("%username%", $f_nick, $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht']);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		}
+		mysqli_free_result($result);
 	}
-	mysqli_free_result($result);
+	
+	return $text;
 }
 
-function formular_neuer_blacklist($neuer_blacklist) {
+function formular_neuer_blacklist($text, $neuer_blacklist) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
 	global $id, $t;
 	
-	$box = $t['blacklist3'];
-	$text = '';
+	$box = $t['sperren_blacklist_neu'];
 	
-	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_neu2\">\n"
-			. "<table style=\"width:100%;\">";
-			
+	$zaehler = 0;
+	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
+	$text .= "<table style=\"width:100%;\">";
+	
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_neu2\">\n";
+	
 	if (!isset($neuer_blacklist['u_nick'])) {
 		$neuer_blacklist['u_nick'] = "";
 	}
@@ -329,25 +325,40 @@ function formular_neuer_blacklist($neuer_blacklist) {
 		$neuer_blacklist['f_text'] = "";
 	}
 	
-	$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">"."Benutzername:</td>"
-	. "<td class=\"tabelle_zeile1 smaller\"><input type=\"text\" name=\"neuer_blacklist[u_nick]\" value=\"" . htmlspecialchars($neuer_blacklist['u_nick']) . "\" size=20></td></tr>\n"
-	. "<tr><td style=\"text-align:right; font-weight:bold;\" class=\"tabelle_zeile1\">Infotext:</td>"
-	. "<td class=\"tabelle_zeile1 smaller\"><input type=\"text\" name=\"neuer_blacklist[f_text]\" value=\"" . htmlspecialchars($neuer_blacklist['f_text']) . "\" size=45>" . "&nbsp;"
-	. "<input type=\"submit\" name=\"los\" value=\"Eintragen\"></td></tr>\n" . "</table></form>\n";
+	// Benutzername
+	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_benutzername'], "neuer_blacklist[u_nick]", htmlspecialchars($neuer_blacklist['u_nick']));
+	$zaehler++;
+	
+	// Info
+	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_info'], "neuer_blacklist[f_text]", htmlspecialchars($neuer_blacklist['f_text']));
+	$zaehler++;
+	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>";
+	$text .= "<td $bgcolor>&nbsp;</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[sperren_eintragen]\"></td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	$text .= "</form>\n";
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function neuer_blacklist($f_userid, $blacklist) {
+function neuer_blacklist_eintrag($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
 	global $id, $mysqli_link, $t;
 	
+	$text = "";
 	if (!$blacklist['u_id'] || !$f_userid) {
 		// Box anzeigen
 		$fehlermeldung = str_replace("%userid%", $f_userid, $t['sperren_fehlermeldung_fehler_beim_anlegen']);
 		$fehlermeldung = str_replace("%eintrag%", $blacklist['u_id'], $fehlermeldung);
-		zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
+		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$blacklist['u_id'] = mysqli_real_escape_string($mysqli_link, $blacklist['u_id']); // sec
 		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid); // sec
@@ -357,15 +368,12 @@ function neuer_blacklist($f_userid, $blacklist) {
 			
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			
-			// Box anzeigen
 			$fehlermeldung = str_replace("%username%", $blacklist['u_nick'], $t['sperren_fehlermeldung_eintrag_bereits_vorhanden']);
-			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $fehlermeldung);
+			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($blacklist['u_id'] == $f_userid) {
 			// Eigener Blacklist-Eintrag ist verboten
-			
-			// Box anzeigen
-			zeige_tabelle_zentriert($t['sperren_fehlermeldung'], $t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich']);
+			$fehlermeldung = $t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Benutzer ist noch kein Blacklist-Eintrag -> hinzufügen
 			$f['f_userid'] = $f_userid;
@@ -373,10 +381,11 @@ function neuer_blacklist($f_userid, $blacklist) {
 			$f['f_text'] = htmlspecialchars($blacklist['f_text']);
 			schreibe_db("blacklist", $f, 0, "f_id");
 			
-			// Box anzeigen
 			$erfolgsmeldung = str_replace("%username%", $blacklist['u_nick'], $t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich']);
-			zeige_tabelle_zentriert($t['sperren_erfolgsmeldung'], $erfolgsmeldung);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		}
 	}
+	
+	return $text;
 }
 ?>

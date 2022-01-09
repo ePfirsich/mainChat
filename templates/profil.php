@@ -50,6 +50,7 @@ mysqli_free_result($result);
 
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 
+$text = "";
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 // Profil prüfen und ggf. neu eintragen
 if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
@@ -122,23 +123,28 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 	
 	// Prüfungen
 	if (strlen($f['ui_wohnort']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_wohnort'];
+		$fehlermeldung = $t['profil_fehler_wohnort'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
-		$fehlermeldung .= $t['profil_fehler_geburt'];
+		$fehlermeldung = $t['profil_fehler_geburt'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_geschlecht'] != "" && $f['ui_geschlecht'] < 0 && $f['ui_geschlecht'] > 3) {
-		$fehlermeldung .= $t['profil_fehler_geschlecht'];
+		$fehlermeldung = $t['profil_fehler_geschlecht'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_beziehungsstatus'] != "" && $f['ui_beziehungsstatus'] < 0 && $f['ui_beziehungsstatus'] > 4) {
-		$fehlermeldung .= $t['profil_fehler_beziehungsstatus'];
+		$fehlermeldung = $t['profil_fehler_beziehungsstatus'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_typ'] != "" && $f['ui_typ'] < 0 && $f['ui_typ'] > 6) {
-		$fehlermeldung .= $t['profil_fehler_typ'];
+		$fehlermeldung = $t['profil_fehler_typ'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	// Webseite muss http:// oder https://enthalten
@@ -147,86 +153,102 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 	}
 	
 	if (strlen($f['ui_webseite']) > 160) {
-		$fehlermeldung .= $t['profil_fehler_homepage'];
+		$fehlermeldung = $t['profil_fehler_homepage'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_beruf']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_beruf'];
+		$fehlermeldung = $t['profil_fehler_beruf'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsfilm']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsfilm'];
+		$fehlermeldung = $t['profil_fehler_lieblingsfilm'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsserie']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsserie'];
+		$fehlermeldung = $t['profil_fehler_lieblingsserie'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsbuch']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsbuch'];
+		$fehlermeldung = $t['profil_fehler_lieblingsbuch'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsschauspieler']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsschauspieler'];
+		$fehlermeldung = $t['profil_fehler_lieblingsschauspieler'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsgetraenk']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsgetraenk'];
+		$fehlermeldung = $t['profil_fehler_lieblingsgetraenk'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsgericht']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsgericht'];
+		$fehlermeldung = $t['profil_fehler_lieblingsgericht'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsspiel']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsspiel'];
+		$fehlermeldung = $t['profil_fehler_lieblingsspiel'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsfarbe']) > 100) {
-		$fehlermeldung .= $t['profil_fehler_lieblingsfarbe'];
+		$fehlermeldung = $t['profil_fehler_lieblingsfarbe'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_hobby']) > 255) {
-		$fehlermeldung .= $t['profil_fehler_hobby'];
+		$fehlermeldung = $t['profil_fehler_hobby'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['u_chathomepage'] != "" && $f['u_chathomepage'] < 0 && $f['u_chathomepage'] > 1) {
-		$fehlermeldung .= $t['profil_fehler_chathomepage'];
+		$fehlermeldung = $t['profil_fehler_chathomepage'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_hintergrundfarbe'] == "" || strlen($f['ui_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_hintergrundfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_ueberschriften_textfarbe'] == "" || strlen($f['ui_ueberschriften_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_textfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_ueberschriften_textfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_ueberschriften_textfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_ueberschriften_hintergrundfarbe'] == "" || strlen($f['ui_ueberschriften_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_hintergrundfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_ueberschriften_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_ueberschriften_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_textfarbe'] == "" || strlen($f['ui_inhalt_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_textfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_textfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_textfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_linkfarbe'] == "" || strlen($f['ui_inhalt_linkfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_linkfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_linkfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_linkfarbe_aktiv'] == "" || strlen($f['ui_inhalt_linkfarbe_aktiv']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe_aktiv'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_linkfarbe_aktiv'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_linkfarbe_aktiv'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_hintergrundfarbe'] == "" || strlen($f['ui_inhalt_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_hintergrundfarbe'])) {
-		$fehlermeldung .= str_replace("%farbe%", $t['profil_inhalt_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	
-	if ($fehlermeldung != "") {
-		$box = $t['profil_fehlermeldung'];
-		zeige_tabelle_zentriert($box, $fehlermeldung);
-	} else {
+	if ($fehlermeldung == "") {
 		// Punkte gutschreiben?
 		if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
 			punkte(500, $o_id, $u_id, $t['profil_punkte']);
@@ -256,9 +278,8 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 		$f['u_chathomepage'] = $userArray['u_chathomepage'];
 		unset($userArray);
 		
-		$box = $t['profil_erfolgsmeldung'];
-		$text = $t['profil_erfolgsmeldung_details'];
-		zeige_tabelle_zentriert($box, $text);
+		$erfolgsmeldung = $t['profil_erfolgsmeldung_profil_gespeichert'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	}
 }
 
@@ -339,8 +360,6 @@ switch ($aktion) {
 		} else {
 			$box = $t['neues_profil'];
 		}
-		
-		$text = '';
 		
 		// Textkopf
 		if ($los != $t['einstellungen_speichern']) {

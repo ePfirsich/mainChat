@@ -19,9 +19,9 @@ $t['kategorie_themen'] = "Themen";
 $t['kategorie_beitraege'] = "Beiträge";
 $t['kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
-$t['erfolgsmeldung'] = "Erfolgreich";
 $t['kategorie_geloescht'] = "Die Kategorie %kategorie% wurde komplett gelöscht!";
 $t['forum_geloescht'] = "Das Forum %forum% wurde komplett gelöscht!";
+$t['thema_geloescht'] = "Das Thema wurde komplett gelöscht!";
 
 // Forum
 $t['forum_zur_uebersicht'] = "Zur Forenübersicht";
@@ -89,18 +89,15 @@ $t['reply'] = "Re:";
 $t['desc_posting'] = "Bitte keine HTML-Tags im Beitrag verwenden, diese werden bei der Darstellung des Beitrags nicht berücksichtigt. Der Beitrag wird automatisch passend formatiert, wobei Zeilenumbrüche berücksichtigt werden.";
 $t['smilies'] = "Smilies zum Einfügen anzeigen";
 
-
 //Texte für fehlende Eingaben
-$t['missing_name_kategorie'] = "Es wurde kein Name für die Kategorie angegeben.";
-$t['missing_thname'] = "<br>Kein Name für das Thema angegeben";
-$t['missing_thdesc'] = "<br>Keine Beschreibung für das Thema angegeben";
-$t['missing_potitel'] = "<br>Geben Sie bitte einen Titel für den Beitrag an!";
-$t['missing_potext'] = "<br>Sie haben keinen Text für Ihren Beitrag eingegeben!";
+$t['missing_name_kategorie'] = "Es wurde kein Name für die Kategorie angegeben.<br>";
+$t['missing_thname'] = "Sie haben keinen Namen für das Thema angegeben!<br>";
+$t['missing_thdesc'] = "Sie haben keine Beschreibung für das Thema angegeben!<br>";
+$t['missing_potitel'] = "Geben Sie bitte einen Titel für den Beitrag an!<br>";
+$t['missing_potext'] = "Sie haben keinen Text für Ihren Beitrag eingegeben!<br>";
 
 // Sonstiges
 $t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.";
-$t['forum_punkte_erhalten'] = "Punkte erhalten!";
-$t['forum_punkte_abgezogen'] = "Punkte abgezogen!";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 
@@ -151,15 +148,16 @@ $t['option18'] = "Sortierung nach Betreff - Aufsteigend";
 $t['option19'] = "Sortierung nach Autor - Absteigend";
 $t['option20'] = "Sortierung nach Autor - Aufsteigend";
 
-$t['ergebnis1'] = "Suchergebnisse";
-$t['ergebnis2'] = "Beiträge gefunden:";
+$t['forum_suchergebnisse'] = "Suchergebnisse";
 $t['forum'] = "Forum";
 $t['betreff'] = "Betreff";
 
-$t['fehlermeldung'] = "Fehler";
-$t['forum_fehlermeldung_suche_benutzername'] = "Benutzername enthält ungültige Zeichen.";
-$t['forum_fehlermeldung_suche_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
-$t['forum_fehlermeldung_suche_sucheinstellung_woerter'] = "Sucheinstellung \'Wörter\' falsch.";
-$t['forum_fehlermeldung_suche_sucheinstellung_ort'] = "Sucheinstellung \'Suchort\' falsch.";
-$t['forum_fehlermeldung_suche_falsches_thema'] = "Falsches Foren \/ Thema.";
+$t['forum_suche_fehlermeldung_benutzername'] = "Benutzername enthält ungültige Zeichen.";
+$t['forum_suche_fehlermeldung_benutzername_unbekannt'] = "Der Benutzername %u_nick% ist unbekannt.";
+$t['forum_suche_fehlermeldung_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
+$t['forum_suche_fehlermeldung_sucheinstellung_woerter'] = "Sucheinstellung \'Wörter\' falsch.";
+$t['forum_suche_fehlermeldung_sucheinstellung_ort'] = "Sucheinstellung \'Suchort\' falsch.";
+$t['forum_suche_fehlermeldung_falsches_thema'] = "Falsches Foren \/ Thema.";
+
+$t['forum_suche_erfolgsmeldung'] = "Es wurden %anzahl% Suchergebnisse gefunden.";
 ?>

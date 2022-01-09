@@ -9,12 +9,11 @@ erzeuge_sequence("online", "o_id");
 erzeuge_sequence("chat", "c_id");
 
 $kein_gastlogin_ausblenden = false;
+$text = "";
 
 // Weiter mit dem Login
 if (!isset($passwort) || $passwort == "") {
 	// Login als Gast
-	
-	// Falls Gast-Login erlaubt ist:
 	if ($gast_login) {
 		// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
 		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
@@ -29,13 +28,9 @@ if (!isset($passwort) || $passwort == "") {
 	// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
 	if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
 		// Gäste sind gesperrt
-		echo "<body>";
-		
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
 		
 		$fehlermeldung = $t['login_fehlermeldung_gastlogin'];
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+		$text .= hinweis($fehlermeldung, "fehler");
 		
 		$kein_gastlogin_ausblenden = true;
 	}
@@ -145,15 +140,15 @@ if(!$kein_gastlogin_ausblenden) {
 		if ($u_level == "Z") {
 			// Benutzer gesperrt -> Fehlermeldung ausgeben
 			$fehlermeldung = str_replace("%u_nick%", $u_nick, $t['chat_login_account_gesperrt']);
-			zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 			// Maximale Anzahl der Benutzer im Chat erreicht -> Fehlermeldung ausgeben
-			$txt = str_replace("%online%", $onlineanzahl, $t['chat_login_zu_viele_benutzer_online']);
-			$txt = str_replace("%max%", $chat_max[$u_level], $txt);
-			$txt = str_replace("%leveltxt%", $level[$u_level], $txt);
-			$txt = str_replace("%zusatztext%", $chat_max[zusatztext], $txt);
+			$fehlermeldung = str_replace("%online%", $onlineanzahl, $t['chat_login_zu_viele_benutzer_online']);
+			$fehlermeldung = str_replace("%max%", $chat_max[$u_level], $fehlermeldung);
+			$fehlermeldung = str_replace("%leveltxt%", $level[$u_level], $txt);
+			$fehlermeldung = str_replace("%zusatztext%", $chat_max[zusatztext], $txt);
 			
-			zeige_tabelle_volle_breite($t['login_fehlermeldung'], $txt);
+			$text .= hinweis($fehlermeldung, "fehler");
 			
 			unset($u_nick);
 		} else {
@@ -335,17 +330,21 @@ if(!$kein_gastlogin_ausblenden) {
 		}
 	} else {
 		// Login fehlgeschlagen
-		
+		// Falsches Passwort oder Benutzername
 		unset($u_nick);
 		
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
-		
-		// Falsches Passwort oder Benutzername
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $t['login_fehlermeldung_login_fehlgeschlagen']);
-		
-		// Box für Login
-		zeige_chat_login();
+		$fehlermeldung = $t['login_fehlermeldung_login_fehlgeschlagen'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
+}
+
+if($fehlermeldung != "") {
+	echo "<body>";
+	
+	// Gibt die Kopfzeile im Login aus
+	zeige_kopfzeile_login();
+	
+	// Box für Login
+	zeige_chat_login($text);
 }
 ?>

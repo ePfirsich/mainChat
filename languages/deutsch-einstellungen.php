@@ -12,7 +12,6 @@ $t['einstellungen_menue3'] = "Hilfe";
 $t['edit_avatar_geloescht'] = "Der Avatar wurde erfolgreich gelöscht.";
 $t['edit_avatar_hochgeladen'] = "Der Avatar wurde erfolgreich hochgeladen.";
 
-$t['einstellungen_erfolgsmeldung'] = "Die Änderungen wurden gespeichert!<br>";
 $t['einstellungen_erfolgsmeldung_einstellungen'] = "Die Einstellungen wurden erfolgreich gespeichert!<br>";
 $t['einstellungen_erfolgsmeldung_farbe'] = "Die Farbe wurde erfolgreich geändert.<br>";
 $t['einstellungen_erfolgsmeldung_loeschen'] = "Benutzer %u_nick% wurde gelöscht!<br>";
@@ -22,7 +21,6 @@ $t['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'] = "'%u_ni
 
 $t['einstellungen_erfolgsmeldung_kick'] = "Benutzer %u_nick% wurde aus dem Chat geworfen!<br>";
 
-$t['einstellungen_fehlermeldung'] = "Fehler";
 $t['einstellungen_fehler_allgemein'] = "Irgendetwas ist schief gelaufen.<br>";
 $t['einstellungen_fehler_farbe'] = "Die Farbe muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>";
 $t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'] = "Der Benutzername muss mindestens 4 und maximal 20 Zeichen enthalten!<br>";
@@ -65,18 +63,5 @@ Um die neue E-Mail-Adresse zu bestätigen, rufen Sie folgende Website auf:<br />
 %webseite_passwort%<br />
  <br />
 Sollten Sie die E-Mail doch nicht ändern wollen, so ignorieren Sie diese E-Mail einfach.";
-
-$t['einstellungen_tipps_benachrichtigungen_titel'] = "Tipps zur den Benachrichtigungen";
-$t['einstellungen_tipps_benachrichtigungen_inhalt'] = "<p>Mit den Benachrichtigungen steuern Sie, bei welchen Ereignissen Sie mit "
-	. "welcher Nachricht informiert werden wollen. Ein Ereignis ist z.B. "
-	. "der Logon oder Logout eines <b>Freundes</b>, oder auch der Eingang einer neuen <b>Nachricht</b>.</p>"
-	. "<p>Wann Sie die Nachricht erhalten wollen, wählen Sie aus der obersten Zeile aus. "
-	. "Möglich ist der Empfang sofort wenn Sie online sind (<b>Sofort/Online</b>) (z.B. <b>Freund</b> loggt ein/aus "
-	. "oder zu dem Moment, in dem Sie eine <b>Neue Mail</b> erhalten), bei Ihrem <b>Login</b> in den Chat oder regelmäßig "
-	. "<b>alle 5 Minuten</b> (regelmäßige Information über die vorliegenden <b>Neuen Nachrichten</b> oder die Anwesendheit Ihrer <b>Freunde</b> im Chat)</p>"
-	. "<p>Die Benachrichtungen, die Sie erhalten, wenn Sie nicht im Chat sind (offline), wählen Sie unter <b>Sofort/Offline</b> aus.</p>"
-	. "<p>Die Art der Nachricht ist einstellbar, so gibt es <b>keine</b> Benachrichtigung, <b>Chat-Mail</b> (Nachricht im Chat), eine <b>E-Mail</b> an Ihre "
-	. "E-Mail Adresse oder eine <b>OLM</b> (OnLineMessage, direkte Nachricht in Chat wie /msg)."
-	. "Zusätzlich sind auch Kombinationen von <b>E-Mail und OLM</b> sowie <b>Chat-Mail und OLM</b> möglich, wobei Sie in diesem Fall zwei Nachrichten erhalten.</p>";
-$t['einstellungen_benachrichtigungen_inhalt'] = "Für %u_nick% sind folgende Benachrichtigungen eingetragen";
+$t['einstellungen_benachrichtigungen_inhalt'] = "Benachrichtigungen";
 ?>

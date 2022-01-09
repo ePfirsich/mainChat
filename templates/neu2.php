@@ -12,6 +12,7 @@ $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 $f['email'] = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 
+$text = "";
 if( isset($formular) && $formular == "abgesendet") {
 	if ( $f['hash'] != md5($f['email'] . "+" . date("Y-m-d")) ) {
 		// Fehlermeldung wenn der Link aus der E-Mail verändert wurde oder zu alt ist
@@ -19,7 +20,7 @@ if( isset($formular) && $formular == "abgesendet") {
 	}
 	
 	if($fehlermeldung != "") {
-		zeige_tabelle_volle_breite($t['login_fehlermeldung'], $fehlermeldung);
+		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		// Keine Fehlermeldung -> Weiterleitung zum Forumlar für die Registrierung
 		$aktivierung_erfolgreich = true;
@@ -29,12 +30,12 @@ if( isset($formular) && $formular == "abgesendet") {
 if($aktivierung_erfolgreich) {
 	// Weiterleitung zum Forumlar für die Registrierung
 	$url = "index.php?bereich=neu&email=$f[email]&hash=$f[hash]";
-	$text = str_replace("%url%", $url, $t['registrierung_freischaltcode_erfolgreich']);
+	$text .= str_replace("%url%", $url, $t['registrierung_freischaltcode_erfolgreich']);
 	
 	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 } else {
 	// E-mail und Freischalt-Code eingeben
-	$text = $t['registrierung_informationen_freischaltcode'];
+	$text .= $t['registrierung_informationen_freischaltcode'];
 	
 	$text .= "<form action=\"index.php?bereich=neu2\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";

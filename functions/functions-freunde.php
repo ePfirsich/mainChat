@@ -1,10 +1,8 @@
 <?php
 
-function zeige_freunde($aktion, $zeilen) {
+function zeige_freunde($text, $aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
 	global $id, $u_nick, $u_id, $t;
-	
-	$text = '';
 	
 	switch ($aktion) {
 		case "normal":
@@ -131,8 +129,6 @@ function zeige_freunde($aktion, $zeilen) {
 		$text .= "</form>\n";
 		
 		zeige_tabelle_zentriert($box,$text);
-		
-		echo "<br>";
 	}
 }
 
@@ -142,39 +138,41 @@ function loesche_freund($f_freundid, $f_userid) {
 	// $f_freundid Benutzer-ID
 	global $id, $mysqli_link, $u_nick, $u_id, $t;
 	
+	$text = "";
 	if (!$f_userid || !$f_freundid) {
-		echo "Fehler beim Löschen des Freundes '$f_nick': $f_userid,$f_freundid!<br>";
-		return (0);
-	}
-	$f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
-	$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
-	
-	$query = "DELETE from freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
-	$result = sqlUpdate($query);
-	
-	$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_freundid";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$f_nick = mysqli_result($result, 0, 0);
+		$fehlermeldung = str_replace("%nickname%", $f_nick, $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich']);
+		$text .= hinweis($fehlermeldung, "fehler");
+	} else {
+		$f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
+		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
 		
-		$value = str_replace("%user%", $f_nick, $t['freunde_erfolgsmeldung_freund_geloescht']);
+		$query = "DELETE from freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
+		$result = sqlUpdate($query);
+		
+		$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_freundid";
+		$result = sqlQuery($query);
+		if ($result && mysqli_num_rows($result) != 0) {
+			$f_nick = mysqli_result($result, 0, 0);
+			
+			$erfolgsmeldung = str_replace("%user%", $f_nick, $t['freunde_erfolgsmeldung_freund_geloescht']);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		}
+		mysqli_free_result($result);
 	}
-	mysqli_free_result($result);
 	
-	return $value;
+	return $text;
 }
 
-function formular_neuer_freund($neuer_freund) {
+function formular_neuer_freund($text, $neuer_freund) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
 	global $id, $t;
 	
-	$box = $t['freunde_hinzufuegen'];
-	$text = '';
+	$box = $t['freunde_neuen_freund_hinzufuegen'];
 	
 	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
-	$text = "<table style=\"width:100%;\">";
+	$text .= "<table style=\"width:100%;\">";
 	
 	$zaehler = 0;
 	
@@ -208,24 +206,44 @@ function formular_editieren($f_id, $f_text) {
 	
 	$box = $t['freunde_freundestext_aendern'];
 	
-	$text = '';
-	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n"
-		. "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
+	$text = "";
+	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n";
+	$text .= "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";
+	$text .= "<table style=\"width:100%;\">";
 	
-	$text .= "<b>Infotext:</b> <input type=\"text\" name=\"f_text\" value=\"" . htmlentities($f_text) . "\" size=\"45\">" . "&nbsp;" . "<input type=\"submit\" name=\"los\" value=\"$t[freunde_aendern]\"></form>\n";
+	$zaehler = 0;
 	
-	zeige_tabelle_zentriert($box,$text);
+	
+	// Info
+	$text .= zeige_formularfelder("input", $zaehler, $t['freunde_info'], "f_text", htmlentities($f_text));
+	$zaehler++;
+	
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>";
+	$text .= "<td $bgcolor>&nbsp;</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[freunde_aendern]\"></td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	
+	$text .= "</form>\n";
+	
+	zeige_tabelle_zentriert($box, $text);
 }
 
 function neuer_freund($f_userid, $freund) {
 	// Trägt neuen Freund in der Datenbank ein
 	global $id, $mysqli_link, $system_farbe, $t;
 	
-	$back = "";
+	$text = "";
 	if (!$freund['u_id'] || !$f_userid) {
-		$back .= $t['freunde_fehlermeldung_fehler_beim_hinzufuegen'];
+		$fehlermeldung .= $t['freunde_fehlermeldung_fehler_beim_hinzufuegen'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		// Prüfen ob Freund bereits in Tabelle steht
 		$freund['u_id'] = mysqli_real_escape_string($mysqli_link, $freund['u_id']);
@@ -234,13 +252,15 @@ function neuer_freund($f_userid, $freund) {
 		
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$back .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+			$fehlermeldung .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($freund['u_id'] == $f_userid) {
 			// Eigener Freund ist verboten
-			$back .= $t['freunde_fehlermeldung_selbst_als_freund'];
+			$fehlermeldung .= $t['freunde_fehlermeldung_selbst_als_freund'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
-		if($back == "") {
+		if($text == "") {
 			// Benutzer ist noch kein Freund -> hinzufügen
 			$f['f_userid'] = $f_userid;
 			$f['f_freundid'] = $freund['u_id'];
@@ -249,18 +269,19 @@ function neuer_freund($f_userid, $freund) {
 			schreibe_db("freunde", $f, 0, "f_id");
 			
 			$betreff = $t['freunde_freundesanfrage'];
-			$text = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_email']);
+			$email_text = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_email']);
 			
-			mail_sende($f_userid, $freund['u_id'], $text, $betreff);
+			mail_sende($f_userid, $freund['u_id'], $email_text, $betreff);
 			if (ist_online($freund['u_id'])) {
 				$msg = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_chat']);
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
 			
-			$back .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_erfolgsmeldung_freundesanfrage']);
+			$erfolgsmeldung .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_erfolgsmeldung_freundesanfrage']);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		}
 	}
-	return $back;
+	return $text;
 }
 
 function edit_freund($f_id, $f_text) {
@@ -273,9 +294,9 @@ function edit_freund($f_id, $f_text) {
 	$f['f_text'] = $f_text;
 	schreibe_db("freunde", $f, $f_id, "f_id");
 	
-	$back = $t['freunde_erfolgsmeldung_freund_text_geaendert'];
+	$text = $t['freunde_erfolgsmeldung_freund_text_geaendert'];
 	
-	return $back;
+	return $text;
 }
 
 function bestaetige_freund($f_userid, $freund) {

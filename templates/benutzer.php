@@ -8,26 +8,25 @@ if (!isset($suchtext)) {
 	$suchtext = "";
 }
 $uu_suchtext = URLENCODE($suchtext);
+$text = "";
 
 // welcher raum soll abgefragt werden? ggf voreinstellen
 // Positives $schau_raum entspricht r_id
 // Negatives $schau_raum entspricht o_who * -1
-
 if (isset($schau_raum) && !is_numeric($schau_raum)) {
 	unset($schau_raum);
 }
-
 if ((isset($schau_raum)) && $schau_raum < 0) {
 	// Community-Bereich gewählt
 	$raum_subquery = "AND o_who=" . ($schau_raum * (-1));
-} elseif ((isset($schau_raum)) && $schau_raum > 0) {
+} else if((isset($schau_raum)) && $schau_raum > 0) {
 	// Raum gewählt
 	$raum_subquery = "AND r_id=$schau_raum";
-} elseif (!isset($schau_raum) && $o_who != 0) {
+} else if(!isset($schau_raum) && $o_who != 0) {
 	// Voreinstellung auf den aktuellen Community-Bereich
 	$schau_raum = $o_who * (-1);
 	$raum_subquery = "AND o_who=$o_who";
-} elseif (!isset($schau_raum) || $schau_raum == 0) {
+} else if(!isset($schau_raum) || $schau_raum == 0) {
 	// Voreinstellung auf den aktuellen Raum
 	$schau_raum = $o_raum;
 	$raum_subquery = "AND r_id=$schau_raum";
@@ -45,7 +44,8 @@ if ($admin && isset($kick_user_chat) && $user) {
 		
 		mysqli_free_result($result);
 	} else {
-		zeige_tabelle_zentriert($t['benutzer_fehlermeldung'], $t['benutzer_fehlermeldung_kicken']);
+		$fehlermeldung = $t['benutzer_fehlermeldung_kicken'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 }
 
@@ -177,26 +177,30 @@ switch ($aktion) {
 				}
 				
 				$box = $t['benutzer_suchergebnisse'];
-				$text = str_replace("%suchtext%", $suchtext, $t['sonst5']);
+				$fehlermeldung = str_replace("%suchtext%", $suchtext, $t['benutzer_suche_kein_treffer']);
+				$text .= hinweis($fehlermeldung, "fehler");
 				
-				// Zeige die Tabelle mit den Suchergenissen an
+				// Zeige die Tabelle mit den Suchergebnissen an
 				zeige_tabelle_zentriert($box, $text);
-			} else if ($anzahl == 1) {
-				// Einen Benutzer gefunden, alle Benutzerdaten ausgeben
-				if (!isset($zeigeip)) {
-					$zeigeip = 0;
-				}
-				while ($arr = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-					user_zeige($arr['u_id'], $admin, $schau_raum, $u_level, $zeigeip);
-				}
 			} else {
 				// Bei mehr als 1000 Ergebnissen Fehlermeldung ausgeben
 				if ($anzahl > 2000) {
 					$box = $t['benutzer_suchergebnisse'];
-					// Zeige die Tabelle mit den Suchergenissen an
-					zeige_tabelle_zentriert($box, $t['benutzer_suche_mehr_2000_benutzer']);
+					
+					$fehlermeldung = $t['benutzer_suche_mehr_2000_benutzer'];
+					$text = hinweis($fehlermeldung, "fehler");
+					
+					// Zeige die Tabelle mit den Suchergebnissen an
+					zeige_tabelle_zentriert($box, $text);
 				} else {
-					// Mehrere Benutzer gefunden, als Tabelle ausgeben
+					// Mehrere Benutzer gefunden
+					if($anzahl == 1) {
+						$erfolgsmeldung = $t['benutzer_suche_treffer_einzahl'];
+					} else {
+						$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $t['benutzer_suche_treffer']);
+					}
+					$text = hinweis($erfolgsmeldung, "erfolgreich");
+					
 					for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 						// Array mit Benutzerdaten und Infotexten aufbauen
 						$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
@@ -217,7 +221,7 @@ switch ($aktion) {
 					mysqli_free_result($result);
 					
 					$box = $t['benutzer_suchergebnisse'];
-					$text = user_liste($larr, false);
+					$text .= user_liste($larr, false);
 					
 					// Zeige die Tabelle mit den Suchergenissen an
 					zeige_tabelle_zentriert($box, $text);
@@ -274,9 +278,13 @@ switch ($aktion) {
 		// Benutzer mit ID $user anzeigen
 		if ($user) {
 			// Benutzer listen
-			user_zeige($user, $admin, $schau_raum, $u_level, $zeigeip);
+			user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip);
 		} else {
-			echo "<p>$t[sonst11]</p>\n";
+			$fehlermeldung = $t['benutzer_nicht_mehr_in_diesem_raum'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			$box =$t['titel'];
+			zeige_tabelle_zentriert($box, $text);
 		}
 		
 		break;
@@ -290,8 +298,7 @@ switch ($aktion) {
 		
 		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
 			// Array mit Benutzerdaten und Infotexten aufbauen
-			$userdata = unserialize(
-				$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
+			$userdata = unserialize($row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 			
 			// Variable aus o_userdata setzen
 			$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");

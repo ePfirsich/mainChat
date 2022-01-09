@@ -34,7 +34,8 @@ mysqli_free_result($benutzerdaten_result);
 
 // Prüfen, ob ein ChatAdmin einen anderen ChatAdmin oder einen Superuser bearbeiten möchte
 if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdaten_row->u_level == "C" || $benutzerdaten_row->u_level == "S")) {
-	zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $t['einstellungen_fehler_fehlende_berechtigung']);
+	$fehlermeldung = $t['einstellungen_fehler_fehlende_berechtigung'];
+	zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 } else {
 	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 	if( $aktion == "") {
@@ -89,6 +90,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	switch ($aktion) {
 		case "avatar_aendern":
 			// Avatar hochladen und löschen
+			$text = "";
 			
 			// Avatar löschen
 			if (isset($loesche) && $loesche <> "avatar") {
@@ -108,13 +110,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				}
 				
 				// Box anzeigen
-				zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $t['edit_avatar_geloescht'] );
+				$erfolgsmeldung = $t['edit_avatar_geloescht'];
+				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			}
 			
 			// Avatar hochladen
 			if (isset($avatar_hochladen) && $avatar_hochladen) {
-				
-				// hochgeladene Bilder in DB speichern
+				// Die hochgeladenen Bilder speichern
 				$bildliste = ARRAY("avatar");
 				foreach ($bildliste as $val) {
 					if (isset($_FILES[$val]) && is_uploaded_file($_FILES[$val]['tmp_name'])) {
@@ -123,17 +125,17 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						
 						if ($fehlermeldung != "") {
 							// Fehlermeldungen anzeigen
-							zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+							$text .= hinweis($fehlermeldung, "fehler");
 						} else {
-							// Box anzeigen
-							zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $t['edit_avatar_hochgeladen'] );
+							$erfolgsmeldung = $t['edit_avatar_hochgeladen'];
+							$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						}
 					}
 				}
 			}
 			
 			// Einstellungen des Benutzers mit ID $f['u_id'] anzeigen
-			user_edit($f, $admin, $u_level);
+			user_edit($text, $f, $admin, $u_level);
 			
 			break;
 		
@@ -144,7 +146,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			if($fehlermeldung != "") {
 				// Fehlermeldung anzeigen
-				zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+				$text = hinweis($fehlermeldung, "fehler");
 				$fehlermeldung = "";
 			} else {
 				// Einstellungen übernehmen
@@ -158,11 +160,11 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				schreibe_db("user", $p, $p['u_id'], "u_id");
 				
 				$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_farbe'];
-				zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
+				$text = hinweis($erfolgsmeldung, "erfolgreich");
 			}
 			
 			// Einstellungen des Benutzers mit ID $u_id anzeigen
-			user_edit($f, $admin, $u_level);
+			user_edit($text, $f, $admin, $u_level);
 			
 			break;
 		
@@ -200,7 +202,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			
 			if($fehlermeldung != "") {
 				// Fehlermeldung anzeigen
-				zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+				$text = hinweis($fehlermeldung, "fehler");
 				$fehlermeldung = "";
 				
 				formular_email_aendern($f);
@@ -224,9 +226,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
 				$text = str_replace("%u_email%", $f['u_email'], $t['einstellungen_email_aendern_bestaetigung']);
-				
-				zeige_tabelle_zentriert($box, $text);
 			}
+			
+			$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
+			zeige_tabelle_zentriert($box, $text);
 			
 			break;
 		
@@ -235,7 +238,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				if ($u_id == $f['u_id']) {
 					// nicht sich selbst löschen...
 					$fehlermeldung = $t['einstellungen_fehler_loeschen1'];
-					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+					$text = hinweis($fehlermeldung, "fehler");
 				} else {
 					// test, ob zu löschender Admin ist...
 					$query = "SELECT * FROM `user` WHERE `u_id`=$f[u_id] ";
@@ -245,7 +248,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						
 						// Benutzerdaten löschen
 						$erfolgsmeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_erfolgsmeldung_loeschen']);
-						zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
+						$text = hinweis($erfolgsmeldung, "erfolgreich");
 						
 						$query = "DELETE FROM `user` WHERE `u_id`=$f[u_id] ";
 						$result = sqlUpdate($query);
@@ -259,16 +262,24 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						$result = sqlUpdate($query);
 					} else {
 						$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_loeschen2']);
-						zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+						$text = hinweis($fehlermeldung, "fehler");
 					}
 				}
 			} else {
 				$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_loeschen2']);
-				zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+				$text = hinweis($fehlermeldung, "fehler");
 			}
+			
+			// Kopf Tabelle Benutzerinfo
+			$box = str_replace("%user%", $f['u_nick'], $t['einstellungen_benutzer']);
+			
+			// Box anzeigen
+			zeige_tabelle_zentriert($box, $text);
 			break;
 		
 		case "editieren":
+			$text = "";
+			
 			if (!$admin) {
 				unset($f['u_email']);
 			}
@@ -455,7 +466,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				if ($fehlermeldung != "") {
 					// Fehlermeldungen anzeigen
-					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+					$text .= hinweis($fehlermeldung, "fehler");
 				} else {
 					// Benutzerdaten schreiben
 					
@@ -563,7 +574,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_einstellungen'];
 					
-					zeige_tabelle_zentriert($t['einstellungen_erfolgsmeldung'], $erfolgsmeldung);
+					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 					
 					// Bei Änderungen, welche die Darstellung im Chat betrifft, das Chat-Fenster neu laden
 					if ($benutzerdaten_row->u_smilies != $f['u_smilies']
@@ -576,10 +587,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							reset_system($wo_online);
 					}
 				}
-				$fehlermeldung = "";
 				
 				// Einstellungen des Benutzers mit ID $u_id anzeigen
-				user_edit($f, $admin, $u_level);
+				user_edit($text, $f, $admin, $u_level);
 			} else if ((isset($eingabe) && $eingabe == "Löschen!") && $admin) {
 				// Benutzer löschen
 				
@@ -607,11 +617,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text = "";
 				} else {
 					$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_online']);
-					zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
-					$fehlermeldung = "";
+					$text = hinweis($fehlermeldung, "fehler");
 					
 					// Benutzer mit ID $u_id anzeigen
-					user_edit($f, $admin, $u_level);
+					user_edit($text, $f, $admin, $u_level);
 				}
 			} else if(isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
@@ -642,14 +651,14 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				}
 			} else {
 				// Einstellungen des Benutzers mit ID $u_id anzeigen
-				user_edit($f, $admin, $u_level);
+				user_edit("", $f, $admin, $u_level);
 			}
 			
 			break;
 		
 		default:
 			// Einstellungen des Benutzers mit ID $u_id anzeigen
-			user_edit($f, $admin, $u_level);
+			user_edit("", $f, $admin, $u_level);
 	}
 }
 ?>

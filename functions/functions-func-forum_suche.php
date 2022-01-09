@@ -211,7 +211,8 @@ function such_ergebnis() {
 	global $suche, $t, $u_level;
 	
 	$maxpostingsprosuche = 1000;
-	$box = $t['ergebnis1'];
+	
+	$fehlermeldung = "";
 	
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
 	$query = sqlQuery($sql);
@@ -222,7 +223,7 @@ function such_ergebnis() {
 	
 	$fehler = "";
 	if ($suche['username'] <> coreCheckName($suche['username'], $check_name)) {
-		$fehler .= $t['forum_fehlermeldung_suche_benutzername'];
+		$fehler .= $t['forum_suche_fehlermeldung_benutzername'];
 	}
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
@@ -232,26 +233,29 @@ function such_ergebnis() {
 		if (mysqli_num_rows($query) == 1) {
 			$suche['u_id'] = mysqli_result($query, 0, "u_id");
 		} else {
-			$fehler .= 'Benutzername unbekannt<br>';
+			$fehlermeldung = str_replace("%u_nick%", $suche['username'], $t['forum_suche_fehlermeldung_benutzername_unbekannt']);
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 	}
 	
 	if (trim($suche['username']) == "" && trim($suche['text']) == "" && (!($suche['zeit'] == "B1" || $suche['zeit'] == "B7" || $suche['zeit'] == "B14"))) {
-		$fehler .= $t['forum_fehlermeldung_suche_zeitangabe'];
+		$fehlermeldung = $t['forum_suche_fehlermeldung_zeitangabe'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if ($suche['modus'] <> "A" && $suche['modus'] <> "O") {
-		$fehler .= $t['forum_fehlermeldung_suche_sucheinstellung_woerter'];
+		$fehlermeldung = $t['forum_suche_fehlermeldung_sucheinstellung_woerter'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if ($suche['ort'] <> "V" && $suche['ort'] <> "B" && $suche['ort'] <> "T") {
-		$fehler .= $t['forum_fehlermeldung_suche_sucheinstellung_ort'];
+		$fehlermeldung = $t['forum_suche_fehlermeldung_sucheinstellung_ort'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if (!$suche['thema'] == "ALL" && !preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema']) && !preg_match("/^B([0-9])+$/i", $suche['thema'])) {
-		$fehler .= $t['forum_fehlermeldung_suche_falsches_thema'];
+		$fehlermeldung = $t['forum_suche_fehlermeldung_falsches_thema'];
+		$text .= hinweis($fehlermeldung, "fehler");
 	}
-		
-	if (strlen($fehler) > 0) {
-		zeige_tabelle_zentriert($t['fehlermeldung'], $fehler);
-	} else {
+	
+	if($fehlermeldung == "") {
 		$querytext = "";
 		$querybetreff = "";
 		if (trim($suche['text']) <> "") {
@@ -391,7 +395,9 @@ function such_ergebnis() {
 		
 		$anzahl = mysqli_num_rows($query);
 		
-		$text .= "<tr><td colspan=\"4\" class=\"tabelle_kopfzeile\" style=\"font-weight: bold;\">$t[ergebnis2] $anzahl";
+		$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $t['forum_suche_erfolgsmeldung']);
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		
 		if ($anzahl > $maxpostingsprosuche) {
 			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
 		}
@@ -456,9 +462,10 @@ function such_ergebnis() {
 			mysqli_free_result($query);
 		}
 		$text .= "</table>\n";
-		
-		// Box anzeigen
-		zeige_tabelle_zentriert($box, $text);
 	}
+	
+	// Box anzeigen
+	$box = $t['forum_suchergebnisse'];
+	zeige_tabelle_zentriert($box, $text);
 }
 ?>

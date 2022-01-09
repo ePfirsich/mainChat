@@ -14,8 +14,7 @@ $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
 
 $t['profil_fehlermeldung'] = "Fehler";
-$t['profil_erfolgsmeldung'] = "Änderungen gespeichert";
-$t['profil_erfolgsmeldung_details'] = "<b>Ihr Profil wurde gespeichert!</b>";
+$t['profil_erfolgsmeldung_profil_gespeichert'] = "Ihr Profil wurde gespeichert!<br>";
 $t['profil_punkte'] = "Sie haben Ihr Profil ausgefüllt. Dafür möchten wir uns bedanken:";
 
 $t['profil_fehler_wohnort'] = "Der Wohnort ist länger als 100 Zeichen!<br>\n";

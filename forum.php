@@ -16,11 +16,15 @@ if($th_id == "") {
 }
 
 $po_tiefe = filter_input(INPUT_GET, 'po_tiefe', FILTER_SANITIZE_NUMBER_INT);
-
+	
 $fo_id = filter_input(INPUT_GET, 'fo_id', FILTER_SANITIZE_NUMBER_INT);
 $po_id = filter_input(INPUT_GET, 'po_id', FILTER_SANITIZE_NUMBER_INT);
 $seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_NUMBER_INT);
+
 $thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
+if($thread == "") {
+	$thread = filter_input(INPUT_POST, 'thread', FILTER_SANITIZE_NUMBER_INT);
+}
 
 $po_vater_id = filter_input(INPUT_GET, 'po_vater_id', FILTER_SANITIZE_NUMBER_INT);
 if($po_vater_id == "") {
@@ -91,8 +95,8 @@ switch ($aktion) {
 		break;
 	
 	case "forum_anlegen":
-		$missing = check_input("forum");
-		if (!$missing) {
+		$fehlermeldung = check_input("forum");
+		if (!$fehlermeldung) {
 			schreibe_forum();
 			
 			// Forenübersicht anzeigen
@@ -100,18 +104,18 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
+			$text = hinweis($fehlermeldung, "fehler");
 			
 			// Forum anzeigen
 			$box = $t['forum_header'];
-			$text = maske_forum();
+			$text .= maske_forum();
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	
 	case "forum_editieren":
-		$missing = check_input("forum");
-		if (!$missing) {
+		$fehlermeldung = check_input("forum");
+		if (!$fehlermeldung) {
 			aendere_forum();
 			
 			// Forenübersicht anzeigen
@@ -119,11 +123,11 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
+			$text = hinweis($fehlermeldung, "fehler");
 			
 			// Forum anzeigen
 			$box = $t['forum_header'];
-			$text = maske_forum($fo_id);
+			$text .= maske_forum($fo_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
@@ -154,13 +158,14 @@ switch ($aktion) {
 		break;
 	
 	case "forum_delete":
+		$text = "";
 		if ($forum_admin) {
-			loesche_forum($fo_id);
+			$text = loesche_forum($fo_id);
 		}
 		
 		// Forenübersicht anzeigen
 		$box = $t['forum_header'];
-		$text = forum_liste();
+		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
@@ -182,8 +187,8 @@ switch ($aktion) {
 		break;
 	
 	case "thema_anlegen":
-		$missing = check_input("thema");
-		if (!$missing) {
+		$fehlermeldung = check_input("thema");
+		if (!$fehlermeldung) {
 			schreibe_thema();
 			
 			// Forenübersicht anzeigen
@@ -191,11 +196,11 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
+			$text = hinweis($fehlermeldung, "fehler");
 			
 			// Thema erstellen
 			$box = $t['forum_header'];
-			$text = maske_thema();
+			$text .= maske_thema();
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
@@ -208,8 +213,8 @@ switch ($aktion) {
 		break;
 	
 	case "thema_editieren":
-		$missing = check_input("thema");
-		if (!$missing) {
+		$fehlermeldung = check_input("thema");
+		if (!$fehlermeldung) {
 			schreibe_thema($th_id);
 			
 			// Forenübersicht anzeigen
@@ -217,11 +222,11 @@ switch ($aktion) {
 			$text = forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
+			$text = hinweis($fehlermeldung, "fehler");
 			
 			// Thema erstellen
 			$box = $t['forum_header'];
-			$text = maske_thema($th_id);
+			$text .= maske_thema($th_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
@@ -251,13 +256,14 @@ switch ($aktion) {
 		break;
 	
 	case "thema_delete":
+		$text = "";
 		if ($forum_admin) {
-			loesche_thema($th_id);
+			$text = loesche_thema($th_id);
 		}
 		
 		// Forenübersicht anzeigen
 		$box = $t['forum_header'];
-		$text = forum_liste();
+		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
@@ -302,14 +308,15 @@ switch ($aktion) {
 	
 	case "posting_anlegen":
 		$thread_gesperrt = false;
+		$text = "";
 		if (isset($thread) && ($thread > 0) && !$forum_admin) {
 			$thread_gesperrt = ist_thread_gesperrt($thread);
 		}
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		
 		if ($schreibrechte && !$thread_gesperrt) {
-			$missing = check_input("posting");
-			if (!$missing) {
+			$fehlermeldung = check_input("posting");
+			if (!$fehlermeldung) {
 				$new_po_id = schreibe_posting();
 				if ($new_po_id) {
 					markiere_als_gelesen($new_po_id, $u_id, $th_id);
@@ -317,20 +324,20 @@ switch ($aktion) {
 					$po_id = $new_po_id;
 					// Punkte gutschreiben
 					if ($u_id) {
-						verbuche_punkte($u_id);
+						$text = verbuche_punkte($u_id);
 					}
 				}
 				
 				// Thema zeigen
 				$box = $t['forum_header'];
-				$text = show_posting();
+				$text .= show_posting();
 				zeige_tabelle_zentriert($box, $text);
 			} else {
-				zeige_tabelle_zentriert($t['fehlermeldung'], $missing);
+				$text = hinweis($fehlermeldung, "fehler");
 				
 				// Neues Thema erstellen
 				$box = $t['forum_header'];
-				$text = maske_posting($mode);
+				$text .= maske_posting($mode);
 				zeige_tabelle_zentriert($box, $text);
 			}
 		} else {
@@ -400,13 +407,14 @@ switch ($aktion) {
 		
 		break;
 	case "delete_posting":
+		$text = "";
 		if ($forum_admin) {
-			loesche_posting();
+			$text = loesche_posting();
 		}
 		
 		// Forum anzeigen
 		$box = $t['forum_header'];
-		$text = show_thema();
+		$text .= show_thema();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	case "verschiebe_posting":
