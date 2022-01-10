@@ -805,7 +805,7 @@ function zeige_chat_login($text = "") {
 			// Anzahl der Beiträge im Forum ausgeben
 			if ($forumfeatures) {
 				// Anzahl Themen
-				$query = "SELECT COUNT(th_id) FROM thema";
+				$query = "SELECT COUNT(th_id) FROM `forum_foren`";
 				$result = sqlQuery($query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$themen = mysqli_result($result, 0, 0);
@@ -813,7 +813,7 @@ function zeige_chat_login($text = "") {
 				}
 				
 				// Dummy Themen abziehen
-				$query = "SELECT COUNT(th_id) FROM thema WHERE th_name = 'dummy-thema'";
+				$query = "SELECT COUNT(th_id) FROM `forum_foren` WHERE th_name = 'dummy-thema'";
 				$result = sqlQuery($query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$themen = $themen - mysqli_result($result, 0, 0);
@@ -821,7 +821,7 @@ function zeige_chat_login($text = "") {
 				}
 				
 				// Anzahl Beiträge
-				$query = "SELECT COUNT(po_id) FROM posting";
+				$query = "SELECT COUNT(po_id) FROM `forum_beitraege`";
 				$result = sqlQuery($query);
 				if ($result AND mysqli_num_rows($result) > 0) {
 					$beitraege = mysqli_result($result, 0, 0);

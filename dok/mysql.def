@@ -188,7 +188,7 @@ CREATE TABLE chat (
 	KEY c_raum (c_raum)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE forum (
+CREATE TABLE `forum_kategorien` (
 	fo_id smallint(5) unsigned NOT NULL auto_increment,
 	fo_name varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	fo_order smallint(5) NOT NULL default '0',
@@ -324,7 +324,7 @@ CREATE TABLE online (
 	KEY o_level (o_level)
 ) ENGINE=HEAP PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE posting (
+CREATE TABLE `forum_beitraege` (
 	`po_id` int(10) unsigned NOT NULL auto_increment,
 	`po_th_id` int(10) NOT NULL default '0',
 	`po_u_id` int(11) NOT NULL default '0',
@@ -385,7 +385,7 @@ CREATE TABLE `statistiken` (
 	`id` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE thema (
+CREATE TABLE `forum_foren` (
 	th_id int(10) unsigned NOT NULL auto_increment,
 	th_fo_id smallint(5) NOT NULL default '0',
 	th_name varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',

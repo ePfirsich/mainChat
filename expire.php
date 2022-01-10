@@ -387,8 +387,8 @@ if ($zeit == "03:10") {
 	set_time_limit(600);
 	echo " Optimieren ";
 	flush();
-	$query = "OPTIMIZE TABLE mail_check,top10cache,blacklist,posting,thema,aktion,bild,forum,freunde,mail,"
-		. "iignore,invite,ip_sperre,moderation,online,raum,sperre,user,userinfo,sequence";
+	$query = "OPTIMIZE TABLE `mail_check`, `top10cache`, `blacklist`, `forum_beitraege`, `forum_foren`, `aktion`, `bild`, `forum_kategorien`, `freunde`, `mail`, "
+		. "`iignore`, `invite`, `ip_sperre`, `moderation`, `online`, `raum`, `sperre`, `user`, `userinfo`, `sequence`";
 		sqlUpdate($query);
 	sleep(60);
 	set_time_limit(600);

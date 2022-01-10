@@ -1,7 +1,7 @@
 <?php
 function suche_vaterposting($poid) {
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
-	$query = "SELECT po_vater_id FROM posting WHERE po_id = '" . intval($poid) . "'";
+	$query = "SELECT po_vater_id FROM `forum_beitraege` WHERE po_id = '" . intval($poid) . "'";
 	$result = sqlQuery($query);
 	list($vp) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($vp);
@@ -9,7 +9,7 @@ function suche_vaterposting($poid) {
 
 function suche_threadord($poid) {
 	// Diese Funktion sucht die Themenorder des Vaterpostings
-	$query = "SELECT po_threadorder FROM posting WHERE po_id = '" . intval($poid) . "'";
+	$query = "SELECT po_threadorder FROM `forum_beitraege` WHERE po_id = '" . intval($poid) . "'";
 	$result = sqlQuery($query);
 	list($to) = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return ($to);
@@ -818,7 +818,7 @@ function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
 		SELECT a.po_id as po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own, date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own, th_name, fo_name,
 		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply, date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
 		u_nick, a.po_threadorder as threadord, a.po_id as po_id_thread
-		FROM posting a, posting b, thema, forum, user 
+		FROM `forum_beitraege` a, `forum_beitraege` b, `forum_foren`, `forum_kategorien`, user 
 		WHERE a.po_u_id = " . intval($an_u_id) . " AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
 	
 	$query = sqlQuery($sql);
@@ -894,7 +894,7 @@ function erzeuge_baum($threadorder, $po_id, $thread) {
 	$in_stat = $thread . "," . $threadorder;
 	
 	//erst mal alle Beiträge des Themas holen
-	$sql = "SELECT po_id, po_titel, po_vater_id FROM posting WHERE po_id in ($in_stat)";
+	$sql = "SELECT po_id, po_titel, po_vater_id FROM `forum_beitraege` WHERE po_id in ($in_stat)";
 	$query = sqlQuery($sql);
 	
 	//alle postings in feld einlesen

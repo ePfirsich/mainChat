@@ -1,7 +1,7 @@
 <?php
 function show_pfad_posting2($th_id, $id, $thread) {
 	//Infos über Forum und Thema holen
-	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum`, `thema` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
+	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
 	
 	$query = sqlQuery($sql);
 	$fo_id = mysqli_result($query, 0, "fo_id");
@@ -14,7 +14,7 @@ function show_pfad_posting2($th_id, $id, $thread) {
 }
 
 function vater_rekursiv($vater) {
-	$query = "SELECT `po_id`, `po_vater_id` FROM posting WHERE `po_id` = " . intval($vater);
+	$query = "SELECT `po_id`, `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = " . intval($vater);
 	$result = sqlQuery($query);
 	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	if (mysqli_num_rows($result) <> 1) {
@@ -52,7 +52,7 @@ function such_bereich() {
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
 	. "<select name=\"suche[thema]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 		
-	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
+	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = sqlQuery($sql);
 	$themaalt = "";
 	$text .= "<option ";
@@ -287,7 +287,7 @@ function such_ergebnis() {
 			$querybetreff = " (" . $querybetreff . ") ";
 		}
 		
-		$sql = "SELECT posting.*, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_zeit, u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage FROM posting LEFT JOIN user ON po_u_id = u_id WHERE ";
+		$sql = "SELECT `forum_beitraege`.*, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_zeit, u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE ";
 		
 		$abfrage = "";
 		if ($suche['ort'] == "V" && $querybetreff <> "") {
@@ -307,7 +307,7 @@ function such_ergebnis() {
 		}
 		
 		$boards = "";
-		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM forum LEFT JOIN thema ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
+		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 		$query2 = sqlQuery($sql2);
 		while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
 			if (pruefe_leserechte($thema['th_id'])) {

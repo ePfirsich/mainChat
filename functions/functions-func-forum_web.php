@@ -5,7 +5,7 @@ function maske_forum($fo_id = 0) {
 	
 	if ($fo_id > 0) {
 		$fo_id = intval($fo_id);
-		$sql = "SELECT fo_name, fo_admin FROM forum where fo_id=$fo_id";
+		$sql = "SELECT fo_name, fo_admin FROM `forum_kategorien` where fo_id=$fo_id";
 		$query = sqlQuery($sql);
 		$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 		$fo_admin = mysqli_result($query, 0, "fo_admin");
@@ -125,7 +125,7 @@ function maske_forum($fo_id = 0) {
 function forum_liste() {
 	global $id, $forum_admin, $chat_grafik, $t, $u_level;
 	
-	$sql = "SELECT fo_id, fo_name, fo_order, fo_admin, th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings FROM forum, thema WHERE fo_id = th_fo_id ";
+	$sql = "SELECT fo_id, fo_name, fo_order, fo_admin, th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings FROM `forum_kategorien`, `forum_foren` WHERE fo_id = th_fo_id ";
 	if ($u_level == "G") {
 		$sql .= "AND ( ((fo_admin & 8) = 8) OR fo_admin = 0) ";
 	}
@@ -265,7 +265,7 @@ function maske_thema($th_id = 0) {
 	global $t;
 	
 	if ($th_id > 0) {
-		$sql = "SELECT th_name, th_desc FROM thema WHERE th_id=" . intval($th_id);
+		$sql = "SELECT th_name, th_desc FROM `forum_foren` WHERE th_id=" . intval($th_id);
 		$query = sqlQuery($sql);
 		$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 		$th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
@@ -312,7 +312,7 @@ function maske_thema($th_id = 0) {
 		
 		$selectbox = "<input type=\"checkbox\" name=\"th_forumwechsel\" value=\"Y\">\n";
 		
-		$sql = "SELECT fo_id, fo_name FROM forum ORDER BY fo_order ";
+		$sql = "SELECT fo_id, fo_name FROM `forum_kategorien` ORDER BY fo_order ";
 		$query = sqlQuery($sql);
 		
 		$selectbox .= "<select name=\"th_verschiebe_nach\" size=\"1\">\n";
@@ -432,13 +432,13 @@ function show_thema() {
 	
 	$sql = "SELECT po_id, po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%y') AS po_date, date_format(from_unixtime(po_threadts), '%d.%m.%y') AS po_date2,
 				po_titel, po_threadorder, po_topposting, po_threadgesperrt, po_gesperrt, u_nick,
-		u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM posting LEFT JOIN user ON po_u_id = u_id
+		u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id
 				WHERE po_vater_id = 0 AND po_th_id = " . intval($th_id) . " ORDER BY po_topposting desc, po_threadts desc, po_ts DESC LIMIT $offset, $anzahl_po_seite";
 	
 	$query = sqlQuery($sql);
 	
 	//Infos über Forum und Thema holen
-	$sqlForum = "SELECT fo_id, fo_name, th_name, th_anzthreads FROM forum, thema WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
+	$sqlForum = "SELECT fo_id, fo_name, th_name, th_anzthreads FROM `forum_kategorien`, `forum_foren` WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
 	$queryForum = sqlQuery($sqlForum);
 	$fo_id = htmlspecialchars(mysqli_result($queryForum, 0, "fo_id"));
 	$fo_name = htmlspecialchars(mysqli_result($queryForum, 0, "fo_name"));
@@ -555,7 +555,7 @@ function show_thema() {
 			$antworten = "";
 		} else {
 			$themen_id = $posting['po_id'];
-			$sql2 = "SELECT po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `posting` LEFT JOIN user ON po_u_id = u_id WHERE `po_vater_id` = $themen_id ORDER by po_id desc LIMIT 1;";
+			$sql2 = "SELECT po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE `po_vater_id` = $themen_id ORDER by po_id desc LIMIT 1;";
 			$query2 = sqlQuery($sql2);
 			$antwort_u_id = mysqli_result($query2, 0, "po_u_id");
 			$antwort_u_nick = mysqli_result($query2, 0, "u_nick");
@@ -627,7 +627,7 @@ function maske_posting($mode) {
 		case "reply": // zitieren
 		//Daten des Vaters holen
 			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick
-					FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
+					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
 			$query = sqlQuery($sql);
 			
 			$autor = mysqli_result($query, 0, "u_nick");
@@ -647,7 +647,7 @@ function maske_posting($mode) {
 			break;
 		case "answer": // antworten
 		//Daten des Vaters holen
-			$sql = "SELECT po_tiefe, po_titel FROM posting WHERE po_id = " . intval($po_vater_id);
+			$sql = "SELECT po_tiefe, po_titel FROM `forum_beitraege` WHERE po_id = " . intval($po_vater_id);
 			$query = sqlQuery($sql);
 			
 			$po_titel = mysqli_result($query, 0, "po_titel");
@@ -665,7 +665,7 @@ function maske_posting($mode) {
 		case "edit":
 		//Daten holen
 			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick, u_id, po_threadgesperrt, po_topposting
-					FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
+					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
 			$query = sqlQuery($sql);
 			
 			$autor = mysqli_result($query, 0, "u_nick");
@@ -815,7 +815,7 @@ function verbuche_punkte($u_id) {
 function show_pfad_posting($th_id, $po_titel) {
 	global $id, $thread, $seite;
 	//Infos über Forum und Thema holen
-	$sql = "SELECT fo_id, fo_name, th_name FROM forum, thema WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
+	$sql = "SELECT fo_id, fo_name, th_name FROM `forum_kategorien`, `forum_foren` WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
 	$query = sqlQuery($sql);
 	$fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
 	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
@@ -879,20 +879,20 @@ function verschiebe_posting() {
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
 				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($thread);
+				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($thread);
 	
 	$query = sqlQuery($sql);
 	if ($query)
 		$row = mysqli_fetch_object($query);
 	mysqli_free_result($query);
 	
-	$sql = "SELECT fo_name, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_id = " . intval($th_id);
+	$sql = "SELECT fo_name, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_id = " . intval($th_id);
 	$query = sqlQuery($sql);
 	if ($query)
 		$row2 = mysqli_fetch_object($query);
 	mysqli_free_result($query);
 	
-	$sql = "SELECT fo_name, th_id, th_name FROM forum left join thema on fo_id = th_fo_id WHERE th_name <> 'dummy-thema' " . "ORDER BY fo_order, th_order ";
+	$sql = "SELECT fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_name <> 'dummy-thema' " . "ORDER BY fo_order, th_order ";
 	$query = sqlQuery($sql);
 	
 	$text = "";
@@ -969,7 +969,7 @@ function show_posting() {
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
 				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
+				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
 	
 	$query = sqlQuery($sql);
 	if ($query) {
@@ -996,7 +996,7 @@ function show_posting() {
 	
 	mysqli_free_result($query);
 	
-	$sql = "SELECT po_threadorder FROM posting WHERE po_th_id= $th_id";
+	$sql = "SELECT po_threadorder FROM `forum_beitraege` WHERE po_th_id= $th_id";
 	$query = sqlQuery($sql);
 	$po_threadorder = mysqli_result($query, 0, "po_threadorder");
 	
@@ -1022,7 +1022,7 @@ function show_posting() {
 	
 	$sql = "SELECT po_id, po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
 				po_titel, po_text, po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage, po_threadorder, po_gesperrt
-				FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = $thread OR po_vater_id = $thread";
+				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = $thread OR po_vater_id = $thread";
 	$alle_beitraege = sqlQuery($sql);
 	
 	

@@ -219,7 +219,7 @@ switch ($aktion) {
 	case "antworten_forum":
 	// Mail beantworten, Mail quoten und Absender lesen
 		$query = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_tiefe,
-		po_titel, po_text, u_nick, u_id FROM posting LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
+		po_titel, po_text, u_nick, u_id FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);

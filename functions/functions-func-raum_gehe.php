@@ -6,8 +6,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	// ID des neuen Raums wird zurückgeliefert
 	
 	global $admin, $u_level, $u_punkte_gesamt, $t, $lobby, $timeout;
-	global $id, $forumfeatures;
-	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
+	global $id, $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
 	// Info zu altem Raum lesen
