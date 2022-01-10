@@ -398,7 +398,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 function show_thema() {
 	global $id, $forum_admin, $th_id, $seite;
 	global $anzahl_po_seite, $chat_grafik, $t;
-	global $admin, $anzahl_po_seite2, $u_id;
+	global $admin, $anzahl_po_seite2, $u_id, $locale;
 	
 	if ($anzahl_po_seite2) {
 		$anzahl_po_seite2 = preg_replace("/[^0-9]/", "", $anzahl_po_seite2);
@@ -430,7 +430,11 @@ function show_thema() {
 	
 	$offset = ($seite - 1) * $anzahl_po_seite;
 	
-	$sql = "SELECT po_id, po_u_id, date_format(from_unixtime(po_ts), '%d.%m.%y') AS po_date, date_format(from_unixtime(po_threadts), '%d.%m.%y') AS po_date2,
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
+	
+	// Erklärung zu den Datumsformatierungen: https://www.w3schools.com/sql/func_mysql_date_format.asp
+	$sql = "SELECT po_id, po_u_id, date_format(from_unixtime(po_ts), '%d. %M %Y') AS po_date, date_format(from_unixtime(po_threadts), '%d. %M %Y') AS po_date2,
 				po_titel, po_threadorder, po_topposting, po_threadgesperrt, po_gesperrt, u_nick,
 		u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id
 				WHERE po_vater_id = 0 AND po_th_id = " . intval($th_id) . " ORDER BY po_topposting desc, po_threadts desc, po_ts DESC LIMIT $offset, $anzahl_po_seite";
@@ -575,7 +579,7 @@ function show_thema() {
 			$userdata2['u_chathomepage'] = $antwort_u_chathomepage;
 			$antworten_userlink = zeige_userdetails($antwort_u_id, $userdata2);
 			
-			$antworten = substr($posting['po_date2'], 0, 5) . " von " . $antworten_userlink;
+			$antworten = $posting['po_date2'] . " von " . $antworten_userlink;
 		}
 		$text .= "<td style=\"text-align:center;\" $farbe><span class=\"smaller\">$posting[po_date]</span></td>\n"; // Wann wurde das Thema erstellt
 		$text .= "<td style=\"text-align:center;\" $farbe><span class=\"smaller\">".$anzreplys."</span></td>\n"; // Wie viele Antworten hat das Thema

@@ -98,7 +98,7 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 	
 	// Benutzerdaten aus u_id lesen und setzen
 	if ($neue_email['m_an_uid']) {
-		$query = "SELECT u_nick, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+		$query = "SELECT u_nick, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -166,19 +166,22 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 
 function zeige_mailbox($text, $aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	global $id, $u_nick, $u_id, $chat, $t;
+	global $id, $u_nick, $u_id, $chat, $t, $locale;
+	
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
 	
 	$art = "empfangen";
 	switch ($aktion) {
 		case "geloescht":
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
 			$button = $t['wiederherstellen'];
 			$titel = $t['nachrichten_papierkorb'];
 			break;
 		
 		case "postausgang":
-		$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+		$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
 			$titel = $t['nachrichten_postausgang2'];
@@ -187,7 +190,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		
 		case "normal":
 		default;
-			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,m_betreff,u_nick "
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['loeschen'];
 			$titel = $t['nachrichten_posteingang2'];
@@ -277,13 +280,16 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 function zeige_email($m_id, $art) {
 	// Zeigt die Mail im Detail an
 	
-	global $id, $u_nick, $u_id, $chat, $t;
+	global $id, $u_nick, $u_id, $chat, $t, $locale;
+	
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
 	
 	if($art == "gesendet") {
-		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
+		$query = "SELECT mail.*,date_format(m_zeit,'%d. %M %Y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_von_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
 	} else {
-		$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
+		$query = "SELECT mail.*,date_format(m_zeit,'%d. %M %Y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
 			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
 	}
 	$result = sqlQuery($query);

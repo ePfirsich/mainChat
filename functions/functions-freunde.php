@@ -2,19 +2,22 @@
 
 function zeige_freunde($text, $aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $u_nick, $u_id, $t;
+	global $id, $u_nick, $u_id, $t, $locale;
+	
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
 	
 	switch ($aktion) {
 		case "normal":
 		default:
-			$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%d.%m.%y %H:%i') as zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
+			$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%e. %M %Y') as zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
 				. "UNION "
-				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%d.%m.%y %H:%i') as zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+				. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit,date_format(f_zeit,'%e. %M %Y') as zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 				$box = $t['freunde_meine_freunde'];
 			break;
 		
 		case "bestaetigen":
-			$query = "SELECT f_id,f_text,f_userid,f_freundid, date_format(f_zeit,'%d.%m.%y %H:%i') AS zeit FROM freunde WHERE f_freundid=$u_id AND f_status='beworben' ORDER BY f_zeit desc";
+			$query = "SELECT f_id,f_text,f_userid,f_freundid, date_format(f_zeit,'%e. %M %Y') AS zeit FROM freunde WHERE f_freundid=$u_id AND f_status='beworben' ORDER BY f_zeit desc";
 			$box = $t['freunde_freundesanfragen'];
 			break;
 	}
@@ -23,9 +26,8 @@ function zeige_freunde($text, $aktion, $zeilen) {
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
-		$result = sqlQuery($query);
+	$result = sqlQuery($query);
 	if ($result) {
-		
 		$anzahl = mysqli_num_rows($result);
 		if ($anzahl == 0) {
 			// Keine Freunde
@@ -35,7 +37,6 @@ function zeige_freunde($text, $aktion, $zeilen) {
 			if ($aktion == "bestaetigen") {
 				$text.= $t['freunde_anfragen'];
 			}
-			
 		} else {
 			// Freunde anzeigen
 			$text .= "<table style=\"width:100%;\">\n";
@@ -57,11 +58,11 @@ function zeige_freunde($text, $aktion, $zeilen) {
 				
 				// Benutzer aus der Datenbank lesen
 				if ($row->f_userid != $u_id) {
-					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
 						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_userid ";
 						$result2 = sqlQuery($query);
 				} elseif ($row->f_freundid != $u_id) {
-					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+					$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um%H:%i') AS login, "
 						. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_freundid ";
 						$result2 = sqlQuery($query);
 				}

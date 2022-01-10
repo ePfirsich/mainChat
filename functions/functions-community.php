@@ -694,14 +694,16 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 		$txt = "";
 		$i = 0;
 		while ($row = mysqli_fetch_object($result)) {
-			
 			// Benutzer aus DB lesen
+			$sql = "SET lc_time_names = '$locale'";
+			$query = sqlQuery($sql);
+			
 			if ($row->f_userid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
 					. "FROM user, online WHERE o_user=u_id AND u_id=$row->f_userid ";
 			} elseif ($row->f_freundid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
 					. "FROM user,online WHERE o_user=u_id AND u_id=$row->f_freundid ";
 			}

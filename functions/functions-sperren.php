@@ -1,9 +1,6 @@
 <?php
 function sperren_liste($text) {
-	global $id, $t;
-	global $raumsperre;
-	global $sperre_dialup;
-	global $mysqli_link;
+	global $id, $t, $raumsperre, $sperre_dialup, $mysqli_link, $locale;
 	
 	$sperr = "";
 	
@@ -25,7 +22,10 @@ function sperren_liste($text) {
 	}
 	
 	// Alle Sperren ausgeben
-	$query = "SELECT u_nick,is_infotext,is_id,is_domain,UNIX_TIMESTAMP(is_zeit) AS zeit,is_ip_byte,is_warn,"
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
+	
+	$query = "SELECT u_nick,is_infotext,is_id,is_domain, date_format(is_zeit,'%d. %M %Y um %H:%i') AS zeit,is_ip_byte,is_warn,"
 		. "SUBSTRING_INDEX(is_ip,'.',is_ip_byte) AS isip FROM ip_sperre,user WHERE is_owner=u_id ORDER BY is_zeit DESC,is_domain,is_ip";
 		$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
@@ -99,8 +99,7 @@ function sperren_liste($text) {
 			
 			// Eintrag - Benutzer und Datum
 			$text .= "<td $bgcolor>$row->u_nick<br>\n";
-			$text .= date("d.m.y", $row->zeit) . "&nbsp;";
-			$text .= date("H:i:s", $row->zeit) . "&nbsp;";
+			$text .= $row->zeit;
 			$text .= "</td>\n";
 			
 			// Aktion
@@ -134,7 +133,7 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
 	global $id, $u_nick, $u_id, $t;
-	global $blacklistmaxdays;
+	global $blacklistmaxdays, $locale;
 	
 	$blurl = "inhalt.php?bereich=sperren&aktion=blacklist&id=$id&sort=";
 	
@@ -169,17 +168,16 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 			$usort = "u_nick";
 	}
 	
-	switch ($aktion) {
-		case "normal":
-		default;
-		$query = "SELECT u_nick,f_id,f_text,f_userid,f_blacklistid,date_format(f_zeit,'%d.%m.%y %H:%i') AS zeit FROM blacklist LEFT JOIN user ON f_blacklistid=u_id ORDER BY $qsort";
-		$button = "LÖSCHEN";
-		
-		// blacklist-expire
-		if ($blacklistmaxdays) {
-			$query2 = "DELETE FROM blacklist WHERE (TO_DAYS(NOW()) - TO_DAYS(f_zeit)>$blacklistmaxdays) ";
-			sqlUpdate($query2, true);
-		}
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
+	
+	$query = "SELECT u_nick,f_id,f_text,f_userid,f_blacklistid,date_format(f_zeit,'%d. %M %Y um %H:%i') AS zeit FROM blacklist LEFT JOIN user ON f_blacklistid=u_id ORDER BY $qsort";
+	$button = "LÖSCHEN";
+	
+	// blacklist-expire
+	if ($blacklistmaxdays) {
+		$query2 = "DELETE FROM blacklist WHERE (TO_DAYS(NOW()) - TO_DAYS(f_zeit)>$blacklistmaxdays) ";
+		sqlUpdate($query2, true);
 	}
 	
 	$result = sqlQuery($query);
@@ -210,7 +208,10 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 				}
 				
 				// Benutzer aus der Datenbank lesen
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, " . "date_format(u_login,'%d.%m.%y %H:%i') AS login, "
+				$sql = "SET lc_time_names = '$locale'";
+				$query = sqlQuery($sql);
+				
+				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, " . "date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
 				. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_blacklistid ";
 				$result2 = sqlQuery($query);
 				if ($result2 && mysqli_num_rows($result2) > 0) {

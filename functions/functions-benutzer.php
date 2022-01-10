@@ -4,13 +4,16 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $level, $id;
+	global $level, $id, $locale;
 	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
-	$query = "SELECT `user`.*, FROM_Unixtime(UNIX_TIMESTAMP(u_login),'%d.%m.%Y %H:%i') AS `letzter_login`, FROM_Unixtime(UNIX_TIMESTAMP(u_neu),'%d.%m.%Y %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$user ";
-			$result = sqlQuery($query);
+	$sql = "SET lc_time_names = '$locale'";
+	$query = sqlQuery($sql);
+	
+	$query = "SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$user ";
+	$result = sqlQuery($query);
 			
 			if ($result && mysqli_num_rows($result) == 1) {
 				$row = mysqli_fetch_object($result);

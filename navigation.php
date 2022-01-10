@@ -60,7 +60,7 @@ if ( time() > ($o_aktion + 300) ) {
 }
 
 // Anzahl der ungelesenen Nachrichten ermitteln
-$query_nachrichten = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id  AND m_status='neu' ORDER BY m_zeit desc";
+$query_nachrichten = "SELECT mail.*, u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
 $result_nachrichten = sqlQuery($query_nachrichten);
 
 if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {

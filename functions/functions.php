@@ -854,7 +854,7 @@ function zeige_userdetails(
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
 	global $id, $system_farbe, $t, $show_geschlecht;
-	global $leveltext, $punkte_grafik, $chat_grafik;
+	global $leveltext, $punkte_grafik, $chat_grafik, $locale;
 	
 	$text = "";
 	if ($mit_id) {
@@ -910,8 +910,11 @@ function zeige_userdetails(
 		}
 	} else if ($zeige_user_id) {
 		// Benutzerdaten aus DB lesen
+		$sql = "SET lc_time_names = '$locale'";
+		$query = sqlQuery($sql);
+		
 		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d.%m.%y %H:%i') AS login "
+			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d. %M %Y %H:%i') AS login "
 			. "FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=" . intval($zeige_user_id);
 			$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -1025,8 +1028,7 @@ function zeige_userdetails(
 		$fett1 = "<b>";
 		$fett2 = "</b>";
 	} else if ($letzter_login && $letzter_login != "NULL" && $online) {
-		$text2 .= $trenner
-			. str_replace("%login%", $letzter_login, $t['chat_msg94']);
+		$text2 .= $trenner . str_replace("%login%", $letzter_login, $t['chat_msg94']);
 		$fett1 = "";
 		$fett2 = "";
 	} else if ($online) {

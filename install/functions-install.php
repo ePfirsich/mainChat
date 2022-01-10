@@ -134,6 +134,15 @@ function step_1($chat) {
 				</td>
 			</tr>
 			<tr <?php hintergrundfarbe_zellen(); ?>>
+				<td> Voreingestellte Sprache 2: (sollte die gleiche Sprache wie eins drüber sein.)</td>
+				<td>
+					<select name="chat_content_locale">
+						<option value="de">de_DE</option>
+						<option value="en">en_GB</option>
+					</select>
+				</td>
+			</tr>
+			<tr <?php hintergrundfarbe_zellen(); ?>>
 				<td> Beim Login Auswahl des Raums möglich:</td>
 				<td><?php echo checkFormularRadioButton('1',$chat["raumauswahl"],'chat_raumauswahl'); ?></td>
 			</tr>

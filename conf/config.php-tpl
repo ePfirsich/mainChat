@@ -20,6 +20,7 @@ $email_absender="%email_absender%";	// E-Mail zum Versenden von allen E-Mails
 $kontakt="%kontakt%";				// Zuständige Person für Hackversuche
 $sprache = "%language%";			// Sprache der Sprachdateien
 $spracheChat = "%content_language%";// Sprache des Chats
+$locale = "%content_locale%";		// Locale Chats
 $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
 $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am Ende
