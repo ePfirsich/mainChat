@@ -330,7 +330,6 @@ CREATE TABLE `forum_beitraege` (
 	`po_u_id` int(11) NOT NULL default '0',
 	`po_vater_id` int(10) NOT NULL default '0',
 	`po_ts` bigint(14) NOT NULL default '0',
-	`po_tiefe` smallint(3) NOT NULL default '0',
 	`po_threadorder` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
 	`po_threadts` bigint(14) NOT NULL default '0',
 	`po_gesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,

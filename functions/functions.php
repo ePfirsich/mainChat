@@ -44,7 +44,7 @@ $valid_fields = array(
 	'online' => array('o_id', 'o_user', 'o_raum', 'o_hash', 'o_timestamp', 'o_ip', 'o_who', 'o_aktiv', 'o_chat_id', 'o_browser', 'o_name', 'o_knebel', 
 		'o_http_stuff', 'o_http_stuff2', 'o_userdata', 'o_userdata2', 'o_userdata3', 'o_userdata4', 'o_level', 'o_ignore', 'o_login', 'o_punkte', 'o_aktion', 
 		'o_timeout_zeit', 'o_timeout_warnung', 'o_chat_historie', 'o_spam_zeilen', 'o_spam_byte', 'o_spam_zeit'),
-	'forum_beitraege' => array('po_id', 'po_th_id', 'po_u_id', 'po_vater_id', 'po_ts', 'po_tiefe', 'po_threadorder', 'po_threadts', 'po_gesperrt', 'po_threadgesperrt', 
+	'forum_beitraege' => array('po_id', 'po_th_id', 'po_u_id', 'po_vater_id', 'po_ts', 'po_threadorder', 'po_threadts', 'po_gesperrt', 'po_threadgesperrt', 
 		'po_topposting', 'po_titel', 'po_text'),
 	'raum' => array('r_id', 'r_name', 'r_eintritt', 'r_austritt', 'r_status1', 'r_besitzer', 'r_topic', 'r_status2', 'r_smilie', 'r_min_punkte'), 
 	'sequence' => array('se_name', 'se_nextid'),
@@ -62,12 +62,12 @@ $valid_fields = array(
 );
 
 // Funktionen
-function mysqli_result($res,$row=0,$col=0){
+function mysqli_result($res,$row=0,$col=0) {
 	$numrows = mysqli_num_rows($res);
 	if ($numrows && $row <= ($numrows-1) && $row >=0){
 		mysqli_data_seek($res,$row);
 		$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
-		if (isset($resrow[$col])){
+		if (isset($resrow[$col])) {
 			return $resrow[$col];
 		}
 	}

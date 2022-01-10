@@ -15,8 +15,6 @@ if($th_id == "") {
 	$th_id = filter_input(INPUT_POST, 'th_id', FILTER_SANITIZE_NUMBER_INT);
 }
 
-$po_tiefe = filter_input(INPUT_GET, 'po_tiefe', FILTER_SANITIZE_NUMBER_INT);
-	
 $fo_id = filter_input(INPUT_GET, 'fo_id', FILTER_SANITIZE_NUMBER_INT);
 $po_id = filter_input(INPUT_GET, 'po_id', FILTER_SANITIZE_NUMBER_INT);
 $seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_NUMBER_INT);

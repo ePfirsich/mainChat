@@ -607,7 +607,7 @@ function show_thema() {
 
 //Maske zum Eingeben/Editieren/Quoten von Beiträgen
 function maske_posting($mode) {
-	global $id, $u_id, $th_id, $po_id, $po_vater_id, $po_tiefe, $po_titel, $po_text, $thread, $seite;
+	global $id, $u_id, $th_id, $po_id, $po_vater_id, $po_titel, $po_text, $thread, $seite;
 	global $forum_admin, $u_nick, $t;
 	
 	// Hole alle benötigten Einstellungen des Benutzers
@@ -626,7 +626,7 @@ function maske_posting($mode) {
 		
 		case "reply": // zitieren
 		//Daten des Vaters holen
-			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick
+			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick
 					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
 			$query = sqlQuery($sql);
 			
@@ -640,14 +640,12 @@ function maske_posting($mode) {
 			$po_text = erzeuge_quoting($po_text, $autor, $po_date);
 			$po_text = erzeuge_fuss($po_text);
 			
-			$po_tiefe = mysqli_result($query, 0, "po_tiefe");
-			
 			//$kopfzeile = $po_titel;
 			$button = $t['neuer_thread_button'];
 			break;
 		case "answer": // antworten
 		//Daten des Vaters holen
-			$sql = "SELECT po_tiefe, po_titel FROM `forum_beitraege` WHERE po_id = " . intval($po_vater_id);
+			$sql = "SELECT po_titel FROM `forum_beitraege` WHERE po_id = " . intval($po_vater_id);
 			$query = sqlQuery($sql);
 			
 			$po_titel = mysqli_result($query, 0, "po_titel");
@@ -656,15 +654,13 @@ function maske_posting($mode) {
 			$titel = $po_titel;
 			$po_text = erzeuge_fuss("");
 			
-			$po_tiefe = mysqli_result($query, 0, "po_tiefe");
-			
 			//$kopfzeile = $po_titel;
 			$button = $t['neuer_thread_button'];
 			break;
 		
 		case "edit":
 		//Daten holen
-			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick, u_id, po_threadgesperrt, po_topposting
+			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick, u_id, po_threadgesperrt, po_topposting
 					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
 			$query = sqlQuery($sql);
 			
@@ -680,7 +676,6 @@ function maske_posting($mode) {
 			$titel = str_replace("Re: ", "", $titel);
 			
 			$po_text = mysqli_result($query, 0, "po_text");
-			$po_tiefe = mysqli_result($query, 0, "po_tiefe");
 			
 			//Testen ob Benutzer mogelt, indem er den Edit-Link mit anderer po_id benutzt
 			if ((!$forum_admin) && ($user_id != $u_id)) {
@@ -775,17 +770,12 @@ function maske_posting($mode) {
 	$text .= "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
 	
 	if ($mode == "neuer_thread") {
-		$text .= "<input type=\"hidden\" name=\"po_tiefe\" value=\"0\">\n";
 		$text .= "<input type=\"hidden\" name=\"po_vater_id\" value=\"0\">\n";
 	} else if (($mode == "reply") || ($mode == "answer")) {
-		$tiefe = 1; // Die Tiefe beim antworten und zitieren immer auf 1 setzen, um eine falche Struktur zu erzeugen
 		$text .= "<input type=\"hidden\" name=\"thread\" value=\"$thread\">\n";
-		$text .= "<input type=\"hidden\" name=\"po_tiefe\" value=\"$tiefe\">\n";
 		$text .= "<input type=\"hidden\" name=\"po_vater_id\" value=\"$po_vater_id\">\n";
 	} else {
-		$tiefe = $po_tiefe;
 		$text .= "<input type=\"hidden\" name=\"thread\" value=\"$thread\">\n";
-		$text .= "<input type=\"hidden\" name=\"po_tiefe\" value=\"$tiefe\">\n";
 		$text .= "<input type=\"hidden\" name=\"po_id\" value=\"$po_id\">\n";
 		$text .= "<input type=\"hidden\" name=\"user_id\" value=\"$user_id\">\n";
 	}
@@ -877,7 +867,7 @@ function verschiebe_posting() {
 	global $id, $po_id, $thread, $seite;
 	global $t, $th_id, $fo_id;
 	
-	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
+	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
 				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
 				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($thread);
 	
@@ -967,7 +957,7 @@ function show_posting() {
 	global $id, $po_id, $thread, $seite, $t, $forum_admin;
 	global $th_id, $u_id;
 	
-	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
+	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
 				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
 				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
 	
@@ -978,7 +968,6 @@ function show_posting() {
 	$th_id = $row->po_th_id;
 	$po_u_id = $row->po_u_id;
 	$po_date = $row->po_date;
-	$po_tiefe = $row->po_tiefe;
 	$po_titel = $row->po_titel;
 	$po_gesperrt = $row->po_gesperrt;
 	
@@ -1020,18 +1009,15 @@ function show_posting() {
 	}
 	$u_gelesene = unserialize($gelesene);
 	
-	$sql = "SELECT po_id, po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_tiefe,
+	$sql = "SELECT po_id, po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
 				po_titel, po_text, po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage, po_threadorder, po_gesperrt
 				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = $thread OR po_vater_id = $thread";
 	$alle_beitraege = sqlQuery($sql);
 	
 	
 	// Beiträge in der richtigen Reihenfolge durchlaufen
-	$letztes = array();
-	
 	foreach($alle_beitraege as $zaehler => $beitrag) {
 		$span = 0;
-		$tiefe = $beitrag['po_tiefe'];
 		
 		$po_text = ersetze_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
 		$po_date = $beitrag['po_date'];
@@ -1047,13 +1033,6 @@ function show_posting() {
 		$po_u_punkte_gruppe = $beitrag['u_punkte_gruppe'];
 		$po_u_punkte_anzeigen = $beitrag['u_punkte_anzeigen'];
 		$po_u_chathomepage = $beitrag['u_chathomepage'];
-		
-		if ($tiefe >= 1) { // Tiefe immer auf 1 setzen, um eine flache Struktur zu erzeugen
-			$tiefe = 1;
-		}
-		
-		
-		$letztes[$tiefe] = $po_threadorder;
 		
 		if (!@in_array($po_id, $u_gelesene[$th_id])) {
 			$col = ' <span class="fa fa-star icon16" alt="ungelesener Beitrag" title="ungelesener Beitrag"></span>';

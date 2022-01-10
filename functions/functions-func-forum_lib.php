@@ -637,7 +637,7 @@ function loesche_thema($th_id) {
 
 //schreibt neuen/editierten Beitrag in die Datenbank
 function schreibe_posting() {
-	global $th_id, $po_vater_id, $u_id, $po_id, $po_tiefe, $u_nick;
+	global $th_id, $po_vater_id, $u_id, $po_id, $u_nick;
 	global $po_titel, $po_text, $thread, $mode, $user_id, $autor;
 	global $po_topposting, $po_threadgesperrt, $forum_admin, $t, $forum_aenderungsanzeige;
 	
@@ -680,7 +680,6 @@ function schreibe_posting() {
 		$f['po_th_id'] = $th_id;
 		$f['po_u_id'] = $u_id;
 		$f['po_vater_id'] = $po_vater_id;
-		$f['po_tiefe'] = $po_tiefe;
 		$f['po_titel'] = htmlspecialchars($po_titel);
 		$f['po_text'] = htmlspecialchars(erzeuge_umbruch($po_text, 80));
 		$f['po_ts'] = time();
