@@ -226,7 +226,6 @@ switch ($aktion) {
 		
 		// Benutzername prüfen
 		if ($row->u_nick && $row->u_nick != "NULL") {
-			
 			$row2 = mysqli_fetch_object($result);
 			$neue_email['m_an_uid'] = $row->u_id;
 			if (substr($row->po_titel, 0, 3) == "Re:") {
@@ -240,7 +239,6 @@ switch ($aktion) {
 			$neue_email['m_text'] = erzeuge_fuss($neue_email['m_text']);
 			
 			formular_neue_email2($text, $neue_email);
-			
 		} else if ($neue_email['an_nick'] == "") {
 			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
