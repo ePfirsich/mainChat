@@ -2,7 +2,7 @@
 
 function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $id, $userdata, $t, $level, $t;
+	global $id, $userdata, $t, $level, $t, $locale;
 	
 	$text = "";
 	
