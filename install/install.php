@@ -135,8 +135,9 @@ switch ($aktion) {
 						unlink($configdatei);
 						step_1($chat);
 					} else {
+						$salt = $chat["secret_salt"];
 						mysqli_set_charset($mysqli_link, "utf8mb4");
-						step_2($mysqli_link, $chat, $fp);
+						step_2($mysqli_link, $chat, $fp, $salt);
 					}
 				}
 			}

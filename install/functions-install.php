@@ -46,6 +46,18 @@ function generateRandomString() {
 	return $randomString;
 }
 
+/**
+ * Hasht das eingegebene Passwort
+ * @param string $password Eingegebenes Psswort des Mitglieds
+ * @return string Gibt das gehashte Passwort zurück
+ */
+function encrypt_password_install($salt, $password) {
+	$salted_password = $salt.$password;
+	$password_hash = hash('sha256', $salted_password);
+	
+	return $password_hash;
+}
+
 function step_1($chat) {
 	?>
 	<table style="width:100%; border:0px; text-align: center;">
@@ -283,7 +295,7 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 	<?php
 }
 
-function step_2($mysqli_link, $chat, $fpconfig) {
+function step_2($mysqli_link, $chat, $fpconfig, $salt) {
 	$configtpl = "../conf/config.php-tpl";
 	$fpconfigtpl = fopen($configtpl, "r");
 	$inhalt = fread($fpconfigtpl, filesize($configtpl));
@@ -321,6 +333,10 @@ function step_2($mysqli_link, $chat, $fpconfig) {
 	foreach ($mysqlarray as $key => $value) {
 		mysqli_query($mysqli_link, $value);
 	}
+	
+	$admin_passwort = encrypt_password_install($salt,"admin")
+	$sql = "INSERT INTO user set u_id=1,u_nick='admin',u_passwort='$admin_passwort',u_level='S';"
+	mysqli_query($mysqli_link, $sql);
 	
 	?>
 		<tr <?php hintergrundfarbe_zellen(); ?>>

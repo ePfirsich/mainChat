@@ -490,4 +490,3 @@ CREATE TABLE userinfo (
 ) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO raum set r_name='Lobby',r_eintritt='Hallöle',r_topic='Eingangshalle',r_status1='O',r_status2='P';
-INSERT INTO user set u_id=1,u_nick='admin',u_passwort='8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',u_level='S';
