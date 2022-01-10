@@ -704,7 +704,7 @@ function schreibe_posting() {
 			//po_threadorder des threadvaters neu schreiben
 			//dazu Tabelle posting locken
 			$sql = "LOCK TABLES posting WRITE";
-			@sqlUpdate($sql, true);
+			sqlUpdate($sql, true);
 			
 			//alte Themaorder holen
 			$sql = "SELECT po_threadorder FROM posting WHERE po_id = " . intval($thread);
@@ -748,7 +748,7 @@ function schreibe_posting() {
 			
 			//Tabellen wieder freigeben
 			$sql = "UNLOCK TABLES";
-			@sqlUpdate($sql, true);
+			sqlUpdate($sql, true);
 		} else {
 			//Thema neu setzen
 			$thread = $new_po_id;
@@ -758,7 +758,7 @@ function schreibe_posting() {
 		//anz_threads und anz_replys im Thema setzen
 		//erst Tabelle thema sperren
 		$sql = "LOCK TABLES thema WRITE";
-		@sqlUpdate($sql, true);
+		sqlUpdate($sql, true);
 		
 		//altes th_postings und anz_threads und anz_replys holen
 		$sql = "SELECT th_postings, th_anzthreads, th_anzreplys FROM thema WHERE th_id = " . intval($th_id);
@@ -791,7 +791,7 @@ function schreibe_posting() {
 		
 		//Tabellen wieder freigeben
 		$sql = "UNLOCK TABLES";
-		@sqlUpdate($sql, true);
+		sqlUpdate($sql, true);
 		
 	}
 	
@@ -1029,7 +1029,7 @@ function bereinige_anz_in_thema() {
 		while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 			
 			$sql = "LOCK TABLES posting WRITE, thema WRITE";
-			@sqlUpdate($sql, true);
+			sqlUpdate($sql, true);
 			
 			$sql2 = "SELECT COUNT(*) FROM posting WHERE po_vater_id = 0 AND po_th_id = " . $row['th_id'];
 			$query2 = sqlQuery($sql2);
@@ -1043,7 +1043,7 @@ function bereinige_anz_in_thema() {
 			sqlUpdate($sql2, true);
 			
 			$sql = "UNLOCK TABLES";
-			@sqlUpdate($sql, true);
+			sqlUpdate($sql, true);
 			
 		}
 	}
@@ -1067,7 +1067,7 @@ function verschiebe_posting_ausfuehren() {
 	$query = sqlQuery($sql);
 	if ($query && mysqli_num_rows($query) == 1) {
 		$sql = "LOCK TABLES posting WRITE, thema WRITE";
-		@sqlUpdate($sql, true);
+		sqlUpdate($sql, true);
 		
 		// Verschiebt alle Kinder wenn vorhanden
 		$postings = mysqli_result($query, 0, "po_threadorder");
@@ -1116,7 +1116,7 @@ function verschiebe_posting_ausfuehren() {
 		sqlUpdate($sqlupdate);
 		
 		$sql = "UNLOCK TABLES";
-		@sqlUpdate($sql, true);
+		sqlUpdate($sql, true);
 		
 		bereinige_anz_in_thema();
 	}
