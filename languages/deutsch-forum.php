@@ -101,7 +101,7 @@ $t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 
-$t['forum_postingsproseite'] = "Anzeige Beiträge pro Seite: ";
+$t['forum_postingsproseite'] = "Anzeige Themen pro Seite: ";
 $t['speichern'] = "Speichern";
 $t['leserechte'] = "<p>Fehler! Sie haben keine Leserechte in diesem Forum!</p>";
 $t['schreibrechte'] = "<p>Fehler! Sie haben keine Schreibrechte für dieses Forum!</p>";
