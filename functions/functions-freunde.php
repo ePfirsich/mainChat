@@ -105,14 +105,14 @@ function zeige_freunde($text, $aktion, $zeilen) {
 					$freundid = $row->f_freundid;
 				}
 				
-				$text .= "<tr>"
-					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>"
-					. "<td style=\"width:15px; text-align:center\" $bgcolor>$status</td>"
-					. "<td $bgcolor>" . $auf . $txt . $zu . "</td>"
-					. "<td $bgcolor>" . $auf . $infotext . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<a href=\"inhalt.php?bereich=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\">[$t[freunde_aendern]]</a>" . $zu . "</td>"
-					. "</tr>\n";
+				$text .= "<tr>\n";
+				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>\n";
+				$text .= "<td style=\"width:15px; text-align:center\" $bgcolor>$status</td>\n";
+				$text .= "<td $bgcolor>" . $auf . $txt . $zu . "</td>\n";
+				$text .= "<td $bgcolor>" . $auf . $infotext . $zu . "</td>\n";
+				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>\n";
+				$text .= "<td style=\"text-align:center;\" $bgcolor><a href=\"inhalt.php?bereich=freunde&id=$id&aktion=editinfotext&editeintrag=$row->f_id\" class=\"button\" title=\"$t[freunde_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[freunde_editieren]</span></a></td>";
+				$text .= "</tr>\n";
 
 				$i++;
 			}
@@ -228,7 +228,7 @@ function formular_editieren($f_id, $f_text) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[freunde_aendern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[freunde_editieren]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	

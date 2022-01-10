@@ -25,7 +25,7 @@ $t['freunde_freundesanfrage_chat'] = "Hallo %nickname%, jemand möchte Ihr Freun
 $t['freunde_keine_freunde_vorhanden'] = "Sie haben leider noch keine Freunde.";
 $t['freunde_anfragen'] = "Sie haben derzeit keine Freundesanfragen.";
 
-$t['freunde_aendern'] = "Ändern";
+$t['freunde_editieren'] = "Editieren";
 $t['freunde_bestaetigen'] = "Bestätigen";
 $t['freunde_loeschen'] = "Löschen";
 
