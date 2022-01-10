@@ -2,10 +2,10 @@
 
 function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalistisch = false) {
 	// Gibt den HTML-Header aus
-	global $metatag, $spracheChat;
+	global $metatag, $sprache;
 	?>
 	<!DOCTYPE html>
-	<html dir="ltr" lang="<?php echo $spracheChat; ?>">
+	<html dir="ltr" lang="<?php echo $sprache; ?>">
 	<head>
 	<title><?php echo $title; ?></title>
 	<meta charset="utf-8">

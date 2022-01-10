@@ -116,25 +116,16 @@ function step_1($chat) {
 				<td><input type="text" name="chat_chaturl" size="40" value="<?php echo checkFormularInputFeld('https://www.deinChat.de',$chat["chaturl"]) ?>">*</td>
 			</tr>
 			<tr <?php hintergrundfarbe_zellen(); ?>>
-				<td> Voreingestellte Sprachdatei:</td>
+				<td> Voreingestellte Sprache des Chats:</td>
 				<td>
 					<select name="chat_language">
-						<option value="deutsch">deutsch</option>
-						<option value="englisch">englisch</option>
+						<option value="deutsch">de</option>
+						<option value="englisch">eu</option>
 					</select>
 				</td>
 			</tr>
 			<tr <?php hintergrundfarbe_zellen(); ?>>
-				<td> Voreingestellte Sprache:</td>
-				<td>
-					<select name="chat_content_language">
-						<option value="de">de</option>
-						<option value="en">en</option>
-					</select>
-				</td>
-			</tr>
-			<tr <?php hintergrundfarbe_zellen(); ?>>
-				<td> Voreingestellte Sprache 2: (sollte die gleiche Sprache wie eins drüber sein.)</td>
+				<td> Voreingestellte Sprache: (sollte die gleiche Sprache wie eins drüber sein)</td>
 				<td>
 					<select name="chat_content_locale">
 						<option value="de">de_DE</option>

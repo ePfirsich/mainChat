@@ -36,7 +36,6 @@ $chat["lobby"] = filter_input(INPUT_POST, 'chat_lobby', FILTER_SANITIZE_STRING);
 $chat["layoutkopf"] = filter_input(INPUT_POST, 'chat_layoutkopf', FILTER_SANITIZE_STRING);
 $chat["description"] = filter_input(INPUT_POST, 'chat_description', FILTER_SANITIZE_STRING);
 $chat["keywords"] = filter_input(INPUT_POST, 'chat_keywords', FILTER_SANITIZE_STRING);
-$chat["content_language"] = filter_input(INPUT_POST, 'chat_content_language', FILTER_SANITIZE_STRING);
 $chat["content_locale"] = filter_input(INPUT_POST, 'chat_content_locale', FILTER_SANITIZE_STRING);
 $chat["noframes"] = filter_input(INPUT_POST, 'chat_noframes', FILTER_SANITIZE_STRING);
 $chat["gastlogin"] = filter_input(INPUT_POST, 'chat_gastlogin', FILTER_SANITIZE_STRING);
