@@ -102,7 +102,7 @@ $t['benutzer_suche_treffer'] = "Es wurden %anzahl% Benutzer gefunden!<br>";
 $t['benutzer_suche_treffer_einzahl'] = "Es wurde ein Benutzer gefunden!<br>";
 
 $t['benutzer_nicht_mehr_in_diesem_raum'] = "Der Benutzer ist nicht mehr in diesem Raum!<br>";
-$t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten";
+$t['sonst12'] = "Bitte auf den Benutzernamen klicken, um eine private Nachricht zu schreiben oder weitere Informationen zu erhalten.";
 $t['sonst13'] = "<b>Der Raum %r_name% ist leer.</b>";
 $t['sonst14'] = "Anderen Raum zur Ansicht zeigen";
 $t['sonst42'] = "Raum: ";

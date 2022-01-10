@@ -9,9 +9,6 @@ $t['einstellungen_menue1'] = "Einstellungen";
 $t['einstellungen_menue2'] = "Benachrichtigungen";
 $t['einstellungen_menue3'] = "Hilfe";
 
-$t['edit_avatar_geloescht'] = "Der Avatar wurde erfolgreich gelöscht.";
-$t['edit_avatar_hochgeladen'] = "Der Avatar wurde erfolgreich hochgeladen.";
-
 $t['einstellungen_erfolgsmeldung_einstellungen'] = "Die Einstellungen wurden erfolgreich gespeichert!<br>";
 $t['einstellungen_erfolgsmeldung_farbe'] = "Die Farbe wurde erfolgreich geändert.<br>";
 $t['einstellungen_erfolgsmeldung_loeschen'] = "Benutzer %u_nick% wurde gelöscht!<br>";

@@ -84,8 +84,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		unset($f['u_punkte_anzeigen']);
 	}
 	
-	$max_groesse = 60; // Maximale Bild- und Text größe in KB
-	
 	// Auswahl
 	switch ($aktion) {
 		case "avatar_aendern":
@@ -97,21 +95,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				unset($loesche);
 			}
 			
-			if (isset($loesche) && $loesche && $f['u_id']) {
-				$queryLoeschen = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($f['u_id']);
-				$resultLoeschen = sqlUpdate($queryLoeschen);
-				
-				$cache = "home_bild";
-				$cachepfad = $cache . "/" . substr($f['u_id'], 0, 2) . "/" . $f['u_id'] . "/" . $loesche;
-				
-				if (file_exists($cachepfad)) {
-					unlink($cachepfad);
-					unlink($cachepfad . "-mime");
-				}
-				
-				// Box anzeigen
-				$erfolgsmeldung = $t['edit_avatar_geloescht'];
-				$text .= hinweis($erfolgsmeldung, "erfolgreich");
+			if(isset($loesche) && $loesche != "") {
+				$text .= bild_loeschen($loesche, $f['u_id']);
 			}
 			
 			// Avatar hochladen
@@ -127,7 +112,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							// Fehlermeldungen anzeigen
 							$text .= hinweis($fehlermeldung, "fehler");
 						} else {
-							$erfolgsmeldung = $t['edit_avatar_hochgeladen'];
+							$erfolgsmeldung = $t['profilbilder_erfolgsmeldung_bild_hochgeladen'];
 							$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						}
 					}

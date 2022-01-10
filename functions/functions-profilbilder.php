@@ -111,10 +111,12 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	// HEIGHT				 -> home[ui_bild_height]
 	// MIME-TYPE			  -> home[ui_bild_mime]
 	
-	global $max_groesse, $mysqli_link;
+	global $mysqli_link, $t;
 	
+	$max_groesse = 60; // Maximale Bild- und Text größe in KB
+	
+	$fehlermeldung = '';
 	if ($ui_bild && $groesse > 0 && $groesse < ($max_groesse * 1024)) {
-		
 		$image = getimagesize($ui_bild);
 		
 		if (is_array($image)) {
@@ -152,7 +154,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 				}
 				schreibe_db("bild", $f, $b_id, "b_id");
 			} else {
-				echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+				$fehlermeldung .= $t['profilbilder_fehlermeldung_falsches_bildformat'];
 			}
 			
 			// Bild löschen
@@ -167,14 +169,40 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			}
 			
 		} else {
-			echo "<P><b>Fehler: </b> Es wurde kein gültiges Bildformat (PNG, JPEG, GIF, Flash) hochgeladen!</P>\n";
+			$fehlermeldung .= $t['profilbilder_fehlermeldung_falsches_bildformat'];
 			unlink($ui_bild);
 		}
 		
-	} elseif ($groesse >= ($max_groesse * 1024)) {
-		echo "<P><b>Fehler: </b> Das Bild muss kleiner als $max_groesse KB sein!</P>\n";
+	} else if ($groesse >= ($max_groesse * 1024)) {
+		$fehlermeldung .= str_replace("%max_groesse%", $max_groesse, $t['profilbilder_fehlermeldung_bild_zu_gross']);
 	}
 
-	return ($home); // TODO: Wo wird $home definiert?
+	return $fehlermeldung;
+}
+
+function bild_loeschen($loesche, $benutzer_id) {
+	global $mysqli_link, $t;
+	
+	$text = "";
+	if (isset($loesche) && $loesche && $benutzer_id) {
+		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($benutzer_id);
+		$resultLoeschen = sqlUpdate($queryLoeschen);
+		
+		$cache = "home_bild";
+		$cachepfad = $cache . "/" . substr($benutzer_id, 0, 2) . "/" . $benutzer_id . "/" . $loesche;
+		
+		if (file_exists($cachepfad)) {
+			unlink($cachepfad);
+			unlink($cachepfad . "-mime");
+		}
+		
+		$erfolgsmeldung = $t['profilbilder_erfolgsmeldung_bild_geloescht'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	} else {
+		$fehlermeldung = $t['profilbilder_fehlermeldung_bild_loeschen'];
+		$text .= hinweis($fehlermeldung, "fehler");
+	}
+	
+	return $text;
 }
 ?>

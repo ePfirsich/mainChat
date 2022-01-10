@@ -239,9 +239,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 		case "profilbilder":
 			// Profil anzeigen
+			require_once("languages/$sprache-profil.php");
+			
 			require_once("functions/functions-profilbilder.php");
 			require_once("functions/functions-formulare.php");
-			require_once("languages/$sprache-profil.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
@@ -259,7 +260,9 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "einstellungen":
 			// Einstellungen anzeigen
 			require_once("languages/$sprache-benutzer.php");
+			require_once("languages/$sprache-profilbilder.php");
 			
+			require_once("functions/functions-profilbilder.php");
 			require_once("functions/functions-msg.php");
 			require_once("functions/functions-einstellungen.php");
 			require_once("functions/functions-formulare.php");
