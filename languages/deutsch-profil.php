@@ -13,7 +13,8 @@ $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. D
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
 
-$t['profil_fehlermeldung'] = "Fehler";
+$t['profil_fehlermeldung_keine_berechtigung'] = "Sie haben keine Berechtigung, diese Seite aufzurufen!<br>";
+
 $t['profil_erfolgsmeldung_profil_gespeichert'] = "Ihr Profil wurde gespeichert!<br>";
 $t['profil_punkte'] = "Sie haben Ihr Profil ausgefüllt. Dafür möchten wir uns bedanken:";
 
@@ -114,5 +115,5 @@ $t['homepage_hintergrundgrafik'] = "Hintergrundgrafik";
 $t['homepage_hintergrundgrafik_des_inhalts'] = "Hintergrundgrafik des Inhalts";
 $t['homepage_hintergrundgrafik_der_grafiken'] = "Hintergrundgrafik der Grafiken";
 
-$t['homepage_falscher_aufruf'] = "Der Benutzer hat keine Benutzerseite oder die Benutzerseite des Benutzers ist deaktiviert.";
+$t['homepage_fehlermeldung_falscher_aufruf'] = "Der Benutzer hat keine Benutzerseite oder die Benutzerseite des Benutzers ist deaktiviert.";
 ?>

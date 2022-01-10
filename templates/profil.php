@@ -48,7 +48,10 @@ if ($result && mysqli_num_rows($result) != 0) {
 }
 mysqli_free_result($result);
 
-$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
+if($aktion == "") {
+	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+}
 
 $text = "";
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
@@ -288,9 +291,8 @@ switch ($aktion) {
 	// Alle Profile listen
 		$box = $t['profil_alle_profile'];
 		if (!$admin) {
-			$text = "<p><b>Fehler:</b> Sie haben keine Berechtigung, die Profile zu lesen!</p>";
+			$text = $t['profil_fehlermeldung_keine_berechtigung'];
 		} else {
-			$box = $t['profil_alle_profile'];
 			$text = '';
 			$text .= "<table style=\"width:100%;\">\n";
 			$text .= "<tr>\n";

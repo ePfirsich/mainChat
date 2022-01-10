@@ -333,7 +333,7 @@ function zeige_home($u_id, $force = FALSE) {
 		}
 		mysqli_free_result($result2);
 		
-		// Falls nicht freigeschaltet....
+		// Falls die Benutzerseite nicht freigeschaltet ist
 		if (!isset($u_chathomepage)) {
 			$u_chathomepage = '0';
 		}
@@ -372,7 +372,12 @@ function zeige_home($u_id, $force = FALSE) {
 		echo home_info($u_id, $row->u_nick, $home, "ui_text", $bilder);
 	} else {
 		echo "<body>\n";
-		zeige_tabelle_zentriert($t['profil_fehlermeldung'], $t['homepage_falscher_aufruf']);
+		
+		$fehlermeldung = $t['homepage_fehlermeldung_falscher_aufruf'];
+		$text = hinweis($fehlermeldung, "fehler");
+		
+		$box = $t['profil_benutzerseite'];
+		zeige_tabelle_zentriert($box, $text);
 	}
 }
 ?>
