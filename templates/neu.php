@@ -54,29 +54,35 @@ if( isset($formular) && $formular == "abgesendet") {
 			$pos = -1;
 		}
 		if ($pos >= 0) {
-			$fehlermeldung .= $t['registrierung_fehler_benutzername_pluszeichen'];
+			$fehlermeldung = $t['registrierung_fehler_benutzername_pluszeichen'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		if (strlen($f['u_nick']) > 20 || strlen($f['u_nick']) < 4) {
-			$fehlermeldung .= str_replace("%zeichen%", $check_name, $t['registrierung_fehler_benutzername_zeichenlaenge']);
+			$fehlermeldung = str_replace("%zeichen%", $check_name, $t['registrierung_fehler_benutzername_zeichenlaenge']);
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		if (preg_match("/^" . $t['login_gast'] . "/i", $f['u_nick'])) {
-			$fehlermeldung .= str_replace("%gast%", $t['login_gast'], $t['registrierung_fehler_benutzername_gast']);
+			$fehlermeldung = str_replace("%gast%", $t['login_gast'], $t['registrierung_fehler_benutzername_gast']);
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		if (strlen($f['u_passwort']) < 4) {
-			$fehlermeldung .= $t['registrierung_fehler_passwort_zeichenlaenge'];
+			$fehlermeldung = $t['registrierung_fehler_passwort_zeichenlaenge'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		if ($f['u_passwort'] != $f['u_passwort2']) {
-			$fehlermeldung .= $t['registrierung_fehler_passwort_unterschiedlich'];
+			$fehlermeldung = $t['registrierung_fehler_passwort_unterschiedlich'];
+			$text .= hinweis($fehlermeldung, "fehler");
 			$f['u_passwort'] = "";
 			$f['u_passwort2'] = "";
 		}
 		
 		if (strlen($f['u_email']) == 0 || !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $f['u_email'])) {
-			$fehlermeldung .= $t['registrierung_fehler_adminemail_falsch'];
+			$fehlermeldung = $t['registrierung_fehler_adminemail_falsch'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		// Gibt es den Benutzernamen schon?
@@ -86,7 +92,8 @@ if( isset($formular) && $formular == "abgesendet") {
 		$rows = mysqli_num_rows($result);
 		
 		if ($rows != 0) {
-			$fehlermeldung .= $t['registrierung_fehler_benutzername_vergeben'];
+			$fehlermeldung = $t['registrierung_fehler_benutzername_vergeben'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		mysqli_free_result($result);
 	}
@@ -112,12 +119,6 @@ if( isset($formular) && $formular == "abgesendet") {
 	$f['u_passwort2'] = "";
 	$f['u_email'] = $email;
 	$f['hash'] = $hash;
-}
-
-$text = "";
-
-if($fehlermeldung != "") {
-	$text .= hinweis($fehlermeldung, "fehler");
 }
 
 if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
@@ -160,8 +161,6 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	
 	$text .= "</table>\n";
 	$text .= "</form>\n";
-	
-	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 }
 
 if ($weiter_zu_login) {
@@ -180,8 +179,6 @@ if ($weiter_zu_login) {
 	$text .= "<input type=\"submit\" value=\"$t[login_weiter_zum_chat]\">\n";
 	$text .= "</form>\n";
 	
-	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
-	
 	$f['u_level'] = "U";
 	
 	$u_id = schreibe_db("user", $f, "", "u_id");
@@ -191,4 +188,6 @@ if ($weiter_zu_login) {
 	$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
 	$result = sqlUpdate($query);
 }
+
+zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

@@ -7,7 +7,7 @@ function frameset_forum($hash_id) {
 		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
 	</frameset>
 	<noframes>
-	<?php echo $t['chat_login_fehlermeldung_frames']; ?>
+	<?php echo $t['login_fehlermeldung_login_fehlermeldung_frames']; ?>
 	</noframes>
 	<?php
 }
@@ -38,7 +38,7 @@ function frameset_chat($hash_id) {
 		<frame src="schreibe.php?id=<?php echo $hash_id; ?>" name="schreibe" marginwidth="0" marginheight="0" scrolling="no">
 	</frameset>
 	<noframes>
-	<?php echo $t['chat_login_fehlermeldung_frames']; ?>
+	<?php echo $t['login_fehlermeldung_login_fehlermeldung_frames']; ?>
 	</noframes>
 	<?php
 }

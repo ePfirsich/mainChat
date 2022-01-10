@@ -31,8 +31,6 @@ if($aktivierung_erfolgreich) {
 	// Weiterleitung zum Forumlar für die Registrierung
 	$url = "index.php?bereich=neu&email=$f[email]&hash=$f[hash]";
 	$text .= str_replace("%url%", $url, $t['registrierung_freischaltcode_erfolgreich']);
-	
-	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 } else {
 	// E-mail und Freischalt-Code eingeben
 	$text .= $t['registrierung_informationen_freischaltcode'];
@@ -67,8 +65,7 @@ if($aktivierung_erfolgreich) {
 	
 	$text .= "</table>\n";
 	$text .= "</form>\n";
-	
-	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 }
 
+zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

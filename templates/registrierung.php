@@ -49,8 +49,6 @@ if (!isset($email) || $fehlermeldung != "") {
 	
 	$text .= "</table>\n";
 	$text .= "</form>\n";
-	
-	zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 }
 
 if($fehlermeldung == "" && isset($email)) {
@@ -117,8 +115,8 @@ if($fehlermeldung == "" && isset($email)) {
 		$inhalt = str_replace("%hash%", $hash, $inhalt);
 		$inhalt = str_replace("%email%", $email, $inhalt);
 		
-		$text = $t['registrierung_email_versendet'];
-		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		$erfolgsmeldung = $t['registrierung_email_versendet'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
 		// E-Mail versenden
 		email_senden($email, $t['registrierung_email_titel'], $inhalt);
@@ -128,4 +126,6 @@ if($fehlermeldung == "" && isset($email)) {
 		$result = sqlUpdate($query);
 	}
 }
+
+zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

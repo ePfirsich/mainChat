@@ -124,15 +124,15 @@ $t['login_formular_kopfzeile'] = "Login oder";
 $t['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";
 
-$t['chat_login_nicht_möglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>"
-	. "Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
-$t['chat_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>"
-	. "Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
-$t['chat_login_fehlermeldung_frames'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
-$t['login17'] = "Ich erkenne diese Bedingungen an";
-$t['login18'] = "Abbruch";
-$t['chat_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>"
-	. "Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
+$t['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
+$t['login_fehlermeldung_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
+$t['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
+$t['login_fehlermeldung_login_fehlermeldung_frames'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
+$t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
+$t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
+
+$t['login_nutzungsbestimmungen_ok'] = "Ich erkenne diese Bedingungen an";
+$t['login_nutzungsbestimmungen_abbruch'] = "Abbruch";
 
 $t['login_gast'] = "Gast";
 $t['login_login'] = "Login";
@@ -162,9 +162,8 @@ $t['login_benutzer_online_forum'] = "<b>Forum:</b> ";
 $t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
 $t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 
-$t['registrierung_informationen'] = "<p>Die E-Mail Adresse (öffentlich) dagegen ist im Chat für alle anderen Mitglieder sichtbar.</p>\n"
-	. "<p>Alle Felder mit <b>*</b> sind Pflichtfelder. Die <b>E-Mail (öffentlich)</b> ist öffentlich und muss nicht ausgefüllt werden.</p>\n"
-	. "<p>Mit dem Abschluß der Registrierung (Klick auf Fertig) bestätigen Sie Ihr Einverständnis\n"
+$t['registrierung_informationen'] = "<p>Alle Felder mit <b>*</b> sind Pflichtfelder.</p>\n"
+	. "<p>Mit dem Abschluß der Registrierung bestätigen Sie Ihr Einverständnis\n"
 	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"index.php?bereich=datenschutz\"><b>Datenschutzerklärung</b></a>.\n"
 	. "Außerdem erklären Sie sich mit unseren <a href=\"index.php?bereich=nutzungsbestimmungen\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
 $t['registrierung_informationen_freischaltcode'] = "Bitte geben Sie nun Ihre <b>E-Mail-Adresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.";
@@ -177,20 +176,14 @@ $t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registr
 	. "<br><br>%link% <br><br>Sollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
 	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
-	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen "
-	. "Sie den Link dann in den Browser ein.";
-
-$t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
-$t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
+	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen Sie den Link dann in den Browser ein.";
 
 $t['registrierung_fehler_keine_email'] = "Es wurde keine E-Mail-Adresse angegeben!<br>";
 $t['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail-Adresse!<br>";
 $t['registrierung_fehler_gesperrte_email'] = "Diese E-Mail-Adresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster.<br>";
 $t['registrierung_fehler_email_link_falsch'] = "Bei der Registrierung ist ein Fehler aufgetreten.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
 $t['registrierung_fehler_email_freischaltcode'] = "Die Kombination aus der E-Mail und dem Freischalt-Code ist nicht gültig oder der Freischalt-Code ist abgelaufen.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
-
 $t['registrierung_fehler_falscher_aufruf'] = "Beim Aufruf dieser Seite ist ein Fehler aufgetreten.<br>";
-
 $t['registrierung_fehler_benutzername_pluszeichen'] = "Pluszeichen sind im Benutzernamen nicht erlaubt!<br>";
 $t['registrierung_fehler_benutzername_zeichenlaenge'] = "Bitte geben Sie als Benutzernamen mindestens 4 und maximal 20 gültige Zeichen ein!: Die gültigen Zeichen sind: %zeichen%<br>";
 $t['registrierung_fehler_benutzername_gast'] = "Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Benutzernamen!<br>";
@@ -203,11 +196,8 @@ $t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bere
 
 $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
 $t['registrierung_email_angeben'] = "<p>Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
-$t['registrierung_email_versendet'] = "<p>Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!</p>";
-$t['registrierung_email_versendet_webmaster_bestaetigung'] = "<p>Warten Sie nun bitte, bis Ihre E-Mail bestätigt wurde und Sie eine E-Mail mit Ihrem "
-	. "Freischaltcode erhalten! Um dann die Registrierung abzuschließen, benutzen Sie bitte den dort angegebenen Link!</p>";
+$t['registrierung_email_versendet'] = "Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!<br>";
 $t['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
-$t['registrierung_email_webmaster_bestaetigung'] = "<br>Anmerkung: Sie erhalten nicht sofort einen E-Mail. Ihre Anmeldung muss erst bestätigt werden.";
 $t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
 $t['registrierung_absenden'] = "Absenden";
 
@@ -258,7 +248,6 @@ $t['login_passwort_fehler_passwort_zweimal_eingaben'] = "Bitte zweimal das Passw
 $t['login_passwort_fehler_passwort_nicht_identisch'] = "Bitte zweimal das identische Passwörter eingeben.<br>";
 $t['login_passwort_fehler_passwort_zu_kurz'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein.<br>";
 
-$t['login_passwort_erfolgsmeldung'] = "Erfolgsmeldung";
 $t['login_passwort_erfolgreich_passwort_geaendert'] = "Das Passwort wurde erfolgreich geändert.<br><br><a href=\"index.php\">Zum Login</a>";
 $t['login_email_erfolgreich_geandert'] = "Die E-Mail-Adresse für %u_nick% wurde erfolgreich von %u_email% auf %u_email_neu% geändert.<br><br><a href=\"index.php\">Zum Login</a>";
 

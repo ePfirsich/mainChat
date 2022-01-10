@@ -216,7 +216,7 @@ if ($bereich == "logoff") {
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
-if ($los == $t['login18'] && $bereich == "login") {
+if ($los == $t['login_nutzungsbestimmungen_abbruch'] && $bereich == "einloggen") {
 	$bereich = "";
 }
 
@@ -346,7 +346,7 @@ switch ($bereich) {
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		zeige_tabelle_volle_breite($t['willkommen'], $t['chat_login_nicht_möglich']);
+		zeige_tabelle_volle_breite($t['willkommen'], $t['login_fehlermeldung_login_nicht_moeglich']);
 		
 		break;
 	

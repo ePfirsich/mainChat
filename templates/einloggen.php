@@ -139,11 +139,11 @@ if(!$kein_gastlogin_ausblenden) {
 		// Login erfolgreich ?
 		if ($u_level == "Z") {
 			// Benutzer gesperrt -> Fehlermeldung ausgeben
-			$fehlermeldung = str_replace("%u_nick%", $u_nick, $t['chat_login_account_gesperrt']);
+			$fehlermeldung = str_replace("%u_nick%", $u_nick, $t['login_fehlermeldung_login_account_gesperrt']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 			// Maximale Anzahl der Benutzer im Chat erreicht -> Fehlermeldung ausgeben
-			$fehlermeldung = str_replace("%online%", $onlineanzahl, $t['chat_login_zu_viele_benutzer_online']);
+			$fehlermeldung = str_replace("%online%", $onlineanzahl, $t['login_fehlermeldung_login_zu_viele_benutzer_online']);
 			$fehlermeldung = str_replace("%max%", $chat_max[$u_level], $fehlermeldung);
 			$fehlermeldung = str_replace("%leveltxt%", $level[$u_level], $txt);
 			$fehlermeldung = str_replace("%zusatztext%", $chat_max[zusatztext], $txt);
@@ -172,7 +172,7 @@ if(!$kein_gastlogin_ausblenden) {
 			}
 			
 			// muss Benutzer/Gast noch Nutzungsbestimmungen bestätigen?
-			if ($los != $t['login17'] && $u_agb != "1") {
+			if ($los != $t['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
 				// Nutzungsbestimmungen ausgeben
 				echo "<body>";
 				
@@ -235,10 +235,10 @@ if(!$kein_gastlogin_ausblenden) {
 				}
 				$text .= "<tr>\n";
 				$text .= "<td align=\"left\" $bgcolor>\n";
-				$text .= "<b><input type=\"submit\" name=\"los\" value=\"$t[login17]\"></b>\n";
+				$text .= "<b><input type=\"submit\" name=\"los\" value=\"$t[login_nutzungsbestimmungen_ok]\"></b>\n";
 				$text .= "</td>\n";
 				$text .= "<td align=\"right\" $bgcolor>\n";
-				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[login18]\">\n";
+				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[login_nutzungsbestimmungen_abbruch]\">\n";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 				
@@ -251,7 +251,7 @@ if(!$kein_gastlogin_ausblenden) {
 				zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
 				
 				$rest_ausblenden = true;
-			} else if ($los == $t['login17']) {
+			} else if ($los == $t['login_nutzungsbestimmungen_ok']) {
 				// Nutzungsbestimmungen wurden bestätigt
 				$u_agb = "1";
 			} else {
