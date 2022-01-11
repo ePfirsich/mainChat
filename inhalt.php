@@ -186,13 +186,14 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "raum":
 			// Raum anzeigen
+			require_once("functions/functions-raum.php");
 			require_once("functions/functions-msg.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=raum&id=$id\">" . $t['raum_menue8'] . "</a>\n";
+			$box = $t['raum_titel'];
+			$text = "<a href=\"inhalt.php?bereich=raum&id=$id\">" . $t['raum_uebersicht'] . "</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=neu&id=$id\">" . $t['raum_menue2'] . "</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit&id=$id\">" . $t['raum_neuer_raum'] . "</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			

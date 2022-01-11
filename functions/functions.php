@@ -1657,6 +1657,8 @@ function randomString() {
 }
 
 function hinweis($text, $typ = fehler) {
+	global $t;
+	
 	if($typ == "fehler") {
 		return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
 	} else {

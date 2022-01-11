@@ -1,30 +1,32 @@
 <?php
 
 // Übersetzungen von "Raum"
-$t['titel'] = "Räume";
+$t['raum_titel'] = "Räume";
 
-$t['raum_menue2'] = "Neuer Raum";
-$t['raum_menue6'] = "ausführliche Raumliste";
-$t['raum_menue7'] = "einfache Raumliste";
-$t['raum_menue8'] = "Übersicht";
+$t['raum_uebersicht'] = "Übersicht";
+$t['raum_neuer_raum'] = "Neuer Raum";
+$t['raum_raumliste_ausuehrlich'] = "ausführliche Raumliste";
+$t['raum_raumliste_einfach'] = "einfache Raumliste";
 
 $t['raum_raumname'] = "Raum %r_name%";
 
-$t['raum_geloescht'] = "Raum %r_name% wurde gelöscht.<br>";
+$t['raum_erfolgsmeldung_geloescht'] = "Der Raum %r_name% wurde gelöscht.<br>";
+$t['raum_erfolgsmeldung_erstellt'] = "Der neue Raum %r_name% wurde erstellt.<br>";
+$t['raum_erfolgsmeldung_editiert'] = "Die Änderungen des Raums %r_name% wurden gespeichert.<br>";
 
 $t['raum_fehler_name_existiert_bereits'] = "Der Raum mit Namen '%r_name%' existiert bereits.<br>";
+$t['raum_fehler_raumbesitzer_benutzername_existiert_nicht'] = "Der Benutzername '%r_nick%' als Raumbesitzer existiert nicht, ist gesperrt oder ein Gast.<br>";
 $t['raum_fehler_name_zu_kurz'] = "Der Name des Raums muss mehr als 3 Zeichen enthalten!<br>";
-$t['raum_fehler_name_zu_lang'] = "Der Name des Raums darf nicht mehr als 25 Zeichen enthalten!br>";
+$t['raum_fehler_name_zu_lang'] = "Der Name des Raums darf nicht mehr als 25 Zeichen enthalten!<br>";
 $t['raum_fehler_loeschen_keine_berechtigung'] = "Der Raum %r_name% wurde nicht gelöscht, da Sie nicht dazu berechtigt sind!<br>";
-$t['raum_fehler_falsche_id'] = "<b>Falsche id übergeben</b>";
+$t['raum_fehler_editieren_keine_berechtigung'] = "Der Raum %r_name% kann nicht editiert werden, da Sie nicht dazu berechtigt sind!<br>";
+$t['raum_fehler_falsche_id'] = "Dieser Raum existiert nicht.<br>";
 $t['raum_fehler_status_nur_admin'] = "Der Status <i>%r_status%</i> kann nur von einem Admin vergeben werden.<br>";
 $t['raum_fehler_status_moderationsmodul_deaktiviert'] = "Der Status <i>%r_status%</i> ist nur vergeben werden, wenn das Moderationsmodul aktiviert ist.<br>";
 $t['raum_fehler_kann_nicht_geloescht_werden'] = "Der Raum %r_name% kann nicht gelöscht werden.<br>";
-$t['raum_fehler_mindestpunktezahl_falsch'] = "Diese Mindestpunktezahl kann nicht vergeben werden<br>";
+$t['raum_fehler_mindestpunktezahl_falsch'] = "Diese Mindestpunktezahl kann nicht vergeben werden.<br>";
 $t['raum_fehler_mindestpunktezahl_nur_admin'] = "Die Mindestpunktezahl in einem permanenten Raum kann nur von einem Admin geändert werden.<br>";
 $t['raum_fehler_zu wenig_mindestpunktezahl_oder_admin'] = "Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!<br>";
-
-$t['fehler4'] = "<b>$chat:</b> Raum %r_name% wurde gelöscht und Sie in die Lobby geworfen!";
 
 $t['raeume_raum'] = "Raum";
 $t['raeume_benutzer_online'] = "Benutzer online";
@@ -43,8 +45,11 @@ $t['raum_punkt'] = "Punkt";
 $t['raum_punkte'] = "Punkte";
 $t['raum_wirklich_loeschen'] = "<b>Diesen Raum wirklich löschen?</b>";
 
-$t['sonst4'] = "Löschen";
+$t['raum_loeschen'] = "Löschen";
+$t['raum_speichern'] = "Speichern";
+
 $t['sonst5'] = "Zurück";
 $t['sonst6'] = "Raum löschen";
-$t['sonst9'] = "Eintragen";
+
+$t['fehler4'] = "<b>$chat:</b> Raum %r_name% wurde gelöscht und Sie in die Lobby geworfen!";
 ?>
