@@ -364,9 +364,89 @@ switch ($aktion) {
 					$result = sqlQuery($query);
 					$row = mysqli_fetch_object($result);
 					
-					// Raum aufrufen
-					$box = $t['raeume_raum'] . ': ' . $row->r_name;
-					$text .= raum_editieren($row->r_id, $row->r_name, $row->r_status1, $row->r_status2, $row->r_smilie, $row->r_min_punkte, $row->r_topic, $row->r_eintritt, $row->r_austritt, $row->r_besitzer);
+					if ($admin || $row->u_id == $u_id) {
+						// Raum aufrufen
+						$box = $t['raeume_raum'] . ': ' . $row->r_name;
+						$text .= raum_editieren($row->r_id, $row->r_name, $row->r_status1, $row->r_status2, $row->r_smilie, $row->r_min_punkte, $row->r_topic, $row->r_eintritt, $row->r_austritt, $row->r_besitzer);
+					} else {
+						// Nur Leserechte
+						$box = $t['raeume_raum'] . ': ' . $row->r_name;
+						
+						$zaehler = 0;
+						$text .= "<table style=\"width:100%;\">\n";
+						
+						
+						// Status
+						$a = 0;
+						reset($raumstatus1);
+						while ($a < count($raumstatus1)) {
+							$keynum = key($raumstatus1);
+							$status1Select = $raumstatus1[$keynum];
+							if ($keynum == $row->r_status1) {
+								$inhaltStatus1 = $status1Select;
+								break;
+							}
+							next($raumstatus1);
+							$a++;
+						}
+						
+						if ($zaehler % 2 != 0) {
+							$bgcolor = 'class="tabelle_zeile2"';
+						} else {
+							$bgcolor = 'class="tabelle_zeile1"';
+						}
+						
+						$text .= "<tr>";
+						$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_status]</td>\n";
+						$text .= "<td $bgcolor>$inhaltStatus1</td>\n";
+						$text .= "</tr>\n";
+						$zaehler++;
+						
+						
+						// Art
+						$a = 0;
+						reset($raumstatus2);
+						while ($a < count($raumstatus2)) {
+							$keynum = key($raumstatus2);
+							$status2Select = $raumstatus2[$keynum];
+							if ($keynum == $row->r_status2) {
+								$inhaltStatus2 = $status2Select;
+								break;
+							}
+							next($raumstatus2);
+							$a++;
+						}
+						
+						if ($zaehler % 2 != 0) {
+							$bgcolor = 'class="tabelle_zeile2"';
+						} else {
+							$bgcolor = 'class="tabelle_zeile1"';
+						}
+						
+						$text .= "<tr>";
+						$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_art]</td>\n";
+						$text .= "<td $bgcolor>$inhaltStatus2</td>\n";
+						$text .= "</tr>\n";
+						$zaehler++;
+						
+						
+						// Topic
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_topic'], "", htmlspecialchars($row->r_topic));
+						$zaehler++;
+						
+						
+						// Eintrittsnachricht
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_eintritt'], "", htmlspecialchars($row->r_eintritt));
+						$zaehler++;
+						
+						
+						// Austrittsnachricht
+						$text .= zeige_formularfelder("text", $zaehler, $t['raeume_austritt'], "", htmlspecialchars($row->r_austritt));
+						$zaehler++;
+						
+						
+						$text .= "</table>\n";
+					}
 				}
 			} else {
 				// Neuen Raum anlegen

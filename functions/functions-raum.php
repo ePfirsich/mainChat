@@ -22,7 +22,7 @@ function raeume_auflisten($order, $extended) {
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) > 0) {
 		// extended==Ansicht mit Details im extra beiten Fenster
-		if ($admin) {
+		if (true) {
 			if (isset($extended) && ($extended == 1)) {
 				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&id=$id&order=$order\">" . $t['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
 				$text .= "<script language=\"javascript\">\n"
