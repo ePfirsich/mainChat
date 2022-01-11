@@ -43,9 +43,6 @@ $hilfe_befehlstext = array(
 	"/hilfe\tListet die Kurzhilfe auf\t/help, /?",
 	"/freunde NAME\tMacht NAME zu meinem Freund\t/freund, /buddy\tNochmalige Eingabe nimmt NAME aus der Freundesliste",
 	"/einlad NAME\tLädt einen Benutzer in den Raum ein\t/invite\tNur für Admins oder Raumbesitzer",
-	"/uebergeberaum NAME\tÜbergibt den aktuellen Raum an den Benutzer NAME.\t/schenke\tNur für Admins oder Raumbesitzer",
-	"/aendereraum STATUS\tÄndert den Status des aktuellen Raums auf offen, geschlossen oder moderiert.\t \tNur für Admins oder Raumbesitzer",
-	"/loescheraum RAUM\tLöscht den angegebenen Raum\t \tNur für Admins oder Raumbesitzer",
 	"/zeige NAME\tGibt die Benutzerinformationen für den Benutzer NAME aus <br>(% ist Joker).\t/whois",
 	"/wuerfel\tWürfel werfen\t/dice\t/wuerfel 2W6 <br>wirft 2 sechseitige Würfel",
 	"/dicecheck\tPrüft Würfelwürfe auf Korrektheit\t/quiddice\t/dicecheck 2W6 <br>prüft auf 2 sechseitige Würfel",
@@ -59,8 +56,7 @@ $hilfe_befehlstext = array(
 
 $hilfe_befehlstext_admin_ok = 1;
 $hilfe_befehlstext_admin = array(
-	1 => "/besitzeraum RAUM\tÜbernimmt Besitz von RAUM\t/besitze\tNur für Admins",
-	"/raum RAUM !\twechselt in RAUM, auch wenn der Raum geschlossen ist (nur Admins und Raumbesitzer)\t force, immer\tBitte Privatsphäre beachten!",
+	1 => "/raum RAUM !\twechselt in RAUM, auch wenn der Raum geschlossen ist (nur Admins und Raumbesitzer)\t force, immer\tBitte Privatsphäre beachten!",
 	"/schubs USER [raum]\tbefördert USER in RAUM\t\tNur für Admins",
 	"/knebel\tKnebelt einen Benutzer\t/gag\t/gag idiot 10",
 	"/gaga\tWie /gag, jedoch Anzeige aller im Chat geknebelten, nicht nur im eigenen Raum",
