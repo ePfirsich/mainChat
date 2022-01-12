@@ -8,8 +8,8 @@ $t['sperren_menue3'] = "Blacklist";
 $t['sperren_menue5a'] = "Loginsperre: Deaktivieren";
 $t['sperren_menue5b'] = "Loginsperre: Aktivieren";
 $t['sperren_menue6'] = "Neuen Blacklist-Eintrag hinzufügen";
-$t['sperren_menue6a'] = "Loginsperre Gast: Deaktivieren";
-$t['sperren_menue6b'] = "Loginsperre Gast: Aktivieren";
+$t['sperren_menue7a'] = "Loginsperre Gast: Deaktivieren";
+$t['sperren_menue7b'] = "Loginsperre Gast: Aktivieren";
 
 $t['sperren_blacklist'] = "Blacklist";
 $t['sperren_blacklist_neu'] = "Neuen Blacklist-Eintrag hinzufügen:";
@@ -22,6 +22,12 @@ $t['sperren_eintragen'] = "Eintragen";
 $t['sperren_erfolgsmeldung_adresse'] = "Die Sperre mit der Adresse %domain% wurde gelöscht!<br>";
 $t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich'] = "'%username%' ist jetzt in der Blacklist eingetragen.<br>";
 $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht'] = "'%username%' wurde aus der Blackliste gelöscht.<br>";
+
+$t['sperren_erfolgsmeldung_gastsperre_aktiviert'] = "Die Gastsperre wurde aktiviert!<br>";
+$t['sperren_erfolgsmeldung_gastsperre_deaktiviert'] = "Die Gastsperre wurde deaktiviert!<br>";
+
+$t['sperren_erfolgsmeldung_loginsperre_aktiviert'] = "Die Loginsperre wurde aktiviert!<br>";
+$t['sperren_erfolgsmeldung_loginsperre_deaktiviert'] = "Die Loginsperre wurde deaktiviert!<br>";
 
 $t['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
 $t['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";

@@ -10,6 +10,8 @@ switch ($aktion) {
 		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
 		$result2 = sqlUpdate($query2);
 		
+		$erfolgsmeldung = $t['sperren_erfolgsmeldung_loginsperre_deaktiviert'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		unset($aktion);
 		break;
 	
@@ -17,6 +19,8 @@ switch ($aktion) {
 		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GAST-' ";
 		$result2 = sqlUpdate($query2);
 		
+		$erfolgsmeldung = $t['sperren_erfolgsmeldung_gastsperre_deaktiviert'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		unset($aktion);
 		break;
 	
@@ -27,6 +31,8 @@ switch ($aktion) {
 		$f['is_owner'] = $u_id;
 		schreibe_db("ip_sperre", $f, 0, "is_id");
 		
+		$erfolgsmeldung = $t['sperren_erfolgsmeldung_loginsperre_aktiviert'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		unset($aktion);
 		break;
 	
@@ -37,11 +43,41 @@ switch ($aktion) {
 		$f['is_owner'] = $u_id;
 		schreibe_db("ip_sperre", $f, 0, "is_id");
 		
+		$erfolgsmeldung = $t['sperren_erfolgsmeldung_gastsperre_aktiviert'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		unset($aktion);
 		break;
 	
 	default;
 }
+
+// Kopfzeile
+// Menü ausgeben
+$box = $t['titel'];
+$kopfzeile = "<a href=\"inhalt.php?bereich=sperren&id=$id\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=neu\">$t[sperren_menue2]</a>\n";
+
+$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
+$result = sqlQuery($query);
+if ($result && mysqli_num_rows($result) > 0) {
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
+} else {
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre1\">$t[sperren_menue5b]</a>\n";
+}
+mysqli_free_result($result);
+
+$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
+$result = sqlQuery($query);
+if ($result && mysqli_num_rows($result) > 0) {
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast0\">$t[sperren_menue7a]</a>\n";
+} else {
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast1\">$t[sperren_menue7b]</a>\n";
+}
+mysqli_free_result($result);
+
+$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">$t[sperren_menue3]</a>\n";
+$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&id=$id\">" . $t['sperren_menue6'] . "</a>\n";
+zeige_tabelle_zentriert($box, $kopfzeile);
+
 
 // Soll Datensatz eingetragen oder geändert werden? (Nur für Sperren relevant)
 if ((isset($eintragen)) && ($eintragen == $t['sperren_eintragen'])) {
@@ -340,6 +376,6 @@ switch ($aktion) {
 	default;
 	// Übersicht
 		// Liste ausgeben
-		sperren_liste("");
+	sperren_liste($text);
 }
 ?>

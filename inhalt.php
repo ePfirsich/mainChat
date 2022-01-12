@@ -1,5 +1,7 @@
 <?php
 require_once("functions/functions.php");
+require_once("functions/functions-formulare.php");
+
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
@@ -157,7 +159,6 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-benutzer.php");
 			require_once("functions/functions-user.php");
 			require_once("functions/functions-func-nachricht.php");
-			require_once("functions/functions-formulare.php");
 			require_once("languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben
@@ -204,7 +205,6 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "nachrichten":
 			// Nachrichten anzeigen
 			require_once("functions/functions-nachrichten.php");
-			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
@@ -223,7 +223,6 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "profil":
 			// Profil anzeigen
 			require_once("functions/functions-profil.php");
-			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
@@ -243,7 +242,6 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("languages/$sprache-profil.php");
 			
 			require_once("functions/functions-profilbilder.php");
-			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
@@ -266,7 +264,6 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-profilbilder.php");
 			require_once("functions/functions-msg.php");
 			require_once("functions/functions-einstellungen.php");
-			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
@@ -317,40 +314,6 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "sperren":
 			// Sperren anzeigen
 			require_once("functions/functions-sperren.php");
-			require_once("functions/functions-formulare.php");
-			
-			// Menü ausgeben
-			if (isset($uname)) {
-				$zusatztxt = "'" . $uname . "'&nbsp;&gt;&gt;&nbsp;";
-			} else {
-				$zusatztxt = "";
-				$uname = "";
-			}
-			
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=sperren&id=$id\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=neu\">$t[sperren_menue2]</a>\n";
-			
-			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) > 0) {
-				$text .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
-			} else {
-				$text .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre1\">$t[sperren_menue5b]</a>\n";
-			}
-			mysqli_free_result($result);
-			
-			$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) > 0) {
-				$text .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast0\">$t[sperren_menue6a]</a>\n";
-			} else {
-				$text .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast1\">$t[sperren_menue6b]</a>\n";
-			}
-			mysqli_free_result($result);
-			
-			$text .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist&id=$id&neuer_blacklist[u_nick]=$uname\">" . $zusatztxt . $t['sperren_menue3'] . "</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&id=$id\">" . $t['sperren_menue6'] . "</a>\n";
-			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/sperren.php');
 				
@@ -359,7 +322,6 @@ if(!$bereich || $kein_seitenaufruf) {
 		case "freunde":
 			// Freunde anzeigen
 			require_once("functions/functions-freunde.php");
-			require_once("functions/functions-formulare.php");
 			
 			// Menü ausgeben
 			$box = $t['titel'];
