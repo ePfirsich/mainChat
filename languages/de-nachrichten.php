@@ -30,6 +30,9 @@ $t['nachrichten_neue_nachricht_an'] = "Neue Nachricht an ";
 $t['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschickt.";
 $t['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
 
+$t['nachrichten_erfolgreich_geloescht'] = "Die Nachricht '%nachricht%' wurde erfolgreich gelöscht werden.";
+
+$t['nachrichten_fehler_nicht_geloescht'] = "Die Nachricht '%nachricht%' konnte nicht gelöscht werden.";
 $t['nachrichten_fehler_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
 $t['nachrichten_fehler_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
 $t['nachrichten_fehler_text_zu_lang'] = "Der Text ist zu lange!<br>";
@@ -41,12 +44,10 @@ $t['nachrichten_fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschi
 $t['nachrichten_fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
 $t['nachrichten_fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
 
-$t['betreff'] = "Betreff";
-$t['datum'] = "Datum";
-$t['von'] = "von";
-$t['status'] = "Status";
-$t['loeschen'] = "löschen";
-$t['wiederherstellen'] = "wiederherstellen";
-
-$t['sonst2'] = "Nachricht zeigen:";
+$t['nachrichten_betreff'] = "Betreff";
+$t['nachrichten_datum'] = "Datum";
+$t['nachrichten_von'] = "von";
+$t['nachrichten_status'] = "Status";
+$t['nachrichten_loeschen'] = "löschen";
+$t['nachrichten_wiederherstellen'] = "wiederherstellen";
 ?>

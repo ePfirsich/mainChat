@@ -10,7 +10,7 @@ if ($mailloescheauspapierkorb < 1) {
 }
 $query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AND m_geloescht_ts < '"
 	. date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y"))) . "'";
-	$result2 = sqlUpdate($query2, true);
+$result2 = sqlUpdate($query2, true);
 
 $text = "";
 
@@ -154,17 +154,16 @@ switch ($aktion) {
 		if (isset($loesche_email) && is_array($loesche_email)) {
 			// Mehrere Nachrichten auf gelöscht setzen
 			foreach ($loesche_email as $m_id) {
-				loesche_mail($m_id, $u_id);
+				$text .= loesche_mail($m_id, $u_id);
 			}
-			
 		} else {
 			// Eine Mail auf gelöscht setzen
 			if (isset($loesche_email)) {
-				loesche_mail($loesche_email, $u_id);
+				$text .= loesche_mail($loesche_email, $u_id);
 			}
 		}
 		
-		zeige_mailbox("", "normal", "");
+		zeige_mailbox($text, "normal", "");
 		break;
 	
 	case "antworten":

@@ -135,7 +135,7 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 			}
 			
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['betreff']."</b></td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['nachrichten_betreff']."</b></td>\n";
 			$text .= "<td class =\"tabelle_zeile2\"><input type=\"text\" name=\"neue_email[m_betreff]\" value=\"" . $neue_email['m_betreff'] . "\" size=\"87\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
 			. "<input name=\"counter\" size=3></td></tr>\n";
 			$text .= "<tr>\n";
@@ -176,14 +176,14 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		case "geloescht":
 			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
-			$button = $t['wiederherstellen'];
+			$button = $t['nachrichten_wiederherstellen'];
 			$titel = $t['nachrichten_papierkorb'];
 			break;
 		
 		case "postausgang":
 		$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
-			$button = $t['loeschen'];
+			$button = $t['nachrichten_loeschen'];
 			$titel = $t['nachrichten_postausgang2'];
 			$art = "gesendet";
 			break;
@@ -192,7 +192,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		default;
 			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
-			$button = $t['loeschen'];
+			$button = $t['nachrichten_loeschen'];
 			$titel = $t['nachrichten_posteingang2'];
 	}
 	
@@ -218,10 +218,10 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
 				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\"></td>"
-				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $t['status'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['von'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['betreff'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['datum'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $t['nachrichten_status'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_von'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_betreff'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_datum'] . "</td>"
 				."</tr>\n";
 				
 			$i = 0;
@@ -337,7 +337,7 @@ function zeige_email($m_id, $art) {
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"".$t['loeschen']."\">"
+			. "<input type=\"submit\" name=\"los\" value=\"".$t['nachrichten_loeschen']."\">"
 			. "</form></td></tr>\n";
 		$text .= "</table>\n";
 		
@@ -356,13 +356,11 @@ function zeige_email($m_id, $art) {
 
 function loesche_mail($m_id, $u_id) {
 	// Löscht eine Mail der ID m_id
+	global $id, $u_nick, $u_id, $t;
 	
-	global $id, $u_nick, $u_id;
-	
-	$query = "SELECT m_zeit,m_id,m_status FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
+	$query = "SELECT m_zeit, m_id, m_status, m_betreff FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
-		
 		$row = mysqli_fetch_object($result);
 		$f['m_zeit'] = $row->m_zeit;
 		
@@ -373,13 +371,20 @@ function loesche_mail($m_id, $u_id) {
 			$f['m_status'] = "gelesen";
 			$f['m_geloescht_ts'] = '00000000000000';
 		}
-		;
+		
 		schreibe_db("mail", $f, $row->m_id, "m_id");
+		
+		$erfolgsmeldung = str_replace("%nachricht%", $row->m_betreff, $t['nachrichten_erfolgreich_geloescht']);
+		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	} else {
+		$fehlermeldung = str_replace("%nachricht%", $row->m_betreff, $t['nachrichten_fehler_nicht_geloescht']);
+		$text = hinweis($fehlermeldung, "fehler");
+		
 		echo "<P><b>Fehler:</b> Diese Nachricht nicht kann nicht gelöscht werden!</P>";
 	}
 	mysqli_free_result($result);
 	
+	return $text;
 }
 
 ?>
