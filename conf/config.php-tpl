@@ -28,6 +28,8 @@ $sicherer_modus = false;			// Sicherer Modus Aktivieren
 $debug_modus = false;				// Bei aktiviertem Debug-Modus werden fehlgeschlagenen Datenbankabfragen an $kontakt gesendet
 $secret_salt = "%secret_salt%";		// Zufallsgenerierte Zeichenkette zum Hashen des Passwortes (12-stellig reicht hier aus)
 									// Wenn dies im Laufenden Betrieb geändert wird, muss sich jeder Benutzer ein neues Passwort über "Passwort vergessen" anfordern.
+$logo = "";							// Hier muss das Logo angegeben werden, welches im Login über der Navigation angezeigt wird. (z.B. images/mainchat_logo.gif)
+
 
 // Benutzerseiten
 $standard_ui_hintergrundfarbe = "ffffff";

@@ -699,7 +699,11 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $id;
+	global $t, $id, $logo;
+	
+	if($logo != "") {
+	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
+	}
 	
 	$box = $t['login_chatname'];
 	$text = "<a href=\"index.php\">$t[login_login]</a>\n";

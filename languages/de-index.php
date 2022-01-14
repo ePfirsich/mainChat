@@ -150,7 +150,6 @@ $t['login_freischalt_code'] = "Freischalt-Code";
 $t['login_weiter_zum_chat'] = "Weiter zum Chat";
 $t['login_raum'] = "Raum:";
 $t['login_raum_forum'] = "Raum/Forum";
-$t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
 $t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
 $t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
 $t['login_statistik'] = "Statistik";
