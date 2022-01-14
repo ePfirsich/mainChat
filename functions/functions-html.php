@@ -29,8 +29,8 @@ function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalisti
 	<script type="text/javascript" src="js/jscript.js?v=001"></script>
 	
 	<!-- jQuery Color picker -->
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link rel="stylesheet" href="css/wheelcolorpicker.css" type="text/css">
+	<script type="text/javascript" src="js/jquery_2.2.4_jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.wheelcolorpicker.min.js"></script>
 	<?php } ?>
 	</head>
