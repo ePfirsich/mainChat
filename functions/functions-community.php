@@ -30,14 +30,14 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 		if ($nachricht == "OLM") {
 			$ur1 = "inhalt.php?bereich=nachrichten&id=$id&aktion=";
 			$url = "href=\"$ur1\" target=\"_blank\"";
-			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['mail1']));
+			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['chatmsg_mail1']));
 		}
 		
 		while ($row = mysqli_fetch_object($result)) {
 			// Nachricht verschicken
 			switch ($nachricht) {
 				case "OLM":
-					$txt = str_replace("%zeit%", $row->zeit, $t['mail2']);
+					$txt = str_replace("%zeit%", $row->zeit, $t['chatmsg_mail2']);
 					if ($row->u_nick != "NULL" && $row->u_nick != "") {
 						$txt = str_replace("%nick%", $row->u_nick, $txt);
 					} else {
@@ -54,7 +54,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 					schreibe_db("mail", $f, $row->m_id, "m_id");
 					
 					// E-Mail an u_id versenden
-					email_versende($row->m_von_uid, $u_id, $t['mail3'] . $row->m_text, $row->m_betreff);
+					email_versende($row->m_von_uid, $u_id, $t['email_mail3'] . $row->m_text, $row->m_betreff);
 					break;
 				
 			}
@@ -426,12 +426,12 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$txt = str_replace("%u_nick%", $userlink, $t['freunde1']);
+						$txt = str_replace("%u_nick%", $userlink, $t['chatmsg_freunde1']);
 						$txt = str_replace("%raum%", $inhalt['raum'], $txt);
-					} elseif ($inhalt['aktion'] == "Login") {
-						$txt = str_replace("%u_nick%", $userlink, $t['freunde5']);
+					} else if ($inhalt['aktion'] == "Login") {
+						$txt = str_replace("%u_nick%", $userlink, $t['chatmsg_freunde5']);
 					} else {
-						$txt = str_replace("%u_nick%", $u_nick, $t['freunde2']);
+						$txt = str_replace("%u_nick%", $u_nick, $t['chatmsg_freunde2']);
 					}
 					if ($inhalt['f_text']) {
 						$txt .= " (" . $inhalt['f_text'] . ")";
@@ -441,7 +441,7 @@ function aktion_sende(
 				
 				case "Neue Mail":
 				// Nachricht erzeugen
-					$txt = str_replace("%nick%", $u_nick, $t['mail7']);
+					$txt = str_replace("%nick%", $u_nick, $t['email_mail7']);
 					$txt = str_replace("%betreff%", $inhalt['m_betreff'], $txt);
 					
 					// Nachricht versenden
@@ -466,17 +466,17 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde3']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt[aktion] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['mail9'] . $betreff . " (" . $inhalt['f_text'] . ")";
+						$txt = $t['nachricht_mail9'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
-						$txt = $t['mail9'] . $betreff;
+						$txt = $t['nachricht_mail9'] . $betreff;
 					}
 					// Mail-Absender ist mainChat
 					$von_u_id = 0;
@@ -508,17 +508,17 @@ function aktion_sende(
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde3']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['mail8'] . $betreff . " (" . $inhalt['f_text'] . ")";
+						$txt = $t['email_mail8'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
-						$txt = $t['mail8'] . $betreff;
+						$txt = $t['email_mail8'] . $betreff;
 					}
 					email_versende($von_u_id, $an_u_id, $txt, $betreff);
 					break;
@@ -530,7 +530,7 @@ function aktion_sende(
 					schreibe_db("mail", $f, $inhalt['m_id'], "m_id");
 					
 					// Nachricht versenden
-					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $t['mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
+					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $t['email_mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
 					break;
 				case "Antwort auf eigenen Beitrag":
 					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $t['betreff_new_posting']);
@@ -661,7 +661,7 @@ function email_versende(
 		$adresse = $row->u_email;
 		
 		$inhalt = str_replace("%user%", $row->u_nick, $text);
-		$nachricht = str_replace("%name%", $abrow->u_nick, $t['mail4']);
+		$nachricht = str_replace("%name%", $abrow->u_nick, $t['email_mail4']);
 		$nachricht = str_replace("%nachricht%", $text, $nachricht);
 		$nachricht = str_replace("%email%", $abrow->u_email, $nachricht);
 		
@@ -781,13 +781,13 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 					break;
 				
 				case "Chat-Mail":
-					$betreff = str_replace("%anzahl%", $i, $t['mail6']);
-					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $t['mail5']) . $txt, $betreff);
+					$betreff = str_replace("%anzahl%", $i, $t['nachricht_mail6']);
+					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $t['nachricht_mail5']) . $txt, $betreff);
 					break;
 				
 				case "E-Mail":
-					$betreff = str_replace("%anzahl%", $i, $t['mail6']);
-					email_versende("", $u_id, $t['mail5'] . $txt, $betreff);
+					$betreff = str_replace("%anzahl%", $i, $t['email_mail6']);
+					email_versende("", $u_id, $t['email_mail5'] . $txt, $betreff);
 					break;
 				
 			}

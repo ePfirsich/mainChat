@@ -222,25 +222,31 @@ $t['moderiertdel4'] = "<b>$chat:</b> Ihre Eingabe wurde vom Moderator gelöscht.
 
 $t['profil1'] = "<b>$chat:</b> Sie haben Ihr <a %link%>Profil</a> noch nicht ausgefüllt! Bitte klicken Sie &gt&gt<a %link%>HIER</a>&lt&lt";
 
-$t['mail1'] = "<b>$chat:</b> Sie haben neue Nachrichten. <a %link%>Gleich lesen?</a>";
-$t['mail2'] = " Nachricht von '%nick%' am %zeit%: %betreff%";
-$t['mail3'] = "[Mail-Weiterleitung aus dem $chat]\n\n";
-$t['mail4'] = "Der Benutzer \"%name%\" hat folgende Nachricht gesendet:<br><br>
+$t['chatmsg_mail1'] = "<b>$chat:</b> Sie haben neue Nachrichten. <a %link%>Gleich lesen?</a>";
+$t['chatmsg_mail2'] = " Nachricht von '%nick%' am %zeit%: %betreff%";
+$t['chatmsg_freunde1'] = "<b>$chat:</b> Ein Freund ist da: %u_nick% betritt Raum %raum%";
+$t['chatmsg_freunde2'] = "<b>$chat:</b> Ein Freund geht weg: %u_nick% verlässt den Chat";
+$t['chatmsg_freunde5'] = "<b>$chat:</b> Ein Freund ist da: %u_nick% betritt das Forum";
+
+$t['nachricht_mail5'] = "Hallo %user%, im Chat sind folgende Freunde online:\n\n";
+$t['nachricht_mail6'] = "%anzahl% Freunde online im $chat";
+$t['nachricht_mail9'] = "Hallo, über Ihre Freunde im Chat gibt es etwas neues:\n\n";
+$t['nachricht_freunde3'] = "%u_nick% betritt Raum %raum%";
+$t['nachricht_freunde4'] = "%u_nick% verlässt den Chat";
+$t['nachricht_freunde6'] = "%u_nick% betritt das Forum";
+
+$t['email_mail3'] = "[Mail-Weiterleitung aus dem $chat]\n\n";
+$t['email_mail4'] = "Der Benutzer \"%name%\" hat folgende Nachricht gesendet:<br><br>
 %nachricht%<br><br>
 E-Mail Adresse: %email%<br>
 Adresse des Chats: $chat_url";
-$t['mail5'] = "Hallo %user%, im $chat sind folgende Freunde online:\n\n";
-$t['mail6'] = "%anzahl% Freunde onlin(e) im $chat";
-$t['mail7'] = "<b>$chat:</b> Sie haben eine neue Nachricht von '%nick%' erhalten: %betreff%";
-$t['mail8'] = "Hallo %user%, über Ihre Freunde im $chat gibt es etwas neues:\n\n";
-$t['mail9'] = "Hallo, über Ihre Freunde im $chat gibt es etwas neues:\n\n";
-
-$t['freunde1'] = "<b>$chat:</b> Ein Freund ist da: %u_nick% betritt Raum %raum%";
-$t['freunde2'] = "<b>$chat:</b> Ein Freund geht weg: %u_nick% verlässt den Chat";
-$t['freunde3'] = "%u_nick% betritt Raum %raum% im $chat";
-$t['freunde4'] = "%u_nick% verlässt den $chat";
-$t['freunde5'] = "<b>$chat:</b> Ein Freund ist da: %u_nick% betritt das Forum";
-$t['freunde6'] = "%u_nick% betritt das Forum im $chat";
+$t['email_mail5'] = "Hallo %user%, im $chat sind folgende Freunde online:\n\n";
+$t['email_mail6'] = "%anzahl% Freunde online im $chat";
+$t['email_mail7'] = "<b>$chat:</b> Sie haben eine neue Nachricht von '%nick%' erhalten: %betreff%";
+$t['email_mail8'] = "Hallo %user%, über Ihre Freunde im $chat gibt es etwas neues:\n\n";
+$t['email_freunde3'] = "%u_nick% betritt Raum %raum% im $chat";
+$t['email_freunde4'] = "%u_nick% verlässt den $chat";
+$t['email_freunde6'] = "%u_nick% betritt das Forum im $chat";
 
 $t['punkte1'] = "<b>$chat:</b> %text% Ihnen wurden %punkte% Punkte gutgeschrieben!";
 $t['punkte2'] = "<b>$chat:</b> %text% Ihnen wurden %punkte% Punkte abgezogen!";
