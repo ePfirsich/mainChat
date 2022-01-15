@@ -29,6 +29,8 @@ $t['sperren_erfolgsmeldung_gastsperre_deaktiviert'] = "Die Gastsperre wurde deak
 $t['sperren_erfolgsmeldung_loginsperre_aktiviert'] = "Die Loginsperre wurde aktiviert!<br>";
 $t['sperren_erfolgsmeldung_loginsperre_deaktiviert'] = "Die Loginsperre wurde deaktiviert!<br>";
 
+$t['sperren_erfolgsmeldung_erfolgreich_editiert'] = "Die Sperre wurde erfolgreich editiert!<br>";
+
 $t['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
 $t['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";
 $t['sperren_fehlermeldung_domain_oder_ip'] = "Bitte entweder den Domain-Namen oder die IP-Adresse ausfüllen!<br>";

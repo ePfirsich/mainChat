@@ -327,11 +327,11 @@ function formular_neuer_blacklist($text, $neuer_blacklist) {
 	}
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_benutzername'], "neuer_blacklist[u_nick]", htmlspecialchars($neuer_blacklist['u_nick']));
+	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_benutzername'], "blacklist_eintrag_username", htmlspecialchars($neuer_blacklist['u_nick']));
 	$zaehler++;
 	
 	// Info
-	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_info'], "neuer_blacklist[f_text]", htmlspecialchars($neuer_blacklist['f_text']));
+	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_info'], "blacklist_eintrag_text", htmlspecialchars($neuer_blacklist['f_text']));
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {

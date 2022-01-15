@@ -34,7 +34,8 @@ function formular_neue_email($text, $neue_email, $m_id = "") {
 	$neue_email['an_nick'] = "";
 	}
 	
-	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "neue_email[an_nick]", $neue_email['an_nick']);
+	// Benutzername
+	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "nachricht_neu_username", $neue_email['an_nick']);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -57,15 +58,6 @@ function formular_neue_email($text, $neue_email, $m_id = "") {
 function formular_neue_email2($text, $neue_email, $m_id = "") {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	global $id, $u_id, $t;
-	
-	echo '<script language="JavaScript">
-	function zaehle()
-	{
-	betr=document.mail_neu.elements["neue_email[m_betreff]"].value.length;
-	text=document.mail_neu.elements["neue_email[m_text]"].value.length;
-	document.mail_neu.counter.value=betr+text;
-	}
-	</script>';
 	
 	if ($m_id) {
 		// Alte Mail lesen und als Kopie in Formular schreiben
@@ -105,8 +97,33 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 			$row = mysqli_fetch_object($result);
 			$box .= $row->u_nick;
 			
-			$email_select = "<select name=\"neue_email[typ]\">";
+			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n"
+				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
+				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
+				. "<input type=\"hidden\" name=\"nachricht_neu_userid\" value=\"$neue_email[m_an_uid]\">\n"
+				. "<table style=\"width:100%;\">";
 			
+			if ($row->o_id == "" || $row->o_id == "NULL") {
+				$row->online = "";
+				}
+			
+			if (!isset($neue_email['m_betreff'])) {
+				$neue_email['m_betreff'] = "";
+			}
+			
+			// Betreff
+			$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_betreff'], "nachricht_neu_betreff", $neue_email['m_betreff']);
+			$zaehler++;
+			
+			// Text
+			$text .= "<tr>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\">$t[nachrichten_text]</td>\n";
+			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"nachricht_neu_text\">"
+			. $neue_email['m_text'] . "</textarea></td>\n";
+			$text .= "</tr>\n";
+			
+			// Art des Versands
+			$email_select = "<select name=\"nachricht_neu_typ\">";
 			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
 				$email_select .= "<option value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
 				if ($row->u_emails_akzeptieren == "1") {
@@ -119,35 +136,11 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 				}
 			}
 			$email_select .= "</select>\n";
-			
-			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n"
-				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
-				. "<input type=\"hidden\" name=\"neue_email[m_an_uid]\" value=\"$neue_email[m_an_uid]\">\n"
-				. "<table style=\"width:100%;\">";
-			
-			if ($row->o_id == "" || $row->o_id == "NULL") {
-				$row->online = "";
-				}
-			
-			if (!isset($neue_email['m_betreff'])) {
-				$neue_email['m_betreff'] = "";
-			}
-			
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right;\" class =\"tabelle_zeile2\"><b>".$t['nachrichten_betreff']."</b></td>\n";
-			$text .= "<td class =\"tabelle_zeile2\"><input type=\"text\" name=\"neue_email[m_betreff]\" value=\"" . $neue_email['m_betreff'] . "\" size=\"87\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-			. "<input name=\"counter\" size=3></td></tr>\n";
-			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>Ihr Text:</b></td>\n";
-			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"neue_email[m_text]\" ONCHANGE=zaehle() ONFOCUS=zaehle() ONKEYDOWN=zaehle() ONKEYUP=zaehle()>"
-			. $neue_email['m_text'] . "</textarea></td>\n";
-			$text .= "</tr>\n";
-			
-			$text .= "<tr>\n";
-			$text .= "<td class=\"tabelle_zeile2\"><b>$t[nachrichten_art_des_versands]</b></td>\n";
+			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">$t[nachrichten_art_des_versands]</td>\n";
 			$text .= "<td class=\"tabelle_zeile2\">$email_select</td>\n";
 			$text .= "</tr>\n";
+			
 			$text .= "<tr>\n";
 			$text .= "<td class=\"tabelle_zeile1\">&nbsp;</td>\n";
 			$text .= "<td class=\"tabelle_zeile1\"><input type=\"submit\" name=\"los\" value=\"Versenden\"></td>\n";
@@ -157,9 +150,12 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 			
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
-			
 		} else {
-			echo "<P><b>Fehler:</b> Der Benutzer mit der ID '$neue_email[m_an_uid]' existiert nicht!</P>\n";
+			$fehlermeldung = $t['nachrichten_fehler_benutzername_existiert_nicht2'];
+			$text = hinweis($fehlermeldung, "fehler");
+			
+			$box = $t['titel'];
+			zeige_tabelle_zentriert($box, $text);
 		}
 	}
 }
@@ -310,34 +306,43 @@ function zeige_email($m_id, $art) {
 		$box = htmlspecialchars($row->m_betreff);
 		
 		// Mail ausgeben
-		$text .= "<table style=\"width:100%;\">";
-		$text .= "<tr>"
-			."<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>Von</b></td>"
-			."<td colspan=3 class=\"tabelle_zeile1\">" . $von_nick . "</td>"
-			."</tr>\n"
-			. "<tr>"
-			."<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>Am</b></td>"
-			."<td colspan=3 class=\"tabelle_zeile2 smaller\">" . $row->zeit . "</td>"
-			."</tr>\n"
-			. "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td colspan=3 class=\"tabelle_zeile1\">" . str_replace("\n", "<br>\n", $row->m_text) . "</td></tr>\n";
+		$text .= "<table style=\"width:100%;\">\n";
+		
+		// Von
+		$text .= "<tr>\n";
+		$text .= "<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>$t[nachrichten_von]</b></td>\n";
+		$text .= "<td colspan=\"3\" class=\"tabelle_zeile1\">" . $von_nick . "</td>\n";
+		$text .= "</tr>\n";
+		
+		// Am
+		$text .=  "<tr>\n";
+		$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>$t[nachrichten_am]</b></td>\n";
+		$text .= "<td colspan=\"3\" class=\"tabelle_zeile2 smaller\">" . $row->zeit . "</td>\n";
+		$text .= "</tr>\n";
+		
+		// Text
+		$text .= "<tr>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>$t[nachrichten_text]</b></td>\n";
+		$text .= "<td colspan=3 class=\"tabelle_zeile1\">" . str_replace("\n", "<br>\n", $row->m_text) . "</td>\n";
+		$text .= "</tr>\n";
 		
 		// Formular zur Löschen, Beantworten
-		$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td>"
+		$text .= "<tr><td class=\"tabelle_zeile2\">&nbsp;</td>"
 			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"antworten\">" . "</form></td>\n"
-				. "<td style=\"text-align:center;\" class=\"tabelle_zeile1\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
+			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_antworten]\">" . "</form></td>\n"
+				. "<td style=\"text-align:center;\" class=\"tabelle_zeile2\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"weiterleiten\">" . "</form></td>\n"
-				. "<td style=\"text-align:right;\" class=\"tabelle_zeile1\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
+			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiterleiten]\">" . "</form></td>\n"
+				. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
 			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
 			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"".$t['nachrichten_loeschen']."\">"
+			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_loeschen]\">"
 			. "</form></td></tr>\n";
 		$text .= "</table>\n";
 		

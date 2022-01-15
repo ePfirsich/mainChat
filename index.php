@@ -16,6 +16,8 @@ if($email == "") {
 }
 $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 
+$los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
+
 zeige_header($body_titel, 0);
 
 // IP bestimmen und prüfen. Ist Login erlaubt?

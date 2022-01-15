@@ -4,6 +4,22 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
+$neue_email[] = "";
+$neue_email['an_nick'] = filter_input(INPUT_GET, 'nachricht_neu_username', FILTER_SANITIZE_STRING);
+if( $neue_email['an_nick'] == '') {
+	$neue_email['an_nick'] = filter_input(INPUT_POST, 'nachricht_neu_username', FILTER_SANITIZE_STRING);
+}
+
+$neue_email['m_text'] = filter_input(INPUT_POST, 'nachricht_neu_text', FILTER_SANITIZE_STRING);
+$neue_email['m_betreff'] = filter_input(INPUT_POST, 'nachricht_neu_betreff', FILTER_SANITIZE_STRING);
+$neue_email['m_an_uid'] = filter_input(INPUT_POST, 'nachricht_neu_userid', FILTER_SANITIZE_NUMBER_INT);
+$neue_email['typ'] = filter_input(INPUT_POST, 'nachricht_neu_typ', FILTER_SANITIZE_NUMBER_INT);
+
+$m_id = filter_input(INPUT_GET, 'm_id', FILTER_SANITIZE_NUMBER_INT);
+if( $m_id == '') {
+	$m_id = filter_input(INPUT_POST, 'm_id', FILTER_SANITIZE_NUMBER_INT);
+}
+
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 if ($mailloescheauspapierkorb < 1) {
 	$mailloescheauspapierkorb = 14;
@@ -17,9 +33,6 @@ $text = "";
 switch ($aktion) {
 	case "neu":
 	// Formular für neue E-Mail ausgeben
-		if (!isset($neue_email)) {
-			$neue_email = array();
-		}
 		formular_neue_email($text, $neue_email);
 		break;
 	
@@ -27,10 +40,6 @@ switch ($aktion) {
 		// Mail versenden, 2. Schritt: Benutzername Prüfen
 		$neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
 		$neue_email['an_nick'] = mysqli_real_escape_string($mysqli_link, coreCheckName($neue_email['an_nick'], $check_name));
-		
-		if (!isset($m_id)) {
-			$m_id = "";
-		}
 		
 		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
 		$result = sqlQuery($query);
