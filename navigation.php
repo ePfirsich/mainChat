@@ -45,6 +45,10 @@ if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o
 	}
 }
 
+if( !isset($u_id) || $u_id == NULL || $u_id == "") {
+	die;
+}
+
 $meta_refresh = '<meta http-equiv="refresh" content="10; URL=navigation.php?id=' . $id . '">';
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
