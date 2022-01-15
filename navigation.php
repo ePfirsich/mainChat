@@ -8,7 +8,7 @@ $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 id_lese($id);
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
-if( !isset($u_id) || $u_id == "") {
+if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
@@ -60,7 +60,7 @@ if ( time() > ($o_aktion + 300) ) {
 }
 
 // Anzahl der ungelesenen Nachrichten ermitteln
-$query_nachrichten = "SELECT mail.*, u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
+$query_nachrichten = "SELECT mail.*, `u_nick` FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = $u_id AND `m_status` = 'neu' ORDER BY `m_zeit` DESC";
 $result_nachrichten = sqlQuery($query_nachrichten);
 
 if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {

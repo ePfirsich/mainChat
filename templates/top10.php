@@ -1,6 +1,6 @@
 <?php
 // Direkten Aufruf der Datei verbieten
-if( !isset($u_id) || $u_id == "") {
+if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
