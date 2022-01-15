@@ -51,7 +51,7 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 echo "<body>\n";
 
 // Timestamp im Datensatz aktualisieren
-aktualisiere_online($u_id, $o_raum);
+aktualisiere_online($u_id);
 
 // Aktionen ausführen, falls nicht innerhalb der letzten 5
 // Minuten geprüft wurde (letzte Prüfung=o_aktion)

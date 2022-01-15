@@ -24,7 +24,7 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 <body onLoad="window.scrollTo(1,300000)">
 <?php
 // Timestamp im Datensatz aktualisieren
-aktualisiere_online($u_id, $o_raum);
+//aktualisiere_online($u_id);
 
 // Aktuelle Privat- und Systemnachrichten oder Statusmeldung ausgeben
 if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, $benutzerdaten, TRUE, $user)) {

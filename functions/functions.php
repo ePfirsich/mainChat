@@ -405,9 +405,9 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	return ($back);
 }
 
-function aktualisiere_online($u_id, $o_raum) {
+function aktualisiere_online($u_id) {
 	// Timestamp im Datensatz aktualisieren -> Benutzer gilt als online
-	$query = "UPDATE online SET o_aktiv=NULL WHERE o_user=$u_id";
+	$query = "UPDATE `online` SET `o_aktiv` = NULL WHERE `o_user` = $u_id";
 	$result = sqlUpdate($query, true);
 }
 
