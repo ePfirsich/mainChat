@@ -120,7 +120,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Login als letzten Login merken, dabei away und loginfehler zurücksetzen.
 	$query = "UPDATE user SET u_login=NOW(),u_away='' WHERE u_id=$u_id";
-	$result = sqlUpdate($query);
+	$result = sqlUpdate($query, true);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
 		exit;

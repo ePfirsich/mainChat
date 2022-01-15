@@ -151,11 +151,11 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 	}
 	
 	// Webseite muss http:// oder https://enthalten
-	if (isset($f['ui_webseite']) && strlen($f['ui_webseite']) > 0 && !preg_match("/^http:\/\//i", $f['ui_webseite']) && !preg_match("/^https:\/\//i", $f['ui_webseite']) ) {
-		$f['ui_webseite'] = "http://" . $f['ui_webseite'];
+	if (isset($f['ui_homepage']) && strlen($f['ui_homepage']) > 0 && !preg_match("/^http:\/\//i", $f['ui_homepage']) && !preg_match("/^https:\/\//i", $f['ui_homepage']) ) {
+		$f['ui_homepage'] = "http://" . $f['ui_homepage'];
 	}
 	
-	if (strlen($f['ui_webseite']) > 160) {
+	if (strlen($f['ui_homepage']) > 160) {
 		$fehlermeldung = $t['profil_fehler_homepage'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
