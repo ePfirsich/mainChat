@@ -74,7 +74,7 @@ if($formular == "gefuellt") {
 $text .= $t['kontakt_beschreibung'];
 $text .= "<br><br>";
 
-$text .= "<form name=\"kontakt\" action=\"index.php?bereich=kontakt\" method=\"post\">\n";
+$text .= "<form action=\"index.php?bereich=kontakt\" method=\"post\">\n";
 $text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
 $text .= "<table style=\"width:100%;\">\n";
 

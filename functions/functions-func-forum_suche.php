@@ -36,7 +36,7 @@ function such_bereich() {
 	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_menue2]</span></a>";
 	$text = '';
 	
-	$text .= "<form name=\"suche_neu\" action=\"forum.php\" method=\"post\">\n";
+	$text .= "<form action=\"forum.php\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suchergebnisse\">\n";
 	$text .= "<table style=\"width:100%\">\n";

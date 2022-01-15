@@ -583,7 +583,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text = "";
 					// Nachfrage ob sicher
 					$text .= str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_sicherheitsabfrage2']);
-					$text .= "<br><form name=\"$f[u_nick]\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<br><form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
@@ -592,7 +592,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text .= "</form>\n";
 					
 					// Abbrechen
-					$text .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
+					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Abbrechen\">";

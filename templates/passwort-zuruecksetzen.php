@@ -1,6 +1,6 @@
 <?php
-$mitgliedId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$code = filter_input(INPUT_GET, 'code');
+$mitgliedId = filter_input(INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT);
+$code = filter_input(INPUT_POST, 'code');
 $text = "";
 if(!isset($mitgliedId) || !isset($code)) {
 	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
@@ -30,7 +30,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Der Code war korrekt, der Nutzer darf ein neues Passwort eingeben
-			$send = filter_input(INPUT_GET, 'send', FILTER_SANITIZE_NUMBER_INT);
+			$send = filter_input(INPUT_POST, 'send', FILTER_SANITIZE_NUMBER_INT);
 			if($send == 1) {
 				$fehlermeldung = "";
 				$passwort = filter_input(INPUT_POST, 'passwort');
@@ -58,7 +58,10 @@ if(!isset($mitgliedId) || !isset($code)) {
 				}
 			}
 			if($showForm) {
-				$text .= "<form action=\"index.php?bereich=passwort-zuruecksetzen&send=1&id=" . htmlentities($mitgliedId) . "&code=" . htmlentities($code) . "\" method=\"post\">\n";
+				$text .= "<form action=\"index.php?bereich=passwort-zuruecksetzen\" method=\"post\">\n";
+				$text .= "<input type=\"hidden\" name=\"send\" value=\"1\">\n";
+				$text .= "<input type=\"hidden\" name=\"user_id\" value=\"" . htmlentities($mitgliedId) . "\">\n";
+				$text .= "<input type=\"hidden\" name=\"code\" value=\"" . htmlentities($code) . "\">\n";
 				
 				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $t['login_passwort_benutzername']);
 				$text .= "<table style=\"width:100%;\">";

@@ -48,7 +48,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	}
 	
 	// Ausgabe in Tabelle
-	$text .= "<form name=\"$f[u_nick]\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
+	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
@@ -274,8 +274,7 @@ function zeige_aktionen() {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $u_nick, $u_id, $def_was, $t;
-	global $forumfeatures;
+	global $id, $u_id, $def_was, $t, $forumfeatures;
 	
 	$button = $t['einstellungen_speichern'];
 	
@@ -393,7 +392,7 @@ function zeige_aktionen() {
 function eintrag_aktionen($aktion_datensatz) {
 	// Array mit definierten Aktionen in die DB schreiben
 	
-	global $def_was, $u_id, $u_nick, $mysqli_link, $t;
+	global $def_was, $u_id, $mysqli_link, $t;
 	
 	// Alle möglichen a_wann in Array lesen
 	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
@@ -428,12 +427,12 @@ function eintrag_aktionen($aktion_datensatz) {
 }
 
 function formular_email_aendern($f) {
-	global $id, $t, $u_nick;
+	global $id, $t;
 	$text = '';
 	$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
 	
 	$text .= $t['einstellungen_email_aendern_inhalt'] . "\n";
-	$text .= "<form name=\"$u_nick\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
+	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";

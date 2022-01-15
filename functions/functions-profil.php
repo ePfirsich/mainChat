@@ -18,7 +18,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	$zaehler = 0;
 	
-	$text = "<form name=\"profil\" action=\"inhalt.php?bereich=profil\" method=\"post\">\n";
+	$text = "<form action=\"inhalt.php?bereich=profil\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n";
 	$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";

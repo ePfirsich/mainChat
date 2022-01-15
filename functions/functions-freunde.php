@@ -170,7 +170,7 @@ function formular_neuer_freund($text, $neuer_freund) {
 	
 	$box = $t['freunde_neuen_freund_hinzufuegen'];
 	
-	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
+	$text .= "<form action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
 	$text .= "<table style=\"width:100%;\">";
@@ -208,7 +208,7 @@ function formular_editieren($f_id, $f_text) {
 	$box = $t['freunde_freundestext_aendern'];
 	
 	$text = "";
-	$text .= "<form name=\"freund_neu\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
+	$text .= "<form action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n";
 	$text .= "<input type=\"hidden\" name=\"f_id\" value=\"$f_id\">\n";

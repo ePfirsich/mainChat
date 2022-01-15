@@ -32,7 +32,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	}
 	$text .= "</table>";
 	$text .= "<br><center>";
-	$text .= "<form method=\"post\">";
+	$text .= "<form action=\"moderator.php\" method=\"post\">";
 	$text .= $t['mod11'] . "<br>";
 	$text .= "<input type=hidden name=id value=$id>";
 	$text .= "<input type=hidden name=mode value=answernew>";

@@ -139,7 +139,7 @@ switch ($aktion) {
 			}
 			$text .= "<tr>";
 			$text .= "<td $bgcolor colspan=\"2\">$t[raum_wirklich_loeschen]<br>\n";
-			$text .= "<form name=\"$row->r_name\" action=\"inhalt.php?bereich=raum\" method=\"post\">\n"
+			$text .= "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"r_id\" value=\"$row->r_id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
