@@ -1,6 +1,6 @@
 <?php
 
-function home_info($u_id, $u_nick, $home, $feld, $bilder) {
+function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $id, $userdata, $t, $level, $t, $locale;
 	
@@ -15,7 +15,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	
 	// Informationen / Text über mich - Start
 	if (true) {
-		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild5);";
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$user_id&feld=ui_bild5);";
 	} else {
 		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe];";
 	}
@@ -30,7 +30,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
 	
-	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d. %M %Y um %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$u_id";
+	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d. %M %Y um %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$user_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -225,7 +225,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	$text .= "</td>\n";
 	
 	if (true) {
-		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild6);";
+		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$user_id&feld=ui_bild6);";
 	} else {
 		$tabellenhintergrund = "background-color:#$home[ui_inhalt_hintergrundfarbe];";
 	}
@@ -243,9 +243,9 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 		$bilder = "";
 	}
 	
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild1", $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild2", $bilder);
-	$text .= home_bild($u_id, $row->u_nick, $home, "ui_bild3", $bilder);
+	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild1", $bilder);
+	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild2", $bilder);
+	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild3", $bilder);
 	
 	$text .= "</table>\n";
 	// Bilder - Ende
@@ -257,7 +257,7 @@ function home_info($u_id, $u_nick, $home, $feld, $bilder) {
 	return $text;
 }
 
-function home_bild($u_id, $u_nick, $home, $feld, $bilder) {
+function home_bild($user_id, $u_nick, $home, $feld, $bilder) {
 	
 	global $id, $t;
 	
@@ -271,7 +271,7 @@ function home_bild($u_id, $u_nick, $home, $feld, $bilder) {
 		$height = $bilder[$feld]['b_height'];
 		$mime = $bilder[$feld]['b_mime'];
 		
-		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>";
+		$text .= "<img src=\"home_bild.php?u_id=$user_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>";
 	} else {
 		$text .= "";
 	}
@@ -284,14 +284,14 @@ function home_bild($u_id, $u_nick, $home, $feld, $bilder) {
 	return $text;
 }
 
-function zeige_home($u_id, $force = FALSE) {
+function zeige_home($user_id, $force = FALSE) {
 	// Zeigt die Benutzerseite des Benutzers u_id an
 	global $mysqli_link, $argv, $argc, $id, $check_name, $t;
 	
-	if ($u_id && $u_id <> -1) {
+	if ($user_id && $user_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
-		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$u_id";
-	} else if ($u_id == -1 && isset($_SERVER['QUERY_STRING'])) {
+		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$user_id";
+	} else if ($user_id == -1 && isset($_SERVER['QUERY_STRING'])) {
 		$nicknamen = $new_string=substr($_SERVER['QUERY_STRING'],1);
 		// Aufruf als home.php?USERNAME
 		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($nicknamen)) );
@@ -306,14 +306,14 @@ function zeige_home($u_id, $force = FALSE) {
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			$u_chathomepage = $row->u_chathomepage;
-			$u_id = $row->u_id;
+			$user_id = $row->u_id;
 		}
 		mysqli_free_result($result);
 	}
 	
 	// Profil lesen
-	if ($u_id) {
-		$query = "SELECT * FROM userinfo WHERE ui_userid=$u_id";
+	if ($user_id) {
+		$query = "SELECT * FROM userinfo WHERE ui_userid=$user_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -324,7 +324,7 @@ function zeige_home($u_id, $force = FALSE) {
 		mysqli_free_result($result);
 		
 		// Bildinfos lesen und in Array speichern
-		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$u_id";
+		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$user_id";
 		$result2 = sqlQuery($query);
 		if ($result2 && mysqli_num_rows($result2) > 0) {
 			unset($bilder);
@@ -348,7 +348,7 @@ function zeige_home($u_id, $force = FALSE) {
 	}
 	
 	if (true) {
-		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$u_id&feld=ui_bild4);";
+		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$user_id&feld=ui_bild4);";
 	} else {
 		$bg = "background-color:#$home[ui_hintergrundfarbe];";
 	}
@@ -372,7 +372,7 @@ function zeige_home($u_id, $force = FALSE) {
 		</head>
 		<body>
 		<?php
-		echo home_info($u_id, $row->u_nick, $home, "ui_text", $bilder);
+		echo home_info($user_id, $row->u_nick, $home, "ui_text", $bilder);
 	} else {
 		echo "<body>\n";
 		

@@ -973,23 +973,20 @@ function hole_alle_unter($vater_id) {
 }
 
 //bereinigt jede Woche einmal die Spalte u_gelesene_postings 
-//des users $u_id
-function bereinige_u_gelesene_postings($u_id) {
-	$u_id = intval($u_id);
+//des users $user_id
+function bereinige_u_gelesene_postings($user_id) {
+	$user_id = intval($user_id);
 	
-	$sql = "SELECT u_gelesene_postings, u_lastclean FROM user WHERE u_id = $u_id";
+	$sql = "SELECT u_gelesene_postings, u_lastclean FROM user WHERE u_id = $user_id";
 	$query = sqlQuery($sql);
 	
 	if ($query && mysqli_num_rows($query) > 0) {
-		
 		$lastclean = mysqli_result($query, 0, "u_lastclean");
 		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
 		if ($lastclean == "0") { //keine Bereinignng nötig
-		
 			$lastclean = time();
-			$sql = "UPDATE user SET u_lastclean = $lastclean WHERE u_id = $u_id";
+			$sql = "UPDATE user SET u_lastclean = $lastclean WHERE u_id = $user_id";
 			sqlUpdate($sql, true);
-			
 		} else if ($lastclean < (time() - 2592000)) { //Bereinigung nötig
 			$lastclean = time();
 			$arr_gelesene = unserialize($gelesene);
@@ -1010,7 +1007,7 @@ function bereinige_u_gelesene_postings($u_id) {
 			
 			$gelesene_neu = serialize($arr_gelesene);
 			
-			$sql = "UPDATE user SET u_lastclean = $lastclean, u_gelesene_postings = '$gelesene_neu' WHERE u_id = $u_id";
+			$sql = "UPDATE user SET u_lastclean = $lastclean, u_gelesene_postings = '$gelesene_neu' WHERE u_id = $user_id";
 			sqlUpdate($sql, true);
 		}
 		

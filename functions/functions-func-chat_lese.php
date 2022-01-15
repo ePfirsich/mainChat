@@ -1,9 +1,9 @@
 <?php
 
-function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten, $nur_privat = FALSE, $nur_privat_user = "") {
+function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdaten, $nur_privat = FALSE, $nur_privat_user = "") {
 	// Gibt Text gefiltert aus
 	// $raum = ID des aktuellen Raums
-	// $u_id = ID des aktuellen Benutzers
+	// $user_id = ID des aktuellen Benutzers
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
 	global $u_nick, $u_level;
@@ -34,11 +34,10 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 	}
 	
 	if ($nur_privat_user) {
-		#echo "nur_privat_user ist gesetzt! $nur_privat_user | $u_id";
 		$txt = mysqli_real_escape_string($mysqli_link, "<b>$u_nick flüstert an " . $user_nick . ":</b>");
 		$len = strlen($txt);
 		#print $txt;
-		$qquery .= " AND (c_an_user = '$u_id' and c_von_user_id != '0' and ( (c_von_user_id = '$u_id' and left(c_text,$len) = '$txt') or c_von_user_id = '$nur_privat_user') )";
+		$qquery .= " AND (c_an_user = '$user_id' and c_von_user_id != '0' and ( (c_von_user_id = '$user_id' and left(c_text,$len) = '$txt') or c_von_user_id = '$nur_privat_user') )";
 		#print htmlentities($qquery);
 	}
 	if ($back == 1) {
@@ -66,7 +65,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		}
 		mysqli_free_result($result);
 		
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
+		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id >= $o_chat_id" . $qquery;
 		$result = sqlQuery($query);
 		if ($result) {
 			while ($row = mysqli_fetch_row($result)) {
@@ -106,7 +105,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 			}
 		}
 		mysqli_free_result($result);
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id >= $o_chat_id" . $qquery;
+		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id >= $o_chat_id" . $qquery;
 		$result = sqlQuery($query);
 		
 		if ($result) {
@@ -148,7 +147,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 		}
 		mysqli_free_result($result);
 		
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$u_id AND c_id > $letzte_id" . $qquery;
+		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id > $letzte_id" . $qquery;
 		$result = sqlQuery($query);
 		
 		if ($result) {
@@ -496,7 +495,7 @@ function chat_lese($o_id, $raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten,
 								}
 								// Ende des Avatars
 								
-								if($row->c_an_user == $u_id) {
+								if($row->c_an_user == $user_id) {
 									$zanfang = $ava. "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
 								} else {
 									$zanfang = $ava. "<span class=\"nachrichten_oeffentlich\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";

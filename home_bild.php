@@ -7,7 +7,7 @@
 
 require_once("functions/functions.php");
 
-$u_id = filter_input(INPUT_GET, 'u_id', FILTER_SANITIZE_URL);
+$u_id = filter_input(INPUT_GET, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 $feld = filter_input(INPUT_GET, 'feld', FILTER_SANITIZE_URL);
 
 header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -18,7 +18,6 @@ header("Cache-Control: post-check=0, pre-check=0", FALSE);
 
 $cache = "home_bild";
 $feld = mysqli_real_escape_string($mysqli_link, $feld);
-$u_id = intval($u_id);
 
 if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6" && $feld != "avatar") {
 	echo "Fehlerhaftes 'feld' in home_bild.php'<br>";

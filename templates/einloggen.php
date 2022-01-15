@@ -111,7 +111,7 @@ if(!$kein_gastlogin_ausblenden) {
 	if ($result && $rows == 1) {
 		// Login Ok, Benutzerdaten setzen
 		$row = mysqli_fetch_object($result);
-		$u_id = $row->u_id;
+		$user_id = $row->u_id;
 		$u_nick = $row->u_nick;
 		$u_level = $row->u_level;
 		$u_agb = $row->u_agb;
@@ -123,8 +123,8 @@ if(!$kein_gastlogin_ausblenden) {
 		$ip_historie = unserialize($row->u_ip_historie);
 		$nick_historie = unserialize($row->u_nick_historie);
 		
-		$f['u_id'] = $u_id;
-		schreibe_db("user", $f, $u_id, "u_id");
+		$f['u_id'] = $user_id;
+		schreibe_db("user", $f, $user_id, "u_id");
 		
 		// Benutzer online bestimmen
 		if ($chat_max[$u_level] != 0) {
@@ -167,7 +167,7 @@ if(!$kein_gastlogin_ausblenden) {
 			} // abweisen, falls leere eingabe
 			
 			// Prüfen, ob alles korrekt eingegeben wurde.
-			if ( isset($captcha_text2) && ( $captcha_text2 != md5( $u_id . "+code+" . $captcha_text1 . "+" . date("Y-m-d h") ) ) ) {
+			if ( isset($captcha_text2) && ( $captcha_text2 != md5( $user_id . "+code+" . $captcha_text1 . "+" . date("Y-m-d h") ) ) ) {
 				$los = "";
 			}
 			
@@ -220,10 +220,10 @@ if(!$kein_gastlogin_ausblenden) {
 				
 				$text .= $tzahl[$zahl1] . " " . $taufgabe[$aufgabe] . " " . $tzahl[$zahl2] . " &nbsp;&nbsp;&nbsp;&nbsp;";
 				
-				//echo md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") );
-				//echo md5( $u_id . "code" . $ergebnis . "+" . date("Y-m-d h") );
+				//echo md5( $user_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") );
+				//echo md5( $user_id . "code" . $ergebnis . "+" . date("Y-m-d h") );
 				$text .= "<input type=\"text\" name=\"captcha_text1\">\n";
-				$text .= "<input type=\"hidden\" name=\"captcha_text2\" value=\"". md5( $u_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ) . "\">\n";
+				$text .= "<input type=\"hidden\" name=\"captcha_text2\" value=\"". md5( $user_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") ) . "\">\n";
 				$text .= "<input type=\"hidden\" name=\"ergebnis\" value=\"$ergebnis\">\n";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
@@ -260,7 +260,7 @@ if(!$kein_gastlogin_ausblenden) {
 			
 			if(!$rest_ausblenden) {
 				// Benutzer in Blacklist überprüfen
-				$query2 = "SELECT f_text FROM blacklist WHERE f_blacklistid=$u_id";
+				$query2 = "SELECT f_text FROM blacklist WHERE f_blacklistid=$user_id";
 				$result2 = sqlQuery($query2);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
 					$infotext = "Blacklist: " . mysqli_result($result2, 0, 0);
@@ -292,7 +292,7 @@ if(!$kein_gastlogin_ausblenden) {
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
-							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$u_id";
+							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$user_id";
 							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 							$ah2 = "</a>";
 							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
@@ -304,14 +304,14 @@ if(!$kein_gastlogin_ausblenden) {
 				// Benutzer nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt
 			
 				// Hash-Wert ermitteln
-				$hash_id = id_erzeuge($u_id);
+				$hash_id = id_erzeuge();
 				
 				// Login
-				$o_id = login($u_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt);
+				$o_id = login($user_id, $u_nick, $u_level, $hash_id, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt);
 				
 				if ($eintritt == "forum") {
 					// Login ins Forum
-					betrete_forum($o_id, $u_id, $u_nick, $u_level);
+					betrete_forum($o_id, $user_id, $u_nick, $u_level);
 					
 					require_once("functions/functions-frameset.php");
 					
@@ -319,7 +319,7 @@ if(!$kein_gastlogin_ausblenden) {
 					
 				} else {
 					// Chat betreten
-					betrete_chat($o_id, $u_id, $u_nick, $u_level, $eintritt);
+					betrete_chat($o_id, $user_id, $u_nick, $u_level, $eintritt);
 					$back = 1;
 					
 					require_once("functions/functions-frameset.php");

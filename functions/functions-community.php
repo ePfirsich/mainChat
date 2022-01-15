@@ -115,8 +115,8 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	return $text;
 }
 
-function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
-	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $o_id/$u_id
+function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
+	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $o_id/$user_id
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
@@ -124,12 +124,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
-		if (false && $u_id != 0) {
-			$where = "WHERE o_user=$u_id";
-		} else {
-			$where = "WHERE o_id=$o_id";
-		}
-		$query = "UPDATE online SET o_punkte=o_punkte+" . intval($anzahl) . " " . $where;
+		$query = "UPDATE online SET o_punkte=o_punkte+" . intval($anzahl) . " WHERE o_id=$o_id";
 		sqlUpdate($query);
 	}
 	
@@ -144,8 +139,8 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			$text = str_replace("%text%", $text, $t['punkte2']);
 			$text = str_replace("%punkte%", $anzahl * (-1), $text);
 		}
-		if ($u_id != 0) {
-			system_msg("", 0, $u_id, (isset($system_farbe) ? $system_farbe : ""), $text);
+		if ($user_id != 0) {
+			system_msg("", 0, $user_id, (isset($system_farbe) ? $system_farbe : ""), $text);
 		}
 	}
 	
@@ -160,10 +155,10 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
-			$u_id = $row->o_user;
+			$user_id = $row->o_user;
 			
 			// Es können maximal die punkte abgezogen werden, die man auch hat
-			$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id";
+			$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$user_id";
 			$result2 = sqlQuery($query);
 			if ($result2 && mysqli_num_rows($result2) == 1) {
 				$row2 = mysqli_fetch_object($result2);
@@ -182,7 +177,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 				}
 			}
 			
-			$query = "UPDATE user SET u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
+			$query = "UPDATE user SET u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$user_id";
 			$result2 = sqlUpdate($query);
 			$query = "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id);
 			$result = sqlUpdate($query);
@@ -191,7 +186,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 		// Gruppe neu berechnen
 		unset($f);
 		$f['u_punkte_gruppe'] = 0;
-		$query = "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$u_id";
+		$query = "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$user_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$u_punkte_gesamt = mysqli_result($result, 0, 0);
@@ -204,7 +199,7 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 			}
 		}
 		
-		schreibe_db("user", $f, $u_id, "u_id");
+		schreibe_db("user", $f, $user_id, "u_id");
 		
 		// Lock freigeben
 		$query = "UNLOCK TABLES";
@@ -212,8 +207,8 @@ function punkte($anzahl, $o_id, $u_id = 0, $text = "", $sofort = FALSE) {
 	}
 }
 
-function punkte_offline($anzahl, $u_id) {
-	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $u_id
+function punkte_offline($anzahl, $user_id) {
+	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $user_id
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
@@ -225,9 +220,9 @@ function punkte_offline($anzahl, $u_id) {
 	$result = sqlUpdate($query, true);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-	if ($u_id && ($anzahl > 0 || $anzahl < 0)) {
+	if ($user_id && ($anzahl > 0 || $anzahl < 0)) {
 		// es können maximal die punkte abgezogen werden, die man auch hat
-		$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$u_id";
+		$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$user_id";
 		$result2 = sqlQuery($query);
 		if ($result2 && mysqli_num_rows($result2) == 1) {
 			$row2 = mysqli_fetch_object($result2);
@@ -246,14 +241,14 @@ function punkte_offline($anzahl, $u_id) {
 			}
 		}
 		
-		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$u_id";
+		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$user_id";
 		$result = sqlUpdate($query);
 	}
 	
 	// Gruppe neu berechnen
 	unset($f);
 	$f['u_punkte_gruppe'] = 0;
-	$query = "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$user_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
@@ -266,7 +261,7 @@ function punkte_offline($anzahl, $u_id) {
 			}
 		}
 	}
-	schreibe_db("user", $f, $u_id, "u_id");
+	schreibe_db("user", $f, $user_id, "u_id");
 	
 	// Lock freigeben
 	$query = "UNLOCK TABLES";
@@ -288,7 +283,7 @@ function punkte_offline($anzahl, $u_id) {
 }
 
 function aktion(
-	$u_id,
+	$user_id,
 	$typ,
 	$an_u_id,
 	$u_nick,
@@ -328,7 +323,7 @@ function aktion(
 			if ($suche_was != "" && isset($a_was)
 				&& is_array($a_was[$suche_was])) {
 				foreach ($a_was[$suche_was] as $wie => $was) {
-					aktion_sende($suche_was, $wie, $inhalt, $an_u_id, $u_id, $u_nick, $id);
+					aktion_sende($suche_was, $wie, $inhalt, $an_u_id, $user_id, $u_nick, $id);
 				}
 			}
 			break;

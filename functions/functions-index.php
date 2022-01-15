@@ -41,7 +41,7 @@ function erzeuge_sequence($db, $id) {
 	mysqli_free_result($result);
 }
 
-function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
@@ -94,32 +94,32 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Aktionen initialisieren, nicht für Gäste
 	if ($u_level != "G") {
-		$query = "SELECT a_id FROM aktion WHERE a_user=$u_id ";
+		$query = "SELECT a_id FROM aktion WHERE a_user=$user_id ";
 		$result = sqlQuery($query);
 		if ($result && (mysqli_num_rows($result) == 0 || mysqli_num_rows($result) > 20)) {
-			sqlUpdate("INSERT INTO aktion set a_user=$u_id, a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
-			sqlUpdate("INSERT INTO aktion set a_user=$u_id, a_wann='Login', a_was='Freunde', a_wie='OLM'");
-			sqlUpdate("INSERT INTO aktion set a_user=$u_id, a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
-			sqlUpdate("INSERT INTO aktion set a_user=$u_id, a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
-			sqlUpdate("INSERT INTO aktion set a_user=$u_id, a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
+			sqlUpdate("INSERT INTO aktion set a_user=$user_id, a_wann='Sofort/Online', a_was='Freunde', a_wie='OLM'");
+			sqlUpdate("INSERT INTO aktion set a_user=$user_id, a_wann='Login', a_was='Freunde', a_wie='OLM'");
+			sqlUpdate("INSERT INTO aktion set a_user=$user_id, a_wann='Sofort/Online', a_was='Neue Mail', a_wie='OLM'");
+			sqlUpdate("INSERT INTO aktion set a_user=$user_id, a_wann='Login',	a_was='Neue Mail', a_wie='OLM'");
+			sqlUpdate("INSERT INTO aktion set a_user=$user_id, a_wann='Alle 5 Minuten', a_was='Neue Mail', a_wie='OLM'");
 		}
 		mysqli_free_result($result);
 	}
 	
 	// Prüfen, ob Benutzer noch online ist und ggf. ausloggen
 	$alteloginzeit = "";
-	$query = "SELECT o_id, o_login FROM online WHERE o_user=$u_id ";
+	$query = "SELECT o_id, o_login FROM online WHERE o_user=$user_id ";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$alteloginzeit = mysqli_result($result, 0, 1);
-		logout(mysqli_result($result, 0, 0), $u_id);
+		logout(mysqli_result($result, 0, 0), $user_id);
 	}
 	mysqli_free_result($result);
 	
 	// Benutzerdaten ändern
 	
 	// Login als letzten Login merken, dabei away und loginfehler zurücksetzen.
-	$query = "UPDATE user SET u_login=NOW(),u_away='' WHERE u_id=$u_id";
+	$query = "UPDATE user SET u_login=NOW(),u_away='' WHERE u_id=$user_id";
 	$result = sqlUpdate($query, true);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -173,8 +173,8 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 		$f['u_level'] = "U";
 		$u_level = "U";
 	}
-	$u_id = schreibe_db("user", $f, $u_id, "u_id");
-	if (!$u_id) {
+	$user_id = schreibe_db("user", $f, $user_id, "u_id");
+	if (!$user_id) {
 		echo "Fataler Fehler beim Login:<PRE>";
 		print_r($f);
 		echo "</PRE>";
@@ -183,7 +183,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Aktuelle Daten des Benutzers aus Tabelle iignore lesen
 	// Query muss mit Code in ignore übereinstimmen
-	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$u_id";
+	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
 		echo "Fehler beim Login (iignore): $query<br>";
@@ -201,7 +201,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	$knebelzeit = NULL;
 	// Aktuelle Benutzerdaten aus Tabelle user lesen
 	// Query muss mit Code in schreibe_db übereinstimmen
-	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$u_id";
+	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
 		echo "Fehler beim Login: $query<br>";
@@ -232,7 +232,7 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 		}
 		
 		// Hole Knebelzeit aus Benutzertabelle
-		$query = "SELECT `u_knebel` FROM `user` WHERE `u_id`=$u_id";
+		$query = "SELECT `u_knebel` FROM `user` WHERE `u_id`=$user_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
@@ -247,12 +247,12 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES `online` WRITE, user WRITE";
 	$result = sqlUpdate($query, true);
-	$query = "DELETE FROM `online` WHERE o_user=$u_id";
+	$query = "DELETE FROM `online` WHERE o_user=$user_id";
 	$result = sqlUpdate($query, true);
 	
 	// Benutzer in in Tabelle online merken -> Benutzer ist online
 	unset($f);
-	$f['o_user'] = $u_id;
+	$f['o_user'] = $user_id;
 	$f['o_raum'] = 0;
 	$f['o_hash'] = $hash_id;
 	$f['o_ip'] = $ip;
@@ -280,9 +280,9 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	
 	// Timestamps im Datensatz aktualisieren -> Benutzer gilt als eingeloggt
 	if ($alteloginzeit != "") {
-		$query = "UPDATE online SET o_aktiv=NULL, o_login='$alteloginzeit', o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id ";
+		$query = "UPDATE online SET o_aktiv=NULL, o_login='$alteloginzeit', o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$user_id ";
 	} else {
-		$query = "UPDATE online SET o_aktiv=NULL, o_login=NULL, o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id ";
+		$query = "UPDATE online SET o_aktiv=NULL, o_login=NULL, o_knebel='$knebelzeit', o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$user_id ";
 	}
 	$result = sqlUpdate($query);
 	
@@ -300,8 +300,8 @@ function login($u_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_pu
 	return ($o_id);
 }
 
-function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
-	// Benutzer $u_id betritt Raum $raum (r_id)
+function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
+	// Benutzer $user_id betritt Raum $raum (r_id)
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
@@ -331,7 +331,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 						$raumeintritt = false;
 						
 						// es sei denn, man ist dorthin eingeladen
-						$query2911 = "SELECT inv_user FROM invite WHERE inv_raum=$rows->r_id AND inv_user=$u_id";
+						$query2911 = "SELECT inv_user FROM invite WHERE inv_raum=$rows->r_id AND inv_user=$user_id";
 						$result2911 = sqlQuery($query2911);
 						if ($result2911 > 0) {
 							if (mysqli_num_rows($result2911) > 0)
@@ -340,13 +340,13 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 						}
 						
 						// oder man ist Raumbesiter dort
-						if ($rows->r_besitzer == $u_id) {
+						if ($rows->r_besitzer == $user_id) {
 							$raumeintritt = true;
 						}
 						
 						// abweisen wenn $raumeintritt = false
 						if (!$raumeintritt) {
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%r_name_neu%", $rows->r_name, $t['raum_gehe4']));
+							system_msg("", 0, $user_id, $system_farbe, str_replace("%r_name_neu%", $rows->r_name, $t['raum_gehe4']));
 							unset($raum);
 						}
 						break;
@@ -361,7 +361,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	if (strlen($raum) > 0) {
 		// Prüfung ob Benutzer aus Raum ausgesperrt ist
 		
-		$query4711 = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum) . " AND s_user=$u_id";
+		$query4711 = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum) . " AND s_user=$user_id";
 		$result = sqlQuery($query4711);
 		if ($result > 0) {
 			$rows = mysqli_num_rows($result);
@@ -373,7 +373,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 				
 				unset($raum);
 				
-				$query1222b = "SELECT r_id FROM raum left join sperre on r_id = s_raum and s_user = '$u_id' " . "WHERE r_status1 = 'O' and r_status2 = 'P' and r_min_punkte <= $u_punkte_gesamt " . "and s_id is NULL " . "ORDER BY r_id ";
+				$query1222b = "SELECT r_id FROM raum LEFT JOIN sperre ON r_id = s_raum and s_user = '$user_id' WHERE r_status1 = 'O' and r_status2 = 'P' and r_min_punkte <= $u_punkte_gesamt AND s_id is NULL ORDER BY r_id ";
 				$result1222b = sqlQuery($query1222b);
 				if (($result1222b > 0) && (mysqli_num_rows($result1222b) > 0)) {
 					// Es gibt Räume, für die man noch nicht gesperrt ist.
@@ -389,14 +389,14 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	// Welchen Raum betreten?
 	if (strlen($raum) == 0) {
 		// Id des Eintrittsraums als Voreinstellung ermitteln
-		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_name='$eintrittsraum' ";
+		$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic FROM raum WHERE r_name='$eintrittsraum' ";
 		$result = sqlQuery($query4711);
 		if ($result)
 			$rows = mysqli_num_rows($result);
 		
 		// eintrittsraum nicht gefunden? -> lobby probieren.
 		if ($rows == 0) {
-			$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic " . "FROM raum WHERE r_name='$lobby' ";
+			$query4711 = "SELECT r_id,r_name,r_eintritt,r_topic FROM raum WHERE r_name='$lobby' ";
 			$result = sqlQuery($query4711);
 			if ($result)
 				$rows = mysqli_num_rows($result);
@@ -441,7 +441,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	$f['o_who'] = "0";
 	
 	// Nachricht im Chat ausgeben
-	$back = nachricht_betrete($u_id, $r_id, $u_nick, $r_name);
+	$back = nachricht_betrete($user_id, $r_id, $u_nick, $r_name);
 	
 	// ID der Eintrittsnachricht merken und online-Datensatz schreiben
 	$f['o_chat_id'] = $back;
@@ -449,7 +449,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	
 	// Topic vorhanden? ausgeben
 	if (strlen($r_topic) > 0) {
-		system_msg("", 0, $u_id, "", "<br><b>$t[betrete_chat3] $r_name:</b> $r_topic");
+		system_msg("", 0, $user_id, "", "<br><b>$t[betrete_chat3] $r_name:</b> $r_topic");
 	}
 	
 	// Eintrittsnachricht
@@ -465,36 +465,35 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	
 	if ($raum_eintrittsnachricht_anzeige_deaktivieren == "1") {
 	} else if (strlen($r_eintritt) > 0) {
-		system_msg("", 0, $u_id, "", "<br><b>$txt $r_eintritt, $u_nick!</b><br>");
+		system_msg("", 0, $user_id, "", "<br><b>$txt $r_eintritt, $u_nick!</b><br>");
 	} else {
-		system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
+		system_msg("", 0, $user_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
 	}
 	
 	// Wer ist alles im Raum?
-	raum_user($r_id, $u_id);
+	raum_user($r_id, $user_id);
 	
 	// Hat der Benutzer sein Profil ausgefüllt?
 	if ($u_level != "G") {
-		profil_neu($u_id, $u_nick, $hash_id);
+		profil_neu($user_id, $u_nick, $hash_id);
 	}
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($u_level != "G") {
-		aktion($u_id, "Login", $u_id, $u_nick, $hash_id);
+		aktion($user_id, "Login", $user_id, $u_nick, $hash_id);
 	}
 	
 	// Nachrichten an Freude verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$user_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$user_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
-		
 		while ($row = mysqli_fetch_object($result)) {
 			unset($f);
 			$f['raum'] = $r_name;
 			$f['aktion'] = "Login";
 			$f['f_text'] = $row->f_text;
-			if ($row->f_userid == $u_id) {
+			if ($row->f_userid == $user_id) {
 				if (ist_online($row->f_freundid)) {
 					$wann = "Sofort/Online";
 					$an_u_id = $row->f_freundid;
@@ -512,7 +511,7 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 				}
 			}
 			// Aktion ausführen
-			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($user_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
@@ -520,14 +519,14 @@ function betrete_chat($o_id, $u_id, $u_nick, $u_level, $raum) {
 	return ($back);
 }
 
-function id_erzeuge($u_id) {
+function id_erzeuge() {
 	// Erzeugt eindeutige ID für jeden Benutzer
 	
 	$id = md5(uniqid(mt_rand()));
 	return $id;
 }
 
-function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
+function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
 	global $lobby, $eintrittsraum, $t, $hash_id, $system_farbe;
 	
@@ -536,16 +535,16 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 	$f['o_who'] = "2";
 	
 	//user betritt nicht chat, sondern direkt forum --> $back ist die aktuellste Zeile in chat
-	$f['o_chat_id'] = system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
+	$f['o_chat_id'] = system_msg("", 0, $user_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($u_level != "G") {
-		aktion($u_id, "Login", $u_id, $u_nick, $hash_id);
+		aktion($user_id, "Login", $user_id, $u_nick, $hash_id);
 	}
 	
 	// Nachrichten an Freude verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$user_id AND f_status = 'bestaetigt' UNION SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$user_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -555,7 +554,7 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 			$f['raum'] = "";
 			$f['aktion'] = "Login";
 			$f['f_text'] = $row->f_text;
-			if ($row->f_userid == $u_id) {
+			if ($row->f_userid == $user_id) {
 				if (ist_online($row->f_freundid)) {
 					$wann = "Sofort/Online";
 					$an_u_id = $row->f_freundid;
@@ -573,7 +572,7 @@ function betrete_forum($o_id, $u_id, $u_nick, $u_level) {
 				}
 			}
 			// Aktion ausführen
-			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($user_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
