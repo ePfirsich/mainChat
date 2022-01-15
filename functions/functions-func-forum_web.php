@@ -845,7 +845,7 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 	}
 	
 	if ($schreibrechte && !$threadgesperrt && !$ist_navigation_top) {
-		$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&po_vater_id=$po_id&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$t[thema_antworten]\"><span class=\"fa fa-reply icon16\"></span> <span>$t[thema_antworten]</span></a>\n";
+		$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&po_vater_id=$thread&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$t[thema_antworten]\"><span class=\"fa fa-reply icon16\"></span> <span>$t[thema_antworten]</span></a>\n";
 	}
 
 	//Nur Forum-Admins dürfen Beiträge loeschen
@@ -1119,7 +1119,7 @@ function show_posting() {
 		}
 		
 		if ($schreibrechte && !$threadgesperrt) {
-			$text .= "<a href=\"forum.php?id=$id&th_id=$po_th_id&po_vater_id=$po_id&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$t[thema_zitieren]\"><span class=\"fa fa-quote-right icon16\"></span> <span>$t[thema_zitieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?id=$id&th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$t[thema_zitieren]\"><span class=\"fa fa-quote-right icon16\"></span> <span>$t[thema_zitieren]</span></a>\n";
 		}
 		
 		//Nur Forum-Admins dürfen Beiträge loeschen
