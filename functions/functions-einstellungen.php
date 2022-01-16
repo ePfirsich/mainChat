@@ -14,7 +14,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_avatar'], "", "", 0, "70", "");
 		
 		// Avatar lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=" . $f['u_id'];
+		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM `bild` WHERE b_name = 'avatar' AND b_user = " . $f['u_id'];
 		$resultAvatar = sqlQuery($queryAvatar);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 			unset($bilder);

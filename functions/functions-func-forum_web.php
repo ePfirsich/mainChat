@@ -1072,7 +1072,7 @@ function show_posting() {
 		
 		// Start des Avatars
 		// Bildinfos lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$po_u_id";
+		$queryAvatar = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $po_u_id";
 		$resultAvatar = sqlQuery($queryAvatar);
 		unset($bilder);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {

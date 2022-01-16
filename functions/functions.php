@@ -378,7 +378,7 @@ function priv_msg(
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
 		$von_user_id = mysqli_real_escape_string($mysqli_link, $von_user_id); // sec
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$von_user_id";
+		$query = "UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = $von_user_id";
 		$result = sqlUpdate($query, true);
 	}
 	

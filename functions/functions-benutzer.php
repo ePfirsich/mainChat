@@ -73,7 +73,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Bildinfos lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND b_user=$row->u_id";
+		$queryAvatar = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM bild WHERE b_name = 'avatar' AND b_user = $row->u_id";
 		$resultAvatar = sqlQuery($queryAvatar);
 		unset($bilder);
 		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
@@ -126,7 +126,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$pmu = sqlUpdate($query, true);
 			}
 			
-			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"255\" value=\"\" type=\"text\">"
+			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"250\" value=\"\" type=\"text\">"
 				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 				. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">";
