@@ -1781,11 +1781,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			
 			case "/quiddice":
 			case "/dicecheck":
-				if (!isset($o_dicecheck)) {
-					$query = "ALTER TABLE online ADD o_dicecheck VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''";
-					sqlUpdate($query);
-					$o_dicecheck = "";
-				}
 				if (!$o_dicecheck) {
 					if (preg_match("!^\d+[wW]\d+$!", $chatzeile[1])) {
 						$o_dicecheck = mysqli_real_escape_string($mysqli_link, $chatzeile[1]);
