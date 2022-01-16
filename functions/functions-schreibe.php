@@ -6,7 +6,7 @@ require_once("functions/functions-func-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {
-	global $u_id, $t, $o_raum, $admin, $u_level, $chat_max_eingabe, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
+	global $u_id, $t, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
 	
@@ -29,9 +29,9 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 	// Falls $text eine Eingabezeile enthält -> verarbeiten
 	
 	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der Normalen eingabe
-	if (($admin || ($u_level == "M")) && isset($text) && (strlen($text) != 0) && (strlen($text) < (5 * $chat_max_eingabe))) {
+	if (($admin || ($u_level == "M")) && isset($text) && (strlen($text) != 0) && (strlen($text) < (5 * 255))) {
 		
-	} else if (isset($text) && strlen($text) != 0 && strlen($text) < $chat_max_eingabe) { // Normale Prüfung für Benutzer
+	} else if (isset($text) && strlen($text) != 0 && strlen($text) < 255) { // Normale Prüfung für Benutzer
 		// Spamschutz prüfen, falls kein Admin und kein Moderator
 		if (!$admin && ($u_level <> "M")) {
 			
@@ -87,8 +87,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 				$fehler = true;
 			}
 		}
-		
-	} else if (isset($text) && strlen($text) >= $chat_max_eingabe) {
+	} else if (isset($text) && strlen($text) >= 255) {
 		$fehler = true;
 	}
 	

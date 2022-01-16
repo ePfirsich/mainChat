@@ -4,8 +4,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 	// $user = ID des Benutzers
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $level, $id, $locale;
-	global $user_farbe, $ist_online_raum, $chat_max_eingabe, $t;
+	global $level, $id, $locale, $user_farbe, $ist_online_raum, $t;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
@@ -127,7 +126,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$pmu = sqlUpdate($query, true);
 			}
 			
-			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"" . ($chat_max_eingabe - 1) . "\" value=\"\" type=\"text\">"
+			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"255\" value=\"\" type=\"text\">"
 				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 				. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">";

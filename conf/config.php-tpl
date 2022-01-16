@@ -96,8 +96,6 @@ $chat_back=30;
 // Einstellungen für die Eingabe im Chat (Spam-Schutz)
 // Falls in chat_max_zeit mehr als chat_max_byte oder chat_max_zeilen Zeilen
 // wird die Eingabe verworfen.
-// Ebenso verworfen wird sie bei einer Zeilenlänge von über chat_max_eingabe
-$chat_max_eingabe=256; 	// Anzahl der Zeichen, die in der Eingabezeile maximal eingeben werden können
 $chat_max_zeit=5;	// Zeit in Sekunden.
 $chat_max_byte=256;	// Zeichen in Bytes.
 $chat_max_zeilen=5;	// Anzahl der Zeilen
