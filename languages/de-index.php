@@ -231,7 +231,7 @@ $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde ber
 $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.<br>";
 
 $t['email_passwort_vergessen_titel'] = "Ihre Passwortanforderung für den $chat";
-$t['email_passwort_vergessen_inhalt'] = "Hallo %nickname%,<br />
+$t['email_passwort_vergessen_inhalt'] = "Hallo %u_nick%,<br />
 <br />
 für Ihren Account auf $chat_url wurde ein neues Passwort angefordert.<br />
 Um ein neues Passwort zu vergeben, rufen Sie innerhalb der nächsten 24 Stunden die folgende Website auf:<br />

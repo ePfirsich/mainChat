@@ -595,18 +595,16 @@ function RaumNameToRaumID($eintrittsraum) {
 	return ($lobby_id);
 }
 
-function auth_user($login, $passwort) {
+function auth_user($username, $passwort) {
 	// Passwort prüfen und Benutzerdaten lesen
 	// Funktion liefert das mysqli_result zurück, wenn auf EINEN Benutzer das login/passwort passt
-	// $login muss "sicher" kommen
-	// passwort = Passwort
 	
 	global $mysqli_link;
 	
 	// Übergebenes Passwort hashen und gegen das gespeicherte Passwort prüfen
 	$v_passwort = encrypt_password($passwort);
 	
-	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $login) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $username) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		return ($result);
@@ -617,7 +615,7 @@ function auth_user($login, $passwort) {
 
 function zeige_chat_login($text = "") {
 	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
-	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren;
+	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
 	
 	// Kopfzeile
 	if ($neuregistrierung_deaktivieren) {
@@ -694,7 +692,7 @@ function zeige_chat_login($text = "") {
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "login", "");
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", "");
 	$zaehler++;
 	
 	// Passwort
@@ -730,7 +728,7 @@ function zeige_chat_login($text = "") {
 	if($gast_login && !$temp_gast_sperre) {
 		// Gastlogin
 		$text .= "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
-		$text .= "<input type=\"hidden\" name=\"login\" value=\"\">\n";
+		$text .= "<input type=\"hidden\" name=\"username\" value=\"\">\n";
 		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		

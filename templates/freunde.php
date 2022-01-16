@@ -62,20 +62,20 @@ switch ($aktion) {
 			mysqli_free_result($result2);
 			
 			if ($ignore) {
-				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
+				$fehlermeldung = str_replace("%u_nick%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			} else if ($neuer_freund['u_level'] == 'Z') {
-				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
+				$fehlermeldung = str_replace("%u_nick%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			} else if ($neuer_freund['u_level'] == 'G') {
-				$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gast']);
+				$fehlermeldung = str_replace("%u_nick%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_gast']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			}
 		} else if ($neuer_freund['u_nick'] == "") {
 			$fehlermeldung = $t['freunde_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
-			$fehlermeldung = str_replace("%nickname%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $neuer_freund['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		

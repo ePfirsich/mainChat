@@ -292,9 +292,9 @@ function zeige_home($user_id, $force = FALSE) {
 		// Aufruf als home.php?ui_userid=USERID
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$user_id";
 	} else if ($user_id == -1 && isset($_SERVER['QUERY_STRING'])) {
-		$nicknamen = $new_string=substr($_SERVER['QUERY_STRING'],1);
+		$username = $new_string=substr($_SERVER['QUERY_STRING'],1);
 		// Aufruf als home.php?USERNAME
-		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($nicknamen)) );
+		$tempnick = mysqli_real_escape_string($mysqli_link, strtolower(urldecode($username)) );
 		$tempnick = coreCheckName($tempnick, $check_name);
 		
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '" . $tempnick . "' and u_level in ('A','C','G','M','S','U')";

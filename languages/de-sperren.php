@@ -40,7 +40,7 @@ $t['sperren_fehlermeldung_eintrag_bereits_vorhanden'] = "'%username%' ist bereit
 $t['sperren_fehlermeldung_fehler_beim_anlegen'] = "Fehler beim Anlegen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
 $t['sperren_fehlermeldung_fehler_beim_loeschen'] = "Fehler beim Löschen des Blacklist-Eintrags: %userid%,%eintrag%!<br>";
 $t['sperren_fehlermeldung_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
-$t['sperren_fehlermeldung_benutzer_nicht_vorhanden'] = "Der Benutzername '%nickname%' existiert nicht!<br>";
+$t['sperren_fehlermeldung_benutzer_nicht_vorhanden'] = "Der Benutzername '%u_nick%' existiert nicht!<br>";
 
 $t['sonst2'] = "Übersicht über alle Zugangssperren";
 

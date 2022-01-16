@@ -1,6 +1,6 @@
 <?php
-$mitgliedId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-$code = filter_input(INPUT_GET, 'code');
+$mitgliedId = filter_input(INPUT_GET, 'uid', FILTER_SANITIZE_NUMBER_INT);
+$code = filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING);
 $text = "";
 if(!isset($mitgliedId) || !isset($code)) {
 	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];

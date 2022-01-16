@@ -184,7 +184,7 @@ switch ($aktion) {
 			
 			formular_neuer_blacklist($text, $neuer_blacklist);
 		} else {
-			$fehlermeldung = str_replace("%nickname%", $neuer_blacklist['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $neuer_blacklist['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			formular_neuer_blacklist($text, $neuer_blacklist);

@@ -1581,7 +1581,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$text = html_parse($privat, htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]))[0];
 				
 				if ($chatzeile[1]) {
-					// Nach nicknamen suchen
+					// Nach usernamen suchen
 					$nick = nick_ergaenze($chatzeile[1], "online", 1);
 					
 					// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
@@ -1640,11 +1640,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								# system_msg("",0,$u_id,$system_farbe,str_replace("%u_nick%",$nick[u_nick],$t[chat_msg83]));
 								system_msg("", 0, $u_id, $system_farbe, $text);
 							} else if ($freunddazu == -1) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%nickname%", $nick['u_nick'], $t['freunde_fehlermeldung_ignoriert']));
+								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_ignoriert']));
 							} else if ($freunddazu == -2) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%nickname%", $nick['u_nick'], $t['freunde_fehlermeldung_gesperrt']));
+								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_gesperrt']));
 							} else if ($freunddazu == -3) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%nickname%", $nick['u_nick'], $t['freunde_fehlermeldung_gast']));
+								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_gast']));
 							}
 						}
 					} else {
@@ -1728,7 +1728,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$text = html_parse($privat, htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]))[0];
 				
 				if ($chatzeile[1]) {
-					// Nach nicknamen suchen
+					// Nach usernamen suchen
 					$nick = nick_ergaenze($chatzeile[1], "online", 1);
 					
 					// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen

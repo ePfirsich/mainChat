@@ -53,7 +53,7 @@ $t['einstellungen_email_aendern'] = "E-Mail-Adresse für \"%u_nick%\" ändern";
 $t['einstellungen_email_aendern_inhalt'] = "Nach dem Ändern erhalten Sie eine E-Mail zum Bestätigen der neuen E-Mail-Adresse. Erst nach der Bestätigung ist die neue E-Mail-Adresse gespeichert.";
 $t['einstellungen_email_aendern_bestaetigung'] = "Es wurde eine E-Mail an \"%u_email%\" zur Bestätigung der neuen E-Mail-Adresse gesendet. Erst nach der Bestätigung ist die neue E-Mail-Adresse gespeichert.";
 $t['einstellungen_email_aendern_email_titel'] = "Ihre E-Mail-Änderung für den $chat";
-$t['einstellungen_email_aendern_email_inhalt'] = "Hallo %nickname%,<br />
+$t['einstellungen_email_aendern_email_inhalt'] = "Hallo %u_nick%,<br />
 <br />
 in Ihren Account auf $chat_url wurde eine neue E-Mail-Adresse hinterlegt.<br />
 Um die neue E-Mail-Adresse zu bestätigen, rufen Sie folgende Website auf:<br />

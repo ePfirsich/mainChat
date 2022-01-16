@@ -295,7 +295,7 @@ $adminlisteabrufbar="1";
 
 // Im Expire werden alle Benutzer gelöscht, die sich längere Zeit nicht eingeloggt haben
 // Angabe in Sekunden: default =26 Wochen =15724800 Sekunden
-$nicknamen_expire=15724800; // = 26 Wochen
+$usernamen_expire=15724800; // = 26 Wochen
 
 // Es können sich keine neuen Benutzer mehr registrieren
 $neuregistrierung_deaktivieren = false;

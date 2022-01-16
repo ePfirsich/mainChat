@@ -208,10 +208,10 @@ if ($zeit == "03:10") {
 	
 	echo "Täglicher expire\n";
 	
-	if (!isset($nicknamen_expire) || $nicknamen_expire == 0) {
-		$nicknamen_expire = 15724800;
+	if (!isset($usernamen_expire) || $usernamen_expire == 0) {
+		$usernamen_expire = 15724800;
 	}
-	// Benutzer löschen, die länger als $nicknamen_expire (config.php default =26 Wochen (=15724800 Sekunden)) nicht online waren
+	// Benutzer löschen, die länger als $usernamen_expire (config.php default =26 Wochen (=15724800 Sekunden)) nicht online waren
 	// und nicht auf gesperrt stehen (=Z) und kein Superuser sind (=S)
 	echo "<br><b>Expire:</b> Benutzer ";
 	flush();
@@ -234,11 +234,11 @@ if ($zeit == "03:10") {
 	}
 	if (strlen($besitzer) > 0) {
 		$query = "SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, `u_login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-			. $nicknamen_expire . " AND `u_level` !='Z' AND `u_level` !='S' "
+			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S' "
 			. $besitzer;
 	} else {
 		$query = "SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, u_`login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-			. $nicknamen_expire . " AND `u_level` !='Z' AND `u_level` !='S'";
+			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S'";
 	}
 	
 	// Orginalquery ohne Raumbesitzer Expire wird nimmer benötigt

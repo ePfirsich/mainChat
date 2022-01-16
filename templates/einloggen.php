@@ -39,25 +39,22 @@ if (!isset($passwort) || $passwort == "") {
 		// Login als Gast
 		
 		// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
-		if (!isset($login)) {
-			$login = "";
-		}
-		$login = coreCheckName($login, $check_name);
+		$username = coreCheckName($username, $check_name);
 		
-		if (strlen($login) < 4 || strlen($login) > 20) {
-			$login = "";
+		if (strlen($username) < 4 || strlen($username) > 20) {
+			$username = "";
 		}
 		
 		// Falls kein Benutzername übergeben, Nick finden
-		if (strlen($login) == 0) {
+		if (strlen($username) == 0) {
 			if ($gast_name_auto) {
 				// Freien Benutzername bestimmen falls in der Config erlaubt
 				$rows = 1;
 				$i = 0;
 				$anzahl = count($gast_name);
 				while ($rows != 0 && $i < 100) {
-					$login = $gast_name[mt_rand(1, $anzahl)];
-					$query4711 = "SELECT u_id FROM user WHERE u_nick='$login' ";
+					$username = $gast_name[mt_rand(1, $anzahl)];
+					$query4711 = "SELECT u_id FROM user WHERE u_nick='$username' ";
 					$result = sqlQuery($query4711);
 					$rows = mysqli_num_rows($result);
 					$i++;
@@ -68,8 +65,8 @@ if (!isset($passwort) || $passwort == "") {
 				$rows = 1;
 				$i = 0;
 				while ($rows != 0 && $i < 100) {
-					$login = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
-					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, $login) . "'";
+					$username = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
+					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, $username) . "'";
 					$result = sqlQuery($query4711);
 					$rows = mysqli_num_rows($result);
 					$i++;
@@ -79,12 +76,12 @@ if (!isset($passwort) || $passwort == "") {
 		}
 		
 		// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
-		$login = mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name));
+		$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
 		
 		// Benutzerdaten für Gast setzen
 		$f['u_level'] = "G";
 		$f['u_passwort'] = mt_rand(1, 10000);
-		$f['u_nick'] = $login;
+		$f['u_nick'] = $username;
 		$passwort = $f['u_passwort'];
 		
 		// Prüfung, ob dieser Benutzer bereits existiert
@@ -103,7 +100,7 @@ if(!$kein_gastlogin_ausblenden) {
 	
 	// Passwort prüfen und Benutzerdaten lesen
 	$rows = 0;
-	$result = auth_user($login, $passwort);
+	$result = auth_user($username, $passwort);
 	if ($result) {
 		$rows = mysqli_num_rows($result);
 	}
@@ -242,7 +239,7 @@ if(!$kein_gastlogin_ausblenden) {
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 				
-				$text .= "<input type=\"hidden\" name=\"login\" value=\"$login\">\n";
+				$text .= "<input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 				$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$passwort\">\n";
 				$text .= "<input type=\"hidden\" name=\"eintritt\" value=\"$eintritt\">\n";
 				$text .= "</table>\n";

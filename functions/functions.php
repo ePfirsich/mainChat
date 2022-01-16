@@ -1232,7 +1232,6 @@ function hole_geschlecht($userid) {
 function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 	id_lese($id);
-	
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {
 		verlasse_chat($u_id, $u_nick, $o_raum);

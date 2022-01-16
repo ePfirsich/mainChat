@@ -23,6 +23,9 @@ id_lese($id);
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
+	header('Location: ' . $chat_url);
+	// or die();
+	exit();
 	die;
 }
 
@@ -71,7 +74,7 @@ if($bereich == "log" && $aktion == "abspeichern") {
 
 $meta_refresh = "";
 if($bereich == "sperren" || $bereich == "freunde" || $bereich == "nachrichten") {
-$meta_refresh = "<script>
+	$meta_refresh = "<script>
 		function toggle(tostat) {
 			for(i=0; i<document.forms[\"eintraege_loeschen\"].elements.length; i++) {
 				 e = document.forms[\"eintraege_loeschen\"].elements[i];

@@ -9,10 +9,10 @@ unset($u_id);
 $fehlermeldung = "";
 $email_gesendet = false;
 
-if (isset($email) && isset($nickname) && isset($hash)) {
-	$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
+if (isset($email) && isset($username) && isset($hash)) {
+	$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
 	$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_email, u_punkte_jahr FROM user WHERE u_nick = '$nickname' AND u_level != 'G' AND u_email = '$email' LIMIT 1";
+	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_email, u_punkte_jahr FROM user WHERE u_nick = '$username' AND u_level != 'G' AND u_email = '$email' LIMIT 1";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -26,11 +26,11 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 	}
 	mysqli_free_result($result);
-} else if ( isset($email) || isset($nickname) ) {
-	if( isset($nickname) && $nickname != "" ) {
-		$nickname = mysqli_real_escape_string($mysqli_link, coreCheckName($nickname, $check_name));
+} else if ( isset($email) || isset($username) ) {
+	if( isset($username) && $username != "" ) {
+		$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
 	} else {
-		$nickname = "";
+		$username = "";
 	}
 	
 	if( isset($email) && $email != "" ) {
@@ -42,13 +42,13 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 		$email = "";
 	}
 	
-	if( $email == "" && $nickname == "" ) {
+	if( $email == "" && $username == "" ) {
 		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email_benutzername'];
 	}
 	
 	if ($fehlermeldung == "") {
-		if($nickname != "") {
-			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$nickname' LIMIT 2";
+		if($username != "") {
+			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$username' LIMIT 2";
 		} else {
 			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = '$email' LIMIT 2";
 		}
@@ -75,9 +75,9 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				sqlUpdate($queryPasswortcode);
 				
 				// ULR zusammenstellen
-				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&id=" . $a['u_id'] . "&code=".$passwordcode;
+				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&uid=" . $a['u_id'] . "&code=".$passwordcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $t['email_passwort_vergessen_inhalt']);
-				$inhalt = str_replace("%nickname%", $a['u_nick'], $inhalt);
+				$inhalt = str_replace("%u_nick%", $a['u_nick'], $inhalt);
 				$email = urldecode($a['u_email']);
 				
 				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
@@ -91,7 +91,7 @@ if (isset($email) && isset($nickname) && isset($hash)) {
 				unset($hash);
 			}
 		} else {
-			if($nickname != "") {
+			if($username != "") {
 				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_benutzername'];
 			} else {
 				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email2'];
@@ -118,8 +118,8 @@ if ($email_gesendet) {
 	// Formular zum Anfordern eines neuen Passworts
 	$text .= "<form action=\"index.php?bereich=passwort-vergessen\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
-	if (!isset($nickname)) {
-		$nickname = "";
+	if (!isset($username)) {
+		$username = "";
 	}
 	if (!isset($email)) {
 		$email = "";
@@ -129,7 +129,7 @@ if ($email_gesendet) {
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "nickname", $nickname);
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", $username);
 	$zaehler++;
 	
 	// E-Mail

@@ -141,7 +141,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	
 	$text = "";
 	if (!$f_userid || !$f_freundid) {
-		$fehlermeldung = str_replace("%nickname%", $f_nick, $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich']);
+		$fehlermeldung = str_replace("%u_nick%", $f_nick, $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
@@ -253,7 +253,7 @@ function neuer_freund($f_userid, $freund) {
 		
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$fehlermeldung .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+			$fehlermeldung .= str_replace("%u_nick%", $freund['u_nick'], $t['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($freund['u_id'] == $f_userid) {
 			// Eigener Freund ist verboten
@@ -270,15 +270,15 @@ function neuer_freund($f_userid, $freund) {
 			schreibe_db("freunde", $f, 0, "f_id");
 			
 			$betreff = $t['freunde_freundesanfrage'];
-			$email_text = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_email']);
+			$email_text = str_replace("%u_nick%", $freund['u_nick'], $t['freunde_freundesanfrage_email']);
 			
 			mail_sende($f_userid, $freund['u_id'], $email_text, $betreff);
 			if (ist_online($freund['u_id'])) {
-				$msg = str_replace("%nickname%", $freund['u_nick'], $t['freunde_freundesanfrage_chat']);
+				$msg = str_replace("%u_nick%", $freund['u_nick'], $t['freunde_freundesanfrage_chat']);
 				system_msg("", 0, $freund['u_id'], $system_farbe, $msg);
 			}
 			
-			$erfolgsmeldung .= str_replace("%nickname%", $freund['u_nick'], $t['freunde_erfolgsmeldung_freundesanfrage']);
+			$erfolgsmeldung .= str_replace("%u_nick%", $freund['u_nick'], $t['freunde_erfolgsmeldung_freundesanfrage']);
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		}
 	}
@@ -311,7 +311,7 @@ function bestaetige_freund($f_userid, $freund) {
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$f_nick = mysqli_result($result, 0, 0);
-		$back = str_replace("%nickname%", $f_nick, $t['freunde_erfolgsmeldung_freundschaft_bestaetigt']);
+		$back = str_replace("%u_nick%", $f_nick, $t['freunde_erfolgsmeldung_freundschaft_bestaetigt']);
 	}
 	return $back;
 }

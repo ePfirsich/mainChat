@@ -203,7 +203,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// ULR zusammenstellen
 				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&id=" . $f['u_id'] . "&code=".$emailcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $t['einstellungen_email_aendern_email_inhalt']);
-				$inhalt = str_replace("%nickname%", $f['u_nick'], $inhalt);
+				$inhalt = str_replace("%u_nick%", $f['u_nick'], $inhalt);
 				$email = urldecode($f['u_email']);
 				
 				// E-Mail versenden

@@ -17,6 +17,7 @@ if($email == "") {
 $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
+$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 
 zeige_header($body_titel, 0);
 
@@ -119,9 +120,8 @@ mysqli_free_result($result);
 
 // Wenn $abweisen=true, dann ist Login ist für diesen Benutzer gesperrt
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
-if ($abweisen && $bereich != "relogin" && strlen($login) > 0) {
-	// test: ist user=admin -> dann nicht abweisen...
-	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (u_level in ('S','C'))";
+if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
+	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name)) . "' AND (u_level in ('S','C'))";
 	$r = sqlQuery($query);
 	$rw = mysqli_num_rows($r);
 	
@@ -137,7 +137,7 @@ if ($abweisen && $bereich != "relogin" && strlen($login) > 0) {
 	if ($loginwhileipsperre <> 0) {
 		// Test auf Punkte 
 		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` "
-			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($login, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
+			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
 		
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
 		$r = sqlQuery($query);
@@ -208,8 +208,8 @@ if ($chat_offline) {
 // Ausloggen, falls eingeloggt
 if ($bereich == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
+	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 	id_lese($id);
-	
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {
 		// Aus dem Chat ausloggen
@@ -403,6 +403,7 @@ switch ($bereich) {
 	
 	case "relogin":
 		// Login aus dem Forum in den Chat; Benutzerdaten setzen
+		$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
 		id_lese($id);
 		$hash_id = $id;
 		
