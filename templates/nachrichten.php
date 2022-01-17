@@ -268,6 +268,8 @@ switch ($aktion) {
 		
 	case "postausgang":
 		// Postausgang zeigen
+		$text .= $t['nachrichten_postausgang_info'];
+		
 		zeige_mailbox($text, "postausgang", "");
 		break;
 	

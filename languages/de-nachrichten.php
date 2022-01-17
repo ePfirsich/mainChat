@@ -5,6 +5,7 @@ $t['titel'] = "Nachrichten";
 
 $t['nachrichten_posteingang'] = "Posteingang";
 $t['nachrichten_postausgang'] = "Postausgang";
+$t['nachrichten_postausgang_info'] = "Es werden nur gesendete Nachrichten und keine gesendeten E-Mails im Postausgang angezeigt.";
 $t['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";
 $t['nachrichten_papierkorb'] = "Papierkorb";
 $t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
@@ -12,7 +13,6 @@ $t['nachrichten_nachrichten_deaktivieren'] = "Posteingang schließen";
 $t['nachrichten_hilfe'] = "Hilfe";
 
 $t['nachrichten_benutzername'] = "Benutzername";
-$t['nachrichten_weiterleiten'] = "Nachricht weiterleiten";
 $t['nachrichten_neu'] = "Neue Nachricht senden";
 $t['nachrichten_weiter'] = "Weiter";
 
@@ -51,7 +51,7 @@ $t['nachrichten_datum'] = "Datum";
 $t['nachrichten_status'] = "Status";
 $t['nachrichten_von'] = "Von";
 $t['nachrichten_am'] = "Am";
-$t['nachrichten_weiterleiten2'] = "weiterleiten";
+$t['nachrichten_weiterleiten'] = "Nachricht weiterleiten";
 $t['nachrichten_antworten'] = "antworten";
 $t['nachrichten_loeschen'] = "löschen";
 $t['nachrichten_wiederherstellen'] = "wiederherstellen";
