@@ -12,6 +12,8 @@ $t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
 $t['nachrichten_nachrichten_deaktivieren'] = "Posteingang schließen";
 $t['nachrichten_hilfe'] = "Hilfe";
 
+$t['nachrichten_keine_nachrichten_vorhanden'] = "Es sind keine Nachrichten vorhanden.";
+
 $t['nachrichten_benutzername'] = "Benutzername";
 $t['nachrichten_neu'] = "Neue Nachricht senden";
 $t['nachrichten_weiter'] = "Weiter";
@@ -51,8 +53,8 @@ $t['nachrichten_datum'] = "Datum";
 $t['nachrichten_status'] = "Status";
 $t['nachrichten_von'] = "Von";
 $t['nachrichten_am'] = "Am";
-$t['nachrichten_weiterleiten'] = "Nachricht weiterleiten";
 $t['nachrichten_antworten'] = "antworten";
+$t['nachrichten_weiterleiten'] = "weiterleiten";
 $t['nachrichten_loeschen'] = "löschen";
 $t['nachrichten_wiederherstellen'] = "wiederherstellen";
 ?>

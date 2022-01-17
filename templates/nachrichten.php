@@ -261,9 +261,14 @@ switch ($aktion) {
 		mysqli_free_result($result);
 		break;
 	
-	case "zeige":
+	case "zeige_empfangen":
 		// Eine Mail als Detailansicht zeigen
 		zeige_email($m_id, "empfangen");
+		break;
+		
+	case "zeige_gesendet":
+		// Eine Mail als Detailansicht zeigen
+		zeige_email($m_id, "gesendet");
 		break;
 		
 	case "postausgang":
@@ -287,7 +292,7 @@ switch ($aktion) {
 	case "papierkorb":
 	// Papierkorb zeigen
 		if (isset($m_id)) {
-			zeige_email($m_id);
+			zeige_email($m_id, "papierkorb");
 			echo "<br>";
 		}
 		zeige_mailbox("", "geloescht", "");

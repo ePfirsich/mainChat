@@ -207,8 +207,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		
 		if ($anzahl == 0) {
 			// Leere Mailbox
-			$text .=  "Ihre Mailbox ist leer.";
-			
+			$text .=  $t['nachrichten_keine_nachrichten_vorhanden'];
 		} else {
 			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
@@ -226,8 +225,14 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 				if($art == "gesendet") {
 					$url = "";
 					$url2 = "";
+					
+					
+					
+					
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_gesendet&m_id=". $row->m_id . "\">";
+					$url2 = "</a>";
 				} else {
-					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige&m_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_empfangen&m_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
@@ -291,7 +296,6 @@ function zeige_email($m_id, $art) {
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
-		
 		// Mail anzeigen
 		$row = mysqli_fetch_object($result);
 		
@@ -327,34 +331,49 @@ function zeige_email($m_id, $art) {
 		$text .= "</tr>\n";
 		
 		// Formular zur Löschen, Beantworten
-		$text .= "<tr><td class=\"tabelle_zeile2\">&nbsp;</td>"
-			. "<td style=\"text-align:left;\" class=\"tabelle_zeile1\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
-			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
-			. "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_antworten]\">" . "</form></td>\n"
-				. "<td style=\"text-align:center;\" class=\"tabelle_zeile2\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
-			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n"
-			. "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiterleiten]\">" . "</form></td>\n"
-				. "<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">"
-			. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-			. "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n"
-			. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n"
-			. "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_loeschen]\">"
-			. "</form></td></tr>\n";
+		if($art != "gesendet") {
+			$text .= "<tr>\n";
+			$text .= "<td class=\"tabelle_zeile2\">&nbsp;</td>\n";
+			$text .= "<td style=\"text-align:left;\" class=\"tabelle_zeile1\">\n";
+			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+			$text .= "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n";
+			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
+			$text .= "</td>\n";
+			
+			$text .= "<td style=\"text-align:center;\" class=\"tabelle_zeile2\">\n";
+			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+			$text .= "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n";
+			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiterleiten]\">\n";
+			$text .= "</form>\n";
+			$text .= "</td>\n";
+			
+			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">\n";
+			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+			$text .= "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
+			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_loeschen]\">\n";
+			$text .= "</form>\n";
+			$text .= "</td>\n";
+			$text .= "</tr>\n";
+		}
 		$text .= "</table>\n";
 		
 		// Box anzeigen
 		zeige_tabelle_zentriert($box, $text);
 		
-		if ($row->m_status != "geloescht") {
-			// E-Mail auf gelesen setzen
-			unset($f);
-			$f['m_status'] = "gelesen";
-			$f['m_zeit'] = $row->m_zeit;
-			schreibe_db("mail", $f, $row->m_id, "m_id");
+		if($art != "gesendet") {
+			if ($row->m_status != "geloescht") {
+				// E-Mail auf gelesen setzen
+				unset($f);
+				$f['m_status'] = "gelesen";
+				$f['m_zeit'] = $row->m_zeit;
+				schreibe_db("mail", $f, $row->m_id, "m_id");
+			}
 		}
 	}
 }
