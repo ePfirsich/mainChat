@@ -3,6 +3,10 @@
 require_once("functions/functions.php");
 require_once("functions/functions-func-chat_lese.php");
 
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+$user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
+$user_nick = filter_input(INPUT_GET, 'user_nick', FILTER_SANITIZE_STRING);
+
 // Benutzerdaten setzen
 id_lese($id);
 
