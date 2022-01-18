@@ -17,7 +17,7 @@ header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", FALSE);
 
 $cache = "home_bild";
-$feld = mysqli_real_escape_string($mysqli_link, $feld);
+$feld = escape_string($feld);
 
 if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6" && $feld != "avatar") {
 	echo "Fehlerhaftes 'feld' in home_bild.php'<br>";

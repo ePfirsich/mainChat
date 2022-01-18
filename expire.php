@@ -23,9 +23,6 @@ if (!file_exists($log)) {
 echo "Expire Chattexte:\n";
 $query = "SELECT *,r_name FROM chat LEFT JOIN raum ON c_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(c_zeit)) > 1900 AND c_typ!='P' " . "ORDER BY c_raum,c_id";
 $result = sqlQuery($query, true);
-if (!$result) {
-	echo mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
-}
 
 $rows = mysqli_num_rows($result);
 

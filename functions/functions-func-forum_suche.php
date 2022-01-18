@@ -207,7 +207,7 @@ function such_bereich() {
 }
 
 function such_ergebnis() {
-	global $id, $mysqli_link, $check_name, $u_id;
+	global $id, $check_name, $u_id;
 	global $suche, $t, $u_level;
 	
 	$maxpostingsprosuche = 1000;
@@ -228,7 +228,7 @@ function such_ergebnis() {
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
 	if (strlen($fehler) == 0 && $suche['username'] <> "") {
-		$sql = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $suche['username']) . "'";
+		$sql = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . escape_string($suche['username']) . "'";
 		$query = sqlQuery($sql);
 		if (mysqli_num_rows($query) == 1) {
 			$suche['u_id'] = mysqli_result($query, 0, "u_id");
@@ -264,22 +264,22 @@ function such_ergebnis() {
 			
 			for ($i = 0; $i < count($suchetext); $i++) {
 				if (strlen($querytext) == 0) {
-					$querytext = "po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+					$querytext = "po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querytext .= " OR po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querytext .= " OR po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 					} else {
-						$querytext .= " AND po_text LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querytext .= " AND po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 					}
 				}
 				
 				if (strlen($querybetreff) == 0) {
-					$querybetreff = "po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+					$querybetreff = "po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querybetreff .= " OR po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querybetreff .= " OR po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 					} else {
-						$querybetreff .= " AND po_titel LIKE \"%" . mysqli_real_escape_string($mysqli_link, $suchetext[$i]) . "%\"";
+						$querybetreff .= " AND po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
 					}
 				}
 			}

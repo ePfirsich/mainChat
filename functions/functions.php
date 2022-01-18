@@ -89,14 +89,14 @@ function sqlQuery($query, $keineNachricht = false) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, 'Abfrage fehlgeschlagen', $query.' -> '.mysqli_error($mysqli_link));
+		email_senden($kontakt, $t['sql_query_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
 		return false;
 	}
 	if ($debug_modus && !$res && !$keineNachricht) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, 'Abfrage ohne Ergebnis', $query);
+		email_senden($kontakt, $t['sql_query_kein_ergebnis'], $query);
 	}
 	return $res;
 }
@@ -109,14 +109,14 @@ function sqlQuery($query, $keineNachricht = false) {
  * @return int|false Wie viele Zeilen geändert wurden
  */
 function sqlUpdate($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus;
+	global $mysqli_link, $debug_modus, $t;
 	
 	$res = mysqli_query($mysqli_link, $query);
 	if ($debug_modus && !$res || mysqli_error($mysqli_link)) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, 'Update fehlgeschlagen', $query.' -> '.mysqli_error($mysqli_link));
+		email_senden($kontakt, $t['sql_update_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
 		return false;
 	}
 	$ret = mysqli_affected_rows($mysqli_link);
@@ -124,9 +124,15 @@ function sqlUpdate($query, $keineNachricht = false) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, 'Update hat keine Zeilen aktualisiert', $query.'<br><pre>'.print_r(debug_backtrace(), 1));
+		email_senden($kontakt, $t['sql_update_keine_aendern'], $query.'<br><pre>'.print_r(debug_backtrace(), 1));
 	}
 	return $ret;
+}
+
+function escape_string($value) {
+	global $mysqli_link;
+	
+	return mysqli_real_escape_string($mysqli_link, $value);
 }
 
 function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
@@ -193,10 +199,10 @@ function ist_online($user) {
 	// Prüft ob Benutzer noch online ist
 	// liefert 1 oder 0 zurück
 	
-	global $timeout, $ist_online_raum, $mysqli_link, $whotext;
+	global $timeout, $ist_online_raum, $whotext;
 	
 	$ist_online_raum = "";
-	$user = mysqli_real_escape_string($mysqli_link, $user); // sec
+	$user = escape_string($user);
 	
 	$query = "SELECT o_id,r_name FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
 	$result = sqlQuery($query);
@@ -358,8 +364,6 @@ function priv_msg(
 	//				P: Privatnachticht
 	//				H: Versteckte Nachricht
 	
-	global $mysqli_link;
-	
 	// Optional Link auf Benutzer erzeugen
 	
 	if ($von_user_id && is_array($userdata)) {
@@ -377,7 +381,7 @@ function priv_msg(
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
-		$von_user_id = mysqli_real_escape_string($mysqli_link, $von_user_id); // sec
+		$von_user_id = escape_string($von_user_id);
 		$query = "UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = $von_user_id";
 		$result = sqlUpdate($query, true);
 	}
@@ -417,9 +421,8 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $u_zeilen;
 	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
-	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul, $mysqli_link;
-	global $o_who, $o_timeout_zeit, $o_timeout_warnung;
-	global $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat, $t;
+	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul;
+	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat, $t;
 	
 	// IP und Browser ermittlen
 	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
@@ -427,7 +430,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	
 	$browser = str_replace("MSIE 8.0", "MSIE 7.0", $browser);
 	
-	$id = mysqli_real_escape_string($mysqli_link, $id);
+	$id = escape_string($id);
 	
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen
 	
@@ -435,7 +438,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	$result = sqlQuery($query);
 	
 	if (!$result) {
-		echo "Fehler: " . mysqli_error($mysqli_link) . "<br><b>$query</b><br>";
 		exit;
 	}
 	
@@ -537,7 +539,6 @@ function schreibe_db($db, $f, $id, $id_name) {
 				$query = "UPDATE sequence SET se_nextid='" . ($id + 1) . "' WHERE se_name='$db'";
 				$result = sqlUpdate($query);
 			} else {
-				echo "Schwerer Fehler in $query: " . mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
 				$query = "UNLOCK TABLES";
 				$result = sqlUpdate($query, true);
 				die();
@@ -554,19 +555,18 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
 			if( $name != $id_name ) {
-				$q .= "," . mysqli_real_escape_string($mysqli_link, $name);
+				$q .= "," . escape_string($name);
 				if ($name == "u_passwort") {
 					// Passwort hashen
-					$q .= "='" . mysqli_real_escape_string($mysqli_link, encrypt_password($inhalt)) . "'";
+					$q .= "='" . escape_string(encrypt_password($inhalt)) . "'";
 				} else {
-					$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
+					$q .= "='" . escape_string($inhalt) . "'";
 				}
 			}
 		}
 		$query = "INSERT INTO $db SET $id_name=$id " . $q;
 		$result = sqlUpdate($query);
 		if (!$result) {
-			echo "Fataler Fehler in $query: " . mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
 			die();
 		}
 		if ($id == 0) {
@@ -578,15 +578,15 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
 			if ($q == "") {
-				$q = mysqli_real_escape_string($mysqli_link, $name);
+				$q = escape_string($name);
 			} else {
-				$q .= "," . mysqli_real_escape_string($mysqli_link, $name);
+				$q .= "," . escape_string($name);
 			}
 			if ($name == "u_passwort") {
 				// Passwort hashen
-				$q .= "='" . mysqli_real_escape_string($mysqli_link, encrypt_password($inhalt)) . "'";
+				$q .= "='" . escape_string(encrypt_password($inhalt)) . "'";
 			} else {
-				$q .= "='" . mysqli_real_escape_string($mysqli_link, $inhalt) . "'";
+				$q .= "='" . escape_string($inhalt) . "'";
 			}
 		}
 		$q = "UPDATE $db SET " . $q . " WHERE $id_name=$id";
@@ -604,7 +604,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 			// Slashes in jedem Eintrag des Array ergänzen
 			reset($userdata);
 			while (list($ukey, $udata) = each($userdata)) {
-				$udata = mysqli_real_escape_string($mysqli_link, $udata);
+				$udata = escape_string($udata);
 			}
 			
 			// Benutzerdaten in 255-Byte Häppchen zerlegen
@@ -624,12 +624,12 @@ function schreibe_db($db, $f, $id, $id_name) {
 			}
 			
 			$query = "UPDATE online SET "
-				. "o_userdata='" . mysqli_real_escape_string($mysqli_link, $userdata_array[0]) . "', "
-				. "o_userdata2='" . mysqli_real_escape_string($mysqli_link, $userdata_array[1]) . "', "
-				. "o_userdata3='" . mysqli_real_escape_string($mysqli_link, $userdata_array[2]) . "', "
-				. "o_userdata4='" . mysqli_real_escape_string($mysqli_link, $userdata_array[3]) . "', "
-				. "o_level='" . mysqli_real_escape_string($mysqli_link, $userdata['u_level']) . "', "
-				. "o_name='" . mysqli_real_escape_string($mysqli_link, $userdata['u_nick']) . "' "
+				. "o_userdata='" . escape_string($userdata_array[0]) . "', "
+				. "o_userdata2='" . escape_string($userdata_array[1]) . "', "
+				. "o_userdata3='" . escape_string($userdata_array[2]) . "', "
+				. "o_userdata4='" . escape_string($userdata_array[3]) . "', "
+				. "o_level='" . escape_string($userdata['u_level']) . "', "
+				. "o_name='" . escape_string($userdata['u_nick']) . "' "
 					. "WHERE o_user=$id";
 					sqlUpdate($query, true);
 			mysqli_free_result($result);
@@ -1299,13 +1299,11 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 function logout($o_id, $u_id) {
 	// Logout aus dem Gesamtsystem
 	
-	global $mysqli_link;
-	
 	// Tabellen online+user exklusiv locken
 	$query = "LOCK TABLES online WRITE, user WRITE";
 	$result = sqlUpdate($query, true);
 	
-	$o_id = mysqli_real_escape_string($mysqli_link, $o_id);
+	$o_id = escape_string($o_id);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	$query = "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_user=$u_id";

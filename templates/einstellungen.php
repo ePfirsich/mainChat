@@ -167,7 +167,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			}
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-			$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
+			$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
 			$result = sqlQuery($query);
 			$num = mysqli_num_rows($result);
 			if ($num > 1) {
@@ -197,7 +197,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Passwortcode generieren und in der Datenbank speichern
 				$emailcode = randomString();
-				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "' WHERE `u_id` = $f[u_id];";
+				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . escape_string($f['u_email']) . "' WHERE `u_id` = $f[u_id];";
 				sqlUpdate($queryEmailcode);
 				
 				// ULR zusammenstellen
@@ -294,7 +294,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 					
 					// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-					$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
+					$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
 					$result = sqlQuery($query);
 					$num = mysqli_num_rows($result);
 					if ($num > 1) {
@@ -358,7 +358,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 					
 					// Existiert der Benutzername schon oder ist der Benutername gesperrt?
-					$query = "SELECT u_id, u_level FROM user WHERE u_nick LIKE '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "' AND u_id != $u_id";
+					$query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . escape_string($f['u_nick']) . "' AND u_id != $u_id";
 					$result = sqlQuery($query);
 					$rows = mysqli_num_rows($result);
 					if ($rows != 0) {

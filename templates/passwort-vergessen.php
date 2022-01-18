@@ -10,8 +10,8 @@ $fehlermeldung = "";
 $email_gesendet = false;
 
 if (isset($email) && isset($username) && isset($hash)) {
-	$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
-	$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
+	$username = escape_string(coreCheckName($username, $check_name));
+	$email = escape_string(urldecode($email));
 	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_email, u_punkte_jahr FROM user WHERE u_nick = '$username' AND u_level != 'G' AND u_email = '$email' LIMIT 1";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -28,14 +28,14 @@ if (isset($email) && isset($username) && isset($hash)) {
 	mysqli_free_result($result);
 } else if ( isset($email) || isset($username) ) {
 	if( isset($username) && $username != "" ) {
-		$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
+		$username = escape_string(coreCheckName($username, $check_name));
 	} else {
 		$username = "";
 	}
 	
 	if( isset($email) && $email != "" ) {
-		$email = mysqli_real_escape_string($mysqli_link, urldecode($email));
-		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email))) {
+		$email = escape_string(urldecode($email));
+		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $email)) {
 			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email'];
 		}
 	} else {
@@ -150,6 +150,4 @@ if ($email_gesendet) {
 	$text .= "</table>";
 	$text .= "</form>";
 }
-
-zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 ?>

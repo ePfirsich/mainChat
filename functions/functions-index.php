@@ -4,7 +4,6 @@ require_once("functions/functions-func-nachricht.php");
 
 function erzeuge_sequence($db, $id) {
 	// Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
-	global $mysqli_link;
 	
 	$query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
 	$result = sqlQuery($query);
@@ -30,8 +29,6 @@ function erzeuge_sequence($db, $id) {
 		// ID eintragen
 		$query = "INSERT INTO sequence (se_name,se_nextid) VALUES ('$db','$temp')";
 		$result = sqlUpdate($query);
-		if (!$result)
-			echo mysqli_errno($mysqli_link) . " - " . mysqli_error($mysqli_link);
 		
 		// Sperre aufheben
 		$query = "UNLOCK TABLES";
@@ -272,9 +269,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	
 	$o_id = schreibe_db("online", $f, "", "o_id");
 	if (!$o_id) {
-		echo "Fataler Fehler beim Login:<pre>";
-		print_r($f);
-		echo "</pre>";
+		email_senden($kontakt, "Fataler Fehler beim Login", $f);
 		exit;
 	}
 	
@@ -297,7 +292,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 		setcookie($cookie_name, $cookie_inhalt, 0, "/");
 	}
 	
-	return ($o_id);
+	return $o_id;
 }
 
 function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
@@ -334,8 +329,9 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 						$query2911 = "SELECT inv_user FROM invite WHERE inv_raum=$rows->r_id AND inv_user=$user_id";
 						$result2911 = sqlQuery($query2911);
 						if ($result2911 > 0) {
-							if (mysqli_num_rows($result2911) > 0)
+							if (mysqli_num_rows($result2911) > 0) {
 								$raumeintritt = true;
+							}
 							mysqli_free_result($result);
 						}
 						
@@ -580,12 +576,10 @@ function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 }
 
 function RaumNameToRaumID($eintrittsraum) {
-	global $mysqli_link;
-	
 	// Holt anhand der Globalen Lobby Raumbezeichnung die Passende Raum ID
 	
 	$lobby_id = False;
-	$eintrittsraum = mysqli_real_escape_string($mysqli_link, $eintrittsraum);
+	$eintrittsraum = escape_string($eintrittsraum);
 	$query = "SELECT r_id FROM raum WHERE r_name = '$eintrittsraum' ";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -599,12 +593,10 @@ function auth_user($username, $passwort) {
 	// Passwort prüfen und Benutzerdaten lesen
 	// Funktion liefert das mysqli_result zurück, wenn auf EINEN Benutzer das login/passwort passt
 	
-	global $mysqli_link;
-	
 	// Übergebenes Passwort hashen und gegen das gespeicherte Passwort prüfen
 	$v_passwort = encrypt_password($passwort);
 	
-	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $username) . "' AND `u_passwort` = '" . mysqli_real_escape_string($mysqli_link, $v_passwort) . "'";
+	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . escape_string($username) . "' AND `u_passwort` = '" . escape_string($v_passwort) . "'";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		return ($result);
@@ -614,7 +606,7 @@ function auth_user($username, $passwort) {
 }
 
 function zeige_chat_login($text = "") {
-	global $t, $mysqli_link, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
+	global $t, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
 	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
 	
 	// Kopfzeile
@@ -781,7 +773,7 @@ function zeige_chat_login($text = "") {
 		mysqli_free_result($result);
 		
 		// Benutzer online und Räume bestimmen -> merken
-		$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "' AS lobby "
+		$query = "SELECT o_who,o_name,o_level,r_name,r_status1,r_status2, r_name='" . escape_string($lobby) . "' AS lobby "
 			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ORDER BY lobby desc,r_name,o_who,o_name ";
 		$result2 = sqlQuery($query);
 		if ($result2) {
@@ -898,8 +890,6 @@ function zeige_chat_login($text = "") {
 		}
 	}
 	
-	
-	// Box anzeigen
 	zeige_tabelle_volle_breite($t['login_login'], $text);
 }
 ?>

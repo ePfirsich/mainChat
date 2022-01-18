@@ -7,7 +7,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 switch ($aktion) {
 	case "editinfotext":
 		if ((strlen($editeintrag) > 0) && (preg_match("/^[0-9]+$/", trim($editeintrag)) == 1)) {
-			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . mysqli_real_escape_string($mysqli_link, $editeintrag) . ")";
+			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id or f_freundid = $u_id) AND (f_id = " . escape_string($editeintrag) . ")";
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
 				$infotext = mysqli_result($result, 0, 0);
@@ -44,7 +44,7 @@ switch ($aktion) {
 	case "neu2":
 		// Neuer Freund, 2. Schritt: Benutzername Prüfen
 		$neuer_freund['u_nick'] = htmlspecialchars($neuer_freund['u_nick']);
-		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $neuer_freund['u_nick']) . "'";
+		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . escape_string($neuer_freund['u_nick']) . "'";
 		$fehlermeldung = "";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {

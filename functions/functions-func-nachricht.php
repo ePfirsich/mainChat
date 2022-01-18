@@ -60,8 +60,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
 	// liefert $back (ID des geschriebenen Datensatzes) zurück
-	global $nachricht_v, $lustigefeatures, $u_farbe, $u_id;
-	global $eintritt_individuell, $mysqli_link;
+	global $nachricht_v, $lustigefeatures, $u_farbe, $u_id, $eintritt_individuell;
 	
 	// Nachricht Standard
 	$text = $nachricht_v[0];
@@ -75,7 +74,7 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
-		$query = "SELECT `u_austritt` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $u_nick) . "'";
+		$query = "SELECT `u_austritt` FROM `user` WHERE `u_nick` = '" . escape_string($u_nick) . "'";
 		$result = sqlQuery($query);
 		$row = mysqli_fetch_object($result);
 		if (strlen($row->u_austritt) > 0) {

@@ -45,8 +45,8 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
-	. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
+$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . escape_string($ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
+	. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 $result = sqlQuery($query);
 $rows = mysqli_num_rows($result);
 
@@ -74,8 +74,8 @@ if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
 if (!$abweisen && $ip_adr && $ip_adr != $_SERVER["REMOTE_ADDR"]) {
 	$ip_name = @gethostbyaddr($ip_adr);
 	$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
-		. " LIKE SUBSTRING_INDEX('" . mysqli_real_escape_string($mysqli_link, $ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
-		. "OR (is_domain LIKE RIGHT('" . mysqli_real_escape_string($mysqli_link, $ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
+		. " LIKE SUBSTRING_INDEX('" . escape_string($ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
+		. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 	$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
 	
@@ -121,7 +121,7 @@ mysqli_free_result($result);
 // Wenn $abweisen=true, dann ist Login ist für diesen Benutzer gesperrt
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
 if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
-	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name)) . "' AND (u_level in ('S','C'))";
+	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . escape_string(coreCheckName($username, $check_name)) . "' AND (u_level in ('S','C'))";
 	$r = sqlQuery($query);
 	$rw = mysqli_num_rows($r);
 	
@@ -136,8 +136,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 	
 	if ($loginwhileipsperre <> 0) {
 		// Test auf Punkte 
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` "
-			. "WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` WHERE `u_nick`='" . escape_string(coreCheckName($username, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
 		
 		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
 		$r = sqlQuery($query);
@@ -234,6 +233,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/impressum.php');
+		zeige_tabelle_volle_breite($t['login_impressum'], $text);
 		
 		break;
 		
@@ -246,6 +246,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/datenschutz.php');
+		zeige_tabelle_volle_breite($t['login_datenschutzerklaerung'], $text);
 		
 		break;
 		
@@ -258,6 +259,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/chatiquette.php');
+		zeige_tabelle_volle_breite($t['login_chatiquette'], $text);
 		
 		break;
 		
@@ -270,6 +272,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/nutzungsbestimmungen.php');
+		zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
 		
 		break;
 		
@@ -283,6 +286,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/kontakt.php');
+		zeige_tabelle_volle_breite($t['login_kontakt'], $text);
 		
 		break;
 		
@@ -297,6 +301,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-vergessen.php');
+		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		
 		break;
 		
@@ -311,6 +316,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-zuruecksetzen.php');
+		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 		
 		break;
 		
@@ -325,6 +331,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/email-bestaetigen.php');
+		zeige_tabelle_volle_breite($t['login_email_aendern'], $text);
 		
 		break;
 	
@@ -339,6 +346,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu2.php');
+		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 		
 		break;
 	
@@ -369,7 +377,15 @@ switch ($bereich) {
 		
 		require_once('templates/einloggen.php');
 		
-		echo "<body>";
+		if($fehlermeldung != "") {
+			echo "<body>";
+			
+			// Gibt die Kopfzeile im Login aus
+			zeige_kopfzeile_login();
+			
+			// Box für Login
+			zeige_chat_login($text);
+		}
 		
 		break;
 	
@@ -384,6 +400,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/registrierung.php');
+		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 		
 		break;
 	
@@ -398,6 +415,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu.php');
+		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 		
 		break;
 	

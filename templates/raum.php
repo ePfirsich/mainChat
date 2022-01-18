@@ -45,7 +45,7 @@ switch ($aktion) {
 			// Berechtigung prüfen, alle Benutzer in Lobby werfen und löschen
 			if ($admin || ($row->r_besitzer == $u_id)) {
 				// Lobby suchen
-				$query = "SELECT r_id FROM raum WHERE r_name='" . mysqli_real_escape_string($mysqli_link, $lobby) . "'";
+				$query = "SELECT r_id FROM raum WHERE r_name='" . escape_string($lobby) . "'";
 				$result2 = sqlQuery($query);
 				if ($result2 AND mysqli_num_rows($result2) > 0) {
 					$lobby_id = mysqli_result($result2, 0, "r_id");

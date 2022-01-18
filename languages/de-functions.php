@@ -7,6 +7,12 @@ $t['functions_fehler_keine_datenbankverbindung'] = "Beim Zugriff auf die Datenba
 $t['hinweis_fehler'] = "Fehler";
 $t['hinweis_erfolgreich'] = "Erfolgreich";
 
+$t['sql_update_fehlgeschlagen'] = "Update fehlgeschlagen";
+$t['sql_update_keine_aendern'] = "Update hat keine Zeilen aktualisiert";
+
+$t['sql_query_fehlgeschlagen'] = "Abfrage fehlgeschlagen";
+$t['sql_query_kein_ergebnis'] = "Abfrage ohne Ergebnis";
+
 $t['sperre1'] = "<b>Fehler:</b> Lobby kann nicht ermittelt werden!";
 $t['sperre2'] = "gibt Benutzer";
 $t['sperre3'] = "einen Schubs und wirft ihn/sie aus dem Raum!";

@@ -6,7 +6,7 @@ require_once("functions/functions-func-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {
-	global $u_id, $t, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
+	global $u_id, $u_nick, $t, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
 	

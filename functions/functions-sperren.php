@@ -1,6 +1,6 @@
 <?php
 function sperren_liste($text) {
-	global $id, $t, $raumsperre, $sperre_dialup, $mysqli_link, $locale;
+	global $id, $t, $raumsperre, $sperre_dialup, $locale;
 	
 	$sperr = "";
 	
@@ -8,7 +8,7 @@ function sperren_liste($text) {
 		if ($sperr != "") {
 			$sperr .= " OR ";
 		}
-		$sperr .= "is_domain like '%" . mysqli_real_escape_string($mysqli_link, $sperre_dialup[$i]) . "%' ";
+		$sperr .= "is_domain like '%" . escape_string($sperre_dialup[$i]) . "%' ";
 	}
 	
 	if (count($sperre_dialup) >= 1) {
@@ -352,7 +352,7 @@ function formular_neuer_blacklist($text, $neuer_blacklist) {
 
 function neuer_blacklist_eintrag($f_userid, $blacklist) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
-	global $id, $mysqli_link, $t;
+	global $id, $t;
 	
 	$text = "";
 	if (!$blacklist['u_id'] || !$f_userid) {
@@ -361,8 +361,8 @@ function neuer_blacklist_eintrag($f_userid, $blacklist) {
 		$fehlermeldung = str_replace("%eintrag%", $blacklist['u_id'], $fehlermeldung);
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
-		$blacklist['u_id'] = mysqli_real_escape_string($mysqli_link, $blacklist['u_id']); // sec
-		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid); // sec
+		$blacklist['u_id'] = escape_string($blacklist['u_id']);
+		$f_userid = escape_string($f_userid);
 		
 		// Prüfen ob Blacklist-Eintrag bereits in Tabelle steht
 		$query = "SELECT f_id from blacklist WHERE (f_userid=$blacklist[u_id] AND f_blacklistid=$f_userid) OR (f_userid=$f_userid AND f_blacklistid=$blacklist[u_id])";

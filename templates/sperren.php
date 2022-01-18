@@ -169,7 +169,7 @@ switch ($aktion) {
 		
 	case "blacklist_neu2":
 		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
-		$neuer_blacklist['u_nick'] = mysqli_real_escape_string($mysqli_link, $neuer_blacklist['u_nick']); // sec
+		$neuer_blacklist['u_nick'] = escape_string($neuer_blacklist['u_nick']);
 		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$neuer_blacklist[u_nick]'";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {

@@ -134,7 +134,7 @@ if($wo_online == "forum") {
 		$eintrittsraum = $lobby;
 	}
 	
-	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . mysqli_real_escape_string($mysqli_link, $eintrittsraum) . "'";
+	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . escape_string($eintrittsraum) . "'";
 	$query = sqlQuery($sql);
 	if (mysqli_num_rows($query) > 0) {
 		$lobby_id = mysqli_result($query, 0, "r_id");

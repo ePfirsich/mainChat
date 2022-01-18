@@ -111,7 +111,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	// HEIGHT				 -> home[ui_bild_height]
 	// MIME-TYPE			  -> home[ui_bild_mime]
 	
-	global $mysqli_link, $t;
+	global $t;
 	
 	$max_groesse = 60; // Maximale Bild- und Text größe in KB
 	
@@ -147,7 +147,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			$f['b_name'] = $name;
 			
 			if ($f['b_mime']) {
-				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . mysqli_real_escape_string($mysqli_link, $name) . "'";
+				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . escape_string($name) . "'";
 				$result = sqlQuery($query);
 				if ($result && mysqli_num_rows($result) != 0) {
 					$b_id = mysqli_result($result, 0, 0);
@@ -181,11 +181,11 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 }
 
 function bild_loeschen($loesche, $benutzer_id) {
-	global $mysqli_link, $t;
+	global $t;
 	
 	$text = "";
 	if (isset($loesche) && $loesche && $benutzer_id) {
-		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . mysqli_real_escape_string($mysqli_link, $loesche) . "' AND b_user=" . intval($benutzer_id);
+		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . escape_string($loesche) . "' AND b_user=" . intval($benutzer_id);
 		$resultLoeschen = sqlUpdate($queryLoeschen);
 		
 		$cache = "home_bild";

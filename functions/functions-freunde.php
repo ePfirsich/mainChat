@@ -137,15 +137,15 @@ function loesche_freund($f_freundid, $f_userid) {
 	// Löscht Freund aus der Tabelle mit f_userid und f_freundid
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
-	global $id, $mysqli_link, $u_nick, $u_id, $t;
+	global $id, $u_nick, $u_id, $t;
 	
 	$text = "";
 	if (!$f_userid || !$f_freundid) {
 		$fehlermeldung = str_replace("%u_nick%", $f_nick, $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
-		$f_freundid = mysqli_real_escape_string($mysqli_link, $f_freundid);
-		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
+		$f_freundid = escape_string($f_freundid);
+		$f_userid = escape_string($f_userid);
 		
 		$query = "DELETE from freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
 		$result = sqlUpdate($query);
@@ -239,7 +239,7 @@ function formular_editieren($f_id, $f_text) {
 
 function neuer_freund($f_userid, $freund) {
 	// Trägt neuen Freund in der Datenbank ein
-	global $id, $mysqli_link, $system_farbe, $t;
+	global $id, $system_farbe, $t;
 	
 	$text = "";
 	if (!$freund['u_id'] || !$f_userid) {
@@ -247,8 +247,8 @@ function neuer_freund($f_userid, $freund) {
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		// Prüfen ob Freund bereits in Tabelle steht
-		$freund['u_id'] = mysqli_real_escape_string($mysqli_link, $freund['u_id']);
-		$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
+		$freund['u_id'] = escape_string($freund['u_id']);
+		$f_userid = escape_string($f_userid);
 		$query = "SELECT f_id from freunde WHERE (f_userid=$freund[u_id] AND f_freundid=$f_userid) OR (f_userid=$f_userid AND f_freundid=$freund[u_id])";
 		
 		$result = sqlQuery($query);
@@ -301,10 +301,10 @@ function edit_freund($f_id, $f_text) {
 }
 
 function bestaetige_freund($f_userid, $freund) {
-	global $mysqli_link, $t;
+	global $t;
 	
-	$f_userid = mysqli_real_escape_string($mysqli_link, $f_userid);
-	$freund = mysqli_real_escape_string($mysqli_link, $freund);
+	$f_userid = escape_string($f_userid);
+	$freund = escape_string($freund);
 	$query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";
 	sqlUpdate($query);
 	$query = "SELECT `u_nick` FROM `user` WHERE `u_id`='$f_userid'";

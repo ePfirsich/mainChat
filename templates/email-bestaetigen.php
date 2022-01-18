@@ -7,7 +7,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . mysqli_real_escape_string($mysqli_link, $mitgliedId) . "'";
+	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
 		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
@@ -32,11 +32,9 @@ if(!isset($mitgliedId) || !isset($code)) {
 			
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			
-			$query = "UPDATE `user` SET `u_email` = '" . mysqli_real_escape_string($mysqli_link, $mitglied['u_email_neu']) . "', `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = '" . mysqli_real_escape_string($mysqli_link, $mitgliedId) . "'";
+			$query = "UPDATE `user` SET `u_email` = '" . escape_string($mitglied['u_email_neu']) . "', `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
 			sqlUpdate($query);
 		}
 	}
 }
-
-zeige_tabelle_volle_breite($t['login_email_aendern'], $text);
 ?>

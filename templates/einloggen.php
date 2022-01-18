@@ -66,7 +66,7 @@ if (!isset($passwort) || $passwort == "") {
 				$i = 0;
 				while ($rows != 0 && $i < 100) {
 					$username = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
-					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . mysqli_real_escape_string($mysqli_link, $username) . "'";
+					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . escape_string($username) . "'";
 					$result = sqlQuery($query4711);
 					$rows = mysqli_num_rows($result);
 					$i++;
@@ -76,7 +76,7 @@ if (!isset($passwort) || $passwort == "") {
 		}
 		
 		// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
-		$username = mysqli_real_escape_string($mysqli_link, coreCheckName($username, $check_name));
+		$username = escape_string(coreCheckName($username, $check_name));
 		
 		// Benutzerdaten für Gast setzen
 		$f['u_level'] = "G";
@@ -333,15 +333,5 @@ if(!$kein_gastlogin_ausblenden) {
 		$fehlermeldung = $t['login_fehlermeldung_login_fehlgeschlagen'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
-}
-
-if($fehlermeldung != "") {
-	echo "<body>";
-	
-	// Gibt die Kopfzeile im Login aus
-	zeige_kopfzeile_login();
-	
-	// Box für Login
-	zeige_chat_login($text);
 }
 ?>

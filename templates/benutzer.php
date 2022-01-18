@@ -41,7 +41,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 
 if ($admin && isset($kick_user_chat) && $user) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
-	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . mysqli_real_escape_string($mysqli_link, $user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
+	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . escape_string($user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -86,14 +86,14 @@ switch ($aktion) {
 				// Kein Suchtext, aber evtl subquery
 				$where[0] = "WHERE ";
 			} elseif (strpos($suchtext, "%") >= 0) {
-				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
+				$suchtext = escape_string($suchtext);
 				if ($admin) {
 					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
 				} else {
 					$where[0] = "WHERE (u_nick LIKE '$suchtext') ";
 				}
 			} else {
-				$suchtext = mysqli_real_escape_string($mysqli_link, $suchtext);
+				$suchtext = escape_string($suchtext);
 				if ($admin) {
 					$where[1] = "WHERE u_nick = '$suchtext' ";
 					$where[3] = "WHERE u_email = '$suchtext' ";
@@ -107,15 +107,15 @@ switch ($aktion) {
 			if ($admin) {
 				// Optional level ergänzen
 				if ($f['level'] && $subquery) {
-					$subquery .= "AND u_level = '" . mysqli_real_escape_string($mysqli_link, $f['level']) . "' ";
+					$subquery .= "AND u_level = '" . escape_string($f['level']) . "' ";
 				} else if ($f['level']) {
-					$subquery = " u_level = '" . mysqli_real_escape_string($mysqli_link, $f['level']) . "' ";
+					$subquery = " u_level = '" . escape_string($f['level']) . "' ";
 				}
 				
 				if ($f['ip'] && $subquery) {
-					$subquery .= "AND u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f['ip']) . "%' ";
+					$subquery .= "AND u_ip_historie LIKE '%" . escape_string($f['ip']) . "%' ";
 				} else if ($f['ip']) {
-					$subquery = " u_ip_historie LIKE '%" . mysqli_real_escape_string($mysqli_link, $f['ip']) . "%' ";
+					$subquery = " u_ip_historie LIKE '%" . escape_string($f['ip']) . "%' ";
 				}
 			}
 			
@@ -126,15 +126,15 @@ switch ($aktion) {
 			}
 			
 			if ($f['user_neu'] && $subquery) {
-				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
+				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($f[user_neu]) . "' day)>=NOW() ";
 			} else if ($f['user_neu']) {
-				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_neu]) . "' day)>=NOW() ";
+				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($f[user_neu]) . "' day)>=NOW() ";
 			}
 			
 			if ($f['user_login'] && $subquery) {
-				$subquery .= "AND date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
+				$subquery .= "AND date_add(u_login, interval '" . escape_string($f[user_login]) . "' hour)>=NOW() ";
 			} else if ($f['user_login']) {
-				$subquery = " date_add(u_login, interval '" . mysqli_real_escape_string($mysqli_link, $f[user_login]) . "' hour)>=NOW() ";
+				$subquery = " date_add(u_login, interval '" . escape_string($f[user_login]) . "' hour)>=NOW() ";
 			}
 			
 			if ($u_level == "U" && $subquery) {

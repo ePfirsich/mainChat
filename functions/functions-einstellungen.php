@@ -392,7 +392,7 @@ function zeige_aktionen() {
 function eintrag_aktionen($aktion_datensatz) {
 	// Array mit definierten Aktionen in die DB schreiben
 	
-	global $def_was, $u_id, $mysqli_link, $t;
+	global $def_was, $u_id, $t;
 	
 	// Alle möglichen a_wann in Array lesen
 	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
@@ -408,8 +408,8 @@ function eintrag_aktionen($aktion_datensatz) {
 			$temp = explode("|", $aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]);
 			
 			if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
-				$query = "DELETE FROM aktion WHERE a_was='" . mysqli_real_escape_string($mysqli_link, $def_was_eintrag) . "' "
-				. "AND a_wann='" . mysqli_real_escape_string($mysqli_link, $a_wann_eintrag) . "' " . "AND a_user='$u_id'";
+				$query = "DELETE FROM aktion WHERE a_was='" . escape_string($def_was_eintrag) . "' "
+				. "AND a_wann='" . escape_string($a_wann_eintrag) . "' " . "AND a_user='$u_id'";
 				$result = sqlUpdate($query, true);
 			}
 			

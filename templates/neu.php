@@ -86,7 +86,7 @@ if( isset($formular) && $formular == "abgesendet") {
 		}
 		
 		// Gibt es den Benutzernamen schon?
-		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . mysqli_real_escape_string($mysqli_link, $f['u_nick']) . "'";
+		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . escape_string($f['u_nick']) . "'";
 		
 		$result = sqlQuery($query);
 		$rows = mysqli_num_rows($result);
@@ -99,7 +99,7 @@ if( isset($formular) && $formular == "abgesendet") {
 	}
 	
 	// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. registrierung
-	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
+	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
@@ -185,9 +185,7 @@ if ($weiter_zu_login) {
 	$result = sqlUpdate("UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
 	
 	// E-Mail überprüfen
-	$query = "DELETE FROM mail_check WHERE email = '" . mysqli_real_escape_string($mysqli_link, $f['u_email']) . "'";
+	$query = "DELETE FROM mail_check WHERE email = '" . escape_string($f['u_email']) . "'";
 	$result = sqlUpdate($query);
 }
-
-zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

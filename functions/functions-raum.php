@@ -135,7 +135,7 @@ function raeume_auflisten($order, $extended) {
 }
 
 function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_punkte, $topic, $eintrittsnachricht, $austrittsnachricht, $raumbesitzer) {
-	global $lobby, $t, $raumstatus1, $raumstatus2, $id, $u_id, $mysqli_link;
+	global $lobby, $t, $raumstatus1, $raumstatus2, $id, $u_id;
 	
 	$text = "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
@@ -224,7 +224,7 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	// Raumbesitzer
 	if($raum_id != 0) {
 		// Den Raumbesitzer nur beim Editieren anzeigen
-		$query = "SELECT u_nick FROM user WHERE u_id= '" . mysqli_real_escape_string($mysqli_link, $raumbesitzer) . "' AND `u_level` != 'Z' AND `u_level` != 'C';";
+		$query = "SELECT u_nick FROM user WHERE u_id= '" . escape_string($raumbesitzer) . "' AND `u_level` != 'Z' AND `u_level` != 'C';";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
 			$row = mysqli_fetch_object($result);

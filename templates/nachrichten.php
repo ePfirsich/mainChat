@@ -39,7 +39,7 @@ switch ($aktion) {
 	case "neu2":
 		// Mail versenden, 2. Schritt: Benutzername Prüfen
 		$neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
-		$neue_email['an_nick'] = mysqli_real_escape_string($mysqli_link, coreCheckName($neue_email['an_nick'], $check_name));
+		$neue_email['an_nick'] = escape_string(coreCheckName($neue_email['an_nick'], $check_name));
 		
 		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
 		$result = sqlQuery($query);

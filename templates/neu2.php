@@ -66,6 +66,4 @@ if($aktivierung_erfolgreich) {
 	$text .= "</table>\n";
 	$text .= "</form>\n";
 }
-
-zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

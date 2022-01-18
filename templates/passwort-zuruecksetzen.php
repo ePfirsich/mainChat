@@ -17,7 +17,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 	$showForm = true;
 	
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . mysqli_real_escape_string($mysqli_link, $mitgliedId) . "'";
+	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
 		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
@@ -56,7 +56,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 				} else {
 					// Speichere neues Passwort und lösche den Code
 					$passworthash = encrypt_password($passwort);
-					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . mysqli_real_escape_string($mysqli_link, $mitgliedId) . "'";
+					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
 					sqlUpdate($query);
 					
 					$erfolgsmeldung = $t['login_passwort_erfolgreich_passwort_geaendert'];
@@ -98,6 +98,4 @@ if(!isset($mitgliedId) || !isset($code)) {
 		}
 	}
 }
-
-zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
 ?>

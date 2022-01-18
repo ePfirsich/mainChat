@@ -7,7 +7,7 @@ if( !isset($bereich)) {
 $fehlermeldung = "";
 $text = "";
 
-if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", mysqli_real_escape_string($mysqli_link, $email)) ) {
+if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", escape_string($email)) ) {
 	// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 	// der Form name@do.main entspricht
 	if($email == "") {
@@ -121,11 +121,9 @@ if($fehlermeldung == "" && isset($email)) {
 		// E-Mail versenden
 		email_senden($email, $t['registrierung_email_titel'], $inhalt);
 		
-		$email = mysqli_real_escape_string($mysqli_link, $email);
+		$email = escape_string($email);
 		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";
 		$result = sqlUpdate($query);
 	}
 }
-
-zeige_tabelle_volle_breite($t['login_registrierung'], $text);
 ?>

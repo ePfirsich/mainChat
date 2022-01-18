@@ -8,7 +8,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
 	global $u_nick, $u_level;
 	global $show_spruch_owner, $id, $o_dicecheck;
-	global $user_nick, $mysqli_link;
+	global $user_nick;
 	
 	$o_id = intval($o_id);
 	
@@ -34,7 +34,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 	}
 	
 	if ($nur_privat_user) {
-		$txt = mysqli_real_escape_string($mysqli_link, "<b>$u_nick flüstert an " . $user_nick . ":</b>");
+		$txt = escape_string("<b>$u_nick flüstert an " . $user_nick . ":</b>");
 		$len = strlen($txt);
 		#print $txt;
 		$qquery .= " AND (c_an_user = '$user_id' and c_von_user_id != '0' and ( (c_von_user_id = '$user_id' and left(c_text,$len) = '$txt') or c_von_user_id = '$nur_privat_user') )";

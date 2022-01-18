@@ -90,10 +90,10 @@ function autoselect($name, $voreinstellung, $tabelle, $feld) {
 	// $tabelle=Name der Tabelle in der Datenbank
 	// $feld=Name des Felds
 	
-	global $system_farbe, $mysqli_link, $t;
+	global $system_farbe, $t;
 	
 	$text = "";
-	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . mysqli_real_escape_string($mysqli_link, $feld) . "'";
+	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . escape_string($feld) . "'";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
