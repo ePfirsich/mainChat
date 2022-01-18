@@ -82,7 +82,7 @@ function mysqli_result($res,$row=0,$col=0) {
  * @return Ressource|false Das Ergebnis der Abfrage
  */
 function sqlQuery($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus;
+	global $mysqli_link, $debug_modus, $t;
 	
 	$res = mysqli_query($mysqli_link, $query);
 	if ($debug_modus && mysqli_error($mysqli_link)) {
