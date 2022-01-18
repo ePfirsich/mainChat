@@ -848,7 +848,7 @@ function zeige_chat_login($text = "") {
 								}
 								
 								// Wenn es sich um einen neuen Raum handelt, dem Raumname davor hinzufügen
-								if($row->r_name != $r_name_alt) {
+								if($runde == 0 || $row->r_name != $r_name_alt) {
 									// Wenn es sich nicht um den 1. Raum handelt, einen Zeilenumbruch hinzufügen
 									if($runde != 0) {
 										$benutzeranzeige .= "<br>";
