@@ -381,25 +381,27 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 		// Box anzeigen
 		zeige_tabelle_zentriert($box, $text);
 		
-		?>
-		<span id="out"></span>
-		<script>
-		document.querySelector('form').addEventListener('submit', event => {
-			event.preventDefault();
-			fetch('schreibe.php', {
-				method: 'post',
-				body: new FormData(document.querySelector('form'))
-			}).then(res => {
-				return res.text();
+		if (isset($onlinezeit) && $onlinezeit && $u_level != "G") {
+			?>
+			<span id="out"></span>
+			<script>
+			document.querySelector('form').addEventListener('submit', event => {
+				event.preventDefault();
+				fetch('schreibe.php', {
+					method: 'post',
+					body: new FormData(document.querySelector('form'))
 				}).then(res => {
-					//console.log(res);
-					document.querySelector('input[name="text"]').value = '';
-					document.getElementById('out').innerHTML = res;
-				});
-		})
-		</script>
-		<?php
-		
+					return res.text();
+					}).then(res => {
+						//console.log(res);
+						document.querySelector('input[name="text"]').value = '';
+						document.getElementById('out').innerHTML = res;
+					});
+			})
+			</script>
+			<?php
+		}
+			
 		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
 		mysqli_free_result($result);
 	}

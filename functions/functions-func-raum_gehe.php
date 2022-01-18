@@ -5,12 +5,15 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	// Nachricht in Raum $r_id wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
 	
+	$raum_alt = intval($raum_alt);
+	$raum_neu = intval($raum_neu);
+	
 	global $admin, $u_level, $u_punkte_gesamt, $t, $lobby, $timeout;
 	global $id, $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
 	// Info zu altem Raum lesen
-	$query = "SELECT r_name,r_status1,r_austritt,r_min_punkte from raum " . "WHERE r_id=" . intval($raum_alt);
+	$query = "SELECT r_name,r_status1,r_austritt,r_min_punkte from raum WHERE r_id=$raum_alt";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -19,7 +22,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	}
 	
 	// Ist Benutzer aus dem Raum ausgesperrt?
-	$query = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum_neu) . " AND s_user=$u_id";
+	$query = "SELECT s_id FROM sperre WHERE s_raum = $raum_neu AND s_user=$u_id";
 	$result = sqlQuery($query);
 	$rows = @mysqli_num_rows($result);
 	if ($rows == 0) {
@@ -30,7 +33,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	mysqli_free_result($result);
 	
 	// Info zu neuem Raum lesen
-	$query = "SELECT * from raum WHERE r_id=" . intval($raum_neu);
+	$query = "SELECT * from raum WHERE r_id = $raum_neu";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -103,7 +106,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			schreibe_db("online", $f, $o_id, "o_id");
 			
 			// Neuen Raum eintragen
-			$query = "UPDATE online SET o_raum=" . intval($raum_neu) . " WHERE o_user=$u_id AND o_raum=" . intval($raum_alt);
+			$query = "UPDATE online SET o_raum = $raum_neu WHERE o_user=$u_id AND o_raum= $raum_alt";
 			$result = sqlUpdate($query);
 			
 			// Austrittstext

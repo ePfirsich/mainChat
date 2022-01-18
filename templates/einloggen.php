@@ -272,7 +272,7 @@ if(!$kein_gastlogin_ausblenden) {
 					if ($eintritt == 'forum') {
 						$raumname = " (" . $whotext[2] . ")";
 					} else {
-						$query2 = "SELECT r_name from raum where r_id=" . intval($eintritt);
+						$query2 = "SELECT r_name FROM raum WHERE r_id=" . intval($eintritt);
 						$result2 = sqlQuery($query2);
 						if ($result2 AND mysqli_num_rows($result2) > 0) {
 							$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
