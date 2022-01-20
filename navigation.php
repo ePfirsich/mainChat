@@ -101,7 +101,7 @@ if ($wo_online == "chat" && $u_level == "M") {
 		$text .= " | <a href=\"moderator.php?id=" . $id . "&mode=answer\" target=\"chat\" title=\"" . $t['navigation_definierte_antworten'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['navigation_definierte_antworten'] . "</span></a>&nbsp;";
 }
 if ($wo_online == "chat") {
-	$text .= " | <a href=\"inhalt.php?bereich=log&id=$id&back=500\" target=\"_blank\" title=\"" . $t['navigation_log'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_log'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=log&id=$id\" target=\"_blank\" title=\"" . $t['navigation_log'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_log'] . "</span></a>&nbsp;";
 }
 $text .= " | <a href=\"inhalt.php?bereich=hilfe&id=$id\" target=\"chat\" title=\"" . $t['navigation_hilfe'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_hilfe'] . "</span></a>&nbsp;";
 $text .= " | <a href=\"index.php?id=$id&bereich=logoff\" target=\"_top\" title=\"" . $t['navigation_logout'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_logout'] . "</span></a>";
