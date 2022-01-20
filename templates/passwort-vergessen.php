@@ -75,7 +75,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 				sqlUpdate($queryPasswortcode);
 				
 				// ULR zusammenstellen
-				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&uid=" . $a['u_id'] . "&code=".$passwordcode;
+				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&id=" . $a['u_id'] . "&code=".$passwordcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $t['email_passwort_vergessen_inhalt']);
 				$inhalt = str_replace("%u_nick%", $a['u_nick'], $inhalt);
 				$email = urldecode($a['u_email']);
