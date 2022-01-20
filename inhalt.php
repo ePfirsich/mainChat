@@ -16,6 +16,8 @@ if( $aktion == '') {
 	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);
 }
 
+$loesche = filter_input(INPUT_GET, 'loesche', FILTER_SANITIZE_URL);
+
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
