@@ -174,7 +174,7 @@ if ($weiter_zu_login) {
 	
 	// Daten in DB als Benutzer eintragen
 	$text .= "<form action=\"index.php?bereich=einloggen\" name=\"login\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"login\" value=\"$f[u_nick]\">\n";
+	$text .= "<input type=\"hidden\" name=\"username\" value=\"$f[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n";
 	$text .= "<input type=\"submit\" value=\"$t[login_weiter_zum_chat]\">\n";
 	$text .= "</form>\n";
