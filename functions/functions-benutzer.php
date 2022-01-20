@@ -299,7 +299,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
 			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&nachricht_neu_username=$uu_nick";
 			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
-			$value .= "[<a href=\"$mlnk[8]\" target=\"_blank\">$t[benutzer_nachricht_senden]</a>]<br>\n"
+			$value .= "[<a href=\"$mlnk[8]\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n"
 			. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
 			
 			// Adminmenue
