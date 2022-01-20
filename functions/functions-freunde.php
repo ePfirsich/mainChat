@@ -303,6 +303,7 @@ function edit_freund($f_id, $f_text) {
 function bestaetige_freund($f_userid, $freund) {
 	global $t;
 	
+	$text = "";
 	$f_userid = escape_string($f_userid);
 	$freund = escape_string($freund);
 	$query = "UPDATE freunde SET f_status = 'bestaetigt', f_zeit = NOW() WHERE f_userid = '$f_userid' AND f_freundid = '$freund'";
@@ -311,8 +312,8 @@ function bestaetige_freund($f_userid, $freund) {
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) != 0) {
 		$f_nick = mysqli_result($result, 0, 0);
-		$back = str_replace("%u_nick%", $f_nick, $t['freunde_erfolgsmeldung_freundschaft_bestaetigt']);
+		$text = str_replace("%u_nick%", $f_nick, $t['freunde_erfolgsmeldung_freundschaft_bestaetigt']);
 	}
-	return $back;
+	return $text;
 }
 ?>

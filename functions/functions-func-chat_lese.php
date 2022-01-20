@@ -49,7 +49,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 		} else {
 			$o_chat_id = 0;
 		}
-		;
 		mysqli_free_result($result);
 		
 		// Nachrichten ab o_chat_id (Merker) in Tabelle online ausgeben
@@ -174,7 +173,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 	
 	// Nachrichten zeilenweise ausgeben
 	if (isset($result) && $result) {
-		
 		$text_weitergabe = "";
 		while ($row = mysqli_fetch_object($result)) {
 			
