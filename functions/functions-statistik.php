@@ -1,19 +1,4 @@
 <?php
-$coreroot = ".";
-
-// Wandelt eine Background-Variable in den entsprechenden HTML-Source (bgcolor, background) um.
-function coreMakeBackground($back) {
-	$backc = trim(strtok("$back", ":"));
-	$backp = trim(strtok(":"));
-	
-	if (("$backc" == "") || ("$backp" == "")) {
-		if ("$backc" != "")
-			return (" bgcolor=\"$backc\"");
-		if ("$backp" != "")
-			return (" background=\"$backp\"");
-	} else return (" bgcolor=\"$backc\" background=\"$backp\"");
-}
-
 function statsResetMonth($year, $month) {
 	global $grapharray;
 	
