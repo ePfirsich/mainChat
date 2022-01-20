@@ -26,9 +26,22 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 	$fehlermeldung = $t['registrierung_fehler_email_link_falsch'];
 	unset($formular);
 	$formular_anzeigen = false;
-} else if ($email != "" && $hash == md5($email . "+" . date("Y-m-d"))) {
+} else if($email != "" && $hash == md5($email . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
-} else if ($f['u_email'] != "" && $f['hash'] == md5($f['u_email'] . "+" . date("Y-m-d"))) {
+	
+	// Mit dieser E-Mail wurde bereits ein Account registriert
+	$query = "SELECT email FROM mail_check WHERE email = '" . escape_string($email) . "'";
+	$result = sqlQuery($query);
+	$rows = mysqli_num_rows($result);
+	mysqli_free_result($result);
+	
+	if ($rows == 0) {
+		$fehlermeldung = $t['registrierung_fehler_aktivierungslink_verwendet'];
+		$text .= hinweis($fehlermeldung, "fehler");
+		$formular_anzeigen = false;
+	}
+	
+} else if($f['u_email'] != "" && $f['hash'] == md5($f['u_email'] . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
 } else {
 	// Alle weiteren Fälle werden abgelehnt
@@ -87,7 +100,6 @@ if( isset($formular) && $formular == "abgesendet") {
 		
 		// Gibt es den Benutzernamen schon?
 		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . escape_string($f['u_nick']) . "'";
-		
 		$result = sqlQuery($query);
 		$rows = mysqli_num_rows($result);
 		

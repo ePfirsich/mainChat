@@ -192,6 +192,7 @@ $t['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur inter
 $t['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
 $t['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
 $t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?bereich=passwort-vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?bereich=registrierung\">Zurück zur Registrierung!</a><br>";
+$t['registrierung_fehler_aktivierungslink_verwendet'] = "Mit diesen Aktivierungslink wurde bereits ein Benutzer registriert.<br>";
 
 $t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
 $t['registrierung_email_angeben'] = "<p>Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
