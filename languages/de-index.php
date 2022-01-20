@@ -222,7 +222,7 @@ $t['login_passwort_schritt1'] = "Sie haben Ihr Passwort vergessen? Kein Problem,
 	. "eine E-Mail mit einem Sicherheitscode, der Sie berechtigt ein neues Passwort anzufordern.<br>";
 $t['login_passwort_schritt2'] = "Ein Link um Ihr Passwort zurückzusetzen wurde an Ihre E-Mail-Adresse gesendet.<br>";
 
-$t['login_fehlermeldung_passwort_vergessen_kein_code'] = "Es wurde eine falsche Adresse zum Zurücksetzen des Passworts aufgerufen. Bitte den Link in der E-Mail überprüfen.<br>";
+$t['login_fehlermeldung_passwort_vergessen_kein_code'] = "Es wurde ein falscher Link zum Zurücksetzen des Passworts aufgerufen. Bitte den Link in der E-Mail überprüfen.<br>";
 $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'] = "Ein Benutzer mit dieser ID existiert leider nicht.<br>";
 $t['login_fehlermeldung_passwort_vergessen_email'] = "Es wurde keine gültige E-Mail-Adresse angegeben!<br>";
 $t['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.<br>";
