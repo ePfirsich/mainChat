@@ -1,8 +1,4 @@
 <?php
-if (!isset($_SERVER["HTTP_REFERER"])) {
-	$_SERVER["HTTP_REFERER"] = "";
-}
-
 // Funktionen und Config laden, Host bestimmen
 require_once("functions/functions.php");
 require_once("functions/functions-init.php");
@@ -24,8 +20,8 @@ zeige_header($body_titel, 0);
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;
 $warnung = false;
-$ip_adr = $_SERVER["REMOTE_ADDR"];
-$ip_name = @gethostbyaddr($ip_adr);
+$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+$ip_name = @gethostbyaddr($remote_addr);
 
 // Sperrt den Chat, wenn in der Sperre Domain "-GLOBAL-" ist
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
@@ -45,7 +41,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . escape_string($ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
+$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . escape_string($remote_addr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 	. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 $result = sqlQuery($query);
 $rows = mysqli_num_rows($result);
@@ -65,16 +61,12 @@ if ($rows > 0) {
 mysqli_free_result($result);
 
 // HTTP_X_FORWARDED_FOR IP bestimmen und prüfen. Ist Login erlaubt?
-if (isset($_SERVER["HTTP_X_FORWARDED_FOR"])) {
-	$ip_adr = $_SERVER["HTTP_X_FORWARDED_FOR"];
-} else {
-	$ip_adr = "";
-}
+$http_x_forwarded_for = filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_VALIDATE_IP);
 
-if (!$abweisen && $ip_adr && $ip_adr != $_SERVER["REMOTE_ADDR"]) {
-	$ip_name = @gethostbyaddr($ip_adr);
+if (!$abweisen && $http_x_forwarded_for != $remote_addr) {
+	$ip_name = @gethostbyaddr($http_x_forwarded_for);
 	$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
-		. " LIKE SUBSTRING_INDEX('" . escape_string($ip_adr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
+		. " LIKE SUBSTRING_INDEX('" . escape_string($http_x_forwarded_for) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
 		. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
 	$result = sqlQuery($query);
 	$rows = mysqli_num_rows($result);
@@ -175,7 +167,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 		$query2 = "SELECT o_user FROM online WHERE o_level='S' OR o_level='C'";
 		$result2 = sqlQuery($query2);
 		if ($result2 AND mysqli_num_rows($result2) > 0) {
-			$txt = str_replace("%ip_adr%", $ip_adr, $t['ipsperre1']);
+			$txt = str_replace("%ip_adr%", $http_x_forwarded_for, $t['ipsperre1']);
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
@@ -426,7 +418,7 @@ switch ($bereich) {
 		$hash_id = $id;
 		
 		// Chat betreten
-		$back = betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
+		betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
 		
 		require_once("functions/functions-frameset.php");
 		

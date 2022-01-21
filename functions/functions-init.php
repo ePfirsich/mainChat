@@ -27,21 +27,23 @@ if ( !file_exists($filenameConfig) ) {
 	require_once("functions/functions-html.php");
 	
 	// Aufgerufene URL prüfen und gegebenenfalls zur URL weiterleiten die in der config hinterlegt ist
-	if( isset($_SERVER['HTTP_HOST']) ) {
+	$http_host = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING);
+	if( $http_host != "" ) {
 		$matches = array();
-		if (substr_count($_SERVER['HTTP_HOST'], '.')==1) {
+		if (substr_count($http_host, '.')==1) {
 			// domain.tld
-			preg_match('/^(?P<d>.+)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+			preg_match('/^(?P<d>.+)\.(?P<tld>.+?)$/', $http_host, $matches);
 		} else {
 			// www.domain.tld, sub1.sub2.domain.tld, ...
-			preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $_SERVER['HTTP_HOST'], $matches);
+			preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $http_host, $matches);
 		}
 		
 		$subdomain = (isset($matches['sd'])) ? $matches['sd'] : '';
 		$domain = $matches['d'];
 		$tld = $matches['tld'];
-		$isHttps = (!empty($_SERVER['HTTPS']));
-		if($isHttps) {
+		$https = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_STRING);
+		
+		if($https == "on") {
 			$aufgerufeneURL = "https://" . $subdomain.'.'.$domain.'.'.$tld;
 		} else {
 			$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;

@@ -1,10 +1,11 @@
 <?php
+require_once("functions/functions.php");
+require_once("functions/functions-chat.php");
 
 // chat.php muss mit id=$hash_id aufgerufen werden
 // Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
+$trigger_letzte_Zeilen = 1;
 
-require_once("functions/functions.php");
-require_once("functions/functions-chat.php");
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 
@@ -37,7 +38,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		<body>
 		<?php
 		
-		// Chatausgabe, $letzte_id ist global
+		// Chatausgabe
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back, $benutzerdaten);
 	} else {
 		// Endlos-Push-Methode - Normalmodus
@@ -109,7 +110,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 				$trigger_letzte_Zeilen = 1;
 			}
 			
-			// Chatausgabe, $letzte_id ist global
+			// Chatausgabe
 			// Falls Result=wahr wurde Text ausgegeben, Timer für Userliste zurücksetzen
 			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $trigger_letzte_Zeilen, $benutzerdaten)) {
 				$i = 0;
@@ -133,7 +134,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		$trigger_letzte_Zeilen = 20;
 		
 		// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id&back=$trigger_letzte_Zeilen\"'>";
+		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id\"'>";
 		flush();
 	}
 }

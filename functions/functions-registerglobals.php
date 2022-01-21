@@ -1,9 +1,8 @@
 <?php
 
 if (ini_get('register_globals') == 0) {
-	// Initialisierung der Variablen
-	
 	// Lade alle Variablen in Lokale Variablen
+	
 	/*
 	foreach ($_GET as $varname => $value) {
 		global $$varname;
@@ -16,10 +15,12 @@ if (ini_get('register_globals') == 0) {
 		$$varname = $value;
 	}
 	
+	/*
 	// für home.php argc & argv
 	foreach ($_SERVER as $varname => $value) {
 		global $$varname;
 		$$varname = $value;
 	}
+	*/
 }
 ?>

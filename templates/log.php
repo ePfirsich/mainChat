@@ -7,11 +7,11 @@ $sysmsg = filter_input(INPUT_GET, 'sysmsg', FILTER_SANITIZE_NUMBER_INT);
 
 // Voreinstellungen
 // Trigger für die Ausgabe der letzten 250 Nachrichten setzen
-$back = 250;
+$anzahl_der_nachrichten = 250;
 
 // Admins: Trigger für die Ausgabe der letzten 1000 Nachrichten setzen
 if ($admin) {
-	$back = 1000;
+	$anzahl_der_nachrichten = 1000;
 }
 
 // Systemnachrichten nicht ausgeben als Voreinstellung
@@ -36,5 +36,5 @@ if ($aktion != "abspeichern") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "chatausgabe");
 
 // Log ausgeben
-chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $back, $benutzerdaten);
+chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $anzahl_der_nachrichten, $benutzerdaten);
 ?>

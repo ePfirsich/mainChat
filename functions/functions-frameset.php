@@ -13,7 +13,7 @@ function frameset_forum($hash_id) {
 }
 
 function frameset_chat($hash_id) {
-	global $t, $u_level, $back;
+	global $t, $u_level;
 	
 	if ($u_level == "M") {
 		echo "<frameset rows=\"65,*,94,65,280,1\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
@@ -23,7 +23,7 @@ function frameset_chat($hash_id) {
 	?>
 		<frame src="navigation.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
-			<frame src="chat.php?id=<?php echo $hash_id; ?>&back=<?php echo $back; ?>" name="chat" marginwidth="4" marginheight="0">
+			<frame src="chat.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="4" marginheight="0">
 			<frame src="user.php?id=<?php echo $hash_id; ?>" name="userliste" marginwidth="4" marginheight="0">
 		</frameset>
 		<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">

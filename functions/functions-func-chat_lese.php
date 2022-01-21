@@ -1,6 +1,6 @@
 <?php
 
-function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdaten, $nur_privat = FALSE, $nur_privat_user = "") {
+function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen, $benutzerdaten, $nur_privat = FALSE, $nur_privat_user = "") {
 	// Gibt Text gefiltert aus
 	// $raum = ID des aktuellen Raums
 	// $user_id = ID des aktuellen Benutzers
@@ -38,10 +38,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 		$len = strlen($txt);
 		#print $txt;
 		$qquery .= " AND (c_an_user = '$user_id' and c_von_user_id != '0' and ( (c_von_user_id = '$user_id' and left(c_text,$len) = '$txt') or c_von_user_id = '$nur_privat_user') )";
-		#print htmlentities($qquery);
 	}
-	if ($back == 1) {
-		// o_chat_id lesen
+	if ($anzahl_der_zeilen == 1) {
+		// ID des Benutzers (o_chat_id) auslesen
 		$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -75,8 +74,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 		if (isset($rows) && is_array($rows)) {
 			sort($rows);
 		}
-		
-	} else if ($back > 1) {
+	} else if ($anzahl_der_zeilen > 1) {
 		// o_chat_id lesen (nicht bei Admins)
 		// Admins dürfen alle Nachrichten sehen
 		if (!$admin) {
@@ -92,7 +90,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 			$o_chat_id = 0;
 		}
 		
-		// $back-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_id
+		// $anzahl_der_zeilen-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_id
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
 		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
 		$result = sqlQuery($query);
@@ -114,8 +112,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 		}
 		
 		mysqli_free_result($result);
-		if (isset($rows) && is_array($rows))
+		if (isset($rows) && is_array($rows)) {
 			sort($rows);
+		}
 		
 		// Erste Zeile ausrechnen, ab der Nachrichten ausgegeben werden
 		// Chat-Zeilen vor $o_chat_id löschen
@@ -124,8 +123,8 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 		} else {
 			$zeilen = 0;
 		}
-		if ($zeilen > $back) {
-			$o_chat_id = $rows[($zeilen - intval($back))];
+		if ($zeilen > $anzahl_der_zeilen) {
+			$o_chat_id = $rows[($zeilen - intval($anzahl_der_zeilen))];
 			foreach ($rows as $key => $value) {
 				if ($value < $o_chat_id) {
 					unset($rows[$key]);
@@ -175,7 +174,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 	if (isset($result) && $result) {
 		$text_weitergabe = "";
 		while ($row = mysqli_fetch_object($result)) {
-			
 			// Falls ID ignoriert werden soll -> Ausgabe überspringen
 			// Falls noch kein Text ausgegeben wurde und es eine Zeile in 
 			// der Mitte oder am Ende einer Serie ist -> Ausgabe überspringen
@@ -433,8 +431,8 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 								
 								// Anfang des Avatars
 								// Sollen Avatare angezeigt werden?
-								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
-								$result3 = sqlQuery($query3);
+								//$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
+								//$result3 = sqlQuery($query3);
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
@@ -454,12 +452,19 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 									$ui_gen = 'leer';
 								}
 								
-								if($result3 && mysqli_num_rows($result3) == 1) {
+								//if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE `b_name` = 'avatar' AND b_user = $uu_id";
 										$resultAvatar = sqlQuery($queryAvatar);
+										
+										// Fehler schicken
+										if($uu_id == null || $uu_id == "") {
+											global $kontakt;
+											email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzername1: " . $row->c_von_user . " Benutzername2: " . $temp_von_user . " ID: " . $id);
+										}
+										
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
@@ -484,9 +489,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 									} else {
 										$ava = "";
 									}
-								} else {
-									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
-								}
+								//} else {
+									//$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
+								//}
 								
 								if($benutzerdaten['u_avatare_anzeigen'] == 0) {
 									$ava = "";
@@ -512,8 +517,8 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 								
 								// Anfang des Avatars
 								// Sollen Avatare angezeigt werden?
-								$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
-								$result3 = sqlQuery($query3);
+								//$query3 = "SELECT * FROM user WHERE u_nick = '$u_nick'";
+								//$result3 = sqlQuery($query3);
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
@@ -524,7 +529,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 								}
 								
 								// Geschlecht holen
-								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
+								$query1 = "SELECT * FROM userinfo WHERE ui_userid = $uu_id";
 								$result1 = sqlQuery($query1);
 								if ($result1 && mysqli_num_rows($result1) == 1) {
 									$row1 = mysqli_fetch_object($result1);
@@ -533,12 +538,18 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 									$ui_gen = 'leer';
 								}
 								
-								if($result3 && mysqli_num_rows($result3) == 1) {
+								//if($result3 && mysqli_num_rows($result3) == 1) {
 									//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 									if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 										// Bildinfos lesen und in Array speichern
 										$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND `b_user` = $uu_id";
 										$resultAvatar = sqlQuery($queryAvatar);
+										
+										// Fehler schicken
+										if($uu_id == null || $uu_id == "") {
+											global $kontakt;
+											email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzername1: " . $row->c_von_user . " Benutzername2: " . $temp_von_user . " ID: " . $id);
+										}
 										unset($bilder);
 										if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
 											while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
@@ -563,9 +574,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $back, $benutzerdat
 									} else {
 										$ava = "";
 									}
-								} else {
-									$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
-								}
+								//} else {
+									//$ava = '<img src="./avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt=""> ';
+								//}
 								
 								if($benutzerdaten['u_avatare_anzeigen'] == 0) {
 									$ava = "";

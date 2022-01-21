@@ -1990,7 +1990,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						if (!$ist_eingang && !$ist_moderiert) {
 							// raum ist nicht moderiert -> schreiben.
-							$back = schreibe_chat($f);
+							$ergebnis = schreibe_chat($f);
 							
 							// In Session merken, dass Text im Chat geschrieben wurde
 							$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
@@ -2033,7 +2033,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								// sonderfall: moderator -> hier doch schreiben	
 								// vorher testen, ob es markierte fragen gibt:
 								schreibe_moderation();
-								$back = schreibe_chat($f);
+								$ergebnis = schreibe_chat($f);
 								
 								// In Session merken, dass Text im Chat geschrieben wurde
 								$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
@@ -2041,7 +2041,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							} else {
 								if ($f['c_text'] != "") {
 									// raum ist moderiert -> normal nicht schreiben.
-									$back = schreibe_moderiert($f);
+									$ergebnis = schreibe_moderiert($f);
 									
 									// In Session merken, dass Text im Chat geschrieben wurde
 									$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
@@ -2054,7 +2054,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						} elseif ($ist_eingang && strlen(trim($f['c_text'])) > 0)  {
 							system_msg("", 0, $u_id, $system_farbe, $raum_einstellungen['r_topic']);
 						}
-						return ($back);
+						return $ergebnis;
 					}
 				}
 			} else {

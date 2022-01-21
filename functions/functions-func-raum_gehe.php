@@ -99,10 +99,9 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 		// Darf Raum nun betreten werden?
 		if ($raumwechsel) {
 			// Raum verlassen
-			$back = nachricht_verlasse($raum_alt, $u_nick, $alt->r_name);
+			$f['o_chat_id'] = nachricht_verlasse($raum_alt, $u_nick, $alt->r_name);
 			
-			// back in DB merken
-			$f['o_chat_id'] = $back;
+			// In der Datenbank merken
 			schreibe_db("online", $f, $o_id, "o_id");
 			
 			// Neuen Raum eintragen

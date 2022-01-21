@@ -97,6 +97,7 @@ if($fehlermeldung == "" && isset($email)) {
 	if($fehlermeldung != "") {
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
+		$php_self = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_STRING);
 		// Überprüfung auf Formular mehrmals abgeschickt
 		$query = "DELETE FROM mail_check WHERE email = '$email'";
 		sqlUpdate($query, true);
@@ -105,8 +106,8 @@ if($fehlermeldung == "" && isset($email)) {
 		$email = urlencode($email);
 		
 		// Normale Anmeldung
-		$link = $chat_url . $_SERVER['PHP_SELF'] . "?bereich=neu&email=$email&hash=$hash";
-		$link2 = $chat_url . $_SERVER['PHP_SELF'] . "?bereich=neu2";
+		$link = $chat_url . $php_self . "?bereich=neu&email=$email&hash=$hash";
+		$link2 = $chat_url . $php_self . "?bereich=neu2";
 		
 		$email = urldecode($email);
 		

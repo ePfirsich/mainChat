@@ -21,7 +21,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 }
 
 // Aufruf als home.php/USERNAME -> Redirekt auf home.php?USERNAME
-$suchwort = $_SERVER["PATH_INFO"];
+$suchwort = filter_input(INPUT_SERVER, 'PATH_INFO', FILTER_SANITIZE_STRING);
 
 if (substr($suchwort, -1) == "/") {
 	$suchwort = substr($suchwort, 0, -1);
@@ -29,7 +29,10 @@ if (substr($suchwort, -1) == "/") {
 $suchwort = strtolower(substr($suchwort, strrpos($suchwort, "/") + 1));
 
 if (strlen($suchwort) >= 4) {
-	header("Location: http://" . $_SERVER["HTTP_HOST"]. $_SERVER["SCRIPT_NAME"] . "?" . $suchwort);
+	$host = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING);
+	$script_name = filter_input(INPUT_SERVER, 'SCRIPT_NAME', FILTER_SANITIZE_STRING);
+	
+	header("Location: http://" . $host . $script_name . "?" . $suchwort);
 }
 
 if (!isset($ui_userid)) {

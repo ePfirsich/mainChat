@@ -15,9 +15,10 @@ $text = "";
 if (!isset($passwort) || $passwort == "") {
 	// Login als Gast
 	if ($gast_login) {
+		$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+		$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
 		// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
-		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $_SERVER["HTTP_USER_AGENT"]
-			. "' AND o_ip='" . $_SERVER["REMOTE_ADDR"] . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $http_user_agent . "' AND o_ip='" . $remote_addr . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
 			$result = sqlQuery($query4711);
 		if ($result) {
 			$rows = mysqli_num_rows($result);
@@ -317,7 +318,6 @@ if(!$kein_gastlogin_ausblenden) {
 				} else {
 					// Chat betreten
 					betrete_chat($o_id, $user_id, $u_nick, $u_level, $eintritt);
-					$back = 1;
 					
 					require_once("functions/functions-frameset.php");
 					

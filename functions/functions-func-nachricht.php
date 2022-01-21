@@ -2,7 +2,6 @@
 function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
-	// liefert $back zurück
 	global $nachricht_b, $lustigefeatures, $u_farbe, $eintritt_individuell;
 	
 	// Nachricht Standard
@@ -38,9 +37,9 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	}
 	
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
-	$back = 0;
+	$ergebnis = 0;
 	if (raum_ist_moderiert($r_id)) {
-		$back = system_msg("", 0, $user_id, $u_farbe, "<b>&gt;&gt;&gt;</b> " . $text);
+		$ergebnis = system_msg("", 0, $user_id, $u_farbe, "<b>&gt;&gt;&gt;</b> " . $text);
 	} else {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
 		
@@ -49,17 +48,17 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		$num = $num['nummer'];
 		if ($num < 15) {
-			$back = global_msg($user_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);
+			$ergebnis = global_msg($user_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);
 		}
 	}
 	
-	return $back;
+	return $ergebnis;
 }
 
 function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	// Eintrittsnachricht in Raum schreiben
 	// Aufruf mit Raum-Id, Benutzername, Raum-Name
-	// liefert $back (ID des geschriebenen Datensatzes) zurück
+	// liefert ID des geschriebenen Datensatzes zurück
 	global $nachricht_v, $lustigefeatures, $u_farbe, $u_id, $eintritt_individuell;
 	
 	// Nachricht Standard
@@ -96,11 +95,11 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
 	if (raum_ist_moderiert($r_id)) {
-		$back = system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> " . $text);
+		$ergebnis = system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> " . $text);
 	} else {
-		$back = global_msg($u_id, $r_id, "<b>&lt;&lt;&lt;</b> " . $text);
+		$ergebnis = global_msg($u_id, $r_id, "<b>&lt;&lt;&lt;</b> " . $text);
 	}
 	
-	return ($back);
+	return $ergebnis;
 }
 ?>

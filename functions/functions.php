@@ -182,17 +182,17 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 		}
 		
 		if($text != '') {
-			$back = system_msg("", 0, $u_id, "", $text);
+			$ergebnis = system_msg("", 0, $u_id, "", $text);
 		} else {
-			$back = '';
+			$ergebnis = '';
 		}
 		
 		mysqli_free_result($result);
 	} else {
-		$back = 1;
+		$ergebnis = 1;
 	}
 	
-	return ($back);
+	return $ergebnis;
 }
 
 function ist_online($user) {
@@ -225,11 +225,11 @@ function schreibe_moderiert($f) {
 	
 	// Schreiben falls text>0
 	if (strlen($f['c_text']) > 0) {
-		$back = schreibe_db("moderation", $f, "", "c_id");
+		$ergebnis = schreibe_db("moderation", $f, "", "c_id");
 	} else {
-		$back = 0;
+		$ergebnis = 0;
 	}
-	return ($back);
+	return $ergebnis;
 }
 
 function schreibe_moderation() {
@@ -286,19 +286,19 @@ function schreibe_chat($f) {
 					$f['c_br'] = "mitte";
 				}
 				$i = $i + 255;
-				$back = schreibe_db("chat", $f, "", "c_id");
+				$ergebnis = schreibe_db("chat", $f, "", "c_id");
 			}
 			$query = "UNLOCK TABLES";
 			$result = sqlUpdate($query, true);
 		} else {
 			// Normale Zeile in Tabelle schreiben
 			$f['c_br'] = "normal";
-			$back = schreibe_db("chat", $f, "", "c_id");
+			$ergebnis = schreibe_db("chat", $f, "", "c_id");
 		}
 	} else {
-		$back = 0;
+		$ergebnis = 0;
 	}
-	return ($back);
+	return $ergebnis;
 }
 
 function global_msg($u_id, $r_id, $text) {
@@ -316,14 +316,14 @@ function global_msg($u_id, $r_id, $text) {
 	$f['c_text'] = $text;
 	$f['c_an_user'] = 0;
 	
-	$back = schreibe_chat($f);
+	$ergebnis = schreibe_chat($f);
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($u_id) {
 		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 		$result = sqlUpdate($query, true);
 	}
-	return ($back);
+	return $ergebnis;
 }
 
 function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
@@ -340,7 +340,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	$f['c_typ'] = "H";
 	$f['c_text'] = $text;
 	
-	$back = schreibe_chat($f);
+	$ergebnis = schreibe_chat($f);
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
@@ -348,7 +348,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 		$result = sqlUpdate($query);
 	}
 	
-	return ($back);
+	return $ergebnis;
 }
 
 function priv_msg(
@@ -377,7 +377,7 @@ function priv_msg(
 	$f['c_typ'] = "P";
 	$f['c_text'] = $text;
 	
-	$back = schreibe_chat($f);
+	$ergebnis = schreibe_chat($f);
 	
 	// In Session merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
@@ -386,7 +386,7 @@ function priv_msg(
 		$result = sqlUpdate($query, true);
 	}
 	
-	return ($back);
+	return $ergebnis;
 }
 
 function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
@@ -404,9 +404,9 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	$f['c_typ'] = "S";
 	$f['c_text'] = $text;
 	
-	$back = schreibe_chat($f);
+	$ergebnis = schreibe_chat($f);
 	
-	return ($back);
+	return $ergebnis;
 }
 
 function aktualisiere_online($u_id) {
@@ -420,13 +420,16 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	// Liefert Benutzer- und Online-Variable
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $u_zeilen;
-	global $admin, $system_farbe, $chat_back, $ignore, $userdata, $o_punkte, $o_aktion;
+	global $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat, $t;
 	
 	// IP und Browser ermittlen
-	$ip = $ipaddr ? $ipaddr : $_SERVER["REMOTE_ADDR"];
-	$browser = $agent ? $agent : $_SERVER["HTTP_USER_AGENT"];
+	$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+	
+	$ip = $ipaddr ? $ipaddr : $remote_addr;
+	$browser = $agent ? $agent : $http_user_agent;
 	
 	$browser = str_replace("MSIE 8.0", "MSIE 7.0", $browser);
 	
@@ -463,11 +466,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 			// Schleife über Benutzerdaten, Variable setzen
 			while (list($k, $v) = each($userdata)) {
 				@$$k = $v;
-			}
-			
-			// Benutzereinstellungen überschreiben Default-Einstellungen
-			if ($u_zeilen) {
-				$chat_back = $u_zeilen;
 			}
 			
 			// ChatAdmin oder Superuser oder Moderator?
@@ -1247,7 +1245,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// Liefert ID des geschriebenen Datensatzes zurück
 	global $system_farbe, $t, $nachricht_vc;
 	global $eintritt_individuell, $lustigefeatures;
-	$back = 0;
+	$ergebnis = 0;
 	
 	// Nachricht an alle
 	if ($raum && $u_id) {
@@ -1290,10 +1288,10 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 		$text = preg_replace("|%nick%|i", $u_nick, $text);
 		$text = preg_replace("|%raum%|i", $r_name, $text);
 		
-		$back = global_msg($u_id, $raum, $text);
+		$ergebnis = global_msg($u_id, $raum, $text);
 	}
 	
-	return ($back);
+	return $ergebnis;
 }
 
 function logout($o_id, $u_id) {
@@ -1326,7 +1324,7 @@ function logout($o_id, $u_id) {
 	
 	// Benutzer löschen
 	$query = "DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id";
-	$result2 = sqlUpdate($query);
+	$result2 = sqlUpdate($query, true);
 	
 	// Lock freigeben
 	$query = "UNLOCK TABLES";
@@ -1482,7 +1480,7 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 }
 
 function reset_system($wo_online) {
-	global $id, $u_level, $o_raum, $chat_back;
+	global $id, $u_level, $o_raum;
 	// Reset ausführen
 	if ( $wo_online == "userliste" ) {
 		echo "<script>\n";
@@ -1499,7 +1497,7 @@ function reset_system($wo_online) {
 		echo "</script>";
 	} else if ( $wo_online == "chatfenster" ) {
 		echo "<script>\n";
-		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
 		echo "</script>";
 	} else if ( $wo_online == "moderator" ) {
 		echo "<script>\n";
@@ -1508,7 +1506,7 @@ function reset_system($wo_online) {
 	} else if ($u_level == "M") {
 		echo "<script>\n";
 		echo "parent.frames[0].location.href='navigation.php?id=$id';";
-		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
 		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
 		echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
@@ -1517,7 +1515,7 @@ function reset_system($wo_online) {
 	} else {
 		echo "<script>\n";
 		echo "parent.frames[0].location.href='navigation.php?id=$id';";
-		echo "parent.frames[1].location.href='chat.php?id=$id&back=$chat_back';\n";
+		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
 		echo "parent.frames[2].location.href='user.php?id=$id';\n";
 		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
 		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
@@ -1573,7 +1571,9 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 		// Der PHP-Vessand benötigt \n und nicht <br>
 		$inhalt = str_replace("<br>", "\n", $inhalt);
 		
-		$charset = "\n" . "X-MC-IP: " . $_SERVER["REMOTE_ADDR"] . "\n" . "X-MC-TS: " . time();
+		$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+		
+		$charset = "\n" . "X-MC-IP: " . $remote_addr . "\n" . "X-MC-TS: " . time();
 		$charset .= "Mime-Version: 1.0\r\n";
 		$charset .= "Content-type: text/plain; charset=utf-8";
 		

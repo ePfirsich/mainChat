@@ -47,47 +47,25 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	global $punkte_gruppe;
 	
 	// IP/Browser Adresse des Benutzer setzen
-	$ip = $_SERVER["REMOTE_ADDR"];
-	$browser = $_SERVER["HTTP_USER_AGENT"];
+	$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
 	
-	$browser = str_replace("MSIE 8.0", "MSIE 7.0", $browser);
+	$http_user_agent = str_replace("MSIE 8.0", "MSIE 7.0", $http_user_agent);
 	
-	// Alle wichtigen HTTP-Header merken
-	$http_stuff = $_SERVER;
-	
-	// ausblenden vom uninteressanten Sachen...
-	unset($http_stuff['DOCUMENT_ROOT']);
-	unset($http_stuff['HTTP_ACCEPT']);
-	unset($http_stuff['HTTP_ACCEPT_ENCODING']);
-	unset($http_stuff['HTTP_ACCEPT_CHARSET']);
-	unset($http_stuff['HTTP_ACCEPT_LANGUAGE']);
-	unset($http_stuff['HTTP_CACHE_CONTROL']);
-	unset($http_stuff['HTTP_CONNECTION']);
-	unset($http_stuff['HTTP_PRAGMA']);
-	unset($http_stuff['PATH']);
-	unset($http_stuff['SCRIPT_FILENAME']);
-	unset($http_stuff['SERVER_ADMIN']);
-	unset($http_stuff['SERVER_NAME']);
-	unset($http_stuff['SERVER_PORT']);
-	unset($http_stuff['SERVER_SIGNATURE']);
-	unset($http_stuff['SERVER_SOFTWARE']);
-	unset($http_stuff['GATEWAY_INTERFACE']);
-	unset($http_stuff['SERVER_PROTOCOL']);
-	unset($http_stuff['REQUEST_METHOD']);
-	unset($http_stuff['REQUEST_URI']);
-	unset($http_stuff['SCRIPT_NAME']);
-	unset($http_stuff['PATH_TRANSLATED']);
-	unset($http_stuff['PHP_SELF']);
-	unset($http_stuff['SERVER_ADDR']);
-	unset($http_stuff['argv']);
-	unset($http_stuff['argc']);
-	unset($http_stuff['CONTENT_TYPE']);
-	unset($http_stuff['CONTENT_LENGTH']);
-	unset($http_stuff['HTTP_REFERER']);
-	unset($http_stuff['HTTP_KEEP_ALIVE']);
-	unset($http_stuff['QUERY_STRING']);
-	unset($http_stuff['REMOTE_PORT']);
-	unset($http_stuff['PHP_AUTH_PW']);
+	$http_stuff = array();
+	$http_stuff['HTTP_COOKIE'] = filter_input(INPUT_SERVER, 'HTTP_COOKIE', FILTER_SANITIZE_STRING);
+	$http_stuff['HTTP_ORIGIN'] = filter_input(INPUT_SERVER, 'HTTP_ORIGIN', FILTER_SANITIZE_STRING);
+	$http_stuff['HTTP_CONTENT_TYPE'] = filter_input(INPUT_SERVER, 'HTTP_CONTENT_TYPE', FILTER_SANITIZE_STRING);
+	$http_stuff['HTTP_USER_AGENT'] = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+	$http_stuff['HTTP_HOST'] = filter_input(INPUT_SERVER, 'HTTP_HOST', FILTER_SANITIZE_STRING);
+	$http_stuff['REDIRECT_STATUS'] = filter_input(INPUT_SERVER, 'REDIRECT_STATUS', FILTER_SANITIZE_STRING);
+	$http_stuff['REMOTE_ADDR'] = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+	$http_stuff['HTTPS'] = filter_input(INPUT_SERVER, 'HTTPS', FILTER_SANITIZE_STRING);
+	$http_stuff['REQUEST_SCHEME'] = filter_input(INPUT_SERVER, 'REQUEST_SCHEME', FILTER_SANITIZE_STRING);
+	$http_stuff['DOCUMENT_URI'] = filter_input(INPUT_SERVER, 'DOCUMENT_URI', FILTER_SANITIZE_STRING);
+	$http_stuff['PATH_INFO'] = filter_input(INPUT_SERVER, 'PATH_INFO', FILTER_SANITIZE_STRING);
+	$http_stuff['REQUEST_TIME_FLOAT'] = filter_input(INPUT_SERVER, 'REQUEST_TIME_FLOAT', FILTER_SANITIZE_STRING);
+	$http_stuff['REQUEST_TIME'] = filter_input(INPUT_SERVER, 'REQUEST_TIME', FILTER_SANITIZE_STRING);
 	
 	// Aktionen initialisieren, nicht für Gäste
 	if ($u_level != "G") {
@@ -151,7 +129,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	
 	// Aktuelle IP/Datum zu ip_historie hinzufügen
 	$datum = time();
-	$ip_historie_neu[$datum] = $ip;
+	$ip_historie_neu[$datum] = $remote_addr;
 	if (is_array($u_ip_historie)) {
 		$i = 0;
 		while (($i < 3) AND list($datum, $ip_adr) = each($u_ip_historie)) {
@@ -252,9 +230,9 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$f['o_user'] = $user_id;
 	$f['o_raum'] = 0;
 	$f['o_hash'] = $hash_id;
-	$f['o_ip'] = $ip;
+	$f['o_ip'] = $remote_addr;
 	$f['o_who'] = "1";
-	$f['o_browser'] = $browser;
+	$f['o_browser'] = $http_user_agent;
 	$f['o_name'] = $userdata['u_nick'];
 	$f['o_level'] = $userdata['u_level'];
 	$f['o_http_stuff'] = $http_stuff_array[0];
@@ -437,10 +415,10 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	$f['o_who'] = "0";
 	
 	// Nachricht im Chat ausgeben
-	$back = nachricht_betrete($user_id, $r_id, $u_nick, $r_name);
+	$ergebnis = nachricht_betrete($user_id, $r_id, $u_nick, $r_name);
 	
 	// ID der Eintrittsnachricht merken und online-Datensatz schreiben
-	$f['o_chat_id'] = $back;
+	$f['o_chat_id'] = $ergebnis;
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Topic vorhanden? ausgeben
@@ -511,8 +489,6 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 		}
 	}
 	mysqli_free_result($result);
-	
-	return ($back);
 }
 
 function id_erzeuge() {
@@ -530,7 +506,7 @@ function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	$f['o_raum'] = -1;
 	$f['o_who'] = "2";
 	
-	//user betritt nicht chat, sondern direkt forum --> $back ist die aktuellste Zeile in chat
+	//user betritt nicht chat, sondern direkt forum
 	$f['o_chat_id'] = system_msg("", 0, $user_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	schreibe_db("online", $f, $o_id, "o_id");
 	
@@ -572,7 +548,6 @@ function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 		}
 	}
 	mysqli_free_result($result);
-	
 }
 
 function RaumNameToRaumID($eintrittsraum) {

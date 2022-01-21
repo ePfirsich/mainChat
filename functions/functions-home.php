@@ -288,11 +288,13 @@ function zeige_home($user_id, $force = FALSE) {
 	// Zeigt die Benutzerseite des Benutzers u_id an
 	global $argv, $argc, $id, $check_name, $t;
 	
+	$query_string = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_STRING);
+	
 	if ($user_id && $user_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
 		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$user_id";
-	} else if ($user_id == -1 && isset($_SERVER['QUERY_STRING'])) {
-		$username = $new_string=substr($_SERVER['QUERY_STRING'],1);
+	} else if ($user_id == -1 && $query_string != "") {
+		$username = $new_string=substr($query_string,1);
 		// Aufruf als home.php?USERNAME
 		$tempnick = escape_string(strtolower(urldecode($username)) );
 		$tempnick = coreCheckName($tempnick, $check_name);
