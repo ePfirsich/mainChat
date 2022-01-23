@@ -1,13 +1,14 @@
 <?php
-$mitgliedId = filter_input(INPUT_GET, 'uid', FILTER_SANITIZE_NUMBER_INT);
+$userId = filter_input(INPUT_GET, 'uid', FILTER_SANITIZE_NUMBER_INT);
 $code = filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING);
+
 $text = "";
-if(!isset($mitgliedId) || !isset($code)) {
+if(!isset($userId) || !isset($code)) {
 	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
+	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
 		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
@@ -32,7 +33,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 			
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			
-			$query = "UPDATE `user` SET `u_email` = '" . escape_string($mitglied['u_email_neu']) . "', `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
+			$query = "UPDATE `user` SET `u_email` = '" . escape_string($mitglied['u_email_neu']) . "', `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = '" . escape_string($userId) . "'";
 			sqlUpdate($query);
 		}
 	}

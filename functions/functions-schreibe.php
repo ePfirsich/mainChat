@@ -28,7 +28,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 	
 	// Falls $text eine Eingabezeile enthält -> verarbeiten
 	
-	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der Normalen eingabe
+	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der normalen Eingabe
 	if (($admin || ($u_level == "M")) && isset($text) && (strlen($text) != 0) && (strlen($text) < (5 * 255))) {
 		
 	} else if (isset($text) && strlen($text) != 0 && strlen($text) < 255) { // Normale Prüfung für Benutzer

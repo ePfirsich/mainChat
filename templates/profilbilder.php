@@ -17,7 +17,9 @@ if(isset($loesche) && $loesche != "") {
 }
 
 // Prüfen & in DB schreiben
-if (isset($home) && is_array($home) && $home['ui_id']) {
+if ($ui_id != "") {
+	$home = array();
+	$home['ui_id'] = $ui_id;
 	// Bei Änderung der Einstellung speichern
 	// hochgeladene Bilder in DB speichern
 	$bildliste = ARRAY("ui_bild1", "ui_bild2", "ui_bild3", "ui_bild4", "ui_bild5", "ui_bild6");
@@ -55,7 +57,7 @@ if ($result && mysqli_num_rows($result) == 1) {
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n"
 			. "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n"
-		. "<input type=\"hidden\" name=\"home[ui_id]\" value=\"" . $home['ui_id'] . "\">\n";
+		. "<input type=\"hidden\" name=\"ui_id\" value=\"" . $home['ui_id'] . "\">\n";
 	
 	$text .= home_info($home);
 	

@@ -9,16 +9,36 @@ if( $id == '') {
 	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
 }
 
+$r_id = filter_input(INPUT_GET, 'r_id', FILTER_SANITIZE_NUMBER_INT);
+
 $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
 
-$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_STRING);
+$page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
+
+$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 if( $aktion == '') {
-	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);
+	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 }
+$aktion3 = filter_input(INPUT_POST, 'aktion3', FILTER_SANITIZE_URL);
 
 $loesche = filter_input(INPUT_GET, 'loesche', FILTER_SANITIZE_URL);
+$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
+$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
 
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
+
+// Sperren
+$f[is_infotext] = filter_input(INPUT_POST, 'f[is_infotext]', FILTER_SANITIZE_STRING);
+$f[is_domain] = filter_input(INPUT_POST, 'f[is_domain]', FILTER_SANITIZE_STRING);
+$ip1 = filter_input(INPUT_POST, 'ip1', FILTER_SANITIZE_STRING);
+$ip2 = filter_input(INPUT_POST, 'ip2', FILTER_SANITIZE_STRING);
+$ip3 = filter_input(INPUT_POST, 'ip3', FILTER_SANITIZE_STRING);
+$ip4 = filter_input(INPUT_POST, 'ip4', FILTER_SANITIZE_STRING);
+$f[is_warn] = filter_input(INPUT_POST, 'f[is_warn]', FILTER_SANITIZE_STRING);
+$f[is_id] = filter_input(INPUT_GET, 'f[is_id]', FILTER_SANITIZE_NUMBER_INT);
+
+
+$ui_id = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_NUMBER_INT);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);
