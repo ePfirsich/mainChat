@@ -10,11 +10,6 @@ if (!isset($suchtext)) {
 $uu_suchtext = URLENCODE($suchtext);
 
 $zeigeip = filter_input(INPUT_GET, 'zeigeip', FILTER_SANITIZE_NUMBER_INT);
-$schau_raum = filter_input(INPUT_GET, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
-if( $schau_raum == '') {
-	$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_URL);
-}
-
 $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
 $kick_user_chat = filter_input(INPUT_GET, 'kick_user_chat', FILTER_SANITIZE_NUMBER_INT);
 

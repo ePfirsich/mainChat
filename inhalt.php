@@ -23,7 +23,11 @@ $aktion3 = filter_input(INPUT_POST, 'aktion3', FILTER_SANITIZE_URL);
 
 $loesche = filter_input(INPUT_GET, 'loesche', FILTER_SANITIZE_URL);
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
-$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
+
+$schau_raum = filter_input(INPUT_GET, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
+if( $schau_raum == '') {
+	$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
+}
 
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 
