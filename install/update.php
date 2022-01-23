@@ -248,19 +248,19 @@ switch ($aktion) {
 	Bitte die entsprechenden Aktualisierungen der Reihe nach durchführen.<br>
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_auf_7_0_10">
-		<input type="submit" name="los" value="Aktualisierung von Version 7.0.9 auf Version 7.0.10 starten">
+		<input type="submit" value="Aktualisierung von Version 7.0.9 auf Version 7.0.10 starten">
 	</form>
 	<br>
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_auf_7_1_0">
-		<input type="submit" name="los" value="Aktualisierung von Version 7.0.10 auf Version 7.1.0 starten">
+		<input type="submit" value="Aktualisierung von Version 7.0.10 auf Version 7.1.0 starten">
 	</form>
 	<br>
 	<br>
 	Hiermit wird auf die neueste Version aktualisiert. Es muss keine weitere Aktualisierung durchgeführt werden.<br>
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_unter_7_0_0">
-		<input type="submit" name="los" value="Aktualisierung von unter Version 7.0.0 starten">
+		<input type="submit" value="Aktualisierung von unter Version 7.0.0 starten">
 	</form>
 	<br>
 	<?php

@@ -6,7 +6,6 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 
 require_once("functions/functions-formulare.php");
 
-$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
 $raum = filter_input(INPUT_GET, 'raum', FILTER_SANITIZE_NUMBER_INT);
 
 $text = "";

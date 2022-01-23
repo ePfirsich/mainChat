@@ -7,6 +7,8 @@ $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 if( $id == '') {
 	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
 }
+$o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
+$neuer_raum = filter_input(INPUT_POST, 'neuer_raum', FILTER_SANITIZE_NUMBER_INT);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);

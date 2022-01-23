@@ -152,17 +152,13 @@ if(!$kein_gastlogin_ausblenden) {
 		} else {
 			$rest_ausblenden = false;
 			
-			$captcha_text1 = filter_input(INPUT_POST, 'captcha_text1', FILTER_SANITIZE_STRING);
-			$captcha_text2 = filter_input(INPUT_POST, 'captcha_text2', FILTER_SANITIZE_STRING);
-			$ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
-			
 			if (($temp_gast_sperre) && ($u_level == 'G')) {
 				$captcha_text1 = "999";
 			} // abweisen, falls Gastsperre aktiv
 			
 			if ( isset($captcha_text1) && ($captcha_text1 == "")) {
 				$captcha_text1 = "999";
-			} // abweisen, falls leere eingabe
+			} // Abweisen, falls leere Eingabe
 			
 			// Prüfen, ob alles korrekt eingegeben wurde.
 			if ( isset($captcha_text2) && ( $captcha_text2 != md5( $user_id . "+code+" . $captcha_text1 . "+" . date("Y-m-d h") ) ) ) {

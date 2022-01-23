@@ -6,6 +6,12 @@ require_once("functions/functions-index.php");
 require_once("languages/$sprache-index.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
+
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
+if( $id == '') {
+	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
+}
+
 $email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_STRING);
 if($email == "") {
 	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
@@ -14,6 +20,16 @@ $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+$passwort = filter_input(INPUT_POST, 'passwort', FILTER_SANITIZE_STRING);
+$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
+
+$o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
+$neuer_raum = filter_input(INPUT_POST, 'neuer_raum', FILTER_SANITIZE_NUMBER_INT);
+
+$captcha_text1 = filter_input(INPUT_POST, 'captcha_text1', FILTER_SANITIZE_STRING);
+$captcha_text2 = filter_input(INPUT_POST, 'captcha_text2', FILTER_SANITIZE_STRING);
+$ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
+$eintritt = filter_input(INPUT_POST, 'eintritt', FILTER_SANITIZE_STRING);
 
 zeige_header($body_titel, 0);
 
@@ -199,7 +215,6 @@ if ($chat_offline) {
 // Ausloggen, falls eingeloggt
 if ($bereich == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
-	$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 	id_lese($id);
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {
@@ -413,7 +428,6 @@ switch ($bereich) {
 	
 	case "relogin":
 		// Login aus dem Forum in den Chat; Benutzerdaten setzen
-		$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
 		id_lese($id);
 		$hash_id = $id;
 		

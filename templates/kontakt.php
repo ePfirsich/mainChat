@@ -4,7 +4,6 @@ if( !isset($bereich)) {
 	die;
 }
 
-$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 $kontakt_absender = "";
 $kontakt_email = "";
 $kontakt_betreff = "";

@@ -8,7 +8,6 @@ $fehlermeldung = "";
 $aktivierung_erfolgreich = false;
 
 // Daten aus dem Formular
-$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 $f['email'] = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 

@@ -1,7 +1,7 @@
 <?php
-$mitgliedId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-if( $mitgliedId == '') {
-	$mitgliedId = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+$userId = filter_input(INPUT_GET, 'uid', FILTER_SANITIZE_NUMBER_INT);
+if( $userId == '') {
+	$userId = filter_input(INPUT_POST, 'uid', FILTER_SANITIZE_NUMBER_INT);
 }
 
 $code = filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING);
@@ -10,14 +10,14 @@ if( $code == '') {
 }
 
 $text = "";
-if(!isset($mitgliedId) || !isset($code)) {
+if(!isset($userId) || !isset($code)) {
 	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	$showForm = true;
 	
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
+	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
 		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
@@ -56,7 +56,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 				} else {
 					// Speichere neues Passwort und lösche den Code
 					$passworthash = encrypt_password($passwort);
-					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . escape_string($mitgliedId) . "'";
+					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . escape_string($userId) . "'";
 					sqlUpdate($query);
 					
 					$erfolgsmeldung = $t['login_passwort_erfolgreich_passwort_geaendert'];
@@ -68,7 +68,7 @@ if(!isset($mitgliedId) || !isset($code)) {
 			if($showForm) {
 				$text .= "<form action=\"index.php?bereich=passwort-zuruecksetzen\" method=\"post\">\n";
 				$text .= "<input type=\"hidden\" name=\"send\" value=\"1\">\n";
-				$text .= "<input type=\"hidden\" name=\"id\" value=\"" . htmlentities($mitgliedId) . "\">\n";
+				$text .= "<input type=\"hidden\" name=\"id\" value=\"" . htmlentities($userId) . "\">\n";
 				$text .= "<input type=\"hidden\" name=\"code\" value=\"" . htmlentities($code) . "\">\n";
 				
 				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $t['login_passwort_benutzername']);
