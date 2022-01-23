@@ -57,7 +57,7 @@ $t['benutzer_farbe'] = "Farbe";
 $t['benutzer_aktuell_gespeicherte_farbe'] = "Aktuell gespeicherte Farbe";
 $t['benutzer_avatar'] = "Avatar";
 $t['benutzer_avatar_aendern'] = "ändern";
-$t['benutzer_avatar_loeschen'] = "löschen";
+$t['benutzer_loeschen'] = "löschen";
 
 $t['benutzer_farbeinstellungen'] = "Farbeinstellungen";
 

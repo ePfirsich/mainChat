@@ -31,7 +31,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		}
 		
 		// Avatar
-		$value = avatar_editieren_anzeigen($f['u_id'], $f['u_nick'], "avatar", $bilder, "avatar_aendern");
+		$value = avatar_editieren_anzeigen($f['u_id'], $f['u_nick'], $bilder, "avatar_aendern");
 		
 		// Avatar
 		if ($zaehler % 2 != 0) {

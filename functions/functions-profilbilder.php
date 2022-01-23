@@ -86,7 +86,7 @@ function home_bild(
 		
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
-		$text .= "<br><b>[<a href=\"inhalt.php?bereich=profilbilder&id=$id&loesche=$feld\">$t[benutzer_avatar_loeschen]</a>]</b>";
+		$text .= "<br><b>[<a href=\"inhalt.php?bereich=profilbilder&id=$id&bildname=$feld\">$t[benutzer_loeschen]</a>]</b>";
 	} else {
 		
 		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
@@ -180,16 +180,16 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	return $fehlermeldung;
 }
 
-function bild_loeschen($loesche, $benutzer_id) {
+function bild_loeschen($bildname, $benutzer_id) {
 	global $t;
 	
 	$text = "";
-	if (isset($loesche) && $loesche && $benutzer_id) {
-		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . escape_string($loesche) . "' AND b_user=" . intval($benutzer_id);
+	if (isset($bildname) && $bildname && $benutzer_id) {
+		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . escape_string($bildname) . "' AND b_user=" . intval($benutzer_id);
 		$resultLoeschen = sqlUpdate($queryLoeschen);
 		
 		$cache = "home_bild";
-		$cachepfad = $cache . "/" . substr($benutzer_id, 0, 2) . "/" . $benutzer_id . "/" . $loesche;
+		$cachepfad = $cache . "/" . substr($benutzer_id, 0, 2) . "/" . $benutzer_id . "/" . $bildname;
 		
 		if (file_exists($cachepfad)) {
 			unlink($cachepfad);

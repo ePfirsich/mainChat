@@ -484,7 +484,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 												$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
 											}
 										} else {
-											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder) ." ";
+											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder) ." ";
 										}
 									} else {
 										$ava = "";
@@ -569,7 +569,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 												$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" /> ';
 											}
 										} else {
-											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder) ." ";
+											$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder) ." ";
 										}
 									} else {
 										$ava = "";

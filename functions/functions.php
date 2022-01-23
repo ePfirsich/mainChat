@@ -1371,19 +1371,13 @@ function logout($o_id, $u_id) {
 	mysqli_free_result($result);
 }
 
-function avatar_editieren_anzeigen(
-	$u_id,
-	$u_nick,
-	$feld,
-	$bilder,
-	$aufruf = "") {
-	
+function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf = "") {
 	global $id, $t;
 	
-	if (is_array($bilder) && isset($bilder[$feld]) && $bilder[$feld]['b_mime']) {
-		$width = $bilder[$feld]['b_width'];
-		$height = $bilder[$feld]['b_height'];
-		$mime = $bilder[$feld]['b_mime'];
+	if (is_array($bilder) && isset($bilder['avatar']) && $bilder['avatar']['b_mime']) {
+		$width = $bilder['avatar']['b_width'];
+		$height = $bilder['avatar']['b_height'];
+		$mime = $bilder['avatar']['b_mime'];
 		
 		$info = "<br>Info: " . $width . "x" . $height . " als " . $mime;
 		
@@ -1391,8 +1385,8 @@ function avatar_editieren_anzeigen(
 			$info = "";
 		}
 		if ($aufruf == "avatar_aendern") {
-			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=avatar_aendern&loesche=$feld&u_id=$u_id\">$t[benutzer_avatar_loeschen]</a>]</b><br><br></td>\n";
+			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
+			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$t[benutzer_loeschen]</a>]</b><br><br></td>\n";
 		} else if ($aufruf == "profil") {
 			if($width > 200) {
 				$width = 200;
@@ -1400,7 +1394,7 @@ function avatar_editieren_anzeigen(
 			if($height > 200) {
 				$height = 200;
 			}
-			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
 		} else if ($aufruf == "forum") {
 			if($width > 60) {
 				$width = 60;
@@ -1408,9 +1402,9 @@ function avatar_editieren_anzeigen(
 			if($height > 60) {
 				$height = 60;
 			}
-			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
 		} else {
-			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
 		}
 	} else if ($aufruf == "avatar_aendern") {
 		$text = "<td style=\"vertical-align:top;\">";
@@ -1419,8 +1413,8 @@ function avatar_editieren_anzeigen(
 		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
 		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
 		. "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
-	$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\"><br>";
-	$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
+		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"avatar\" size=\"" . (55 / 8) . "\"><br>";
+		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
 	}
 	
 	if ($text && $aufruf == "avatar_aendern") {

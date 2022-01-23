@@ -8,12 +8,8 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 $text = "";
 
 // Bild löschen
-if (isset($loesche) && substr($loesche, 0, 7) <> "ui_bild") {
-	unset($loesche);
-}
-
-if(isset($loesche) && $loesche != "") {
-	$text .= bild_loeschen($loesche, $u_id);
+if (substr($bildname, 0, 7) == "ui_bild") {
+	$text .= bild_loeschen($bildname, $u_id);
 }
 
 // Prüfen & in DB schreiben

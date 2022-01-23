@@ -190,7 +190,7 @@ $t['chat_lese1'] = "privat";
 
 $t['benutzer_online'] = "Benutzer %user% (ONLINE)";
 $t['benutzer_offline'] = "Benutzer %user% (OFFLINE)";
-$t['benutzer_avatar_loeschen'] = "löschen";
+$t['benutzer_loeschen'] = "löschen";
 
 $t['benutzer_punkte'] = "Punkte";
 $t['benutzer_punkte_anzeige'] = "(Alle/%jahr%/%monat%)";

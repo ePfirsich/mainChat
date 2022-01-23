@@ -85,12 +85,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$text = "";
 			
 			// Avatar löschen
-			if (isset($loesche) && $loesche <> "avatar") {
-				unset($loesche);
-			}
-			
-			if(isset($loesche) && $loesche != "") {
-				$text .= bild_loeschen($loesche, $f['u_id']);
+			if ($bildname == "avatar") {
+				$text .= bild_loeschen($bildname, $f['u_id']);
 			}
 			
 			// Avatar hochladen

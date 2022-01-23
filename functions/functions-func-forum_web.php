@@ -1092,7 +1092,7 @@ function show_posting() {
 				$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" /> ';
 			}
 		} else {
-			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, "avatar", $bilder, "forum") ." ";
+			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, $bilder, "forum") ." ";
 		}
 		// Ende des Avatars
 		
