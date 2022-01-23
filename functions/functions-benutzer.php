@@ -17,8 +17,8 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
 		$uu_away = $row->u_away;
-		$uu_nick = htmlspecialchars($row->u_nick);
 		$uu_id = $row->u_id;
+		$uu_nick = htmlspecialchars($row->u_nick);
 		$uu_email = htmlspecialchars($row->u_email);
 		$uu_level = $row->u_level;
 		$uu_farbe = $row->u_farbe;
@@ -72,33 +72,8 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$ui_gen = 'leer';
 		}
 		
-		// Bildinfos lesen und in Array speichern
-		$queryAvatar = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM bild WHERE b_name = 'avatar' AND b_user = $row->u_id";
-		$resultAvatar = sqlQuery($queryAvatar);
-		unset($bilder);
-		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
-			while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
-				$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
-				$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
-				$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
-			}
-		}
-		mysqli_free_result($resultAvatar);
-		
-		$value = "";
-		if (!isset($bilder)) {
-			if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-				$value .= '<img src="./images/avatars/no_avatar_m.jpg" style="width:200px; height:200x;" alt="" />';
-			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-				$value .= '<img src="./images/avatars/no_avatar_w.jpg" style="width:200px; height:200px;" alt="" />';
-			} else { // Neutraler Standard-Avatar
-				$value .= '<img src="./images/avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
-			}
-		} else {
-			$value .= avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder, "profil");
-		}
-		
 		// Avatar
+		$value .= avatar_anzeigen($uu_id, $uu_nick, "profil", $ui_gen[0]);
 		if ($zaehler % 2 != 0) {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {

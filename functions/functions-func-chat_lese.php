@@ -449,37 +449,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								
 								//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 								if($benutzerdaten['u_avatare_anzeigen'] == 1) {
-									// Bildinfos lesen und in Array speichern
-									$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE `b_name` = 'avatar' AND b_user = $uu_id";
-									$resultAvatar = sqlQuery($queryAvatar);
+									// Avatar
+									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen[0]);
 									
-									// Fehler schicken
-									if($uu_id == null || $uu_id == "") {
-										global $kontakt;
-										email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzername1: " . $row->c_von_user . " Benutzername2: " . $temp_von_user . " ID: " . $id);
-									}
-									
-									unset($bilder);
-									if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
-										while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
-											$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
-											$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
-											$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
-										}
-									}
-									mysqli_free_result($result2);
-									
-									if (!isset($bilder)) {
-										if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" />';
-										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" />';
-										} else { // Neutraler Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" />';
-										}
-									} else {
-										$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder);
-									}
 									// Leerzeichen nach dem Avatar anzeigen
 									$ava .= ' ';
 								} else {
@@ -528,36 +500,9 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								
 								//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 								if($benutzerdaten['u_avatare_anzeigen'] == 1) {
-									// Bildinfos lesen und in Array speichern
-									$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_name = 'avatar' AND `b_user` = $uu_id";
-									$resultAvatar = sqlQuery($queryAvatar);
+									// Avatar
+									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen[0]);
 									
-									// Fehler schicken
-									if($uu_id == null || $uu_id == "") {
-										global $kontakt;
-										email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzername1: " . $row->c_von_user . " Benutzername2: " . $temp_von_user . " ID: " . $id);
-									}
-									unset($bilder);
-									if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
-										while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
-											$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
-											$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
-											$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
-										}
-									}
-									mysqli_free_result($result2);
-									
-									if (!isset($bilder)) {
-										if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:25px; height:25px;" alt="" />';
-										} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:25px; height:25px;" alt="" />';
-										} else { // Neutraler Standard-Avatar
-											$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:25px; height:25px;" alt="" />';
-										}
-									} else {
-										$ava = avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder);
-									}
 									// Leerzeichen nach dem Avatar anzeigen
 									$ava .= ' ';
 								} else {

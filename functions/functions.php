@@ -1371,7 +1371,56 @@ function logout($o_id, $u_id) {
 	mysqli_free_result($result);
 }
 
-function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf = "") {
+function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
+	$result = sqlQuery($query);
+	$row = mysqli_fetch_object($result);
+	
+	// Fehler schicken
+	if($userId == null || $userId == "") {
+		global $kontakt, $id;
+		email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzer-ID: " . $userId . " Benutzername: " . $username . " ID: " . $id . " Anzeigeort: " . $anzeigeort);
+	}
+	
+	$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
+	$result = sqlQuery($query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		$row = mysqli_fetch_object(result);
+		$avatar[$row->b_name]['b_mime'] = $row->b_mime;
+		$avatar[$row->b_name]['b_width'] = $row->b_width;
+		$avatar[$row->b_name]['b_height'] = $row->b_height;
+	}
+	
+	// Maximale Größe Avatars festlegen
+	if($anzeigeort == "profil") {
+		$maxWidth = "200";
+		$maxHeight = "200";
+	} else if($anzeigeort == "forum") {
+		$maxWidth = "60";
+		$maxHeight = "60";
+	} else {
+		$maxWidth = "25";
+		$maxHeight = "25";
+	}
+	
+	if (!isset($avatar)) {
+		// Platzhalter-Avatar anzeigen
+		
+		if ($geschlecht == "m") { // Männlicher Standard-Avatar
+			$avatar = '<img src="./images/avatars/no_avatar_m.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
+		} else if ($geschlecht == "w") { // Weiblicher Standard-Avatar
+			$avatar = '<img src="./images/avatars/no_avatar_w.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
+		} else { // Neutraler Standard-Avatar
+			$avatar = '<img src="./images/avatars/no_avatar_es.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
+		}
+	} else {
+		// Avatar anzeigen
+		$avatar = avatar_editieren_anzeigen($userId, $username, $avatar, $anzeigeort, $maxWidth, $maxHeight);
+	}
+	
+	return $avatar;
+}
+
+function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, $maxHeight) {
 	global $id, $t;
 	
 	if (is_array($bilder) && isset($bilder['avatar']) && $bilder['avatar']['b_mime']) {
@@ -1381,47 +1430,43 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf = "") {
 		
 		$info = "<br>Info: " . $width . "x" . $height . " als " . $mime;
 		
-		if (!isset($info)) {
-			$info = "";
+		if($width > $maxWidth) {
+			$width = $maxWidth;
 		}
+		if($height > $maxHeight) {
+			$height = $maxHeight;
+		}
+		
 		if ($aufruf == "avatar_aendern") {
+			// Avatar ändern
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
 			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$t[benutzer_loeschen]</a>]</b><br><br></td>\n";
 		} else if ($aufruf == "profil") {
-			if($width > 200) {
-				$width = 200;
-			}
-			if($height > 200) {
-				$height = 200;
-			}
+			// Profil
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
 		} else if ($aufruf == "forum") {
-			if($width > 60) {
-				$width = 60;
-			}
-			if($height > 60) {
-				$height = 60;
-			}
+			// Forum
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
 		} else {
-			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:25px; height:25px;\" alt=\"$u_nick\">";
+			// Chat
+			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
 		}
 	} else if ($aufruf == "avatar_aendern") {
 		$text = "<td style=\"vertical-align:top;\">";
-		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
-		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
-		. "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
+		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
+		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n";
+		$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
 		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"avatar\" size=\"" . (55 / 8) . "\"><br>";
-		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
+		$text .= "<br><input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
 	}
 	
 	if ($text && $aufruf == "avatar_aendern") {
 		$text = "<table style=\"width:100%;\"><tr>" . $text . "</tr></table>";
 	}
 	
-	return ($text);
+	return $text;
 }
 
 function zeige_profilinformationen_von_id($profilfeld, $key) {

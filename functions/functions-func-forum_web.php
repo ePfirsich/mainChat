@@ -1070,33 +1070,8 @@ function show_posting() {
 			}
 		}
 		
-		// Start des Avatars
-		// Bildinfos lesen und in Array speichern
-		$queryAvatar = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $po_u_id";
-		$resultAvatar = sqlQuery($queryAvatar);
-		unset($bilder);
-		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
-			while ($rowAvatar = mysqli_fetch_object($resultAvatar)) {
-				$bilder[$rowAvatar->b_name]['b_mime'] = $rowAvatar->b_mime;
-				$bilder[$rowAvatar->b_name]['b_width'] = $rowAvatar->b_width;
-				$bilder[$rowAvatar->b_name]['b_height'] = $rowAvatar->b_height;
-			}
-		}
-		
-		if (!isset($bilder)) {
-			if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
-			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
-			} else { // Neutraler Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
-			}
-		} else {
-			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, $bilder, "forum");
-		}
-		// Leerzeichen nach dem Avatar anzeigen
-		$ava .= ' ';
-		// Ende des Avatars
+		// Avatar
+		$ava = avatar_anzeigen($po_u_id, $po_u_nick, "forum", $ui_gen[0]);
 		
 		$text .= "<tr>\n";
 		$text .= "<td rowspan=\"3\" class=\"tabelle_kopfzeile smaller\" style=\"width:150px; vertical-align:top; text-align:center;\">\n";
