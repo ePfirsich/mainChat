@@ -1085,15 +1085,17 @@ function show_posting() {
 		
 		if (!isset($bilder)) {
 			if ($ui_gen[0] == "m") { // Männlicher Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" /> ';
+				$ava = '<img src="./images/avatars/no_avatar_m.jpg" style="width:60px; height:60px;" alt="" />';
 			} else if ($ui_gen[0] == "w") { // Weiblicher Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" /> ';
+				$ava = '<img src="./images/avatars/no_avatar_w.jpg" style="width:60px; height:60px;" alt="" />';
 			} else { // Neutraler Standard-Avatar
-				$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" /> ';
+				$ava = '<img src="./images/avatars/no_avatar_es.jpg" style="width:60px; height:60px;" alt="" />';
 			}
 		} else {
-			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, $bilder, "forum") ." ";
+			$ava = avatar_editieren_anzeigen($po_u_id, $po_u_nick, $bilder, "forum");
 		}
+		// Leerzeichen nach dem Avatar anzeigen
+		$ava .= ' ';
 		// Ende des Avatars
 		
 		$text .= "<tr>\n";

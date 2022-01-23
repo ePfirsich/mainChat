@@ -95,7 +95,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 				$value .= '<img src="./images/avatars/no_avatar_es.jpg" style="width:200px; height:200px;" alt="" />';
 			}
 		} else {
-			$value .= avatar_editieren_anzeigen($uu_id, $temp_von_user, "avatar", $bilder, "profil");
+			$value .= avatar_editieren_anzeigen($uu_id, $temp_von_user, $bilder, "profil");
 		}
 		
 		// Avatar
