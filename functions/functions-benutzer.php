@@ -344,7 +344,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
 			$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
-			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\"><br>";
+			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_loeschen]\"><br>";
 			
 			$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 			$result = sqlQuery($query);
@@ -417,6 +417,7 @@ function benutzer_suche($f, $suchtext) {
 	$text .= "<form name=\"suche\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"absenden\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten
@@ -482,7 +483,7 @@ function benutzer_suche($f, $suchtext) {
 				<tr>
 					<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
 					<td $bgcolor>
-						<input type=\"submit\" name=\"suchtext_eingabe\" value=\"Go!\">
+						<input type=\"submit\" name=\"suchtext_eingabe\" value=\"$t[benutzer_absenden]\">
 					</td>
 				</tr>";
 	$text .= "</table>";

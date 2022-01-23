@@ -64,7 +64,7 @@ if ($admin && isset($kick_user_chat) && $user) {
 switch ($aktion) {
 	case "suche":
 	// Suchmaske für Ergebnis oder Suchmaske für erste Suche ausgeben
-		if (strlen($suchtext) > 3 || (isset($suchtext_eingabe) && $suchtext_eingabe == "Go!")) {
+		if ( strlen($suchtext) > 3 || $aktion3 == "absenden" ) {
 			
 			// Suchergebnis mit Formular ausgeben
 			benutzer_suche($f, $suchtext);
@@ -394,7 +394,7 @@ switch ($aktion) {
 				$text .= raeume_auswahl($schau_raum, FALSE, FALSE, FALSE);
 			}
 			$text .= "</select>";
-			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Go!\">";
+			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[benutzer_absenden]\">";
 			$text .= "</form>";
 			
 			// Box anzeigen

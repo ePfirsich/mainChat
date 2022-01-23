@@ -15,6 +15,8 @@ $t['einstellungen_unterdruecken'] = "Unterdrücken";
 $t['einstellungen_erlauben'] = "Erlauben";
 $t['einstellungen_verbieten'] = "Verbieten";
 
+$t['benutzer_absenden'] = "Absenden";
+
 $t['benutzer_benutzerdaten'] = "Benutzerdaten";
 $t['benutzer_benutzername'] = "Benutzername";
 $t['benutzer_email_intern'] = "E-Mail";

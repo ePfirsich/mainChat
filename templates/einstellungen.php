@@ -8,13 +8,6 @@ $f = array();
 $f['u_id'] = filter_input(INPUT_POST, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 $eingabe = filter_input(INPUT_POST, 'eingabe', FILTER_SANITIZE_STRING);
 
-$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
-if( $aktion == "") {
-	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
-}
-
-$aktion3 = filter_input(INPUT_POST, 'aktion3', FILTER_SANITIZE_URL);
-
 if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	// Nur Admins dürfen andere Benutzer bearbeiten
 	$temp_u_id = $f['u_id'];
@@ -101,7 +94,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			}
 			
 			// Avatar hochladen
-			if (isset($avatar_hochladen) && $avatar_hochladen) {
+			if ($aktion3 == "avatar_hochladen") {
 				// Die hochgeladenen Bilder speichern
 				$bildliste = ARRAY("avatar");
 				foreach ($bildliste as $val) {
@@ -586,7 +579,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Einstellungen des Benutzers mit ID $u_id anzeigen
 				user_edit($text, $f, $admin, $u_level);
-			} else if ((isset($eingabe) && $eingabe == "Löschen!") && $admin) {
+			} else if ((isset($eingabe) && $eingabe == $t['einstellungen_loeschen']) && $admin) {
 				// Benutzer löschen
 				
 				// Ist Benutzer noch Online?
@@ -599,14 +592,14 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
 					$text .="<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
-					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"Löschen!\">";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_loeschen]\">";
 					$text .= "</form>\n";
 					
 					// Abbrechen
 					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
-					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"Abbrechen\">";
+					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_abbrechen]\">";
 					$text .= "</form>\n";
 					
 					zeige_tabelle_zentriert($t['benutzer_loeschen_sicherheitsabfrage1'], $text);

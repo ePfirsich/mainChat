@@ -1418,7 +1418,7 @@ function avatar_editieren_anzeigen(
 		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 		. "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n"
 		. "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n"
-		. "<input type=\"hidden\" name=\"avatar_hochladen\" value=\"avatar_hochladen\">\n";
+		. "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
 	$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\"><br>";
 	$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
 	}

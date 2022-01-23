@@ -40,6 +40,8 @@ $t['einstellungen_fehler_passwort2'] = "Bitte geben Sie mindestens 4 Zeichen fü
 
 $t['einstellungen_benutzerseite_loeschen'] = "Benutzerseite löschen!";
 $t['einstellungen_speichern'] = "Speichern";
+$t['einstellungen_abbrechen'] = "Abbrechen";
+$t['einstellungen_loeschen'] = "Löschen";
 $t['einstellungen_zuruecksetzen'] = "Zurücksetzen";
 $t['einstellungen_zuruecksetzen_beschreibung'] = "(Außer für die Farbe)";
 
