@@ -8,6 +8,13 @@ $f = array();
 $f['u_id'] = filter_input(INPUT_POST, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 $eingabe = filter_input(INPUT_POST, 'eingabe', FILTER_SANITIZE_STRING);
 
+$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+if( $aktion == "") {
+	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
+}
+
+$aktion3 = filter_input(INPUT_POST, 'aktion3', FILTER_SANITIZE_URL);
+
 if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	// Nur Admins dürfen andere Benutzer bearbeiten
 	$temp_u_id = $f['u_id'];
@@ -37,12 +44,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	$fehlermeldung = $t['einstellungen_fehler_fehlende_berechtigung'];
 	zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
 } else {
-	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
-	if( $aktion == "") {
-		$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
-	}
-	
-	$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
 	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && $formular == "gefuellt") {
 		$f['u_id'] = $temp_u_id;
@@ -201,7 +202,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				sqlUpdate($queryEmailcode);
 				
 				// ULR zusammenstellen
-				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&id=" . $f['u_id'] . "&code=".$emailcode;
+				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&uid=" . $f['u_id'] . "&code=".$emailcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $t['einstellungen_email_aendern_email_inhalt']);
 				$inhalt = str_replace("%u_nick%", $f['u_nick'], $inhalt);
 				$email = urldecode($f['u_email']);
@@ -390,6 +391,16 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Mit korrekten Wert überschreiben
 					$f['u_level'] = $benutzerdaten_row->u_level;
+				}
+				
+				// Ist die Eintrittsnachricht zu lang?
+				if ( strlen($f['u_eintritt']) > 100 ) {
+					$fehlermeldung .= $t['einstellungen_fehler_eintrittsnachricht'];
+				}
+				
+				// Ist die Austrittsnachricht zu lang?
+				if ( strlen($f['u_austritt']) > 100 ) {
+					$fehlermeldung .= $t['einstellungen_fehler_austrittsnachricht'];
 				}
 				
 				// Aufpassen, wenn Admin sich selbst ändert -> keine leveländerung zulassen.

@@ -54,7 +54,6 @@ if($aktion == "") {
 }
 
 $text = "";
-$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
 // Profil prüfen und ggf. neu eintragen
 if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
 	if( !isset($f['ui_id']) || $f['ui_id'] == '' || $f['ui_id'] == 0) {

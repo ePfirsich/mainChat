@@ -24,7 +24,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
-	$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten

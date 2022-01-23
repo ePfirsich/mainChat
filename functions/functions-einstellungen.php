@@ -52,7 +52,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
-	$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	
 	$zaehler = 0;
 	

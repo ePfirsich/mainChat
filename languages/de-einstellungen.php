@@ -24,7 +24,8 @@ $t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'] = "Der Benutzername
 $t['einstellungen_fehler_benutzername_zeitsperre'] = "Sie dürfen Ihren Benutzernamen nur alle %nickwechsel% Sekunden ändern!<br>";
 $t['einstellungen_fehler_benutzername_gesperrt'] = "Der Benutzername '%u_nick%' ist im Chat gesperrt!<br>";
 $t['einstellungen_fehler_benutzername_belegt'] = "Der Benutzername '%u_nick%' ist leider schon belegt!<br>";
-
+$t['einstellungen_fehler_eintrittsnachricht'] = "Die Eintrittsnachricht ist zu lang!<br>";
+$t['einstellungen_fehler_austrittsnachricht'] = "Die Austrittsnachricht ist zu lang!<br>";
 $t['einstellungen_fehler_level1'] = "Das Moderationsmodul ist derzeit deaktiviert.<br>";
 $t['einstellungen_fehler_level2'] = "Benutzer auf Level Gast darf auf keinen anderen Level gesetzt werden!<br>";
 $t['einstellungen_fehler_level3'] = "Die Benutzerlevel Superuser, Moderator oder ChatAdmin können nur von einem Superuser gesetzt werden.<br>";
@@ -34,7 +35,6 @@ $t['einstellungen_fehler_email2'] = "Mit dieser E-Mail ist bereits ein anderer B
 $t['einstellungen_fehler_loeschen1'] = "Ein Admin darf seinen eigenen Level nicht ändern.<br>";
 $t['einstellungen_fehler_loeschen2'] = "Keine Berechtigung zum Löschen von %u_nick%!<br>";
 $t['einstellungen_fehler_fehlende_berechtigung'] = "Sie wollten die Einstellungen eines Superusers oder ChatAdmins bearbeiten.<br>";
-
 $t['einstellungen_fehler_passwort1'] = "Bitte zweimal das identische Passwörter eingeben.<br>";
 $t['einstellungen_fehler_passwort2'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein.<br>";
 
