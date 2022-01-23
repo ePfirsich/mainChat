@@ -106,7 +106,7 @@ function zeige_freunde($text, $aktion, $zeilen) {
 				}
 				
 				$text .= "<tr>\n";
-				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\">" . "<input type=\"hidden\" name=\"f_nick[]\" value=\"" . $row2->u_nick . "\"></td>\n";
+				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"f_freundid[]\" value=\"" . $freundid . "\"></td>\n";
 				$text .= "<td style=\"width:15px; text-align:center\" $bgcolor>$status</td>\n";
 				$text .= "<td $bgcolor>" . $auf . $txt . $zu . "</td>\n";
 				$text .= "<td $bgcolor>" . $auf . $infotext . $zu . "</td>\n";
@@ -141,13 +141,13 @@ function loesche_freund($f_freundid, $f_userid) {
 	
 	$text = "";
 	if (!$f_userid || !$f_freundid) {
-		$fehlermeldung = str_replace("%u_nick%", $f_nick, $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich']);
+		$fehlermeldung = $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$f_freundid = escape_string($f_freundid);
 		$f_userid = escape_string($f_userid);
 		
-		$query = "DELETE from freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
+		$query = "DELETE FROM freunde WHERE (f_userid=$f_userid AND f_freundid=$f_freundid) OR (f_userid=$f_freundid AND f_freundid=$f_userid)";
 		$result = sqlUpdate($query);
 		
 		$query = "SELECT `u_nick` FROM `user` WHERE `u_id`=$f_freundid";
