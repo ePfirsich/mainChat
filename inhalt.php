@@ -123,8 +123,8 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh, $minimalis
 
 // Bestimmte Seiten dürfen nur im eingeloggten Zustand aufgerufen werden
 $kein_aufruf_unter_bestimmten_bedinungen = false;
-$nur_eingeloggten_seiten = array('raum', 'profil', 'profilbilder', 'einstellungen', 'log', 'benutzer');
-$nur_eingeloggten_seiten_und_registriert = array('nachrichten', 'top10', 'freunde');
+$nur_eingeloggten_seiten = array('raum', 'profilbilder', 'einstellungen', 'log', 'benutzer');
+$nur_eingeloggten_seiten_und_registriert = array('profil', 'nachrichten', 'top10', 'freunde');
 $nur_eingeloggten_seiten_und_admin = array('statistik', 'sperren');
 if( !$user_eingeloggt && in_array($bereich, $nur_eingeloggten_seiten, true) ) {
 	$kein_aufruf_unter_bestimmten_bedinungen = true;

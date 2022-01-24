@@ -88,8 +88,8 @@ if($wo_online == "forum") {
 	$text .= " | <a href=\"index-forum.php?id=$id\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_forum'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_forum'] . "</span></a>&nbsp;";
 }
 $text .= " | <a href=\"inhalt.php?bereich=einstellungen&id=$id\" target=\"chat\" title=\"" . $t['navigation_einstellungen'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['navigation_einstellungen'] . "</span></a>&nbsp;";
-$text .= " | <a href=\"inhalt.php?bereich=profil&id=$id\" target=\"chat\" title=\"" . $t['navigation_profil'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_profil'] . "</span></a>&nbsp;";
 if ($u_level != 'G') {
+	$text .= " | <a href=\"inhalt.php?bereich=profil&id=$id\" target=\"chat\" title=\"" . $t['navigation_profil'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_profil'] . "</span></a>&nbsp;";
 	$text .= " | <a href=\"inhalt.php?bereich=freunde&id=$id\" target=\"chat\" title=\"" . $t['navigation_freunde'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['navigation_freunde'] . "</span></a>&nbsp;";
 }
 if ($admin) {
