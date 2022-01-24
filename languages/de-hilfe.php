@@ -33,7 +33,6 @@ $hilfe_befehlstext = array(
 	"/weg\tSetzt oder löscht einen ich-bin-nicht-da Text.\t/away, /afk\tBeispiel: /away ich telefoniere",
 	"/msg NAME TEXT\tTEXT an Benutzer NAME flüstern\t/talk, /tell, /t\tDie Übermittlung ist privat und kann von niemandem mitgelesen werden",
 	"/msgf TEXT\tTEXT an alle Freunde flüstern\t/tf",
-	"/mail NAME TEXT\tSchreibt Mail mit dem Inhalt TEXT an den Benutzer NAME\t/m\tDer Betreff entspricht den ersten Worten",
 	"/me TEXT\tSpruch an alle im Raum<br>Kommentar in die Runde\t/txt\tDer Text wendet sich nicht an einen bestimmten Benutzer, sondern ist für alle im Raum bestimmt",
 	"/op TEXT\tRuft einen Admin\t \tDer Text wird an die Admins geschickt, die gerade online sind",
 	"/ignoriere\tZeigt die ignorierten Benutzer an\t/ignore, /ig",

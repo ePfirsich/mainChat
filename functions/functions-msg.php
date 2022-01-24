@@ -831,21 +831,17 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/txt":
 		case "/me":
 		// Spruch ausgeben 
-			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-			} else {
-				if (!($o_knebel > 0)) {
-					if ($u_level == "M" || !$ist_moderiert) {
-						hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . " " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 1)[0] );
-					} else {
-						system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
-					}
+			if (!($o_knebel > 0)) {
+				if ($u_level == "M" || !$ist_moderiert) {
+					hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . " " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 1)[0] );
 				} else {
-					// user ist geknebelt...
-					$zeit = gmdate("H:i:s", $o_knebel);
-					$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
-					system_msg("", $u_id, $u_id, $system_farbe, $txt);
+					system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
 				}
+			} else {
+				// user ist geknebelt...
+				$zeit = gmdate("H:i:s", $o_knebel);
+				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			}
 			break;
 		
@@ -856,10 +852,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		// Smilies parsen
 			$privat = FALSE;
 			
-			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-				// Benutzer ist Gast
-			} else if ($o_knebel > 0) {
+			if ($o_knebel > 0) {
 				// Benutzer ist noch geknebelt
 				$zeit = gmdate("H:i:s", $o_knebel);
 				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
@@ -1492,74 +1485,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			break;
 		
-		case "/mail":
-		case "/m":
-		// Mail schreiben
-			$text = chat_parse(htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]));
-			
-			if (!($o_knebel > 0) && $u_level != "G" && strlen($text) > 1) {
-				// Empfänger im Chat suchen
-				$nick = nick_ergaenze($chatzeile[1], "online", 1);
-				
-				// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
-				if ($nick['u_nick'] == "") {
-					$query = "SELECT u_nick,u_id from user " . "WHERE u_nick='" . escape_string(coreCheckName($chatzeile[1], $check_name)) . "'";
-					$result = sqlQuery($query);
-					if ($result && mysqli_num_rows($result) == 1) {
-						$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
-					}
-					mysqli_free_result($result);
-				}
-				
-				$ignore = false;
-				$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='$nick[u_id]' AND i_user_passiv = '$u_id'";
-				$result2 = sqlQuery($query2);
-				$num = mysqli_num_rows($result2);
-				if ($num >= 1) {
-					$ignore = true;
-				}
-				
-				// Falls nick gefunden, Mail versenden
-				if ($nick['u_nick'] != "" && $nick['u_id']
-					&& $nick['u_level'] != "G" && $nick['u_level'] != "Z"
-					&& $ignore == false) {
-					if (strlen($text) > 4) {
-						$result = mail_sende($u_id, $nick['u_id'], $text);
-						if ($result[0]) {
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg80']));
-						} else {
-							system_msg("", 0, $u_id, $system_farbe, $result[1]);
-						}
-					} else {
-						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg81']);
-					}
-				} else if ($nick['u_level'] == "G" || $nick['u_level'] == "Z") {
-					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg95']));
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
-				} else {
-					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-					// ignoriere Benutzer dürfen kein Mail schicken
-					if ($ignore == true) {
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%user%", $nick['u_nick'], $t['chat_msg103']));
-					} else {
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
-					}
-				}
-			} else if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-			} else if (strlen($text) <= 1) {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg81']);
-			} else {
-				// user ist geknebelt...
-				$zeit = gmdate("H:i:s", $o_knebel);
-				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
-				system_msg("", $u_id, $u_id, $system_farbe, $txt);
-				
-			}
-			break;
-		
 		case "/freunde":
 		case "/freund":
 		case "/buddy":
@@ -1696,15 +1621,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		
 		case "/time":
 		// Gibt die Systemuhrzeit aus
-			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-			} else {
-				$tempzeit = $t['chat_msg114'];
-				$tempzeit = str_replace("%datum%", strftime('%d.%m.%Y'), $tempzeit);
-				$tempzeit = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $tempzeit);
-				system_msg("", 0, $u_id, $system_farbe, $tempzeit);
-				unset($tempzeit);
-			}
+			$tempzeit = $t['chat_msg114'];
+			$tempzeit = str_replace("%datum%", strftime('%d.%m.%Y'), $tempzeit);
+			$tempzeit = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $tempzeit);
+			system_msg("", 0, $u_id, $system_farbe, $tempzeit);
+			unset($tempzeit);
 			break;
 		
 		case "/blacklist":
