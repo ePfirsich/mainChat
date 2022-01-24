@@ -438,11 +438,16 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								}
 								
 								// Geschlecht holen
-								$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
-								$result1 = sqlQuery($query1);
-								if ($result1 && mysqli_num_rows($result1) == 1) {
-									$row1 = mysqli_fetch_object($result1);
-									$ui_gen = $row1->ui_geschlecht;
+								// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
+								if($uu_id != null && $uu_id != "") {
+									$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
+									$result1 = sqlQuery($query1);
+									if ($result1 && mysqli_num_rows($result1) == 1) {
+										$row1 = mysqli_fetch_object($result1);
+										$ui_gen = $row1->ui_geschlecht;
+									} else {
+										$ui_gen = 'leer';
+									}
 								} else {
 									$ui_gen = 'leer';
 								}
@@ -489,11 +494,16 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								}
 								
 								// Geschlecht holen
-								$query1 = "SELECT * FROM userinfo WHERE ui_userid = $uu_id";
-								$result1 = sqlQuery($query1);
-								if ($result1 && mysqli_num_rows($result1) == 1) {
-									$row1 = mysqli_fetch_object($result1);
-									$ui_gen = $row1->ui_geschlecht;
+								// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
+								if($uu_id != null && $uu_id != "") {
+									$query1 = "SELECT * FROM userinfo WHERE ui_userid = $uu_id";
+									$result1 = sqlQuery($query1);
+									if ($result1 && mysqli_num_rows($result1) == 1) {
+										$row1 = mysqli_fetch_object($result1);
+										$ui_gen = $row1->ui_geschlecht;
+									} else {
+										$ui_gen = 'leer';
+									}
 								} else {
 									$ui_gen = 'leer';
 								}

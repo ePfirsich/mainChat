@@ -1373,12 +1373,6 @@ function logout($o_id, $u_id) {
 }
 
 function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
-	// Fehler schicken
-	if($userId == null || $userId == "") {
-		global $kontakt, $id;
-		email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzer-ID: " . $userId . " Benutzername: " . $username . " ID: " . $id . " Anzeigeort: " . $anzeigeort);
-	}
-	
 	// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
 	if($userId != null && $userId != "") {
 		$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
