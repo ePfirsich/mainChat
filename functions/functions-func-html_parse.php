@@ -25,8 +25,6 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if ($anzahl > $smilies_anzahl) {
 				// Fehlermeldung ausgeben
 				system_msg("", 0, $u_id, $system_farbe, $t[chat_msg54]);
-			} elseif ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t[chat_msg55]);
 			}
 			
 			// Prüfen, ob im aktuellen Raum Smilies erlaubt sind
@@ -50,8 +48,9 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				$anzahl = 0;
 				while (list($i, $smilie_code) = each($test[0])) {
 					$smilie_code = str_replace("&amp;", "&", $smilie_code);
-					if ($smilie[$smilie_code])
+					if ($smilie[$smilie_code]) {
 						$anzahl++;
+					}
 				}
 				
 				if ($anzahl > 0) {
@@ -59,7 +58,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				}
 			} else {
 				while (list($i, $smilie_code) = each($test[0])) {
-					if ($anzahl > $smilies_anzahl || $u_level == "G") {
+					if ($anzahl > $smilies_anzahl) {
 						// Mehr als $smilies_anzahl Smilies sind nicht erlaubt
 						$text = str_replace(" " . $smilie_code . " ", "", $text);
 					} else {
