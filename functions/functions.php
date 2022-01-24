@@ -1379,13 +1379,16 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 		email_senden($kontakt, "Fehlende User-ID bei Avatar-Abfrage", "Benutzer-ID: " . $userId . " Benutzername: " . $username . " ID: " . $id . " Anzeigeort: " . $anzeigeort);
 	}
 	
-	$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		$row = mysqli_fetch_object($result);
-		$avatar[$row->b_name]['b_mime'] = $row->b_mime;
-		$avatar[$row->b_name]['b_width'] = $row->b_width;
-		$avatar[$row->b_name]['b_height'] = $row->b_height;
+	// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
+	if($userId != null && $userId != "") {
+		$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
+		$result = sqlQuery($query);
+		if ($result && mysqli_num_rows($result) > 0) {
+			$row = mysqli_fetch_object($result);
+			$avatar[$row->b_name]['b_mime'] = $row->b_mime;
+			$avatar[$row->b_name]['b_width'] = $row->b_width;
+			$avatar[$row->b_name]['b_height'] = $row->b_height;
+		}
 	}
 	
 	// Maximale Größe Avatars festlegen
