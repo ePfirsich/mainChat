@@ -553,16 +553,16 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
 			if( $name != $id_name ) {
-				$q .= "," . escape_string($name);
+				$q .= ", `" . escape_string($name)."`";
 				if ($name == "u_passwort") {
 					// Passwort hashen
-					$q .= "='" . escape_string(encrypt_password($inhalt)) . "'";
+					$q .= " = '" . escape_string(encrypt_password($inhalt)) . "'";
 				} else {
-					$q .= "='" . escape_string($inhalt) . "'";
+					$q .= " = '" . escape_string($inhalt) . "'";
 				}
 			}
 		}
-		$query = "INSERT INTO $db SET $id_name=$id " . $q;
+		$query = "INSERT INTO `$db` SET `$id_name` = $id" . $q;
 		$result = sqlUpdate($query);
 		if (!$result) {
 			die();
@@ -576,9 +576,10 @@ function schreibe_db($db, $f, $id, $id_name) {
 		$q = "";
 		for (reset($f); list($name, $inhalt) = each($f);) {
 			if ($q == "") {
+				$q .= "`" . escape_string($name)."`";
 				$q = escape_string($name);
 			} else {
-				$q .= "," . escape_string($name);
+				$q .= ", `" . escape_string($name)."`";
 			}
 			if ($name == "u_passwort") {
 				// Passwort hashen
@@ -587,7 +588,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 				$q .= "='" . escape_string($inhalt) . "'";
 			}
 		}
-		$q = "UPDATE $db SET " . $q . " WHERE $id_name=$id";
+		$q = "UPDATE `$db` SET " . $q . " WHERE `$id_name` = $id";
 		$result = sqlUpdate($q, true);
 	}
 	
@@ -1372,9 +1373,6 @@ function logout($o_id, $u_id) {
 }
 
 function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
-	$result = sqlQuery($query);
-	$row = mysqli_fetch_object($result);
-	
 	// Fehler schicken
 	if($userId == null || $userId == "") {
 		global $kontakt, $id;
@@ -1384,7 +1382,7 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 	$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) > 0) {
-		$row = mysqli_fetch_object(result);
+		$row = mysqli_fetch_object($result);
 		$avatar[$row->b_name]['b_mime'] = $row->b_mime;
 		$avatar[$row->b_name]['b_width'] = $row->b_width;
 		$avatar[$row->b_name]['b_height'] = $row->b_height;
@@ -1395,8 +1393,8 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 		$maxWidth = "200";
 		$maxHeight = "200";
 	} else if($anzeigeort == "forum") {
-		$maxWidth = "60";
-		$maxHeight = "60";
+		$maxWidth = "80";
+		$maxHeight = "80";
 	} else {
 		$maxWidth = "25";
 		$maxHeight = "25";

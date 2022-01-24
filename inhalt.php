@@ -33,14 +33,14 @@ if( $schau_raum == '') {
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 
 // Sperren
-$f[is_infotext] = filter_input(INPUT_POST, 'f[is_infotext]', FILTER_SANITIZE_STRING);
-$f[is_domain] = filter_input(INPUT_POST, 'f[is_domain]', FILTER_SANITIZE_STRING);
+$f['is_infotext'] = filter_input(INPUT_POST, 'f[is_infotext]', FILTER_SANITIZE_STRING);
+$f['is_domain'] = filter_input(INPUT_POST, 'f[is_domain]', FILTER_SANITIZE_STRING);
 $ip1 = filter_input(INPUT_POST, 'ip1', FILTER_SANITIZE_STRING);
 $ip2 = filter_input(INPUT_POST, 'ip2', FILTER_SANITIZE_STRING);
 $ip3 = filter_input(INPUT_POST, 'ip3', FILTER_SANITIZE_STRING);
 $ip4 = filter_input(INPUT_POST, 'ip4', FILTER_SANITIZE_STRING);
-$f[is_warn] = filter_input(INPUT_POST, 'f[is_warn]', FILTER_SANITIZE_STRING);
-$f[is_id] = filter_input(INPUT_GET, 'f[is_id]', FILTER_SANITIZE_NUMBER_INT);
+$f['is_warn'] = filter_input(INPUT_POST, 'f[is_warn]', FILTER_SANITIZE_STRING);
+$f['is_id'] = filter_input(INPUT_GET, 'f[is_id]', FILTER_SANITIZE_NUMBER_INT);
 
 
 $ui_id = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_NUMBER_INT);
