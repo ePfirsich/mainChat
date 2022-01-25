@@ -174,7 +174,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			
 		} else {
 			// Raum kann nicht betreten werden
-			system_msg("", 0, $u_id, "", "xxx".str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
+			system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
 			
 			// Nachricht das gesperrt ausgeben
 			if ($gesperrt) {
