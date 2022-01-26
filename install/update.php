@@ -23,6 +23,67 @@ $configdatei = "update.lock";
 		<td>
 <?php
 switch ($aktion) {
+	case "update_auf_7_1_1":
+		if (!file_exists($configdatei)) {
+			$fp = @fopen($configdatei, "w+");
+			if (!$fp) {
+				?>
+				<table style="width:100%; border:0px;">
+					<tr style="color:#ff0000; font-weigth:bold;">
+						<td>FEHLER: Die Konfigurationsdatei konnte nicht angelegt werden. Überprüfen Sie die Schreibrechte im Verzeichnis conf!</td>
+					</tr>
+				</table>
+				<?php
+			} else {
+				// DB-Connect, ggf. 3 mal versuchen
+				for ($c = 0; $c++ < 3 AND (!(isset($mysqli_link)));) {
+					$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
+					if ($mysqli_link) {
+						mysqli_set_charset($mysqli_link, "utf8mb4");
+						mysqli_select_db($mysqli_link, $dbase);
+					}
+				}
+				
+				if (!(isset($mysqli_link))) {
+					?>
+					<table style="width:100%; border:0px;">
+						<tr style="color:#ff0000; font-weigth:bold;">
+							<td>FEHLER: Datenbankverbindung fehlgeschlagen!</td>
+						</tr>
+					</table>
+					<?php
+					unlink($configdatei);
+				} else {
+					mysqli_set_charset($mysqli_link, "utf8mb4");
+					
+					// Update auf 7.1.1
+					$mysqldatei = "../dok/update_7_1_1.def";
+					checkFormularInputFeld($mysqli_link, $mysqldatei);
+					?>
+					<table style="width:100%; border:0px;">
+						<tr style="background-color:#007ABE;">
+							<td style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Datenbank</span></td>
+						</tr>
+						<tr>
+							<td>In der Datenbank <?php echo $dbase; ?> (Datenbankuser: <?php echo $mysqluser; ?>) wurden die Anpassungen erfolgreich durchgeführt.
+							</td>
+						</tr>
+					</table>
+					<?php
+					
+				}
+			}
+		} else {
+			?>
+			<table style="width:100%; border:0px;">
+				<tr style="color:#ff0000; font-weigth:bold;">
+					<td>FEHLER: Die Datei install/update.lock muss vor einer Installation gelöscht werden!</td>
+				</tr>
+			</table>
+			<?php
+		}
+		break;
+	
 	case "update_auf_7_1_0":
 		if (!file_exists($configdatei)) {
 			$fp = @fopen($configdatei, "w+");
@@ -190,6 +251,10 @@ switch ($aktion) {
 					// Update auf 7.1.0
 					$mysqldatei = "../dok/update_7_1_0.def";
 					checkFormularInputFeld($mysqli_link, $mysqldatei);
+					
+					// Update auf 7.1.1
+					$mysqldatei = "../dok/update_7_1_1.def";
+					checkFormularInputFeld($mysqli_link, $mysqldatei);
 					?>
 					<table style="width:100%; border:0px;">
 						<tr style="background-color:#007ABE;">
@@ -254,6 +319,11 @@ switch ($aktion) {
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_auf_7_1_0">
 		<input type="submit" value="Aktualisierung von Version 7.0.10 auf Version 7.1.0 starten">
+	</form>
+	<br>
+	<form action="update.php" method="post">
+		<input type="hidden" name="aktion" value="update_auf_7_1_1">
+		<input type="submit" value="Aktualisierung von Version 7.1.0 auf Version 7.1.1 starten">
 	</form>
 	<br>
 	<br>
