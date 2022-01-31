@@ -14,13 +14,5 @@ if (ini_get('register_globals') == 0) {
 		global $$varname;
 		$$varname = $value;
 	}
-	
-	/*
-	// für home.php argc & argv
-	foreach ($_SERVER as $varname => $value) {
-		global $$varname;
-		$$varname = $value;
-	}
-	*/
 }
 ?>
