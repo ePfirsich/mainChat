@@ -31,6 +31,7 @@ if( $schau_raum == '') {
 }
 
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
+$reset = filter_input(INPUT_POST, 'reset', FILTER_SANITIZE_STRING);
 
 // Sperren
 $f['is_infotext'] = filter_input(INPUT_POST, 'f[is_infotext]', FILTER_SANITIZE_STRING);

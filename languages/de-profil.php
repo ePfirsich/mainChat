@@ -12,6 +12,7 @@ $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. D
 . "Bitte klicken Sie <a href=\"inhalt.php?bereich=profil&id=$id&aktion=aendern\"><b>HIER</b> zur Anlage eines Profils</a>.";
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
+$t['profil_einstellungen_aendern'] = "Einstellungen ändern";
 
 $t['profil_fehlermeldung_keine_berechtigung'] = "Sie haben keine Berechtigung, diese Seite aufzurufen!<br>";
 

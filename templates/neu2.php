@@ -12,7 +12,7 @@ $f['email'] = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 
 $text = "";
-if( isset($formular) && $formular == "abgesendet") {
+if($formular == 1) {
 	if ( $f['hash'] != md5($f['email'] . "+" . date("Y-m-d")) ) {
 		// Fehlermeldung wenn der Link aus der E-Mail verändert wurde oder zu alt ist
 		$fehlermeldung = $t['registrierung_fehler_email_freischaltcode'];
@@ -35,7 +35,7 @@ if($aktivierung_erfolgreich) {
 	$text .= $t['registrierung_informationen_freischaltcode'];
 	
 	$text .= "<form action=\"index.php?bereich=neu2\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";
+	$text .= "<input type=\"hidden\" name=\"1\" value=\"abgesendet\">\n";
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";

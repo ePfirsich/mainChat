@@ -21,7 +21,7 @@ $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $passwort = filter_input(INPUT_POST, 'passwort', FILTER_SANITIZE_STRING);
-$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_URL);
+$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
 
 $o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
 $neuer_raum = filter_input(INPUT_POST, 'neuer_raum', FILTER_SANITIZE_NUMBER_INT);

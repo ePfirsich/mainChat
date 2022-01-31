@@ -23,7 +23,7 @@ $weiter_zu_login = false;
 if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 	// Fehlermeldung wenn der Link aus der E-Mail verändert wurde oder zu alt ist
 	$fehlermeldung = $t['registrierung_fehler_email_link_falsch'];
-	unset($formular);
+	$formular = 0;
 	$formular_anzeigen = false;
 } else if($email != "" && $hash == md5($email . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
@@ -45,12 +45,12 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 } else {
 	// Alle weiteren Fälle werden abgelehnt
 	$fehlermeldung = $t['registrierung_fehler_email_link_falsch'];
-	unset($formular);
+	$formular = 0;
 	$formular_anzeigen = false;
 }
 
 // Eingaben prüfen
-if( isset($formular) && $formular == "abgesendet") {
+if($formular == 1) {
 	// Sind der Hash und die E-Mail gesetzt ?
 	if ( !isset($f['hash']) || $f['hash'] == "" || !isset($f['u_email'])|| $f['u_email'] == "" ) {
 		$fehlermeldung .= $t['registrierung_fehler_falscher_aufruf'];
@@ -136,7 +136,7 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	$text .= $t['registrierung_informationen'];
 	
 	$text .= "<form action=\"index.php?bereich=neu\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"formular\" value=\"abgesendet\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_email\" value=\"$f[u_email]\">\n";
 	$text .= "<input type=\"hidden\" name=\"hash\" value=\"$f[hash]\">\n";
 	

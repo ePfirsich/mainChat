@@ -48,17 +48,12 @@ if ($result && mysqli_num_rows($result) != 0) {
 }
 mysqli_free_result($result);
 
-$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
-if($aktion == "") {
-	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
-}
-
 $text = "";
 // Profil prüfen und ggf. neu eintragen
-if($aktion == "aendern" && $f['ui_userid'] && $formular == "gefuellt") {
+if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 	if( !isset($f['ui_id']) || $f['ui_id'] == '' || $f['ui_id'] == 0) {
 		$f = array();
-		$f['ui_id'] = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_URL);
+		$f['ui_id'] = $ui_id;
 	} else {
 		$ui_id_temp = $f['ui_id'];
 		$f = array();

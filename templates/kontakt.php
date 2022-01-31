@@ -10,7 +10,7 @@ $kontakt_betreff = "";
 $kontakt_nachricht = "";
 $kontakt_frage = "";
 
-if($formular == "gefuellt") {
+if($formular == 1) {
 	$kontakt_absender = htmlspecialchars(filter_input(INPUT_POST, 'kontakt_absender', FILTER_SANITIZE_STRING));
 	$kontakt_email = filter_input(INPUT_POST, 'kontakt_email', FILTER_VALIDATE_EMAIL);
 	$kontakt_betreff = htmlspecialchars(filter_input(INPUT_POST, 'kontakt_betreff', FILTER_SANITIZE_STRING));
@@ -74,7 +74,7 @@ $text .= $t['kontakt_beschreibung'];
 $text .= "<br><br>";
 
 $text .= "<form action=\"index.php?bereich=kontakt\" method=\"post\">\n";
-$text .= "<input type=\"hidden\" name=\"formular\" value=\"gefuellt\">\n";
+$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 $text .= "<table style=\"width:100%;\">\n";
 
 

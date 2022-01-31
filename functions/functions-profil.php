@@ -13,15 +13,15 @@ function profil_editor($u_id, $u_nick, $f) {
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		mysqli_free_result($result);
-		$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen&id=$id\">Einstellungen ändern</a>]";
+		$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen&id=$id\">$t[profil_einstellungen_aendern]</a>]";
 	}
 	
 	$zaehler = 0;
 	
 	$text = "<form action=\"inhalt.php?bereich=profil\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">\n";
-	$text .= "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n";
-	$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
+	//$text .= "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n";
+	//$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
