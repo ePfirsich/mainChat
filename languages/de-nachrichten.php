@@ -43,7 +43,7 @@ $t['nachrichten_fehler_kein_betreff'] = "Bitte geben Sie einen Betreff zum Verse
 $t['nachrichten_fehler_betreff_zu_lang'] = "Bitte geben im Betreff weniger als 254 Zeichen ein!<br>";
 $t['nachrichten_fehler_benutzername_existiert_nicht'] = "Der Benutzername '%nick%' existiert nicht!<br>";
 $t['nachrichten_fehler_benutzername_existiert_nicht2'] = "Der Benutzername existiert nicht!<br>";
-$t['nachrichten_fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer seine Mailbox geschlossen hat!";
+$t['nachrichten_fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer keine Nachrichten akzeptiert!";
 $t['nachrichten_fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
 $t['nachrichten_fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
 

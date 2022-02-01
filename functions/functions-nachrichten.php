@@ -1,22 +1,22 @@
 <?php
 
-function formular_neue_email($text, $neue_email, $m_id = "") {
+function formular_neue_email($text, $formulardaten) {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
 	global $id, $t;
 	
 	// Benutzername aus u_nick lesen und setzen
-	if (isset($neue_email['m_an_uid']) && $neue_email['m_an_uid']) {
-		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = " . intval($neue_email[m_an_uid]);
+	if ( $formulardaten['id'] != "" ) {
+		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = " . intval($formulardaten['id']);
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, 0);
 			if (strlen($an_nick) > 0) {
-				$neue_email['an_nick'] = $an_nick;
+				$formulardaten['an_nick'] = $an_nick;
 			}
 		}
 	}
 	
-	if ($m_id) {
+	if ($formulardaten != "" && $formulardaten['id'] != "") {
 		$box = $t['nachrichten_weiterleiten'];
 	} else {
 		$box = $t['nachrichten_neu'];
@@ -25,17 +25,13 @@ function formular_neue_email($text, $neue_email, $m_id = "") {
 	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
-	$text .= "<input type=\"hidden\" name=\"m_id\" value=\"$m_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"formulardaten_id\" value=\"$formulardaten[id]\">\n";
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">";
 	
-	if (!isset($neue_email['an_nick'])) {
-	$neue_email['an_nick'] = "";
-	}
-	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "nachricht_neu_username", $neue_email['an_nick']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "formulardaten_nick", $formulardaten['an_nick']);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -55,26 +51,26 @@ function formular_neue_email($text, $neue_email, $m_id = "") {
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function formular_neue_email2($text, $neue_email, $m_id = "") {
+function formular_neue_email2($text, $formulardaten) {
 	// Gibt Formular zum Versand einer neuen Mail aus
 	global $id, $u_id, $t;
 	
-	if ($m_id) {
+	if ($formulardaten['id'] != "") {
 		// Alte Mail lesen und als Kopie in Formular schreiben
 		$box = "Nachricht weiterleiten an ";
-		$query = "SELECT m_betreff,m_text FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
+		$query = "SELECT m_betreff,m_text FROM mail WHERE m_id=" . $formulardaten['id'] . " AND m_an_uid=$u_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
 			
-			$neue_email['m_betreff'] = $row->m_betreff . " [Weiterleitung]";
-			$neue_email['m_text'] = $row->m_text;
+			$formulardaten['m_betreff'] = $row->m_betreff . " [Weiterleitung]";
+			$formulardaten['m_text'] = $row->m_text;
 			
-			$neue_email['m_text'] = str_replace("<b>", "_", $neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</b>", "_", $neue_email['m_text']);
+			$formulardaten['m_text'] = str_replace("<b>", "_", $formulardaten['m_text']);
+			$formulardaten['m_text'] = str_replace("</b>", "_", $formulardaten['m_text']);
 			
-			$neue_email['m_text'] = str_replace("<i>", "*", $neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</i>", "*", $neue_email['m_text']);
+			$formulardaten['m_text'] = str_replace("<i>", "*", $formulardaten['m_text']);
+			$formulardaten['m_text'] = str_replace("</i>", "*", $formulardaten['m_text']);
 			
 		}
 		mysqli_free_result($result);
@@ -85,13 +81,14 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 	}
 	
 	// Signatur anfügen
-	if (!isset($neue_email['m_text']))
-		$neue_email['m_text'] = htmlspecialchars(erzeuge_fuss(""));
+	if (!isset($formulardaten['m_text'])) {
+		$formulardaten['m_text'] = htmlspecialchars(erzeuge_fuss(""));
+	}
 	
 	// Benutzerdaten aus u_id lesen und setzen
-	if ($neue_email['m_an_uid']) {
+	if ($formulardaten['id']) {
 		$query = "SELECT u_nick, u_id,u_level,u_punkte_gesamt,u_punkte_gruppe, u_emails_akzeptieren, o_id, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$neue_email['m_an_uid']." ";
+			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id = ".$formulardaten['id']." ";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$row = mysqli_fetch_object($result);
@@ -100,31 +97,30 @@ function formular_neue_email2($text, $neue_email, $m_id = "") {
 			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n"
 				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
 				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
-				. "<input type=\"hidden\" name=\"nachricht_neu_userid\" value=\"$neue_email[m_an_uid]\">\n"
+					. "<input type=\"hidden\" name=\"formulardaten_id\" value=\"$formulardaten[id]\">\n"
 				. "<table style=\"width:100%;\">";
 			
 			if ($row->o_id == "" || $row->o_id == "NULL") {
 				$row->online = "";
-				}
+			}
 			
-			if (!isset($neue_email['m_betreff'])) {
-				$neue_email['m_betreff'] = "";
+			if (!isset($formulardaten['m_betreff'])) {
+				$formulardaten['m_betreff'] = "";
 			}
 			
 			// Betreff
-			$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_betreff'], "nachricht_neu_betreff", $neue_email['m_betreff']);
+			$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_betreff'], "formulardaten_betreff", $formulardaten['m_betreff']);
 			$zaehler++;
 			
 			// Text
 			$text .= "<tr>\n";
 			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\">$t[nachrichten_text]</td>\n";
-			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"nachricht_neu_text\">"
-			. $neue_email['m_text'] . "</textarea></td>\n";
+			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"formulardaten_text\">" . $formulardaten['m_text'] . "</textarea></td>\n";
 			$text .= "</tr>\n";
 			
 			// Art des Versands
-			$email_select = "<select name=\"nachricht_neu_typ\">";
-			if (isset($neue_email['typ']) && $neue_email['typ'] == 1) {
+			$email_select = "<select name=\"formulardaten_typ\">";
+			if (isset($formulardaten['typ']) && $formulardaten['typ'] == 1) {
 				$email_select .= "<option value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
 				if ($row->u_emails_akzeptieren == "1") {
 					$email_select .= "<option selected value=\"1\">$t[nachrichten_art_des_versands_email]\n";
@@ -229,10 +225,10 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 					
 					
 					
-					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_gesendet&m_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_gesendet&formulardaten_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				} else {
-					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_empfangen&m_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_empfangen&formulardaten_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
@@ -252,7 +248,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 				}
 				
 				$text .= "<tr>"
-					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"loesche_email[]\" value=\"" . $row->m_id . "\">" . $zu . "</td>"
+					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">" . $zu . "</td>"
 					. "<td $bgcolor style=\"text-align:center; padding-left: 5px;\">" . $status . "</td>"
 					. "<td $bgcolor>" . $auf . $url . $von_nick . $url2 . $zu . "</td>" . "<td style=\"width:50%;\" $bgcolor>" . $auf . $url . htmlspecialchars($row->m_betreff) . "</a>" . $zu . "</td>"
 					. "<td $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
@@ -278,7 +274,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function zeige_email($m_id, $art) {
+function zeige_email($formulardaten, $art) {
 	// Zeigt die Mail im Detail an
 	
 	global $id, $u_nick, $u_id, $chat, $t, $locale;
@@ -288,10 +284,10 @@ function zeige_email($m_id, $art) {
 	
 	if($art == "gesendet") {
 		$query = "SELECT mail.*,date_format(m_zeit,'%d. %M %Y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
-			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_von_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
+			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_von_uid=$u_id AND m_id=" . $formulardaten['id'] . " ORDER BY m_zeit desc";
 	} else {
 		$query = "SELECT mail.*,date_format(m_zeit,'%d. %M %Y um %H:%i') as zeit,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe "
-			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_id=" . intval($m_id) . " ORDER BY m_zeit desc";
+			. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_id=" . $formulardaten['id'] . " ORDER BY m_zeit desc";
 	}
 	$result = sqlQuery($query);
 	
@@ -337,7 +333,7 @@ function zeige_email($m_id, $art) {
 			$text .= "<td style=\"text-align:left;\" class=\"tabelle_zeile1\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-			$text .= "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"formulardaten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n";
 			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
 			$text .= "</td>\n";
@@ -345,7 +341,7 @@ function zeige_email($m_id, $art) {
 			$text .= "<td style=\"text-align:center;\" class=\"tabelle_zeile2\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-			$text .= "<input type=\"hidden\" name=\"m_id\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"formulardaten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n";
 			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiterleiten]\">\n";
 			$text .= "</form>\n";
@@ -354,7 +350,7 @@ function zeige_email($m_id, $art) {
 			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-			$text .= "<input type=\"hidden\" name=\"loesche_email\" value=\"" . $row->m_id . "\">\n";
+			$text .= "<input type=\"hidden\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_loeschen]\">\n";
 			$text .= "</form>\n";
@@ -378,11 +374,11 @@ function zeige_email($m_id, $art) {
 	}
 }
 
-function loesche_mail($m_id, $u_id) {
+function loesche_mail($bearbeite_id, $u_id) {
 	// Löscht eine Mail der ID m_id
 	global $id, $u_nick, $u_id, $t;
 	
-	$query = "SELECT m_zeit, m_id, m_status, m_betreff FROM mail WHERE m_id=" . intval($m_id) . " AND m_an_uid=$u_id";
+	$query = "SELECT m_zeit, m_id, m_status, m_betreff FROM mail WHERE m_id=" . $bearbeite_id . " AND m_an_uid=$u_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 1) {
 		$row = mysqli_fetch_object($result);
@@ -403,8 +399,6 @@ function loesche_mail($m_id, $u_id) {
 	} else {
 		$fehlermeldung = str_replace("%nachricht%", $row->m_betreff, $t['nachrichten_fehler_nicht_geloescht']);
 		$text = hinweis($fehlermeldung, "fehler");
-		
-		echo "<P><b>Fehler:</b> Diese Nachricht nicht kann nicht gelöscht werden!</P>";
 	}
 	mysqli_free_result($result);
 	

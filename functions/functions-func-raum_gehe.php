@@ -2,7 +2,7 @@
 
 function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	// user $u_id/$u_nick geht von $raum_alt in Raum $raum_neu
-	// Nachricht in Raum $r_id wird erzeugt
+	// Nachricht in Raum $raum_alt wird erzeugt
 	// ID des neuen Raums wird zurückgeliefert
 	
 	$raum_alt = intval($raum_alt);

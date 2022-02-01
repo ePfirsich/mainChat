@@ -286,7 +286,7 @@ if(!$kein_gastlogin_ausblenden) {
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
-							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$user_id";
+							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&ui_id=$user_id";
 							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
 							$ah2 = "</a>";
 							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));

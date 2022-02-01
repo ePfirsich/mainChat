@@ -122,7 +122,7 @@ $t['forum_menue2'] = "Zurück zum Forum";
 $t['forum_suche'] = "Suchabfrage";
 
 $t['suche1'] = "Suchwörter";
-$t['suche2'] = "Suche in Board / Thema";
+$t['suche2'] = "Suche in Forum / Thema";
 $t['suche3'] = "Sucheinstellungen";
 $t['suche4'] = "nur Beiträge von Benutzer";
 $t['suche5'] = "Suchen";
@@ -155,9 +155,9 @@ $t['betreff'] = "Betreff";
 $t['forum_suche_fehlermeldung_benutzername'] = "Benutzername enthält ungültige Zeichen.";
 $t['forum_suche_fehlermeldung_benutzername_unbekannt'] = "Der Benutzername %u_nick% ist unbekannt.";
 $t['forum_suche_fehlermeldung_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
-$t['forum_suche_fehlermeldung_sucheinstellung_woerter'] = "Sucheinstellung \'Wörter\' falsch.";
-$t['forum_suche_fehlermeldung_sucheinstellung_ort'] = "Sucheinstellung \'Suchort\' falsch.";
-$t['forum_suche_fehlermeldung_falsches_thema'] = "Falsches Foren \/ Thema.";
+$t['forum_suche_fehlermeldung_sucheinstellung_woerter'] = "Sucheinstellung 'Wörter' falsch!";
+$t['forum_suche_fehlermeldung_sucheinstellung_ort'] = "Sucheinstellung 'Suchort' falsch!";
+$t['forum_suche_fehlermeldung_falsches_thema'] = "Es wurde ein falsches Forum / Thema ausgewählt!";
 
 $t['forum_suche_erfolgsmeldung'] = "Es wurden %anzahl% Suchergebnisse gefunden.";
 ?>

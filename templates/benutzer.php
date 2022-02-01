@@ -9,10 +9,6 @@ if (!isset($suchtext)) {
 }
 $uu_suchtext = URLENCODE($suchtext);
 
-$zeigeip = filter_input(INPUT_GET, 'zeigeip', FILTER_SANITIZE_NUMBER_INT);
-$user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
-$kick_user_chat = filter_input(INPUT_GET, 'kick_user_chat', FILTER_SANITIZE_NUMBER_INT);
-
 
 $text = "";
 
@@ -38,15 +34,15 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 	$raum_subquery = "AND r_id=$schau_raum";
 }
 
-if ($admin && isset($kick_user_chat) && $user) {
+if ($admin && isset($kick_user_chat) && $ui_id) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
-	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='" . escape_string($user) . "' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
+	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$ui_id' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
 		$row = mysqli_fetch_object($result);
 		// Aus dem Chat ausloggen
-		ausloggen($user, $row->o_name, $row->o_raum, $row->o_id);
+		ausloggen($ui_id, $row->o_name, $row->o_raum, $row->o_id);
 		
 		mysqli_free_result($result);
 	} else {
@@ -59,7 +55,7 @@ if ($admin && isset($kick_user_chat) && $user) {
 switch ($aktion) {
 	case "suche":
 	// Suchmaske für Ergebnis oder Suchmaske für erste Suche ausgeben
-		if ( strlen($suchtext) > 3 || $aktion3 == "absenden" ) {
+		if ( strlen($suchtext) > 3 || $formular == 1 ) {
 			
 			// Suchergebnis mit Formular ausgeben
 			benutzer_suche($f, $suchtext);
@@ -281,10 +277,9 @@ switch ($aktion) {
 		if (!isset($zeigeip)) {
 			$zeigeip = 0;
 		}
-		// Benutzer mit ID $user anzeigen
-		if ($user) {
-			// Benutzer listen
-			user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip);
+		// Benutzer anzeigen
+		if ($ui_id) {
+			user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip);
 		} else {
 			$fehlermeldung = $t['benutzer_nicht_mehr_in_diesem_raum'];
 			$text .= hinweis($fehlermeldung, "fehler");

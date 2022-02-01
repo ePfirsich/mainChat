@@ -9,10 +9,6 @@ if( $id == '') {
 	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
 }
 
-$r_id = filter_input(INPUT_GET, 'r_id', FILTER_SANITIZE_NUMBER_INT);
-
-$user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
-
 $page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
 
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
@@ -34,17 +30,49 @@ $los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
 $reset = filter_input(INPUT_POST, 'reset', FILTER_SANITIZE_STRING);
 
 // Sperren
-$f['is_infotext'] = filter_input(INPUT_POST, 'f[is_infotext]', FILTER_SANITIZE_STRING);
-$f['is_domain'] = filter_input(INPUT_POST, 'f[is_domain]', FILTER_SANITIZE_STRING);
+$f['is_infotext'] = filter_input(INPUT_POST, 'is_infotext', FILTER_SANITIZE_STRING);
+$f['is_domain'] = filter_input(INPUT_POST, 'is_domain', FILTER_SANITIZE_STRING);
 $ip1 = filter_input(INPUT_POST, 'ip1', FILTER_SANITIZE_STRING);
 $ip2 = filter_input(INPUT_POST, 'ip2', FILTER_SANITIZE_STRING);
 $ip3 = filter_input(INPUT_POST, 'ip3', FILTER_SANITIZE_STRING);
 $ip4 = filter_input(INPUT_POST, 'ip4', FILTER_SANITIZE_STRING);
-$f['is_warn'] = filter_input(INPUT_POST, 'f[is_warn]', FILTER_SANITIZE_STRING);
-$f['is_id'] = filter_input(INPUT_GET, 'f[is_id]', FILTER_SANITIZE_NUMBER_INT);
+$f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_STRING);
+$f['is_id'] = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
+$is_id = $f['is_id'];
+
+// Formulardaten aus der Blacklist, Freundesliste oder Nachrichten
+$formulardaten[] = "";
+
+$formulardaten['id'] = filter_input(INPUT_GET, 'formulardaten_id', FILTER_SANITIZE_NUMBER_INT);
+if( $formulardaten['id'] == '') {
+	$formulardaten['id'] = filter_input(INPUT_POST, 'formulardaten_id', FILTER_SANITIZE_NUMBER_INT);
+}
+
+$formulardaten['u_nick'] = filter_input(INPUT_GET, 'formulardaten_nick', FILTER_SANITIZE_STRING);
+if( $formulardaten['u_nick'] == '') {
+	$formulardaten['u_nick'] = filter_input(INPUT_POST, 'formulardaten_nick', FILTER_SANITIZE_STRING);
+}
+
+$formulardaten['m_text'] = filter_input(INPUT_POST, 'formulardaten_text', FILTER_SANITIZE_STRING);
+$formulardaten['m_betreff'] = filter_input(INPUT_POST, 'formulardaten_betreff', FILTER_SANITIZE_STRING);
+$formulardaten['typ'] = filter_input(INPUT_POST, 'formulardaten_typ', FILTER_SANITIZE_NUMBER_INT);
 
 
-$ui_id = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_NUMBER_INT);
+// Nachrichten, Sperren, Freunde löschen
+$bearbeite_ids = filter_input(INPUT_POST, 'bearbeite_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY);
+
+$ui_id = filter_input(INPUT_GET, 'ui_id', FILTER_SANITIZE_NUMBER_INT);
+if( $ui_id == '') {
+	$ui_id = filter_input(INPUT_POST, 'ui_id', FILTER_SANITIZE_NUMBER_INT);
+}
+
+// Benutzer
+$zeigeip = filter_input(INPUT_GET, 'zeigeip', FILTER_SANITIZE_NUMBER_INT);
+$kick_user_chat = filter_input(INPUT_GET, 'kick_user_chat', FILTER_SANITIZE_NUMBER_INT);
+
+//Räume
+$loesch = filter_input(INPUT_POST, 'loesch', FILTER_SANITIZE_STRING);
+$loesch2 = filter_input(INPUT_POST, 'loesch2', FILTER_SANITIZE_STRING);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 id_lese($id);
@@ -195,7 +223,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
+			$box = $t['benutzer_titel'];
 			$text = "<a href=\"inhalt.php?bereich=benutzer&id=$id\">$t[benutzer_uebersicht]</a>\n";
 			if ($u_level != "G") {
 				$text .= "| <a href=\"inhalt.php?bereich=benutzer&id=$id&aktion=suche\">$t[benutzer_benutzer_suchen]</a>\n";
@@ -300,7 +328,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
-				$box = $t['titel'];
+				$box = $t['einstellungen_titel'];
 				$text .= "<a href=\"inhalt.php?bereich=einstellungen&id=$id\">$t[einstellungen_menue1]</a>\n";
 				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion&id=$id\">$t[einstellungen_menue2]</a>\n";
 				$text .= "| <a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#home\">$t[einstellungen_menue3]</a>\n";
@@ -378,7 +406,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			$box = $t['titel'];
 			$text = "<a href=\"inhalt.php?bereich=top10&id=$id\">".$t['top_menue2']."</a>\n";
 			$text .= "| <a href=\"inhalt.php?bereich=top10&aktion=top100&id=$id\">".$t['top_menue3']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#punkte&id=$id\">".$t['top_menue4']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#punkte\">".$t['top_menue4']."</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');

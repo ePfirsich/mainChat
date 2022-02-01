@@ -187,7 +187,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
-				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&user=$t_u_id\" target=\"chat\">";
+				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&ui_id=$t_u_id\" target=\"chat\">";
 				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
 			}

@@ -973,7 +973,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$url = "inhalt.php?bereich=benutzer&id=$idtag&aktion=benutzer_zeig&user=$user_id";
+		$url = "inhalt.php?bereich=benutzer&id=$idtag&aktion=benutzer_zeig&ui_id=$user_id";
 		if($benutzername_fett) {
 			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
 		} else {
@@ -1019,7 +1019,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {
-		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&nachricht_neu_username=" . URLENCODE($user_nick) . "&id=" . $idtag;
+		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&formulardaten_nick=" . URLENCODE($user_nick) . "&id=" . $idtag;
 		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">$chat_grafik[mail]</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;

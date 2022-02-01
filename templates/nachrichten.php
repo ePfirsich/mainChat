@@ -4,22 +4,6 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-$neue_email[] = "";
-$neue_email['an_nick'] = filter_input(INPUT_GET, 'nachricht_neu_username', FILTER_SANITIZE_STRING);
-if( $neue_email['an_nick'] == '') {
-	$neue_email['an_nick'] = filter_input(INPUT_POST, 'nachricht_neu_username', FILTER_SANITIZE_STRING);
-}
-
-$neue_email['m_text'] = filter_input(INPUT_POST, 'nachricht_neu_text', FILTER_SANITIZE_STRING);
-$neue_email['m_betreff'] = filter_input(INPUT_POST, 'nachricht_neu_betreff', FILTER_SANITIZE_STRING);
-$neue_email['m_an_uid'] = filter_input(INPUT_POST, 'nachricht_neu_userid', FILTER_SANITIZE_NUMBER_INT);
-$neue_email['typ'] = filter_input(INPUT_POST, 'nachricht_neu_typ', FILTER_SANITIZE_NUMBER_INT);
-
-$m_id = filter_input(INPUT_GET, 'm_id', FILTER_SANITIZE_NUMBER_INT);
-if( $m_id == '') {
-	$m_id = filter_input(INPUT_POST, 'm_id', FILTER_SANITIZE_NUMBER_INT);
-}
-
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 if ($mailloescheauspapierkorb < 1) {
 	$mailloescheauspapierkorb = 14;
@@ -33,21 +17,21 @@ $text = "";
 switch ($aktion) {
 	case "neu":
 	// Formular für neue E-Mail ausgeben
-		formular_neue_email($text, $neue_email);
+		formular_neue_email($text, $formulardaten);
 		break;
 	
 	case "neu2":
 		// Mail versenden, 2. Schritt: Benutzername Prüfen
-		$neue_email['an_nick'] = str_replace(" ", "+", $neue_email['an_nick']);
-		$neue_email['an_nick'] = escape_string(coreCheckName($neue_email['an_nick'], $check_name));
+		$formulardaten['u_nick'] = str_replace(" ", "+", $formulardaten['u_nick']);
+		$formulardaten['u_nick'] = escape_string(coreCheckName($formulardaten['u_nick'], $check_name));
 		
-		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$neue_email[an_nick]'";
+		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$formulardaten[u_nick]'";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
-			$neue_email['m_an_uid'] = mysqli_result($result, 0, "u_id");
+			$formulardaten['id'] = mysqli_result($result, 0, "u_id");
 			
 			$ignore = false;
-			$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . intval($neue_email['m_an_uid']) . "' AND i_user_passiv = '$u_id'";
+			$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . $formulardaten['id'] . "' AND i_user_passiv = '$u_id'";
 			$result2 = sqlQuery($query2);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
@@ -55,7 +39,7 @@ switch ($aktion) {
 			}
 			
 			$boxzu = false;
-			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . intval($neue_email['m_an_uid']) . "' AND m_an_uid='" . intval($neue_email['m_an_uid']) . "' and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
+			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . $formulardaten['id'] . "' AND m_an_uid='" . $formulardaten['id'] . "' and m_betreff = '$t[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
 			$result2 = sqlQuery($query);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
@@ -68,22 +52,22 @@ switch ($aktion) {
 				$m_u_level = mysqli_result($result, 0, "u_level");
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
 					// Alles in Ordnung
-					formular_neue_email2($text, $neue_email, $m_id);
+					formular_neue_email2($text, $formulardaten);
 				} else {
 					$fehlermeldung = $t['nachrichten_fehler_keine_mail_an_gast'];
 				}
 			}
 			mysqli_free_result($result2);
-		} else if ($neue_email['an_nick'] == "") {
+		} else if ($formulardaten['u_nick'] == "") {
 			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
 		} else {
-			$fehlermeldung = str_replace("%nick%", $neue_email['an_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $formulardaten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
 		}
 		
 		if($fehlermeldung != null && $fehlermeldung != '') {
 			// Box anzeigen
 			$text .= hinweis($fehlermeldung, "fehler");
-			formular_neue_email($text, $neue_email, $m_id);
+			formular_neue_email($text, $formulardaten);
 		}
 		mysqli_free_result($result);
 		break;
@@ -92,43 +76,46 @@ switch ($aktion) {
 		// Mail versenden, 3. Schritt: Inhalt Prüfen
 		
 		// Betreff prüfen
-		$neue_email['m_betreff'] = htmlspecialchars($neue_email['m_betreff']);
-		if (strlen($neue_email['m_betreff']) < 1) {
-			$fehlermeldung .= $t['nachrichten_fehler_kein_betreff'];
+		$formulardaten['m_betreff'] = htmlspecialchars($formulardaten['m_betreff']);
+		if (strlen($formulardaten['m_betreff']) < 1) {
+			$fehlermeldung = $t['nachrichten_fehler_kein_betreff'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		if (strlen($neue_email['m_betreff']) > 254) {
-			$fehlermeldung .= $t['nachrichten_fehler_betreff_zu_lang'];
+		if (strlen($formulardaten['m_betreff']) > 254) {
+			$fehlermeldung = $t['nachrichten_fehler_betreff_zu_lang'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		// Text prüfen
-		$neue_email['m_text'] = chat_parse(htmlspecialchars($neue_email['m_text']));
-		if (strlen($neue_email['m_text']) < 4) {
-			$fehlermeldung .= $t['nachrichten_fehler_kein_text'];
+		$formulardaten['m_text'] = chat_parse(htmlspecialchars($formulardaten['m_text']));
+		if (strlen($formulardaten['m_text']) < 4) {
+			$fehlermeldung = $t['nachrichten_fehler_kein_text'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		if (strlen($neue_email['m_text']) > 10000) {
-			$fehlermeldung .= $t['nachrichten_fehler_text_zu_lang'];
+		if (strlen($formulardaten['m_text']) > 10000) {
+			$fehlermeldung = $t['nachrichten_fehler_text_zu_lang'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		// Benutzer-ID Prüfen
-		$neue_email['m_an_uid'] = intval($neue_email['m_an_uid']);
-		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $neue_email[m_an_uid]";
+		$formulardaten['id'] = intval($formulardaten['id']);
+		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $formulardaten[id]";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, "u_nick");
 		} else {
-			$fehlermeldung .= $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		mysqli_free_result($result);
 		
 		if($fehlermeldung != "") {
-			$text .= hinweis($fehlermeldung, "fehler");
-			
-			formular_neue_email2($text, $neue_email);
+			formular_neue_email2($text, $formulardaten);
 		} else {
 			// Mail schreiben
-			if ($neue_email['typ'] == 1) {
+			if ($formulardaten['typ'] == 1) {
 				// E-Mail an externe Adresse versenden
-				if ($neue_email['m_id'] = email_versende($u_id, $neue_email['m_an_uid'], $neue_email['m_text'], $neue_email['m_betreff'], TRUE)) {
+				if (email_versende($u_id, $formulardaten['id'], $formulardaten['m_text'], $formulardaten['m_betreff'], TRUE)) {
 					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_email']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
@@ -136,21 +123,19 @@ switch ($aktion) {
 					$text .= hinweis($fehlermeldung, "fehler");
 				}
 			} else {
-				$result = mail_sende($u_id, $neue_email['m_an_uid'],
-				$neue_email['m_text'], $neue_email['m_betreff']);
+				$result = mail_sende($u_id, $formulardaten['id'],
+					$formulardaten['m_text'], $formulardaten['m_betreff']);
 				
 				if ($result[0]) {
 					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);
-					$neue_email['m_id'] = $result[0];
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
 					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_fehler_nicht_versendet_nachricht']);
-					$fehlermeldung .= "<br>$result[1]";
 					$text .= hinweis($fehlermeldung, "fehler");
 				}
 				
 			}
-			unset($neue_email);
+			unset($formulardaten);
 
 			zeige_mailbox($text, "normal", "");
 		}
@@ -159,16 +144,9 @@ switch ($aktion) {
 	
 	case "loesche":
 		// Nachrichten als geloescht markieren oder aufheben
-		
-		if (isset($loesche_email) && is_array($loesche_email)) {
-			// Mehrere Nachrichten auf gelöscht setzen
-			foreach ($loesche_email as $m_id) {
-				$text .= loesche_mail($m_id, $u_id);
-			}
-		} else {
-			// Eine Mail auf gelöscht setzen
-			if (isset($loesche_email)) {
-				$text .= loesche_mail($loesche_email, $u_id);
+		if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
+			foreach ($bearbeite_ids as $bearbeite_id) {
+				$text .= loesche_mail($bearbeite_id, $u_id);
 			}
 		}
 		
@@ -177,8 +155,7 @@ switch ($aktion) {
 	
 	case "antworten":
 	// Mail beantworten, Mail quoten und Absender lesen
-		$m_id = intval($m_id);
-		$query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit FROM mail WHERE m_an_uid=$u_id AND m_id=$m_id ";
+		$query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit FROM mail WHERE m_an_uid=$u_id AND m_id=$formulardaten[id] ";
 		$result = sqlQuery($query);
 		
 		if ($result && mysqli_num_rows($result) == 1) {
@@ -192,34 +169,34 @@ switch ($aktion) {
 		if ($result && mysqli_num_rows($result) == 1) {
 			
 			$row2 = mysqli_fetch_object($result);
-			$neue_email['m_an_uid'] = $row2->u_id;
+			$formulardaten['id'] = $row2->u_id;
 			if (substr($row->m_betreff, 0, 3) == "Re:") {
-				$neue_email['m_betreff'] = $row->m_betreff;
+				$formulardaten['m_betreff'] = $row->m_betreff;
 			} else {
-				$neue_email['m_betreff'] = "Re: " . $row->m_betreff;
+				$formulardaten['m_betreff'] = "Re: " . $row->m_betreff;
 			}
-			$neue_email['m_text'] = erzeuge_umbruch($row->m_text, 70);
-			$neue_email['m_text'] = erzeuge_quoting($neue_email['m_text'], $row2->u_nick, $row->zeit);
-			$neue_email['m_text'] = erzeuge_fuss($neue_email['m_text']);
+			$formulardaten['m_text'] = erzeuge_umbruch($row->m_text, 70);
+			$formulardaten['m_text'] = erzeuge_quoting($formulardaten['m_text'], $row2->u_nick, $row->zeit);
+			$formulardaten['m_text'] = erzeuge_fuss($formulardaten['m_text']);
 			
-			$neue_email['m_text'] = str_replace("<b>", "_", $neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</b>", "_", $neue_email['m_text']);
+			$formulardaten['m_text'] = str_replace("<b>", "_", $formulardaten['m_text']);
+			$formulardaten['m_text'] = str_replace("</b>", "_", $formulardaten['m_text']);
 			
-			$neue_email['m_text'] = str_replace("<i>", "*", $neue_email['m_text']);
-			$neue_email['m_text'] = str_replace("</i>", "*", $neue_email['m_text']);
+			$formulardaten['m_text'] = str_replace("<i>", "*", $formulardaten['m_text']);
+			$formulardaten['m_text'] = str_replace("</i>", "*", $formulardaten['m_text']);
 			
-			formular_neue_email2($text, $neue_email);
+			formular_neue_email2($text, $formulardaten);
 			
-		} elseif ($neue_email['an_nick'] == "") {
+		} elseif ($formulardaten['u_nick'] == "") {
 			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neue_email($text, $neue_email);
+			formular_neue_email($text, $formulardaten);
 		} else {
-			$fehlermeldung = str_replace("%nick%", $neue_email['an_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $formulardaten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neue_email($text, $neue_email);
+			formular_neue_email($text, $formulardaten);
 		}
 		mysqli_free_result($result);
 		break;
@@ -235,40 +212,40 @@ switch ($aktion) {
 		// Benutzername prüfen
 		if ($row->u_nick && $row->u_nick != "NULL") {
 			$row2 = mysqli_fetch_object($result);
-			$neue_email['m_an_uid'] = $row->u_id;
+			$formulardaten['id'] = $row->u_id;
 			if (substr($row->po_titel, 0, 3) == "Re:") {
-				$neue_email['m_betreff'] = $row->po_titel;
+				$formulardaten['m_betreff'] = $row->po_titel;
 			} else {
-				$neue_email['m_betreff'] = "Re: " . $row->po_titel;
+				$formulardaten['m_betreff'] = "Re: " . $row->po_titel;
 			}
-			$neue_email['m_text'] = erzeuge_umbruch($row->po_text, 70);
-			$neue_email['m_text'] = erzeuge_quoting($neue_email['m_text'],
+			$formulardaten['m_text'] = erzeuge_umbruch($row->po_text, 70);
+			$formulardaten['m_text'] = erzeuge_quoting($formulardaten['m_text'],
 				$row->u_nick, $row->po_date);
-			$neue_email['m_text'] = erzeuge_fuss($neue_email['m_text']);
+			$formulardaten['m_text'] = erzeuge_fuss($formulardaten['m_text']);
 			
-			formular_neue_email2($text, $neue_email);
-		} else if ($neue_email['an_nick'] == "") {
+			formular_neue_email2($text, $formulardaten);
+		} else if ($formulardaten['u_nick'] == "") {
 			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neue_email($text, $neue_email);
+			formular_neue_email($text, $formulardaten);
 		} else {
-			$fehlermeldung = str_replace("%nick%", $neue_email['an_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $formulardaten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neue_email($text, $neue_email);
+			formular_neue_email($text, $formulardaten);
 		}
 		mysqli_free_result($result);
 		break;
 	
 	case "zeige_empfangen":
 		// Eine Mail als Detailansicht zeigen
-		zeige_email($m_id, "empfangen");
+		zeige_email($formulardaten, "empfangen");
 		break;
 		
 	case "zeige_gesendet":
 		// Eine Mail als Detailansicht zeigen
-		zeige_email($m_id, "gesendet");
+		zeige_email($formulardaten, "gesendet");
 		break;
 		
 	case "postausgang":
@@ -283,16 +260,13 @@ switch ($aktion) {
 		echo "<br>";
 		$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
 		$result = sqlUpdate($query);
-		if (!isset($neue_email)) {
-			$neue_email[] = "";
-		}
 		zeige_mailbox("", "normal", "");
 		break;
 	
 	case "papierkorb":
 	// Papierkorb zeigen
-		if (isset($m_id)) {
-			zeige_email($m_id, "papierkorb");
+		if ( $formulardaten['id'] != "" ) {
+			zeige_email($formulardaten, "papierkorb");
 			echo "<br>";
 		}
 		zeige_mailbox("", "geloescht", "");
@@ -300,10 +274,7 @@ switch ($aktion) {
 	
 	case "weiterleiten":
 	// Formular zum Weiterleiten einer Mail ausgeben
-		if (!isset($neue_email)) {
-			$neue_email[] = "";
-		}
-		formular_neue_email($text, $neue_email, $m_id);
+		formular_neue_email($text, $formulardaten);
 		break;
 	
 	case "mailboxzu":

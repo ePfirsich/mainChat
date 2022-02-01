@@ -553,7 +553,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	$fehlermeldung = "";
 	
 	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per mainChat
-	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = 'MAILBOX IST ZU' and m_status != 'geloescht'";
+	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = '$t[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {

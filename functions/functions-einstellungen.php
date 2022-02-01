@@ -279,8 +279,6 @@ function zeige_aktionen() {
 	
 	global $id, $u_id, $def_was, $t, $forumfeatures;
 	
-	$button = $t['einstellungen_speichern'];
-	
 	$text = '';
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
 	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
@@ -375,7 +373,7 @@ function zeige_aktionen() {
 						$text .= "<option selected value=\"" . $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|" . $auswahl . "\">" . str_replace(",", "+", $auswahl) . "\n";
 					} else {
 						$text .= "<option value=\"" . (isset($was[$def_was_eintrag][$a_wann_eintrag]) ? $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] : "") . "|" . $auswahl . "\">"
-									. str_replace(",", " + ", $auswahl) . "\n";
+								. str_replace(",", " + ", $auswahl) . "\n";
 					}
 				}
 				$text .= "</select></td>\n";
@@ -386,8 +384,12 @@ function zeige_aktionen() {
 			$i++;
 		}
 		
-		$text .= "<tr><td $bgcolor>&nbsp;</td><td style=\"text-align:right;\" $bgcolor colspan=\"4\">"
-		. "<input type=\"submit\" name=\"los\" value=\"$button\">" . "</td></tr>\n" . "</table></form>\n";
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>&nbsp;</td>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
+		$text .= "</tr>\n";
+		$text .= "</table>\n";
+		$text .= "</form>\n";
 		
 		return $text;
 }

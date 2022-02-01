@@ -46,11 +46,11 @@ function such_bereich() {
 	
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
-	. "<input type=\"text\" name=\"suche[text]\" value=\"" . htmlspecialchars($suche['text']) . "\" size=50></td></tr>\n";
+	. "<input type=\"text\" name=\"suche_text\" value=\"" . htmlspecialchars($suche['text']) . "\" size=50></td></tr>\n";
 		
 	// Suche in Board/Thema
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
-	. "<select name=\"suche[thema]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	. "<select name=\"suche_thema\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 		
 	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
 	$query = sqlQuery($sql);
@@ -82,7 +82,7 @@ function such_bereich() {
 	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche[modus]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['modus'] <> "O") {
 		$text .= "selected ";
@@ -96,7 +96,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Betreff/Text
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche[ort]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_ort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['ort'] <> "B" && $suche['ort'] <> "T") {
 		$text .= "selected ";
@@ -115,7 +115,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Zeit
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche[zeit]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_zeit\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if (substr($suche['zeit'], 0, 1) <> "B") {
 		$text .= "selected ";
@@ -159,7 +159,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Sortierung
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche[sort]\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_sort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if (substr($suche['sort'], 0, 1) <> "S") {
 		$text .= "selected ";
@@ -194,7 +194,7 @@ function such_bereich() {
 	
 	// nur von Benutzer
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td>\n"
-		. "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"suche[username]\" value=\""
+		. "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"suche_username\" value=\""
 		. htmlspecialchars($suche['username']) . "\" size=\"20\"></td></tr>\n";
 	
 	$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td class=\"tabelle_zeile1\">"

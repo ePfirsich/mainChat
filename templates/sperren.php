@@ -3,18 +3,10 @@
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
-$neuer_blacklist[] = "";
-$neuer_blacklist['u_nick'] = filter_input(INPUT_GET, 'blacklist_eintrag_username', FILTER_SANITIZE_STRING);
-if( $neuer_blacklist['u_nick'] == '') {
-	$neuer_blacklist['u_nick'] = filter_input(INPUT_POST, 'blacklist_eintrag_username', FILTER_SANITIZE_STRING);
-}
-$neuer_blacklist['f_text'] = filter_input(INPUT_POST, 'blacklist_eintrag_text', FILTER_SANITIZE_STRING);
 
 $hname = filter_input(INPUT_GET, 'hname', FILTER_SANITIZE_STRING);
 $ipaddr = filter_input(INPUT_GET, 'ipaddr', FILTER_SANITIZE_STRING);
 $uname = filter_input(INPUT_GET, 'uname', FILTER_SANITIZE_STRING);
-
-$is_id = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
 
 $text = "";
 switch ($aktion) {
@@ -86,13 +78,13 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);
 
-$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist&id=$id&blacklist_eintrag_username=$uname\">$t[sperren_menue3]</a>\n";
+$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist&id=$id\">$t[sperren_menue3]</a>\n";
 $kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&id=$id\">" . $t['sperren_menue6'] . "</a>\n";
 zeige_tabelle_zentriert($box, $kopfzeile);
 
 
 // Soll Datensatz eingetragen oder geändert werden? (Nur für Sperren relevant)
-if ((isset($eintragen)) && ($eintragen == $t['sperren_eintragen'])) {
+if ( $formular == 1 ) {
 	if (!isset($f['is_infotext'])) {
 		$f['is_infotext'] = "";
 	}
@@ -164,47 +156,41 @@ switch ($aktion) {
 		
 	case "blacklist_neu":
 		// Formular für neuen Eintrag ausgeben
-		formular_neuer_blacklist("", $neuer_blacklist);
+		formular_neuer_blacklist("", $formulardaten);
 		break;
 		
 	case "blacklist_neu2":
 		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
-		$neuer_blacklist['u_nick'] = escape_string($neuer_blacklist['u_nick']);
-		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$neuer_blacklist[u_nick]'";
+		$formulardaten['u_nick'] = escape_string($formulardaten['u_nick']);
+		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$formulardaten[u_nick]'";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
-			$neuer_blacklist['u_id'] = mysqli_result($result, 0, 0);
-			$text .= neuer_blacklist_eintrag($u_id, $neuer_blacklist);
-			unset($neuer_blacklist);
-			$neuer_blacklist[] = "";
-			formular_neuer_blacklist($text, $neuer_blacklist);
-		} else if ($neuer_blacklist['u_nick'] == "") {
+			$formulardaten['id'] = mysqli_result($result, 0, 0);
+			$text .= neuer_blacklist_eintrag($u_id, $formulardaten);
+			unset($formulardaten);
+			$formulardaten[] = "";
+			
+			zeige_blacklist($text, "normal", "", $sort);
+		} else if ($formulardaten['u_nick'] == "") {
 			$fehlermeldung = $t['sperren_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neuer_blacklist($text, $neuer_blacklist);
+			formular_neuer_blacklist($text, $formulardaten);
 		} else {
-			$fehlermeldung = str_replace("%u_nick%", $neuer_blacklist['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neuer_blacklist($text, $neuer_blacklist);
+			formular_neuer_blacklist($text, $formulardaten);
 		}
 		mysqli_free_result($result);
 		break;
 		
 	case "blacklist_loesche":
 		// Eintrag löschen
-		
-		if (isset($f_blacklistid) && is_array($f_blacklistid)) {
-			// Mehrere Einträge löschen
-			foreach ($f_blacklistid as $key => $loesche_id) {
-				$text .= loesche_blacklist($loesche_id);
+		if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
+			foreach ($bearbeite_ids as $bearbeite_id) {
+				$text .= loesche_blacklist($bearbeite_id);
 			}
-			
-		} else {
-			// Einen Eintrag löschen
-			if (isset($f_blacklistid))
-				$text .= loesche_blacklist($f_blacklistid);
 		}
 		
 		zeige_blacklist($text, "normal", "", $sort);
@@ -254,7 +240,7 @@ switch ($aktion) {
 	case "aendern":
 		// ID gesetzt?
 		if (strlen($is_id) > 0) {
-			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre WHERE is_id=" . intval($is_id);
+			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre WHERE is_id=" . $is_id;
 			$result = sqlQuery($query);
 			$rows = mysqli_num_rows($result);
 			
@@ -265,6 +251,7 @@ switch ($aktion) {
 				
 				// Kopf Tabelle
 				$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
+				$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 				
 				$box = $t['sonst18'];
 				
@@ -273,13 +260,13 @@ switch ($aktion) {
 				// Infotext
 				$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst19]</b></td>";
 				$text .= "<td class=\"tabelle_zeile1\">"
-					. "<input type=\"text\" name=\"f[is_infotext]\" value=\"$row->is_infotext\" size=\"24\">"
+					. "<input type=\"text\" name=\"is_infotext\" value=\"$row->is_infotext\" size=\"24\">"
 					. "</td></tr>\n";
 				
 				// Domain/IP-Adresse
 				if (strlen($row->is_domain) > 0) {
 					$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst11]</b></td>";
-					$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"f[is_domain]\" value=\"$row->is_domain\" size=\"24\">\n";
+					$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"is_domain\" value=\"$row->is_domain\" size=\"24\">\n";
 				} else {
 					$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst12]</b></td>";
 					$text .= "<td class=\"tabelle_zeile2\">"
@@ -295,7 +282,7 @@ switch ($aktion) {
 				
 				// Warnung ja/nein
 				$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst22]</b></td><td class=\"tabelle_zeile1\">"
-					. "<select name=\"f[is_warn]\">";
+					. "<select name=\"is_warn\">";
 				if ($row->is_warn == "ja") {
 					$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
 					$text .= "<option value=\"nein\">$t[sperren_sperre]";
@@ -306,10 +293,10 @@ switch ($aktion) {
 				$text .= "</select>";
 				
 				// Submitknopf
-				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sperren_eintragen]\" name=\"eintragen\"></b></td></tr>\n";
+				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sperren_eintragen]\"></b></td></tr>\n";
 				$text .= "</table>\n";
 				
-				$text .= "<input type=\"hidden\" name=\"f[is_id]\" value=\"$is_id\">\n"
+				$text .= "<input type=\"hidden\" name=\"is_id\" value=\"$is_id\">\n"
 					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "</form>\n";
 			}
@@ -355,14 +342,15 @@ switch ($aktion) {
 		$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 		
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+		$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 		$text .= $t['sonst15'] . "<br>\n";
 		$text .= "<table style=\"width:100%\">\n";
 		
 		$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst19]</b></td>";
-		$text .= "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"f[is_infotext]\" value=\"$f[is_infotext]\" size=\"24\"></td></tr>\n";
+		$text .= "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"is_infotext\" value=\"$f[is_infotext]\" size=\"24\"></td></tr>\n";
 		
 		$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst11]</b></td>";
-		$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"f[is_domain]\" value=\"$f[is_domain]\" size=\"24\"></td></tr>\n";
+		$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"is_domain\" value=\"$f[is_domain]\" size=\"24\"></td></tr>\n";
 		
 		$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst12]</b></td>";
 		$text .= "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"ip1\" value=\"$ip1\" size=\"3\" maxlength=\"3\"><b>.</b>"
@@ -370,7 +358,7 @@ switch ($aktion) {
 			. "<input type=\"text\" name=\"ip3\" value=\"$ip3\" size=\"3\" maxlength=\"3\"><b>.</b>"
 			. "<input type=\"text\" name=\"ip4\" value=\"$ip4\" size=\"3\" maxlength=\"3\"></td></tr>\n";
 		
-		$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst22]</b></td><td class=\"tabelle_zeile2\"><select name=\"f[is_warn]\">";
+		$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst22]</b></td><td class=\"tabelle_zeile2\"><select name=\"is_warn\">";
 		if (isset($f['is_warn']) && $f['is_warn'] == "ja") {
 			$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
 			$text .= "<option value=\"nein\">$t[sperren_sperre]";
@@ -379,7 +367,7 @@ switch ($aktion) {
 			$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 		}
 		$text .= "</select>&nbsp;&nbsp;&nbsp;"
-			. "<b><input type=\"submit\" value=\"$t[sperren_eintragen]\" name=\"eintragen\"></b>\n"
+			. "<b><input type=\"submit\" value=\"$t[sperren_eintragen]\"></b>\n"
 			. "</td></tr>\n";
 		$text .= "</table>\n";
 		

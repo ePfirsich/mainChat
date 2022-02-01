@@ -38,13 +38,13 @@ if ( time() > ($o_aktion + 300) ) {
 }
 */
 
-// Wurde Raum r_id aus Formular übergeben? Falls ja Raum von $o_raum nach $r_id wechseln
-if (isset($r_id) && $o_raum != $r_id) {
+// Wurde Raum neuer_raum aus Formular übergeben? Falls ja Raum von $o_raum nach $neuer_raum wechseln
+if (isset($neuer_raum) && $o_raum != $neuer_raum) {
 	// Raum wechseln
-	$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $r_id);
-	if ($o_raum == $r_id) {
+	$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $neuer_raum);
+	if ($o_raum == $neuer_raum) {
 		// Benutzer in Raum ausgeben
-		raum_user($r_id, $u_id);
+		raum_user($neuer_raum, $u_id);
 	}
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden
@@ -109,7 +109,7 @@ $zahl = $a['zahl'];
 
 if ($zahl > 1) {
 	$text .= "$t[interaktiv3]<br>\n";
-	$text .= "<select name=\"r_id\" onChange=\"document.form1.submit()\">\n";
+	$text .= "<select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere Benutzer nur die offenen
 	if ($admin) {
@@ -120,7 +120,6 @@ if ($zahl > 1) {
 	$text .= "</select>\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">\n";
-	$text .= "<input type=\"hidden\" name=\"neuer_raum\" value=\"1\">\n";
 	$text .= "<input type=\"submit\" name=\"raum_submit\" value=\"Go!\"></td>\n";
 }
 $text .= "</tr>\n";

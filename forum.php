@@ -34,6 +34,16 @@ if($aktion == "") {
 	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 }
 
+// Suche
+$suche['text'] = filter_input(INPUT_POST, 'suche_text', FILTER_SANITIZE_STRING);
+$suche['thema'] = filter_input(INPUT_POST, 'suche_thema', FILTER_SANITIZE_STRING);
+$suche['modus'] = filter_input(INPUT_POST, 'suche_modus', FILTER_SANITIZE_STRING);
+$suche['ort'] = filter_input(INPUT_POST, 'suche_ort', FILTER_SANITIZE_STRING);
+$suche['zeit'] = filter_input(INPUT_POST, 'suche_zeit', FILTER_SANITIZE_STRING);
+$suche['username'] = filter_input(INPUT_POST, 'suche_username', FILTER_SANITIZE_STRING);
+$suche['u_id'] = filter_input(INPUT_POST, 'suche_u_id', FILTER_SANITIZE_STRING);
+$suche['sort'] = filter_input(INPUT_POST, 'suche_sort', FILTER_SANITIZE_STRING);
+
 // Benutzerdaten setzen
 id_lese($id);
 

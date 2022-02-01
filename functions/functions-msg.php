@@ -1541,15 +1541,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						} else {
 							if ($freunddazu == 1) {
 								// Benutzer ist noch kein Freund -> hinzufügen
-								unset($f);
-								$f['u_id'] = $nick['u_id'];
-								$f['u_nick'] = $nick['u_nick'];
+								unset($formulardaten);
+								$formulardaten['id'] = $nick['u_id'];
+								$formulardaten['u_nick'] = $nick['u_nick'];
 								if (strlen($text) > 1) {
-									$f['f_text'] = $text;
+									$formulardaten['f_text'] = $text;
 								}
-								#schreibe_db("freunde",$f,0,"f_id");
 								
-								$text = neuer_freund($u_id, $f);
+								$text = neuer_freund($u_id, $formulardaten);
 								# system_msg("",0,$u_id,$system_farbe,str_replace("%u_nick%",$nick[u_nick],$t[chat_msg83]));
 								system_msg("", 0, $u_id, $system_farbe, $text);
 							} else if ($freunddazu == -1) {

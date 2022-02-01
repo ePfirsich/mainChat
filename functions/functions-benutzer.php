@@ -1,7 +1,6 @@
 <?php
 
-function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
-	// $user = ID des Benutzers
+function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
 	global $level, $id, $locale, $user_farbe, $ist_online_raum, $t;
@@ -11,7 +10,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
 	
-	$query = "SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$user ";
+	$query = "SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$ui_id ";
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) == 1) {
@@ -39,7 +38,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// IP bestimmen
 		unset($o_http_stuff);
-		$query = "SELECT r_name, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit FROM online LEFT JOIN raum ON o_raum=r_id WHERE o_user=$user ";
+		$query = "SELECT r_name, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit FROM online LEFT JOIN raum ON o_raum=r_id WHERE o_user=$ui_id ";
 		$result = sqlQuery($query);
 		
 		if ($result && $rows = mysqli_num_rows($result) == 1) {
@@ -101,8 +100,8 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 			// Eingabeformular für private Nachricht ausgeben
 			if ($msgpopup) {
 				$value .= '<iframe src="messages-popup.php?id=' . $id
-				. '&user=' . $user . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
-				$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user;
+				. '&user=' . $ui_id . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
+				$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$ui_id;
 				$pmu = sqlUpdate($query, true);
 			}
 			
@@ -130,7 +129,7 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
 		
 		// Benutzername
-		$value = zeige_userdetails($user, $row);
+		$value = zeige_userdetails($ui_id, $row);
 		if ($uu_away != "") {
 			$value .= "<br>($uu_away)";
 		}
@@ -277,27 +276,27 @@ function user_zeige($text, $user, $admin, $schau_raum, $u_level, $zeigeip) {
 			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
 			$value .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[benutzer_ignorieren]</a>]<br>\n";
 			$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&nachricht_neu_username=$uu_nick";
+			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&formulardaten_nick=$uu_nick";
 			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
 			$value .= "[<a href=\"$mlnk[8]\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n"
 			. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
 			
 			// Adminmenue
 			if ($admin) {
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 			}
 			
 			// Adminmenue
 			if ($admin && $rows == 1) {
-				$mlnk[3] = "inhalt.php?bereich=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&user=$user&schau_raum=$schau_raum";
+				$mlnk[3] = "inhalt.php?bereich=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum";
 				$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
 				$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
 				$mlnk[6] = "inhalt.php?bereich=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name);
 				$value .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[benutzer_knebeln]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[benutzer_kicken]</a>]<br>\n"
 				. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&blacklist_eintrag_username=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&formulardaten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
 			}
 			
 			$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
@@ -397,7 +396,7 @@ function benutzer_suche($f, $suchtext) {
 	$text .= "<form name=\"suche\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"absenden\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten

@@ -1,7 +1,7 @@
 <?php
 
 // Übersetzungen von "Einstellungen"
-$t['titel'] = "Einstellungen";
+$t['einstellungen_titel'] = "Einstellungen";
 
 $t['einstellungen_benutzer'] = "Einstellungen für den Benutzer %user%";
 

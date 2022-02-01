@@ -4,6 +4,9 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
+$monat = filter_input(INPUT_POST, 'monat', FILTER_SANITIZE_NUMBER_INT);
+$jahr = filter_input(INPUT_POST, 'jahr', FILTER_SANITIZE_NUMBER_INT);
+
 // Testen, ob Statistiken funktionieren...
 $fehler = false;
 
@@ -58,21 +61,21 @@ switch ($aktion) {
 		
 	default:
 		// Auswahlbox Monat
-		$y = urldecode($y);
-		$m = urldecode($m);
+		//$jahr = urldecode($jahr);
+		//$monat = urldecode($monat);
 		
 		$grapharray = array();
 		
-		if (strlen($y) < 1) {
-			$y = date("Y", time());
+		if (strlen($jahr) < 1) {
+			$jahr = date("Y", time());
 		}
 		
-		if ((intval($m) < 1) || (intval($m) > 12)) {
-			$m = intval(date("m", time()));
+		if ((intval($monat) < 1) || (intval($monat) > 12)) {
+			$monat = intval(date("m", time()));
 		}
 		
-		$m = SPrintF("%02d", $m);
-		$y = SPrintF("%04d", $y);
+		$monat = SPrintF("%02d", $monat);
+		$jahr = SPrintF("%04d", $jahr);
 		
 		$msg = "";
 		$msg .= "<form name=\"form\" action=\"inhalt.php?bereich=statistik\" method=\"post\">\n";
@@ -82,10 +85,10 @@ switch ($aktion) {
 		$msg .= "<div style=\"margin-top:2px; text-align:center;\">\n";
 		$msg .= $t["statistik_monat"];
 		$msg .= " " . "\n";
-		$msg .= "<select name=\"m\" onchange='form.submit();'>\n";
+		$msg .= "<select name=\"monat\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($t_month)) {
-			if ($i == $m) {
+			if ($i == $monat) {
 				$ausgewaehlterMonat = $n;
 				$msg .= "<option value=\"$i\" selected>$n\n";
 			} else {
@@ -95,14 +98,14 @@ switch ($aktion) {
 		
 		$msg .= "</select>\n";
 		// Auswahlbox Jahr  
-		$msg .= "<select name=\"y\">\n";
+		$msg .= "<select name=\"jahr\">\n";
 		
 		$i = 0;
 		
 		while ($i < 2) {
 			$n = (date("Y", time()) - $i);
 			
-			if ($n == $y) {
+			if ($n == $jahr) {
 				$msg .= "<option value=\"$n\" selected>$n\n";
 			} else {
 				$msg .= "<option value=\"$n\">$n\n";
@@ -119,9 +122,9 @@ switch ($aktion) {
 		$r1 = sqlQuery("SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");
 		
 		if ($r1 > 0) {
-			statsResetMonth($y, $m);
+			statsResetMonth($jahr, $monat);
 			
-			$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%' ORDER BY c_timestamp");
+			$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$jahr-$monat%' ORDER BY c_timestamp");
 			if ($r0 > 0) {
 				$i = 0;
 				$n = @mysqli_num_rows($r0);
@@ -136,7 +139,7 @@ switch ($aktion) {
 					$i++;
 				}
 				
-				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $y, $t['statistik_benutzer'], $t['statistik_tag']);
+				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $jahr, $t['statistik_benutzer'], $t['statistik_tag']);
 			}
 		}
 		
