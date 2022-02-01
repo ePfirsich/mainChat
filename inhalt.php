@@ -30,8 +30,7 @@ if( $schau_raum == '') {
 	$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
 }
 
-$los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
-$reset = filter_input(INPUT_POST, 'reset', FILTER_SANITIZE_STRING);
+$uebergabe = filter_input(INPUT_POST, 'uebergabe', FILTER_SANITIZE_STRING);
 
 // Sperren
 $f['is_infotext'] = filter_input(INPUT_POST, 'is_infotext', FILTER_SANITIZE_STRING);
@@ -95,10 +94,8 @@ if( isset($u_id) && strlen($u_id) != 0 ) {
 	// Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
 	if ($o_raum && $o_raum == "-1") {
 		$wo_online = "forum";
-		$reset = "1";
 	} else {
 		$wo_online = "chat";
-		$reset = "0";
 	}
 } else {
 	$user_eingeloggt = false;

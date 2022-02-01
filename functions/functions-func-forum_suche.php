@@ -198,7 +198,7 @@ function such_bereich() {
 		. htmlspecialchars($suche['username']) . "\" size=\"20\"></td></tr>\n";
 	
 	$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td class=\"tabelle_zeile1\">"
-	. "<input type=\"submit\" name=\"los\" value=\"$t[suche5]\"></td></tr>\n";
+	. "<input type=\"submit\" value=\"$t[suche5]\"></td></tr>\n";
 	
 	$text .= "</table>\n";
 	

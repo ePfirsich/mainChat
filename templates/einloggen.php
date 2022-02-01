@@ -162,11 +162,11 @@ if(!$kein_gastlogin_ausblenden) {
 			
 			// Prüfen, ob alles korrekt eingegeben wurde.
 			if ( isset($captcha_text2) && ( $captcha_text2 != md5( $user_id . "+code+" . $captcha_text1 . "+" . date("Y-m-d h") ) ) ) {
-				$los = "";
+				$uebergabe = "";
 			}
 			
 			// muss Benutzer/Gast noch Nutzungsbestimmungen bestätigen?
-			if ($los != $t['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
+			if ($uebergabe != $t['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
 				// Nutzungsbestimmungen ausgeben
 				echo "<body>";
 				
@@ -229,10 +229,10 @@ if(!$kein_gastlogin_ausblenden) {
 				}
 				$text .= "<tr>\n";
 				$text .= "<td align=\"left\" $bgcolor>\n";
-				$text .= "<b><input type=\"submit\" name=\"los\" value=\"$t[login_nutzungsbestimmungen_ok]\"></b>\n";
+				$text .= "<b><input type=\"submit\" name=\"uebergabe\" value=\"$t[login_nutzungsbestimmungen_ok]\"></b>\n";
 				$text .= "</td>\n";
 				$text .= "<td align=\"right\" $bgcolor>\n";
-				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[login_nutzungsbestimmungen_abbruch]\">\n";
+				$text .= "<input type=\"submit\" name=\"uebergabe\" value=\"$t[login_nutzungsbestimmungen_abbruch]\">\n";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 				
@@ -245,7 +245,7 @@ if(!$kein_gastlogin_ausblenden) {
 				zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
 				
 				$rest_ausblenden = true;
-			} else if ($los == $t['login_nutzungsbestimmungen_ok']) {
+			} else if ($uebergabe == $t['login_nutzungsbestimmungen_ok']) {
 				// Nutzungsbestimmungen wurden bestätigt
 				$u_agb = "1";
 			} else {

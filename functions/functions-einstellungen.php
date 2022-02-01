@@ -386,7 +386,7 @@ function zeige_aktionen() {
 		
 		$text .= "<tr>\n";
 		$text .= "<td $bgcolor>&nbsp;</td>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"uebergabe\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
 		$text .= "</tr>\n";
 		$text .= "</table>\n";
 		$text .= "</form>\n";

@@ -90,7 +90,7 @@ function home_bild(
 	} else {
 		
 		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
-		$text .= "<br>" . "<input type=\"submit\" name=\"los\" value=\"GO\">";
+		$text .= "<br>" . "<input type=\"submit\" value=\"GO\">";
 		
 	}
 	

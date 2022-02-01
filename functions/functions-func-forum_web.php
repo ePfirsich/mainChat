@@ -938,7 +938,7 @@ function verschiebe_posting() {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[verschieben4]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[verschieben4]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	

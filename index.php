@@ -18,7 +18,7 @@ if($email == "") {
 }
 $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 
-$los = filter_input(INPUT_POST, 'los', FILTER_SANITIZE_STRING);
+$uebergabe = filter_input(INPUT_POST, 'uebergabe', FILTER_SANITIZE_STRING);
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $passwort = filter_input(INPUT_POST, 'passwort', FILTER_SANITIZE_STRING);
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
@@ -224,7 +224,7 @@ if ($bereich == "logoff") {
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
-if ($los == $t['login_nutzungsbestimmungen_abbruch'] && $bereich == "einloggen") {
+if ($uebergabe == $t['login_nutzungsbestimmungen_abbruch'] && $bereich == "einloggen") {
 	$bereich = "";
 }
 

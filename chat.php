@@ -23,7 +23,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	$refresh_zeit = 600;
 	
 	// Systemnachrichten ausgeben
-	$sysmsg = TRUE;
+	$sysmsg = true;
 	
 	$title = $body_titel;
 	$meta_refresh = "";

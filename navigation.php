@@ -18,10 +18,8 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 // Ermitteln, ob sich der Benutzer im Chat oder im Forum aufhält
 if ($o_raum && $o_raum == "-1") {
 	$wo_online = "forum";
-	$reset = "1";
 } else {
 	$wo_online = "chat";
-	$reset = "0";
 }
 
 // Weitere Funktionen für die Raumanzeige im Forum notwendig

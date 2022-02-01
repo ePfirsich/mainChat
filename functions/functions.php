@@ -1454,7 +1454,7 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 		$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
 		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"avatar\" size=\"" . (55 / 8) . "\"><br>";
-		$text .= "<br><input type=\"submit\" name=\"los\" value=\"GO\"></form><br><br></td>";
+		$text .= "<br><input type=\"submit\" value=\"GO\"></form><br><br></td>";
 	}
 	
 	if ($text && $aufruf == "avatar_aendern") {

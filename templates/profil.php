@@ -358,7 +358,7 @@ switch ($aktion) {
 		}
 		
 		// Textkopf
-		if ($los != $t['einstellungen_speichern']) {
+		if ($uebergabe != $t['einstellungen_speichern']) {
 			$text .= $t['profil_informationen'];
 		}
 		

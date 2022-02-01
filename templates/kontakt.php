@@ -130,7 +130,7 @@ if ($zaehler % 2 != 0) {
 }
 $text .= "<tr>\n";
 $text .= "<td $bgcolor><input type=\"reset\" value=\"$t[kontakt_zuruecksetzen]\"></td>\n";
-$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[kontakt_absenden]\"></td>\n";
+$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[kontakt_absenden]\"></td>\n";
 $text .= "</tr>\n";
 
 $text .= "</table>\n";

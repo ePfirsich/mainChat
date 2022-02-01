@@ -325,7 +325,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"uebergabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	
 

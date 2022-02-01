@@ -121,9 +121,9 @@ function zeige_freunde($text, $aktion, $zeilen) {
 				."<td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">$t[freunde_alle_auswaehlen]</td>\n";
 			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\">";
 			if ($aktion == "bestaetigen") {
-				$text .= "<input type=\"submit\" name=\"los\" value=\"$t[freunde_bestaetigen]\">";
+				$text .= "<input type=\"submit\" name=\"uebergabe\" value=\"$t[freunde_bestaetigen]\">";
 			}
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[freunde_loeschen]\">"
+			$text .= "<input type=\"submit\" name=\"uebergabe\" value=\"$t[freunde_loeschen]\">"
 				. "</td></tr></table>\n";
 		}
 		
@@ -192,7 +192,7 @@ function formular_neuer_freund($text, $daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[freunde_eintragen]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"uebergabe\" value=\"$t[freunde_eintragen]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -227,7 +227,7 @@ function formular_editieren($daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[freunde_editieren]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"uebergabe\" value=\"$t[freunde_editieren]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	

@@ -41,7 +41,7 @@ function formular_neue_email($text, $daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiter]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[nachrichten_weiter]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -139,7 +139,7 @@ function formular_neue_email2($text, $daten) {
 			
 			$text .= "<tr>\n";
 			$text .= "<td class=\"tabelle_zeile1\">&nbsp;</td>\n";
-			$text .= "<td class=\"tabelle_zeile1\"><input type=\"submit\" name=\"los\" value=\"Versenden\"></td>\n";
+			$text .= "<td class=\"tabelle_zeile1\"><input type=\"submit\" value=\"Versenden\"></td>\n";
 			$text .= "</tr>\n";
 			$text .= "</table>\n";
 			$text .= "</form>\n";
@@ -262,7 +262,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 				$i++;
 			}
 			if($aktion != "postausgang") {
-				$text .= "<tr><td $bgcolor colspan=\"5\"><input type=\"submit\" name=\"los\" value=\"$button\"></td>\n";
+				$text .= "<tr><td $bgcolor colspan=\"5\"><input type=\"submit\" value=\"$button\"></td>\n";
 			}
 			$text .= "</tr>\n";
 			$text .= "</table>\n";
@@ -335,7 +335,7 @@ function zeige_email($daten, $art) {
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n";
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
+			$text .= "<input type=\"submit\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
 			$text .= "</td>\n";
 			
 			$text .= "<td style=\"text-align:center;\" class=\"tabelle_zeile2\">\n";
@@ -343,7 +343,7 @@ function zeige_email($daten, $art) {
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n";
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_weiterleiten]\">\n";
+			$text .= "<input type=\"submit\" value=\"$t[nachrichten_weiterleiten]\">\n";
 			$text .= "</form>\n";
 			$text .= "</td>\n";
 			
@@ -352,7 +352,7 @@ function zeige_email($daten, $art) {
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
-			$text .= "<input type=\"submit\" name=\"los\" value=\"$t[nachrichten_loeschen]\">\n";
+			$text .= "<input type=\"submit\" value=\"$t[nachrichten_loeschen]\">\n";
 			$text .= "</form>\n";
 			$text .= "</td>\n";
 			$text .= "</tr>\n";

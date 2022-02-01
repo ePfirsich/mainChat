@@ -271,7 +271,7 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	} else {
 		$text .= "<td $bgcolor style=\"text-align:right\"><input type=\"submit\" name=\"loesch\" value=\"$t[raum_loeschen]\"></td>\n";
 	}
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[raum_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[raum_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	

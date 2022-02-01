@@ -12,7 +12,7 @@ $f = array();
 $f['r_id'] = filter_input(INPUT_POST, 'r_id', FILTER_SANITIZE_NUMBER_INT);
 
 // Raum löschen
-if ($los != "$t[raum_speichern]" && $loesch == "$t[raum_loeschen]") {
+if ($loesch == "$t[raum_loeschen]") {
 	$aktion = "loesch";
 }
 

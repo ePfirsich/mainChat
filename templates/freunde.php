@@ -103,7 +103,7 @@ switch ($aktion) {
 	
 	case "bearbeite":
 		// Freund löschen
-		if ($los == $t['freunde_loeschen']) {
+		if ($uebergabe == $t['freunde_loeschen']) {
 			if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
 				foreach ($bearbeite_ids as $bearbeite_id) {
 					$text .= loesche_freund($bearbeite_id, $u_id);
@@ -111,7 +111,7 @@ switch ($aktion) {
 			}
 		}
 		
-		if ($los == $t['freunde_bestaetigen']) {
+		if ($uebergabe == $t['freunde_bestaetigen']) {
 			if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
 				foreach ($bearbeite_ids as $bearbeite_id) {
 					$erfolgsmeldung = bestaetige_freund($bearbeite_id, $u_id);

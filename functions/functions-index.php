@@ -686,7 +686,7 @@ function zeige_chat_login($text = "") {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor></td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"". $t['login_login'] . "\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
 	$text .= "</tr>\n";
 	
 	$text .= "</table>\n";
@@ -732,7 +732,7 @@ function zeige_chat_login($text = "") {
 		}
 		$text .= "<tr>\n";
 		$text .= "<td $bgcolor></td>\n";
-		$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"". $t['login_login'] . "\"></td>\n";
+		$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
 		$text .= "</tr>\n";
 		
 		$text .= "</table>\n";

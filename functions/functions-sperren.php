@@ -261,7 +261,7 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 			}
 			
 			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">$t[sperren_alle_auswaehlen]</td>\n";
-			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\"><input type=\"submit\" name=\"los\" value=\"$t[sperren_loeschen]\"></td>\n";
+			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\"><input type=\"submit\" value=\"$t[sperren_loeschen]\"></td>\n";
 			$text .= "</tr>\n";
 		}
 		
@@ -334,7 +334,7 @@ function formular_neuer_blacklist($text, $daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"los\" value=\"$t[sperren_eintragen]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[sperren_eintragen]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	$text .= "</form>\n";
