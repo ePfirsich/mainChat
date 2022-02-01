@@ -1,7 +1,4 @@
 <?php
-
-require_once("functions/functions-registerglobals.php");
-
 // Konfigurationsdatei einbinden
 $filenameConfig = 'conf/config.php';
 if ( !file_exists($filenameConfig) ) {
