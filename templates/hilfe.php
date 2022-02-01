@@ -4,7 +4,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-$box = $t['hilfe6'];
+$box = $t['hilfe_hilfe'];
 $text = $hilfe_uebersichtstext;
 
 zeige_tabelle_zentriert($box,$text);

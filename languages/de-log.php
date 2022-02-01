@@ -3,8 +3,8 @@
 // Übersetzungen von "Mail"
 $t['titel'] = "Log";
 
-$t['sonst1'] = "Dieses Log abspeichern";
-$t['sonst2'] = "Systemnachrichten anzeigen";
-$t['sonst3'] = "Systemnachrichten unterdrücken";
+$t['log_abspeichern'] = "Dieses Log abspeichern";
+$t['log_systemnachrichten_anzeigen'] = "Systemnachrichten anzeigen";
+$t['log_systemnachrichten_unterdruecken'] = "Systemnachrichten unterdrücken";
 
 ?>

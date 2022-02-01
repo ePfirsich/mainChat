@@ -21,6 +21,10 @@ $bildname = filter_input(INPUT_GET, 'bildname', FILTER_SANITIZE_URL);
 
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
 
+// Räume
+$extended = filter_input(INPUT_GET, 'extended', FILTER_SANITIZE_NUMBER_INT);
+$order = filter_input(INPUT_GET, 'order', FILTER_SANITIZE_URL);
+
 $schau_raum = filter_input(INPUT_GET, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
 if( $schau_raum == '') {
 	$schau_raum = filter_input(INPUT_POST, 'schau_raum', FILTER_SANITIZE_NUMBER_INT);
@@ -40,22 +44,22 @@ $f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_STRING);
 $f['is_id'] = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
 $is_id = $f['is_id'];
 
-// Formulardaten aus der Blacklist, Freundesliste oder Nachrichten
-$formulardaten[] = "";
+// daten aus der Blacklist, Freundesliste oder Nachrichten
+$daten[] = "";
 
-$formulardaten['id'] = filter_input(INPUT_GET, 'formulardaten_id', FILTER_SANITIZE_NUMBER_INT);
-if( $formulardaten['id'] == '') {
-	$formulardaten['id'] = filter_input(INPUT_POST, 'formulardaten_id', FILTER_SANITIZE_NUMBER_INT);
+$daten['id'] = filter_input(INPUT_GET, 'daten_id', FILTER_SANITIZE_NUMBER_INT);
+if( $daten['id'] == '') {
+	$daten['id'] = filter_input(INPUT_POST, 'daten_id', FILTER_SANITIZE_NUMBER_INT);
 }
 
-$formulardaten['u_nick'] = filter_input(INPUT_GET, 'formulardaten_nick', FILTER_SANITIZE_STRING);
-if( $formulardaten['u_nick'] == '') {
-	$formulardaten['u_nick'] = filter_input(INPUT_POST, 'formulardaten_nick', FILTER_SANITIZE_STRING);
+$daten['u_nick'] = filter_input(INPUT_GET, 'daten_nick', FILTER_SANITIZE_STRING);
+if( $daten['u_nick'] == '') {
+	$daten['u_nick'] = filter_input(INPUT_POST, 'daten_nick', FILTER_SANITIZE_STRING);
 }
 
-$formulardaten['m_text'] = filter_input(INPUT_POST, 'formulardaten_text', FILTER_SANITIZE_STRING);
-$formulardaten['m_betreff'] = filter_input(INPUT_POST, 'formulardaten_betreff', FILTER_SANITIZE_STRING);
-$formulardaten['typ'] = filter_input(INPUT_POST, 'formulardaten_typ', FILTER_SANITIZE_NUMBER_INT);
+$daten['m_text'] = filter_input(INPUT_POST, 'daten_text', FILTER_SANITIZE_STRING);
+$daten['m_betreff'] = filter_input(INPUT_POST, 'daten_betreff', FILTER_SANITIZE_STRING);
+$daten['typ'] = filter_input(INPUT_POST, 'daten_typ', FILTER_SANITIZE_NUMBER_INT);
 
 
 // Nachrichten, Sperren, Freunde löschen

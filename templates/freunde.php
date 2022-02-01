@@ -8,23 +8,23 @@ $text = "";
 
 switch ($aktion) {
 	case "editinfotext":
-		if ( strlen($formulardaten['id']) > 0 ) {
-			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $formulardaten['id'] . ")";
+		if ( strlen($daten['id']) > 0 ) {
+			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $daten['id'] . ")";
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
-				$formulardaten['f_text'] = mysqli_result($result, 0, 0);			
-				formular_editieren($formulardaten);
+				$daten['f_text'] = mysqli_result($result, 0, 0);
+				formular_editieren($daten);
 			}
 			mysqli_free_result($result);
 		}
 		break;
 	
 	case "editinfotext2":
-		if ( strlen($formulardaten['id']) > 0 ) {
-			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $formulardaten['id'] . ")";
+		if ( strlen($daten['id']) > 0 ) {
+			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $daten['id'] . ")";
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) == 1) {
-				$erfolgsmeldung = edit_freund($formulardaten);
+				$erfolgsmeldung = edit_freund($daten);
 				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				
 				zeige_freunde($text, "normal", "");
@@ -35,21 +35,21 @@ switch ($aktion) {
 	
 	case "neu":
 	// Formular für neuen Freund ausgeben
-		formular_neuer_freund("", $formulardaten);
+		formular_neuer_freund("", $daten);
 		break;
 	
 	case "neu2":
 		// Neuer Freund, 2. Schritt: Benutzername Prüfen
-		$formulardaten['u_nick'] = htmlspecialchars($formulardaten['u_nick']);
-		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . escape_string($formulardaten['u_nick']) . "'";
+		$daten['u_nick'] = htmlspecialchars($daten['u_nick']);
+		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . escape_string($daten['u_nick']) . "'";
 		$fehlermeldung = "";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
-			$formulardaten['id'] = mysqli_result($result, 0, 0);
-			$formulardaten['u_level'] = mysqli_result($result, 0, 1);
+			$daten['id'] = mysqli_result($result, 0, 0);
+			$daten['u_level'] = mysqli_result($result, 0, 1);
 			
 			$ignore = false;
-			$query2 = "SELECT * FROM `iignore` WHERE `i_user_aktiv`='$formulardaten[id]' AND `i_user_passiv` = '$u_id'";
+			$query2 = "SELECT * FROM `iignore` WHERE `i_user_aktiv`='$daten[id]' AND `i_user_passiv` = '$u_id'";
 			$result2 = sqlQuery($query2);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
@@ -59,28 +59,28 @@ switch ($aktion) {
 			mysqli_free_result($result2);
 			
 			if ($ignore) {
-				$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
 				$text .= hinweis($fehlermeldung, "fehler");
-			} else if ($formulardaten['u_level'] == 'Z') {
-				$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
+			} else if ($daten['u_level'] == 'Z') {
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
 				$text .= hinweis($fehlermeldung, "fehler");
-			} else if ($formulardaten['u_level'] == 'G') {
-				$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['freunde_fehlermeldung_gast']);
+			} else if ($daten['u_level'] == 'G') {
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_gast']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			}
-		} else if ($formulardaten['u_nick'] == "") {
+		} else if ($daten['u_nick'] == "") {
 			$fehlermeldung = $t['freunde_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
-			$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		if($fehlermeldung == "") {
 			// Hinzufügen des Freundes erfolgreich
-			$text .= neuer_freund($u_id, $formulardaten);
+			$text .= neuer_freund($u_id, $daten);
 		}
-		formular_neuer_freund($text, $formulardaten);
+		formular_neuer_freund($text, $daten);
 		mysqli_free_result($result);
 		break;
 	
@@ -90,11 +90,11 @@ switch ($aktion) {
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
 			while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-				unset($formulardaten);
-				$formulardaten['u_nick'] = $rows['u_nick'];
-				$formulardaten['id'] = $rows['u_id'];
-				$formulardaten['f_text'] = $level[$rows['u_level']];
-				$text .= neuer_freund($u_id, $formulardaten);
+				unset($daten);
+				$daten['u_nick'] = $rows['u_nick'];
+				$daten['id'] = $rows['u_id'];
+				$daten['f_text'] = $level[$rows['u_level']];
+				$text .= neuer_freund($u_id, $daten);
 			}
 		}
 		zeige_freunde($text, "normal", "");

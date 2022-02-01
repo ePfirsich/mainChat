@@ -43,13 +43,13 @@ $t['raum_erlaubt'] = "Erlaubt";
 $t['raum_verboten'] = "Verboten";
 $t['raum_punkt'] = "Punkt";
 $t['raum_punkte'] = "Punkte";
-$t['raum_wirklich_loeschen'] = "<b>Diesen Raum wirklich löschen?</b>";
+$t['raeume_raum_loeschen'] = "Raum löschen";
+$t['raeume_raum_wirklich_loeschen'] = "<b>Diesen Raum wirklich löschen?</b>";
+$t['raeume_zurueck'] = "Zurück";
 
 $t['raum_loeschen'] = "Löschen";
 $t['raum_speichern'] = "Speichern";
 
-$t['sonst5'] = "Zurück";
-$t['sonst6'] = "Raum löschen";
 
 $t['fehler4'] = "<b>$chat:</b> Raum %r_name% wurde gelöscht und Sie in die Lobby geworfen!";
 ?>

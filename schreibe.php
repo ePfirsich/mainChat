@@ -14,9 +14,9 @@ if( $aktion == "") {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 }
 
-$text = filter_input(INPUT_POST, 'text');
+$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
 if( $text == '') {
-	$text = filter_input(INPUT_GET, 'text');
+	$text = filter_input(INPUT_GET, 'text', FILTER_SANITIZE_STRING);
 }
 
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);

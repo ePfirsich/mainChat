@@ -6,22 +6,22 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 
 // Erklärung zu den Befehlen
 $text = '';
-$box = $t['hilfe0'];
+$box = $t['hilfe_uebersicht_befehle'];
 
 // Tabelle ausgeben
 reset($hilfe_befehlstext);
 $anzahl = count($hilfe_befehlstext);
 $i = 0;
 
-$text .= "<div style=\"text-align:center;\">$t[hilfe1]</div>";
+$text .= "<div style=\"text-align:center;\">$t[hilfe_allgemeines_format]</div>";
 
 // Befehle für alle Benutzer
 $text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe19]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe20]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_befehl]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_funktion]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_aliase]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_anmerkung]</td>";
 $text .= "</tr>\n";
 
 while ($i < $anzahl) {
@@ -59,20 +59,19 @@ while ($i < $anzahl) {
 $text .= "</table>\n";
 
 if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
-	
 	reset($hilfe_befehlstext_admin);
 	$anzahl = count($hilfe_befehlstext_admin);
 	$i = 0;
 	
-	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe8]</b></div>";
+	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe_zusaetzliche_befehle]</b></div>";
 	
 	// Befehle für Admins
 	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe17]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe18]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe19]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe20]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_befehl]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_funktion]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_aliase]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_anmerkung]</td>";
 	
 	while ($i < $anzahl) {
 		// Farben umschalten

@@ -322,7 +322,7 @@ switch ($aktion) {
 			if (!$row['r_name'] || $row['r_name'] == "NULL") {
 				$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 			} else {
-				$larr[$i]['r_name'] = $t['sonst42'] . $row['r_name'];
+				$larr[$i]['r_name'] = $t['benutzer_raum'] . $row['r_name'];
 			}
 			
 			// Spezialbehandlung für Admins
@@ -346,34 +346,36 @@ switch ($aktion) {
 		
 		// Fehlerbehandlung, falls Arry leer ist -> nichts gefunden
 		if (!$rows && $schau_raum > 0) {
+			$box = $t['benutzer_raum'];
 			
 			$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) != 0) {
 				$r_name = mysqli_result($result, 0, 0);
 			}
-			echo "<p>" . str_replace("%r_name%", $r_name, $t['sonst13']) . "</p>\n";
+			$fehlermeldung = str_replace("%r_name%", $r_name, $t['benutzer_raum_leer']);
+			
+			$text .= hinweis($fehlermeldung, "fehler");
 		} elseif (!$rows && $schau_raum < 0) {
+			$box = $t['benutzer_raum'];
 			
-			echo "<p>"
-				. str_replace("%whotext%", $whotext[($schau_raum * (-1))],
-					$t['sonst43']) . "</p>\n";
-			
+			$fehlermeldung = str_replace("%whotext%", $whotext[($schau_raum * (-1))], $t['benutzer_raum_niemand']);
+			$text .= hinweis($fehlermeldung, "fehler");
 		} else { // array ist gefüllt -> Daten ausgeben
-			$box = $t['sonst54'];
-			$text = '';
-			$text .= "<b>" . $larr[0]['r_name'] . "</b><br>" . ($larr[0]['r_topic'] ? "<span class=\"smaller\">Topic: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";
+			$box = $larr[0]['r_name'];
+			
+			$text .= ($larr[0]['r_topic'] ? "<span class=\"smaller\">$t[benutzer_raum_topic]: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";
 			
 			// Benutzerliste ausgeben
 			$text .= user_liste($larr, false);
 			
-			$text .= "<p style=\"text-align:center;\" class=\"smaller\">" . $t['sonst12'] . "</p>";
+			$text .= '<br>';
 			
 			zeige_tabelle_zentriert($box, $text);
 			
 			// Raumauswahl
 			$text = '';
-			$box = $t['sonst14'];
+			$box = $t['benutzer_raum_anderen_raum_zeigen'];
 			
 			$text .= "<form name=\"raum\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">";
 			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
@@ -386,9 +388,9 @@ switch ($aktion) {
 			$text .= "</select>";
 			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[benutzer_absenden]\">";
 			$text .= "</form>";
-			
-			// Box anzeigen
-			zeige_tabelle_zentriert($box, $text);
 		}
+		
+		// Box anzeigen
+		zeige_tabelle_zentriert($box, $text);
 }
 ?>

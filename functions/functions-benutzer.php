@@ -276,7 +276,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
 			$value .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[benutzer_ignorieren]</a>]<br>\n";
 			$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&formulardaten_nick=$uu_nick";
+			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&daten_nick=$uu_nick";
 			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
 			$value .= "[<a href=\"$mlnk[8]\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n"
 			. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
@@ -296,7 +296,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				$value .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[benutzer_knebeln]</a>]<br>\n"
 				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[benutzer_kicken]</a>]<br>\n"
 				. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&formulardaten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
 			}
 			
 			$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);

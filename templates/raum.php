@@ -17,7 +17,7 @@ if ($los != "$t[raum_speichern]" && $loesch == "$t[raum_loeschen]") {
 }
 
 // Raum löschen abgebrochen
-if ($loesch2 == "$t[sonst5]") {
+if ($loesch2 == $t['raeume_zurueck']) {
 	$aktion = "";
 }
 
@@ -98,7 +98,7 @@ switch ($aktion) {
 			$row = mysqli_fetch_object($result);
 			
 			// Kopf Tabelle
-			$box = $t['sonst6'];
+			$box = $t['raeume_raum_loeschen'];
 			$zaehler = 0;
 			$text .= "<table style=\"width:100%;\">\n";
 			
@@ -128,15 +128,13 @@ switch ($aktion) {
 				$bgcolor = 'class="tabelle_zeile1"';
 			}
 			$text .= "<tr>";
-			$text .= "<td $bgcolor colspan=\"2\">$t[raum_wirklich_loeschen]<br>\n";
-			$text .= "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n"
-				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"r_id\" value=\"$row->r_id\">\n"
-				. "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">"
-				. "<input type=\"submit\" name=\"loesch2\" value=\"$t[raum_loeschen]\">"
-				. "&nbsp;"
-				. "<input type=\"submit\" name=\"loesch2\" value=\"$t[sonst5]\">"
-				. "</form>\n";
+			$text .= "<td $bgcolor colspan=\"2\">$t[raeume_raum_wirklich_loeschen]<br>\n";
+			$text .= "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
+			$text .= "<input type=\"hidden\" name=\"r_id\" value=\"$row->r_id\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">\n";
+			$text .= "<input type=\"submit\" name=\"loesch2\" value=\"$t[raum_loeschen]\">&nbsp;<input type=\"submit\" name=\"loesch2\" value=\"$t[raeume_zurueck]\">\n";
+			$text .= "</form>\n";
 			$text .= "</td>\n";
 			$text .= "</tr>\n";
 			$zaehler++;

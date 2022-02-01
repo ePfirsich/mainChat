@@ -5,13 +5,13 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 }
 
 $text = $hilfe_spruchtext;
-$box = $t['hilfe3'];
+$box = $t['hilfe_sprueche'];
 
 zeige_tabelle_zentriert($box, $text);
 
 // Liste mit Sprüchen ausgeben
 $text = "<br>";
-$box = $t['hilfe4'];
+$box = $t['hilfe_uebersicht_sprueche'];
 
 // Sprüche in Array einlesen
 $spruchliste = file("conf/$datei_spruchliste");
@@ -23,9 +23,9 @@ $i = 0;
 // Sprüche ausgeben
 $text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe21]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:center;\">$t[hilfe22]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe23]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_spruch]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:center;\">$t[hilfe_typ]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_text]</td>";
 $text .= "</tr>\n";
 
 while ($i < $anzahl) {

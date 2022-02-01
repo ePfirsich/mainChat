@@ -40,4 +40,6 @@ $t['freunde_fehlermeldung_selbst_als_freund'] = "Sie können sich nicht selbst a
 $t['freunde_fehlermeldung_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
 $t['freunde_fehlermeldung_benutzer_nicht_vorhanden'] = "Der Benutzername '%u_nick%' existiert nicht!<br>";
 $t['freunde_fehlermeldung_benutzer_loeschen_nicht_moeglich'] = "Der Benutzer konnte nicht als Freund gelöscht werden!<br>";
+
+$t['freunde_alle_auswaehlen'] = "Alle Auswählen";
 ?>

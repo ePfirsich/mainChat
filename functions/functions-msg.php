@@ -1541,14 +1541,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						} else {
 							if ($freunddazu == 1) {
 								// Benutzer ist noch kein Freund -> hinzufügen
-								unset($formulardaten);
-								$formulardaten['id'] = $nick['u_id'];
-								$formulardaten['u_nick'] = $nick['u_nick'];
+								unset($daten);
+								$daten['id'] = $nick['u_id'];
+								$daten['u_nick'] = $nick['u_nick'];
 								if (strlen($text) > 1) {
-									$formulardaten['f_text'] = $text;
+									$daten['f_text'] = $text;
 								}
 								
-								$text = neuer_freund($u_id, $formulardaten);
+								$text = neuer_freund($u_id, $daten);
 								# system_msg("",0,$u_id,$system_farbe,str_replace("%u_nick%",$nick[u_nick],$t[chat_msg83]));
 								system_msg("", 0, $u_id, $system_farbe, $text);
 							} else if ($freunddazu == -1) {
@@ -1582,8 +1582,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_userid ";
 								$result2 = sqlQuery($query);
 						} else if ($row->f_freundid != $u_id) {
-							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-								. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
+							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') as login, "
 								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_freundid ";
 								$result2 = sqlQuery($query);
 						}

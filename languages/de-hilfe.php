@@ -7,20 +7,20 @@ $t['hilfe_menue5'] = "Liste aller Befehle";
 $t['hilfe_menue6'] = "Liste aller Sprüche";
 $t['hilfe_menue7'] = "Punkte/Community";
 
-$t['hilfe0'] = "Übersicht über alle Befehle im Chat";
-$t['hilfe1'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";
-$t['hilfe3'] = "Hilfe zu den voreingestellten Sprüchen";
-$t['hilfe4'] = "Übersicht über alle voreingestellten Sprüche";
-$t['hilfe6'] = "Hilfe";
-$t['hilfe8'] = "Zusätzliche Befehle für Admins";
-$t['hilfe11'] = "Community: Punkte, Profil, Mail, Freunde und Benutzerseite";
-$t['hilfe17'] = "Befehl";
-$t['hilfe18'] = "Funktion";
-$t['hilfe19'] = "Aliase";
-$t['hilfe20'] = "Anmerkungen";
-$t['hilfe21'] = "Spruch";
-$t['hilfe22'] = "Typ";
-$t['hilfe23'] = "Text";
+$t['hilfe_uebersicht_befehle'] = "Übersicht über alle Befehle im Chat";
+$t['hilfe_allgemeines_format'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";
+$t['hilfe_sprueche'] = "Hilfe zu den voreingestellten Sprüchen";
+$t['hilfe_uebersicht_sprueche'] = "Übersicht über alle voreingestellten Sprüche";
+$t['hilfe_hilfe'] = "Hilfe";
+$t['hilfe_zusaetzliche_befehle'] = "Zusätzliche Befehle für Admins";
+$t['hilfe_community'] = "Community: Punkte, Profil, Mail, Freunde und Benutzerseite";
+$t['hilfe_befehl'] = "Befehl";
+$t['hilfe_funktion'] = "Funktion";
+$t['hilfe_aliase'] = "Aliase";
+$t['hilfe_anmerkung'] = "Anmerkungen";
+$t['hilfe_spruch'] = "Spruch";
+$t['hilfe_typ'] = "Typ";
+$t['hilfe_text'] = "Text";
 
 // Ausführlicher Hilfstext für die interaktive Hilfe
 $hilfe_befehlstext = array(

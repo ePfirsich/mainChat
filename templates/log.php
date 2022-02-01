@@ -19,15 +19,14 @@ if (!isset($sysmsg)) {
 	$sysmsg = 0;
 }
 if ($sysmsg) {
-	$umschalturl = "<a href=\"inhalt.php?bereich=log&id=$id&sysmsg=0\">" . $t['sonst3'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?bereich=log&id=$id&sysmsg=0\">" . $t['log_systemnachrichten_unterdruecken'] . "</a>";
 } else {
-	$umschalturl = "<a href=\"inhalt.php?bereich=log&id=$id&sysmsg=1\">" . $t['sonst2'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?bereich=log&id=$id&sysmsg=1\">" . $t['log_systemnachrichten_anzeigen'] . "</a>";
 }
 
 // Link zum Abspeichern
 if ($aktion != "abspeichern") {
-	echo "<div style=\"text-align:center;\" class=\"smaller\"><b>[<a href=\"inhalt.php?bereich=log&id=$id&aktion=abspeichern&sysmsg=$sysmsg\">"
-		. $t['sonst1'] . "</a>]&nbsp;[$umschalturl]</b></div><br>\n";
+	echo "<div style=\"text-align:center;\" class=\"smaller\"><b>[<a href=\"inhalt.php?bereich=log&id=$id&aktion=abspeichern&sysmsg=$sysmsg\">" . $t['log_abspeichern'] . "</a>]&nbsp;[$umschalturl]</b></div><br>\n";
 	flush();
 }
 

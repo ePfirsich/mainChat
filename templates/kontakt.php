@@ -67,7 +67,6 @@ if($formular == 1) {
 		$kontakt_nachricht = "";
 		$kontakt_frage = "";
 	}
-	
 }
 
 $text .= $t['kontakt_beschreibung'];

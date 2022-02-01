@@ -156,31 +156,31 @@ switch ($aktion) {
 		
 	case "blacklist_neu":
 		// Formular für neuen Eintrag ausgeben
-		formular_neuer_blacklist("", $formulardaten);
+		formular_neuer_blacklist("", $daten);
 		break;
 		
 	case "blacklist_neu2":
 		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
-		$formulardaten['u_nick'] = escape_string($formulardaten['u_nick']);
-		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$formulardaten[u_nick]'";
+		$daten['u_nick'] = escape_string($daten['u_nick']);
+		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$daten[u_nick]'";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
-			$formulardaten['id'] = mysqli_result($result, 0, 0);
-			$text .= neuer_blacklist_eintrag($u_id, $formulardaten);
-			unset($formulardaten);
-			$formulardaten[] = "";
+			$daten['id'] = mysqli_result($result, 0, 0);
+			$text .= neuer_blacklist_eintrag($u_id, $daten);
+			unset($daten);
+			$daten[] = "";
 			
 			zeige_blacklist($text, "normal", "", $sort);
-		} else if ($formulardaten['u_nick'] == "") {
+		} else if ($daten['u_nick'] == "") {
 			$fehlermeldung = $t['sperren_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neuer_blacklist($text, $formulardaten);
+			formular_neuer_blacklist($text, $daten);
 		} else {
-			$fehlermeldung = str_replace("%u_nick%", $formulardaten['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['sperren_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			formular_neuer_blacklist($text, $formulardaten);
+			formular_neuer_blacklist($text, $daten);
 		}
 		mysqli_free_result($result);
 		break;
@@ -252,37 +252,56 @@ switch ($aktion) {
 				// Kopf Tabelle
 				$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 				$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
+				$text .= "<input type=\"hidden\" name=\"is_id\" value=\"$is_id\">\n";
+				$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 				
-				$box = $t['sonst18'];
+				$box = $t['sperren_aendern'];
 				
 				$text .= "<table style=\"width:100%\">\n";
 				
-				// Infotext
-				$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst19]</b></td>";
-				$text .= "<td class=\"tabelle_zeile1\">"
-					. "<input type=\"text\" name=\"is_infotext\" value=\"$row->is_infotext\" size=\"24\">"
-					. "</td></tr>\n";
+				
+				// Grund der Sperre
+				$text .= zeige_formularfelder("input", $zaehler, $t['sperren_grund_der_sperre'], "is_infotext", $row->is_infotext);
+				$zaehler++;
+				
 				
 				// Domain/IP-Adresse
 				if (strlen($row->is_domain) > 0) {
-					$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst11]</b></td>";
-					$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"is_domain\" value=\"$row->is_domain\" size=\"24\">\n";
+					// Domain
+					$text .= zeige_formularfelder("input", $zaehler, $t['sperren_domain'], "is_domain", $row->is_domain);
+					$zaehler++;
 				} else {
-					$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst12]</b></td>";
-					$text .= "<td class=\"tabelle_zeile2\">"
-						. "<input type=\"text\" name=\"ip1\" "
-						. "value=\"$ip[0]\" size=\"3\" maxlength=\"3\"><b>.</b>"
-						. "<input type=\"text\" name=\"ip2\" "
-						. "value=\"$ip[1]\" size=\"3\" maxlength=\"3\"><b>.</b>"
-						. "<input type=\"text\" name=\"ip3\" "
-						. "value=\"$ip[2]\" size=\"3\" maxlength=\"3\"><b>.</b>"
-						. "<input type=\"text\" name=\"ip4\" "
-						. "value=\"$ip[3]\" size=\"3\" maxlength=\"3\"></td></tr>\n";
+					// IP-Adresse
+					if ($zaehler % 2 != 0) {
+						$bgcolor = 'class="tabelle_zeile2"';
+					} else {
+						$bgcolor = 'class="tabelle_zeile1"';
+					}
+					
+					$text .= "<tr>\n";
+					$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['sperren_ip_adresse'] . "</td>\n";
+					$text .= "<td $bgcolor>";
+					$text .= "<input type=\"text\" name=\"ip1\" value=\"$ip[0]\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+					$text .= "<input type=\"text\" name=\"ip2\" value=\"$ip[1]\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+					$text .= "<input type=\"text\" name=\"ip3\" value=\"$ip[2]\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+					$text .= "<input type=\"text\" name=\"ip4\" value=\"$ip[3]\" size=\"3\" maxlength=\"3\">\n";
+					$text .= "</td>\n";
+					$text .= "</tr>\n";
+					$zaehler++;
 				}
 				
-				// Warnung ja/nein
-				$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst22]</b></td><td class=\"tabelle_zeile1\">"
-					. "<select name=\"is_warn\">";
+				
+				// Art
+				if ($zaehler % 2 != 0) {
+					$bgcolor = 'class="tabelle_zeile2"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile1"';
+				}
+				
+				$text .= "<tr>\n";
+				$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['sperren_art_warnung'] . "</td>\n";
+				$text .= "<td $bgcolor>";
+				$text .= "<select name=\"is_warn\">";
 				if ($row->is_warn == "ja") {
 					$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
 					$text .= "<option value=\"nein\">$t[sperren_sperre]";
@@ -290,15 +309,26 @@ switch ($aktion) {
 					$text .= "<option value=\"ja\">$t[sperren_warnung]";
 					$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 				}
-				$text .= "</select>";
+				$text .= "</select>\n";
+				$text .= "</td>\n";
+				$text .= "</tr>\n";
+				$zaehler++;
 				
-				// Submitknopf
-				$text .= "&nbsp;<b><input type=\"submit\" value=\"$t[sperren_eintragen]\"></b></td></tr>\n";
+				
+				// Eintragen
+				if ($zaehler % 2 != 0) {
+					$bgcolor = 'class="tabelle_zeile2"';
+				} else {
+					$bgcolor = 'class="tabelle_zeile1"';
+				}
+				$text .= "<tr>";
+				$text .= "<td $bgcolor>&nbsp;</td>\n";
+				$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[sperren_eintragen]\"></td>\n";
+				$text .= "</tr>\n";
+				
+				
 				$text .= "</table>\n";
-				
-				$text .= "<input type=\"hidden\" name=\"is_id\" value=\"$is_id\">\n"
-					. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-					$text .= "</form>\n";
+				$text .= "</form>\n";
 			}
 			mysqli_free_result($result);
 		} else {
@@ -338,27 +368,56 @@ switch ($aktion) {
 		
 		// Sperre neu anlegen, Eingabeformular
 		$box = $t['sperren_neue_zugangssperre'];
+		$zaehler = 0;
 		
 		$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 		
 		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
-		$text .= $t['sonst15'] . "<br>\n";
+		$text .= $t['sperren_nur_eine_zeile_ausfuellen'] . "<br>\n";
 		$text .= "<table style=\"width:100%\">\n";
 		
-		$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst19]</b></td>";
-		$text .= "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"is_infotext\" value=\"$f[is_infotext]\" size=\"24\"></td></tr>\n";
 		
-		$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst11]</b></td>";
-		$text .= "<td class=\"tabelle_zeile2\"><input type=\"text\" name=\"is_domain\" value=\"$f[is_domain]\" size=\"24\"></td></tr>\n";
+		// Grund der Sperre
+		$text .= zeige_formularfelder("input", $zaehler, $t['sperren_grund_der_sperre'], "is_infotext", $f['is_infotext']);
+		$zaehler++;
 		
-		$text .= "<tr><td class=\"tabelle_zeile1\"><b>$t[sonst12]</b></td>";
-		$text .= "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"ip1\" value=\"$ip1\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip2\" value=\"$ip2\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip3\" value=\"$ip3\" size=\"3\" maxlength=\"3\"><b>.</b>"
-			. "<input type=\"text\" name=\"ip4\" value=\"$ip4\" size=\"3\" maxlength=\"3\"></td></tr>\n";
 		
-		$text .= "<tr><td class=\"tabelle_zeile2\"><b>$t[sonst22]</b></td><td class=\"tabelle_zeile2\"><select name=\"is_warn\">";
+		// Domain
+		$text .= zeige_formularfelder("input", $zaehler, $t['sperren_domain'], "is_domain", $f['is_domain']);
+		$zaehler++;
+		
+		
+		// IP-Adresse
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		
+		$text .= "<tr>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['sperren_ip_adresse'] . "</td>\n";
+		$text .= "<td $bgcolor>";
+		$text .= "<input type=\"text\" name=\"ip1\" value=\"$ip1\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+		$text .= "<input type=\"text\" name=\"ip2\" value=\"$ip2\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+		$text .= "<input type=\"text\" name=\"ip3\" value=\"$ip3\" size=\"3\" maxlength=\"3\"><b>.</b>\n";
+		$text .= "<input type=\"text\" name=\"ip4\" value=\"$ip4\" size=\"3\" maxlength=\"3\">\n";
+		$text .= "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		
+		// Art
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		
+		$text .= "<tr>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['sperren_art_warnung'] . "</td>\n";
+		$text .= "<td $bgcolor>";
+		$text .= "<select name=\"is_warn\">";
 		if (isset($f['is_warn']) && $f['is_warn'] == "ja") {
 			$text .= "<option selected value=\"ja\">$t[sperren_warnung]";
 			$text .= "<option value=\"nein\">$t[sperren_sperre]";
@@ -366,11 +425,25 @@ switch ($aktion) {
 			$text .= "<option value=\"ja\">$t[sperren_warnung]";
 			$text .= "<option selected value=\"nein\">$t[sperren_sperre]";
 		}
-		$text .= "</select>&nbsp;&nbsp;&nbsp;"
-			. "<b><input type=\"submit\" value=\"$t[sperren_eintragen]\"></b>\n"
-			. "</td></tr>\n";
-		$text .= "</table>\n";
+		$text .= "</select>\n";
+		$text .= "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
 		
+		
+		// Eintragen
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>";
+		$text .= "<td $bgcolor>&nbsp;</td>\n";
+		$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[sperren_eintragen]\"></td>\n";
+		$text .= "</tr>\n";
+		
+		
+		$text .= "</table>\n";
 		$text .= "</form>\n";
 		
 		zeige_tabelle_zentriert($box, $text);
