@@ -398,25 +398,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 function show_thema() {
 	global $id, $forum_admin, $th_id, $seite;
 	global $anzahl_po_seite, $chat_grafik, $t;
-	global $admin, $anzahl_po_seite2, $u_id, $locale;
-	
-	if ($anzahl_po_seite2) {
-		$anzahl_po_seite2 = preg_replace("/[^0-9]/", "", $anzahl_po_seite2);
-		$anzahl_po_seite = $anzahl_po_seite2;
-		
-		$f[u_forum_postingproseite] = $anzahl_po_seite2;
-		
-		if (!schreibe_db("user", $f, $u_id, "u_id")) {
-			echo "Fehler beim Schreiben in DB!";
-		}
-		
-	} else {
-		$query = "SELECT `u_forum_postingproseite` FROM `user` WHERE `u_id` = '$u_id'";
-		$result = sqlQuery($query);
-		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$anzahl_po_seite2 = $a['u_forum_postingproseite'];
-		$anzahl_po_seite = $anzahl_po_seite2;
-	}
+	global $admin, $u_id, $locale;
 	
 	$leserechte = pruefe_leserechte($th_id);
 	

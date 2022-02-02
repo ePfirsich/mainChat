@@ -150,9 +150,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	}
 	$user_id = schreibe_db("user", $f, $user_id, "u_id");
 	if (!$user_id) {
-		echo "Fataler Fehler beim Login:<PRE>";
-		print_r($f);
-		echo "</PRE>";
+		email_senden($kontakt_email, $kontakt_betreff, "Fataler Fehler beim Login:<PRE>" . print_r($f) . "</PRE>");
 		exit;
 	}
 	
@@ -161,7 +159,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
-		echo "Fehler beim Login (iignore): $query<br>";
+		email_senden($kontakt_email, $kontakt_betreff, "Fehler beim Login (iignore): $query<br>");
 		exit;
 	} else {
 		if (mysqli_num_rows($result) == 0) {

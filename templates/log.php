@@ -11,8 +11,8 @@ if($sysmsg == "") {
 }
 
 // Voreinstellungen
-// Trigger für die Ausgabe der letzten 250 Nachrichten setzen
-$anzahl_der_nachrichten = 250;
+// Trigger für die Ausgabe der letzten 300 Nachrichten setzen
+$anzahl_der_nachrichten = 300;
 
 // Admins: Trigger für die Ausgabe der letzten 1000 Nachrichten setzen
 if ($admin) {

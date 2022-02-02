@@ -105,7 +105,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				$pmu = sqlUpdate($query, true);
 			}
 			
-			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"250\" value=\"\" type=\"text\">"
+			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"1000\" value=\"\" type=\"text\">"
 				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
 				. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
 				. "<input type=\"submit\" value=\"Go!\">";

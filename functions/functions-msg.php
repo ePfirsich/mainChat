@@ -1254,7 +1254,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$num = mysqli_num_rows($result);
 						mysqli_free_result($result);
 						
-						#system_msg("",$u_id,$u_id,$system_farbe,"num: $num");
 						if ($num == 0) {
 							priv_msg($u_nick, $u_id, $nick['u_id'], $u_farbe, $text, $userdata);
 							system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg24] $nick[u_nick]:</b> $text");

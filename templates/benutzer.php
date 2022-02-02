@@ -163,8 +163,9 @@ switch ($aktion) {
 			for ($i = 1; $i < count($where); $i++) {
 				if ($where[$i]) {
 					$query .= "UNION " . $select . $where[$i];
-					if ($subquery)
+					if ($subquery) {
 						$query .= " AND " . $subquery;
+					}
 				}
 			}
 			$query .= $sortierung;
