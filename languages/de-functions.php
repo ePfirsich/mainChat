@@ -6,6 +6,8 @@ $t['functions_fehler_keine_datenbankverbindung'] = "Beim Zugriff auf die Datenba
 
 $t['hinweis_fehler'] = "Fehler";
 $t['hinweis_erfolgreich'] = "Erfolgreich";
+$t['hinweis_hinweis'] = "Hinweis";
+$t['hinweis_hinweis_abwesend'] = "Der Benutzer ist momentan aus folgendem Grund abwesend:";
 
 $t['sql_update_fehlgeschlagen'] = "Update fehlgeschlagen";
 $t['sql_update_keine_aendern'] = "Update hat keine Zeilen aktualisiert";

@@ -37,6 +37,14 @@ a:hover {
 	background-color: var(--Fehler-Farbe);
 }
 
+.hinweis {
+	border: 0px;
+	padding: 10px 20px 10px 20px;
+	position: relative;
+	border-radius: 3px;
+	background-color: var(--Hinweis-Farbe);
+}
+
 .smaller {
 	font-size: smaller;
 }

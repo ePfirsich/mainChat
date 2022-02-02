@@ -53,6 +53,11 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 		}
 		
+		if ($uu_away != "") {
+			$hinweis = "<b>" . $t['hinweis_hinweis_abwesend'] . "</b> " . $uu_away;
+			$text .= hinweis($hinweis, "hinweis");
+		}
+		
 		// Ausgabe des Benutzers
 		$zaehler = 0;
 		$text .= "<table style=\"width:100%;\">";
@@ -130,9 +135,6 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Benutzername
 		$value = zeige_userdetails($ui_id, $row);
-		if ($uu_away != "") {
-			$value .= "<br>($uu_away)";
-		}
 		$text .= zeige_formularfelder("text", $zaehler, "<b>".$t['benutzer_benutzername']."</b>", "", $value);
 		$zaehler++;
 		

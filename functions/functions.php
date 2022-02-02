@@ -941,18 +941,20 @@ function zeige_userdetails(
 		}
 		
 	} else {
-		echo "<p><b>Fehler:</b> Falscher Aufruf von zeige_userdetails() für den Benutzer ";
+		$nachricht = "<p><b>Fehler:</b> Falscher Aufruf von zeige_userdetails() für den Benutzer ";
 		if (isset($zeige_user_id)) {
-			echo $zeige_user_id;
+			$nachricht .= $zeige_user_id;
 		}
 		if (isset($userdaten['u_id'])) {
-			echo $userdaten['u_id'];
+			$nachricht .= $userdaten['u_id'];
 		}
 		if (isset($userdaten->u_id)) {
-			echo $userdaten->u_id;
+			$nachricht .= $userdaten->u_id;
 		}
-		echo "</p>";
+		$nachricht .= "</p>";
 		
+		global $kontakt_email, $kontakt_betreff;
+		email_senden($kontakt_email, $kontakt_betreff, $nachricht);
 		return "";
 	}
 	
@@ -968,7 +970,10 @@ function zeige_userdetails(
 	}
 	
 	if ($user_id != $zeige_user_id) {
-		echo "<p><b>Fehler: </b> $user_id!=$zeige_user_id</p>\n";
+		$nachricht = "<p><b>Fehler: </b> $user_id!=$zeige_user_id</p>\n";
+		
+		global $kontakt_email, $kontakt_betreff;
+		email_senden($kontakt_email, $kontakt_betreff, $nachricht);
 		return "";
 	}
 	
@@ -1318,7 +1323,7 @@ function logout($o_id, $u_id) {
 		}
 		
 		$query = "UPDATE user SET u_punkte_monat=u_punkte_monat+" . intval($u_punkte) . ", u_punkte_jahr=u_punkte_jahr+" . intval($u_punkte) . ", "
-		. "u_punkte_gesamt=u_punkte_gesamt+" . intval($u_punkte) . $knebelzeit . " " . "WHERE u_id=$u_id";
+		. "u_punkte_gesamt=u_punkte_gesamt+" . intval($u_punkte) . $knebelzeit . ", u_away = '' WHERE u_id=$u_id";
 		$result2 = sqlUpdate($query, true);
 	}
 	mysqli_free_result($result);
@@ -1696,8 +1701,10 @@ function hinweis($text, $typ = fehler) {
 	
 	if($typ == "fehler") {
 		return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
+	} else if($typ == "erfolgreich") {
+			return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
 	} else {
-		return "<p class=\"erfolgreich\"><span class=\"fa fa-check-square icon24\" alt=\"$t[hinweis_erfolgreich]\" title=\"$t[hinweis_erfolgreich]\"></span> $text</p>\n";
+		return "<p class=\"hinweis\"><span class=\"fa fa-info icon24\" alt=\"$t[hinweis_hinweis]\" title=\"$t[hinweis_hinweis]\"></span> $text</p>\n";
 	}
 }
 ?>
