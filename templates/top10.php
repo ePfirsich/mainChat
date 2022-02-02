@@ -77,7 +77,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 	$f['t_eintrag'] = 1;
 	$f['t_daten'] = isset($array_user) ? serialize($array_user) : null;
 	$t_id = schreibe_db("top10cache", $f, 0, "t_id");
-	$query = "DELETE FROM top10cache WHERE t_eintrag=1 AND t_id!='$t_id'";
+	$query = "DELETE FROM top10cache WHERE t_eintrag=1 AND t_id !='$t_id'";
 	$result = sqlUpdate($query);
 }
 

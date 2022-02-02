@@ -286,14 +286,14 @@ CREATE TABLE mail (
 	KEY m_von_uid (m_von_uid),
 	KEY m_an_uid (m_an_uid),
 	KEY m_geloescht_ts (m_an_uid,m_status,m_geloescht_ts)
-) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE mail_check (
 	email varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	datum date NOT NULL default '0000-00-00',
 	u_id int(11) NOT NULL default '0',
 	PRIMARY KEY	(email)
-) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE moderation (
 	c_id int(11) unsigned NOT NULL auto_increment,
@@ -311,7 +311,7 @@ CREATE TABLE moderation (
 	KEY c_raum (c_raum),
 	KEY c_von_user_id (c_von_user_id),
 	KEY c_moderator (c_moderator)
-) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE online (
 	`o_id` int(11) unsigned NOT NULL default '0',
@@ -403,7 +403,7 @@ CREATE TABLE top10cache (
 	t_eintrag int(11) unsigned NOT NULL default '1',
 	t_daten mediumblob,
 	PRIMARY KEY	(t_id)
-) ENGINE=MyISAM CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE user (
 	`u_id` int(11) unsigned NOT NULL auto_increment,

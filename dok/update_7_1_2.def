@@ -14,8 +14,12 @@ ALTER TABLE `forum_kategorien` engine = InnoDB;
 ALTER TABLE `freunde` engine = InnoDB;
 ALTER TABLE `iignore` engine = InnoDB;
 ALTER TABLE `ip_sperre` engine = InnoDB;
+ALTER TABLE `mail` engine = InnoDB;
+ALTER TABLE `mail_check` engine = InnoDB;
+ALTER TABLE `moderation` engine = InnoDB;
 ALTER TABLE `raum` engine = InnoDB;
 ALTER TABLE `sperre` engine = InnoDB;
+ALTER TABLE `top10cache` engine = InnoDB;
 ALTER TABLE `user` engine = InnoDB;
 ALTER TABLE `userinfo` engine = InnoDB;
 
