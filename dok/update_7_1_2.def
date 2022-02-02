@@ -16,6 +16,7 @@ ALTER TABLE `iignore` engine = InnoDB;
 ALTER TABLE `ip_sperre` engine = InnoDB;
 ALTER TABLE `raum` engine = InnoDB;
 ALTER TABLE `sperre` engine = InnoDB;
+ALTER TABLE `user` engine = InnoDB;
 ALTER TABLE `userinfo` engine = InnoDB;
 
 ALTER TABLE `user` DROP `u_forum_postingproseite`;

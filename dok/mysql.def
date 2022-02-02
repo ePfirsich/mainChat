@@ -453,7 +453,7 @@ CREATE TABLE user (
 	KEY u_level (u_level),
 	KEY u_email (u_email),
 	FULLTEXT KEY u_ip_historie (u_ip_historie)
-) ENGINE=MyISAM PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB PACK_KEYS=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE userinfo (
 	`ui_id` int(11) NOT NULL auto_increment,
