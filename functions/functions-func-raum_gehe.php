@@ -22,6 +22,10 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	}
 	
 	// Ist Benutzer aus dem Raum ausgesperrt?
+	if($user_id == null || $user_id == "") {
+		global $kontakt_email;
+		email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-alt: " . $raum_alt . " Raum-neu: " . $raum_neu . " Online-ID: " . $o_id);
+	}
 	$query = "SELECT s_id FROM sperre WHERE s_raum = $raum_neu AND s_user=$u_id";
 	$result = sqlQuery($query);
 	$rows = @mysqli_num_rows($result);

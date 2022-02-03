@@ -941,7 +941,7 @@ function zeige_userdetails(
 		}
 		
 	} else {
-		$nachricht = "<p><b>Fehler:</b> Falscher Aufruf von zeige_userdetails() für den Benutzer ";
+		$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
 		if (isset($zeige_user_id)) {
 			$nachricht .= $zeige_user_id;
 		}
@@ -953,8 +953,8 @@ function zeige_userdetails(
 		}
 		$nachricht .= "</p>";
 		
-		global $kontakt_email, $kontakt_betreff;
-		email_senden($kontakt_email, $kontakt_betreff, $nachricht);
+		global $kontakt_email;
+		email_senden($kontakt_email, "Fehler: Falscher Aufruf von zeige_userdetails()", $nachricht);
 		return "";
 	}
 	
@@ -970,10 +970,10 @@ function zeige_userdetails(
 	}
 	
 	if ($user_id != $zeige_user_id) {
-		$nachricht = "<p><b>Fehler: </b> $user_id!=$zeige_user_id</p>\n";
+		$nachricht = "Fehler: $user_id!=$zeige_user_id</p>\n";
 		
-		global $kontakt_email, $kontakt_betreff;
-		email_senden($kontakt_email, $kontakt_betreff, $nachricht);
+		global $kontakt_email;
+		email_senden($kontakt_email, "Fehler", $nachricht);
 		return "";
 	}
 	

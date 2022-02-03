@@ -150,7 +150,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	}
 	$user_id = schreibe_db("user", $f, $user_id, "u_id");
 	if (!$user_id) {
-		email_senden($kontakt_email, $kontakt_betreff, "Fataler Fehler beim Login:<PRE>" . print_r($f) . "</PRE>");
+		email_senden($kontakt_email, "Fataler Fehler beim Login", "Fataler Fehler beim Login:<PRE>" . print_r($f) . "</PRE>");
 		exit;
 	}
 	
@@ -159,7 +159,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
-		email_senden($kontakt_email, $kontakt_betreff, "Fehler beim Login (iignore): $query<br>");
+		email_senden($kontakt_email, "Fehler beim Login", "Fehler beim Login (iignore): $query<br>");
 		exit;
 	} else {
 		if (mysqli_num_rows($result) == 0) {
@@ -177,8 +177,8 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
-		global $kontakt_email, $kontakt_betreff;
-		email_senden($kontakt_email, $kontakt_betreff, "Fehler beim Login: $query");
+		global $kontakt_email;
+		email_senden($kontakt_email, "Fehler beim Login", "Fehler beim Login: $query");
 		exit;
 	} else {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -333,7 +333,10 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	
 	if (strlen($raum) > 0) {
 		// Prüfung ob Benutzer aus Raum ausgesperrt ist
-		
+		if($user_id == null || $user_id == "") {
+			global $kontakt_email;
+			email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-ID: " . $raum . " Online-ID: " . $o_id);
+		}
 		$query4711 = "SELECT s_id FROM sperre WHERE s_raum=" . intval($raum) . " AND s_user=$user_id";
 		$result = sqlQuery($query4711);
 		if ($result > 0) {
