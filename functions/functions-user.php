@@ -11,7 +11,7 @@ function user_pm_list($larr) {
 	
 	
 	$text = '';
-		
+	
 	//Wichtiger SQL Teil
 	//SQL Teil für die richtige Berechnung der einzelnen PM Nachrichten
 	$query = "SELECT DISTINCT c_an_user FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id;
@@ -22,14 +22,14 @@ function user_pm_list($larr) {
 	$query = "SELECT DISTINCT c_von_user_id FROM chat WHERE c_typ='P' AND c_an_user=".$u_id;
 	$pmu = sqlQuery($query);
 	$pmuee = mysqli_num_rows($pmu);
-	$pmue = mysqli_fetch_all($pmu);	
-		
+	$pmue = mysqli_fetch_all($pmu);
+	
 	flush();
 	$v = $larr[$k];
 	// Anzeige der Benutzer ohne JavaScript
 	if($pmue22 != 0) {
 		for ($k = 0; $k < $pmue22; $k++) {
-			$pmuea2 = $pmue2[$k][0]; 
+			$pmuea2 = $pmue2[$k][0];
 			
 			//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
 			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id;
@@ -59,7 +59,7 @@ function user_pm_list($larr) {
 		$pxx = false;
 		
 		for ($k = 0; $k < $pmuee; $k++) {
-			$pmuea = $pmue[$k][0]; 
+			$pmuea = $pmue[$k][0];
 			
 			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea;
 			$pmu4 = sqlQuery($query);
@@ -67,14 +67,14 @@ function user_pm_list($larr) {
 			$pmue4 = mysqli_fetch_all($pmu4);
 			
 			for ($k = 0; $k < $pmue22; $k++) {
-				$pmuea2 = $pmue2[$k][0]; 
+				$pmuea2 = $pmue2[$k][0];
 				$pmuea3 = $pmue4[$k][0];
 				
-					if($pmuea == $pmuea2) {
-						$pxx = true;
-						//$pmue44 = "0";
-					}
-			}	
+				if($pmuea == $pmuea2) {
+					$pxx = true;
+					//$pmue44 = "0";
+				}
+			}
 			
 			if(!$pxx) {
 				if ( $k % 2 != 0 ) {
@@ -96,7 +96,7 @@ function user_pm_list($larr) {
 			}
 		}
 	}
-		
+	
 	$text .= "<table style=\"width:100%;\">$trow</table>\n";
 	
 	return $text;
@@ -134,7 +134,7 @@ function user_liste($larr, $seitenleiste = false) {
 		$level2 = "admin";
 	}
 	flush();
-		
+	
 	// Anzeige der Benutzer
 	for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
 		if ( $k % 2 != 0 ) {
