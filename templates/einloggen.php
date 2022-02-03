@@ -8,96 +8,100 @@ if( !isset($bereich)) {
 erzeuge_sequence("online", "o_id");
 erzeuge_sequence("chat", "c_id");
 
-$kein_gastlogin_ausblenden = false;
+$in_den_chat_einloggen = true;
 $text = "";
 
-// Weiter mit dem Login
-if (!isset($passwort) || $passwort == "") {
+// Prüfung, ob dieser Benutzer bereits existiert
+$query = "SELECT `u_id` FROM `user` WHERE `u_nick`='$username'";
+$result = sqlQuery($query);
+
+if (mysqli_num_rows($result) == 0) {
 	// Login als Gast
-	if ($gast_login) {
-		$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
-		$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
-		// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
-		$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $http_user_agent . "' AND o_ip='" . $remote_addr . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-			$result = sqlQuery($query4711);
-		if ($result) {
-			$rows = mysqli_num_rows($result);
-		}
-		mysqli_free_result($result);
-	}
-	
-	// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
-	if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
-		// Gäste sind gesperrt
-		
-		$fehlermeldung = $t['login_fehlermeldung_gastlogin'];
-		$text .= hinweis($fehlermeldung, "fehler");
-		
-		$kein_gastlogin_ausblenden = true;
-	}
-	
-	if(!$kein_gastlogin_ausblenden) {
+	if (!isset($passwort) || $passwort == "") {
 		// Login als Gast
-		
-		// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
-		$username = coreCheckName($username, $check_name);
-		
-		if (strlen($username) < 4 || strlen($username) > 20) {
-			$username = "";
-		}
-		
-		// Falls kein Benutzername übergeben, Nick finden
-		if (strlen($username) == 0) {
-			if ($gast_name_auto) {
-				// Freien Benutzername bestimmen falls in der Config erlaubt
-				$rows = 1;
-				$i = 0;
-				$anzahl = count($gast_name);
-				while ($rows != 0 && $i < 100) {
-					$username = $gast_name[mt_rand(1, $anzahl)];
-					$query4711 = "SELECT u_id FROM user WHERE u_nick='$username' ";
-					$result = sqlQuery($query4711);
-					$rows = mysqli_num_rows($result);
-					$i++;
-				}
-				mysqli_free_result($result);
-			} else {
-				// freien Namen bestimmen
-				$rows = 1;
-				$i = 0;
-				while ($rows != 0 && $i < 100) {
-					$username = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
-					$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . escape_string($username) . "'";
-					$result = sqlQuery($query4711);
-					$rows = mysqli_num_rows($result);
-					$i++;
-				}
-				mysqli_free_result($result);
+		if ($gast_login) {
+			$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
+			$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+			// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
+			$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $http_user_agent . "' AND o_ip='" . $remote_addr . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
+			$result = sqlQuery($query4711);
+			if ($result) {
+				$rows = mysqli_num_rows($result);
 			}
+			mysqli_free_result($result);
 		}
 		
-		// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
-		$username = escape_string(coreCheckName($username, $check_name));
-		
-		// Benutzerdaten für Gast setzen
-		$f['u_level'] = "G";
-		$f['u_passwort'] = mt_rand(1, 10000);
-		$f['u_nick'] = $username;
-		$passwort = $f['u_passwort'];
-		
-		// Prüfung, ob dieser Benutzer bereits existiert
-		$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
-		$result = sqlQuery($query4711);
-		
-		if (mysqli_num_rows($result) == 0) {
-			// Account in DB schreiben
-			schreibe_db("user", $f, "", "u_id");
+		// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
+		if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
+			// Gäste sind gesperrt
+			
+			$fehlermeldung = $t['login_fehlermeldung_gastlogin'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			$in_den_chat_einloggen = false;
+		} else {
+			// Login als Gast forfahren
+			
+			// Im Benutzername alle Sonderzeichen entfernen, Länge prüfen
+			$username = coreCheckName($username, $check_name);
+			
+			if (strlen($username) < 4 || strlen($username) > 20) {
+				$username = "";
+			}
+			
+			// Falls kein Benutzername übergeben, Nick finden
+			if (strlen($username) == 0) {
+				if ($gast_name_auto) {
+					// Freien Benutzername bestimmen falls in der Config erlaubt
+					$rows = 1;
+					$i = 0;
+					$anzahl = count($gast_name);
+					while ($rows != 0 && $i < 100) {
+						$username = $gast_name[mt_rand(1, $anzahl)];
+						$query4711 = "SELECT u_id FROM user WHERE u_nick='$username' ";
+						$result = sqlQuery($query4711);
+						$rows = mysqli_num_rows($result);
+						$i++;
+					}
+					mysqli_free_result($result);
+				} else {
+					// freien Namen bestimmen
+					$rows = 1;
+					$i = 0;
+					while ($rows != 0 && $i < 100) {
+						$username = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
+						$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . escape_string($username) . "'";
+						$result = sqlQuery($query4711);
+						$rows = mysqli_num_rows($result);
+						$i++;
+					}
+					mysqli_free_result($result);
+				}
+			}
+			
+			// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
+			$username = escape_string(coreCheckName($username, $check_name));
+			
+			// Benutzerdaten für Gast setzen
+			$f['u_level'] = "G";
+			$f['u_passwort'] = mt_rand(1, 10000);
+			$f['u_nick'] = $username;
+			$passwort = $f['u_passwort'];
+			
+			// Prüfung, ob dieser Benutzer bereits existiert
+			$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
+			$result = sqlQuery($query4711);
+			
+			if (mysqli_num_rows($result) == 0) {
+				// Account in DB schreiben
+				schreibe_db("user", $f, "", "u_id");
+			}
 		}
 	}
 }
 
-if(!$kein_gastlogin_ausblenden) {
-	// Login als registrierter Benutzer
+if($in_den_chat_einloggen) {
+	// Login in den Chat (Als Gast und registrierter Benutzer)
 	
 	// Passwort prüfen und Benutzerdaten lesen
 	$rows = 0;
@@ -187,7 +191,7 @@ if(!$kein_gastlogin_ausblenden) {
 				
 				// Überschrift: Bestätigung der Nutzungsbestimmungen
 				$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_bestaetigung_nutzungsbestimmungen'], "", "", 0, "70", "");
-	
+				
 				if ($zaehler % 2 != 0) {
 					$bgcolor = 'class="tabelle_zeile2"';
 				} else {
@@ -221,7 +225,7 @@ if(!$kein_gastlogin_ausblenden) {
 				$text .= "<input type=\"hidden\" name=\"ergebnis\" value=\"$ergebnis\">\n";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
-		
+				
 				if ($zaehler % 2 != 0) {
 					$bgcolor = 'class="tabelle_zeile2"';
 				} else {
@@ -263,7 +267,7 @@ if(!$kein_gastlogin_ausblenden) {
 				if ($result2) {
 					mysqli_free_result($result2);
 				}
-			
+				
 				// Bei Login dieses Benutzers alle Admins (online, nicht Temp) warnen
 				if ($warnung) {
 					if ($eintritt == 'forum') {
@@ -294,9 +298,9 @@ if(!$kein_gastlogin_ausblenden) {
 					}
 					mysqli_free_result($result2);
 				}
-			
+				
 				// Benutzer nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt
-			
+				
 				// Hash-Wert ermitteln
 				$hash_id = id_erzeuge();
 				
