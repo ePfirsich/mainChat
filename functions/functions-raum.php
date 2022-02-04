@@ -1,6 +1,6 @@
 <?php
 function raeume_auflisten($order, $extended) {
-	global $t, $id, $timeout, $raumstatus1, $raumstatus2, $admin;
+	global $t, $timeout, $raumstatus1, $raumstatus2, $admin;
 	
 	if (!isset($order)) {
 		$order = "r_name";
@@ -24,21 +24,21 @@ function raeume_auflisten($order, $extended) {
 		// extended==Ansicht mit Details im extra beiten Fenster
 		if (true) {
 			if (isset($extended) && ($extended == 1)) {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&id=$id&order=$order\">" . $t['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
+				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order\">" . $t['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
 				$text .= "<script language=\"javascript\">\n"
 					. "window.resizeTo(800,600); window.focus();"
 					. "</script>\n";
 			} else {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&id=$id&order=$order&extended=1\">" . $t['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
+				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order&extended=1\">" . $t['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
 			}
 			$text .= "$rlink<br>";
 		}
 		$text .= "<table style=\"width:100%\">\n";
-		$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_benutzer_online]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&id=$id&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum6id=$id&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
 		if (isset($extended) && $extended) {
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_smilies]</td>";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_mindestpunkte]</td>";
@@ -62,7 +62,7 @@ function raeume_auflisten($order, $extended) {
 			// raum nur anzeigen falls offen, moderiert, besitzer oder admin...
 			// "m" -> moderiert, "M" -> moderiert+geschlossen.
 			if ($row['r_status1'] == "O" || $row['r_status1'] == "m" || $uu_id == $u_id || $admin) {
-				$rlink = "<a href=\"inhalt.php?bereich=raum&id=$id&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
+				$rlink = "<a href=\"inhalt.php?bereich=raum&aktion=edit&raum=" . $row['r_id'] . "\">" . $row['r_name'] . "</a>";
 				
 				// Anzahl der Benutzer online ermitteln
 				if ((isset($anzahl_user[$row['r_id']])) && ($anzahl_user[$row['r_id']] > 0)) {
@@ -74,7 +74,7 @@ function raeume_auflisten($order, $extended) {
 				if( $anzahl == 0) {
 					$ulink = "$anzahl $t[raeume_benutzer]";
 				} else {
-					$ulink = "<a href=\"inhalt.php?bereich=benutzer&id=$id&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
+					$ulink = "<a href=\"inhalt.php?bereich=benutzer&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
 				}
 				
 				$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
@@ -135,10 +135,9 @@ function raeume_auflisten($order, $extended) {
 }
 
 function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_punkte, $topic, $eintrittsnachricht, $austrittsnachricht, $raumbesitzer) {
-	global $lobby, $t, $raumstatus1, $raumstatus2, $id, $u_id;
+	global $lobby, $t, $raumstatus1, $raumstatus2, $u_id;
 	
 	$text = "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	if ($raumname == $lobby) {

@@ -80,11 +80,8 @@ switch ($aktion) {
 		$msg = "";
 		$msg .= "<form name=\"form\" action=\"inhalt.php?bereich=statistik\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
-		$msg .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
-		$msg .= "<div style=\"margin-top:2px; text-align:center;\">\n";
-		$msg .= $t["statistik_monat"];
-		$msg .= " " . "\n";
+		$msg .= "<div style=\"margin-top:2px; text-align:center;\">$t[statistik_monat]\n";
 		$msg .= "<select name=\"monat\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($t_month)) {

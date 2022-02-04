@@ -58,28 +58,28 @@ switch ($aktion) {
 // Kopfzeile
 // Menü ausgeben
 $box = $t['titel'];
-$kopfzeile = "<a href=\"inhalt.php?bereich=sperren&id=$id\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=neu\">$t[sperren_menue2]</a>\n";
+$kopfzeile = "<a href=\"inhalt.php?bereich=sperren\">$t[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?bereich=sperren&aktion=neu\">$t[sperren_menue2]</a>\n";
 
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
 $result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
-	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\">$t[sperren_menue5a]</a>\n";
 } else {
-	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre1\">$t[sperren_menue5b]</a>\n";
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperre1\">$t[sperren_menue5b]</a>\n";
 }
 mysqli_free_result($result);
 
 $query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
 $result = sqlQuery($query);
 if ($result && mysqli_num_rows($result) > 0) {
-	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast0\">$t[sperren_menue7a]</a>\n";
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\">$t[sperren_menue7a]</a>\n";
 } else {
-	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast1\">$t[sperren_menue7b]</a>\n";
+	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast1\">$t[sperren_menue7b]</a>\n";
 }
 mysqli_free_result($result);
 
-$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist&id=$id\">$t[sperren_menue3]</a>\n";
-$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&id=$id\">" . $t['sperren_menue6'] . "</a>\n";
+$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist\">$t[sperren_menue3]</a>\n";
+$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu\">" . $t['sperren_menue6'] . "</a>\n";
 zeige_tabelle_zentriert($box, $kopfzeile);
 
 
@@ -253,7 +253,6 @@ switch ($aktion) {
 				$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 				$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 				$text .= "<input type=\"hidden\" name=\"is_id\" value=\"$is_id\">\n";
-				$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 				
 				$box = $t['sperren_aendern'];
 				
@@ -372,7 +371,6 @@ switch ($aktion) {
 		
 		$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 		
-		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 		$text .= $t['sperren_nur_eine_zeile_ausfuellen'] . "<br>\n";
 		$text .= "<table style=\"width:100%\">\n";

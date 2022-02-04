@@ -1,7 +1,7 @@
 <?php
 
 function zeige_moderations_antworten($o_raum, $answer = "") {
-	global $t, $id, $u_id;
+	global $t, $u_id;
 	
 	$box = $t['mod10'];
 	$text = "";
@@ -19,10 +19,10 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			}
 			$text .= "<tr>";
 			$text .= "<td align=left $bgcolor><small>";
-			$text .= "<a href=\"schreibe.php?id=$id&text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
+			$text .= "<a href=\"schreibe.php?text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
 			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			$text .= "<a href=moderator.php?id=$id&mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
-			$text .= "<a href=moderator.php?id=$id&mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
 			$text .= "</small></td>";
 			$text .= "</tr>";
 		}
@@ -53,11 +53,10 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	$text .= "<br><center>";
 	$text .= "<form action=\"moderator.php\" method=\"post\">";
 	$text .= $t['mod11'] . "<br>";
-	$text .= "<input type=hidden name=id value=$id>";
-	$text .= "<input type=hidden name=mode value=answernew>";
+	$text .= "<input type=\"hidden\" name=\"mode\" value=\"answernew\">";
 	if ($answer != "")
-		$text .= "<input type=hidden name=answer value=$answer>";
-		$text .= "<textarea name=answertxt rows=5 cols=60>";
+		$text .= "<input type=\"hidden\" name=\"answer\" value=\"$answer\">";
+		$text .= "<textarea name=\"answertxt\" rows=\"5\" cols=\"60\">";
 	if ($answer != "") {
 		$answer = intval($answer);
 		$query = "SELECT c_id,c_text FROM moderation WHERE c_id=$answer AND c_typ='P'";
@@ -68,14 +67,14 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 		mysqli_free_result($result);
 	}
 	$text .= "</textarea>";
-	$text .= "<br><input type=submit value=\"$t[mod1]\">";
+	$text .= "<br><input type=\"submit\" value=\"$t[mod1]\">";
 	$text .= "</form>";
 	
 	zeige_tabelle_volle_breite($box,$text);
 }
 
 function bearbeite_moderationstexte($o_raum) {
-	global $t, $id, $action, $u_id, $system_farbe;
+	global $t, $action, $u_id, $system_farbe;
 	
 	if (is_array($action)) {
 		echo "<small>";
@@ -173,7 +172,7 @@ function bearbeite_moderationstexte($o_raum) {
 }
 
 function zeige_moderationstexte($o_raum, $limit = 20) {
-	global $t, $id, $action, $moderation_rueckwaerts, $moderationsexpire, $u_id;
+	global $t, $action, $moderation_rueckwaerts, $moderationsexpire, $u_id;
 	
 	// gegen DAU-Eingaben sichern...
 	$limit = max(intval($limit), 20);
@@ -282,8 +281,6 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 }
 
 function anzahl_moderationstexte($o_raum) {
-	global $id;
-	
 	$query = "SELECT c_id FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id";
 	$result = sqlQuery($query);
 	if ($result > 0) {

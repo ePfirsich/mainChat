@@ -1,11 +1,9 @@
 <?php
-
 require_once("functions/functions.php");
 require_once("functions/functions-user.php");
 require_once("functions/functions-nachrichten_betrete_verlasse.php");
 require_once("languages/$sprache-user.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
@@ -19,27 +17,11 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-// Target Sonderzeichen raus...
-$fenster = str_replace("+", "", $u_nick);
-$fenster = str_replace("-", "", $fenster);
-$fenster = str_replace("ä", "", $fenster);
-$fenster = str_replace("ö", "", $fenster);
-$fenster = str_replace("ü", "", $fenster);
-$fenster = str_replace("Ä", "", $fenster);
-$fenster = str_replace("Ö", "", $fenster);
-$fenster = str_replace("Ü", "", $fenster);
-$fenster = str_replace("ß", "", $fenster);
-
-$meta_refresh = "<script>\n" . "  var id='$id';\n"
-. "  var u_nick='" . $fenster . "';\n" . "  var raum='$schau_raum';\n";
-$meta_refresh .= "  var stdparm='?id='+id+'&schau_raum='+raum;\n"
-	. "  var stdparm2='?id='+id;\n</script>\n";
-
 // Kein Refresh für die Smilies
 if($aktion == "smilies") {
 } else {
 	// Normalerweise kein Refresh nötig, aber da Browser den Tab freezen, kann die Userliste nicht aktuell sein
-	$meta_refresh .= '<meta http-equiv="refresh" content="60; URL=user.php?id=' . $id . '&aktion='.$aktion.'">';
+	$meta_refresh .= '<meta http-equiv="refresh" content="60; URL=user.php?aktion='.$aktion.'">';
 }
 $title = $body_titel . ' - Benutzer';
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
@@ -47,11 +29,11 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 // Login ok?
 echo "<body>\n";
 // Navigation zum Wechseln zwischen Benuzerliste und Smilies
-$text_navigation = "<a href=\"user.php?id=$id&aktion=$aktion\"><span class=\"fa fa-refresh icon16\"></span>" . $t['benutzerliste_aktualisieren'] . "</a> | ";
+$text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa fa-refresh icon16\"></span>" . $t['benutzerliste_aktualisieren'] . "</a> | ";
 if($aktion == "smilies") {
-	$text_navigation .= "<a href=\"user.php?id=$id\"><span class=\"fa fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
+	$text_navigation .= "<a href=\"user.php\"><span class=\"fa fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
 } else {
-	$text_navigation .= "<a href=\"user.php?aktion=smilies&id=$id\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
+	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
 }
 
 
@@ -136,7 +118,7 @@ switch ($aktion) {
 			$box = "<center>" . $t['benutzerliste_private_nachrichten'] . "</center>";
 			$text = "";
 			
-			$linkuser = "user.php?id=$id";
+			$linkuser = "user.php";
 			$text .= "<center>";
 			
 			// Benutzerliste rechte Seite ausgeben

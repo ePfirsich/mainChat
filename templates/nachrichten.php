@@ -124,7 +124,7 @@ switch ($aktion) {
 				}
 			} else {
 				$result = mail_sende($u_id, $daten['id'],
-					$daten['m_text'], $daten['m_betreff']);
+				$daten['m_text'], $daten['m_betreff']);
 				
 				if ($result[0]) {
 					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);

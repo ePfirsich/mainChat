@@ -2,7 +2,7 @@
 // Funktionen nur für index.php
 require_once("functions/functions-nachrichten_betrete_verlasse.php");
 
-function erzeuge_sequence($db, $id) {
+function erzeuge_sequence($db, $function_id) {
 	// Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID
 	
 	$query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
@@ -17,7 +17,7 @@ function erzeuge_sequence($db, $id) {
 		$result = sqlUpdate($query, true);
 		
 		// Höchste ID lesen
-		$query = "SELECT max($id) FROM $db";
+		$query = "SELECT max($function_id) FROM $db";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$temp = mysqli_result($result, 0, 0) + 1;
@@ -226,6 +226,9 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "DELETE FROM `online` WHERE o_user=$user_id";
 	$result = sqlUpdate($query, true);
 	
+	// Session setzen
+	$_SESSION["id"] = $hash_id;
+	
 	// Benutzer in in Tabelle online merken -> Benutzer ist online
 	unset($f);
 	$f['o_user'] = $user_id;
@@ -279,7 +282,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
-	global $lobby, $eintrittsraum, $t, $hash_id, $system_farbe, $u_punkte_gesamt;
+	global $lobby, $eintrittsraum, $t, $system_farbe, $u_punkte_gesamt;
 	global $raum_eintrittsnachricht_kurzform, $raum_eintrittsnachricht_anzeige_deaktivieren;
 	
 	// Falls eintrittsraum nicht definiert, lobby voreinstellen
@@ -453,12 +456,12 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	
 	// Hat der Benutzer sein Profil ausgefüllt?
 	if ($u_level != "G") {
-		profil_neu($user_id, $u_nick, $hash_id);
+		profil_neu($user_id, $u_nick);
 	}
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($u_level != "G") {
-		aktion($user_id, "Login", $user_id, $u_nick, $hash_id);
+		aktion($user_id, "Login", $user_id, $u_nick);
 	}
 	
 	// Nachrichten an Freude verschicken
@@ -489,7 +492,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 				}
 			}
 			// Aktion ausführen
-			aktion($user_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($user_id, $wann, $an_u_id, $u_nick, "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
@@ -504,7 +507,7 @@ function id_erzeuge() {
 
 function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
-	global $lobby, $eintrittsraum, $t, $hash_id, $system_farbe;
+	global $lobby, $eintrittsraum, $t, $system_farbe;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;
@@ -516,7 +519,7 @@ function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
 	if ($u_level != "G") {
-		aktion($user_id, "Login", $user_id, $u_nick, $hash_id);
+		aktion($user_id, "Login", $user_id, $u_nick);
 	}
 	
 	// Nachrichten an Freude verschicken
@@ -548,7 +551,7 @@ function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 				}
 			}
 			// Aktion ausführen
-			aktion($user_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($user_id, $wann, $an_u_id, $u_nick, "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);

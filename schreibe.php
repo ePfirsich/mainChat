@@ -4,11 +4,6 @@ require_once("functions/functions-msg.php");
 require_once("functions/functions-schreibe.php");
 require_once("languages/$sprache-chat.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-if( $id == '') {
-	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
-}
-
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 if( $aktion == "") {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);

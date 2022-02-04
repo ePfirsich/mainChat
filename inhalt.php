@@ -4,11 +4,6 @@ require_once("functions/functions-formulare.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-if( $id == '') {
-	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
-}
-
 $page = filter_input(INPUT_GET, 'page', FILTER_SANITIZE_STRING);
 
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
@@ -185,10 +180,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=hilfe&id=$id\">$t[hilfe_menue4]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-befehle&id=$id\">$t[hilfe_menue5]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-sprueche&id=$id\">$t[hilfe_menue6]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community&id=$id\">$t[hilfe_menue7]</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=hilfe\">$t[hilfe_menue4]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-befehle\">$t[hilfe_menue5]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-sprueche\">$t[hilfe_menue6]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community\">$t[hilfe_menue7]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			switch ($aktion) {
@@ -225,17 +220,17 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['benutzer_titel'];
-			$text = "<a href=\"inhalt.php?bereich=benutzer&id=$id\">$t[benutzer_uebersicht]</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=benutzer\">$t[benutzer_uebersicht]</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=benutzer&id=$id&aktion=suche\">$t[benutzer_benutzer_suchen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=suche\">$t[benutzer_benutzer_suchen]</a>\n";
 			}
 			
 			if ($adminlisteabrufbar && $u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=benutzer&id=$id&aktion=adminliste\">$t[benutzer_adminliste_anzeigen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=adminliste\">$t[benutzer_adminliste_anzeigen]</a>\n";
 			}
 			if ($u_level != "G") {
 				if ($punktefeatures) {
-					$ur1 = "inhalt.php?bereich=top10&id=$id";
+					$ur1 = "inhalt.php?bereich=top10";
 					$url = "href=\"$ur1\" ";
 					$text .= "| <a $url>$t[benutzer_top10]</a>\n";
 				}
@@ -254,9 +249,9 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['raum_titel'];
-			$text = "<a href=\"inhalt.php?bereich=raum&id=$id\">" . $t['raum_uebersicht'] . "</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=raum\">" . $t['raum_uebersicht'] . "</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit&id=$id\">" . $t['raum_neuer_raum'] . "</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit\">" . $t['raum_neuer_raum'] . "</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -270,12 +265,12 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=nachrichten&id=$id\">" . $t['nachrichten_posteingang'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=postausgang&id=$id\">" . $t['nachrichten_postausgang'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=neu&id=$id\">" . $t['nachrichten_neue_nachricht'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorb&id=$id\">" . $t['nachrichten_papierkorb'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=mailboxzu&id=$id\">" . $t['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#mail\">" . $t['nachrichten_hilfe'] . "</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=nachrichten\">" . $t['nachrichten_posteingang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=postausgang\">" . $t['nachrichten_postausgang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=neu\">" . $t['nachrichten_neue_nachricht'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorb\">" . $t['nachrichten_papierkorb'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=mailboxzu\">" . $t['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#mail\">" . $t['nachrichten_hilfe'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/nachrichten.php');
@@ -288,10 +283,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil&id=$id\">$t[profil_profil_bearbeiten]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=profilbilder&id=$id\">$t[profil_bilder_hochladen]</a>\n";
+			$text .= "<a href=\"inhalt.php?bereich=profil\">$t[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$t[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 				
@@ -307,10 +302,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil&id=$id\">$t[profil_profil_bearbeiten]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=profilbilder&id=$id\">$t[profil_bilder_hochladen]</a>\n";
+			$text .= "<a href=\"inhalt.php?bereich=profil\">$t[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$t[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=profil&id=$id&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -330,9 +325,9 @@ if(!$bereich || $kein_seitenaufruf) {
 			// Menü ausgeben
 			if ($u_level != "G") {
 				$box = $t['einstellungen_titel'];
-				$text .= "<a href=\"inhalt.php?bereich=einstellungen&id=$id\">$t[einstellungen_menue1]</a>\n";
-				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion&id=$id\">$t[einstellungen_menue2]</a>\n";
-				$text .= "| <a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#home\">$t[einstellungen_menue3]</a>\n";
+				$text .= "<a href=\"inhalt.php?bereich=einstellungen\">$t[einstellungen_menue1]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion\">$t[einstellungen_menue2]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#home\">$t[einstellungen_menue3]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
 			}
 			
@@ -365,8 +360,8 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "[<a href=\"inhalt.php?bereich=statistik&aktion=monat&id=$id\">" . $t['statistik_nach_monaten'] . "</a>]\n"
-					. "[<a href=\"inhalt.php?bereich=statistik&aktion=stunde&id=$id\">" . $t['statistik_nach_stunden'] . "</a>]";
+			$text = "[<a href=\"inhalt.php?bereich=statistik&aktion=monat\">" . $t['statistik_nach_monaten'] . "</a>]\n"
+					. "[<a href=\"inhalt.php?bereich=statistik&aktion=stunde\">" . $t['statistik_nach_stunden'] . "</a>]";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/statistik.php');
@@ -387,13 +382,13 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=freunde&id=$id\">$t[freunde_meine_freunde]</a>\n"
-			. "| <a href=\"inhalt.php?bereich=freunde&aktion=neu&id=$id\">$t[freunde_neuen_freund_hinzufuegen]</a>\n"
-			. "| <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen&id=$id\">$t[freunde_freundesanfragen]</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=freunde\">$t[freunde_meine_freunde]</a>\n"
+			. "| <a href=\"inhalt.php?bereich=freunde&aktion=neu\">$t[freunde_neuen_freund_hinzufuegen]</a>\n"
+			. "| <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen\">$t[freunde_freundesanfragen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=freunde&aktion=admins&id=$id\">$t[freunde_alle_admins_als_freund_hinzufuegen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=freunde&aktion=admins\">$t[freunde_alle_admins_als_freund_hinzufuegen]</a>\n";
 			}
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#freunde\">$t[freunde_hilfe]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#freunde\">$t[freunde_hilfe]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/freunde.php');
@@ -405,9 +400,9 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=top10&id=$id\">".$t['top_menue2']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=top10&aktion=top100&id=$id\">".$t['top_menue3']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&id=$id&aktion=hilfe-community#punkte\">".$t['top_menue4']."</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=top10\">".$t['top_menue2']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=top10&aktion=top100\">".$t['top_menue3']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#punkte\">".$t['top_menue4']."</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');

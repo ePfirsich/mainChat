@@ -3,10 +3,6 @@ require_once("functions/functions.php");
 require_once("functions/functions-interaktiv.php");
 require_once("languages/$sprache-chat.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-if( $id == '') {
-	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
-}
 $o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
 $neuer_raum = filter_input(INPUT_POST, 'neuer_raum', FILTER_SANITIZE_NUMBER_INT);
 
@@ -23,8 +19,8 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 // Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sie sich in anderen Räumen einloggen
 $meta_refresh = "";
-$meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?id=' . $id . '&o_raum_alt=' . $o_raum . '">';
-$meta_refresh .= "<script>\n" . " function chat_reload(file) {\n" . "  parent.chat.location.href=file;\n}\n\n</script>\n";
+$meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?o_raum_alt=' . $o_raum . '">';
+$meta_refresh .= "<script>\n function chat_reload(file) {\n parent.chat.location.href=file;\n}\n\n</script>\n";
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
@@ -34,7 +30,7 @@ echo "<body class=\"chatunten\">";
 // Aktionen ausführen, falls nicht innerhalb der letzten 5
 // Minuten geprüft wurde (letzte Prüfung=o_aktion)
 if ( time() > ($o_aktion + 300) ) {
-	aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick, $id);
+	aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick);
 }
 */
 
@@ -49,7 +45,7 @@ if (isset($neuer_raum) && $o_raum != $neuer_raum) {
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden
 	echo "<script language=Javascript>"
-		. "chat_reload('chat.php?id=$id')"
+		. "chat_reload('chat.php')"
 		. "</script>\n";
 }
 
@@ -118,7 +114,6 @@ if ($zahl > 1) {
 		$text .= raeume_auswahl($o_raum, FALSE, TRUE);
 	}
 	$text .= "</select>\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">\n";
 	$text .= "<input type=\"submit\" name=\"raum_submit\" value=\"Go!\"></td>\n";
 }

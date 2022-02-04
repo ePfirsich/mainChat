@@ -5,11 +5,6 @@ require_once("functions/functions-formulare.php");
 require_once("languages/$sprache-smilies.php");
 require_once("languages/$sprache-forum.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-if($id == "") {
-	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
-}
-
 $th_id = filter_input(INPUT_GET, 'th_id', FILTER_SANITIZE_NUMBER_INT);
 if($th_id == "") {
 	$th_id = filter_input(INPUT_POST, 'th_id', FILTER_SANITIZE_NUMBER_INT);
@@ -79,10 +74,10 @@ echo "<body>\n";
 
 // Menü ausgeben
 $box = $t['forum_header'];
-$text = "<a href=\"forum.php?id=$id\">$t[forum_menue_forenuebersicht_anzeigen]</a>\n";
-$text .= "| <a href=\"forum.php?aktion=suche&id=$id\">$t[forum_button_suche]</a>\n";
+$text = "<a href=\"forum.php\">$t[forum_menue_forenuebersicht_anzeigen]</a>\n";
+$text .= "| <a href=\"forum.php?aktion=suche\">$t[forum_button_suche]</a>\n";
 if ($forum_admin && !$aktion) {
-	$text .= "| <a href=\"forum.php?id=$id&aktion=kategorie_neu\">$t[forum_kategorie_anlegen]</a>\n";
+	$text .= "| <a href=\"forum.php?aktion=kategorie_neu\">$t[forum_kategorie_anlegen]</a>\n";
 }
 zeige_tabelle_zentriert($box, $text);
 

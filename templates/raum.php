@@ -130,7 +130,6 @@ switch ($aktion) {
 			$text .= "<tr>";
 			$text .= "<td $bgcolor colspan=\"2\">$t[raeume_raum_wirklich_loeschen]<br>\n";
 			$text .= "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"r_id\" value=\"$row->r_id\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">\n";
 			$text .= "<input type=\"submit\" name=\"loesch2\" value=\"$t[raum_loeschen]\">&nbsp;<input type=\"submit\" name=\"loesch2\" value=\"$t[raeume_zurueck]\">\n";

@@ -3,7 +3,6 @@
 require_once("functions/functions.php");
 require_once("functions/functions-chat_lese.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
 $user_nick = filter_input(INPUT_GET, 'user_nick', FILTER_SANITIZE_STRING);
 
@@ -21,7 +20,7 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "chatausgabe");
 // Ohne die Stringersetzung, würde das Fenster bei Umlauten 
 // auf die Startseite springen, da id_lese ein Problem damit hat
 $userfuerrefresh = urlencode($user_nick);
-$meta_refresh = '<meta http-equiv="refresh" content="15; URL=messages-popup.php?id=' . $id . '&user=' . $user . '&user_nick=' . $userfuerrefresh . '">';
+$meta_refresh = '<meta http-equiv="refresh" content="15; URL=messages-popup.php?user=' . $user . '&user_nick=' . $userfuerrefresh . '">';
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 ?>

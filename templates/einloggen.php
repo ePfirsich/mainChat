@@ -290,8 +290,7 @@ if($in_den_chat_einloggen) {
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
-							$ur1 = "inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&ui_id=$user_id";
-							$ah1 = "<a href=\"$ur1\" target=\"chat\">";
+							$ah1 = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id\" target=\"chat\">";
 							$ah2 = "</a>";
 							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
 						}
@@ -313,7 +312,7 @@ if($in_den_chat_einloggen) {
 					
 					require_once("functions/functions-frameset.php");
 					
-					frameset_forum($hash_id);
+					frameset_forum();
 					
 				} else {
 					// Chat betreten
@@ -321,7 +320,7 @@ if($in_den_chat_einloggen) {
 					
 					require_once("functions/functions-frameset.php");
 					
-					frameset_chat($hash_id);
+					frameset_chat();
 				}
 			}
 		}

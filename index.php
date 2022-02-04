@@ -7,11 +7,6 @@ require_once("languages/$sprache-index.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-if( $id == '') {
-	$id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_URL);
-}
-
 $email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_STRING);
 if($email == "") {
 	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
@@ -187,7 +182,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
-				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&id=<ID>&aktion=benutzer_zeig&ui_id=$t_u_id\" target=\"chat\">";
+				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$t_u_id\" target=\"chat\">";
 				$ah2 = "</a>";
 				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
 			}
@@ -429,20 +424,22 @@ switch ($bereich) {
 	case "relogin":
 		// Login aus dem Forum in den Chat; Benutzerdaten setzen
 		id_lese($id);
-		$hash_id = $id;
 		
 		// Chat betreten
 		betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
 		
 		require_once("functions/functions-frameset.php");
 		
-		frameset_chat($hash_id);
+		frameset_chat();
 		
 		break;
 	
 	default:
-		// Login ausgeben
+		// Session löschen
+		$_SESSION = array();
+		session_destroy();
 		
+		// Login ausgeben
 		require_once("functions/functions-formulare.php");
 		
 		echo "<body>";

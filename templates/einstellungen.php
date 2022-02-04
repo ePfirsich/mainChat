@@ -584,7 +584,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					// Nachfrage ob sicher
 					$text .= str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_sicherheitsabfrage2']);
 					$text .= "<br><form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
 					$text .="<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
@@ -593,7 +592,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Abbrechen
 					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-					$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_abbrechen]\">";
 					$text .= "</form>\n";
@@ -621,18 +619,16 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_benutzerseite']);
 				} else {
 					$text = "";
-					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
-						. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-						. "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n"
-						. "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n"
-						. "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n"
-						. "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n"
-						. "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">"
-						. "</form>\n";
+					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
+					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
+					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
+					$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
+					$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">\n";
+					$text .= "</form>\n";
 					
 					zeige_tabelle_zentriert($t['benutzer_loeschen_sicherheitsabfrage1'], $text);
 					$text = "";
-					
 				}
 			} else {
 				// Einstellungen des Benutzers mit ID $u_id anzeigen

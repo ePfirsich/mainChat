@@ -1211,7 +1211,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 		$text['po_ts_antwort'] = $po_ts_antwort;
 		$text['baum'] = $baum;
 		
-		aktion($u_id, $wann, $user, $user_from_id, "", "Antwort auf eigenen Beitrag", $text);
+		aktion($u_id, $wann, $user, $user_from_id, "Antwort auf eigenen Beitrag", $text);
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 function user_edit($text, $f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
-	global $id, $level, $user_farbe, $t;
+	global $level, $user_farbe, $t;
 	global $u_id, $punktefeatures, $eintritt_individuell;
 	
 	// Ausgabe des Benutzers
@@ -52,7 +52,6 @@ function user_edit($text, $f, $admin, $u_level) {
 	
 	// Ausgabe in Tabelle
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
@@ -71,7 +70,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
 		$zaehler++;
 	} else if ($u_level == 'U') {
-		$value = $f['u_email'] . " (<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
+		$value = $f['u_email'] . " (<a href=\"inhalt.php?bereich=einstellungen&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
 		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", $value);
 		$zaehler++;
 	}
@@ -277,121 +276,120 @@ function zeige_aktionen() {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $id, $u_id, $def_was, $t, $forumfeatures;
+	global $u_id, $def_was, $t, $forumfeatures;
 	
 	$text = '';
-	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n"
-	. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-	. "<input type=\"hidden\" name=\"aktion\" value=\"aktion-eintragen\">\n"
-		. "<table style=\"width:100%;\">";
-		
-		// Einstellungen aus Datenbank lesen
-		$query = "SELECT * FROM aktion WHERE a_user=$u_id ";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-				$was[$row['a_was']][$row['a_wann']] = $row;
-			}
+	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aktion-eintragen\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
+	
+	// Einstellungen aus Datenbank lesen
+	$query = "SELECT * FROM aktion WHERE a_user=$u_id ";
+	$result = sqlQuery($query);
+	if ($result && mysqli_num_rows($result) > 0) {
+		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+			$was[$row['a_was']][$row['a_wann']] = $row;
+		}
+	}
+	
+	// Aktionen zeigen
+	$text .= "<tr><td></td>";
+	
+	$i = 0;
+	
+	// Alle möglichen a_wann in Array lesen
+	$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
+	$result = sqlQuery($query);
+	if ($result && mysqli_num_rows($result) != 0) {
+		$txt = str_replace("'", "",
+			substr(mysqli_result($result, 0, "Type"), 5, -1));
+		$a_wann = explode(",", $txt);
+	}
+	$anzahl_spalten = count($a_wann);
+	
+	// Alle möglichen a_wie in Array lesen
+	$query = "SHOW COLUMNS FROM aktion like 'a_wie'";
+	$result = sqlQuery($query);
+	if ($result && mysqli_num_rows($result) != 0) {
+		$txt = str_replace("'", "",
+			substr(mysqli_result($result, 0, "Type"), 4, -1));
+		$a_wie = explode(",", $txt);
+	}
+	$anzahl_wie = count($a_wie);
+	
+	// OLM merken
+	$onlinemessage = $a_wie[3];
+	
+	// Wenn das Forum deaktiviert wird, sollte der 3. Eintrag aus $def_was raus, wichtig ist aber die Einhaltung der Reihenfolge in def_was
+	if (!$forumfeatures) {
+		unset($def_was[2]);
+	}
+	
+	// Spezial Offline-Nachrichten (OLM löschen)
+	$offline_wie = $a_wie;
+	for ($i = 0; $i < $anzahl_wie; $i++) {
+		if (isset($offline_wie[$i]) && $offline_wie[$i] == $onlinemessage)
+			unset($offline_wie[$i]);
+	}
+	
+	// Alle Kombinationen von a_wie mit onlinemessage erstellen
+	// Keine muss als erstes, OLM als letztes definiert sein!
+	for ($i = 1; $i < $anzahl_wie - 2; $i++) {
+		$a_wie[] = $a_wie[$i] . "," . $onlinemessage;
+	}
+	
+	// Zeile der a_wann ausgeben
+	foreach ($a_wann as $a_wann_eintrag) {
+		$text .= "<td style=\"text-align:center;\" class=\"smaller\"><b>" . $a_wann_eintrag . "</b></td>\n";
+	}
+	$text .= "</tr>\n";
+	
+	// Tabelle zeilenweise ausgeben
+	$i = 0;
+	foreach ($def_was as $def_was_eintrag) {
+		if (($i % 2) > 0) {
+			$bgcolor = 'class="tabelle_zeile1"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile2"';
 		}
 		
-		// Aktionen zeigen
-		$text .= "<tr><td></td>";
-		
-		$i = 0;
-		
-		// Alle möglichen a_wann in Array lesen
-		$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) != 0) {
-			$txt = str_replace("'", "",
-				substr(mysqli_result($result, 0, "Type"), 5, -1));
-			$a_wann = explode(",", $txt);
-		}
-		$anzahl_spalten = count($a_wann);
-		
-		// Alle möglichen a_wie in Array lesen
-		$query = "SHOW COLUMNS FROM aktion like 'a_wie'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) != 0) {
-			$txt = str_replace("'", "",
-				substr(mysqli_result($result, 0, "Type"), 4, -1));
-			$a_wie = explode(",", $txt);
-		}
-		$anzahl_wie = count($a_wie);
-		
-		// OLM merken
-		$onlinemessage = $a_wie[3];
-		
-		// Wenn das Forum deaktiviert wird, sollte der 3. Eintrag aus $def_was raus, wichtig ist aber die Einhaltung der Reihenfolge in def_was
-		if (!$forumfeatures) {
-			unset($def_was[2]);
-		}
-		
-		// Spezial Offline-Nachrichten (OLM löschen)
-		$offline_wie = $a_wie;
-		for ($i = 0; $i < $anzahl_wie; $i++) {
-			if (isset($offline_wie[$i]) && $offline_wie[$i] == $onlinemessage)
-				unset($offline_wie[$i]);
-		}
-		
-		// Alle Kombinationen von a_wie mit onlinemessage erstellen
-		// Keine muss als erstes, OLM als letztes definiert sein!
-		for ($i = 1; $i < $anzahl_wie - 2; $i++) {
-			$a_wie[] = $a_wie[$i] . "," . $onlinemessage;
-		}
-		
-		// Zeile der a_wann ausgeben
+		$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $def_was_eintrag . "</td>\n";
 		foreach ($a_wann as $a_wann_eintrag) {
-			$text .= "<td style=\"text-align:center;\" class=\"smaller\"><b>" . $a_wann_eintrag . "</b></td>\n";
-		}
-		$text .= "</tr>\n";
-		
-		// Tabelle zeilenweise ausgeben
-		$i = 0;
-		foreach ($def_was as $def_was_eintrag) {
-			if (($i % 2) > 0) {
-				$bgcolor = 'class="tabelle_zeile1"';
+			$text .= "<td style=\"text-align:center;\" $bgcolor>"
+			. "<select name=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
+			
+			// Zwischen offline/online unterscheiden
+			if ($a_wann_eintrag == "Sofort/Offline") {
+				$wie = $offline_wie;
 			} else {
-				$bgcolor = 'class="tabelle_zeile2"';
+				$wie = $a_wie;
 			}
 			
-			$text .= "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . $def_was_eintrag . "</td>\n";
-			foreach ($a_wann as $a_wann_eintrag) {
-				$text .= "<td style=\"text-align:center;\" $bgcolor>"
-				. "<select name=\"aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]\">\n";
-				
-				// Zwischen offline/online unterscheiden
-				if ($a_wann_eintrag == "Sofort/Offline") {
-					$wie = $offline_wie;
+			// Nachrichtentypen einzeln als Auswahl ausgeben
+			foreach ($wie as $auswahl) {
+				if (isset($was[$def_was_eintrag][$a_wann_eintrag]) && $was[$def_was_eintrag][$a_wann_eintrag]['a_wie'] == $auswahl) {
+					$text .= "<option selected value=\"" . $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|" . $auswahl . "\">" . str_replace(",", "+", $auswahl) . "\n";
 				} else {
-					$wie = $a_wie;
+					$text .= "<option value=\"" . (isset($was[$def_was_eintrag][$a_wann_eintrag]) ? $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] : "") . "|" . $auswahl . "\">"
+							. str_replace(",", " + ", $auswahl) . "\n";
 				}
-				
-				// Nachrichtentypen einzeln als Auswahl ausgeben
-				foreach ($wie as $auswahl) {
-					if (isset($was[$def_was_eintrag][$a_wann_eintrag]) && $was[$def_was_eintrag][$a_wann_eintrag]['a_wie'] == $auswahl) {
-						$text .= "<option selected value=\"" . $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] . "|" . $auswahl . "\">" . str_replace(",", "+", $auswahl) . "\n";
-					} else {
-						$text .= "<option value=\"" . (isset($was[$def_was_eintrag][$a_wann_eintrag]) ? $was[$def_was_eintrag][$a_wann_eintrag]['a_id'] : "") . "|" . $auswahl . "\">"
-								. str_replace(",", " + ", $auswahl) . "\n";
-					}
-				}
-				$text .= "</select></td>\n";
-				
 			}
-			$text .= "</tr>\n";
+			$text .= "</select></td>\n";
 			
-			$i++;
 		}
-		
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>&nbsp;</td>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"uebergabe\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
 		$text .= "</tr>\n";
-		$text .= "</table>\n";
-		$text .= "</form>\n";
 		
-		return $text;
+		$i++;
+	}
+	
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor>&nbsp;</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"uebergabe\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	$text .= "</form>\n";
+	
+	return $text;
 }
 
 function eintrag_aktionen($aktion_datensatz) {
@@ -432,13 +430,13 @@ function eintrag_aktionen($aktion_datensatz) {
 }
 
 function formular_email_aendern($f) {
-	global $id, $t;
+	global $t;
+	
 	$text = '';
 	$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
 	
 	$text .= $t['einstellungen_email_aendern_inhalt'] . "\n";
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";
 	$text .= "<table style=\"width:100%;\">";

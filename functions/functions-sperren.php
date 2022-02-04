@@ -1,6 +1,6 @@
 <?php
 function sperren_liste($text) {
-	global $id, $t, $raumsperre, $sperre_dialup, $locale;
+	global $t, $raumsperre, $sperre_dialup, $locale;
 	
 	$sperr = "";
 	
@@ -104,14 +104,14 @@ function sperren_liste($text) {
 			
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperre0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loginsperregast0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
 			} else {
 				$text .= "<td $bgcolor>";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_aendern]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sperren_aendern]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_aendern]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sperren_aendern]</span></a>";
 				$text .= "&nbsp;";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_loeschen]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_loeschen]</span></a>";
 				$text .= "</td>";
 			}
 			$text .= "</tr>\n";
@@ -132,9 +132,9 @@ function sperren_liste($text) {
 function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $id, $t, $blacklistmaxdays, $locale;
+	global $t, $blacklistmaxdays, $locale;
 	
-	$blurl = "inhalt.php?bereich=sperren&aktion=blacklist&id=$id&sort=";
+	$blurl = "inhalt.php?bereich=sperren&aktion=blacklist&sort=";
 	
 	switch ($sort) {
 		case "f_zeit desc":
@@ -181,7 +181,6 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 	$result = sqlQuery($query);
 	if ($result) {
 		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
-		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_loesche\">\n";
 		
 		$text .= "<table style=\"width:100%;\">\n";
@@ -277,7 +276,7 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 function loesche_blacklist($blacklist_id) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $blacklist_id Benutzer-ID des Blacklist-Eintrags
-	global $id, $admin, $t;
+	global $admin, $t;
 	
 	$text = "";
 	if (!$admin || !$blacklist_id) {
@@ -308,15 +307,13 @@ function loesche_blacklist($blacklist_id) {
 
 function formular_neuer_blacklist($text, $daten) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
-	global $id, $t;
+	global $t;
 	
 	$box = $t['sperren_blacklist_neu'];
 	
 	$zaehler = 0;
 	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">";
-	
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_neu2\">\n";
 	
 	// Benutzername
@@ -345,7 +342,7 @@ function formular_neuer_blacklist($text, $daten) {
 
 function neuer_blacklist_eintrag($f_userid, $daten) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
-	global $id, $t;
+	global $t;
 	
 	$text = "";
 	if (!$daten['id'] || !$f_userid) {

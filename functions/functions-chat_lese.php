@@ -6,9 +6,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	// $user_id = ID des aktuellen Benutzers
 	
 	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
-	global $u_nick, $u_level;
-	global $show_spruch_owner, $id, $o_dicecheck;
-	global $user_nick;
+	global $u_nick, $u_level, $show_spruch_owner, $o_dicecheck, $user_nick;
 	
 	$o_id = intval($o_id);
 	
@@ -247,29 +245,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 				} else {
 					$br = "<br>\n";
 				}
-				;
-				
-				// im Text die Session-IDs in den Platzhalter <ID> einfügen
-				if ($id)
-					$c_text = str_replace("<ID>", $id, $c_text);
-				
-				// alternativ, falls am ende der Zeile, und das "<ID>" auf 2 Zeilen verteilt wird
-				if (($id) && (($row->c_br == "erste") || ($row->c_br == "mitte"))) {
-					if (substr($c_text, -3) == '<ID') {
-						$text_weitergabe = substr($c_text, -3);
-						$c_text = substr($c_text, 0, -3);
-					}
-					
-					if (substr($c_text, -2) == '<I') {
-						$text_weitergabe = substr($c_text, -2);
-						$c_text = substr($c_text, 0, -2);
-					}
-					
-					if (substr($c_text, -1) == '<') {
-						$text_weitergabe = substr($c_text, -1);
-						$c_text = substr($c_text, 0, -1);
-					}
-				}
 				
 				// Verschienen Nachrichtenarten unterscheiden und Nachricht ausgeben
 				switch ($row->c_typ) {
@@ -318,7 +293,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+								$temp_von_user = $row->c_von_user;
 								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
 								reset_system("userliste");
 							}
@@ -332,7 +307,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								if (!$erste_zeile) {
 									$zanfang = "";
 								} else {
-									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+									$temp_von_user = $row->c_von_user;
 									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
@@ -345,7 +320,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								if (!$erste_zeile) {
 									$zanfang = "";
 								} else {
-									$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+									$temp_von_user = $row->c_von_user;
 									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
@@ -427,7 +402,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+								$temp_von_user = $row->c_von_user;
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
@@ -483,7 +458,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = str_replace("<ID>", $id, $row->c_von_user);
+								$temp_von_user = $row->c_von_user;
 								
 								// User-ID holen
 								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";

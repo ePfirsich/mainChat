@@ -9,7 +9,7 @@ $t['profil_alle_profile_ausgeben'] = "Alle Profile ausgeben";
 $t['bestehendes_profil'] = "Bestehendes Profil bearbeiten";
 $t['neues_profil'] = "Neues Profil anlegen";
 $t['neues_profil_beschreibung'] = "Sie haben leider noch kein Profil angelegt. Das Profil mit Ihren persönlichen Daten ist aber die Vorraussetzung für die Benutzerseite. "
-. "Bitte klicken Sie <a href=\"inhalt.php?bereich=profil&id=$id&aktion=aendern\"><b>HIER</b> zur Anlage eines Profils</a>.";
+. "Bitte klicken Sie <a href=\"inhalt.php?bereich=profil&aktion=aendern\"><b>HIER</b> zur Anlage eines Profils</a>.";
 $t['ihr_profil'] = "Profil";
 $t['ihre_benutzerdaten'] = "Benutzerdaten";
 $t['profil_einstellungen_aendern'] = "Einstellungen ändern";

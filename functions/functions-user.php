@@ -6,7 +6,7 @@ require_once("functions/functions-raeume_auswahl.php");
 
 function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $adminfeatures, $u_id, $id, $show_geschlecht;
+	global $t, $admin, $u_level, $adminfeatures, $u_id, $show_geschlecht;
 	global $punkte_grafik, $leveltext;
 	
 	
@@ -104,7 +104,7 @@ function user_pm_list($larr) {
 
 function user_liste($larr, $seitenleiste = false) {
 	// Gibt Benutzerliste $larr als Tabelle aus
-	global $t, $admin, $u_level, $u_id, $id, $show_geschlecht;
+	global $t, $admin, $u_level, $u_id, $show_geschlecht;
 	global $punkte_grafik, $leveltext;
 	
 	$text = '';
@@ -144,7 +144,7 @@ function user_liste($larr, $seitenleiste = false) {
 		}
 		
 		if ($v['u_away']) {
-			$user = "(" . zeige_userdetails($v['u_id'], $v, FALSE, "&nbsp;", "", "", TRUE, FALSE, FALSE) . ")";
+			$user = "(" . zeige_userdetails($v['u_id'], $v, FALSE, "&nbsp;", "", "", FALSE, FALSE) . ")";
 		} else {
 			$user = zeige_userdetails($v['u_id'], $v);
 		}
@@ -154,19 +154,19 @@ function user_liste($larr, $seitenleiste = false) {
 		
 		if ($seitenleiste) {
 			if ($level == "admin") {
-				$trow .= "<a href=\"schreibe.php?text=/gag%20$v[u_nick]&id=$id\" class=\"schreibe-chat\">G</a>&nbsp;";
+				$trow .= "<a href=\"schreibe.php?text=/gag%20$v[u_nick]\" class=\"schreibe-chat\">G</a>&nbsp;";
 				//$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {
-				$trow .= "<a href=\"schreibe.php?text=/kick%20$v[u_nick]&id=$id\" class=\"schreibe-chat\">K</a>&nbsp;";
+				$trow .= "<a href=\"schreibe.php?text=/kick%20$v[u_nick]\" class=\"schreibe-chat\">K</a>&nbsp;";
 				//$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
 			}
 			
 			if ($level2 == "admin") {
 				$o_ip = $larr[0]['o_ip'];
 				$host_name = htmlspecialchars(gethostbyaddr($o_ip));
-				$trow .= "<a href=\"inhalt.php?bereich=sperren&aktion=neu&id=$id&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
+				$trow .= "<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {

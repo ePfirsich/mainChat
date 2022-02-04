@@ -2,7 +2,7 @@
 
 function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $id, $userdata, $t, $level, $t, $locale;
+	global $userdata, $t, $level, $t, $locale;
 	
 	$text = "";
 	
@@ -258,8 +258,7 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 }
 
 function home_bild($user_id, $u_nick, $home, $feld, $bilder) {
-	
-	global $id, $t;
+	global $t;
 	
 	$text = "";
 	$text .= "<tr>\n";
@@ -286,7 +285,7 @@ function home_bild($user_id, $u_nick, $home, $feld, $bilder) {
 
 function zeige_home($user_id, $force = FALSE) {
 	// Zeigt die Benutzerseite des Benutzers u_id an
-	global $argv, $argc, $id, $check_name, $t;
+	global $argv, $argc, $check_name, $t;
 	
 	$query_string = filter_input(INPUT_SERVER, 'QUERY_STRING', FILTER_SANITIZE_STRING);
 	

@@ -1,5 +1,5 @@
 <?php
-function show_pfad_posting2($th_id, $id, $thread) {
+function show_pfad_posting2($th_id, $thread) {
 	//Infos über Forum und Thema holen
 	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
 	
@@ -9,7 +9,7 @@ function show_pfad_posting2($th_id, $id, $thread) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	mysqli_free_result($query);
 	
-	return "<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_forum&seite=1\">$th_name</a>";
+	return "<a href=\"forum.php#$fo_id\">$fo_name</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=1\">$th_name</a>";
 	
 }
 
@@ -28,14 +28,13 @@ function vater_rekursiv($vater) {
 }
 
 function such_bereich() {
-	global $id, $suche, $t;
+	global $suche, $t;
 	
 	$select_breite = 250;
 	
 	$text = '';
 	
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suchergebnisse\">\n";
 	$text .= "<table style=\"width:100%\">\n";
 	
@@ -202,8 +201,7 @@ function such_bereich() {
 }
 
 function such_ergebnis() {
-	global $id, $check_name, $u_id;
-	global $suche, $t, $u_level;
+	global $check_name, $u_id, $suche, $t, $u_level;
 	
 	$maxpostingsprosuche = 1000;
 	
@@ -426,9 +424,9 @@ function such_ergebnis() {
 					$col = '';
 				}
 				
-				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $id, $thread) . "</span></td><td $bgcolor>";
+				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td><td $bgcolor>";
 				$thread = vater_rekursiv($fund['po_id']);
-				$text .= "<span class=\"smaller\"><b><a href=\"forum.php?id=$id&th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+				$text .= "<span class=\"smaller\"><b><a href=\"forum.php?th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
 				<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
 				if ($fund['po_gesperrt'] == 1) {
 					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";

@@ -1,10 +1,10 @@
 <?php
-function frameset_forum($hash_id) {
+function frameset_forum() {
 	global $t;
 	?>
 	<frameset rows="100,*" border="0" frameborder="0" framespacing="0">
-		<frame src="navigation.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="forum.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
+		<frame src="navigation.php" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="forum.php" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
 	</frameset>
 	<noframes>
 	<?php echo $t['login_fehlermeldung_login_fehlermeldung_frames']; ?>
@@ -12,7 +12,7 @@ function frameset_forum($hash_id) {
 	<?php
 }
 
-function frameset_chat($hash_id) {
+function frameset_chat() {
 	global $t, $u_level;
 	
 	if ($u_level == "M") {
@@ -21,17 +21,17 @@ function frameset_chat($hash_id) {
 		echo "<frameset rows=\"65,*,34,65\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	}
 	?>
-		<frame src="navigation.php?id=<?php echo $hash_id; ?>" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="navigation.php" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frameset cols="*,250" border="0" frameborder="0" framespacing="0">
-			<frame src="chat.php?id=<?php echo $hash_id; ?>" name="chat" marginwidth="4" marginheight="0">
-			<frame src="user.php?id=<?php echo $hash_id; ?>" name="userliste" marginwidth="4" marginheight="0">
+			<frame src="chat.php" name="chat" marginwidth="4" marginheight="0">
+			<frame src="user.php" name="userliste" marginwidth="4" marginheight="0">
 		</frameset>
-		<frame src="eingabe.php?id=<?php echo $hash_id; ?>" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="interaktiv.php?id=<?php echo $hash_id; ?>" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="eingabe.php" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
+		<frame src="interaktiv.php" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
 		<?php
 		if ($u_level == "M") {
 			?>
-			<frame src="moderator.php?id=<?php echo $hash_id; ?>" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
+			<frame src="moderator.php" name="moderator" marginwidth="0" marginheight="0" scrolling="auto">
 			<?php
 		}
 		?>

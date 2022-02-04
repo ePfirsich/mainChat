@@ -4,7 +4,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $u_id=Benutzer-ID
 	// $u_nick=Benutzername
 	// $f=Array der Profileinstellungen
-	global $t, $id;
+	global $t;
 	
 	// Benutzerdaten lesen
 	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
@@ -12,16 +12,13 @@ function profil_editor($u_id, $u_nick, $f) {
 	if ($result && mysqli_num_rows($result) == 1) {
 		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
 		mysqli_free_result($result);
-		$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen&id=$id\">$t[profil_einstellungen_aendern]</a>]";
+		$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen\">$t[profil_einstellungen_aendern]</a>]";
 	}
 	
 	$zaehler = 0;
 	
 	$text = "<form action=\"inhalt.php?bereich=profil\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"ui_id\" value=\"$f[ui_id]\">\n";
-	//$text .= "<input type=\"hidden\" name=\"ui_userid\" value=\"$u_id\">\n";
-	//$text .= "<input type=\"hidden\" name=\"nick\" value=\"$userdata[u_nick]\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
@@ -309,7 +306,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	if($f['u_chathomepage'] == 1) {
 		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $t['profil_benutzerseite_zur_homepage'] . "</a>";
 	} else {
-		$u_chathomepage_link = "<a href=\"home.php?id=$id&ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $t['profil_benutzerseite_zur_vorschau'] . "</a>";
+		$u_chathomepage_link = "<a href=\"home.php?ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $t['profil_benutzerseite_zur_vorschau'] . "</a>";
 	}
 	$value = array($t['profil_benutzerseite_deaktivieren'], $t['profil_benutzerseite_aktivieren']);
 	$text .= zeige_formularfelder("selectbox", $zaehler, $t['profil_benutzerseite'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);

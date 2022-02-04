@@ -6,7 +6,6 @@ require_once("functions/functions.php");
 require_once("functions/functions-home.php");
 require_once("languages/$sprache-profil.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 $ui_userid_get = filter_input(INPUT_GET, 'ui_userid', FILTER_SANITIZE_NUMBER_INT);
 
 $title = $body_titel . ' - Home';

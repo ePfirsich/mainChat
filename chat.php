@@ -2,12 +2,8 @@
 require_once("functions/functions.php");
 require_once("functions/functions-chat_lese.php");
 
-// chat.php muss mit id=$hash_id aufgerufen werden
 // Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
 $trigger_letzte_Zeilen = 1;
-
-
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
 
 // Benutzerdaten setzen
 id_lese($id);
@@ -31,7 +27,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	// Algorithmus wählen
 	if ($sicherer_modus ||$benutzerdaten['u_sicherer_modus'] == "1") {
 		// n-Zeilen ausgeben und nach Timeout neu laden
-		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php?id=' . $id . '">';
+		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php">';
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
 		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 		?>
@@ -134,7 +130,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		$trigger_letzte_Zeilen = 20;
 		
 		// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-		echo "<body onLoad='parent.chat.location=\"chat.php?id=$id\"'>";
+		echo "<body onLoad='parent.chat.location=\"chat.php\"'>";
 		flush();
 	}
 }

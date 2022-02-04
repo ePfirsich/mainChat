@@ -1,7 +1,7 @@
 <?php
 function formular_neue_email($text, $daten) {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $id, $t;
+	global $t;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if ( $daten['id'] != "" ) {
@@ -22,7 +22,6 @@ function formular_neue_email($text, $daten) {
 	}
 	
 	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
 	$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"$daten[id]\">\n";
 	
@@ -52,7 +51,7 @@ function formular_neue_email($text, $daten) {
 
 function formular_neue_email2($text, $daten) {
 	// Gibt Formular zum Versand einer neuen Mail aus
-	global $id, $u_id, $t;
+	global $u_id, $t;
 	
 	if ($daten['id'] != "") {
 		// Alte Mail lesen und als Kopie in Formular schreiben
@@ -93,11 +92,10 @@ function formular_neue_email2($text, $daten) {
 			$row = mysqli_fetch_object($result);
 			$box .= $row->u_nick;
 			
-			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n"
-				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n"
-					. "<input type=\"hidden\" name=\"daten_id\" value=\"$daten[id]\">\n"
-				. "<table style=\"width:100%;\">";
+			$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=post>\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu3\">\n";
+			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"$daten[id]\">\n";
+			$text .= "<table style=\"width:100%;\">\n";
 			
 			if ($row->o_id == "" || $row->o_id == "NULL") {
 				$row->online = "";
@@ -157,7 +155,7 @@ function formular_neue_email2($text, $daten) {
 
 function zeige_mailbox($text, $aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	global $id, $u_nick, $u_id, $chat, $t, $locale;
+	global $u_nick, $u_id, $chat, $t, $locale;
 	
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
@@ -193,12 +191,11 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		$box = "$anzahl $titel";
 		
 		if($aktion == "geloescht") {
-			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren&id=$id\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
+			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
 		}
 		
-		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n"
-				. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-				. "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
+		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 		
 		if ($anzahl == 0) {
 			// Leere Mailbox
@@ -224,10 +221,10 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 					
 					
 					
-					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_gesendet&daten_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&aktion=zeige_gesendet&daten_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				} else {
-					$url = "<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=zeige_empfangen&daten_id=". $row->m_id . "\">";
+					$url = "<a href=\"inhalt.php?bereich=nachrichten&aktion=zeige_empfangen&daten_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				}
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
@@ -275,8 +272,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 
 function zeige_email($daten, $art) {
 	// Zeigt die Mail im Detail an
-	
-	global $id, $u_nick, $u_id, $chat, $t, $locale;
+	global $u_nick, $u_id, $chat, $t, $locale;
 	
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
@@ -299,7 +295,6 @@ function zeige_email($daten, $art) {
 		} else {
 			$von_nick = "<b>" . zeige_userdetails($row->u_id, $row) . "</b>";
 		}
-		$row->m_text = str_replace("<ID>", $id, $row->m_text);
 		
 		$text = '';
 		$box = htmlspecialchars($row->m_betreff);
@@ -331,7 +326,6 @@ function zeige_email($daten, $art) {
 			$text .= "<td class=\"tabelle_zeile2\">&nbsp;</td>\n";
 			$text .= "<td style=\"text-align:left;\" class=\"tabelle_zeile1\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n";
 			$text .= "<input type=\"submit\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
@@ -339,7 +333,6 @@ function zeige_email($daten, $art) {
 			
 			$text .= "<td style=\"text-align:center;\" class=\"tabelle_zeile2\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n";
 			$text .= "<input type=\"submit\" value=\"$t[nachrichten_weiterleiten]\">\n";
@@ -348,7 +341,6 @@ function zeige_email($daten, $art) {
 			
 			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$text .= "<input type=\"hidden\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
 			$text .= "<input type=\"submit\" value=\"$t[nachrichten_loeschen]\">\n";
@@ -375,7 +367,7 @@ function zeige_email($daten, $art) {
 
 function loesche_mail($bearbeite_id, $u_id) {
 	// Löscht eine Mail der ID m_id
-	global $id, $u_nick, $u_id, $t;
+	global $u_nick, $u_id, $t;
 	
 	$query = "SELECT m_zeit, m_id, m_status, m_betreff FROM mail WHERE m_id=" . $bearbeite_id . " AND m_an_uid=$u_id";
 	$result = sqlQuery($query);

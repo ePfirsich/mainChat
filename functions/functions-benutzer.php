@@ -3,7 +3,7 @@
 function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $level, $id, $locale, $user_farbe, $ist_online_raum, $t;
+	global $level, $locale, $user_farbe, $ist_online_raum, $t;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
@@ -104,17 +104,15 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			// Eingabeformular für private Nachricht ausgeben
 			if ($msgpopup) {
-				$value .= '<iframe src="messages-popup.php?id=' . $id
-				. '&user=' . $ui_id . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
+				$value .= '<iframe src="messages-popup.php?user=' . $ui_id . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
 				$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$ui_id;
 				$pmu = sqlUpdate($query, true);
 			}
 			
-			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"1000\" value=\"\" type=\"text\">"
-				. "<input name=\"id\" value=\"$id\" type=\"hidden\">"
-				. "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">"
-				. "<input type=\"submit\" value=\"Go!\">";
-			$value .= "</form>";
+			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"1000\" value=\"\" type=\"text\">\n";
+			$value .= "<input name=\"privat\" value=\"$uu_nick\" type=\"hidden\">\n";
+			$value .= "<input type=\"submit\" value=\"Go!\">\n";
+			$value .= "</form>\n";
 			
 			// Private Nachricht
 			if ($zaehler % 2 != 0) {
@@ -274,21 +272,21 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			$value = "";
 			
-			$value .= "[<a href=\"schreibe.php?id=$id&text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_ignorieren]</a>]<br>\n";
-			$value .= "[<a href=\"schreibe.php?id=$id&text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n";
-			$value .= "[<a href=\"inhalt.php?bereich=freunde&id=$id&aktion=neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_freund_hinzufuegen]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_ignorieren]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=freunde&aktion=neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_freund_hinzufuegen]</a>]<br>\n";
 			
 			// Adminmenue
 			if ($admin) {
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 			
 				if ($rows == 1) {
-					$value .= "[<a href=\"schreibe.php?id=$id&text=/gag%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_knebeln]</a>]<br>\n";
-					$value .= "[<a href=\"schreibe.php?id=$id&text=/kick%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_kicken]</a>]<br>\n";
-					$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-					$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+					$value .= "[<a href=\"schreibe.php?text=/gag%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_knebeln]</a>]<br>\n";
+					$value .= "[<a href=\"schreibe.php?text=/kick%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_kicken]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
 				}
 			}
 			
@@ -327,13 +325,11 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			// Ändern
 			$value = "";
 			$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-			$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 			$value .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
 			$value .= "</form>\n";
 			
 			$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-			$value .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
 			$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
@@ -401,14 +397,13 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 }
 
 function benutzer_suche($f, $suchtext) {
-	global $id, $t, $admin, $level;
+	global $t, $admin, $level;
 	// Suchergebnis mit Formular ausgeben
 	$box = $t['benutzer_suche_benutzer_suchen'];
 	$zaehler = 0;
 	
 	$text = "";
 	$text .= "<form name=\"suche\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suche\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<table style=\"width:100%;\">\n";

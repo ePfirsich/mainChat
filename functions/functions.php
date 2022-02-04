@@ -8,6 +8,9 @@ Header("Expires: " . gmDate("D, d M Y H:i:s", Time() - 3601) . " GMT");
 Header("Pragma: no-cache");
 Header("Cache-Control: no-cache");
 
+session_start();
+$id = $_SESSION["id"];
+
 // Variable initialisieren, einbinden, Community-Funktionen laden
 require_once("functions-init.php");
 require_once("functions-community.php");
@@ -160,7 +163,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 				// Variable aus o_userdata setzen, Level und away beachten
 				$uu_id = $userdata['u_id'];
 				$uu_level = $userdata['u_level'];
-				$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE, TRUE);
+				$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE);
 				
 				if ($userdata['u_away'] != "") {
 					$text .= "(" . $uu_nick . ")";
@@ -351,13 +354,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	return $ergebnis;
 }
 
-function priv_msg(
-	$von_user,
-	$von_user_id,
-	$an_user,
-	$farbe,
-	$text,
-	$userdata = "") {
+function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = "") {
 	// Schreibt privaten Text von $von_user an Benutzer $an_user
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
@@ -367,7 +364,7 @@ function priv_msg(
 	// Optional Link auf Benutzer erzeugen
 	
 	if ($von_user_id && is_array($userdata)) {
-		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, FALSE, "&nbsp;", "", "", FALSE, TRUE);
+		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, FALSE, "&nbsp;", "", "", TRUE); 
 	} else {
 		$f['c_von_user'] = $von_user;
 	}
@@ -506,7 +503,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	}
 }
 
-function schreibe_db($db, $f, $id, $id_name) {
+function schreibe_db($db, $f, $function_id, $id_name) {
 	// Assoziatives Array $f in DB $db schreiben 
 	// Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
 	// Sonderbehandlung für Passwörter
@@ -521,9 +518,9 @@ function schreibe_db($db, $f, $id, $id_name) {
 	}
 	$f = $neu;
 	
-	$id == intval($id);
+	$function_id = intval($function_id);
 	
-	if (strlen($id) == 0 || $id == 0) {
+	if (strlen($function_id) == 0 || $function_id == 0) {
 		// ID generieren
 		if ($db == "online" || $db == "chat") {
 			// ID aus sequence verwenden
@@ -532,9 +529,9 @@ function schreibe_db($db, $f, $id, $id_name) {
 			$query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
 			$result = sqlQuery($query);
 			if ($result) {
-				$id = mysqli_result($result, 0, 0);
+				$function_id = mysqli_result($result, 0, 0);
 				mysqli_free_result($result);
-				$query = "UPDATE sequence SET se_nextid='" . ($id + 1) . "' WHERE se_name='$db'";
+				$query = "UPDATE sequence SET se_nextid='" . ($function_id + 1) . "' WHERE se_name='$db'";
 				$result = sqlUpdate($query);
 			} else {
 				$query = "UNLOCK TABLES";
@@ -546,7 +543,7 @@ function schreibe_db($db, $f, $id, $id_name) {
 			
 		} else {
 			// ID mit auto_increment erzeugen
-			$id = 0;
+			$function_id = 0;
 		}
 		
 		// Datensatz neu schreiben
@@ -562,13 +559,13 @@ function schreibe_db($db, $f, $id, $id_name) {
 				}
 			}
 		}
-		$query = "INSERT INTO `$db` SET `$id_name` = $id" . $q;
+		$query = "INSERT INTO `$db` SET `$id_name` = $function_id" . $q;
 		$result = sqlUpdate($query);
 		if (!$result) {
 			die();
 		}
-		if ($id == 0) {
-			$id = mysqli_insert_id($mysqli_link);
+		if ($function_id == 0) {
+			$function_id = mysqli_insert_id($mysqli_link);
 		}
 		
 	} else {
@@ -588,14 +585,14 @@ function schreibe_db($db, $f, $id, $id_name) {
 				$q .= "='" . escape_string($inhalt) . "'";
 			}
 		}
-		$q = "UPDATE `$db` SET " . $q . " WHERE `$id_name` = $id";
+		$q = "UPDATE `$db` SET " . $q . " WHERE `$id_name` = $function_id";
 		$result = sqlUpdate($q, true);
 	}
 	
 	if ($db == "user" && $id_name == "u_id") {
 		// Kopie in Onlinedatenbank aktualisieren
 		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$id";
+		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$function_id";
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) == 1) {
 			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
@@ -629,13 +626,13 @@ function schreibe_db($db, $f, $id, $id_name) {
 				. "o_userdata4='" . escape_string($userdata_array[3]) . "', "
 				. "o_level='" . escape_string($userdata['u_level']) . "', "
 				. "o_name='" . escape_string($userdata['u_nick']) . "' "
-					. "WHERE o_user=$id";
+					. "WHERE o_user=$function_id";
 					sqlUpdate($query, true);
 			mysqli_free_result($result);
 		}
 	}
 	
-	return ($id);
+	return $function_id;
 }
 
 function zerlege($daten) {
@@ -698,7 +695,7 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $id, $logo;
+	global $t, $logo;
 	
 	if($logo != "") {
 	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
@@ -706,9 +703,7 @@ function zeige_kopfzeile_login() {
 	
 	$box = $t['login_chatname'];
 	$text = "<a href=\"index.php\">$t[login_login]</a>\n";
-	if( $id == '' ) { // Registrierung nur anzeigen, wenn man nicht eingeloggt ist
-		$text .= "| <a href=\"index.php?bereich=registrierung\">$t[login_registrierung]</a>\n";
-	}
+	$text .= "| <a href=\"index.php?bereich=registrierung\">$t[login_registrierung]</a>\n";
 	$text .= "| <a href=\"index.php?bereich=chatiquette\">$t[login_chatiquette]</a>\n";
 	$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
 	
@@ -837,16 +832,7 @@ function zeige_smilies($anzeigeort, $benutzerdaten) {
 	return $text;
 }
 
-function zeige_userdetails(
-	$zeige_user_id,
-	$userdaten = 0,
-	$online = FALSE,
-	$trenner = "&nbsp;",
-	$online_zeit = "",
-	$letzter_login = "",
-	$mit_id = TRUE,
-	$extra_kompakt = FALSE,
-	$benutzername_fett = TRUE) {
+function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $trenner = "&nbsp;", $online_zeit = "", $letzter_login = "", $extra_kompakt = FALSE, $benutzername_fett = TRUE) {
 		// Liefert Benutzernamen + Level + Gruppe + E-Mail + Benutzerseite zurück
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
@@ -856,15 +842,9 @@ function zeige_userdetails(
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
-	global $id, $system_farbe, $t, $show_geschlecht;
-	global $leveltext, $punkte_grafik, $chat_grafik, $locale;
+	global $system_farbe, $t, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
 	
 	$text = "";
-	if ($mit_id) {
-		$idtag = $id;
-	} else {
-		$idtag = "<ID>";
-	}
 	
 	if (is_array($userdaten)) {
 		// Array wurde übergeben
@@ -978,7 +958,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$url = "inhalt.php?bereich=benutzer&id=$idtag&aktion=benutzer_zeig&ui_id=$user_id";
+		$url = "inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id";
 		if($benutzername_fett) {
 			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
 		} else {
@@ -1002,7 +982,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt) {
-		$grafikurl1 = "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community&id=$idtag\" target=\"chat\">";
+		$grafikurl1 = "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community\" target=\"chat\">";
 		$grafikurl2 = "</a>";
 	} else {
 		$grafikurl1 = "";
@@ -1024,7 +1004,7 @@ function zeige_userdetails(
 	}
 	
 	if (!$extra_kompakt && $trenner != "" && $user_nick) {
-		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=" . URLENCODE($user_nick) . "&id=" . $idtag;
+		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=" . URLENCODE($user_nick);
 		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">$chat_grafik[mail]</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
@@ -1235,14 +1215,17 @@ function hole_geschlecht($userid) {
 
 function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
-	id_lese($id);
+	
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {
 		verlasse_chat($u_id, $u_nick, $o_raum);
-		//sleep(2);
 		logout($o_id, $u_id);
 		echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 	}
+	
+	// Session löschen
+	$_SESSION = array();
+	session_destroy();
 }
 
 function verlasse_chat($u_id, $u_nick, $raum) {
@@ -1371,7 +1354,7 @@ function logout($o_id, $u_id) {
 				}
 			}
 			// Aktion ausführen
-			aktion($u_id, $wann, $an_u_id, $u_nick, "", "Freunde", $f);
+			aktion($u_id, $wann, $an_u_id, $u_nick, "Freunde", $f);
 		}
 	}
 	mysqli_free_result($result);
@@ -1421,7 +1404,7 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 }
 
 function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, $maxHeight) {
-	global $id, $t;
+	global $t;
 	
 	if (is_array($bilder) && isset($bilder['avatar']) && $bilder['avatar']['b_mime']) {
 		$width = $bilder['avatar']['b_width'];
@@ -1440,7 +1423,7 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 		if ($aufruf == "avatar_aendern") {
 			// Avatar ändern
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&id=$id&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$t[benutzer_loeschen]</a>]</b><br><br></td>\n";
+			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$t[benutzer_loeschen]</a>]</b><br><br></td>\n";
 		} else if ($aufruf == "profil") {
 			// Profil
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
@@ -1454,7 +1437,6 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 	} else if ($aufruf == "avatar_aendern") {
 		$text = "<td style=\"vertical-align:top;\">";
 		$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
-		$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n";
 		$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
@@ -1519,45 +1501,45 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 }
 
 function reset_system($wo_online) {
-	global $id, $u_level, $o_raum;
+	global $u_level, $o_raum;
 	// Reset ausführen
 	if ( $wo_online == "userliste" ) {
 		echo "<script>\n";
-		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "parent.frames[2].location.href='user.php';\n";
 		echo "</script>";
 	} else if ( $wo_online == "userliste_interaktiv" ) {
 		echo "<script>\n";
-		echo "parent.frames[2].location.href='user.php?id=$id';\n";
-		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "parent.frames[2].location.href='user.php';\n";
+		echo "parent.frames[4].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	} else if ( $wo_online == "forum" ) {
 		echo "<script>\n";
-		echo "parent.frames[2].location.href='user.php?id=$id';\n";
+		echo "parent.frames[2].location.href='user.php';\n";
 		echo "</script>";
 	} else if ( $wo_online == "chatfenster" ) {
 		echo "<script>\n";
-		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
+		echo "parent.frames[1].location.href='chat.php';\n";
 		echo "</script>";
 	} else if ( $wo_online == "moderator" ) {
 		echo "<script>\n";
-		echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
+		echo "parent.frames[4].location.href='moderator.php';\n";
 		echo "</script>";
 	} else if ($u_level == "M") {
 		echo "<script>\n";
-		echo "parent.frames[0].location.href='navigation.php?id=$id';";
-		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
-		echo "parent.frames[2].location.href='user.php?id=$id';\n";
-		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
-		echo "parent.frames[4].location.href='moderator.php?id=$id';\n";
-		echo "parent.frames[5].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "parent.frames[0].location.href='navigation.php';";
+		echo "parent.frames[1].location.href='chat.php';\n";
+		echo "parent.frames[2].location.href='user.php';\n";
+		echo "parent.frames[3].location.href='eingabe.php';\n";
+		echo "parent.frames[4].location.href='moderator.php';\n";
+		echo "parent.frames[5].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	} else {
 		echo "<script>\n";
-		echo "parent.frames[0].location.href='navigation.php?id=$id';";
-		echo "parent.frames[1].location.href='chat.php?id=$id';\n";
-		echo "parent.frames[2].location.href='user.php?id=$id';\n";
-		echo "parent.frames[3].location.href='eingabe.php?id=$id';\n";
-		echo "parent.frames[4].location.href='interaktiv.php?id=$id&o_raum_alt=$o_raum';\n";
+		echo "parent.frames[0].location.href='navigation.php';";
+		echo "parent.frames[1].location.href='chat.php';\n";
+		echo "parent.frames[2].location.href='user.php';\n";
+		echo "parent.frames[3].location.href='eingabe.php';\n";
+		echo "parent.frames[4].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	}
 }

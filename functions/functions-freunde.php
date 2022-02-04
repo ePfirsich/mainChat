@@ -1,7 +1,7 @@
 <?php
 function zeige_freunde($text, $aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $id, $u_nick, $u_id, $t, $locale;
+	global $u_nick, $u_id, $t, $locale;
 	
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
@@ -21,9 +21,8 @@ function zeige_freunde($text, $aktion, $zeilen) {
 			break;
 	}
 	
-	$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n"
-		. "<input type=\"hidden\" name=\"id\" value=\"$id\">\n"
-		. "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
+	$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"bearbeite\">\n";
 	
 	$result = sqlQuery($query);
 	if ($result) {
@@ -110,7 +109,7 @@ function zeige_freunde($text, $aktion, $zeilen) {
 				$text .= "<td $bgcolor>" . $auf . $txt . $zu . "</td>\n";
 				$text .= "<td $bgcolor>" . $auf . $infotext . $zu . "</td>\n";
 				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>\n";
-				$text .= "<td style=\"text-align:center;\" $bgcolor><a href=\"inhalt.php?bereich=freunde&id=$id&aktion=editinfotext&daten_id=$row->f_id\" class=\"button\" title=\"$t[freunde_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[freunde_editieren]</span></a></td>";
+				$text .= "<td style=\"text-align:center;\" $bgcolor><a href=\"inhalt.php?bereich=freunde&aktion=editinfotext&daten_id=$row->f_id\" class=\"button\" title=\"$t[freunde_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[freunde_editieren]</span></a></td>";
 				$text .= "</tr>\n";
 
 				$i++;
@@ -136,7 +135,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// Löscht Freund aus der Tabelle mit f_userid und f_freundid
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
-	global $id, $u_nick, $u_id, $t;
+	global $u_nick, $u_id, $t;
 	
 	$text = "";
 	if (!$f_userid || !$f_freundid) {
@@ -165,12 +164,11 @@ function loesche_freund($f_freundid, $f_userid) {
 
 function formular_neuer_freund($text, $daten) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id, $t;
+	global $t;
 	
 	$box = $t['freunde_neuen_freund_hinzufuegen'];
 	
 	$text .= "<form action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"neu2\">\n";
 	$text .= "<table style=\"width:100%;\">";
 	
@@ -202,13 +200,12 @@ function formular_neuer_freund($text, $daten) {
 
 function formular_editieren($daten) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Freund aus
-	global $id, $t;
+	global $t;
 	
 	$box = $t['freunde_freundestext_aendern'];
 	
 	$text = "";
 	$text .= "<form action=\"inhalt.php?bereich=freunde\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editinfotext2\">\n";
 	$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"$daten[id]\">\n";
 	$text .= "<table style=\"width:100%;\">";
@@ -237,7 +234,7 @@ function formular_editieren($daten) {
 
 function neuer_freund($f_userid, $daten) {
 	// Trägt neuen Freund in der Datenbank ein
-	global $id, $system_farbe, $t;
+	global $system_farbe, $t;
 	
 	$text = "";
 	if (!$daten['id'] || !$f_userid) {

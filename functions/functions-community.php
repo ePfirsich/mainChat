@@ -15,7 +15,7 @@ function suche_threadord($poid) {
 	return ($to);
 }
 
-function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
+function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 	// Hat der Benutzer neue Chat-Mail?
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
@@ -28,8 +28,7 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	if ($result && mysqli_num_rows($result) > 0) {
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
-			$ur1 = "inhalt.php?bereich=nachrichten&id=$id&aktion=";
-			$url = "href=\"$ur1\" target=\"_blank\"";
+			$url = "href=\"inhalt.php?bereich=nachrichten\" target=\"_blank\"";
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['chatmsg_mail1']));
 		}
 		
@@ -65,18 +64,16 @@ function mail_neu($u_id, $u_nick, $id, $nachricht = "OLM") {
 	
 }
 
-function profil_neu($u_id, $u_nick, $id) {
+function profil_neu($u_id, $u_nick) {
 	// Hat der Benutzer sein Profil ausgefüllt?
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Benutzers
-	
 	global $system_farbe, $t;
 	
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 0) {
-		$ur1 = "inhalt.php?bereich=profil&id=$id&aktion=neu";
-		$url = "href=\"$ur1\" ";
+		$url = "href=\"inhalt.php?bereich=profil&aktion=neu\" ";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
 	}
 	mysqli_free_result($result);
@@ -250,20 +247,12 @@ function punkte_offline($anzahl, $user_id) {
 	
 }
 
-function aktion(
-	$user_id,
-	$typ,
-	$an_u_id,
-	$u_nick,
-	$id = "",
-	$suche_was = "",
-	$inhalt = "") {
+function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = "") {
 	// Programmierbare Aktionen für Benutzer $an_u_id von Benutzer $u_nick
 	// Verschickt eine Nachricht (Aktion) zum Login, Raumwechsel, Sofort oder alle 5 Minuten aus (a_wann)
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	// typ = "Sofort/Offline", "Sofort/Online", "Login", "Alle 5 Minuten"
-	// Die Session-ID $id kann optional übergeben werden
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
 	global $t;
@@ -291,7 +280,7 @@ function aktion(
 			if ($suche_was != "" && isset($a_was)
 				&& is_array($a_was[$suche_was])) {
 				foreach ($a_was[$suche_was] as $wie => $was) {
-					aktion_sende($suche_was, $wie, $inhalt, $an_u_id, $user_id, $u_nick, $id);
+					aktion_sende($suche_was, $wie, $inhalt, $an_u_id, $user_id, $u_nick);
 				}
 			}
 			break;
@@ -299,30 +288,30 @@ function aktion(
 		case "Alle 5 Minuten":
 		// Aktionen ausführen
 			if (isset($a_was["Freunde"]["OLM"])) {
-				freunde_online($an_u_id, $u_nick, $id, "OLM");
+				freunde_online($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Freunde"]["Chat-Mail"])) {
-				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
+				freunde_online($an_u_id, $u_nick, "Chat-Mail");
 			}
 			if (isset($a_was["Freunde"]["E-Mail"])) {
-				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+				freunde_online($an_u_id, $u_nick, "E-Mail");
 			}
 			
 			if (isset($a_was["Neue Mail"]["OLM"])) {
-				mail_neu($an_u_id, $u_nick, $id, "OLM");
+				mail_neu($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Neue Mail"]["E-Mail"])) {
-				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+				mail_neu($an_u_id, $u_nick, "E-Mail");
 			}
 			
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
-				postings_neu($an_u_id, $u_nick, $id, "OLM");
+				postings_neu($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
-				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
+				postings_neu($an_u_id, $u_nick, "Chat-Mail");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
-				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
+				postings_neu($an_u_id, $u_nick, "E-Mail");
 			}
 			
 			// Merken, wann zuletzt die Aktionen ausgeführt wurden
@@ -335,52 +324,43 @@ function aktion(
 		default:
 		// Aktionen ausführen
 			if (isset($a_was["Freunde"]["OLM"])) {
-				freunde_online($an_u_id, $u_nick, $id, "OLM");
+				freunde_online($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Freunde"]["Chat-Mail"])) {
-				freunde_online($an_u_id, $u_nick, $id, "Chat-Mail");
+				freunde_online($an_u_id, $u_nick, "Chat-Mail");
 			}
 			if (isset($a_was["Freunde"]["E-Mail"])) {
-				freunde_online($an_u_id, $u_nick, $id, "E-Mail");
+				freunde_online($an_u_id, $u_nick, "E-Mail");
 			}
 			
 			if (isset($a_was["Neue Mail"]["OLM"])) {
-				mail_neu($an_u_id, $u_nick, $id, "OLM");
+				mail_neu($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Neue Mail"]["E-Mail"])) {
-				mail_neu($an_u_id, $u_nick, $id, "E-Mail");
+				mail_neu($an_u_id, $u_nick, "E-Mail");
 			}
 			
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
-				postings_neu($an_u_id, $u_nick, $id, "OLM");
+				postings_neu($an_u_id, $u_nick, "OLM");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
-				postings_neu($an_u_id, $u_nick, $id, "Chat-Mail");
+				postings_neu($an_u_id, $u_nick, "Chat-Mail");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
-				postings_neu($an_u_id, $u_nick, $id, "E-Mail");
+				postings_neu($an_u_id, $u_nick, "E-Mail");
 			}
 	}
 }
 
-function aktion_sende(
-	$a_was,
-	$a_wie,
-	$inhalt,
-	$an_u_id,
-	$von_u_id,
-	$u_nick,
-	$id = "")
-{
+function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 	// Versendet eine Nachricht an Benutzer $an_u_id von $von_u_id/$u_nick
 	// Der Inhalt der Nachricht wird in $inhalt übergeben
-	// Die Session-ID $id kann optional übergeben werden
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	
 	global $system_farbe, $t;
 	
-	$userlink = zeige_userdetails($von_u_id, 0, FALSE, "&nbsp;", "", "", FALSE);
+	$userlink = zeige_userdetails($von_u_id);
 	
 	switch ($a_wie) {
 		case "OLM":
@@ -575,9 +555,9 @@ function mail_sende($von, $an, $text, $betreff = "") {
 		
 		// Nachricht über neue E-Mail sofort erzeugen
 		if (ist_online($an)) {
-			aktion($u_id, "Sofort/Online", $an, $u_nick, "", "Neue Mail", $f);
+			aktion($u_id, "Sofort/Online", $an, $u_nick, "Neue Mail", $f);
 		} else {
-			aktion($u_id, "Sofort/Offline", $an, $u_nick, "", "Neue Mail", $f);
+			aktion($u_id, "Sofort/Offline", $an, $u_nick, "Neue Mail", $f);
 		}
 	}
 	if (!isset($f['m_id'])) {
@@ -602,7 +582,6 @@ function email_versende(
 	// Umwandlung der Entities rückgängig machen, Slashes und Tags entfernen
 	$trans = get_html_translation_table(HTML_ENTITIES);
 	$trans = array_flip($trans);
-	$text = str_replace("<ID>", "", $text);
 	$text = strip_tags(strtr($text, $trans));
 	$betreff = strip_tags(strtr($betreff, $trans));
 	
@@ -639,7 +618,7 @@ function email_versende(
 	}
 }
 
-function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
+function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 	// Sind Freunde des Benutzers online?
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
@@ -697,7 +676,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 						mysqli_free_result($r2);
 						
 						$weiterer = $t['chat_msg90'];
-						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online, "", FALSE), $weiterer);
+						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
 						$txt .= $weiterer;
@@ -762,7 +741,7 @@ function freunde_online($u_id, $u_nick, $id, $nachricht = "OLM") {
 
 //prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
-function postings_neu($an_u_id, $u_nick, $id, $nachricht) {
+function postings_neu($an_u_id, $u_nick, $nachricht) {
 	global $t, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
@@ -881,12 +860,12 @@ function erzeuge_baum($threadorder, $po_id, $thread) {
 	}
 	
 	$baum = "";
-	foreach ($arr_baum as $key => $id) {
+	foreach ($arr_baum as $key => $kid) {
 		
 		if ($key == 0) {
-			$baum = $arr_postings[$id]['titel'];
+			$baum = $arr_postings[$kid]['titel'];
 		} else {
-			$baum .= " -> " . $arr_postings[$id]['titel'];
+			$baum .= " -> " . $arr_postings[$kid]['titel'];
 		}
 	}
 	

@@ -2,8 +2,6 @@
 require_once("functions/functions.php");
 require_once("functions/functions-forum.php");
 
-$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);
-
 // Benutzerdaten setzen
 id_lese($id);
 
@@ -31,6 +29,6 @@ zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
 require_once("functions/functions-frameset.php");
 
-frameset_forum($id);
+frameset_forum();
 ?>
 </html>

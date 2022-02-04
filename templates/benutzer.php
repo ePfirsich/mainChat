@@ -379,7 +379,6 @@ switch ($aktion) {
 			$box = $t['benutzer_raum_anderen_raum_zeigen'];
 			
 			$text .= "<form name=\"raum\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">";
-			$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">";
 			$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
 			if ($admin) {
 				$text .= raeume_auswahl($schau_raum, TRUE, FALSE, FALSE);
