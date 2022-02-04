@@ -2,9 +2,9 @@
 
 // Funktionen, die NUR von interaktiv.php verwendet werden.
 
-require_once("functions/functions-func-nachricht.php");
-require_once("functions/functions-func-html_parse.php");
-require_once("functions/functions-func-raum_gehe.php");
+require_once("functions/functions-nachrichten_betrete_verlasse.php");
+require_once("functions/functions-html_parse.php");
+require_once("functions/functions-raum_gehe.php");
 require_once("functions/functions-freunde.php");
 
 function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {

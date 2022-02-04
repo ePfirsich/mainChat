@@ -1,6 +1,6 @@
 <?php
 // Funktionen nur für index.php
-require_once("functions/functions-func-nachricht.php");
+require_once("functions/functions-nachrichten_betrete_verlasse.php");
 
 function erzeuge_sequence($db, $id) {
 	// Funktion erzeugt einen Datensatz in der Tabelle squence mit der nächsten freien ID

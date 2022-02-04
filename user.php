@@ -2,7 +2,7 @@
 
 require_once("functions/functions.php");
 require_once("functions/functions-user.php");
-require_once("functions/functions-func-nachricht.php");
+require_once("functions/functions-nachrichten_betrete_verlasse.php");
 require_once("languages/$sprache-user.php");
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_URL);

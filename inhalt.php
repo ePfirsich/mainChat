@@ -220,7 +220,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			// Benutzer anzeigen
 			require_once("functions/functions-benutzer.php");
 			require_once("functions/functions-user.php");
-			require_once("functions/functions-func-nachricht.php");
+			require_once("functions/functions-nachrichten_betrete_verlasse.php");
 			require_once("languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben

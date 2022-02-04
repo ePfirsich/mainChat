@@ -1,5 +1,5 @@
 <?php
-require_once("functions/functions-func-raum_gehe.php");
+require_once("functions/functions-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {

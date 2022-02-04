@@ -24,7 +24,7 @@ if ($o_raum && $o_raum == "-1") {
 
 // Weitere Funktionen für die Raumanzeige im Forum notwendig
 if($wo_online == "forum") {
-	require_once("functions/functions-func-raeume_auswahl.php");
+	require_once("functions/functions-raeume_auswahl.php");
 }
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgeloggt werden soll

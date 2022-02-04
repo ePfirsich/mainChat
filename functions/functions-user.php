@@ -2,7 +2,7 @@
 
 // functions nur für user.php
 
-require_once("functions/functions-func-raeume_auswahl.php");
+require_once("functions/functions-raeume_auswahl.php");
 
 function user_pm_list($larr) {
 	// Gibt Benutzerliste $larr als Tabelle aus
