@@ -170,7 +170,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 			break;
 		
 		case "postausgang":
-		$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
+			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
 			$button = $t['nachrichten_loeschen'];
 			$titel = $t['nachrichten_postausgang2'];
@@ -215,12 +215,6 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 			$bgcolor = 'class="tabelle_zeile1"';
 			while ($row = mysqli_fetch_object($result)) {
 				if($art == "gesendet") {
-					$url = "";
-					$url2 = "";
-					
-					
-					
-					
 					$url = "<a href=\"inhalt.php?bereich=nachrichten&aktion=zeige_gesendet&daten_id=". $row->m_id . "\">";
 					$url2 = "</a>";
 				} else {
@@ -243,12 +237,13 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 					$von_nick = $row->u_nick;
 				}
 				
-				$text .= "<tr>"
-					."<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">" . $zu . "</td>"
-					. "<td $bgcolor style=\"text-align:center; padding-left: 5px;\">" . $status . "</td>"
-					. "<td $bgcolor>" . $auf . $url . $von_nick . $url2 . $zu . "</td>" . "<td style=\"width:50%;\" $bgcolor>" . $auf . $url . htmlspecialchars($row->m_betreff) . "</a>" . $zu . "</td>"
-					. "<td $bgcolor>" . $auf . $row->zeit . $zu . "</td>"
-					. "</tr>\n";
+				$text .= "<tr>\n";
+				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . "<input type=\"checkbox\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">" . $zu . "</td>\n";
+				$text .= "<td $bgcolor style=\"text-align:center; padding-left: 5px;\">" . $status . "</td>\n";
+				$text .= "<td $bgcolor>" . $auf . $url . $von_nick . $url2 . $zu . "</td>\n";
+				$text .= "<td style=\"width:50%;\" $bgcolor>" . $auf . $url . html_entity_decode($row->m_betreff) . "</a>" . $zu . "</td>\n";
+				$text .= "<td $bgcolor>" . $auf . $row->zeit . $zu . "</td>\n";
+				$text .= "</tr>\n";
 				
 				if (($i % 2) > 0) {
 					$bgcolor = 'class="tabelle_zeile1"';
@@ -297,7 +292,7 @@ function zeige_email($daten, $art) {
 		}
 		
 		$text = '';
-		$box = htmlspecialchars($row->m_betreff);
+		$box = html_entity_decode($row->m_betreff);
 		
 		// Mail ausgeben
 		$text .= "<table style=\"width:100%;\">\n";
@@ -317,7 +312,7 @@ function zeige_email($daten, $art) {
 		// Text
 		$text .= "<tr>\n";
 		$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>$t[nachrichten_text]</b></td>\n";
-		$text .= "<td colspan=3 class=\"tabelle_zeile1\">" . str_replace("\n", "<br>\n", $row->m_text) . "</td>\n";
+		$text .= "<td colspan=3 class=\"tabelle_zeile1\">" . html_entity_decode( str_replace("\n", "<br>\n", $row->m_text) ) . "</td>\n";
 		$text .= "</tr>\n";
 		
 		// Formular zur Löschen, Beantworten

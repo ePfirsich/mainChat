@@ -1520,10 +1520,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			break;
 		
 		default:
+			
 			if (!($o_knebel > 0)) {
 				// Gibt Spruch aus, falls Eingabe mit = beginnt
 				if (preg_match("/^=/", $chatzeile[0])) {
-					
 					// Spruch suchen und ausgeben
 					if ($u_level == "G") {
 						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
@@ -1544,10 +1544,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if (!isset($chatzeile[3])) {
 							$chatzeile[3] = "";
 						}
-						if (preg_match("/\"/", $chatzeile[1])
-							|| preg_match("/\"/", $chatzeile[2])
-							|| preg_match("/\"/", $chatzeile[3])) {
+						if (preg_match("/\"/", $chatzeile[1]) || preg_match("/\"/", $chatzeile[2]) || preg_match("/\"/", $chatzeile[3])) {
 							$text = trim($text);
+							
 							// Nur bei gerader anzahl an " geht es
 							if (substr_count($text, '"') == 2) {
 								$temp = explode('"', $text, 3);
@@ -1712,7 +1711,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$f['c_farbe'] = $u_farbe;
 						
 						// Ist Raum moderiert? $ist_moderiert und $raum_einstellungen wurde in raum_ist_moderiert() gesetzt
-						
 						if (!$ist_eingang && !$ist_moderiert) {
 							// raum ist nicht moderiert -> schreiben.
 							$ergebnis = schreibe_chat($f);
@@ -1724,9 +1722,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Punkte berechnen und Benutzer gutschreiben
 							// Punkte=Anzahl der Wörter mit mindestens 4 Buchstaben
 							// Punkte werden nur in permanenten, offen Räumen gutgeschrieben!
-							if ($u_level != "G" && ($raum_einstellungen['r_status1'] == "O" || $raum_einstellungen['r_status1'] == "m")
-								&& $raum_einstellungen['r_status2'] == "P") {
-								
+							if ($u_level != "G" && ($raum_einstellungen['r_status1'] == "O" || $raum_einstellungen['r_status1'] == "m") && $raum_einstellungen['r_status2'] == "P") {
 								// Punkte gutschreiben, wenn im Raum mindestens $punkte_ab_user Benutzer online sind
 								$query = "SELECT COUNT(o_id) FROM online WHERE o_raum=$o_raum";
 								$result = sqlQuery($query);
@@ -1750,10 +1746,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 									
 									unset($punktetext);
 								}
-								
 							}
-							
-						} elseif ($ist_moderiert) {
+						} else if ($ist_moderiert) {
 							if ($u_level == "M") {
 								// sonderfall: moderator -> hier doch schreiben	
 								// vorher testen, ob es markierte fragen gibt:

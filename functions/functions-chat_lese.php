@@ -509,7 +509,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 						}
 				}
 				// Chatzeile ausgeben
-				echo $zanfang . $c_text . $zende;
+				echo $zanfang . html_entity_decode($c_text) . $zende;
 				
 				// Ist aktuelle Zeile die erste Zeile oder eine Folgezeile einer Serie ?
 				// Eine Serie steht immer am Stück in der DB (schreiben mit Lock Table)
@@ -529,7 +529,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	}
 	
 	flush();
-	return ($text_ausgegeben);
+	return $text_ausgegeben;
 }
 
 ?>

@@ -140,7 +140,7 @@ function forum_liste() {
 				$text .= "</tr>\n";
 				
 				$text .= "<tr>\n";
-				$text .= "<td colspan=\"2\" class =\"tabelle_kopfzeile\">&nbsp;&nbsp;&nbsp;" .htmlspecialchars($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>\n";
+				$text .= "<td colspan=\"2\" class =\"tabelle_kopfzeile\">&nbsp;&nbsp;&nbsp;" .html_entity_decode($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>\n";
 				if ($forum_admin) {
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:300px; text-align:right; vertical-align:middle;\">\n";
 					$text .= "<a href=\"forum.php?aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
@@ -188,7 +188,7 @@ function forum_liste() {
 				if ($forum_admin) {
 					$text .= "<td style=\"font-weight:bold; padding-left:10px;\" $farbe>\n";
 					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&aktion=show_forum\">\n";
-					$text .= htmlspecialchars($thema['th_name']) . "</a><br><span class=\"smaller\"> " . htmlspecialchars($thema['th_desc']) . "</span>\n";
+					$text .= html_entity_decode($thema['th_name']) . "</a><br><span class=\"smaller\"> " . html_entity_decode($thema['th_desc']) . "</span>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"width:170px; text-align:center; vertical-align:middle;\" $farbe>\n";
@@ -243,10 +243,11 @@ function show_icon_description() {
 	return $text;
 }
 
-//Eingabemaske für Thema
+//Eingabemaske für Foren
 function maske_forum($th_id = 0) {
 	global $fo_id, $t;
 	
+	$text = "";
 	if ($th_id > 0) {
 		$sql = "SELECT th_name, th_desc FROM `forum_foren` WHERE th_id=" . intval($th_id);
 		$query = sqlQuery($sql);
@@ -264,8 +265,8 @@ function maske_forum($th_id = 0) {
 	}
 	
 	$zaehler = 0;
-	$text = "<table style=\"width:100%;\">\n";
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Name des Forums
 	$text .= zeige_formularfelder("input", $zaehler, $t['forum_name'], "th_name",  $th_name);
@@ -320,9 +321,9 @@ function maske_forum($th_id = 0) {
 	$zaehler++;
 	
 	
-	$text .= "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
-		
 	$text .= "</table>\n";
+	$text .= "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
+	
 	if ($th_id > 0) {
 		$text .= "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"forum_editieren\">\n";
@@ -341,7 +342,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php#$fo_id\">$fo_name</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=$seite\">$th_name</a></td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php#$fo_id\">" . html_entity_decode($fo_name) . "</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=$seite\">" . html_entity_decode($th_name) . "</a></td>\n";
 	
 	if (!$anzahl_po_seite || $anzahl_po_seite == 0) {
 		$anzahl_po_seite = 20;
@@ -410,7 +411,7 @@ function show_forum() {
 	
 	$text .= "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td colspan=\"5\" class=\"tabelle_kopfzeile\">$th_name</td>\n";
+	$text .= "<td colspan=\"5\" class=\"tabelle_kopfzeile\">" . html_entity_decode($th_name) . "</td>\n";
 	$text .= "<td style=\"text-align:right;\" class=\"tabelle_kopfzeile\">\n";
 	
 	$schreibrechte = pruefe_schreibrechte($th_id);
@@ -479,13 +480,12 @@ function show_forum() {
 		$text .= "<tr><td style=\"text-align:center;\" $farbe>$folder</nobr></td>\n";
 			
 		if ($posting['po_gesperrt'] == 1 && !$forum_admin) {
-			$text .= "<td $farbe style=\"font-weight:bold; font-size: smaller;\">&nbsp;"
-				. substr($posting['po_titel'], 0, 40) . " <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
+			$text .= "<td $farbe style=\"font-weight:bold; font-size: smaller;\">&nbsp;" . html_entity_decode(substr($posting['po_titel'], 0, 40)) . " <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
 		} else if ($posting['po_gesperrt'] == 1 && $forum_admin) {
 			$text .= "<td $farbe style=\"font-weight:bold;\" class=\"smaller\">&nbsp;<a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
-				. substr($posting['po_titel'], 0, 40) . "</a> <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
+			. html_entity_decode(substr($posting['po_titel'], 0, 40)) . "</a> <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
 		} else {
-			$text .= "<td $farbe  class=\"smaller\">&nbsp;<b><a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">" . substr($posting['po_titel'], 0, 40) . "</a></b></td>\n";
+			$text .= "<td $farbe class=\"smaller\">&nbsp;<b><a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">" . html_entity_decode(substr($posting['po_titel'], 0, 40)) . "</a></b></td>\n";
 		}
 		
 		if (!$posting['u_nick']) {
@@ -754,7 +754,7 @@ function show_pfad_posting($th_id, $po_titel) {
 	$text = "";
 	$text .= "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php#$fo_id\">$fo_name</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=$seite\">$th_name</a> > $po_titel</td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php#$fo_id\">" . html_entity_decode($fo_name) . "</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=$seite\">" . html_entity_decode($th_name) . "</a> > " . html_entity_decode($po_titel) . "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -934,7 +934,7 @@ function show_posting() {
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Thema
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $po_titel, "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, html_entity_decode($po_titel), "", "", 0, "70", "");
 	
 	
 	// Vom Benutzer gelesene Beiträge holen
@@ -1013,7 +1013,7 @@ function show_posting() {
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]$po_date</td>\n";
 		$text .= "</tr>\n";
 		$text .= "<tr>\n";
-		$text .= "<td class=\"tabelle_zeile1\">$po_text</td>\n";
+		$text .= "<td class=\"tabelle_zeile1\">" . html_entity_decode($po_text) . "</td>\n";
 		$text .= "</tr>\n";
 		
 		$text .= "<tr>\n";

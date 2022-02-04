@@ -9,7 +9,7 @@ function show_pfad_posting2($th_id, $thread) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	mysqli_free_result($query);
 	
-	return "<a href=\"forum.php#$fo_id\">$fo_name</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=1\">$th_name</a>";
+	return "<a href=\"forum.php#$fo_id\">" . html_entity_decode($fo_name) . "</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=1\">" . html_entity_decode($th_name) . "</a>";
 	
 }
 
@@ -40,7 +40,7 @@ function such_bereich() {
 	
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
-	. "<input type=\"text\" name=\"suche_text\" value=\"" . htmlspecialchars($suche['text']) . "\" size=50></td></tr>\n";
+	. "<input type=\"text\" name=\"suche_text\" value=\"" . $suche['text'] . "\" size=\"50\"></td></tr>\n";
 		
 	// Suche in Board/Thema
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
@@ -424,10 +424,10 @@ function such_ergebnis() {
 					$col = '';
 				}
 				
-				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td><td $bgcolor>";
+				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td>";
 				$thread = vater_rekursiv($fund['po_id']);
-				$text .= "<span class=\"smaller\"><b><a href=\"forum.php?th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
-				<span style=\"font-size: smaller; $col \">" . $fund['po_titel'] . "</span></a>";
+				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+				<span style=\"font-size: smaller; $col \">" . html_entity_decode($fund['po_titel']) . "</span></a>";
 				if ($fund['po_gesperrt'] == 1) {
 					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
 				}
