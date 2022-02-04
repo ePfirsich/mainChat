@@ -24,11 +24,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 	$fehler = false;
 	
 	// Falls $text eine Eingabezeile enthält -> verarbeiten
-	
-	// Prüfung der Eingabe bei Admin und Moderator auf 4 fache Anzahl der normalen Eingabe
-	if (($admin || ($u_level == "M")) && isset($text) && (strlen($text) != 0) && (strlen($text) < (5 * 255))) {
-		
-	} else if (isset($text) && strlen($text) != 0 && strlen($text) < 255) { // Normale Prüfung für Benutzer
+	if ( isset($text) && strlen($text) != 0 && strlen($text) <= 1000 ) {
 		// Spamschutz prüfen, falls kein Admin und kein Moderator
 		if (!$admin && ($u_level <> "M")) {
 			
@@ -84,7 +80,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 				$fehler = true;
 			}
 		}
-	} else if (isset($text) && strlen($text) >= 255) {
+	} else if (isset($text) && strlen($text) > 1000) {
 		$fehler = true;
 	}
 	
