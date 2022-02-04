@@ -83,38 +83,6 @@ function profil_neu($u_id, $u_nick, $id) {
 	
 }
 
-function autoselect($name, $voreinstellung, $tabelle, $feld) {
-	// Erzeugt Select-Feld aus der Datenbank
-	// $name=Name der Auswahl
-	// $voreinstellung=Voreinstellung der Auswahl
-	// $tabelle=Name der Tabelle in der Datenbank
-	// $feld=Name des Felds
-	
-	global $system_farbe, $t;
-	
-	$text = "";
-	$query = "SHOW COLUMNS FROM $tabelle LIKE '" . escape_string($feld) . "'";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$txt = substr(mysqli_result($result, 0, "Type"), 4, -1);
-		$felder = explode(",", $txt);
-		$text .= "<select name=\"$name\">\n";
-		while (list($key, $set_name) = each($felder)) {
-			$set_name = substr($set_name, 1, -1);
-			if ($set_name == $voreinstellung) {
-				$text .= "<option selected value=$set_name>$set_name\n";
-			} else {
-				$text .= "<option value=\"$set_name\">$set_name\n";
-			}
-		}
-		$text .= "</select>\n";
-	}
-	
-	mysqli_free_result($result);
-	
-	return $text;
-}
-
 function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 	// Addiert/Subtrahiert $anzahl Punkte auf das Punktekonto des Benutzers $o_id/$user_id
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert

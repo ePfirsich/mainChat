@@ -1,6 +1,5 @@
 <?php
-
-function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
+function raeume_auswahl($raum, $offen, $alle, $nur_chat = true) {
 	// Gibt Liste aller Räume aus, wenn $offen=0
 	// Gibt Liste aller offenen (O,T) Räume aus, wenn $offen=1
 	// $raum ist Voreinstellung
@@ -47,7 +46,6 @@ function raeume_auswahl($raum, $offen, $alle, $nur_chat = TRUE) {
 	
 	// offen=FALSE, falls nur offene Räume gezeigt werden sollen
 	if (!$offen) {
-		
 		// Liste der Räume aufstellen und die Anzahl der Benutzer ergänzen
 		$query = "SELECT r_id FROM raum LEFT JOIN invite ON inv_raum=r_id WHERE inv_user='$u_id' ";
 		$result = sqlQuery($query);

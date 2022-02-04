@@ -1,5 +1,4 @@
 <?php
-
 function formular_neue_email($text, $daten) {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
 	global $id, $t;

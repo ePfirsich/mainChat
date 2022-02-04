@@ -1,5 +1,4 @@
 <?php
-
 function profil_editor($u_id, $u_nick, $f) {
 	// Editor zur Änderung oder zur Neuanlage eines Profils
 	// $u_id=Benutzer-ID

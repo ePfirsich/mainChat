@@ -1,5 +1,4 @@
 <?php
-
 function home_info($home) {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $id, $userdata, $t, $level, $t, $u_id, $u_nick;
