@@ -40,7 +40,6 @@ $hilfe_befehlstext = array(
 	"/kick NAME\tSperrt Benutzer NAME aus dem aktuellen Raum dauerhaft aus\t/plop\tNochmalige Eingabe gibt den Eintritt für diesen Benutzer wieder frei",
 	"/quit TEXT\tBeendet den Chat mit den Worten TEXT (logoff).\t/exit, /ende\tDie Angabe von TEXT ist optional",
 	"/hilfe\tListet die Kurzhilfe auf\t/help, /?",
-	"/freunde NAME\tMacht NAME zu meinem Freund\t/freund, /buddy\tNochmalige Eingabe nimmt NAME aus der Freundesliste",
 	"/einlad NAME\tLädt einen Benutzer in den Raum ein\t/invite\tNur für Admins oder Raumbesitzer",
 	"/zeige NAME\tGibt die Benutzerinformationen für den Benutzer NAME aus <br>(% ist Joker).\t/whois",
 	"/wuerfel\tWürfel werfen\t/dice\t/wuerfel 2W6 <br>wirft 2 sechseitige Würfel",
@@ -66,7 +65,6 @@ $hilfe_befehlstext_admin = array(
 	"/oplist\tAuflisten aller eingeloggten Admins\t\t/oplist",
 	"/lob USER PUNKTE\tLobt Benutzer: Er erhält Punkte gutgeschrieben\tDie Angabe von PUNKTE ist optional\t",
 	"/tadel USER PUNKTE\tTadelt Benutzer: Er erhält Punkte abgezogen\tDie Angabe von PUNKTE ist optional\t/bestraf",
-	"/blacklist USER\tSetzt Benutzer auf die Blacklist oder löscht ihn\t\t/blackliste",
 	"/ip USER<br>/ip w.x.y.z\tZeigt die Benutzer zu einer IP\t\t",
 	"/dupes\tZeigt doppelt eingeloggte Benutzer\t\t/dupes");
 

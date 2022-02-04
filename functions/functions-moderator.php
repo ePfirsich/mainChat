@@ -19,9 +19,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			}
 			$text .= "<tr>";
 			$text .= "<td align=left $bgcolor><small>";
-			$text .= "<a href=\"#\" onclick=\"opener.parent.frames['schreibe'].location='schreibe.php?id=$id&text=";
-			$text .= urlencode($row->c_text);
-			$text .= "'; return(false);\">";
+			$text .= "<a href=\"schreibe.php?id=$id&text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
 			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
 			$text .= "<a href=moderator.php?id=$id&mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
 			$text .= "<a href=moderator.php?id=$id&mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
@@ -29,6 +27,27 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			$text .= "</tr>";
 		}
 		mysqli_free_result($result);
+		
+		$text .= "<span id=\"out\"></span>\n";
+		$text .= "<script>
+			document.querySelectorAll('a.schreibe-chat').forEach(item => {
+				item.addEventListener('click', event => {
+					// Default-Aktion für Klick auf den Link,
+					// d. h. direktes Aufrufen der Seite, verhindern, da wir das Linkziel mit Ajax aufrufen wollen:
+					event.preventDefault();
+					// Link aus dem href-Attribut holen:
+					const link = event.target.href;
+					fetch(link, {
+						method: 'get'
+					}).then(res => {
+						return res.text();
+						}).then(res => {
+							console.log(res);
+							document.getElementById('out').innerHTML = res;
+						});
+				});
+			})
+			</script>";
 	}
 	$text .= "</table>";
 	$text .= "<br><center>";

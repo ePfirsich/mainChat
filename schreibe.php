@@ -19,6 +19,8 @@ if( $text == '') {
 	$text = filter_input(INPUT_GET, 'text', FILTER_SANITIZE_STRING);
 }
 
+$username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_STRING);
+
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
 $user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUMBER_INT);
 

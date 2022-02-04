@@ -1484,138 +1484,6 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			break;
 		
-		case "/freunde":
-		case "/freund":
-		case "/buddy":
-			// Fügt Freund der Freundesliste hinzu oder löscht einen Eintrag
-			if ($u_level != "G") {
-				$privat = FALSE;
-				$text = html_parse($privat, htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]))[0];
-				
-				if ($chatzeile[1]) {
-					// Nach usernamen suchen
-					$nick = nick_ergaenze($chatzeile[1], "online", 1);
-					
-					// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
-					if ($nick['u_nick'] == "") {
-						$query = "SELECT u_nick,u_id,u_level FROM user WHERE u_nick='"
-								. escape_string(coreCheckName($chatzeile[1], $check_name)) . "'";
-								$result = sqlQuery($query);
-						if ($result && mysqli_num_rows($result) == 1) {
-							$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
-						}
-						mysqli_free_result($result);
-					}
-					
-					$freunddazu = 1;
-					if ($nick['u_nick'] != "" && $nick['u_id']) {
-						$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='$nick[u_id]' AND i_user_passiv = '$u_id'";
-						$result2 = sqlQuery($query2);
-						$num = mysqli_num_rows($result2);
-						if ($num >= 1) {
-							$freunddazu = -1;
-						}
-						if ($nick['u_level'] == 'Z') {
-							$freunddazu = -2;
-						}
-						if ($nick['u_level'] == 'G') {
-							$freunddazu = -3;
-						}
-						mysqli_free_result($result2);
-					}
-					
-					// Falls nick gefunden, prüfen ob er bereits in Tabelle steht
-					if ($nick['u_nick'] != "" && $nick['u_id']) {
-						$query = "SELECT f_id from freunde WHERE (f_userid=$nick[u_id] AND f_freundid=$u_id ) OR (f_userid=$u_id AND f_freundid=$nick[u_id] )";
-						
-						$result = sqlQuery($query);
-						if ($result && mysqli_num_rows($result) > 0) {
-							// Benutzer ist bereits Freund -> entfernen
-							$query = "DELETE from freunde WHERE (f_userid=$nick[u_id] AND f_freundid=$u_id) OR (f_userid=$u_id AND f_freundid=$nick[u_id])";
-							$result = sqlUpdate($query);
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['chat_msg84']));
-						} else if ($nick['u_id'] == $u_id) {
-							// Eigener Freund ist verboten
-							system_msg("", 0, $u_id, $system_farbe, $t['chat_msg89']);
-						} else {
-							if ($freunddazu == 1) {
-								// Benutzer ist noch kein Freund -> hinzufügen
-								unset($daten);
-								$daten['id'] = $nick['u_id'];
-								$daten['u_nick'] = $nick['u_nick'];
-								if (strlen($text) > 1) {
-									$daten['f_text'] = $text;
-								}
-								
-								$text = neuer_freund($u_id, $daten);
-								# system_msg("",0,$u_id,$system_farbe,str_replace("%u_nick%",$nick[u_nick],$t[chat_msg83]));
-								system_msg("", 0, $u_id, $system_farbe, $text);
-							} else if ($freunddazu == -1) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_ignoriert']));
-							} else if ($freunddazu == -2) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_gesperrt']));
-							} else if ($freunddazu == -3) {
-								system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['freunde_fehlermeldung_gast']));
-							}
-						}
-					} else {
-						// Benutzer nicht gefunden
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
-					}
-				}
-				
-				// Listet alle Freunde auf
-				$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' "
-					. "UNION "
-					. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
-				
-				$result = sqlQuery($query);
-				if ($result && mysqli_num_rows($result) > 0) {
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, $t['chat_msg85']));
-					
-					while ($row = mysqli_fetch_object($result)) {
-						// Benutzer aus DB lesen
-						if ($row->f_userid != $u_id) {
-							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id,"
-								. "date_format(u_login,'%d.%m.%y %H:%i') as login, "
-								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_userid ";
-								$result2 = sqlQuery($query);
-						} else if ($row->f_freundid != $u_id) {
-							$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d.%m.%y %H:%i') as login, "
-								. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$row->f_freundid ";
-								$result2 = sqlQuery($query);
-						}
-						if ($result2 && mysqli_num_rows($result2) > 0) {
-							// Benutzer gefunden -> Ausgeben
-							$row2 = mysqli_fetch_object($result2);
-							if ($row2->o_id == "" || $row2->o_id == "NULL") {
-								$row2->online = "";
-							}
-							$txt = zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online, $row2->login, FALSE);
-						} else {
-							// Benutzer nicht gefunden, Freund löschen
-							$txt = "NOBODY";
-							$query = "DELETE from freunde WHERE f_id=$row->f_id";
-							$result2 = sqlUpdate($query);
-						}
-						
-						// Text als Systemnachricht ausgeben
-						if ($row->f_text) {
-							$txt .= " (" . $row->f_text . ")";
-						}
-						system_msg("", 0, $u_id, $system_farbe, "&nbsp;&nbsp;" . $txt);
-						
-					}
-				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg86']);
-				}
-				mysqli_free_result($result);
-			} else {
-				// Fehlermeldung Gast
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
-			}
-			break;
-		
 		case "/time":
 		// Gibt die Systemuhrzeit aus
 			$tempzeit = $t['chat_msg114'];
@@ -1624,94 +1492,35 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			system_msg("", 0, $u_id, $system_farbe, $tempzeit);
 			unset($tempzeit);
 			break;
-		
-		case "/blacklist":
-		case "/blackliste":
-		// Fügt Eintrag der Blacklist hinzu oder löscht einen Eintrag
-		
-			if ($admin) {
-				$privat = FALSE;
-				$text = html_parse($privat, htmlspecialchars($chatzeile[2] . " " . $chatzeile[3]))[0];
-				
-				if ($chatzeile[1]) {
-					// Nach usernamen suchen
-					$nick = nick_ergaenze($chatzeile[1], "online", 1);
-					
-					// Falls keinen Empfänger gefunden, in Benutzertabelle nachsehen
-					if ($nick['u_nick'] == "") {
-						$chatzeile[1] = coreCheckName($chatzeile[1], $check_name);
-						$query = "SELECT u_nick,u_id from user WHERE u_nick='" . escape_string($chatzeile[1]) . "'";
-						$result = sqlQuery($query);
-						if ($result && mysqli_num_rows($result) == 1) {
-							$nick = mysqli_fetch_array($result, MYSQLI_ASSOC);
-						}
-						mysqli_free_result($result);
+			
+		case "/quiddice":
+		case "/dicecheck":
+			if (!$o_dicecheck) {
+				if (preg_match("!^\d+[wW]\d+$!", $chatzeile[1])) {
+					$o_dicecheck = escape_string($chatzeile[1]);
+					$query = "UPDATE online SET o_dicecheck = '$o_dicecheck' WHERE o_user = $u_id";
+					sqlUpdate($query);
+					if (!isset($t['chat_dicecheck_msg0'])) {
+						$t['chat_dicecheck_msg0'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
 					}
-					
-					// Falls nick gefunden, prüfen ob er bereits in Tabelle steht
-					if ($nick['u_nick'] != "" && $nick['u_id']) {
-						$query = "SELECT f_id from blacklist WHERE f_blacklistid=$nick[u_id] ";
-						$result = sqlQuery($query);
-						
-						if ($result && mysqli_num_rows($result) > 0) {
-							// Benutzer ist bereits auf der Liste -> entfernen
-							$query = "DELETE from blacklist WHERE f_blacklistid=$nick[u_id] ";
-							$result = sqlUpdate($query);
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['chat_msg97']));
-						} else if ($nick['u_id'] == $u_id) {
-							// Eigener Freund ist verboten
-							system_msg("", 0, $u_id, $system_farbe, $t['chat_msg99']);
-						} else {
-							// Benutzer ist noch kein Eintrag -> hinzufügen
-							$f['f_userid'] = $u_id;
-							$f['f_blacklistid'] = $nick['u_id'];
-							if (strlen($text) > 1) {
-								$f['f_text'] = $text;
-							}
-							schreibe_db("blacklist", $f, 0, "f_id");
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $nick['u_nick'], $t['chat_msg96']));
-						}
-					} else {
-						// Benutzer nicht gefunden
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg8']));
-					}
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0] . " " . $chatzeile[1], $t['chat_dicecheck_msg0']));
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg98']);
+					if (!isset($t['chat_dicecheck_msg1'])) {
+						$t['chat_dicecheck_msg1'] = "<b>$chat:</b> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
+					}
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg1']));
 				}
-				mysqli_free_result($result);
 			} else {
-				// Fehlermeldung
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				$o_dicecheck = "";
+				$query = "UPDATE online SET o_dicecheck = '' WHERE o_user = $u_id";
+				sqlUpdate($query);
+				if (!isset($t['chat_dicecheck_msg2'])) {
+					$t['chat_dicecheck_msg2'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
+				}
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg2']));
 			}
 			break;
-			
-			case "/quiddice":
-			case "/dicecheck":
-				if (!$o_dicecheck) {
-					if (preg_match("!^\d+[wW]\d+$!", $chatzeile[1])) {
-						$o_dicecheck = escape_string($chatzeile[1]);
-						$query = "UPDATE online SET o_dicecheck = '$o_dicecheck' WHERE o_user = $u_id";
-						sqlUpdate($query);
-						if (!isset($t['chat_dicecheck_msg0'])) {
-							$t['chat_dicecheck_msg0'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
-						}
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0] . " " . $chatzeile[1], $t['chat_dicecheck_msg0']));
-					} else {
-						if (!isset($t['chat_dicecheck_msg1'])) {
-							$t['chat_dicecheck_msg1'] = "<b>$chat:</b> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
-						}
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg1']));
-					}
-				} else {
-					$o_dicecheck = "";
-					$query = "UPDATE online SET o_dicecheck = '' WHERE o_user = $u_id";
-					sqlUpdate($query);
-					if (!isset($t['chat_dicecheck_msg2'])) {
-						$t['chat_dicecheck_msg2'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
-					}
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg2']));
-				}
-				break;
+		
 		default:
 			if (!($o_knebel > 0)) {
 				// Gibt Spruch aus, falls Eingabe mit = beginnt

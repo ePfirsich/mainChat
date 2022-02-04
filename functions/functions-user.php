@@ -154,11 +154,13 @@ function user_liste($larr, $seitenleiste = false) {
 		
 		if ($seitenleiste) {
 			if ($level == "admin") {
-				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
+				$trow .= "<a href=\"schreibe.php?text=/gag%20$v[u_nick]&id=$id\" class=\"schreibe-chat\">G</a>&nbsp;";
+				//$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"gaguser('" . $v['u_nick'] . "'); return(false)\">G</a>&nbsp;";
 			}
 			
 			if ($level == "admin" || $level == "owner") {
-				$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
+				$trow .= "<a href=\"schreibe.php?text=/kick%20$v[u_nick]&id=$id\" class=\"schreibe-chat\">K</a>&nbsp;";
+				//$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"kickuser('" . $v['u_nick'] . "'); return(false)\">K</a>&nbsp;";
 			}
 			
 			if ($level2 == "admin") {
@@ -166,6 +168,31 @@ function user_liste($larr, $seitenleiste = false) {
 				$host_name = htmlspecialchars(gethostbyaddr($o_ip));
 				$trow .= "<a href=\"inhalt.php?bereich=sperren&aktion=neu&id=$id&hname=$host_name&ipaddr=$o_ip&uname=$v[u_nick]\" target=\"chat\">S</a>&nbsp;";
 			}
+			
+			if ($level == "admin" || $level == "owner") {
+				$trow .= "<span id=\"out\"></span>\n";
+				$trow .= "<script>
+					document.querySelectorAll('a.schreibe-chat').forEach(item => {
+						item.addEventListener('click', event => {
+							// Default-Aktion für Klick auf den Link,
+							// d. h. direktes Aufrufen der Seite, verhindern, da wir das Linkziel mit Ajax aufrufen wollen:
+							event.preventDefault();
+							// Link aus dem href-Attribut holen:
+							const link = event.target.href;
+							fetch(link, {
+								method: 'get'
+							}).then(res => {
+								return res.text();
+								}).then(res => {
+									console.log(res);
+									document.getElementById('out').innerHTML = res;
+								});
+						});
+					})
+					</script>";
+			}
+			
+			
 			
 			if ($level == "admin" || $level == "owner") {
 				$trow .= "&nbsp;";

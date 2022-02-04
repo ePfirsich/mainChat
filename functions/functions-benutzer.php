@@ -274,35 +274,47 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			
 			$value = "";
 			
-			$mlnk[1] = "schreibe.php?id=$id&text=/ignore%20$uu_nick";
-			$mlnk[2] = "schreibe.php?id=$id&text=/einlad%20$uu_nick";
-			$value .= "[<a href=\"$mlnk[1]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[1]';return(false);\">$t[benutzer_ignorieren]</a>]<br>\n";
-			$value .= "[<a href=\"$mlnk[2]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[2]';return(false);\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-			$mlnk[8] = "inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&daten_nick=$uu_nick";
-			$mlnk[9] = "schreibe.php?id=$id&text=/freunde%20$uu_nick";
-			$value .= "[<a href=\"$mlnk[8]\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n"
-			. "[<a href=\"$mlnk[9]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[9]';return(false);\">$t[benutzer_freund]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?id=$id&text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_ignorieren]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?id=$id&text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&id=$id&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=freunde&id=$id&aktion=neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_freund_hinzufuegen]</a>]<br>\n";
 			
 			// Adminmenue
 			if ($admin) {
 				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
 				$value .= "[<a href=\"inhalt.php?bereich=benutzer&id=$id&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
-			}
 			
-			// Adminmenue
-			if ($admin && $rows == 1) {
-				$mlnk[3] = "inhalt.php?bereich=benutzer&id=$id&trace=" . urlencode($host_name) . "&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum";
-				$mlnk[4] = "schreibe.php?id=$id&text=/gag%20$uu_nick";
-				$mlnk[5] = "schreibe.php?id=$id&text=/kick%20$uu_nick";
-				$mlnk[6] = "inhalt.php?bereich=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name);
-				$value .= "[<a href=\"$mlnk[4]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[4]';return(false);\">$t[benutzer_knebeln]</a>]<br>\n"
-				. "[<a href=\"$mlnk[5]\" target=\"schreibe\" onclick=\"opener.parent.frames['schreibe'].location='$mlnk[5]';return(false);\">$t[benutzer_kicken]</a>]<br>\n"
-				. "[<a href=\"$mlnk[6]\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+				if ($rows == 1) {
+					$value .= "[<a href=\"schreibe.php?id=$id&text=/gag%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_knebeln]</a>]<br>\n";
+					$value .= "[<a href=\"schreibe.php?id=$id&text=/kick%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_kicken]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&id=$id&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+				}
 			}
 			
 			$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
 			$zaehler++;
+			
+			$trow .= "<span id=\"out\"></span>\n";
+			$trow .= "<script>
+				document.querySelectorAll('a.schreibe-chat').forEach(item => {
+					item.addEventListener('click', event => {
+						// Default-Aktion für Klick auf den Link,
+						// d. h. direktes Aufrufen der Seite, verhindern, da wir das Linkziel mit Ajax aufrufen wollen:
+						event.preventDefault();
+						// Link aus dem href-Attribut holen:
+						const link = event.target.href;
+						fetch(link, {
+							method: 'get'
+						}).then(res => {
+							return res.text();
+							}).then(res => {
+								console.log(res);
+								document.getElementById('out').innerHTML = res;
+							});
+					});
+				})
+				</script>";
 		}
 		
 		// Admin-Menü 3

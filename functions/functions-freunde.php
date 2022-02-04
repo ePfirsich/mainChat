@@ -1,5 +1,4 @@
 <?php
-
 function zeige_freunde($text, $aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
 	global $id, $u_nick, $u_id, $t, $locale;
