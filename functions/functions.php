@@ -1702,7 +1702,7 @@ function hinweis($text, $typ = fehler) {
 	if($typ == "fehler") {
 		return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
 	} else if($typ == "erfolgreich") {
-			return "<p class=\"fehler\"><span class=\"fa fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
+		return "<p class=\"erfolgreich\"><span class=\"fa fa-check-square icon24\" alt=\"$t[hinweis_erfolgreich]\" title=\"$t[hinweis_erfolgreich]\"></span> $text</p>\n";
 	} else {
 		return "<p class=\"hinweis\"><span class=\"fa fa-info icon24\" alt=\"$t[hinweis_hinweis]\" title=\"$t[hinweis_hinweis]\"></span> $text</p>\n";
 	}

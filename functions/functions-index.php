@@ -97,7 +97,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "UPDATE user SET u_login=NOW(),u_away='' WHERE u_id=$user_id";
 	$result = sqlUpdate($query, true);
 	if (!$result) {
-		echo "Fehler beim Login: $query<br>";
+		email_senden($kontakt_email, "Fehler beim Login1", "Fehler beim Login1: $query<br>");
 		exit;
 	}
 	
@@ -150,6 +150,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	}
 	$user_id = schreibe_db("user", $f, $user_id, "u_id");
 	if (!$user_id) {
+		global $kontakt_email;
 		email_senden($kontakt_email, "Fataler Fehler beim Login", "Fataler Fehler beim Login:<PRE>" . print_r($f) . "</PRE>");
 		exit;
 	}
@@ -159,7 +160,8 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	$query = "SELECT i_user_passiv FROM iignore WHERE i_user_aktiv=$user_id";
 	$result = sqlQuery($query);
 	if (!$result) {
-		email_senden($kontakt_email, "Fehler beim Login", "Fehler beim Login (iignore): $query<br>");
+		global $kontakt_email;
+		email_senden($kontakt_email, "Fehler beim Login2", "Fehler beim Login (iignore): $query<br>");
 		exit;
 	} else {
 		if (mysqli_num_rows($result) == 0) {
