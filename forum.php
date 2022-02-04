@@ -17,6 +17,10 @@ $fo_name = filter_input(INPUT_POST, 'fo_name', FILTER_SANITIZE_STRING);
 $po_titel = filter_input(INPUT_POST, 'po_titel', FILTER_SANITIZE_STRING);
 $po_text = filter_input(INPUT_POST, 'po_text', FILTER_SANITIZE_STRING);
 
+$th_name = filter_input(INPUT_POST, 'th_name', FILTER_SANITIZE_STRING);
+$th_desc = filter_input(INPUT_POST, 'th_desc', FILTER_SANITIZE_STRING);
+$fo_id = filter_input(INPUT_POST, 'fo_id', FILTER_SANITIZE_STRING);
+
 $thread = filter_input(INPUT_GET, 'thread', FILTER_SANITIZE_NUMBER_INT);
 if($thread == "") {
 	$thread = filter_input(INPUT_POST, 'thread', FILTER_SANITIZE_NUMBER_INT);
