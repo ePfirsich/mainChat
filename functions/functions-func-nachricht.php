@@ -18,7 +18,7 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	if ($eintritt_individuell == "1") {
 		$query = "SELECT `u_eintritt` FROM `user` WHERE `u_id` = $user_id";
 		// Debug-Output
-		if($user_id == null || $user_id == "") {
+		if( !isset($user_id) || $user_id == null || $user_id == "") {
 			global $kontakt_email;
 			email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-ID: " . $r_id . " Raumname: " . $r_name);
 		}

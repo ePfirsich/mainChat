@@ -335,7 +335,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	
 	if (strlen($raum) > 0) {
 		// Prüfung ob Benutzer aus Raum ausgesperrt ist
-		if($user_id == null || $user_id == "") {
+		if(!isset($user_id) || $user_id == null || $user_id == "") {
 			global $kontakt_email;
 			email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-ID: " . $raum . " Online-ID: " . $o_id);
 		}

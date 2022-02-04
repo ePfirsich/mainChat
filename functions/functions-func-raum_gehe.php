@@ -22,7 +22,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	}
 	
 	// Ist Benutzer aus dem Raum ausgesperrt?
-	if($user_id == null || $user_id == "") {
+	if(!isset($user_id) || $user_id == null || $user_id == "") {
 		global $kontakt_email;
 		email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-alt: " . $raum_alt . " Raum-neu: " . $raum_neu . " Online-ID: " . $o_id);
 	}
