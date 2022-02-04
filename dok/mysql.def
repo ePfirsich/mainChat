@@ -100,7 +100,6 @@
 # o_aktion		Zeitpunkt, wann die letzte Aktion ausgeführt wurde
 # o_timeout_zeit	Zeitpunkt, wann die letzte Zeile im Chat geschrieben wurde
 # o_timeout_warnung	1=Warnung über bevorstehenden Logout wurde angezeigt
-# o_chat_historie	Enthält die Anzehl der Zeichen mit Timestamp, die der User zuletzt schrieb
 # o_spam_zeit		Sekundengenauer Zeitpunkt (timestamp), aus den sich o_spam_zeilen und o_spam_byte bezieht
 # o_spam_zeilen		Enthält serialised die Anzahl der Zeilen pro Sekunde, die der User zuletzt schrieb
 # o_spam_byte		Enthält serialised die Anzahl der Bytes/Zeichen pro Sekunde, die der User zuletzt schrieb
@@ -339,7 +338,6 @@ CREATE TABLE online (
 	`o_aktion` int(11) unsigned NOT NULL default '0',
 	`o_timeout_zeit` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '0',
 	`o_timeout_warnung` int(1) UNSIGNED NOT NULL DEFAULT 0,
-	`o_chat_historie` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`o_spam_zeilen` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`o_spam_byte` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
 	`o_spam_zeit` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL default '',
