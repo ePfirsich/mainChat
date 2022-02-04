@@ -1,6 +1,6 @@
 <?php
-//Eingabemaske für neues Forum
-function maske_forum($fo_id = 0) {
+// Kategorie anlegen oder editieren
+function maske_kategorie($fo_id = 0) {
 	global $id, $t;
 	
 	if ($fo_id > 0) {
@@ -10,27 +10,15 @@ function maske_forum($fo_id = 0) {
 		$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
 		$fo_admin = mysqli_result($query, 0, "fo_admin");
 		mysqli_free_result($query);
-		
-		$kopfzeile = str_replace("xxx", $fo_name, $t['kategorie_editieren_mit_Name']);
-		$button = $t['kategorie_editieren'];
-	} else {
-		$kopfzeile = $t['kategorie_anlegen'];
-		$button = $t['kategorie_anlegen'];
-		
 	}
-	
 	$zaehler = 0;
 	
 	$text = "";
-	$text .= "<a href=\"forum.php?aktion=suche&id=$id\" class=\"button\" title=\"$t[button_suche]\"><span class=\"fa fa-search icon16\"></span> <span>$t[button_suche]</span></a><br><br>\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
 	
-	// Überschrift: Neue Kategorie anzeigen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $kopfzeile, "", "", 0, "70", "");
-	
 	// Name der Kategorie
-	$text .= zeige_formularfelder("input", $zaehler, $t['kategorie_name'], "fo_name",  $fo_name);
+	$text .= zeige_formularfelder("input", $zaehler, $t['forum_kategorie_name'], "fo_name",  $fo_name);
 	$zaehler++;
 	
 	// Gäste dürfen
@@ -103,15 +91,15 @@ function maske_forum($fo_id = 0) {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$button\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[forum_button_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	if ($fo_id > 0) {
 		$text .= "<input type=\"hidden\" name=\"fo_id\" value=\"$fo_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"forum_editieren\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"kategorie_editieren\">\n";
 	} else {
-		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"forum_anlegen\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"kategorie_anlegen\">\n";
 	}
 	
 	$text .= "</table>\n";
@@ -141,11 +129,8 @@ function forum_liste() {
 	if ($query && mysqli_num_rows($query) > 0) {
 		$text = "";
 		
-		if ($forum_admin && !$aktion) {
-			$text .= "<a href=\"forum.php?id=$id&aktion=forum_neu\" class=\"button\" title=\"$t[kategorie_anlegen]\"><span class=\"fa fa-plus icon16\"></span> <span>$t[kategorie_anlegen]</span></a>\n";
-		}
-		$text .= "<a href=\"forum.php?aktion=suche&id=$id\" class=\"button\" title=\"$t[button_suche]\"><span class=\"fa fa-search icon16\"></span> <span>$t[button_suche]</span></a>\n";
-		
+		// Funktioniert noch nicht
+		//$text .= "<a href=\"forum.php?id=$id&aktion=foren_als_gelesen\" class=\"button\" title=\"$t[forum_foren_gelesen_markieren]\"><span class=\"fa fa-check icon16\"></span> <span>$t[forum_foren_gelesen_markieren]</span></a>\n";
 		
 		$text .= "<table style=\"width:100%\">\n";
 		while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -159,15 +144,15 @@ function forum_liste() {
 				$text .= "<td colspan=\"2\" class =\"tabelle_kopfzeile\">&nbsp;&nbsp;&nbsp;" .htmlspecialchars($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>\n";
 				if ($forum_admin) {
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:300px; text-align:right; vertical-align:middle;\">\n";
-					$text .= "<a href=\"forum.php?id=$id&aktion=forum_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?id=$id&aktion=forum_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[kategorie_loeschen]')\" class=\"button\" title=\"$t[button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[button_loeschen]</span></a>\n";
-					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&aktion=thema_neu\" class=\"button\" title=\"$t[button_neues_forum]\"><span class=\"fa fa-plus icon16\"></span> <span>$t[button_neues_forum]</span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&aktion=kategorie_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[forum_kategorie_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$t[forum_button_neues_forum]\"><span class=\"fa fa-plus icon16\"></span> <span>$t[forum_button_neues_forum]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:50px; text-align:center;\">\n";
-					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
+					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
 					$text .= "<br>\n";
-					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=forum_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
 					$text .= "<td class=\"tabelle_kopfzeile\" style=\"width:300px;\">&nbsp;</td>";
@@ -203,31 +188,31 @@ function forum_liste() {
 				$text .= "<td style=\"width:50px; text-align:center;\" $farbe>$folder</td>";
 				if ($forum_admin) {
 					$text .= "<td style=\"font-weight:bold; padding-left:10px;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=show_thema\">\n";
+					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=show_forum\">\n";
 					$text .= htmlspecialchars($thema['th_name']) . "</a><br><span class=\"smaller\"> " . htmlspecialchars($thema['th_desc']) . "</span>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"width:170px; text-align:center; vertical-align:middle;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=thema_edit\" class=\"button\" title=\"$t[button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?id=$id&aktion=thema_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[forum_loeschen]')\" class=\"button\" title=\"$t[button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=forum_edit\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&aktion=forum_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[forum_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"text-align:center;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
+					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
 					$text .= "<br>\n";
-					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=thema_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
+					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
 					$text .= "<td style=\"font-weight:bold; padding-left:10px;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=show_thema\">" . htmlspecialchars($thema['th_name']) . "</a><br>\n";
+					$text .= "<a href=\"forum.php?id=$id&th_id=$thema[th_id]&aktion=show_forum\">" . htmlspecialchars($thema['th_name']) . "</a><br>\n";
 					$text .= "<span class=\"smaller\"> " . htmlspecialchars($thema['th_desc']) . "</span></td>\n";
 					
 					$text .= "<td $farbe>&nbsp;</td>";
 					$text .= "<td $farbe>&nbsp;</td>";
 				}
 				$text .= "<td style=\"padding-left:10px;\" $farbe>";
-				$text .= "<span class=\"fa fa-comment icon16\"></span> $thema[th_anzthreads] $t[kategorie_themen]<br>";
-				$text .= "<span class=\"fa fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $t[kategorie_beitraege]";
+				$text .= "<span class=\"fa fa-comment icon16\"></span> $thema[th_anzthreads] $t[forum_kategorie_themen]<br>";
+				$text .= "<span class=\"fa fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $t[forum_kategorie_beitraege]";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 			}
@@ -260,9 +245,8 @@ function show_icon_description() {
 }
 
 //Eingabemaske für Thema
-function maske_thema($th_id = 0) {
-	global $id, $fo_id;
-	global $t;
+function maske_forum($th_id = 0) {
+	global $id, $fo_id, $t;
 	
 	if ($th_id > 0) {
 		$sql = "SELECT th_name, th_desc FROM `forum_foren` WHERE th_id=" . intval($th_id);
@@ -270,17 +254,10 @@ function maske_thema($th_id = 0) {
 		$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
 		$th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
 		mysqli_free_result($query);
-		
-		$button = $t['forum_speichern'];
-	} else {
-		$button = $t['forum_anlegen'];
 	}
 	
 	if (!isset($th_name)) {
 		$th_name = "";
-		$kopfzeile = $t['forum_anlegen'];
-	} else {
-		$kopfzeile = str_replace("xxx", $th_name, $t['forum_editieren_mit_Name']);
 	}
 	
 	if (!isset($th_desc)) {
@@ -290,9 +267,6 @@ function maske_thema($th_id = 0) {
 	$zaehler = 0;
 	$text = "<table style=\"width:100%;\">\n";
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
-	
-	// Überschrift: Neue Kategorie anlegen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $kopfzeile, "", "", 0, "70", "");
 	
 	// Name des Forums
 	$text .= zeige_formularfelder("input", $zaehler, $t['forum_name'], "th_name",  $th_name);
@@ -342,7 +316,7 @@ function maske_thema($th_id = 0) {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$button\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[forum_button_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	
@@ -353,9 +327,9 @@ function maske_thema($th_id = 0) {
 	$text .= "</table>\n";
 	if ($th_id > 0) {
 		$text .= "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"thema_editieren\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"forum_editieren\">\n";
 	} else {
-		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"thema_anlegen\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"forum_anlegen\">\n";
 	}
 	$text .= "</form>\n";
 	
@@ -369,7 +343,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=$seite\">$th_name</a></td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_forum&seite=$seite\">$th_name</a></td>\n";
 	
 	if (!$anzahl_po_seite || $anzahl_po_seite == 0) {
 		$anzahl_po_seite = 20;
@@ -383,7 +357,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 				} else {
 					$col = '';
 				}
-				$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=$page\"><span style=\"$col;\">$page</span></a> ";
+				$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_forum&seite=$page\"><span style=\"$col;\">$page</span></a> ";
 			}
 			$text .= "</td></tr>\n";
 	} else {
@@ -395,7 +369,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 }
 
 //Zeigt ein Thema mit allen Beiträgen an
-function show_thema() {
+function show_forum() {
 	global $id, $forum_admin, $th_id, $seite;
 	global $anzahl_po_seite, $chat_grafik, $t;
 	global $admin, $u_id, $locale;
@@ -434,8 +408,6 @@ function show_thema() {
 	
 	$text = "";
 	
-	$text .= "<a href=\"forum.php?aktion=suche&id=$id\" class=\"button\" title=\"$t[button_suche]\"><span class=\"fa fa-search icon16\"></span> <span>$t[button_suche]</span></a><br><br>\n";
-	
 	$text .= show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads);
 	
 	$text .= "<table style=\"width:100%\">\n";
@@ -449,7 +421,7 @@ function show_thema() {
 	} else {
 		$text .= "<span class=\"smaller\">$t[nur_leserechte]</span><br>\n";
 	}
-	$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&aktion=thema_alles_gelesen\" class=\"button\" title=\"$t[forum_alle_themen_als_gelesen_markieren]\"><span class=\"fa fa-check icon16\"></span> <span>$t[forum_alle_themen_als_gelesen_markieren]</span></a>\n";
+	$text .= "<a href=\"forum.php?id=$id&th_id=$th_id&aktion=forum_als_gelesen\" class=\"button\" title=\"$t[forum_forum_gelesen_markieren]\"><span class=\"fa fa-check icon16\"></span> <span>$t[forum_forum_gelesen_markieren]</span></a>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "<tr>\n";
@@ -572,21 +544,6 @@ function show_thema() {
 	$text .= "</table>\n";
 	$text .= show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads);
 	$text .= show_icon_description();
-	$text .= "<br>\n";
-	$text .= "<table class=\"tabelle_gerust2\">\n";
-	$text .= "<tr>\n";
-	$text .= "<td>\n";
-	$text .= "<form action=\"forum.php\" method=\"post\">\n";
-	$text .= "$t[forum_postingsproseite] <input name=\"anzahl_po_seite2\" size=\"3\" maxlength=\"4\" value=\"$anzahl_po_seite\">\n";
-	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"show_thema\">\n";
-	$text .= "<input type=\"hidden\" name=\"th_id\" value=\"$th_id\">\n";
-	$text .= "<input type=\"submit\" value=\"$t[speichern]\">\n";
-	$text .= "</form>\n";
-	$text .= "</td>\n";
-	$text .= "</tr>\n";
-	$text .= "</table>\n";
-	
 	
 	return $text;
 }
@@ -801,7 +758,7 @@ function show_pfad_posting($th_id, $po_titel) {
 	$text = "";
 	$text .= "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=$seite\">$th_name</a> > $po_titel</td>\n";
+	$text .= "<td class=\"smaller\"><a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_forum&seite=$seite\">$th_name</a> > $po_titel</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	

@@ -3,37 +3,49 @@
 // Übersetzungen für das Forum allgemein
 
 $t['forum_header'] = "Forum";
+$t['forum_menue_forenuebersicht_anzeigen'] = "Forenübersicht anzeigen";
+
+$t['forum_kopfzeile_forenuebersicht'] = "Forenübersicht";
+$t['forum_kopfzeile_suche'] = "Forum durchsuchen";
+$t['forum_kopfzeile_kategorie_anlegen'] = "Neue Kategorie anlegen";
+$t['forum_kopfzeile_kategorie_editieren'] = "Kategorie editieren";
+$t['forum_kopfzeile_forum_anlegen'] = "Neues Forum anlegen";
+$t['forum_kopfzeile_forum_editieren'] = "Forum editieren";
+$t['forum_kopfzeile_thema_erstellen'] = "Neues Thema erstellen";
+$t['forum_kopfzeile_thema_editieren'] = "Thema editieren";
+$t['forum_kopfzeile_thema_verschieben'] = "Thema verschieben";
+$t['forum_kopfzeile_forum'] = "Forum";
+$t['forum_kopfzeile_thema'] = "Thema";
 
 // Buttons
-$t['button_editieren'] = "editieren";
-$t['button_loeschen'] = "löschen";
-$t['button_neues_forum'] = "Neues Forum";
-$t['button_suche'] = "Forum durchsuchen";
+$t['forum_button_editieren'] = "editieren";
+$t['forum_button_loeschen'] = "löschen";
+$t['forum_button_neues_forum'] = "Neues Forum";
+$t['forum_button_suche'] = "Forum durchsuchen";
+$t['forum_button_speichern'] = "Speichern";
 
-// Kategorie
-$t['kategorie_name'] = "Name der Kategorie:";
-$t['kategorie_anlegen'] = "Neue Kategorie anlegen";
-$t['kategorie_editieren'] = "Kategorie editieren";
-$t['kategorie_editieren_mit_Name'] = "Kategorie xxx bearbeiten";
-$t['kategorie_themen'] = "Themen";
-$t['kategorie_beitraege'] = "Beiträge";
-$t['kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
+// Kategorien
+$t['forum_kategorie_name'] = "Name der Kategorie:";
+$t['forum_kategorie_anlegen'] = "Neue Kategorie anlegen";
+$t['forum_kategorie_editieren'] = "Kategorie editieren";
+$t['forum_kategorie_themen'] = "Themen";
+$t['forum_kategorie_beitraege'] = "Beiträge";
+$t['forum_kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
-$t['kategorie_geloescht'] = "Die Kategorie %kategorie% wurde komplett gelöscht!";
-$t['forum_geloescht'] = "Das Forum %forum% wurde komplett gelöscht!";
-$t['thema_geloescht'] = "Das Thema wurde komplett gelöscht!";
+$t['forum_kategorie_geloescht'] = "Die Kategorie %kategorie% mit allen untergeordneten Foren wurde gelöscht!";
+$t['forum_forum_geloescht'] = "Das komplette Forum %forum% wurde gelöscht!";
+$t['forum_thema_geloescht'] = "Das komplette Thema wurde gelöscht!";
 
-// Forum
-$t['forum_zur_uebersicht'] = "Zur Forenübersicht";
+// Foren
 $t['forum_name'] = "Name des Forums:";
 $t['forum_anlegen'] = "Neues Forum anlegen";
-$t['forum_editieren_mit_Name'] = "Forum xxx editieren";
 $t['forum_beschreibung'] = "Beschreibung des Forums:";
 $t['forum_verschieben'] = "Verschiebe in eine andere Kategorie";
 $t['forum_anlegen'] = "Forum anlegen";
 $t['forum_speichern'] = "Forum speichern";
 $t['forum_loeschen'] = "Wollen Sie das komplette Forum mit ALLEN Themen löschen?";
-$t['forum_alle_themen_als_gelesen_markieren'] = "Alle Themen als gelesen markieren";
+$t['forum_forum_gelesen_markieren'] = "Forum als gelesen markieren";
+$t['forum_foren_gelesen_markieren'] = "Alle Foren als gelesen markieren";
 $t['forum_letzte_Antwort'] = "Letzte Antwort";
 $t['forum_thema_erstellt_am'] = "Thema erstellt am";
 $t['forum_anzahl_antworten'] = "Anzahl an Antworten";
@@ -48,7 +60,6 @@ $t['thema_loeschen'] = "löschen";
 $t['thema_loeschen2'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!";
 $t['thema_verschieben'] = "verschieben";
 $t['thema_weiterleiten'] = "weiterleiten";
-$t['thema_privat'] = "Mail";
 
 //Texte für Maske Forum
 $t['forum_msg2'] = "Öffentlich zugänglich:";
@@ -97,14 +108,9 @@ $t['missing_potitel'] = "Geben Sie bitte einen Titel für den Beitrag an!<br>";
 $t['missing_potext'] = "Sie haben keinen Text für Ihren Beitrag eingegeben!<br>";
 
 // Sonstiges
-$t['forum_gast'] = "<b>Fehler:</b> Als Gast steht Ihnen diese Funktion nicht zur Verfügung. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.";
 $t['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
 $t['forum_punkte2'] = "Die Punkte werden gelöscht: ";
 
-$t['forum_postingsproseite'] = "Anzeige Themen pro Seite: ";
-$t['speichern'] = "Speichern";
-$t['leserechte'] = "<p>Fehler! Sie haben keine Leserechte in diesem Forum!</p>";
-$t['schreibrechte'] = "<p>Fehler! Sie haben keine Schreibrechte für dieses Forum!</p>";
 $t['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 
 //Texte fürs Verschieben
@@ -114,12 +120,6 @@ $t['verschieben_nach_forum'] = "nach Forum";
 $t['verschieben4'] = "verschieben";
 
 $t['letzte_aenderung'] = "[zuletzt geändert am %datum% um %uhrzeit% von %user%]";
-
-// Suche
-$t['forum_menue1'] = "Forum durchsuchen";
-$t['forum_menue2'] = "Zurück zum Forum";
-
-$t['forum_suche'] = "Suchabfrage";
 
 $t['suche1'] = "Suchwörter";
 $t['suche2'] = "Suche in Forum / Thema";
@@ -148,7 +148,6 @@ $t['option18'] = "Sortierung nach Betreff - Aufsteigend";
 $t['option19'] = "Sortierung nach Autor - Absteigend";
 $t['option20'] = "Sortierung nach Autor - Aufsteigend";
 
-$t['forum_suchergebnisse'] = "Suchergebnisse";
 $t['forum'] = "Forum";
 $t['betreff'] = "Betreff";
 

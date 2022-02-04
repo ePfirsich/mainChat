@@ -9,7 +9,7 @@ function show_pfad_posting2($th_id, $id, $thread) {
 	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
 	mysqli_free_result($query);
 	
-	return "<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_thema&seite=1\">$th_name</a>";
+	return "<a href=\"forum.php?id=$id#$fo_id\">$fo_name</a> > <a href=\"forum.php?id=$id&th_id=$th_id&aktion=show_forum&seite=1\">$th_name</a>";
 	
 }
 
@@ -32,17 +32,12 @@ function such_bereich() {
 	
 	$select_breite = 250;
 	
-	$box = $t['forum_suche'];
-	$box .= " <a href=\"forum.php?id=$id\" class=\"button\" title=\"$t[forum_menue2]\"><span class=\"fa fa-commenting icon16\"></span> <span>$t[forum_menue2]</span></a>";
 	$text = '';
 	
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suchergebnisse\">\n";
 	$text .= "<table style=\"width:100%\">\n";
-	
-	// Überschrift: Ihr Profil
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['forum_suche'], "", "", 0, "70", "");
 	
 	// Suchtext
 	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
@@ -82,7 +77,7 @@ function such_bereich() {
 	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td rowspan=\"4\" style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['modus'] <> "O") {
 		$text .= "selected ";
@@ -96,7 +91,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Betreff/Text
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_ort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"><select name=\"suche_ort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['ort'] <> "B" && $suche['ort'] <> "T") {
 		$text .= "selected ";
@@ -115,7 +110,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Zeit
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_zeit\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"><select name=\"suche_zeit\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if (substr($suche['zeit'], 0, 1) <> "B") {
 		$text .= "selected ";
@@ -159,7 +154,7 @@ function such_bereich() {
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Sortierung
-	$text .= "<tr><td class=\"tabelle_zeile1\"></td><td class=\"tabelle_zeile1\"><select name=\"suche_sort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td class=\"tabelle_zeile1\"><select name=\"suche_sort\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if (substr($suche['sort'], 0, 1) <> "S") {
 		$text .= "selected ";
@@ -386,8 +381,9 @@ function such_ergebnis() {
 		} else {
 			$abfrage .= " ORDER BY po_ts DESC";
 		}
-			
-		$text = "<table style=\"width:100%;\">\n";
+		
+		$text = "<br>";
+		$text .= "<table style=\"width:100%;\">\n";
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
@@ -464,8 +460,6 @@ function such_ergebnis() {
 		$text .= "</table>\n";
 	}
 	
-	// Box anzeigen
-	$box = $t['forum_suchergebnisse'];
-	zeige_tabelle_zentriert($box, $text);
+	return $text;
 }
 ?>

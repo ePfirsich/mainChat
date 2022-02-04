@@ -31,7 +31,7 @@ function pruefe_leserechte($th_id) {
 		$leserechte = true;
 	}
 	
-	return ($leserechte);
+	return $leserechte;
 }
 
 function hole_themen_id_anhand_posting_id($po_id) {
@@ -169,11 +169,17 @@ function lese_gelesene_postings($u_id) {
 	mysqli_free_result($query);
 }
 
-// markiert ein komplettes Thema als gelesen
-function thema_alles_gelesen($th_id, $u_id) {
+// Markiert ein Forum oder alle Foren als gelesen
+function forum_alles_gelesen($u_id, $th_id = "") {
 	global $u_gelesene;
 	
-	$query = "SELECT po_id FROM `forum_beitraege` WHERE po_th_id = " . intval($th_id);
+	if($th_id == "") {
+		// Alle Foren als gelesen markieren
+		$query = "SELECT po_id FROM `forum_beitraege`";
+	} else {
+		// Spezifisches Forum als gelesen markieren
+		$query = "SELECT po_id FROM `forum_beitraege` WHERE po_th_id = " . intval($th_id);
+	}
 	$result = sqlQuery($query);
 	
 	if ($result && mysqli_num_rows($result) > 0) {
@@ -342,13 +348,13 @@ function check_input($mode) {
 	
 	$missing = "";
 	
-	if ($mode == "forum") {
+	if ($mode == "kategorie") {
 		global $fo_name;
 		if (!$fo_name) {
 			$missing = $t['missing_name_kategorie'];
 		}
 		
-	} else if ($mode == "thema") {
+	} else if ($mode == "forum") {
 		global $th_name, $th_desc;
 		if (!$th_name) {
 			$missing .= $t['missing_thname'];
@@ -411,7 +417,7 @@ function aendere_forum() {
 }
 
 //Schiebt Forum in Darstellungsreihenfolge nach oben
-function forum_up($fo_id, $fo_order) {
+function kategorie_up($fo_id, $fo_order) {
 	if (!$fo_id) {
 		return;
 	}
@@ -441,7 +447,7 @@ function forum_up($fo_id, $fo_order) {
 }
 
 //Schiebt Forum in Darstellungsreihenfolge nach oben
-function forum_down($fo_id, $fo_order) {
+function kategorie_down($fo_id, $fo_order) {
 	if (!$fo_id) {
 		return;
 	}
@@ -472,7 +478,7 @@ function forum_down($fo_id, $fo_order) {
 }
 
 //Komplettes Forum mit allen Themen und postings loeschen
-function loesche_forum($fo_id) {
+function loesche_kategorie($fo_id) {
 	global $t;
 	
 	if (!$fo_id) {
@@ -501,7 +507,7 @@ function loesche_forum($fo_id) {
 	$sql = "DELETE FROM `forum_kategorien` WHERE fo_id=$fo_id";
 	sqlUpdate($sql);
 	
-	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['forum_geloescht']);
+	$erfolgsmeldung = str_replace("%kategorie%", $fo_name, $t['forum_kategorie_geloescht']);
 	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -555,7 +561,7 @@ function schreibe_thema($th_id = 0) {
 }
 
 //Schiebt Thema in Darstellungsreihenfolge nach oben
-function thema_up($th_id, $th_order, $fo_id) {
+function forum_up($th_id, $th_order, $fo_id) {
 	if (!$th_id || !$fo_id) {
 		return;
 	}
@@ -579,7 +585,7 @@ function thema_up($th_id, $th_order, $fo_id) {
 }
 
 //Schiebt Thema in Darstellungsreihenfolge nach unten
-function thema_down($th_id, $th_order, $fo_id) {
+function forum_down($th_id, $th_order, $fo_id) {
 	if (!$th_id || !$fo_id) {
 		return;
 	}
@@ -629,7 +635,7 @@ function loesche_thema($th_id) {
 	$sql = "DELETE FROM `forum_foren` WHERE th_id=$th_id";
 	sqlUpdate($sql);
 	
-	$erfolgsmeldung = str_replace("%kategorie%", $th_name, $t['kategorie_geloescht']);
+	$erfolgsmeldung = str_replace("%kategorie%", $th_name, $t['forum_forum_geloescht']);
 	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -948,7 +954,7 @@ function loesche_posting() {
 	$sql = "UNLOCK TABLES";
 	sqlUpdate($sql, true);
 	
-	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['thema_geloescht']);
+	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['forum_thema_geloescht']);
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
