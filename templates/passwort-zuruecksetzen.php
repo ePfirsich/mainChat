@@ -68,7 +68,7 @@ if(!isset($userId) || !isset($code)) {
 			if($showForm) {
 				$text .= "<form action=\"index.php?bereich=passwort-zuruecksetzen\" method=\"post\">\n";
 				$text .= "<input type=\"hidden\" name=\"send\" value=\"1\">\n";
-				$text .= "<input type=\"hidden\" name=\"id\" value=\"" . htmlentities($userId) . "\">\n";
+				$text .= "<input type=\"hidden\" name=\"uid\" value=\"" . htmlentities($userId) . "\">\n";
 				$text .= "<input type=\"hidden\" name=\"code\" value=\"" . htmlentities($code) . "\">\n";
 				
 				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $t['login_passwort_benutzername']);
