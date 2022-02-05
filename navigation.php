@@ -7,6 +7,8 @@ id_lese($id);
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
+	header('Location: ' . $chat_url);
+	exit();
 	die;
 }
 
@@ -42,6 +44,8 @@ if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o
 }
 
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
+	header('Location: ' . $chat_url);
+	exit();
 	die;
 }
 
@@ -109,7 +113,9 @@ zeige_tabelle_zentriert($chat, $text, true);
 // Die direkte Raumauswahl wird nur im Forum angezeigt
 if($wo_online == "forum") {
 	// Chat und Raumauswahl anzeigen
-	echo "<form action=\"index.php?bereich=relogin\" target=\"_top\" name=\"form1\" method=\"post\">\n" . "<div style=\"margin-top: 7px; text-align:center;\" class=\"smaller\">\n";
+	echo "<form action=\"index.php\" target=\"_top\" name=\"form1\" method=\"post\">\n";
+	echo "<input type=\"hidden\" name=\"aktion\" value=\"relogin\">\n";
+	echo "<div style=\"margin-top: 7px; text-align:center;\" class=\"smaller\">\n";
 	
 	// Anzahl der Benutzer insgesamt feststellen
 	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
@@ -138,7 +144,7 @@ if($wo_online == "forum") {
 		$lobby_id = 1;
 	}
 	
-	echo "<nobr><select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
+	echo "<select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere Benutzer nur die offenen
 	if ($admin) {
@@ -148,9 +154,8 @@ if($wo_online == "forum") {
 	}
 	
 	echo "</select>\n";
-	
 	echo "<input type=\"hidden\" name=\"o_raum_alt\" value=\"$o_raum\">\n";
-	echo "<input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">&nbsp;</nobr>\n";
+	echo "<input type=\"submit\" name=\"raum_submit\" value=\"$t[zum_chat]\">\n";
 	echo "</div>\n";
 	echo "</form>\n";
 }

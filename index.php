@@ -7,6 +7,11 @@ require_once("languages/$sprache-index.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
+$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
+if( $aktion == '') {
+	$aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
+}
+
 $email = filter_input(INPUT_GET, 'email', FILTER_SANITIZE_STRING);
 if($email == "") {
 	$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
@@ -27,6 +32,15 @@ $ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
 $eintritt = filter_input(INPUT_POST, 'eintritt', FILTER_SANITIZE_STRING);
 
 zeige_header($body_titel, 0);
+
+// Einloggen
+if($aktion == "einloggen") {
+	$bereich = "einloggen";
+}
+
+if($aktion == "relogin") {
+	$bereich = "relogin";
+}
 
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;

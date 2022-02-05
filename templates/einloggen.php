@@ -177,7 +177,8 @@ if($in_den_chat_einloggen) {
 				// Gibt die Kopfzeile im Login aus
 				zeige_kopfzeile_login();
 				
-				echo "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
+				$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 				
 				if (!isset($eintritt)) {
 					$eintritt = RaumNameToRaumID($lobby);

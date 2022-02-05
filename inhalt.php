@@ -89,7 +89,6 @@ id_lese($id);
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	header('Location: ' . $chat_url);
-	// or die();
 	exit();
 	die;
 }

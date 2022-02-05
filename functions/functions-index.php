@@ -659,7 +659,8 @@ function zeige_chat_login($text = "") {
 	
 	// Benutzerlogin
 	$zaehler = 0;
-	$text .= "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
+	$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Login ioder neu registrierten/Passwort vergessen
@@ -701,7 +702,8 @@ function zeige_chat_login($text = "") {
 	
 	if($gast_login && !$temp_gast_sperre) {
 		// Gastlogin
-		$text .= "<form action=\"index.php?bereich=einloggen\" target=\"_top\" method=\"post\">\n";
+		$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 		$text .= "<input type=\"hidden\" name=\"username\" value=\"\">\n";
 		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
