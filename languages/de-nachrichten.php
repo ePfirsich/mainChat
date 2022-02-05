@@ -9,6 +9,7 @@ $t['nachrichten_postausgang_info'] = "Es werden nur gesendete Nachrichten und ke
 $t['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";
 $t['nachrichten_papierkorb'] = "Papierkorb";
 $t['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
+$t['nachrichten_papierkorb_geleert'] = "Der Paprierkorb wurde geleert!";
 $t['nachrichten_nachrichten_deaktivieren'] = "Posteingang schließen";
 $t['nachrichten_hilfe'] = "Hilfe";
 
@@ -32,7 +33,7 @@ $t['nachrichten_neue_nachricht_an'] = "Neue Nachricht an ";
 $t['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschickt.";
 $t['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
 
-$t['nachrichten_erfolgreich_geloescht'] = "Die Nachricht '%nachricht%' wurde erfolgreich gelöscht werden.";
+$t['nachrichten_erfolgreich_geloescht'] = "Die Nachricht '%nachricht%' wurde erfolgreich gelöscht.";
 
 $t['nachrichten_fehler_nicht_geloescht'] = "Die Nachricht '%nachricht%' konnte nicht gelöscht werden.";
 $t['nachrichten_fehler_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";

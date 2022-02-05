@@ -380,10 +380,10 @@ function loesche_mail($bearbeite_id, $u_id) {
 		
 		schreibe_db("mail", $f, $row->m_id, "m_id");
 		
-		$erfolgsmeldung = str_replace("%nachricht%", $row->m_betreff, $t['nachrichten_erfolgreich_geloescht']);
+		$erfolgsmeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $t['nachrichten_erfolgreich_geloescht']);
 		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	} else {
-		$fehlermeldung = str_replace("%nachricht%", $row->m_betreff, $t['nachrichten_fehler_nicht_geloescht']);
+		$fehlermeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $t['nachrichten_fehler_nicht_geloescht']);
 		$text = hinweis($fehlermeldung, "fehler");
 	}
 	mysqli_free_result($result);

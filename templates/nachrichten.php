@@ -14,6 +14,17 @@ $result2 = sqlUpdate($query2, true);
 
 $text = "";
 
+if($aktion == "papierkorbleeren") {
+	// Nachrichten mit Status geloescht löschen
+	$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
+	$result = sqlUpdate($query, true);
+	
+	$erfolgsmeldung = $t['nachrichten_papierkorb_geleert'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	$aktion = "papierkorb";
+}
+
 switch ($aktion) {
 	case "neu":
 	// Formular für neue E-Mail ausgeben
@@ -255,21 +266,13 @@ switch ($aktion) {
 		zeige_mailbox($text, "postausgang", "");
 		break;
 	
-	case "papierkorbleeren":
-		// Nachrichten mit Status geloescht löschen
-		echo "<br>";
-		$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
-		$result = sqlUpdate($query, true);
-		zeige_mailbox("", "normal", "");
-		break;
-	
 	case "papierkorb":
 	// Papierkorb zeigen
 		if ( $daten['id'] != "" ) {
 			zeige_email($daten, "papierkorb");
 			echo "<br>";
 		}
-		zeige_mailbox("", "geloescht", "");
+		zeige_mailbox($text, "geloescht", "");
 		break;
 	
 	case "weiterleiten":
@@ -280,7 +283,7 @@ switch ($aktion) {
 	case "mailboxzu":
 	// Formular zum Weiterleiten einer Mail ausgeben
 		$erfolgsmeldung = $t['nachrichten_posteingang_geschlossen'];
-		$text = hinweis($erfolgsmeldung, "erfolgreich");
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
 		$betreff = $t['nachrichten_posteingang_geschlossen'];
 		$nachricht = $t['nachrichten_posteingang_geschlossen_text'];
