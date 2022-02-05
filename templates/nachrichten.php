@@ -259,7 +259,7 @@ switch ($aktion) {
 		// Nachrichten mit Status geloescht löschen
 		echo "<br>";
 		$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
-		$result = sqlUpdate($query);
+		$result = sqlUpdate($query, true);
 		zeige_mailbox("", "normal", "");
 		break;
 	
