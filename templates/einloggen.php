@@ -177,17 +177,15 @@ if($in_den_chat_einloggen) {
 				// Gibt die Kopfzeile im Login aus
 				zeige_kopfzeile_login();
 				
-				$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
-				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
-				
 				if (!isset($eintritt)) {
 					$eintritt = RaumNameToRaumID($lobby);
 				}
 				
+				$zaehler = 0;
 				
 				$text .= $t['chat_agb'];
-				
-				$zaehler = 0;
+				$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 				$text .= "<table style=\"width:100%;\">\n";
 				
 				// Überschrift: Bestätigung der Nutzungsbestimmungen
