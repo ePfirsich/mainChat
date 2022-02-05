@@ -4,9 +4,6 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-if (!isset($suchtext)) {
-	$suchtext = "";
-}
 $uu_suchtext = URLENCODE($suchtext);
 
 
@@ -101,35 +98,35 @@ switch ($aktion) {
 			// Subquerys, wenn parameter gesetzt, teils anhand des Levels
 			if ($admin) {
 				// Optional level ergänzen
-				if ($f['level'] && $subquery) {
-					$subquery .= "AND u_level = '" . escape_string($f['level']) . "' ";
-				} else if ($f['level']) {
-					$subquery = " u_level = '" . escape_string($f['level']) . "' ";
+				if ($suche_level && $subquery) {
+					$subquery .= "AND u_level = '" . escape_string($suche_level) . "' ";
+				} else if ($suche_level) {
+					$subquery = " u_level = '" . escape_string($suche_level) . "' ";
 				}
 				
-				if ($f['ip'] && $subquery) {
-					$subquery .= "AND u_ip_historie LIKE '%" . escape_string($f['ip']) . "%' ";
-				} else if ($f['ip']) {
-					$subquery = " u_ip_historie LIKE '%" . escape_string($f['ip']) . "%' ";
+				if ($suche_ip && $subquery) {
+					$subquery .= "AND u_ip_historie LIKE '%" . escape_string($suche_ip) . "%' ";
+				} else if ($suche_ip) {
+					$subquery = " u_ip_historie LIKE '%" . escape_string($suche_ip) . "%' ";
 				}
 			}
 			
-			if ($f['u_chathomepage'] == "1" && $subquery) {
+			if ($suche_benutzerseite == "1" && $subquery) {
 				$subquery .= "AND u_chathomepage='1' ";
-			} else if ($f['u_chathomepage'] == "1") {
+			} else if ($suche_benutzerseite == "1") {
 				$subquery = " u_chathomepage='1' ";
 			}
 			
-			if ($f['user_neu'] && $subquery) {
-				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($f[user_neu]) . "' day)>=NOW() ";
-			} else if ($f['user_neu']) {
-				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($f[user_neu]) . "' day)>=NOW() ";
+			if ($suche_anmeldung && $subquery) {
+				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($suche_anmeldung) . "' day)>=NOW() ";
+			} else if ($fsuche_anmeldung) {
+				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($suche_anmeldung) . "' day)>=NOW() ";
 			}
 			
-			if ($f['user_login'] && $subquery) {
-				$subquery .= "AND date_add(u_login, interval '" . escape_string($f[user_login]) . "' hour)>=NOW() ";
-			} else if ($f['user_login']) {
-				$subquery = " date_add(u_login, interval '" . escape_string($f[user_login]) . "' hour)>=NOW() ";
+			if ($fsuche_anmeldung && $subquery) {
+				$subquery .= "AND date_add(u_login, interval '" . escape_string($suche_anmeldung) . "' hour)>=NOW() ";
+			} else if ($suche_anmeldung) {
+				$subquery = " date_add(u_login, interval '" . escape_string($suche_anmeldung) . "' hour)>=NOW() ";
 			}
 			
 			if ($u_level == "U" && $subquery) {

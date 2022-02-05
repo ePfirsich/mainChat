@@ -417,7 +417,7 @@ function benutzer_suche($f, $suchtext) {
 	
 	if ($admin) {
 		// Suchformular nach IP-Adressen
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_ip_adresse'], "f[ip]", $f['ip']);
+		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_ip_adresse'], "suche_ip", $suche_ip);
 		$zaehler++;
 		
 		// Liste der Gruppen ausgeben
@@ -429,13 +429,13 @@ function benutzer_suche($f, $suchtext) {
 		
 		$text .= "<tr>\n";
 		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_suche_benutzergruppe'] . "</td>";
-		$text .= "<td $bgcolor><select name=\"f[level]\">\n";
+		$text .= "<td $bgcolor><select name=\"suche_level\">\n";
 		$text .= "<option value=\"\">$t[benutzer_suche_egal]\n";
 		
 		reset($level);
 		while (list($levelname, $levelbezeichnung) = each($level)) {
 			if ($levelname != "B") {
-				if ($f['level'] == $levelname) {
+				if ($suche_level == $levelname) {
 					$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";
 				} else {
 					$text .= "<option value=\"$levelname\">$levelbezeichnung\n";
@@ -449,16 +449,16 @@ function benutzer_suche($f, $suchtext) {
 	}
 	
 	// Anmeldung vor
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_anmeldung_vor'], "f[user_neu]", $f['user_neu'], 0, "10", $t['benutzer_suche_tagen']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_anmeldung_vor'], "suche_anmeldung", $suche_anmeldung, 0, "10", $t['benutzer_suche_tagen']);
 	$zaehler++;
 	
 	// Letzter Login vor
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "f[user_login]", $f['user_login'], 0, "10", $t['benutzer_suche_stunden']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "suche_anmeldung", $suche_anmeldung, 0, "10", $t['benutzer_suche_stunden']);
 	$zaehler++;
 	
 	// Mit Benutzerseite
 	$value = array($t['benutzer_suche_egal'], $t['benutzer_suche_ja']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_benutzerseite'], "f[u_chathomepage]", $value, $f['u_chathomepage']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_benutzerseite'], "suche_benutzerseite", $value, $suche_benutzerseite);
 	$zaehler++;
 	
 	// Formular-Button anzeigen

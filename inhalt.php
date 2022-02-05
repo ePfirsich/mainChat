@@ -27,6 +27,16 @@ if( $schau_raum == '') {
 
 $uebergabe = filter_input(INPUT_POST, 'uebergabe', FILTER_SANITIZE_STRING);
 
+
+// Benutzer suchen
+$suchtext = filter_input(INPUT_POST, 'suchtext', FILTER_SANITIZE_STRING);
+$suche_ip = filter_input(INPUT_POST, 'suche_ip', FILTER_SANITIZE_STRING);
+$suche_level = filter_input(INPUT_POST, 'suche_level', FILTER_SANITIZE_STRING);
+$suche_benutzerseite = filter_input(INPUT_POST, 'suche_benutzerseite', FILTER_SANITIZE_NUMBER_INT);
+$suche_anmeldung = filter_input(INPUT_POST, 'suche_anmeldung', FILTER_SANITIZE_STRING);
+$suche_login = filter_input(INPUT_POST, 'suche_login', FILTER_SANITIZE_STRING);
+
+
 // Sperren
 $f['is_infotext'] = filter_input(INPUT_POST, 'is_infotext', FILTER_SANITIZE_STRING);
 $f['is_domain'] = filter_input(INPUT_POST, 'is_domain', FILTER_SANITIZE_STRING);
@@ -38,7 +48,8 @@ $f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_STRING);
 $f['is_id'] = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
 $is_id = $f['is_id'];
 
-// daten aus der Blacklist, Freundesliste oder Nachrichten
+
+// Blacklist, Freundesliste oder Nachrichten
 $daten[] = "";
 
 $daten['id'] = filter_input(INPUT_GET, 'daten_id', FILTER_SANITIZE_NUMBER_INT);
