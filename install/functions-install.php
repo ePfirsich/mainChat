@@ -325,7 +325,7 @@ function step_2($mysqli_link, $chat, $fpconfig, $salt) {
 		<?php
 	}
 	
-	$mysqldatei = "../dok/mysql.def";
+	$mysqldatei = "../dok/mysql.sql";
 	$mysqlfp = fopen($mysqldatei, "r");
 	$mysqlinhalt = fread($mysqlfp, filesize($mysqldatei));
 	$mysqlarray = explode(';', $mysqlinhalt);

@@ -11,7 +11,7 @@ ALTER TABLE `chat` CHANGE `c_raum` `c_raum` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `online` DROP `u_sms_extra`, DROP `o_vhost`;
 DROP TABLE `sms`, `smsin`;
 ALTER TABLE `user` DROP `u_sms_ok`, DROP `u_sms_guthaben`, DROP `u_sms_extra`, DROP `u_frames`, DROP `u_name`, DROP `u_backup`;
-ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` MEDIUMTEXT CHARACTER SET latin1 COLLATE latin1_german1_ci NOT NULL DEFAULT '';
+ALTER TABLE `user` CHANGE `u_gelesene_postings` `u_gelesene_postings` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';
 ALTER TABLE `user` ADD `u_avatare_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1;
 ALTER TABLE `user` ADD `u_layout_farbe` int(1) UNSIGNED NOT NULL DEFAULT 0;
 ALTER TABLE `user` ADD `u_layout_chat_darstellung` int(1) UNSIGNED NOT NULL DEFAULT 1;
