@@ -1688,7 +1688,9 @@ function encrypt_password($password) {
 	return $password_hash;
 }
 
-function randomString() {
+function random_string() {
+	global $secret_salt;
+	
 	if(function_exists('random_bytes')) {
 		$bytes = random_bytes(16);
 		$str = bin2hex($bytes);
@@ -1700,7 +1702,7 @@ function randomString() {
 		$str = bin2hex($bytes);
 	} else {
 		//Bitte euer_geheim_string durch einen zufälligen String mit >12 Zeichen austauschen
-		$str = md5(uniqid('g158Y9EYN7h1V', true));
+		$str = md5(uniqid($secret_salt, true));
 	}
 	return $str;
 }

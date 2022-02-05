@@ -36,14 +36,14 @@ function hintergrundfarbe_zellen() {
 	$zaehlerFarben ++;
 }
 
-function generateRandomString() {
+function generate_secret_salt() {
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ#*~()[]{}!$%&?#';
 	$charactersLength = strlen($characters);
-	$randomString = '';
+	$secret_salt = '';
 	for ($i = 0; $i < 12; $i++) {
-		$randomString .= $characters[rand(0, $charactersLength - 1)];
+		$secret_salt .= $characters[rand(0, $charactersLength - 1)];
 	}
-	return $randomString;
+	return $secret_salt;
 }
 
 /**
@@ -77,7 +77,7 @@ function step_1($chat) {
 	</table>
 
 	<form action="install.php" method="post">
-		<input type="hidden" name="chat_secret_salt" size="40" value="<?php echo checkFormularInputFeld(generateRandomString(),$chat["secret_salt"]) ?>">
+		<input type="hidden" name="chat_secret_salt" size="40" value="<?php echo checkFormularInputFeld(generate_secret_salt(),$chat["secret_salt"]) ?>">
 		<table style="width:100%; border:0px;">
 			<tr style="background-color:#007ABE;">
 				<td colspan="2" style="font-size:15px; text-align:center;color:#ffffff;"><span style="font-weight:bold;">Datenbank Einstellungen</span></td>

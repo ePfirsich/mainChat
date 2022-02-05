@@ -186,7 +186,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				unset($p);
 				
 				// Passwortcode generieren und in der Datenbank speichern
-				$emailcode = randomString();
+				$emailcode = random_string();
 				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . escape_string($f['u_email']) . "' WHERE `u_id` = $f[u_id];";
 				sqlUpdate($queryEmailcode);
 				

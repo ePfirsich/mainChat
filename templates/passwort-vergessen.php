@@ -70,7 +70,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 				$email = urlencode($a['u_email']);
 				
 				// Passwortcode generieren und in der Datenbank speichern
-				$passwordcode = randomString();
+				$passwordcode = random_string();
 				$queryPasswortcode = "UPDATE `user` SET `u_passwort_code` = '".sha1($passwordcode)."', `u_passwort_code_time` = NOW() WHERE `u_id` = $a[u_id];";
 				sqlUpdate($queryPasswortcode);
 				
