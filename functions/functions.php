@@ -1500,6 +1500,33 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 	}
 }
 
+// Beiträge im Forum neu zählen
+function bereinige_anz_in_thema() {
+	$sql = "SELECT th_id FROM `forum_foren` ORDER BY th_id";
+	$query = sqlQuery($sql);
+	
+	if ($query && mysqli_num_rows($query) > 0) {
+		while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+			$sql = "LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE";
+			sqlUpdate($sql, true);
+			
+			$sql2 = "SELECT COUNT(*) FROM `forum_beitraege` WHERE po_vater_id = 0 AND po_th_id = " . $row['th_id'];
+			$query2 = sqlQuery($sql2);
+			$anzahl_thread = mysqli_result($query2, 0, 0);
+			
+			$sql2 = "SELECT COUNT(*) FROM `forum_beitraege` WHERE po_vater_id <> 0 AND po_th_id = " . $row['th_id'];
+			$query2 = sqlQuery($sql2);
+			$anzahl_reply = mysqli_result($query2, 0, 0);
+			
+			$sql2 = "UPDATE `forum_foren` SET th_anzthreads = $anzahl_thread, th_anzreplys = $anzahl_reply  WHERE th_id = $row[th_id]";
+			sqlUpdate($sql2, true);
+			
+			$sql = "UNLOCK TABLES";
+			sqlUpdate($sql, true);
+		}
+	}
+}
+
 function reset_system($wo_online) {
 	global $u_level, $o_raum;
 	// Reset ausführen

@@ -18,11 +18,6 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 // Benutzerdaten u_gelesene_postings bereinigen
 bereinige_u_gelesene_postings($u_id);
 
-// Bereinige Anzahl Themen und Antworten wenn ein Superuser das Forum betritt
-if ($u_level == "S") {
-	bereinige_anz_in_thema();
-}
-
 // Ins Forum wechseln
 gehe_forum($u_id, $u_nick, $o_id, $o_raum);
 
