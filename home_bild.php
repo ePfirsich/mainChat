@@ -29,8 +29,6 @@ if (!is_numeric($u_id)) {
 	exit;
 }
 
-require("functions/functions-init.php");
-
 $bild = "";
 $b_mime = "";
 

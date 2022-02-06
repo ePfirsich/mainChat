@@ -121,15 +121,19 @@ $t['willkommen'] = "Willkommen im $chat!";
 $t['chat_offline'] = "Der Chat ist derzeit leider offline.";
 
 $t['login_formular_kopfzeile'] = "Login oder";
+$t['login_formular_kopfzeile_eingeloggt'] = "Login als %username% !";
 $t['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";
+
+$t['login_erfolgsmeldung_abmeldung'] = "Sie wurden erfolgreich abgemeldet.<br>";
 
 $t['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
 $t['login_fehlermeldung_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
 $t['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
-$t['login_fehlermeldung_login_fehlermeldung_frames'] = "<h2>Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)</h2>\n";
+$t['login_fehlermeldung_login_fehlermeldung_frames'] = "Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)\n";
 $t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
 $t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
+$t['login_fehlermeldung_automatische_anmeldung'] = "Es ist ein Fehler bei er automatischen Anmeldung aufgetreten. Bitte neu einloggen.<br>";
 
 $t['login_nutzungsbestimmungen_ok'] = "Ich erkenne diese Bedingungen an";
 $t['login_nutzungsbestimmungen_abbruch'] = "Abbruch";
@@ -150,6 +154,9 @@ $t['login_freischalt_code'] = "Freischalt-Code";
 $t['login_weiter_zum_chat'] = "Weiter zum Chat";
 $t['login_raum'] = "Raum:";
 $t['login_raum_forum'] = "Raum/Forum";
+$t['login_angemeldet_bleiben'] = "Angemeldet bleiben";
+$t['login_nicht_username'] = "Nicht %username% ?";
+$t['login_abmelden'] = "Abmelden";
 $t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
 $t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
 $t['login_statistik'] = "Statistik";
@@ -204,7 +211,7 @@ $t['registrierung_absenden'] = "Absenden";
 $t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$t['chat_agb'] = "<b>Nutzungsbestimmungen:</b><br><ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. Pro Mitglied ist nur ein Account zulässig.</li>"
 	. "<li>Im Chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "

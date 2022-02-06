@@ -1,7 +1,6 @@
 <?php
 // Funktionen und Config laden, Host bestimmen
 require_once("functions/functions.php");
-require_once("functions/functions-init.php");
 require_once("functions/functions-index.php");
 require_once("languages/$sprache-index.php");
 
@@ -21,6 +20,8 @@ $hash = filter_input(INPUT_GET, 'hash', FILTER_SANITIZE_STRING);
 $uebergabe = filter_input(INPUT_POST, 'uebergabe', FILTER_SANITIZE_STRING);
 $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
 $passwort = filter_input(INPUT_POST, 'passwort', FILTER_SANITIZE_STRING);
+$angemeldet_bleiben = filter_input(INPUT_POST, 'angemeldet_bleiben', FILTER_SANITIZE_NUMBER_INT);
+$bereits_angemeldet = filter_input(INPUT_POST, 'bereits_angemeldet', FILTER_SANITIZE_NUMBER_INT);
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
 
 $o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
@@ -30,8 +31,6 @@ $captcha_text1 = filter_input(INPUT_POST, 'captcha_text1', FILTER_SANITIZE_STRIN
 $captcha_text2 = filter_input(INPUT_POST, 'captcha_text2', FILTER_SANITIZE_STRING);
 $ergebnis = filter_input(INPUT_POST, 'ergebnis', FILTER_SANITIZE_STRING);
 $eintritt = filter_input(INPUT_POST, 'eintritt', FILTER_SANITIZE_STRING);
-
-zeige_header($body_titel, 0);
 
 // Einloggen
 if($aktion == "einloggen") {
@@ -208,8 +207,12 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 	}
 }
 
+$text = "";
+
 if($abweisen && (strlen($bereich) > 0) && $bereich <> "relogin") {
-	$bereich = "abweisen";
+	$fehlermeldung = $t['login_fehlermeldung_login_nicht_moeglich'];
+	$text .= hinweis($fehlermeldung, "fehler");
+	$bereich = "";
 }
 
 if($neuregistrierung_deaktivieren && ($bereich == "registrierung" || $bereich == "neu" || $bereich == "neu2")) {
@@ -230,6 +233,27 @@ if ($bereich == "logoff") {
 		// Aus dem Chat ausloggen
 		ausloggen($u_id, $u_nick, $o_raum, $o_id);
 	}
+	$bereich = "";
+}
+
+
+// Abmelden
+$nicht_angemeldet = false;
+if ($bereich == "abmelden") {
+	//Cookies entfernen
+	
+	setcookie("identifier","",time()-(3600*24*365));
+	setcookie("securitytoken","",time()-(3600*24*365));
+	
+	unset($_COOKIE['identifier']);
+	unset($_COOKIE['securitytoken']);
+	
+	$erfolgsmeldung = $t['login_erfolgsmeldung_abmeldung'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	$automatische_anmeldung = false;
+	$nicht_angemeldet = true;
+	$bereich = "";
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
@@ -237,108 +261,190 @@ if ($uebergabe == $t['login_nutzungsbestimmungen_abbruch'] && $bereich == "einlo
 	$bereich = "";
 }
 
-// Titeltext der Loginbox setzen, Link auf Registrierung optional ausgeben
-
 switch ($bereich) {
 	case "impressum":
 		// Impressum anzeigen
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/impressum.php');
+		$zaehler = 0;
+		$text .= "<table style=\"width:100%;\">";
+		
+		$impressum = "<b>" . $t['impressum'] . "</b>";
+		$impressum .= "<br>";
+		$impressum .= $impressum_name;
+		$impressum .= "<br>";
+		$impressum .= $impressum_strasse;
+		$impressum .= "<br>";
+		$impressum .= $impressum_plz_ort;
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>" . $impressum . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		$text .= "</table>";
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_impressum'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "datenschutz":
 		// Datenschutz anzeigen
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/datenschutz.php');
+		$zaehler = 0;
+		$text .= "<table style=\"width:100%;\">";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>" . $t['datenschutzerklaerung'] . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		$text .= "</table>";
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_datenschutzerklaerung'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "chatiquette":
 		// Chatiquette anzeigen
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/chatiquette.php');
+		$zaehler = 0;
+		$text .= "<table style=\"width:100%;\">";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>" . $chatiquette . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		$text .= "</table>";
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_chatiquette'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "nutzungsbestimmungen":
 		// Nutzungsbestimmungen anzeigen
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		require_once('templates/nutzungsbestimmungen.php');
+		$zaehler = 0;
+		$text .= "<table style=\"width:100%;\">";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor>" . $t['chat_agb'] . "</td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		$text .= "</table>";
+		$text .= zeige_index_footer();
+			
 		zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "kontakt":
 		// Kontaktformular anzeigen
-		require_once("functions/functions-formulare.php");
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/kontakt.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_kontakt'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "passwort-vergessen":
 		// Neues Passwort anfordern
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
-		
-		require_once("functions/functions-formulare.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-vergessen.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "passwort-zuruecksetzen":
 		// Neues Passwort anfordern
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
-		
-		require_once("functions/functions-formulare.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-zuruecksetzen.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
+		echo "</body>";
 		
 		break;
 		
 	case "email-bestaetigen":
 		// Neues Passwort anfordern
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		require_once("functions/functions-formulare.php");
@@ -347,60 +453,78 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		require_once('templates/email-bestaetigen.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_email_aendern'], $text);
+		echo "</body>";
 		
 		break;
 	
 	case "neu2":
 		// Eingabe der Werte für die Registrierung aus der E-Mail
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
-		
-		require_once("functions/functions-formulare.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu2.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
-		
-		break;
-	
-	case "abweisen":
-		echo "<body>";
-		
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
-		
-		zeige_tabelle_volle_breite($t['willkommen'], $t['login_fehlermeldung_login_nicht_moeglich']);
+		echo "</body>";
 		
 		break;
 	
 	case "gesperrt":
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		zeige_tabelle_volle_breite($t['willkommen'], $t['chat_offline']);
+		$zaehler = 0;
+		$text .= "<table style=\"width:100%;\">";
+		
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor><h2>" . $t['chat_offline'] . "</h2></td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
+		$text .= "</table>";
+		
+		$text .= zeige_index_footer();
+		
+		zeige_tabelle_volle_breite($t['willkommen'], $text);
+		echo "</body>";
 		
 		break;
 	
 	case "einloggen":
 		// In den Chat einloggen
 		
-		require_once("functions/functions-formulare.php");
-		
 		require_once('templates/einloggen.php');
 		
-		if($fehlermeldung != "") {
+		if($frameset == false) {
+			if($fehlermeldung != "") {
+				// Box für Login
+				$text .= zeige_chat_login();
+			}
+			
+			zeige_header($body_titel, 0);
 			echo "<body>";
 			
 			// Gibt die Kopfzeile im Login aus
 			zeige_kopfzeile_login();
 			
-			// Box für Login
-			zeige_chat_login($text);
+			zeige_tabelle_volle_breite($t['login_login'], $text);
+			echo "</body>";
 		}
 		
 		break;
@@ -408,36 +532,42 @@ switch ($bereich) {
 	case "registrierung":
 		// Registrierung mit Eingabe der E-Mail zum Senden der E-Mail
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
-		
-		require_once("functions/functions-formulare.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/registrierung.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		echo "</body>";
 		
 		break;
 	
 	case "neu":
 		// Vervollständigung der Registrierung aus dem Link der E-Mail
 		
+		zeige_header($body_titel, 0);
 		echo "<body>";
-		
-		require_once("functions/functions-formulare.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu.php');
+		$text .= zeige_index_footer();
+		
 		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		echo "</body>";
 		
 		break;
 	
 	case "relogin":
 		// Login aus dem Forum in den Chat; Benutzerdaten setzen
 		id_lese($id);
+		
+		zeige_header($body_titel, 0);
 		
 		// Chat betreten
 		betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
@@ -449,29 +579,28 @@ switch ($bereich) {
 		break;
 	
 	default:
+		// Login ausgeben
+		
 		// Session löschen
 		$_SESSION = array();
-		session_destroy();
 		
-		// Login ausgeben
-		require_once("functions/functions-formulare.php");
+
 		
+		// Box für Login
+		$text .= zeige_chat_login();
+		
+		$text .= zeige_index_footer();
+		
+		
+		zeige_header($body_titel, 0);
 		echo "<body>";
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		// Box für Login
-		zeige_chat_login();
+		
+		zeige_tabelle_volle_breite($t['login_login'], $text);
+		echo "</body>";
 }
-
-$text = "<div align=\"center\">$mainchat_version\n";
-$text .= "<br><br>\n";
-$text .= "<a href=\"index.php?bereich=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$t[login_impressum]</a>\n";
-$text .= "</div>\n";
-
-// Box anzeigen
-zeige_tabelle_volle_breite("", $text, false);
 ?>
-</body>
 </html>

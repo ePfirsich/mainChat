@@ -147,7 +147,7 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['registrierung_neuen_account_registrieren'], "", "", 0, "70", "");
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "u_nick", $f['u_nick'], 0, "70", $t['login_benutzername_beschreibung']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "u_nick", $f['u_nick'], 0, "70", "* " . $t['login_benutzername_beschreibung']);
 	$zaehler++;
 	
 	// Passwort
@@ -175,21 +175,58 @@ if ( (isset($email) || $fehlermeldung != "") && $formular_anzeigen) {
 }
 
 if ($weiter_zu_login) {
-	$text = $t['registrierung_erfolgreich'];
-	$text .= $t['registrierung_erfolgreich2'];
+	$willkommensnachricht = $t['registrierung_erfolgreich'];
+	$willkommensnachricht .= $t['registrierung_erfolgreich2'];
+	$willkommensnachricht .= "<br><b>" . $t['login_benutzername'] . ":</b> " . $f['u_nick'] . "<br><br>";
+	$willkommensnachricht .= $t['registrierung_erfolgreich3'];
 	
-	$text .= "<br><b>" . $t['login_benutzername'] . ":</b> " . $f['u_nick'] . "<br><br>";
-	
-	$text .= $t['registrierung_erfolgreich3'];
-	$text .= "<br>";
+	$text = "";
 	
 	// Daten in DB als Benutzer eintragen
 	$text .= "<form action=\"index.php\" name=\"login\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 	$text .= "<input type=\"hidden\" name=\"username\" value=\"$f[u_nick]\">\n";
 	$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$f[u_passwort]\">\n";
-	$text .= "<input type=\"submit\" value=\"$t[login_weiter_zum_chat]\">\n";
+	$text .= "<table style=\"width:100%;\">\n";
+	
+	
+	// Willkommensnachricht
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor>$willkommensnachricht</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	
+	// Angemeldet bleiben
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor><label><input type=\"checkbox\" name=\"angemeldet_bleiben\" value=\"1\"> $t[login_angemeldet_bleiben]</label></td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	
+	// Login
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_weiter_zum_chat'] . "\"></td>\n";
+	$text .= "</tr>\n";
+	
+	$text .= "</table>\n";
 	$text .= "</form>\n";
+	
 	
 	$f['u_level'] = "U";
 	

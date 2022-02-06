@@ -571,12 +571,57 @@ function RaumNameToRaumID($eintrittsraum) {
 	return ($lobby_id);
 }
 
-function auth_user($username, $passwort) {
+function auth_user($username, $passwort, $bereits_angemeldet = 0) {
 	// Passwort prüfen und Benutzerdaten lesen
 	// Funktion liefert das mysqli_result zurück, wenn auf EINEN Benutzer das login/passwort passt
 	
-	// Übergebenes Passwort hashen und gegen das gespeicherte Passwort prüfen
-	$v_passwort = encrypt_password($passwort);
+	if($bereits_angemeldet == 1) {
+		if(isset($_COOKIE['identifier']) && isset($_COOKIE['securitytoken'])) {
+			$identifier = $_COOKIE['identifier'];
+			$securitytoken = $_COOKIE['securitytoken'];
+			
+			$query = "SELECT * FROM `securitytokens` WHERE `identifier` = '$identifier'";
+			$result = sqlQuery($query);
+			
+			if ($result && $rows = mysqli_num_rows($result) == 1) {
+				$row = mysqli_fetch_object($result);
+				
+				if(sha1($securitytoken) !== $row->securitytoken) {
+					// Ein vermutlich gestohlener Security Token wurde identifiziert
+					
+					//Cookies entfernen
+					setcookie("identifier","",time()-(3600*24*365));
+					setcookie("securitytoken","",time()-(3600*24*365));
+					unset($_COOKIE['identifier']);
+					unset($_COOKIE['securitytoken']);
+					
+					$v_passwort = "";
+				} else {
+					//Token war korrekt
+					$query = "SELECT `u_passwort` FROM `user` WHERE `u_nick` = '" . escape_string($username) . "'";
+					$result = sqlQuery($query);
+					if ($result && mysqli_num_rows($result) == 1) {
+						$row = mysqli_fetch_object($result);
+						$v_passwort = $usernick = $row->u_passwort;
+					} else {
+						$v_passwort = "";
+					}
+				}
+			} else {
+				//Cookies entfernen
+				setcookie("identifier","",time()-(3600*24*365));
+				setcookie("securitytoken","",time()-(3600*24*365));
+				unset($_COOKIE['identifier']);
+				unset($_COOKIE['securitytoken']);
+				
+				$v_passwort = "";
+			}
+		}
+	} else {
+		// Übergebenes Passwort hashen und gegen das gespeicherte Passwort prüfen
+		$v_passwort = encrypt_password($passwort);
+	}
+	
 	
 	$query = "SELECT * FROM `user` WHERE `u_nick` = '" . escape_string($username) . "' AND `u_passwort` = '" . escape_string($v_passwort) . "'";
 	$result = sqlQuery($query);
@@ -587,18 +632,11 @@ function auth_user($username, $passwort) {
 	}
 }
 
-function zeige_chat_login($text = "") {
+function zeige_chat_login() {
 	global $t, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
 	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
 	
-	// Kopfzeile
-	if ($neuregistrierung_deaktivieren) {
-		$login_titel = $t['login_formular_kopfzeile'];
-	} else {
-		$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
-	}
-	$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
-	
+	$text = "";
 	
 	// Räume
 	if ($forumfeatures) {
@@ -657,69 +695,169 @@ function zeige_chat_login($text = "") {
 		$text.= "<h2>" . $t['willkommen'] . "</h2><br>\n";
 	}
 	
-	// Benutzerlogin
-	$zaehler = 0;
-	$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
-	$text .= "<table style=\"width:100%;\">\n";
-	
-	// Überschrift: Login ioder neu registrierten/Passwort vergessen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
-	
-	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", "");
-	$zaehler++;
-	
-	// Passwort
-	$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort'], "passwort", "");
-	$zaehler++;
-	
-	// Räume
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
+	//Überprüfe auf den 'Angemeldet bleiben'-Cookie
+	if( !isset($_SESSION['user_id']) && isset($_COOKIE['identifier']) && isset($_COOKIE['securitytoken']) && !$nicht_angemeldet) {
+		$identifier = $_COOKIE['identifier'];
+		$securitytoken = $_COOKIE['securitytoken'];
+		
+		$query = "SELECT * FROM `securitytokens` WHERE `identifier` = '$identifier'";
+		$result = sqlQuery($query);
+		
+		if ($result && $rows = mysqli_num_rows($result) == 1) {
+			$row = mysqli_fetch_object($result);
+			
+			if(sha1($securitytoken) !== $row->securitytoken) {
+				// Ein vermutlich gestohlener Security Token wurde identifiziert
+				$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+				$text .= hinweis($fehlermeldung, "fehler");
+				
+				//Cookies entfernen
+				setcookie("identifier","",time()-(3600*24*365));
+				setcookie("securitytoken","",time()-(3600*24*365));
+				unset($_COOKIE['identifier']);
+				unset($_COOKIE['securitytoken']);
+				
+				$automatische_anmeldung = false;
+			} else {
+				//Token war korrekt
+				
+				//Setze neuen Token
+				$neuer_securitytoken = random_string();
+				
+				$query = "UPDATE `securitytokens` SET securitytoken = '" . sha1($neuer_securitytoken) . "' WHERE identifier = '$identifier'";
+				sqlUpdate($query);
+				
+				setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
+				setcookie("securitytoken",$neuer_securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit
+				
+				//Logge den Benutzer ein
+				$_SESSION['user_id'] = $row->user_id;
+				
+				$automatische_anmeldung = true;
+			}
+		} else {
+			$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			//Cookies entfernen
+			setcookie("identifier","",time()-(3600*24*365));
+			setcookie("securitytoken","",time()-(3600*24*365));
+			unset($_COOKIE['identifier']);
+			unset($_COOKIE['securitytoken']);
+			
+			$automatische_anmeldung = false;
+		}
 	}
-	$text .= "<tr>\n";
-	$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
-	$text .= "<td $bgcolor>$raeume</td>\n";
-	$text .= "</tr>\n";
-	$zaehler++;
 	
-	// Login
-	if ($zaehler % 2 != 0) {
-		$bgcolor = 'class="tabelle_zeile2"';
-	} else {
-		$bgcolor = 'class="tabelle_zeile1"';
+	if($automatische_anmeldung) {
+		// Bereits angemeldet
+		
+		$query = "SELECT `u_nick` FROM user WHERE `u_id` = $row->user_id";
+		$result = sqlQuery($query);
+		
+		if ($result && $rows = mysqli_num_rows($result) == 1) {
+			$row = mysqli_fetch_object($result);
+			$usernick = $row->u_nick;
+			
+			$zaehler = 0;
+			$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
+			$text .= "<input type=\"hidden\" name=\"username\" value=\"$usernick\">\n";
+			$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
+			$text .= "<input type=\"hidden\" name=\"bereits_angemeldet\" value=\"1\">\n";
+			$text .= "<table style=\"width:100%;\">\n";
+			
+			
+			// Überschrift: Login oder neu registrierten/Passwort vergessen
+			$login_titel = str_replace("%username%", $usernick, $t['login_formular_kopfzeile_eingeloggt']);
+			$login_titel .= " ";
+			$login_titel .= "[<a href=\"index.php?bereich=abmelden\">" . str_replace("%username%", $usernick, $t['login_nicht_username']) . "</a>]";
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
+			
+			// Benutzername
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$t[login_benutzername]</td>\n";
+			$text .= "<td $bgcolor><a href=\"index.php?bereich=abmelden\">$usernick [$t[login_abmelden]]</a></td>\n";
+			$text .= "</tr>\n";
+			$zaehler++;
+			
+			
+			// Räume
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$raeume_titel</td>\n";
+			$text .= "<td $bgcolor>$raeume</td>\n";
+			$text .= "</tr>\n";
+			$zaehler++;
+			
+			
+			// Login
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td $bgcolor></td>\n";
+			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
+			$text .= "</tr>\n";
+			
+			
+			$text .= "</table>\n";
+			$text .= "</form>\n";
+		} else {
+			$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			//Cookies entfernen
+			setcookie("identifier","",time()-(3600*24*365));
+			setcookie("securitytoken","",time()-(3600*24*365));
+			unset($_COOKIE['identifier']);
+			unset($_COOKIE['securitytoken']);
+			
+			$automatische_anmeldung = false;
+		}
 	}
-	$text .= "<tr>\n";
-	$text .= "<td $bgcolor></td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
-	$text .= "</tr>\n";
 	
-	$text .= "</table>\n";
-	$text .= "</form>\n";
-	
-	if($gast_login && !$temp_gast_sperre) {
-		// Gastlogin
+	if(!$automatische_anmeldung) {
+		// Nicht angemeldet
+		
+		// Benutzerlogin
+		$zaehler = 0;
 		$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
-		$text .= "<input type=\"hidden\" name=\"username\" value=\"\">\n";
-		$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
 		$text .= "<table style=\"width:100%;\">\n";
 		
-		// Überschrift: Gastlogin
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_gastlogin'], "", "", 0, "70", "");
 		
-		// Hinweis zum Gastlogin
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
+		// Überschrift: Login oder neu registrierten/Passwort vergessen
+		if ($neuregistrierung_deaktivieren) {
+			$login_titel = $t['login_formular_kopfzeile'];
 		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
+			$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
 		}
-		$text .= "<tr>\n";
-		$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
-		$text .= "</tr>\n";
+		$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
+		
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
+		
+		
+		// Benutzername
+		$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", "");
+		$zaehler++;
+		
+		
+		// Passwort
+		$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort'], "passwort", "");
+		$zaehler++;
+		
 		
 		// Räume
 		if ($zaehler % 2 != 0) {
@@ -728,10 +866,24 @@ function zeige_chat_login($text = "") {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
 		$text .= "<tr>\n";
-		$text .= "<td $bgcolor style=\"text-align:right; width:300px;\">$raeume_titel</td>\n";
+		$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$raeume_titel</td>\n";
 		$text .= "<td $bgcolor>$raeume</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
+		
+		
+		// Angemeldet bleiben
+		if ($zaehler % 2 != 0) {
+			$bgcolor = 'class="tabelle_zeile2"';
+		} else {
+			$bgcolor = 'class="tabelle_zeile1"';
+		}
+		$text .= "<tr>\n";
+		$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">&nbsp;</td>\n";
+		$text .= "<td $bgcolor><label><input type=\"checkbox\" name=\"angemeldet_bleiben\" value=\"1\"> $t[login_angemeldet_bleiben]</label></td>\n";
+		$text .= "</tr>\n";
+		$zaehler++;
+		
 		
 		// Login
 		if ($zaehler % 2 != 0) {
@@ -746,6 +898,58 @@ function zeige_chat_login($text = "") {
 		
 		$text .= "</table>\n";
 		$text .= "</form>\n";
+		
+		if($gast_login && !$temp_gast_sperre) {
+			// Gastlogin
+			$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
+			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
+			$text .= "<input type=\"hidden\" name=\"username\" value=\"\">\n";
+			$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
+			$text .= "<table style=\"width:100%;\">\n";
+			
+			
+			// Überschrift: Gastlogin
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_gastlogin'], "", "", 0, "70", "");
+			
+			
+			// Hinweis zum Gastlogin
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
+			$text .= "</tr>\n";
+			
+			
+			// Räume
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$raeume_titel</td>\n";
+			$text .= "<td $bgcolor>$raeume</td>\n";
+			$text .= "</tr>\n";
+			$zaehler++;
+			
+			
+			// Login
+			if ($zaehler % 2 != 0) {
+				$bgcolor = 'class="tabelle_zeile2"';
+			} else {
+				$bgcolor = 'class="tabelle_zeile1"';
+			}
+			$text .= "<tr>\n";
+			$text .= "<td $bgcolor></td>\n";
+			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
+			$text .= "</tr>\n";
+			
+			$text .= "</table>\n";
+			$text .= "</form>\n";
+		}
 	}
 	
 	// Wie viele Benutzer sind im Chat registriert?
@@ -874,6 +1078,17 @@ function zeige_chat_login($text = "") {
 		}
 	}
 	
-	zeige_tabelle_volle_breite($t['login_login'], $text);
+	return $text;
+}
+
+function zeige_index_footer() {
+	global $mainchat_version, $t;
+	$text = "<br>\n";
+	$text .= "<div align=\"center\">$mainchat_version\n";
+	$text .= "<br><br>\n";
+	$text .= "<a href=\"index.php?bereich=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$t[login_impressum]</a>\n";
+	$text .= "</div>\n";
+	
+	return $text;
 }
 ?>

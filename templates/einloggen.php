@@ -9,7 +9,7 @@ erzeuge_sequence("online", "o_id");
 erzeuge_sequence("chat", "c_id");
 
 $in_den_chat_einloggen = true;
-$text = "";
+$frameset = false;
 
 // Prüfung, ob dieser Benutzer bereits existiert
 $query = "SELECT `u_id` FROM `user` WHERE `u_nick`='$username'";
@@ -105,7 +105,7 @@ if($in_den_chat_einloggen) {
 	
 	// Passwort prüfen und Benutzerdaten lesen
 	$rows = 0;
-	$result = auth_user($username, $passwort);
+	$result = auth_user($username, $passwort, $bereits_angemeldet);
 	if ($result) {
 		$rows = mysqli_num_rows($result);
 	}
@@ -127,6 +127,25 @@ if($in_den_chat_einloggen) {
 		
 		$f['u_id'] = $user_id;
 		schreibe_db("user", $f, $user_id, "u_id");
+		
+		// Eingeloggt bleiben (nicht als Gast)
+		if($f['u_level'] != "G" && $angemeldet_bleiben == 1) {
+			$identifier = random_string();
+			$securitytoken = random_string();
+			
+			$query = "SELECT * FROM `securitytokens` WHERE `user_id` = '$user_id'";
+			$result = sqlQuery($query);
+			
+			if ($result && $rows = mysqli_num_rows($result) >= 1) {
+				$query = "UPDATE `securitytokens` SET securitytoken = '" . sha1($securitytoken) . "', `identifier`='$identifier' WHERE `user_id` = '$user_id'";
+			} else {
+				$query = "INSERT INTO `securitytokens` SET `user_id`='$user_id', `identifier`='$identifier', `securitytoken`='" . sha1($securitytoken) . "'";
+			}
+			sqlUpdate($query);
+			
+			setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
+			setcookie("securitytoken",$securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit
+		}
 		
 		// Benutzer online bestimmen
 		if ($chat_max[$u_level] != 0) {
@@ -172,10 +191,6 @@ if($in_den_chat_einloggen) {
 			// muss Benutzer/Gast noch Nutzungsbestimmungen bestätigen?
 			if ($uebergabe != $t['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
 				// Nutzungsbestimmungen ausgeben
-				echo "<body>";
-				
-				// Gibt die Kopfzeile im Login aus
-				zeige_kopfzeile_login();
 				
 				if (!isset($eintritt)) {
 					$eintritt = RaumNameToRaumID($lobby);
@@ -239,13 +254,11 @@ if($in_den_chat_einloggen) {
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 				
+				$text .= "</table>\n";
 				$text .= "<input type=\"hidden\" name=\"username\" value=\"$username\">\n";
 				$text .= "<input type=\"hidden\" name=\"passwort\" value=\"$passwort\">\n";
 				$text .= "<input type=\"hidden\" name=\"eintritt\" value=\"$eintritt\">\n";
-				$text .= "</table>\n";
 				$text .= "</form>\n";
-				
-				zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
 				
 				$rest_ausblenden = true;
 			} else if ($uebergabe == $t['login_nutzungsbestimmungen_ok']) {
@@ -307,6 +320,8 @@ if($in_den_chat_einloggen) {
 				
 				if ($eintritt == "forum") {
 					// Login ins Forum
+					
+					$frameset = true;
 					betrete_forum($o_id, $user_id, $u_nick, $u_level);
 					
 					require_once("functions/functions-frameset.php");
@@ -315,10 +330,13 @@ if($in_den_chat_einloggen) {
 					
 				} else {
 					// Chat betreten
+					
+					$frameset = true;
 					betrete_chat($o_id, $user_id, $u_nick, $u_level, $eintritt);
 					
 					require_once("functions/functions-frameset.php");
 					
+					zeige_header($body_titel, 0);
 					frameset_chat();
 				}
 			}

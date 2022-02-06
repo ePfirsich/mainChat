@@ -145,11 +145,11 @@ function sperre_posting($po_id) {
 function gehe_forum($u_id, $u_nick, $o_id, $o_raum) {
 	global $t;
 	
-	//Austrittstext im alten raum erzeugen
+	// Austrittstext im alten Raum erzeugen
 	verlasse_chat($u_id, $u_nick, $o_raum);
 	system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
 	
-	//Daten in online-tabelle richten
+	// Daten in online-tabelle richten
 	$f['o_raum'] = -1; //-1 allgemein fuer community
 	$f['o_who'] = "2"; //2 -> Forum
 	schreibe_db("online", $f, $o_id, "o_id");
