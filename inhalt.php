@@ -33,8 +33,8 @@ $suchtext = filter_input(INPUT_POST, 'suchtext', FILTER_SANITIZE_STRING);
 $suche_ip = filter_input(INPUT_POST, 'suche_ip', FILTER_SANITIZE_STRING);
 $suche_level = filter_input(INPUT_POST, 'suche_level', FILTER_SANITIZE_STRING);
 $suche_benutzerseite = filter_input(INPUT_POST, 'suche_benutzerseite', FILTER_SANITIZE_NUMBER_INT);
-$suche_anmeldung = filter_input(INPUT_POST, 'suche_anmeldung', FILTER_SANITIZE_STRING);
-$suche_login = filter_input(INPUT_POST, 'suche_login', FILTER_SANITIZE_STRING);
+$suche_anmeldung = filter_input(INPUT_POST, 'suche_anmeldung', FILTER_SANITIZE_NUMBER_INT);
+$suche_login = filter_input(INPUT_POST, 'suche_login', FILTER_SANITIZE_NUMBER_INT);
 
 
 // Sperren

@@ -453,7 +453,7 @@ function benutzer_suche($f, $suchtext) {
 	$zaehler++;
 	
 	// Letzter Login vor
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "suche_anmeldung", $suche_anmeldung, 0, "10", $t['benutzer_suche_stunden']);
+	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "suche_login", $suche_login, 0, "10", $t['benutzer_suche_stunden']);
 	$zaehler++;
 	
 	// Mit Benutzerseite

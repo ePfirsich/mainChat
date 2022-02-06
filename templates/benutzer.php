@@ -123,10 +123,10 @@ switch ($aktion) {
 				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($suche_anmeldung) . "' day)>=NOW() ";
 			}
 			
-			if ($fsuche_anmeldung && $subquery) {
-				$subquery .= "AND date_add(u_login, interval '" . escape_string($suche_anmeldung) . "' hour)>=NOW() ";
-			} else if ($suche_anmeldung) {
-				$subquery = " date_add(u_login, interval '" . escape_string($suche_anmeldung) . "' hour)>=NOW() ";
+			if ($suche_login && $subquery) {
+				$subquery .= "AND date_add(u_login, interval '" . escape_string($suche_login) . "' hour)>=NOW() ";
+			} else if ($suche_login) {
+				$subquery = " date_add(u_login, interval '" . escape_string($suche_login) . "' hour)>=NOW() ";
 			}
 			
 			if ($u_level == "U" && $subquery) {
