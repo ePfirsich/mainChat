@@ -409,7 +409,6 @@ CREATE TABLE `online` (
 	`o_punkte` int(11) NOT NULL DEFAULT 0,
 	`o_aktion` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`o_timeout_zeit` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-	`o_chat_historie` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_spam_zeilen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_spam_byte` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_spam_zeit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
