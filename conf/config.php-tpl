@@ -247,8 +247,7 @@ $blacklistmaxdays=30;
 // Anzahl der Tage wie lange eine Raumsperre aufrecht erhalten wird
 $raumsperre=30;
 
-// Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im
-// Raum tut
+// Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im Raum tut
 // $raum_msg="Hallo!";
 
 // Autoknebel-Texte
@@ -256,9 +255,6 @@ $ak2="/fidion\.cc/#/schnurzel/";
 
 //Anzahl Punkte, die für das Anlegen eines Raum notwendig sind
 // $raumanlegenpunkte=1000;
-
-// Referer prüfen bevor Bilder auf Homepage gezeigt werden
-$check_np_referer="1";
 
 // Domains von Dialup Zugängen, Benutzer deren IP auf diese Domain auflösen werden nach 24
 // wieder von der Blacklist entfernt da eine Sperrung einer dynamischen IP länger

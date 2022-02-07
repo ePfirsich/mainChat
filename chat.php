@@ -30,9 +30,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php">';
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
 		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
-		?>
-		<body>
-		<?php
+		echo "<body>";
 		
 		// Chatausgabe
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back, $benutzerdaten);

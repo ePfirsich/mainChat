@@ -3,7 +3,7 @@
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
-$sysmsg = filter_input(INPUT_GET, 'sysmsg', FILTER_SANITIZE_NUMBER_INT);
+$sysmsg = filter_input(INPUT_GET, 'sysmsg', FILTER_SANITIZE_URL);
 
 // Systemnachrichten nicht ausgeben als Voreinstellung
 if($sysmsg == "") {
