@@ -623,15 +623,13 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
-function zeige_tabelle_volle_breite($box, $text, $kopfzeile = true) {
+function zeige_tabelle_volle_breite($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 	?>
 	<table class="tabelle_kopf">
-		<?php if($kopfzeile) { ?>
 		<tr>
 			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
 		</tr>
-		<?php } ?>
 		<tr>
 			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
 		</tr>

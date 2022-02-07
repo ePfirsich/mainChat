@@ -19,7 +19,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-// Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sie sich in anderen Räumen einloggen
+// Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sich Bentzer in anderen Räumen einloggen/ausloggen
 $meta_refresh = "";
 $meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?o_raum_alt=' . $o_raum . '">';
 $meta_refresh .= "<script>\n function chat_reload(file) {\n parent.chat.location.href=file;\n}\n\n</script>\n";
@@ -27,14 +27,6 @@ $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
 echo "<body class=\"chatunten\">";
-
-/*
-// Aktionen ausführen, falls nicht innerhalb der letzten 5
-// Minuten geprüft wurde (letzte Prüfung=o_aktion)
-if ( time() > ($o_aktion + 300) ) {
-	aktion($u_id, "Alle 5 Minuten", $u_id, $u_nick);
-}
-*/
 
 // Wurde Raum neuer_raum aus Formular übergeben? Falls ja Raum von $o_raum nach $neuer_raum wechseln
 if (isset($neuer_raum) && $o_raum != $neuer_raum) {
@@ -51,7 +43,7 @@ if (isset($neuer_raum) && $o_raum != $neuer_raum) {
 		. "</script>\n";
 }
 
-// Daten für Raum lesen
+// Daten für den Raum lesen
 $query = "SELECT raum.* FROM raum,online WHERE r_id=o_raum AND o_id=$o_id ORDER BY o_aktiv DESC";
 $result = sqlQuery($query);
 
@@ -65,10 +57,8 @@ if (!isset($o_raum_alt)) {
 	$o_raum_alt = -9;
 }
 
-// Menue Ausgeben:
 $text = "<form action=\"interaktiv.php\" name=\"form1\" method=\"post\">\n";
 $text .= "<table style=\"height:100%;\">\n";
-// Benutzer-Menue
 
 // Anzahl der Benutzer insgesamt feststellen
 $query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
