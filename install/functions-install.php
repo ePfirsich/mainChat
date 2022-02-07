@@ -119,8 +119,8 @@ function step_1($chat) {
 				<td> Voreingestellte Sprache des Chats:</td>
 				<td>
 					<select name="chat_language">
-						<option value="deutsch">de</option>
-						<option value="englisch">eu</option>
+						<option value="de">de</option>
+						<option value="en">eu</option>
 					</select>
 				</td>
 			</tr>
@@ -128,8 +128,8 @@ function step_1($chat) {
 				<td> Voreingestellte Sprache: (sollte die gleiche Sprache wie eins drüber sein)</td>
 				<td>
 					<select name="chat_content_locale">
-						<option value="de">de_DE</option>
-						<option value="en">en_GB</option>
+						<option value="de_DE">de_DE</option>
+						<option value="en_GB">en_GB</option>
 					</select>
 				</td>
 			</tr>
