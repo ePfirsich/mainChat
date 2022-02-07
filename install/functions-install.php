@@ -334,7 +334,7 @@ function step_2($mysqli_link, $chat, $fpconfig, $salt) {
 		mysqli_query($mysqli_link, $value);
 	}
 	
-	$admin_passwort = encrypt_password_install($salt,"admin")
+	$admin_passwort = encrypt_password_install($salt,"admin");
 	$sql = "INSERT INTO user set u_id=1,u_nick='admin',u_passwort='$admin_passwort',u_level='S';";
 	mysqli_query($mysqli_link, $sql);
 	
