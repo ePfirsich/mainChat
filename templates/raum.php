@@ -4,8 +4,6 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-require_once("functions/functions-formulare.php");
-
 $text = "";
 
 $f = array();

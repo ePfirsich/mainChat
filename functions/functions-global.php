@@ -397,8 +397,6 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 	$ip = $ipaddr ? $ipaddr : $remote_addr;
 	$browser = $agent ? $agent : $http_user_agent;
 	
-	$browser = str_replace("MSIE 8.0", "MSIE 7.0", $browser);
-	
 	$id = escape_string($id);
 	
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen

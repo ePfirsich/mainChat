@@ -1,6 +1,5 @@
 <?php
 require_once("functions/functions.php");
-require_once("functions/functions-formulare.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 

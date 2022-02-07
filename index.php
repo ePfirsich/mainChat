@@ -447,8 +447,6 @@ switch ($bereich) {
 		zeige_header($body_titel, 0);
 		echo "<body>";
 		
-		require_once("functions/functions-formulare.php");
-		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		

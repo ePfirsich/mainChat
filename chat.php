@@ -52,9 +52,9 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		//	"setTimeout(\"scroll()\",100);\n".
 		//	"</script>\n".
 		
-		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n"
-			. "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
-			zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n";
+		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
+		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 		
 		// Voreinstellungen
 		$j = 0;

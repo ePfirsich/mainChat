@@ -20,8 +20,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 // Kein Refresh für die Smilies
-if($aktion == "smilies") {
-} else {
+if($aktion != "smilies") {
 	// Normalerweise kein Refresh nötig, aber da Browser den Tab freezen, kann die Userliste nicht aktuell sein
 	$meta_refresh .= '<meta http-equiv="refresh" content="60; URL=user.php?aktion='.$aktion.'">';
 }
