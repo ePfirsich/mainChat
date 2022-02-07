@@ -326,8 +326,8 @@ if($in_den_chat_einloggen) {
 					
 					require_once("functions/functions-frameset.php");
 					
+					zeige_header($body_titel, 0);
 					frameset_forum();
-					
 				} else {
 					// Chat betreten
 					

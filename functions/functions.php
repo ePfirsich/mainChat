@@ -115,7 +115,7 @@ if ( !file_exists($filenameConfig) ) {
 		}
 		// Ende der aufgerufenen URLH
 		
-		if($forumfeatures == 1 || $punktefeatures == 1) {
+		if($forumfeatures == "1" || $punktefeatures == "1") {
 			require_once("functions-community.php");
 		}
 		require_once("functions-global.php");
