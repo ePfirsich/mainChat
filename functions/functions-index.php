@@ -41,7 +41,7 @@ function erzeuge_sequence($db, $function_id) {
 function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
-	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level, hash_id ist Session-ID
+	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level
 	// ip_historie ist Array mit IPs alter Logins, u_agb ist Nutzungsbestimmungen gelesen Y/N
 	
 	global $punkte_gruppe;
@@ -266,13 +266,6 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	// Lock freigeben
 	$query = "UNLOCK TABLES";
 	$result = sqlUpdate($query, true);
-	
-	// Bei Admins Cookie setzen zur Überprüfung der Session
-	if (false && ( $userdata['u_level'] == "C" || $userdata['u_level'] == "S") ) {
-		$cookie_name = "MAINCHAT" . $userdata['u_nick'];
-		$cookie_inhalt = md5($o_id . $hash_id . "42");
-		setcookie($cookie_name, $cookie_inhalt, 0, "/");
-	}
 	
 	return $o_id;
 }
@@ -501,8 +494,8 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 function id_erzeuge() {
 	// Erzeugt eindeutige ID für jeden Benutzer
 	
-	$id = md5(uniqid(mt_rand()));
-	return $id;
+	$random_id = md5(uniqid(mt_rand()));
+	return $random_id;
 }
 
 function betrete_forum($o_id, $user_id, $u_nick, $u_level) {

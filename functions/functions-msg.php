@@ -951,10 +951,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Sperren oder freigeben
 							sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin);
 						}
-						
 					} else {
-						// user nicht gefunden oder nicht online? dann testen, ob gesperrt, damit man das 
-						// gesperrt auch wieder raus bekommt.
+						// user nicht gefunden oder nicht online? dann testen, ob gesperrt, damit man das gesperrt auch wieder raus bekommt.
 						$query = "SELECT u_nick,u_id FROM user LEFT JOIN sperre ON u_id = s_user WHERE u_nick='" . escape_string($chatzeile[1]) . "' AND s_raum = $r_id ";
 						$result = sqlQuery($query);
 						if ($result && mysqli_num_rows($result) == 1) {

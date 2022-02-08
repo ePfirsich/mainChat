@@ -290,7 +290,7 @@ function global_msg($u_id, $r_id, $text) {
 	
 	$ergebnis = schreibe_chat($f);
 	
-	// In Session merken, dass Text im Chat geschrieben wurde
+	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($u_id) {
 		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 		$result = sqlUpdate($query, true);
@@ -314,7 +314,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	
 	$ergebnis = schreibe_chat($f);
 	
-	// In Session merken, dass Text im Chat geschrieben wurde
+	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
 		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$von_user_id";
 		$result = sqlUpdate($query, true);
@@ -345,7 +345,7 @@ function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = 
 	
 	$ergebnis = schreibe_chat($f);
 	
-	// In Session merken, dass Text im Chat geschrieben wurde
+	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
 		$von_user_id = escape_string($von_user_id);
 		$query = "UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = $von_user_id";
@@ -803,7 +803,6 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
 	// $online_zeit -> Zeit in Sekunden seit Login
 	// $letzter_login -> Datum des letzten Logins
-	// Falls mit_id=TRUE wird Session-ID ausgegeben, ansonsten Platzhalter
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
@@ -1180,9 +1179,6 @@ function hole_geschlecht($userid) {
 
 function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
-	
-	// Session löschen
-	$_SESSION = array();
 	
 	// Logout falls noch online
 	if (strlen($u_id) > 0) {

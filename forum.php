@@ -55,7 +55,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-// In Session merken, dass Text im "Chat" geschrieben wurde
+// In der Tabelle "online" merken, dass Text im "Chat" geschrieben wurde
 $query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=" . intval($u_id);
 $result = sqlUpdate($query, true);
 

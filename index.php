@@ -581,6 +581,7 @@ switch ($bereich) {
 		
 		// Session löschen
 		$_SESSION = array();
+		unset($_SESSION['id']);
 		
 
 		
