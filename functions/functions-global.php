@@ -1669,7 +1669,7 @@ function random_string() {
 	return $str;
 }
 
-function hinweis($text, $typ = fehler) {
+function hinweis($text, $typ = "fehler") {
 	global $t;
 	
 	if($typ == "fehler") {
