@@ -75,36 +75,36 @@ if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {
 
 $text = "<center>";
 if($wo_online == "chat") {
-	$text .= "<a href=\"chat.php\" target=\"chat\" title=\"" . $t['navigation_chat'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_chat'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"inhalt.php?bereich=raum\" target=\"chat\" title=\"" . $t['navigation_raeume'] . "\"><span class=\"fa fa-road icon16\"></span> <span>" . $t['navigation_raeume'] . "</span></a>&nbsp;|&nbsp;";
+	$text .= "<a href=\"chat.php\" target=\"chat\" title=\"" . $t['navigation_chat'] . "\"><span class=\"fa-solid fa-commenting icon16\"></span> <span>" . $t['navigation_chat'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=raum\" target=\"chat\" title=\"" . $t['navigation_raeume'] . "\"><span class=\"fa-solid fa-road icon16\"></span> <span>" . $t['navigation_raeume'] . "</span></a>&nbsp;|&nbsp;";
 }
-$text .= "<a href=\"inhalt.php?bereich=benutzer\" target=\"chat\" title=\"" . $t['navigation_benutzer'] . "\"><span class=\"fa fa-user icon16\"></span> <span>" . $t['navigation_benutzer'] . "</span></a>&nbsp;";
+$text .= "<a href=\"inhalt.php?bereich=benutzer\" target=\"chat\" title=\"" . $t['navigation_benutzer'] . "\"><span class=\"fa-solid fa-user icon16\"></span> <span>" . $t['navigation_benutzer'] . "</span></a>&nbsp;";
 if ($u_level != 'G') {
-	$text .= " | <a href=\"inhalt.php?bereich=nachrichten\" target=\"chat\" title=\"" . $t['navigation_nachrichten'] . "\"><span class=\"fa fa-envelope icon16\"></span> <span>" . $t['navigation_nachrichten'] . $neue_nachrichten . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=nachrichten\" target=\"chat\" title=\"" . $t['navigation_nachrichten'] . "\"><span class=\"fa-solid fa-envelope icon16\"></span> <span>" . $t['navigation_nachrichten'] . $neue_nachrichten . "</span></a>&nbsp;";
 }
 if($wo_online == "forum") {
-	$text .= " | <a href=\"forum.php\" target=\"chat\" title=\"" . $t['navigation_forum'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_forum'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"forum.php\" target=\"chat\" title=\"" . $t['navigation_forum'] . "\"><span class=\"fa-solid fa-commenting icon16\"></span> <span>" . $t['navigation_forum'] . "</span></a>&nbsp;";
 } else if ($wo_online == "chat" && $forumfeatures) {
-	$text .= " | <a href=\"index-forum.php\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_forum'] . "\"><span class=\"fa fa-commenting icon16\"></span> <span>" . $t['navigation_forum'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"index-forum.php\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $t['navigation_forum'] . "\"><span class=\"fa-solid fa-commenting icon16\"></span> <span>" . $t['navigation_forum'] . "</span></a>&nbsp;";
 }
-$text .= " | <a href=\"inhalt.php?bereich=einstellungen\" target=\"chat\" title=\"" . $t['navigation_einstellungen'] . "\"><span class=\"fa fa-cog icon16\"></span> <span>" . $t['navigation_einstellungen'] . "</span></a>&nbsp;";
+$text .= " | <a href=\"inhalt.php?bereich=einstellungen\" target=\"chat\" title=\"" . $t['navigation_einstellungen'] . "\"><span class=\"fa-solid fa-cog icon16\"></span> <span>" . $t['navigation_einstellungen'] . "</span></a>&nbsp;";
 if ($u_level != 'G') {
-	$text .= " | <a href=\"inhalt.php?bereich=profil\" target=\"chat\" title=\"" . $t['navigation_profil'] . "\"><span class=\"fa fa-user-circle-o icon16\"></span> <span>" . $t['navigation_profil'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"inhalt.php?bereich=freunde\" target=\"chat\" title=\"" . $t['navigation_freunde'] . "\"><span class=\"fa fa-users icon16\"></span> <span>" . $t['navigation_freunde'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=profil\" target=\"chat\" title=\"" . $t['navigation_profil'] . "\"><span class=\"fa-solid fa-user-circle-o icon16\"></span> <span>" . $t['navigation_profil'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=freunde\" target=\"chat\" title=\"" . $t['navigation_freunde'] . "\"><span class=\"fa-solid fa-users icon16\"></span> <span>" . $t['navigation_freunde'] . "</span></a>&nbsp;";
 }
 if ($admin) {
-	$text .= " | <a href=\"inhalt.php?bereich=sperren\" target=\"chat\" title=\"" . $t['navigation_sperren'] . "\"><span class=\"fa fa-lock icon16\"></span> <span>" . $t['navigation_sperren'] . "</span></a>&nbsp;";
-	$text .= " | <a href=\"inhalt.php?bereich=statistik\" target=\"chat\" title=\"" . $t['navigation_statistik'] . "\"><span class=\"fa fa-bar-chart icon16\"></span> <span>" . $t['navigation_statistik'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=sperren\" target=\"chat\" title=\"" . $t['navigation_sperren'] . "\"><span class=\"fa-solid fa-lock icon16\"></span> <span>" . $t['navigation_sperren'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=statistik\" target=\"chat\" title=\"" . $t['navigation_statistik'] . "\"><span class=\"fa-solid fa-bar-chart icon16\"></span> <span>" . $t['navigation_statistik'] . "</span></a>&nbsp;";
 }
 
 if ($wo_online == "chat" && $u_level == "M") {
-		$text .= " | <a href=\"moderator.php?mode=answer\" target=\"chat\" title=\"" . $t['navigation_definierte_antworten'] . "\"><span class=\"fa fa-reply icon16\"></span> <span>" . $t['navigation_definierte_antworten'] . "</span></a>&nbsp;";
+		$text .= " | <a href=\"moderator.php?mode=answer\" target=\"chat\" title=\"" . $t['navigation_definierte_antworten'] . "\"><span class=\"fa-solid fa-reply icon16\"></span> <span>" . $t['navigation_definierte_antworten'] . "</span></a>&nbsp;";
 }
 if ($wo_online == "chat") {
-	$text .= " | <a href=\"inhalt.php?bereich=log\" target=\"_blank\" title=\"" . $t['navigation_log'] . "\"><span class=\"fa fa-archive icon16\"></span> <span>" . $t['navigation_log'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"inhalt.php?bereich=log\" target=\"_blank\" title=\"" . $t['navigation_log'] . "\"><span class=\"fa-solid fa-archive icon16\"></span> <span>" . $t['navigation_log'] . "</span></a>&nbsp;";
 }
-$text .= " | <a href=\"inhalt.php?bereich=hilfe\" target=\"chat\" title=\"" . $t['navigation_hilfe'] . "\"><span class=\"fa fa-question icon16\"></span> <span>" . $t['navigation_hilfe'] . "</span></a>&nbsp;";
-$text .= " | <a href=\"index.php?bereich=logoff\" target=\"_top\" title=\"" . $t['navigation_logout'] . "\"><span class=\"fa fa-sign-out icon16\"></span> <span>" . $t['navigation_logout'] . "</span></a>";
+$text .= " | <a href=\"inhalt.php?bereich=hilfe\" target=\"chat\" title=\"" . $t['navigation_hilfe'] . "\"><span class=\"fa-solid fa-question icon16\"></span> <span>" . $t['navigation_hilfe'] . "</span></a>&nbsp;";
+$text .= " | <a href=\"index.php?bereich=logoff\" target=\"_top\" title=\"" . $t['navigation_logout'] . "\"><span class=\"fa-solid fa-sign-out icon16\"></span> <span>" . $t['navigation_logout'] . "</span></a>";
 
 $text .= "</center>";
 

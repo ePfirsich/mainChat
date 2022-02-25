@@ -81,12 +81,12 @@ function zeige_freunde($text, $aktion, $zeilen) {
 					$txt = $freund_nick . "<br>online&nbsp;" . gmdate("H:i:s", $row2->online) . "&nbsp;Std/Min/Sek";
 					$auf = "<b>";
 					$zu = "</b>";
-					$status = "<span class=\"fa fa-user icon16 user_online\"></span>";
+					$status = "<span class=\"fa-solid fa-user icon16 user_online\"></span>";
 				} else {
 					$txt = $freund_nick . "<br>Letzter&nbsp;Login:&nbsp;" . str_replace(" ", "&nbsp;", $row2->login);
 					$auf = "";
 					$zu = "";
-					$status = "<span class=\"fa fa-user icon16 user_offline\"></span>";
+					$status = "<span class=\"fa-solid fa-user icon16 user_offline\"></span>";
 				}
 				
 				// Infotext setzen
@@ -109,7 +109,7 @@ function zeige_freunde($text, $aktion, $zeilen) {
 				$text .= "<td $bgcolor>" . $auf . $txt . $zu . "</td>\n";
 				$text .= "<td $bgcolor>" . $auf . $infotext . $zu . "</td>\n";
 				$text .= "<td style=\"text-align:center;\" $bgcolor>" . $auf . $row->zeit . $zu . "</td>\n";
-				$text .= "<td style=\"text-align:center;\" $bgcolor><a href=\"inhalt.php?bereich=freunde&aktion=editinfotext&daten_id=$row->f_id\" class=\"button\" title=\"$t[freunde_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[freunde_editieren]</span></a></td>";
+				$text .= "<td style=\"text-align:center;\" $bgcolor><a href=\"inhalt.php?bereich=freunde&aktion=editinfotext&daten_id=$row->f_id\" class=\"button\" title=\"$t[freunde_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[freunde_editieren]</span></a></td>";
 				$text .= "</tr>\n";
 
 				$i++;

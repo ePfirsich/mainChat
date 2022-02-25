@@ -161,8 +161,8 @@ $legende = "<tr><td colspan=\"2\" class=\"tabelle_zeile1\" style=\"padding: 5px;
 	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<img src=\"images/wuerfel/gruppe9.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile2\">Benutzer: 5.000.000 - 9.999.999 Punkte</td></tr>"
 	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<img src=\"images/wuerfel/gruppe10.gif\" style=\"width:12px; height:12px;\" alt=\"\"><br></td><td class=\"tabelle_zeile1\">Benutzer: ab 10.000.000 Punkten</td></tr>"
 	. "<tr><td colspan=\"2\" class=\"tabelle_zeile2\" style=\"padding: 5px; font-weight:bold;\">Weitere Symbole:</td></tr>"
-	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa fa-home icon16\" alt=\"Benutzerseite\" title=\"Benutzerseite\"></span><br></td><td class=\"tabelle_zeile1\">Benutzerseite des Benutzers</td></tr>"
-	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa fa-envelope icon16\" alt=\"Nachricht\" title=\"Nachricht\"></span><br></td><td class=\"tabelle_zeile2\">Nachricht an den Benutzer</td></tr>";
+	. "<tr><td class=\"tabelle_zeile1\">&nbsp;<span class=\"fa-solid fa-home icon16\" alt=\"Benutzerseite\" title=\"Benutzerseite\"></span><br></td><td class=\"tabelle_zeile1\">Benutzerseite des Benutzers</td></tr>"
+	. "<tr><td class=\"tabelle_zeile2\">&nbsp;<span class=\"fa-solid fa-envelope icon16\" alt=\"Nachricht\" title=\"Nachricht\"></span><br></td><td class=\"tabelle_zeile2\">Nachricht an den Benutzer</td></tr>";
 
 $hilfe_community = "<br>
 <table style=\"float:right;\">

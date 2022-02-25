@@ -191,7 +191,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		$box = "$anzahl $titel";
 		
 		if($aktion == "geloescht") {
-			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
+			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
 		}
 		
 		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
@@ -224,11 +224,11 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
 					$auf = "<b>";
 					$zu = "</b>";
-					$status = "<span class=\"fa fa-commenting icon24\" alt=\"Neue Nachrichten\" title=\"Neue Nachrichten\"></span>";
+					$status = "<span class=\"fa-solid fa-commenting icon24\" alt=\"Neue Nachrichten\" title=\"Neue Nachrichten\"></span>";
 				} else {
 					$auf = "";
 					$zu = "";
-					$status = "<span class=\"fa fa-commenting-o icon24\" alt=\"Keine neuen Nachrichten\" title=\"Keine neuen Nachrichten\"></span>";
+					$status = "<span class=\"fa-solid fa-commenting-o icon24\" alt=\"Keine neuen Nachrichten\" title=\"Keine neuen Nachrichten\"></span>";
 				}
 				
 				if ($row->u_nick == "NULL" || $row->u_nick == "") {

@@ -129,7 +129,7 @@ function forum_liste() {
 		$text = "";
 		
 		// Funktioniert noch nicht
-		//$text .= "<a href=\"forum.php?aktion=foren_als_gelesen\" class=\"button\" title=\"$t[forum_foren_gelesen_markieren]\"><span class=\"fa fa-check icon16\"></span> <span>$t[forum_foren_gelesen_markieren]</span></a>\n";
+		//$text .= "<a href=\"forum.php?aktion=foren_als_gelesen\" class=\"button\" title=\"$t[forum_foren_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$t[forum_foren_gelesen_markieren]</span></a>\n";
 		
 		$text .= "<table style=\"width:100%\">\n";
 		while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -143,15 +143,15 @@ function forum_liste() {
 				$text .= "<td colspan=\"2\" class =\"tabelle_kopfzeile\">&nbsp;&nbsp;&nbsp;" .html_entity_decode($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>\n";
 				if ($forum_admin) {
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:300px; text-align:right; vertical-align:middle;\">\n";
-					$text .= "<a href=\"forum.php?aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?aktion=kategorie_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[forum_kategorie_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
-					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$t[forum_button_neues_forum]\"><span class=\"fa fa-plus icon16\"></span> <span>$t[forum_button_neues_forum]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=kategorie_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[forum_kategorie_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$t[forum_button_neues_forum]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$t[forum_button_neues_forum]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:50px; text-align:center;\">\n";
-					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
+					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a><br>\n";
 					$text .= "<br>\n";
-					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
+					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_down\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
 					$text .= "<td class=\"tabelle_kopfzeile\" style=\"width:300px;\">&nbsp;</td>";
@@ -192,14 +192,14 @@ function forum_liste() {
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"width:170px; text-align:center; vertical-align:middle;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&aktion=forum_edit\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?aktion=forum_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[forum_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&aktion=forum_edit\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=forum_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[forum_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"text-align:center;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_up\" class=\"button\"><span class=\"fa fa-arrow-up icon16\"></span></a><br>\n";
+					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a><br>\n";
 					$text .= "<br>\n";
-					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_down\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a>\n";
+					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_down\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
 					$text .= "<td style=\"font-weight:bold; padding-left:10px;\" $farbe>\n";
@@ -210,8 +210,8 @@ function forum_liste() {
 					$text .= "<td $farbe>&nbsp;</td>";
 				}
 				$text .= "<td style=\"padding-left:10px;\" $farbe>";
-				$text .= "<span class=\"fa fa-comment icon16\"></span> $thema[th_anzthreads] $t[forum_kategorie_themen]<br>";
-				$text .= "<span class=\"fa fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $t[forum_kategorie_beitraege]";
+				$text .= "<span class=\"fa-solid fa-comment icon16\"></span> $thema[th_anzthreads] $t[forum_kategorie_themen]<br>";
+				$text .= "<span class=\"fa-solid fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $t[forum_kategorie_beitraege]";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 			}
@@ -416,11 +416,11 @@ function show_forum() {
 	
 	$schreibrechte = pruefe_schreibrechte($th_id);
 	if ($schreibrechte) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=0&aktion=thread_neu\" class=\"button\" title=\"$t[thema_erstellen]\"><span class=\"fa fa-plus icon16\"></span> <span>$t[thema_erstellen]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=0&aktion=thread_neu\" class=\"button\" title=\"$t[thema_erstellen]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$t[thema_erstellen]</span></a>\n";
 	} else {
 		$text .= "<span class=\"smaller\">$t[nur_leserechte]</span><br>\n";
 	}
-	$text .= "<a href=\"forum.php?th_id=$th_id&aktion=forum_als_gelesen\" class=\"button\" title=\"$t[forum_forum_gelesen_markieren]\"><span class=\"fa fa-check icon16\"></span> <span>$t[forum_forum_gelesen_markieren]</span></a>\n";
+	$text .= "<a href=\"forum.php?th_id=$th_id&aktion=forum_als_gelesen\" class=\"button\" title=\"$t[forum_forum_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$t[forum_forum_gelesen_markieren]</span></a>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "<tr>\n";
@@ -776,19 +776,19 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 	// Darf der Benutzer einen Beitrag bearbeiten?
 	// Entweder eigenes posting oder forum_admin
 	if ( ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) && $ist_navigation_top ) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite= $seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite= $seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
 	}
 	
 	if ($schreibrechte && !$threadgesperrt && !$ist_navigation_top) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=$thread&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$t[thema_antworten]\"><span class=\"fa fa-reply icon16\"></span> <span>$t[thema_antworten]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=$thread&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$t[thema_antworten]\"><span class=\"fa-solid fa-reply icon16\"></span> <span>$t[thema_antworten]</span></a>\n";
 	}
 
 	//Nur Forum-Admins dürfen Beiträge loeschen
 	if ($forum_admin && $ist_navigation_top) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
 		if ($po_id == $thread) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$t[thema_verschieben]\"><span class=\"fa fa-arrows icon16\"></span> <span>$t[thema_verschieben]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$t[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$t[thema_verschieben]</span></a>\n";
 		}
 	}
 	$text .= "</td>\n";
@@ -971,7 +971,7 @@ function show_posting() {
 		$po_u_chathomepage = $beitrag['u_chathomepage'];
 		
 		if (!@in_array($po_id, $u_gelesene[$th_id])) {
-			$col = ' <span class="fa fa-star icon16" alt="ungelesener Beitrag" title="ungelesener Beitrag"></span>';
+			$col = ' <span class="fa-solid fa-star icon16" alt="ungelesener Beitrag" title="ungelesener Beitrag"></span>';
 		} else {
 			$col = '';
 		}
@@ -1024,17 +1024,17 @@ function show_posting() {
 		// Darf der Benutzer den Beitrag bearbeiten?
 		// Entweder eigenes posting oder forum_admin
 		if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
 		}
 		
 		if ($schreibrechte && !$threadgesperrt) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$t[thema_zitieren]\"><span class=\"fa fa-quote-right icon16\"></span> <span>$t[thema_zitieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$t[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$t[thema_zitieren]</span></a>\n";
 		}
 		
 		//Nur Forum-Admins dürfen Beiträge loeschen
 		if ($forum_admin) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
 		}
 		$text .= "</td>\n";
 		$text .= "</tr>\n";

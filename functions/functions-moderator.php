@@ -21,8 +21,8 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			$text .= "<td align=left $bgcolor><small>";
 			$text .= "<a href=\"schreibe.php?text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
 			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
-			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
 			$text .= "</small></td>";
 			$text .= "</tr>";
 		}

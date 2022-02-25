@@ -104,14 +104,14 @@ function sperren_liste($text) {
 			
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
 			} else {
 				$text .= "<td $bgcolor>";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_aendern]\"><span class=\"fa fa-pencil icon16\"></span> <span>$t[sperren_aendern]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_aendern]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[sperren_aendern]</span></a>";
 				$text .= "&nbsp;";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_loeschen]\"><span class=\"fa fa-trash icon16\"></span> <span>$t[sperren_loeschen]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_loeschen]</span></a>";
 				$text .= "</td>";
 			}
 			$text .= "</tr>\n";

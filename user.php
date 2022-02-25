@@ -30,11 +30,11 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 // Login ok?
 echo "<body>\n";
 // Navigation zum Wechseln zwischen Benuzerliste und Smilies
-$text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa fa-refresh icon16\"></span>" . $t['benutzerliste_aktualisieren'] . "</a> | ";
+$text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa-solid fa-refresh icon16\"></span>" . $t['benutzerliste_aktualisieren'] . "</a> | ";
 if($aktion == "smilies") {
-	$text_navigation .= "<a href=\"user.php\"><span class=\"fa fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
+	$text_navigation .= "<a href=\"user.php\"><span class=\"fa-solid fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
 } else {
-	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa fa-smile-o icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
+	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa-solid fa-smile-o icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
 }
 
 

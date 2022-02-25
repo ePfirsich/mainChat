@@ -13,8 +13,8 @@ function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalisti
 	<?php echo $metatag; ?>
 	<link rel="stylesheet" href="css/style-<?php echo $u_layout_farbe; ?>.css?v=003" type="text/css">
 	<link rel="stylesheet" href="css/style.css?v=003" type="text/css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="fontawesome/css/all.css">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<script src="ckeditor/ckeditor.js"></script>
 	<?php
 	if($zusatz_header != '') {

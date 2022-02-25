@@ -34,11 +34,11 @@ function raeume_auflisten($order, $extended) {
 			$text .= "$rlink<br>";
 		}
 		$text .= "<table style=\"width:100%\">\n";
-		$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
 		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_benutzer_online]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&order=r_status1,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&order=r_status2,r_name\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum&order=u_nick\" class=\"button\"><span class=\"fa fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&order=r_status1,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&order=r_status2,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum&order=u_nick\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
 		if (isset($extended) && $extended) {
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_smilies]</td>";
 			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_mindestpunkte]</td>";
