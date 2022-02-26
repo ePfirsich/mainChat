@@ -34,7 +34,7 @@ $text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa-solid f
 if($aktion == "smilies") {
 	$text_navigation .= "<a href=\"user.php\"><span class=\"fa-solid fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
 } else {
-	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa-solid fa-smile-o icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
+	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa-regular fa-face-smile icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
 }
 
 

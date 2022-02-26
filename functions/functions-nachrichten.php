@@ -224,11 +224,11 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 				if ($row->m_status == "neu" || $row->m_status == "neu/verschickt") {
 					$auf = "<b>";
 					$zu = "</b>";
-					$status = "<span class=\"fa-solid fa-commenting icon24\" alt=\"Neue Nachrichten\" title=\"Neue Nachrichten\"></span>";
+					$status = "<span class=\"fa-solid fa-comment-dots icon24\" alt=\"Neue Nachrichten\" title=\"Neue Nachrichten\"></span>";
 				} else {
 					$auf = "";
 					$zu = "";
-					$status = "<span class=\"fa-solid fa-commenting-o icon24\" alt=\"Keine neuen Nachrichten\" title=\"Keine neuen Nachrichten\"></span>";
+					$status = "<span class=\"fa-regular fa-comment-dots icon24\" alt=\"Keine neuen Nachrichten\" title=\"Keine neuen Nachrichten\"></span>";
 				}
 				
 				if ($row->u_nick == "NULL" || $row->u_nick == "") {
