@@ -228,6 +228,8 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	
 	// Session setzen
 	$_SESSION["id"] = $hash_id;
+	$_SESSION["u_id"] = $user_id; // Nötig für den Ajax-Chat
+	$_SESSION['DateAndTime'] = date('Y-m-d H:i:s', time()); // Nötig für den Ajax-Chat
 	
 	// Benutzer in in Tabelle online merken -> Benutzer ist online
 	unset($f);
@@ -275,7 +277,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	// Nachricht in Raum $raum wird erzeugt
 	// Zeiger auf letzte Zeile wird zurückgeliefert
 	
-	global $lobby, $eintrittsraum, $t, $system_farbe, $u_punkte_gesamt;
+	global $lobby, $eintrittsraum, $lang, $system_farbe, $u_punkte_gesamt;
 	global $raum_eintrittsnachricht_kurzform, $raum_eintrittsnachricht_anzeige_deaktivieren;
 	
 	// Falls eintrittsraum nicht definiert, lobby voreinstellen
@@ -317,7 +319,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 						
 						// abweisen wenn $raumeintritt = false
 						if (!$raumeintritt) {
-							system_msg("", 0, $user_id, $system_farbe, str_replace("%r_name_neu%", $rows->r_name, $t['raum_gehe4']));
+							system_msg("", 0, $user_id, $system_farbe, str_replace("%r_name_neu%", $rows->r_name, $lang['raum_gehe4']));
 							unset($raum);
 						}
 						break;
@@ -423,12 +425,12 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	
 	// Topic vorhanden? ausgeben
 	if (strlen($r_topic) > 0) {
-		system_msg("", 0, $user_id, "", "<br><b>$t[betrete_chat3] $r_name:</b> $r_topic");
+		system_msg("", 0, $user_id, "", "<br><b>$lang[betrete_chat3] $r_name:</b> $r_topic");
 	}
 	
 	// Eintrittsnachricht
-	if ($t['betrete_chat1']) {
-		$txt = $t['betrete_chat1'] . " " . $r_name . ":";
+	if ($lang['betrete_chat1']) {
+		$txt = $lang['betrete_chat1'] . " " . $r_name . ":";
 	} else {
 		unset($txt);
 	}
@@ -441,7 +443,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	} else if (strlen($r_eintritt) > 0) {
 		system_msg("", 0, $user_id, "", "<br><b>$txt $r_eintritt, $u_nick!</b><br>");
 	} else {
-		system_msg("", 0, $user_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!</b><br>");
+		system_msg("", 0, $user_id, "", "<br><b>$txt</b> $lang[betrete_chat2], $u_nick!</b><br>");
 	}
 	
 	// Wer ist alles im Raum?
@@ -500,14 +502,14 @@ function id_erzeuge() {
 
 function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
-	global $lobby, $eintrittsraum, $t, $system_farbe;
+	global $lobby, $eintrittsraum, $lang, $system_farbe;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;
 	$f['o_who'] = "2";
 	
 	//user betritt nicht chat, sondern direkt forum
-	$f['o_chat_id'] = system_msg("", 0, $user_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
+	$f['o_chat_id'] = system_msg("", 0, $user_id, "", str_replace("%u_nick%", $u_nick, $lang['betrete_forum1']));
 	schreibe_db("online", $f, $o_id, "o_id");
 	
 	// Hat der Benutzer Aktionen für den Login eingestellt, wie Nachricht bei neuer Mail oder Freunden an sich selbst?
@@ -626,16 +628,16 @@ function auth_user($username, $passwort, $bereits_angemeldet = 0) {
 }
 
 function zeige_chat_login() {
-	global $t, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
+	global $lang, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre;
 	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
 	
 	$text = "";
 	
 	// Räume
 	if ($forumfeatures) {
-		$raeume_titel = $t['login_raum_forum'];
+		$raeume_titel = $lang['login_raum_forum'];
 	} else {
-		$raeume_titel = $t['login_raum'];
+		$raeume_titel = $lang['login_raum'];
 	}
 	
 	// Falls der Eintrittsraum nicht gesetzt ist, mit Lobby überschreiben
@@ -685,7 +687,7 @@ function zeige_chat_login() {
 		$text .= $layout_kopf;
 	} else {
 		// Willkommen wird nur angezeigt, wenn kein eigener Kopf definiert ist
-		$text.= "<h2>" . $t['willkommen'] . "</h2><br>\n";
+		$text.= "<h2>" . $lang['willkommen'] . "</h2><br>\n";
 	}
 	
 	//Überprüfe auf den 'Angemeldet bleiben'-Cookie
@@ -701,7 +703,7 @@ function zeige_chat_login() {
 			
 			if(sha1($securitytoken) !== $row->securitytoken) {
 				// Ein vermutlich gestohlener Security Token wurde identifiziert
-				$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+				$fehlermeldung = $lang['login_fehlermeldung_automatische_anmeldung'];
 				$text .= hinweis($fehlermeldung, "fehler");
 				
 				//Cookies entfernen
@@ -729,7 +731,7 @@ function zeige_chat_login() {
 				$automatische_anmeldung = true;
 			}
 		} else {
-			$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+			$fehlermeldung = $lang['login_fehlermeldung_automatische_anmeldung'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			//Cookies entfernen
@@ -762,9 +764,9 @@ function zeige_chat_login() {
 			
 			
 			// Überschrift: Login oder neu registrierten/Passwort vergessen
-			$login_titel = str_replace("%username%", $usernick, $t['login_formular_kopfzeile_eingeloggt']);
+			$login_titel = str_replace("%username%", $usernick, $lang['login_formular_kopfzeile_eingeloggt']);
 			$login_titel .= " ";
-			$login_titel .= "[<a href=\"index.php?bereich=abmelden\">" . str_replace("%username%", $usernick, $t['login_nicht_username']) . "</a>]";
+			$login_titel .= "[<a href=\"index.php?bereich=abmelden\">" . str_replace("%username%", $usernick, $lang['login_nicht_username']) . "</a>]";
 			$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
 			
 			// Benutzername
@@ -774,8 +776,8 @@ function zeige_chat_login() {
 				$bgcolor = 'class="tabelle_zeile1"';
 			}
 			$text .= "<tr>\n";
-			$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$t[login_benutzername]</td>\n";
-			$text .= "<td $bgcolor><a href=\"index.php?bereich=abmelden\">$usernick [$t[login_abmelden]]</a></td>\n";
+			$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">$lang[login_benutzername]</td>\n";
+			$text .= "<td $bgcolor><a href=\"index.php?bereich=abmelden\">$usernick [$lang[login_abmelden]]</a></td>\n";
 			$text .= "</tr>\n";
 			$zaehler++;
 			
@@ -801,14 +803,14 @@ function zeige_chat_login() {
 			}
 			$text .= "<tr>\n";
 			$text .= "<td $bgcolor></td>\n";
-			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
+			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $lang['login_login'] . "\"></td>\n";
 			$text .= "</tr>\n";
 			
 			
 			$text .= "</table>\n";
 			$text .= "</form>\n";
 		} else {
-			$fehlermeldung = $t['login_fehlermeldung_automatische_anmeldung'];
+			$fehlermeldung = $lang['login_fehlermeldung_automatische_anmeldung'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			//Cookies entfernen
@@ -833,22 +835,22 @@ function zeige_chat_login() {
 		
 		// Überschrift: Login oder neu registrierten/Passwort vergessen
 		if ($neuregistrierung_deaktivieren) {
-			$login_titel = $t['login_formular_kopfzeile'];
+			$login_titel = $lang['login_formular_kopfzeile'];
 		} else {
-			$login_titel = $t['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $t['login_neuen_benutzernamen_registrieren'] . "</a>]";
+			$login_titel = $lang['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $lang['login_neuen_benutzernamen_registrieren'] . "</a>]";
 		}
-		$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $t['login_passwort_vergessen'] . "</a>]";
+		$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $lang['login_passwort_vergessen'] . "</a>]";
 		
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
 		
 		
 		// Benutzername
-		$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", "");
+		$text .= zeige_formularfelder("input", $zaehler, $lang['login_benutzername'], "username", "");
 		$zaehler++;
 		
 		
 		// Passwort
-		$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort'], "passwort", "");
+		$text .= zeige_formularfelder("password", $zaehler, $lang['login_passwort'], "passwort", "");
 		$zaehler++;
 		
 		
@@ -873,7 +875,7 @@ function zeige_chat_login() {
 		}
 		$text .= "<tr>\n";
 		$text .= "<td $bgcolor style=\"text-align:right; width:25%;\">&nbsp;</td>\n";
-		$text .= "<td $bgcolor><label><input type=\"checkbox\" name=\"angemeldet_bleiben\" value=\"1\"> $t[login_angemeldet_bleiben]</label></td>\n";
+		$text .= "<td $bgcolor><label><input type=\"checkbox\" name=\"angemeldet_bleiben\" value=\"1\"> $lang[login_angemeldet_bleiben]</label></td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
@@ -886,7 +888,7 @@ function zeige_chat_login() {
 		}
 		$text .= "<tr>\n";
 		$text .= "<td $bgcolor></td>\n";
-		$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
+		$text .= "<td $bgcolor><input type=\"submit\" value=\"". $lang['login_login'] . "\"></td>\n";
 		$text .= "</tr>\n";
 		
 		$text .= "</table>\n";
@@ -902,7 +904,7 @@ function zeige_chat_login() {
 			
 			
 			// Überschrift: Gastlogin
-			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_gastlogin'], "", "", 0, "70", "");
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_gastlogin'], "", "", 0, "70", "");
 			
 			
 			// Hinweis zum Gastlogin
@@ -912,7 +914,7 @@ function zeige_chat_login() {
 				$bgcolor = 'class="tabelle_zeile1"';
 			}
 			$text .= "<tr>\n";
-			$text .= "<td colspan=\"2\" $bgcolor>$t[login_gastinformation]</td>\n";
+			$text .= "<td colspan=\"2\" $bgcolor>$lang[login_gastinformation]</td>\n";
 			$text .= "</tr>\n";
 			
 			
@@ -937,7 +939,7 @@ function zeige_chat_login() {
 			}
 			$text .= "<tr>\n";
 			$text .= "<td $bgcolor></td>\n";
-			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $t['login_login'] . "\"></td>\n";
+			$text .= "<td $bgcolor><input type=\"submit\" value=\"". $lang['login_login'] . "\"></td>\n";
 			$text .= "</tr>\n";
 			
 			$text .= "</table>\n";
@@ -968,9 +970,9 @@ function zeige_chat_login() {
 			$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 			
 			// Überschrift: Statistik
-			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_statistik'], "", "", 0, "70", "");
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_statistik'], "", "", 0, "70", "");
 			
-			$textStatistik = str_replace("%useranzahl%", $useranzahl, $t['login_benutzer_registriert']);
+			$textStatistik = str_replace("%useranzahl%", $useranzahl, $lang['login_benutzer_registriert']);
 			
 			// Anzahl der Beiträge im Forum ausgeben
 			if ($forumfeatures) {
@@ -998,7 +1000,7 @@ function zeige_chat_login() {
 					mysqli_free_result($result);
 				}
 				if ($beitraege && $themen) {
-					$textStatistik .= str_replace("%themen%", $themen, str_replace("%beitraege%", $beitraege, $t['login_forum_beitraege']));
+					$textStatistik .= str_replace("%themen%", $themen, str_replace("%beitraege%", $beitraege, $lang['login_forum_beitraege']));
 				}
 			}
 			
@@ -1036,9 +1038,9 @@ function zeige_chat_login() {
 									}
 									// Benutzer befindet sich im Forum
 									if(!$row->r_name && !$row->r_status1 && !$row->r_status2) {
-										$benutzeranzeige .= $t['login_benutzer_online_forum'];
+										$benutzeranzeige .= $lang['login_benutzer_online_forum'];
 									} else {
-										$benutzeranzeige .= str_replace("%raum%", $row->r_name, $t['login_benutzer_online_raum']);
+										$benutzeranzeige .= str_replace("%raum%", $row->r_name, $lang['login_benutzer_online_raum']);
 									}
 								}
 								// Benutzer hinzufügen
@@ -1055,11 +1057,11 @@ function zeige_chat_login() {
 						
 						// Meldung, wenn sich keine Benutzer in öffentlichen Räumen oder im Forum befinden
 						if($benutzeranzeige == "") {
-							$benutzeranzeige = $t['login_benutzer_niemand_online'];
+							$benutzeranzeige = $lang['login_benutzer_niemand_online'];
 						}
 						
 						// Benutzer anzeigen
-						$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $onlineanzahl, $t['login_benutzer_online']), "", "", 0, "70", "");
+						$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $onlineanzahl, $lang['login_benutzer_online']), "", "", 0, "70", "");
 						
 						$text .= "<tr>\n";
 						$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
@@ -1075,11 +1077,11 @@ function zeige_chat_login() {
 }
 
 function zeige_index_footer() {
-	global $mainchat_version, $t;
+	global $mainchat_version, $lang;
 	$text = "<br>\n";
 	$text .= "<div align=\"center\">$mainchat_version\n";
 	$text .= "<br><br>\n";
-	$text .= "<a href=\"index.php?bereich=datenschutz\">$t[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$t[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$t[login_impressum]</a>\n";
+	$text .= "<a href=\"index.php?bereich=datenschutz\">$lang[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$lang[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$lang[login_impressum]</a>\n";
 	$text .= "</div>\n";
 	
 	return $text;

@@ -42,7 +42,7 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 					} else {
 						$txt = str_replace("%nick%", $chat, $txt);
 					}
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%betreff%", $row->m_betreff, $txt));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%betreff%", html_entity_decode($row->m_betreff), $txt));
 					break;
 				
 				case "E-Mail":
@@ -55,7 +55,6 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 					// E-Mail an u_id versenden
 					email_versende($row->m_von_uid, $u_id, $lang['email_mail3'] . $row->m_text, $row->m_betreff);
 					break;
-				
 			}
 		}
 		
