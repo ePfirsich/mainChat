@@ -381,21 +381,17 @@ function aktualisiere_online($u_id) {
 	$result = sqlUpdate($query, true);
 }
 
-function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") {
+function id_lese($id) {
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
 	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $u_zeilen;
 	global $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul;
-	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat, $t;
+	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat;
 	
 	// IP und Browser ermittlen
-	$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
 	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
-	
-	$ip = $ipaddr ? $ipaddr : $remote_addr;
-	$browser = $agent ? $agent : $http_user_agent;
 	
 	$id = escape_string($id);
 	
@@ -426,7 +422,7 @@ function id_lese($id, $auth_id = "", $ipaddr = "", $agent = "", $referrer = "") 
 		mysqli_free_result($result);
 		
 		// o_browser prüfen Benutzerdaten in Array schreiben
-		if (is_array($userdata) && $ar['o_browser'] == $browser) {
+		if (is_array($userdata) && $ar['o_browser'] == $http_user_agent) {
 			// Schleife über Benutzerdaten, Variable setzen
 			while (list($k, $v) = each($userdata)) {
 				@$$k = $v;
