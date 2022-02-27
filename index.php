@@ -580,10 +580,8 @@ switch ($bereich) {
 		// Login ausgeben
 		
 		// Session löschen
-		$_SESSION = array();
-		unset($_SESSION['id']);
-		
-
+		//$_SESSION = array();
+		//unset($_SESSION['id']);
 		
 		// Box für Login
 		$text .= zeige_chat_login();
