@@ -1,22 +1,22 @@
 <?php
 // Übersetzungen von "Navigation"
 
-$t['navigation_chat'] = "Chat";
-$t['navigation_raeume'] = "Räume";
-$t['navigation_benutzer'] = "Benutzer";
-$t['navigation_nachrichten'] = "Nachrichten";
-$t['navigation_forum'] = "Forum";
-$t['navigation_einstellungen'] = "Einstellungen";
-$t['navigation_sperren'] = "Sperren";
-$t['navigation_profil'] = "Profil";
-$t['navigation_freunde'] = "Freunde";
-$t['navigation_statistik'] = "Statistik";
-$t['navigation_definierte_antworten'] = "Definierte Antworten";
-$t['navigation_log'] = "Log";
-$t['navigation_hilfe'] = "Hilfe";
-$t['navigation_logout'] = "Logout";
+$lang['navigation_chat'] = "Chat";
+$lang['navigation_raeume'] = "Räume";
+$lang['navigation_benutzer'] = "Benutzer";
+$lang['navigation_nachrichten'] = "Nachrichten";
+$lang['navigation_forum'] = "Forum";
+$lang['navigation_einstellungen'] = "Einstellungen";
+$lang['navigation_sperren'] = "Sperren";
+$lang['navigation_profil'] = "Profil";
+$lang['navigation_freunde'] = "Freunde";
+$lang['navigation_statistik'] = "Statistik";
+$lang['navigation_definierte_antworten'] = "Definierte Antworten";
+$lang['navigation_log'] = "Log";
+$lang['navigation_hilfe'] = "Hilfe";
+$lang['navigation_logout'] = "Logout";
 
-$t['zum_chat'] = "Zum Chat";
-$t['forum_interaktiv_einzahl'] = "Insgesamt ist 1 Benutzer online.";
-$t['forum_interaktiv_mehrzahl'] = "Insgesamt sind %anzahl_gesamt% Benutzer online.";
+$lang['zum_chat'] = "Zum Chat";
+$lang['forum_interaktiv_einzahl'] = "Insgesamt ist 1 Benutzer online.";
+$lang['forum_interaktiv_mehrzahl'] = "Insgesamt sind %anzahl_gesamt% Benutzer online.";
 ?>

@@ -11,9 +11,9 @@ if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", escape_s
 	// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 	// der Form name@do.main entspricht
 	if($email == "") {
-		$fehlermeldung = str_replace("%email%", $email, $t['registrierung_fehler_keine_email']);
+		$fehlermeldung = str_replace("%email%", $email, $lang['registrierung_fehler_keine_email']);
 	} else {
-		$fehlermeldung = str_replace("%email%", $email, $t['registrierung_fehler_ungueltige_email']);
+		$fehlermeldung = str_replace("%email%", $email, $lang['registrierung_fehler_ungueltige_email']);
 	}
 	$email = "";
 	
@@ -22,7 +22,7 @@ if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", escape_s
 
 if (!isset($email) || $fehlermeldung != "") {
 	// Formular für die Erstregistierung 1. Schritt ausgeben
-	$text .= $t['registrierung_email_angeben'];
+	$text .= $lang['registrierung_email_angeben'];
 	
 	$text .= "<form action=\"index.php?bereich=registrierung\" method=\"post\">\n";
 	
@@ -30,10 +30,10 @@ if (!isset($email) || $fehlermeldung != "") {
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Neuen Account registrieren
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['registrierung_neuen_account_registrieren'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['registrierung_neuen_account_registrieren'], "", "", 0, "70", "");
 	
 	// E-Mail Adresse
-	$text .= zeige_formularfelder("input", $zaehler, $t['registrierung_email_adresse'], "email", "");
+	$text .= zeige_formularfelder("input", $zaehler, $lang['registrierung_email_adresse'], "email", "");
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -43,7 +43,7 @@ if (!isset($email) || $fehlermeldung != "") {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td colspan=\"2\" $bgcolor>\n";
-	$text .= "<input type=\"submit\" value=\"". $t['registrierung_absenden'] . "\">\n";
+	$text .= "<input type=\"submit\" value=\"". $lang['registrierung_absenden'] . "\">\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	
@@ -62,7 +62,7 @@ if($fehlermeldung == "" && isset($email)) {
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
-		$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
+		$fehlermeldung = $lang['registrierung_fehler_gesperrte_email'];
 	}
 	
 	// oder Benutzer ist auf Blacklist
@@ -70,7 +70,7 @@ if($fehlermeldung == "" && isset($email)) {
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
-		$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
+		$fehlermeldung = $lang['registrierung_fehler_gesperrte_email'];
 	}
 	
 	// oder Domain ist lt. Config verboten
@@ -81,7 +81,7 @@ if($fehlermeldung == "" && isset($email)) {
 	for ($i = 0; $i < count($domaingesperrt); $i++) {
 		$teststring = strtolower($email);
 		if (isset($domaingesperrt[$i]) && $domaingesperrt[$i] && (preg_match($domaingesperrt[$i], $teststring))) {
-			$fehlermeldung = $t['registrierung_fehler_gesperrte_email'];
+			$fehlermeldung = $lang['registrierung_fehler_gesperrte_email'];
 		}
 	}
 	unset($teststring);
@@ -91,7 +91,7 @@ if($fehlermeldung == "" && isset($email)) {
 	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
 	if ($num >= 1) {
-		$fehlermeldung = $t['registrierung_fehler_email_bereits_vorhanden'];
+		$fehlermeldung = $lang['registrierung_fehler_email_bereits_vorhanden'];
 	}
 	
 	if($fehlermeldung != "") {
@@ -111,16 +111,16 @@ if($fehlermeldung == "" && isset($email)) {
 		
 		$email = urldecode($email);
 		
-		$inhalt = str_replace("%link%", $link, $t['registrierung_email_text']);
+		$inhalt = str_replace("%link%", $link, $lang['registrierung_email_text']);
 		$inhalt = str_replace("%link2%", $link2, $inhalt);
 		$inhalt = str_replace("%hash%", $hash, $inhalt);
 		$inhalt = str_replace("%email%", $email, $inhalt);
 		
-		$erfolgsmeldung = $t['registrierung_email_versendet'];
+		$erfolgsmeldung = $lang['registrierung_email_versendet'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
 		// E-Mail versenden
-		email_senden($email, $t['registrierung_email_titel'], $inhalt);
+		email_senden($email, $lang['registrierung_email_titel'], $inhalt);
 		
 		$email = escape_string($email);
 		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";

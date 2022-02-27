@@ -1,7 +1,7 @@
 <?php
 // Kategorie anlegen oder editieren
 function maske_kategorie($fo_id = 0) {
-	global $t;
+	global $lang;
 	
 	if ($fo_id > 0) {
 		$fo_id = intval($fo_id);
@@ -18,7 +18,7 @@ function maske_kategorie($fo_id = 0) {
 	$text .= "<form action=\"forum.php\" method=\"post\">\n";
 	
 	// Name der Kategorie
-	$text .= zeige_formularfelder("input", $zaehler, $t['forum_kategorie_name'], "fo_name",  $fo_name);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['forum_kategorie_name'], "fo_name",  $fo_name);
 	$zaehler++;
 	
 	// Gäste dürfen
@@ -38,12 +38,12 @@ function maske_kategorie($fo_id = 0) {
 	}
 	
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['forum_berechtigungen_gaeste_duerfen'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['forum_berechtigungen_gaeste_duerfen'] . "</td>\n";
 	$text .= "<td $bgcolor>\n";
 	$text .= "<select size=\"1\" name=\"fo_gast\">\n";
-	$text .= "<option value=\"0\">$t[forum_berechtigungen_weder_lesen_noch_schreiben]</option>\n";
-	$text .= "<option value=\"8\" $selg1>$t[forum_berechtigungen_nur_lesen]</option>\n";
-	$text .= "<option value=\"24\" $selg2>$t[forum_berechtigungen__lesen_noch_schreiben]</option>\n";
+	$text .= "<option value=\"0\">$lang[forum_berechtigungen_weder_lesen_noch_schreiben]</option>\n";
+	$text .= "<option value=\"8\" $selg1>$lang[forum_berechtigungen_nur_lesen]</option>\n";
+	$text .= "<option value=\"24\" $selg2>$lang[forum_berechtigungen__lesen_noch_schreiben]</option>\n";
 	$text .= "</select>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
@@ -69,12 +69,12 @@ function maske_kategorie($fo_id = 0) {
 	}
 	
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['forum_berechtigungen_benutzer_duerfen'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['forum_berechtigungen_benutzer_duerfen'] . "</td>\n";
 	$text .= "<td $bgcolor>\n";
 	$text .= "<select size=\"1\" name=\"fo_user\">\n";
-	$text .= "<option value=\"0\">$t[forum_berechtigungen_weder_lesen_noch_schreiben]</option>\n";
-	$text .= "<option value=\"2\" $selu1>$t[forum_berechtigungen_nur_lesen]</option>\n";
-	$text .= "<option value=\"6\" $selu2>$t[forum_berechtigungen__lesen_noch_schreiben]</option>\n";
+	$text .= "<option value=\"0\">$lang[forum_berechtigungen_weder_lesen_noch_schreiben]</option>\n";
+	$text .= "<option value=\"2\" $selu1>$lang[forum_berechtigungen_nur_lesen]</option>\n";
+	$text .= "<option value=\"6\" $selu2>$lang[forum_berechtigungen__lesen_noch_schreiben]</option>\n";
 	$text .= "</select>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
@@ -91,7 +91,7 @@ function maske_kategorie($fo_id = 0) {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[forum_button_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[forum_button_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	
 	if ($fo_id > 0) {
@@ -110,7 +110,7 @@ function maske_kategorie($fo_id = 0) {
 
 // Listet alle Foren mit den Anzahl Themen auf
 function forum_liste() {
-	global $forum_admin, $chat_grafik, $t, $u_level;
+	global $forum_admin, $chat_grafik, $lang, $u_level;
 	
 	$sql = "SELECT fo_id, fo_name, fo_order, fo_admin, th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings FROM `forum_kategorien`, `forum_foren` WHERE fo_id = th_fo_id ";
 	if ($u_level == "G") {
@@ -129,7 +129,7 @@ function forum_liste() {
 		$text = "";
 		
 		// Funktioniert noch nicht
-		//$text .= "<a href=\"forum.php?aktion=foren_als_gelesen\" class=\"button\" title=\"$t[forum_foren_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$t[forum_foren_gelesen_markieren]</span></a>\n";
+		//$text .= "<a href=\"forum.php?aktion=foren_als_gelesen\" class=\"button\" title=\"$lang[forum_foren_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$lang[forum_foren_gelesen_markieren]</span></a>\n";
 		
 		$text .= "<table style=\"width:100%\">\n";
 		while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -143,9 +143,9 @@ function forum_liste() {
 				$text .= "<td colspan=\"2\" class =\"tabelle_kopfzeile\">&nbsp;&nbsp;&nbsp;" .html_entity_decode($thema['fo_name']) . "<a name=\"" . $thema['fo_id'] . "\"></a></td>\n";
 				if ($forum_admin) {
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:300px; text-align:right; vertical-align:middle;\">\n";
-					$text .= "<a href=\"forum.php?aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?aktion=kategorie_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$t[forum_kategorie_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
-					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$t[forum_button_neues_forum]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$t[forum_button_neues_forum]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=kategorie_edit&fo_id=$thema[fo_id]\" class=\"button\" title=\"$lang[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=kategorie_delete&fo_id=$thema[fo_id]\" onClick=\"return ask('$lang[forum_kategorie_loeschen]')\" class=\"button\" title=\"$lang[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[forum_button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$lang[forum_button_neues_forum]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$lang[forum_button_neues_forum]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:50px; text-align:center;\">\n";
@@ -192,8 +192,8 @@ function forum_liste() {
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"width:170px; text-align:center; vertical-align:middle;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&aktion=forum_edit\" class=\"button\" title=\"$t[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[forum_button_editieren]</span></a>\n";
-					$text .= "<a href=\"forum.php?aktion=forum_delete&th_id=$thema[th_id]\" onClick=\"return ask('$t[forum_loeschen]')\" class=\"button\" title=\"$t[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[forum_button_loeschen]</span></a>\n";
+					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&aktion=forum_edit\" class=\"button\" title=\"$lang[forum_button_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[forum_button_editieren]</span></a>\n";
+					$text .= "<a href=\"forum.php?aktion=forum_delete&th_id=$thema[th_id]\" onClick=\"return ask('$lang[forum_loeschen]')\" class=\"button\" title=\"$lang[forum_button_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[forum_button_loeschen]</span></a>\n";
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"text-align:center;\" $farbe>\n";
@@ -210,8 +210,8 @@ function forum_liste() {
 					$text .= "<td $farbe>&nbsp;</td>";
 				}
 				$text .= "<td style=\"padding-left:10px;\" $farbe>";
-				$text .= "<span class=\"fa-solid fa-comment icon16\"></span> $thema[th_anzthreads] $t[forum_kategorie_themen]<br>";
-				$text .= "<span class=\"fa-solid fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $t[forum_kategorie_beitraege]";
+				$text .= "<span class=\"fa-solid fa-comment icon16\"></span> $thema[th_anzthreads] $lang[forum_kategorie_themen]<br>";
+				$text .= "<span class=\"fa-solid fa-pencil icon16\"></span> " . ( $thema['th_anzreplys'] + $thema['th_anzthreads']) . " $lang[forum_kategorie_beitraege]";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 			}
@@ -230,14 +230,14 @@ function forum_liste() {
 
 //Zeigt Erklärung der verschiedenen Folder an
 function show_icon_description() {
-	global $t, $chat_grafik;
+	global $lang, $chat_grafik;
 	
 	$text = "<br>\n";
 	$text .= "<div style=\"margin-left:5px;\">\n";
-	$text .= "$chat_grafik[forum_ordnerneu] = $t[desc_folder]<br>\n";
-	$text .= "$chat_grafik[forum_ordnerblau] = $t[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $t[desc_burningredfolder])<br>\n";
-	$text .= "$chat_grafik[forum_topthema] = $t[desc_topposting]<br>\n";
-	$text .= "$chat_grafik[forum_threadgeschlossen] = $t[desc_threadgeschlossen]\n";
+	$text .= "$chat_grafik[forum_ordnerneu] = $lang[desc_folder]<br>\n";
+	$text .= "$chat_grafik[forum_ordnerblau] = $lang[desc_redfolder] ($chat_grafik[forum_ordnervoll] = $lang[desc_burningredfolder])<br>\n";
+	$text .= "$chat_grafik[forum_topthema] = $lang[desc_topposting]<br>\n";
+	$text .= "$chat_grafik[forum_threadgeschlossen] = $lang[desc_threadgeschlossen]\n";
 	$text .= "</div>\n";
 	
 	return $text;
@@ -245,7 +245,7 @@ function show_icon_description() {
 
 //Eingabemaske für Foren
 function maske_forum($th_id = 0) {
-	global $fo_id, $t;
+	global $fo_id, $lang;
 	
 	$text = "";
 	if ($th_id > 0) {
@@ -269,11 +269,11 @@ function maske_forum($th_id = 0) {
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Name des Forums
-	$text .= zeige_formularfelder("input", $zaehler, $t['forum_name'], "th_name",  $th_name);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['forum_name'], "th_name",  $th_name);
 	$zaehler++;
 	
 	// Beschreibung des Forums
-	$text .= zeige_formularfelder("textarea", $zaehler, $t['forum_beschreibung'], "th_desc", $th_desc);
+	$text .= zeige_formularfelder("textarea", $zaehler, $lang['forum_beschreibung'], "th_desc", $th_desc);
 	$zaehler++;
 	
 	// Forum verschieben
@@ -300,7 +300,7 @@ function maske_forum($th_id = 0) {
 		$selectbox .= "</select>\n";
 		
 		$text .= "<tr>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['forum_verschieben'] . "</td>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['forum_verschieben'] . "</td>\n";
 		$text .= "<td $bgcolor>$selectbox</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
@@ -316,7 +316,7 @@ function maske_forum($th_id = 0) {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[forum_button_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[forum_button_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	
@@ -338,7 +338,7 @@ function maske_forum($th_id = 0) {
 
 //Zeigt Pfad und Seiten in Themaliste an
 function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
-	global $anzahl_po_seite, $seite, $t;
+	global $anzahl_po_seite, $seite, $lang;
 	
 	$text = "<table style=\"width:100%\">\n";
 	$text .= "<tr>\n";
@@ -349,7 +349,7 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 	}
 	$anz_seiten = ceil(($th_anzthreads / $anzahl_po_seite));
 	if ($anz_seiten > 1) {
-			$text .= "<td style=\"text-align:right;\" class=\"smaller\">$t[page] ";
+			$text .= "<td style=\"text-align:right;\" class=\"smaller\">$lang[page] ";
 			for ($page = 1; $page <= $anz_seiten; $page++) {
 				if ($page == $seite) {
 					$col = "font-weight:bold;";
@@ -369,14 +369,12 @@ function show_pfad($th_id, $fo_id, $fo_name, $th_name, $th_anzthreads) {
 
 //Zeigt ein Thema mit allen Beiträgen an
 function show_forum() {
-	global $forum_admin, $th_id, $seite;
-	global $anzahl_po_seite, $chat_grafik, $t;
-	global $admin, $u_id, $locale;
+	global $forum_admin, $th_id, $seite, $anzahl_po_seite, $chat_grafik, $lang, $admin, $u_id, $locale;
 	
 	$leserechte = pruefe_leserechte($th_id);
 	
 	if (!$leserechte) {
-		echo $t['leserechte'];
+		echo $lang['leserechte'];
 		exit;
 	}
 	if (!$seite) {
@@ -416,19 +414,19 @@ function show_forum() {
 	
 	$schreibrechte = pruefe_schreibrechte($th_id);
 	if ($schreibrechte) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=0&aktion=thread_neu\" class=\"button\" title=\"$t[thema_erstellen]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$t[thema_erstellen]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=0&aktion=thread_neu\" class=\"button\" title=\"$lang[thema_erstellen]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$lang[thema_erstellen]</span></a>\n";
 	} else {
-		$text .= "<span class=\"smaller\">$t[nur_leserechte]</span><br>\n";
+		$text .= "<span class=\"smaller\">$lang[nur_leserechte]</span><br>\n";
 	}
-	$text .= "<a href=\"forum.php?th_id=$th_id&aktion=forum_als_gelesen\" class=\"button\" title=\"$t[forum_forum_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$t[forum_forum_gelesen_markieren]</span></a>\n";
+	$text .= "<a href=\"forum.php?th_id=$th_id&aktion=forum_als_gelesen\" class=\"button\" title=\"$lang[forum_forum_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$lang[forum_forum_gelesen_markieren]</span></a>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "<tr>\n";
 	$text .= "<td colspan=\"2\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$t[geschrieben_von]</td>\n";
-	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$t[forum_thema_erstellt_am]</td>\n";
-	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$t[forum_anzahl_antworten]</td>\n";
-	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$t[forum_letzte_Antwort]</td>\n";
+	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$lang[geschrieben_von]</td>\n";
+	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$lang[forum_thema_erstellt_am]</td>\n";
+	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$lang[forum_anzahl_antworten]</td>\n";
+	$text .= "<td style=\"text-align:center;\" class=\"tabelle_kopfzeile\">$lang[forum_letzte_Antwort]</td>\n";
 	$text .= "</tr>\n";
 	
 	$zeile = 0;
@@ -548,15 +546,15 @@ function show_forum() {
 
 //Maske zum Eingeben/Editieren/Quoten von Beiträgen
 function maske_posting($mode) {
-	global $u_id, $th_id, $po_id, $po_vater_id, $po_titel, $po_text, $thread, $seite, $forum_admin, $u_nick, $t;
+	global $u_id, $th_id, $po_id, $po_vater_id, $po_titel, $po_text, $thread, $seite, $forum_admin, $u_nick, $lang;
 	
 	// Hole alle benötigten Einstellungen des Benutzers
 	$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 	
 	switch ($mode) {
 		case "neuer_thread":
-			$button = $t['neuer_thread_button'];
-			$titel = $t['thema_erstellen'];
+			$button = $lang['neuer_thread_button'];
+			$titel = $lang['thema_erstellen'];
 			
 			if (!$po_text) {
 				$po_text = erzeuge_fuss("");
@@ -573,15 +571,15 @@ function maske_posting($mode) {
 			$autor = mysqli_result($query, 0, "u_nick");
 			$po_date = mysqli_result($query, 0, "po_date");
 			$po_titel = (mysqli_result($query, 0, "po_titel"));
-			if (substr($po_titel, 0, 3) != $t['reply'])
-				$po_titel = $t['reply'] . " " . $po_titel;
+			if (substr($po_titel, 0, 3) != $lang['reply'])
+				$po_titel = $lang['reply'] . " " . $po_titel;
 			$titel = $po_titel;
 			$po_text = mysqli_result($query, 0, "po_text");
 			$po_text = erzeuge_quoting($po_text, $autor, $po_date);
 			$po_text = erzeuge_fuss($po_text);
 			
 			//$kopfzeile = $po_titel;
-			$button = $t['neuer_thread_button'];
+			$button = $lang['neuer_thread_button'];
 			break;
 		case "answer": // antworten
 		//Daten des Vaters holen
@@ -589,13 +587,13 @@ function maske_posting($mode) {
 			$query = sqlQuery($sql);
 			
 			$po_titel = mysqli_result($query, 0, "po_titel");
-			if (substr($po_titel, 0, 3) != $t['reply'])
-				$po_titel = $t['reply'] . " " . $po_titel;
+			if (substr($po_titel, 0, 3) != $lang['reply'])
+				$po_titel = $lang['reply'] . " " . $po_titel;
 			$titel = $po_titel;
 			$po_text = erzeuge_fuss("");
 			
 			//$kopfzeile = $po_titel;
-			$button = $t['neuer_thread_button'];
+			$button = $lang['neuer_thread_button'];
 			break;
 		
 		case "edit":
@@ -624,7 +622,7 @@ function maske_posting($mode) {
 			}
 			
 			//$kopfzeile = $po_titel;
-			$button = $t['edit_button'];
+			$button = $lang['edit_button'];
 			
 			break;
 	}
@@ -647,7 +645,7 @@ function maske_posting($mode) {
 	
 	// Titel
 	if ( (($mode == "edit" || $mode == "answer" || $mode == "reply") && $po_id == $thread) || $mode == "neuer_thread" ) {
-		$text .= zeige_formularfelder("input", $zaehler, $t['forum_titel'], "po_titel", $po_titel);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['forum_titel'], "po_titel", $po_titel);
 		$zaehler++;
 	}
 	
@@ -659,12 +657,12 @@ function maske_posting($mode) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['forum_beitrag'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['forum_beitrag'] . "</td>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
 	$text .= "</tr>\n";
 	
 	$text .= "<tr>\n";
-	$text .= "<td colspan=\"2\" $bgcolor>($t[desc_posting])</td>\n";
+	$text .= "<td colspan=\"2\" $bgcolor>($lang[desc_posting])</td>\n";
 	$text .= "</tr>\n";
 	
 	
@@ -679,14 +677,14 @@ function maske_posting($mode) {
 	// Nur im Obersten Vater die TOP und gesperrt Einstellungen ändern lassen
 	if ($forum_admin && ($mode == "edit") && $po_id == $thread) {
 		// Thema gesperrt
-		$value = array($t['posting_nein'], $t['posting_ja']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['posting_thema_gesperrt'], "po_threadgesperrt", $value, $po_threadgesperrt);
+		$value = array($lang['posting_nein'], $lang['posting_ja']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['posting_thema_gesperrt'], "po_threadgesperrt", $value, $po_threadgesperrt);
 		$zaehler++;
 		
 		
 		// Thema anpinnen
-		$value = array($t['posting_nein'], $t['posting_ja']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['posting_thema_anpinnen'], "po_topposting", $value, $po_topposting);
+		$value = array($lang['posting_nein'], $lang['posting_ja']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['posting_thema_anpinnen'], "po_topposting", $value, $po_topposting);
 		$zaehler++;
 	}
 	
@@ -729,11 +727,11 @@ function maske_posting($mode) {
 
 //Zeigt die gutgeschriebenen Punkte an
 function verbuche_punkte($u_id) {
-	global $t, $punkte_pro_posting;
+	global $lang, $punkte_pro_posting;
 	global $punktefeatures;
 	
 	if ($punktefeatures) {
-		$erfolgsmeldung = $t['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id);
+		$erfolgsmeldung = $lang['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id);
 		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	}
 	
@@ -763,7 +761,7 @@ function show_pfad_posting($th_id, $po_titel) {
 
 //gibt Navigation für Beiträge aus
 function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
-	global $t, $seite, $po_id, $u_id, $thread, $forum_admin;
+	global $lang, $seite, $po_id, $u_id, $thread, $forum_admin;
 	$text = "";
 	
 	$text .= "<table style=\"width:100%\">\n";
@@ -776,19 +774,19 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 	// Darf der Benutzer einen Beitrag bearbeiten?
 	// Entweder eigenes posting oder forum_admin
 	if ( ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) && $ist_navigation_top ) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite= $seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite= $seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 	}
 	
 	if ($schreibrechte && !$threadgesperrt && !$ist_navigation_top) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=$thread&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$t[thema_antworten]\"><span class=\"fa-solid fa-reply icon16\"></span> <span>$t[thema_antworten]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_vater_id=$thread&thread=$thread&aktion=answer&seite=$seite\" class=\"button\" title=\"$lang[thema_antworten]\"><span class=\"fa-solid fa-reply icon16\"></span> <span>$lang[thema_antworten]</span></a>\n";
 	}
 
 	//Nur Forum-Admins dürfen Beiträge loeschen
 	if ($forum_admin && $ist_navigation_top) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
 		if ($po_id == $thread) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$t[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$t[thema_verschieben]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$lang[thema_verschieben]</span></a>\n";
 		}
 	}
 	$text .= "</td>\n";
@@ -803,7 +801,7 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 
 // Verschiebe Beitrag
 function verschiebe_posting() {
-	global $po_id, $thread, $seite, $t, $th_id, $fo_id;
+	global $po_id, $thread, $seite, $lang, $th_id, $fo_id;
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
 				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
@@ -830,13 +828,13 @@ function verschiebe_posting() {
 	
 	
 	// Überschrift: Thema verschieben
-	$value = $t['verschieben_verschiebe_thema'] . " " . $row->po_titel;
+	$value = $lang['verschieben_verschiebe_thema'] . " " . $row->po_titel;
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $value, "", "", 0, "70", "");
 	
 	
 	// Verschieben vom Forum
 	$value = $row2->fo_name . " > " . $row2->th_name;
-	$text .= zeige_formularfelder("text", $zaehler, $t['verschieben_von_forum'], "", $value);
+	$text .= zeige_formularfelder("text", $zaehler, $lang['verschieben_von_forum'], "", $value);
 	$zaehler++;
 	
 	
@@ -847,7 +845,7 @@ function verschiebe_posting() {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['verschieben_nach_forum'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['verschieben_nach_forum'] . "</td>\n";
 	$text .= "<td $bgcolor>";
 	$text .= "<select name=\"verschiebe_nach\" size=\"1\">\n";
 	while ($row3 = mysqli_fetch_object($query)) {
@@ -872,7 +870,7 @@ function verschiebe_posting() {
 	}
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[verschieben4]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[verschieben4]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	
@@ -891,7 +889,7 @@ function verschiebe_posting() {
 
 // Zeigt das Thema an
 function show_posting() {
-	global $po_id, $thread, $seite, $t, $forum_admin, $th_id, $u_id;
+	global $po_id, $thread, $seite, $lang, $forum_admin, $th_id, $u_id;
 	
 	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
 				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
@@ -1010,7 +1008,7 @@ function show_posting() {
 		$text .= "$ava <br>\n";
 		$text .= $userdetails . $besonderer_status;
 		$text .= "</td>\n";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]$po_date</td>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[geschrieben_am]$po_date</td>\n";
 		$text .= "</tr>\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_zeile1\">" . html_entity_decode($po_text) . "</td>\n";
@@ -1024,17 +1022,17 @@ function show_posting() {
 		// Darf der Benutzer den Beitrag bearbeiten?
 		// Entweder eigenes posting oder forum_admin
 		if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$t[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[thema_editieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 		}
 		
 		if ($schreibrechte && !$threadgesperrt) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$t[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$t[thema_zitieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[thema_zitieren]</span></a>\n";
 		}
 		
 		//Nur Forum-Admins dürfen Beiträge loeschen
 		if ($forum_admin) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$t[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$t[thema_sperren]</span></a>\n";
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$t[thema_loeschen2]')\" class=\"button\" title=\"$t[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[thema_loeschen]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
 		}
 		$text .= "</td>\n";
 		$text .= "</tr>\n";

@@ -1,7 +1,7 @@
 <?php
 function home_info($home) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $userdata, $t, $level, $t, $u_id, $u_nick;
+	global $userdata, $level, $lang, $u_id, $u_nick;
 	
 	$text = "";
 	
@@ -28,15 +28,15 @@ function home_info($home) {
 	
 	$text .= "<table style=\"width:100%;\">";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik]</td>";
 	$text .= "</tr>\n";
 	$text .= home_bild($home, "ui_bild4", $bilder);
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_des_inhalts]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik_des_inhalts]</td>";
 	$text .= "</tr>\n";
 	$text .= home_bild($home, "ui_bild5", $bilder);
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_hintergrundgrafik_der_grafiken]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik_der_grafiken]</td>";
 	$text .= "</tr>\n";
 	$text .= home_bild($home, "ui_bild6", $bilder);
 	$text .= "</table>";
@@ -46,7 +46,7 @@ function home_info($home) {
 	
 	$text .= "<table style=\"width:100%;\">";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[homepage_bilder]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_bilder]</td>";
 	$text .= "</tr>\n";
 
 	// Bilder - Start
@@ -64,12 +64,8 @@ function home_info($home) {
 	return $text;
 }
 
-function home_bild(
-	$home,
-	$feld,
-	$bilder) {
-	
-	global $u_id, $u_nick, $t;
+function home_bild($home, $feld, $bilder) {
+	global $u_id, $u_nick, $lang;
 	
 	$text = "";
 	$text .= "<tr>\n";
@@ -85,10 +81,10 @@ function home_bild(
 		
 		$text .= "<img src=\"home_bild.php?u_id=$u_id&feld=$feld\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info;
 		
-		$text .= "<br><b>[<a href=\"inhalt.php?bereich=profilbilder&bildname=$feld\">$t[benutzer_loeschen]</a>]</b>";
+		$text .= "<br><b>[<a href=\"inhalt.php?bereich=profilbilder&bildname=$feld\">$lang[benutzer_loeschen]</a>]</b>";
 	} else {
 		
-		$text .= "$t[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
+		$text .= "$lang[user_kein_bild_hochgeladen]" . "<input type=\"file\" name=\"$feld\" size=\"" . (55 / 8) . "\">";
 		$text .= "<br>" . "<input type=\"submit\" value=\"GO\">";
 		
 	}
@@ -110,7 +106,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 	// HEIGHT				 -> home[ui_bild_height]
 	// MIME-TYPE			  -> home[ui_bild_mime]
 	
-	global $t;
+	global $lang;
 	
 	$max_groesse = 60; // Maximale Bild- und Text größe in KB
 	
@@ -153,7 +149,7 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 				}
 				schreibe_db("bild", $f, $b_id, "b_id");
 			} else {
-				$fehlermeldung .= $t['profilbilder_fehlermeldung_falsches_bildformat'];
+				$fehlermeldung .= $lang['profilbilder_fehlermeldung_falsches_bildformat'];
 			}
 			
 			// Bild löschen
@@ -168,19 +164,19 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 			}
 			
 		} else {
-			$fehlermeldung .= $t['profilbilder_fehlermeldung_falsches_bildformat'];
+			$fehlermeldung .= $lang['profilbilder_fehlermeldung_falsches_bildformat'];
 			unlink($ui_bild);
 		}
 		
 	} else if ($groesse >= ($max_groesse * 1024)) {
-		$fehlermeldung .= str_replace("%max_groesse%", $max_groesse, $t['profilbilder_fehlermeldung_bild_zu_gross']);
+		$fehlermeldung .= str_replace("%max_groesse%", $max_groesse, $lang['profilbilder_fehlermeldung_bild_zu_gross']);
 	}
 
 	return $fehlermeldung;
 }
 
 function bild_loeschen($bildname, $benutzer_id) {
-	global $t;
+	global $lang;
 	
 	$text = "";
 	if (isset($bildname) && $bildname && $benutzer_id) {
@@ -195,10 +191,10 @@ function bild_loeschen($bildname, $benutzer_id) {
 			unlink($cachepfad . "-mime");
 		}
 		
-		$erfolgsmeldung = $t['profilbilder_erfolgsmeldung_bild_geloescht'];
+		$erfolgsmeldung = $lang['profilbilder_erfolgsmeldung_bild_geloescht'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	} else {
-		$fehlermeldung = $t['profilbilder_fehlermeldung_bild_loeschen'];
+		$fehlermeldung = $lang['profilbilder_fehlermeldung_bild_loeschen'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	

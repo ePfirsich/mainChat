@@ -4,5 +4,5 @@ if( !isset($bereich)) {
 	die;
 }
 
-$text = $t['chat_agb'] . "\n";
+$text = $lang['chat_agb'] . "\n";
 ?>

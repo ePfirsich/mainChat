@@ -4,7 +4,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-$box = $t['hilfe_community'];
+$box = $lang['hilfe_community'];
 $text = $hilfe_community;
 $text = str_replace("%chat_url%", $chat_url, $hilfe_community);
 

@@ -147,8 +147,8 @@ if($bereich == "sperren" || $bereich == "freunde" || $bereich == "nachrichten") 
 }
 
 // Titel aus der entsprechenden Übersetzung holen
-if($t['titel'] != '') {
-	$title = $body_titel . ' - ' . $t['titel'];
+if($lang['titel'] != '') {
+	$title = $body_titel . ' - ' . $lang['titel'];
 } else {
 	$title = $body_titel;
 }
@@ -173,13 +173,13 @@ if( !$user_eingeloggt && in_array($bereich, $nur_eingeloggten_seiten, true) ) {
 <?php
 if(!$bereich || $kein_seitenaufruf) {
 	// Seite nicht gefunden oder Datei für die Übersetzung nicht gefunden
-	$box = $t['fehler'];
-	$text = $t['seite_nicht_gefunden'];
+	$box = $lang['fehler'];
+	$text = $lang['seite_nicht_gefunden'];
 	zeige_tabelle_zentriert($box, $text);
 } else if($kein_aufruf_unter_bestimmten_bedinungen) {
 		// Seite nicht gefunden oder Datei für die Übersetzung nicht gefunden
-		$box = $t['fehler'];
-		$text = $t['kein_zugriff'];
+		$box = $lang['fehler'];
+		$text = $lang['kein_zugriff'];
 		zeige_tabelle_zentriert($box, $text);
 	} else {
 	// Seitenaufruf
@@ -188,11 +188,11 @@ if(!$bereich || $kein_seitenaufruf) {
 			// Hilfe anzeigen
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=hilfe\">$t[hilfe_menue4]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-befehle\">$t[hilfe_menue5]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-sprueche\">$t[hilfe_menue6]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community\">$t[hilfe_menue7]</a>\n";
+			$box = $lang['titel'];
+			$text = "<a href=\"inhalt.php?bereich=hilfe\">$lang[hilfe_menue4]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-befehle\">$lang[hilfe_menue5]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-sprueche\">$lang[hilfe_menue6]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community\">$lang[hilfe_menue7]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			switch ($aktion) {
@@ -228,20 +228,20 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben
-			$box = $t['benutzer_titel'];
-			$text = "<a href=\"inhalt.php?bereich=benutzer\">$t[benutzer_uebersicht]</a>\n";
+			$box = $lang['benutzer_titel'];
+			$text = "<a href=\"inhalt.php?bereich=benutzer\">$lang[benutzer_uebersicht]</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=suche\">$t[benutzer_benutzer_suchen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=suche\">$lang[benutzer_benutzer_suchen]</a>\n";
 			}
 			
 			if ($adminlisteabrufbar && $u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=adminliste\">$t[benutzer_adminliste_anzeigen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=benutzer&aktion=adminliste\">$lang[benutzer_adminliste_anzeigen]</a>\n";
 			}
 			if ($u_level != "G") {
 				if ($punktefeatures) {
 					$ur1 = "inhalt.php?bereich=top10";
 					$url = "href=\"$ur1\" ";
-					$text .= "| <a $url>$t[benutzer_top10]</a>\n";
+					$text .= "| <a $url>$lang[benutzer_top10]</a>\n";
 				}
 			}
 			
@@ -257,10 +257,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-msg.php");
 			
 			// Menü ausgeben
-			$box = $t['raum_titel'];
-			$text = "<a href=\"inhalt.php?bereich=raum\">" . $t['raum_uebersicht'] . "</a>\n";
+			$box = $lang['raum_titel'];
+			$text = "<a href=\"inhalt.php?bereich=raum\">" . $lang['raum_uebersicht'] . "</a>\n";
 			if ($u_level != "G") {
-				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit\">" . $t['raum_neuer_raum'] . "</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit\">" . $lang['raum_neuer_raum'] . "</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -273,13 +273,13 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-nachrichten.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=nachrichten\">" . $t['nachrichten_posteingang'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=postausgang\">" . $t['nachrichten_postausgang'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=neu\">" . $t['nachrichten_neue_nachricht'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorb\">" . $t['nachrichten_papierkorb'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=mailboxzu\">" . $t['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#mail\">" . $t['nachrichten_hilfe'] . "</a>\n";
+			$box = $lang['titel'];
+			$text = "<a href=\"inhalt.php?bereich=nachrichten\">" . $lang['nachrichten_posteingang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=postausgang\">" . $lang['nachrichten_postausgang'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=neu\">" . $lang['nachrichten_neue_nachricht'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorb\">" . $lang['nachrichten_papierkorb'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=mailboxzu\">" . $lang['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
+				. "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#mail\">" . $lang['nachrichten_hilfe'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/nachrichten.php');
@@ -291,11 +291,11 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-profil.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil\">$t[profil_profil_bearbeiten]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$t[profil_bilder_hochladen]</a>\n";
+			$box = $lang['titel'];
+			$text .= "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$lang[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$lang[profil_alle_profile_ausgeben]</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 				
@@ -310,11 +310,11 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-profilbilder.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil\">$t[profil_profil_bearbeiten]</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$t[profil_bilder_hochladen]</a>\n";
+			$box = $lang['titel'];
+			$text .= "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$lang[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$t[profil_alle_profile_ausgeben]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$lang[profil_alle_profile_ausgeben]</a>\n";
 			}
 			zeige_tabelle_zentriert($box, $text);
 			
@@ -333,10 +333,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
-				$box = $t['einstellungen_titel'];
-				$text .= "<a href=\"inhalt.php?bereich=einstellungen\">$t[einstellungen_menue1]</a>\n";
-				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion\">$t[einstellungen_menue2]</a>\n";
-				$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#home\">$t[einstellungen_menue3]</a>\n";
+				$box = $lang['einstellungen_titel'];
+				$text .= "<a href=\"inhalt.php?bereich=einstellungen\">$lang[einstellungen_menue1]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion\">$lang[einstellungen_menue2]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#home\">$lang[einstellungen_menue3]</a>\n";
 				zeige_tabelle_zentriert($box, $text);
 			}
 			
@@ -346,14 +346,14 @@ if(!$bereich || $kein_seitenaufruf) {
 					$text = eintrag_aktionen($aktion_datensatz);
 					$text .= zeige_aktionen();
 					
-					$box = $t['einstellungen_benachrichtigungen_inhalt'];
+					$box = $lang['einstellungen_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					
 				case "aktion":
 					$text = zeige_aktionen();
 					
-					$box = $t['einstellungen_benachrichtigungen_inhalt'];
+					$box = $lang['einstellungen_benachrichtigungen_inhalt'];
 					zeige_tabelle_zentriert($box, $text);
 					break;
 					
@@ -368,9 +368,9 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-statistik.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "[<a href=\"inhalt.php?bereich=statistik&aktion=monat\">" . $t['statistik_nach_monaten'] . "</a>]\n"
-					. "[<a href=\"inhalt.php?bereich=statistik&aktion=stunde\">" . $t['statistik_nach_stunden'] . "</a>]";
+			$box = $lang['titel'];
+			$text = "[<a href=\"inhalt.php?bereich=statistik&aktion=monat\">" . $lang['statistik_nach_monaten'] . "</a>]\n"
+					. "[<a href=\"inhalt.php?bereich=statistik&aktion=stunde\">" . $lang['statistik_nach_stunden'] . "</a>]";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/statistik.php');
@@ -390,14 +390,14 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-freunde.php");
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=freunde\">$t[freunde_meine_freunde]</a>\n"
-			. "| <a href=\"inhalt.php?bereich=freunde&aktion=neu\">$t[freunde_neuen_freund_hinzufuegen]</a>\n"
-			. "| <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen\">$t[freunde_freundesanfragen]</a>\n";
+			$box = $lang['titel'];
+			$text = "<a href=\"inhalt.php?bereich=freunde\">$lang[freunde_meine_freunde]</a>\n"
+			. "| <a href=\"inhalt.php?bereich=freunde&aktion=neu\">$lang[freunde_neuen_freund_hinzufuegen]</a>\n"
+			. "| <a href=\"inhalt.php?bereich=freunde&aktion=bestaetigen\">$lang[freunde_freundesanfragen]</a>\n";
 			if ($admin) {
-				$text .= "| <a href=\"inhalt.php?bereich=freunde&aktion=admins\">$t[freunde_alle_admins_als_freund_hinzufuegen]</a>\n";
+				$text .= "| <a href=\"inhalt.php?bereich=freunde&aktion=admins\">$lang[freunde_alle_admins_als_freund_hinzufuegen]</a>\n";
 			}
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#freunde\">$t[freunde_hilfe]</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#freunde\">$lang[freunde_hilfe]</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			
 			require_once('templates/freunde.php');
@@ -408,10 +408,10 @@ if(!$bereich || $kein_seitenaufruf) {
 			// Top 10/100 anzeigen
 			
 			// Menü ausgeben
-			$box = $t['titel'];
-			$text = "<a href=\"inhalt.php?bereich=top10\">".$t['top_menue2']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=top10&aktion=top100\">".$t['top_menue3']."</a>\n";
-			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#punkte\">".$t['top_menue4']."</a>\n";
+			$box = $lang['titel'];
+			$text = "<a href=\"inhalt.php?bereich=top10\">".$lang['top_menue2']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=top10&aktion=top100\">".$lang['top_menue3']."</a>\n";
+			$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#punkte\">".$lang['top_menue4']."</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 				
 			require_once('templates/top10.php');
@@ -428,8 +428,8 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		default:
 			// Seite nicht gefunden
-			$box = $t['fehler'];
-			$text = $t['seite_nicht_gefunden'];
+			$box = $lang['fehler'];
+			$text = $lang['seite_nicht_gefunden'];
 			zeige_tabelle_zentriert($box, $text);
 	}
 }

@@ -20,7 +20,7 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $t, $chat;
+	global $system_farbe, $lang, $chat;
 	
 	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
 	$result = sqlQuery($query);
@@ -29,14 +29,14 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
 			$url = "href=\"inhalt.php?bereich=nachrichten\" target=\"_blank\"";
-			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['chatmsg_mail1']));
+			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $lang['chatmsg_mail1']));
 		}
 		
 		while ($row = mysqli_fetch_object($result)) {
 			// Nachricht verschicken
 			switch ($nachricht) {
 				case "OLM":
-					$txt = str_replace("%zeit%", $row->zeit, $t['chatmsg_mail2']);
+					$txt = str_replace("%zeit%", $row->zeit, $lang['chatmsg_mail2']);
 					if ($row->u_nick != "NULL" && $row->u_nick != "") {
 						$txt = str_replace("%nick%", $row->u_nick, $txt);
 					} else {
@@ -53,7 +53,7 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 					schreibe_db("mail", $f, $row->m_id, "m_id");
 					
 					// E-Mail an u_id versenden
-					email_versende($row->m_von_uid, $u_id, $t['email_mail3'] . $row->m_text, $row->m_betreff);
+					email_versende($row->m_von_uid, $u_id, $lang['email_mail3'] . $row->m_text, $row->m_betreff);
 					break;
 				
 			}
@@ -68,13 +68,13 @@ function profil_neu($u_id, $u_nick) {
 	// Hat der Benutzer sein Profil ausgefüllt?
 	// Falls nein, wird einer Erinnerung ausgegeben
 	// $u_id ist die ID des des Benutzers
-	global $system_farbe, $t;
+	global $system_farbe, $lang;
 	
 	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
 	$result = sqlQuery($query);
 	if ($result && mysqli_num_rows($result) == 0) {
 		$url = "href=\"inhalt.php?bereich=profil&aktion=neu\" ";
-		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $t['profil1']));
+		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $lang['profil1']));
 	}
 	mysqli_free_result($result);
 	
@@ -85,7 +85,7 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 	// Dieser Benutzer muss online sein, die punkte werden in der Tabelle online addiert
 	// Falls $text Zeichen enthält, wird der Text mit einem Standardtext ausgegeben
 	
-	global $t, $o_punkte, $punkte_gruppe;
+	global $lang, $o_punkte, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
@@ -97,11 +97,11 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 	if (strlen($text) > 0) {
 		if ($anzahl > 0) {
 			// Gutschrift
-			$text = str_replace("%text%", $text, $t['punkte1']);
+			$text = str_replace("%text%", $text, $lang['punkte1']);
 			$text = str_replace("%punkte%", $anzahl, $text);
 		} else {
 			// Abzug
-			$text = str_replace("%text%", $text, $t['punkte2']);
+			$text = str_replace("%text%", $text, $lang['punkte2']);
 			$text = str_replace("%punkte%", $anzahl * (-1), $text);
 		}
 		if ($user_id != 0) {
@@ -177,7 +177,7 @@ function punkte_offline($anzahl, $user_id) {
 	// Die Punkte werden direkt in die user-tabelle geschrieben
 	// Optional wird Info-Text als Ergebnis zurückgeliefert
 	
-	global $t, $punkte_gruppe;
+	global $lang, $punkte_gruppe;
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
@@ -235,11 +235,11 @@ function punkte_offline($anzahl, $user_id) {
 	// Meldung an Benutzer ausgeben
 	if ($anzahl > 0) {
 		// Gutschrift
-		$text = str_replace("%user%", $u_nick, $t['punkte21']);
+		$text = str_replace("%user%", $u_nick, $lang['punkte21']);
 		$text = str_replace("%punkte%", $anzahl, $text);
 	} else {
 		// Abzug
-		$text = str_replace("%user%", $u_nick, $t['punkte22']);
+		$text = str_replace("%user%", $u_nick, $lang['punkte22']);
 		$text = str_replace("%punkte%", $anzahl * (-1), $text);
 	}
 	
@@ -255,7 +255,6 @@ function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = ""
 	// typ = "Sofort/Offline", "Sofort/Online", "Login", "Alle 5 Minuten"
 	// Mit der Angabe von $suche_was kann die Suche auf ein a_was eingeschränkt werden
 	// Für "Sofort/Offline" und "Sofort/Online" muss der Inhalt in $inhalt übergeben werden
-	global $t;
 	
 	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
 	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
@@ -358,7 +357,7 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 	// Die Aktion ist Mail (Chatintern), E-Mail an die Adresse des Benutzers oder eine Online-Message (a_wie)
 	// Die betroffene Chat-Funktion (zb. Freund-Login/Logout, Mailempfang) wird als Text definiert (a_was)
 	
-	global $system_farbe, $t;
+	global $system_farbe, $lang;
 	
 	$userlink = zeige_userdetails($von_u_id);
 	
@@ -369,12 +368,12 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$txt = str_replace("%u_nick%", $userlink, $t['chatmsg_freunde1']);
+						$txt = str_replace("%u_nick%", $userlink, $lang['chatmsg_freunde1']);
 						$txt = str_replace("%raum%", $inhalt['raum'], $txt);
 					} else if ($inhalt['aktion'] == "Login") {
-						$txt = str_replace("%u_nick%", $userlink, $t['chatmsg_freunde5']);
+						$txt = str_replace("%u_nick%", $userlink, $lang['chatmsg_freunde5']);
 					} else {
-						$txt = str_replace("%u_nick%", $u_nick, $t['chatmsg_freunde2']);
+						$txt = str_replace("%u_nick%", $u_nick, $lang['chatmsg_freunde2']);
 					}
 					if ($inhalt['f_text']) {
 						$txt .= " (" . $inhalt['f_text'] . ")";
@@ -384,14 +383,14 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				
 				case "Neue Mail":
 				// Nachricht erzeugen
-					$txt = str_replace("%nick%", $u_nick, $t['email_mail7']);
+					$txt = str_replace("%nick%", $u_nick, $lang['email_mail7']);
 					$txt = str_replace("%betreff%", $inhalt['m_betreff'], $txt);
 					
 					// Nachricht versenden
 					system_msg("", 0, $an_u_id, $system_farbe, $txt);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_olm']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_olm']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
@@ -409,17 +408,17 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde3']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt[aktion] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['nachricht_freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['nachricht_mail9'] . $betreff . " (" . $inhalt['f_text'] . ")";
+						$txt = $lang['nachricht_mail9'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
-						$txt = $t['nachricht_mail9'] . $betreff;
+						$txt = $lang['nachricht_mail9'] . $betreff;
 					}
 					// Mail-Absender ist mainChat
 					$von_u_id = 0;
@@ -430,8 +429,8 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				// Eine neue Chat-Mail kann keine Chat-Mail auslösen
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $t['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_chatmail']);
+					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $lang['betreff_new_posting']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_chatmail']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
@@ -451,17 +450,17 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
 					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde3']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['email_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt['aktion'] == "Login") {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde6']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['email_freunde6']);
 					} else {
-						$betreff = str_replace("%u_nick%", $u_nick, $t['email_freunde4']);
+						$betreff = str_replace("%u_nick%", $u_nick, $lang['email_freunde4']);
 					}
 					if ($inhalt['f_text']) {
-						$txt = $t['email_mail8'] . $betreff . " (" . $inhalt['f_text'] . ")";
+						$txt = $lang['email_mail8'] . $betreff . " (" . $inhalt['f_text'] . ")";
 					} else {
-						$txt = $t['email_mail8'] . $betreff;
+						$txt = $lang['email_mail8'] . $betreff;
 					}
 					email_versende($von_u_id, $an_u_id, $txt, $betreff);
 					break;
@@ -473,11 +472,11 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					schreibe_db("mail", $f, $inhalt['m_id'], "m_id");
 					
 					// Nachricht versenden
-					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $t['email_mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
+					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $lang['email_mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $t['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $t['msg_new_posting_email']);
+					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $lang['betreff_new_posting']);
+					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_email']);
 					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
@@ -495,18 +494,18 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 
 function mail_sende($von, $an, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von an ID $an mit Text $text
-	global $u_nick, $t, $u_id;
+	global $u_nick, $lang, $u_id;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
 	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per mainChat
-	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = '$t[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
+	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = '$lang[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
 	$result = sqlQuery($query);
 	$num = mysqli_num_rows($result);
 	if ($num >= 1) {
 		$mailversand_ok = false;
-		$fehlermeldung = $t['chat_msg105'];
+		$fehlermeldung = $lang['chat_msg105'];
 	}
 	
 	// Gesperrte Benutzer bekommen keine Chatmail Aktionen mehr
@@ -532,7 +531,7 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	
 	if ($zeit < 30) {
 		$mailversand_ok = false;
-		$fehlermeldung = $t['chat_msg104'];
+		$fehlermeldung = $lang['chat_msg104'];
 	}
 	
 	if ($mailversand_ok == true) {
@@ -568,16 +567,11 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	
 }
 
-function email_versende(
-	$von_user_id,
-	$an_user_id,
-	$text,
-	$betreff,
-	$an_u_email = FALSE) {
+function email_versende($von_user_id, $an_user_id, $text, $betreff, $an_u_email = FALSE) {
 	// Versendet "echte" E-Mail an Benutzer mit an_user_id
 	// Falls an_u_email=TRUE wird E-Mail an u_email (E-Mail Adresse)
 	
-	global $t;
+	global $lang;
 	
 	// Umwandlung der Entities rückgängig machen, Slashes und Tags entfernen
 	$trans = get_html_translation_table(HTML_ENTITIES);
@@ -603,7 +597,7 @@ function email_versende(
 		$adresse = $row->u_email;
 		
 		$inhalt = str_replace("%user%", $row->u_nick, $text);
-		$nachricht = str_replace("%name%", $abrow->u_nick, $t['email_mail4']);
+		$nachricht = str_replace("%name%", $abrow->u_nick, $lang['email_mail4']);
 		$nachricht = str_replace("%nachricht%", $text, $nachricht);
 		$nachricht = str_replace("%email%", $abrow->u_email, $nachricht);
 		
@@ -623,7 +617,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
 	
-	global $system_farbe, $t, $whotext, $locale;
+	global $system_farbe, $lang, $whotext, $locale;
 	
 	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
 		. "UNION "
@@ -668,14 +662,14 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						if ($r2 && mysqli_num_rows($r2) > 0) {
 							$r = mysqli_fetch_object($r2);
 							if ($r->o_who == 0) {
-								$raum = $t['chat_msg67'] . " <b>" . $r->r_name . "</b>";
+								$raum = $lang['chat_msg67'] . " <b>" . $r->r_name . "</b>";
 							} else {
 								$raum = "<b>[" . $whotext[$r->o_who] . "]</b>";
 							}
 						}
 						mysqli_free_result($r2);
 						
-						$weiterer = $t['chat_msg90'];
+						$weiterer = $lang['chat_msg90'];
 						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
@@ -691,7 +685,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						if ($i > 0) {
 							$txt .= "\n\n";
 						}
-						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
+						$txt .= str_replace("%u_nick%", $row2->u_nick, $lang['chat_msg91']);
 						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
 						if ($row->f_text) {
 							$txt .= " (" . $row->f_text . ")";
@@ -703,7 +697,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						if ($i > 0) {
 							$txt .= "\n\n";
 						}
-						$txt .= str_replace("%u_nick%", $row2->u_nick, $t['chat_msg91']);
+						$txt .= str_replace("%u_nick%", $row2->u_nick, $lang['chat_msg91']);
 						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
 						if ($row->f_text) {
 							$txt .= " (" . $row->f_text . ")";
@@ -723,13 +717,13 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 					break;
 				
 				case "Chat-Mail":
-					$betreff = str_replace("%anzahl%", $i, $t['nachricht_mail6']);
-					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $t['nachricht_mail5']) . $txt, $betreff);
+					$betreff = str_replace("%anzahl%", $i, $lang['nachricht_mail6']);
+					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $lang['nachricht_mail5']) . $txt, $betreff);
 					break;
 				
 				case "E-Mail":
-					$betreff = str_replace("%anzahl%", $i, $t['email_mail6']);
-					email_versende("", $u_id, $t['email_mail5'] . $txt, $betreff);
+					$betreff = str_replace("%anzahl%", $i, $lang['email_mail6']);
+					email_versende("", $u_id, $lang['email_mail5'] . $txt, $betreff);
 					break;
 				
 			}
@@ -742,7 +736,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 //prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
 function postings_neu($an_u_id, $u_nick, $nachricht) {
-	global $t, $system_farbe;
+	global $lang, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
 	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
@@ -779,7 +773,7 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 				//Nachricht versenden
 				switch ($nachricht) {
 					case "OLM":
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_olm']);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_olm']);
 						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
 						$text = str_replace("%forum%", $postings['fo_name'], $text);
 						$text = str_replace("%thema%", $postings['th_name'], $text);
@@ -795,8 +789,8 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 						} else {
 							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
 						}
-						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $t['betreff_new_posting']);
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_chatmail']);
+						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_chatmail']);
 						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
 						$text = str_replace("%forum%", $postings['fo_name'], $text);
 						$text = str_replace("%thema%", $postings['th_name'], $text);
@@ -813,8 +807,8 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
 						}
 						
-						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $t['betreff_new_posting']);
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $t['msg_new_posting_email']);
+						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
+						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_email']);
 						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
 						$text = str_replace("%forum%", $postings['fo_name'], $text);
 						$text = str_replace("%thema%", $postings['th_name'], $text);
@@ -875,7 +869,7 @@ function erzeuge_baum($threadorder, $po_id, $thread) {
 
 function erzeuge_fuss($text) {
 	//generiert den Fuss eines Beitrags (Signatur)
-	global $t, $u_id;
+	global $lang, $u_id;
 	
 	$query = "SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
 	$result = sqlQuery($query);
@@ -886,7 +880,7 @@ function erzeuge_fuss($text) {
 	mysqli_free_result($result);
 	
 	if (!$row->u_signatur) {
-		$sig = "\n\n-- \n  " . $t['gruss'] . "\n  " . $row->u_nick;
+		$sig = "\n\n-- \n  " . $lang['gruss'] . "\n  " . $row->u_nick;
 	} else {
 		$sig = "\n\n-- \n  " . $row->u_signatur;
 	}
@@ -1019,9 +1013,9 @@ function erzeuge_umbruch($text, $breite) {
 
 function erzeuge_quoting($text, $autor, $date) {
 	// Fügt > vor die zeilen und fügt zu beginn xxx schrieb am xxx an
-	global $t;
+	global $lang;
 	
-	$kopf = $t['kopfzeile'];
+	$kopf = $lang['kopfzeile'];
 	$kopf = str_replace("{autor}", $autor, $kopf);
 	$kopf = str_replace("{date}", $date, $kopf);
 	

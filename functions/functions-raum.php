@@ -1,6 +1,6 @@
 <?php
 function raeume_auflisten($order, $extended) {
-	global $t, $timeout, $raumstatus1, $raumstatus2, $admin;
+	global $lang, $timeout, $raumstatus1, $raumstatus2, $admin;
 	
 	if (!isset($order)) {
 		$order = "r_name";
@@ -24,27 +24,27 @@ function raeume_auflisten($order, $extended) {
 		// extended==Ansicht mit Details im extra beiten Fenster
 		if (true) {
 			if (isset($extended) && ($extended == 1)) {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order\">" . $t['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
+				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order\">" . $lang['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
 				$text .= "<script language=\"javascript\">\n"
 					. "window.resizeTo(800,600); window.focus();"
 					. "</script>\n";
 			} else {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order&extended=1\">" . $t['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
+				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order&extended=1\">" . $lang['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
 			}
 			$text .= "$rlink<br>";
 		}
 		$text .= "<table style=\"width:100%\">\n";
-		$text .= "<tr><td class=\"tabelle_kopfzeile\">$t[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_benutzer_online]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_status] <a href=\"inhalt.php?bereich=raum&order=r_status1,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_art] <a href=\"inhalt.php?bereich=raum&order=r_status2,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum&order=u_nick\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<tr><td class=\"tabelle_kopfzeile\">$lang[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_benutzer_online]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_status] <a href=\"inhalt.php?bereich=raum&order=r_status1,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_art] <a href=\"inhalt.php?bereich=raum&order=r_status2,r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_raumbesitzer] <a href=\"inhalt.php?bereich=raum&order=u_nick\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
 		if (isset($extended) && $extended) {
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_smilies]</td>";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_mindestpunkte]</td>";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_topic]</td>";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_eintritt]</td>";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[raeume_austritt]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_smilies]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_mindestpunkte]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_topic]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_eintritt]</td>";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_austritt]</td>";
 		}
 		
 		$text .= "</tr>\n";
@@ -72,9 +72,9 @@ function raeume_auflisten($order, $extended) {
 				}
 				// Bei 0 Benutzern keinen Link anzeigen
 				if( $anzahl == 0) {
-					$ulink = "$anzahl $t[raeume_benutzer]";
+					$ulink = "$anzahl $lang[raeume_benutzer]";
 				} else {
-					$ulink = "<a href=\"inhalt.php?bereich=benutzer&schau_raum=" . $row['r_id'] . "\">$anzahl $t[raeume_benutzer]</a>";
+					$ulink = "<a href=\"inhalt.php?bereich=benutzer&schau_raum=" . $row['r_id'] . "\">$anzahl $lang[raeume_benutzer]</a>";
 				}
 				
 				$text .= "<tr><td $bgcolor>$b1" . $rlink . "$b2</td>";
@@ -85,16 +85,16 @@ function raeume_auflisten($order, $extended) {
 				$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
 				if ((isset($extended)) && ($extended)) {
 					if ($row['r_smilie'] == 1) {
-						$r_smilie = $t['raum_erlaubt'];
+						$r_smilie = $lang['raum_erlaubt'];
 					} else {
-						$r_smilie = $t['raum_verboten'];
+						$r_smilie = $lang['raum_verboten'];
 					}
 					$text .= "<td $bgcolor>$b1" . $r_smilie . "&nbsp;$b2</td>";
 					
 					if( $row['r_min_punkte'] == "1") {
-						$punkte_name = $t['raum_punkt'];
+						$punkte_name = $lang['raum_punkt'];
 					} else {
-						$punkte_name = $t['raum_punkte'];
+						$punkte_name = $lang['raum_punkte'];
 					}
 					$text .= "<td $bgcolor>$b1" . $row['r_min_punkte'] . " $punkte_name$b2</td>";
 					
@@ -135,18 +135,18 @@ function raeume_auflisten($order, $extended) {
 }
 
 function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_punkte, $topic, $eintrittsnachricht, $austrittsnachricht, $raumbesitzer) {
-	global $lobby, $t, $raumstatus1, $raumstatus2, $u_id;
+	global $lobby, $lang, $raumstatus1, $raumstatus2, $u_id;
 	
 	$text = "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	if ($raumname == $lobby) {
 		// Raum
-		$text .= zeige_formularfelder("text", $zaehler, $t['raeume_raum'], "", $raumname . "<input type=\"hidden\" name=\"r_name\" value=\"$raumname\">");
+		$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_raum'], "", $raumname . "<input type=\"hidden\" name=\"r_name\" value=\"$raumname\">");
 		$zaehler++;
 	} else {
 		// Raum
-		$text .= zeige_formularfelder("input", $zaehler, $t['raeume_raum'], "r_name", $raumname);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['raeume_raum'], "r_name", $raumname);
 		$zaehler++;
 		
 		
@@ -176,7 +176,7 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 		}
 		
 		$text .= "<tr>";
-		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_status]</td>\n";
+		$text .= "<td $bgcolor style=\"text-align:right\">$lang[raeume_status]</td>\n";
 		$text .= "<td $bgcolor>$selectbox</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
@@ -207,7 +207,7 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 		}
 		
 		$text .= "<tr>";
-		$text .= "<td $bgcolor style=\"text-align:right\">$t[raeume_art]</td>\n";
+		$text .= "<td $bgcolor style=\"text-align:right\">$lang[raeume_art]</td>\n";
 		$text .= "<td $bgcolor>$selectbox</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
@@ -215,8 +215,8 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	
 	
 	// Smilies
-	$value = array($t['raum_verboten'], $t['raum_erlaubt']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['raeume_smilies'], "r_smilie", $value, $smilies);
+	$value = array($lang['raum_verboten'], $lang['raum_erlaubt']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['raeume_smilies'], "r_smilie", $value, $smilies);
 	$zaehler++;
 	
 	
@@ -231,30 +231,30 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 		} else {
 			$raumbesitzerName = "";
 		}
-		$text .= zeige_formularfelder("input", $zaehler, $t['raeume_raumbesitzer'], "r_besitzer_name", $raumbesitzerName, 0, "7");
+		$text .= zeige_formularfelder("input", $zaehler, $lang['raeume_raumbesitzer'], "r_besitzer_name", $raumbesitzerName, 0, "7");
 		$zaehler++;
 	}
 	
 	
 	// Mindestpunkte
 	if ($raumname != $lobby) {
-		$text .= zeige_formularfelder("input", $zaehler, $t['raeume_mindestpunkte'], "r_min_punkte", $min_punkte, 0, "7");
+		$text .= zeige_formularfelder("input", $zaehler, $lang['raeume_mindestpunkte'], "r_min_punkte", $min_punkte, 0, "7");
 		$zaehler++;
 	}
 	
 	
 	// Topic
-	$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_topic'], "r_topic", $topic);
+	$text .= zeige_formularfelder("textarea", $zaehler, $lang['raeume_topic'], "r_topic", $topic);
 	$zaehler++;
 	
 	
 	// Eintrittsnachricht
-	$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_eintritt'], "r_eintritt", $eintrittsnachricht);
+	$text .= zeige_formularfelder("textarea", $zaehler, $lang['raeume_eintritt'], "r_eintritt", $eintrittsnachricht);
 	$zaehler++;
 	
 	
 	// Austrittsnachricht
-	$text .= zeige_formularfelder("textarea", $zaehler, $t['raeume_austritt'], "r_austritt", $austrittsnachricht);
+	$text .= zeige_formularfelder("textarea", $zaehler, $lang['raeume_austritt'], "r_austritt", $austrittsnachricht);
 	$zaehler++;
 	
 	
@@ -268,9 +268,9 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	if($raum_id == 0 || $raumname == $lobby) {
 		$text .= "<td $bgcolor style=\"text-align:right\">&nbsp;</td>\n";
 	} else {
-		$text .= "<td $bgcolor style=\"text-align:right\"><input type=\"submit\" name=\"loesch\" value=\"$t[raum_loeschen]\"></td>\n";
+		$text .= "<td $bgcolor style=\"text-align:right\"><input type=\"submit\" name=\"loesch\" value=\"$lang[raum_loeschen]\"></td>\n";
 	}
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[raum_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[raum_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	

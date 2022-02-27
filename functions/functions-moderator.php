@@ -1,9 +1,9 @@
 <?php
 
 function zeige_moderations_antworten($o_raum, $answer = "") {
-	global $t, $u_id;
+	global $lang, $u_id;
 	
-	$box = $t['mod10'];
+	$box = $lang['mod10'];
 	$text = "";
 	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
 	$result = sqlQuery($query);
@@ -21,8 +21,8 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			$text .= "<td align=left $bgcolor><small>";
 			$text .= "<a href=\"schreibe.php?text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
 			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$t[mod12]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[mod12]</span></a> ";
-			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$t[mod13]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[mod13]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$lang[mod12]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[mod12]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$lang[mod13]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[mod13]</span></a> ";
 			$text .= "</small></td>";
 			$text .= "</tr>";
 		}
@@ -52,7 +52,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	$text .= "</table>";
 	$text .= "<br><center>";
 	$text .= "<form action=\"moderator.php\" method=\"post\">";
-	$text .= $t['mod11'] . "<br>";
+	$text .= $lang['mod11'] . "<br>";
 	$text .= "<input type=\"hidden\" name=\"mode\" value=\"answernew\">";
 	if ($answer != "")
 		$text .= "<input type=\"hidden\" name=\"answer\" value=\"$answer\">";
@@ -67,14 +67,14 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 		mysqli_free_result($result);
 	}
 	$text .= "</textarea>";
-	$text .= "<br><input type=\"submit\" value=\"$t[mod1]\">";
+	$text .= "<br><input type=\"submit\" value=\"$lang[mod1]\">";
 	$text .= "</form>";
 	
 	zeige_tabelle_volle_breite($box,$text);
 }
 
 function bearbeite_moderationstexte($o_raum) {
-	global $t, $action, $u_id, $system_farbe;
+	global $lang, $action, $u_id, $system_farbe;
 	
 	if (is_array($action)) {
 		echo "<small>";
@@ -133,25 +133,25 @@ function bearbeite_moderationstexte($o_raum) {
 							break;
 						case "notagain":
 							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, $t['moderiertdel1']);
+								$system_farbe, $lang['moderiertdel1']);
 							system_msg("", 0, $f['c_von_user_id'],
 								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
 							break;
 						case "better":
 							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, $t['moderiertdel2']);
+								$system_farbe, $lang['moderiertdel2']);
 							system_msg("", 0, $f['c_von_user_id'],
 								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
 							break;
 						case "notime":
 							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, $t['moderiertdel3']);
+								$system_farbe, $lang['moderiertdel3']);
 							system_msg("", 0, $f['c_von_user_id'],
 								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
 							break;
 						case "delete":
 							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, $t['moderiertdel4']);
+								$system_farbe, $lang['moderiertdel4']);
 							system_msg("", 0, $f['c_von_user_id'],
 								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
 							break;
@@ -161,7 +161,7 @@ function bearbeite_moderationstexte($o_raum) {
 					$query = "DELETE FROM moderation WHERE c_id=" . intval($key) . " AND c_moderator=$u_id";
 					$result2 = sqlUpdate($query);
 				} else {
-					echo "$t[mod9]<br>";
+					echo "$lang[mod9]<br>";
 				}
 			}
 			next($action);
@@ -172,7 +172,7 @@ function bearbeite_moderationstexte($o_raum) {
 }
 
 function zeige_moderationstexte($o_raum, $limit = 20) {
-	global $t, $action, $moderation_rueckwaerts, $moderationsexpire, $u_id;
+	global $lang, $action, $moderation_rueckwaerts, $moderationsexpire, $u_id;
 	
 	// gegen DAU-Eingaben sichern...
 	$limit = max(intval($limit), 20);
@@ -202,21 +202,21 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 			
 			echo "<table style=\"width=100%;\">\n";
 			echo "<tr>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $t['mod16'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $t['mod17'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $lang['mod16'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $lang['mod17'] . "\"></td>";
 			echo "<td style=\"vertical-align:bottom;\"  class=\"tabelle_kopfzeile\">";
 			echo "<table style=\"width=100%;\"><tr><td>";
-			echo "<small><b>" . $t['mod2'];
+			echo "<small><b>" . $lang['mod2'];
 			echo "</td><td align=right>";
 			echo "<input type=submit name=ok2 value=\"go!\">\n";
 			echo "</b></small>";
 			echo "</td></tr></table>";
 			echo "</td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $t['mod14'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/wdh.gif\" height=20 width=20 alt=\"" . $t['mod3'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/smile.gif\" height=20 width=20 alt=\"" . $t['mod4'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/time.gif\" height=20 width=20 alt=\"" . $t['mod5'] . "\"></td>";
-			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $t['mod15'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $lang['mod14'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/wdh.gif\" height=20 width=20 alt=\"" . $lang['mod3'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/smile.gif\" height=20 width=20 alt=\"" . $lang['mod4'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/time.gif\" height=20 width=20 alt=\"" . $lang['mod5'] . "\"></td>";
+			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $lang['mod15'] . "\"></td>";
 			echo "</tr>\n";
 			
 			while ($row = mysqli_fetch_object($result)) {
@@ -273,7 +273,7 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		}
 		echo "<center>";
 		echo "<input type=text name=limit value=$limit size=5>\n";
-		echo "<input type=submit name=ok value=" . $t['mod_ok'] . ">\n";
+		echo "<input type=submit name=ok value=" . $lang['mod_ok'] . ">\n";
 		echo "</center>";
 		echo "</form>\n";
 	}

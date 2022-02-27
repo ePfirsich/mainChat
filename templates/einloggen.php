@@ -35,7 +35,7 @@ if (mysqli_num_rows($result) == 0) {
 		if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
 			// Gäste sind gesperrt
 			
-			$fehlermeldung = $t['login_fehlermeldung_gastlogin'];
+			$fehlermeldung = $lang['login_fehlermeldung_gastlogin'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			$in_den_chat_einloggen = false;
@@ -69,7 +69,7 @@ if (mysqli_num_rows($result) == 0) {
 					$rows = 1;
 					$i = 0;
 					while ($rows != 0 && $i < 100) {
-						$username = $t['login_gast'] . strval((mt_rand(1, 10000)) + 1);
+						$username = $lang['login_gast'] . strval((mt_rand(1, 10000)) + 1);
 						$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . escape_string($username) . "'";
 						$result = sqlQuery($query4711);
 						$rows = mysqli_num_rows($result);
@@ -160,11 +160,11 @@ if($in_den_chat_einloggen) {
 		// Login erfolgreich ?
 		if ($u_level == "Z") {
 			// Benutzer gesperrt -> Fehlermeldung ausgeben
-			$fehlermeldung = str_replace("%u_nick%", $u_nick, $t['login_fehlermeldung_login_account_gesperrt']);
+			$fehlermeldung = str_replace("%u_nick%", $u_nick, $lang['login_fehlermeldung_login_account_gesperrt']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($chat_max[$u_level] != 0 && $onlineanzahl > $chat_max[$u_level]) {
 			// Maximale Anzahl der Benutzer im Chat erreicht -> Fehlermeldung ausgeben
-			$fehlermeldung = str_replace("%online%", $onlineanzahl, $t['login_fehlermeldung_login_zu_viele_benutzer_online']);
+			$fehlermeldung = str_replace("%online%", $onlineanzahl, $lang['login_fehlermeldung_login_zu_viele_benutzer_online']);
 			$fehlermeldung = str_replace("%max%", $chat_max[$u_level], $fehlermeldung);
 			$fehlermeldung = str_replace("%leveltxt%", $level[$u_level], $txt);
 			$fehlermeldung = str_replace("%zusatztext%", $chat_max[zusatztext], $txt);
@@ -189,7 +189,7 @@ if($in_den_chat_einloggen) {
 			}
 			
 			// muss Benutzer/Gast noch Nutzungsbestimmungen bestätigen?
-			if ($uebergabe != $t['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
+			if ($uebergabe != $lang['login_nutzungsbestimmungen_ok'] && $u_agb != "1") {
 				// Nutzungsbestimmungen ausgeben
 				
 				if (!isset($eintritt)) {
@@ -198,13 +198,13 @@ if($in_den_chat_einloggen) {
 				
 				$zaehler = 0;
 				
-				$text .= $t['chat_agb'];
+				$text .= $lang['chat_agb'];
 				$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
 				$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 				$text .= "<table style=\"width:100%;\">\n";
 				
 				// Überschrift: Bestätigung der Nutzungsbestimmungen
-				$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_bestaetigung_nutzungsbestimmungen'], "", "", 0, "70", "");
+				$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_bestaetigung_nutzungsbestimmungen'], "", "", 0, "70", "");
 				
 				if ($zaehler % 2 != 0) {
 					$bgcolor = 'class="tabelle_zeile2"';
@@ -213,7 +213,7 @@ if($in_den_chat_einloggen) {
 				}
 				$text .= "<tr>\n";
 				$text .= "<td colspan=\"2\" $bgcolor>\n";
-				$text .= "$t[captcha1]<br>";
+				$text .= "$lang[captcha1]<br>";
 				
 				$aufgabe = mt_rand(1, 3);
 				if ($aufgabe == 1) { // +
@@ -247,10 +247,10 @@ if($in_den_chat_einloggen) {
 				}
 				$text .= "<tr>\n";
 				$text .= "<td align=\"left\" $bgcolor>\n";
-				$text .= "<b><input type=\"submit\" name=\"uebergabe\" value=\"$t[login_nutzungsbestimmungen_ok]\"></b>\n";
+				$text .= "<b><input type=\"submit\" name=\"uebergabe\" value=\"$lang[login_nutzungsbestimmungen_ok]\"></b>\n";
 				$text .= "</td>\n";
 				$text .= "<td align=\"right\" $bgcolor>\n";
-				$text .= "<input type=\"submit\" name=\"uebergabe\" value=\"$t[login_nutzungsbestimmungen_abbruch]\">\n";
+				$text .= "<input type=\"submit\" name=\"uebergabe\" value=\"$lang[login_nutzungsbestimmungen_abbruch]\">\n";
 				$text .= "</td>\n";
 				$text .= "</tr>\n";
 				
@@ -261,7 +261,7 @@ if($in_den_chat_einloggen) {
 				$text .= "</form>\n";
 				
 				$rest_ausblenden = true;
-			} else if ($uebergabe == $t['login_nutzungsbestimmungen_ok']) {
+			} else if ($uebergabe == $lang['login_nutzungsbestimmungen_ok']) {
 				// Nutzungsbestimmungen wurden bestätigt
 				$u_agb = "1";
 			} else {
@@ -298,7 +298,7 @@ if($in_den_chat_einloggen) {
 					$query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
 					$result2 = sqlQuery($query2);
 					if ($result2 AND mysqli_num_rows($result2) > 0) {
-						$txt = str_replace("%ip_adr%", $ip_adr, $t['login_warnung']);
+						$txt = str_replace("%ip_adr%", $ip_adr, $lang['login_warnung']);
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
 						while ($row2 = mysqli_fetch_object($result2)) {
@@ -346,7 +346,7 @@ if($in_den_chat_einloggen) {
 		// Falsches Passwort oder Benutzername
 		unset($u_nick);
 		
-		$fehlermeldung = $t['login_fehlermeldung_login_fehlgeschlagen'];
+		$fehlermeldung = $lang['login_fehlermeldung_login_fehlgeschlagen'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 }

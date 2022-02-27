@@ -34,8 +34,8 @@ mysqli_free_result($benutzerdaten_result);
 
 // Prüfen, ob ein ChatAdmin einen anderen ChatAdmin oder einen Superuser bearbeiten möchte
 if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdaten_row->u_level == "C" || $benutzerdaten_row->u_level == "S")) {
-	$fehlermeldung = $t['einstellungen_fehler_fehlende_berechtigung'];
-	zeige_tabelle_zentriert($t['einstellungen_fehlermeldung'], $fehlermeldung);
+	$fehlermeldung = $lang['einstellungen_fehler_fehlende_berechtigung'];
+	zeige_tabelle_zentriert($lang['einstellungen_fehlermeldung'], $fehlermeldung);
 } else {
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
 	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && $formular == 1) {
@@ -102,7 +102,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							// Fehlermeldungen anzeigen
 							$text .= hinweis($fehlermeldung, "fehler");
 						} else {
-							$erfolgsmeldung = $t['profilbilder_erfolgsmeldung_bild_hochgeladen'];
+							$erfolgsmeldung = $lang['profilbilder_erfolgsmeldung_bild_hochgeladen'];
 							$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						}
 					}
@@ -134,7 +134,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// Neue Farbe in der Datenbank speichern
 				schreibe_db("user", $p, $p['u_id'], "u_id");
 				
-				$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_farbe'];
+				$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_farbe'];
 				$text = hinweis($erfolgsmeldung, "erfolgreich");
 			}
 			
@@ -149,11 +149,11 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$fehlermeldung = "";
 			
 			if ( $u_id != $f['u_id'] ) {
-				$fehlermeldung .= $t['einstellungen_fehler_allgemein'];
+				$fehlermeldung .= $lang['einstellungen_fehler_allgemein'];
 			}
 			
 			if ( filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false ) {
-				$fehlermeldung .= $t['einstellungen_fehler_email1'];
+				$fehlermeldung .= $lang['einstellungen_fehler_email1'];
 			}
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
@@ -161,7 +161,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			$result = sqlQuery($query);
 			$num = mysqli_num_rows($result);
 			if ($num > 1) {
-				$fehlermeldung .= $t['einstellungen_fehler_email2'];
+				$fehlermeldung .= $lang['einstellungen_fehler_email2'];
 			}
 			
 			// oder Domain ist lt. Config verboten
@@ -171,7 +171,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			for ($i = 0; $i < count($domaingesperrt); $i++) {
 				$teststring = strtolower($f['u_email']);
 				if (($domaingesperrt[$i]) && (preg_match($domaingesperrt[$i], $teststring))) {
-					$fehlermeldung .= $t['einstellungen_fehler_email1'];
+					$fehlermeldung .= $lang['einstellungen_fehler_email1'];
 				}
 			}
 			
@@ -192,18 +192,18 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// ULR zusammenstellen
 				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&uid=" . $f['u_id'] . "&code=".$emailcode;
-				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $t['einstellungen_email_aendern_email_inhalt']);
+				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $lang['einstellungen_email_aendern_email_inhalt']);
 				$inhalt = str_replace("%u_nick%", $f['u_nick'], $inhalt);
 				$email = urldecode($f['u_email']);
 				
 				// E-Mail versenden
-				email_senden($email, $t['einstellungen_email_aendern_email_titel'], $inhalt);
+				email_senden($email, $lang['einstellungen_email_aendern_email_titel'], $inhalt);
 				
-				$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
-				$text = str_replace("%u_email%", $f['u_email'], $t['einstellungen_email_aendern_bestaetigung']);
+				$box = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_email_aendern']);
+				$text = str_replace("%u_email%", $f['u_email'], $lang['einstellungen_email_aendern_bestaetigung']);
 			}
 			
-			$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
+			$box = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_email_aendern']);
 			zeige_tabelle_zentriert($box, $text);
 			
 			break;
@@ -212,7 +212,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			if ($eingabe == "Löschen!" && $admin) {
 				if ($u_id == $f['u_id']) {
 					// nicht sich selbst löschen...
-					$fehlermeldung = $t['einstellungen_fehler_loeschen1'];
+					$fehlermeldung = $lang['einstellungen_fehler_loeschen1'];
 					$text = hinweis($fehlermeldung, "fehler");
 				} else {
 					// test, ob zu löschender Admin ist...
@@ -222,7 +222,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if ($del_level != "S" && $del_level != "C" && $del_level != "M") {
 						
 						// Benutzerdaten löschen
-						$erfolgsmeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_erfolgsmeldung_loeschen']);
+						$erfolgsmeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_loeschen']);
 						$text = hinweis($erfolgsmeldung, "erfolgreich");
 						
 						$query = "DELETE FROM `user` WHERE `u_id`=$f[u_id] ";
@@ -236,17 +236,17 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						$query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
 						$result = sqlUpdate($query);
 					} else {
-						$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_loeschen2']);
+						$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_loeschen2']);
 						$text = hinweis($fehlermeldung, "fehler");
 					}
 				}
 			} else {
-				$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_loeschen2']);
+				$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_loeschen2']);
 				$text = hinweis($fehlermeldung, "fehler");
 			}
 			
 			// Kopf Tabelle Benutzerinfo
-			$box = str_replace("%user%", $f['u_nick'], $t['einstellungen_benutzer']);
+			$box = str_replace("%user%", $f['u_nick'], $lang['einstellungen_benutzer']);
 			
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
@@ -260,7 +260,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			}
 			$fehlermeldung = "";
 			
-			if ( (isset($eingabe) && $eingabe == $t['einstellungen_speichern']) && ($u_id == $f['u_id'] || $admin) ) {
+			if ( (isset($eingabe) && $eingabe == $lang['einstellungen_speichern']) && ($u_id == $f['u_id'] || $admin) ) {
 				// In Namen die unerlaubten Zeichen entfernen
 				$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
 				
@@ -268,7 +268,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Farbe überprüfen
 				if (strlen($f['u_farbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['u_farbe'])) {
-					$fehlermeldung .= $t['einstellungen_fehler_farbe'];
+					$fehlermeldung .= $lang['einstellungen_fehler_farbe'];
 					
 					// Mit korrekten Wert überschreiben
 					$f['u_farbe'] = $benutzerdaten_row->u_farbe;
@@ -277,7 +277,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// Admin E-Mail kontrollieren
 				if ($admin) {
 					if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
-						$fehlermeldung .= $t['einstellungen_fehler_email1'];
+						$fehlermeldung .= $lang['einstellungen_fehler_email1'];
 						
 						// Mit korrekten Wert überschreiben
 						$f['u_email'] = $benutzerdaten_row->u_email;
@@ -288,7 +288,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$result = sqlQuery($query);
 					$num = mysqli_num_rows($result);
 					if ($num > 1) {
-						$fehlermeldung .= $t['einstellungen_fehler_email2'];
+						$fehlermeldung .= $lang['einstellungen_fehler_email2'];
 						
 						// Mit korrekten Wert überschreiben
 						$f['u_email'] = $benutzerdaten_row->u_email;
@@ -304,7 +304,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						// Jetzt wird geprüft, ob man normalerweise den Benutzernamen ändern darf, und dort 4-20
 						// Zeichen eingegeben hat
 						if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
-							$fehlermeldung .= $t['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'];
+							$fehlermeldung .= $lang['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'];
 							
 							// Mit korrekten Wert überschreiben
 							$f['u_nick'] = $benutzerdaten_row->u_nick;
@@ -329,7 +329,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					if (!$admin && $nick_alt <> $f['u_nick']) {
 						if ($differenz < $nickwechsel) {
-							$fehlermeldung .= str_replace("%nickwechsel%", $nickwechsel, $t['einstellungen_fehler_benutzername_zeitsperre']);
+							$fehlermeldung .= str_replace("%nickwechsel%", $nickwechsel, $lang['einstellungen_fehler_benutzername_zeitsperre']);
 							
 							// Mit "altem" Benutzername wieder überschreiben
 							$f['u_nick'] = $benutzerdaten_row->u_nick;
@@ -355,18 +355,18 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						if ($rows == 1) {
 							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
 							if ($xyz[u_level] == 'Z') {
-								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_gesperrt']);
+								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_gesperrt']);
 								
 								// Mit "altem" Benutzername wieder überschreiben
 								$f['u_nick'] = $benutzerdaten_row->u_nick;
 							} else {
-								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_belegt']);
+								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_belegt']);
 								
 								// Mit "altem" Benutzername wieder überschreiben
 								$f['u_nick'] .= $benutzerdaten_row->u_nick;
 							}
 						} else {
-							$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_fehler_benutzername_belegt']);
+							$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_belegt']);
 							
 							// Mit "altem" Benutzername wieder überschreiben
 							$f['u_nick'] = $benutzerdaten_row->u_nick;
@@ -376,7 +376,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Level "M" nur vergeben, wenn moderation in diesem Chat erlaubt ist.
 				if ($admin && isset($f['u_level']) && $f['u_level'] == "M" && $moderationsmodul == 0) {
-					$fehlermeldung .= $t['einstellungen_fehler_level1'];
+					$fehlermeldung .= $lang['einstellungen_fehler_level1'];
 					
 					// Mit korrekten Wert überschreiben
 					$f['u_level'] = $benutzerdaten_row->u_level;
@@ -384,18 +384,18 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Ist die Eintrittsnachricht zu lang?
 				if ( strlen($f['u_eintritt']) > 100 ) {
-					$fehlermeldung .= $t['einstellungen_fehler_eintrittsnachricht'];
+					$fehlermeldung .= $lang['einstellungen_fehler_eintrittsnachricht'];
 				}
 				
 				// Ist die Austrittsnachricht zu lang?
 				if ( strlen($f['u_austritt']) > 100 ) {
-					$fehlermeldung .= $t['einstellungen_fehler_austrittsnachricht'];
+					$fehlermeldung .= $lang['einstellungen_fehler_austrittsnachricht'];
 				}
 				
 				// Aufpassen, wenn Admin sich selbst ändert -> keine leveländerung zulassen.
 				if ($u_id == $f['u_id'] && $admin) {
 					if ($benutzerdaten_row->u_level != $f['u_level']) {
-						$fehlermeldung .= $t['einstellungen_fehler_level4'];
+						$fehlermeldung .= $lang['einstellungen_fehler_level4'];
 						
 						// Mit korrekten Wert überschreiben
 						$f['u_level'] = $benutzerdaten_row->u_level;
@@ -407,7 +407,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Falls Benutzerlevel G -> Änderung verboten
 					if (isset($f['u_level']) && strlen($f['u_level']) != 0 && $f['u_level'] != "G" && $uu_level == "G") {
-						$fehlermeldung .= $t['einstellungen_fehler_level2'];
+						$fehlermeldung .= $lang['einstellungen_fehler_level2'];
 						
 						// Mit korrekten Wert überschreiben
 						$f['u_level'] = $benutzerdaten_row->u_level;
@@ -421,7 +421,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							(isset($f['u_passwort2']) && $f['u_passwort2'] != "") ||
 							(isset($f['u_level']) && $f['u_level'] != "") ||
 							(isset($f['u_email']) && $f['u_email'] != "") ) {
-							$fehlermeldung .= $t['einstellungen_fehler_level3'];
+							$fehlermeldung .= $lang['einstellungen_fehler_level3'];
 						
 							// Mit korrekten Wert überschreiben
 							$f['u_level'] = $benutzerdaten_row->u_level;
@@ -435,13 +435,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				// Ist das Passwort gesetzt?
 				if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
 					if ($f['u_passwort'] != $f['u_passwort2']) {
-						$fehlermeldung .= $t['einstellungen_fehler_passwort1'];
+						$fehlermeldung .= $lang['einstellungen_fehler_passwort1'];
 						
 						// Passwort zurücksetzen
 						unset($f['u_passwort']);
 						unset($f['u_passwort2']);
 					} else if (strlen($f['u_passwort']) < 4) {
-						$fehlermeldung .= $t['einstellungen_fehler_passwort2'];
+						$fehlermeldung .= $lang['einstellungen_fehler_passwort2'];
 						
 						// Mit Passwort zurücksetzen
 						unset($f['u_passwort']);
@@ -457,7 +457,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Paswort neu eintragen
 					if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
-						$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_passwort'];
+						$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_passwort'];
 						
 						unset($f['u_passwort2']);
 					} else {
@@ -468,8 +468,8 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Änderungen anzeigen
 					if ($f['u_nick'] != $benutzerdaten_row->u_nick) {
-						$erfolgsmeldung .= str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_erfolgsmeldung_benutzername_geaendert']);
-						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row->u_nick, $t['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
+						$erfolgsmeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert']);
+						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row->u_nick, $lang['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
 						
 						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
 						$result = sqlQuery($query);
@@ -552,12 +552,12 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							// Aus dem Chat ausloggen
 							ausloggen($f['u_id'], $f['u_nick'], $row->o_raum, $row->o_id);
 							
-							$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_kick'];
+							$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_kick'];
 						}
 						mysqli_free_result($result);
 					}
 					
-					$erfolgsmeldung .= $t['einstellungen_erfolgsmeldung_einstellungen'];
+					$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_einstellungen'];
 					
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 					
@@ -575,37 +575,37 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Einstellungen des Benutzers mit ID $u_id anzeigen
 				user_edit($text, $f, $admin, $u_level);
-			} else if ((isset($eingabe) && $eingabe == $t['einstellungen_loeschen']) && $admin) {
+			} else if ((isset($eingabe) && $eingabe == $lang['einstellungen_loeschen']) && $admin) {
 				// Benutzer löschen
 				
 				// Ist Benutzer noch Online?
 				if (!ist_online($f['u_id'])) {
 					$text = "";
 					// Nachfrage ob sicher
-					$text .= str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_sicherheitsabfrage2']);
+					$text .= str_replace("%u_nick%", $f['u_nick'], $lang['benutzer_loeschen_sicherheitsabfrage2']);
 					$text .= "<br><form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
 					$text .="<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
-					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_loeschen]\">";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_loeschen]\">";
 					$text .= "</form>\n";
 					
 					// Abbrechen
 					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
 					$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
-					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_abbrechen]\">";
+					$text .= "&nbsp;<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_abbrechen]\">";
 					$text .= "</form>\n";
 					
-					zeige_tabelle_zentriert($t['benutzer_loeschen_sicherheitsabfrage1'], $text);
+					zeige_tabelle_zentriert($lang['benutzer_loeschen_sicherheitsabfrage1'], $text);
 					$text = "";
 				} else {
-					$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $t['benutzer_loeschen_online']);
+					$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $lang['benutzer_loeschen_online']);
 					$text = hinweis($fehlermeldung, "fehler");
 					
 					// Benutzer mit ID $u_id anzeigen
 					user_edit($text, $f, $admin, $u_level);
 				}
-			} else if(isset($eingabe) && $eingabe == $t['einstellungen_benutzerseite_loeschen'] && $admin) {
+			} else if(isset($eingabe) && $eingabe == $lang['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
 					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
 					sqlUpdate($query);
@@ -616,7 +616,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$query = "DELETE FROM bild WHERE b_user = " . intval($f['u_id']);
 					sqlUpdate($query);
 					
-					zeige_tabelle_zentriert($t['benutzer_loeschen_erledigt'], $t['benutzer_loeschen_benutzerseite']);
+					zeige_tabelle_zentriert($lang['benutzer_loeschen_erledigt'], $lang['benutzer_loeschen_benutzerseite']);
 				} else {
 					$text = "";
 					$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
@@ -624,10 +624,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text .= "<input type=\"hidden\" name=\"u_nick\" value=\"$f[u_nick]\">\n";
 					$text .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 					$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"loeschen\">\n";
-					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">\n";
+					$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_benutzerseite_loeschen]\">\n";
 					$text .= "</form>\n";
 					
-					zeige_tabelle_zentriert($t['benutzer_loeschen_sicherheitsabfrage1'], $text);
+					zeige_tabelle_zentriert($lang['benutzer_loeschen_sicherheitsabfrage1'], $text);
 					$text = "";
 				}
 			} else {

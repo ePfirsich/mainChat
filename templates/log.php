@@ -20,14 +20,14 @@ if ($admin) {
 }
 
 if ($sysmsg) {
-	$umschalturl = "<a href=\"inhalt.php?bereich=log&sysmsg=0\">" . $t['log_systemnachrichten_unterdruecken'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?bereich=log&sysmsg=0\">" . $lang['log_systemnachrichten_unterdruecken'] . "</a>";
 } else {
-	$umschalturl = "<a href=\"inhalt.php?bereich=log&sysmsg=1\">" . $t['log_systemnachrichten_anzeigen'] . "</a>";
+	$umschalturl = "<a href=\"inhalt.php?bereich=log&sysmsg=1\">" . $lang['log_systemnachrichten_anzeigen'] . "</a>";
 }
 
 // Link zum Abspeichern
 if ($aktion != "abspeichern") {
-	echo "<div style=\"text-align:center;\" class=\"smaller\"><b>[<a href=\"inhalt.php?bereich=log&aktion=abspeichern&sysmsg=$sysmsg\">" . $t['log_abspeichern'] . "</a>]&nbsp;[$umschalturl]</b></div><br>\n";
+	echo "<div style=\"text-align:center;\" class=\"smaller\"><b>[<a href=\"inhalt.php?bereich=log&aktion=abspeichern&sysmsg=$sysmsg\">" . $lang['log_abspeichern'] . "</a>]&nbsp;[$umschalturl]</b></div><br>\n";
 	flush();
 }
 

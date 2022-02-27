@@ -1,40 +1,40 @@
 <?php
 // Sprachdefinition deutsch index.php
 
-$t['login_chatname'] = "$chat";
-$t['login_login'] = "Login";
-$t['login_registrierung'] = "Registrierung";
-$t['login_passwort_vergessen'] = "Passwort vergessen";
-$t['login_chatiquette'] = "Chatiquette";
-$t['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
-$t['login_datenschutzerklaerung'] = "Datenschutzerklärung";
-$t['login_impressum'] = "Impressum";
-$t['login_kontakt'] = "Kontakt";
+$lang['login_chatname'] = "$chat";
+$lang['login_login'] = "Login";
+$lang['login_registrierung'] = "Registrierung";
+$lang['login_passwort_vergessen'] = "Passwort vergessen";
+$lang['login_chatiquette'] = "Chatiquette";
+$lang['login_nutzungsbestimmungen'] = "Nutzungsbestimmungen";
+$lang['login_datenschutzerklaerung'] = "Datenschutzerklärung";
+$lang['login_impressum'] = "Impressum";
+$lang['login_kontakt'] = "Kontakt";
 
-$t['kontakt_beschreibung'] = "Über das Kontaktformular können Sie uns jederzeit eine Nachricht zukommen lassen.";
-$t['kontakt_absender'] = "Absender";
-$t['kontakt_email'] = "E-Mail Adresse";
-$t['kontakt_betreff'] = "Betreff";
-$t['kontakt_nachricht'] = "Nachricht";
-$t['kontakt_sicherheitsfrage'] = "Sicherheitsfrage: ";
-$t['kontakt_frage'] = "Wie heißt dieser Chat?";
-$t['kontakt_antwort'] = "mainChat";
-$t['kontakt_datenschutz'] = "Datenschutzerklärung";
-$t['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?bereich=datenschutz\">Datenschutzerklärung</a> gelesen und stimme dieser zu.";
+$lang['kontakt_beschreibung'] = "Über das Kontaktformular können Sie uns jederzeit eine Nachricht zukommen lassen.";
+$lang['kontakt_absender'] = "Absender";
+$lang['kontakt_email'] = "E-Mail Adresse";
+$lang['kontakt_betreff'] = "Betreff";
+$lang['kontakt_nachricht'] = "Nachricht";
+$lang['kontakt_sicherheitsfrage'] = "Sicherheitsfrage: ";
+$lang['kontakt_frage'] = "Wie heißt dieser Chat?";
+$lang['kontakt_antwort'] = "mainChat";
+$lang['kontakt_datenschutz'] = "Datenschutzerklärung";
+$lang['kontakt_datenschutz_beschreibung'] = "Ich habe die <a href=\"index.php?bereich=datenschutz\">Datenschutzerklärung</a> gelesen und stimme dieser zu.";
 
-$t['kontakt_zuruecksetzen'] = "Zurücksetzen";
-$t['kontakt_absenden'] = "Absenden";
+$lang['kontakt_zuruecksetzen'] = "Zurücksetzen";
+$lang['kontakt_absenden'] = "Absenden";
 
-$t['kontakt_fehler_absender'] = "Bitte geben Sie einen Absender an.<br>";
-$t['kontakt_fehler_email'] = "Bitte geben Sie eine korrekte E-Mail Adresse an.<br>";
-$t['kontakt_fehler_betreff'] = "Bitte geben Sie ein Betreff an.<br>";
-$t['kontakt_fehler_nachricht'] = "Bitte geben Sie eine Nachricht an.<br>";
-$t['kontakt_fehler_sicherheitsfrage'] = "Die Sicherheitsfrage wurde falsch beantwortet.<br>";
-$t['kontakt_fehler_datenschutz'] = "Bitte stimmen Sie der Datenschutzerklärung zu.<br>";
+$lang['kontakt_fehler_absender'] = "Bitte geben Sie einen Absender an.<br>";
+$lang['kontakt_fehler_email'] = "Bitte geben Sie eine korrekte E-Mail Adresse an.<br>";
+$lang['kontakt_fehler_betreff'] = "Bitte geben Sie ein Betreff an.<br>";
+$lang['kontakt_fehler_nachricht'] = "Bitte geben Sie eine Nachricht an.<br>";
+$lang['kontakt_fehler_sicherheitsfrage'] = "Die Sicherheitsfrage wurde falsch beantwortet.<br>";
+$lang['kontakt_fehler_datenschutz'] = "Bitte stimmen Sie der Datenschutzerklärung zu.<br>";
 
-$t['kontakt_erfolgsmeldung_email_versendet'] = "Die Nachricht wurde erfolgreich versendet.<br>";
+$lang['kontakt_erfolgsmeldung_email_versendet'] = "Die Nachricht wurde erfolgreich versendet.<br>";
 
-$t['kontakt_inhalt'] = "$chat<br><br>
+$lang['kontakt_inhalt'] = "$chat<br><br>
 %name% hat folgende Nachricht über das Kontaktformular gesendet:<br><br>
 %nachricht%<br><br>
 E-Mail Adresse: %email%";
@@ -117,101 +117,101 @@ Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstel
 </p>
 ";
 
-$t['willkommen'] = "Willkommen im $chat!";
-$t['chat_offline'] = "Der Chat ist derzeit leider offline.";
+$lang['willkommen'] = "Willkommen im $chat!";
+$lang['chat_offline'] = "Der Chat ist derzeit leider offline.";
 
-$t['login_formular_kopfzeile'] = "Login oder";
-$t['login_formular_kopfzeile_eingeloggt'] = "Login als %username% !";
-$t['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
-$t['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";
+$lang['login_formular_kopfzeile'] = "Login oder";
+$lang['login_formular_kopfzeile_eingeloggt'] = "Login als %username% !";
+$lang['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
+$lang['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";
 
-$t['login_erfolgsmeldung_abmeldung'] = "Sie wurden erfolgreich abgemeldet.<br>";
+$lang['login_erfolgsmeldung_abmeldung'] = "Sie wurden erfolgreich abgemeldet.<br>";
 
-$t['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
-$t['login_fehlermeldung_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
-$t['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
-$t['login_fehlermeldung_login_fehlermeldung_frames'] = "Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)\n";
-$t['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
-$t['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
-$t['login_fehlermeldung_automatische_anmeldung'] = "Es ist ein Fehler bei er automatischen Anmeldung aufgetreten. Bitte neu einloggen.<br>";
+$lang['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
+$lang['login_fehlermeldung_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
+$lang['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
+$lang['login_fehlermeldung_login_fehlermeldung_frames'] = "Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)\n";
+$lang['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
+$lang['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
+$lang['login_fehlermeldung_automatische_anmeldung'] = "Es ist ein Fehler bei er automatischen Anmeldung aufgetreten. Bitte neu einloggen.<br>";
 
-$t['login_nutzungsbestimmungen_ok'] = "Ich erkenne diese Bedingungen an";
-$t['login_nutzungsbestimmungen_abbruch'] = "Abbruch";
+$lang['login_nutzungsbestimmungen_ok'] = "Ich erkenne diese Bedingungen an";
+$lang['login_nutzungsbestimmungen_abbruch'] = "Abbruch";
 
-$t['login_gast'] = "Gast";
-$t['login_login'] = "Login";
-$t['login_gastlogin'] = "Gastlogin";
-$t['login_benutzername'] = "Benutzername";
-$t['login_benutzername_beschreibung'] = "(Bitte nur ein Wort)";
-$t['login_passwort_benutzername'] = "Bitte ein neues Passwort für den Benutzernamen \"%u_nick%\" festlegen.";
-$t['login_passwort'] = "Passwort";
-$t['login_passwort_wiederholen'] = "Passwort wiederholen";
-$t['login_passwort_vergessen'] = "Passwort vergessen?";
-$t['login_neues_passwort_speichern'] = "Neues Passwort speichern";
-$t['login_email'] = "E-Mail";
-$t['login_email_aendern'] = "E-Mail-Adresse ändern";
-$t['login_freischalt_code'] = "Freischalt-Code";
-$t['login_weiter_zum_chat'] = "Weiter zum Chat";
-$t['login_raum'] = "Raum:";
-$t['login_raum_forum'] = "Raum/Forum";
-$t['login_angemeldet_bleiben'] = "Angemeldet bleiben";
-$t['login_nicht_username'] = "Nicht %username% ?";
-$t['login_abmelden'] = "Abmelden";
-$t['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
-$t['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
-$t['login_statistik'] = "Statistik";
-$t['login_benutzer_online'] = "Momentan sind <b>%onlineanzahl% Benutzer online</b>";
-$t['login_benutzer_niemand_online'] = "Es befinden sind keine Benutzer öffentlichen Räumen oder im Forum.";
-$t['login_benutzer_registriert'] = "Insgesamt sind %useranzahl% Benutzer registriert. ";
-$t['login_benutzer_online_raum'] = "<b>Raum %raum%:</b> ";
-$t['login_benutzer_online_forum'] = "<b>Forum:</b> ";
-$t['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
-$t['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
+$lang['login_gast'] = "Gast";
+$lang['login_login'] = "Login";
+$lang['login_gastlogin'] = "Gastlogin";
+$lang['login_benutzername'] = "Benutzername";
+$lang['login_benutzername_beschreibung'] = "(Bitte nur ein Wort)";
+$lang['login_passwort_benutzername'] = "Bitte ein neues Passwort für den Benutzernamen \"%u_nick%\" festlegen.";
+$lang['login_passwort'] = "Passwort";
+$lang['login_passwort_wiederholen'] = "Passwort wiederholen";
+$lang['login_passwort_vergessen'] = "Passwort vergessen?";
+$lang['login_neues_passwort_speichern'] = "Neues Passwort speichern";
+$lang['login_email'] = "E-Mail";
+$lang['login_email_aendern'] = "E-Mail-Adresse ändern";
+$lang['login_freischalt_code'] = "Freischalt-Code";
+$lang['login_weiter_zum_chat'] = "Weiter zum Chat";
+$lang['login_raum'] = "Raum:";
+$lang['login_raum_forum'] = "Raum/Forum";
+$lang['login_angemeldet_bleiben'] = "Angemeldet bleiben";
+$lang['login_nicht_username'] = "Nicht %username% ?";
+$lang['login_abmelden'] = "Abmelden";
+$lang['login_gastinformation'] = "Sie können sich als Gast einloggen, indem Sie einfach auf Login klicken.";
+$lang['login_bestaetigung_nutzungsbestimmungen'] = "Bestätigung der Nutzungsbestimmungen";
+$lang['login_statistik'] = "Statistik";
+$lang['login_benutzer_online'] = "Momentan sind <b>%onlineanzahl% Benutzer online</b>";
+$lang['login_benutzer_niemand_online'] = "Es befinden sind keine Benutzer öffentlichen Räumen oder im Forum.";
+$lang['login_benutzer_registriert'] = "Insgesamt sind %useranzahl% Benutzer registriert. ";
+$lang['login_benutzer_online_raum'] = "<b>Raum %raum%:</b> ";
+$lang['login_benutzer_online_forum'] = "<b>Forum:</b> ";
+$lang['login_forum_beitraege'] = "Im Forum befinden sich %beitraege% Beiträge in %themen% Foren.";
+$lang['login_warnung'] = "<b>Warnung an alle Admins:</b> Benutzer <b>%u_nick%</b> loggt sich über %ip_adr%/%ip_name% im $chat ein (%is_infotext%)!";
 
-$t['registrierung_informationen'] = "<p>Alle Felder mit <b>*</b> sind Pflichtfelder.</p>\n"
+$lang['registrierung_informationen'] = "<p>Alle Felder mit <b>*</b> sind Pflichtfelder.</p>\n"
 	. "<p>Mit dem Abschluß der Registrierung bestätigen Sie Ihr Einverständnis\n"
 	. "zur Verarbeitung Ihrer personenbezogenen Daten gemäß unserer <a href=\"index.php?bereich=datenschutz\"><b>Datenschutzerklärung</b></a>.\n"
 	. "Außerdem erklären Sie sich mit unseren <a href=\"index.php?bereich=nutzungsbestimmungen\"><b>Nutzungsbestimmungen</b></a> einverstanden.</p>\n";
-$t['registrierung_informationen_freischaltcode'] = "Bitte geben Sie nun Ihre <b>E-Mail-Adresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.";
-$t['registrierung_erfolgreich'] = "Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!<br><br>";
-$t['registrierung_erfolgreich2'] = "Sie wurden nun im $chat registriert!<br>";
-$t['registrierung_erfolgreich3'] = "<b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b><br>";
+$lang['registrierung_informationen_freischaltcode'] = "Bitte geben Sie nun Ihre <b>E-Mail-Adresse</b> und den <b>Freischalt-Code</b> ein, den Sie soeben per E-Mail bekommen haben.";
+$lang['registrierung_erfolgreich'] = "Wir freuen uns, Sie als neues Mitglied im $chat begrüßen zu dürfen!<br><br>";
+$lang['registrierung_erfolgreich2'] = "Sie wurden nun im $chat registriert!<br>";
+$lang['registrierung_erfolgreich3'] = "<b>Bitte merken Sie sich Ihr Passwort, denn ohne Passwort kommen Sie nicht mehr in den Chat....</b><br>";
 
-$t['registrierung_email_titel'] = "Ihre Registrierung im $chat";
-$t['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
+$lang['registrierung_email_titel'] = "Ihre Registrierung im $chat";
+$lang['registrierung_email_text'] = "Willkommen im $chat!<br><br>Um nun die Registrierung als neuer Benutzer fortzusetzen, klicken Sie bitte auf den folgenden Link:"
 	. "<br><br>%link% <br><br>Sollte es zu Problemen beim klicken auf den Registrierungslink kommen, so verwenden Sie diesen Link zum manuellen "
 	. "Prüfen der E-Mail-Adresse:<br> %link2%<br><br>"
 	. "Ihre E-Mail-Adresse: %email%<br>" . "Freischalt-Code   : %hash%<br><br>"
 	. "<br>Wenn Sie diese Links nicht in Ihrem E-Mailprogramm anklicken können, so kopieren Sie diese in die Zwischenablage und fügen Sie den Link dann in den Browser ein.";
 
-$t['registrierung_fehler_keine_email'] = "Es wurde keine E-Mail-Adresse angegeben!<br>";
-$t['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail-Adresse!<br>";
-$t['registrierung_fehler_gesperrte_email'] = "Diese E-Mail-Adresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster.<br>";
-$t['registrierung_fehler_email_link_falsch'] = "Bei der Registrierung ist ein Fehler aufgetreten.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
-$t['registrierung_fehler_email_freischaltcode'] = "Die Kombination aus der E-Mail und dem Freischalt-Code ist nicht gültig oder der Freischalt-Code ist abgelaufen.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
-$t['registrierung_fehler_falscher_aufruf'] = "Beim Aufruf dieser Seite ist ein Fehler aufgetreten.<br>";
-$t['registrierung_fehler_benutzername_pluszeichen'] = "Pluszeichen sind im Benutzernamen nicht erlaubt!<br>";
-$t['registrierung_fehler_benutzername_zeichenlaenge'] = "Bitte geben Sie als Benutzernamen mindestens 4 und maximal 20 gültige Zeichen ein!: Die gültigen Zeichen sind: %zeichen%<br>";
-$t['registrierung_fehler_benutzername_gast'] = "Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Benutzernamen!<br>";
-$t['registrierung_fehler_passwort_zeichenlaenge'] = "Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!<br>";
-$t['registrierung_fehler_passwort_unterschiedlich'] = "Sie haben sich beim Passwort vertippt. Bitte neu versuchen!<br>";
-$t['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!<br>";
-$t['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
-$t['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
-$t['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?bereich=passwort-vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?bereich=registrierung\">Zurück zur Registrierung!</a><br>";
-$t['registrierung_fehler_aktivierungslink_verwendet'] = "Mit diesen Aktivierungslink wurde bereits ein Benutzer registriert.<br>";
+$lang['registrierung_fehler_keine_email'] = "Es wurde keine E-Mail-Adresse angegeben!<br>";
+$lang['registrierung_fehler_ungueltige_email'] = "Die Eingabe '%email%' ist keine gültige E-Mail-Adresse!<br>";
+$lang['registrierung_fehler_gesperrte_email'] = "Diese E-Mail-Adresse ist leider gesperrt! Bitte wenden Sie sich an den Webmaster.<br>";
+$lang['registrierung_fehler_email_link_falsch'] = "Bei der Registrierung ist ein Fehler aufgetreten.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
+$lang['registrierung_fehler_email_freischaltcode'] = "Die Kombination aus der E-Mail und dem Freischalt-Code ist nicht gültig oder der Freischalt-Code ist abgelaufen.<br>Bitte beantragen Sie eine neue E-Mail unter <a href=\"index.php?bereich=registrierung\">Registrierung</a>.<br>";
+$lang['registrierung_fehler_falscher_aufruf'] = "Beim Aufruf dieser Seite ist ein Fehler aufgetreten.<br>";
+$lang['registrierung_fehler_benutzername_pluszeichen'] = "Pluszeichen sind im Benutzernamen nicht erlaubt!<br>";
+$lang['registrierung_fehler_benutzername_zeichenlaenge'] = "Bitte geben Sie als Benutzernamen mindestens 4 und maximal 20 gültige Zeichen ein!: Die gültigen Zeichen sind: %zeichen%<br>";
+$lang['registrierung_fehler_benutzername_gast'] = "Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Benutzernamen!<br>";
+$lang['registrierung_fehler_passwort_zeichenlaenge'] = "Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!<br>";
+$lang['registrierung_fehler_passwort_unterschiedlich'] = "Sie haben sich beim Passwort vertippt. Bitte neu versuchen!<br>";
+$lang['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!<br>";
+$lang['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
+$lang['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
+$lang['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?bereich=passwort-vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?bereich=registrierung\">Zurück zur Registrierung!</a><br>";
+$lang['registrierung_fehler_aktivierungslink_verwendet'] = "Mit diesen Aktivierungslink wurde bereits ein Benutzer registriert.<br>";
 
-$t['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
-$t['registrierung_email_angeben'] = "<p>Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
-$t['registrierung_email_versendet'] = "Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!<br>";
-$t['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
-$t['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
-$t['registrierung_absenden'] = "Absenden";
+$lang['registrierung_freischaltcode_erfolgreich'] = "Die Aktivierung aus E-Mail und Freischalt-Code war erfolgreich.<br><a href=\"%url%\">Weiter zur Registrierung!</a><br>";
+$lang['registrierung_email_angeben'] = "<p>Um sich neu im Chat zu registrieren, geben Sie bitte Ihre E-Mail Adresse ein:</p>";
+$lang['registrierung_email_versendet'] = "Sie erhalten nun eine E-Mail! Um die Registrierung abzuschließen, klicken Sie bitte auf den dort angegebenen Link!<br>";
+$lang['registrierung_neuen_account_registrieren'] = "Neuen Account registrieren";
+$lang['registrierung_email_adresse'] = "Ihre E-Mail Adresse:";
+$lang['registrierung_absenden'] = "Absenden";
 
-$t['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
-$t['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
+$lang['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
+$lang['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$t['chat_agb'] = "<b>Nutzungsbestimmungen:</b><br><ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$lang['chat_agb'] = "<b>Nutzungsbestimmungen:</b><br><ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. Pro Mitglied ist nur ein Account zulässig.</li>"
 	. "<li>Im Chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
@@ -224,45 +224,45 @@ $t['chat_agb'] = "<b>Nutzungsbestimmungen:</b><br><ol><li>Wir bitten alle Benutz
 	. "<li>Mit dem Login oder der Registrierung erklären Sie sich mit der Datenspeicherung gemäß unserer <a href=\"index.php?bereich=datenschutz\" style=\"text-decoration: underline; \">Datenschutzerklärung</a> einverstanden.</li>"
 	. "</ol>";
 
-$t['login_passwort_schritt1'] = "Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "
+$lang['login_passwort_schritt1'] = "Sie haben Ihr Passwort vergessen? Kein Problem, geben Sie hier einfach Ihren "
 	. "Benutzernamen oder E-Mail-Adresse an. Wenn beide Felder ausgefüllt sind, wird der Benutzername überprüft. Wenn der Benutzername nicht bekannt ist, bitte nur das Feld E-Mail-Adresse ausfüllen. Sie erhalten anschließend  "
 	. "eine E-Mail mit einem Sicherheitscode, der Sie berechtigt ein neues Passwort anzufordern.<br>";
-$t['login_passwort_schritt2'] = "Ein Link um Ihr Passwort zurückzusetzen wurde an Ihre E-Mail-Adresse gesendet.<br>";
+$lang['login_passwort_schritt2'] = "Ein Link um Ihr Passwort zurückzusetzen wurde an Ihre E-Mail-Adresse gesendet.<br>";
 
-$t['login_fehlermeldung_passwort_vergessen_kein_code'] = "Es wurde ein falscher Link zum Zurücksetzen des Passworts aufgerufen. Bitte den Link in der E-Mail überprüfen.<br>";
-$t['login_fehlermeldung_passwort_vergessen_kein_benutzer'] = "Ein Benutzer mit dieser ID existiert leider nicht.<br>";
-$t['login_fehlermeldung_passwort_vergessen_email'] = "Es wurde keine gültige E-Mail-Adresse angegeben!<br>";
-$t['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.<br>";
-$t['login_fehlermeldung_passwort_vergessen_email2'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
-$t['login_fehlermeldung_passwort_vergessen_email_benutzername'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.<br>";
-$t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde bereits vor kurzem für diesen Benutzer ein neues Passwort angefordert.<br>";
-$t['login_fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_kein_code'] = "Es wurde ein falscher Link zum Zurücksetzen des Passworts aufgerufen. Bitte den Link in der E-Mail überprüfen.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_kein_benutzer'] = "Ein Benutzer mit dieser ID existiert leider nicht.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_email'] = "Es wurde keine gültige E-Mail-Adresse angegeben!<br>";
+$lang['login_fehlermeldung_passwort_vergessen_benutzername'] = "Es wurde kein Benutzer mit diesem Benutzernamen gefunden.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_email2'] = "Es wurde kein Benutzer mit dieser E-Mail-Adresse gefunden.";
+$lang['login_fehlermeldung_passwort_vergessen_email_benutzername'] = "Es wurde weder ein Benutzername noch eine E-Mail-Adresse angegeben.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_bereits_angefordert'] = "Es wurde bereits vor kurzem für diesen Benutzer ein neues Passwort angefordert.<br>";
+$lang['login_fehlermeldung_passwort_vergessen_sicherheitscode'] = "Der angegebene Sicherheitscode ist leider nicht richtig.<br>";
 
-$t['email_passwort_vergessen_titel'] = "Ihre Passwortanforderung für den $chat";
-$t['email_passwort_vergessen_inhalt'] = "Hallo %u_nick%,<br />
+$lang['email_passwort_vergessen_titel'] = "Ihre Passwortanforderung für den $chat";
+$lang['email_passwort_vergessen_inhalt'] = "Hallo %u_nick%,<br />
 <br />
 für Ihren Account auf $chat_url wurde ein neues Passwort angefordert.<br />
 Um ein neues Passwort zu vergeben, rufen Sie innerhalb der nächsten 24 Stunden die folgende Website auf:<br />
 %webseite_passwort%<br />
  <br />
 Sollte Ihnen das Passwort wieder eingefallen sein oder dieses nicht angefordert, so ignorieren Sie diese E-Mail einfach.";
-$t['login_passwort_anfordern'] = "Neues Passwort anfordern";
+$lang['login_passwort_anfordern'] = "Neues Passwort anfordern";
 
-$t['login_passwort_fehler_kein_benutzer'] = "Es wurde kein passender Benutzer gefunden.<br>";
-$t['login_passwort_fehler_code_abgelaufen'] = "Dein Code ist leider abgelaufen.<br>";
-$t['login_passwort_fehler_code_ungueltig'] = "Der übergebene Code war ungültig. Stellen Sie sicher, dass Sie den genauen Link in der URL aufgerufen haben.<br>";
-$t['login_passwort_fehler_passwort_zweimal_eingaben'] = "Bitte zweimal das Passwort eingeben.<br>";
-$t['login_passwort_fehler_passwort_nicht_identisch'] = "Bitte zweimal das identische Passwörter eingeben.<br>";
-$t['login_passwort_fehler_passwort_zu_kurz'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein.<br>";
+$lang['login_passwort_fehler_kein_benutzer'] = "Es wurde kein passender Benutzer gefunden.<br>";
+$lang['login_passwort_fehler_code_abgelaufen'] = "Dein Code ist leider abgelaufen.<br>";
+$lang['login_passwort_fehler_code_ungueltig'] = "Der übergebene Code war ungültig. Stellen Sie sicher, dass Sie den genauen Link in der URL aufgerufen haben.<br>";
+$lang['login_passwort_fehler_passwort_zweimal_eingaben'] = "Bitte zweimal das Passwort eingeben.<br>";
+$lang['login_passwort_fehler_passwort_nicht_identisch'] = "Bitte zweimal das identische Passwörter eingeben.<br>";
+$lang['login_passwort_fehler_passwort_zu_kurz'] = "Bitte geben Sie mindestens 4 Zeichen für das Passwort ein.<br>";
 
-$t['login_passwort_erfolgreich_passwort_geaendert'] = "Das Passwort wurde erfolgreich geändert.<br><br><a href=\"index.php\">Zum Login</a>";
-$t['login_email_erfolgreich_geandert'] = "Die E-Mail-Adresse für %u_nick% wurde erfolgreich von %u_email% auf %u_email_neu% geändert.<br><br><a href=\"index.php\">Zum Login</a>";
+$lang['login_passwort_erfolgreich_passwort_geaendert'] = "Das Passwort wurde erfolgreich geändert.<br><br><a href=\"index.php\">Zum Login</a>";
+$lang['login_email_erfolgreich_geandert'] = "Die E-Mail-Adresse für %u_nick% wurde erfolgreich von %u_email% auf %u_email_neu% geändert.<br><br><a href=\"index.php\">Zum Login</a>";
 
 
 
-$t['impressum'] = "Name und Anschrift";
+$lang['impressum'] = "Name und Anschrift";
 
-$t['datenschutzerklaerung'] = "<h2>
+$lang['datenschutzerklaerung'] = "<h2>
 	1. Datenschutz auf einen Blick
 </h2>
 <h3>
@@ -368,111 +368,111 @@ $t['datenschutzerklaerung'] = "<h2>
 <p>Die Speicherung der Kommentare erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Sie können eine von Ihnen erteilte Einwilligung jederzeit widerrufen. Dazu reicht eine formlose Mitteilung per E-Mail an uns. Die Rechtmäßigkeit der bereits erfolgten Datenverarbeitungsvorgänge bleibt vom Widerruf unberührt.</p>
 <p></p>";
 
-$t['captcha1'] = "Prüfziffer: (Bitte Ergebnis der Rechenaufgabe als Zahl eingeben)";
+$lang['captcha1'] = "Prüfziffer: (Bitte Ergebnis der Rechenaufgabe als Zahl eingeben)";
 
-$taufgabe[1] = "plus";
-$taufgabe[2] = "minus";
-$taufgabe[3] = "mal";
+$langaufgabe[1] = "plus";
+$langaufgabe[2] = "minus";
+$langaufgabe[3] = "mal";
 
-$tzahl[0] = "null";
-$tzahl[1] = "eins";
-$tzahl[2] = "zwei";
-$tzahl[3] = "drei";
-$tzahl[4] = "vier";
-$tzahl[5] = "fünf";
-$tzahl[6] = "sechs";
-$tzahl[7] = "sieben";
-$tzahl[8] = "acht";
-$tzahl[9] = "neun";
-$tzahl[10] = "zehn";
-$tzahl[11] = "elf";
-$tzahl[12] = "zwölf";
-$tzahl[13] = "dreizehn";
-$tzahl[14] = "vierzehn";
-$tzahl[15] = "fünfzehn";
-$tzahl[16] = "sechzehn";
-$tzahl[17] = "siebzehn";
-$tzahl[18] = "achtzehn";
-$tzahl[19] = "neunzehn";
-$tzahl[20] = "zwanzig";
-$tzahl[21] = "einundzwanzig";
-$tzahl[22] = "zweiundzwanzig";
-$tzahl[23] = "dreiundzwanzig";
-$tzahl[24] = "vierundzwanzig";
-$tzahl[25] = "fünfundzwanzig";
-$tzahl[26] = "sechsundzwanzig";
-$tzahl[27] = "siebenundzwanzig";
-$tzahl[28] = "achtundzwanzig";
-$tzahl[29] = "neunundzwanzig";
-$tzahl[30] = "dreißig";
-$tzahl[31] = "einunddreißig";
-$tzahl[32] = "zweiunddreißig";
-$tzahl[33] = "dreiunddreißig";
-$tzahl[34] = "vierunddreißig";
-$tzahl[35] = "fünfunddreißig";
-$tzahl[36] = "sechsunddreißig";
-$tzahl[37] = "siebenunddreißig";
-$tzahl[38] = "achtunddreißig";
-$tzahl[39] = "neununddreißig";
-$tzahl[40] = "vierzig";
-$tzahl[41] = "einundvierzig";
-$tzahl[42] = "zweiundvierzig";
-$tzahl[43] = "dreiundvierzig";
-$tzahl[44] = "vierundvierzig";
-$tzahl[45] = "fünfundvierzig";
-$tzahl[46] = "sechsundvierzig";
-$tzahl[47] = "siebenundvierzig";
-$tzahl[48] = "achtundvierzig";
-$tzahl[49] = "neunundvierzig";
-$tzahl[50] = "fünfzig";
-$tzahl[51] = "einundfünfzig";
-$tzahl[52] = "zweiundfünfzig";
-$tzahl[53] = "dreiundfünfzig";
-$tzahl[54] = "vierundfünfzig";
-$tzahl[55] = "fünfundfünfzig";
-$tzahl[56] = "sechsundfünfzig";
-$tzahl[57] = "siebenundfünfzig";
-$tzahl[58] = "achtundfünfzig";
-$tzahl[59] = "neunundfünfzig";
-$tzahl[60] = "sechzig";
-$tzahl[61] = "einundsechzig";
-$tzahl[62] = "zweiundsechzig";
-$tzahl[63] = "dreiundsechzig";
-$tzahl[64] = "vierundsechzig";
-$tzahl[65] = "fünfundsechzig";
-$tzahl[66] = "sechsundsechzig";
-$tzahl[67] = "siebenundsechzig";
-$tzahl[68] = "achtundsechzig";
-$tzahl[69] = "neunundsechzig";
-$tzahl[70] = "siebzig";
-$tzahl[71] = "einundsiebzig";
-$tzahl[72] = "zweiundsiebzig";
-$tzahl[73] = "dreiundsiebzig";
-$tzahl[74] = "vierundsiebzig";
-$tzahl[75] = "fünfundsiebzig";
-$tzahl[76] = "sechsundsiebzig";
-$tzahl[77] = "siebenundsiebzig";
-$tzahl[78] = "achtundsiebzig";
-$tzahl[79] = "neunundsiebzig";
-$tzahl[80] = "achtzig";
-$tzahl[81] = "einundachtzig";
-$tzahl[82] = "zweiundachtzig";
-$tzahl[83] = "dreiundachtzig";
-$tzahl[84] = "vierundachtzig";
-$tzahl[85] = "fünfundachtzig";
-$tzahl[86] = "sechsundachtzig";
-$tzahl[87] = "siebenundachtzig";
-$tzahl[88] = "achtundachtzig";
-$tzahl[89] = "neunundachtzig";
-$tzahl[90] = "neunzig";
-$tzahl[91] = "einundneunzig";
-$tzahl[92] = "zweiundneunzig";
-$tzahl[93] = "dreiundneunzig";
-$tzahl[94] = "vierundneunzig";
-$tzahl[95] = "fünfundneunzig";
-$tzahl[96] = "sechsundneunzig";
-$tzahl[97] = "siebenundneunzig";
-$tzahl[98] = "achtundneunzig";
-$tzahl[99] = "neunundneunzig";
+$langzahl[0] = "null";
+$langzahl[1] = "eins";
+$langzahl[2] = "zwei";
+$langzahl[3] = "drei";
+$langzahl[4] = "vier";
+$langzahl[5] = "fünf";
+$langzahl[6] = "sechs";
+$langzahl[7] = "sieben";
+$langzahl[8] = "acht";
+$langzahl[9] = "neun";
+$langzahl[10] = "zehn";
+$langzahl[11] = "elf";
+$langzahl[12] = "zwölf";
+$langzahl[13] = "dreizehn";
+$langzahl[14] = "vierzehn";
+$langzahl[15] = "fünfzehn";
+$langzahl[16] = "sechzehn";
+$langzahl[17] = "siebzehn";
+$langzahl[18] = "achtzehn";
+$langzahl[19] = "neunzehn";
+$langzahl[20] = "zwanzig";
+$langzahl[21] = "einundzwanzig";
+$langzahl[22] = "zweiundzwanzig";
+$langzahl[23] = "dreiundzwanzig";
+$langzahl[24] = "vierundzwanzig";
+$langzahl[25] = "fünfundzwanzig";
+$langzahl[26] = "sechsundzwanzig";
+$langzahl[27] = "siebenundzwanzig";
+$langzahl[28] = "achtundzwanzig";
+$langzahl[29] = "neunundzwanzig";
+$langzahl[30] = "dreißig";
+$langzahl[31] = "einunddreißig";
+$langzahl[32] = "zweiunddreißig";
+$langzahl[33] = "dreiunddreißig";
+$langzahl[34] = "vierunddreißig";
+$langzahl[35] = "fünfunddreißig";
+$langzahl[36] = "sechsunddreißig";
+$langzahl[37] = "siebenunddreißig";
+$langzahl[38] = "achtunddreißig";
+$langzahl[39] = "neununddreißig";
+$langzahl[40] = "vierzig";
+$langzahl[41] = "einundvierzig";
+$langzahl[42] = "zweiundvierzig";
+$langzahl[43] = "dreiundvierzig";
+$langzahl[44] = "vierundvierzig";
+$langzahl[45] = "fünfundvierzig";
+$langzahl[46] = "sechsundvierzig";
+$langzahl[47] = "siebenundvierzig";
+$langzahl[48] = "achtundvierzig";
+$langzahl[49] = "neunundvierzig";
+$langzahl[50] = "fünfzig";
+$langzahl[51] = "einundfünfzig";
+$langzahl[52] = "zweiundfünfzig";
+$langzahl[53] = "dreiundfünfzig";
+$langzahl[54] = "vierundfünfzig";
+$langzahl[55] = "fünfundfünfzig";
+$langzahl[56] = "sechsundfünfzig";
+$langzahl[57] = "siebenundfünfzig";
+$langzahl[58] = "achtundfünfzig";
+$langzahl[59] = "neunundfünfzig";
+$langzahl[60] = "sechzig";
+$langzahl[61] = "einundsechzig";
+$langzahl[62] = "zweiundsechzig";
+$langzahl[63] = "dreiundsechzig";
+$langzahl[64] = "vierundsechzig";
+$langzahl[65] = "fünfundsechzig";
+$langzahl[66] = "sechsundsechzig";
+$langzahl[67] = "siebenundsechzig";
+$langzahl[68] = "achtundsechzig";
+$langzahl[69] = "neunundsechzig";
+$langzahl[70] = "siebzig";
+$langzahl[71] = "einundsiebzig";
+$langzahl[72] = "zweiundsiebzig";
+$langzahl[73] = "dreiundsiebzig";
+$langzahl[74] = "vierundsiebzig";
+$langzahl[75] = "fünfundsiebzig";
+$langzahl[76] = "sechsundsiebzig";
+$langzahl[77] = "siebenundsiebzig";
+$langzahl[78] = "achtundsiebzig";
+$langzahl[79] = "neunundsiebzig";
+$langzahl[80] = "achtzig";
+$langzahl[81] = "einundachtzig";
+$langzahl[82] = "zweiundachtzig";
+$langzahl[83] = "dreiundachtzig";
+$langzahl[84] = "vierundachtzig";
+$langzahl[85] = "fünfundachtzig";
+$langzahl[86] = "sechsundachtzig";
+$langzahl[87] = "siebenundachtzig";
+$langzahl[88] = "achtundachtzig";
+$langzahl[89] = "neunundachtzig";
+$langzahl[90] = "neunzig";
+$langzahl[91] = "einundneunzig";
+$langzahl[92] = "zweiundneunzig";
+$langzahl[93] = "dreiundneunzig";
+$langzahl[94] = "vierundneunzig";
+$langzahl[95] = "fünfundneunzig";
+$langzahl[96] = "sechsundneunzig";
+$langzahl[97] = "siebenundneunzig";
+$langzahl[98] = "achtundneunzig";
+$langzahl[99] = "neunundneunzig";
 
 ?>

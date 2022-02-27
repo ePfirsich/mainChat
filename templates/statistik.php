@@ -15,15 +15,15 @@ $r1 = sqlQuery("SELECT DISTINCT `id` FROM statistiken");
 if ($r1 > 0) {
 	if (mysqli_num_rows($r1) == 0) {
 		// Keine Enträge vorhanden
-		$msg = $t['statistik_keine_statistiken'];
+		$msg = $lang['statistik_keine_statistiken'];
 		$fehler = true;
 	}
 } else {
 	$fehler = true;
-	$msg = $t['statistik_keine_statistiken'];
+	$msg = $lang['statistik_keine_statistiken'];
 }
 
-$box = $t['titel'];
+$box = $lang['titel'];
 if ($fehler) {
 	zeige_tabelle_zentriert($box, $msg);
 	return;
@@ -51,10 +51,10 @@ switch ($aktion) {
 				$i++;
 			}
 			
-			$msg .= statsPrintGraph($t['statistik_stunden'], $t['statistik_benutzer'], $t['statistik_uhrzeit']);
+			$msg .= statsPrintGraph($lang['statistik_stunden'], $lang['statistik_benutzer'], $lang['statistik_uhrzeit']);
 		}
 		
-		$box = $t['statistik_nach_stunden'];
+		$box = $lang['statistik_nach_stunden'];
 		zeige_tabelle_zentriert($box, $msg);
 		
 		break;
@@ -81,7 +81,7 @@ switch ($aktion) {
 		$msg .= "<form name=\"form\" action=\"inhalt.php?bereich=statistik\" method=\"post\">\n";
 		$msg .= "<input type=\"hidden\" name=\"aktion\" value=\"$aktion\">\n";
 		$msg .= "<input type=\"hidden\" name=\"page\" value=\"chat-month\">\n";
-		$msg .= "<div style=\"margin-top:2px; text-align:center;\">$t[statistik_monat]\n";
+		$msg .= "<div style=\"margin-top:2px; text-align:center;\">$lang[statistik_monat]\n";
 		$msg .= "<select name=\"monat\" onchange='form.submit();'>\n";
 		
 		while (list($i, $n) = each($t_month)) {
@@ -111,7 +111,7 @@ switch ($aktion) {
 		}
 		
 		$msg .= "</select>\n";
-		$msg .= "<input type=\"submit\" value=\"" . $t["statistik_anzeigen"] . "\">\n";
+		$msg .= "<input type=\"submit\" value=\"" . $lang["statistik_anzeigen"] . "\">\n";
 		$msg .= "</div>\n";
 		$msg .= "</form>\n";
 		
@@ -136,11 +136,11 @@ switch ($aktion) {
 					$i++;
 				}
 				
-				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $jahr, $t['statistik_benutzer'], $t['statistik_tag']);
+				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $jahr, $lang['statistik_benutzer'], $lang['statistik_tag']);
 			}
 		}
 		
-		$box = $t['statistik_nach_monaten'];
+		$box = $lang['statistik_nach_monaten'];
 		zeige_tabelle_zentriert($box, $msg);
 }
 ?>

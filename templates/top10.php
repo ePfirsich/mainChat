@@ -23,9 +23,9 @@ $bgcolor = 'class="tabelle_zeile1 smaller"';
 echo "<table class=\"tabelle_kopf_zentriert\">\n"
 	. "<tr>"
 	. "<td class=\"tabelle_kopfzeile\" style=\"width:4%;\">&nbsp;</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top1'] ." " . strftime("%B", time()) . "</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top1'] ." " . strftime("%Y", time()) . "</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $t['top2'] ."</td>"
+	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . strftime("%B", time()) . "</td>"
+	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . strftime("%Y", time()) . "</td>"
+	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top2'] ."</td>"
 	. "</tr>\n";
 
 // im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)

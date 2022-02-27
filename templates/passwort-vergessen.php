@@ -20,10 +20,10 @@ if (isset($email) && isset($username) && isset($hash)) {
 		if ($hash == $hash2) {
 			$u_id = $a['u_id'];
 		} else {
-			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
+			$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 		}
 	} else {
-		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
+		$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 	}
 	mysqli_free_result($result);
 } else if ( isset($email) || isset($username) ) {
@@ -36,14 +36,14 @@ if (isset($email) && isset($username) && isset($hash)) {
 	if( isset($email) && $email != "" ) {
 		$email = escape_string(urldecode($email));
 		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $email)) {
-			$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email'];
+			$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_email'];
 		}
 	} else {
 		$email = "";
 	}
 	
 	if( $email == "" && $username == "" ) {
-		$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email_benutzername'];
+		$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_email_benutzername'];
 	}
 	
 	if ($fehlermeldung == "") {
@@ -60,7 +60,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 			// Es darf nur alle 4 Stunden ein neues Passwort angefordert werden
 			// 4 Stunden = 14400 Sekunde
 			if( ( time()-intval($a['u_passwortanforderung']) ) < 14400 ) {
-				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_bereits_angefordert'];
+				$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_bereits_angefordert'];
 			} else {
 				$hash = md5(
 					$a['u_id'] . $a['u_login'] . $a['u_nick']
@@ -76,7 +76,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 				
 				// ULR zusammenstellen
 				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&uid=" . $a['u_id'] . "&code=".$passwordcode;
-				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $t['email_passwort_vergessen_inhalt']);
+				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $lang['email_passwort_vergessen_inhalt']);
 				$inhalt = str_replace("%u_nick%", $a['u_nick'], $inhalt);
 				$email = urldecode($a['u_email']);
 				
@@ -85,16 +85,16 @@ if (isset($email) && isset($username) && isset($hash)) {
 				sqlUpdate($queryPasswortanforderung);
 				
 				// E-Mail versenden
-				email_senden($email, $t['email_passwort_vergessen_titel'], $inhalt);
+				email_senden($email, $lang['email_passwort_vergessen_titel'], $inhalt);
 				
 				$email_gesendet = true;
 				unset($hash);
 			}
 		} else {
 			if($username != "") {
-				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_benutzername'];
+				$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_benutzername'];
 			} else {
-				$fehlermeldung .= $t['login_fehlermeldung_passwort_vergessen_email2'];
+				$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_email2'];
 			}
 			unset($hash);
 		}
@@ -110,10 +110,10 @@ if ($fehlermeldung != "") {
 }
 
 if ($email_gesendet) {
-	$erfolgsmeldung = $t['login_passwort_schritt2'];
+	$erfolgsmeldung = $lang['login_passwort_schritt2'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 } else {
-	$text .= $t['login_passwort_schritt1'];
+	$text .= $lang['login_passwort_schritt1'];
 	
 	// Formular zum Anfordern eines neuen Passworts
 	$text .= "<form action=\"index.php?bereich=passwort-vergessen\" method=\"post\">\n";
@@ -126,14 +126,14 @@ if ($email_gesendet) {
 	}
 	
 	// Überschrift: Neues Passwort anfordern
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['login_passwort_anfordern'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_passwort_anfordern'], "", "", 0, "70", "");
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_benutzername'], "username", $username);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['login_benutzername'], "username", $username);
 	$zaehler++;
 	
 	// E-Mail
-	$text .= zeige_formularfelder("input", $zaehler, $t['login_email'], "email", $email);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['login_email'], "email", $email);
 	$zaehler++;
 
 	if ($zaehler % 2 != 0) {

@@ -10,7 +10,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 	// privat ist wahr bei privater Nachricht
 	
 	global $admin, $sprache, $o_raum, $u_id, $u_level;
-	global $t, $system_farbe, $smilies_anzahl, $ist_moderiert;
+	global $lang, $system_farbe, $smilies_anzahl, $ist_moderiert;
 	
 	$text_an_user = "";
 	
@@ -24,7 +24,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 		if ($anzahl > 0) {
 			if ($anzahl > $smilies_anzahl) {
 				// Fehlermeldung ausgeben
-				system_msg("", 0, $u_id, $system_farbe, $t[chat_msg54]);
+				system_msg("", 0, $u_id, $system_farbe, $lang[chat_msg54]);
 			}
 			
 			// Prüfen, ob im aktuellen Raum Smilies erlaubt sind
@@ -54,7 +54,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 				}
 				
 				if ($anzahl > 0) {
-					system_msg("", 0, $u_id, $system_farbe, $t[chat_msg76]);
+					system_msg("", 0, $u_id, $system_farbe, $lang[chat_msg76]);
 				}
 			} else {
 				while (list($i, $smilie_code) = each($test[0])) {
@@ -128,7 +128,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						$text = preg_replace("!$txt[$j]!", $rep, $text);
 					} else {
 						$text_an_user = $nick['u_id'];
-						$rep = "[" . $t['chat_spruch6'] . "&nbsp;" . $nick['u_nick'] . "] ";
+						$rep = "[" . $lang['chat_spruch6'] . "&nbsp;" . $nick['u_nick'] . "] ";
 						$text = $rep . preg_replace("!$txt[$j]!", "", $text);
 					}
 				}

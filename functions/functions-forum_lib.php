@@ -143,11 +143,11 @@ function sperre_posting($po_id) {
 //Austrittstext im Raum erzeugen, o_who auf 2 und o_raum auf -1 (community) setzen
 
 function gehe_forum($u_id, $u_nick, $o_id, $o_raum) {
-	global $t;
+	global $lang;
 	
 	// Austrittstext im alten Raum erzeugen
 	verlasse_chat($u_id, $u_nick, $o_raum);
-	system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $t['betrete_forum1']));
+	system_msg("", 0, $u_id, "", str_replace("%u_nick%", $u_nick, $lang['betrete_forum1']));
 	
 	// Daten in online-tabelle richten
 	$f['o_raum'] = -1; //-1 allgemein fuer community
@@ -344,32 +344,32 @@ function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 //Prüft Benutzereingaben auf Vollständigkeit
 // mode --> forum, thema, posting 
 function check_input($mode) {
-	global $t;
+	global $lang;
 	
 	$missing = "";
 	
 	if ($mode == "kategorie") {
 		global $fo_name;
 		if (!$fo_name) {
-			$missing = $t['missing_name_kategorie'];
+			$missing = $lang['missing_name_kategorie'];
 		}
 		
 	} else if ($mode == "forum") {
 		global $th_name, $th_desc;
 		if (!$th_name) {
-			$missing .= $t['missing_thname'];
+			$missing .= $lang['missing_thname'];
 		}
 		if (!$th_desc) {
-			$missing .= $t['missing_thdesc'];
+			$missing .= $lang['missing_thdesc'];
 		}
 		
 	} else if ($mode == "posting") {
 		global $po_titel, $po_text;
 		if (strlen(trim($po_titel)) <= 0) {
-			$missing .= $t['missing_potitel'];
+			$missing .= $lang['missing_potitel'];
 		}
 		if (strlen(trim($po_text)) <= 0) {
-			$missing .= $t['missing_potext'];
+			$missing .= $lang['missing_potext'];
 		}
 	}
 	
@@ -479,7 +479,7 @@ function kategorie_down($fo_id, $fo_order) {
 
 //Komplettes Forum mit allen Themen und postings loeschen
 function loesche_kategorie($fo_id) {
-	global $t;
+	global $lang;
 	
 	if (!$fo_id) {
 		return;
@@ -507,7 +507,7 @@ function loesche_kategorie($fo_id) {
 	$sql = "DELETE FROM `forum_kategorien` WHERE fo_id=$fo_id";
 	sqlUpdate($sql);
 	
-	$erfolgsmeldung = str_replace("%kategorie%", $fo_name, $t['forum_kategorie_geloescht']);
+	$erfolgsmeldung = str_replace("%kategorie%", $fo_name, $lang['forum_kategorie_geloescht']);
 	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -616,7 +616,7 @@ function forum_down($th_id, $th_order, $fo_id) {
 
 //Komplettes Thema mit allen Beiträgen loeschen
 function loesche_thema($th_id) {
-	global $t;
+	global $lang;
 	
 	if (!$th_id) {
 		return;
@@ -635,7 +635,7 @@ function loesche_thema($th_id) {
 	$sql = "DELETE FROM `forum_foren` WHERE th_id=$th_id";
 	sqlUpdate($sql);
 	
-	$erfolgsmeldung = str_replace("%kategorie%", $th_name, $t['forum_forum_geloescht']);
+	$erfolgsmeldung = str_replace("%kategorie%", $th_name, $lang['forum_forum_geloescht']);
 	$text = hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -645,7 +645,7 @@ function loesche_thema($th_id) {
 function schreibe_posting() {
 	global $th_id, $po_vater_id, $u_id, $po_id, $u_nick;
 	global $po_titel, $po_text, $thread, $mode, $user_id, $autor;
-	global $po_topposting, $po_threadgesperrt, $forum_admin, $t, $forum_aenderungsanzeige;
+	global $po_topposting, $po_threadgesperrt, $forum_admin, $lang, $forum_aenderungsanzeige;
 	
 	if ($mode == "edit") {
 		
@@ -673,7 +673,7 @@ function schreibe_posting() {
 		$f['po_text'] = htmlspecialchars(erzeuge_umbruch($po_text, 80));
 		
 		if ($forum_aenderungsanzeige == "1") {
-			$append = $t['letzte_aenderung'];
+			$append = $lang['letzte_aenderung'];
 			$append = str_replace("%datum%", date("d.m.Y"), $append);
 			$append = str_replace("%uhrzeit%", date("H:i"), $append);
 			$append = str_replace("%user%", $u_nick, $append);
@@ -832,7 +832,7 @@ function hole_letzten($root_id, $new_po_id) {
 function loesche_posting() {
 	global $th_id, $po_id, $thread;
 	global $arr_delete;
-	global $punkte_pro_posting, $t;
+	global $punkte_pro_posting, $lang;
 	
 	$arr_delete = array();
 	
@@ -937,7 +937,7 @@ function loesche_posting() {
 		if ($result && mysqli_num_rows($result) == 1) {
 			$po_u_id = mysqli_result($result, 0, 0);
 			if ($po_u_id) {
-				$zusammenfassung .= $t['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $po_u_id) . "<br>";
+				$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $po_u_id) . "<br>";
 			}
 		}
 		mysqli_free_result($result);
@@ -954,7 +954,7 @@ function loesche_posting() {
 	$sql = "UNLOCK TABLES";
 	sqlUpdate($sql, true);
 	
-	$erfolgsmeldung = str_replace("%forum%", $fo_name, $t['forum_thema_geloescht']);
+	$erfolgsmeldung = str_replace("%forum%", $fo_name, $lang['forum_thema_geloescht']);
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -1116,7 +1116,7 @@ function ersetze_smilies($text) {
 
 // erzeugt Aktionen bei Antwort auf einen Beitrag
 function aktion_sofort($po_id, $po_vater_id, $thread) {
-	global $t, $u_id;
+	global $u_id;
 	//aktionen nur fuer Antworten
 	if ($po_vater_id > 0) {
 		

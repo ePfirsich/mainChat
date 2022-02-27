@@ -33,7 +33,7 @@ $text .= $text_typ;
 if ($sicherer_modus || $benutzerdaten['u_sicherer_modus'] == "1") {
 	$text .= "<select name=\"user_chat_back\">\n";
 	for ($i = 10; $i <= 40; $i++) {
-		$text .= "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i $t[eingabe1]\n";
+		$text .= "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i $lang[eingabe1]\n";
 	}
 	$text .= "</select>\n";
 }

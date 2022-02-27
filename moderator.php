@@ -84,10 +84,10 @@ if ($moderationsmodul == 1) {
 			if ($rows < 5) {
 				echo "<hr type=noshade width=90% height=1>\n";
 				echo "<div style=\"text-align:center;\">";
-				echo $t['moderation1'] . "\n";
-				echo $t['moderation2'] . "\n";
-				echo $t['moderation3'] . "\n";
-				echo $t['moderation4'] . "\n";
+				echo $lang['moderation1'] . "\n";
+				echo $lang['moderation2'] . "\n";
+				echo $lang['moderation3'] . "\n";
+				echo $lang['moderation4'] . "\n";
 				echo "</div>";
 			}
 			echo "\n\n";
@@ -95,8 +95,8 @@ if ($moderationsmodul == 1) {
 	}
 } else {
 	echo "<div style=\"text-align:center;\">";
-	echo $t[moderation1];
-	echo $t[moderation8];
+	echo $lang['moderation1'];
+	echo $lang['moderation8'];
 	echo "</div>";
 }
 ?>

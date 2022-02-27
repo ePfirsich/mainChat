@@ -40,8 +40,7 @@ function statsResetHours($zeit, $hours) {
 }
 
 function statsPrintGraph($title, $text_l, $text_b) {
-	global $grapharray;
-	global $t;
+	global $grapharray, $lang;
 	$msg = "";
 	
 	if ((isset($grapharray)) && (count($grapharray) > 0)) {
@@ -146,7 +145,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		/* Benutzer ausgeben. */
 		
 		$msg .= "<p style=\"text-align:center;\">";
-		$msg .= $t["statistik_durchschnitt"] . " $d - " . $t["statistik_hoechste_anzahl"] . " $b";
+		$msg .= $lang["statistik_durchschnitt"] . " $d - " . $lang["statistik_hoechste_anzahl"] . " $b";
 		$msg .= "</p>\n";
 		$msg .= "</div>\n";
 	}

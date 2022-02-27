@@ -1,19 +1,19 @@
 <?php
 function frameset_forum() {
-	global $t;
+	global $lang;
 	?>
 	<frameset rows="100,*" border="0" frameborder="0" framespacing="0">
 		<frame src="navigation.php" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
 		<frame src="forum.php" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
 	</frameset>
 	<noframes>
-	<?php echo $t['login_fehlermeldung_login_fehlermeldung_frames']; ?>
+	<?php echo $lang['login_fehlermeldung_login_fehlermeldung_frames']; ?>
 	</noframes>
 	<?php
 }
 
 function frameset_chat() {
-	global $t, $u_level;
+	global $lang, $u_level;
 	
 	if ($u_level == "M") {
 		echo "<frameset rows=\"65,*,94,65,280\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
@@ -37,7 +37,7 @@ function frameset_chat() {
 		?>
 	</frameset>
 	<noframes>
-	<?php echo $t['login_fehlermeldung_login_fehlermeldung_frames']; ?>
+	<?php echo $lang['login_fehlermeldung_login_fehlermeldung_frames']; ?>
 	</noframes>
 	<?php
 }

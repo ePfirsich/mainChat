@@ -2,7 +2,7 @@
 function user_edit($text, $f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
-	global $level, $user_farbe, $t;
+	global $level, $user_farbe, $lang;
 	global $u_id, $punktefeatures, $eintritt_individuell;
 	
 	// Ausgabe des Benutzers
@@ -11,7 +11,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	
 	if ($u_level != "G") {
 		// Überschrift: Avatar
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_avatar'], "", "", 0, "70", "");
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_avatar'], "", "", 0, "70", "");
 		
 		// Avatar lesen und in Array speichern
 		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM `bild` WHERE b_name = 'avatar' AND b_user = " . $f['u_id'];
@@ -59,19 +59,19 @@ function user_edit($text, $f, $admin, $u_level) {
 	$zaehler = 0;
 	
 	// Überschrift: Benutzerdaten
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_benutzerdaten'], "", "", 0, "70", "");
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_benutzername'], "u_nick", $f['u_nick']);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_benutzername'], "u_nick", $f['u_nick']);
 	$zaehler++;
 	
 	// E-Mail (Nur Admins können sie direkt ändern)
 	if ($admin) {
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_email_intern'], "u_email", $f['u_email']);
 		$zaehler++;
 	} else if ($u_level == 'U') {
-		$value = $f['u_email'] . " (<a href=\"inhalt.php?bereich=einstellungen&aktion=email_aendern\">$t[benutzer_avatar_aendern]</a>)";
-		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", $value);
+		$value = $f['u_email'] . " (<a href=\"inhalt.php?bereich=einstellungen&aktion=email_aendern\">$lang[benutzer_avatar_aendern]</a>)";
+		$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_email_intern'], "", $value);
 		$zaehler++;
 	}
 	
@@ -80,44 +80,44 @@ function user_edit($text, $f, $admin, $u_level) {
 		if (!isset($f['u_kommentar'])) {
 			$f['u_kommentar'] = "";
 		}
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_kommentar'], "u_kommentar", $f['u_kommentar']);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_kommentar'], "u_kommentar", $f['u_kommentar']);
 		$zaehler++;
 	}
 	
 	// Für alle außer Gäste
 	if ($u_level != "G") {
 		// Signatur
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_signatur'], "u_signatur", $f['u_signatur']);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_signatur'], "u_signatur", $f['u_signatur']);
 		$zaehler++;
 		
 		if ($eintritt_individuell == "1") {
 			// Eintrittsnachricht
-			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_eintrittsnachricht'], "u_eintritt", $f['u_eintritt']);
+			$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_eintrittsnachricht'], "u_eintritt", $f['u_eintritt']);
 			$zaehler++;
 			
 			// Austrittsnachricht
-			$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_austrittsnachricht'], "u_austritt", $f['u_austritt']);
+			$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_austrittsnachricht'], "u_austritt", $f['u_austritt']);
 			$zaehler++;
 		}
 		
 		$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 		
 		// Überschrift: Passwort ändern
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_passwort_aendern'], "", "", 0, "70", "");
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_passwort_aendern'], "", "", 0, "70", "");
 		
 		// Neues Passwort
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort'], "u_passwort", "");
+		$text .= zeige_formularfelder("password", $zaehler, $lang['benutzer_neues_passwort'], "u_passwort", "");
 		$zaehler++;
 		
 		// Neues Passwort wiederholen
-		$text .= zeige_formularfelder("password", $zaehler, $t['benutzer_neues_passwort_wiederholen'], "u_passwort2", "");
+		$text .= zeige_formularfelder("password", $zaehler, $lang['benutzer_neues_passwort_wiederholen'], "u_passwort2", "");
 		$zaehler++;
 	}
 	
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	// Überschrift: Farbeinstellungen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_farbeinstellungen'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_farbeinstellungen'], "", "", 0, "70", "");
 	
 	// Standardfarbe setzen, falls undefiniert
 	if (strlen($f['u_farbe']) == 0) {
@@ -131,7 +131,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_farbe'] . "</td>\n";
 	$text .= "<td $bgcolor>";
 	$text .= "<input type=\"text\" data-wheelcolorpicker name=\"u_farbe\" value=\"$f[u_farbe]\" />";
 	$text .= "</td>\n";
@@ -145,7 +145,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_aktuell_gespeicherte_farbe'] . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_aktuell_gespeicherte_farbe'] . "</td>\n";
 	$text .= "<td style=\"background-color:#" . $f['u_farbe'] . ";\">&nbsp;</td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
@@ -153,12 +153,12 @@ function user_edit($text, $f, $admin, $u_level) {
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	// Überschrift: Allgemeine Einstellungen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_allgemeine_einstellungen'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_allgemeine_einstellungen'], "", "", 0, "70", "");
 	
 	// E-Mails von anderen Benutzern akzeptieren
 	if ($u_level != 'G') {
-		$value = array($t['einstellungen_verbieten'], $t['einstellungen_erlauben']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_emails_akzeptieren'], "u_emails_akzeptieren", $value, $f['u_emails_akzeptieren']);
+		$value = array($lang['einstellungen_verbieten'], $lang['einstellungen_erlauben']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_emails_akzeptieren'], "u_emails_akzeptieren", $value, $f['u_emails_akzeptieren']);
 		$zaehler++;
 	} else {
 		$text .=  "<input type=\"hidden\" name=\"u_emails_akzeptieren\" value=\"$f[u_emails_akzeptieren]\">\n";
@@ -166,43 +166,43 @@ function user_edit($text, $f, $admin, $u_level) {
 	
 	// System Ein/Austrittsnachrichten anzeigen/verbergen
 	if ($u_level != "G") {
-		$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
+		$value = array($lang['einstellungen_unterdruecken'], $lang['einstellungen_anzeigen']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_systemmeldungen'], "u_systemmeldungen", $value, $f['u_systemmeldungen']);
 		$zaehler++;
 	}
 	
 	// Avatare im Chat anzeigen/verbergen
-	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_avatare_im_chat'], "u_avatare_anzeigen", $value, $f['u_avatare_anzeigen']);
+	$value = array($lang['einstellungen_unterdruecken'], $lang['einstellungen_anzeigen']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_avatare_im_chat'], "u_avatare_anzeigen", $value, $f['u_avatare_anzeigen']);
 	$zaehler++;
 	
 	// Farbe des Chats
-	$value = array($t['benutzer_farbe_des_chats_blau'], $t['benutzer_farbe_des_chats_gruen'], $t['benutzer_farbe_des_chats_rot'], $t['benutzer_farbe_des_chats_pink']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_farbe_des_chats'], "u_layout_farbe", $value, $f['u_layout_farbe']);
+	$value = array($lang['benutzer_farbe_des_chats_blau'], $lang['benutzer_farbe_des_chats_gruen'], $lang['benutzer_farbe_des_chats_rot'], $lang['benutzer_farbe_des_chats_pink']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_farbe_des_chats'], "u_layout_farbe", $value, $f['u_layout_farbe']);
 	$zaehler++;
 	
 	// Darstellung der Nachrichten im Chat
 	if ($u_level != "G") {
-		$value = array($t['benutzer_darstellung_der_nachrichten_privat'], $t['benutzer_darstellung_der_nachrichten_standard']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_darstellung_der_nachrichten'], "u_layout_chat_darstellung", $value, $f['u_layout_chat_darstellung']);
+		$value = array($lang['benutzer_darstellung_der_nachrichten_privat'], $lang['benutzer_darstellung_der_nachrichten_standard']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_darstellung_der_nachrichten'], "u_layout_chat_darstellung", $value, $f['u_layout_chat_darstellung']);
 		$zaehler++;
 	}
 	
 	// Smilies
-	$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_smilies'], "u_smilies", $value, $f['u_smilies']);
+	$value = array($lang['einstellungen_unterdruecken'], $lang['einstellungen_anzeigen']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_smilies'], "u_smilies", $value, $f['u_smilies']);
 	$zaehler++;
 	
 	// Eigenen Punktewürfel
 	if ($u_level <> 'G' && $punktefeatures) {
-		$value = array($t['einstellungen_unterdruecken'], $t['einstellungen_anzeigen']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_eigener_punktewuerfel'], "u_punkte_anzeigen", $value, $f['u_punkte_anzeigen']);
+		$value = array($lang['einstellungen_unterdruecken'], $lang['einstellungen_anzeigen']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_eigener_punktewuerfel'], "u_punkte_anzeigen", $value, $f['u_punkte_anzeigen']);
 		$zaehler++;
 	}
 	
 	// Sicherer Modus
-	$value = array($t['benutzer_modus_normal'], $t['benutzer_modus_sicher']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_modus'], "u_sicherer_modus", $value, $f['u_sicherer_modus']);
+	$value = array($lang['benutzer_modus_normal'], $lang['benutzer_modus_sicher']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_modus'], "u_sicherer_modus", $value, $f['u_sicherer_modus']);
 	$zaehler++;
 	
 	// Level nur für Admins
@@ -214,7 +214,7 @@ function user_edit($text, $f, $admin, $u_level) {
 		}
 		
 		$text .= "<tr>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_level'] . "</td>";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_level'] . "</td>";
 		$text .= "<td $bgcolor><select name=\"u_level\">\n";
 		
 		// Liste der Gruppen ausgeben
@@ -249,7 +249,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 	
 	// Überschrift: Geänderte Einstellungen
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_geaenderte_einstellungen'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_geaenderte_einstellungen'], "", "", 0, "70", "");
 	
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
@@ -257,8 +257,8 @@ function user_edit($text, $f, $admin, $u_level) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	$text .= "<tr>";
-	$text .= "<td $bgcolor><input type=\"reset\" value=\"$t[einstellungen_zuruecksetzen]\"> $t[einstellungen_zuruecksetzen_beschreibung]</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"reset\" value=\"$lang[einstellungen_zuruecksetzen]\"> $lang[einstellungen_zuruecksetzen_beschreibung]</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -266,7 +266,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	$text .= "</form>\n";
 	
 	// Kopf Tabelle Benutzerinfo
-	$box = str_replace("%user%", $f['u_nick'], $t['einstellungen_benutzer']);
+	$box = str_replace("%user%", $f['u_nick'], $lang['einstellungen_benutzer']);
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
@@ -276,7 +276,7 @@ function zeige_aktionen() {
 	// Zeigt Matrix der Aktionen an
 	// Definition der aktionen in config.php ($def_was)
 	
-	global $u_id, $def_was, $t, $forumfeatures;
+	global $u_id, $def_was, $lang, $forumfeatures;
 	
 	$text = '';
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
@@ -384,7 +384,7 @@ function zeige_aktionen() {
 	
 	$text .= "<tr>\n";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"uebergabe\" value=\"$t[einstellungen_speichern]\">" . "</td>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"4\"><input type=\"submit\" name=\"uebergabe\" value=\"$lang[einstellungen_speichern]\">" . "</td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	$text .= "</form>\n";
@@ -395,7 +395,7 @@ function zeige_aktionen() {
 function eintrag_aktionen($aktion_datensatz) {
 	// Array mit definierten Aktionen in die DB schreiben
 	
-	global $def_was, $u_id, $t;
+	global $def_was, $u_id, $lang;
 	
 	// Alle möglichen a_wann in Array lesen
 	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
@@ -423,24 +423,24 @@ function eintrag_aktionen($aktion_datensatz) {
 			schreibe_db("aktion", $f, $temp[0], "a_id");
 		}
 	}
-	$erfolgsmeldung = $t['einstellungen_erfolgsmeldung_einstellungen'];
+	$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_einstellungen'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
 }
 
 function formular_email_aendern($f) {
-	global $t;
+	global $lang;
 	
 	$text = '';
-	$box = str_replace("%u_nick%", $f['u_nick'], $t['einstellungen_email_aendern']);
+	$box = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_email_aendern']);
 	
-	$text .= $t['einstellungen_email_aendern_inhalt'] . "\n";
+	$text .= $lang['einstellungen_email_aendern_inhalt'] . "\n";
 	$text .= "<form action=\"inhalt.php?bereich=einstellungen\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$f[u_id]\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"email_aendern_final\">\n";
 	$text .= "<table style=\"width:100%;\">";
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_email_intern'], "u_email", $f['u_email']);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_email_intern'], "u_email", $f['u_email']);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -451,7 +451,7 @@ function formular_email_aendern($f) {
 	
 	$text .= "<tr>\n";
 	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>";
-	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_speichern]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_speichern]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	$text .= "</form>\n";

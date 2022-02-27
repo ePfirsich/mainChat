@@ -2,9 +2,9 @@
 
 // Sprachdefinition deutsch user.php
 
-$t['benutzerliste_benutzer'] = "Benutzer";
-$t['benutzerliste_smilies'] = "Smilies";
-$t['benutzerliste_aktualisieren'] = "Aktualisieren";
-$t['benutzerliste_private_nachrichten'] = "Private Nachrichten";
-$t['benutzerliste_raum'] = "Raum: ";
+$lang['benutzerliste_benutzer'] = "Benutzer";
+$lang['benutzerliste_smilies'] = "Smilies";
+$lang['benutzerliste_aktualisieren'] = "Aktualisieren";
+$lang['benutzerliste_private_nachrichten'] = "Private Nachrichten";
+$lang['benutzerliste_raum'] = "Raum: ";
 ?>

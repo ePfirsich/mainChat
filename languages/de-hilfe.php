@@ -1,26 +1,26 @@
 <?php
 // Übersetzungen von "Hilfe"
-$t['titel'] = "Hilfe";
+$lang['titel'] = "Hilfe";
 
-$t['hilfe_menue4'] = "Übersicht";
-$t['hilfe_menue5'] = "Liste aller Befehle";
-$t['hilfe_menue6'] = "Liste aller Sprüche";
-$t['hilfe_menue7'] = "Punkte/Community";
+$lang['hilfe_menue4'] = "Übersicht";
+$lang['hilfe_menue5'] = "Liste aller Befehle";
+$lang['hilfe_menue6'] = "Liste aller Sprüche";
+$lang['hilfe_menue7'] = "Punkte/Community";
 
-$t['hilfe_uebersicht_befehle'] = "Übersicht über alle Befehle im Chat";
-$t['hilfe_allgemeines_format'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";
-$t['hilfe_sprueche'] = "Hilfe zu den voreingestellten Sprüchen";
-$t['hilfe_uebersicht_sprueche'] = "Übersicht über alle voreingestellten Sprüche";
-$t['hilfe_hilfe'] = "Hilfe";
-$t['hilfe_zusaetzliche_befehle'] = "Zusätzliche Befehle für Admins";
-$t['hilfe_community'] = "Community: Punkte, Profil, Mail, Freunde und Benutzerseite";
-$t['hilfe_befehl'] = "Befehl";
-$t['hilfe_funktion'] = "Funktion";
-$t['hilfe_aliase'] = "Aliase";
-$t['hilfe_anmerkung'] = "Anmerkungen";
-$t['hilfe_spruch'] = "Spruch";
-$t['hilfe_typ'] = "Typ";
-$t['hilfe_text'] = "Text";
+$lang['hilfe_uebersicht_befehle'] = "Übersicht über alle Befehle im Chat";
+$lang['hilfe_allgemeines_format'] = "<b>Allgemeines Format:</b> /BEFEHL OPTION OPTION...";
+$lang['hilfe_sprueche'] = "Hilfe zu den voreingestellten Sprüchen";
+$lang['hilfe_uebersicht_sprueche'] = "Übersicht über alle voreingestellten Sprüche";
+$lang['hilfe_hilfe'] = "Hilfe";
+$lang['hilfe_zusaetzliche_befehle'] = "Zusätzliche Befehle für Admins";
+$lang['hilfe_community'] = "Community: Punkte, Profil, Mail, Freunde und Benutzerseite";
+$lang['hilfe_befehl'] = "Befehl";
+$lang['hilfe_funktion'] = "Funktion";
+$lang['hilfe_aliase'] = "Aliase";
+$lang['hilfe_anmerkung'] = "Anmerkungen";
+$lang['hilfe_spruch'] = "Spruch";
+$lang['hilfe_typ'] = "Typ";
+$lang['hilfe_text'] = "Text";
 
 // Ausführlicher Hilfstext für die interaktive Hilfe
 $hilfe_befehlstext = array(

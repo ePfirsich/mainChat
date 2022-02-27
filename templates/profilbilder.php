@@ -28,7 +28,7 @@ if ($ui_id != "") {
 				// Fehlermeldungen anzeigen
 				$text .= hinweis($fehlermeldung, "fehler");
 			} else {
-				$erfolgsmeldung = $t['profilbilder_erfolgsmeldung_bild_hochgeladen'];
+				$erfolgsmeldung = $lang['profilbilder_erfolgsmeldung_bild_hochgeladen'];
 				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			}
 		}
@@ -47,7 +47,7 @@ if ($result && mysqli_num_rows($result) == 1) {
 	$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	
 	// HP-Tabelle ausgeben
-	$box = $t['profil_bilder_hochladen'];
+	$box = $lang['profil_bilder_hochladen'];
 	
 	$text .= "<form enctype=\"multipart/form-data\" name=\"home\" action=\"inhalt.php?bereich=profilbilder\" method=\"post\">\n"
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"aendern\">\n";
@@ -62,7 +62,7 @@ if ($result && mysqli_num_rows($result) == 1) {
 	zeige_tabelle_zentriert($box, $text);
 } else {
 	// Erst Profil anlegen
-	zeige_tabelle_zentriert($t['neues_profil'], $t['neues_profil_beschreibung']);
+	zeige_tabelle_zentriert($lang['neues_profil'], $lang['neues_profil_beschreibung']);
 }
 mysqli_free_result($result);
 ?>

@@ -43,7 +43,7 @@ if ($admin && isset($kick_user_chat) && $ui_id) {
 		
 		mysqli_free_result($result);
 	} else {
-		$fehlermeldung = $t['benutzer_fehlermeldung_kicken'];
+		$fehlermeldung = $lang['benutzer_fehlermeldung_kicken'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 }
@@ -176,8 +176,8 @@ switch ($aktion) {
 					$suchtext = "";
 				}
 				
-				$box = $t['benutzer_suchergebnisse'];
-				$fehlermeldung = str_replace("%suchtext%", $suchtext, $t['benutzer_suche_kein_treffer']);
+				$box = $lang['benutzer_suchergebnisse'];
+				$fehlermeldung = str_replace("%suchtext%", $suchtext, $lang['benutzer_suche_kein_treffer']);
 				$text .= hinweis($fehlermeldung, "fehler");
 				
 				// Zeige die Tabelle mit den Suchergebnissen an
@@ -185,9 +185,9 @@ switch ($aktion) {
 			} else {
 				// Bei mehr als 1000 Ergebnissen Fehlermeldung ausgeben
 				if ($anzahl > 2000) {
-					$box = $t['benutzer_suchergebnisse'];
+					$box = $lang['benutzer_suchergebnisse'];
 					
-					$fehlermeldung = $t['benutzer_suche_mehr_2000_benutzer'];
+					$fehlermeldung = $lang['benutzer_suche_mehr_2000_benutzer'];
 					$text = hinweis($fehlermeldung, "fehler");
 					
 					// Zeige die Tabelle mit den Suchergebnissen an
@@ -195,9 +195,9 @@ switch ($aktion) {
 				} else {
 					// Mehrere Benutzer gefunden
 					if($anzahl == 1) {
-						$erfolgsmeldung = $t['benutzer_suche_treffer_einzahl'];
+						$erfolgsmeldung = $lang['benutzer_suche_treffer_einzahl'];
 					} else {
-						$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $t['benutzer_suche_treffer']);
+						$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $lang['benutzer_suche_treffer']);
 					}
 					$text = hinweis($erfolgsmeldung, "erfolgreich");
 					
@@ -220,7 +220,7 @@ switch ($aktion) {
 					}
 					mysqli_free_result($result);
 					
-					$box = $t['benutzer_suchergebnisse'];
+					$box = $lang['benutzer_suchergebnisse'];
 					$text .= user_liste($larr, false);
 					
 					// Zeige die Tabelle mit den Suchergenissen an
@@ -264,7 +264,7 @@ switch ($aktion) {
 			
 			$rows = count($larr);
 			
-			$box = $t['adminliste'];
+			$box = $lang['adminliste'];
 			$text = user_liste($larr, false);
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -279,10 +279,10 @@ switch ($aktion) {
 		if ($ui_id) {
 			user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip);
 		} else {
-			$fehlermeldung = $t['benutzer_nicht_mehr_in_diesem_raum'];
+			$fehlermeldung = $lang['benutzer_nicht_mehr_in_diesem_raum'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
-			$box =$t['titel'];
+			$box =$lang['titel'];
 			zeige_tabelle_zentriert($box, $text);
 		}
 		
@@ -320,7 +320,7 @@ switch ($aktion) {
 			if (!$row['r_name'] || $row['r_name'] == "NULL") {
 				$larr[$i]['r_name'] = "[" . $whotext[($schau_raum * (-1))] . "]";
 			} else {
-				$larr[$i]['r_name'] = $t['benutzer_raum'] . $row['r_name'];
+				$larr[$i]['r_name'] = $lang['benutzer_raum'] . $row['r_name'];
 			}
 			
 			// Spezialbehandlung für Admins
@@ -344,25 +344,25 @@ switch ($aktion) {
 		
 		// Fehlerbehandlung, falls Arry leer ist -> nichts gefunden
 		if (!$rows && $schau_raum > 0) {
-			$box = $t['benutzer_raum'];
+			$box = $lang['benutzer_raum'];
 			
 			$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
 			$result = sqlQuery($query);
 			if ($result && mysqli_num_rows($result) != 0) {
 				$r_name = mysqli_result($result, 0, 0);
 			}
-			$fehlermeldung = str_replace("%r_name%", $r_name, $t['benutzer_raum_leer']);
+			$fehlermeldung = str_replace("%r_name%", $r_name, $lang['benutzer_raum_leer']);
 			
 			$text .= hinweis($fehlermeldung, "fehler");
 		} elseif (!$rows && $schau_raum < 0) {
-			$box = $t['benutzer_raum'];
+			$box = $lang['benutzer_raum'];
 			
-			$fehlermeldung = str_replace("%whotext%", $whotext[($schau_raum * (-1))], $t['benutzer_raum_niemand']);
+			$fehlermeldung = str_replace("%whotext%", $whotext[($schau_raum * (-1))], $lang['benutzer_raum_niemand']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else { // array ist gefüllt -> Daten ausgeben
 			$box = $larr[0]['r_name'];
 			
-			$text .= ($larr[0]['r_topic'] ? "<span class=\"smaller\">$t[benutzer_raum_topic]: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";
+			$text .= ($larr[0]['r_topic'] ? "<span class=\"smaller\">$lang[benutzer_raum_topic]: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";
 			
 			// Benutzerliste ausgeben
 			$text .= user_liste($larr, false);
@@ -373,7 +373,7 @@ switch ($aktion) {
 			
 			// Raumauswahl
 			$text = '';
-			$box = $t['benutzer_raum_anderen_raum_zeigen'];
+			$box = $lang['benutzer_raum_anderen_raum_zeigen'];
 			
 			$text .= "<form name=\"raum\" action=\"inhalt.php?bereich=benutzer\" method=\"post\">";
 			$text .= "<select name=\"schau_raum\" onChange=\"document.raum.submit()\">";
@@ -383,7 +383,7 @@ switch ($aktion) {
 				$text .= raeume_auswahl($schau_raum, FALSE, FALSE, FALSE);
 			}
 			$text .= "</select>";
-			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[benutzer_absenden]\">";
+			$text .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[benutzer_absenden]\">";
 			$text .= "</form>";
 		}
 		

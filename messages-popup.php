@@ -33,7 +33,7 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
 // Aktuelle Privat- und Systemnachrichten oder Statusmeldung ausgeben
 if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, $benutzerdaten, TRUE, $user)) {
-	echo $t['chat_msg106'];
+	echo $lang['chat_msg106'];
 }
 
 $query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user;

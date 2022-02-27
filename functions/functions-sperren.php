@@ -1,6 +1,6 @@
 <?php
 function sperren_liste($text) {
-	global $t, $raumsperre, $sperre_dialup, $locale;
+	global $lang, $raumsperre, $sperre_dialup, $locale;
 	
 	$sperr = "";
 	
@@ -35,11 +35,11 @@ function sperren_liste($text) {
 		
 		$text .= "<table style=\"width:100%\">\n";
 		$text .= "<tr>\n";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[sperren_adresse]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[sperren_info]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[sperren_art]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[sperren_eintrag]</td>";
-		$text .= "<td class=\"tabelle_kopfzeile\">$t[sperren_aktion]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[sperren_adresse]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[sperren_info]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[sperren_art]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[sperren_eintrag]</td>";
+		$text .= "<td class=\"tabelle_kopfzeile\">$lang[sperren_aktion]</td>";
 		$text .= "</tr>\n";
 		
 		while ($i < $rows) {
@@ -92,9 +92,9 @@ function sperren_liste($text) {
 			
 			// Nur Warnung ja/nein
 			if ($row->is_warn == "ja") {
-				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sperren_warnung'] . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $lang['sperren_warnung'] . "</td>\n";
 			} else {
-				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $t['sperren_sperre'] . "</td>\n";
+				$text .= "<td style=\"vertical-align:middle;\" $bgcolor>" . $lang['sperren_sperre'] . "</td>\n";
 			}
 			
 			// Eintrag - Benutzer und Datum
@@ -104,14 +104,14 @@ function sperren_liste($text) {
 			
 			// Aktion
 			if ($row->is_domain == "-GLOBAL-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\" class=\"button\" title=\"$lang[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[sperren_deaktivieren]</span></a></td>\n";
 			} elseif ($row->is_domain == "-GAST-") {
-				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\" class=\"button\" title=\"$t[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_deaktivieren]</span></a></td>\n";
+				$text .= "<td $bgcolor><a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\" class=\"button\" title=\"$lang[sperren_deaktivieren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[sperren_deaktivieren]</span></a></td>\n";
 			} else {
 				$text .= "<td $bgcolor>";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_aendern]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$t[sperren_aendern]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=aendern&is_id=$row->is_id\" class=\"button\" title=\"$lang[sperren_aendern]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[sperren_aendern]</span></a>";
 				$text .= "&nbsp;";
-				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$t[sperren_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[sperren_loeschen]</span></a>";
+				$text .= "<a href=\"inhalt.php?bereich=sperren&aktion=loeschen&is_id=$row->is_id\" class=\"button\" title=\"$lang[sperren_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[sperren_loeschen]</span></a>";
 				$text .= "</td>";
 			}
 			$text .= "</tr>\n";
@@ -121,18 +121,18 @@ function sperren_liste($text) {
 		
 		$text .= "</table>\n";
 	} else {
-		$text .= "<p style=\"text-align:center;\">$t[sperren_keine_zugangssperren_definiert]</p>\n";
+		$text .= "<p style=\"text-align:center;\">$lang[sperren_keine_zugangssperren_definiert]</p>\n";
 	}
 	
 	mysqli_free_result($result);
 	
-	zeige_tabelle_zentriert($t['sperren_menue1'], $text);
+	zeige_tabelle_zentriert($lang['sperren_menue1'], $text);
 }
 
 function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 	// Zeigt Liste der Blacklist an
 	
-	global $t, $blacklistmaxdays, $locale;
+	global $lang, $blacklistmaxdays, $locale;
 	
 	$blurl = "inhalt.php?bereich=sperren&aktion=blacklist&sort=";
 	
@@ -188,14 +188,14 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 		$anzahl = mysqli_num_rows($result);
 		if ($anzahl == 0) {
 			// Keine Blacklist-Einträge
-			$text .= "<tr><td style=\"text-align:left;\" class=\"tabelle_zeile1\">$t[sperren_blackliste_leer]</td></tr>";
+			$text .= "<tr><td style=\"text-align:left;\" class=\"tabelle_zeile1\">$lang[sperren_blackliste_leer]</td></tr>";
 			
 		} else {
 			$text .= "<tr><td style=\"width:5%;\" class=\"tabelle_kopfzeile\">&nbsp;</td>\n";
-			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\"><a href=\"" . $blurl . $usort . "\">$t[sperren_benutzername]</a></td>\n";
-			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">$t[sperren_info]</td>\n";
-			$text .= "<td style=\"width:13%; text-align:center;\" class=\"tabelle_kopfzeile\"><a href=\"" . $blurl . $fsort . "\">$t[sperren_eintrag]</a></td>\n";
-			$text .= "<td style=\"width:13%; text-align:center;\" class=\"tabelle_kopfzeile\">$t[sperren_eintrag_von]</td></tr>\n";
+			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\"><a href=\"" . $blurl . $usort . "\">$lang[sperren_benutzername]</a></td>\n";
+			$text .= "<td style=\"width:35%;\" class=\"tabelle_kopfzeile\">$lang[sperren_info]</td>\n";
+			$text .= "<td style=\"width:13%; text-align:center;\" class=\"tabelle_kopfzeile\"><a href=\"" . $blurl . $fsort . "\">$lang[sperren_eintrag]</a></td>\n";
+			$text .= "<td style=\"width:13%; text-align:center;\" class=\"tabelle_kopfzeile\">$lang[sperren_eintrag_von]</td></tr>\n";
 			
 			$i = 0;
 			while ($row = mysqli_fetch_object($result)) {
@@ -259,15 +259,15 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 				$i++;
 			}
 			
-			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">$t[sperren_alle_auswaehlen]</td>\n";
-			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\"><input type=\"submit\" value=\"$t[sperren_loeschen]\"></td>\n";
+			$text .= "<tr><td $bgcolor colspan=\"2\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\">$lang[sperren_alle_auswaehlen]</td>\n";
+			$text .= "<td style=\"text-align:right;\" $bgcolor colspan=\"3\"><input type=\"submit\" value=\"$lang[sperren_loeschen]\"></td>\n";
 			$text .= "</tr>\n";
 		}
 		
 		$text .= "</table></form>\n";
 	}
 	
-	$box = $t['sperren_blacklist'];
+	$box = $lang['sperren_blacklist'];
 	
 	// Box anzeigen
 	zeige_tabelle_zentriert($box, $text);
@@ -276,12 +276,12 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 function loesche_blacklist($blacklist_id) {
 	// Löscht Blacklist-Eintrag aus der Tabelle mit f_blacklistid
 	// $blacklist_id Benutzer-ID des Blacklist-Eintrags
-	global $admin, $t;
+	global $admin, $lang;
 	
 	$text = "";
 	if (!$admin || !$blacklist_id) {
 		// Box anzeigen
-		$fehlermeldung = $t['sperren_fehlermeldung_fehler_beim_loeschen'];
+		$fehlermeldung = $lang['sperren_fehlermeldung_fehler_beim_loeschen'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$blacklist_id = intval($blacklist_id);
@@ -291,13 +291,13 @@ function loesche_blacklist($blacklist_id) {
 		if ($result && mysqli_num_rows($result) != 0) {
 			$f_text = mysqli_result($result, 0, 0);
 			
-			$erfolgsmeldung = str_replace("%username%", $f_text, $t['sperren_erfolgsmeldung_blacklisteintrag_geloescht']);
+			$erfolgsmeldung = str_replace("%username%", $f_text, $lang['sperren_erfolgsmeldung_blacklisteintrag_geloescht']);
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			
 			$query = "DELETE FROM `blacklist` WHERE `f_blacklistid` = $blacklist_id";
 			$result = sqlUpdate($query);
 		} else {
-			$fehlermeldung = $t['sperren_fehlermeldung_fehler_beim_loeschen'];
+			$fehlermeldung = $lang['sperren_fehlermeldung_fehler_beim_loeschen'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 	}
@@ -307,9 +307,9 @@ function loesche_blacklist($blacklist_id) {
 
 function formular_neuer_blacklist($text, $daten) {
 	// Gibt Formular für Benutzernamen zum Hinzufügen als Blacklist-Eintrag aus
-	global $t;
+	global $lang;
 	
-	$box = $t['sperren_blacklist_neu'];
+	$box = $lang['sperren_blacklist_neu'];
 	
 	$zaehler = 0;
 	$text .= "<form name=\"blacklist_neu\" action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
@@ -317,11 +317,11 @@ function formular_neuer_blacklist($text, $daten) {
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"blacklist_neu2\">\n";
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_benutzername'], "daten_nick", htmlspecialchars($daten['u_nick']));
+	$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_benutzername'], "daten_nick", htmlspecialchars($daten['u_nick']));
 	$zaehler++;
 	
 	// Info
-	$text .= zeige_formularfelder("input", $zaehler, $t['sperren_info'], "daten_text", htmlspecialchars($daten['f_text']));
+	$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_info'], "daten_text", htmlspecialchars($daten['f_text']));
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -331,7 +331,7 @@ function formular_neuer_blacklist($text, $daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[sperren_eintragen]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[sperren_eintragen]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	$text .= "</form>\n";
@@ -342,12 +342,12 @@ function formular_neuer_blacklist($text, $daten) {
 
 function neuer_blacklist_eintrag($f_userid, $daten) {
 	// Trägt neuen Blacklist-Eintrag in der Datenbank ein
-	global $t;
+	global $lang;
 	
 	$text = "";
 	if (!$daten['id'] || !$f_userid) {
 		// Box anzeigen
-		$fehlermeldung = str_replace("%userid%", $f_userid, $t['sperren_fehlermeldung_fehler_beim_anlegen']);
+		$fehlermeldung = str_replace("%userid%", $f_userid, $lang['sperren_fehlermeldung_fehler_beim_anlegen']);
 		$fehlermeldung = str_replace("%eintrag%", $daten['id'], $fehlermeldung);
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
@@ -358,11 +358,11 @@ function neuer_blacklist_eintrag($f_userid, $daten) {
 			
 		$result = sqlQuery($query);
 		if ($result && mysqli_num_rows($result) > 0) {
-			$fehlermeldung = str_replace("%username%", $daten['u_nick'], $t['sperren_fehlermeldung_eintrag_bereits_vorhanden']);
+			$fehlermeldung = str_replace("%username%", $daten['u_nick'], $lang['sperren_fehlermeldung_eintrag_bereits_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($daten['id'] == $f_userid) {
 			// Eigener Blacklist-Eintrag ist verboten
-			$fehlermeldung = $t['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich'];
+			$fehlermeldung = $lang['sperren_fehlermeldung_selbst_hinzufuegen_nicht_moeglich'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Benutzer ist noch kein Blacklist-Eintrag -> hinzufügen
@@ -371,7 +371,7 @@ function neuer_blacklist_eintrag($f_userid, $daten) {
 			$f['f_text'] = htmlspecialchars($daten['f_text']);
 			schreibe_db("blacklist", $f, 0, "f_id");
 			
-			$erfolgsmeldung = str_replace("%username%", $daten['u_nick'], $t['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich']);
+			$erfolgsmeldung = str_replace("%username%", $daten['u_nick'], $lang['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich']);
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		}
 	}

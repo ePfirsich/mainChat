@@ -54,21 +54,21 @@ function mysqli_result($res,$row=0,$col=0) {
  * @return Ressource|false Das Ergebnis der Abfrage
  */
 function sqlQuery($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus, $t;
+	global $mysqli_link, $debug_modus, $lang;
 	
 	$res = mysqli_query($mysqli_link, $query);
 	if ($debug_modus && mysqli_error($mysqli_link)) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, $t['sql_query_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
+		email_senden($kontakt, $lang['sql_query_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
 		return false;
 	}
 	if ($debug_modus && !$res && !$keineNachricht) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, $t['sql_query_kein_ergebnis'], $query);
+		email_senden($kontakt, $lang['sql_query_kein_ergebnis'], $query);
 	}
 	return $res;
 }
@@ -81,14 +81,14 @@ function sqlQuery($query, $keineNachricht = false) {
  * @return int|false Wie viele Zeilen geändert wurden
  */
 function sqlUpdate($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus, $t;
+	global $mysqli_link, $debug_modus, $lang;
 	
 	$res = mysqli_query($mysqli_link, $query);
 	if ($debug_modus && !$res || mysqli_error($mysqli_link)) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, $t['sql_update_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
+		email_senden($kontakt, $lang['sql_update_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
 		return false;
 	}
 	$ret = mysqli_affected_rows($mysqli_link);
@@ -96,7 +96,7 @@ function sqlUpdate($query, $keineNachricht = false) {
 		global $kontakt;
 		
 		// E-Mail versenden
-		email_senden($kontakt, $t['sql_update_keine_aendern'], $query.'<br><pre>'.print_r(debug_backtrace(), 1));
+		email_senden($kontakt, $lang['sql_update_keine_aendern'], $query.'<br><pre>'.print_r(debug_backtrace(), 1));
 	}
 	return $ret;
 }
@@ -109,7 +109,7 @@ function escape_string($value) {
 
 function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	// Gibt die Benutzer im Raum r_id im Text an $u_id aus
-	global $timeout, $t, $leveltext, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
+	global $timeout, $lang, $leveltext, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
 		$query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
@@ -123,7 +123,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 			while ($row = mysqli_fetch_object($result)) {
 				// Beim ersten Durchlauf Namen des Raums einfügen
 				if ($i == 0) {
-					$text = str_replace("%r_name%", $row->r_name, $t['raum_user1']);
+					$text = str_replace("%r_name%", $row->r_name, $lang['raum_user1']);
 				}
 				
 				// Benutzerdaten lesen, Liste ausgeben
@@ -147,7 +147,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 			}
 		} else {
 			if($keine_benutzer_anzeigen) {
-				$text = $t['raum_user12'];
+				$text = $lang['raum_user12'];
 			} else {
 				$text = '';
 			}
@@ -656,17 +656,17 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $t, $logo;
+	global $lang, $logo;
 	
 	if($logo != "") {
 	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
 	}
 	
-	$box = $t['login_chatname'];
-	$text = "<a href=\"index.php\">$t[login_login]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=registrierung\">$t[login_registrierung]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=chatiquette\">$t[login_chatiquette]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$t[login_nutzungsbestimmungen]</a>\n";
+	$box = $lang['login_chatname'];
+	$text = "<a href=\"index.php\">$lang[login_login]</a>\n";
+	$text .= "| <a href=\"index.php?bereich=registrierung\">$lang[login_registrierung]</a>\n";
+	$text .= "| <a href=\"index.php?bereich=chatiquette\">$lang[login_chatiquette]</a>\n";
+	$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$lang[login_nutzungsbestimmungen]</a>\n";
 	
 	zeige_tabelle_volle_breite($box, $text);
 }
@@ -762,7 +762,7 @@ function debug($text = "", $rundung = 3) {
 }
 
 function zeige_smilies($anzeigeort, $benutzerdaten) {
-	global $t, $smilie, $smilietxt;
+	global $smilie, $smilietxt;
 	
 	$text = "";
 	if( $anzeigeort == 'chat' ) { // Chatausgabe
@@ -802,7 +802,7 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
-	global $system_farbe, $t, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
+	global $system_farbe, $lang, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
 	
 	$text = "";
 	
@@ -972,15 +972,15 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 	
 	// Onlinezeit oder Datum des letzten Logins einfügen, falls Online Text fett ausgeben
 	if ($online_zeit && $online_zeit != "NULL" && $online) {
-		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $online_zeit), $t['chat_msg92']);
+		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $online_zeit), $lang['chat_msg92']);
 		$fett1 = "<b>";
 		$fett2 = "</b>";
 	} else if ($letzter_login && $letzter_login != "NULL" && $online) {
-		$text2 .= $trenner . str_replace("%login%", $letzter_login, $t['chat_msg94']);
+		$text2 .= $trenner . str_replace("%login%", $letzter_login, $lang['chat_msg94']);
 		$fett1 = "";
 		$fett2 = "";
 	} else if ($online) {
-		$text2 .= $trenner . $t['chat_msg93'];
+		$text2 .= $trenner . $lang['chat_msg93'];
 		$fett1 = "";
 		$fett2 = "";
 	} else {
@@ -1000,8 +1000,7 @@ function chat_parse($text) {
 	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</A>
 	// E-Mail Adressen in A-Tag mit Mailto
 	
-	global $admin, $sprachconfig, $u_id, $u_level;
-	global $t, $system_farbe;
+	global $admin, $sprachconfig, $u_id, $u_level, $system_farbe;
 	
 	$trans = get_html_translation_table(HTML_ENTITIES);
 	$trans = array_flip($trans);
@@ -1190,8 +1189,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// user $u_id/$u_nick verlässt $raum
 	// Nachricht in Raum $raum wird erzeugt
 	// Liefert ID des geschriebenen Datensatzes zurück
-	global $system_farbe, $t, $nachricht_vc;
-	global $eintritt_individuell, $lustigefeatures;
+	global $system_farbe, $nachricht_vc, $eintritt_individuell, $lustigefeatures;
 	$ergebnis = 0;
 	
 	// Nachricht an alle
@@ -1362,7 +1360,7 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 }
 
 function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, $maxHeight) {
-	global $t;
+	global $lang;
 	
 	if (is_array($bilder) && isset($bilder['avatar']) && $bilder['avatar']['b_mime']) {
 		$width = $bilder['avatar']['b_width'];
@@ -1381,7 +1379,7 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 		if ($aufruf == "avatar_aendern") {
 			// Avatar ändern
 			$text = "<td style=\"vertical-align:top;\"><img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\"><br>" . $info . "<br>";
-			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$t[benutzer_loeschen]</a>]</b><br><br></td>\n";
+			$text .= "<b>[<a href=\"inhalt.php?bereich=einstellungen&aktion=avatar_aendern&bildname=avatar&u_id=$u_id\">$lang[benutzer_loeschen]</a>]</b><br><br></td>\n";
 		} else if ($aufruf == "profil") {
 			// Profil
 			$text = "<img src=\"home_bild.php?u_id=$u_id&feld=avatar\" style=\"width:".$width."px; height:".$height."px;\" alt=\"$u_nick\">";
@@ -1398,7 +1396,7 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 		$text .= "<input type=\"hidden\" name=\"aktion\" value=\"avatar_aendern\">\n";
 		$text .= "<input type=\"hidden\" name=\"u_id\" value=\"$u_id\">\n";
 		$text .= "<input type=\"hidden\" name=\"aktion3\" value=\"avatar_hochladen\">\n";
-		$text .= "$t[user_kein_bild_hochgeladen] <input type=\"file\" name=\"avatar\" size=\"" . (55 / 8) . "\"><br>";
+		$text .= "$lang[user_kein_bild_hochgeladen] <input type=\"file\" name=\"avatar\" size=\"" . (55 / 8) . "\"><br>";
 		$text .= "<br><input type=\"submit\" value=\"GO\"></form><br><br></td>";
 	}
 	
@@ -1411,47 +1409,47 @@ function avatar_editieren_anzeigen($u_id, $u_nick, $bilder, $aufruf, $maxWidth, 
 
 function zeige_profilinformationen_von_id($profilfeld, $key) {
 	// Löse die IDs in menschliche Informationen auf
-	global $t, $sprache;
+	global $lang, $sprache;
 	
 	require_once("languages/$sprache-profil.php");
 	
 	if($profilfeld == "geschlecht") {
 		if($key == 1) {
-			return $t['profil_geschlecht_maennlich'];
+			return $lang['profil_geschlecht_maennlich'];
 		} else if($key == 2) {
-			return $t['profil_geschlecht_weiblich'];
+			return $lang['profil_geschlecht_weiblich'];
 		} else if($key == 3) {
-			return $t['profil_geschlecht_divers'];
+			return $lang['profil_geschlecht_divers'];
 		} else {
-			return $t['profil_keine_angabe'];
+			return $lang['profil_keine_angabe'];
 		}
 	} else if($profilfeld == "beziehungsstatus") {
 		if($key == 1) {
-			return $t['profil_verheiratet'];
+			return $lang['profil_verheiratet'];
 		} else if($key == 2) {
-			return $t['profil_ledig'];
+			return $lang['profil_ledig'];
 		} else if($key == 3) {
-			return $t['profil_vergeben'];
+			return $lang['profil_vergeben'];
 		} else if($key == 4) {
-			return $t['profil_single'];
+			return $lang['profil_single'];
 		} else {
-			return $t['profil_keine_angabe'];
+			return $lang['profil_keine_angabe'];
 		}
 	} else if($profilfeld == "typ") {
 		if($key == 1) {
-			return $t['profil_typ_zierlich'];
+			return $lang['profil_typ_zierlich'];
 		} else if($key == 2) {
-			return $t['profil_typ_schlank'];
+			return $lang['profil_typ_schlank'];
 		} else if($key == 3) {
-			return $t['profil_typ_sportlich'];
+			return $lang['profil_typ_sportlich'];
 		} else if($key == 4) {
-			return $t['profil_typ_normal'];
+			return $lang['profil_typ_normal'];
 		} else if($key == 5) {
-			return $t['profil_typ_mollig'];
+			return $lang['profil_typ_mollig'];
 		} else if($key == 6) {
-			return $t['profil_typ_dick'];
+			return $lang['profil_typ_dick'];
 		} else {
-			return $t['profil_keine_angabe'];
+			return $lang['profil_keine_angabe'];
 		}
 	} else {
 		return '';
@@ -1666,14 +1664,14 @@ function random_string() {
 }
 
 function hinweis($text, $typ = "fehler") {
-	global $t;
+	global $lang;
 	
 	if($typ == "fehler") {
-		return "<p class=\"fehler\"><span class=\"fa-solid fa-exclamation-triangle icon24\" alt=\"$t[hinweis_fehler]\" title=\"$t[hinweis_fehler]\"></span> $text</p>\n";
+		return "<p class=\"fehler\"><span class=\"fa-solid fa-exclamation-triangle icon24\" alt=\"$lang[hinweis_fehler]\" title=\"$lang[hinweis_fehler]\"></span> $text</p>\n";
 	} else if($typ == "erfolgreich") {
-		return "<p class=\"erfolgreich\"><span class=\"fa-solid fa-check-square icon24\" alt=\"$t[hinweis_erfolgreich]\" title=\"$t[hinweis_erfolgreich]\"></span> $text</p>\n";
+		return "<p class=\"erfolgreich\"><span class=\"fa-solid fa-check-square icon24\" alt=\"$lang[hinweis_erfolgreich]\" title=\"$lang[hinweis_erfolgreich]\"></span> $text</p>\n";
 	} else {
-		return "<p class=\"hinweis\"><span class=\"fa-solid fa-info icon24\" alt=\"$t[hinweis_hinweis]\" title=\"$t[hinweis_hinweis]\"></span> $text</p>\n";
+		return "<p class=\"hinweis\"><span class=\"fa-solid fa-info icon24\" alt=\"$lang[hinweis_hinweis]\" title=\"$lang[hinweis_hinweis]\"></span> $text</p>\n";
 	}
 }
 ?>

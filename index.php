@@ -167,7 +167,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 				$abweisen = false;
 				$t_u_id = $row->u_id;
 				$t_u_nick = $row->u_nick;
-				$infotext = str_replace("%punkte%", $row->u_punkte_gesamt, $t['ipsperre2']);
+				$infotext = str_replace("%punkte%", $row->u_punkte_gesamt, $lang['ipsperre2']);
 			}
 		}
 		mysqli_free_result($r);
@@ -191,7 +191,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 		$query2 = "SELECT o_user FROM online WHERE o_level='S' OR o_level='C'";
 		$result2 = sqlQuery($query2);
 		if ($result2 AND mysqli_num_rows($result2) > 0) {
-			$txt = str_replace("%ip_adr%", $http_x_forwarded_for, $t['ipsperre1']);
+			$txt = str_replace("%ip_adr%", $http_x_forwarded_for, $lang['ipsperre1']);
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
 			while ($row2 = mysqli_fetch_object($result2)) {
@@ -210,7 +210,7 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 $text = "";
 
 if($abweisen && (strlen($bereich) > 0) && $bereich <> "relogin") {
-	$fehlermeldung = $t['login_fehlermeldung_login_nicht_moeglich'];
+	$fehlermeldung = $lang['login_fehlermeldung_login_nicht_moeglich'];
 	$text .= hinweis($fehlermeldung, "fehler");
 	$bereich = "";
 }
@@ -248,7 +248,7 @@ if ($bereich == "abmelden") {
 	unset($_COOKIE['identifier']);
 	unset($_COOKIE['securitytoken']);
 	
-	$erfolgsmeldung = $t['login_erfolgsmeldung_abmeldung'];
+	$erfolgsmeldung = $lang['login_erfolgsmeldung_abmeldung'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	$automatische_anmeldung = false;
@@ -257,7 +257,7 @@ if ($bereich == "abmelden") {
 }
 
 // Falls in Loginmaske/Nutzungsbestimmungen auf Abbruch geklickt wurde
-if ($uebergabe == $t['login_nutzungsbestimmungen_abbruch'] && $bereich == "einloggen") {
+if ($uebergabe == $lang['login_nutzungsbestimmungen_abbruch'] && $bereich == "einloggen") {
 	$bereich = "";
 }
 
@@ -274,7 +274,7 @@ switch ($bereich) {
 		$zaehler = 0;
 		$text .= "<table style=\"width:100%;\">";
 		
-		$impressum = "<b>" . $t['impressum'] . "</b>";
+		$impressum = "<b>" . $lang['impressum'] . "</b>";
 		$impressum .= "<br>";
 		$impressum .= $impressum_name;
 		$impressum .= "<br>";
@@ -295,7 +295,7 @@ switch ($bereich) {
 		$text .= "</table>";
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_impressum'], $text);
+		zeige_tabelle_volle_breite($lang['login_impressum'], $text);
 		echo "</body>";
 		
 		break;
@@ -318,14 +318,14 @@ switch ($bereich) {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
 		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $t['datenschutzerklaerung'] . "</td>\n";
+		$text .= "<td $bgcolor>" . $lang['datenschutzerklaerung'] . "</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
 		$text .= "</table>";
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_datenschutzerklaerung'], $text);
+		zeige_tabelle_volle_breite($lang['login_datenschutzerklaerung'], $text);
 		echo "</body>";
 		
 		break;
@@ -355,7 +355,7 @@ switch ($bereich) {
 		$text .= "</table>";
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_chatiquette'], $text);
+		zeige_tabelle_volle_breite($lang['login_chatiquette'], $text);
 		echo "</body>";
 		
 		break;
@@ -378,14 +378,14 @@ switch ($bereich) {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
 		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $t['chat_agb'] . "</td>\n";
+		$text .= "<td $bgcolor>" . $lang['chat_agb'] . "</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
 		$text .= "</table>";
 		$text .= zeige_index_footer();
 			
-		zeige_tabelle_volle_breite($t['login_nutzungsbestimmungen'], $text);
+		zeige_tabelle_volle_breite($lang['login_nutzungsbestimmungen'], $text);
 		echo "</body>";
 		
 		break;
@@ -402,7 +402,7 @@ switch ($bereich) {
 		require_once('templates/kontakt.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_kontakt'], $text);
+		zeige_tabelle_volle_breite($lang['login_kontakt'], $text);
 		echo "</body>";
 		
 		break;
@@ -419,7 +419,7 @@ switch ($bereich) {
 		require_once('templates/passwort-vergessen.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
+		zeige_tabelle_volle_breite($lang['login_passwort_vergessen'], $text);
 		echo "</body>";
 		
 		break;
@@ -436,7 +436,7 @@ switch ($bereich) {
 		require_once('templates/passwort-zuruecksetzen.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_passwort_vergessen'], $text);
+		zeige_tabelle_volle_breite($lang['login_passwort_vergessen'], $text);
 		echo "</body>";
 		
 		break;
@@ -453,7 +453,7 @@ switch ($bereich) {
 		require_once('templates/email-bestaetigen.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_email_aendern'], $text);
+		zeige_tabelle_volle_breite($lang['login_email_aendern'], $text);
 		echo "</body>";
 		
 		break;
@@ -470,7 +470,7 @@ switch ($bereich) {
 		require_once('templates/neu2.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
 		echo "</body>";
 		
 		break;
@@ -491,7 +491,7 @@ switch ($bereich) {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
 		$text .= "<tr>\n";
-		$text .= "<td $bgcolor><h2>" . $t['chat_offline'] . "</h2></td>\n";
+		$text .= "<td $bgcolor><h2>" . $lang['chat_offline'] . "</h2></td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
@@ -499,7 +499,7 @@ switch ($bereich) {
 		
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['willkommen'], $text);
+		zeige_tabelle_volle_breite($lang['willkommen'], $text);
 		echo "</body>";
 		
 		break;
@@ -521,7 +521,7 @@ switch ($bereich) {
 			// Gibt die Kopfzeile im Login aus
 			zeige_kopfzeile_login();
 			
-			zeige_tabelle_volle_breite($t['login_login'], $text);
+			zeige_tabelle_volle_breite($lang['login_login'], $text);
 			echo "</body>";
 		}
 		
@@ -539,7 +539,7 @@ switch ($bereich) {
 		require_once('templates/registrierung.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
 		echo "</body>";
 		
 		break;
@@ -556,7 +556,7 @@ switch ($bereich) {
 		require_once('templates/neu.php');
 		$text .= zeige_index_footer();
 		
-		zeige_tabelle_volle_breite($t['login_registrierung'], $text);
+		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
 		echo "</body>";
 		
 		break;
@@ -596,7 +596,7 @@ switch ($bereich) {
 		zeige_kopfzeile_login();
 		
 		
-		zeige_tabelle_volle_breite($t['login_login'], $text);
+		zeige_tabelle_volle_breite($lang['login_login'], $text);
 		echo "</body>";
 }
 ?>

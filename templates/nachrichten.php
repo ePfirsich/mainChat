@@ -19,7 +19,7 @@ if($aktion == "papierkorbleeren") {
 	$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
 	$result = sqlUpdate($query, true);
 	
-	$erfolgsmeldung = $t['nachrichten_papierkorb_geleert'];
+	$erfolgsmeldung = $lang['nachrichten_papierkorb_geleert'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	$aktion = "papierkorb";
@@ -50,7 +50,7 @@ switch ($aktion) {
 			}
 			
 			$boxzu = false;
-			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . $daten['id'] . "' AND m_an_uid='" . $daten['id'] . "' and m_betreff = '$t[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
+			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . $daten['id'] . "' AND m_an_uid='" . $daten['id'] . "' and m_betreff = '$lang[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
 			$result2 = sqlQuery($query);
 			$num = mysqli_num_rows($result2);
 			if ($num >= 1) {
@@ -58,21 +58,21 @@ switch ($aktion) {
 			}
 			
 			if ($boxzu == true) {
-				$fehlermeldung = $t['nachrichten_fehler_mailbox_geschlossen'];
+				$fehlermeldung = $lang['nachrichten_fehler_mailbox_geschlossen'];
 			} else {
 				$m_u_level = mysqli_result($result, 0, "u_level");
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
 					// Alles in Ordnung
 					formular_neue_email2($text, $daten);
 				} else {
-					$fehlermeldung = $t['nachrichten_fehler_keine_mail_an_gast'];
+					$fehlermeldung = $lang['nachrichten_fehler_keine_mail_an_gast'];
 				}
 			}
 			mysqli_free_result($result2);
 		} else if ($daten['u_nick'] == "") {
-			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 		} else {
-			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $lang['nachrichten_fehler_benutzername_existiert_nicht']);
 		}
 		
 		if($fehlermeldung != null && $fehlermeldung != '') {
@@ -89,22 +89,22 @@ switch ($aktion) {
 		// Betreff prüfen
 		$daten['m_betreff'] = htmlspecialchars($daten['m_betreff']);
 		if (strlen($daten['m_betreff']) < 1) {
-			$fehlermeldung = $t['nachrichten_fehler_kein_betreff'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_betreff'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		if (strlen($daten['m_betreff']) > 254) {
-			$fehlermeldung = $t['nachrichten_fehler_betreff_zu_lang'];
+			$fehlermeldung = $lang['nachrichten_fehler_betreff_zu_lang'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		// Text prüfen
 		$daten['m_text'] = chat_parse(htmlspecialchars($daten['m_text']));
 		if (strlen($daten['m_text']) < 4) {
-			$fehlermeldung = $t['nachrichten_fehler_kein_text'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_text'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		if (strlen($daten['m_text']) > 10000) {
-			$fehlermeldung = $t['nachrichten_fehler_text_zu_lang'];
+			$fehlermeldung = $lang['nachrichten_fehler_text_zu_lang'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
@@ -115,7 +115,7 @@ switch ($aktion) {
 		if ($result && mysqli_num_rows($result) == 1) {
 			$an_nick = mysqli_result($result, 0, "u_nick");
 		} else {
-			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		mysqli_free_result($result);
@@ -127,10 +127,10 @@ switch ($aktion) {
 			if ($daten['typ'] == 1) {
 				// E-Mail an externe Adresse versenden
 				if (email_versende($u_id, $daten['id'], $daten['m_text'], $daten['m_betreff'], TRUE)) {
-					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_email']);
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_versendet_email']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
-					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_fehler_nicht_versendet_email']);
+					$fehlermeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_fehler_nicht_versendet_email']);
 					$text .= hinweis($fehlermeldung, "fehler");
 				}
 			} else {
@@ -138,10 +138,10 @@ switch ($aktion) {
 				$daten['m_text'], $daten['m_betreff']);
 				
 				if ($result[0]) {
-					$erfolgsmeldung = str_replace("%nick%", $an_nick, $t['nachrichten_versendet_nachricht']);
+					$erfolgsmeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_versendet_nachricht']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
-					$fehlermeldung = str_replace("%nick%", $an_nick, $t['nachrichten_fehler_nicht_versendet_nachricht']);
+					$fehlermeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_fehler_nicht_versendet_nachricht']);
 					$text .= hinweis($fehlermeldung, "fehler");
 				}
 				
@@ -199,12 +199,12 @@ switch ($aktion) {
 			formular_neue_email2($text, $daten);
 			
 		} elseif ($daten['u_nick'] == "") {
-			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			formular_neue_email($text, $daten);
 		} else {
-			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $lang['nachrichten_fehler_benutzername_existiert_nicht']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			formular_neue_email($text, $daten);
@@ -236,12 +236,12 @@ switch ($aktion) {
 			
 			formular_neue_email2($text, $daten);
 		} else if ($daten['u_nick'] == "") {
-			$fehlermeldung = $t['nachrichten_fehler_kein_benutzername_angegeben'];
+			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			formular_neue_email($text, $daten);
 		} else {
-			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $t['nachrichten_fehler_benutzername_existiert_nicht']);
+			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $lang['nachrichten_fehler_benutzername_existiert_nicht']);
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			formular_neue_email($text, $daten);
@@ -261,7 +261,7 @@ switch ($aktion) {
 		
 	case "postausgang":
 		// Postausgang zeigen
-		$text .= $t['nachrichten_postausgang_info'];
+		$text .= $lang['nachrichten_postausgang_info'];
 		
 		zeige_mailbox($text, "postausgang", "");
 		break;
@@ -282,11 +282,11 @@ switch ($aktion) {
 	
 	case "mailboxzu":
 	// Formular zum Weiterleiten einer Mail ausgeben
-		$erfolgsmeldung = $t['nachrichten_posteingang_geschlossen'];
+		$erfolgsmeldung = $lang['nachrichten_posteingang_geschlossen'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
-		$betreff = $t['nachrichten_posteingang_geschlossen'];
-		$nachricht = $t['nachrichten_posteingang_geschlossen_text'];
+		$betreff = $lang['nachrichten_posteingang_geschlossen'];
+		$nachricht = $lang['nachrichten_posteingang_geschlossen_text'];
 		$result = mail_sende($u_id, $u_id, $nachricht, $betreff);
 
 		zeige_mailbox($text, "normal", "");

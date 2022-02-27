@@ -78,11 +78,11 @@ zeige_header($title, $benutzerdaten['u_layout_farbe']);
 echo "<body>\n";
 
 // Menü ausgeben
-$box = $t['forum_header'];
-$text = "<a href=\"forum.php\">$t[forum_menue_forenuebersicht_anzeigen]</a>\n";
-$text .= "| <a href=\"forum.php?aktion=suche\">$t[forum_button_suche]</a>\n";
+$box = $lang['forum_header'];
+$text = "<a href=\"forum.php\">$lang[forum_menue_forenuebersicht_anzeigen]</a>\n";
+$text .= "| <a href=\"forum.php?aktion=suche\">$lang[forum_button_suche]</a>\n";
 if ($forum_admin && !$aktion) {
-	$text .= "| <a href=\"forum.php?aktion=kategorie_neu\">$t[forum_kategorie_anlegen]</a>\n";
+	$text .= "| <a href=\"forum.php?aktion=kategorie_neu\">$lang[forum_kategorie_anlegen]</a>\n";
 }
 zeige_tabelle_zentriert($box, $text);
 
@@ -100,7 +100,7 @@ switch ($aktion) {
 	// Suche
 	case "suchergebnisse":
 		// Suche anzeigen
-		$box = $t['forum_kopfzeile_suche'];
+		$box = $lang['forum_kopfzeile_suche'];
 		$text .= such_bereich();
 		
 		flush();
@@ -111,7 +111,7 @@ switch ($aktion) {
 		
 	case "suche":
 		// Suche anzeigen
-		$box = $t['forum_kopfzeile_suche'];
+		$box = $lang['forum_kopfzeile_suche'];
 		$text .= such_bereich();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -119,7 +119,7 @@ switch ($aktion) {
 	//Aktionen, die das Forum betreffen
 	case "kategorie_neu":
 		// Forum anzeigen
-		$box = $t['forum_kopfzeile_kategorie_anlegen'];
+		$box = $lang['forum_kopfzeile_kategorie_anlegen'];
 		$text .= maske_kategorie();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -130,14 +130,14 @@ switch ($aktion) {
 			schreibe_forum();
 			
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			// Forum anzeigen
-			$box = $t['forum_kopfzeile_kategorie_anlegen'];
+			$box = $lang['forum_kopfzeile_kategorie_anlegen'];
 			$text .= maske_kategorie();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -149,14 +149,14 @@ switch ($aktion) {
 			aendere_forum();
 			
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_kategorie_editieren'];
+			$box = $lang['forum_kopfzeile_kategorie_editieren'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			// Forum anzeigen
-			$box = $t['forum_kopfzeile_kategorie_editieren'];
+			$box = $lang['forum_kopfzeile_kategorie_editieren'];
 			$text .= maske_kategorie($fo_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -166,7 +166,7 @@ switch ($aktion) {
 		kategorie_up($fo_id, $fo_order);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -175,14 +175,14 @@ switch ($aktion) {
 		kategorie_down($fo_id, $fo_order);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "kategorie_edit":
 		// Kategorie editieren
-		$box = $t['forum_kopfzeile_kategorie_editieren'];
+		$box = $lang['forum_kopfzeile_kategorie_editieren'];
 		$text .= maske_kategorie($fo_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -191,14 +191,14 @@ switch ($aktion) {
 		$text .= loesche_kategorie($fo_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "forum_neu":
 		// Forum erstellen
-		$box = $t['forum_kopfzeile_forum_anlegen'];
+		$box = $lang['forum_kopfzeile_forum_anlegen'];
 		$text .= maske_forum();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -209,14 +209,14 @@ switch ($aktion) {
 			schreibe_thema();
 			
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			// Thema erstellen
-			$box = $t['forum_kopfzeile_forum_anlegen'];
+			$box = $lang['forum_kopfzeile_forum_anlegen'];
 			$text .= maske_forum();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -224,7 +224,7 @@ switch ($aktion) {
 	
 	case "forum_edit":
 		// Forum editieren
-		$box = $t['forum_kopfzeile_forum_editieren'];
+		$box = $lang['forum_kopfzeile_forum_editieren'];
 		$text .= maske_forum($th_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -235,14 +235,14 @@ switch ($aktion) {
 			schreibe_thema($th_id);
 			
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			$text .= hinweis($fehlermeldung, "fehler");
 			
 			// Thema erstellen
-			$box = $t['forum_kopfzeile_forum_editieren'];
+			$box = $lang['forum_kopfzeile_forum_editieren'];
 			$text .= maske_forum($th_id);
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -252,7 +252,7 @@ switch ($aktion) {
 		forum_up($th_id, $th_order, $fo_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -260,14 +260,14 @@ switch ($aktion) {
 		forum_down($th_id, $th_order, $fo_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
 	case "show_forum":
 		// Forum anzeigen
-		$box = $t['forum_kopfzeile_forum'];
+		$box = $lang['forum_kopfzeile_forum'];
 		$text .= show_forum();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -276,7 +276,7 @@ switch ($aktion) {
 		$text .= loesche_thema($th_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -285,7 +285,7 @@ switch ($aktion) {
 		forum_alles_gelesen($u_id, $th_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -294,7 +294,7 @@ switch ($aktion) {
 		forum_alles_gelesen($u_id);
 		
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -305,12 +305,12 @@ switch ($aktion) {
 		
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $t['thema_erstellen'];
+			$box = $lang['thema_erstellen'];
 			$text .= maske_posting("neuer_thread");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -320,7 +320,7 @@ switch ($aktion) {
 		sperre_posting($po_id);
 		
 		// Thema zeigen
-		$box = $t['forum_kopfzeile_thema'];
+		$box = $lang['forum_kopfzeile_thema'];
 		$text .= show_posting();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -347,20 +347,20 @@ switch ($aktion) {
 				}
 				
 				// Thema zeigen
-				$box = $t['forum_kopfzeile_thema'];
+				$box = $lang['forum_kopfzeile_thema'];
 				$text .= show_posting();
 				zeige_tabelle_zentriert($box, $text);
 			} else {
 				$text .= hinweis($fehlermeldung, "fehler");
 				
 				// Neues Thema erstellen
-				$box = $t['forum_kopfzeile_thema_erstellen'];
+				$box = $lang['forum_kopfzeile_thema_erstellen'];
 				$text .= maske_posting($mode);
 				zeige_tabelle_zentriert($box, $text);
 			}
 		} else {
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -373,14 +373,14 @@ switch ($aktion) {
 		$leserechte = pruefe_leserechte(hole_themen_id_anhand_posting_id($po_id));
 		if ($leserechte) {
 			// Thema zeigen
-			$box = $t['forum_kopfzeile_thema'];
+			$box = $lang['forum_kopfzeile_thema'];
 			$text .= show_posting();
 			zeige_tabelle_zentriert($box, $text);
 			
 			markiere_als_gelesen($po_id, $u_id, $th_id);
 		} else {
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -389,12 +389,12 @@ switch ($aktion) {
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $t['forum_kopfzeile_thema'];
+			$box = $lang['forum_kopfzeile_thema'];
 			$text .= maske_posting("reply");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -403,19 +403,19 @@ switch ($aktion) {
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		if ($schreibrechte) {
 			// Neues Thema erstellen
-			$box = $t['forum_kopfzeile_thema'];
+			$box = $lang['forum_kopfzeile_thema'];
 			$text .= maske_posting("answer");
 			zeige_tabelle_zentriert($box, $text);
 		} else {
 			// Forenübersicht anzeigen
-			$box = $t['forum_kopfzeile_forenuebersicht'];
+			$box = $lang['forum_kopfzeile_forenuebersicht'];
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
 	case "edit":
 		// Neues Thema erstellen
-		$box = $t['forum_kopfzeile_thema_editieren'];
+		$box = $lang['forum_kopfzeile_thema_editieren'];
 		$text .= maske_posting("edit");
 		zeige_tabelle_zentriert($box, $text);
 		
@@ -424,14 +424,14 @@ switch ($aktion) {
 		$text .= loesche_posting();
 		
 		// Forum anzeigen
-		$box = $t['forum_kopfzeile_forum'];
+		$box = $lang['forum_kopfzeile_forum'];
 		$text .= show_forum();
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	case "verschiebe_posting":
 		if ($forum_admin) {
 			// Thema verschieben
-			$box = $t['forum_kopfzeile_thema_verschieben'];
+			$box = $lang['forum_kopfzeile_thema_verschieben'];
 			$text .= verschiebe_posting();
 			zeige_tabelle_zentriert($box, $text);
 		}
@@ -444,7 +444,7 @@ switch ($aktion) {
 		$th_id = $verschiebe_von;
 		
 		// Forum anzeigen
-		$box = $t['forum_kopfzeile_forum'];
+		$box = $lang['forum_kopfzeile_forum'];
 		$text .= show_forum();
 		zeige_tabelle_zentriert($box, $text);
 		break;
@@ -452,7 +452,7 @@ switch ($aktion) {
 	//Default
 	default:
 		// Forenübersicht anzeigen
-		$box = $t['forum_kopfzeile_forenuebersicht'];
+		$box = $lang['forum_kopfzeile_forenuebersicht'];
 		
 		$text .= forum_liste();
 		zeige_tabelle_zentriert($box, $text);

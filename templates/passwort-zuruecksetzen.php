@@ -11,7 +11,7 @@ if( $code == '') {
 
 $text = "";
 if(!isset($userId) || !isset($code)) {
-	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
+	$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_code'];
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	$showForm = true;
@@ -20,21 +20,21 @@ if(!isset($userId) || !isset($code)) {
 	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
-		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
+		$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$mitglied = mysqli_fetch_assoc($mdata);
 		
 		// Überprüfen ob ein Nutzer gefunden wurde und dieser auch ein Passwordcode hat
 		if($mitglied === null || $mitglied['u_passwort_code'] === null) {
-			$fehlermeldung = $t['login_passwort_fehler_kein_benutzer'];
+			$fehlermeldung = $lang['login_passwort_fehler_kein_benutzer'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if($mitglied['u_passwort_code_time'] === null || strtotime($mitglied['u_passwort_code_time']) < (time()-24*3600) ) {
-			$fehlermeldung = $t['login_passwort_fehler_code_abgelaufen'];
+			$fehlermeldung = $lang['login_passwort_fehler_code_abgelaufen'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if(sha1($code) != $mitglied['u_passwort_code']) {
 			// Überprüfe den Passwortcode
-			$fehlermeldung = $t['login_passwort_fehler_code_ungueltig'];
+			$fehlermeldung = $lang['login_passwort_fehler_code_ungueltig'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Der Code war korrekt, der Nutzer darf ein neues Passwort eingeben
@@ -45,11 +45,11 @@ if(!isset($userId) || !isset($code)) {
 				$passwort2 = filter_input(INPUT_POST, 'passwort2');
 				
 				if($passwort == '' || $passwort2 == '') {
-					$fehlermeldung .= $t['login_passwort_fehler_passwort_zweimal_eingaben'];
+					$fehlermeldung .= $lang['login_passwort_fehler_passwort_zweimal_eingaben'];
 				} else if($passwort != $passwort2) {
-					$fehlermeldung .= $t['login_passwort_fehler_passwort_nicht_identisch'];
+					$fehlermeldung .= $lang['login_passwort_fehler_passwort_nicht_identisch'];
 				} else if(strlen($passwort) < 4) {
-					$fehlermeldung .= $t['login_passwort_fehler_passwort_zu_kurz'];
+					$fehlermeldung .= $lang['login_passwort_fehler_passwort_zu_kurz'];
 				}
 				if($fehlermeldung != "") {
 					$text .= hinweis($fehlermeldung, "fehler");
@@ -59,7 +59,7 @@ if(!isset($userId) || !isset($code)) {
 					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . escape_string($userId) . "'";
 					sqlUpdate($query);
 					
-					$erfolgsmeldung = $t['login_passwort_erfolgreich_passwort_geaendert'];
+					$erfolgsmeldung = $lang['login_passwort_erfolgreich_passwort_geaendert'];
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 					
 					$showForm = false;
@@ -71,15 +71,15 @@ if(!isset($userId) || !isset($code)) {
 				$text .= "<input type=\"hidden\" name=\"uid\" value=\"" . htmlentities($userId) . "\">\n";
 				$text .= "<input type=\"hidden\" name=\"code\" value=\"" . htmlentities($code) . "\">\n";
 				
-				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $t['login_passwort_benutzername']);
+				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $lang['login_passwort_benutzername']);
 				$text .= "<table style=\"width:100%;\">";
 				
 				// Neues Passwort
-				$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort'], "passwort", "");
+				$text .= zeige_formularfelder("password", $zaehler, $lang['login_passwort'], "passwort", "");
 				$zaehler++;
 				
 				// Neues Passwort wiederholen
-				$text .= zeige_formularfelder("password", $zaehler, $t['login_passwort_wiederholen'], "passwort2", "");
+				$text .= zeige_formularfelder("password", $zaehler, $lang['login_passwort_wiederholen'], "passwort2", "");
 				$zaehler++;
 				
 				if ($zaehler % 2 != 0) {
@@ -89,7 +89,7 @@ if(!isset($userId) || !isset($code)) {
 				}
 				$text .= "<tr>";
 				$text .= "<td $bgcolor>&nbsp;</td>\n";
-				$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[login_neues_passwort_speichern]\"></td>\n";
+				$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[login_neues_passwort_speichern]\"></td>\n";
 				$text .= "</tr>\n";
 				$text .= "</table>\n";
 				

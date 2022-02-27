@@ -5,7 +5,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	// $raum = ID des aktuellen Raums
 	// $user_id = ID des aktuellen Benutzers
 	
-	global $user_farbe, $letzte_id, $chat, $system_farbe, $t, $chat_status_klein, $admin;
+	global $user_farbe, $letzte_id, $chat, $system_farbe, $lang, $chat_status_klein, $admin;
 	global $u_nick, $u_level, $show_spruch_owner, $o_dicecheck, $user_nick;
 	
 	$o_id = intval($o_id);
@@ -294,7 +294,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								$zanfang = "";
 							} else {
 								$temp_von_user = $row->c_von_user;
-								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 								reset_system("userliste");
 							}
 							if ($br == "") {
@@ -308,7 +308,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 									$zanfang = "";
 								} else {
 									$temp_von_user = $row->c_von_user;
-									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
 								if ($br == "") {
@@ -321,7 +321,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 									$zanfang = "";
 								} else {
 									$temp_von_user = $row->c_von_user;
-									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$t[chat_lese1]</a>):</b> ";
+									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
 								if ($br == "") {

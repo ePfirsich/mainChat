@@ -59,20 +59,20 @@ switch ($aktion) {
 			mysqli_free_result($result2);
 			
 			if ($ignore) {
-				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_ignoriert']);
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_ignoriert']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			} else if ($daten['u_level'] == 'Z') {
-				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_gesperrt']);
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_gesperrt']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			} else if ($daten['u_level'] == 'G') {
-				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_gast']);
+				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_gast']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			}
 		} else if ($daten['u_nick'] == "") {
-			$fehlermeldung = $t['freunde_fehlermeldung_kein_benutzername_angegeben'];
+			$fehlermeldung = $lang['freunde_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
-			$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $t['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_benutzer_nicht_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
@@ -103,7 +103,7 @@ switch ($aktion) {
 	
 	case "bearbeite":
 		// Freund löschen
-		if ($uebergabe == $t['freunde_loeschen']) {
+		if ($uebergabe == $lang['freunde_loeschen']) {
 			if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
 				foreach ($bearbeite_ids as $bearbeite_id) {
 					$text .= loesche_freund($bearbeite_id, $u_id);
@@ -111,7 +111,7 @@ switch ($aktion) {
 			}
 		}
 		
-		if ($uebergabe == $t['freunde_bestaetigen']) {
+		if ($uebergabe == $lang['freunde_bestaetigen']) {
 			if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
 				foreach ($bearbeite_ids as $bearbeite_id) {
 					$erfolgsmeldung = bestaetige_freund($bearbeite_id, $u_id);

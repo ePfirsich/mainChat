@@ -28,7 +28,7 @@ function vater_rekursiv($vater) {
 }
 
 function such_bereich() {
-	global $suche, $t;
+	global $suche, $lang;
 	
 	$select_breite = 250;
 	
@@ -39,11 +39,11 @@ function such_bereich() {
 	$text .= "<table style=\"width:100%\">\n";
 	
 	// Suchtext
-	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$t[suche1]</b></td><td class=\"tabelle_zeile1\">"
+	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\"><b>$lang[suche1]</b></td><td class=\"tabelle_zeile1\">"
 	. "<input type=\"text\" name=\"suche_text\" value=\"" . $suche['text'] . "\" size=\"50\"></td></tr>\n";
 		
 	// Suche in Board/Thema
-	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche2]</td><td class=\"tabelle_zeile1\">"
+	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$lang[suche2]</td><td class=\"tabelle_zeile1\">"
 	. "<select name=\"suche_thema\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 		
 	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
@@ -53,7 +53,7 @@ function such_bereich() {
 	if (substr($suche['thema'], 0, 1) <> "B") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"ALL\">$t[option1]</option>";
+	$text .= "value=\"ALL\">$lang[option1]</option>";
 	while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
 		if (pruefe_leserechte($thema['th_id'])) {
 			if ($themaalt <> $thema['fo_name']) {
@@ -76,17 +76,17 @@ function such_bereich() {
 	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
-	$text .= "<tr><td rowspan=\"4\" style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$t[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
+	$text .= "<tr><td rowspan=\"4\" style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$lang[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	$text .= "<option ";
 	if ($suche['modus'] <> "O") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"A\">$t[option2]</option>";
+	$text .= "value=\"A\">$lang[option2]</option>";
 	$text .= "<option ";
 	if ($suche['modus'] == "O") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"O\">$t[option3]</option>";
+	$text .= "value=\"O\">$lang[option3]</option>";
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Betreff/Text
@@ -95,17 +95,17 @@ function such_bereich() {
 	if ($suche['ort'] <> "B" && $suche['ort'] <> "T") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"V\">$t[option4]</option>";
+	$text .= "value=\"V\">$lang[option4]</option>";
 	$text .= "<option ";
 	if ($suche['ort'] == "B") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B\">$t[option5]</option>";
+	$text .= "value=\"B\">$lang[option5]</option>";
 	$text .= "<option ";
 	if ($suche['ort'] == "T") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"T\">$t[option6]</option>";
+	$text .= "value=\"T\">$lang[option6]</option>";
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Zeit
@@ -114,42 +114,42 @@ function such_bereich() {
 	if (substr($suche['zeit'], 0, 1) <> "B") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"ALL\">$t[option7]</option>";
+	$text .= "value=\"ALL\">$lang[option7]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B1") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B1\">$t[option8]</option>";
+	$text .= "value=\"B1\">$lang[option8]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B7") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B7\">$t[option9]</option>";
+	$text .= "value=\"B7\">$lang[option9]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B14") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B14\">$t[option10]</option>";
+	$text .= "value=\"B14\">$lang[option10]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B30") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B30\">$t[option11]</option>";
+	$text .= "value=\"B30\">$lang[option11]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B90") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B90\">$t[option12]</option>";
+	$text .= "value=\"B90\">$lang[option12]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B180") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B180\">$t[option13]</option>";
+	$text .= "value=\"B180\">$lang[option13]</option>";
 	$text .= "<option ";
 	if ($suche['zeit'] == "B365") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"B365\">$t[option14]</option>";
+	$text .= "value=\"B365\">$lang[option14]</option>";
 	$text .= "</select></td></tr>\n";
 	
 	// Sucheinstellung Sortierung
@@ -158,41 +158,41 @@ function such_bereich() {
 	if (substr($suche['sort'], 0, 1) <> "S") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"DEFAULT\">$t[option15]</option>";
+	$text .= "value=\"DEFAULT\">$lang[option15]</option>";
 	$text .= "<option ";
 	if ($suche['sort'] == "SZA") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"SZA\">$t[option16]</option>";
+	$text .= "value=\"SZA\">$lang[option16]</option>";
 	$text .= "<option ";
 	if ($suche['sort'] == "SBA") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"SBA\">$t[option17]</option>";
+	$text .= "value=\"SBA\">$lang[option17]</option>";
 	$text .= "<option ";
 	if ($suche['sort'] == "SBD") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"SBD\">$t[option18]</option>";
+	$text .= "value=\"SBD\">$lang[option18]</option>";
 	$text .= "<option ";
 	if ($suche['sort'] == "SAA") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"SAA\">$t[option19]</option>";
+	$text .= "value=\"SAA\">$lang[option19]</option>";
 	$text .= "<option ";
 	if ($suche['sort'] == "SAD") {
 		$text .= "selected ";
 	}
-	$text .= "value=\"SAD\">$t[option20]</option>";
+	$text .= "value=\"SAD\">$lang[option20]</option>";
 	$text .= "</select></td></tr>\n";
 	
 	// nur von Benutzer
-	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$t[suche4]</td>\n"
+	$text .= "<tr><td style=\"text-align:right;\" class=\"tabelle_zeile1\">$lang[suche4]</td>\n"
 		. "<td class=\"tabelle_zeile1\"><input type=\"text\" name=\"suche_username\" value=\""
 		. htmlspecialchars($suche['username']) . "\" size=\"20\"></td></tr>\n";
 	
 	$text .= "<tr><td class=\"tabelle_zeile1\">&nbsp;</td><td class=\"tabelle_zeile1\">"
-	. "<input type=\"submit\" value=\"$t[suche5]\"></td></tr>\n";
+	. "<input type=\"submit\" value=\"$lang[suche5]\"></td></tr>\n";
 	
 	$text .= "</table>\n";
 	
@@ -201,7 +201,7 @@ function such_bereich() {
 }
 
 function such_ergebnis() {
-	global $check_name, $u_id, $suche, $t, $u_level;
+	global $check_name, $u_id, $suche, $lang, $u_level;
 	
 	$maxpostingsprosuche = 1000;
 	
@@ -216,7 +216,7 @@ function such_ergebnis() {
 	
 	$fehler = "";
 	if ($suche['username'] <> coreCheckName($suche['username'], $check_name)) {
-		$fehler .= $t['forum_suche_fehlermeldung_benutzername'];
+		$fehler .= $lang['forum_suche_fehlermeldung_benutzername'];
 	}
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
@@ -226,25 +226,25 @@ function such_ergebnis() {
 		if (mysqli_num_rows($query) == 1) {
 			$suche['u_id'] = mysqli_result($query, 0, "u_id");
 		} else {
-			$fehlermeldung = str_replace("%u_nick%", $suche['username'], $t['forum_suche_fehlermeldung_benutzername_unbekannt']);
+			$fehlermeldung = str_replace("%u_nick%", $suche['username'], $lang['forum_suche_fehlermeldung_benutzername_unbekannt']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 	}
 	
 	if (trim($suche['username']) == "" && trim($suche['text']) == "" && (!($suche['zeit'] == "B1" || $suche['zeit'] == "B7" || $suche['zeit'] == "B14"))) {
-		$fehlermeldung = $t['forum_suche_fehlermeldung_zeitangabe'];
+		$fehlermeldung = $lang['forum_suche_fehlermeldung_zeitangabe'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if ($suche['modus'] <> "A" && $suche['modus'] <> "O") {
-		$fehlermeldung = $t['forum_suche_fehlermeldung_sucheinstellung_woerter'];
+		$fehlermeldung = $lang['forum_suche_fehlermeldung_sucheinstellung_woerter'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if ($suche['ort'] <> "V" && $suche['ort'] <> "B" && $suche['ort'] <> "T") {
-		$fehlermeldung = $t['forum_suche_fehlermeldung_sucheinstellung_ort'];
+		$fehlermeldung = $lang['forum_suche_fehlermeldung_sucheinstellung_ort'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	if (!$suche['thema'] == "ALL" && !preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema']) && !preg_match("/^B([0-9])+$/i", $suche['thema'])) {
-		$fehlermeldung = $t['forum_suche_fehlermeldung_falsches_thema'];
+		$fehlermeldung = $lang['forum_suche_fehlermeldung_falsches_thema'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
@@ -389,7 +389,7 @@ function such_ergebnis() {
 		
 		$anzahl = mysqli_num_rows($query);
 		
-		$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $t['forum_suche_erfolgsmeldung']);
+		$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $lang['forum_suche_erfolgsmeldung']);
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
 		if ($anzahl > $maxpostingsprosuche) {
@@ -398,10 +398,10 @@ function such_ergebnis() {
 		$text .= "</td></tr>\n";
 		if ($anzahl > 0) {
 			$text .= "<tr>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[forum]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[betreff]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_am]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[geschrieben_autor]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[forum]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[betreff]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[geschrieben_am]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[geschrieben_autor]</td>\n";
 			$text .= "</tr>";
 			
 			$i = 0;

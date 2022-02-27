@@ -18,7 +18,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
 	global $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
-	global $chat, $timeout, $datei_spruchliste, $t, $ak, $check_name, $raumstatus1, $raum_max;
+	global $chat, $timeout, $datei_spruchliste, $lang, $ak, $check_name, $raumstatus1, $raum_max;
 	global $u_nick, $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
@@ -90,13 +90,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/int":
 		// Admin um Hilfe rufen.
 			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} else {
 				
 				if ($o_knebel > 0) {
 					// user ist geknebelt...
 					$zeit = gmdate("H:i:s", $o_knebel);
-					$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+					$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 					system_msg("", 0, $u_id, $system_farbe, $txt);
 					break;
 				}
@@ -120,16 +120,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$txt = html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 						if (!($admin || $u_level == "A")) {
 							// Admins wissen, daß das an alle Admins geht. daher nicht nötig.
-							system_msg("", 0, $u_id, $system_farbe, $t['chat_msg47']);
+							system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg47']);
 							$txt = "<b>" . $txt . "</b>";
 						}
 						if (strtolower($chatzeile[0]) == "/int") {
-							$txt2 = "<b>[=====$t[chat_msg52]&nbsp;" . $t['chat_msg51'] . "=====]</b> " . $txt;
+							$txt2 = "<b>[=====$lang[chat_msg52]&nbsp;" . $lang['chat_msg51'] . "=====]</b> " . $txt;
 						} else {
-							$txt2 = "<b>[" . $t['chat_msg52'] . "&nbsp;" . $t['chat_msg50'] . "]</b> " . $txt;
+							$txt2 = "<b>[" . $lang['chat_msg52'] . "&nbsp;" . $lang['chat_msg50'] . "]</b> " . $txt;
 						}
 						while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-							$text = str_replace("%user%", zeige_userdetails($u_id, $userdata), $t['chat_msg49']);
+							$text = str_replace("%user%", zeige_userdetails($u_id, $userdata), $lang['chat_msg49']);
 							$text = str_replace("%raum%", $r_name, $text);
 							if (!($admin || $u_level == "A")) {
 								// Benutzer aus Raum... ruft um hilfe
@@ -139,10 +139,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								// falls eigener nick:
 								if (strtolower($chatzeile[0]) == "/int") {
 									system_msg("", $u_id, $u_id, $system_farbe, "<b>"
-										. zeige_userdetails($u_id, $userdata) . "&nbsp; ===== $t[chat_msg24] $t[chat_msg51]: =====</b> $txt");
+										. zeige_userdetails($u_id, $userdata) . "&nbsp; ===== $lang[chat_msg24] $lang[chat_msg51]: =====</b> $txt");
 								} else {
 									system_msg("", $u_id, $u_id, $system_farbe, "<b>"
-										. zeige_userdetails($u_id, $userdata) . "&nbsp; $t[chat_msg24] $t[chat_msg50]: </b> $txt");
+										. zeige_userdetails($u_id, $userdata) . "&nbsp; $lang[chat_msg24] $lang[chat_msg50]: </b> $txt");
 								}
 							} else {
 								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $txt2, $userdata);
@@ -150,7 +150,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 					} else {
 						// kein Admin im Chat :-(
-						system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg48']);
+						system_msg("", $u_id, $u_id, $system_farbe, $lang['chat_msg48']);
 					}
 					mysqli_free_result($result);
 				}
@@ -186,9 +186,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$alt = $row;
 					}
 					if ($dupecount > 0) {
-						system_msg("", 0, $u_id, $system_farbe, "<br>\n" . $t['chat_msg45']);
+						system_msg("", 0, $u_id, $system_farbe, "<br>\n" . $lang['chat_msg45']);
 					} else {
-						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg46']);
+						system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg46']);
 					}
 				}
 			}
@@ -197,7 +197,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/pp":
 		case "/ip":
 			if (!$admin) {
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 				break;
 			}
 			
@@ -205,7 +205,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			unset($onlinedatum);
 			
 			if (!$chatzeile[1]) {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg119']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg119']);
 				break;
 			}
 			
@@ -224,7 +224,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					mysqli_free_result($result);
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $chatzeile[1], $t['chat_msg120']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $chatzeile[1], $lang['chat_msg120']));
 					
 					// Nick nich Online - Hole IP aus Historie der Benutzertabelle
 					$query = "SELECT u_nick, u_id, u_ip_historie FROM user WHERE u_nick='" . escape_string(coreCheckName($chatzeile[1], $check_name)) . "'";
@@ -237,7 +237,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							while (list($onlinedatum, $onlineip) = each( $uu_ip_historie)) {
 								break;
 							}
-							$temp = $t['chat_msg123'];
+							$temp = $lang['chat_msg123'];
 							$temp = str_replace("%datum%", date("d.m.y H:i", $onlinedatum), $temp);
 							$temp = str_replace("%ip%", $onlineip, $temp);
 							system_msg("", 0, $u_id, $system_farbe, $temp);
@@ -249,7 +249,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			
 			if ($admin && $onlineip) {
-				$temp = $t['chat_msg122'];
+				$temp = $lang['chat_msg122'];
 				$temp = str_replace("%datum%", strftime('%d.%m.%Y'), $temp);
 				$temp = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $temp);
 				$temp = str_replace("%ip%", $onlineip, $temp);
@@ -268,7 +268,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					system_msg("", 0, $u_id, $system_farbe, $txt);
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg121']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg121']);
 				}
 				mysqli_free_result($result);
 			}
@@ -307,7 +307,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				}
 			} else {
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 			}
 			
 			break;
@@ -321,13 +321,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		//   /gag user 0  - freigabe...
 		
 			if (!$admin AND $u_level != "A") {
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 				break;
 			}
 			
 			if (!isset($chatzeile[1]) || $chatzeile[1] == "") {
 				// 	Kurzhilfe ausgeben.
-				$temp = $t['knebel2'];
+				$temp = $lang['knebel2'];
 				$temp = str_replace("%chatzeile%", $chatzeile[0], $temp);
 				system_msg("", 0, $u_id, $system_farbe, "<b>$chat</b>: $temp");
 			} else {
@@ -359,13 +359,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						case "S":
 						case "M":
 						case "A":
-							$txt = str_replace("%admin%", $nick['u_nick'], $t['knebel5']);
+							$txt = str_replace("%admin%", $nick['u_nick'], $lang['knebel5']);
 							system_msg("", 0, $u_id, $system_farbe, $txt);
 							break;
 						default:
 							$query = "UPDATE online SET o_knebel=FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) WHERE o_user=$nick[u_id]";
 							sqlUpdate($query);
-							$txt = ($knebelzeit ? $t['knebel4'] : $t['knebel3']);
+							$txt = ($knebelzeit ? $lang['knebel4'] : $lang['knebel3']);
 							$txt = str_replace("%admin%", $u_nick, $txt);
 							$txt = str_replace("%user%", $nick['u_nick'], $txt);
 							$txt = str_replace("%zeit%", $knebelzeit, $txt);
@@ -398,7 +398,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			
 			if ($txt != "") {
-				system_msg("", 0, $u_id, $system_farbe, "<b>$chat</b>:$t[knebel1]: " . $txt);
+				system_msg("", 0, $u_id, $system_farbe, "<b>$chat</b>:$lang[knebel1]: " . $txt);
 			}
 			break;
 		
@@ -416,7 +416,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				mysqli_free_result($result);
 			} else {
 				// Raum nicht gefunden -> Fehlermeldung
-				$txt = str_replace("%raumname%", $chatzeile[1], $t['chat_msg53']);
+				$txt = str_replace("%raumname%", $chatzeile[1], $lang['chat_msg53']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 				break;
 			}
@@ -457,16 +457,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if (mysqli_num_rows($result) > 0) {
 								$query = "DELETE FROM invite WHERE inv_raum=$raum_id AND inv_user=$nick[u_id]";
 								$result2 = sqlUpdate($query);
-								$msg = $t['invite4'];
+								$msg = $lang['invite4'];
 							} else {
 								$f['inv_id'] = 0;
 								$f['inv_user'] = $nick['u_id'];
 								$f['inv_raum'] = $raum_id;
 								schreibe_db("invite", $f, $f['inv_id'], "inv_id");
-								$msg = str_replace("%admin%", $u_nick, $t['invite5']);
+								$msg = str_replace("%admin%", $u_nick, $lang['invite5']);
 								$msg = str_replace("%raum%", $r_name, $msg);
 								system_msg($u_nick, $u_id, $nick['u_id'], $system_farbe, $msg);
-								$msg = $t['invite3'];
+								$msg = $lang['invite3'];
 							}
 							// altes result löschen.
 							mysqli_free_result($result);
@@ -485,7 +485,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$row = mysqli_fetch_object($result);
 							$query2 = "DELETE FROM invite WHERE inv_raum=$raum_id AND inv_user=$row->u_id";
 							$result2 = sqlUpdate($query2);
-							$msg = $t['invite4'];
+							$msg = $lang['invite4'];
 							$msg = str_replace("%admin%", $u_nick, $msg);
 							$msg = str_replace("%raum%", $r_name, $msg);
 							$msg = str_replace("%user%", $row->u_nick, $msg);
@@ -513,8 +513,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				}
 				if ($txt == "")
-					$txt = $t['invite2'];
-				else $txt = $t['invite1'] . " " . $txt;
+					$txt = $lang['invite2'];
+				else $txt = $lang['invite1'] . " " . $txt;
 				system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $txt");
 			}
 			break;
@@ -543,7 +543,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$spruchtmp[2] = str_replace(">", "&gt;", $spruchtmp[2]);
 						$spruchtmp[2] = preg_replace('|\*(.*?)\*|', '<i>\1</i>', preg_replace('|_(.*?)_|', '<b>\1</b>', $spruchtmp[2]));
 						
-						$txt = "<b>$t[chat_msg4] <I>" . $spruchtmp[0] . " " . $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2] . "&gt;";
+						$txt = "<b>$lang[chat_msg4] <I>" . $spruchtmp[0] . " " . $spruchtmp[1] . "</I></b> &lt;" . $spruchtmp[2] . "&gt;";
 						system_msg("", 0, $u_id, $system_farbe, $txt);
 					}
 					next($spruchliste);
@@ -552,7 +552,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			
 			} else {
 				// Fehler ausgeben
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg5']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg5']);
 			}
 			break;
 		
@@ -562,7 +562,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/bye":
 		// Ende-Nachricht absetzen?
 			if (strlen($chatzeile[1]) > 0) {
-				hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . "$t[chat_msg6] "
+				hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . "$lang[chat_msg6] "
 					. html_parse($privat, htmlspecialchars($chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0] );
 			}
 			
@@ -599,7 +599,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($i_user_passiv != $u_id) {
 						ignore($o_id, $u_id, $u_nick, $i_user_passiv, $i_user_name_passiv);
 					} else {
-						system_msg("", 0, $u_id, $u_farbe, $t['chat_msg7']);
+						system_msg("", 0, $u_id, $u_farbe, $lang['chat_msg7']);
 					}
 				} else {
 					// user nicht gefunden oder nicht online? dann testen, ob ignoriert, damit man das 
@@ -633,7 +633,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			mysqli_free_result($result);
 			
 			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} else {
 				// Liste der Benutzer ausgeben, die von mir ignoriert werden
 				$query = "SELECT i_id,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM iignore LEFT JOIN user on i_user_passiv=u_id WHERE i_user_aktiv=$u_id ORDER BY u_nick,i_id";
@@ -641,7 +641,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				if ($result && mysqli_num_rows($result) > 0) {
 					$i = 0;
-					$text = str_replace("%u_nick%", $u_nick, $t['chat_msg10']);
+					$text = str_replace("%u_nick%", $u_nick, $lang['chat_msg10']);
 					while ($row = mysqli_fetch_object($result)) {
 						if ($row->u_id && $row->u_id != "NULL") {
 							if ($i > 0) {
@@ -657,7 +657,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					system_msg("", 0, $u_id, $system_farbe, $text . "");
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, $t['chat_msg9']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, $lang['chat_msg9']));
 				}
 				mysqli_free_result($result);
 				
@@ -667,7 +667,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				if ($result && mysqli_num_rows($result) > 0) {
 					$i = 0;
-					$text = str_replace("%u_nick%", $u_nick, $t['chat_msg82']);
+					$text = str_replace("%u_nick%", $u_nick, $lang['chat_msg82']);
 					while ($row = mysqli_fetch_object($result)) {
 						
 						if ($row->u_id && $row->u_id != "NULL") {
@@ -715,7 +715,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				} elseif ($u_level != "G" && strlen($f['r_name']) <= $raum_max && strlen($f['r_name']) > 3) {
 					// Neuen Raum anlegen, ausser Benutzer ist Gast
-					$f['r_topic'] = htmlspecialchars($u_nick . $t['chat_msg56']);
+					$f['r_topic'] = htmlspecialchars($u_nick . $lang['chat_msg56']);
 					$f['r_eintritt'] = "";
 					$f['r_austritt'] = "";
 					$f['r_status1'] = "O";
@@ -734,7 +734,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						if ($u_punkte_gesamt < $raumanlegenpunkte) {
 							// Fehlermeldung und Raum nicht anlegen
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%punkte%", $raumanlegenpunkte, $t['chat_msg108']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%punkte%", $raumanlegenpunkte, $lang['chat_msg108']));
 							$raumanlegen = false;
 						}
 					}
@@ -749,7 +749,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				} else {
 					// Fehlermeldung
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg11']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $lang['chat_msg11']));
 				}
 				mysqli_free_result($result);
 			} else {
@@ -762,7 +762,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				$result = sqlQuery($query);
 				$rows = mysqli_num_rows($result);
-				$text = $t['chat_msg12'] . " ";
+				$text = $lang['chat_msg12'] . " ";
 				$i = 0;
 				while ($rows > $i) {
 					$text = $text . mysqli_result($result, $i, "r_name");
@@ -794,13 +794,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				$result = sqlQuery($query);
 				if ($result AND mysqli_num_rows($result) > 0) {
-					$text = $t['chat_msg12'] . "<br>";
+					$text = $lang['chat_msg12'] . "<br>";
 					$row = mysqli_fetch_object($result);
 					raum_user($row->r_id, $u_id);
 					mysqli_free_result($result);
 				} else {
 					// Raum nicht gefunden -> Fehlermeldung
-					$txt = str_replace("%raumname%", $chatzeile[1], $t['chat_msg53']);
+					$txt = str_replace("%raumname%", $chatzeile[1], $lang['chat_msg53']);
 					system_msg("", $u_id, $u_id, $system_farbe, $txt);
 				}
 				break;
@@ -833,12 +833,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($u_level == "M" || !$ist_moderiert) {
 					hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $u_nick . " " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 1)[0] );
 				} else {
-					system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
+					system_msg("", $u_id, $u_id, $system_farbe, $lang['moderiert1']);
 				}
 			} else {
 				// user ist geknebelt...
 				$zeit = gmdate("H:i:s", $o_knebel);
-				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+				$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			}
 			break;
@@ -853,17 +853,17 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if ($o_knebel > 0) {
 				// Benutzer ist noch geknebelt
 				$zeit = gmdate("H:i:s", $o_knebel);
-				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+				$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 				system_msg("", 0, $u_id, $system_farbe, $txt);
 			} else {
 				$away = substr(trim($chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]), 0, 80);
 				$away = html_parse($privat, htmlspecialchars($away))[0];
 				if ($away == "") {
-					$text = "$u_nick $t[away2]";
+					$text = "$u_nick $lang[away2]";
 					$f['u_away'] = "";
 					schreibe_db("user", $f, $u_id, "u_id");
 				} else {
-					$text = "$u_nick $t[away1] $away";
+					$text = "$u_nick $lang[away1] $away";
 					$f['u_away'] = $away;
 					schreibe_db("user", $f, $u_id, "u_id");
 				}
@@ -907,7 +907,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					// $text="Schubbern...$user[u_nick]/$user[u_id] $raumalt/$uo_raum -&gt; $raum/$raumid";
 					$text = "<b>$chat:</b> $user[u_nick]: $raumalt -&gt; $raum";
 					system_msg("", 0, $u_id, $system_farbe, $text);
-					global_msg($u_id, $o_raum, "'$u_nick' $t[sperre2] '$user[u_nick]' $t[sperre8] $raum");
+					global_msg($u_id, $o_raum, "'$u_nick' $lang[sperre2] '$user[u_nick]' $lang[sperre8] $raum");
 					raum_gehe($uo_id, $user['u_id'], $user['u_nick'], $uo_raum, $raumid);
 				}
 			}
@@ -946,7 +946,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						// Auf admin prüfen
 						if ($s_user_level == "S" || $s_user_level == "C" || $s_user_level == "M" || $s_user_level == "A") {
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, str_replace("%s_user_name%", $s_user_name, $t['chat_msg13'])));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%u_nick%", $u_nick, str_replace("%s_user_name%", $s_user_name, $lang['chat_msg13'])));
 						} else {
 							// Sperren oder freigeben
 							sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin);
@@ -959,13 +959,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$row = mysqli_fetch_object($result);
 							sperre($r_id, $u_id, $u_nick, $row->u_id, $row->u_nick, $admin);
 						} else {
-							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg14']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $lang['chat_msg14']));
 						}
 						mysqli_free_result($result);
 					}
 					mysqli_free_result($result);
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg15']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg15']);
 				}
 				
 			} elseif ($r_besitzer == $u_id || $admin || $u_level == "A") {
@@ -976,7 +976,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$rows = mysqli_num_rows($result);
 				
 				if ($rows > 0) {
-					$text = $t['chat_msg16'] . " ";
+					$text = $lang['chat_msg16'] . " ";
 					$i = 0;
 					while ($rows > $i) {
 						$text = $text . mysqli_result($result, $i, "u_nick");
@@ -986,13 +986,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 					}
 				} else {
-					$text = $t['chat_msg17'];
+					$text = $lang['chat_msg17'];
 				}
 				system_msg("", 0, $u_id, $system_farbe, $text);
 				mysqli_free_result($result);
 			} else {
 				// Keine Berechtigung zur Ausgabe der gesperrten user
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 			}
 			
 			break;
@@ -1007,14 +1007,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					$f['u_farbe'] = substr(htmlspecialchars($chatzeile[1]), 0, 6);
 					schreibe_db("user", $f, $u_id, "u_id");
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $f['u_farbe'], $t['chat_msg21']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $f['u_farbe'], $lang['chat_msg21']));
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg23']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg23']);
 				}
 			} else if (strlen($chatzeile[1]) == 0) {
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $u_farbe, $t['chat_msg22']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%u_farbe%", $u_farbe, $lang['chat_msg22']));
 			} else {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg23']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg23']);
 			}
 			break;
 		
@@ -1037,13 +1037,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/wuerfel":
 		// Würfeln
 			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} else {
 				
 				if ($o_knebel > 0) {
 					// user ist geknebelt...
 					$zeit = gmdate("H:i:s", $o_knebel);
-					$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+					$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 					system_msg("", 0, $u_id, $system_farbe, $txt);
 					break;
 				}
@@ -1056,7 +1056,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($w[1] == 0) {
 						$w[1] = 6;
 					}
-					$t['chat_msg34'] = str_replace("%user%", $u_nick, $t['chat_msg34']);
+					$lang['chat_msg34'] = str_replace("%user%", $u_nick, $lang['chat_msg34']);
 					if ($w[0] == 1) {
 						$tmp = "einem ";
 					} else {
@@ -1072,25 +1072,25 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					} else {
 						$tmp = $tmp . htmlspecialchars(" $w[1]-seitigen Würfeln");
 					}
-					$t['chat_msg34'] = str_replace("%wuerfel%", $tmp, $t['chat_msg34']);
+					$lang['chat_msg34'] = str_replace("%wuerfel%", $tmp, $lang['chat_msg34']);
 					
 					$summe = 0;
 					for ($i = 0; $i < $w[0]; $i++) {
 						$wurf = mt_rand(1, $w[1]);
 						$summe = $summe + $wurf;
-						$t['chat_msg34'] = $t['chat_msg34'] . " $wurf";
+						$lang['chat_msg34'] = $lang['chat_msg34'] . " $wurf";
 					}
 					if ($w[0] > 1)
-						$t['chat_msg34'] = $t['chat_msg34'] . ". Summe=$summe.";
+						$lang['chat_msg34'] = $lang['chat_msg34'] . ". Summe=$summe.";
 					
 					// Bei Moderation private Nachricht, sonst Nachricht an alle
 					if (!$ist_moderiert || $u_level == "M") {
-						hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $t['chat_msg34']);
+						hidden_msg($u_nick, $u_id, $u_farbe, $r_id, $lang['chat_msg34']);
 					} else {
-						system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
+						system_msg("", $u_id, $u_id, $system_farbe, $lang['moderiert1']);
 					}
 				} else {
-					system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg35']);
+					system_msg("", $u_id, $u_id, $system_farbe, $lang['chat_msg35']);
 				}
 			}
 			break;
@@ -1098,7 +1098,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		case "/zeige":
 		case "/whois":
 			if ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} else {
 				if (strlen($chatzeile[1]) >= 3) {
 					$chatzeile[1] = str_replace("$", "", $chatzeile[1]);
@@ -1182,17 +1182,17 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 					}
 					$text = $text . "\n";
-					$text = str_replace("%email%", $t['chat_msg64'], $text);
-					$text = str_replace("%adminemail%", $t['chat_msg65'], $text);
-					$text = str_replace("%online%", $t['chat_msg66'], $text);
-					$text = str_replace("%raum%", $t['chat_msg67'], $text);
-					$text = str_replace("%login%", $t['chat_msg68'], $text);
+					$text = str_replace("%email%", $lang['chat_msg64'], $text);
+					$text = str_replace("%adminemail%", $lang['chat_msg65'], $text);
+					$text = str_replace("%online%", $lang['chat_msg66'], $text);
+					$text = str_replace("%raum%", $lang['chat_msg67'], $text);
+					$text = str_replace("%login%", $lang['chat_msg68'], $text);
 					
 					system_msg("", 0, $u_id, $system_farbe, $text);
 					mysqli_free_result($result);
 					
 				} else {
-					system_msg("", 0, $u_id, $system_farbe, $t['chat_msg33']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg33']);
 				}
 			}
 			break;
@@ -1229,7 +1229,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								$nick['u_id'] = mysqli_result($result, 0, "o_user");
 							} else {
 								$nick['u_nick'] = "";
-								system_msg("", 0, $u_id, $u_farbe, str_replace("%chatzeile%", $chatzeile[1], $t['chat_msg25']));
+								system_msg("", 0, $u_id, $u_farbe, str_replace("%chatzeile%", $chatzeile[1], $lang['chat_msg25']));
 							}
 						}
 						mysqli_free_result($result);
@@ -1252,12 +1252,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						if ($num == 0) {
 							priv_msg($u_nick, $u_id, $nick['u_id'], $u_farbe, $text, $userdata);
-							system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg24] $nick[u_nick]:</b> $text");
+							system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg24] $nick[u_nick]:</b> $text");
 						} else {
-							system_msg("", $u_id, $u_id, $system_farbe, str_replace('%nick%', $nick['u_nick'], $t['chat_msg109']));
+							system_msg("", $u_id, $u_id, $system_farbe, str_replace('%nick%', $nick['u_nick'], $lang['chat_msg109']));
 						}
 						if ($nick['u_away'] != "") {
-							system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
+							system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $lang[away1] $nick[u_away]");
 						}
 						$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$nick['u_id'];
 						$pmu = sqlUpdate($query, true);
@@ -1265,19 +1265,19 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				} else {
 					// Nachricht konnte nicht verschickt werden, als Kopie ausgeben
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $t['chat_msg77']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%nachricht%", $text, $lang['chat_msg77']));
 				}
 			} elseif ($u_level == "G") {
-				system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} elseif ($o_knebel > 0) {
 				// user ist geknebelt...
 				$zeit = gmdate("H:i:s", $o_knebel);
-				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+				$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			} elseif ($ist_eingang) {
 				system_msg("", 0, $u_id, $system_farbe, $raum_einstellungen['r_topic']);
 			} elseif (!$admin) {
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 			}
 			break;
 		
@@ -1309,7 +1309,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			for ($i = 0; $i < count($fid); $i++) {
 				$nick = zeige_userdetails($fid[$i], 0, FALSE, "");
 				priv_msg($u_nick, $u_id, $fid[$i], $u_farbe, $text, $userdata);
-				system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg24] $nick:</b> $text");
+				system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg24] $nick:</b> $text");
 			}
 			
 			break;
@@ -1320,7 +1320,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			if ($admin || $u_level == "A") {
 				// Smilies und Text parsen
 				$privat = TRUE;
-				$text = html_parse($privat, $t['chat_msg100'] . htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
+				$text = html_parse($privat, $lang['chat_msg100'] . htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 				
 				if ($text) {
 					// Schleife über alle Benutzer, die online sind
@@ -1332,16 +1332,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $text, $userdata);
 							}
 						}
-						system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $t[chat_msg78]:</b> $text");
+						system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg78]:</b> $text");
 					} else {
 						// Kein Benutzer online
-						system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg79']);
+						system_msg("", $u_id, $u_id, $system_farbe, $lang['chat_msg79']);
 					}
 					mysqli_free_result($result);
 				}
 			} else {
 				// user ist kein Admin
-				system_msg("", $u_id, $u_id, $system_farbe, $t['chat_msg1']);
+				system_msg("", $u_id, $u_id, $system_farbe, $lang['chat_msg1']);
 			}
 			break;
 		
@@ -1358,7 +1358,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				// Nur Superuser dürfen Gästen Punkte geben
 				if ($user['u_level'] == 'G' && $u_level != 'S') {
-					system_msg("", 0, $u_id, $system_farbe, $t['punkte22']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['punkte22']);
 					$user['u_nick'] = "";
 				}
 				
@@ -1368,19 +1368,19 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				// Mehr als ein Punkt? Ansonsten Fehlermeldung
 				if ($anzahl < 1) {
-					system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['punkte7']);
 					$user['u_nick'] = "";
 				}
 				
 				// Kein SU und mehr als 1000 Punkte? Ansonsten Fehlermeldung
 				if ($anzahl > 1000 && $u_level != 'S') {
-					system_msg("", 0, $u_id, $system_farbe, $t['punkte11']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['punkte11']);
 					$user['u_nick'] = "";
 				}
 				
 				// selber Punkte geben ist verboten
 				if ($u_nick == $user['u_nick']) {
-					system_msg("", 0, $u_id, $system_farbe, $t['punkte10']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['punkte10']);
 					$user['u_nick'] = "";
 				}
 				
@@ -1389,21 +1389,21 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
 						punkte($anzahl, $user['o_id'], $user['u_id'], "", TRUE);
-						$txt = str_replace("%user1%", $u_nick, $t['punkte5']);
+						$txt = str_replace("%user1%", $u_nick, $lang['punkte5']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
 						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
-						punkte($anzahl, $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte3']), TRUE);
-						$txt = str_replace("%user2%", $user['u_nick'], $t['punkte8']);
+						punkte($anzahl, $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $lang['punkte3']), TRUE);
+						$txt = str_replace("%user2%", $user['u_nick'], $lang['punkte8']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
 						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					}
 				}
 			} else {
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 			}
 			break;
 		
@@ -1426,30 +1426,30 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				
 				// Mehr als ein Punkt? Ansonsten Fehlermeldung
 				if ($anzahl < 1) {
-					system_msg("", 0, $u_id, $system_farbe, $t['punkte7']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['punkte7']);
 					$user['u_nick'] = "";
 				}
 				
 				// Lustiger Text, wenn der Admin sich selbst etwas abzieht
 				if ($lustigefeatures && $u_nick == $user['u_nick']) {
 					if ($anzahl == 1) {
-						$txt = $t['punkte12'];
+						$txt = $lang['punkte12'];
 					} elseif ($anzahl == 42) {
-						$txt = $t['punkte13'];
+						$txt = $lang['punkte13'];
 					} elseif ($anzahl < 100) {
-						$txt = $t['punkte14'];
+						$txt = $lang['punkte14'];
 					} elseif ($anzahl < 200) {
-						$txt = $t['punkte15'];
+						$txt = $lang['punkte15'];
 					} elseif ($anzahl < 500) {
-						$txt = $t['punkte16'];
+						$txt = $lang['punkte16'];
 					} elseif ($anzahl < 1000) {
-						$txt = $t['punkte17'];
+						$txt = $lang['punkte17'];
 					} elseif ($anzahl < 5000) {
-						$txt = $t['punkte18'];
+						$txt = $lang['punkte18'];
 					} elseif ($anzahl < 10000) {
-						$txt = $t['punkte19'];
+						$txt = $lang['punkte19'];
 					} else {
-						$txt = $t['punkte20'];
+						$txt = $lang['punkte20'];
 					}
 					
 					// eine öffentliche Nachricht an alle schreiben
@@ -1462,27 +1462,27 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($im_raum) {
 						// eine öffentliche Nachricht an alle schreiben
 						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], "", TRUE);
-						$txt = str_replace("%user1%", $u_nick, $t['punkte6']);
+						$txt = str_replace("%user1%", $u_nick, $lang['punkte6']);
 						$txt = str_replace("%user2%", $user['u_nick'], $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
 						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					} else {
 						// Zwei private Nachrichten (admin/user)
-						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $t['punkte4']), TRUE);
-						$txt = str_replace("%user2%", $user['u_nick'], $t['punkte9']);
+						punkte($anzahl * (-1), $user['o_id'], $user['u_id'], str_replace("%user%", $u_nick, $lang['punkte4']), TRUE);
+						$txt = str_replace("%user2%", $user['u_nick'], $lang['punkte9']);
 						$txt = str_replace("%user1%", $u_nick, $txt);
 						$txt = str_replace("%punkte%", $anzahl, $txt);
 						global_msg($u_id, $o_raum, str_replace("%user%", $u_nick, $txt));
 					}
 				}
 			} else {
-				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $t['chat_msg1']));
+				system_msg("", 0, $u_id, $system_farbe, "<b>He $u_nick!</b> " . str_replace("%chatzeile%", $chatzeile[0], $lang['chat_msg1']));
 			}
 			break;
 		
 		case "/time":
 		// Gibt die Systemuhrzeit aus
-			$tempzeit = $t['chat_msg114'];
+			$tempzeit = $lang['chat_msg114'];
 			$tempzeit = str_replace("%datum%", strftime('%d.%m.%Y'), $tempzeit);
 			$tempzeit = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $tempzeit);
 			system_msg("", 0, $u_id, $system_farbe, $tempzeit);
@@ -1496,24 +1496,24 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$o_dicecheck = escape_string($chatzeile[1]);
 					$query = "UPDATE online SET o_dicecheck = '$o_dicecheck' WHERE o_user = $u_id";
 					sqlUpdate($query);
-					if (!isset($t['chat_dicecheck_msg0'])) {
-						$t['chat_dicecheck_msg0'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
+					if (!isset($lang['chat_dicecheck_msg0'])) {
+						$lang['chat_dicecheck_msg0'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde aktiviert. Bitte klicke auf RESET.";
 					}
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0] . " " . $chatzeile[1], $t['chat_dicecheck_msg0']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0] . " " . $chatzeile[1], $lang['chat_dicecheck_msg0']));
 				} else {
-					if (!isset($t['chat_dicecheck_msg1'])) {
-						$t['chat_dicecheck_msg1'] = "<b>$chat:</b> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
+					if (!isset($lang['chat_dicecheck_msg1'])) {
+						$lang['chat_dicecheck_msg1'] = "<b>$chat:</b> Beispiel: <b>%dicecheck% 3W6</b> prüft alle Würfelwürfe, ob sie mit /dice 3W6 geworfen wurden.";
 					}
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg1']));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $lang['chat_dicecheck_msg1']));
 				}
 			} else {
 				$o_dicecheck = "";
 				$query = "UPDATE online SET o_dicecheck = '' WHERE o_user = $u_id";
 				sqlUpdate($query);
-				if (!isset($t['chat_dicecheck_msg2'])) {
-					$t['chat_dicecheck_msg2'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
+				if (!isset($lang['chat_dicecheck_msg2'])) {
+					$lang['chat_dicecheck_msg2'] = "<b>$chat:</b> <b>%dicecheck%</b> wurde deaktiviert. Bitte klicke auf RESET.";
 				}
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $t['chat_dicecheck_msg2']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%dicecheck%", $chatzeile[0], $lang['chat_dicecheck_msg2']));
 			}
 			break;
 		
@@ -1524,7 +1524,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if (preg_match("/^=/", $chatzeile[0])) {
 					// Spruch suchen und ausgeben
 					if ($u_level == "G") {
-						system_msg("", 0, $u_id, $system_farbe, $t['chat_msg55']);
+						system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 					} else {
 						// Art des Spruchs
 						// 0: Ohne Argumente
@@ -1618,16 +1618,16 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if (!$ist_moderiert || $u_level == "M") {
 								hidden_msg($u_nick, $u_id, $u_farbe, $r_id, trim( html_parse($privat, htmlspecialchars($spruchtxt . " "))[0] ) . "<!-- ($u_nick) -->");
 							} else {
-								system_msg("", $u_id, $u_id, $system_farbe, $t['moderiert1']);
+								system_msg("", $u_id, $u_id, $system_farbe, $lang['moderiert1']);
 							}
 						} else {
 							// Fehler ausgeben
-							$fehler = $t['chat_spruch3'];
+							$fehler = $lang['chat_spruch3'];
 							if ($spruchart == 2) {
-								$fehler = $t['chat_spruch1'];
+								$fehler = $lang['chat_spruch1'];
 							}
 							if ($spruchart == 1) {
-								$fehler = $t['chat_spruch2'];
+								$fehler = $lang['chat_spruch2'];
 							}
 							
 							$fehler = str_replace("%spruchname%", $spruchname, $fehler);
@@ -1638,7 +1638,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							for (@reset($sp_list); list(, $sp_text) = each( $sp_list);) {
 								if (preg_match( "/^" . preg_quote($spruchname, "/") . "\t/i", $sp_text)) {
 									$spruchtmp = preg_split("/\t/", $sp_text, 3);
-									$txt = "<small><b>$t[chat_spruch4] <i>" . $spruchtmp[0] . " " . $spruchtmp[1] . "</i></b> &lt;" . $spruchtmp[2] . "&gt;</small>";
+									$txt = "<small><b>$lang[chat_spruch4] <i>" . $spruchtmp[0] . " " . $spruchtmp[1] . "</i></b> &lt;" . $spruchtmp[2] . "&gt;</small>";
 									system_msg("", 0, $u_id, $system_farbe, $txt);
 								}
 							}
@@ -1647,7 +1647,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				} else {
 					// Gibt Fehler aus, falls Eingabe mit / beginnt
 					if (preg_match("/^\//", $chatzeile[0])) {
-						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $t['chat_spruch5']));
+						system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[0], $lang['chat_spruch5']));
 					} else {
 						// Normaler Text im Chat ausgeben
 						// Text filtern und in DB schreiben
@@ -1667,9 +1667,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$f['c_an_user'] = $nick[u_id];
 							if ($nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
-								$f['c_text'] = "[" . $t['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
+								$f['c_text'] = "[" . $lang['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 								if ($nick['u_away'] != "") {
-									system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
+									system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $lang[away1] $nick[u_away]");
 								}
 							} else {
 								// keine Fehlermeldung, wird von nick_replace schon erzeugt...
@@ -1681,9 +1681,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$f['c_an_user'] = $nick[u_id];
 							if ($nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
-								$f['c_text'] = "[" . $t['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[0] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
+								$f['c_text'] = "[" . $lang['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[0] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 								if ($nick['u_away'] != "") {
-									system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $t[away1] $nick[u_away]");
+									system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $nick[u_nick] $lang[away1] $nick[u_away]");
 								}
 							} else {
 								// keine Fehlermeldung, wird von nick_replace schon erzeugt...
@@ -1764,7 +1764,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 									$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
 									$result = sqlUpdate($query, true);
 									
-									system_msg("", 0, $u_id, $system_farbe, $t['moderiert2']);
+									system_msg("", 0, $u_id, $system_farbe, $lang['moderiert2']);
 									system_msg("", 0, $u_id, $system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
 								}
 							}
@@ -1777,7 +1777,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} else {
 				// user ist geknebelt...
 				$zeit = gmdate("H:i:s", $o_knebel);
-				$txt = str_replace("%zeit%", $zeit, $t['knebel6']);
+				$txt = str_replace("%zeit%", $zeit, $lang['knebel6']);
 				system_msg("", $u_id, $u_id, $system_farbe, $txt);
 			}
 	}
@@ -1787,7 +1787,7 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 	// Sperrt Benutzer s_user für Raum r_id oder hebt Sperre auf
 	// Wirft Benutzer ggf aus dem Raum r_id
 	
-	global $lobby, $timeout, $t, $u_level;
+	global $lobby, $timeout, $lang, $u_level;
 	
 	// Id der Lobby als Voreinstellung ermitteln
 	$query = "SELECT r_id FROM raum WHERE r_name LIKE '$lobby' ";
@@ -1797,7 +1797,7 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 	if ($rows > 0) {
 		$lobby_id = mysqli_result($result, 0, "r_id");
 	} else {
-		system_msg("", 0, $u_id, $system_farbe, $t['sperre1']);
+		system_msg("", 0, $u_id, $system_farbe, $lang['sperre1']);
 	}
 	mysqli_free_result($result);
 	
@@ -1822,12 +1822,12 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 				schreibe_db("sperre", $f, "", "s_id");
 				
 				// Benutzer aus Raum werfen
-				global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre3]");
+				global_msg($u_id, $r_id, "'$u_nick' $lang[sperre2] '$s_user_name' $lang[sperre3]");
 				raum_gehe($o_id, $s_user, $s_user_name, $r_id, $lobby_id);
 				
 			} else {
 				// Benutzer ist nicht in diesem Raum... meldung ausgeben.
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $lang['sperre4']));
 				// trotzdem in Seprre eintragen.
 				$f['s_user'] = $s_user;
 				$f['s_raum'] = $r_id;
@@ -1838,14 +1838,14 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 			$s_id = mysqli_result($result, 0, "s_id");
 			$query2 = "DELETE FROM sperre WHERE s_id=$s_id ";
 			$result2 = sqlUpdate($query2);
-			global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre5]");
+			global_msg($u_id, $r_id, "'$u_nick' $lang[sperre2] '$s_user_name' $lang[sperre5]");
 		}
 		
 		mysqli_free_result($result);
 	} else {
 		// Benutzer ist in Lobby
 		if (!($admin || $u_level == "A")) {
-			system_msg("", 0, $u_id, $system_farbe, $t['sperre6']);
+			system_msg("", 0, $u_id, $system_farbe, $lang['sperre6']);
 		} else {
 			// Benutzer aus Chat werfen
 			
@@ -1858,14 +1858,14 @@ function sperre($r_id, $u_id, $u_nick, $s_user, $s_user_name, $admin) {
 			if ($rows2 > 0) {
 				// Benutzer rauswerfen
 				$o_id = mysqli_result($result2, 0, "o_id");
-				global_msg($u_id, $r_id, "'$u_nick' $t[sperre2] '$s_user_name' $t[sperre7]");
+				global_msg($u_id, $r_id, "'$u_nick' $lang[sperre2] '$s_user_name' $lang[sperre7]");
 				// 2 sek vor dem ausloggen warten, damit der Störer die Meldung auch noch lesen kann !!!
 				sleep(2);
 				
 				// Aus dem Chat ausloggen
 				ausloggen($s_user, $s_user_name, $r_id, $o_id);
 			} else {
-				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $t['sperre4']));
+				system_msg("", 0, $u_id, $system_farbe, str_replace("%s_user_name%", $s_user_name, $lang['sperre4']));
 			}
 		}
 	}
@@ -1875,7 +1875,7 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 	// Unterdrückt Mitteilungen von i_user_passiv an i_user_aktiv
 	// Schaltet bei neuem Aufruf wieder zurück
 	
-	global $chat, $t;
+	global $chat, $lang;
 	
 	$i_user_aktiv = intval($i_user_aktiv);
 	$i_user_passiv = intval($i_user_passiv);
@@ -1899,10 +1899,10 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 			$f['i_user_passiv'] = $i_user_passiv;
 			schreibe_db("iignore", $f, "", "i_id");
 			
-			system_msg("", 0, $i_user_aktiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore1']));
-			system_msg("", 0, $i_user_passiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $t['ignore2'])));
+			system_msg("", 0, $i_user_aktiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, $lang['ignore1']));
+			system_msg("", 0, $i_user_passiv, (isset($system_farbe) ? $system_farbe : ""), str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $lang['ignore2'])));
 		} else {
-			system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore5']));
+			system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $lang['ignore5']));
 		}
 		
 		mysqli_free_result($result);
@@ -1913,8 +1913,8 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 		$query2 = "DELETE FROM iignore WHERE i_id=$i_id ";
 		$result2 = sqlUpdate($query2);
 		
-		system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $t['ignore3']));
-		system_msg("", 0, $i_user_passiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $t['ignore4'])));
+		system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $lang['ignore3']));
+		system_msg("", 0, $i_user_passiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $lang['ignore4'])));
 		
 		mysqli_free_result($result);
 		
@@ -1947,8 +1947,8 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 	// gibt ein assoziativ_array $nick[u_nick], $nick[u_id] zurück, falls ein Nick ergänzt werden konnt.
 	// falls kein Nick gefunden wurde oder mehrere Nicks gefunden wurde, werd bereits hier die Fehlerausgaben 
 	// erzeugt
-	//
-	global $u_id, $o_raum, $u_farbe, $system_farbe, $t;
+	
+	global $u_id, $o_raum, $u_farbe, $system_farbe, $lang;
 	
 	// initialisieren:
 	unset($nickcomplete);
@@ -1974,22 +1974,22 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 	// Benutzer suchen, unterschiedliche Queries:
 	switch ($scope) {
 		case "raum":
-			$fehler = $t['chat_msg44'];
-			$answer = $t['chat_msg42'];
+			$fehler = $lang['chat_msg44'];
+			$answer = $lang['chat_msg42'];
 			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . escape_string($part) . "')) AS laenge "
 				. "FROM online " . "WHERE o_name RLIKE '^" . escape_string($ziff . $part) . "' AND o_raum=$o_raum ORDER BY laenge";
 			break;
 		case "chat":
-			$fehler = $t['chat_msg26'];
-			$answer = $t['chat_msg43'];
+			$fehler = $lang['chat_msg26'];
+			$answer = $lang['chat_msg43'];
 			$query = "SELECT *,(LENGTH(u_nick)-length('" . escape_string($part) . "')) AS laenge "
 				. "FROM user " . "WHERE u_nick RLIKE '^" . escape_string($ziff . $part) . "' ORDER BY laenge";
 			break;
 		case "online":
 			$query = "SELECT o_id,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4,(LENGTH(o_name)-length('" . escape_string($part) . "')) AS laenge "
 				. "FROM online " . "WHERE o_name RLIKE '^" . escape_string($ziff . $part) . "' ORDER BY laenge";
-			$fehler = $t['chat_msg25'];
-			$answer = $t['chat_msg32'];
+			$fehler = $lang['chat_msg25'];
+			$answer = $lang['chat_msg32'];
 			break;
 	}
 	
@@ -2064,7 +2064,7 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 }
 
 function auto_knebel($text) {
-	global $admin, $u_id, $u_nick, $o_raum, $t, $ak, $ak2, $system_farbe, $knebelzeit;
+	global $admin, $u_id, $u_nick, $o_raum, $lang, $ak, $ak2, $system_farbe, $knebelzeit;
 	
 	// Prüfen ob private Nachricht
 	$chatzeile = preg_split("/ /", $text, 2);
@@ -2107,7 +2107,7 @@ function auto_knebel($text) {
 			
 			if (isset($ak[$i]) && $ak[$i]) {
 				if (preg_match($ak[$i], $testtext, $treffer)) {
-					system_msg("", 0, $u_id, $system_farbe, $t['knebel7']);
+					system_msg("", 0, $u_id, $system_farbe, $lang['knebel7']);
 					
 					// Hole aktuelle Knebelendzeit und geplante neue
 					$query = "SELECT o_knebel, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) AS knebelneu FROM online WHERE o_user=$u_id";
@@ -2131,13 +2131,13 @@ function auto_knebel($text) {
 					if ($result > 0) {
 						if (mysqli_num_rows($result) > 0) {
 							while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-								$txt = str_replace("%user%", zeige_userdetails($u_id, 0, FALSE, ""), $t['knebel8']);
+								$txt = str_replace("%user%", zeige_userdetails($u_id, 0, FALSE, ""), $lang['knebel8']);
 								$txt = str_replace("%raum%", $r_name, $txt);
 								system_msg("", 0, $row['o_user'], $system_farbe, $txt);
 								if (!$privatnachricht) {
-									system_msg("", 0, $row['o_user'], $system_farbe, $t['knebel9'] . " " . htmlspecialchars($text));
+									system_msg("", 0, $row['o_user'], $system_farbe, $lang['knebel9'] . " " . htmlspecialchars($text));
 								} else {
-									system_msg("", 0, $row['o_user'], $system_farbe, $t['knebel10'] . " " . htmlspecialchars($treffer[0]));
+									system_msg("", 0, $row['o_user'], $system_farbe, $lang['knebel10'] . " " . htmlspecialchars($treffer[0]));
 								}
 							}
 						}

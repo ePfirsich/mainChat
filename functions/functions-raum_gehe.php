@@ -8,7 +8,7 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 	$raum_alt = intval($raum_alt);
 	$raum_neu = intval($raum_neu);
 	
-	global $admin, $u_level, $u_punkte_gesamt, $t, $lobby, $timeout;
+	global $admin, $u_level, $u_punkte_gesamt, $lang, $lobby, $timeout;
 	global $raum_eintrittsnachricht_anzeige_deaktivieren, $raum_austrittsnachricht_anzeige_deaktivieren;
 	global $raum_eintrittsnachricht_kurzform, $raum_austrittsnachricht_kurzform;
 	
@@ -113,8 +113,8 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			$result = sqlUpdate($query);
 			
 			// Austrittstext
-			if ($t['raum_gehe1']) {
-				$txt = $t['raum_gehe1'] . " " . $alt->r_name . ":";
+			if ($lang['raum_gehe1']) {
+				$txt = $lang['raum_gehe1'] . " " . $alt->r_name . ":";
 			} else {
 				unset($txt);
 			}
@@ -144,12 +144,12 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			
 			// Nachricht falls gesperrt ausgeben
 			if ($gesperrt || $zuwenigpunkte) {
-				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe2']));
+				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $lang['raum_gehe2']));
 			}
 			
 			// Topic vorhanden? ausgeben
-			if ($t['raum_gehe6']) {
-				$txt = $t['raum_gehe6'] . " " . $neu->r_name . ":";
+			if ($lang['raum_gehe6']) {
+				$txt = $lang['raum_gehe6'] . " " . $neu->r_name . ":";
 			} else {
 				unset($txt);
 			}
@@ -158,8 +158,8 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			}
 			
 			// Eintrittsnachricht
-			if ($t['raum_gehe3']) {
-				$txt = $t['raum_gehe3'] . " " . $neu->r_name . ":";
+			if ($lang['raum_gehe3']) {
+				$txt = $lang['raum_gehe3'] . " " . $neu->r_name . ":";
 			} else {
 				unset($txt);
 			}
@@ -171,26 +171,26 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			} else if (strlen($neu->r_eintritt) > 0) {
 				system_msg("", 0, $u_id, "", "<br><b>$txt $neu->r_eintritt, $u_nick!</b><br>");
 			} else {
-				system_msg("", 0, $u_id, "", "<br><b>$txt</b> $t[betrete_chat2], $u_nick!<br>");
+				system_msg("", 0, $u_id, "", "<br><b>$txt</b> $lang[betrete_chat2], $u_nick!<br>");
 			}
 			
 			$raum = $raum_neu;
 			
 		} else {
 			// Raum kann nicht betreten werden
-			system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe4']));
+			system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $lang['raum_gehe4']));
 			
 			// Nachricht das gesperrt ausgeben
 			if ($gesperrt) {
-				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe5']));
+				system_msg("", 0, $u_id, "", str_replace("%r_name_neu%", $neu->r_name, $lang['raum_gehe5']));
 			}
 			
 			// Nachricht das zu wenige Punkte ausgeben
 			if ($zuwenigpunkte) {
 				if ($u_level == "G") {
-					$fehler = str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe8']);
+					$fehler = str_replace("%r_name_neu%", $neu->r_name, $lang['raum_gehe8']);
 				} else {
-					$fehler = str_replace("%r_name_neu%", $neu->r_name, $t['raum_gehe7']);
+					$fehler = str_replace("%r_name_neu%", $neu->r_name, $lang['raum_gehe7']);
 				}
 				$fehler = str_replace("%r_min_punkte%", $neu->r_min_punkte, $fehler);
 				system_msg("", 0, $u_id, "", $fehler);

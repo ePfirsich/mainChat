@@ -4,30 +4,30 @@ $code = filter_input(INPUT_GET, 'code', FILTER_SANITIZE_STRING);
 
 $text = "";
 if(!isset($userId) || !isset($code)) {
-	$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_code'];
+	$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_code'];
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	//Abfrage des Nutzers
 	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
 	$mdata = sqlQuery($query);
 	if (!mysqli_num_rows($mdata)) {
-		$fehlermeldung = $t['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
+		$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		$mitglied = mysqli_fetch_assoc($mdata);
 		
 		// Überprüfen ob ein Nutzer gefunden wurde und dieser auch einen Emailcode hat
 		if($mitglied === null || $mitglied['u_email_code'] === null) {
-			$fehlermeldung = $t['login_passwort_fehler_kein_benutzer'];
+			$fehlermeldung = $lang['login_passwort_fehler_kein_benutzer'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if(sha1($code) != $mitglied['u_email_code']) {
 			// Überprüfe den Passwortcode
-			$fehlermeldung = $t['login_passwort_fehler_code_ungueltig'];
+			$fehlermeldung = $lang['login_passwort_fehler_code_ungueltig'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Der Code war korrekt, die E-Mail-Adresse wird geändert
 			
-			$erfolgsmeldung = str_replace("%u_nick%", $mitglied['u_nick'], $t['login_email_erfolgreich_geandert']);
+			$erfolgsmeldung = str_replace("%u_nick%", $mitglied['u_nick'], $lang['login_email_erfolgreich_geandert']);
 			$erfolgsmeldung = str_replace("%u_email%", $mitglied['u_email'], $erfolgsmeldung);
 			$erfolgsmeldung = str_replace("%u_email_neu%", $mitglied['u_email_neu'], $erfolgsmeldung);
 			

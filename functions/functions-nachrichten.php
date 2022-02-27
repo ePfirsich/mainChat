@@ -1,7 +1,7 @@
 <?php
 function formular_neue_email($text, $daten) {
 	// Gibt Formular für den Benutzernamen zum Versand einer Mail aus
-	global $t;
+	global $lang;
 	
 	// Benutzername aus u_nick lesen und setzen
 	if ( $daten['id'] != "" ) {
@@ -16,9 +16,9 @@ function formular_neue_email($text, $daten) {
 	}
 	
 	if ($daten != "" && $daten['id'] != "") {
-		$box = $t['nachrichten_weiterleiten'];
+		$box = $lang['nachrichten_weiterleiten'];
 	} else {
-		$box = $t['nachrichten_neu'];
+		$box = $lang['nachrichten_neu'];
 	}
 	
 	$text .= "<form name=\"mail_neu\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
@@ -29,7 +29,7 @@ function formular_neue_email($text, $daten) {
 	$text .= "<table style=\"width:100%;\">";
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_benutzername'], "daten_nick", $daten['an_nick']);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['nachrichten_benutzername'], "daten_nick", $daten['an_nick']);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
@@ -39,7 +39,7 @@ function formular_neue_email($text, $daten) {
 	}
 	$text .= "<tr>";
 	$text .= "<td $bgcolor>&nbsp;</td>\n";
-	$text .= "<td $bgcolor><input type=\"submit\" value=\"$t[nachrichten_weiter]\"></td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[nachrichten_weiter]\"></td>\n";
 	$text .= "</tr>\n";
 	$text .= "</table>\n";
 	
@@ -51,7 +51,7 @@ function formular_neue_email($text, $daten) {
 
 function formular_neue_email2($text, $daten) {
 	// Gibt Formular zum Versand einer neuen Mail aus
-	global $u_id, $t;
+	global $u_id, $lang;
 	
 	if ($daten['id'] != "") {
 		// Alte Mail lesen und als Kopie in Formular schreiben
@@ -75,7 +75,7 @@ function formular_neue_email2($text, $daten) {
 		
 	} else {
 		// Neue Mail versenden
-		$box = $t['nachrichten_neue_nachricht_an'];
+		$box = $lang['nachrichten_neue_nachricht_an'];
 	}
 	
 	// Signatur anfügen
@@ -106,31 +106,31 @@ function formular_neue_email2($text, $daten) {
 			}
 			
 			// Betreff
-			$text .= zeige_formularfelder("input", $zaehler, $t['nachrichten_betreff'], "daten_betreff", $daten['m_betreff']);
+			$text .= zeige_formularfelder("input", $zaehler, $lang['nachrichten_betreff'], "daten_betreff", $daten['m_betreff']);
 			$zaehler++;
 			
 			// Text
 			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\">$t[nachrichten_text]</td>\n";
+			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\">$lang[nachrichten_text]</td>\n";
 			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"daten_text\">" . $daten['m_text'] . "</textarea></td>\n";
 			$text .= "</tr>\n";
 			
 			// Art des Versands
 			$email_select = "<select name=\"daten_typ\">";
 			if (isset($daten['typ']) && $daten['typ'] == 1) {
-				$email_select .= "<option value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
+				$email_select .= "<option value=\"0\">$lang[nachrichten_art_des_versands_nachricht]\n";
 				if ($row->u_emails_akzeptieren == "1") {
-					$email_select .= "<option selected value=\"1\">$t[nachrichten_art_des_versands_email]\n";
+					$email_select .= "<option selected value=\"1\">$lang[nachrichten_art_des_versands_email]\n";
 				}
 			} else {
-				$email_select .= "<option selected value=\"0\">$t[nachrichten_art_des_versands_nachricht]\n";
+				$email_select .= "<option selected value=\"0\">$lang[nachrichten_art_des_versands_nachricht]\n";
 				if ($row->u_emails_akzeptieren == "1") {
-					$email_select .= "<option value=\"1\">$t[nachrichten_art_des_versands_email]\n";
+					$email_select .= "<option value=\"1\">$lang[nachrichten_art_des_versands_email]\n";
 				}
 			}
 			$email_select .= "</select>\n";
 			$text .= "<tr>\n";
-			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">$t[nachrichten_art_des_versands]</td>\n";
+			$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\">$lang[nachrichten_art_des_versands]</td>\n";
 			$text .= "<td class=\"tabelle_zeile2\">$email_select</td>\n";
 			$text .= "</tr>\n";
 			
@@ -144,10 +144,10 @@ function formular_neue_email2($text, $daten) {
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
 		} else {
-			$fehlermeldung = $t['nachrichten_fehler_benutzername_existiert_nicht2'];
+			$fehlermeldung = $lang['nachrichten_fehler_benutzername_existiert_nicht2'];
 			$text = hinweis($fehlermeldung, "fehler");
 			
-			$box = $t['titel'];
+			$box = $lang['titel'];
 			zeige_tabelle_zentriert($box, $text);
 		}
 	}
@@ -155,7 +155,7 @@ function formular_neue_email2($text, $daten) {
 
 function zeige_mailbox($text, $aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	global $u_nick, $u_id, $chat, $t, $locale;
+	global $u_nick, $u_id, $chat, $lang, $locale;
 	
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
@@ -165,15 +165,15 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		case "geloescht":
 			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='geloescht' ORDER BY m_zeit desc";
-			$button = $t['nachrichten_wiederherstellen'];
-			$titel = $t['nachrichten_papierkorb'];
+			$button = $lang['nachrichten_wiederherstellen'];
+			$titel = $lang['nachrichten_papierkorb'];
 			break;
 		
 		case "postausgang":
 			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 			. "FROM mail LEFT JOIN user ON m_an_uid=u_id WHERE m_von_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
-			$button = $t['nachrichten_loeschen'];
-			$titel = $t['nachrichten_postausgang2'];
+			$button = $lang['nachrichten_loeschen'];
+			$titel = $lang['nachrichten_postausgang2'];
 			$art = "gesendet";
 			break;
 		
@@ -181,8 +181,8 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		default;
 			$query = "SELECT m_id,m_status,m_von_uid,date_format(m_zeit,'%d. %M %Y um %H:%i') AS zeit,m_betreff,u_nick "
 				. "FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status!='geloescht' ORDER BY m_zeit desc";
-			$button = $t['nachrichten_loeschen'];
-			$titel = $t['nachrichten_posteingang2'];
+			$button = $lang['nachrichten_loeschen'];
+			$titel = $lang['nachrichten_posteingang2'];
 	}
 	
 	$result = sqlQuery($query);
@@ -191,7 +191,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		$box = "$anzahl $titel";
 		
 		if($aktion == "geloescht") {
-			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$t[nachrichten_papierkorb_leeren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$t[nachrichten_papierkorb_leeren]</span></a><br><br>";
+			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$lang[nachrichten_papierkorb_leeren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[nachrichten_papierkorb_leeren]</span></a><br><br>";
 		}
 		
 		$text .= "<form name=\"eintraege_loeschen\" action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
@@ -199,16 +199,16 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		
 		if ($anzahl == 0) {
 			// Leere Mailbox
-			$text .=  $t['nachrichten_keine_nachrichten_vorhanden'];
+			$text .=  $lang['nachrichten_keine_nachrichten_vorhanden'];
 		} else {
 			// Nachrichten anzeigen
 			$text .= "<table style=\"width:100%;\">\n"
 				. "<tr>"
 				."<td class=\"tabelle_kopfzeile\" style=\"width:30px; text-align:center;\"><input type=\"checkbox\" onClick=\"toggle(this.checked)\"></td>"
-				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $t['nachrichten_status'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_von'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_betreff'] . "</td>"
-				."<td class=\"tabelle_kopfzeile\">" . $t['nachrichten_datum'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\" style=\"width:40px; text-align:center;\">" . $lang['nachrichten_status'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $lang['nachrichten_von'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $lang['nachrichten_betreff'] . "</td>"
+				."<td class=\"tabelle_kopfzeile\">" . $lang['nachrichten_datum'] . "</td>"
 				."</tr>\n";
 				
 			$i = 0;
@@ -267,7 +267,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 
 function zeige_email($daten, $art) {
 	// Zeigt die Mail im Detail an
-	global $u_nick, $u_id, $chat, $t, $locale;
+	global $u_nick, $u_id, $chat, $lang, $locale;
 	
 	$sql = "SET lc_time_names = '$locale'";
 	$query = sqlQuery($sql);
@@ -299,19 +299,19 @@ function zeige_email($daten, $art) {
 		
 		// Von
 		$text .= "<tr>\n";
-		$text .= "<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>$t[nachrichten_von]</b></td>\n";
+		$text .= "<td style=\"text-align:right; width:200px;\" class=\"tabelle_zeile1\"><b>$lang[nachrichten_von]</b></td>\n";
 		$text .= "<td colspan=\"3\" class=\"tabelle_zeile1\">" . $von_nick . "</td>\n";
 		$text .= "</tr>\n";
 		
 		// Am
 		$text .=  "<tr>\n";
-		$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>$t[nachrichten_am]</b></td>\n";
+		$text .= "<td style=\"text-align:right;\" class=\"tabelle_zeile2\"><b>$lang[nachrichten_am]</b></td>\n";
 		$text .= "<td colspan=\"3\" class=\"tabelle_zeile2 smaller\">" . $row->zeit . "</td>\n";
 		$text .= "</tr>\n";
 		
 		// Text
 		$text .= "<tr>\n";
-		$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>$t[nachrichten_text]</b></td>\n";
+		$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\"><b>$lang[nachrichten_text]</b></td>\n";
 		$text .= "<td colspan=3 class=\"tabelle_zeile1\">" . html_entity_decode( str_replace("\n", "<br>\n", $row->m_text) ) . "</td>\n";
 		$text .= "</tr>\n";
 		
@@ -323,14 +323,14 @@ function zeige_email($daten, $art) {
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"antworten\">\n";
-			$text .= "<input type=\"submit\" value=\"$t[nachrichten_antworten]\">" . "</form>\n";
+			$text .= "<input type=\"submit\" value=\"$lang[nachrichten_antworten]\">" . "</form>\n";
 			$text .= "</td>\n";
 			
 			$text .= "<td style=\"text-align:center;\" class=\"tabelle_zeile2\">\n";
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"daten_id\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"weiterleiten\">\n";
-			$text .= "<input type=\"submit\" value=\"$t[nachrichten_weiterleiten]\">\n";
+			$text .= "<input type=\"submit\" value=\"$lang[nachrichten_weiterleiten]\">\n";
 			$text .= "</form>\n";
 			$text .= "</td>\n";
 			
@@ -338,7 +338,7 @@ function zeige_email($daten, $art) {
 			$text .= "<form action=\"inhalt.php?bereich=nachrichten\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"bearbeite_ids[]\" value=\"" . $row->m_id . "\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesche\">\n";
-			$text .= "<input type=\"submit\" value=\"$t[nachrichten_loeschen]\">\n";
+			$text .= "<input type=\"submit\" value=\"$lang[nachrichten_loeschen]\">\n";
 			$text .= "</form>\n";
 			$text .= "</td>\n";
 			$text .= "</tr>\n";
@@ -362,7 +362,7 @@ function zeige_email($daten, $art) {
 
 function loesche_mail($bearbeite_id, $u_id) {
 	// Löscht eine Mail der ID m_id
-	global $u_nick, $u_id, $t;
+	global $u_nick, $u_id, $lang;
 	
 	$query = "SELECT m_zeit, m_id, m_status, m_betreff FROM mail WHERE m_id=" . $bearbeite_id . " AND m_an_uid=$u_id";
 	$result = sqlQuery($query);
@@ -380,10 +380,10 @@ function loesche_mail($bearbeite_id, $u_id) {
 		
 		schreibe_db("mail", $f, $row->m_id, "m_id");
 		
-		$erfolgsmeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $t['nachrichten_erfolgreich_geloescht']);
+		$erfolgsmeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $lang['nachrichten_erfolgreich_geloescht']);
 		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	} else {
-		$fehlermeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $t['nachrichten_fehler_nicht_geloescht']);
+		$fehlermeldung = str_replace("%nachricht%", html_entity_decode($row->m_betreff), $lang['nachrichten_fehler_nicht_geloescht']);
 		$text = hinweis($fehlermeldung, "fehler");
 	}
 	mysqli_free_result($result);

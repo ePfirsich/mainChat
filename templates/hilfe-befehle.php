@@ -6,22 +6,22 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 
 // Erklärung zu den Befehlen
 $text = '';
-$box = $t['hilfe_uebersicht_befehle'];
+$box = $lang['hilfe_uebersicht_befehle'];
 
 // Tabelle ausgeben
 reset($hilfe_befehlstext);
 $anzahl = count($hilfe_befehlstext);
 $i = 0;
 
-$text .= "<div style=\"text-align:center;\">$t[hilfe_allgemeines_format]</div>";
+$text .= "<div style=\"text-align:center;\">$lang[hilfe_allgemeines_format]</div>";
 
 // Befehle für alle Benutzer
 $text .= "<table style=\"width:100%;\">\n";
 $text .= "<tr>\n";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_befehl]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_funktion]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_aliase]</td>";
-$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_anmerkung]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_befehl]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_funktion]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_aliase]</td>";
+$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_anmerkung]</td>";
 $text .= "</tr>\n";
 
 while ($i < $anzahl) {
@@ -63,15 +63,15 @@ if ( $u_level == 'C' || $u_level == 'S' || $u_level == 'A') {
 	$anzahl = count($hilfe_befehlstext_admin);
 	$i = 0;
 	
-	$text .= "<div style=\"text-align:center;\"><b>$t[hilfe_zusaetzliche_befehle]</b></div>";
+	$text .= "<div style=\"text-align:center;\"><b>$lang[hilfe_zusaetzliche_befehle]</b></div>";
 	
 	// Befehle für Admins
 	$text .= "<table style=\"width:100%;\">\n";
 	$text .= "<tr>\n";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_befehl]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_funktion]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_aliase]</td>";
-	$text .= "<td class=\"tabelle_kopfzeile\">$t[hilfe_anmerkung]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_befehl]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_funktion]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_aliase]</td>";
+	$text .= "<td class=\"tabelle_kopfzeile\">$lang[hilfe_anmerkung]</td>";
 	
 	while ($i < $anzahl) {
 		// Farben umschalten

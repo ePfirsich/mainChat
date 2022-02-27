@@ -120,27 +120,27 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 	
 	// Prüfungen
 	if (strlen($f['ui_wohnort']) > 100) {
-		$fehlermeldung = $t['profil_fehler_wohnort'];
+		$fehlermeldung = $lang['profil_fehler_wohnort'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_geburt'] != "" && !preg_match("/^[0-9]{2}[.][0-9]{2}[.][0-9]{4}$/i", $f['ui_geburt'])) {
-		$fehlermeldung = $t['profil_fehler_geburt'];
+		$fehlermeldung = $lang['profil_fehler_geburt'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_geschlecht'] != "" && $f['ui_geschlecht'] < 0 && $f['ui_geschlecht'] > 3) {
-		$fehlermeldung = $t['profil_fehler_geschlecht'];
+		$fehlermeldung = $lang['profil_fehler_geschlecht'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_beziehungsstatus'] != "" && $f['ui_beziehungsstatus'] < 0 && $f['ui_beziehungsstatus'] > 4) {
-		$fehlermeldung = $t['profil_fehler_beziehungsstatus'];
+		$fehlermeldung = $lang['profil_fehler_beziehungsstatus'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_typ'] != "" && $f['ui_typ'] < 0 && $f['ui_typ'] > 6) {
-		$fehlermeldung = $t['profil_fehler_typ'];
+		$fehlermeldung = $lang['profil_fehler_typ'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
@@ -150,97 +150,97 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 	}
 	
 	if (strlen($f['ui_homepage']) > 160) {
-		$fehlermeldung = $t['profil_fehler_homepage'];
+		$fehlermeldung = $lang['profil_fehler_homepage'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_beruf']) > 100) {
-		$fehlermeldung = $t['profil_fehler_beruf'];
+		$fehlermeldung = $lang['profil_fehler_beruf'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsfilm']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsfilm'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsfilm'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsserie']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsserie'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsserie'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsbuch']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsbuch'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsbuch'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsschauspieler']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsschauspieler'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsschauspieler'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsgetraenk']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsgetraenk'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsgetraenk'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsgericht']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsgericht'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsgericht'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsspiel']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsspiel'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsspiel'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_lieblingsfarbe']) > 100) {
-		$fehlermeldung = $t['profil_fehler_lieblingsfarbe'];
+		$fehlermeldung = $lang['profil_fehler_lieblingsfarbe'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if (strlen($f['ui_hobby']) > 255) {
-		$fehlermeldung = $t['profil_fehler_hobby'];
+		$fehlermeldung = $lang['profil_fehler_hobby'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['u_chathomepage'] != "" && $f['u_chathomepage'] < 0 && $f['u_chathomepage'] > 1) {
-		$fehlermeldung = $t['profil_fehler_chathomepage'];
+		$fehlermeldung = $lang['profil_fehler_chathomepage'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_hintergrundfarbe'] == "" || strlen($f['ui_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_hintergrundfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_hintergrundfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_ueberschriften_textfarbe'] == "" || strlen($f['ui_ueberschriften_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_textfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_ueberschriften_textfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_ueberschriften_textfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_ueberschriften_hintergrundfarbe'] == "" || strlen($f['ui_ueberschriften_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_ueberschriften_hintergrundfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_ueberschriften_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_ueberschriften_hintergrundfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_textfarbe'] == "" || strlen($f['ui_inhalt_textfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_textfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_textfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_inhalt_textfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_linkfarbe'] == "" || strlen($f['ui_inhalt_linkfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_linkfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_inhalt_linkfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_linkfarbe_aktiv'] == "" || strlen($f['ui_inhalt_linkfarbe_aktiv']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_linkfarbe_aktiv'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_linkfarbe_aktiv'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_inhalt_linkfarbe_aktiv'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
 	if ($f['ui_inhalt_hintergrundfarbe'] == "" || strlen($f['ui_inhalt_hintergrundfarbe']) != 6 || !preg_match("/[a-f0-9]{6}/i", $f['ui_inhalt_hintergrundfarbe'])) {
-		$fehlermeldung = str_replace("%farbe%", $t['profil_inhalt_hintergrundfarbe'], $t['profil_fehler_farbe']);
+		$fehlermeldung = str_replace("%farbe%", $lang['profil_inhalt_hintergrundfarbe'], $lang['profil_fehler_farbe']);
 		$text .= hinweis($fehlermeldung, "fehler");
 	}
 	
@@ -248,7 +248,7 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 	if ($fehlermeldung == "") {
 		// Punkte gutschreiben?
 		if ($profil_gefunden == false && strlen($f['ui_wohnort']) > 2) {
-			punkte(500, $o_id, $u_id, $t['profil_punkte']);
+			punkte(500, $o_id, $u_id, $lang['profil_punkte']);
 			$profil_gefunden = true;
 		}
 		
@@ -275,7 +275,7 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 		$f['u_chathomepage'] = $userArray['u_chathomepage'];
 		unset($userArray);
 		
-		$erfolgsmeldung = $t['profil_erfolgsmeldung_profil_gespeichert'];
+		$erfolgsmeldung = $lang['profil_erfolgsmeldung_profil_gespeichert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	}
 }
@@ -283,23 +283,23 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 switch ($aktion) {
 	case "zeigealle":
 	// Alle Profile listen
-		$box = $t['profil_alle_profile'];
+		$box = $lang['profil_alle_profile'];
 		if (!$admin) {
-			$text = $t['profil_fehlermeldung_keine_berechtigung'];
+			$text = $lang['profil_fehlermeldung_keine_berechtigung'];
 		} else {
 			$text = '';
 			$text .= "<table style=\"width:100%;\">\n";
 			$text .= "<tr>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_benutzername]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_wohnort]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_benutzername]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_wohnort]</td>\n";
 			if($admin) {
-				$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_email]</td>\n";
+				$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_email]</td>\n";
 			}
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_webseite]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geburt]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_geschlecht]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_beziehungsstatus]</td>\n";
-			$text .= "<td class=\"tabelle_kopfzeile\">$t[profil_typ]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_webseite]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_geburt]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_geschlecht]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_beziehungsstatus]</td>\n";
+			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_typ]</td>\n";
 			$text .= "</tr>";
 			
 			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id ORDER BY u_nick";
@@ -352,14 +352,14 @@ switch ($aktion) {
 	default:
 		// Neues Profil einrichten oder bestehendes ändern
 		if ($profil_gefunden == true) {
-			$box = $t['bestehendes_profil'];
+			$box = $lang['bestehendes_profil'];
 		} else {
-			$box = $t['neues_profil'];
+			$box = $lang['neues_profil'];
 		}
 		
 		// Textkopf
-		if ($uebergabe != $t['einstellungen_speichern']) {
-			$text .= $t['profil_informationen'];
+		if ($uebergabe != $lang['einstellungen_speichern']) {
+			$text .= $lang['profil_informationen'];
 		}
 		
 		// Editor ausgeben

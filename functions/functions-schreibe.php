@@ -3,7 +3,7 @@ require_once("functions/functions-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {
-	global $u_id, $u_nick, $t, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
+	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
 	
@@ -28,7 +28,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 		// Spamschutz prüfen, falls kein Admin und kein Moderator
 		if (!$admin && ($u_level <> "M")) {
 			
-			// Geschriebene Zeilen und Bytes aus DB lesen (Variable in id_lese() gesetzt)
+			// Geschriebene Zeilen und Bytes aus DB lesen
 			$spam_zeilen = unserialize($o_spam_zeilen);
 			$spam_byte = unserialize($o_spam_byte);
 			
@@ -93,12 +93,12 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 		chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $o_raum, isset($text) ? $text : "", "");
 	} else if ($fehler) { // Spam -> Fehler ausgeben
 		// Systemnachricht mit Fehlermeldung an Benutzer schreiben
-		system_msg("", 0, $u_id, $system_farbe, $t['floodsperre1'] . " " . $text);
+		system_msg("", 0, $u_id, $system_farbe, $lang['floodsperre1'] . " " . $text);
 		
 		// Zur Strafe 10 Punkte abziehen
 		if ($punktefeatures) {
 			$anzahl = 10;
-			punkte((-1) * $anzahl, $o_id, $u_id, $t['floodsperre2'], TRUE);
+			punkte((-1) * $anzahl, $o_id, $u_id, $lang['floodsperre2'], TRUE);
 		}
 	}
 	

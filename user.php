@@ -30,11 +30,11 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 // Login ok?
 echo "<body>\n";
 // Navigation zum Wechseln zwischen Benuzerliste und Smilies
-$text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa-solid fa-refresh icon16\"></span>" . $t['benutzerliste_aktualisieren'] . "</a> | ";
+$text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa-solid fa-refresh icon16\"></span>" . $lang['benutzerliste_aktualisieren'] . "</a> | ";
 if($aktion == "smilies") {
-	$text_navigation .= "<a href=\"user.php\"><span class=\"fa-solid fa-user icon16\"></span>" . $t['benutzerliste_benutzer'] . "</a>";
+	$text_navigation .= "<a href=\"user.php\"><span class=\"fa-solid fa-user icon16\"></span>" . $lang['benutzerliste_benutzer'] . "</a>";
 } else {
-	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa-regular fa-face-smile icon16\"></span>" . $t['benutzerliste_smilies'] . "</a>";
+	$text_navigation .= "<a href=\"user.php?aktion=smilies\"><span class=\"fa-regular fa-face-smile icon16\"></span>" . $lang['benutzerliste_smilies'] . "</a>";
 }
 
 
@@ -88,7 +88,7 @@ switch ($aktion) {
 			if (!$row['r_name'] || $row['r_name'] == "NULL") {
 				$larr[$i]['r_name'] = "[" . $whotext[($o_raum * (-1))] . "]";
 			} else {
-				$larr[$i]['r_name'] = $t['benutzerliste_raum'] . $row['r_name'];
+				$larr[$i]['r_name'] = $lang['benutzerliste_raum'] . $row['r_name'];
 			}
 			
 			// Spezialbehandlung für Admins
@@ -116,7 +116,7 @@ switch ($aktion) {
 		$pmue = mysqli_num_rows($pmu);
 		if ($pmue > 0) {
 			//Anfang Ausgabe PM Liste Rechts.
-			$box = "<center>" . $t['benutzerliste_private_nachrichten'] . "</center>";
+			$box = "<center>" . $lang['benutzerliste_private_nachrichten'] . "</center>";
 			$text = "";
 			
 			$linkuser = "user.php";
@@ -149,9 +149,9 @@ switch ($aktion) {
 
 // Inhalt anzeigen
 if($aktion == "smilies") {
-	$box = "<center>" . $t['benutzerliste_smilies'] . "</center>";
+	$box = "<center>" . $lang['benutzerliste_smilies'] . "</center>";
 } else {
-	$box = "<center>" . $t['benutzerliste_benutzer'] . "</center>";
+	$box = "<center>" . $lang['benutzerliste_benutzer'] . "</center>";
 }
 zeige_tabelle_volle_breite($box, $text);
 ?>

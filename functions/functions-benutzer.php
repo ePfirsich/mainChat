@@ -3,7 +3,7 @@
 function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 	// Falls $admin wahr werden IP und Onlinedaten ausgegeben
 	
-	global $level, $locale, $user_farbe, $ist_online_raum, $t;
+	global $level, $locale, $user_farbe, $ist_online_raum, $lang;
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
@@ -54,7 +54,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		if ($uu_away != "") {
-			$hinweis = "<b>" . $t['hinweis_hinweis_abwesend'] . "</b> " . $uu_away;
+			$hinweis = "<b>" . $lang['hinweis_hinweis_abwesend'] . "</b> " . $uu_away;
 			$text .= hinweis($hinweis, "hinweis");
 		}
 		
@@ -63,7 +63,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= "<table style=\"width:100%;\">";
 		
 		// Überschrift: Avatar
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_avatar'], "", "", 0, "70", "");
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_avatar'], "", "", 0, "70", "");
 		
 		// Avatare
 		// Geschlecht holen
@@ -98,7 +98,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 			
 			// Überschrift: Private Nachricht
-			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_private_nachricht'], "", "", 0, "70", "");
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_private_nachricht'], "", "", 0, "70", "");
 			
 			$value = "<form>";
 			
@@ -129,17 +129,17 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 		
 		// Überschrift: Benutzerdaten
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_benutzerdaten'], "", "", 0, "70", "");
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_benutzerdaten'], "", "", 0, "70", "");
 		
 		// Benutzername
 		$value = zeige_userdetails($ui_id, $row);
-		$text .= zeige_formularfelder("text", $zaehler, "<b>".$t['benutzer_benutzername']."</b>", "", $value);
+		$text .= zeige_formularfelder("text", $zaehler, "<b>".$lang['benutzer_benutzername']."</b>", "", $value);
 		$zaehler++;
 		
 		// Raum
 		if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
 			$value = "<b>" . $o_row->r_name . "&nbsp;[" . $whotext[$o_row->o_who] . "]</b>";
-			$text .= zeige_formularfelder("text", $zaehler, "<b>".$t['benutzer_raum']."</b>", "", $value);
+			$text .= zeige_formularfelder("text", $zaehler, "<b>".$lang['benutzer_raum']."</b>", "", $value);
 			$zaehler++;
 		} else if (isset($o_row) && $o_row->o_who) {
 			$value = "<b>" . "[" . $whotext[$o_row->o_who] . "]</b>";
@@ -147,16 +147,16 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$zaehler++;
 		}
 		if (isset($onlinezeit) && $onlinezeit) {
-			$value = gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $t['benutzer_onlinezeit_details'];
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_onlinezeit'], "", $value);
+			$value = gmdate("H:i:s", $onlinezeit) . "&nbsp;" . $lang['benutzer_onlinezeit_details'];
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_onlinezeit'], "", $value);
 			$zaehler++;
 		} else {
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_letzter_login'], "", $letzter_login);
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_letzter_login'], "", $letzter_login);
 			$zaehler++;
 		}
 		
 		if ($erster_login && $erster_login != "01.01.1970 01:00") {
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_erster_login'], "", $erster_login);
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_erster_login'], "", $erster_login);
 			$zaehler++;
 		}
 		
@@ -169,14 +169,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				$uu_punkte_jahr = 0;
 			}
 			$value = $uu_punkte_gesamt . "/" . $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
-					. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2), str_replace("%monat%", substr(strftime("%B", time()), 0, 3), $t['benutzer_punkte_anzeige']));
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_punkte'], "", $value);
+					. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2), str_replace("%monat%", substr(strftime("%B", time()), 0, 3), $lang['benutzer_punkte_anzeige']));
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_punkte'], "", $value);
 			$zaehler++;
 		}
 		
 		// E-Mail
 		if ($admin) {
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_email_intern'], "", "<a href=\"maito:$uu_email\">$uu_email</a>");
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_email_intern'], "", "<a href=\"maito:$uu_email\">$uu_email</a>");
 			$zaehler++;
 		}
 		
@@ -184,12 +184,12 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		if ($uu_chathomepage == "1") {
 			$url = "home.php?/".URLENCODE($uu_nick);
 			$value = "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_webseite'], "", $value);
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_webseite'], "", $value);
 			$zaehler++;
 		}
 		
 		// Level
-		$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_level'], "", $level[$uu_level]);
+		$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_level'], "", $level[$uu_level]);
 		$zaehler++;
 		
 		// Farbe
@@ -199,14 +199,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$bgcolor = 'class="tabelle_zeile1"';
 		}
 		$text .= "<tr>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_farbe'] . "</td>\n";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_farbe'] . "</td>\n";
 		$text .= "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
 		// Kommentar
 		if ($uu_kommentar && $admin) {
-			$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_kommentar'], "", htmlspecialchars($uu_kommentar));
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_kommentar'], "", htmlspecialchars($uu_kommentar));
 			$zaehler++;
 		}
 		
@@ -217,14 +217,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				while (list($datum, $nick) = each($uu_profil_historie)) {
 					$value .= $nick . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")<br>";
 				}
-				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_profil_edit_historie'], "", $value);
+				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_profil_edit_historie'], "", $value);
 				$zaehler++;
 			}
 			
 			// IPs ausgeben
 			if (isset($o_row) && $o_row->o_ip) {
 				// IP-Adresse
-				$value = $host_name . "<br>" . $o_row->o_ip . " " . $t['benutzer_ip_adressen_online'];
+				$value = $host_name . "<br>" . $o_row->o_ip . " " . $lang['benutzer_ip_adressen_online'];
 						
 				if ($zeigeip == 1 && is_array($ip_historie)) {
 					while (list($datum, $ip_adr) = each($ip_historie)) {
@@ -232,11 +232,11 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 					}
 				}
 				
-				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_ip_adressen'], "", $value);
+				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_ip_adressen'], "", $value);
 				$zaehler++;
 				
 				// Browser
-				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_browser'], "", htmlspecialchars($o_row->o_browser));
+				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_browser'], "", htmlspecialchars($o_row->o_browser));
 				$zaehler++;
 				
 				// HTTP-Info
@@ -249,7 +249,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 							}
 						}
 					}
-					$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_http_info'], "", $value);
+					$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_http_info'], "", $value);
 					$zaehler++;
 				}
 			} else if ($zeigeip == 1 && is_array($ip_historie)) {
@@ -257,7 +257,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				while (list($datum, $ip_adr) = each($ip_historie)) {
 					$value .= $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")" . "<br>";
 				}
-				$text .= zeige_formularfelder("text", $zaehler, $t['benutzer_letzte_ip_adressen'], "", $value);
+				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_letzte_ip_adressen'], "", $value);
 				$zaehler++;
 			}
 			
@@ -268,25 +268,25 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 			
 			// Überschrift: Interaktionen
-			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_interaktionen'], "", "", 0, "70", "");
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_interaktionen'], "", "", 0, "70", "");
 			
 			$value = "";
 			
-			$value .= "[<a href=\"schreibe.php?text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_ignorieren]</a>]<br>\n";
-			$value .= "[<a href=\"schreibe.php?text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_einladen_ausladen]</a>]<br>\n";
-			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_nachricht_senden]</a>]<br>\n";
-			$value .= "[<a href=\"inhalt.php?bereich=freunde&aktion=neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_freund_hinzufuegen]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_ignorieren]</a>]<br>\n";
+			$value .= "[<a href=\"schreibe.php?text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_einladen_ausladen]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$lang[benutzer_nachricht_senden]</a>]<br>\n";
+			$value .= "[<a href=\"inhalt.php?bereich=freunde&aktion=neu&daten_nick=$uu_nick\" target=\"chat\">$lang[benutzer_freund_hinzufuegen]</a>]<br>\n";
 			
 			// Adminmenue
 			if ($admin) {
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
-				$value .= "[<a href=\"inhalt.php?bereich=benutzer&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $t['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $lang['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
+				$value .= "[<a href=\"inhalt.php?bereich=benutzer&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $lang['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 			
 				if ($rows == 1) {
-					$value .= "[<a href=\"schreibe.php?text=/gag%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_knebeln]</a>]<br>\n";
-					$value .= "[<a href=\"schreibe.php?text=/kick%20$uu_nick\" class=\"schreibe-chat\">$t[benutzer_kicken]</a>]<br>\n";
-					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$t[benutzer_sperren]</a>]<br>\n";
-					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$t[benutzer_blacklist]</a>]<br>\n";
+					$value .= "[<a href=\"schreibe.php?text=/gag%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_knebeln]</a>]<br>\n";
+					$value .= "[<a href=\"schreibe.php?text=/kick%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_kicken]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$lang[benutzer_sperren]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$lang[benutzer_blacklist]</a>]<br>\n";
 				}
 			}
 			
@@ -320,7 +320,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("leerzeile", $zaehler, "", "", "", 0, "70", "");
 			
 			// Überschrift: Admin
-			$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_admin'], "", "", 0, "70", "");
+			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_admin'], "", "", 0, "70", "");
 			
 			// Ändern
 			$value = "";
@@ -333,14 +333,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
 			$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
-			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_loeschen]\"><br>";
+			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_loeschen]\"><br>";
 			
 			$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
 			$result = sqlQuery($query);
 			$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
 			
 			if ($g['u_chathomepage'] == "1") {
-				$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$t[einstellungen_benutzerseite_loeschen]\">";
+				$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_benutzerseite_loeschen]\">";
 			}
 			$value .= "</form>\n";
 			
@@ -362,9 +362,9 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Kopf Tabelle Benutzerinfo
 		if (isset($onlinezeit) && $onlinezeit) {
-			$box = str_replace("%user%", $uu_nick, $t['benutzer_online']);
+			$box = str_replace("%user%", $uu_nick, $lang['benutzer_online']);
 		} else {
-			$box = str_replace("%user%", $uu_nick, $t['benutzer_offline']);
+			$box = str_replace("%user%", $uu_nick, $lang['benutzer_offline']);
 		}
 		
 		// Box anzeigen
@@ -397,9 +397,9 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 }
 
 function benutzer_suche($f, $suchtext) {
-	global $t, $admin, $level;
+	global $lang, $admin, $level;
 	// Suchergebnis mit Formular ausgeben
-	$box = $t['benutzer_suche_benutzer_suchen'];
+	$box = $lang['benutzer_suche_benutzer_suchen'];
 	$zaehler = 0;
 	
 	$text = "";
@@ -409,15 +409,15 @@ function benutzer_suche($f, $suchtext) {
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Benutzerdaten
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $t['benutzer_suche_neue_suche'], "", "", 0, "70", "");
+	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_suche_neue_suche'], "", "", 0, "70", "");
 	
 	// Suchtext eingeben
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_suchtext_eingeben'], "suchtext", $suchtext);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_suche_suchtext_eingeben'], "suchtext", $suchtext);
 	$zaehler++;
 	
 	if ($admin) {
 		// Suchformular nach IP-Adressen
-		$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_ip_adresse'], "suche_ip", $suche_ip);
+		$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_suche_ip_adresse'], "suche_ip", $suche_ip);
 		$zaehler++;
 		
 		// Liste der Gruppen ausgeben
@@ -428,9 +428,9 @@ function benutzer_suche($f, $suchtext) {
 		}
 		
 		$text .= "<tr>\n";
-		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $t['benutzer_suche_benutzergruppe'] . "</td>";
+		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_suche_benutzergruppe'] . "</td>";
 		$text .= "<td $bgcolor><select name=\"suche_level\">\n";
-		$text .= "<option value=\"\">$t[benutzer_suche_egal]\n";
+		$text .= "<option value=\"\">$lang[benutzer_suche_egal]\n";
 		
 		reset($level);
 		while (list($levelname, $levelbezeichnung) = each($level)) {
@@ -449,16 +449,16 @@ function benutzer_suche($f, $suchtext) {
 	}
 	
 	// Anmeldung vor
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_anmeldung_vor'], "suche_anmeldung", $suche_anmeldung, 0, "10", $t['benutzer_suche_tagen']);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_suche_anmeldung_vor'], "suche_anmeldung", $suche_anmeldung, 0, "10", $lang['benutzer_suche_tagen']);
 	$zaehler++;
 	
 	// Letzter Login vor
-	$text .= zeige_formularfelder("input", $zaehler, $t['benutzer_suche_letzter_login_vor'], "suche_login", $suche_login, 0, "10", $t['benutzer_suche_stunden']);
+	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_suche_letzter_login_vor'], "suche_login", $suche_login, 0, "10", $lang['benutzer_suche_stunden']);
 	$zaehler++;
 	
 	// Mit Benutzerseite
-	$value = array($t['benutzer_suche_egal'], $t['benutzer_suche_ja']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $t['benutzer_suche_mit_benutzerseite'], "suche_benutzerseite", $value, $suche_benutzerseite);
+	$value = array($lang['benutzer_suche_egal'], $lang['benutzer_suche_ja']);
+	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_suche_mit_benutzerseite'], "suche_benutzerseite", $value, $suche_benutzerseite);
 	$zaehler++;
 	
 	// Formular-Button anzeigen
@@ -471,7 +471,7 @@ function benutzer_suche($f, $suchtext) {
 				<tr>
 					<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>
 					<td $bgcolor>
-						<input type=\"submit\" name=\"suchtext_eingabe\" value=\"$t[benutzer_absenden]\">
+						<input type=\"submit\" name=\"suchtext_eingabe\" value=\"$lang[benutzer_absenden]\">
 					</td>
 				</tr>";
 	$text .= "</table>";
