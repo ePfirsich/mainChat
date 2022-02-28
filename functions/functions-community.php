@@ -710,18 +710,25 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 		// Nachricht versenden
 		if ($i != 0) {
 			switch ($nachricht) {
-				
 				case "OLM":
 					system_msg("", 0, $u_id, $system_farbe, $txt);
 					break;
 				
 				case "Chat-Mail":
-					$betreff = str_replace("%anzahl%", $i, $lang['nachricht_mail6']);
+					if($i == 1) {
+						$betreff = str_replace("%anzahl%", $i, $lang['nachricht_mail6a']);
+					} else {
+						$betreff = str_replace("%anzahl%", $i, $lang['nachricht_mail6']);
+					}
 					mail_sende(0, $u_id, str_replace("%user%", $u_nick, $lang['nachricht_mail5']) . $txt, $betreff);
 					break;
 				
 				case "E-Mail":
-					$betreff = str_replace("%anzahl%", $i, $lang['email_mail6']);
+					if($i == 1) {
+						$betreff = str_replace("%anzahl%", $i, $lang['email_mail6a']);
+					} else {
+						$betreff = str_replace("%anzahl%", $i, $lang['email_mail6']);
+					}
 					email_versende("", $u_id, $lang['email_mail5'] . $txt, $betreff);
 					break;
 				

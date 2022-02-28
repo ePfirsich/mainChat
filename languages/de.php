@@ -309,7 +309,8 @@ $lang['chatmsg_freunde2'] = "<b>$chat:</b> Ein Freund geht weg: %u_nick% verläs
 $lang['chatmsg_freunde5'] = "<b>$chat:</b> Ein Freund ist da: %u_nick% betritt das Forum";
 
 $lang['nachricht_mail5'] = "Hallo %user%, im Chat sind folgende Freunde online:\n\n";
-$lang['nachricht_mail6'] = "%anzahl% Freunde online im $chat";
+$lang['nachricht_mail6'] = "%anzahl% Freunde sind online im Chat";
+$lang['nachricht_mail6a'] = "%anzahl% Freund ist online im Chat";
 $lang['nachricht_mail9'] = "Hallo, über Ihre Freunde im Chat gibt es etwas neues:\n\n";
 $lang['nachricht_freunde3'] = "%u_nick% betritt Raum %raum%";
 $lang['nachricht_freunde4'] = "%u_nick% verlässt den Chat";
@@ -321,7 +322,8 @@ $lang['email_mail4'] = "Der Benutzer \"%name%\" hat folgende Nachricht gesendet:
 E-Mail Adresse: %email%<br>
 Adresse des Chats: $chat_url";
 $lang['email_mail5'] = "Hallo %user%, im $chat sind folgende Freunde online:\n\n";
-$lang['email_mail6'] = "%anzahl% Freunde online im $chat";
+$lang['email_mail6'] = "%anzahl% Freunde sind online im $chat";
+$lang['email_mail6a'] = "%anzahl% Freund ist online im $chat";
 $lang['email_mail7'] = "<b>$chat:</b> Sie haben eine neue Nachricht von '%nick%' erhalten: %betreff%";
 $lang['email_mail8'] = "Hallo %user%, über Ihre Freunde im $chat gibt es etwas neues:\n\n";
 $lang['email_freunde3'] = "%u_nick% betritt Raum %raum% im $chat";
