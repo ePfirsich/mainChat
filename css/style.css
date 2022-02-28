@@ -294,3 +294,24 @@ a:hover {
 	color: var(--Chatmodus-Nachrichten-privat);
 }
 /* Private Nachrichten hervorheben - Ende ******************************************************************* */
+
+/* Ajax Template
+    ******************************************************************* */
+
+#view_ajax {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+}
+
+#ajaxForm{
+  display: block;
+  margin: 0 auto;
+  width: 500px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+/* Ajax Template Ende
+    ******************************************************************* */
