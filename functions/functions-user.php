@@ -200,7 +200,6 @@ function user_liste($larr, $seitenleiste = false) {
 		} else {
 			if ($level == "admin" || $level == "owner") {
 				$trow .= "<a href=\"schreibe.php?text=/einlad%20$v[u_nick]\" class=\"schreibe-chat\">E</a>&nbsp;";
-				//$trow .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"einladung('" . $v['u_nick'] . "'); return(false)\">E</a>&nbsp;";
 			}
 			if ($level == "admin" || $level == "owner") {
 				$trow .= "&nbsp;";
