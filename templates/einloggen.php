@@ -230,7 +230,7 @@ if($in_den_chat_einloggen) {
 					$ergebnis = $zahl1 * $zahl2;
 				}
 				
-				$text .= $tzahl[$zahl1] . " " . $taufgabe[$aufgabe] . " " . $tzahl[$zahl2] . " &nbsp;&nbsp;&nbsp;&nbsp;";
+				$text .= $langzahl[$zahl1] . " " . $langaufgabe[$aufgabe] . " " . $langzahl[$zahl2] . " &nbsp;&nbsp;&nbsp;&nbsp;";
 				
 				//echo md5( $user_id . "+code+" . $ergebnis . "+" . date("Y-m-d h") );
 				//echo md5( $user_id . "code" . $ergebnis . "+" . date("Y-m-d h") );
