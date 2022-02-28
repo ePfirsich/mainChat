@@ -20,4 +20,3 @@ $jsonData = chatClass::getRestChatLines($last_time_id);
 
 print $jsonData;
 ?>
-</html>

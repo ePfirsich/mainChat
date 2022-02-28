@@ -74,13 +74,14 @@ class chatClass {
 			
 			if( $row->c_typ == 'H' ) {
 				$vonuserid = '';
+				$row->c_text = "<i>" . $row->c_text . "</i>";
 				
 				if( $row_usr->u_level == 'S' || $row_usr->u_level == 'C' || $row_usr->u_level == 'M' ) {
 					$level = " <b>(". $row->c_von_user .")</b>";
 				}
 			}
 			
-			$c_text =	$row->c_text;
+			$c_text = $row->c_text;
 			
 			// Smilies ausgeben oder unterdrücken
 			if ($benutzerdaten['u_smilies'] == "0") {
