@@ -19,7 +19,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-// Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sich Bentzer in anderen Räumen einloggen/ausloggen
+// Der Refresh wird nur noch benötigt, um die Gesamtanzahl der Benutzer zu aktualisieren, wenn sich in anderen Räumen einloggen
 $meta_refresh = "";
 $meta_refresh .= '<meta http-equiv="refresh" content="30; URL=interaktiv.php?o_raum_alt=' . $o_raum . '">';
 $meta_refresh .= "<script>\n function chat_reload(file) {\n parent.chat.location.href=file;\n}\n\n</script>\n";
@@ -38,9 +38,9 @@ if (isset($neuer_raum) && $o_raum != $neuer_raum) {
 	}
 	
 	// Falls Pull-Chat, Chat-Fenster neu laden
-	echo "<script language=Javascript>"
-		. "chat_reload('chat.php')"
-		. "</script>\n";
+//	echo "<script language=Javascript>"
+//		. "chat_reload('chat.php')"
+//		. "</script>\n";
 }
 
 // Daten für den Raum lesen
@@ -80,9 +80,9 @@ $text .= "<tr>\n";
 $text .= "<td class=\"smaller\">\n";
 
 if ($anzahl_raum == 1) {
-	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv1']);
+	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $lang['interaktiv1']);
 } else {
-	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $t['interaktiv2']);
+	$txt = str_replace("%anzahl_raum%", $anzahl_raum, $lang['interaktiv2']);
 }
 
 $text .= " " . str_replace("%anzahl_gesamt%", $anzahl_gesamt, $txt) . "</td>";
@@ -96,7 +96,7 @@ $a = mysqli_fetch_array($result, MYSQLI_ASSOC);
 $zahl = $a['zahl'];
 
 if ($zahl > 1) {
-	$text .= "$t[interaktiv3]<br>\n";
+	$text .= "$lang[interaktiv3]<br>\n";
 	$text .= "<select name=\"neuer_raum\" onChange=\"document.form1.submit()\">\n";
 	
 	// Admin sehen alle Räume, andere Benutzer nur die offenen

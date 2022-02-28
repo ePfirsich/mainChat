@@ -35,101 +35,27 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 		// Chatausgabe
 		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back, $benutzerdaten);
 	} else {
-		// Endlos-Push-Methode - Normalmodus
-		
-		// Kopf ausgeben
-		// header("Content-Type: multipart/mixed;boundary=myboundary");
-		// echo "\n--myboundary\n";
-		// echo "Content-Type: text/html\n\n";
-		//echo "<html><head>".
-		//	"<script language=JavaScript>\n".
-		//	"function scroll() {\n".
-		//	"window.scrollTo(0,50000);\n".
-		//	"setTimeout(\"scroll()\",200);\n".
-		//	"}\n".
-		//	"setTimeout(\"scroll()\",100);\n".
-		//	"</script>\n".
-		
 		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\" />\n";
 		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
+		//$meta_refresh .= '<script src="js/jscript.js"></script>';
+		$meta_refresh .= '<script src="js/jquery-3.6.0.min.js"></script>';
+		$meta_refresh .= '<script src="js/chat.js"></script>';
+		//echo'<link rel="stylesheet" href="css/style.css" />';
+		//echo'</head>';
+		
 		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 		
-		// Voreinstellungen
-		$j = 0;
-		$i = 0;
-		$beende_prozess = FALSE;
-		set_time_limit($refresh_zeit + 30);
-		ignore_user_abort(FALSE);
-		
-		// 1 Sek pro Durchlauf fest eingestellt
-		$durchlaeufe = $refresh_zeit;
-		$zeige_userliste = 100;
-		
-		while ($j < ($durchlaeufe) && !$beende_prozess){
-			// Raum merken
-			$o_raum_alt = $o_raum;
-			
-			// Bin ich noch online?
-			$result = mysqli_query(	$conn,	"SELECT HIGH_PRIORITY o_raum,o_ignore FROM online WHERE o_id=" . $o_id . " ");
-			if ($result > 0) {
-				if (mysqli_Num_Rows($result) == 1) {
-					$row = mysqli_fetch_object($result);
-					$o_raum = $row->o_raum;
-					$ignore = unserialize($row->o_ignore);
-				} else {
-					// Raus aus dem Chat, vorher kurz warten
-					sleep(10);
-					$beende_prozess = TRUE;
-				}
-				mysqli_free_result($result);
-			}
-			
-			$j++;
-			$i++;
-			
-			// Falls nach mehr als 100 sek. keine Ausgabe erfolgt, Userliste anzeigen
-			// Nach > 120 Sekunden schlagen bei einigen Browsern Timeouts zu ;)
-			if ($i > $zeige_userliste) {
-				if (isset($raum_msg) && $raum_msg != "AUS") {
-					system_msg("", 0, $u_id, $system_farbe, $raum_msg);
-				} else {
-					raum_user($o_raum, $u_id);
-				}
-				$i = 0;
-			}
-			
-			// Raumwechsel?
-			if (($trigger_letzte_Zeilen == 0) && ($o_raum != $o_raum_alt)) {
-				// Trigger für die letzten Nachrichten setzen
-				$trigger_letzte_Zeilen = 1;
-			}
-			
-			// Chatausgabe
-			// Falls Result=wahr wurde Text ausgegeben, Timer für Userliste zurücksetzen
-			if (chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $trigger_letzte_Zeilen, $benutzerdaten)) {
-				$i = 0;
-			}
-			
-			// Trigger zurücksetzen
-			$trigger_letzte_Zeilen = 0;
-			
-			// 0,2 oder 1 Sekunde warten
-			sleep(1);
-			
-			// Ausloggen falls Browser abgebrochen hat
-			if (connection_status() != 0) {
-				// Verbindung wurde abgebrochen -> Schleife verlassen
-				$beende_prozess = TRUE;
-			}
-			
-		}
+		echo'<body>';
+		echo'<div id="container">';
+		echo'<div id="view_ajax"></div>';
+		echo'</div>';
 		
 		// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
-		$trigger_letzte_Zeilen = 20;
+	//	$trigger_letzte_Zeilen = 20;
 		
 		// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-		echo "<body onLoad='parent.chat.location=\"chat.php\"'>";
-		flush();
+		//echo "<body onLoad='parent.chat.location=\"chat.php\"'>";
+		//flush();
 	}
 }
 ?>
