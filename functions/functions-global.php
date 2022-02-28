@@ -237,6 +237,7 @@ function schreibe_chat($f) {
 	
 	// Schreiben falls text > 0
 	if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
+		/*
 		// Falls Länge c_text mehr als 256 Zeichen, auf mehrere Zeilen aufteilen
 		if (strlen($f['c_text']) > 256) {
 			$temp = $f['c_text'];
@@ -263,10 +264,11 @@ function schreibe_chat($f) {
 			$query = "UNLOCK TABLES";
 			$result = sqlUpdate($query, true);
 		} else {
+		*/
 			// Normale Zeile in Tabelle schreiben
 			$f['c_br'] = "normal";
 			$ergebnis = schreibe_db("chat", $f, "", "c_id");
-		}
+		//}
 	} else {
 		$ergebnis = 0;
 	}
