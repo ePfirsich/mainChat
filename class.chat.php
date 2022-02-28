@@ -9,6 +9,7 @@ $u_id = $_SESSION['u_id'];
 
 class chatClass {
 	public static function getRestChatLines($last_time_id) {
+		global $chat_status_klein;
 		$arr = array();
 		$jsonData = '{"results":[';
 		
@@ -68,10 +69,12 @@ class chatClass {
 				$vonuserid = "" . $ava . " <b>" . $row->c_von_user . "</b>: ";
 			}
 			
+			// Private Nachrichten
 			if( $row->c_typ == 'P' ) {
 				$vonuserid = "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>". $row->c_von_user ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row->c_von_user ." '); return(false)\">privat</a>):</b> ";
 			}
 			
+			// Sprüche und /me
 			if( $row->c_typ == 'H' ) {
 				$vonuserid = '';
 				$row->c_text = "<i>" . $row->c_text . "</i>";
@@ -79,6 +82,14 @@ class chatClass {
 				if( $row_usr->u_level == 'S' || $row_usr->u_level == 'C' || $row_usr->u_level == 'M' ) {
 					$level = " <b>(". $row->c_von_user .")</b>";
 				}
+			}
+			
+			// Status-Nachrichten
+			if( $row->c_typ == 'S' ) {
+				if ($chat_status_klein) {
+					$row->c_text = "<small>" . $row->c_text . "</small>";
+				}
+				//$row->c_text = "<span class=\"fa-solid fa-circle-info icon16\"></span> <span>" . $row->c_text;
 			}
 			
 			$c_text = $row->c_text;
@@ -144,6 +155,7 @@ class chatClass {
 		
 		$jsonData .= implode(",", $arr);
 		$jsonData .= ']}';
+		
 		return $jsonData;
 	}
 }
