@@ -2,25 +2,10 @@
 require_once("functions/functions-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
-function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten) {
-	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $sicherer_modus, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte;
+function schreibe_nachricht_chat($text, $privat, $o_id, $benutzerdaten) {
+	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte, $o_spam_zeit;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
-	
-	// $chat_back gesetzt?
-	if (isset($user_chat_back) && (strlen($user_chat_back) > 0)) {
-		// chat_back in DB schreiben
-		unset($f);
-		$f['u_zeilen'] = $user_chat_back;
-		pdoQuery("UPDATE `user` SET `u_zeilen` = :u_zeilen WHERE `u_id` = :u_id",
-			[
-				':u_id'=>$u_id,
-				':u_zeilen'=>$f['u_zeilen']
-			]);
-		aktualisiere_inhalt_online($u_id);
-		
-		$chat_back = $user_chat_back;
-	}
 	
 	// Falls private Nachricht, Benutzernamen ergänzen
 	if (isset($privat) && strlen($privat) > 2) {
@@ -108,10 +93,6 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 		}
 	}
 	
-	// Falls Pull-Chat, Chat-Fenster neu laden, falls Benutzer im Chat
-	if ($o_who != 2 && ($sicherer_modus || $benutzerdaten['u_sicherer_modus'] == "1") ) {
-		reset_system("chatfenster");
-	}
 	// falls Moderator, moderationsfenster nach Eingabe neu laden, falls Benutzer im Chat
 	if ($o_who != 2 && $u_level == "M") {
 		reset_system("moderator");

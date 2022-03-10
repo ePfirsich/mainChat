@@ -12,7 +12,6 @@
 # u_farbe					Voreingestellte Farbe
 # u_cookie					Falls 1 -> Cookie erwünscht
 # u_auth					Normalerweise unbelegt, legt die Authentisierung (Cookies, HTTP-Auth) für den User fest
-# u_zeilen					Anzahl der Zeilen, die der User im Chat wünscht (optional)
 # u_email					E-Mail Adresse für Administatrion, muss angegeben werden
 # u_ip_historie 			Liste der IP-Adressen der letzten Logins
 # u_away					away-Text des Benutzers
@@ -505,7 +504,6 @@ CREATE TABLE `user` (
 	`u_farbe` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 	`u_away` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 	`u_ip_historie` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-	`u_zeilen` int(11) DEFAULT NULL,
 	`u_punkte_gesamt` int(10) UNSIGNED NOT NULL DEFAULT 0,
 	`u_punkte_monat` int(10) UNSIGNED NOT NULL DEFAULT 0,
 	`u_punkte_jahr` int(10) UNSIGNED NOT NULL DEFAULT 0,
@@ -527,7 +525,6 @@ CREATE TABLE `user` (
 	`u_systemmeldungen` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`u_smilies` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1,
-	`u_sicherer_modus` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_emails_akzeptieren` int(1) UNSIGNED NOT NULL DEFAULT 1

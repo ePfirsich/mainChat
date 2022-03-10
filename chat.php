@@ -24,39 +24,27 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	$title = $body_titel;
 	$meta_refresh = "";
 
-	// Algorithmus wählen
-	if ($sicherer_modus ||$benutzerdaten['u_sicherer_modus'] == "1") {
-		// n-Zeilen ausgeben und nach Timeout neu laden
-		$meta_refresh .= '<meta http-equiv="refresh" content="7; URL=chat.php">';
-		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>";
-		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
-		echo "<body>";
-		
-		// Chatausgabe
-		chat_lese($o_id, $o_raum, $u_id, $sysmsg, $ignore, $chat_back, $benutzerdaten);
-	} else {
-		$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\">\n";
-		$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
-		//$meta_refresh .= '<script src="js/jscript.js"></script>';
-		$meta_refresh .= '<script src="js/jquery-3.6.0.min.js"></script>';
-		$meta_refresh .= '<script src="js/chat.js"></script>';
-		//echo'<link rel="stylesheet" href="css/style.css">';
-		//echo'</head>';
-		
-		zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
-		
-		echo'<body>';
-		echo'<div id="container">';
-		echo'<div id="view_ajax"></div>';
-		echo'</div>';
-		
-		// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
-	//	$trigger_letzte_Zeilen = 20;
-		
-		// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
-		//echo "<body onLoad='parent.chat.location=\"chat.php\"'>";
-		//flush();
-	}
+	$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\">\n";
+	$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
+	//$meta_refresh .= '<script src="js/jscript.js"></script>';
+	$meta_refresh .= '<script src="js/jquery-3.6.0.min.js"></script>';
+	$meta_refresh .= '<script src="js/chat.js"></script>';
+	//echo'<link rel="stylesheet" href="css/style.css">';
+	//echo'</head>';
+	
+	zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+	
+	echo'<body>';
+	echo'<div id="container">';
+	echo'<div id="view_ajax"></div>';
+	echo'</div>';
+	
+	// Trigger für die Ausgabe der letzten 20 Nachrichten setzen
+//	$trigger_letzte_Zeilen = 20;
+	
+	// echo "\n\n--myboundary\nContent-Type: text/html\n\n";
+	//echo "<body onLoad='parent.chat.location=\"chat.php\"'>";
+	//flush();
 }
 ?>
 </body>

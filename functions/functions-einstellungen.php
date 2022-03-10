@@ -201,11 +201,6 @@ function user_edit($text, $f, $admin, $u_level) {
 		$zaehler++;
 	}
 	
-	// Sicherer Modus
-	$value = array($lang['benutzer_modus_normal'], $lang['benutzer_modus_sicher']);
-	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_modus'], "u_sicherer_modus", $value, $f['u_sicherer_modus']);
-	$zaehler++;
-	
 	// Level nur für Admins
 	if ($admin) {
 		if ($zaehler % 2 != 0) {

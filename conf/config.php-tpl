@@ -23,7 +23,6 @@ $locale = "%content_locale%";		// Locale Chats
 $chat="%chatname%";					// Name des Chats
 $body_titel=$chat;					// Titel in den Seitenköpfen
 $chat_url = "%chaturl%";			// URL des Chats mit https:// davor, aber ohne / am Ende
-$sicherer_modus = false;			// Sicherer Modus Aktivieren
 $debug_modus = false;				// Bei aktiviertem Debug-Modus werden fehlgeschlagenen Datenbankabfragen an $kontakt gesendet
 $secret_salt = "%secret_salt%";		// Zufallsgenerierte Zeichenkette zum Hashen des Passwortes (12-stellig reicht hier aus)
 									// Wenn dies im Laufenden Betrieb geändert wird, muss sich jeder Benutzer ein neues Passwort über "Passwort vergessen" anfordern.

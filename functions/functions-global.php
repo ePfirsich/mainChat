@@ -405,8 +405,7 @@ function id_lese($id) {
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
 	
-	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $u_zeilen;
-	global $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
+	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat;
 	
@@ -477,14 +476,13 @@ function id_lese($id) {
 function aktualisiere_inhalt_online($user_id) {
 	// Kopie in Onlinedatenbank aktualisieren
 	// Query muss mit dem Code in login() übereinstimmen
-	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount == 1) {
 		$userdata = $query->fetch();
 		
 		// Slashes in jedem Eintrag des Array ergänzen
-		reset($userdata);
 		foreach($userdata as $ukey => $udata) {
 			$udata = $udata;
 		}
@@ -1415,10 +1413,6 @@ function reset_system($wo_online) {
 		echo "<script>\n";
 		echo "parent.frames[2].location.href='user.php';\n";
 		echo "</script>";
-	} else if ( $wo_online == "chatfenster" ) {
-		echo "<script>\n";
-		echo "parent.frames[1].location.href='chat.php';\n";
-		echo "</script>";
 	} else if ( $wo_online == "moderator" ) {
 		echo "<script>\n";
 		echo "parent.frames[4].location.href='moderator.php';\n";
@@ -1444,12 +1438,7 @@ function reset_system($wo_online) {
 function hole_benutzer_einstellungen($u_id, $ort) {
 	if($ort == "chatausgabe") {
 		// Benötigte Einstellugen für das Chatfenster
-		$query = pdoQuery("SELECT `u_systemmeldungen`, `u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_sicherer_modus` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
-		
-		$benutzerdaten = $query->fetch();
-	} else if($ort == "chateingabe") {
-		// Benötigte Einstellugen für die Eingabe
-		$query = pdoQuery("SELECT `u_layout_farbe`, `u_sicherer_modus` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+		$query = pdoQuery("SELECT `u_systemmeldungen`, `u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 		
 		$benutzerdaten = $query->fetch();
 	} else if($ort == "standard") {

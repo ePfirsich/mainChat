@@ -189,7 +189,7 @@ if ($mailloescheauspapierkorb < 1) {
 pdoQuery("DELETE FROM `mail` WHERE `m_status` = 'geloescht' AND `m_geloescht_ts` < :m_geloescht_ts", [':m_geloescht_ts'=>date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y")))]);
 
 // Gast aus der Tabelle online löschen
-pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout", [':timeout'=>$timeout]);
+pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) > :timeout", [':timeout'=>($timeout*4)]);
 
 
 

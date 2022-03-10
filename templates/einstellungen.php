@@ -16,7 +16,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 }
 
 $query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, `u_passwort`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`,
-					`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe`, `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$temp_u_id]);
+					`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_level`, `u_farbe`, `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$temp_u_id]);
 
 $resultCount = $query->rowCount();
 if ($resultCount == 1) {
@@ -52,7 +52,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$f['u_layout_chat_darstellung'] = filter_input(INPUT_POST, 'u_layout_chat_darstellung', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_smilies'] = filter_input(INPUT_POST, 'u_smilies', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_punkte_anzeigen'] = filter_input(INPUT_POST, 'u_punkte_anzeigen', FILTER_SANITIZE_NUMBER_INT);
-		$f['u_sicherer_modus'] = filter_input(INPUT_POST, 'u_sicherer_modus', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_level'] = filter_input(INPUT_POST, 'u_level', FILTER_SANITIZE_URL);
 		$f['u_farbe'] = filter_input(INPUT_POST, 'u_farbe', FILTER_SANITIZE_URL);
 	}
@@ -499,7 +498,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_kommentar` = :u_kommentar, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
 								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
 								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
-								`u_sicherer_modus` = :u_sicherer_modus, `u_level` = :u_level, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+								`u_level` = :u_level, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
 							[
 								':u_id'=>$f['u_id'],
 								':u_nick'=>$f['u_nick'],
@@ -516,7 +515,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],
 								':u_smilies'=>$f['u_smilies'],
 								':u_punkte_anzeigen'=>$f['u_punkte_anzeigen'],
-								':u_sicherer_modus'=>$f['u_sicherer_modus'],
 								':u_level'=>$f['u_level'],
 								':u_farbe'=>$f['u_farbe'],
 								':u_nick_historie'=>$f['u_nick_historie'],
@@ -525,14 +523,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					} else if ($u_level == "G") {
 						// Gast
 						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_avatare_anzeigen` = :u_avatare_anzeigen, `u_layout_farbe` = :u_layout_farbe, `u_smilies` = :u_smilies,
-								`u_sicherer_modus` = :u_sicherer_modus, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+								`u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
 							[
 								':u_id'=>$f['u_id'],
 								':u_nick'=>$f['u_nick'],
 								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
 								':u_layout_farbe'=>$f['u_layout_farbe'],
 								':u_smilies'=>$f['u_smilies'],
-								':u_sicherer_modus'=>$f['u_sicherer_modus'],
 								':u_farbe'=>$f['u_farbe'],
 								':u_nick_historie'=>$f['u_nick_historie'],
 								':u_profil_historie'=>$f['u_profil_historie']
@@ -542,7 +539,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
 								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
 								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
-								`u_sicherer_modus` = :u_sicherer_modus, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+								`u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
 							[
 								':u_id'=>$f['u_id'],
 								':u_nick'=>$f['u_nick'],
@@ -558,7 +555,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],
 								':u_smilies'=>$f['u_smilies'],
 								':u_punkte_anzeigen'=>$f['u_punkte_anzeigen'],
-								':u_sicherer_modus'=>$f['u_sicherer_modus'],
 								':u_farbe'=>$f['u_farbe'],
 								':u_nick_historie'=>$f['u_nick_historie'],
 								':u_profil_historie'=>$f['u_profil_historie']
@@ -620,7 +616,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						|| $benutzerdaten_row['u_systemmeldungen'] != $f['u_systemmeldungen']
 						|| $benutzerdaten_row['u_avatare_anzeigen'] != $f['u_avatare_anzeigen']
 						|| $benutzerdaten_row['u_punkte_anzeigen'] != $f['u_punkte_anzeigen']
-						|| $benutzerdaten_row['u_sicherer_modus'] != $f['u_sicherer_modus']
 						|| $benutzerdaten_row['u_layout_farbe'] != $f['u_layout_farbe']
 						|| $benutzerdaten_row['u_layout_chat_darstellung'] != $f['u_layout_chat_darstellung']) {
 							reset_system($wo_online);

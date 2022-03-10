@@ -17,7 +17,6 @@ if( $text == '') {
 $username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_STRING);
 
 $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
-$user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUMBER_INT);
 
 // Das Level aus der Tabelle "online" holen
 $query = pdoQuery("SELECT `o_level` FROM `online` WHERE `o_hash` = :o_hash", [':o_hash'=>$id]);
@@ -36,12 +35,12 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 }
 
 // Hole alle benötigten Einstellungen des Benutzers
-$benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
-schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutzerdaten);
+schreibe_nachricht_chat($text, $privat, $o_id, $benutzerdaten);
 ?>
 </body>
 </html>

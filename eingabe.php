@@ -15,7 +15,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 }
 
 // Hole alle benötigten Einstellungen des Benutzers
-$benutzerdaten = hole_benutzer_einstellungen($u_id, "chateingabe");
+$benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 // Raumwechsel
 $o_raum_alt = filter_input(INPUT_POST, 'o_raum_alt', FILTER_SANITIZE_NUMBER_INT);
@@ -58,14 +58,6 @@ if ($u_level == "M") {
 }
 $text = "<form name=\"form\" method=\"post\">";
 $text .= $text_typ;
-// Unterscheidung Normal oder sicherer Modus
-if ($sicherer_modus || $benutzerdaten['u_sicherer_modus'] == "1") {
-	$text .= "<select name=\"user_chat_back\">\n";
-	for ($i = 10; $i <= 40; $i++) {
-		$text .= "<option " . ($chat_back == $i ? "selected " : "") . "value=\"$i\">$i $lang[eingabe1]\n";
-	}
-	$text .= "</select>\n";
-}
 $text .= "<button type=\"submit\">Go!</button>";
 $text .= "</form>";
 
