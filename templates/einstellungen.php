@@ -411,6 +411,11 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 				}
 				
+				if($u_level != "C" && $u_level != "S") {
+					$f['u_email'] = $benutzerdaten_row['u_email'];
+					$f['u_level'] = $benutzerdaten_row['u_level'];
+				}
+				
 				// Ist das Passwort gesetzt?
 				if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
 					if ($f['u_passwort'] != $f['u_passwort2']) {
