@@ -273,7 +273,7 @@ function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if (!$u_gelesene[$th_id]) {
+	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
 		return count($arr_postings);
 	}
 	
