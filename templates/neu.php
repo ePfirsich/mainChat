@@ -29,17 +29,14 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 	// Korrekter Aufruf
 	
 	// Mit dieser E-Mail wurde bereits ein Account registriert
-	$query = "SELECT email FROM mail_check WHERE email = '" . escape_string($email) . "'";
-	$result = sqlQuery($query);
-	$rows = mysqli_num_rows($result);
-	mysqli_free_result($result);
+	$query = pdoQuery("SELECT `email` FROM `mail_check` WHERE `email` = :email", [':email'=>$email]);
 	
-	if ($rows == 0) {
+	$resultCount = $query->rowCount();
+	if ($resultCount == 0) {
 		$fehlermeldung = $lang['registrierung_fehler_aktivierungslink_verwendet'];
 		$text .= hinweis($fehlermeldung, "fehler");
 		$formular_anzeigen = false;
 	}
-	
 } else if($f['u_email'] != "" && $f['hash'] == md5($f['u_email'] . "+" . date("Y-m-d"))) {
 	// Korrekter Aufruf
 } else {
@@ -98,23 +95,21 @@ if($formular == 1) {
 		}
 		
 		// Gibt es den Benutzernamen schon?
-		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . escape_string($f['u_nick']) . "'";
-		$result = sqlQuery($query);
-		$rows = mysqli_num_rows($result);
+		$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$f['u_nick']]);
 		
-		if ($rows != 0) {
+		$resultCount = $query->rowCount();
+		if ($resultCount != 0) {
 			$fehlermeldung = $lang['registrierung_fehler_benutzername_vergeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		mysqli_free_result($result);
 	}
 	
-	// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. registrierung
-	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
+	// Prüfe ob Mailadresse schon zu oft registriert, durch ZURÜCK Button bei der 1. Registrierung
+	$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_email` = :u_email", [':u_email'=>$f['u_email']]);
+	
+	$resultCount = $query->rowCount();
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-	if ($num > 0) {
+	if ($resultCount > 0) {
 		$fehlermeldung .= $lang['registrierung_fehler_email_bereits_vorhanden'];
 	}
 	
@@ -227,14 +222,15 @@ if ($weiter_zu_login) {
 	$text .= "</table>\n";
 	$text .= "</form>\n";
 	
-	
 	$f['u_level'] = "U";
+	pdoQuery("INSERT INTO `user` (`u_nick`, `u_passwort`, `u_email`, `u_level`, `u_neu`) VALUES (:u_nick, :u_passwort, :u_email, :u_level, DATE_FORMAT(now(),\"%Y%m%d%H%i%s\"))",
+		[
+			':u_nick'=>$f['u_nick'],
+			':u_passwort'=>encrypt_password($f['u_passwort']),
+			':u_email'=>$f['u_email'],
+			':u_level'=>$f['u_level']
+		]);
 	
-	$u_id = schreibe_db("user", $f, "", "u_id");
-	$result = sqlUpdate("UPDATE user SET u_neu=DATE_FORMAT(now(),\"%Y%m%d%H%i%s\") WHERE u_id=$u_id");
-	
-	// E-Mail überprüfen
-	$query = "DELETE FROM mail_check WHERE email = '" . escape_string($f['u_email']) . "'";
-	$result = sqlUpdate($query);
+	pdoQuery("DELETE FROM `mail_check` WHERE `email` = :email", [':email'=>$f['u_email']]);
 }
 ?>

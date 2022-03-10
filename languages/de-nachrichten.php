@@ -7,6 +7,8 @@ $lang['nachrichten_posteingang'] = "Posteingang";
 $lang['nachrichten_postausgang'] = "Postausgang";
 $lang['nachrichten_postausgang_info'] = "Es werden nur gesendete Nachrichten und keine gesendeten E-Mails im Postausgang angezeigt.";
 $lang['nachrichten_neue_nachricht'] = "Neue Nachricht schreiben";
+$lang['nachrichten_nachricht_weiterleiten'] = "Nachricht weiterleiten";
+$lang['nachrichten_nachricht_antworten'] = "Nachricht beantworten";
 $lang['nachrichten_papierkorb'] = "Papierkorb";
 $lang['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
 $lang['nachrichten_papierkorb_geleert'] = "Der Paprierkorb wurde geleert!";
@@ -16,11 +18,7 @@ $lang['nachrichten_hilfe'] = "Hilfe";
 $lang['nachrichten_keine_nachrichten_vorhanden'] = "Es sind keine Nachrichten vorhanden.";
 
 $lang['nachrichten_benutzername'] = "Benutzername";
-$lang['nachrichten_neu'] = "Neue Nachricht senden";
 $lang['nachrichten_weiter'] = "Weiter";
-
-$lang['nachrichten_posteingang_geschlossen'] = "Ihr Posteingang ist geschlossen!";
-$lang['nachrichten_posteingang_geschlossen_text'] = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Nachrichten empfangen möchten!";
 
 $lang['nachrichten_posteingang2'] = "Nachrichten im Posteingang";
 $lang['nachrichten_postausgang2'] = "Nachrichten im Postausgang";
@@ -28,7 +26,6 @@ $lang['nachrichten_papierkorb'] = "Nachrichten im Papierkorb";
 $lang['nachrichten_art_des_versands'] = "Art des Versands";
 $lang['nachrichten_art_des_versands_nachricht'] = "Nachricht";
 $lang['nachrichten_art_des_versands_email'] = "E-Mail";
-$lang['nachrichten_neue_nachricht_an'] = "Neue Nachricht an ";
 
 $lang['nachrichten_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde verschickt.";
 $lang['nachrichten_versendet_email'] = "Ihre E-Mail an %nick% wurde verschickt.";
@@ -53,6 +50,7 @@ $lang['nachrichten_text'] = "Text";
 $lang['nachrichten_datum'] = "Datum";
 $lang['nachrichten_status'] = "Status";
 $lang['nachrichten_von'] = "Von";
+$lang['nachrichten_an'] = "An";
 $lang['nachrichten_am'] = "Am";
 $lang['nachrichten_antworten'] = "antworten";
 $lang['nachrichten_weiterleiten'] = "weiterleiten";

@@ -39,7 +39,7 @@ if ($moderationsmodul == 1) {
 			break;
 		
 		case "answernew":
-		// antwort anlegen oder nach editieren neu schreiben
+			// Antwort anlegen oder nach editieren neu schreiben
 			unset($f);
 			$f['c_text'] = $answertxt;
 			$f['c_von_user'] = $u_nick;
@@ -49,11 +49,37 @@ if ($moderationsmodul == 1) {
 			$f['c_von_user_id'] = $u_id;
 			$f['c_moderator'] = $u_id;
 			$f['c_typ'] = "P";
-			if (!isset($answer))
-				$answer = 0;
-			schreibe_db("moderation", $f, $answer, "c_id");
+			if (!isset($answer)) {
+				// Neue Antwort
+				pdoQuery("INSERT INTO `moderation` (`c_text`, `c_von_user`, `c_an_user`, `c_raum`, `c_farbe`, `c_von_user_id`, `c_moderator`, `c_typ`) VALUES (:c_text, :c_von_user, :c_an_user, :c_raum, :c_farbe, :c_von_user_id, :c_moderator, :c_typ)",
+					[
+						':c_text'=>$f['c_text'],
+						':c_von_user'=>$f['c_von_user'],
+						':c_an_user'=>$f['c_an_user'],
+						':c_raum'=>$f['c_raum'],
+						':c_farbe'=>$f['c_farbe'],
+						':c_von_user_id'=>$f['c_von_user_id'],
+						':c_moderator'=>$f['c_moderator'],
+						':c_typ'=>$f['c_typ']
+					]);
+			} else {
+				// Antwort editieren
+				pdoQuery("UPDATE `moderation` SET `c_text` = :c_text, `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_raum` = :c_raum, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id, `c_moderator` = :c_moderator, `c_typ` = :c_typ WHERE `c_id` = :c_id",
+					[
+						':c_id'=>$answer,
+						':c_text'=>$f['c_text'],
+						':c_von_user'=>$f['c_von_user'],
+						':c_an_user'=>$f['c_an_user'],
+						':c_raum'=>$f['c_raum'],
+						':c_farbe'=>$f['c_farbe'],
+						':c_von_user_id'=>$f['c_von_user_id'],
+						':c_moderator'=>$f['c_moderator'],
+						':c_typ'=>$f['c_typ'],
+					]);
+			}
+			
 			zeige_moderations_antworten($o_raum);
-			break;
+		break;
 		
 		case "answeredit":
 		// antwort editieren
@@ -63,9 +89,7 @@ if ($moderationsmodul == 1) {
 		case "answerdel":
 		// antwort löschem
 			if ($answer != "") {
-				$answer = intval($answer);
-				$query = "DELETE FROM moderation WHERE c_id=$answer";
-				sqlUpdate($query);
+				pdoQuery("DELETE FROM `moderation` WHERE `c_id` = :c_id", [':c_id'=>$answer]);
 			}
 			zeige_moderations_antworten($o_raum);
 			break;

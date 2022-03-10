@@ -14,17 +14,18 @@ function user_edit($text, $f, $admin, $u_level) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_avatar'], "", "", 0, "70", "");
 		
 		// Avatar lesen und in Array speichern
-		$queryAvatar = "SELECT b_name,b_height,b_width,b_mime FROM `bild` WHERE b_name = 'avatar' AND b_user = " . $f['u_id'];
-		$resultAvatar = sqlQuery($queryAvatar);
-		if ($resultAvatar && mysqli_num_rows($resultAvatar) > 0) {
+		$query = pdoQuery("SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = :b_user", [':b_user'=>$f['u_id']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 			unset($bilder);
-			while ($row = mysqli_fetch_object($resultAvatar)) {
-				$bilder[$row->b_name]['b_mime'] = $row->b_mime;
-				$bilder[$row->b_name]['b_width'] = $row->b_width;
-				$bilder[$row->b_name]['b_height'] = $row->b_height;
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$bilder[$row['b_name']]['b_mime'] = $row['b_mime'];
+				$bilder[$row['b_name']]['b_width'] = $row['b_width'];
+				$bilder[$row['b_name']]['b_height'] = $row['b_height'];
 			}
 		}
-		mysqli_free_result($resultAvatar);
 		// Wenn kein Avatar gefunden wurde
 		if (!isset($bilder)) {
 			$bilder = "";
@@ -284,10 +285,12 @@ function zeige_aktionen() {
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Einstellungen aus Datenbank lesen
-	$query = "SELECT * FROM aktion WHERE a_user=$u_id ";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	$query = pdoQuery("SELECT * FROM `aktion` WHERE `a_user` = :a_user", [':a_user'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$was[$row['a_was']][$row['a_wann']] = $row;
 		}
 	}
@@ -298,21 +301,23 @@ function zeige_aktionen() {
 	$i = 0;
 	
 	// Alle möglichen a_wann in Array lesen
-	$query = "SHOW COLUMNS FROM aktion like 'a_wann'";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$txt = str_replace("'", "",
-			substr(mysqli_result($result, 0, "Type"), 5, -1));
+	$query = pdoQuery("SHOW COLUMNS FROM `aktion` LIKE 'a_wann'", []);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount != 0) {
+		$result = $query->fetch();
+		$txt = str_replace("'", "", substr($result['Type'], 5, -1));
 		$a_wann = explode(",", $txt);
 	}
 	$anzahl_spalten = count($a_wann);
 	
 	// Alle möglichen a_wie in Array lesen
-	$query = "SHOW COLUMNS FROM aktion like 'a_wie'";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$txt = str_replace("'", "",
-			substr(mysqli_result($result, 0, "Type"), 4, -1));
+	$query = pdoQuery("SHOW COLUMNS FROM `aktion` LIKE 'a_wie'", []);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount != 0) {
+		$result = $query->fetch();
+		$txt = str_replace("'", "", substr($result['Type'], 4, -1));
 		$a_wie = explode(",", $txt);
 	}
 	$anzahl_wie = count($a_wie);
@@ -394,14 +399,17 @@ function zeige_aktionen() {
 
 function eintrag_aktionen($aktion_datensatz) {
 	// Array mit definierten Aktionen in die DB schreiben
-	
 	global $def_was, $u_id, $lang;
 	
+	$text = "";
+	
 	// Alle möglichen a_wann in Array lesen
-	$query = "SHOW COLUMNS FROM aktion LIKE 'a_wann'";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$txt = str_replace("'", "", substr(mysqli_result($result, 0, "Type"), 5, -1));
+	$query = pdoQuery("SHOW COLUMNS FROM `aktion` LIKE 'a_wann'", []);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount != 0) {
+		$result = $query->fetch();
+		$txt = str_replace("'", "", substr($result['Type'], 5, -1));
 		$a_wann = explode(",", $txt);
 	}
 	
@@ -410,17 +418,31 @@ function eintrag_aktionen($aktion_datensatz) {
 			// In aktion_datensatz stehen ID und Wert als a_id|a_wie
 			$temp = explode("|", $aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]);
 			
-			if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
-				$query = "DELETE FROM aktion WHERE a_was='" . escape_string($def_was_eintrag) . "' "
-				. "AND a_wann='" . escape_string($a_wann_eintrag) . "' " . "AND a_user='$u_id'";
-				$result = sqlUpdate($query, true);
-			}
-			
 			$f['a_wie'] = $temp[1];
 			$f['a_was'] = $def_was_eintrag;
 			$f['a_wann'] = $a_wann_eintrag;
 			$f['a_user'] = $u_id;
-			schreibe_db("aktion", $f, $temp[0], "a_id");
+			
+			if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
+				pdoQuery("DELETE FROM `aktion` WHERE `a_was` = :a_was AND `a_wann` = :a_wann AND `a_user` = :a_user", [':a_was'=>$f['a_was'], ':a_wann'=>$f['a_wann'], ':a_user'=>$u_id]);
+				
+				pdoQuery("INSERT INTO `aktion` (`a_wie`, `a_was`, `a_wann`, `a_user`) VALUES (:a_wie, :a_was, :a_wann, :a_user)",
+					[
+						':a_wie'=>$f['a_wie'],
+						':a_was'=>$f['a_was'],
+						':a_wann'=>$f['a_wann'],
+						':a_user'=>$f['a_user']
+					]);
+			} else {
+				pdoQuery("UPDATE `aktion` SET `a_wie` = :a_wie, `a_was` = :a_was, `a_wann` = :a_wann, `a_user` = :a_user WHERE `a_id` = :a_id",
+					[
+						':a_id'=>$temp[0],
+						':a_wie'=>$f['a_wie'],
+						':a_was'=>$f['a_was'],
+						':a_wann'=>$f['a_wann'],
+						':a_user'=>$f['a_user']
+					]);
+			}
 		}
 	}
 	$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_einstellungen'];

@@ -9,7 +9,9 @@ Header("Pragma: no-cache");
 Header("Cache-Control: no-cache");
 
 session_start();
-$id = $_SESSION["id"];
+if(isset($_SESSION["id"])) {
+	$id = $_SESSION["id"];
+}
 
 // Konfigurationsdatei einbinden
 $filenameConfig = 'conf/config.php';
@@ -58,16 +60,19 @@ if ( !file_exists($filenameConfig) ) {
 	
 	date_default_timezone_set('Europe/Berlin');
 	
-	// DB-Connect, ggf. 3 mal versuchen
-	for ($c = 0; $c++ < 3 && !isset($mysqli_link); ) {
-		$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
-		if ($mysqli_link) {
-			mysqli_set_charset($mysqli_link, "utf8mb4");
-			mysqli_select_db($mysqli_link, $dbase);
-		}
-	}
+	// OPEN A CONNECTION TO THE DATA BASE SERVER AND SELECT THE DB
+	$dsn = "mysql:host=$mysqlhost;dbname=$dbase";
 	
-	if( $mysqli_link == null || $mysqli_link == "" ) {
+	$options  = array(
+		PDO::MYSQL_ATTR_FOUND_ROWS		=> true,
+		PDO::ATTR_EMULATE_PREPARES		=> false, // turn off emulation mode for "real" prepared statements
+		//PDO::ATTR_ERRMODE				=> PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+		PDO::ATTR_DEFAULT_FETCH_MODE	=> PDO::FETCH_ASSOC, //make the default fetch be an associative array
+	);
+	
+	$pdo = new PDO($dsn, $mysqluser, $mysqlpass, $options);
+	
+	if (!$pdo) {
 		?>
 		<!DOCTYPE html>
 		<html dir="ltr" lang="de">
@@ -126,7 +131,7 @@ if ( !file_exists($filenameConfig) ) {
 		$chat_grafik['mail']="<span class=\"fa-solid fa-envelope icon16\" alt=\"$lang[benutzer_nachricht]\" title=\"$lang[benutzer_nachricht]\"></span>";
 		$chat_grafik['geschlecht_weiblich'] = "&nbsp;<span class=\"fa-solid fa-venus icon16\" alt=\"$lang[benutzer_weiblich]\"  title=\"$lang[benutzer_weiblich]\"></span>";
 		$chat_grafik['geschlecht_maennlich'] = "&nbsp;<span class=\"fa-solid fa-mars icon16\" alt=\"$lang[benutzer_maennlich]\" title=\"$lang[benutzer_maennlich]\"></span>";
-		$chat_grafik['forum_ordnerneu']="<span class=\"fa-solid fa-folder-o icon24\" alt=\"$lang[forum_keine_neuen_beitraege]\" title=\"$lang[forum_keine_neuen_beitraege]\"></span>";
+		$chat_grafik['forum_ordnerneu']="<span class=\"fa-regular fa-folder icon24\" alt=\"$lang[forum_keine_neuen_beitraege]\" title=\"$lang[forum_keine_neuen_beitraege]\"></span>";
 		$chat_grafik['forum_ordnerblau']="<span class=\"fa-solid fa-folder icon24\" alt=\"$lang[forum_neue_beitraege]\" title=\"$lang[forum_neue_beitraege]\"></span>";
 		$chat_grafik['forum_ordnervoll']="<span class=\"fa-solid fa-folder-open icon24\" alt=\"$lang[forum_mehr_als_10_neue_beitraege]\" title=\"$lang[forum_mehr_als_10_neue_beitraege]\"></span>";
 		$chat_grafik['forum_threadgeschlossen']="<span class=\"fa-solid fa-lock icon24\" alt=\"$lang[forum_thema_geschlossen]\" title=\"$lang[forum_thema_geschlossen]\"></span>";

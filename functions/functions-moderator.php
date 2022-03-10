@@ -5,12 +5,15 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	
 	$box = $lang['mod10'];
 	$text = "";
-	$query = "SELECT c_id,c_text FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='P' ORDER BY c_text";
-	$result = sqlQuery($query);
+	
+	$query = pdoQuery("SELECT `c_id`, `c_text` FROM `moderation` WHERE `c_raum` = :c_raum AND `c_typ` = 'P' ORDER BY `c_text`", [':c_raum'=>$o_raum]);
+	
+	$resultCount = $query->rowCount();
 	$text .= "<table style=\"width:100%;\">";
-	if ($result > 0) {
+	if ($resultCount > 0) {
 		$i = 0;
-		while ($row = mysqli_fetch_object($result)) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$i++;
 			if ($i % 2 == 0) {
 				$bgcolor = 'class="tabelle_zeile1"';
@@ -19,14 +22,13 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 			}
 			$text .= "<tr>";
 			$text .= "<td align=left $bgcolor><small>";
-			$text .= "<a href=\"schreibe.php?text=" . urlencode($row->c_text) . "\" class=\"schreibe-chat\">";
-			$text .= "$row->c_text</a></small></td><td align=right $bgcolor><small>";
-			$text .= "<a href=moderator.php?mode=answeredit&answer=$row->c_id class=\"button\" title=\"$lang[mod12]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[mod12]</span></a> ";
-			$text .= "<a href=moderator.php?mode=answerdel&answer=$row->c_id class=\"button\" title=\"$lang[mod13]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[mod13]</span></a> ";
+			$text .= "<a href=\"schreibe.php?text=" . urlencode($row['c_text']) . "\" class=\"schreibe-chat\">";
+			$text .= "$row[c_text]</a></small></td><td align=right $bgcolor><small>";
+			$text .= "<a href=moderator.php?mode=answeredit&answer=$row[c_id] class=\"button\" title=\"$lang[mod12]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[mod12]</span></a> ";
+			$text .= "<a href=moderator.php?mode=answerdel&answer=$row[c_id] class=\"button\" title=\"$lang[mod13]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[mod13]</span></a> ";
 			$text .= "</small></td>";
 			$text .= "</tr>";
 		}
-		mysqli_free_result($result);
 		
 		$text .= "<span id=\"out\"></span>\n";
 		$text .= "<script>
@@ -59,12 +61,14 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 		$text .= "<textarea name=\"answertxt\" rows=\"5\" cols=\"60\">";
 	if ($answer != "") {
 		$answer = intval($answer);
-		$query = "SELECT c_id,c_text FROM moderation WHERE c_id=$answer AND c_typ='P'";
-		$result = sqlQuery($query);
-		if ($result > 0) {
-			echo mysqli_result($result, 0, "c_text");
+		
+		$query = pdoQuery("SELECT `c_text` FROM `moderation` WHERE `c_id` = :c_id AND c_typ = 'P'", [':c_id'=>$answer]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetch();
+			echo $result['c_text'];
 		}
-		mysqli_free_result($result);
 	}
 	$text .= "</textarea>";
 	$text .= "<br><input type=\"submit\" value=\"$lang[mod1]\">";
@@ -84,8 +88,8 @@ function bearbeite_moderationstexte($o_raum) {
 		while ($a < count($action)) {
 			$key = key($action);
 			// nur markieren, was noch frei ist.
-			$query = "UPDATE moderation SET c_moderator=$u_id WHERE c_id=" . intval($key) . " AND c_typ='N' AND c_moderator=0";
-			$result = sqlUpdate($query);
+			pdoQuery("UPDATE `moderation` SET `c_moderator` = :c_moderator WHERE `c_id` = :c_id AND `c_typ` = 'N' AND `c_moderator` = 0", [':c_moderator'=>$u_id, ':c_id'=>$key]);
+			
 			next($action);
 			$a++;
 		}
@@ -95,25 +99,25 @@ function bearbeite_moderationstexte($o_raum) {
 		while ($a < count($action)) {
 			$key = key($action);
 			// nur auswählen, was bereits von diesem Moderator reserviert ist
-			$query = "SELECT * FROM moderation WHERE c_id=" . intval($key) . " AND c_typ='N' AND c_moderator=$u_id";
-			$result = sqlQuery($query);
+			$query = pdoQuery("SELECT * FROM `moderation` WHERE `c_id` = :c_id AND `c_typ` = 'N' AND `c_moderator` = :c_moderator", [':c_id'=>intval($key), ':c_moderator'=>$u_id]);
+			
+			$resultCount = $query->rowCount();
+			$result = $query->fetch();
 			if ($result > 0) {
-				if (mysqli_num_rows($result) > 0) {
-					$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
+				if ($resultCount > 0) {
 					switch ($action[$key]) {
 						case "ok":
 						case "clear":
 						case "thru":
-						// vorbereiten für umspeichern... geht leider nicht 1:1, 
-						// weil fetch_array mehr zurückliefert als in $f[] sein darf...
-							$c['c_von_user'] = $f['c_von_user'];
-							$c['c_an_user'] = $f['c_an_user'];
-							$c['c_typ'] = $f['c_typ'];
-							$c['c_raum'] = $f['c_raum'];
-							$c['c_text'] = $f['c_text'];
-							$c['c_farbe'] = $f['c_farbe'];
-							$c['c_zeit'] = $f['c_zeit'];
-							$c['c_von_user_id'] = $f['c_von_user_id'];
+						// vorbereiten für umspeichern... geht leider nicht 1:1, weil fetch_array mehr zurückliefert als in $result[] sein darf...
+							$c['c_von_user'] = $result['c_von_user'];
+							$c['c_an_user'] = $result['c_an_user'];
+							$c['c_typ'] = $result['c_typ'];
+							$c['c_raum'] = $result['c_raum'];
+							$c['c_text'] = $result['c_text'];
+							$c['c_farbe'] = $result['c_farbe'];
+							$c['c_zeit'] = $result['c_zeit'];
+							$c['c_von_user_id'] = $result['c_von_user_id'];
 							if ($action[$key] == "ok") {
 								// eigene ID vermerken
 								$c['c_moderator'] = $u_id;
@@ -132,34 +136,33 @@ function bearbeite_moderationstexte($o_raum) {
 							}
 							break;
 						case "notagain":
-							system_msg("", 0, $f['c_von_user_id'],
+							system_msg("", 0, $result['c_von_user_id'],
 								$system_farbe, $lang['moderiertdel1']);
-							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
+							system_msg("", 0, $result['c_von_user_id'],
+								$system_farbe, "&gt;&gt;&gt; " . $result['c_text']);
 							break;
 						case "better":
-							system_msg("", 0, $f['c_von_user_id'],
+							system_msg("", 0, $result['c_von_user_id'],
 								$system_farbe, $lang['moderiertdel2']);
-							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
+							system_msg("", 0, $result['c_von_user_id'],
+								$system_farbe, "&gt;&gt;&gt; " . $result['c_text']);
 							break;
 						case "notime":
-							system_msg("", 0, $f['c_von_user_id'],
+							system_msg("", 0, $result['c_von_user_id'],
 								$system_farbe, $lang['moderiertdel3']);
-							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
+							system_msg("", 0, $result['c_von_user_id'],
+								$system_farbe, "&gt;&gt;&gt; " . $result['c_text']);
 							break;
 						case "delete":
-							system_msg("", 0, $f['c_von_user_id'],
+							system_msg("", 0, $result['c_von_user_id'],
 								$system_farbe, $lang['moderiertdel4']);
-							system_msg("", 0, $f['c_von_user_id'],
-								$system_farbe, "&gt;&gt;&gt; " . $f['c_text']);
+							system_msg("", 0, $result['c_von_user_id'],
+								$system_farbe, "&gt;&gt;&gt; " . $result['c_text']);
 							break;
 					}
 					// jetzt noch aus moderierter Tabelle löschen.
-					mysqli_free_result($result);
-					$query = "DELETE FROM moderation WHERE c_id=" . intval($key) . " AND c_moderator=$u_id";
-					$result2 = sqlUpdate($query);
+					
+					pdoQuery("DELETE FROM `moderation` WHERE `c_id` = :c_id `AND `c_moderator` = :c_moderator", [':c_id'=>$key, ':c_moderator'=>$u_id]);
 				} else {
 					echo "$lang[mod9]<br>";
 				}
@@ -181,25 +184,22 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		$moderationsexpire = 30;
 	}
 	$expiretime = $moderationsexpire * 60;
-	$query = "DELETE FROM moderation WHERE unix_timestamp(c_zeit)+$expiretime<unix_timestamp(NOW()) AND c_moderator=0 AND c_typ='N'";
-	$result = sqlUpdate($query);
+	pdoQuery("DELETE FROM `moderation` WHERE unix_timestamp(c_zeit)+:time<unix_timestamp(NOW()) AND `c_moderator` = 0 AND `c_typ` = 'N'", [':time'=>$expiretime]);
 	
-	if ($moderation_rueckwaerts == 1)
-		$rev = " DESC";
-	$query = "SELECT c_id,c_text,c_von_user,c_moderator FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id $rev LIMIT 0, " . intval($limit);
-	$result = sqlQuery($query);
-	$i = 0;
-	$rows = 0;
-	if ($result > 0) {
-		$rows = mysqli_num_rows($result);
+	if ($moderation_rueckwaerts == 1) {
+		$query = pdoQuery("SELECT `c_id`, `c_text`, `c_von_user`, `c_moderator` FROM `moderation` WHERE `c_raum` = :c_raum AND `c_typ` = 'N' ORDER BY `c_id` DESC LIMIT 0, :limit_end", [':c_raum'=>intval($o_raum), ':limit_end'=>intval($limit)]);
+	} else {
+		$query = pdoQuery("SELECT `c_id`, `c_text`, `c_von_user`, `c_moderator` FROM `moderation` WHERE `c_raum` = :c_raum AND `c_typ` = 'N' ORDER BY `c_id` LIMIT 0, :limit_end", [':c_raum'=>intval($o_raum), ':limit_end'=>intval($limit)]);
+	}
+	$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 		echo "<script>\n";
 		echo "function sel() {\n";
 		echo "	document.forms['modtext'].elements['ok'].focus();\n";
 		echo "}\n";
 		echo "</script>\n";
 		echo "<form name=\"modtext\" action=\"moderator.php\" method=\"post\">\n";
-		if ($rows > 0) {
-			
+		if ($resultCount > 0) {
 			echo "<table style=\"width=100%;\">\n";
 			echo "<tr>";
 			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/ok.gif\" height=20 width=20 alt=\"" . $lang['mod16'] . "\"></td>";
@@ -219,7 +219,9 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 			echo "<td align=center style=\"vertical-align:bottom;\" class=\"tabelle_kopfzeile\"><img src=\"images/moderator/nope.gif\" height=20 width=20 alt=\"" . $lang['mod15'] . "\"></td>";
 			echo "</tr>\n";
 			
-			while ($row = mysqli_fetch_object($result)) {
+			$i = 0;
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
 				$i++;
 				if ($i % 2 == 0) {
 					$bgcolor = 'class="tabelle_zeile1"';
@@ -232,9 +234,9 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 				}
 				echo "<tr>";
 				echo "<td align=center $moderatorG><small>";
-				if ($row->c_moderator == $u_id || $row->c_moderator == 0) {
-					echo "<input type=radio name=action[$row->c_id] value='ok' onclick=submit();";
-					if ($row->c_moderator == $u_id)
+				if ($row['c_moderator'] == $u_id || $row['c_moderator'] == 0) {
+					echo "<input type=radio name=action[$row[c_id]] value='ok' onclick=submit();";
+					if ($row['c_moderator'] == $u_id)
 						echo " checked";
 					echo ">";
 					$moderatorenfarbe = 'class="moderator_schwarz"';
@@ -244,8 +246,8 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 				}
 				echo "</small></td>";
 				echo "<td align=center $moderatorG><small>";
-				if ($row->c_moderator == $u_id) {
-					echo "<input type=radio name=action[$row->c_id] value='clear' onclick=submit();>";
+				if ($row['c_moderator'] == $u_id) {
+					echo "<input type=radio name=action[$row[c_id]] value='clear' onclick=submit();>";
 					$b1 = "<b>";
 					$b2 = "</b>";
 				} else {
@@ -253,13 +255,13 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 					$b2 = "";
 				}
 				echo "&nbsp;</small></td>";
-				echo "<td width=100% $bgcolor $moderatorenfarbe><small>$b1$row->c_von_user: $row->c_text$b2</small></td>";
-				if ($row->c_moderator == $u_id || $row->c_moderator == 0) {
-					echo "<td align=center $moderatorG><small><input type=radio name=action[$row->c_id] value='thru';></small></td>";
-					echo "<td align=center $moderatorR><small><input type=radio name=action[$row->c_id] value='notagain';></small></td>";
-					echo "<td align=center $moderatorR><small><input type=radio name=action[$row->c_id] value='better';></small></td>";
-					echo "<td align=center $moderatorR><small><input type=radio name=action[$row->c_id] value='notime';></small></td>";
-					echo "<td align=center $moderatorR><small><input type=radio name=action[$row->c_id] value='delete';></small></td>";
+				echo "<td width=100% $bgcolor $moderatorenfarbe><small>$b1$row[c_von_user]: $row[c_text]$b2</small></td>";
+				if ($row['c_moderator'] == $u_id || $row['c_moderator'] == 0) {
+					echo "<td align=center $moderatorG><small><input type=radio name=action[$row[c_id]] value='thru';></small></td>";
+					echo "<td align=center $moderatorR><small><input type=radio name=action[$row[c_id]] value='notagain';></small></td>";
+					echo "<td align=center $moderatorR><small><input type=radio name=action[$row[c_id]] value='better';></small></td>";
+					echo "<td align=center $moderatorR><small><input type=radio name=action[$row[c_id]] value='notime';></small></td>";
+					echo "<td align=center $moderatorR><small><input type=radio name=action[$row[c_id]] value='delete';></small></td>";
 				} else {
 					echo "<td $moderatorG><small>&nbsp;</small></td>";
 					echo "<td $moderatorR><small>&nbsp;</small></td>";
@@ -277,17 +279,15 @@ function zeige_moderationstexte($o_raum, $limit = 20) {
 		echo "</center>";
 		echo "</form>\n";
 	}
-	return $rows;
+	return $resultCount;
 }
 
 function anzahl_moderationstexte($o_raum) {
-	$query = "SELECT c_id FROM moderation WHERE c_raum=" . intval($o_raum) . " AND c_typ='N' ORDER BY c_id";
-	$result = sqlQuery($query);
-	if ($result > 0) {
-		$rows = mysqli_num_rows($result);
-	}
-	;
-	return $rows;
+	$query = pdoQuery("SELECT `c_id` FROM `moderation` WHERE `c_raum` = :c_raum AND `c_typ` = 'N' ORDER BY `c_id`", [':c_raum'=>intval($o_raum)]);
+	
+	$resultCount = $query->rowCount();
+	
+	return $resultCount;
 }
 
 ?>

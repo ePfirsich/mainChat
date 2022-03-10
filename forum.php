@@ -56,8 +56,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 }
 
 // In der Tabelle "online" merken, dass Text im "Chat" geschrieben wurde
-$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=" . intval($u_id);
-$result = sqlUpdate($query, true);
+pdoQuery("UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
 
 //gelesene Beiträge lesen
 lese_gelesene_postings($u_id);
@@ -89,7 +88,7 @@ zeige_tabelle_zentriert($box, $text);
 // Nur Foren-Admins dürfen Kategorien und Foren anlegen und editieren
 if(!$forum_admin) {
 	$nur_admin_seiten = array('kategorie_neu', 'kategorie_anlegen', 'kategorie_editieren', 'kategorie_up', 'kategorie_down', 'kategorie_edit', 'kategorie_delete', 'forum_neu',
-								'forum_edit', 'forum_editieren', 'forum_up', 'forum_down', 'forum_delete', 'sperre_posting', 'delete_posting');
+								'forum_edit', 'forum_editieren', 'forum_up', 'forum_down', 'forum_delete', 'delete_posting');
 	if(in_array($aktion, $nur_admin_seiten, true)) {
 		$aktion = "";
 	}
@@ -127,7 +126,7 @@ switch ($aktion) {
 	case "kategorie_anlegen":
 		$fehlermeldung = check_input("kategorie");
 		if (!$fehlermeldung) {
-			schreibe_forum();
+			erstelle_kategorie();
 			
 			// Forenübersicht anzeigen
 			$box = $lang['forum_kopfzeile_forenuebersicht'];
@@ -146,7 +145,7 @@ switch ($aktion) {
 	case "kategorie_editieren":
 		$fehlermeldung = check_input("kategorie");
 		if (!$fehlermeldung) {
-			aendere_forum();
+			aendere_kategorie();
 			
 			// Forenübersicht anzeigen
 			$box = $lang['forum_kopfzeile_kategorie_editieren'];
@@ -206,7 +205,7 @@ switch ($aktion) {
 	case "forum_anlegen":
 		$fehlermeldung = check_input("forum");
 		if (!$fehlermeldung) {
-			schreibe_thema();
+			erstelle_editiere_forum();
 			
 			// Forenübersicht anzeigen
 			$box = $lang['forum_kopfzeile_forenuebersicht'];
@@ -232,7 +231,7 @@ switch ($aktion) {
 	case "forum_editieren":
 		$fehlermeldung = check_input("forum");
 		if (!$fehlermeldung) {
-			schreibe_thema($th_id);
+			erstelle_editiere_forum($th_id);
 			
 			// Forenübersicht anzeigen
 			$box = $lang['forum_kopfzeile_forenuebersicht'];
@@ -315,9 +314,9 @@ switch ($aktion) {
 			zeige_tabelle_zentriert($box, $text);
 		}
 		break;
-	
-	case "sperre_posting":
-		sperre_posting($po_id);
+		
+	case "sperre_thema":
+		sperre_thema($th_id);
 		
 		// Thema zeigen
 		$box = $lang['forum_kopfzeile_thema'];
@@ -328,7 +327,7 @@ switch ($aktion) {
 	case "posting_anlegen":
 		$thread_gesperrt = false;
 		if (isset($thread) && ($thread > 0) && !$forum_admin) {
-			$thread_gesperrt = ist_thread_gesperrt($thread);
+			$thread_gesperrt = ist_thema_gesperrt($th_id);
 		}
 		$schreibrechte = pruefe_schreibrechte($th_id);
 		
@@ -355,7 +354,7 @@ switch ($aktion) {
 				
 				// Neues Thema erstellen
 				$box = $lang['forum_kopfzeile_thema_erstellen'];
-				$text .= maske_posting($mode);
+				$text .= maske_posting("neuer_thread");
 				zeige_tabelle_zentriert($box, $text);
 			}
 		} else {

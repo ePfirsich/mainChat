@@ -32,99 +32,83 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	}
 	
 	if ($nur_privat_user) {
-		$txt = escape_string("<b>$u_nick flüstert an " . $user_nick . ":</b>");
+		$txt = "<b>$u_nick flüstert an " . $user_nick . ":</b>";
 		$len = strlen($txt);
-		#print $txt;
-		$qquery .= " AND (c_an_user = '$user_id' and c_von_user_id != '0' and ( (c_von_user_id = '$user_id' and left(c_text,$len) = '$txt') or c_von_user_id = '$nur_privat_user') )";
+		$qquery .= " AND (`c_an_user` = '$user_id' AND `c_von_user_id` != '0' AND ( (`c_von_user_id` = '$user_id' AND LEFT(`c_text`,$len) = '$txt') OR `c_von_user_id` = '$nur_privat_user') )";
 	}
 	if ($anzahl_der_zeilen == 1) {
-		// ID des Benutzers (o_chat_id) auslesen
-		$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$o_chat_id = mysqli_result($result, 0, "o_chat_id");
-		} else {
-			$o_chat_id = 0;
-		}
-		mysqli_free_result($result);
+		// ID des Benutzers (o_chat_zeilen) auslesen
+		$o_chat_zeilen = 0;
 		
-		// Nachrichten ab o_chat_id (Merker) in Tabelle online ausgeben
+		// Nachrichten ab o_chat_zeilen (Merker) in Tabelle online ausgeben
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
-		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_raum` = :c_raum AND `c_id` >= :c_id" . $qquery, [':c_raum'=>$raum, ':c_id'=>$o_chat_zeilen]);
+		
 		
 		unset($rows);
-		$result = sqlQuery($query);
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
 			}
 		}
-		mysqli_free_result($result);
 		
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id >= $o_chat_id" . $qquery;
-		$result = sqlQuery($query);
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_typ` IN ('P','S') AND `c_an_user` = :c_an_user AND `c_id` >= :c_id" . $qquery, [':c_an_user'=>$user_id, ':c_id'=>$o_chat_zeilen]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
 			}
 		}
-		mysqli_free_result($result);
 		if (isset($rows) && is_array($rows)) {
 			sort($rows);
 		}
 	} else if ($anzahl_der_zeilen > 1) {
-		// o_chat_id lesen (nicht bei Admins)
+		// o_chat_zeilen lesen (nicht bei Admins)
 		// Admins dürfen alle Nachrichten sehen
-		if (!$admin) {
-			$query = "SELECT HIGH_PRIORITY o_chat_id FROM online WHERE o_id=$o_id";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) == 1) {
-				$o_chat_id = mysqli_result($result, 0, "o_chat_id");
-			} else {
-				$o_chat_id = 0;
-			}
-			mysqli_free_result($result);
-		} else {
-			$o_chat_id = 0;
-		}
+		$o_chat_zeilen = 0;
 		
-		// $anzahl_der_zeilen-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_id
+		// $anzahl_der_zeilen-Zeilen in Tabelle online ausgeben, höchstens aber ab o_chat_zeilen
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
-		$query = "SELECT c_id FROM chat WHERE c_raum='$raum' AND c_id >= $o_chat_id" . $qquery;
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_raum` = :c_raum AND `c_id` >= :c_id" . $qquery, [':c_raum'=>$raum, ':c_id'=>$o_chat_zeilen]);
 		
+		$resultCount = $query->rowCount();
 		unset($rows);
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
-			}
-		}
-		mysqli_free_result($result);
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id >= $o_chat_id" . $qquery;
-		$result = sqlQuery($query);
-		
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
 			}
 		}
 		
-		mysqli_free_result($result);
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_typ` IN ('P','S') AND `c_an_user` = :c_an_user AND `c_id` >= :c_id" . $qquery, [':c_an_user'=>$user_id, ':c_id'=>$o_chat_zeilen]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
+			}
+		}
+		
 		if (isset($rows) && is_array($rows)) {
 			sort($rows);
 		}
 		
 		// Erste Zeile ausrechnen, ab der Nachrichten ausgegeben werden
-		// Chat-Zeilen vor $o_chat_id löschen
+		// Chat-Zeilen vor $o_chat_zeilen löschen
 		if (isset($rows)) {
 			$zeilen = count($rows);
 		} else {
 			$zeilen = 0;
 		}
 		if ($zeilen > $anzahl_der_zeilen) {
-			$o_chat_id = $rows[($zeilen - intval($anzahl_der_zeilen))];
+			$o_chat_zeilen = $rows[($zeilen - intval($anzahl_der_zeilen))];
 			foreach ($rows as $key => $value) {
-				if ($value < $o_chat_id) {
+				if ($value < $o_chat_zeilen) {
 					unset($rows[$key]);
 				}
 			}
@@ -132,28 +116,29 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	} else {
 		// Die letzten Nachrichten seit $letzte_id ausgeben
 		// Nur Nachrichten im aktuellen Raum anzeigen, außer Typ P oder S und an Benutzer adressiert
-		$query = "SELECT c_id FROM chat WHERE c_raum=$raum AND c_id > $letzte_id" . $qquery;
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_raum` = :c_raum AND `c_id` > :c_id" . $qquery, [':c_raum'=>$raum, ':c_id'=>$letzte_id]);
 		
+		$resultCount = $query->rowCount();
 		unset($rows);
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
 			}
 		}
-		mysqli_free_result($result);
 		
-		$query = "SELECT c_id FROM chat WHERE c_typ IN ('P','S') AND c_an_user=$user_id AND c_id > $letzte_id" . $qquery;
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT `c_id` FROM `chat` WHERE `c_typ` IN ('P','S') AND `c_an_user` = :c_an_user AND `c_id` > :c_id" . $qquery, [':c_an_user'=>$user_id, ':c_id'=>$letzte_id]);
 		
-		if ($result) {
-			while ($row = mysqli_fetch_row($result)) {
-				$rows[] = $row[0];
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$rows[] = $row['c_id'];
 			}
 		}
-		mysqli_free_result($result);
-		if (isset($rows) && is_array($rows))
+		if (isset($rows) && is_array($rows))  {
 			sort($rows);
+		}
 		
 	}
 	
@@ -162,16 +147,18 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	
 	// Query aus Array erzeugen und die Chatzeilen lesen
 	if (isset($rows) && is_array($rows)) {
-		$query = "SELECT * FROM chat WHERE c_id IN (" . implode(",", $rows) . ") ORDER BY c_id";
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT * FROM `chat` WHERE c_id IN (" . implode(",", $rows) . ") ORDER BY `c_id`", []);
+		
+		$resultCount = $query->rowCount();
 	} else {
 		unset($result);
 	}
 	
 	// Nachrichten zeilenweise ausgeben
-	if (isset($result) && $result) {
+	if (isset($resultCount) && $resultCount > 0) {
 		$text_weitergabe = "";
-		while ($row = mysqli_fetch_object($result)) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			// Falls ID ignoriert werden soll -> Ausgabe überspringen
 			// Falls noch kein Text ausgegeben wurde und es eine Zeile in 
 			// der Mitte oder am Ende einer Serie ist -> Ausgabe überspringen
@@ -179,40 +166,29 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 			// Systemnachrichten, die <<< oder >>> an Stelle 4-16 enthalten herausfiltern
 			$ausgeben = true;
 			if ($benutzerdaten['u_systemmeldungen'] == "0") {
-				if (($row->c_typ == "S") && (substr($row->c_text, 3, 12) == "&gt;&gt;&gt;" || substr($row->c_text, 3, 12) == "&lt;&lt;&lt;")) {
+				if (($row['c_typ'] == "S") && (substr($row['c_text'], 3, 12) == "&gt;&gt;&gt;" || substr($row['c_text'], 3, 12) == "&lt;&lt;&lt;")) {
 					$ausgeben = false;
 				}
 			}
 			
 			// Die Ignorierten Benutzer rausfiltern
-			if (isset($ignore[$row->c_von_user_id]) && $ignore[$row->c_von_user_id]) {
+			if (isset($ignore[$row['c_von_user_id']]) && $ignore[$row['c_von_user_id']]) {
 				$ausgeben = false;
 			}
 			
-			if ($ausgeben && ($text_ausgegeben || $row->c_br == "normal" || $row->c_br == "erste")) {
+			if ($ausgeben) {
 				// Letzte ID merken
-				$letzte_id = $row->c_id;
+				$letzte_id = $row['c_id'];
 				
 				// Benutzerfarbe setzen
-				if (strlen($row->c_farbe) == 0) {
-					$row->c_farbe = "#" . $user_farbe;
+				if (strlen($row['c_farbe']) == 0) {
+					$row['c_farbe'] = "#" . $user_farbe;
 				} else {
-					$row->c_farbe = "#" . $row->c_farbe;
-				}
-				
-				// Student: 29.08.07 - Problem ML BGSLH
-				// Wenn das 255. Zeichen ein leerzeichen
-				// ist, dann wird es in der Datenbank nicht
-				// gespeichert, da varchar feld
-				// hier wird es reingehängt, wenn es in sequenz am
-				// anfang oder in der mitte, und der text nur 254
-				// zeichen breit ist
-				if ((strlen($row->c_text) == 254) && (($row->c_br == "erste") || ($row->c_br == "mitte"))) {
-					$row->c_text .= ' ';
+					$row['c_farbe'] = "#" . $row['c_farbe'];
 				}
 				
 				// Text filtern
-				$c_text = $row->c_text;
+				$c_text = $row['c_text'];
 				$c_text = $text_weitergabe . $c_text;
 				$text_weitergabe = "";
 				
@@ -229,8 +205,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 				}
 				
 				// bugfix: gegen große Is... wg. verwechslung mit kleinen Ls ...
-				// $row->c_von_user=str_replace("I","i",$row->c_von_user);
-				
 				if ($chat_status_klein) {
 					$sm1 = "<small>";
 					$sm2 = "</small>";
@@ -240,27 +214,22 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 				}
 				
 				// In Zeilen mit c_br=letzte das Zeilenende/-umbruch ergänzen
-				if ($row->c_br == "erste" || $row->c_br == "mitte") {
-					$br = "";
-				} else {
-					$br = "<br>\n";
-				}
+				$br = "<br>\n";
 				
 				// Verschienen Nachrichtenarten unterscheiden und Nachricht ausgeben
-				switch ($row->c_typ) {
-					
+				switch ($row['c_typ']) {
 					case "S":
 						if (($admin || $u_level == "A")) {
 							$c_text = str_replace("<!--", "", $c_text);
 							$c_text = str_replace("-->", "", $c_text);
 						}
 						// S: Systemnachricht
-						if ($row->c_an_user) {
+						if ($row['c_an_user']) {
 							// an aktuellen Benutzer
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\">";
+								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row[c_zeit]\">";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -272,7 +241,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>$chat:</b>&nbsp;";
+								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row[c_zeit]\"><b>$chat:</b>&nbsp;";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -293,8 +262,8 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = $row->c_von_user;
-								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
+								$temp_von_user = $row['c_von_user'];
+								$zanfang = "<span class=\"nachrichten_privat\" title=\"$row[c_zeit]\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 								reset_system("userliste");
 							}
 							if ($br == "") {
@@ -303,12 +272,12 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								$zende = "</span>" . $br;
 							}
 						} else {
-							if (strlen($row->c_von_user) != 0) {
+							if (strlen($row['c_von_user']) != 0) {
 								if (!$erste_zeile) {
 									$zanfang = "";
 								} else {
-									$temp_von_user = $row->c_von_user;
-									$zanfang = "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
+									$temp_von_user = $row['c_von_user'];
+									$zanfang = "<span style=\"color:" . $row['c_farbe'] . ";\" title=\"$row[c_zeit]\"><b>". $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
 								if ($br == "") {
@@ -320,8 +289,8 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								if (!$erste_zeile) {
 									$zanfang = "";
 								} else {
-									$temp_von_user = $row->c_von_user;
-									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
+									$temp_von_user = $row['c_von_user'];
+									$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row[c_zeit]\"><b>" . $temp_von_user . "&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg " . $temp_von_user . " '); return(false)\">$lang[chat_lese1]</a>):</b> ";
 									reset_system("userliste");
 								}
 								if ($br == "") {
@@ -340,7 +309,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							$c_text = str_replace("-->", "</b>", $c_text);
 						}
 						
-						if ($row->c_von_user_id != 0) {
+						if ($row['c_von_user_id'] != 0) {
 							// prüfe auf Würfelwurf, falls dicecheck aktiviert
 							$diceRoll = false;
 							$validDiceRoll = false;
@@ -363,7 +332,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$zanfang = "<span title=\"$row->c_zeit\"";
+								$zanfang = "<span title=\"$row[c_zeit]\"";
 								if ($diceRoll) {
 									$zanfang .= " style=\"border-left: .7em solid ";
 									if ($validDiceRoll) {
@@ -373,7 +342,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 									}
 									$zanfang .= ";\"";
 								}
-								$zanfang .= "><i><span style=\"color:$row->c_farbe;\">&lt;";
+								$zanfang .= "><i><span style=\"color:$row[c_farbe];\">&lt;";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -384,7 +353,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row->c_zeit\"><i>&lt;";
+								$zanfang = $sm1 . "<span style=\"color:#$system_farbe;\" title=\"$row[c_zeit]\"><i>&lt;";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -402,35 +371,37 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = $row->c_von_user;
+								$temp_von_user = $row['c_von_user'];
 								
 								// User-ID holen
-								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
-								$result2 = sqlQuery($query2);
-								if ($result2 && mysqli_num_rows($result2) == 1) {
-									$row2 = mysqli_fetch_object($result2);
-									$uu_id = $row2->u_id;
+								$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$temp_von_user]);
+								
+								$resultCount = $query->rowCount();
+								if ($resultCount == 1) {
+									$result = $query->fetch();
+									$uu_id = $result['u_id'];
 								}
 								
 								// Geschlecht holen
 								// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
 								if($uu_id != null && $uu_id != "") {
-									$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$uu_id'";
-									$result1 = sqlQuery($query1);
-									if ($result1 && mysqli_num_rows($result1) == 1) {
-										$row1 = mysqli_fetch_object($result1);
-										$ui_gen = $row1->ui_geschlecht;
+									$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$uu_id]);
+									
+									$resultCount = $query->rowCount();
+									if ($resultCount == 1) {
+										$result = $query->fetch();
+										$ui_gen = $result['ui_geschlecht'];
 									} else {
-										$ui_gen = 'leer';
+										$ui_gen = '0';
 									}
 								} else {
-									$ui_gen = 'leer';
+									$ui_gen = '0';
 								}
 								
 								//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 								if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 									// Avatar
-									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen[0]);
+									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen);
 									
 									// Leerzeichen nach dem Avatar anzeigen
 									$ava .= ' ';
@@ -443,10 +414,10 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								}
 								// Ende des Avatars
 								
-								if($row->c_an_user == $user_id) {
-									$zanfang = $ava. "<span class=\"nachrichten_privat\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								if($row['c_an_user'] == $user_id) {
+									$zanfang = $ava. "<span class=\"nachrichten_privat\" title=\"$row[c_zeit]\">" . "<b>" . $temp_von_user . ":</b> ";
 								} else {
-									$zanfang = $ava. "<span class=\"nachrichten_oeffentlich\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+									$zanfang = $ava. "<span class=\"nachrichten_oeffentlich\" title=\"$row[c_zeit]\">" . "<b>" . $temp_von_user . ":</b> ";
 								}
 							}
 							if ($br == "") {
@@ -458,35 +429,37 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 							if (!$erste_zeile) {
 								$zanfang = "";
 							} else {
-								$temp_von_user = $row->c_von_user;
+								$temp_von_user = $row['c_von_user'];
 								
 								// User-ID holen
-								$query2 = "SELECT * FROM user WHERE u_nick = '$temp_von_user'";
-								$result2 = sqlQuery($query2);
-								if ($result2 && mysqli_num_rows($result2) == 1) {
-									$row2 = mysqli_fetch_object($result2);
-									$uu_id = $row2->u_id;
+								$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$temp_von_user]);
+								
+								$resultCount = $query->rowCount();
+								if ($resultCount == 1) {
+									$result = $query->fetch();
+									$uu_id = $result['u_id'];
 								}
 								
 								// Geschlecht holen
 								// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
 								if($uu_id != null && $uu_id != "") {
-									$query1 = "SELECT * FROM userinfo WHERE ui_userid = $uu_id";
-									$result1 = sqlQuery($query1);
-									if ($result1 && mysqli_num_rows($result1) == 1) {
-										$row1 = mysqli_fetch_object($result1);
-										$ui_gen = $row1->ui_geschlecht;
+									$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$uu_id]);
+									
+									$resultCount = $query->rowCount();
+									if ($resultCount == 1) {
+										$result = $query->fetch();
+										$ui_gen = $result['ui_geschlecht'];
 									} else {
-										$ui_gen = 'leer';
+										$ui_gen = '0';
 									}
 								} else {
-									$ui_gen = 'leer';
+									$ui_gen = '0';
 								}
 								
 								//Alle Avatare Ja/Nein Eigene Variable entscheidet.
 								if($benutzerdaten['u_avatare_anzeigen'] == 1) {
 									// Avatar
-									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen[0]);
+									$ava = avatar_anzeigen($uu_id, $temp_von_user, "chat", $ui_gen);
 									
 									// Leerzeichen nach dem Avatar anzeigen
 									$ava .= ' ';
@@ -499,7 +472,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 								}
 								// Ende des Avatars
 								
-								$zanfang = $ava . "<span style=\"color:" . $row->c_farbe . ";\" title=\"$row->c_zeit\">" . "<b>" . $temp_von_user . ":</b> ";
+								$zanfang = $ava . "<span style=\"color:" . $row['c_farbe'] . ";\" title=\"$row[c_zeit]\">" . "<b>" . $temp_von_user . ":</b> ";
 							}
 							if ($br == "") {
 								$zende = "";
@@ -522,10 +495,6 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 				
 			}
 		}
-	}
-	
-	if (isset($result)) {
-		mysqli_free_result($result);
 	}
 	
 	flush();

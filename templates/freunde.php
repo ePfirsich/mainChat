@@ -9,27 +9,28 @@ $text = "";
 switch ($aktion) {
 	case "editinfotext":
 		if ( strlen($daten['id']) > 0 ) {
-			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $daten['id'] . ")";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) == 1) {
-				$daten['f_text'] = mysqli_result($result, 0, 0);
+			$query = pdoQuery("SELECT `f_text` FROM `freunde` WHERE (`f_userid` = :f_userid OR `f_freundid` = :f_freundid) AND (`f_id` = :f_id)", [':f_userid'=>$u_id, ':f_freundid'=>$u_id, ':f_id'=>$daten['id']]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
+				$result = $query->fetch();
+				$daten['f_text'] = $result['f_text'];
 				formular_editieren($daten);
 			}
-			mysqli_free_result($result);
 		}
 		break;
 	
 	case "editinfotext2":
 		if ( strlen($daten['id']) > 0 ) {
-			$query = "SELECT f_text FROM freunde WHERE (f_userid = $u_id OR f_freundid = $u_id) AND (f_id = " . $daten['id'] . ")";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) == 1) {
+			$query = pdoQuery("SELECT `f_text` FROM `freunde` WHERE (`f_userid` = :f_userid OR `f_freundid` = :f_freundid) AND (`f_id` = :f_id)", [':f_userid'=>$u_id, ':f_freundid'=>$u_id, ':f_id'=>$daten['id']]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
 				$erfolgsmeldung = edit_freund($daten);
 				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				
 				zeige_freunde($text, "normal", "");
 			}
-			mysqli_free_result($result);
 		}
 		break;
 	
@@ -41,22 +42,24 @@ switch ($aktion) {
 	case "neu2":
 		// Neuer Freund, 2. Schritt: Benutzername Prüfen
 		$daten['u_nick'] = htmlspecialchars($daten['u_nick']);
-		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '" . escape_string($daten['u_nick']) . "'";
-		$fehlermeldung = "";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$daten['id'] = mysqli_result($result, 0, 0);
-			$daten['u_level'] = mysqli_result($result, 0, 1);
+		
+		$query = pdoQuery("SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$daten['u_nick']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$daten['id'] = $result['u_id'];
+			$daten['u_level'] = $result['u_level'];
 			
 			$ignore = false;
-			$query2 = "SELECT * FROM `iignore` WHERE `i_user_aktiv`='$daten[id]' AND `i_user_passiv` = '$u_id'";
-			$result2 = sqlQuery($query2);
-			$num = mysqli_num_rows($result2);
-			if ($num >= 1) {
+			
+			$query2 = pdoQuery("SELECT * FROM `iignore` WHERE `i_user_aktiv` = :i_user_aktiv AND `i_user_passiv` = :i_user_passiv", [':i_user_aktiv'=>$daten['id'], ':i_user_passiv'=>$u_id]);
+			
+			$result2Count = $query2->rowCount();
+			if ($result2Count >= 1) {
 				$ignore = true;
 			}
 			
-			mysqli_free_result($result2);
 			
 			if ($ignore) {
 				$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_ignoriert']);
@@ -81,24 +84,24 @@ switch ($aktion) {
 			$text .= neuer_freund($u_id, $daten);
 		}
 		formular_neuer_freund($text, $daten);
-		mysqli_free_result($result);
 		break;
 	
 	case "admins":
-	// Alle Admins (Status C und S) als Freund hinzufügen
-		$query = "SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_level`='S' OR `u_level`='C'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			while ($rows = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		// Alle Admins (Status C und S) als Freund hinzufügen
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_level` = 'S' OR `u_level` = 'C'", []);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
 				unset($daten);
-				$daten['u_nick'] = $rows['u_nick'];
-				$daten['id'] = $rows['u_id'];
-				$daten['f_text'] = $level[$rows['u_level']];
+				$daten['u_nick'] = $row['u_nick'];
+				$daten['id'] = $row['u_id'];
+				$daten['f_text'] = $level[$row['u_level']];
 				$text .= neuer_freund($u_id, $daten);
 			}
 		}
 		zeige_freunde($text, "normal", "");
-		mysqli_free_result($result);
 		break;
 	
 	case "bearbeite":

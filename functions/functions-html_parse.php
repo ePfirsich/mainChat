@@ -29,9 +29,10 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			
 			// Prüfen, ob im aktuellen Raum Smilies erlaubt sind
 			if (!$privat) {
-				$query = "SELECT r_smilie FROM raum WHERE r_id=" . intval($o_raum);
-				$result = sqlQuery($query);
-				if ($result && mysqli_num_rows($result) > 0 && mysqli_result($result, 0, 0) == 0) {
+				$query = pdoQuery("SELECT `r_smilie` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$o_raum]);
+				$result = $query->fetch();
+				
+				if ($result['r_smilie'] == 0) {
 					$smilie_ok = FALSE;
 				} else {
 					$smilie_ok = TRUE;
@@ -46,7 +47,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			if (!$smilie_ok) {
 				// Nur die Fehlermeldung ausgeben, falls es das angegeben Smile auch gibt
 				$anzahl = 0;
-				while (list($i, $smilie_code) = each($test[0])) {
+				foreach($test[0] as $i => $smilie_code) {
 					$smilie_code = str_replace("&amp;", "&", $smilie_code);
 					if ($smilie[$smilie_code]) {
 						$anzahl++;
@@ -57,7 +58,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					system_msg("", 0, $u_id, $system_farbe, $lang[chat_msg76]);
 				}
 			} else {
-				while (list($i, $smilie_code) = each($test[0])) {
+				foreach($test[0] as $i => $smilie_code) {
 					if ($anzahl > $smilies_anzahl) {
 						// Mehr als $smilies_anzahl Smilies sind nicht erlaubt
 						$text = str_replace(" " . $smilie_code . " ", "", $text);

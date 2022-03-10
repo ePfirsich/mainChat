@@ -123,8 +123,24 @@ switch ($aktion) {
 					<?php
 					step_1($chat);
 				} else {
-					$mysqli_link = mysqli_connect('p:'.$chat["host"], $chat["user"], $chat["pass"], $chat["dbase"]);
-					if (!$mysqli_link) {
+					// Globales
+					ini_set("magic_quotes_runtime", 0);
+					
+					date_default_timezone_set('Europe/Berlin');
+					
+					// OPEN A CONNECTION TO THE DATA BASE SERVER AND SELECT THE DB
+					$dsn = "mysql:host=".$chat["host"].";dbname=".$chat["dbase"]."";
+					
+					$options  = array(
+						PDO::MYSQL_ATTR_FOUND_ROWS		=> true,
+						PDO::ATTR_EMULATE_PREPARES		=> false, // turn off emulation mode for "real" prepared statements
+						//PDO::ATTR_ERRMODE				=> PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+						PDO::ATTR_DEFAULT_FETCH_MODE	=> PDO::FETCH_ASSOC, //make the default fetch be an associative array
+					);
+					
+					$pdo = new PDO($dsn, $chat["user"], $chat["pass"], $options);
+					
+					if (!$pdo) {
 						?>
 						<table style="width:100%; border:0px;">
 							<tr style="color:#ff0000; font-weigth:bold;">
@@ -136,8 +152,7 @@ switch ($aktion) {
 						step_1($chat);
 					} else {
 						$salt = $chat["secret_salt"];
-						mysqli_set_charset($mysqli_link, "utf8mb4");
-						step_2($mysqli_link, $chat, $fp, $salt);
+						step_2($pdo, $chat, $fp, $salt);
 					}
 				}
 			}

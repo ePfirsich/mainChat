@@ -33,8 +33,9 @@ $lang['forum_kategorie_beitraege'] = "Beiträge";
 $lang['forum_kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
 $lang['forum_kategorie_geloescht'] = "Die Kategorie %kategorie% mit allen untergeordneten Foren wurde gelöscht!";
-$lang['forum_forum_geloescht'] = "Das komplette Forum %forum% wurde gelöscht!";
-$lang['forum_thema_geloescht'] = "Das komplette Thema wurde gelöscht!";
+$lang['forum_forum_geloescht'] = "Das Forum %forum% wurde gelöscht!";
+$lang['forum_forum_nicht_geloescht'] = "Das Forum konnte nicht gelöscht werden!";
+$lang['forum_thema_geloescht'] = "Das Thema wurde gelöscht!";
 
 // Foren
 $lang['forum_name'] = "Name des Forums:";
@@ -56,6 +57,7 @@ $lang['thema_antworten'] = "antworten";
 $lang['thema_editieren'] = "editieren";
 $lang['thema_zitieren'] = "zitieren";
 $lang['thema_sperren'] = "sperren";
+$lang['thema_entsperren'] = "entsperren";
 $lang['thema_loeschen'] = "löschen";
 $lang['thema_loeschen2'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!";
 $lang['thema_verschieben'] = "verschieben";

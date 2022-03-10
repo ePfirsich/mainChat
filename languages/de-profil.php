@@ -39,7 +39,7 @@ $lang['profil_fehler_hobby'] = "Die Hobbies ist länger als 255 Zeichen!<br>\n";
 $lang['profil_fehler_farbe'] = "Die %farbe% muss exakt 6 Zeichen lang sein und darf nur Zahlen und Buchstaben beinhalten!<br>\n";
 
 
-$lang['profil_informationen'] = "<p>Hallo $u_nick, bitte füllen Sie so viele Felder wie möglich mit ehrlichen Angaben aus. Falls Sie die eine oder andere Information über sich "
+$lang['profil_informationen'] = "<p>Hallo %nickname% bitte füllen Sie so viele Felder wie möglich mit ehrlichen Angaben aus. Falls Sie die eine oder andere Information über sich "
 . "nicht angeben wollen, lassen Sie das Feld leer oder wählen 'Keine Angabe'. Ihr Profil ist in Ihrer Benutzerseite öffentlich abrufbar, falls Sie es im Profil freigeben.</p>\n";
 
 $lang['profil_benutzereinstellungen_aendern'] = "Benutzereinstellungen ändern";

@@ -46,7 +46,11 @@ $ip4 = filter_input(INPUT_POST, 'ip4', FILTER_SANITIZE_STRING);
 $f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_STRING);
 $f['is_id'] = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
 $is_id = $f['is_id'];
+$sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_URL);
 
+
+// Einstellungen (Benachrichtigungen)
+$aktion_datensatz = filter_input(INPUT_POST, 'aktion_datensatz', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY);
 
 // Blacklist, Freundesliste oder Nachrichten
 $daten[] = "";
@@ -56,12 +60,17 @@ if( $daten['id'] == '') {
 	$daten['id'] = filter_input(INPUT_POST, 'daten_id', FILTER_SANITIZE_NUMBER_INT);
 }
 
+$daten['u_id'] = filter_input(INPUT_GET, 'daten_uid', FILTER_SANITIZE_NUMBER_INT);
+if( $daten['u_id'] == '') {
+	$daten['u_id'] = filter_input(INPUT_POST, 'daten_uid', FILTER_SANITIZE_NUMBER_INT);
+}
+
 $daten['u_nick'] = filter_input(INPUT_GET, 'daten_nick', FILTER_SANITIZE_STRING);
 if( $daten['u_nick'] == '') {
 	$daten['u_nick'] = filter_input(INPUT_POST, 'daten_nick', FILTER_SANITIZE_STRING);
 }
 
-$daten['m_text'] = filter_input(INPUT_POST, 'daten_text', FILTER_SANITIZE_STRING);
+$daten['f_text'] = filter_input(INPUT_POST, 'daten_text', FILTER_SANITIZE_STRING);
 $daten['m_betreff'] = filter_input(INPUT_POST, 'daten_betreff', FILTER_SANITIZE_STRING);
 $daten['typ'] = filter_input(INPUT_POST, 'daten_typ', FILTER_SANITIZE_NUMBER_INT);
 
@@ -91,6 +100,8 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	exit();
 	die;
 }
+
+$fehlermeldung = "";
 
 if( isset($u_id) && strlen($u_id) != 0 ) {
 	$user_eingeloggt = true;
@@ -147,7 +158,7 @@ if($bereich == "sperren" || $bereich == "freunde" || $bereich == "nachrichten") 
 }
 
 // Titel aus der entsprechenden Übersetzung holen
-if($lang['titel'] != '') {
+if(isset($lang['titel']) && $lang['titel'] != '') {
 	$title = $body_titel . ' - ' . $lang['titel'];
 } else {
 	$title = $body_titel;
@@ -257,7 +268,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			require_once("functions/functions-msg.php");
 			
 			// Menü ausgeben
-			$box = $lang['raum_titel'];
+			$box = $lang['titel'];
 			$text = "<a href=\"inhalt.php?bereich=raum\">" . $lang['raum_uebersicht'] . "</a>\n";
 			if ($u_level != "G") {
 				$text .= "| <a href=\"inhalt.php?bereich=raum&aktion=edit\">" . $lang['raum_neuer_raum'] . "</a>\n";
@@ -292,7 +303,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
 			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$lang[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$lang[profil_alle_profile_ausgeben]</a>\n";
@@ -311,7 +322,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
-			$text .= "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
+			$text = "<a href=\"inhalt.php?bereich=profil\">$lang[profil_profil_bearbeiten]</a>\n";
 			$text .= "| <a href=\"inhalt.php?bereich=profilbilder\">$lang[profil_bilder_hochladen]</a>\n";
 			if ($admin) {
 				$text .= "| <a href=\"inhalt.php?bereich=profil&aktion=zeigealle\">$lang[profil_alle_profile_ausgeben]</a>\n";
@@ -334,7 +345,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			// Menü ausgeben
 			if ($u_level != "G") {
 				$box = $lang['einstellungen_titel'];
-				$text .= "<a href=\"inhalt.php?bereich=einstellungen\">$lang[einstellungen_menue1]</a>\n";
+				$text = "<a href=\"inhalt.php?bereich=einstellungen\">$lang[einstellungen_menue1]</a>\n";
 				$text .= "| <a href=\"inhalt.php?bereich=einstellungen&aktion=aktion\">$lang[einstellungen_menue2]</a>\n";
 				$text .= "| <a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#home\">$lang[einstellungen_menue3]</a>\n";
 				zeige_tabelle_zentriert($box, $text);

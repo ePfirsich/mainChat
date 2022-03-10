@@ -16,14 +16,13 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		$text .= "<td $bgcolor>";
 		
 		$text .= "<select name=\"$key\">";
-		for ($i=0; $i<count($value);$i++) {
+		for ($i=0; $i < count($value);$i++) {
 			if($i == $ausgewaehltes_feld_selectbox) {
 				$selected = " selected";
 			} else {
 				$selected = "";
 			}
 			$text .= "<option$selected value=\"$i\">$value[$i]</option>\n";
-			$felder[$i];
 		}
 		$text .= "</select> $beschreibung</td>\n";
 	} else if($art_der_anzeige == "input") {

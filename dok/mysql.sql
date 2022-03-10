@@ -47,7 +47,6 @@
 # c_text 			Chatzeile
 # c_zeit 			Zeitstempel
 # c_farbe			Farbe der Textzeile
-# c_br				'normal','letzte','erste','mitte'
 #					normal oder letzte => Zeilenumbruch in dieser Chatzeile
 
 # Tabelle moderation	moderierte Chat-Nachrichten
@@ -84,7 +83,6 @@
 # o_who 		Bereich in der Community, in der sich der User befindet
 #				0=Chat, 1=Login, 2=Forum
 # o_aktiv 		Wann war der User zuletzt aktiv
-# o_chat_id 	ID des letzten Eintrags im Chat
 # o_browser 	Verwendeter Browser
 # o_knebel		zeitstempel, wie lange ein user geknebelt ist
 # o_http_stuff	Komprimierte HTTP-Headerinformationen
@@ -210,7 +208,7 @@ CREATE TABLE `blacklist` (
 --
 
 CREATE TABLE `chat` (
-	`c_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+	`c_id` int(11) UNSIGNED NOT NULL,
 	`c_von_user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`c_an_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`c_typ` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N',
@@ -219,7 +217,6 @@ CREATE TABLE `chat` (
 	`c_zeit` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	`c_farbe` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 	`c_von_user_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
-	`c_br` enum('normal','letzte','erste','mitte') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'normal',
 	`c_gelesen` int(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci PACK_KEYS=1;
 
@@ -239,7 +236,6 @@ CREATE TABLE `forum_beitraege` (
 	`po_threadts` bigint(14) NOT NULL DEFAULT 0,
 	`po_titel` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`po_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-	`po_gesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`po_threadgesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`po_topposting` int(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -385,7 +381,7 @@ CREATE TABLE `moderation` (
 --
 
 CREATE TABLE `online` (
-	`o_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
+	`o_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`o_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`o_raum` int(11) NOT NULL DEFAULT 0,
 	`o_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -393,7 +389,6 @@ CREATE TABLE `online` (
 	`o_ip` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_who` smallint(3) UNSIGNED DEFAULT NULL,
 	`o_aktiv` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`o_chat_id` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`o_browser` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_knebel` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -448,17 +443,6 @@ CREATE TABLE `securitytokens` (
 	`securitytoken` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
 	`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `sequence`
---
-
-CREATE TABLE `sequence` (
-	`se_name` varchar(127) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`se_nextid` int(10) UNSIGNED NOT NULL DEFAULT 0
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -558,7 +542,7 @@ CREATE TABLE `user` (
 CREATE TABLE `userinfo` (
 	`ui_id` int(11) NOT NULL,
 	`ui_userid` int(11) NOT NULL DEFAULT 0,
-	`ui_ort` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`ui_wohnort` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_geburt` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_beruf` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_hobby` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
@@ -709,7 +693,6 @@ ALTER TABLE `online`
 	ADD UNIQUE KEY `o_name` (`o_name`),
 	ADD KEY `o_raum` (`o_raum`),
 	ADD KEY `o_aktiv` (`o_aktiv`),
-	ADD KEY `o_chat_id` (`o_chat_id`),
 	ADD KEY `o_timestamp` (`o_timestamp`),
 	ADD KEY `o_hash` (`o_hash`(250)),
 	ADD KEY `o_ip` (`o_ip`),
@@ -724,12 +707,6 @@ ALTER TABLE `raum`
 	ADD KEY `r_besitzer` (`r_besitzer`),
 	ADD KEY `r_status1` (`r_status1`),
 	ADD KEY `r_status2` (`r_status2`);
-
---
--- Indizes für die Tabelle `sequence`
---
-ALTER TABLE `sequence`
-	ADD PRIMARY KEY (`se_name`);
 
 --
 -- Indizes für die Tabelle `sperre`
@@ -790,6 +767,12 @@ ALTER TABLE `bild`
 --
 ALTER TABLE `blacklist`
 	MODIFY `f_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `chat`
+--
+ALTER TABLE `chat`
+	MODIFY `c_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_beitraege`

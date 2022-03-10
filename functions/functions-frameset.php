@@ -16,9 +16,9 @@ function frameset_chat() {
 	global $lang, $u_level;
 	
 	if ($u_level == "M") {
-		echo "<frameset rows=\"65,*,94,65,280\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+		echo "<frameset rows=\"65,*,230,280\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	} else {
-		echo "<frameset rows=\"65,*,34,65\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+		echo "<frameset rows=\"65,*,170\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	}
 	?>
 		<frame src="navigation.php" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
@@ -27,7 +27,6 @@ function frameset_chat() {
 			<frame src="user.php" name="userliste" marginwidth="4" marginheight="0">
 		</frameset>
 		<frame src="eingabe.php" name="eingabe" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="interaktiv.php" name="interaktiv" marginwidth="0" marginheight="0" scrolling="no">
 		<?php
 		if ($u_level == "M") {
 			?>

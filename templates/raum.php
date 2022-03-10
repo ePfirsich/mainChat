@@ -24,76 +24,76 @@ if ($loesch2 == $lang['raeume_zurueck']) {
 switch ($aktion) {
 	case "loesch2":
 		// Raum löschen
-		$query = "SELECT raum.*,u_id FROM raum left join user on r_besitzer=u_id WHERE r_id=$f[r_id] ";
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT raum.*, `u_id` FROM `raum` LEFT JOIN `user` ON `r_besitzer` = `u_id` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
 		
-		if ($result && mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_object($result);
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$row = $query->fetch();
 			
 			// Berechtigung prüfen, alle Benutzer in Lobby werfen und löschen
-			if ($admin || ($row->r_besitzer == $u_id)) {
+			if ($admin || ($row['r_besitzer'] == $u_id)) {
 				// Lobby suchen
-				$query = "SELECT r_id FROM raum WHERE r_name='" . escape_string($lobby) . "'";
-				$result2 = sqlQuery($query);
-				if ($result2 AND mysqli_num_rows($result2) > 0) {
-					$lobby_id = mysqli_result($result2, 0, "r_id");
+				$query = pdoQuery("SELECT `r_id` FROM `raum` WHERE `r_name` = :r_name", [':r_name'=>$lobby]);
+				
+				$result2Count = $query->rowCount();
+				if ($result2Count > 0) {
+					$result2 = $query->fetch();
+					$lobby_id = $result2['r_id'];
 				}
-				mysqli_free_result($result2);
 				
 				// Raum ist nicht Lobby -> Löschen
 				if ($f['r_id'] == $lobby_id) {
-					$fehlermeldung = str_replace("%r_name%", $row->r_name, $lang['raum_fehler_kann_nicht_geloescht_werden']);
+					$fehlermeldung = str_replace("%r_name%", $row['r_name'], $lang['raum_fehler_kann_nicht_geloescht_werden']);
 					$text .= hinweis($fehlermeldung, "fehler");
 				} else {
 					// Raum schließen
 					$f['r_status1'] = "G";
-					schreibe_db("raum", $f, $f['r_id'], "r_id");
+					
+					pdoQuery("UPDATE `raum` SET `r_status1` = :r_status1 WHERE `r_id` = :r_id",
+						[
+							':r_id'=>$f['r_id'],
+							':r_status1'=>$f['r_status1']
+						]);
 					
 					// Raum leeren
-					$query = "SELECT o_user,o_name FROM online WHERE o_raum=$f[r_id] ";
-					$result2 = sqlQuery($query);
+					$query2 = pdoQuery("SELECT `o_user`, `o_name` FROM `online` WHERE `o_raum` = :o_raum", [':o_raum'=>$f['r_id']]);
 					
-					while ($row2 = mysqli_fetch_object($result2)) {
-						system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%r_name%", $row->r_name, $lang['fehler4']));
-						$oo_raum = raum_gehe($o_id, $row2->o_user, $row2->o_name, $f['r_id'], $lobby_id);
-						raum_user($lobby_id, $row2->o_user);
+					$result2 = $query2->fetchAll();
+					foreach($result as $zaehler => $row2) {
+						system_msg("", 0, $row2['o_user'], $system_farbe, str_replace("%r_name%", $row['r_name'], $lang['fehler4']));
+						$oo_raum = raum_gehe($o_id, $row2['o_user'], $row2['o_name'], $f['r_id'], $lobby_id);
+						raum_user($lobby_id, $row2['o_user']);
 						$i++;
 					}
-					mysqli_free_result($result2);
 					
-					$query = "DELETE FROM raum WHERE r_id=$f[r_id] ";
-					$result2 = sqlUpdate($query);
-					@mysqli_free_result($result2);
+					pdoQuery("DELETE FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
 					
 					// Gesperrte Räume löschen
-					$query = "DELETE FROM sperre WHERE s_raum=$f[r_id]";
-					$result2 = sqlUpdate($query, true);
-					@mysqli_free_result($result2);
+					pdoQuery("DELETE FROM `sperre` WHERE `s_raum` = :r_id", [':r_id'=>$f['r_id']]);
 					
 					// ausgeben: Der Raum wurde gelöscht.
-					$erfolgsmeldung = str_replace("%r_name%", $row->r_name, $lang['raum_erfolgsmeldung_geloescht']);
+					$erfolgsmeldung = str_replace("%r_name%", $row['r_name'], $lang['raum_erfolgsmeldung_geloescht']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				}
 			} else {
-				$fehlermeldung = str_replace("%r_name%", $row->r_name, $lang['raum_fehler_loeschen_keine_berechtigung']);
+				$fehlermeldung = str_replace("%r_name%", $row['r_name'], $lang['raum_fehler_loeschen_keine_berechtigung']);
 				$text .= hinweis($fehlermeldung, "fehler");
 			}
-			mysqli_free_result($result);
 		} else {
 			$fehlermeldung = $lang['raum_fehler_falsche_id'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		$box = str_replace("%r_name%", $row->r_name, $lang['raum_raumname']);
+		$box = str_replace("%r_name%", $row['r_name'], $lang['raum_raumname']);
 		
 		break;
 	
 	case "loesch":
-	// Raum löschen
-		$query = "SELECT raum.*,u_id FROM raum LEFT JOIN user ON r_besitzer=u_id WHERE r_id=$f[r_id] ";
-		$result = sqlQuery($query);
+		// Raum löschen
+		$query = pdoQuery("SELECT raum.*, `u_id` FROM `raum` LEFT JOIN `user` ON `r_besitzer` = `u_id` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
 		
-		if ($result && mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_object($result);
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$row = $query->fetch();
 			
 			// Kopf Tabelle
 			$box = $lang['raeume_raum_loeschen'];
@@ -101,21 +101,21 @@ switch ($aktion) {
 			$text .= "<table style=\"width:100%;\">\n";
 			
 			// Raum
-			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_raum'], "", $row->r_name);
+			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_raum'], "", $row['r_name']);
 			$zaehler++;
 			
 			// Topic
-			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_topic'], "", htmlspecialchars($row->r_topic));
+			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_topic'], "", htmlspecialchars($row['r_topic']));
 			$zaehler++;
 			
 			
 			// Eintrittsnachricht
-			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_eintritt'], "", htmlspecialchars($row->r_eintritt));
+			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_eintritt'], "", htmlspecialchars($row['r_eintritt']));
 			$zaehler++;
 			
 			
 			// Austrittsnachricht
-			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_austritt'], "", htmlspecialchars($row->r_austritt));
+			$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_austritt'], "", htmlspecialchars($row['r_austritt']));
 			$zaehler++;
 			
 			
@@ -128,7 +128,7 @@ switch ($aktion) {
 			$text .= "<tr>";
 			$text .= "<td $bgcolor colspan=\"2\">$lang[raeume_raum_wirklich_loeschen]<br>\n";
 			$text .= "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
-			$text .= "<input type=\"hidden\" name=\"r_id\" value=\"$row->r_id\">\n";
+			$text .= "<input type=\"hidden\" name=\"r_id\" value=\"$row[r_id]\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"loesch2\">\n";
 			$text .= "<input type=\"submit\" name=\"loesch2\" value=\"$lang[raum_loeschen]\">&nbsp;<input type=\"submit\" name=\"loesch2\" value=\"$lang[raeume_zurueck]\">\n";
 			$text .= "</form>\n";
@@ -136,11 +136,7 @@ switch ($aktion) {
 			$text .= "</tr>\n";
 			$zaehler++;
 			
-			
 			$text .= "</table>\n";
-			
-			
-			mysqli_free_result($result);
 		} else {
 			$fehlermeldung = $lang['raum_fehler_falsche_id'];
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -176,13 +172,13 @@ switch ($aktion) {
 				$f['r_min_punkte'] = 0;
 			}
 			
-			$query = "SELECT r_id, r_besitzer, r_name FROM raum WHERE r_id = '$f[r_id]'";
-			$result = sqlQuery($query);
-			$num = mysqli_num_rows($result);
-			if ($num == 1) {
-				$row = mysqli_fetch_object($result);
-				$r_besitzer = $row->r_besitzer;
-				if ($row->r_name == $lobby) {
+			$query = pdoQuery("SELECT `r_id`, `r_besitzer`, `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f[r_id]]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
+				$row = $query->fetch();
+				$r_besitzer = $row['r_besitzer'];
+				if ($row['r_name'] == $lobby) {
 					$f['r_name'] = $lobby;
 				}
 			}
@@ -217,18 +213,18 @@ switch ($aktion) {
 					// Wenn kein Benutzername übergeben wurde, die Besitzer-ID auf 0 setzen
 					$f['r_besitzer'] = 0;
 				} else {
-					$query = "SELECT u_id FROM user WHERE u_nick= '".$f['r_besitzer_name']."' AND `u_level` != 'Z' AND `u_level` != 'C';";
-					$result = sqlQuery($query);
-					if ($result && mysqli_num_rows($result) > 0) {
-						$row = mysqli_fetch_object($result);
-						$f['r_besitzer'] = $row->u_id;
+					$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick AND `u_level` != 'Z' AND `u_level` != 'C'", [':u_nick'=>$f['r_besitzer_name']]);
+					
+					$resultCount = $query->rowCount();
+					if ($resultCount > 0) {
+						$row3 = $query->fetch();
+						$f['r_besitzer'] = $row3['u_id'];
 					} else {
 						$fehlermeldung = str_replace("%r_nick%", $f['r_besitzer_name'], $lang['raum_fehler_raumbesitzer_benutzername_existiert_nicht']);
 						$text .= hinweis($fehlermeldung, "fehler");
 					}
 				}
 			}
-			
 			
 			// In permanenten Räumen darf ein Raumbesitzer keine Punkte ändern
 			if (!$admin && $f['status2'] == "P") {
@@ -274,15 +270,29 @@ switch ($aktion) {
 					// Neuen Raum anlegen
 					
 					// Gibt es den Raumnamen schon?
-					$query = "SELECT r_id FROM raum WHERE r_name = '$f[r_name]' ";
-					$result = sqlQuery($query);
-					$row = mysqli_num_rows($result);
-					if ($row == 0) {
+					$query = pdoQuery("SELECT `r_id` FROM `raum` WHERE `r_name` = :r_name", [':r_name'=>$f['r_name']]);
+					
+					$resultCount = $query->rowCount();
+					if ($resultCount == 0) {
 						// Raum neu eintragen und in den Raum gehen
 						$erfolgsmeldung = str_replace("%r_name%", $f['r_name'], $lang['raum_erfolgsmeldung_erstellt']);
 						$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						
-						$raum_neu = schreibe_db("raum", $f, "", "r_id");
+						pdoQuery("INSERT INTO `blacklist` (`r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`, `r_min_punkte`, `r_smilie`)
+								VALUES (:r_name, :r_eintritt, :r_austritt, :r_status1, :r_besitzer, :r_topic, :r_status2, :r_min_punkte, :r_smilie)",
+							[
+								':r_name'=>$f['r_name'],
+								':r_eintritt'=>$f['r_eintritt'],
+								':r_austritt'=>$f['r_austritt'],
+								':r_status1'=>$f['r_status1'],
+								':r_besitzer'=>$f['f_text'],
+								':r_topic'=>$f['f_text'],
+								':r_status2'=>$f['r_status2'],
+								':r_min_punkte'=>$f['r_min_punkte'],
+								':r_smilie'=>$f['r_smilie']
+							]);
+						
+						$raum_neu = $pdo->lastInsertId();
 						
 						$text .= raeume_auflisten($order, $extended);
 						$o_raum = raum_gehe($o_id, $u_id, $u_nick, $o_raum, $raum_neu);
@@ -297,20 +307,32 @@ switch ($aktion) {
 				} else {
 					// Vorhandenen Raum ändern
 					
-					// Gibt es den Raumnamen schon?
-					$query = "SELECT r_name FROM raum WHERE r_name = '$f[r_name]' AND r_id != '$f[r_id]';";
-					$result = sqlQuery($query);
-					$result2 = sqlQuery($query);
-					$rows = mysqli_num_rows($result);
+					// Gibt es den Raumnamen?
+					$query2 = pdoQuery("SELECT `r_name` FROM `raum` WHERE `r_name` = :r_name AND `r_id` != :r_id", [':r_name'=>$f['r_name'], ':r_id'=>$f['r_id']]);
 					
-					if ($rows == 0 || ($row->r_name == $f['r_name']) ) {
+					$result2Count = $query2->rowCount();
+					if ($result2Count == 0 || ($row['r_name'] == $f['r_name']) ) {
 						// Raum editieren
 						if($admin || $u_id == $f['r_besitzer']) {
 							// Richtiger Besitzer
 							$erfolgsmeldung = str_replace("%r_name%", $f['r_name'], $lang['raum_erfolgsmeldung_editiert']);
 							$text .= hinweis($erfolgsmeldung, "erfolgreich");
 							
-							schreibe_db("raum", $f, $f['r_id'], "r_id");
+							pdoQuery("UPDATE `raum` SET `r_name` = :r_name, `r_eintritt` = :r_eintritt, `r_austritt` = :r_austritt, `r_status1` = :r_status1,
+									`r_besitzer` = :r_besitzer, `r_topic` = :r_topic, `r_status2` = :r_status2, `r_min_punkte` = :r_min_punkte, `r_smilie` = :r_smilie
+									WHERE `r_id` = :r_id",
+								[
+									':r_id'=>$f['r_id'],
+									':r_name'=>$f['r_name'],
+									':r_eintritt'=>$f['r_eintritt'],
+									':r_austritt'=>$f['r_austritt'],
+									':r_status1'=>$f['r_status1'],
+									':r_besitzer'=>$f['f_text'],
+									':r_topic'=>$f['f_text'],
+									':r_status2'=>$f['r_status2'],
+									':r_min_punkte'=>$f['r_min_punkte'],
+									':r_smilie'=>$f['r_smilie']
+								]);
 							
 							$text .= raeume_auflisten($order, $extended);
 							
@@ -327,35 +349,31 @@ switch ($aktion) {
 						$text .= raum_editieren($f['r_id'], $f['r_name'], $f['r_status1'], $f['r_status2'], $f['r_smilie'], $f['r_min_punkte'], $f['r_topic'], $f['r_eintritt'], $f['r_austritt'], $f['r_besitzer']);
 					}
 				}
-				mysqli_free_result($result);
 			}
 		} else {
 			// Erstmaliger Aufruf des Raums
 			$raum_id = filter_input(INPUT_GET, 'raum', FILTER_SANITIZE_NUMBER_INT);
 			if($raum_id != "") {
 				// Raum editieren
-				$query = "SELECT r_id FROM raum WHERE r_id = '" . htmlspecialchars($raum_id) . "' ";
-				//$query = "SELECT r_id FROM raum WHERE r_name = '" . htmlspecialchars($raum_id) . "' ";
-				$result = sqlQuery($query);
-				$row = mysqli_num_rows($result);
+				$query = pdoQuery("SELECT `r_id` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$raum_id]);
 				
-				if ($row == 0) {
+				$resultCount = $query->rowCount();
+				if ($resultCount == 0) {
 					// Der Raum existiert nicht
 					$fehlermeldung = $lang['raum_fehler_falsche_id'];
 					$text .= hinweis($fehlermeldung, "fehler");
 					$text .= raeume_auflisten($order, $extended);
 				} else {
-					$query = "SELECT raum.*,u_id,u_nick FROM raum LEFT JOIN user ON r_besitzer=u_id WHERE r_id=" . intval($raum_id);
-					$result = sqlQuery($query);
-					$row = mysqli_fetch_object($result);
+					$query = pdoQuery("SELECT raum.*, `u_id`, `u_nick` FROM `raum` LEFT JOIN `user` ON `r_besitzer` = `u_id` WHERE `r_id` = :r_id", [':r_id'=>$raum_id]);
 					
-					if ($admin || $row->u_id == $u_id) {
+					$row = $query->fetch();
+					if ($admin || $row['u_id'] == $u_id) {
 						// Raum aufrufen
-						$box = $lang['raeume_raum'] . ': ' . $row->r_name;
-						$text .= raum_editieren($row->r_id, $row->r_name, $row->r_status1, $row->r_status2, $row->r_smilie, $row->r_min_punkte, $row->r_topic, $row->r_eintritt, $row->r_austritt, $row->r_besitzer);
+						$box = $lang['raeume_raum'] . ': ' . $row['r_name'];
+						$text .= raum_editieren($row['r_id'], $row['r_name'], $row['r_status1'], $row['r_status2'], $row['r_smilie'], $row['r_min_punkte'], $row['r_topic'], $row['r_eintritt'], $row['r_austritt'], $row['r_besitzer']);
 					} else {
 						// Nur Leserechte
-						$box = $lang['raeume_raum'] . ': ' . $row->r_name;
+						$box = $lang['raeume_raum'] . ': ' . $row['r_name'];
 						
 						$zaehler = 0;
 						$text .= "<table style=\"width:100%;\">\n";
@@ -367,7 +385,7 @@ switch ($aktion) {
 						while ($a < count($raumstatus1)) {
 							$keynum = key($raumstatus1);
 							$status1Select = $raumstatus1[$keynum];
-							if ($keynum == $row->r_status1) {
+							if ($keynum == $row['r_status1']) {
 								$inhaltStatus1 = $status1Select;
 								break;
 							}
@@ -394,7 +412,7 @@ switch ($aktion) {
 						while ($a < count($raumstatus2)) {
 							$keynum = key($raumstatus2);
 							$status2Select = $raumstatus2[$keynum];
-							if ($keynum == $row->r_status2) {
+							if ($keynum == $row['r_status2']) {
 								$inhaltStatus2 = $status2Select;
 								break;
 							}
@@ -416,17 +434,17 @@ switch ($aktion) {
 						
 						
 						// Topic
-						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_topic'], "", htmlspecialchars($row->r_topic));
+						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_topic'], "", htmlspecialchars($row['r_topic']));
 						$zaehler++;
 						
 						
 						// Eintrittsnachricht
-						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_eintritt'], "", htmlspecialchars($row->r_eintritt));
+						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_eintritt'], "", htmlspecialchars($row['r_eintritt']));
 						$zaehler++;
 						
 						
 						// Austrittsnachricht
-						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_austritt'], "", htmlspecialchars($row->r_austritt));
+						$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_austritt'], "", htmlspecialchars($row['r_austritt']));
 						$zaehler++;
 						
 						
@@ -455,7 +473,7 @@ switch ($aktion) {
 		
 	default;
 		// Anzeige aller Räume
-		$box = $lang['raum_titel'];
+		$box = $lang['titel'];
 		$text .= raeume_auflisten($order, $extended);
 }
 

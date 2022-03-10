@@ -35,16 +35,24 @@ function datenbank_migration($migrationsdateienArray) {
 				<?php
 		} else {
 			global $mysqlhost, $mysqluser, $mysqlpass, $dbase;
-			// DB-Connect, ggf. 3 mal versuchen
-			for ($c = 0; $c++ < 3 && (!(isset($mysqli_link)));) {
-				$mysqli_link = mysqli_connect('p:'.$mysqlhost, $mysqluser, $mysqlpass, $dbase);
-				if ($mysqli_link) {
-					mysqli_set_charset($mysqli_link, "utf8mb4");
-					mysqli_select_db($mysqli_link, $dbase);
-				}
-			}
+			// Globales
+			ini_set("magic_quotes_runtime", 0);
 			
-			if (!(isset($mysqli_link))) {
+			date_default_timezone_set('Europe/Berlin');
+			
+			// OPEN A CONNECTION TO THE DATA BASE SERVER AND SELECT THE DB
+			$dsn = "mysql:host=$mysqlhost;dbname=$dbase";
+			
+			$options  = array(
+				PDO::MYSQL_ATTR_FOUND_ROWS		=> true,
+				PDO::ATTR_EMULATE_PREPARES		=> false, // turn off emulation mode for "real" prepared statements
+				//PDO::ATTR_ERRMODE				=> PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+				PDO::ATTR_DEFAULT_FETCH_MODE	=> PDO::FETCH_ASSOC, //make the default fetch be an associative array
+			);
+			
+			$pdo = new PDO($dsn, $mysqluser, $mysqlpass, $options);
+			
+			if (!$pdo) {
 				?>
 				<table style="width:100%; border:0px;">
 					<tr style="color:#ff0000; font-weigth:bold;">
@@ -54,13 +62,12 @@ function datenbank_migration($migrationsdateienArray) {
 				<?php
 				unlink($configdatei);
 			} else {
-				mysqli_set_charset($mysqli_link, "utf8mb4");
 				$migrationspfad = "../dok/";
 				
 				for ($i = 0; $i < count($migrationsdateienArray); $i++) {
 					$migrationsdatei = $migrationsdateienArray[$i];
-					$mysqldatei = $migrationspfad . $migrationsdatei;
-					checkFormularInputFeld($mysqli_link, $mysqldatei);
+					$sqldatei = $migrationspfad . $migrationsdatei;
+					checkFormularInputFeld($sqldatei);
 				}
 				?>
 				<table style="width:100%; border:0px;">

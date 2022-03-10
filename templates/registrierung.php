@@ -7,7 +7,7 @@ if( !isset($bereich)) {
 $fehlermeldung = "";
 $text = "";
 
-if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", escape_string($email)) ) {
+if ( isset($email) && !preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $email) ) {
 	// dieser Regex macht eine primitive Prüfung ob eine Mailadresse
 	// der Form name@do.main entspricht
 	if($email == "") {
@@ -56,20 +56,19 @@ if($fehlermeldung == "" && isset($email)) {
 	
 	$email = trim($email);
 	
-	// wir prüfen ob Benutzer gesperrt ist
-	// entweder Benutzer = gesperrt
-	$query = "SELECT * FROM `user` WHERE `u_email`='$email' AND `u_level`='Z'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
-	if ($num >= 1) {
+	// Benutzer = gesperrt
+	$query = pdoQuery("SELECT * FROM `user` WHERE `u_email` = :u_email AND `u_level`='Z'", [':u_email'=>$email]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount >= 1) {
 		$fehlermeldung = $lang['registrierung_fehler_gesperrte_email'];
 	}
 	
-	// oder Benutzer ist auf Blacklist
-	$query = "SELECT u_nick FROM blacklist LEFT JOIN user ON f_blacklistid=u_id WHERE user.u_email ='$email'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
-	if ($num >= 1) {
+	// Benutzer ist auf Blacklist
+	$query = pdoQuery("SELECT `u_nick` FROM `blacklist` LEFT JOIN `user` ON `f_blacklistid` = `u_id` WHERE user.u_email = :u_email", [':u_email'=>$email]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount >= 1) {
 		$fehlermeldung = $lang['registrierung_fehler_gesperrte_email'];
 	}
 	
@@ -86,11 +85,11 @@ if($fehlermeldung == "" && isset($email)) {
 	}
 	unset($teststring);
 	
-	$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '$email'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
 	// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-	if ($num >= 1) {
+	$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_email` = :u_email", [':u_email'=>$email]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount >= 1) {
 		$fehlermeldung = $lang['registrierung_fehler_email_bereits_vorhanden'];
 	}
 	
@@ -99,8 +98,7 @@ if($fehlermeldung == "" && isset($email)) {
 	} else {
 		$php_self = filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_STRING);
 		// Überprüfung auf Formular mehrmals abgeschickt
-		$query = "DELETE FROM mail_check WHERE email = '$email'";
-		sqlUpdate($query, true);
+		pdoQuery("DELETE FROM `mail_check` WHERE `email` = :email", [':email'=>$email]);
 		
 		$hash = md5($email . "+" . date("Y-m-d"));
 		$email = urlencode($email);
@@ -122,9 +120,7 @@ if($fehlermeldung == "" && isset($email)) {
 		// E-Mail versenden
 		email_senden($email, $lang['registrierung_email_titel'], $inhalt);
 		
-		$email = escape_string($email);
-		$query = "REPLACE INTO mail_check (email,datum) VALUES ('$email',NOW())";
-		$result = sqlUpdate($query);
+		pdoQuery("REPLACE INTO `mail_check` (`email`, `datum`) VALUES (:email, NOW())", [':email'=>$email]);
 	}
 }
 ?>

@@ -14,82 +14,79 @@ function user_pm_list($larr) {
 	
 	//Wichtiger SQL Teil
 	//SQL Teil für die richtige Berechnung der einzelnen PM Nachrichten
-	$query = "SELECT DISTINCT c_an_user FROM chat WHERE c_typ='P' AND c_von_user_id=".$u_id;
-	$pmu2 = sqlQuery($query);
-	$pmue22 = mysqli_num_rows($pmu2);
-	$pmue2 = mysqli_fetch_all($pmu2);
+	$query = pdoQuery("SELECT DISTINCT `c_an_user` FROM `chat` WHERE `c_typ` = 'P' AND `c_von_user_id` = :c_von_user_id", [':c_von_user_id'=>$u_id]);
 	
-	$query = "SELECT DISTINCT c_von_user_id FROM chat WHERE c_typ='P' AND c_an_user=".$u_id;
-	$pmu = sqlQuery($query);
-	$pmuee = mysqli_num_rows($pmu);
-	$pmue = mysqli_fetch_all($pmu);
+	$resultCount = $query->rowCount();
+	$result = $query->fetchAll();
 	
 	flush();
-	$v = $larr[$k];
 	// Anzeige der Benutzer ohne JavaScript
-	if($pmue22 != 0) {
-		for ($k = 0; $k < $pmue22; $k++) {
-			$pmuea2 = $pmue2[$k][0];
+	if($resultCount != 0) {
+		$trow = "";
+		foreach($result as $zaehler => $row) {
+			$pmuea2 = $row['c_an_user'];
 			
-			//SQL Teil für die Anzeige der nicht gelesenen Nachrichten.
-			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea2." AND c_an_user=".$u_id;
-			$pmu3 = sqlQuery($query);
-			$pmue33 = mysqli_num_rows($pmu3);
+			//SQL Teil für die Anzeige der nicht gelesenen Nachrichten
+			$query2 = pdoQuery("SELECT `c_an_user` FROM `chat` WHERE `c_gelesen` = 0 AND `c_typ` = 'P' AND `c_von_user_id` = :c_von_user_id AND `c_an_user` = :c_an_user", [':c_von_user_id'=>$pmuea2, ':c_an_user'=>$u_id]);
 			
-			if ( $k % 2 != 0 ) {
+			$result2Count = $query2->rowCount();
+			if ( $zaehler % 2 != 0 ) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
 			} else {
 				$farbe_tabelle = 'class="tabelle_zeile2"';
 			}
 			
-			if($pmue33 > 0) {
-				$pmue33t = " <b>(".$pmue33.")</b>";
+			if($result2Count > 0) {
+				$pmue33t = " <b>(".$result2Count.")</b>";
 			} else {
 				$pmue33t = "";
 			}
 			
-			$user = zeige_userdetails($pmuea2, $v) . "" . $pmue33t;
+			$user = zeige_userdetails($pmuea2) . "" . $pmue33t;
 			
 			$trow .= "<tr>";
 			$trow .= "<td $farbe_tabelle><span class=\"smaller\">" . $user . "</td></tr>";
 		}
 	}
 	
-	if($pmuee !=0) {
+	$query3 = pdoQuery("SELECT DISTINCT `c_von_user_id` FROM `chat` WHERE `c_typ` = 'P' AND `c_an_user` = :c_an_user", [':c_an_user'=>$u_id]);
+	
+	$result3Count = $query3->rowCount();
+	if($result3Count != 0) {
+		$result3 = $query3->fetchAll();
 		$pxx = false;
 		
-		for ($k = 0; $k < $pmuee; $k++) {
-			$pmuea = $pmue[$k][0];
+		$trow = "";
+		foreach($result3 as $zaehler3 => $row3) {
+			$pmuea = $row3['c_von_user_id'];
 			
-			$query = "SELECT c_an_user FROM chat WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$pmuea;
-			$pmu4 = sqlQuery($query);
-			$pmue44 = mysqli_num_rows($pmu4);
-			$pmue4 = mysqli_fetch_all($pmu4);
+			$query4 = pdoQuery("SELECT `c_an_user` FROM `chat` WHERE `c_gelesen` = 0 AND `c_typ` = 'P' AND `c_von_user_id` = :c_von_user_id", [':c_von_user_id'=>$pmuea]);
 			
-			for ($k = 0; $k < $pmue22; $k++) {
-				$pmuea2 = $pmue2[$k][0];
-				$pmuea3 = $pmue4[$k][0];
+			$result4Count = $query4->rowCount();
+			$result4 = $query4->fetchAll();
+			foreach($result4 as $zaehler4 => $row4) {
+				$pmuea2 = $row['c_an_user'];
+				$pmuea3 = $row4['c_an_user'];
 				
 				if($pmuea == $pmuea2) {
 					$pxx = true;
-					//$pmue44 = "0";
 				}
 			}
 			
 			if(!$pxx) {
-				if ( $k % 2 != 0 ) {
+				if ( $zaehler3 % 2 != 0 ) {
 					$farbe_tabelle = 'class="tabelle_zeile1"';
 				} else {
 					$farbe_tabelle = 'class="tabelle_zeile2"';
 				}
 				
-				if($pmue44 > 0) {
-					$pmue44t = " <b>(".$pmue44.")</b>";
+				if($result4Count > 0) {
+					$pmue44t = " <b>(".$result4Count.")</b>";
 				} else {
 					$pmue44t = "";
 				}
 				
-				$user = zeige_userdetails($pmuea, $v) . "" . $pmue44t;
+				$user = zeige_userdetails($pmuea) . "" . $pmue44t;
 				
 				$trow .= "<tr>";
 				$trow .= "<td $farbe_tabelle><span class=\"smaller\">" . $user . "</td></tr>";
@@ -135,7 +132,8 @@ function user_liste($larr, $seitenleiste = false) {
 	flush();
 	
 	// Anzeige der Benutzer
-	for ($k = 0; is_array($larr[$k]) && $v = $larr[$k]; $k++) {
+	$trow = "";
+	foreach($larr as $k => $v) {
 		if ( $k % 2 != 0 ) {
 			$farbe_tabelle = 'class="tabelle_zeile1"';
 		} else {

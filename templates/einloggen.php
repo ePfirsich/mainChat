@@ -4,31 +4,25 @@ if( !isset($bereich)) {
 	die;
 }
 
-// Sequence für online- und chat-Tabelle erzeugen
-erzeuge_sequence("online", "o_id");
-erzeuge_sequence("chat", "c_id");
-
 $in_den_chat_einloggen = true;
 $frameset = false;
 
 // Prüfung, ob dieser Benutzer bereits existiert
-$query = "SELECT `u_id` FROM `user` WHERE `u_nick`='$username'";
-$result = sqlQuery($query);
+$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$username]);
 
-if (mysqli_num_rows($result) == 0) {
+$resultCount = $query->rowCount();
+if ($resultCount == 0) {
 	// Login als Gast
 	if (!isset($passwort) || $passwort == "") {
 		// Login als Gast
+		$rows = 0;
 		if ($gast_login) {
 			$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
 			$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+			
 			// Prüfen, ob von der IP und dem Benutzer-Agent schon ein Gast online ist und ggf abweisen
-			$query4711 = "SELECT o_id FROM online WHERE o_browser='" . $http_user_agent . "' AND o_ip='" . $remote_addr . "' AND o_level='G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-			$result = sqlQuery($query4711);
-			if ($result) {
-				$rows = mysqli_num_rows($result);
-			}
-			mysqli_free_result($result);
+			$query = pdoQuery("SELECT `o_id` FROM `online` WHERE `o_browser` = :o_browser AND `o_ip` = :o_ip AND `o_level` = 'G' AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout", [':o_browser'=>$http_user_agent, ':o_ip'=>$remote_addr, ':timeout'=>$timeout]);
+			$rows = $query->rowCount();
 		}
 		
 		// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
@@ -58,43 +52,46 @@ if (mysqli_num_rows($result) == 0) {
 					$anzahl = count($gast_name);
 					while ($rows != 0 && $i < 100) {
 						$username = $gast_name[mt_rand(1, $anzahl)];
-						$query4711 = "SELECT u_id FROM user WHERE u_nick='$username' ";
-						$result = sqlQuery($query4711);
-						$rows = mysqli_num_rows($result);
+						$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$username]);
+						
+						$rows = $query->rowCount();
 						$i++;
 					}
-					mysqli_free_result($result);
 				} else {
 					// freien Namen bestimmen
 					$rows = 1;
 					$i = 0;
 					while ($rows != 0 && $i < 100) {
 						$username = $lang['login_gast'] . strval((mt_rand(1, 10000)) + 1);
-						$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='" . escape_string($username) . "'";
-						$result = sqlQuery($query4711);
-						$rows = mysqli_num_rows($result);
+						$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$username]);
+						
+						$rows = $query->rowCount();
+						$result = $query->fetch();
 						$i++;
 					}
-					mysqli_free_result($result);
 				}
 			}
 			
 			// Im Benutzername alle Sonderzeichen entfernen, vorsichtshalber nochmals prüfen
-			$username = escape_string(coreCheckName($username, $check_name));
+			$username = coreCheckName($username, $check_name);
 			
 			// Benutzerdaten für Gast setzen
-			$f['u_level'] = "G";
-			$f['u_passwort'] = mt_rand(1, 10000);
 			$f['u_nick'] = $username;
+			$f['u_passwort'] = mt_rand(1, 10000);
+			$f['u_level'] = "G";
 			$passwort = $f['u_passwort'];
 			
 			// Prüfung, ob dieser Benutzer bereits existiert
-			$query4711 = "SELECT `u_id` FROM `user` WHERE `u_nick`='$f[u_nick]'";
-			$result = sqlQuery($query4711);
+			$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$f['u_nick']]);
 			
-			if (mysqli_num_rows($result) == 0) {
-				// Account in DB schreiben
-				schreibe_db("user", $f, "", "u_id");
+			$resultCount = $query->rowCount();
+			if ($resultCount == 0) {
+				pdoQuery("INSERT INTO `user` (`u_nick`, `u_passwort`, `u_level`, `u_neu`) VALUES (:u_nick, :u_passwort, :u_level, DATE_FORMAT(now(),\"%Y%m%d%H%i%s\"))",
+					[
+						':u_nick'=>$f['u_nick'],
+						':u_passwort'=>encrypt_password($f['u_passwort']),
+						':u_level'=>$f['u_level']
+					]);
 			}
 		}
 	}
@@ -106,42 +103,37 @@ if($in_den_chat_einloggen) {
 	// Passwort prüfen und Benutzerdaten lesen
 	$rows = 0;
 	$result = auth_user($username, $passwort, $bereits_angemeldet);
-	if ($result) {
-		$rows = mysqli_num_rows($result);
-	}
 	
-	if ($result && $rows == 1) {
+	if ($result) {
 		// Login Ok, Benutzerdaten setzen
-		$row = mysqli_fetch_object($result);
-		$user_id = $row->u_id;
-		$u_nick = $row->u_nick;
-		$u_level = $row->u_level;
-		$u_agb = $row->u_agb;
-		$u_punkte_monat = $row->u_punkte_monat;
-		$u_punkte_jahr = $row->u_punkte_jahr;
-		$u_punkte_datum_monat = $row->u_punkte_datum_monat;
-		$u_punkte_datum_jahr = $row->u_punkte_datum_jahr;
-		$u_punkte_gesamt = $row->u_punkte_gesamt;
-		$ip_historie = unserialize($row->u_ip_historie);
-		$nick_historie = unserialize($row->u_nick_historie);
+		$row = $result;
+		$user_id = $row['u_id'];
+		$u_nick = $row['u_nick'];
+		$u_level = $row['u_level'];
+		$u_agb = $row['u_agb'];
+		$u_punkte_monat = $row['u_punkte_monat'];
+		$u_punkte_jahr = $row['u_punkte_jahr'];
+		$u_punkte_datum_monat = $row['u_punkte_datum_monat'];
+		$u_punkte_datum_jahr = $row['u_punkte_datum_jahr'];
+		$u_punkte_gesamt = $row['u_punkte_gesamt'];
+		$ip_historie = unserialize($row['u_ip_historie']);
+		$nick_historie = unserialize($row['u_nick_historie']);
 		
-		$f['u_id'] = $user_id;
-		schreibe_db("user", $f, $user_id, "u_id");
+		aktualisiere_inhalt_online($user_id);
 		
 		// Eingeloggt bleiben (nicht als Gast)
-		if($f['u_level'] != "G" && $angemeldet_bleiben == 1) {
+		if($row['u_level'] != "G" && $angemeldet_bleiben == 1) {
 			$identifier = random_string();
 			$securitytoken = random_string();
 			
-			$query = "SELECT * FROM `securitytokens` WHERE `user_id` = '$user_id'";
-			$result = sqlQuery($query);
+			$query = pdoQuery("SELECT * FROM `securitytokens` WHERE `user_id` = :user_id", [':user_id'=>$user_id]);
 			
-			if ($result && $rows = mysqli_num_rows($result) >= 1) {
-				$query = "UPDATE `securitytokens` SET securitytoken = '" . sha1($securitytoken) . "', `identifier`='$identifier' WHERE `user_id` = '$user_id'";
+			$resultCount = $query->rowCount();
+			if ($resultCount >= 1) {
+				pdoQuery("UPDATE `securitytokens` SET securitytoken = :securitytoken, `identifier` = :identifier WHERE `user_id` = :user_id", [':securitytoken'=>sha1($securitytoken), ':identifier'=>$identifier, ':user_id'=>$user_id]);
 			} else {
-				$query = "INSERT INTO `securitytokens` SET `user_id`='$user_id', `identifier`='$identifier', `securitytoken`='" . sha1($securitytoken) . "'";
+				pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>sha1($securitytoken)]);
 			}
-			sqlUpdate($query);
 			
 			setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
 			setcookie("securitytoken",$securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit
@@ -149,12 +141,13 @@ if($in_den_chat_einloggen) {
 		
 		// Benutzer online bestimmen
 		if ($chat_max[$u_level] != 0) {
-			$query = "SELECT COUNT(o_id) FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ";
-			$result2 = sqlQuery($query);
-			if ($result2) {
-				$onlineanzahl = mysqli_result($result2, 0, 0);
+			$query = pdoQuery("SELECT COUNT(`o_id`) AS `anzahl` FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :o_aktiv", [':o_aktiv'=>$timeout]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount > 0) {
+				$result = $query->fetch();
+				$onlineanzahl = $result['anzahl'];
 			}
-			mysqli_free_result($result2);
 		}
 		
 		// Login erfolgreich ?
@@ -264,20 +257,17 @@ if($in_den_chat_einloggen) {
 			} else if ($uebergabe == $lang['login_nutzungsbestimmungen_ok']) {
 				// Nutzungsbestimmungen wurden bestätigt
 				$u_agb = "1";
-			} else {
-				$u_agb = "0";
 			}
 			
 			if(!$rest_ausblenden) {
 				// Benutzer in Blacklist überprüfen
-				$query2 = "SELECT f_text FROM blacklist WHERE f_blacklistid=$user_id";
-				$result2 = sqlQuery($query2);
-				if ($result2 AND mysqli_num_rows($result2) > 0) {
-					$infotext = "Blacklist: " . mysqli_result($result2, 0, 0);
+				$query = pdoQuery("SELECT `f_text` FROM `blacklist` WHERE `f_blacklistid` = :f_blacklistid", [':f_blacklistid'=>$user_id]);
+				
+				$resultCount = $query->rowCount();
+				if ($resultCount > 0) {
+					$result = $query->fetch();
+					$infotext = "Blacklist: " . $result['f_text'];
 					$warnung = true;
-				}
-				if ($result2) {
-					mysqli_free_result($result2);
 				}
 				
 				// Bei Login dieses Benutzers alle Admins (online, nicht Temp) warnen
@@ -285,29 +275,32 @@ if($in_den_chat_einloggen) {
 					if ($eintritt == 'forum') {
 						$raumname = " (" . $whotext[2] . ")";
 					} else {
-						$query2 = "SELECT r_name FROM raum WHERE r_id=" . intval($eintritt);
-						$result2 = sqlQuery($query2);
-						if ($result2 AND mysqli_num_rows($result2) > 0) {
-							$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
+						$query = pdoQuery("SELECT `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>intval($eintritt)]);
+						
+						$resultCount = $query->rowCount();
+						if ($resultCount > 0) {
+							$result = $query->fetch();
+							$raumname = " (" . $result['r_name'] . ") ";
 						} else {
 							$raumname = "";
 						}
-						mysqli_free_result($result2);
 					}
 					
-					$query2 = "SELECT o_user FROM online WHERE (o_level='S' OR o_level='C')";
-					$result2 = sqlQuery($query2);
-					if ($result2 AND mysqli_num_rows($result2) > 0) {
+					$query = pdoQuery("SELECT `o_user` FROM `online` WHERE (`o_level` = 'S' OR `o_level` = 'C')", []);
+					
+					$resultCount = $query->rowCount();
+					if ($resultCount > 0) {
 						$txt = str_replace("%ip_adr%", $ip_adr, $lang['login_warnung']);
 						$txt = str_replace("%ip_name%", $ip_name, $txt);
 						$txt = str_replace("%is_infotext%", $infotext, $txt);
-						while ($row2 = mysqli_fetch_object($result2)) {
+						
+						$result = $query->fetchAll();
+						foreach($result as $zaehler => $row) {
 							$ah1 = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id\" target=\"chat\">";
 							$ah2 = "</a>";
-							system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
+							system_msg("", 0, $row['o_user'], $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
 						}
 					}
-					mysqli_free_result($result2);
 				}
 				
 				// Benutzer nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt

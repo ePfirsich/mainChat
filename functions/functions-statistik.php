@@ -55,7 +55,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		reset($grapharray);
 		
-		while (list($i, $v) = each($grapharray)) {
+		foreach($grapharray as $i => $v) {
 			if ($v > $b)
 				$b = $v;
 			
@@ -104,7 +104,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		$msg .= "</span></td>\n";
 		
-		while (list($i, $v) = each($grapharray)) {
+		foreach($grapharray as $i => $v) {
 			if ($v > 0) {
 				$s = intval($v * $h);
 				
@@ -131,7 +131,7 @@ function statsPrintGraph($title, $text_l, $text_b) {
 		
 		reset($grapharray);
 		
-		while (list($i, $v) = each($grapharray)) {
+		foreach($grapharray as $i => $v) {
 			$msg .= "<td class=\"tabelle_statistics_navigation smaller\">";
 			$msg .= $i;
 			$msg .= "</td>\n";

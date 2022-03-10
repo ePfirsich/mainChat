@@ -15,25 +15,22 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	$temp_u_id = $u_id;
 }
 
-$benutzerdaten_query = "SELECT `u_id`, `u_nick`, `u_email`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, "
-	."`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe` FROM `user` WHERE `u_id`=$temp_u_id";
-$benutzerdaten_result = sqlQuery($benutzerdaten_query);
-	
-if ($benutzerdaten_result && mysqli_num_rows($benutzerdaten_result) == 1) {
+$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, `u_passwort`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`,
+					`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_sicherer_modus`, `u_level`, `u_farbe`, `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$temp_u_id]);
+
+$resultCount = $query->rowCount();
+if ($resultCount == 1) {
 	// Diese Zeile wird benötigt, um bei Falscheingaben den falschen Wert mit dem korrekten Wert zu überschreiben
-	$benutzerdaten_result2 = sqlQuery($benutzerdaten_query);
-	$benutzerdaten_row = mysqli_fetch_object($benutzerdaten_result2);
+	$benutzerdaten_row = $query->fetch();
 	
 	// Bestehendes Profil aus der Datenbank laden
 	$f = array();
-	$f = mysqli_fetch_array($benutzerdaten_result, MYSQLI_ASSOC);
+	$f = $benutzerdaten_row;
 	$f['u_id'] = $temp_u_id;
 }
 
-mysqli_free_result($benutzerdaten_result);
-
 // Prüfen, ob ein ChatAdmin einen anderen ChatAdmin oder einen Superuser bearbeiten möchte
-if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdaten_row->u_level == "C" || $benutzerdaten_row->u_level == "S")) {
+if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdaten_row['u_level'] == "C" || $benutzerdaten_row['u_level'] == "S")) {
 	$fehlermeldung = $lang['einstellungen_fehler_fehlende_berechtigung'];
 	zeige_tabelle_zentriert($lang['einstellungen_fehlermeldung'], $fehlermeldung);
 } else {
@@ -64,18 +61,18 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 	if (!$admin) {
 		unset($f['u_kommentar']);
 		unset($f['u_level']);
-	}
-	if ($u_level == "G") {
-		unset($f['u_signatur']);
-		unset($f['u_systemmeldungen']);
-		unset($f['u_layout_chat_darstellung']);
-		unset($f['u_eintritt']);
-		unset($f['u_austritt']);
+	} else if ($u_level == "G") {
 		unset($f['u_passwort']);
 		unset($f['u_passwort2']);
-	}
-	if ( $u_level == 'G' && !$punktefeatures) {
+		unset($f['u_signatur']);
+		unset($f['u_eintritt']);
+		unset($f['u_austritt']);
+		unset($f['u_systemmeldungen']);
+		unset($f['u_emails_akzeptieren']);
+		unset($f['u_layout_chat_darstellung']);
 		unset($f['u_punkte_anzeigen']);
+		unset($f['u_kommentar']);
+		unset($f['u_level']);
 	}
 	
 	// Auswahl
@@ -118,30 +115,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			formular_email_aendern($f);
 			
 			break;
-			
-			if($fehlermeldung != "") {
-				// Fehlermeldung anzeigen
-				$text = hinweis($fehlermeldung, "fehler");
-				$fehlermeldung = "";
-			} else {
-				// Einstellungen übernehmen
-				unset($p);
-				
-				// Länge des Feldes und Format Mailadresse werden weiter oben geprüft
-				$p['u_id'] = $f['u_id'];
-				$p['u_farbe'] = $f['u_farbe'];
-				
-				// Neue Farbe in der Datenbank speichern
-				schreibe_db("user", $p, $p['u_id'], "u_id");
-				
-				$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_farbe'];
-				$text = hinweis($erfolgsmeldung, "erfolgreich");
-			}
-			
-			// Einstellungen des Benutzers mit ID $u_id anzeigen
-			user_edit($text, $f, $admin, $u_level);
-			
-			break;
 		
 		case "email_aendern_final":
 			$f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
@@ -157,10 +130,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			}
 			
 			// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-			$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
-			$result = sqlQuery($query);
-			$num = mysqli_num_rows($result);
-			if ($num > 1) {
+			$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_email` = :u_email", [':u_email'=>$f['u_email']]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount > 1) {
 				$fehlermeldung .= $lang['einstellungen_fehler_email2'];
 			}
 			
@@ -187,10 +160,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Passwortcode generieren und in der Datenbank speichern
 				$emailcode = random_string();
-				$queryEmailcode = "UPDATE `user` SET `u_email_code` = '".sha1($emailcode)."', `u_email_neu` = '" . escape_string($f['u_email']) . "' WHERE `u_id` = $f[u_id];";
-				sqlUpdate($queryEmailcode);
+				pdoQuery("UPDATE `user` SET `u_email_code` = :u_email_code, `u_email_neu` = :u_email_neu WHERE `u_id` = :u_id", [':u_email_code'=>sha1($emailcode), ':u_email_neu'=>$f['u_email'], ':u_id'=>$f['u_id']]);
 				
-				// ULR zusammenstellen
+				// URL zusammenstellen
 				$webseite_email = $chat_url . "/index.php?bereich=email-bestaetigen&uid=" . $f['u_id'] . "&code=".$emailcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_email, $lang['einstellungen_email_aendern_email_inhalt']);
 				$inhalt = str_replace("%u_nick%", $f['u_nick'], $inhalt);
@@ -216,25 +188,22 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$text = hinweis($fehlermeldung, "fehler");
 				} else {
 					// test, ob zu löschender Admin ist...
-					$query = "SELECT * FROM `user` WHERE `u_id`=$f[u_id] ";
-					$result = sqlQuery($query);
-					$del_level = mysqli_result($result, 0, "u_level");
+					$query = pdoQuery("SELECT `u_level` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$f['u_id']]);
+					
+					$result = $query->fetch();
+					$del_level = $result['u_level'];
 					if ($del_level != "S" && $del_level != "C" && $del_level != "M") {
-						
 						// Benutzerdaten löschen
 						$erfolgsmeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_loeschen']);
 						$text = hinweis($erfolgsmeldung, "erfolgreich");
 						
-						$query = "DELETE FROM `user` WHERE `u_id`=$f[u_id] ";
-						$result = sqlUpdate($query);
+						pdoQuery("DELETE FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$f['u_id']]);
 						
 						// Ignore-Einträge löschen
-						$query = "DELETE FROM iignore WHERE i_user_aktiv=$f[u_id] OR i_user_passiv=$f[u_id]";
-						$result = sqlUpdate($query);
+						pdoQuery("DELETE FROM `iignore` WHERE `i_user_aktiv` = :i_user_aktiv OR `i_user_passiv` = :i_user_passiv", [':i_user_aktiv'=>$f['u_id'], ':i_user_passiv'=>$f['u_id']]);
 						
 						// Gesperrte Räume löschen
-						$query = "DELETE FROM sperre WHERE s_user=$f[u_id]";
-						$result = sqlUpdate($query);
+						pdoQuery("DELETE FROM `sperre` WHERE `s_user` = :s_user", [':s_user'=>$f['u_id']]);
 					} else {
 						$fehlermeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_loeschen2']);
 						$text = hinweis($fehlermeldung, "fehler");
@@ -271,7 +240,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$fehlermeldung .= $lang['einstellungen_fehler_farbe'];
 					
 					// Mit korrekten Wert überschreiben
-					$f['u_farbe'] = $benutzerdaten_row->u_farbe;
+					$f['u_farbe'] = $benutzerdaten_row['u_farbe'];
 				}
 				
 				// Admin E-Mail kontrollieren
@@ -280,23 +249,23 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						$fehlermeldung .= $lang['einstellungen_fehler_email1'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_email'] = $benutzerdaten_row->u_email;
+						$f['u_email'] = $benutzerdaten_row['u_email'];
 					}
 					
 					// Jede E-Mail darf nur einmal zur Registrierung verwendet werden
-					$query = "SELECT `u_id` FROM `user` WHERE `u_email` = '" . escape_string($f['u_email']) . "'";
-					$result = sqlQuery($query);
-					$num = mysqli_num_rows($result);
-					if ($num > 1) {
+					$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_email` = :u_email", [':u_email'=>$f['u_email']]);
+					
+					$resultCount = $query->rowCount();
+					if ($resultCount > 1) {
 						$fehlermeldung .= $lang['einstellungen_fehler_email2'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_email'] = $benutzerdaten_row->u_email;
+						$f['u_email'] = $benutzerdaten_row['u_email'];
 					}
 				}
 				
 				// Wurde der Benutzername geändert?
-				if ($f['u_nick'] != $benutzerdaten_row->u_nick) {
+				if ($f['u_nick'] != $benutzerdaten_row['u_nick']) {
 					// Benutzername muss 4-20 Zeichen haben
 					if ( strlen($f['u_nick']) < 4 || strlen($f['u_nick']) > 20 ) {
 						// immernoch keine 4-20 Zeichen?
@@ -307,22 +276,33 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							$fehlermeldung .= $lang['einstellungen_fehler_benutzername_zu_kurz_oder_zu_lang'];
 							
 							// Mit korrekten Wert überschreiben
-							$f['u_nick'] = $benutzerdaten_row->u_nick;
+							$f['u_nick'] = $benutzerdaten_row['u_nick'];
 						}
 					}
 					
 					// Wenn noch keine 30 Sekunden Zeit seit der letzten Änderung vorbei sind, dann Benutzername nicht speichern
-					$query = "SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = '$f[u_id]'";
-					$result = sqlQuery($query);
-					$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+					$query = pdoQuery("SELECT `u_nick_historie`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$f['u_id']]);
+					
+					$xyz = $query->fetch();
 					$nick_historie = unserialize($xyz['u_nick_historie']);
 					$nick_alt = $xyz['u_nick'];
 					
 					if (is_array($nick_historie)) {
 						reset($nick_historie);
+						
 						list($key, $value) = each($nick_historie);
 						$differenz = time() - $key;
 					}
+					
+					if (is_array($nick_historie)) {
+						reset($nick_historie);
+						$key= array_keys($nick_historie)[0];
+						//$key = key($nick_historie); Alternative
+						$differenz = time() - $key;
+					}
+					
+					
+					
 					if (!isset($differenz) || $admin) {
 						$differenz = 999;
 					}
@@ -332,13 +312,13 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							$fehlermeldung .= str_replace("%nickwechsel%", $nickwechsel, $lang['einstellungen_fehler_benutzername_zeitsperre']);
 							
 							// Mit "altem" Benutzername wieder überschreiben
-							$f['u_nick'] = $benutzerdaten_row->u_nick;
+							$f['u_nick'] = $benutzerdaten_row['u_nick'];
 						} else {
 							$datum = time();
 							$nick_historie_neu[$datum] = $nick_alt;
 							if (is_array($nick_historie)) {
 								$i = 0;
-								while (($i < 3) && list($datum, $nick) = each($nick_historie)) {
+								foreach($nick_historie as $datum => $nick) {
 									$nick_historie_neu[$datum] = $nick;
 									$i++;
 								}
@@ -348,28 +328,28 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					}
 					
 					// Existiert der Benutzername schon oder ist der Benutername gesperrt?
-					$query = "SELECT u_id, u_level FROM user WHERE u_nick = '" . escape_string($f['u_nick']) . "' AND u_id != $u_id";
-					$result = sqlQuery($query);
-					$rows = mysqli_num_rows($result);
-					if ($rows != 0) {
+					$query = pdoQuery("SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = :u_nick AND `u_id` != :u_id", [':u_nick'=>$f['u_nick'], ':u_id'=>$u_id]);
+					
+					$resultCount = $query->rowCount();
+					if ($resultCount != 0) {
 						if ($rows == 1) {
-							$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
-							if ($xyz[u_level] == 'Z') {
+							$xyz = $query->fetch();
+							if ($xyz['u_level'] == 'Z') {
 								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_gesperrt']);
 								
 								// Mit "altem" Benutzername wieder überschreiben
-								$f['u_nick'] = $benutzerdaten_row->u_nick;
+								$f['u_nick'] = $benutzerdaten_row['u_nick'];
 							} else {
 								$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_belegt']);
 								
 								// Mit "altem" Benutzername wieder überschreiben
-								$f['u_nick'] .= $benutzerdaten_row->u_nick;
+								$f['u_nick'] .= $benutzerdaten_row['u_nick'];
 							}
 						} else {
 							$fehlermeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_fehler_benutzername_belegt']);
 							
 							// Mit "altem" Benutzername wieder überschreiben
-							$f['u_nick'] = $benutzerdaten_row->u_nick;
+							$f['u_nick'] = $benutzerdaten_row['u_nick'];
 						}
 					}
 				}
@@ -379,7 +359,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$fehlermeldung .= $lang['einstellungen_fehler_level1'];
 					
 					// Mit korrekten Wert überschreiben
-					$f['u_level'] = $benutzerdaten_row->u_level;
+					$f['u_level'] = $benutzerdaten_row['u_level'];
 				}
 				
 				// Ist die Eintrittsnachricht zu lang?
@@ -394,23 +374,23 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				
 				// Aufpassen, wenn Admin sich selbst ändert -> keine leveländerung zulassen.
 				if ($u_id == $f['u_id'] && $admin) {
-					if ($benutzerdaten_row->u_level != $f['u_level']) {
+					if ($benutzerdaten_row['u_level'] != $f['u_level']) {
 						$fehlermeldung .= $lang['einstellungen_fehler_level4'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_level'] = $benutzerdaten_row->u_level;
+						$f['u_level'] = $benutzerdaten_row['u_level'];
 					}
 				}
 				
 				if ($admin) {
-					$uu_level = $benutzerdaten_row->u_level;
+					$uu_level = $benutzerdaten_row['u_level'];
 					
 					// Falls Benutzerlevel G -> Änderung verboten
 					if (isset($f['u_level']) && strlen($f['u_level']) != 0 && $f['u_level'] != "G" && $uu_level == "G") {
 						$fehlermeldung .= $lang['einstellungen_fehler_level2'];
 						
 						// Mit korrekten Wert überschreiben
-						$f['u_level'] = $benutzerdaten_row->u_level;
+						$f['u_level'] = $benutzerdaten_row['u_level'];
 					}
 					
 					// uu_level = Level des Benutzers, der geändert wird
@@ -424,10 +404,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							$fehlermeldung .= $lang['einstellungen_fehler_level3'];
 						
 							// Mit korrekten Wert überschreiben
-							$f['u_level'] = $benutzerdaten_row->u_level;
+							$f['u_level'] = $benutzerdaten_row['u_level'];
 							unset($f['u_passwort']);
 							unset($f['u_passwort2']);
-							$f['u_email'] = $benutzerdaten_row->u_email;
+							$f['u_email'] = $benutzerdaten_row['u_email'];
 						}
 					}
 				}
@@ -464,16 +444,17 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						// Wenn kein Passwort eingetragen ist, die Felder komplett löschen
 						unset($f['u_passwort']);
 						unset($f['u_passwort2']);
+						$f['u_passwort'] = $benutzerdaten_row['u_passwort'];
 					}
 					
 					// Änderungen anzeigen
-					if ($f['u_nick'] != $benutzerdaten_row->u_nick) {
+					if ($f['u_nick'] != $benutzerdaten_row['u_nick']) {
 						$erfolgsmeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert']);
-						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row->u_nick, $lang['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
+						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
 						
-						$query = "SELECT `u_nick_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
-						$result = sqlQuery($query);
-						$xyz = mysqli_fetch_array($result, MYSQLI_ASSOC);
+						$query = pdoQuery("SELECT `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($f['u_id'])]);
+						
+						$xyz = $query->fetch();
 						$nick_historie = unserialize($xyz['u_nick_historie']);
 						
 						$datum = time();
@@ -481,18 +462,19 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 						
 						if (is_array($nick_historie)) {
 							$i = 0;
-							while (($i < 3) && list($datum, $nick) = each($nick_historie)) {
+							foreach($nick_historie as $datum => $nick) {
 								$nick_historie_neu[$datum] = $nick;
 								$i++;
 							}
 						}
 						$f['u_nick_historie'] = serialize($nick_historie_neu);
+					} else {
+						$f['u_nick_historie'] = $benutzerdaten_row['u_nick_historie'];
 					}
 					
-					$query = "SELECT `u_profil_historie` FROM `user` WHERE `u_id` = " . intval($f['u_id']);
-					$result = sqlQuery($query);
-					$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
+					$query = pdoQuery("SELECT `u_profil_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($f['u_id'])]);
 					
+					$g = $query->fetch();
 					$g['u_profil_historie'] = unserialize($g['u_profil_historie']);
 					
 					$datum = time();
@@ -500,7 +482,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					if (is_array($g['u_profil_historie'])) {
 						$i = 0;
-						while (($i < 3) && list($datum, $nick) = each($g['u_profil_historie'])) {
+						foreach($g['u_profil_historie'] as $datum => $nick) {
+							if($i == 3) {
+								break;
+							}
 							$u_profil_historie_neu[$datum] = $nick;
 							$i++;
 						}
@@ -509,66 +494,135 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					$f['u_eintritt'] = isset($f['u_eintritt']) ? $f['u_eintritt'] : "";
 					$f['u_austritt'] = isset($f['u_austritt']) ? $f['u_austritt'] : "";
 					
-					schreibe_db("user", $f, $f['u_id'], "u_id");
+					if ($admin) {
+						// Admin
+						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_kommentar` = :u_kommentar, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
+								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
+								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
+								`u_sicherer_modus` = :u_sicherer_modus, `u_level` = :u_level, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+							[
+								':u_id'=>$f['u_id'],
+								':u_nick'=>$f['u_nick'],
+								':u_email'=>$f['u_email'],
+								':u_passwort'=>$f['u_passwort'],
+								':u_kommentar'=>$f['u_kommentar'],
+								':u_signatur'=>$f['u_signatur'],
+								':u_eintritt'=>$f['u_eintritt'],
+								':u_austritt'=>$f['u_austritt'],
+								':u_systemmeldungen'=>$f['u_systemmeldungen'],
+								':u_emails_akzeptieren'=>$f['u_emails_akzeptieren'],
+								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
+								':u_layout_farbe'=>$f['u_layout_farbe'],
+								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],
+								':u_smilies'=>$f['u_smilies'],
+								':u_punkte_anzeigen'=>$f['u_punkte_anzeigen'],
+								':u_sicherer_modus'=>$f['u_sicherer_modus'],
+								':u_level'=>$f['u_level'],
+								':u_farbe'=>$f['u_farbe'],
+								':u_nick_historie'=>$f['u_nick_historie'],
+								':u_profil_historie'=>$f['u_profil_historie']
+							]);
+					} else if ($u_level == "G") {
+						// Gast
+						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_avatare_anzeigen` = :u_avatare_anzeigen, `u_layout_farbe` = :u_layout_farbe, `u_smilies` = :u_smilies,
+								`u_sicherer_modus` = :u_sicherer_modus, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+							[
+								':u_id'=>$f['u_id'],
+								':u_nick'=>$f['u_nick'],
+								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
+								':u_layout_farbe'=>$f['u_layout_farbe'],
+								':u_smilies'=>$f['u_smilies'],
+								':u_sicherer_modus'=>$f['u_sicherer_modus'],
+								':u_farbe'=>$f['u_farbe'],
+								':u_nick_historie'=>$f['u_nick_historie'],
+								':u_profil_historie'=>$f['u_profil_historie']
+							]);
+					} else {
+						// Benutzer
+						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
+								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
+								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
+								`u_sicherer_modus` = :u_sicherer_modus, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
+							[
+								':u_id'=>$f['u_id'],
+								':u_nick'=>$f['u_nick'],
+								':u_email'=>$f['u_email'],
+								':u_passwort'=>$f['u_passwort'],
+								':u_signatur'=>$f['u_signatur'],
+								':u_eintritt'=>$f['u_eintritt'],
+								':u_austritt'=>$f['u_austritt'],
+								':u_systemmeldungen'=>$f['u_systemmeldungen'],
+								':u_emails_akzeptieren'=>$f['u_emails_akzeptieren'],
+								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
+								':u_layout_farbe'=>$f['u_layout_farbe'],
+								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],
+								':u_smilies'=>$f['u_smilies'],
+								':u_punkte_anzeigen'=>$f['u_punkte_anzeigen'],
+								':u_sicherer_modus'=>$f['u_sicherer_modus'],
+								':u_farbe'=>$f['u_farbe'],
+								':u_nick_historie'=>$f['u_nick_historie'],
+								':u_profil_historie'=>$f['u_profil_historie']
+							]);
+					}
+					
+					aktualisiere_inhalt_online($f['u_id']);
 					
 					// Hat der Benutzer den u_level = 'Z', dann lösche die Ignores, wo er der Aktive ist
 					if (isset($f['u_level']) && $f['u_level'] == "Z") {
-						$queryii = "SELECT u_nick,u_id from user,iignore WHERE i_user_aktiv=" . intval($f['u_id']) . " AND u_id=i_user_passiv order by i_id";
-						$resultii = sqlQuery($queryii);
-						$anzahlii = @mysqli_num_rows($resultii);
+						$queryii = pdoQuery("SELECT `u_nick`, `u_id` FROM `user`, `iignore` WHERE `i_user_aktiv` = :i_user_aktiv AND `u_id` = `i_user_passiv` ORDER BY `i_id`", [':i_user_aktiv'=>intval($f['u_id'])]);
 						
-						if ($resultii && $anzahlii > 0) {
-							for ($i = 0; $i < $anzahlii; $i++) {
-								$rowii = @mysqli_fetch_object($resultii);
-								ignore($o_id, $f['u_id'], $f['u_nick'], $rowii->u_id, $rowii->u_nick);
+						$resultiiCount = $queryii->rowCount();
+						if ($resultiiCount > 0) {
+							$i = 0;
+							$resultii = $queryii->fetch();
+							foreach($result as $zaehler => $row) {
+								ignore($o_id, $f['u_id'], $f['u_nick'], $row['u_id'], $row['u_nick']);
+								$i++;
 							}
 						}
-						mysqli_free_result($resultii);
 					} else if ((isset($f['u_level']) && $f['u_level'] == "C") || (isset($f['u_level']) && $f['u_level'] == "S")) {
 						// Hat der Benutzer den u_level = 'C' oder 'S', dann lösche die Ignores, wo er der Passive ist
-						$queryii = "SELECT u_nick,u_id FROM user,iignore ". "WHERE i_user_passiv=" . intval($f['u_id']) . " AND u_id=i_user_aktiv order by i_id";
-						$resultii = sqlQuery($queryii);
-						$anzahlii = @mysqli_num_rows($resultii);
+						$queryii = pdoQuery("SELECT `u_nick`, `u_id` FROM `user`, `iignore` WHERE `i_user_passiv` = :i_user_passiv AND `u_id` = `i_user_aktiv` ORDER BY `i_id`", [':i_user_passiv'=>intval($f['u_id'])]);
 						
-						if ($resultii && $anzahlii > 0) {
-							for ($i = 0; $i < $anzahlii; $i++) {
-								$rowii = @mysqli_fetch_object($resultii);
-								ignore($o_id, $rowii->u_id, $rowii->u_nick, $f['u_id'], $f['u_nick']);
+						$resultiiCount = $queryii->rowCount();
+						if ($resultiiCount > 0) {
+							$i = 0;
+							$resultii = $queryii->fetch();
+							foreach($result as $zaehler => $row) {
+								ignore($o_id, $row['u_id'], $row['u_nick'], $f['u_id'], $f['u_nick']);
+								$i++;
 							}
 						}
-						mysqli_free_result($resultii);
 					}
 					
 					// Falls Benutzer auf Level "Z" gesetzt wurde -> logoff
 					if (ist_online($f['u_id']) && isset($f['u_level']) && $f['u_level'] == "Z") {
 						// o_id und o_raum bestimmen
-						$query = "SELECT o_id,o_raum FROM online WHERE o_user=" . intval($f[u_id]);
-						$result = sqlQuery($query);
-						$rows = mysqli_num_rows($result);
+						$query = pdoQuery("SELECT `o_id`, `o_raum` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>intval($f['u_id'])]);
 						
-						if ($rows > 0) {
-							$row = mysqli_fetch_object($result);
+						$resultCount = $query->rowCount();
+						if ($resultCount > 0) {
+							$row = $query->fetch();
 							
 							// Aus dem Chat ausloggen
-							ausloggen($f['u_id'], $f['u_nick'], $row->o_raum, $row->o_id);
+							ausloggen($f['u_id'], $f['u_nick'], $row['o_raum'], $row['o_id']);
 							
-							$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_kick'];
+							$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_kick'];
+							$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						}
-						mysqli_free_result($result);
 					}
 					
-					$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_einstellungen'];
-					
+					$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_einstellungen'];
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 					
 					// Bei Änderungen, welche die Darstellung im Chat betrifft, das Chat-Fenster neu laden
-					if ($benutzerdaten_row->u_smilies != $f['u_smilies']
-						|| $benutzerdaten_row->u_systemmeldungen != $f['u_systemmeldungen']
-						|| $benutzerdaten_row->u_avatare_anzeigen != $f['u_avatare_anzeigen']
-						|| $benutzerdaten_row->u_punkte_anzeigen != $f['u_punkte_anzeigen']
-						|| $benutzerdaten_row->u_sicherer_modus != $f['u_sicherer_modus']
-						|| $benutzerdaten_row->u_layout_farbe != $f['u_layout_farbe']
-						|| $benutzerdaten_row->u_layout_chat_darstellung != $f['u_layout_chat_darstellung']) {
+					if ($benutzerdaten_row['u_smilies'] != $f['u_smilies']
+						|| $benutzerdaten_row['u_systemmeldungen'] != $f['u_systemmeldungen']
+						|| $benutzerdaten_row['u_avatare_anzeigen'] != $f['u_avatare_anzeigen']
+						|| $benutzerdaten_row['u_punkte_anzeigen'] != $f['u_punkte_anzeigen']
+						|| $benutzerdaten_row['u_sicherer_modus'] != $f['u_sicherer_modus']
+						|| $benutzerdaten_row['u_layout_farbe'] != $f['u_layout_farbe']
+						|| $benutzerdaten_row['u_layout_chat_darstellung'] != $f['u_layout_chat_darstellung']) {
 							reset_system($wo_online);
 					}
 				}
@@ -607,14 +661,12 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				}
 			} else if(isset($eingabe) && $eingabe == $lang['einstellungen_benutzerseite_loeschen'] && $admin) {
 				if ($aktion3 == "loeschen") {
-					$query = "DELETE FROM userinfo WHERE ui_userid = " . intval($f['u_id']);
-					sqlUpdate($query);
+					pdoQuery("DELETE FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$f['u_id']]);
 					
-					$query = "UPDATE user SET u_login = u_login, u_chathomepage = '0' WHERE u_id = " . intval($f['u_id']);
-					sqlUpdate($query);
+					pdoQuery("UPDATE `user` SET `u_chathomepage` = '0' WHERE `u_id` = :u_id", [':u_id'=>$f['u_id']]);
+					aktualisiere_online($f['u_id']);
 					
-					$query = "DELETE FROM bild WHERE b_user = " . intval($f['u_id']);
-					sqlUpdate($query);
+					pdoQuery("DELETE FROM `bild` WHERE `b_user` = :b_user", [':b_user'=>$f['u_id']]);
 					
 					zeige_tabelle_zentriert($lang['benutzer_loeschen_erledigt'], $lang['benutzer_loeschen_benutzerseite']);
 				} else {

@@ -64,11 +64,11 @@ $chat_offline=0;
 // Chat auf eine Maximalanzahl von Benutzern nach Level einschränken
 // Für Admins gilt C/S/M, für Benutzer U und für Gäste G
 // Kein Limit = 0
-$chat_max['C']=0;
 $chat_max['S']=0;
-$chat_max['G']=200;
-$chat_max['U']=200;
+$chat_max['C']=0;
 $chat_max['M']=0;
+$chat_max['U']=200;
+$chat_max['G']=200;
 $chat_max['zusatztext']="<p style=\"font-weight:bold;\">Bitte benutzen Sie stattdessen <a href=\"http://www.mainchat.de/\" target=\"_blank\">http://www.mainchat.de/</a>.</p>";
 
 // WebChat-Statistiken
@@ -275,10 +275,6 @@ $mailloescheauspapierkorb=30;
 
 // Benutzer kann individuelle Eintrittsnachrichten benutzen
 $eintritt_individuell="1";
-
-// Auf Themen die Älter als x Monate sind kann man nicht antworten
-// $forum_thread_sperren = 0 deaktiviert dies
-$forum_thread_sperren=12;
 
 // Setzt den Satz "zuletzt editiert am ... um ... von ..." nach dem Editieren nach jedem Beitrag
 $forum_aenderungsanzeige="1";

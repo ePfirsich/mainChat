@@ -10,12 +10,13 @@ $fehlermeldung = "";
 $email_gesendet = false;
 
 if (isset($email) && isset($username) && isset($hash)) {
-	$username = escape_string(coreCheckName($username, $check_name));
-	$email = escape_string(urldecode($email));
-	$query = "SELECT u_id, u_login, u_nick, u_passwort, u_email, u_punkte_jahr FROM user WHERE u_nick = '$username' AND u_level != 'G' AND u_email = '$email' LIMIT 1";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$username = coreCheckName($username, $check_name);
+	$email = urldecode($email);
+	$query = pdoQuery("SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = :u_nick AND `u_level` != 'G' AND `u_email` = :u_email LIMIT 1", [':u_nick'=>$username, ':u_email'=>$email]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$a = $query->fetch();
 		$hash2 = md5($a['u_id'] . $a['u_login'] . $a['u_nick'] . $a['u_passwort'] . $a['u_email'] . $a['u_punkte_jahr']);
 		if ($hash == $hash2) {
 			$u_id = $a['u_id'];
@@ -25,16 +26,15 @@ if (isset($email) && isset($username) && isset($hash)) {
 	} else {
 		$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_sicherheitscode'];
 	}
-	mysqli_free_result($result);
 } else if ( isset($email) || isset($username) ) {
 	if( isset($username) && $username != "" ) {
-		$username = escape_string(coreCheckName($username, $check_name));
+		$username = coreCheckName($username, $check_name);
 	} else {
 		$username = "";
 	}
 	
 	if( isset($email) && $email != "" ) {
-		$email = escape_string(urldecode($email));
+		$email = urldecode($email);
 		if (!preg_match("(\w[-._\w]*@\w[-._\w]*\w\.\w{2,3})", $email)) {
 			$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_email'];
 		}
@@ -48,14 +48,14 @@ if (isset($email) && isset($username) && isset($hash)) {
 	
 	if ($fehlermeldung == "") {
 		if($username != "") {
-			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = '$username' LIMIT 2";
+			$query = pdoQuery("SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = :u_nick LIMIT 2", [':u_nick'=>$username]);
 		} else {
-			$query = "SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = '$email' LIMIT 2";
+			$query = pdoQuery("SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = :u_email LIMIT 2", [':u_email'=>$email]);
 		}
 		
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$a = $query->fetch();
 			
 			// Es darf nur alle 4 Stunden ein neues Passwort angefordert werden
 			// 4 Stunden = 14400 Sekunde
@@ -71,8 +71,8 @@ if (isset($email) && isset($username) && isset($hash)) {
 				
 				// Passwortcode generieren und in der Datenbank speichern
 				$passwordcode = random_string();
-				$queryPasswortcode = "UPDATE `user` SET `u_passwort_code` = '".sha1($passwordcode)."', `u_passwort_code_time` = NOW() WHERE `u_id` = $a[u_id];";
-				sqlUpdate($queryPasswortcode);
+				
+				pdoQuery("UPDATE `user` SET `u_passwort_code` = :u_passwort_code, `u_passwort_code_time` = NOW() WHERE `u_id` = :u_id", [':u_passwort_code'=>sha1($passwordcode), ':u_id'=>$a['u_id']]);
 				
 				// ULR zusammenstellen
 				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&uid=" . $a['u_id'] . "&code=".$passwordcode;
@@ -81,8 +81,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 				$email = urldecode($a['u_email']);
 				
 				// Aktuelle Zeit setzen, wann das Passwort angefordert wurde
-				$queryPasswortanforderung = "UPDATE `user` SET `u_passwortanforderung` = NOW() WHERE `u_id` = $a[u_id]";
-				sqlUpdate($queryPasswortanforderung);
+				pdoQuery("UPDATE `user` SET `u_passwortanforderung` = NOW() WHERE `u_id` = :u_id", [':u_id'=>$a['u_id']]);
 				
 				// E-Mail versenden
 				email_senden($email, $lang['email_passwort_vergessen_titel'], $inhalt);
@@ -98,7 +97,6 @@ if (isset($email) && isset($username) && isset($hash)) {
 			}
 			unset($hash);
 		}
-		mysqli_free_result($result);
 	}
 }
 
@@ -124,6 +122,8 @@ if ($email_gesendet) {
 	if (!isset($email)) {
 		$email = "";
 	}
+	
+	$zaehler = 0;
 	
 	// Überschrift: Neues Passwort anfordern
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_passwort_anfordern'], "", "", 0, "70", "");

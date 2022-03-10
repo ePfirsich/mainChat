@@ -7,6 +7,17 @@ Art:           N: Normalnachricht mit Absender, Text wird in einem
                P: Privatnachricht, wird in allen Räumen angezeigt,
                   mit oder ohne Absender
 
+u_level:
+// Für Admins gilt C/S/M, für Benutzer U und für Gäste G
+
+S: Superuser
+C: Chat-Admin
+M: Moderator
+A: Admin (temp)
+U: Benutzer
+G: Gäste
+Z: gesperrt
+
 Auszug wichtiger Funktionen:
 
 id_erzeuge:  	Generiert aus Benutzer-ID und IP-Adresse des Benutzers einen Hash-Wert
@@ -43,5 +54,3 @@ hilfe:		Gibt Hilfe zum angegeben Thema aus, ohne Thema kommt Übersicht
 zeige_tabelle_volle_breite		Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 zeige_tabelle_zentriert:		Gibt zentrierte Tabelle mit 99% Breiter und optionalem Abstand nach oben URL mit Kopf und Inhalt aus
 zeige_kopfzeile_login			Gibt die Kopfzeile im Login aus
-
-schreibe_db:	Trägt Daten in Tabelle ein

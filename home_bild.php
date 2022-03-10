@@ -17,7 +17,6 @@ header("Pragma: no-cache");
 header("Cache-Control: post-check=0, pre-check=0", FALSE);
 
 $cache = "home_bild";
-$feld = escape_string($feld);
 
 if ($feld != "ui_bild1" && $feld != "ui_bild2" && $feld != "ui_bild3" && $feld != "ui_bild4" && $feld != "ui_bild5" && $feld != "ui_bild6" && $feld != "avatar") {
 	echo "Fehlerhaftes 'feld' in home_bild.php'<br>";
@@ -36,20 +35,13 @@ $b_mime = "";
 $cachepfad = $cache . "/" . "/" . substr($u_id, 0, 2) . "/" . $u_id . "/" . $feld;
 
 // Prüfe ob der Benutzer existiert und die Benutzerseiten aktiviert ist
-$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id`=$u_id ";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) == 1) {
-	/*
-	if (mysqli_result($result, 0, "u_chathomepage") != '1' && $feld != "avatar") {
-		echo "Die Benutzerseiten dieses Benutzers ist deaktiviert!<br>";
-		exit;
-	}
-	*/
-} else {
+$query = pdoQuery("SELECT `u_chathomepage` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+
+$resultCount = $query->rowCount();
+if ($resultCount == 0) {
 	echo "Der Benutzer wurde nicht gefunden!<br>";
 	exit;
 }
-mysqli_free_result($result);
 
 $anzeigeauscache = false;
 if (file_exists($cachepfad)) {
@@ -77,13 +69,15 @@ if (file_exists($cachepfad)) {
 				$image[2] = "";
 		}
 		
-		// Größen aus DB
-		$query = "SELECT b_width, b_height, b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$b_width = mysqli_result($result, 0, "b_width");
-			$b_heigth = mysqli_result($result, 0, "b_height");
-			$b_mime = mysqli_result($result, 0, "b_mime");
+		// Größen auslesen
+		$query = pdoQuery("SELECT `b_width`, `b_height`, `b_mime` FROM `bild` WHERE `b_user` = :b_user AND `b_name` = :b_name", [':b_user'=>$u_id, ':b_name'=>$feld]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$b_width = $result['b_width'];
+			$b_heigth = $result['b_height'];
+			$b_mime = $result['b_mime'];
 			
 			// Wenn DB Werte = Cache Werte dann Cache laden
 			if (($image[0] == $b_width) && ($image[1] == $b_heigth)
@@ -91,7 +85,6 @@ if (file_exists($cachepfad)) {
 				$anzeigeauscache = true;
 			}
 		}
-		mysqli_free_result($result);
 	}
 }
 
@@ -115,14 +108,14 @@ if ($anzeigeauscache) {
 	
 } else {
 	// Bild aus der DB lesen
+	$query = pdoQuery("SELECT `b_bild`, `b_mime` FROM `bild` WHERE `b_user` = :b_user AND `b_name` = :b_name", [':b_user'=>$u_id, ':b_name'=>$feld]);
 	
-	$query = "SELECT b_bild,b_mime FROM bild WHERE b_user=$u_id AND b_name='$feld'";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$b_mime = mysqli_result($result, 0, "b_mime");
-		$bild = mysqli_result($result, 0, "b_bild");
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		$b_mime = $result['b_mime'];
+		$bild = $result['b_bild'];
 	}
-	mysqli_free_result($result);
 	
 	// Bild in den Cache schreiben
 	if (!@stat($cache)) {

@@ -1,110 +1,25 @@
 <?php
-// Deklaration der gültigen Tabellenfelder die in die Datenbank geschrieben werden dürfen 
-$valid_fields = array(
-	'aktion' => array('a_id', 'a_user', 'a_wann', 'a_was', 'a_wie', 'a_zeit'),
-	'bild' => array('b_id', 'b_user', 'b_name', 'b_bild', 'b_mime', 'b_width', 'b_height'),
-	'blacklist' => array('f_id', 'f_userid', 'f_blacklistid', 'f_zeit', 'f_text'),
-	'chat' => array('c_id', 'c_von_user', 'c_an_user', 'c_typ', 'c_raum', 'c_text', 'c_zeit', 'c_farbe', 'c_von_user_id', 'c_br'),
-	'forum_kategorien' => array('fo_id', 'fo_name', 'fo_order', 'fo_admin'),
-	'freunde' => array('f_id', 'f_userid', 'f_freundid', 'f_zeit', 'f_text', 'f_status'),
-	'iignore' => array('i_id', 'i_user_aktiv', 'i_user_passiv'),
-	'invite' => array('inv_id', 'inv_raum', 'inv_user'),
-	'ip_sperre' => array('is_id', 'is_ip', 'is_domain', 'is_zeit', 'is_ip_byte', 'is_owner', 'is_infotext', 'is_warn'),
-	'mail' => array('m_id', 'm_status', 'm_von_uid', 'm_an_uid', 'm_zeit', 'm_geloescht_ts', 'm_betreff', 'm_text'),
-	'mail_check' => array('email', 'datum', 'u_id'),
-	'moderation' => array('c_id', 'c_von_user', 'c_an_user', 'c_typ', 'c_raum', 'c_text', 'c_zeit', 'c_farbe', 'c_von_user_id', 'c_moderator'),
-	'online' => array('o_id', 'o_user', 'o_raum', 'o_hash', 'o_timestamp', 'o_ip', 'o_who', 'o_aktiv', 'o_chat_id', 'o_browser', 'o_name', 'o_knebel', 
-		'o_http_stuff', 'o_http_stuff2', 'o_userdata', 'o_userdata2', 'o_userdata3', 'o_userdata4', 'o_level', 'o_ignore', 'o_login', 'o_punkte', 'o_aktion', 
-		'o_timeout_zeit', 'o_timeout_warnung', 'o_spam_zeilen', 'o_spam_byte', 'o_spam_zeit'),
-	'forum_beitraege' => array('po_id', 'po_th_id', 'po_u_id', 'po_vater_id', 'po_ts', 'po_threadorder', 'po_threadts', 'po_gesperrt', 'po_threadgesperrt', 
-		'po_topposting', 'po_titel', 'po_text'),
-	'raum' => array('r_id', 'r_name', 'r_eintritt', 'r_austritt', 'r_status1', 'r_besitzer', 'r_topic', 'r_status2', 'r_smilie', 'r_min_punkte'), 
-	'sequence' => array('se_name', 'se_nextid'),
-	'sperre' => array('s_id', 's_user', 's_raum', 's_zeit'),
-	'forum_foren' => array('th_id', 'th_fo_id', 'th_name', 'th_desc', 'th_anzthreads', 'th_anzreplys', 'th_postings', 'th_order'),
-	'top10cache' => array('t_id', 't_zeit', 't_eintrag', 't_daten'),
-	'user' => array('u_id', 'u_neu', 'u_login', 'u_auth', 'u_nick', 'u_passwort', 'u_email', 'u_level', 'u_farbe', 
-		'u_away', 'u_ip_historie', 'u_smilies', 'u_agb', 
-		'u_zeilen', 'u_punkte_gesamt', 'u_punkte_monat', 'u_punkte_jahr', 'u_punkte_datum_monat', 'u_punkte_datum_jahr', 'u_punkte_gruppe', 'u_gelesene_postings',
-		'u_chathomepage', 'u_eintritt', 'u_austritt', 'u_signatur', 'u_lastclean', 'u_emails_akzeptieren',
-		'u_nick_historie', 'u_profil_historie', 'u_kommentar', 'u_systemmeldungen', 'u_punkte_anzeigen', 'u_sicherer_modus', 'u_knebel', 'u_avatare_anzeigen', 'u_layout_farbe', 'u_layout_chat_darstellung'),
-	'userinfo' => array('ui_id', 'ui_userid', 'ui_geburt', 'ui_beruf', 'ui_hobby', 'ui_text', 'ui_wohnort', 'ui_geschlecht', 'ui_beziehungsstatus', 'ui_typ',
-		'ui_lieblingsfilm', 'ui_lieblingsserie', 'ui_lieblingsbuch', 'ui_lieblingsschauspieler', 'ui_lieblingsgetraenk', 'ui_lieblingsgericht', 'ui_lieblingsspiel', 'ui_lieblingsfarbe', 'ui_homepage',
-		'ui_hintergrundfarbe', 'ui_ueberschriften_textfarbe', 'ui_ueberschriften_hintergrundfarbe', 'ui_inhalt_textfarbe', 'ui_inhalt_linkfarbe', 'ui_inhalt_linkfarbe_aktiv', 'ui_inhalt_hintergrundfarbe')
-);
-
-// Funktionen
-function mysqli_result($res,$row=0,$col=0) {
-	$numrows = mysqli_num_rows($res);
-	if ($numrows && $row <= ($numrows-1) && $row >=0){
-		mysqli_data_seek($res,$row);
-		$resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
-		if (isset($resrow[$col])) {
-			return $resrow[$col];
-		}
-	}
-	return false;
-}
-
 /**
  * Führt eine SQL-Abfrage aus und gibt das Ergebnis zurück.
  * Benachrichtigt bei fehlerhaften Abfragen.
  * @param string $query Die Abfrage, die ausgeführt werden soll
- * @param bool $keineNachricht Wenn keine Nachricht geschrieben werden soll, falls die Abfrage keine Zeilen geändert hat
  * @return Ressource|false Das Ergebnis der Abfrage
  */
-function sqlQuery($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus, $lang;
+function pdoQuery($query, $params) {
+	global $pdo, $debug_modus;
 	
-	$res = mysqli_query($mysqli_link, $query);
-	if ($debug_modus && mysqli_error($mysqli_link)) {
-		global $kontakt;
-		
-		// E-Mail versenden
-		email_senden($kontakt, $lang['sql_query_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
+	try {
+		$statement = $pdo->prepare($query);
+		$statement->execute($params);
+	} catch (PDOException $exception) {
+		if($debug_modus) {
+			global $kontakt, $lang;
+			email_senden($kontakt, $lang['sql_query_fehlgeschlagen'], $query.'<br><br>' . $exception->getMessage());
+		}
 		return false;
 	}
-	if ($debug_modus && !$res && !$keineNachricht) {
-		global $kontakt;
-		
-		// E-Mail versenden
-		email_senden($kontakt, $lang['sql_query_kein_ergebnis'], $query);
-	}
-	return $res;
-}
-
-/**
- * Führt eine SQL-Abfrage aus und gibt das Ergebnis zurück.
- * Diese Funktion ist für Update- und Delete-Anweisungen zuständig
- * @param string $query Die SQL-Anweisung, die ausgeführt werden soll
- * @param bool $keineNachricht Wenn keine Nachricht geschrieben werden soll, falls die Abfrage keine Zeilen geändert hat
- * @return int|false Wie viele Zeilen geändert wurden
- */
-function sqlUpdate($query, $keineNachricht = false) {
-	global $mysqli_link, $debug_modus, $lang;
 	
-	$res = mysqli_query($mysqli_link, $query);
-	if ($debug_modus && !$res || mysqli_error($mysqli_link)) {
-		global $kontakt;
-		
-		// E-Mail versenden
-		email_senden($kontakt, $lang['sql_update_fehlgeschlagen'], $query.' -> '.mysqli_error($mysqli_link));
-		return false;
-	}
-	$ret = mysqli_affected_rows($mysqli_link);
-	if ($debug_modus && !$ret && !$keineNachricht) {
-		global $kontakt;
-		
-		// E-Mail versenden
-		email_senden($kontakt, $lang['sql_update_keine_aendern'], $query.'<br><pre>'.print_r(debug_backtrace(), 1));
-	}
-	return $ret;
-}
-
-function escape_string($value) {
-	global $mysqli_link;
-	
-	return mysqli_real_escape_string($mysqli_link, $value);
+	return $statement;
 }
 
 function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
@@ -112,22 +27,21 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	global $timeout, $lang, $leveltext, $admin, $lobby, $unterdruecke_user_im_raum_anzeige;
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
-		$query = "SELECT r_name,r_besitzer,o_user,o_name,o_userdata,o_userdata2,o_userdata3,o_userdata4 "
-			. "FROM raum,online WHERE r_id=$r_id AND o_raum=r_id AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout ORDER BY o_name";
-		$result = sqlQuery($query);
+		$query = pdoQuery("SELECT `r_name`, `r_besitzer`, `o_user`, `o_name`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4` "
+			. "FROM `raum`, `online` WHERE `r_id` = $r_id AND `o_raum` = `r_id` AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout ORDER BY `o_name`", [':timeout'=>$timeout]);
 		
-		$rows = @mysqli_num_rows($result);
-		
-		if ($result && $rows > 0) {
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 			$i = 0;
-			while ($row = mysqli_fetch_object($result)) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
 				// Beim ersten Durchlauf Namen des Raums einfügen
 				if ($i == 0) {
-					$text = str_replace("%r_name%", $row->r_name, $lang['raum_user1']);
+					$text = str_replace("%r_name%", $row['r_name'], $lang['raum_user1']);
 				}
 				
 				// Benutzerdaten lesen, Liste ausgeben
-				$userdata = unserialize($row->o_userdata . $row->o_userdata2 . $row->o_userdata3 . $row->o_userdata4);
+				$userdata = unserialize($row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 				
 				// Variable aus o_userdata setzen, Level und away beachten
 				$uu_id = $userdata['u_id'];
@@ -141,7 +55,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 				}
 				
 				$i++;
-				if ($i < $rows) {
+				if ($i < $resultCount) {
 					$text = $text . ", ";
 				}
 			}
@@ -158,8 +72,6 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 		} else {
 			$ergebnis = '';
 		}
-		
-		mysqli_free_result($result);
 	} else {
 		$ergebnis = 1;
 	}
@@ -174,20 +86,18 @@ function ist_online($user) {
 	global $timeout, $ist_online_raum, $whotext;
 	
 	$ist_online_raum = "";
-	$user = escape_string($user);
 	
-	$query = "SELECT o_id,r_name FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$user " . "AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-	$result = sqlQuery($query);
+	$query = pdoQuery("SELECT `o_id`, `r_name` FROM `online` LEFT JOIN `raum` ON `r_id` = `o_raum` WHERE `o_user` = :o_user AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout", [':o_user'=>$user, ':timeout'=>$timeout]);
 	
-	if ($result && mysqli_num_rows($result) > 0) {
-		$ist_online_raum = mysqli_result($result, 0, "r_name");
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$ist_online_raum = $result['r_name'];
 		if (!$ist_online_raum || $ist_online_raum == "NULL") {
 			$ist_online_raum = "[" . $whotext[2] . "]";
 		}
-		mysqli_free_result($result);
 		return (1);
 	} else {
-		mysqli_free_result($result);
 		return (0);
 	}
 }
@@ -197,21 +107,30 @@ function schreibe_moderiert($f) {
 	
 	// Schreiben falls text>0
 	if (strlen($f['c_text']) > 0) {
-		$ergebnis = schreibe_db("moderation", $f, "", "c_id");
-	} else {
-		$ergebnis = 0;
+		pdoQuery("INSERT INTO `moderation` (`c_text`, `c_von_user`, `c_an_user`, `c_raum`, `c_farbe`, `c_von_user_id`, `c_moderator`, `c_typ`) VALUES (:c_text, :c_von_user, :c_an_user, :c_raum, :c_farbe, :c_von_user_id, :c_moderator, :c_typ)",
+			[
+				':c_text'=>$f['c_text'],
+				':c_von_user'=>$f['c_von_user'],
+				':c_an_user'=>$f['c_an_user'],
+				':c_raum'=>$f['c_raum'],
+				':c_farbe'=>$f['c_farbe'],
+				':c_von_user_id'=>$f['c_von_user_id'],
+				':c_moderator'=>$f['c_moderator'],
+				':c_typ'=>$f['c_typ']
+			]);
 	}
-	return $ergebnis;
 }
 
 function schreibe_moderation() {
 	global $u_id;
 	
 	// alles aus der moderationstabelle schreiben, bei der u_id==c_moderator;
-	$query = "SELECT * FROM moderation WHERE c_moderator=$u_id AND c_typ='N'";
-	$result = sqlQuery($query);
-	if ($result > 0) {
-		while ($f = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	$query = pdoQuery("SELECT * FROM `moderation` WHERE `c_moderator` = :c_moderator AND `c_typ` = 'N'", [':c_moderator'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $f) {
 			unset($c);
 			// vorbereiten für umspeichern... geht leider nicht 1:1, 
 			// weil fetch_array mehr zurückliefert als in $f[] sein darf...
@@ -225,61 +144,171 @@ function schreibe_moderation() {
 			$c['c_von_user_id'] = $f['c_von_user_id'];
 			// und in moderations-tabelle schreiben
 			schreibe_chat($c);
+			
 			// und datensatz löschen...
-			$query = "DELETE FROM moderation WHERE c_id=$f[c_id]";
-			$result2 = sqlUpdate($query);
+			pdoQuery("DELETE FROM `moderation` WHERE `c_id` = :c_id", [':c_id'=>$f['c_id']]);
 		}
 	}
 }
 
 function schreibe_chat($f) {
+	global $system_farbe;
 	// Schreibt Chattext in DB
 	
 	// Schreiben falls text > 0
 	if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
-		/*
-		// Falls Länge c_text mehr als 256 Zeichen, auf mehrere Zeilen aufteilen
-		if (strlen($f['c_text']) > 256) {
-			$temp = $f['c_text'];
-			$laenge = strlen($temp);
-			$i = 0;
-			// Tabelle LOCK
-			$query = "LOCK TABLES chat WRITE";
-			$result = sqlUpdate($query, true);
-			while ($i < $laenge) {
-				$f['c_text'] = substr($temp, $i, 255);
-				if ($i == 0) {
-					// erste Zeile
-					$f['c_br'] = "erste";
-				} elseif (($i + 255) >= $laenge) {
-					// letzte Zeile
-					$f['c_br'] = "letzte";
-				} else {
-					// mittlere Zeile
-					$f['c_br'] = "mitte";
-				}
-				$i = $i + 255;
-				$ergebnis = schreibe_db("chat", $f, "", "c_id");
-			}
-			$query = "UNLOCK TABLES";
-			$result = sqlUpdate($query, true);
+		if(!isset($f['c_von_user'])) {
+			$f['c_von_user'] = "";
+		}
+		
+		if(!isset($f['c_farbe'])) {
+			$f['c_farbe'] = $system_farbe;
+		}
+		
+		if(!isset($f['c_raum'])) {
+			$f['c_raum'] = 0;
+		}
+		
+		if(!isset($f['c_zeit'])) {
+			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
+				[
+					':c_von_user'=>$f['c_von_user'],
+					':c_an_user'=>$f['c_an_user'],
+					':c_typ'=>$f['c_typ'],
+					':c_raum'=>$f['c_raum'],
+					':c_text'=>$f['c_text'],
+					':c_farbe'=>$f['c_farbe'],
+					':c_von_user_id'=>$f['c_von_user_id']
+				]);
 		} else {
-		*/
-			// Normale Zeile in Tabelle schreiben
-			$f['c_br'] = "normal";
-			$ergebnis = schreibe_db("chat", $f, "", "c_id");
-		//}
-	} else {
-		$ergebnis = 0;
+			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_zeit` = :c_zeit, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
+				[
+					':c_von_userx'=>$f['c_von_user'],
+					':c_an_user'=>$f['c_an_user'],
+					':c_typ'=>$f['c_typ'],
+					':c_raum'=>$f['c_raum'],
+					':c_text'=>$f['c_text'],
+					':c_zeit'=>$f['c_zeit'],
+					':c_farbe'=>$f['c_farbe'],
+					':c_von_user_id'=>$f['c_von_user_id']
+				]);
+		}
 	}
-	return $ergebnis;
+}
+
+function schreibe_online($f, $aktion, $u_id) {
+	if($aktion == "einloggen") {
+		// In den Chat einloggen
+		$query = pdoQuery("SELECT `o_id` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
+		$resultCount = $query->rowCount();
+		if($resultCount == 0) {
+			// Insert
+			$query = pdoQuery("INSERT INTO `online` (`o_user`, `o_raum`, `o_hash`, `o_ip`, `o_who`, `o_browser`, `o_name`, `o_level`, `o_http_stuff`, `o_http_stuff2`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`, `o_ignore`, `o_punkte`, `o_aktion`)
+											 VALUES (:o_user,  :o_raum,  :o_hash,  :o_ip,  :o_who,  :o_browser,  :o_name,  :o_level,  :o_http_stuff,  :o_http_stuff2,  :o_userdata,  :o_userdata2,  :o_userdata3,  :o_userdata4,  :o_ignore,  :o_punkte,  :o_aktion)",
+				[
+					':o_user'=>$f['o_user'],
+					':o_raum'=>$f['o_raum'],
+					':o_hash'=>$f['o_hash'],
+					':o_ip'=>$f['o_ip'],
+					':o_who'=>$f['o_who'],
+					':o_browser'=>$f['o_browser'],
+					':o_name'=>$f['o_name'],
+					':o_level'=>$f['o_level'],
+					':o_http_stuff'=>$f['o_http_stuff'],
+					':o_http_stuff2'=>$f['o_http_stuff2'],
+					':o_userdata'=>$f['o_userdata'],
+					':o_userdata2'=>$f['o_userdata2'],
+					':o_userdata3'=>$f['o_userdata3'],
+					':o_userdata4'=>$f['o_userdata4'],
+					':o_ignore'=>$f['o_ignore'],
+					':o_punkte'=>$f['o_punkte'],
+					':o_aktion'=>$f['o_aktion']
+				]);
+		} else {
+			// Update
+			$query = pdoQuery("UPDATE `online` SET
+								`o_raum` = :o_raum,
+								`o_hash` = :o_hash,
+								`o_ip` = :o_ip,
+								`o_who` = :o_who,
+								`o_browser` = :o_browser,
+								`o_name` = :o_name,
+								`o_level` = :o_level,
+								`o_http_stuff` = :o_http_stuff,
+								`o_http_stuff2` = :o_http_stuff2,
+								`o_userdata` = :o_userdata,
+								`o_userdata2` = :o_userdata2,
+								`o_userdata3` = :o_userdata3,
+								`o_userdata4` = :o_userdata4,
+								`o_ignore` = :o_ignore,
+								`o_punkte` = :o_punkte,
+								`o_aktion` = :o_aktion
+								WHERE `o_user` = :o_user",
+				[
+					':o_user'=>$u_id,
+					':o_raum'=>$f['o_raum'],
+					':o_hash'=>$f['o_hash'],
+					':o_ip'=>$f['o_ip'],
+					':o_who'=>$f['o_who'],
+					':o_browser'=>$f['o_browser'],
+					':o_name'=>$f['o_name'],
+					':o_level'=>$f['o_level'],
+					':o_http_stuff'=>$f['o_http_stuff'],
+					':o_http_stuff2'=>$f['o_http_stuff2'],
+					':o_userdata'=>$f['o_userdata'],
+					':o_userdata2'=>$f['o_userdata2'],
+					':o_userdata3'=>$f['o_userdata3'],
+					':o_userdata4'=>$f['o_userdata4'],
+					':o_ignore'=>$f['o_ignore'],
+					':o_punkte'=>$f['o_punkte'],
+					':o_aktion'=>$f['o_aktion']
+				]);
+		}
+	} else if($aktion == "chat_forum") {
+		// Wechsel vom Chat ins Forum
+		$query = pdoQuery("UPDATE `online` SET `o_raum` = :o_raum, `o_who` = :o_who WHERE `o_user` = :o_user",
+			[
+				':o_user'=>$u_id,
+				':o_raum'=>$f['o_raum'],
+				':o_who'=>$f['o_who']
+			]);
+	} else if($aktion == "warnung") {
+		// Inaktivitäswarnung
+		$query = pdoQuery("UPDATE `online` SET `o_timeout_warnung` = :o_timeout_warnung WHERE `o_user` = :o_user",
+			[
+				':o_user'=>$u_id,
+				':o_timeout_warnung'=>$f['o_timeout_warnung']
+				
+			]);
+	} else if($aktion == "schreiben") {
+		// Nachricht im Chat abschicken
+		$query = pdoQuery("UPDATE `online` SET `o_spam_zeit` = :o_spam_zeit, `o_spam_zeilen` = :o_spam_zeilen, `o_spam_byte` = :o_spam_byte WHERE `o_user` = :o_user",
+			[
+				':o_user'=>$u_id,
+				':o_spam_zeit'=>$f['o_spam_zeit'],
+				':o_spam_zeilen'=>$f['o_spam_zeilen'],
+				':o_spam_byte'=>$f['o_spam_byte']
+			]);
+	} else if($aktion == "betreten") {
+		// Raum oder Forum betreten
+		$query = pdoQuery("UPDATE `online` SET `o_raum` = :o_raum, `o_who` = :o_who WHERE `o_user` = :o_user",
+			[
+				':o_user'=>$u_id,
+				':o_raum'=>$f['o_raum'],
+				':o_who'=>$f['o_who']
+			]);
+	} else {
+		return null;
+	}
+	
+	return $query;
 }
 
 function global_msg($u_id, $r_id, $text) {
 	// Schreibt Text $text in Raum $r_id an alle Benutzer
 	// Art:		   N: Normal
 	//				  S: Systemnachricht
-	//				P: Privatnachticht
+	//				P: Privatnachricht
 	//				H: Versteckte Nachricht
 	
 	if (strlen($r_id) > 0) {
@@ -294,10 +323,8 @@ function global_msg($u_id, $r_id, $text) {
 	
 	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($u_id) {
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$u_id";
-		$result = sqlUpdate($query, true);
+		pdoQuery("UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
 	}
-	return $ergebnis;
 }
 
 function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
@@ -309,28 +336,26 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	
 	$f['c_von_user'] = $von_user;
 	$f['c_von_user_id'] = $von_user_id;
+	$f['c_an_user'] = 0;
 	$f['c_farbe'] = $farbe;
 	$f['c_raum'] = $r_id;
 	$f['c_typ'] = "H";
 	$f['c_text'] = $text;
 	
-	$ergebnis = schreibe_chat($f);
+	schreibe_chat($f);
 	
 	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
-		$query = "UPDATE online SET o_timeout_zeit=DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), o_timeout_warnung = 0 WHERE o_user=$von_user_id";
-		$result = sqlUpdate($query, true);
+		pdoQuery("UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_user'=>$von_user_id]);
 	}
-	
-	return $ergebnis;
 }
 
 function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = "") {
 	// Schreibt privaten Text von $von_user an Benutzer $an_user
-	// Art:		   N: Normal
-	//				  S: Systemnachricht
-	//				P: Privatnachticht
-	//				H: Versteckte Nachricht
+	// Art:	N: Normal
+	//		S: Systemnachricht
+	//		P: Privatnachticht
+	//		H: Versteckte Nachricht
 	
 	// Optional Link auf Benutzer erzeugen
 	
@@ -345,16 +370,12 @@ function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = 
 	$f['c_typ'] = "P";
 	$f['c_text'] = $text;
 	
-	$ergebnis = schreibe_chat($f);
+	schreibe_chat($f);
 	
 	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
 	if ($von_user_id) {
-		$von_user_id = escape_string($von_user_id);
-		$query = "UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = $von_user_id";
-		$result = sqlUpdate($query, true);
+		pdoQuery("UPDATE `online` SET `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_user'=>$von_user_id]);
 	}
-	
-	return $ergebnis;
 }
 
 function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
@@ -372,15 +393,12 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	$f['c_typ'] = "S";
 	$f['c_text'] = $text;
 	
-	$ergebnis = schreibe_chat($f);
-	
-	return $ergebnis;
+	schreibe_chat($f);
 }
 
 function aktualisiere_online($u_id) {
 	// Timestamp im Datensatz aktualisieren -> Benutzer gilt als online
-	$query = "UPDATE `online` SET `o_aktiv` = NULL WHERE `o_user` = $u_id";
-	$result = sqlUpdate($query, true);
+	pdoQuery("UPDATE `online` SET `o_aktiv` = NULL WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
 }
 
 function id_lese($id) {
@@ -395,61 +413,50 @@ function id_lese($id) {
 	// IP und Browser ermittlen
 	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
 	
-	$id = escape_string($id);
-	
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen
 	
-	$query = "SELECT HIGH_PRIORITY *,UNIX_TIMESTAMP(o_timeout_zeit) as o_timeout_zeit, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) as o_knebel FROM online WHERE o_hash='$id' ";
-	$result = sqlQuery($query);
+	$query = pdoQuery("SELECT HIGH_PRIORITY *, UNIX_TIMESTAMP(`o_timeout_zeit`) AS `o_timeout_zeit`, UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `o_knebel` FROM `online` WHERE `o_hash` = :o_hash", [':o_hash'=>$id]);
 	
-	if (!$result) {
+	$resultCount = $query->rowCount();
+	if ($resultCount == 0) {
 		exit;
 	}
 	
-	if ($ar = @mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-		// Benutzerdaten und ignore Arrays setzen
-		$userdata = unserialize($ar['o_userdata'] . $ar['o_userdata2'] . $ar['o_userdata3'] . $ar['o_userdata4']);
-		$ignore = unserialize($ar['o_ignore']);
-		
-		unset($ar['o_ignore']);
-		unset($ar['o_userdata']);
-		unset($ar['o_userdata2']);
-		unset($ar['o_userdata3']);
-		unset($ar['o_userdata4']);
-		
-		// Schleife über alle Variable; Variable setzen
-		while (list($k, $v) = each($ar)) {
-			$$k = $v;
+	$ar = $query->fetch();
+	// Benutzerdaten und ignore Arrays setzen
+	$userdata = unserialize($ar['o_userdata'] . $ar['o_userdata2'] . $ar['o_userdata3'] . $ar['o_userdata4']);
+	$ignore = unserialize($ar['o_ignore']);
+	
+	unset($ar['o_ignore']);
+	unset($ar['o_userdata']);
+	unset($ar['o_userdata2']);
+	unset($ar['o_userdata3']);
+	unset($ar['o_userdata4']);
+	
+	// Schleife über alle Variable; Variable setzen
+	foreach($ar as $k => $v) {
+		$$k = $v;
+	}
+	
+	// o_browser prüfen Benutzerdaten in Array schreiben
+	if (is_array($userdata) && $ar['o_browser'] == $http_user_agent) {
+		// Schleife über Benutzerdaten, Variable setzen
+		foreach($userdata as $k => $v) {
+			@$$k = $v;
 		}
-		mysqli_free_result($result);
 		
-		// o_browser prüfen Benutzerdaten in Array schreiben
-		if (is_array($userdata) && $ar['o_browser'] == $http_user_agent) {
-			// Schleife über Benutzerdaten, Variable setzen
-			while (list($k, $v) = each($userdata)) {
-				@$$k = $v;
-			}
-			
-			// ChatAdmin oder Superuser oder Moderator?
-			if ($u_level == "S" || $u_level == "C" || ($moderationsmodul == 1 && $u_level == "M" && isset($r_status1) && strtolower($r_status1) == "m")) {
-				$admin = 1;
-			} else {
-				$admin = 0;
-			}
+		// ChatAdmin oder Superuser oder Moderator?
+		if ($u_level == "S" || $u_level == "C" || ($moderationsmodul == 1 && $u_level == "M" && isset($r_status1) && strtolower($r_status1) == "m")) {
+			$admin = 1;
 		} else {
-			// Aus Sicherheitsgründen die Variablen löschen
-			$userdata = "";
-			$u_id = "";
-			$u_nick = "";
-			$o_id = "";
-			$u_level = "";
 			$admin = 0;
 		}
 	} else {
 		// Aus Sicherheitsgründen die Variablen löschen
+		$userdata = "";
 		$u_id = "";
 		$u_nick = "";
-		$o_id = "";
+		$o_id = 0;
 		$u_level = "";
 		$admin = 0;
 	}
@@ -457,147 +464,58 @@ function id_lese($id) {
 	// Hole die Farbe des Benutzers
 	global $user_farbe;
 	if (!empty($u_id)) {
-		$query = "SELECT u_farbe FROM user WHERE u_id = " . intval($u_id);
-		$result = sqlQuery($query);
-		$row = mysqli_fetch_row($result);
-		if (empty($row[0])) {
+		$query = pdoQuery("SELECT `u_farbe` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+		
+		$row = $query->fetch();
+		if (empty($row['u_farbe'])) {
 			return;
 		}
-		$user_farbe = $u_farbe = $row[0];
-		mysqli_free_result($result);
+		$user_farbe = $u_farbe = $row['u_farbe'];
 	}
 }
 
-function schreibe_db($db, $f, $function_id, $id_name) {
-	// Assoziatives Array $f in DB $db schreiben 
-	// Liefert als Ergebnis die ID des geschriebenen Datensatzes zurück
-	// Sonderbehandlung für Passwörter
-	// Akualiert ggf Kopie des Datensatzes in online-Tabelle
-	global $mysqli_link, $u_id, $valid_fields;
+function aktualisiere_inhalt_online($user_id) {
+	// Kopie in Onlinedatenbank aktualisieren
+	// Query muss mit dem Code in login() übereinstimmen
+	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
-	$neu = array();
-	foreach ($valid_fields[$db] as $field) {
-		if (isset($f[$field])) {
-			$neu[$field] = $f[$field];
-		}
-	}
-	$f = $neu;
-	
-	$function_id = intval($function_id);
-	
-	if (strlen($function_id) == 0 || $function_id == 0) {
-		// ID generieren
-		if ($db == "online" || $db == "chat") {
-			// ID aus sequence verwenden
-			$query = "LOCK TABLES sequence WRITE";
-			$result = sqlUpdate($query, true);
-			$query = "SELECT se_nextid FROM sequence WHERE se_name='$db'";
-			$result = sqlQuery($query);
-			if ($result) {
-				$function_id = mysqli_result($result, 0, 0);
-				mysqli_free_result($result);
-				$query = "UPDATE sequence SET se_nextid='" . ($function_id + 1) . "' WHERE se_name='$db'";
-				$result = sqlUpdate($query);
-			} else {
-				$query = "UNLOCK TABLES";
-				$result = sqlUpdate($query, true);
-				die();
-			}
-			$query = "UNLOCK TABLES";
-			$result = sqlUpdate($query, true);
-			
-		} else {
-			// ID mit auto_increment erzeugen
-			$function_id = 0;
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$userdata = $query->fetch();
+		
+		// Slashes in jedem Eintrag des Array ergänzen
+		reset($userdata);
+		foreach($userdata as $ukey => $udata) {
+			$udata = $udata;
 		}
 		
-		// Datensatz neu schreiben
-		$q = "";
-		for (reset($f); list($name, $inhalt) = each($f);) {
-			if( $name != $id_name ) {
-				$q .= ", `" . escape_string($name)."`";
-				if ($name == "u_passwort") {
-					// Passwort hashen
-					$q .= " = '" . escape_string(encrypt_password($inhalt)) . "'";
-				} else {
-					$q .= " = '" . escape_string($inhalt) . "'";
-				}
-			}
+		// Benutzerdaten in 255-Byte Häppchen zerlegen
+		$userdata_array = zerlege(serialize($userdata));
+		
+		if (!isset($userdata_array[0])) {
+			$userdata_array[0] = "";
 		}
-		$query = "INSERT INTO `$db` SET `$id_name` = $function_id" . $q;
-		$result = sqlUpdate($query);
-		if (!$result) {
-			die();
+		if (!isset($userdata_array[1])) {
+			$userdata_array[1] = "";
 		}
-		if ($function_id == 0) {
-			$function_id = mysqli_insert_id($mysqli_link);
+		if (!isset($userdata_array[2])) {
+			$userdata_array[2] = "";
+		}
+		if (!isset($userdata_array[3])) {
+			$userdata_array[3] = "";
 		}
 		
-	} else {
-		// bestehenden Datensatz updaten
-		$q = "";
-		for (reset($f); list($name, $inhalt) = each($f);) {
-			if ($q == "") {
-				$q .= "`" . escape_string($name)."`";
-				$q = escape_string($name);
-			} else {
-				$q .= ", `" . escape_string($name)."`";
-			}
-			if ($name == "u_passwort") {
-				// Passwort hashen
-				$q .= "='" . escape_string(encrypt_password($inhalt)) . "'";
-			} else {
-				$q .= "='" . escape_string($inhalt) . "'";
-			}
-		}
-		$q = "UPDATE `$db` SET " . $q . " WHERE `$id_name` = $function_id";
-		$result = sqlUpdate($q, true);
+		pdoQuery("UPDATE `online` SET `o_userdata` = :o_userdata, `o_userdata2` = :o_userdata2, `o_userdata3` = :o_userdata3, `o_userdata4` = :o_userdata4, `o_level` = :o_level, `o_name` = :o_name WHERE `o_user` = :o_user",
+			[
+				':o_userdata'=>$userdata_array[0],
+				':o_userdata2'=>$userdata_array[1],
+				':o_userdata3'=>$userdata_array[2],
+				':o_userdata4'=>$userdata_array[3],
+				':o_level'=>$userdata['u_level'],
+				':o_name'=>$userdata['u_nick'],
+				':o_user'=>$user_id
+			]);
 	}
-	
-	if ($db == "user" && $id_name == "u_id") {
-		// Kopie in Onlinedatenbank aktualisieren
-		// Query muss mit dem Code in login() übereinstimmen
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_zeilen`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id`=$function_id";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
-			
-			// Slashes in jedem Eintrag des Array ergänzen
-			reset($userdata);
-			while (list($ukey, $udata) = each($userdata)) {
-				$udata = escape_string($udata);
-			}
-			
-			// Benutzerdaten in 255-Byte Häppchen zerlegen
-			$userdata_array = zerlege(serialize($userdata));
-			
-			if (!isset($userdata_array[0])) {
-				$userdata_array[0] = "";
-			}
-			if (!isset($userdata_array[1])) {
-				$userdata_array[1] = "";
-			}
-			if (!isset($userdata_array[2])) {
-				$userdata_array[2] = "";
-			}
-			if (!isset($userdata_array[3])) {
-				$userdata_array[3] = "";
-			}
-			
-			$query = "UPDATE online SET "
-				. "o_userdata='" . escape_string($userdata_array[0]) . "', "
-				. "o_userdata2='" . escape_string($userdata_array[1]) . "', "
-				. "o_userdata3='" . escape_string($userdata_array[2]) . "', "
-				. "o_userdata4='" . escape_string($userdata_array[3]) . "', "
-				. "o_level='" . escape_string($userdata['u_level']) . "', "
-				. "o_name='" . escape_string($userdata['u_nick']) . "' "
-					. "WHERE o_user=$function_id";
-					sqlUpdate($query, true);
-			mysqli_free_result($result);
-		}
-	}
-	
-	return $function_id;
 }
 
 function zerlege($daten) {
@@ -658,7 +576,7 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $lang, $logo;
+	global $lang, $logo, $chat;
 	
 	if($logo != "") {
 	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
@@ -720,20 +638,20 @@ function raum_ist_moderiert($raum) {
 	$moderiert = 0;
 	$raum = intval($raum);
 	
-	$query = "SELECT * FROM raum WHERE r_id=$raum";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		$raum_einstellungen = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$query = pdoQuery("SELECT `r_status1`, `r_status2` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$raum]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$raum_einstellungen = $query->fetch();
 		$r_status1 = $raum_einstellungen['r_status1'];
 	}
-	mysqli_free_result($result);
 	if (isset($r_status1) && ($r_status1 == "m" || $r_status1 == "M")) {
-		$query = "SELECT o_user FROM online WHERE o_raum=$raum AND o_level='M' ";
-		$result = sqlQuery($query);
-		if (mysqli_num_rows($result) > 0) {
+		$query = pdoQuery("SELECT `o_user` FROM `online` WHERE `o_raum` = :o_raum AND `o_level` = 'M'", [':o_raum'=>$raum]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 			$moderiert = 1;
 		}
-		mysqli_free_result($result);
 	}
 	$ist_moderiert = $moderiert;
 	$ist_eingang = $r_status1 == "E";
@@ -767,29 +685,23 @@ function zeige_smilies($anzeigeort, $benutzerdaten) {
 	global $smilie, $smilietxt;
 	
 	$text = "";
-	if( $anzeigeort == 'chat' ) { // Chatausgabe
+	if( $anzeigeort == 'chat' ) {
+		// Chatausgabe
 		// Array mit Smilies einlesen, HTML-Tabelle ausgeben
-		$text .= "<table style=\"width:100%; border:0px;\">\n";
 		$zahl = 0;
-		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
+		foreach($smilie as $smilie_code => $smilie_grafik) {
 			if ( $zahl % 2 != 0 ) {
 				$farbe_tabelle = 'class="tabelle_zeile1"';
 			} else {
 				$farbe_tabelle = 'class="tabelle_zeile2"';
 			}
-			$text .= "<tr>";
-			$text .= "<td $farbe_tabelle style=\"text-align:center;\">";
-			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>";
-			$text .= "</td>";
-			$text .= "<td $farbe_tabelle><span class=\"smaller\">" . str_replace(" ", "&nbsp;", $smilietxt[$smilie_code]) . "</span></td>";
-			$text .= "</tr>\n";
+			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a> ";
 			$zahl++;
 		}
-		$text .= "</table>";
-	} else { // Forumausgabe
-		while (list($smilie_code, $smilie_grafik) = each($smilie)) {
+	} else {
+		// Forumausgabe
+		foreach($smilie as $smilie_code => $smilie_grafik) {
 			$text .= "<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_forum(' " . $smilie_code . " '); return(false)\"><img src=\"images/smilies/style-" . $benutzerdaten['u_layout_farbe'] . "/" . $smilie_grafik . "\" alt=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\" title=\"".str_replace(" ", "&nbsp;", $smilietxt[$smilie_code])."\"></a>&nbsp;";
-			$zahl++;
 		}
 	}
 	return $text;
@@ -820,9 +732,17 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 		
 		$user_id = $userdaten['u_id'];
 		$user_nick = $userdaten['u_nick'];
-		$user_level = $userdaten['u_level'];
-		$user_punkte_gesamt = $userdaten['u_punkte_gesamt'];
-		$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
+		if (isset($userdaten['u_level'])) {
+			$user_level = $userdaten['u_level'];
+		} else {
+			$user_level = "";
+		}
+		//$user_punkte_gesamt = $userdaten['u_punkte_gesamt'];
+		if (isset($userdaten['u_punkte_gruppe'])) {
+			$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
+		} else {
+			$user_punkte_gruppe = '0';
+		}
 		$user_chathomepage = htmlspecialchars($userdaten['u_chathomepage']);
 		
 		if ($show_geschlecht == true) {
@@ -836,7 +756,7 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 		$user_id = $userdaten->u_id;
 		$user_nick = $userdaten->u_nick;
 		$user_level = $userdaten->u_level;
-		$user_punkte_gesamt = $userdaten->u_punkte_gesamt;
+		//$user_punkte_gesamt = $userdaten->u_punkte_gesamt;
 		$user_punkte_gruppe = hexdec($userdaten->u_punkte_gruppe);
 		if (isset($userdaten->u_chathomepage)) {
 			$user_chathomepage = htmlspecialchars($userdaten->u_chathomepage);
@@ -855,33 +775,30 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 		}
 	} else if ($zeige_user_id) {
 		// Benutzerdaten aus DB lesen
-		$sql = "SET lc_time_names = '$locale'";
-		$query = sqlQuery($sql);
+		pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 		
-		$query = "SELECT u_id,u_nick,u_level,u_away,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage,u_punkte_anzeigen, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d. %M %Y %H:%i') AS login "
-			. "FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=" . intval($zeige_user_id);
-			$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$userdaten = mysqli_fetch_object($result);
-			$user_id = $userdaten->u_id;
-			$user_nick = $userdaten->u_nick;
-			$user_level = $userdaten->u_level;
-			$user_punkte_gesamt = $userdaten->u_punkte_gesamt;
-			$user_punkte_gruppe = hexdec($userdaten->u_punkte_gruppe);
-			$user_chathomepage = htmlspecialchars($userdaten->u_chathomepage);
-			$user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen`, "
+			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online`, date_format(`u_login`,'%d. %M %Y %H:%i') AS `login` "
+			. "FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>intval($zeige_user_id)]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$userdaten = $query->fetch();
+			$user_id = $userdaten['u_id'];
+			$user_nick = $userdaten['u_nick'];
+			$user_level = $userdaten['u_level'];
+			//$user_punkte_gesamt = $userdaten['u_punkte_gesamt'];
+			$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
+			$user_chathomepage = htmlspecialchars($userdaten['u_chathomepage']);
+			$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
 			
-			$online_zeit = $userdaten->online;
-			$letzter_login = $userdaten->login;
-			
+			$online_zeit = $userdaten['online'];
+			$letzter_login = $userdaten['login'];
 		}
-		mysqli_free_result($result);
 		
 		if ($show_geschlecht == true) {
 			$user_geschlecht = hole_geschlecht($zeige_user_id);
 		}
-		
 	} else {
 		$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
 		if (isset($zeige_user_id)) {
@@ -895,27 +812,29 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 		}
 		$nachricht .= "</p>";
 		
-		global $kontakt_email;
-		email_senden($kontakt_email, "Fehler: Falscher Aufruf von zeige_userdetails()", $nachricht);
+		global $kontakt;
+		email_senden($kontakt, "Fehler: Falscher Aufruf von zeige_userdetails()", $nachricht);
+		
 		return "";
 	}
 	
 	// Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
 	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "1" && $user_punkte_anzeigen != "0")) {
-		$query = "SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id`=" . intval($user_id);
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$userdaten = mysqli_fetch_object($result);
-			$user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
+		$query = pdoQuery("SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($user_id)]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$userdaten = $query->fetch();
+			$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
 		}
-		mysqli_free_result($result);
 	}
 	
 	if ($user_id != $zeige_user_id) {
 		$nachricht = "Fehler: $user_id!=$zeige_user_id</p>\n";
 		
-		global $kontakt_email;
-		email_senden($kontakt_email, "Fehler", $nachricht);
+		global $kontakt;
+		email_senden($kontakt, "Fehler", $nachricht);
+		
 		return "";
 	}
 	
@@ -1155,13 +1074,13 @@ function chat_parse($text) {
 }
 
 function hole_geschlecht($userid) {
-	$query = "SELECT ui_geschlecht FROM userinfo WHERE ui_userid=" . intval($userid);
-	$result = sqlQuery($query);
-	if ($result AND mysqli_num_rows($result) == 1) {
-		$userinfo = mysqli_fetch_object($result);
-		$user_geschlecht = $userinfo->ui_geschlecht;
+	$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>intval($userid)]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$userinfo = $query->fetch();
+		$user_geschlecht = $userinfo['ui_geschlecht'];
 	}
-	mysqli_free_result($result);
 	
 	if ($user_geschlecht == "männlich") {
 		$user_geschlecht = "geschlecht_maennlich";
@@ -1183,8 +1102,6 @@ function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 		logout($o_id, $u_id);
 		//echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 	}
-	
-
 }
 
 function verlasse_chat($u_id, $u_nick, $raum) {
@@ -1207,25 +1124,22 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 		}
 		
 		if ($eintritt_individuell == "1") {
-			$query = "SELECT `u_austritt` FROM `user` WHERE `u_id` = $u_id";
-			$result = sqlQuery($query);
-			$row = mysqli_fetch_object($result);
-			if (strlen($row->u_austritt) > 0) {
-				$text = $row->u_austritt;
+			$query = pdoQuery("SELECT `u_austritt` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+			
+			$row = $query->fetch();
+			if (strlen($row['u_austritt']) > 0) {
+				$text = $row['u_austritt'];
 				$text = "<b>&lt;&lt;&lt;</b> " . $text . " (<b>$u_nick</b> - verlässt den Chat) ";
 			}
-			mysqli_free_result($result);
 			
-			$query = "SELECT r_name FROM raum WHERE r_id = " . intval($raum);
-			$result = sqlQuery($query);
-			$row = mysqli_fetch_object($result);
-			if (isset($row->r_name)) {
-				$r_name = $row->r_name;
+			$query = pdoQuery("SELECT `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$raum]);
+			
+			$row = $query->fetch();
+			if (isset($row['r_name'])) {
+				$r_name = $row['r_name'];
 			} else {
 				$r_name = "[unbekannt]";
 			}
-			
-			mysqli_free_result($result);
 		}
 		
 		$text = str_replace("%u_nick%", $u_nick, $text);
@@ -1245,89 +1159,94 @@ function logout($o_id, $u_id) {
 	// Logout aus dem Gesamtsystem
 	
 	// Tabellen online+user exklusiv locken
-	$query = "LOCK TABLES online WRITE, user WRITE";
-	$result = sqlUpdate($query, true);
-	
-	$o_id = escape_string($o_id);
+	pdoQuery("LOCK TABLES `online` WRITE, `user` WRITE", []);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-	$query = "SELECT o_punkte,o_name,o_knebel, UNIX_TIMESTAMP(o_knebel)-UNIX_TIMESTAMP(NOW()) AS knebelrest FROM online WHERE o_user=$u_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_object($result);
-		$u_nick = $row->o_name;
-		$u_punkte = $row->o_punkte;
-		if ($row->knebelrest > 0) {
-			$knebelzeit = ", u_knebel='$row->o_knebel'";
-		} else {
-			$knebelzeit = '';
-		}
+	$query = pdoQuery("SELECT `o_punkte`, `o_name`, `o_knebel`, UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `knebelrest` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$row = $query->fetch();
+		$u_nick = $row['o_name'];
+		$u_punkte = $row['o_punkte'];
 		
-		$query = "UPDATE user SET u_punkte_monat=u_punkte_monat+" . intval($u_punkte) . ", u_punkte_jahr=u_punkte_jahr+" . intval($u_punkte) . ", "
-		. "u_punkte_gesamt=u_punkte_gesamt+" . intval($u_punkte) . $knebelzeit . ", u_away = '' WHERE u_id=$u_id";
-		$result2 = sqlUpdate($query, true);
+		if ($row['knebelrest'] > 0) {
+			pdoQuery("UPDATE `user` SET `u_punkte_monat` = `u_punkte_monat` + :u_punkte_monat, `u_punkte_jahr` = `u_punkte_jahr` + :u_punkte_jahr, "
+					. "`u_punkte_gesamt` = `u_punkte_gesamt` + :u_punkte_gesamt, `u_knebel` = :u_knebel, `u_away` = '' WHERE `u_id` = :u_id",
+				[
+					':u_punkte_monat'=>$u_punkte,
+					':u_punkte_jahr'=>$u_punkte,
+					':u_punkte_gesamt'=>$u_punkte,
+					':u_knebel'=>$row['o_knebel'],
+					':u_id'=>$u_id
+				]);
+		} else {
+			pdoQuery("UPDATE `user` SET `u_punkte_monat` = `u_punkte_monat` + :u_punkte_monat, `u_punkte_jahr` = `u_punkte_jahr` + :u_punkte_jahr, "
+					. "`u_punkte_gesamt` = `u_punkte_gesamt` + :u_punkte_gesamt, `u_away` = '' WHERE `u_id` = :u_id",
+				[
+					':u_punkte_monat'=>$u_punkte,
+					':u_punkte_jahr'=>$u_punkte,
+					':u_punkte_gesamt'=>$u_punkte,
+					':u_id'=>$u_id
+				]);
+		}
 	}
-	mysqli_free_result($result);
 	
 	// Benutzer löschen
-	$query = "DELETE FROM online WHERE o_id=$o_id OR o_user=$u_id";
-	$result2 = sqlUpdate($query, true);
+	pdoQuery("DELETE FROM `online` WHERE `o_id` = :o_id OR `o_user` = :o_user", [':o_id'=>$o_id, ':o_user'=>$u_id]);
 	
 	// Lock freigeben
-	$query = "UNLOCK TABLES";
-	$result = sqlUpdate($query, true);
+	pdoQuery("UNLOCK TABLES", []);
 	
 	// Punkterepair
-	$repair1 = "UPDATE user SET u_punkte_jahr = 0, u_punkte_monat = 0, u_punkte_datum_jahr = YEAR(NOW()), u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_jahr != YEAR(NOW()) AND u_id=$u_id";
-	sqlUpdate($repair1, true);
-	$repair2 = "UPDATE user SET u_punkte_monat = 0, u_punkte_datum_monat = MONTH(NOW()), u_login=u_login WHERE u_punkte_datum_monat != MONTH(NOW()) AND u_id=$u_id";
-	sqlUpdate($repair2, true);
+	pdoQuery("UPDATE `user` SET `u_punkte_jahr` = 0, `u_punkte_monat` = 0, `u_punkte_datum_jahr` = YEAR(NOW()), `u_punkte_datum_monat` = MONTH(NOW()), `u_login` = `u_login` WHERE `u_punkte_datum_jahr` != YEAR(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
+	pdoQuery("UPDATE `user` SET `u_punkte_monat` = 0, `u_punkte_datum_monat` = MONTH(NOW()), `u_login` = `u_login` WHERE `u_punkte_datum_monat` != MONTH(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
 	
 	// Nachrichten an Freunde verschicken
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=$u_id AND f_status = 'bestaetigt' UNION "
-		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=$u_id AND f_status = 'bestaetigt' ORDER BY f_zeit desc ";
+	$query = pdoQuery("SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_userid` = :f_userid AND `f_status` = 'bestaetigt' UNION "
+		. "SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_freundid` = :f_freundid AND `f_status` = 'bestaetigt' ORDER BY `f_zeit` DESC", [':f_userid'=>$u_id, ':f_freundid'=>$u_id]);
 	
-	$result = sqlQuery($query);
-	
-	if ($result && mysqli_num_rows($result) > 0) {
-		while ($row = mysqli_fetch_object($result)) {
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			unset($f);
 			$f['aktion'] = "Logout";
-			$f['f_text'] = $row->f_text;
-			if ($row->f_userid == $u_id) {
-				if (ist_online($row->f_freundid)) {
+			$f['f_text'] = $row['f_text'];
+			if ($row['f_userid'] == $u_id) {
+				if (ist_online($row['f_freundid'])) {
 					$wann = "Sofort/Online";
-					$an_u_id = $row->f_freundid;
+					$an_u_id = $row['f_freundid'];
 				} else {
 					$wann = "Sofort/Offline";
-					$an_u_id = $row->f_freundid;
+					$an_u_id = $row['f_freundid'];
 				}
 			} else {
-				if (ist_online($row->f_userid)) {
+				if (ist_online($row['f_userid'])) {
 					$wann = "Sofort/Online";
-					$an_u_id = $row->f_userid;
+					$an_u_id = $row['f_userid'];
 				} else {
 					$wann = "Sofort/Offline";
-					$an_u_id = $row->f_userid;
+					$an_u_id = $row['f_userid'];
 				}
 			}
 			// Aktion ausführen
 			aktion($u_id, $wann, $an_u_id, $u_nick, "Freunde", $f);
 		}
 	}
-	mysqli_free_result($result);
 }
 
 function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 	// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
 	if($userId != null && $userId != "") {
-		$query = "SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = $userId LIMIT 1";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_object($result);
-			$avatar[$row->b_name]['b_mime'] = $row->b_mime;
-			$avatar[$row->b_name]['b_width'] = $row->b_width;
-			$avatar[$row->b_name]['b_height'] = $row->b_height;
+		$query = pdoQuery("SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_name` = 'avatar' AND `b_user` = :b_user LIMIT 1", [':b_user'=>$userId]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$row = $query->fetch();
+			$avatar[$row['b_name']]['b_mime'] = $row['b_mime'];
+			$avatar[$row['b_name']]['b_width'] = $row['b_width'];
+			$avatar[$row['b_name']]['b_height'] = $row['b_height'];
 		}
 	}
 	
@@ -1346,9 +1265,9 @@ function avatar_anzeigen($userId, $username, $anzeigeort, $geschlecht) {
 	if (!isset($avatar)) {
 		// Platzhalter-Avatar anzeigen
 		
-		if ($geschlecht == "m") { // Männlicher Standard-Avatar
+		if ($geschlecht == "1") { // Männlicher Standard-Avatar
 			$avatar = '<img src="./images/avatars/no_avatar_m.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
-		} else if ($geschlecht == "w") { // Weiblicher Standard-Avatar
+		} else if ($geschlecht == "2") { // Weiblicher Standard-Avatar
 			$avatar = '<img src="./images/avatars/no_avatar_w.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
 		} else { // Neutraler Standard-Avatar
 			$avatar = '<img src="./images/avatars/no_avatar_es.jpg" style="width:'.$maxWidth.'px; height:'.$maxHeight.'px;" alt="'.$username.'" />';
@@ -1460,27 +1379,23 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 
 // Beiträge im Forum neu zählen
 function bereinige_anz_in_thema() {
-	$sql = "SELECT th_id FROM `forum_foren` ORDER BY th_id";
-	$query = sqlQuery($sql);
+	$query = pdoQuery("SELECT th_id FROM `forum_foren` ORDER BY th_id", [])->fetchAll();
 	
-	if ($query && mysqli_num_rows($query) > 0) {
-		while ($row = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-			$sql = "LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE";
-			sqlUpdate($sql, true);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
+			pdoQuery("LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE", []);
 			
-			$sql2 = "SELECT COUNT(*) FROM `forum_beitraege` WHERE po_vater_id = 0 AND po_th_id = " . $row['th_id'];
-			$query2 = sqlQuery($sql2);
-			$anzahl_thread = mysqli_result($query2, 0, 0);
+			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id", [':po_th_id'=>$row['th_id']])->fetch();
+			$anzahl_thread = $result2['anzahl'];
 			
-			$sql2 = "SELECT COUNT(*) FROM `forum_beitraege` WHERE po_vater_id <> 0 AND po_th_id = " . $row['th_id'];
-			$query2 = sqlQuery($sql2);
-			$anzahl_reply = mysqli_result($query2, 0, 0);
+			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `po_vater_id` <> 0 AND `po_th_id` = :po_th_id", [':po_th_id'=>$row['th_id']])->fetch();
+			$anzahl_reply = $result2['anzahl'];
 			
-			$sql2 = "UPDATE `forum_foren` SET th_anzthreads = $anzahl_thread, th_anzreplys = $anzahl_reply  WHERE th_id = $row[th_id]";
-			sqlUpdate($sql2, true);
+			pdoQuery("UPDATE `forum_foren` SET `th_anzthreads` = :th_anzthreads, `th_anzreplys` = :th_anzreplys WHERE `th_id` = :th_id", [':th_anzthreads'=>$anzahl_thread, ':th_anzreplys'=>$anzahl_reply, ':th_id'=>$row['th_id']]);
 			
-			$sql = "UNLOCK TABLES";
-			sqlUpdate($sql, true);
+			pdoQuery("UNLOCK TABLES", []);
 		}
 	}
 }
@@ -1495,7 +1410,6 @@ function reset_system($wo_online) {
 	} else if ( $wo_online == "userliste_interaktiv" ) {
 		echo "<script>\n";
 		echo "parent.frames[2].location.href='user.php';\n";
-		echo "parent.frames[4].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	} else if ( $wo_online == "forum" ) {
 		echo "<script>\n";
@@ -1516,7 +1430,6 @@ function reset_system($wo_online) {
 		echo "parent.frames[2].location.href='user.php';\n";
 		echo "parent.frames[3].location.href='eingabe.php';\n";
 		echo "parent.frames[4].location.href='moderator.php';\n";
-		echo "parent.frames[5].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	} else {
 		echo "<script>\n";
@@ -1524,7 +1437,6 @@ function reset_system($wo_online) {
 		echo "parent.frames[1].location.href='chat.php';\n";
 		echo "parent.frames[2].location.href='user.php';\n";
 		echo "parent.frames[3].location.href='eingabe.php';\n";
-		echo "parent.frames[4].location.href='interaktiv.php?o_raum_alt=$o_raum';\n";
 		echo "</script>";
 	}
 }
@@ -1532,25 +1444,19 @@ function reset_system($wo_online) {
 function hole_benutzer_einstellungen($u_id, $ort) {
 	if($ort == "chatausgabe") {
 		// Benötigte Einstellugen für das Chatfenster
-		$benutzer_query = "SELECT `u_systemmeldungen`, `u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_sicherer_modus` FROM `user` WHERE `u_id`=$u_id";
-		$benutzer_result = sqlQuery($benutzer_query);
+		$query = pdoQuery("SELECT `u_systemmeldungen`, `u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_sicherer_modus` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 		
-		$benutzerdaten = array();
-		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+		$benutzerdaten = $query->fetch();
 	} else if($ort == "chateingabe") {
 		// Benötigte Einstellugen für die Eingabe
-		$benutzer_query = "SELECT `u_layout_farbe`, `u_sicherer_modus` FROM `user` WHERE `u_id`=$u_id";
-		$benutzer_result = sqlQuery($benutzer_query);
+		$query = pdoQuery("SELECT `u_layout_farbe`, `u_sicherer_modus` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 		
-		$benutzerdaten = array();
-		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+		$benutzerdaten = $query->fetch();
 	} else if($ort == "standard") {
 		// Benötigte Einstellungen für alle anderen Seiten
-		$benutzer_query = "SELECT `u_layout_farbe` FROM `user` WHERE `u_id`=$u_id";
-		$benutzer_result = sqlQuery($benutzer_query);
+		$query = pdoQuery("SELECT `u_layout_farbe` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 		
-		$benutzerdaten = array();
-		$benutzerdaten = mysqli_fetch_array($benutzer_result, MYSQLI_ASSOC);
+		$benutzerdaten = $query->fetch();
 	} else {
 		// Benötigte Einstellugen für alle Seiten im Login
 		$benutzerdaten = array();
@@ -1558,6 +1464,31 @@ function hole_benutzer_einstellungen($u_id, $ort) {
 	}
 	
 	return $benutzerdaten;
+}
+
+/*
+ * Datum formatieren
+ * Beispiel:
+ * formatIntl($date,'EEEE dd. MMMM Y','de_DE');
+ * EEEE: Wochentag
+ * d: Tag
+ * MMMM: Monat
+ * Y: Jahr
+ */
+function formatIntl(DateTimeInterface $date, string $format, string $language) {
+	//check calendar in $language
+	$calType = (stripos($language,"@calendar") > 0
+	AND stripos($language,"gregorian") === false)
+	? IntlDateFormatter::TRADITIONAL
+	: IntlDateFormatter::GREGORIAN;
+	
+	$intlFormatter = datefmt_create( $language ,
+		IntlDateFormatter::FULL,
+		IntlDateFormatter::FULL,
+		$date->getTimezone(),
+		$calType,
+		$format);
+	return datefmt_format($intlFormatter ,$date);
 }
 
 function email_senden($empfaenger, $betreff, $inhalt) {
@@ -1572,7 +1503,7 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 	
 	// E-Mail versenden
 	if($smtp_on) {
-		$rueckmeldung = mailsmtp($empfaenger, $betreff, $inhalt, $absender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
+		mailsmtp($empfaenger, $betreff, $inhalt, $absender, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS);
 	} else {
 		// Der PHP-Vessand benötigt \n und nicht <br>
 		$inhalt = str_replace("<br>", "\n", $inhalt);
@@ -1583,53 +1514,16 @@ function email_senden($empfaenger, $betreff, $inhalt) {
 		$charset .= "Mime-Version: 1.0\r\n";
 		$charset .= "Content-type: text/plain; charset=utf-8";
 		
-		$rueckmeldung = mail($empfaenger, $betreff, $inhalt, "From: $absender ($chat)" . $charset);
+		mail($empfaenger, $betreff, $inhalt, "From: $absender ($chat)" . $charset);
 	}
-	
-	return $rueckmeldung;
 }
 
 function mailsmtp($mailempfaenger, $mailbetreff, $inhalt, $header, $chat, $smtp_host, $smtp_port, $smtp_username, $smtp_password, $smtp_encryption, $smtp_auth, $smtp_autoTLS) {
 	global $chat;
-	require_once("PHPMailerAutoload.php");
 	
-	$mail = new PHPMailer;
-	$mail->CharSet = 'UTF-8';
-	$mail->isSMTP();
-	//$mail->SMTPDebug = 2;
-	//$mail->Debugoutput = 'html';
-	$mail->Host = $smtp_host;
-	$mail->Port = $smtp_port;
-	$mail->SMTPSecure = $smtp_encryption;
-	$mail->SMTPAuth = $smtp_auth;
-	$mail->SMTPAutoTLS = $smtp_autoTLS;
-	$mail->Username = $smtp_username;
-	$mail->Password = $smtp_password;
-	$mail->setFrom($header, $chat);
+	require('functions/functions-smtp.php');
 	
-	// Absender Adresse setzen
-	$mail->From = $header;
-	
-	// Absender Alias setzen
-	$mail->FromName = $chat;
-	
-	// Empfänger Adresse und Alias hinzufügen
-	$mail->addAddress($mailempfaenger);
-	//$mail->addAddress($mailempfaenger, $mailempfaengername);
-	
-	// Betreff
-	$mail->Subject = $mailbetreff;
-	
-	// HTML aktivieren
-	$mail->isHtml(true);
-	
-	// Der Nachrichteninhalt als HTML
-	$mail->Body = $inhalt;
-	
-	// Alternativer Nachrichteninhalt für Clients, die kein HTML darstellen
-	$mail->AltBody = strip_tags( $mail->Body );
-	
-	return $mail->send();
+	// return $mail->send();
 }
 
 /**

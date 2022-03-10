@@ -7,29 +7,26 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 	global $chat_grafik, $whotext, $msgpopup, $chat_url;
 	
 	// Benutzer listen
-	$sql = "SET lc_time_names = '$locale'";
-	$query = sqlQuery($sql);
+	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
-	$query = "SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id`=$ui_id ";
-	$result = sqlQuery($query);
+	$result_user = pdoQuery("SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$ui_id])->fetch();
 	
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_object($result);
-		$uu_away = $row->u_away;
-		$uu_id = $row->u_id;
-		$uu_nick = htmlspecialchars($row->u_nick);
-		$uu_email = htmlspecialchars($row->u_email);
-		$uu_level = $row->u_level;
-		$uu_farbe = $row->u_farbe;
-		$letzter_login = $row->letzter_login;
-		$erster_login = $row->erster_login;
-		$ip_historie = unserialize($row->u_ip_historie);
-		$uu_punkte_gesamt = $row->u_punkte_gesamt;
-		$uu_punkte_monat = $row->u_punkte_monat;
-		$uu_punkte_jahr = $row->u_punkte_jahr;
-		$uu_chathomepage = $row->u_chathomepage;
-		$uu_profil_historie = unserialize($row->u_profil_historie);
-		$uu_kommentar = $row->u_kommentar;
+	if ($result_user) {
+		$uu_away = $result_user['u_away'];
+		$uu_id = $result_user['u_id'];
+		$uu_nick = htmlspecialchars($result_user['u_nick']);
+		$uu_email = htmlspecialchars($result_user['u_email']);
+		$uu_level = $result_user['u_level'];
+		$uu_farbe = $result_user['u_farbe'];
+		$letzter_login = $result_user['letzter_login'];
+		$erster_login = $result_user['erster_login'];
+		$ip_historie = unserialize($result_user['u_ip_historie']);
+		$uu_punkte_gesamt = $result_user['u_punkte_gesamt'];
+		$uu_punkte_monat = $result_user['u_punkte_monat'];
+		$uu_punkte_jahr = $result_user['u_punkte_jahr'];
+		$uu_chathomepage = $result_user['u_chathomepage'];
+		$uu_profil_historie = unserialize($result_user['u_profil_historie']);
+		$uu_kommentar = $result_user['u_kommentar'];
 		
 		// Default für Farbe setzen, falls undefiniert
 		if (strlen($uu_farbe) == 0) {
@@ -38,15 +35,16 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// IP bestimmen
 		unset($o_http_stuff);
-		$query = "SELECT r_name, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS onlinezeit FROM online LEFT JOIN raum ON o_raum=r_id WHERE o_user=$ui_id ";
-		$result = sqlQuery($query);
 		
-		if ($result && $rows = mysqli_num_rows($result) == 1) {
-			$o_row = mysqli_fetch_object($result);
-			$onlinezeit = $o_row->onlinezeit;
+		$query = pdoQuery("SELECT `r_name`, online.*, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS `onlinezeit` FROM `online` LEFT JOIN `raum` ON `o_raum` = `r_id` WHERE `o_user` = :o_user", [':o_user'=>$ui_id]);
+		$result_raumCount = $query->rowCount();
+		$result_raum = $query->fetch();
+		
+		if ($result_raumCount > 0) {
+			$onlinezeit = $result_raum['onlinezeit'];
 			if ($admin) {
-				$host_name = htmlspecialchars(gethostbyaddr($o_row->o_ip));
-				$o_http_stuff = $o_row->o_http_stuff . $o_row->o_http_stuff2;
+				$host_name = htmlspecialchars(gethostbyaddr($result_raum['o_ip']));
+				$o_http_stuff = $result_raum['o_http_stuff'] . $result_raum['o_http_stuff2'];
 			}
 			if (isset($o_http_stuff)) {
 				$http_stuff = unserialize($o_http_stuff);
@@ -69,20 +67,21 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		// Geschlecht holen
 		// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
 		if($uu_id != null && $uu_id != "") {
-			$query1 = "SELECT * FROM userinfo WHERE ui_userid = '$row->u_id'";
-			$result1 = sqlQuery($query1);
-			if ($result1 && mysqli_num_rows($result1) == 1) {
-				$row1 = mysqli_fetch_object($result1);
-				$ui_gen = $row1->ui_geschlecht;
+			$query1 = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$uu_id]);
+			
+			$result1Count = $query1->rowCount();
+			if ($result1Count > 0) {
+				$result1 = $query1->fetch();
+				$ui_gen = $result1['ui_geschlecht'];
 			} else {
-				$ui_gen = 'leer';
+				$ui_gen = '0';
 			}
 		} else {
-			$ui_gen = 'leer';
+			$ui_gen = '0';
 		}
 		
 		// Avatar
-		$value .= avatar_anzeigen($uu_id, $uu_nick, "profil", $ui_gen[0]);
+		$value = avatar_anzeigen($uu_id, $uu_nick, "profil", $ui_gen);
 		if ($zaehler % 2 != 0) {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
@@ -105,8 +104,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			// Eingabeformular für private Nachricht ausgeben
 			if ($msgpopup) {
 				$value .= '<iframe src="messages-popup.php?user=' . $ui_id . '&user_nick=' . $uu_nick . '" width=100% height=200 marginwidth=\"0\" marginheight=\"0\" hspace=0 vspace=0 framespacing=\"0\"></iframe>';
-				$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$ui_id;
-				$pmu = sqlUpdate($query, true);
+				pdoQuery("UPDATE `chat` SET `c_gelesen` = 1 WHERE `c_gelesen` = 0 AND `c_typ` = 'P' AND `c_von_user_id` = :c_von_user_id", [':c_von_user_id'=>$ui_id]);
 			}
 			
 			$value .= "<input name=\"text\" autocomplete=\"off\" size=\"111\" maxlength=\"1000\" value=\"\" type=\"text\">\n";
@@ -132,17 +130,17 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_benutzerdaten'], "", "", 0, "70", "");
 		
 		// Benutzername
-		$value = zeige_userdetails($ui_id, $row);
+		$value = zeige_userdetails($ui_id, $result_user);
 		$text .= zeige_formularfelder("text", $zaehler, "<b>".$lang['benutzer_benutzername']."</b>", "", $value);
 		$zaehler++;
 		
 		// Raum
-		if (isset($o_row) && $o_row->r_name && $o_row->o_who == 0) {
-			$value = "<b>" . $o_row->r_name . "&nbsp;[" . $whotext[$o_row->o_who] . "]</b>";
+		if ($result_raum && $result_raum['r_name'] && $result_raum['o_who'] == 0) {
+			$value = "<b>" . $result_raum['r_name'] . "&nbsp;[" . $whotext[$result_raum['o_who']] . "]</b>";
 			$text .= zeige_formularfelder("text", $zaehler, "<b>".$lang['benutzer_raum']."</b>", "", $value);
 			$zaehler++;
-		} else if (isset($o_row) && $o_row->o_who) {
-			$value = "<b>" . "[" . $whotext[$o_row->o_who] . "]</b>";
+		} else if ($result_raum && $result_raum['o_who']) {
+			$value = "<b>" . "[" . $whotext[$result_raum['o_who']] . "]</b>";
 			$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
 			$zaehler++;
 		}
@@ -162,14 +160,17 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		
 		// Punkte
 		if ($uu_punkte_gesamt) {
-			if ($row->u_punkte_datum_monat != date("n", time())) {
+			if ($result_user['u_punkte_datum_monat'] != date("n", time())) {
 				$uu_punkte_monat = 0;
 			}
-			if ($row->u_punkte_datum_jahr != date("Y", time())) {
+			if ($result_user['u_punkte_datum_jahr'] != date("Y", time())) {
 				$uu_punkte_jahr = 0;
 			}
+			
+			$date = new DateTime();
+			$date->format('Y-m-d H:i:s');
 			$value = $uu_punkte_gesamt . "/" . $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
-					. str_replace("%jahr%", substr(strftime("%Y", time()), 2, 2), str_replace("%monat%", substr(strftime("%B", time()), 0, 3), $lang['benutzer_punkte_anzeige']));
+			. str_replace("%jahr%", formatIntl($date,'Y',$locale), str_replace("%monat%", formatIntl($date,'MMMM',$locale), $lang['benutzer_punkte_anzeige']));
 			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_punkte'], "", $value);
 			$zaehler++;
 		}
@@ -214,7 +215,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		if ($admin) {
 			if (is_array($uu_profil_historie)) {
 				$value = "";
-				while (list($datum, $nick) = each($uu_profil_historie)) {
+				foreach($uu_profil_historie as $datum => $nick) {
 					$value .= $nick . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")<br>";
 				}
 				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_profil_edit_historie'], "", $value);
@@ -222,12 +223,12 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 			
 			// IPs ausgeben
-			if (isset($o_row) && $o_row->o_ip) {
+			if ($result_raum && $result_raum['o_ip']) {
 				// IP-Adresse
-				$value = $host_name . "<br>" . $o_row->o_ip . " " . $lang['benutzer_ip_adressen_online'];
+				$value = $host_name . "<br>" . $result_raum['o_ip'] . " " . $lang['benutzer_ip_adressen_online'];
 						
 				if ($zeigeip == 1 && is_array($ip_historie)) {
-					while (list($datum, $ip_adr) = each($ip_historie)) {
+					foreach($ip_historie as $datum => $ip_adr) {
 						$value .= "<br>" . $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")";
 					}
 				}
@@ -236,14 +237,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				$zaehler++;
 				
 				// Browser
-				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_browser'], "", htmlspecialchars($o_row->o_browser));
+				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_browser'], "", htmlspecialchars($result_raum['o_browser']));
 				$zaehler++;
 				
 				// HTTP-Info
 				if ($o_http_stuff) {
 					$value = "";
 					if (is_array($http_stuff)) {
-						while (list($o_http_stuff_name, $o_http_stuff_inhalt) = each($http_stuff)) {
+						foreach($http_stuff as $o_http_stuff_name => $o_http_stuff_inhalt) {
 							if ($o_http_stuff_inhalt) {
 								$value .= "<b>" . htmlspecialchars($o_http_stuff_name) . ":</b>&nbsp;" . htmlspecialchars($o_http_stuff_inhalt) . "<br>\n";
 							}
@@ -254,7 +255,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				}
 			} else if ($zeigeip == 1 && is_array($ip_historie)) {
 				$value = "";
-				while (list($datum, $ip_adr) = each($ip_historie)) {
+				foreach($ip_historie as $datum => $ip_adr) {
 					$value .= $ip_adr . "&nbsp;(" . str_replace(" ", "&nbsp;", date("d.m.y H:i", $datum)) . ")" . "<br>";
 				}
 				$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_letzte_ip_adressen'], "", $value);
@@ -282,10 +283,10 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 				$value .= "[<a href=\"inhalt.php?bereich=benutzer&zeigeip=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $lang['benutzer_weitere_ip_adressen'] . "</a>]<br>\n";
 				$value .= "[<a href=\"inhalt.php?bereich=benutzer&kick_user_chat=1&aktion=benutzer_zeig&ui_id=$ui_id&schau_raum=$schau_raum\">" . $lang['benutzer_aus_dem_chat_kicken'] . "</a>]<br>\n";
 			
-				if ($rows == 1) {
+				if ($result_raumCount == 1) {
 					$value .= "[<a href=\"schreibe.php?text=/gag%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_knebeln]</a>]<br>\n";
 					$value .= "[<a href=\"schreibe.php?text=/kick%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_kicken]</a>]<br>\n";
-					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$o_row->o_ip&uname=" . urlencode($o_row->o_name) . "\" target=\"chat\">$lang[benutzer_sperren]</a>]<br>\n";
+					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=neu&hname=$host_name&ipaddr=$result_raum[o_ip]&uname=" . urlencode($result_raum['o_name']) . "\" target=\"chat\">$lang[benutzer_sperren]</a>]<br>\n";
 					$value .= "[<a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu&daten_nick=$uu_nick\" target=\"chat\">$lang[benutzer_blacklist]</a>]<br>\n";
 				}
 			}
@@ -293,8 +294,8 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("text", $zaehler, "&nbsp;", "", $value);
 			$zaehler++;
 			
-			$trow .= "<span id=\"out\"></span>\n";
-			$trow .= "<script>
+			$value .= "<span id=\"out\"></span>\n";
+			$value .= "<script>
 				document.querySelectorAll('a.schreibe-chat').forEach(item => {
 					item.addEventListener('click', event => {
 						// Default-Aktion für Klick auf den Link,
@@ -335,9 +336,9 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_loeschen]\"><br>";
 			
-			$query = "SELECT `u_chathomepage` FROM `user` WHERE `u_id` = '$uu_id'";
-			$result = sqlQuery($query);
-			$g = mysqli_fetch_array($result, MYSQLI_ASSOC);
+			$queryX = pdoQuery("SELECT `u_chathomepage` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$uu_id]);
+			
+			$g = $queryX->fetch();
 			
 			if ($g['u_chathomepage'] == "1") {
 				$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_benutzerseite_loeschen]\">";
@@ -390,13 +391,10 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			</script>
 			<?php
 		}
-			
-		// ggf Profil ausgeben, wenn ein externes Profil eingebunden werden soll (Benutzername: $uu_nick)
-		mysqli_free_result($result);
 	}
 }
 
-function benutzer_suche($f, $suchtext) {
+function benutzer_suche($f, $suchtext, $suche_ip, $suche_level, $suche_anmeldung, $suche_login, $suche_benutzerseite) {
 	global $lang, $admin, $level;
 	// Suchergebnis mit Formular ausgeben
 	$box = $lang['benutzer_suche_benutzer_suchen'];
@@ -433,7 +431,7 @@ function benutzer_suche($f, $suchtext) {
 		$text .= "<option value=\"\">$lang[benutzer_suche_egal]\n";
 		
 		reset($level);
-		while (list($levelname, $levelbezeichnung) = each($level)) {
+		foreach($level as $levelname => $levelbezeichnung) {
 			if ($levelname != "B") {
 				if ($suche_level == $levelname) {
 					$text .= "<option selected value=\"$levelname\">$levelbezeichnung\n";

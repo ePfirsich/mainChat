@@ -10,17 +10,13 @@ $jahr = filter_input(INPUT_POST, 'jahr', FILTER_SANITIZE_NUMBER_INT);
 // Testen, ob Statistiken funktionieren...
 $fehler = false;
 
-//testen, ob statisiken überhaupt geschrieben werden
-$r1 = sqlQuery("SELECT DISTINCT `id` FROM statistiken");
-if ($r1 > 0) {
-	if (mysqli_num_rows($r1) == 0) {
-		// Keine Enträge vorhanden
-		$msg = $lang['statistik_keine_statistiken'];
-		$fehler = true;
-	}
-} else {
-	$fehler = true;
+//testen, überhaupt Statisiken geschrieben werden
+$query = pdoQuery("SELECT DISTINCT `id` FROM `statistiken`", []);
+$resultCount = $query->rowCount();
+if ($resultCount == 0) {
+	// Keine Enträge vorhanden
 	$msg = $lang['statistik_keine_statistiken'];
+	$fehler = true;
 }
 
 $box = $lang['titel'];
@@ -39,16 +35,20 @@ switch ($aktion) {
 		
 		statsResetHours($showtime, $h);
 		
-		$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%k') as stunde FROM statistiken WHERE UNIX_TIMESTAMP(c_timestamp)>$showtime ORDER BY c_timestamp");
+		$query = pdoQuery("SELECT `c_users`, DATE_FORMAT(`c_timestamp`,'%k') AS `stunde` FROM `statistiken` WHERE UNIX_TIMESTAMP(`c_timestamp`) > :c_timestamp ORDER BY `c_timestamp`", [':c_timestamp'=>$showtime]);
 		
-		if ($r0 > 0) {
-			$i = 0;
-			$n = @mysqli_num_rows($r0);
-			while ($i < $n) {
-				$x = @mysqli_result($r0, $i, "stunde");
-				$c_users = @mysqli_result($r0, $i, "c_users");
-				$grapharray["$x"] += $c_users;
-				$i++;
+		$resultCount = $query->rowCount();
+		$grapharray = array();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $inhalt) {
+				$x = $inhalt['stunde'];
+				$c_users = $inhalt['c_users'];
+				if(isset($grapharray["$x"])) {
+					$grapharray["$x"] += $c_users;
+				} else {
+					$grapharray["$x"] = $c_users;
+				}
 			}
 			
 			$msg .= statsPrintGraph($lang['statistik_stunden'], $lang['statistik_benutzer'], $lang['statistik_uhrzeit']);
@@ -63,8 +63,6 @@ switch ($aktion) {
 		// Auswahlbox Monat
 		//$jahr = urldecode($jahr);
 		//$monat = urldecode($monat);
-		
-		$grapharray = array();
 		
 		if (strlen($jahr) < 1) {
 			$jahr = date("Y", time());
@@ -84,7 +82,7 @@ switch ($aktion) {
 		$msg .= "<div style=\"margin-top:2px; text-align:center;\">$lang[statistik_monat]\n";
 		$msg .= "<select name=\"monat\" onchange='form.submit();'>\n";
 		
-		while (list($i, $n) = each($t_month)) {
+		foreach($lang_month as $i => $n) {
 			if ($i == $monat) {
 				$ausgewaehlterMonat = $n;
 				$msg .= "<option value=\"$i\" selected>$n\n";
@@ -116,24 +114,25 @@ switch ($aktion) {
 		$msg .= "</form>\n";
 		
 		// Statistiken einzeln nach Monaten
-		$r1 = sqlQuery("SELECT DISTINCT c_users FROM statistiken WHERE date(c_timestamp) LIKE '$y-$m%'");
+		$query = pdoQuery("SELECT DISTINCT `c_users` FROM `statistiken` WHERE date(`c_timestamp`) LIKE :c_timestamp", [':c_timestamp'=>"$jahr-$monat%"]);
 		
-		if ($r1 > 0) {
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 			statsResetMonth($jahr, $monat);
 			
-			$r0 = sqlQuery("SELECT *, DATE_FORMAT(c_timestamp,'%d') as tag FROM statistiken WHERE date(c_timestamp) LIKE '$jahr-$monat%' ORDER BY c_timestamp");
-			if ($r0 > 0) {
-				$i = 0;
-				$n = @mysqli_num_rows($r0);
-				
-				while ($i < $n) {
-					$x = @mysqli_result($r0, $i, "tag");
-					$c_users = @mysqli_result($r0, $i, "c_users");
+			$query = pdoQuery("SELECT `c_users`, DATE_FORMAT(c_timestamp,'%d') AS `tag` FROM `statistiken` WHERE date(`c_timestamp`) LIKE :c_timestamp ORDER BY `c_timestamp`", [':c_timestamp'=>"$jahr-$monat%"]);
+			
+			$resultCount = $query->rowCount();
+			$grapharray = array();
+			if ($resultCount > 0) {
+				$result = $query->fetchAll();
+				foreach($result as $zaehler => $inhalt) {
+					$x = $inhalt['tag'];
+					$c_users = $inhalt['c_users'];
 					
-					if ($c_users > $grapharray["$x"]) {
+					if (!isset($grapharray["$x"]) || $c_users > $grapharray["$x"]) {
 						$grapharray["$x"] = $c_users;
 					}
-					$i++;
 				}
 				
 				$msg .= statsPrintGraph($ausgewaehlterMonat . " " . $jahr, $lang['statistik_benutzer'], $lang['statistik_tag']);

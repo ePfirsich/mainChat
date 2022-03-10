@@ -16,19 +16,19 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
-		$query = "SELECT `u_eintritt` FROM `user` WHERE `u_id` = $user_id";
+		$query = pdoQuery("SELECT `u_eintritt` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+		
+		$row = $query->fetch();
+		
 		// Debug-Output
 		if( !isset($user_id) || $user_id == null || $user_id == "") {
-			global $kontakt_email;
-			email_senden($kontakt_email, "User-ID ist leer", "Username: " . $u_nick . " Raum-ID: " . $r_id . " Raumname: " . $r_name);
+			global $kontakt;
+			email_senden($kontakt, "User-ID ist leer2", "Username: " . $u_nick . " Raum-ID: " . $r_id . " Raumname: " . $r_name);
 		}
-		$result = sqlQuery($query);
-		$row = mysqli_fetch_object($result);
-		if (strlen($row->u_eintritt) > 0) {
-			$text = $row->u_eintritt;
+		if (strlen($row['u_eintritt']) > 0) {
+			$text = $row['u_eintritt'];
 			$text = $text . "  <b>($u_nick)</b> ";
 		}
-		mysqli_free_result($result);
 	}
 	
 	$text = str_replace("%u_nick%", $u_nick, $text);
@@ -46,12 +46,12 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	if (raum_ist_moderiert($r_id)) {
 		$ergebnis = system_msg("", 0, $user_id, $u_farbe, "<b>&gt;&gt;&gt;</b> " . $text);
 	} else {
-		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmiteilungen eingehen...
+		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmitteilungen eingehen...
+		$query = pdoQuery("SELECT COUNT(`c_id`) AS `nummer` FROM `chat` WHERE `c_von_user` = '' AND `c_typ` = 'S' AND `c_raum` = :c_raum AND `c_zeit` > :c_zeit", [':c_raum'=>intval($r_id), ':c_zeit'=>date("YmdHis", date("U") - 60)]);
 		
-		$sql = "SELECT COUNT(c_id) as nummer FROM chat WHERE c_von_user = '' AND c_typ='S' AND c_raum = " . intval($r_id) . " AND c_zeit > '" . date("YmdHis", date("U") - 60) . "'";
-		$result = sqlQuery($sql);
-		$num = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$num = $query->fetch();
 		$num = $num['nummer'];
+		
 		if ($num < 15) {
 			$ergebnis = global_msg($user_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);
 		}
@@ -78,14 +78,13 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
-		$query = "SELECT `u_austritt` FROM `user` WHERE `u_nick` = '" . escape_string($u_nick) . "'";
-		$result = sqlQuery($query);
-		$row = mysqli_fetch_object($result);
-		if (strlen($row->u_austritt) > 0) {
-			$text = $row->u_austritt;
-			$text = $text . "  <b>($u_nick)</b> ";
+		$query = pdoQuery("SELECT `u_austritt` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$u_nick]);
+		
+		$row = $query->fetch();
+		if (strlen($row['u_austritt']) > 0) {
+			$text = $row['u_austritt'];
+			$text = $text . " <b>($u_nick)</b> ";
 		}
-		mysqli_free_result($result);
 	}
 	
 	$text = str_replace("%u_nick%", $u_nick, $text);
@@ -100,11 +99,9 @@ function nachricht_verlasse($r_id, $u_nick, $r_name) {
 	
 	// Nachricht im Chat ausgeben; falls Raum moderiert ist, nur HTML-Kommentar ausgeben
 	if (raum_ist_moderiert($r_id)) {
-		$ergebnis = system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> " . $text);
+		system_msg("", 0, $u_id, $u_farbe, "<b>&lt;&lt;&lt;</b> " . $text);
 	} else {
-		$ergebnis = global_msg($u_id, $r_id, "<b>&lt;&lt;&lt;</b> " . $text);
+		global_msg($u_id, $r_id, "<b>&lt;&lt;&lt;</b> " . $text);
 	}
-	
-	return $ergebnis;
 }
 ?>

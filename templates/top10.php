@@ -19,66 +19,74 @@ switch ($aktion) {
 		$anzahl = 10;
 }
 
+$date = new DateTime();
+$date->format('Y-m-d H:i:s');
 $bgcolor = 'class="tabelle_zeile1 smaller"';
-echo "<table class=\"tabelle_kopf_zentriert\">\n"
-	. "<tr>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:4%;\">&nbsp;</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . strftime("%B", time()) . "</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . strftime("%Y", time()) . "</td>"
-	. "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top2'] ."</td>"
-	. "</tr>\n";
+echo "<table class=\"tabelle_kopf_zentriert\">\n";
+echo "<tr>\n";
+echo "<td class=\"tabelle_kopfzeile\" style=\"width:4%;\">&nbsp;</td>\n";
+echo "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . formatIntl($date,'MMMM',$locale) . "</td>\n";
+echo "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top1'] ." " . formatIntl($date,'Y',$locale) . "</td>\n";
+echo "<td class=\"tabelle_kopfzeile\" style=\"width:32%; font-weight:bold;\" colspan=\"2\">" . $lang['top2'] ."</td>\n";
+echo "</tr>\n";
 
-// im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
-$query = "SELECT * FROM top10cache WHERE t_eintrag=1 AND date_add(t_zeit, interval '6' hour)>=NOW()";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
-	$t_id = mysqli_result($result, 0, "t_id");
-	$array_user = unserialize(mysqli_result($result, 0, "t_daten"));
+// Im Cache nachsehen, ob aktuelle Daten vorhanden sind (nicht älter als 6 Stunden)
+$query = pdoQuery("SELECT `t_id`, `t_daten` FROM `top10cache` WHERE `t_eintrag` = 1 AND date_add(`t_zeit`, interval '6' hour)>=NOW()", []);
+
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
+	$result = $query->fetch();
+	$t_id = $result['t_id'];
+	$array_user = unserialize($result['t_daten']);
 } else {
 	unset($array_user);
 	// Top 100 Punkte im aktuellen Monat als Array aufbauen
-	$query = "SELECT u_punkte_monat AS punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage FROM user WHERE u_punkte_monat!=0 " . "and u_punkte_datum_monat="
-		. date("n", time()) . " and u_punkte_datum_jahr=" . date("Y", time()) . " and u_level != 'Z' " . "ORDER BY u_punkte_monat desc,u_punkte_gesamt desc,u_punkte_jahr desc LIMIT 0,100";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		$array_anzahl[0] = mysqli_num_rows($result);
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	$query = pdoQuery("SELECT `u_punkte_monat` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_monat` !=0 AND `u_punkte_datum_monat` = :u_punkte_datum_monat AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_monat` DESC, `u_punkte_gesamt` DESC, `u_punkte_jahr` DESC LIMIT 0,100", [':u_punkte_datum_monat'=>date("n", time()), ':u_punkte_datum_jahr'=>date("Y", time())]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$array_user[0][] = $row;
 		}
 	}
-	mysqli_free_result($result);
 	
 	// Top 100 Punkte im aktuellen Jahr als Array aufbauen
-	$query = "SELECT u_punkte_jahr as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage FROM user WHERE u_punkte_jahr!=0 AND u_punkte_datum_jahr="
-		. date("Y", time()) . "  and u_level != 'Z' " . "ORDER BY u_punkte_jahr desc,u_punkte_gesamt desc,u_punkte_monat desc LIMIT 0,100";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		$array_anzahl[1] = mysqli_num_rows($result);
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	$query = pdoQuery("SELECT `u_punkte_jahr` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_jahr` !=0 AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_jahr` DESC, `u_punkte_gesamt` DESC, `u_punkte_monat` DESC LIMIT 0,100", [':u_punkte_datum_jahr'=>date("Y", time())]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$array_user[1][] = $row;
 		}
 	}
-	mysqli_free_result($result);
 	
 	// Top 100 Gesamtpunkte als Array aufbauen
-	$query = "SELECT u_punkte_gesamt as punkte,u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage FROM user "
-		. "WHERE u_punkte_gesamt!=0  and u_level != 'Z' ORDER BY u_punkte_gesamt desc,u_punkte_monat desc,u_punkte_jahr desc LIMIT 0,100";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
-		$array_anzahl[2] = mysqli_num_rows($result);
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+	$query = pdoQuery("SELECT `u_punkte_gesamt` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_gesamt` !=0 AND `u_level` != 'Z' ORDER BY `u_punkte_gesamt` DESC, `u_punkte_monat` DESC, `u_punkte_jahr` DESC LIMIT 0,100", []);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$array_user[2][] = $row;
 		}
 	}
-	mysqli_free_result($result);
 	
 	// Daten in Cache schreiben und alle anderen Einträge löschen
 	unset($f);
 	$f['t_eintrag'] = 1;
 	$f['t_daten'] = isset($array_user) ? serialize($array_user) : null;
-	$t_id = schreibe_db("top10cache", $f, 0, "t_id");
-	$query = "DELETE FROM top10cache WHERE t_eintrag=1 AND t_id !='$t_id'";
-	$result = sqlUpdate($query);
+	
+	pdoQuery("INSERT INTO `top10cache` (`t_eintrag`, `t_daten`) VALUES (:t_eintrag, :t_daten)",
+		[
+			':t_eintrag'=>$f['t_eintrag'],
+			':t_daten'=>$f['t_daten']
+		]);
+
+	$t_id = $pdo->lastInsertId();
+	
+	pdoQuery("DELETE FROM `top10cache` WHERE `t_eintrag` = 1 AND `t_id` != :t_id", [':t_id'=>$t_id]);
 }
 
 // Array als Tabelle ausgeben

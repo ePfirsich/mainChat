@@ -16,11 +16,7 @@ function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalisti
 	<link rel="stylesheet" href="fontawesome/css/all.css">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 	<script src="ckeditor/ckeditor.js"></script>
-	<?php
-	if($zusatz_header != '') {
-		echo $zusatz_header;
-	}
-	?>
+
 	<script>
 	function ask(text) {
 			return(confirm(text));
@@ -32,6 +28,11 @@ function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalisti
 	<link rel="stylesheet" href="css/wheelcolorpicker.css" type="text/css">
 	<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="js/jquery.wheelcolorpicker.min.js"></script>
+		<?php
+	if($zusatz_header != '') {
+		echo $zusatz_header;
+	}
+	?>
 	<?php } ?>
 	</head>
 	<?php

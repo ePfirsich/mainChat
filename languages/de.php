@@ -21,7 +21,7 @@ $hilfstext = array(
 	"<b>=spruch (NAME ZUSATZ optional) -</b> gibt vordefinierten Spruch aus",
 	"<b>*TEXT* -</b> Text ist kursiv", "<b>_TEXT_ -</b> Text ist fett",
 	"<b>USER direkt ansprechen -</b> USER: oder @USER ergibt [USER:]",
-	"<b>Für die ausführliche Hilfe mit allen Befehlen klicken Sie bitte auf [HILFE] unter der Eingabezeile.</b>");
+	"<b>Für die ausführliche Hilfe mit allen Befehlen klicken Sie bitte in der Navigation auf [HILFE].</b>");
 	
 	// Texte Benutzerlevel
 	$level['C'] = "ChatAdmin";
@@ -255,7 +255,7 @@ $lang['chat_spruch2'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt es nicht 
 	. "<b>Typ <I>0</I>: 'SPRUCHNAME'</b>, bei<br><b>Typ <I>1</I>: "
 	. "'SPRUCHNAME USERNAME'</b> und bei<br><b>Typ <I>2</I>: "
 	. "'SPRUCHNAME USERNAME ZUSATZTEXT'</b>";
-$lang['chat_spruch3'] = "<b>Fehler:</b> der Befehl oder Spruch '%spruchname%' " . "konnte nicht gefunden werden, %u_nick%.";
+$lang['chat_spruch3'] = "<b>Fehler:</b> Der Befehl oder Spruch '%spruchname%' " . "konnte nicht gefunden werden, %u_nick%.";
 $lang['chat_spruch4'] = "Variationen dieses Spruchs:";
 $lang['chat_spruch5'] = "<b>Fehler:</b> Befehl '%chatzeile%' existiert nicht! Sprüche werden mit =spruch abgerufen.";
 $lang['chat_spruch6'] = "zu";
@@ -358,7 +358,10 @@ $lang['kopfzeile'] = "{autor} schrieb am {date}";
 $lang['gruss'] = "Mit freundlichen Grüßen";
 $lang['betrete_forum1'] = "<br><b>Willkommen im Forum, %u_nick%!</b>";
 $lang['betreff_new_posting'] = "Neue Antwort auf Ihren Beitrag %po_titel%";
-$lang['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor.<br><br><b>Pfad: </b>%forum% -> %thema% -> %baum%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
-$lang['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema% -> %baum%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
+$lang['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor. <br><br><b>Pfad: </b>%forum% -> %thema%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
+$lang['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
 $lang['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
+
+$lang['nachrichten_posteingang_geschlossen'] = "Ihr Posteingang ist geschlossen!";
+$lang['nachrichten_posteingang_geschlossen_text'] = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Nachrichten empfangen möchten!";
 ?>

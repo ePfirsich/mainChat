@@ -8,33 +8,33 @@ if(!isset($userId) || !isset($code)) {
 	$text .= hinweis($fehlermeldung, "fehler");
 } else {
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
-	$mdata = sqlQuery($query);
-	if (!mysqli_num_rows($mdata)) {
+	$query = pdoQuery("SELECT `u_nick`, `u_email`, `u_email_neu`, `u_email_code` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$userId]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 0) {
 		$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
-		$mitglied = mysqli_fetch_assoc($mdata);
+		$result = $query->fetch();
 		
 		// Überprüfen ob ein Nutzer gefunden wurde und dieser auch einen Emailcode hat
-		if($mitglied === null || $mitglied['u_email_code'] === null) {
+		if($result === null || $result['u_email_code'] === null) {
 			$fehlermeldung = $lang['login_passwort_fehler_kein_benutzer'];
 			$text .= hinweis($fehlermeldung, "fehler");
-		} else if(sha1($code) != $mitglied['u_email_code']) {
+		} else if(sha1($code) != $result['u_email_code']) {
 			// Überprüfe den Passwortcode
 			$fehlermeldung = $lang['login_passwort_fehler_code_ungueltig'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else {
 			// Der Code war korrekt, die E-Mail-Adresse wird geändert
 			
-			$erfolgsmeldung = str_replace("%u_nick%", $mitglied['u_nick'], $lang['login_email_erfolgreich_geandert']);
-			$erfolgsmeldung = str_replace("%u_email%", $mitglied['u_email'], $erfolgsmeldung);
-			$erfolgsmeldung = str_replace("%u_email_neu%", $mitglied['u_email_neu'], $erfolgsmeldung);
+			$erfolgsmeldung = str_replace("%u_nick%", $result['u_nick'], $lang['login_email_erfolgreich_geandert']);
+			$erfolgsmeldung = str_replace("%u_email%", $result['u_email'], $erfolgsmeldung);
+			$erfolgsmeldung = str_replace("%u_email_neu%", $result['u_email_neu'], $erfolgsmeldung);
 			
 			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			
-			$query = "UPDATE `user` SET `u_email` = '" . escape_string($mitglied['u_email_neu']) . "', `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = '" . escape_string($userId) . "'";
-			sqlUpdate($query);
+			pdoQuery("UPDATE `user` SET `u_email` = :u_email, `u_email_neu` = NULL, `u_email_code` = NULL WHERE `u_id` = :u_id", [':u_email'=>$result['u_email_neu'], ':u_id'=>$userId]);
 		}
 	}
 }

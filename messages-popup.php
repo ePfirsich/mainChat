@@ -25,9 +25,9 @@ $userfuerrefresh = urlencode($user_nick);
 $meta_refresh = '<meta http-equiv="refresh" content="15; URL=messages-popup.php?user=' . $user . '&user_nick=' . $userfuerrefresh . '">';
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
-?>
-<body onLoad="window.scrollTo(1,300000)">
-<?php
+
+echo "<body onLoad=\"window.scrollTo(1,300000)\">";
+
 // Timestamp im Datensatz aktualisieren
 //aktualisiere_online($u_id);
 
@@ -36,8 +36,8 @@ if (!chat_lese($o_id, $o_raum, $u_id, TRUE, $ignore, 10, $benutzerdaten, TRUE, $
 	echo $lang['chat_msg106'];
 }
 
-$query = "UPDATE chat SET c_gelesen=1 WHERE c_gelesen=0 AND c_typ='P' AND c_von_user_id=".$user;
-$pmu = sqlUpdate($query, true);
+pdoQuery("UPDATE `chat` SET `c_gelesen` = 1 WHERE `c_gelesen` = 0 AND `c_typ` = 'P' AND `c_von_user_id` = :c_von_user_id", [':c_von_user_id'=>$user]);
+
 reset_system("userliste");
 ?>
 </body>

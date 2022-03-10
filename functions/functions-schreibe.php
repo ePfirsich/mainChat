@@ -12,7 +12,13 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 		// chat_back in DB schreiben
 		unset($f);
 		$f['u_zeilen'] = $user_chat_back;
-		schreibe_db("user", $f, $u_id, "u_id");
+		pdoQuery("UPDATE `user` SET `u_zeilen` = :u_zeilen WHERE `u_id` = :u_id",
+			[
+				':u_id'=>$u_id,
+				':u_zeilen'=>$f['u_zeilen']
+			]);
+		aktualisiere_inhalt_online($u_id);
+		
 		$chat_back = $user_chat_back;
 	}
 	
@@ -73,7 +79,7 @@ function schreibe_nachricht_chat($text, $privat, $user_chat_back, $o_id, $benutz
 			$f['o_spam_zeit'] = $aktuelle_zeit;
 			$f['o_spam_zeilen'] = serialize($neu_spam_zeilen);
 			$f['o_spam_byte'] = serialize($neu_spam_byte);
-			schreibe_db("online", $f, $o_id, "o_id");
+			schreibe_online($f, "schreiben", $u_id);
 			
 			// Prüfen wieviel Byte in wieviel Zeilen in den letzten $chat_max_zeit Sekunden geschrieben wurde
 			if ((array_sum($neu_spam_zeilen) > $chat_max_zeilen) || (array_sum($neu_spam_byte) > $chat_max_byte)) {

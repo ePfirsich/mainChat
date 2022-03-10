@@ -38,8 +38,8 @@ if ($chat_timeout && $u_level != 'S' && $u_level != 'C' && $u_level != 'M' && $o
 		// Warnung über bevorstehenden Logout ausgeben
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%zeit%", $chat_timeout / 60, $lang['chat_msg101']));
 		unset($f);
-		$f[o_timeout_warnung] = 1;
-		schreibe_db("online", $f, $o_id, "o_id");
+		$f['o_timeout_warnung'] = 1;
+		schreibe_online($f, "warnung", $u_id);
 	}
 }
 
@@ -64,11 +64,11 @@ if ( time() > ($o_aktion + 300) ) {
 }
 
 // Anzahl der ungelesenen Nachrichten ermitteln
-$query_nachrichten = "SELECT mail.*, `u_nick` FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = $u_id AND `m_status` = 'neu' ORDER BY `m_zeit` DESC";
-$result_nachrichten = sqlQuery($query_nachrichten);
+$query = pdoQuery("SELECT mail.*, `u_nick` FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = :m_an_uid AND `m_status` = 'neu' ORDER BY `m_zeit` DESC", [':m_an_uid'=>$u_id]);
 
-if ($result_nachrichten && mysqli_num_rows($result_nachrichten) > 0) {
-	$neue_nachrichten = " <span class=\"nachrichten_neu\">(".mysqli_num_rows($result_nachrichten).")</span>";
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
+	$neue_nachrichten = " <span class=\"nachrichten_neu\">(".$resultCount.")</span>";
 } else {
 	$neue_nachrichten = '';
 }
@@ -118,11 +118,12 @@ if($wo_online == "forum") {
 	echo "<div style=\"margin-top: 7px; text-align:center;\" class=\"smaller\">\n";
 	
 	// Anzahl der Benutzer insgesamt feststellen
-	$query = "SELECT COUNT(o_id) AS anzahl FROM online WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		$anzahl_gesamt = mysqli_result($result, 0, "anzahl");
-		mysqli_free_result($result);
+	$query = pdoQuery("SELECT COUNT(`o_id`) AS `anzahl` FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :o_aktiv", [':o_aktiv'=>$timeout]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$anzahl_gesamt = $result['anzahl'];
 	}
 	
 	if($anzahl_gesamt == 1) {
@@ -136,10 +137,12 @@ if($wo_online == "forum") {
 		$eintrittsraum = $lobby;
 	}
 	
-	$sql = "SELECT r_id FROM raum WHERE r_name LIKE '" . escape_string($eintrittsraum) . "'";
-	$query = sqlQuery($sql);
-	if (mysqli_num_rows($query) > 0) {
-		$lobby_id = mysqli_result($query, 0, "r_id");
+	$query = pdoQuery("SELECT `r_id` FROM `raum` WHERE `r_name` LIKE :r_name", [':r_name'=>$eintrittsraum]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$lobby_id = $result['r_id'];
 	} else {
 		$lobby_id = 1;
 	}

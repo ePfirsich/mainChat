@@ -1,5 +1,5 @@
 <?php
-function home_info($home) {
+function home_info() {
 	// Zeigt die öffentlichen Benutzerdaten an
 	global $userdata, $level, $lang, $u_id, $u_nick;
 	
@@ -10,17 +10,18 @@ function home_info($home) {
 	$text .= "<td class=\"tabelle_koerper\" style=\"width:50%; vertical-align:top;\">\n";
 	
 	// Bildinfos lesen und in Array speichern
-	$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$u_id";
-	$result2 = sqlQuery($query);
-	if ($result2 && mysqli_num_rows($result2) > 0) {
+	$query = pdoQuery("SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_user` = :b_user", [':b_user'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
 		unset($bilder);
-		while ($row = mysqli_fetch_object($result2)) {
-			$bilder[$row->b_name]['b_mime'] = $row->b_mime;
-			$bilder[$row->b_name]['b_width'] = $row->b_width;
-			$bilder[$row->b_name]['b_height'] = $row->b_height;
+		foreach($result as $zaehler => $row) {
+			$bilder[$row['b_name']]['b_mime'] = $row['b_mime'];
+			$bilder[$row['b_name']]['b_width'] = $row['b_width'];
+			$bilder[$row['b_name']]['b_height'] = $row['b_height'];
 		}
 	}
-	mysqli_free_result($result2);
 	
 	if (!isset($bilder)) {
 		$bilder = "";
@@ -30,15 +31,15 @@ function home_info($home) {
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($home, "ui_bild4", $bilder);
+	$text .= home_bild("ui_bild4", $bilder);
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik_des_inhalts]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($home, "ui_bild5", $bilder);
+	$text .= home_bild("ui_bild5", $bilder);
 	$text .= "<tr>\n";
 	$text .= "<td class=\"tabelle_kopfzeile\">$lang[homepage_hintergrundgrafik_der_grafiken]</td>";
 	$text .= "</tr>\n";
-	$text .= home_bild($home, "ui_bild6", $bilder);
+	$text .= home_bild("ui_bild6", $bilder);
 	$text .= "</table>";
 	
 	$text .= "</td>\n";
@@ -54,9 +55,9 @@ function home_info($home) {
 		$bilder = "";
 	}
 	
-	$text .= home_bild($home, "ui_bild1", $bilder);
-	$text .= home_bild($home, "ui_bild2", $bilder);
-	$text .= home_bild($home, "ui_bild3", $bilder);
+	$text .= home_bild("ui_bild1", $bilder);
+	$text .= home_bild("ui_bild2", $bilder);
+	$text .= home_bild("ui_bild3", $bilder);
 	
 	$text .= "</table>\n";
 	// Bilder - Ende
@@ -64,7 +65,7 @@ function home_info($home) {
 	return $text;
 }
 
-function home_bild($home, $feld, $bilder) {
+function home_bild($feld, $bilder) {
 	global $u_id, $u_nick, $lang;
 	
 	$text = "";
@@ -136,18 +137,40 @@ function bild_holen($u_id, $name, $ui_bild, $groesse) {
 					$f['b_mime'] = "";
 			}
 			
-			$f['b_width'] = $image[0];
-			$f['b_height'] = $image[1];
 			$f['b_user'] = $u_id;
 			$f['b_name'] = $name;
+			$f['b_width'] = $image[0];
+			$f['b_height'] = $image[1];
 			
 			if ($f['b_mime']) {
-				$query = "SELECT b_id FROM bild WHERE b_user=$u_id AND b_name='" . escape_string($name) . "'";
-				$result = sqlQuery($query);
-				if ($result && mysqli_num_rows($result) != 0) {
-					$b_id = mysqli_result($result, 0, 0);
+				$query = pdoQuery("SELECT `b_id` FROM `bild` WHERE `b_user` = :b_user AND `b_name` = :b_name", [':b_user'=>$u_id, ':b_name'=>$name]);
+				
+				$resultCount = $query->rowCount();
+				if ($resultCount != 0) {
+					// Editieren
+					$result = $query->fetch();
+					pdoQuery("UPDATE `bild` SET `b_user` = :b_user, `b_name` = :b_name, `b_width` = :b_width, `b_height` = :b_height, `b_mime` = :b_mime, `b_bild` = :b_bild WHERE `b_id` = :b_id",
+						[
+							':b_id'=>$result['b_id'],
+							':b_user'=>$f['b_user'],
+							':b_name'=>$f['b_name'],
+							':b_width'=>$f['b_width'],
+							':b_height'=>$f['b_height'],
+							':b_mime'=>$f['b_mime'],
+							':b_bild'=>$f['b_bild'],
+						]);
+				} else {
+					// Neu erstellen
+					pdoQuery("INSERT INTO `bild` (`b_user`, `b_name`, `b_width`, `b_height`, `b_mime`, `b_bild`) VALUES (:b_user, :b_name, :b_width, :b_height, :b_mime, :b_bild)",
+						[
+							':b_user'=>$f['b_user'],
+							':b_name'=>$f['b_name'],
+							':b_width'=>$f['b_width'],
+							':b_height'=>$f['b_height'],
+							':b_mime'=>$f['b_mime'],
+							':b_bild'=>$f['b_bild'],
+						]);
 				}
-				schreibe_db("bild", $f, $b_id, "b_id");
 			} else {
 				$fehlermeldung .= $lang['profilbilder_fehlermeldung_falsches_bildformat'];
 			}
@@ -180,8 +203,7 @@ function bild_loeschen($bildname, $benutzer_id) {
 	
 	$text = "";
 	if (isset($bildname) && $bildname && $benutzer_id) {
-		$queryLoeschen = "DELETE FROM bild WHERE b_name='" . escape_string($bildname) . "' AND b_user=" . intval($benutzer_id);
-		$resultLoeschen = sqlUpdate($queryLoeschen);
+		pdoQuery("DELETE FROM `bild` WHERE `b_name` = :b_name AND `b_user` = :b_user", [':b_name'=>$bildname, ':b_user'=>$benutzer_id]);
 		
 		$cache = "home_bild";
 		$cachepfad = $cache . "/" . substr($benutzer_id, 0, 2) . "/" . $benutzer_id . "/" . $bildname;

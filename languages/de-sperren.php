@@ -19,14 +19,15 @@ $lang['sperren_info'] = "Info";
 
 $lang['sperren_eintragen'] = "Eintragen";
 
-$lang['sperren_erfolgsmeldung_adresse'] = "Die Sperre mit der Adresse %domain% wurde gelöscht!<br>";
+$lang['sperren_erfolgsmeldung_adresse'] = "Die Sperre mit der Adresse %domain% wurde gelöscht,<br>";
 $lang['sperren_erfolgsmeldung_blacklisteintrag_erfolgreich'] = "'%username%' ist jetzt in der Blacklist eingetragen.<br>";
 $lang['sperren_erfolgsmeldung_blacklisteintrag_geloescht'] = "'%username%' wurde aus der Blackliste gelöscht.<br>";
-$lang['sperren_erfolgsmeldung_gastsperre_aktiviert'] = "Die Gastsperre wurde aktiviert!<br>";
-$lang['sperren_erfolgsmeldung_gastsperre_deaktiviert'] = "Die Gastsperre wurde deaktiviert!<br>";
-$lang['sperren_erfolgsmeldung_loginsperre_aktiviert'] = "Die Loginsperre wurde aktiviert!<br>";
-$lang['sperren_erfolgsmeldung_loginsperre_deaktiviert'] = "Die Loginsperre wurde deaktiviert!<br>";
-$lang['sperren_erfolgsmeldung_erfolgreich_editiert'] = "Die Sperre wurde erfolgreich editiert!<br>";
+$lang['sperren_erfolgsmeldung_gastsperre_aktiviert'] = "Die Gastsperre wurde aktiviert.<br>";
+$lang['sperren_erfolgsmeldung_gastsperre_deaktiviert'] = "Die Gastsperre wurde deaktiviert.<br>";
+$lang['sperren_erfolgsmeldung_loginsperre_aktiviert'] = "Die Loginsperre wurde aktiviert.<br>";
+$lang['sperren_erfolgsmeldung_loginsperre_deaktiviert'] = "Die Loginsperre wurde deaktiviert.<br>";
+$lang['sperren_erfolgsmeldung_erfolgreich_eingetragen'] = "Die Sperre wurde erfolgreich eingetragen.<br>";
+$lang['sperren_erfolgsmeldung_erfolgreich_editiert'] = "Die Sperre wurde erfolgreich editiert.<br>";
 
 $lang['sperren_fehlermeldung_domain'] = "Bitte als Domain mindestens 5 Zeichen ausfüllen!<br>";
 $lang['sperren_fehlermeldung_ip_ausfuellen'] = "Bitte mindestens das erste Feld der IP ausfüllen!<br>";

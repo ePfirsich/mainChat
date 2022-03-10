@@ -11,46 +11,56 @@ $uname = filter_input(INPUT_GET, 'uname', FILTER_SANITIZE_STRING);
 $text = "";
 switch ($aktion) {
 	case "loginsperre0":
-		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GLOBAL-' ";
-		$result2 = sqlUpdate($query2);
+		pdoQuery("DELETE FROM `ip_sperre` WHERE `is_domain` = '-GLOBAL-'", []);
 		
 		$erfolgsmeldung = $lang['sperren_erfolgsmeldung_loginsperre_deaktiviert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
-		unset($aktion);
-		break;
+		$aktion = "";
+	break;
 	
 	case "loginsperregast0":
-		$query2 = "DELETE FROM ip_sperre WHERE is_domain = '-GAST-' ";
-		$result2 = sqlUpdate($query2);
+		pdoQuery("DELETE FROM `ip_sperre` WHERE `is_domain` = '-GAST-'", []);
 		
 		$erfolgsmeldung = $lang['sperren_erfolgsmeldung_gastsperre_deaktiviert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
-		unset($aktion);
-		break;
+		$aktion = "";
+	break;
 	
 	case "loginsperre1":
 		unset($f);
 		$f['is_infotext'] = "";
 		$f['is_domain'] = "-GLOBAL-";
 		$f['is_owner'] = $u_id;
-		schreibe_db("ip_sperre", $f, 0, "is_id");
+		
+		pdoQuery("INSERT INTO `ip_sperre` (`is_infotext`, `is_domain`, `is_owner`) VALUES (:is_infotext, :is_domain, :is_owner)",
+			[
+				':is_infotext'=>$f['is_infotext'],
+				':is_domain'=>$f['is_domain'],
+				':is_owner'=>$f['is_owner']
+			]);
 		
 		$erfolgsmeldung = $lang['sperren_erfolgsmeldung_loginsperre_aktiviert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
-		unset($aktion);
-		break;
+		$aktion = "";
+	break;
 	
 	case "loginsperregast1":
 		unset($f);
 		$f['is_infotext'] = "";
 		$f['is_domain'] = "-GAST-";
 		$f['is_owner'] = $u_id;
-		schreibe_db("ip_sperre", $f, 0, "is_id");
+		
+		pdoQuery("INSERT INTO `ip_sperre` (`is_infotext`, `is_domain`, `is_owner`) VALUES (:is_infotext, :is_domain, :is_owner)",
+			[
+				':is_infotext'=>$f['is_infotext'],
+				':is_domain'=>$f['is_domain'],
+				':is_owner'=>$f['is_owner']
+			]);
 		
 		$erfolgsmeldung = $lang['sperren_erfolgsmeldung_gastsperre_aktiviert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
-		unset($aktion);
-		break;
+		$aktion = "";
+	break;
 	
 	default;
 }
@@ -60,23 +70,23 @@ switch ($aktion) {
 $box = $lang['titel'];
 $kopfzeile = "<a href=\"inhalt.php?bereich=sperren\">$lang[sperren_menue1]</a>\n" . "| <a href=\"inhalt.php?bereich=sperren&aktion=neu\">$lang[sperren_menue2]</a>\n";
 
-$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
+$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GLOBAL-'", []);
+
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
 	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperre0\">$lang[sperren_menue5a]</a>\n";
 } else {
 	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperre1\">$lang[sperren_menue5b]</a>\n";
 }
-mysqli_free_result($result);
 
-$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
+$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GAST-'", []);
+
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
 	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast0\">$lang[sperren_menue7a]</a>\n";
 } else {
 	$kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=loginsperregast1\">$lang[sperren_menue7b]</a>\n";
 }
-mysqli_free_result($result);
 
 $kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist\">$lang[sperren_menue3]</a>\n";
 $kopfzeile .= "| <a href=\"inhalt.php?bereich=sperren&aktion=blacklist_neu\">" . $lang['sperren_menue6'] . "</a>\n";
@@ -101,18 +111,44 @@ if ( $formular == 1 ) {
 		$fehlermeldung = $lang['sperren_fehlermeldung_domain_oder_ip'];
 		$text .= hinweis($fehlermeldung, "fehler");
 		$aktion = "neu";
-	} elseif (strlen($f['is_domain']) > 0) {
+	} else if (strlen($f['is_domain']) > 0) {
 		if (strlen($f['is_domain']) > 4) {
 			// Eintrag Domain in DB
 			unset($f['is_ip']);
 			$f['is_owner'] = $u_id;
-			schreibe_db("ip_sperre", $f, $f['is_id'], "is_id");
+			
+			if (!isset($f['is_id'])|| $f['is_id'] == '') {
+				// Hinzufügen
+				pdoQuery("INSERT INTO `ip_sperre` (`is_domain`, `is_owner`, `is_infotext`, `is_warn`) VALUES (:is_domain, :is_owner, :is_infotext, :is_warn)",
+					[
+						':is_domain'=>$f['is_domain'],
+						':is_owner'=>$f['is_owner'],
+						':is_infotext'=>$f['is_infotext'],
+						':is_warn'=>$f['is_warn']
+					]);
+				
+				$erfolgsmeldung = $lang['sperren_erfolgsmeldung_erfolgreich_eingetragen'];
+				$text .= hinweis($erfolgsmeldung, "erfolgreich");
+			} else {
+				// Editieren
+				pdoQuery("UPDATE `ip_sperre` SET `is_domain` = :is_domain, `is_owner` = :is_owner, `is_infotext` = :is_infotext, `is_warn` = :is_warn WHERE `is_id` = :is_id",
+					[
+						':is_id'=>$f['is_id'],
+						':is_domain'=>$f['is_domain'],
+						':is_owner'=>$f['is_owner'],
+						':is_infotext'=>$f['is_infotext'],
+						':is_warn'=>$f['is_warn']
+					]);
+				
+				$erfolgsmeldung = $lang['sperren_erfolgsmeldung_erfolgreich_editiert'];
+				$text .= hinweis($erfolgsmeldung, "erfolgreich");
+			}
 		} else {
 			$fehlermeldung = $lang['sperren_fehlermeldung_domain_oder_ip'];
 			$text .= hinweis($fehlermeldung, "fehler");
 			$aktion = "neu";
 		}
-	} elseif ($f['is_ip'] != "...") {
+	} else if ($f['is_ip'] != "...") {
 		if (strlen($ip1) > 0 && $ip1 < 256) {
 			// Eintrag IP in DB
 			if (strlen($ip4) > 0 && $ip4 < 256 && strlen($ip3) > 0 && $ip3 < 256 && strlen($ip2) > 0 && $ip2 < 256) {
@@ -128,13 +164,34 @@ if ( $formular == 1 ) {
 				$f['is_ip'] = $ip1 . "...";
 			}
 			$f['is_owner'] = $u_id;
-			if (!isset($f['is_id'])) {
-				$f['is_id'] = 0;
+			if (!isset($f['is_id'])|| $f['is_id'] == '') {
+				// Hinzufügen
+				pdoQuery("INSERT INTO `ip_sperre` (`is_ip`, `is_ip_byte`, `is_owner`, `is_infotext`, `is_warn`) VALUES (:is_ip, :is_ip_byte, :is_owner, :is_infotext, :is_warn)",
+					[
+						':is_ip'=>$f['is_ip'],
+						':is_ip_byte'=>$f['is_ip_byte'],
+						':is_owner'=>$f['is_owner'],
+						':is_infotext'=>$f['is_infotext'],
+						':is_warn'=>$f['is_warn']
+					]);
+				
+				$erfolgsmeldung = $lang['sperren_erfolgsmeldung_erfolgreich_eingetragen'];
+				$text .= hinweis($erfolgsmeldung, "erfolgreich");
+			} else {
+				// Editieren
+				pdoQuery("UPDATE `ip_sperre` SET `is_ip` = :is_ip, `is_ip_byte` = :is_ip_byte, `is_owner` = :is_owner, `is_infotext` = :is_infotext, `is_warn` = :is_warn WHERE `is_id` = :is_id",
+					[
+						':is_id'=>$f['is_id'],
+						':is_ip'=>$f['is_ip'],
+						':is_ip_byte'=>$f['is_ip_byte'],
+						':is_owner'=>$f['is_owner'],
+						':is_infotext'=>$f['is_infotext'],
+						':is_warn'=>$f['is_warn']
+					]);
+				
+				$erfolgsmeldung = $lang['sperren_erfolgsmeldung_erfolgreich_editiert'];
+				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 			}
-			schreibe_db("ip_sperre", $f, $f['is_id'], "is_id");
-			
-			$erfolgsmeldung = $lang['sperren_erfolgsmeldung_erfolgreich_editiert'];
-			$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		} else {
 			$fehlermeldung = $lang['sperren_fehlermeldung_domain'];
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -161,12 +218,14 @@ switch ($aktion) {
 		
 	case "blacklist_neu2":
 		// Neuer Eintrag, 2. Schritt: Benutzername Prüfen
-		$daten['u_nick'] = escape_string($daten['u_nick']);
-		$query = "SELECT `u_id` FROM `user` WHERE `u_nick` = '$daten[u_nick]'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$daten['id'] = mysqli_result($result, 0, 0);
+		$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$daten['u_nick']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$daten['id'] = $result['u_id'];
 			$text .= neuer_blacklist_eintrag($u_id, $daten);
+			
 			unset($daten);
 			$daten[] = "";
 			
@@ -182,7 +241,6 @@ switch ($aktion) {
 			
 			formular_neuer_blacklist($text, $daten);
 		}
-		mysqli_free_result($result);
 		break;
 		
 	case "blacklist_loesche":
@@ -199,30 +257,27 @@ switch ($aktion) {
 	case "loeschen":
 	// ID gesetzt?
 		if (strlen($is_id) > 0) {
-			$query = "SELECT is_infotext,is_domain,is_ip_byte,SUBSTRING_INDEX(is_ip,'.',is_ip_byte) as isip FROM ip_sperre WHERE is_id=" . intval($is_id);
+			$query = pdoQuery("SELECT `is_infotext`, `is_domain`, `is_ip_byte`, SUBSTRING_INDEX(`is_ip`,'.',`is_ip_byte`) AS `isip` FROM `ip_sperre` WHERE `is_id` = :is_id", [':is_id'=>intval($is_id)]);
 			
-			$result = sqlQuery($query);
-			$rows = mysqli_num_rows($result);
-			
-			if ($rows == 1) {
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
 				// Zeile lesen, IP zerlegen
-				$row = mysqli_fetch_object($result);
+				$row = $query->fetch();
 				
-				$query2 = "DELETE FROM ip_sperre WHERE is_id=" . intval($is_id);
-				$result2 = sqlUpdate($query2);
+				pdoQuery("DELETE FROM `ip_sperre` WHERE `is_id` = :is_id", [':is_id'=>$is_id]);
 				
-				if (strlen($row->is_domain) > 0) {
-					$erfolgsmeldung = str_replace("%domain%", $row->is_domain, $lang['sperren_erfolgsmeldung_adresse']);
+				if (strlen($row['is_domain']) > 0) {
+					$erfolgsmeldung = str_replace("%domain%", $row['is_domain'], $lang['sperren_erfolgsmeldung_adresse']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
-					if ($row->is_ip_byte == 1) {
-						$isip = $row->isip . ".xxx.yyy.zzz";
-					} elseif ($row->is_ip_byte == 2) {
-						$isip = $row->isip . ".yyy.zzz";
-					} elseif ($row->is_ip_byte == 3) {
-						$isip = $row->isip . ".zzz";
+					if ($row['is_ip_byte'] == 1) {
+						$isip = $row['isip'] . ".xxx.yyy.zzz";
+					} elseif ($row['is_ip_byte'] == 2) {
+						$isip = $row['isip'] . ".yyy.zzz";
+					} elseif ($row['is_ip_byte'] == 3) {
+						$isip = $row['isip'] . ".zzz";
 					} else {
-						$isip = $row->isip;
+						$isip = $row['isip'];
 					}
 					$erfolgsmeldung = str_replace("%domain%", $isip, $lang['sperren_erfolgsmeldung_adresse']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
@@ -231,7 +286,6 @@ switch ($aktion) {
 				$fehlermeldung = $lang['sperren_fehlermeldung_eintrag_nicht_gefunden'];
 				$text .= hinweis($fehlermeldung, "fehler");
 			}
-			mysqli_free_result($result);
 		}
 		sperren_liste($text);
 		
@@ -240,14 +294,13 @@ switch ($aktion) {
 	case "aendern":
 		// ID gesetzt?
 		if (strlen($is_id) > 0) {
-			$query = "SELECT is_infotext,is_domain,is_ip,is_ip_byte,is_warn FROM ip_sperre WHERE is_id=" . $is_id;
-			$result = sqlQuery($query);
-			$rows = mysqli_num_rows($result);
+			$query = pdoQuery("SELECT `is_infotext`, `is_domain`, `is_ip`, `is_ip_byte`, `is_warn` FROM `ip_sperre` WHERE `is_id` = :is_id", [':is_id'=>$is_id]);
 			
-			if ($rows == 1) {
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
 				// Zeile lesen, IP zerlegen
-				$row = mysqli_fetch_object($result);
-				$ip = explode(".", $row->is_ip);
+				$row = $query->fetch();
+				$ip = explode(".", $row['is_ip']);
 				
 				// Kopf Tabelle
 				$text .= "<form action=\"inhalt.php?bereich=sperren\" method=\"post\">\n";
@@ -260,14 +313,14 @@ switch ($aktion) {
 				
 				
 				// Grund der Sperre
-				$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_grund_der_sperre'], "is_infotext", $row->is_infotext);
+				$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_grund_der_sperre'], "is_infotext", $row['is_infotext']);
 				$zaehler++;
 				
 				
 				// Domain/IP-Adresse
-				if (strlen($row->is_domain) > 0) {
+				if (strlen($row['is_domain']) > 0) {
 					// Domain
-					$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_domain'], "is_domain", $row->is_domain);
+					$text .= zeige_formularfelder("input", $zaehler, $lang['sperren_domain'], "is_domain", $row['is_domain']);
 					$zaehler++;
 				} else {
 					// IP-Adresse
@@ -301,7 +354,7 @@ switch ($aktion) {
 				$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['sperren_art_warnung'] . "</td>\n";
 				$text .= "<td $bgcolor>";
 				$text .= "<select name=\"is_warn\">";
-				if ($row->is_warn == "ja") {
+				if ($row['is_warn'] == "ja") {
 					$text .= "<option selected value=\"ja\">$lang[sperren_warnung]";
 					$text .= "<option value=\"nein\">$lang[sperren_sperre]";
 				} else {
@@ -329,7 +382,6 @@ switch ($aktion) {
 				$text .= "</table>\n";
 				$text .= "</form>\n";
 			}
-			mysqli_free_result($result);
 		} else {
 			$text .= "<p>$lang[sonst9]</p>\n";
 		}

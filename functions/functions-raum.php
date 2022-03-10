@@ -9,30 +9,26 @@ function raeume_auflisten($order, $extended) {
 	$text = "";
 	
 	// Liste der Räume mit der Anzahl der Benutzer aufstellen
-	$query = "SELECT r_id,count(o_id) as anzahl FROM raum LEFT JOIN online ON r_id=o_raum WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout OR o_id IS NULL) GROUP BY r_id";
-	$result = sqlQuery($query);
+	$result = pdoQuery("SELECT `r_id`, COUNT(`o_id`) AS `anzahl` FROM `raum` LEFT JOIN `online` ON `r_id` = `o_raum` WHERE ((UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :o_aktiv OR `o_id` IS NULL) GROUP BY `r_id`", [':o_aktiv'=>$timeout])->fetchAll();
 	
-	while ($row = mysqli_fetch_object($result)) {
-		$anzahl_user[$row->r_id] = $row->anzahl;
+	foreach($result as $zaehler => $row) {
+		$anzahl_user[$row['r_id']] = $row['anzahl'];
 	}
-	mysqli_free_result($result);
-	
 	// Liste der Räume und der Raumbesitzer lesen
-	$query = "SELECT raum.*,u_id,u_nick,u_level,u_punkte_gesamt,u_punkte_gruppe FROM raum left join user on r_besitzer=u_id GROUP BY r_name ORDER BY $order";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) > 0) {
+	$query = pdoQuery("SELECT raum.*, `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` FROM `raum` LEFT JOIN `user` ON `r_besitzer` = `u_id` GROUP BY `r_name` ORDER BY :order", [':order'=>$order]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
 		// extended==Ansicht mit Details im extra beiten Fenster
-		if (true) {
-			if (isset($extended) && ($extended == 1)) {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order\">" . $lang['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
-				$text .= "<script language=\"javascript\">\n"
-					. "window.resizeTo(800,600); window.focus();"
-					. "</script>\n";
-			} else {
-				$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order&extended=1\">" . $lang['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
-			}
-			$text .= "$rlink<br>";
+		if (isset($extended) && ($extended == 1)) {
+			$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order\">" . $lang['raum_raumliste_einfach'] . "</a></b>" . "</span></center>\n";
+			$text .= "<script language=\"javascript\">\n"
+				. "window.resizeTo(800,600); window.focus();"
+				. "</script>\n";
+		} else {
+			$rlink = "<center><span class=\"smaller\">" . "<b><a href=\"inhalt.php?bereich=raum&order=$order&extended=1\">" . $lang['raum_raumliste_ausuehrlich'] . "</a></b>" . "</span></center>\n";
 		}
+		$text .= "$rlink<br>";
 		$text .= "<table style=\"width:100%\">\n";
 		$text .= "<tr><td class=\"tabelle_kopfzeile\">$lang[raeume_raum] <a href=\"inhalt.php?bereich=raum&order=r_name\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a></td>";
 		$text .= "<td class=\"tabelle_kopfzeile\">$lang[raeume_benutzer_online]</td>";
@@ -50,7 +46,9 @@ function raeume_auflisten($order, $extended) {
 		$text .= "</tr>\n";
 		$i = 1;
 		$bgcolor = 'class="tabelle_zeile1"';
-		while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+		
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			$uu_id = $row['u_id'];
 			if ($row['r_status2'] == "P") {
 				$b1 = "<small><b>";
@@ -128,8 +126,6 @@ function raeume_auflisten($order, $extended) {
 		}
 		$text .= "</table>";
 		
-		mysqli_free_result($result);
-		
 		return $text;
 	}
 }
@@ -140,6 +136,7 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	$text = "<form action=\"inhalt.php?bereich=raum\" method=\"post\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
+	$zaehler = 0;
 	if ($raumname == $lobby) {
 		// Raum
 		$text .= zeige_formularfelder("text", $zaehler, $lang['raeume_raum'], "", $raumname . "<input type=\"hidden\" name=\"r_name\" value=\"$raumname\">");
@@ -223,11 +220,13 @@ function raum_editieren($raum_id, $raumname, $status1, $status2, $smilies, $min_
 	// Raumbesitzer
 	if($raum_id != 0) {
 		// Den Raumbesitzer nur beim Editieren anzeigen
-		$query = "SELECT u_nick FROM user WHERE u_id= '" . escape_string($raumbesitzer) . "' AND `u_level` != 'Z' AND `u_level` != 'C';";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) > 0) {
-			$row = mysqli_fetch_object($result);
-			$raumbesitzerName = $row->u_nick;
+		
+		$query = pdoQuery("SELECT `u_nick` FROM `user` WHERE `u_id` = :u_id AND `u_level` != 'Z' AND `u_level` != 'C'", [':u_id'=>$raumbesitzer]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$row = $query->fetch();
+			$raumbesitzerName = $row['u_nick'];
 		} else {
 			$raumbesitzerName = "";
 		}

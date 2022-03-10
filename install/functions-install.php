@@ -1,4 +1,23 @@
 <?php
+/**
+ * Führt eine SQL-Abfrage aus und gibt das Ergebnis zurück.
+ * Benachrichtigt bei fehlerhaften Abfragen.
+ * @param string $query Die Abfrage, die ausgeführt werden soll
+ * @return Ressource|false Das Ergebnis der Abfrage
+ */
+function pdoQuery($query, $params) {
+	global $pdo;
+	
+	try {
+		$statement = $pdo->prepare($query);
+		$statement->execute($params);
+	} catch (PDOException $exception) {
+		return false;
+	}
+	
+	return $statement;
+}
+
 function checkFormularInputFeld($defaultValue, $insertedValue) {
 	if ($insertedValue != null && $insertedValue != '') {
 		return $insertedValue;
@@ -295,7 +314,7 @@ vordefinierte Sprüche, Benutzernamen-Ergänzung, Moderation, Spam-Schutz und vi
 	<?php
 }
 
-function step_2($mysqli_link, $chat, $fpconfig, $salt) {
+function step_2($pdo, $chat, $fpconfig, $salt) {
 	$configtpl = "../conf/config.php-tpl";
 	$fpconfigtpl = fopen($configtpl, "r");
 	$inhalt = fread($fpconfigtpl, filesize($configtpl));
@@ -325,19 +344,17 @@ function step_2($mysqli_link, $chat, $fpconfig, $salt) {
 		<?php
 	}
 	
-	$mysqldatei = "../dok/mysql.sql";
-	$mysqlfp = fopen($mysqldatei, "r");
-	$mysqlinhalt = fread($mysqlfp, filesize($mysqldatei));
-	$mysqlarray = explode(';', $mysqlinhalt);
+	$sqldatei = "../dok/mysql.sql";
+	$sqlfp = fopen($sqldatei, "r");
+	$sqlinhalt = fread($sqlfp, filesize($sqldatei));
+	$sqlarray = explode(';', $sqlinhalt);
 	
-	foreach ($mysqlarray as $key => $value) {
-		mysqli_query($mysqli_link, $value);
+	foreach ($sqlarray as $key => $value) {
+		pdoQuery($value, []);
 	}
 	
 	$admin_passwort = encrypt_password_install($salt,"admin");
-	$sql = "INSERT INTO user set u_id=1,u_nick='admin',u_passwort='$admin_passwort',u_level='S';";
-	mysqli_query($mysqli_link, $sql);
-	
+	pdoQuery("INSERT INTO `user` SET `u_id` = 1, `u_nick` = 'admin', `u_passwort` = :u_passwort, `u_level` = 'S'", [':u_passwort'=>$admin_passwort]);
 	?>
 		<tr <?php hintergrundfarbe_zellen(); ?>>
 			<td colspan="2"><br><br></td>
@@ -348,13 +365,10 @@ function step_2($mysqli_link, $chat, $fpconfig, $salt) {
 		<tr <?php hintergrundfarbe_zellen(); ?>>
 			<td>In der Datenbank <?php echo $chat["dbase"] ?> (Datenbankuser: <?php echo $chat["user"] ?>) wurden folgende Tabellen angelegt: <br>
 				<?php
-				
-				$tables = mysqli_query($mysqli_link, "SHOW TABLES FROM `".$chat['dbase']."` ");
-				for ($i = 0; $i < mysqli_num_rows($tables); $i++) {
-					mysqli_data_seek( $tables, $i );
-					$f = mysqli_fetch_array($tables, MYSQLI_NUM);
-					$table = $f[0];
-					
+				$tables = pdoQuery("SHOW TABLES FROM `".$chat['dbase']."`", []);
+				$tablesCount = $tables->rowCount();
+				for ($i = 0; $i < $tablesCount; $i++) {
+					$table = $query->fetchAll();
 					?>
 					<span style="font-weight:bold;"><?php echo $table ?></span>,
 					<?php

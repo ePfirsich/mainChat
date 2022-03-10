@@ -4,20 +4,11 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	die;
 }
 
-// Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-if ($mailloescheauspapierkorb < 1) {
-	$mailloescheauspapierkorb = 14;
-}
-$query2 = "DELETE FROM mail WHERE m_an_uid = $u_id AND m_status = 'geloescht' AND m_geloescht_ts < '"
-	. date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y"))) . "'";
-$result2 = sqlUpdate($query2, true);
-
 $text = "";
 
 if($aktion == "papierkorbleeren") {
 	// Nachrichten mit Status geloescht löschen
-	$query = "DELETE FROM mail WHERE m_an_uid=$u_id AND m_status='geloescht'";
-	$result = sqlUpdate($query, true);
+	pdoQuery("DELETE FROM `mail` WHERE `m_an_uid` = :m_an_uid AND `m_status` = 'geloescht'", [':m_an_uid'=>$u_id]);
 	
 	$erfolgsmeldung = $lang['nachrichten_papierkorb_geleert'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
@@ -34,41 +25,42 @@ switch ($aktion) {
 	case "neu2":
 		// Mail versenden, 2. Schritt: Benutzername Prüfen
 		$daten['u_nick'] = str_replace(" ", "+", $daten['u_nick']);
-		$daten['u_nick'] = escape_string(coreCheckName($daten['u_nick'], $check_name));
+		$daten['u_nick'] = coreCheckName($daten['u_nick'], $check_name);
 		
-		$query = "SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = '$daten[u_nick]'";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$daten['id'] = mysqli_result($result, 0, "u_id");
+		$query = pdoQuery("SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$daten['u_nick']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$daten['u_id'] = $result['u_id'];
 			
 			$ignore = false;
-			$query2 = "SELECT * FROM iignore WHERE i_user_aktiv='" . $daten['id'] . "' AND i_user_passiv = '$u_id'";
-			$result2 = sqlQuery($query2);
-			$num = mysqli_num_rows($result2);
-			if ($num >= 1) {
+			$query2 = pdoQuery("SELECT * FROM `iignore` WHERE `i_user_aktiv` = :i_user_aktiv AND `i_user_passiv` = :i_user_passiv", [':i_user_aktiv'=>$daten['u_id'], ':i_user_passiv'=>$u_id]);
+			
+			$result2Count = $query2->rowCount();
+			if ($result2Count >= 1) {
 				$ignore = true;
 			}
 			
 			$boxzu = false;
-			$query = "SELECT m_id FROM mail WHERE m_von_uid='" . $daten['id'] . "' AND m_an_uid='" . $daten['id'] . "' and m_betreff = '$lang[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
-			$result2 = sqlQuery($query);
-			$num = mysqli_num_rows($result2);
-			if ($num >= 1) {
+			$query2 = pdoQuery("SELECT `m_id` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid and `m_betreff` = :m_betreff AND `m_status` != 'geloescht'", [':m_von_uid'=>$daten['u_id'], ':m_an_uid'=>$daten['u_id'], ':m_betreff'=>$lang['nachrichten_posteingang_geschlossen']]);
+			
+			$result2Count = $query2->rowCount();
+			if ($result2Count >= 1) {
 				$boxzu = true;
 			}
 			
 			if ($boxzu == true) {
 				$fehlermeldung = $lang['nachrichten_fehler_mailbox_geschlossen'];
 			} else {
-				$m_u_level = mysqli_result($result, 0, "u_level");
+				$m_u_level = $result['u_level'];
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
 					// Alles in Ordnung
-					formular_neue_email2($text, $daten);
+					formular_neue_email2($text, $lang['nachrichten_neue_nachricht'], $daten);
 				} else {
 					$fehlermeldung = $lang['nachrichten_fehler_keine_mail_an_gast'];
 				}
 			}
-			mysqli_free_result($result2);
 		} else if ($daten['u_nick'] == "") {
 			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 		} else {
@@ -80,7 +72,6 @@ switch ($aktion) {
 			$text .= hinweis($fehlermeldung, "fehler");
 			formular_neue_email($text, $daten);
 		}
-		mysqli_free_result($result);
 		break;
 	
 	case "neu3":
@@ -98,35 +89,37 @@ switch ($aktion) {
 		}
 		
 		// Text prüfen
-		$daten['m_text'] = chat_parse(htmlspecialchars($daten['m_text']));
-		if (strlen($daten['m_text']) < 4) {
+		$daten['f_text'] = chat_parse(htmlspecialchars($daten['f_text']));
+		if (strlen($daten['f_text']) < 4) {
 			$fehlermeldung = $lang['nachrichten_fehler_kein_text'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		if (strlen($daten['m_text']) > 10000) {
+		if (strlen($daten['f_text']) > 10000) {
 			$fehlermeldung = $lang['nachrichten_fehler_text_zu_lang'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		
 		// Benutzer-ID Prüfen
-		$daten['id'] = intval($daten['id']);
-		$query = "SELECT `u_nick` FROM `user` WHERE `u_id` = $daten[id]";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$an_nick = mysqli_result($result, 0, "u_nick");
+		$daten['u_id'] = intval($daten['u_id']);
+		
+		$query = pdoQuery("SELECT `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$daten['u_id']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$an_nick = $result['u_nick'];
 		} else {
 			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
-		mysqli_free_result($result);
 		
 		if($fehlermeldung != "") {
-			formular_neue_email2($text, $daten);
+			formular_neue_email2($text, $lang['nachrichten_neue_nachricht'], $daten);
 		} else {
 			// Mail schreiben
 			if ($daten['typ'] == 1) {
 				// E-Mail an externe Adresse versenden
-				if (email_versende($u_id, $daten['id'], $daten['m_text'], $daten['m_betreff'], TRUE)) {
+				if (email_versende($u_id, $daten['u_id'], $daten['f_text'], $daten['m_betreff'], TRUE)) {
 					$erfolgsmeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_versendet_email']);
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				} else {
@@ -134,8 +127,8 @@ switch ($aktion) {
 					$text .= hinweis($fehlermeldung, "fehler");
 				}
 			} else {
-				$result = mail_sende($u_id, $daten['id'],
-				$daten['m_text'], $daten['m_betreff']);
+				$result = mail_sende($u_id, $daten['u_id'],
+				$daten['f_text'], $daten['m_betreff']);
 				
 				if ($result[0]) {
 					$erfolgsmeldung = str_replace("%nick%", $an_nick, $lang['nachrichten_versendet_nachricht']);
@@ -165,76 +158,38 @@ switch ($aktion) {
 		break;
 	
 	case "antworten":
-	// Mail beantworten, Mail quoten und Absender lesen
-		$query = "SELECT *,date_format(m_zeit,'%d.%m.%y um %H:%i') as zeit FROM mail WHERE m_an_uid=$u_id AND m_id=$daten[id] ";
-		$result = sqlQuery($query);
+		// Mail beantworten, Mail quoten und Absender lesen
+		$query = pdoQuery("SELECT *, date_format(`m_zeit`,'%d.%m.%y um %H:%i') AS `zeit` FROM `mail` WHERE `m_an_uid` = :m_an_uid AND `m_id` = :m_id", [':m_an_uid'=>$u_id, ':m_id'=>$daten['id']]);
 		
-		if ($result && mysqli_num_rows($result) == 1) {
-			$row = mysqli_fetch_object($result);
-		}
-		mysqli_free_result($result);
-		
-		// Benutzername prüfen
-		$query = "SELECT `u_id`, `u_nick` FROM `user` WHERE `u_id`=" . $row->m_von_uid;
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
+		$resultCount2 = 0;
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$row = $query->fetch();
 			
-			$row2 = mysqli_fetch_object($result);
-			$daten['id'] = $row2->u_id;
-			if (substr($row->m_betreff, 0, 3) == "Re:") {
-				$daten['m_betreff'] = $row->m_betreff;
+			// Benutzername prüfen
+			$query2 = pdoQuery("SELECT `u_id`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$row['m_von_uid']]);
+			$resultCount2 = $query2->rowCount();
+		}
+		
+		if ($resultCount2 == 1) {
+			$row2 = $query2->fetch();
+			$daten['u_id'] = $row2['u_id'];
+			if (substr($row['m_betreff'], 0, 3) == "Re:") {
+				$daten['m_betreff'] = html_entity_decode($row['m_betreff']);
 			} else {
-				$daten['m_betreff'] = "Re: " . $row->m_betreff;
+				$daten['m_betreff'] = "Re: " . html_entity_decode($row['m_betreff']);
 			}
-			$daten['m_text'] = erzeuge_umbruch($row->m_text, 70);
-			$daten['m_text'] = erzeuge_quoting($daten['m_text'], $row2->u_nick, $row->zeit);
-			$daten['m_text'] = erzeuge_fuss($daten['m_text']);
+			$daten['f_text'] = erzeuge_umbruch($row['m_text'], 70);
+			$daten['f_text'] = erzeuge_quoting($daten['f_text'], $row2['u_nick'], $row['zeit']);
+			$daten['f_text'] = erzeuge_fuss($daten['f_text']);
 			
-			$daten['m_text'] = str_replace("<b>", "_", $daten['m_text']);
-			$daten['m_text'] = str_replace("</b>", "_", $daten['m_text']);
+			$daten['f_text'] = str_replace("<b>", "_", $daten['f_text']);
+			$daten['f_text'] = str_replace("</b>", "_", $daten['f_text']);
 			
-			$daten['m_text'] = str_replace("<i>", "*", $daten['m_text']);
-			$daten['m_text'] = str_replace("</i>", "*", $daten['m_text']);
+			$daten['f_text'] = str_replace("<i>", "*", $daten['f_text']);
+			$daten['f_text'] = str_replace("</i>", "*", $daten['f_text']);
 			
-			formular_neue_email2($text, $daten);
-			
-		} elseif ($daten['u_nick'] == "") {
-			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
-			$text .= hinweis($fehlermeldung, "fehler");
-			
-			formular_neue_email($text, $daten);
-		} else {
-			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $lang['nachrichten_fehler_benutzername_existiert_nicht']);
-			$text .= hinweis($fehlermeldung, "fehler");
-			
-			formular_neue_email($text, $daten);
-		}
-		mysqli_free_result($result);
-		break;
-	
-	case "antworten_forum":
-	// Mail beantworten, Mail quoten und Absender lesen
-		$query = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_date, po_titel, po_text, u_nick, u_id FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$row = mysqli_fetch_object($result);
-		}
-		
-		// Benutzername prüfen
-		if ($row->u_nick && $row->u_nick != "NULL") {
-			$row2 = mysqli_fetch_object($result);
-			$daten['id'] = $row->u_id;
-			if (substr($row->po_titel, 0, 3) == "Re:") {
-				$daten['m_betreff'] = $row->po_titel;
-			} else {
-				$daten['m_betreff'] = "Re: " . $row->po_titel;
-			}
-			$daten['m_text'] = erzeuge_umbruch($row->po_text, 70);
-			$daten['m_text'] = erzeuge_quoting($daten['m_text'],
-				$row->u_nick, $row->po_date);
-			$daten['m_text'] = erzeuge_fuss($daten['m_text']);
-			
-			formular_neue_email2($text, $daten);
+			formular_neue_email2($text, $lang['nachrichten_nachricht_antworten'], $daten);
 		} else if ($daten['u_nick'] == "") {
 			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -246,7 +201,42 @@ switch ($aktion) {
 			
 			formular_neue_email($text, $daten);
 		}
-		mysqli_free_result($result);
+		break;
+	
+	case "antworten_forum":
+		// Mail beantworten, Mail quoten und Absender lesen
+		$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, `u_nick`, `u_id` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
+		
+		$resultCount = $query->rowCount();
+		unset($row);
+		if ($resultCount == 1) {
+			$row = $query->fetch();
+		}
+		
+		// Benutzername prüfen
+		if (isset($row) && $row['u_nick'] && $row['u_nick'] != "NULL") {
+			$daten['id'] = $row['u_id'];
+			if (substr($row['po_titel'], 0, 3) == "Re:") {
+				$daten['m_betreff'] = html_entity_decode($row['po_titel']);
+			} else {
+				$daten['m_betreff'] = "Re: " . html_entity_decode($row['po_titel']);
+			}
+			$daten['f_text'] = erzeuge_umbruch($row['po_text'], 70);
+			$daten['f_text'] = erzeuge_quoting($daten['f_text'], $row['u_nick'], $row['po_date']);
+			$daten['f_text'] = erzeuge_fuss($daten['f_text']);
+			
+			formular_neue_email2($text, $lang['nachrichten_nachricht_antworten'], $daten);
+		} else if ($daten['u_nick'] == "") {
+			$fehlermeldung = $lang['nachrichten_fehler_kein_benutzername_angegeben'];
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			formular_neue_email($text, $daten);
+		} else {
+			$fehlermeldung = str_replace("%nick%", $daten['u_nick'], $lang['nachrichten_fehler_benutzername_existiert_nicht']);
+			$text .= hinweis($fehlermeldung, "fehler");
+			
+			formular_neue_email($text, $daten);
+		}
 		break;
 	
 	case "zeige_empfangen":

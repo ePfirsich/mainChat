@@ -17,22 +17,23 @@ if(!isset($userId) || !isset($code)) {
 	$showForm = true;
 	
 	//Abfrage des Nutzers
-	$query = "SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = '" . escape_string($userId) . "'";
-	$mdata = sqlQuery($query);
-	if (!mysqli_num_rows($mdata)) {
+	$query = pdoQuery("SELECT `u_nick`, `u_passwort_code`, `u_passwort_code_time` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$userId]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 0) {
 		$fehlermeldung = $lang['login_fehlermeldung_passwort_vergessen_kein_benutzer'];
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
-		$mitglied = mysqli_fetch_assoc($mdata);
+		$result = $query->fetch();
 		
 		// Überprüfen ob ein Nutzer gefunden wurde und dieser auch ein Passwordcode hat
-		if($mitglied === null || $mitglied['u_passwort_code'] === null) {
+		if($result === null || $result['u_passwort_code'] === null) {
 			$fehlermeldung = $lang['login_passwort_fehler_kein_benutzer'];
 			$text .= hinweis($fehlermeldung, "fehler");
-		} else if($mitglied['u_passwort_code_time'] === null || strtotime($mitglied['u_passwort_code_time']) < (time()-24*3600) ) {
+		} else if($result['u_passwort_code_time'] === null || strtotime($result['u_passwort_code_time']) < (time()-24*3600) ) {
 			$fehlermeldung = $lang['login_passwort_fehler_code_abgelaufen'];
 			$text .= hinweis($fehlermeldung, "fehler");
-		} else if(sha1($code) != $mitglied['u_passwort_code']) {
+		} else if(sha1($code) != $result['u_passwort_code']) {
 			// Überprüfe den Passwortcode
 			$fehlermeldung = $lang['login_passwort_fehler_code_ungueltig'];
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -56,8 +57,7 @@ if(!isset($userId) || !isset($code)) {
 				} else {
 					// Speichere neues Passwort und lösche den Code
 					$passworthash = encrypt_password($passwort);
-					$query = "UPDATE `user` SET `u_passwort` = '$passworthash', `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = '" . escape_string($userId) . "'";
-					sqlUpdate($query);
+					pdoQuery("UPDATE `user` SET `u_passwort` = :u_passwort, `u_passwort_code` = NULL, `u_passwort_code_time` = NULL WHERE `u_id` = :u_id", [':u_passwort'=>$passworthash, ':u_id'=>$userId]);
 					
 					$erfolgsmeldung = $lang['login_passwort_erfolgreich_passwort_geaendert'];
 					$text .= hinweis($erfolgsmeldung, "erfolgreich");
@@ -71,7 +71,7 @@ if(!isset($userId) || !isset($code)) {
 				$text .= "<input type=\"hidden\" name=\"uid\" value=\"" . htmlentities($userId) . "\">\n";
 				$text .= "<input type=\"hidden\" name=\"code\" value=\"" . htmlentities($code) . "\">\n";
 				
-				$text .= str_replace("%u_nick%", $mitglied['u_nick'], $lang['login_passwort_benutzername']);
+				$text .= str_replace("%u_nick%", $result['u_nick'], $lang['login_passwort_benutzername']);
 				$text .= "<table style=\"width:100%;\">";
 				
 				// Neues Passwort

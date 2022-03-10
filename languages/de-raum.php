@@ -1,7 +1,7 @@
 <?php
 
 // Übersetzungen von "Raum"
-$lang['raum_titel'] = "Räume";
+$lang['titel'] = "Räume";
 
 $lang['raum_uebersicht'] = "Übersicht";
 $lang['raum_neuer_raum'] = "Neuer Raum";

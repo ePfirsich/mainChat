@@ -6,13 +6,15 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 
 // Prüfung, ob für diesen Benutzer bereits ein profil vorliegt -> in $f lesen und merken
 // Falls Array aus Formular übergeben wird, nur ui_id überschreiben
-$query = "SELECT * FROM `userinfo` WHERE `ui_userid`=$u_id";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) != 0) {
+$query = pdoQuery("SELECT * FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$u_id]);
+
+$resultCount = $query->rowCount();
+if ($resultCount != 0) {
+	$result = $query->fetch();
 	// Bestehendes Profil aus der Datenbank laden
 	
 	$f = array();
-	$f = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$f = $result;
 	$f['u_chathomepage'] = $userdata['u_chathomepage'];
 	$profil_gefunden = true;
 } else {
@@ -46,7 +48,6 @@ if ($result && mysqli_num_rows($result) != 0) {
 	$f['ui_inhalt_hintergrundfarbe'] = $standard_ui_inhalt_hintergrundfarbe;
 	$profil_gefunden = false;
 }
-mysqli_free_result($result);
 
 $text = "";
 // Profil prüfen und ggf. neu eintragen
@@ -252,28 +253,91 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 			$profil_gefunden = true;
 		}
 		
-		// Wenn noch kein Profil existiert, die ID aus dem Array entfernen
-		if($f['ui_id'] == 0) {
-			unset($f['ui_id']);
-			$ui_id = 0;
-		} else {
-			$ui_id = $f['ui_id'];
-		}
-		
-		// Datensatz schreiben
-		
 		// Sonderfall für "u_chathomepage", da dies in der Tabelle "user" gespeichert wird
 		$userArray = array();
 		$userArray['u_chathomepage'] = $f['u_chathomepage'];
-		schreibe_db("user", $userArray, $u_id, "u_id");
+		
+		pdoQuery("UPDATE `user` SET `u_chathomepage` = :u_chathomepage WHERE `u_id` = :u_id",
+			[
+				':u_id'=>$u_id,
+				':u_chathomepage'=>$userArray['u_chathomepage']
+			]);
 		unset($f['u_chathomepage']);
 		
+		aktualisiere_online($u_id);
 		
 		// Alle restlichen Daten in die Tabelle "userinfo" schreiben
-		schreibe_db("userinfo", $f, $ui_id, "ui_id");
-		
+		if($f['ui_id'] == 0) {
+			// Neues Profil anlegen
+			unset($f['ui_id']);
+			
+			pdoQuery("INSERT INTO `userinfo` (`ui_wohnort`, `ui_geburt`, `ui_hobby`, `ui_text`, `ui_geschlecht`, `ui_lieblingsfilm`, `ui_lieblingsserie`, `ui_lieblingsbuch`, `ui_lieblingsschauspieler`,
+					`ui_lieblingsgetraenk`, `ui_lieblingsgericht`, `ui_lieblingsspiel`, `ui_lieblingsfarbe`, `ui_homepage`, `ui_hintergrundfarbe`, `ui_ueberschriften_textfarbe`, `ui_ueberschriften_hintergrundfarbe`,
+					`ui_inhalt_textfarbe`, `ui_inhalt_linkfarbe`, `ui_inhalt_linkfarbe_aktiv`, `ui_inhalt_hintergrundfarbe`)
+					VALUES (:ui_wohnort, :ui_geburt, :ui_hobby, :ui_text, :ui_geschlecht, :ui_lieblingsfilm, :ui_lieblingsserie, :ui_lieblingsbuch, :ui_lieblingsschauspieler,
+					:ui_lieblingsgetraenk, :ui_lieblingsgericht, :ui_lieblingsspiel, :ui_lieblingsfarbe, :ui_homepage, :ui_hintergrundfarbe, :ui_ueberschriften_textfarbe, :ui_ueberschriften_hintergrundfarbe,
+					:ui_inhalt_textfarbe, :ui_inhalt_linkfarbe, :ui_inhalt_linkfarbe_aktiv, :ui_inhalt_hintergrundfarbe)",
+				[
+					':ui_wohnort'=>$f['ui_wohnort'],
+					':ui_geburt'=>$f['ui_geburt'],
+					':ui_hobby'=>$f['ui_hobby'],
+					':ui_text'=>$f['ui_text'],
+					':ui_geschlecht'=>$f['ui_geschlecht'],
+					':ui_lieblingsfilm'=>$f['ui_lieblingsfilm'],
+					':ui_lieblingsserie'=>$f['ui_lieblingsserie'],
+					':ui_lieblingsbuch'=>$f['ui_lieblingsbuch'],
+					':ui_lieblingsschauspieler'=>$f['ui_lieblingsschauspieler'],
+					':ui_lieblingsgetraenk'=>$f['ui_lieblingsgetraenk'],
+					':ui_lieblingsgericht'=>$f['ui_lieblingsgericht'],
+					':ui_lieblingsspiel'=>$f['ui_lieblingsspiel'],
+					':ui_lieblingsfarbe'=>$f['ui_lieblingsfarbe'],
+					':ui_homepage'=>$f['ui_homepage'],
+					':ui_hintergrundfarbe'=>$f['ui_hintergrundfarbe'],
+					':ui_ueberschriften_textfarbe'=>$f['ui_ueberschriften_textfarbe'],
+					':ui_ueberschriften_hintergrundfarbe'=>$f['ui_ueberschriften_hintergrundfarbe'],
+					':ui_inhalt_textfarbe'=>$f['ui_inhalt_textfarbe'],
+					':ui_inhalt_linkfarbe'=>$f['ui_inhalt_linkfarbe'],
+					':ui_inhalt_linkfarbe_aktiv'=>$f['ui_inhalt_linkfarbe_aktiv'],
+					':ui_inhalt_hintergrundfarbe'=>$f['ui_inhalt_hintergrundfarbe']
+				]);
+			
+		} else {
+			// Profil editieren
+			
+			pdoQuery("UPDATE `userinfo` SET `ui_wohnort` = :ui_wohnort, `ui_geburt` = :ui_geburt, `ui_hobby` = :ui_hobby, `ui_text` = :ui_text,`ui_geschlecht` = :ui_geschlecht,
+					`ui_lieblingsfilm` = :ui_lieblingsfilm, `ui_lieblingsserie` = :ui_lieblingsserie, `ui_lieblingsbuch` = :ui_lieblingsbuch, `ui_lieblingsschauspieler` = :ui_lieblingsschauspieler,
+					`ui_lieblingsgetraenk` = :ui_lieblingsgetraenk, `ui_lieblingsgericht` = :ui_lieblingsgericht, `ui_lieblingsspiel` = :ui_lieblingsspiel, `ui_lieblingsfarbe` = :ui_lieblingsfarbe,
+					`ui_homepage` = :ui_homepage, `ui_hintergrundfarbe` = :ui_hintergrundfarbe, `ui_ueberschriften_textfarbe` = :ui_ueberschriften_textfarbe,
+					`ui_ueberschriften_hintergrundfarbe` = :ui_ueberschriften_hintergrundfarbe, `ui_inhalt_textfarbe` = :ui_inhalt_textfarbe, `ui_inhalt_linkfarbe` = :ui_inhalt_linkfarbe,
+					`ui_inhalt_linkfarbe_aktiv` = :ui_inhalt_linkfarbe_aktiv, `ui_inhalt_hintergrundfarbe` = :ui_inhalt_hintergrundfarbe WHERE `ui_userid` = :ui_userid",
+				[
+					':ui_userid'=>$u_id,
+					':ui_wohnort'=>$f['ui_wohnort'],
+					':ui_geburt'=>$f['ui_geburt'],
+					':ui_hobby'=>$f['ui_hobby'],
+					':ui_text'=>$f['ui_text'],
+					':ui_geschlecht'=>$f['ui_geschlecht'],
+					':ui_lieblingsfilm'=>$f['ui_lieblingsfilm'],
+					':ui_lieblingsserie'=>$f['ui_lieblingsserie'],
+					':ui_lieblingsbuch'=>$f['ui_lieblingsbuch'],
+					':ui_lieblingsschauspieler'=>$f['ui_lieblingsschauspieler'],
+					':ui_lieblingsgetraenk'=>$f['ui_lieblingsgetraenk'],
+					':ui_lieblingsgericht'=>$f['ui_lieblingsgericht'],
+					':ui_lieblingsspiel'=>$f['ui_lieblingsspiel'],
+					':ui_lieblingsfarbe'=>$f['ui_lieblingsfarbe'],
+					':ui_homepage'=>$f['ui_homepage'],
+					':ui_hintergrundfarbe'=>$f['ui_hintergrundfarbe'],
+					':ui_ueberschriften_textfarbe'=>$f['ui_ueberschriften_textfarbe'],
+					':ui_ueberschriften_hintergrundfarbe'=>$f['ui_ueberschriften_hintergrundfarbe'],
+					':ui_inhalt_textfarbe'=>$f['ui_inhalt_textfarbe'],
+					':ui_inhalt_linkfarbe'=>$f['ui_inhalt_linkfarbe'],
+					':ui_inhalt_linkfarbe_aktiv'=>$f['ui_inhalt_linkfarbe_aktiv'],
+					':ui_inhalt_hintergrundfarbe'=>$f['ui_inhalt_hintergrundfarbe']
+				]);
+		}
 		$f['u_chathomepage'] = $userArray['u_chathomepage'];
 		unset($userArray);
+		
 		
 		$erfolgsmeldung = $lang['profil_erfolgsmeldung_profil_gespeichert'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
@@ -302,11 +366,13 @@ switch ($aktion) {
 			$text .= "<td class=\"tabelle_kopfzeile\">$lang[profil_typ]</td>\n";
 			$text .= "</tr>";
 			
-			$query = "SELECT * FROM user,userinfo WHERE ui_userid=u_id ORDER BY u_nick";
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) > 0) {
+			$query = pdoQuery("SELECT * FROM `user`, `userinfo` WHERE `ui_userid` = `u_id` ORDER BY `u_nick`", []);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount > 0) {
 				$zaehler = 0;
-				while ($row = mysqli_fetch_object($result)) {
+				$result = $query->fetchAll();
+				foreach($result as $zaehler => $row) {
 					if ($zaehler % 2 != 0) {
 						$bgcolor = 'class="tabelle_zeile2"';
 					} else {
@@ -314,26 +380,26 @@ switch ($aktion) {
 					}
 					
 					$userdata = array();
-					$userdata['u_id'] = $row->u_id;
-					$userdata['u_nick'] = $row->u_nick;
-					$userdata['u_level'] = $row->u_level;
-					$userdata['u_punkte_gesamt'] = $row->u_punkte_gesamt;
-					$userdata['u_punkte_gruppe'] = $row->u_punkte_gruppe;
-					$userdata['u_punkte_anzeigen'] = $row->u_punkte_anzeigen;
-					$userdata['u_chathomepage'] = $row->u_chathomepage;
-					$userdaten = zeige_userdetails($row->u_id, $userdata);
+					$userdata['u_id'] = $row['u_id'];
+					$userdata['u_nick'] = $row['u_nick'];
+					$userdata['u_level'] = $row['u_level'];
+					$userdata['u_punkte_gesamt'] = $row['u_punkte_gesamt'];
+					$userdata['u_punkte_gruppe'] = $row['u_punkte_gruppe'];
+					$userdata['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
+					$userdata['u_chathomepage'] = $row['u_chathomepage'];
+					$userdaten = zeige_userdetails($row['u_id'], $userdata);
 					
 					$text .= "<tr>\n";
 					$text .= "<td $bgcolor><b>" . $userdaten . "</b></td>\n";
-					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_wohnort) . "</td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row['ui_wohnort']) . "</td>\n";
 					if($admin) {
-						$text .= "<td $bgcolor>" . htmlspecialchars($row->u_email) . "</td>\n";
+						$text .= "<td $bgcolor>" . htmlspecialchars($row['u_email']) . "</td>\n";
 					}
-					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_homepage) . "</td>\n";
-					$text .= "<td $bgcolor>" . htmlspecialchars($row->ui_geburt) . "</td>\n";
-					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row->ui_geschlecht)) . "</td>\n";
-					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row->ui_beziehungsstatus)) . "</td>\n";
-					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row->ui_typ)) . "</td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row['ui_homepage']) . "</td>\n";
+					$text .= "<td $bgcolor>" . htmlspecialchars($row['ui_geburt']) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("geschlecht", htmlspecialchars($row['ui_geschlecht'])) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row['ui_beziehungsstatus'])) . "</td>\n";
+					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row['ui_typ'])) . "</td>\n";
 					$text .= "</tr>\n";
 					
 					$zaehler++;
@@ -343,11 +409,9 @@ switch ($aktion) {
 			
 			// Box anzeigen
 			zeige_tabelle_zentriert($box, $text);
-			
-			mysqli_free_result($result);
 		}
 		
-		break;
+	break;
 	
 	default:
 		// Neues Profil einrichten oder bestehendes ändern
@@ -359,7 +423,7 @@ switch ($aktion) {
 		
 		// Textkopf
 		if ($uebergabe != $lang['einstellungen_speichern']) {
-			$text .= $lang['profil_informationen'];
+			$text .= str_replace("%nickname%", $u_nick, $lang['profil_informationen']);
 		}
 		
 		// Editor ausgeben

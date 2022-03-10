@@ -7,13 +7,10 @@ function profil_editor($u_id, $u_nick, $f) {
 	global $lang;
 	
 	// Benutzerdaten lesen
-	$query = "SELECT * FROM `user` WHERE `u_id`=$u_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		mysqli_free_result($result);
-		$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen\">$lang[profil_einstellungen_aendern]</a>]";
-	}
+	$query = pdoQuery("SELECT * FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+	$userdata = $query->fetch();
+	
+	$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen\">$lang[profil_einstellungen_aendern]</a>]";
 	
 	$zaehler = 0;
 	

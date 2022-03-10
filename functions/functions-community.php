@@ -1,17 +1,19 @@
 <?php
 function suche_vaterposting($poid) {
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
-	$query = "SELECT po_vater_id FROM `forum_beitraege` WHERE po_id = '" . intval($poid) . "'";
-	$result = sqlQuery($query);
-	list($vp) = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$query = pdoQuery("SELECT `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($poid)]);
+	
+	list($vp) = $query->fetch();
+	
 	return ($vp);
 }
 
 function suche_threadord($poid) {
 	// Diese Funktion sucht die Themenorder des Vaterpostings
-	$query = "SELECT po_threadorder FROM `forum_beitraege` WHERE po_id = '" . intval($poid) . "'";
-	$result = sqlQuery($query);
-	list($to) = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($poid)]);
+	
+	list($to) = $query->fetch();
+	
 	return ($to);
 }
 
@@ -22,45 +24,51 @@ function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
 	
 	global $system_farbe, $lang, $chat;
 	
-	$query = "SELECT mail.*,date_format(m_zeit,'%d.%m.%y um %H:%i') AS zeit,u_nick FROM mail LEFT JOIN user ON m_von_uid=u_id WHERE m_an_uid=$u_id AND m_status='neu' ORDER BY m_zeit desc";
-	$result = sqlQuery($query);
+	$query = pdoQuery("SELECT mail.*, date_format(`m_zeit`,'%d.%m.%y um %H:%i') AS `zeit`, `u_nick` FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = :m_an_uid AND `m_status` = 'neu' ORDER BY `m_zeit` DESC", [':m_an_uid'=>$u_id]);
 	
-	if ($result && mysqli_num_rows($result) > 0) {
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
 		// Sonderfall OLM: "Sie haben neue Nachrichten..." ausgeben.
 		if ($nachricht == "OLM") {
 			$url = "href=\"inhalt.php?bereich=nachrichten\" target=\"_blank\"";
 			system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $lang['chatmsg_mail1']));
 		}
 		
-		while ($row = mysqli_fetch_object($result)) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			// Nachricht verschicken
 			switch ($nachricht) {
 				case "OLM":
-					$txt = str_replace("%zeit%", $row->zeit, $lang['chatmsg_mail2']);
-					if ($row->u_nick != "NULL" && $row->u_nick != "") {
-						$txt = str_replace("%nick%", $row->u_nick, $txt);
+					$txt = str_replace("%zeit%", $row['zeit'], $lang['chatmsg_mail2']);
+					if ($row['u_nick'] != "NULL" && $row['u_nick'] != "") {
+						$txt = str_replace("%nick%", $row['u_nick'], $txt);
 					} else {
 						$txt = str_replace("%nick%", $chat, $txt);
 					}
-					system_msg("", 0, $u_id, $system_farbe, str_replace("%betreff%", html_entity_decode($row->m_betreff), $txt));
+					system_msg("", 0, $u_id, $system_farbe, str_replace("%betreff%", html_entity_decode($row['m_betreff']), $txt));
 					break;
 				
 				case "E-Mail":
 				// Mail als verschickt markieren
 					unset($f);
 					$f['m_status'] = "neu/verschickt";
-					$f['m_zeit'] = $row->m_zeit;
-					schreibe_db("mail", $f, $row->m_id, "m_id");
+					$f['m_zeit'] = $row['m_zeit'];
+					
+					pdoQuery("UPDATE `mail` SET `m_status` = :m_status, `m_zeit` = :m_zeit WHERE `m_id` = :m_id",
+						[
+							':m_id'=>$row['m_id'],
+							':m_status'=>$f['m_status'],
+							':m_zeit'=>$f['m_zeit']
+							
+						]);
 					
 					// E-Mail an u_id versenden
-					email_versende($row->m_von_uid, $u_id, $lang['email_mail3'] . $row->m_text, $row->m_betreff);
+					email_versende($row['m_von_uid'], $u_id, $lang['email_mail3'] . $row['f_text'], $row['m_betreff']);
 					break;
 			}
 		}
 		
 	}
-	mysqli_free_result($result);
-	
 }
 
 function profil_neu($u_id, $u_nick) {
@@ -69,14 +77,13 @@ function profil_neu($u_id, $u_nick) {
 	// $u_id ist die ID des des Benutzers
 	global $system_farbe, $lang;
 	
-	$query = "SELECT ui_id FROM userinfo WHERE ui_userid=$u_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 0) {
+	$query = pdoQuery("SELECT `ui_id` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 0) {
 		$url = "href=\"inhalt.php?bereich=profil&aktion=neu\" ";
 		system_msg("", 0, $u_id, $system_farbe, str_replace("%link%", $url, $lang['profil1']));
 	}
-	mysqli_free_result($result);
-	
 }
 
 function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
@@ -88,8 +95,10 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 	
 	// In die Datenbank schreiben
 	if ($anzahl > 0 || $anzahl < 0) {
-		$query = "UPDATE online SET o_punkte=o_punkte+" . intval($anzahl) . " WHERE o_id=$o_id";
-		sqlUpdate($query);
+		$o_punkte = pdoQuery("SELECT `o_punkte` FROM `online` WHERE `o_id` = :o_id", [':o_id'=>$o_id])->fetch()['o_punkte'];
+		$o_punkte = $o_punkte + $anzahl;
+		
+		pdoQuery("UPDATE `online` SET `o_punkte` = :o_punkte WHERE `o_id` = :o_id", [':o_punkte'=>$o_punkte, ':o_id'=>$o_id]);
 	}
 	
 	// Meldung an Benutzer ausgeben
@@ -111,24 +120,25 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 	// Optional Punkte sofort in Benutzerdaten übertragen
 	if ($sofort && $o_id) {
 		// Tabellen online+user exklusiv locken
-		$query = "LOCK TABLES online WRITE, user WRITE";
-		$result = sqlUpdate($query, true);
+		pdoQuery("LOCK TABLES `online` WRITE, `user` WRITE", []);
 		
 		// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
-		$query = "SELECT o_punkte,o_user FROM online WHERE o_id=" . intval($o_id);
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$row = mysqli_fetch_object($result);
-			$user_id = $row->o_user;
+		$query = pdoQuery("SELECT `o_punkte`, `o_user` FROM `online` WHERE `o_id` = :o_id", [':o_id'=>intval($o_id)]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$row = $query->fetch();
+			$user_id = $row['o_user'];
 			
-			// Es können maximal die punkte abgezogen werden, die man auch hat
-			$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$user_id";
-			$result2 = sqlQuery($query);
-			if ($result2 && mysqli_num_rows($result2) == 1) {
-				$row2 = mysqli_fetch_object($result2);
-				$p_gesamt = $row2->u_punkte_gesamt + $row->o_punkte;
-				$p_jahr = $row2->u_punkte_jahr + $row->o_punkte;
-				$p_monat = $row2->u_punkte_monat + $row->o_punkte;
+			// Es können maximal die Punkte abgezogen werden, die man auch hat
+			$query = pdoQuery("SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount == 1) {
+				$result = $query->fetch();
+				$p_gesamt = $result['u_punkte_gesamt'] + $row['o_punkte'];
+				$p_jahr = $result['u_punkte_jahr'] + $row['o_punkte'];
+				$p_monat = $result['u_punkte_monat'] + $row['o_punkte'];
 				
 				if ($p_gesamt < 0) {
 					$p_gesamt = 0;
@@ -141,19 +151,28 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 				}
 			}
 			
-			$query = "UPDATE user SET u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$user_id";
-			$result2 = sqlUpdate($query);
-			$query = "UPDATE online SET o_punkte=0 WHERE o_id=" . intval($o_id);
-			$result = sqlUpdate($query);
+			pdoQuery("UPDATE `user` SET `u_punkte_monat` = :u_punkte_monat, `u_punkte_jahr` = :u_punkte_jahr, `u_punkte_gesamt` = :u_punkte_gesamt WHERE `u_id` = :u_id",
+				[
+					':u_punkte_monat'=>$p_monat,
+					':u_punkte_jahr'=>$p_jahr,
+					':u_punkte_gesamt'=>$p_gesamt,
+					':u_id'=>$user_id
+				]);
+			
+			pdoQuery("UPDATE `online` SET `o_punkte` = 0 WHERE `o_id` = :o_id", [':o_id'=>$o_id]);
 		}
 		
 		// Gruppe neu berechnen
 		unset($f);
 		$f['u_punkte_gruppe'] = 0;
-		$query = "SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id`=$user_id";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$u_punkte_gesamt = mysqli_result($result, 0, 0);
+		
+		$query = pdoQuery("SELECT `u_punkte_gesamt` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$u_punkte_gesamt = $result['u_punkte_gesamt'];
+			
 			foreach ($punkte_gruppe as $key => $value) {
 				if ($u_punkte_gesamt < $value) {
 					break;
@@ -163,11 +182,15 @@ function punkte($anzahl, $o_id, $user_id = 0, $text = "", $sofort = FALSE) {
 			}
 		}
 		
-		schreibe_db("user", $f, $user_id, "u_id");
+		pdoQuery("UPDATE `user` SET `u_punkte_gruppe` = :u_punkte_gruppe WHERE `u_id` = :u_id",
+			[
+				':u_id'=>$user_id,
+				':u_punkte_gruppe'=>$f['u_punkte_gruppe']
+			]);
+		aktualisiere_inhalt_online($user_id);
 		
 		// Lock freigeben
-		$query = "UNLOCK TABLES";
-		$result = sqlUpdate($query, true);
+		pdoQuery("UNLOCK TABLES", []);
 	}
 }
 
@@ -180,19 +203,19 @@ function punkte_offline($anzahl, $user_id) {
 	
 	// In die Datenbank schreiben
 	// Tabellen online+user exklusiv locken
-	$query = "LOCK TABLES online WRITE, user WRITE";
-	$result = sqlUpdate($query, true);
+	pdoQuery("LOCK TABLES `online` WRITE, `user` WRITE", []);
 	
 	// Aktuelle Punkte auf Punkte in Benutzertabelle addieren
 	if ($user_id && ($anzahl > 0 || $anzahl < 0)) {
-		// es können maximal die punkte abgezogen werden, die man auch hat
-		$query = "SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id`=$user_id";
-		$result2 = sqlQuery($query);
-		if ($result2 && mysqli_num_rows($result2) == 1) {
-			$row2 = mysqli_fetch_object($result2);
-			$p_gesamt = $row2->u_punkte_gesamt + $anzahl;
-			$p_jahr = $row2->u_punkte_jahr + $anzahl;
-			$p_monat = $row2->u_punkte_monat + $anzahl;
+		// Es können maximal die Punkte abgezogen werden, die man auch hat
+		$query = pdoQuery("SELECT `u_punkte_gesamt`, `u_punkte_jahr`, `u_punkte_monat` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$p_gesamt = $result['u_punkte_gesamt'] + $anzahl;
+			$p_jahr = $result['u_punkte_jahr'] + $anzahl;
+			$p_monat = $result['u_punkte_monat'] + $anzahl;
 			
 			if ($p_gesamt < 0) {
 				$p_gesamt = 0;
@@ -205,18 +228,26 @@ function punkte_offline($anzahl, $user_id) {
 			}
 		}
 		
-		$query = "UPDATE user SET u_login=u_login, u_punkte_monat=$p_monat, u_punkte_jahr=$p_jahr, u_punkte_gesamt=$p_gesamt WHERE u_id=$user_id";
-		$result = sqlUpdate($query);
+		pdoQuery("UPDATE `user` SET `u_punkte_monat` = :u_punkte_monat, `u_punkte_jahr` = :u_punkte_jahr, `u_punkte_gesamt` = :u_punkte_gesamt WHERE `u_id` = :u_id",
+			[
+				':u_punkte_monat'=>$p_monat,
+				':u_punkte_jahr'=>$p_jahr,
+				':u_punkte_gesamt'=>$p_gesamt,
+				':u_id'=>$user_id
+			]);
 	}
 	
 	// Gruppe neu berechnen
 	unset($f);
 	$f['u_punkte_gruppe'] = 0;
-	$query = "SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id`=$user_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$u_punkte_gesamt = mysqli_result($result, 0, "u_punkte_gesamt");
-		$u_nick = mysqli_result($result, 0, "u_nick");
+	
+	$query = pdoQuery("SELECT `u_punkte_gesamt`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		$u_punkte_gesamt = $result['u_punkte_gesamt'];
+		$u_nick = $result['u_nick'];
 		foreach ($punkte_gruppe as $key => $value) {
 			if ($u_punkte_gesamt < $value) {
 				break;
@@ -225,11 +256,16 @@ function punkte_offline($anzahl, $user_id) {
 			}
 		}
 	}
-	schreibe_db("user", $f, $user_id, "u_id");
+	
+	pdoQuery("UPDATE `user` SET `u_punkte_gruppe` = :u_punkte_gruppe WHERE `u_id` = :u_id",
+		[
+			':u_id'=>$user_id,
+			':u_punkte_gruppe'=>$f['u_punkte_gruppe']
+		]);
+	aktualisiere_inhalt_online($user_id);
 	
 	// Lock freigeben
-	$query = "UNLOCK TABLES";
-	$result = sqlUpdate($query, true);
+	pdoQuery("UNLOCK TABLES", []);
 	
 	// Meldung an Benutzer ausgeben
 	if ($anzahl > 0) {
@@ -257,20 +293,31 @@ function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = ""
 	
 	// Einstellungen aus DB in Array a_was merken und dabei SETs auflösen
 	// Mögliche a_wann: Sofort/Offline, Sofort/Online, Login, Alle 5 Minuten
-	$query = "SELECT a_was, a_wie FROM aktion WHERE a_user=$an_u_id AND a_wann='$typ' ";
 	if ($suche_was != "") {
-		$query .= "AND a_was='$suche_was'";
+		$query = pdoQuery("SELECT `a_was`, `a_wie` FROM `aktion` WHERE `a_user` = :a_user AND `a_wann` = :a_wann AND `a_was` = :a_was",
+			[
+				':a_user'=>$an_u_id,
+				':a_wann'=>$typ,
+				':a_was'=>$suche_was
+			]);
+	} else {
+		$query = pdoQuery("SELECT `a_was`, `a_wie` FROM `aktion` WHERE `a_user` = :a_user AND `a_wann` = :a_wann",
+			[
+				':a_user'=>$an_u_id,
+				':a_wann'=>$typ
+			]);
 	}
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) != 0) {
-		while ($row = mysqli_fetch_object($result)) {
-			$wie = explode(",", $row->a_wie);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount != 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
+			$wie = explode(",", $row['a_wie']);
 			foreach ($wie as $a_wie) {
-				$a_was[$row->a_was][$a_wie] = TRUE;
+				$a_was[$row['a_was']][$a_wie] = TRUE;
 			}
 		}
 	}
-	mysqli_free_result($result);
 	
 	switch ($typ) {
 		case "Sofort/Offline":
@@ -313,8 +360,7 @@ function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = ""
 			}
 			
 			// Merken, wann zuletzt die Aktionen ausgeführt wurden
-			$query = "UPDATE online SET o_aktion=" . time() . " WHERE o_user=$an_u_id";
-			$result = sqlUpdate($query);
+			pdoQuery("UPDATE `online` SET `o_aktion` = :o_aktion WHERE `o_user` = :o_user", [':o_aktion'=>time(), ':o_user'=>$an_u_id]);
 			
 			break;
 		
@@ -409,7 +455,7 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
 						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
-					} elseif ($inhalt[aktion] == "Login") {
+					} elseif ($inhalt['aktion'] == "Login") {
 						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde6']);
 					} else {
 						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde4']);
@@ -436,7 +482,6 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
 					$text = str_replace("%po_titel_antwort%", $inhalt['po_titel_antwort'], $text);
 					$text = str_replace("%po_ts_antwort%", $inhalt['po_ts_antwort'], $text);
-					$text = str_replace("%baum%", $inhalt['baum'], $text);
 					
 					mail_sende($von_u_id, $an_u_id, $text, $betreff);
 					break;
@@ -467,11 +512,17 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				case "Neue Mail":
 				// Mail als verschickt markieren
 					unset($f);
+					
 					$f['m_status'] = "neu/verschickt";
-					schreibe_db("mail", $f, $inhalt['m_id'], "m_id");
+					
+					pdoQuery("UPDATE `mail` SET `m_status` = :m_status WHERE `m_id` = :m_id",
+						[
+							':m_id'=>$inhalt['m_id'],
+							':m_status'=>$f['m_status']
+						]);
 					
 					// Nachricht versenden
-					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $lang['email_mail3'] . $inhalt['m_text'], $inhalt['m_betreff']);
+					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $lang['email_mail3'] . $inhalt['f_text'], $inhalt['m_betreff']);
 					break;
 				case "Antwort auf eigenen Beitrag":
 					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $lang['betreff_new_posting']);
@@ -482,7 +533,6 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
 					$text = str_replace("%po_titel_antwort%", $inhalt['po_titel_antwort'], $text);
 					$text = str_replace("%po_ts_antwort%", $inhalt['po_ts_antwort'], $text);
-					$text = str_replace("%baum%", $inhalt['baum'], $text);
 					
 					email_versende($von_u_id, $an_u_id, $text, $betreff);
 					break;
@@ -493,37 +543,41 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 
 function mail_sende($von, $an, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von an ID $an mit Text $text
-	global $u_nick, $lang, $u_id;
+	global $u_nick, $lang, $u_id, $pdo;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
-	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen per mainChat
-	$query = "SELECT m_id FROM mail WHERE m_von_uid=" . intval($an) . " AND m_an_uid=" . intval($an) . " and m_betreff = '$lang[nachrichten_posteingang_geschlossen]' and m_status != 'geloescht'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
-	if ($num >= 1) {
+	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen
+	$query = pdoQuery("SELECT `m_id` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid AND `m_betreff` = :m_betreff AND `m_status` != 'geloescht'",
+		[
+			':m_von_uid'=>intval($an),
+			':m_an_uid'=>intval($an),
+			':m_betreff'=>$lang['nachrichten_posteingang_geschlossen']
+		]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount >= 1) {
 		$mailversand_ok = false;
 		$fehlermeldung = $lang['chat_msg105'];
 	}
 	
-	// Gesperrte Benutzer bekommen keine Chatmail Aktionen mehr
-	$query = "SELECT `u_id` FROM `user` WHERE `u_id`=" . intval($an) . " AND u_level='Z'";
-	$result = sqlQuery($query);
-	$num = mysqli_num_rows($result);
-	if ($num >= 1) {
+	// Gesperrte Benutzer bekommen keine Nachrichten Aktionen mehr
+	$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_id` = :u_id AND `u_level` = 'Z'", [':u_id'=>intval($an)]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount >= 1) {
 		$mailversand_ok = false;
-		$fehlermeldung = "Benutzer ist gesperrt, und kann deswegen keine Chatmail empfangen";
+		$fehlermeldung = "Der Benutzer ist gesperrt, und kann deswegen keine Nachrichten empfangen.";
 	}
 	
-	// Mailbombing schutz!
-	$query = "SELECT `m_id`, now()-m_zeit AS `zeit` FROM `mail` WHERE `m_von_uid` = " . intval($von) . " AND `m_an_uid` = " . intval($an) . " ORDER BY `m_id` DESC LIMIT 0,1";
-	// system_msg("",0,$von,$system_farbe,"DEBUG: $query");
-	$result = sqlQuery($query);
+	// Mailbombingschutz!
+	$query = pdoQuery("SELECT `m_id`, now()-m_zeit AS `zeit` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid ORDER BY `m_id` DESC LIMIT 0,1", [':m_von_uid'=>intval($von), ':m_an_uid'=>intval($an)]);
 	
-	if (mysqli_num_rows($result) == 1) {
-		$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$zeit = $a['zeit'];
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		$zeit = $result['zeit'];
 	} else {
 		$zeit = 999;
 	}
@@ -534,10 +588,10 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	}
 	
 	if ($mailversand_ok == true) {
+		$f['m_status'] = "neu";
 		$f['m_von_uid'] = $von;
 		$f['m_an_uid'] = $an;
-		$f['m_status'] = "neu";
-		$f['m_text'] = chat_parse($text);
+		$f['f_text'] = chat_parse($text);
 		if ($betreff) {
 			$f['m_betreff'] = $betreff;
 		} else {
@@ -549,7 +603,16 @@ function mail_sende($von, $an, $text, $betreff = "") {
 			}
 		}
 		
-		$f['m_id'] = schreibe_db("mail", $f, "", "m_id");
+		pdoQuery("INSERT INTO `mail` (`m_status`, `m_von_uid`, `m_an_uid`, `m_text`, `m_betreff`) VALUES (:m_status, :m_von_uid, :m_an_uid, :m_text, :m_betreff)",
+			[
+				':m_status'=>$f['m_status'],
+				':m_von_uid'=>$f['m_von_uid'],
+				':m_an_uid'=>$f['m_an_uid'],
+				':m_text'=>$f['f_text'],
+				':m_betreff'=>$f['m_betreff']
+			]);
+		
+		$f['m_id'] = $pdo->lastInsertId();
 		
 		// Nachricht über neue E-Mail sofort erzeugen
 		if (ist_online($an)) {
@@ -579,34 +642,33 @@ function email_versende($von_user_id, $an_user_id, $text, $betreff, $an_u_email 
 	$betreff = strip_tags(strtr($betreff, $trans));
 	
 	// Absender ermitteln
-	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($von_user_id);
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$abrow = mysqli_fetch_object($result);
+	$query = pdoQuery("SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($von_user_id)]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$abrow = $query->fetch();
 	}
-	mysqli_free_result($result);
 	
 	// Empfänger ermitteln und E-Mail versenden
-	$query = "SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id`=" . intval($an_user_id);
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_object($result);
+	$query = pdoQuery("SELECT `u_email`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($an_user_id)]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$row = $query->fetch();
 		
 		// Empfänger
-		$adresse = $row->u_email;
+		$adresse = $row['u_email'];
 		
-		$inhalt = str_replace("%user%", $row->u_nick, $text);
-		$nachricht = str_replace("%name%", $abrow->u_nick, $lang['email_mail4']);
+		$inhalt = str_replace("%user%", $row['u_nick'], $text);
+		$nachricht = str_replace("%name%", $abrow['u_nick'], $lang['email_mail4']);
 		$nachricht = str_replace("%nachricht%", $text, $nachricht);
-		$nachricht = str_replace("%email%", $abrow->u_email, $nachricht);
+		$nachricht = str_replace("%email%", $abrow['u_email'], $nachricht);
 		
 		// E-Mail versenden
 		email_senden($adresse, $betreff, $nachricht);
 		
-		mysqli_free_result($result);
 		return (TRUE);
 	} else {
-		mysqli_free_result($result);
 		return (FALSE);
 	}
 }
@@ -618,36 +680,35 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 	
 	global $system_farbe, $lang, $whotext, $locale;
 	
-	$query = "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_userid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
+	$query = pdoQuery("SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_userid` = :f_userid AND `f_status` = 'bestaetigt' "
 		. "UNION "
-		. "SELECT f_id,f_text,f_userid,f_freundid,f_zeit FROM freunde WHERE f_freundid=" . intval($u_id) . " AND f_status = 'bestaetigt' "
-		. "ORDER BY f_zeit desc ";
-	$result = sqlQuery($query);
+		. "SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_freundid` = :f_freundid AND `f_status` = 'bestaetigt' "
+		. "ORDER BY `f_zeit` DESC", [':f_userid'=>intval($u_id), ':f_freundid'=>intval($u_id)]);
 	
-	if ($result && mysqli_num_rows($result) > 0) {
-		
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
 		$txt = "";
 		$i = 0;
-		while ($row = mysqli_fetch_object($result)) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
 			// Benutzer aus DB lesen
-			$sql = "SET lc_time_names = '$locale'";
-			$query = sqlQuery($sql);
+			pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 			
-			if ($row->f_userid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
-					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-					. "FROM user, online WHERE o_user=u_id AND u_id=$row->f_userid ";
-			} elseif ($row->f_freundid != $u_id) {
-				$query = "SELECT u_nick,u_id,u_level,u_punkte_gesamt,u_punkte_gruppe,o_id, date_format(u_login,'%d. %M %Y um %H:%i') AS login, "
-					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online "
-					. "FROM user,online WHERE o_user=u_id AND u_id=$row->f_freundid ";
-			}
-			// system_msg("",0,$u_id,$system_farbe,"DEBUG: $nachricht, $query");
-			$result2 = sqlQuery($query);
-			if ($result2 && mysqli_num_rows($result2) > 0) {
+			if ($row['f_userid'] != $u_id) {
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` FROM `user`, `online` WHERE `o_user` = `u_id` AND `u_id` = :u_id", [':u_id'=>$row['f_userid']]);
 				
+				$result2Count = $query2->rowCount();
+			} else if ($row['f_freundid'] != $u_id) {
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS `online` FROM `user`, `online` WHERE `o_user` = `u_id` AND `u_id` = :u_id", [':u_id'=>$row['f_freundid']]);
+				
+				$result2Count = $query2->rowCount();
+			}
+			
+			if ($result2Count > 0) {
 				// Nachricht erzeugen
-				$row2 = mysqli_fetch_object($result2);
+				$row2 = $query2->fetch();
 				switch ($nachricht) {
 					
 					case "OLM":
@@ -656,26 +717,26 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 							$txt .= "<br>";
 						}
 						
-						$q2 = "SELECT r_name,o_id,o_who, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online_zeit FROM online LEFT JOIN raum ON r_id=o_raum WHERE o_user=$row2->u_id ";
-						$r2 = sqlQuery($q2);
-						if ($r2 && mysqli_num_rows($r2) > 0) {
-							$r = mysqli_fetch_object($r2);
-							if ($r->o_who == 0) {
-								$raum = $lang['chat_msg67'] . " <b>" . $r->r_name . "</b>";
+						$query3 = pdoQuery("SELECT `r_name`, `o_id`, `o_who`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online_zeit` FROM `online` LEFT JOIN `raum` ON `r_id` = `o_raum` WHERE `o_user` = :o_user", [':o_user'=>$row2['u_id']]);
+						
+						$result3Count = $query3->rowCount();
+						if ($result3Count > 0) {
+							$result3 = $query3->fetch();
+							if ($result3['o_who'] == 0) {
+								$raum = $lang['chat_msg67'] . " <b>" . $result3['r_name'] . "</b>";
 							} else {
-								$raum = "<b>[" . $whotext[$r->o_who] . "]</b>";
+								$raum = "<b>[" . $whotext[$result3['o_who']] . "]</b>";
 							}
 						}
-						mysqli_free_result($r2);
 						
 						$weiterer = $lang['chat_msg90'];
-						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2->u_id, $row2, TRUE, "&nbsp;", $row2->online), $weiterer);
+						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2['u_id'], $row2, TRUE, "&nbsp;", $row2['online']), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
 						$txt .= $weiterer;
 						
-						if ($row->f_text) {
-							$txt .= " (" . $row->f_text . ")";
+						if ($row['f_text']) {
+							$txt .= " (" . $row['f_text'] . ")";
 						}
 						break;
 					
@@ -684,10 +745,10 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						if ($i > 0) {
 							$txt .= "\n\n";
 						}
-						$txt .= str_replace("%u_nick%", $row2->u_nick, $lang['chat_msg91']);
-						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
-						if ($row->f_text) {
-							$txt .= " (" . $row->f_text . ")";
+						$txt .= str_replace("%u_nick%", $row2['u_nick'], $lang['chat_msg91']);
+						$txt = str_replace("%online%", gmdate("H:i:s", $row2['online']), $txt);
+						if ($row['f_text']) {
+							$txt .= " (" . $row['f_text'] . ")";
 						}
 						break;
 					
@@ -696,10 +757,10 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						if ($i > 0) {
 							$txt .= "\n\n";
 						}
-						$txt .= str_replace("%u_nick%", $row2->u_nick, $lang['chat_msg91']);
-						$txt = str_replace("%online%", gmdate("H:i:s", $row2->online), $txt);
-						if ($row->f_text) {
-							$txt .= " (" . $row->f_text . ")";
+						$txt .= str_replace("%u_nick%", $row2['u_nick'], $lang['chat_msg91']);
+						$txt = str_replace("%online%", gmdate("H:i:s", $row2['online']), $txt);
+						if ($row['f_text']) {
+							$txt .= " (" . $row['f_text'] . ")";
 						}
 						break;
 				}
@@ -736,7 +797,6 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 		}
 		
 	}
-	mysqli_free_result($result);
 }
 
 //prüft ob neue Antworten auf eigene Beiträge 
@@ -745,29 +805,28 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 	global $lang, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
-	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = " . intval($an_u_id);
-	$query = sqlQuery($sql);
-	if (mysqli_num_rows($query) > 0) {
-		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
+	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($an_u_id)]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$gelesene = $result['u_gelesene_postings'];
 	}
 	$u_gelesene = unserialize($gelesene);
-	mysqli_free_result($query);
 	
 	//alle eigenen Beiträge des Benutzers mit allen Antworten 
-	//und dem Themenbaum holen
 	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
 	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
-	$sql = "
-		SELECT a.po_id as po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own, date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own, th_name, fo_name,
+	$query = pdoQuery("SELECT a.po_id AS po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own, date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own, th_name, fo_name,
 		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply, date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
 		u_nick, a.po_threadorder as threadord, a.po_id as po_id_thread
 		FROM `forum_beitraege` a, `forum_beitraege` b, `forum_foren`, `forum_kategorien`, user 
-		WHERE a.po_u_id = " . intval($an_u_id) . " AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id";
+		WHERE a.po_u_id = :po_u_id AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id", [':po_u_id'=>intval($an_u_id)]);
 	
-	$query = sqlQuery($sql);
-	while ($postings = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-		
+	$result = $query->fetchAöö();
+	
+	foreach($result as $zaehler => $postings) {
 		//falls posting noch nicht gelesen ist es neu
 		if (is_array($u_gelesene[$postings['po_th_id']])) {
 			if (!in_array($postings['po_id_reply'],
@@ -790,11 +849,6 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 						system_msg("", 0, $an_u_id, $system_farbe, $text);
 						break;
 					case "Chat-Mail":
-						if ($postings['threadord']) {
-							$baum = erzeuge_baum($postings['threadord'], $postings['po_id_own'], $postings['po_id_thread']);
-						} else {
-							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
-						}
 						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
 						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_chatmail']);
 						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
@@ -803,16 +857,9 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
 						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
 						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
-						$text = str_replace("%baum%", $baum, $text);
 						mail_sende($postings['po_u_id_reply'], $an_u_id, $text, $betreff);
 						break;
 					case "E-Mail":
-						if ($postings['threadord']) {
-							$baum = erzeuge_baum($postings['threadord'], $postings['po_id_own'], $postings['po_id_thread']);
-						} else {
-							$baum = $postings['po_titel_own'] . " -> " . $postings['po_titel_reply'];
-						}
-						
 						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
 						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_email']);
 						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
@@ -821,7 +868,6 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
 						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
 						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
-						$text = str_replace("%baum%", $baum, $text);
 						email_versende($postings['po_u_id_reply'], $an_u_id, $text, $betreff);
 						break;
 					
@@ -830,69 +876,27 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 			}
 		}
 	}
-	mysqli_free_result($query);
-	
-}
-
-function erzeuge_baum($threadorder, $po_id, $thread) {
-	$in_stat = $thread . "," . $threadorder;
-	
-	//erst mal alle Beiträge des Themas holen
-	$sql = "SELECT po_id, po_titel, po_vater_id FROM `forum_beitraege` WHERE po_id in ($in_stat)";
-	$query = sqlQuery($sql);
-	
-	//alle postings in feld einlesen
-	$arr_postings = array();
-	while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
-		
-		$arr_postings[$posting['po_id']]['vater'] = $posting['po_vater_id'];
-		$arr_postings[$posting['po_id']]['titel'] = $posting['po_titel'];
-	}
-	
-	$arr_baum = array();
-	//vom Beitrag ausgehend zurück zur Wurzel
-	array_unshift($arr_baum, $po_id);
-	
-	$vater = $arr_postings[$po_id]['vater'];
-	while ($vater > 0) {
-		array_unshift($arr_baum, $vater);
-		$vater = $arr_postings[$vater]['vater'];
-	}
-	
-	$baum = "";
-	foreach ($arr_baum as $key => $kid) {
-		
-		if ($key == 0) {
-			$baum = $arr_postings[$kid]['titel'];
-		} else {
-			$baum .= " -> " . $arr_postings[$kid]['titel'];
-		}
-	}
-	
-	return $baum;
-	
 }
 
 function erzeuge_fuss($text) {
 	//generiert den Fuss eines Beitrags (Signatur)
 	global $lang, $u_id;
 	
-	$query = "SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id`=$u_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$row = mysqli_fetch_object($result);
-	}
-	;
-	mysqli_free_result($result);
+	$query = pdoQuery("SELECT `u_signatur`, `u_nick` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 	
-	if (!$row->u_signatur) {
-		$sig = "\n\n-- \n  " . $lang['gruss'] . "\n  " . $row->u_nick;
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$row = $query->fetch();
+	}
+	
+	if (!$row['u_signatur']) {
+		$sig = "\n\n-- \n  " . $lang['gruss'] . "\n  " . $row['u_nick'];
 	} else {
-		$sig = "\n\n-- \n  " . $row->u_signatur;
+		$sig = "\n\n-- \n  " . $row['u_signatur'];
 	}
-	$sig = htmlspecialchars($sig); //sec 
-	return $text . $sig;
+	$sig = htmlspecialchars($sig); //sec
 	
+	return $text . $sig;
 }
 
 function word_wrap(
@@ -900,8 +904,7 @@ function word_wrap(
 	$cols = "85",
 	$returns = "AUTO",
 	$spacer = "",
-	$joiner = ' ')
-{
+	$joiner = ' ') {
 	/*
 	 Verbesserte Word-wrap funktion, die auch Zeile zusammenfügt (wenn nötig)
 	  $org_message = Originaltext
@@ -1001,7 +1004,7 @@ function erzeuge_umbruch($text, $breite) {
 		$arr_text = explode("\n", $text);
 		
 		//fuer jeden Feldeintrag Zeilenumbruch hinzufuegen
-		while (list($k, $zeile) = @each($arr_text)) {
+		foreach($arr_text as $k => $zeile) {
 			//nur Zeilen umbrechen die nicht gequotet sind
 			if (!strstr($zeile, "&gt;&nbsp;")) {
 				$arr_text[$k] = wordwrap($zeile, $breite, "\n", 0);
@@ -1027,7 +1030,7 @@ function erzeuge_quoting($text, $autor, $date) {
 	
 	$arr_zeilen = explode("\n", $text);
 	
-	while (list($k, $zeile) = @each($arr_zeilen)) {
+	foreach($arr_zeilen as $k => $zeile) {
 		$arr_zeilen[$k] = "&gt;&nbsp;" . $zeile;
 	}
 	

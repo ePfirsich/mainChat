@@ -2,7 +2,7 @@
 
 function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	// Zeigt die öffentlichen Benutzerdaten an
-	global $userdata, $level, $lang, $locale;
+	global $level, $lang, $locale;
 	
 	$text = "";
 	
@@ -27,31 +27,29 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	$text .= "</tr>\n";
 	
 	// Benutzerdaten lesen
-	$sql = "SET lc_time_names = '$locale'";
-	$query = sqlQuery($sql);
+	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
-	$query = "SELECT user.*,o_id, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS online, date_format(u_login,'%d. %M %Y um %H:%i') AS login FROM user LEFT JOIN online ON o_user=u_id WHERE u_id=$user_id";
-	$result = sqlQuery($query);
-	if ($result && mysqli_num_rows($result) == 1) {
-		$userdata = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	$query = pdoQuery("SELECT user.*, `o_id`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS `online`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$result = $query->fetch();
 		
-		$userdata['u_chathomepage'] = 0;
-		$userdata['u_punkte_anzeigen'] = 0;
+		$result['u_chathomepage'] = 0;
+		$result['u_punkte_anzeigen'] = 0;
 		
-		$online_zeit = $userdata['online'];
-		$letzter_login = $userdata['login'];
-		
-		mysqli_free_result($result);
+		$online_zeit = $result['online'];
+		$letzter_login = $result['login'];
 		
 		// Benutzername
 		$text .= "<tr>\n";
 		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$lang[profil_benutzername]:</td>\n";
-		$text .= "<td><b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b></td>";
+		$text .= "<td><b>" . zeige_userdetails($result['u_id'], $result) . "</b></td>";
 		$text .= "</tr>\n";
 		
 		// Onlinezeit oder letzter Login
 		$text .= "<tr>\n";
-		if ($userdata['o_id'] != "NULL" && $userdata['o_id']) {
+		if ($result['o_id'] != "NULL" && $result['o_id']) {
 			$text .= "<td>&nbsp;</td>";
 			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>"
 				. str_replace("%online%", gmdate("H:i:s", $online_zeit), $lang['chat_msg92']) . "</b></td>\n";
@@ -64,21 +62,25 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 		// Level
 		$text .= "<tr>\n";
 		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$lang[profil_level]:</td>\n";
-		$text .= "<td class=\"smaller\"><b>" . $level[$userdata['u_level']] . "</b></td>\n";
+		$text .= "<td class=\"smaller\"><b>" . $level[$result['u_level']] . "</b></td>\n";
 		$text .= "</tr>\n";
 		
 		// Punkte
-		if ($userdata['u_punkte_gesamt']) {
-			if ($userdata['u_punkte_datum_monat'] != date("n", time())) {
-				$userdata['u_punkte_monat'] = 0;
+		if ($result['u_punkte_gesamt']) {
+			$date = new DateTime();
+			$date->format('Y-m-d H:i:s');
+			
+			if ($result['u_punkte_datum_monat'] != date("n", time())) {
+				$result['u_punkte_monat'] = 0;
 			}
-			if ($userdata['u_punkte_datum_jahr'] != date("Y", time())) {
-				$userdata['u_punkte_jahr'] = 0;
+			if ($result['u_punkte_datum_jahr'] != date("Y", time())) {
+				$result['u_punkte_jahr'] = 0;
 			}
+			
 			$text .= "<tr>\n";
 			$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">" . $lang['benutzer_punkte'] . ":" . "</td>\n";
-			$text .= "<td class=\"smaller\"><b>" . $userdata['u_punkte_gesamt'] . "/" . $userdata['u_punkte_jahr'] . "/" . $userdata['u_punkte_monat'] . "&nbsp;"
-				. str_replace("%jahr%", strftime("%Y", time()), str_replace("%monat%", strftime("%B", time()), $lang['benutzer_punkte_anzeige'])) . "</b></td>\n";
+			$text .= "<td class=\"smaller\"><b>" . $result['u_punkte_gesamt'] . "/" . $result['u_punkte_jahr'] . "/" . $result['u_punkte_monat'] . "&nbsp;"
+				. str_replace("%jahr%", formatIntl($date,'Y',$locale), str_replace("%monat%", formatIntl($date,'MMMM',$locale), $lang['benutzer_punkte_anzeige'])) . "</b></td>\n";
 			$text .= "</tr>\n";
 		}
 		
@@ -243,9 +245,9 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 		$bilder = "";
 	}
 	
-	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild1", $bilder);
-	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild2", $bilder);
-	$text .= home_bild($user_id, $row->u_nick, $home, "ui_bild3", $bilder);
+	$text .= home_bild($user_id, $u_nick, "ui_bild1", $bilder);
+	$text .= home_bild($user_id, $u_nick, "ui_bild2", $bilder);
+	$text .= home_bild($user_id, $u_nick, "ui_bild3", $bilder);
 	
 	$text .= "</table>\n";
 	// Bilder - Ende
@@ -257,7 +259,7 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	return $text;
 }
 
-function home_bild($user_id, $u_nick, $home, $feld, $bilder) {
+function home_bild($user_id, $u_nick, $feld, $bilder) {
 	$text = "";
 	$text .= "<tr>\n";
 	$text .= "<td style=\"text-align:center; vertical-align:top;\"><br>";
@@ -289,51 +291,50 @@ function zeige_home($user_id, $force = FALSE) {
 	
 	if ($user_id && $user_id <> -1) {
 		// Aufruf als home.php?ui_userid=USERID
-		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id`=$user_id";
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	} else if ($user_id == -1 && $query_string != "") {
 		$username = $new_string=substr($query_string,1);
 		// Aufruf als home.php?USERNAME
-		$tempnick = escape_string(strtolower(urldecode($username)) );
+		$tempnick = strtolower(urldecode($username));
 		$tempnick = coreCheckName($tempnick, $check_name);
 		
-		$query = "SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = '" . $tempnick . "' and u_level in ('A','C','G','M','S','U')";
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_chathomepage` FROM `user` WHERE `u_nick` = :u_nick AND `u_level` IN ('A','C','G','M','S','U')", [':u_nick'=>$tempnick]);
 	}
 	
+	
 	// Benutzerdaten lesen
-	if ($query) {
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$row = mysqli_fetch_object($result);
-			$u_chathomepage = $row->u_chathomepage;
-			$user_id = $row->u_id;
-		}
-		mysqli_free_result($result);
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		$u_chathomepage = $result['u_chathomepage'];
+		$user_id = $result['u_id'];
 	}
 	
 	// Profil lesen
 	if ($user_id) {
-		$query = "SELECT * FROM userinfo WHERE ui_userid=$user_id";
-		$result = sqlQuery($query);
-		if ($result && mysqli_num_rows($result) == 1) {
-			$home = mysqli_fetch_array($result, MYSQLI_ASSOC);
+		$query = pdoQuery("SELECT * FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$user_id]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$home = $query->fetch();
 			$ok = TRUE;
 		} else {
 			$ok = FALSE;
 		}
-		mysqli_free_result($result);
 		
 		// Bildinfos lesen und in Array speichern
-		$query = "SELECT b_name,b_height,b_width,b_mime FROM bild WHERE b_user=$user_id";
-		$result2 = sqlQuery($query);
-		if ($result2 && mysqli_num_rows($result2) > 0) {
+		$query2 = pdoQuery("SELECT `b_name`, `b_height`, `b_width`, `b_mime` FROM `bild` WHERE `b_user` = :b_user", [':b_user'=>$user_id]);
+		
+		$result2Count = $query2->rowCount();
+		if ($resultCount > 0) {
+			$result2 = $query2->fetchAll();
 			unset($bilder);
-			while ($row2 = mysqli_fetch_object($result2)) {
-				$bilder[$row2->b_name]['b_mime'] = $row2->b_mime;
-				$bilder[$row2->b_name]['b_width'] = $row2->b_width;
-				$bilder[$row2->b_name]['b_height'] = $row2->b_height;
+			foreach($result2 as $zaehler => $row) {
+				$bilder[$row['b_name']]['b_mime'] = $row['b_mime'];
+				$bilder[$row['b_name']]['b_width'] = $row['b_width'];
+				$bilder[$row['b_name']]['b_height'] = $row['b_height'];
 			}
 		}
-		mysqli_free_result($result2);
 		
 		// Falls die Benutzerseite nicht freigeschaltet ist
 		if (!isset($u_chathomepage)) {
@@ -346,13 +347,9 @@ function zeige_home($user_id, $force = FALSE) {
 		$ok = FALSE;
 	}
 	
-	if (true) {
-		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$user_id&feld=ui_bild4);";
-	} else {
-		$bg = "background-color:#$home[ui_hintergrundfarbe];";
-	}
-	
 	if ($ok) {
+		$bg = "background-color:#$home[ui_hintergrundfarbe]; background-image: url(home_bild.php?u_id=$user_id&feld=ui_bild4);";
+		
 		?>
 		<style>
 		body {
@@ -371,7 +368,7 @@ function zeige_home($user_id, $force = FALSE) {
 		</head>
 		<body>
 		<?php
-		echo home_info($user_id, $row->u_nick, $home, "ui_text", $bilder);
+		echo home_info($user_id, $result['u_nick'], $home, "ui_text", $bilder);
 	} else {
 		echo "<body>\n";
 		

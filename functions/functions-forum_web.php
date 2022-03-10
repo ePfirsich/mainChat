@@ -5,11 +5,14 @@ function maske_kategorie($fo_id = 0) {
 	
 	if ($fo_id > 0) {
 		$fo_id = intval($fo_id);
-		$sql = "SELECT fo_name, fo_admin FROM `forum_kategorien` where fo_id=$fo_id";
-		$query = sqlQuery($sql);
-		$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
-		$fo_admin = mysqli_result($query, 0, "fo_admin");
-		mysqli_free_result($query);
+		$query = pdoQuery("SELECT `fo_name`, `fo_admin` FROM `forum_kategorien` where `fo_id` = :fo_id", [':fo_id'=>$fo_id]);
+		
+		$result = $query->fetch();
+		$fo_name = htmlspecialchars($result['fo_name']);
+		$fo_admin = $result['fo_admin'];
+	} else {
+		$fo_name = "";
+		$fo_admin = "";
 	}
 	$zaehler = 0;
 	
@@ -28,11 +31,13 @@ function maske_kategorie($fo_id = 0) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	
-	if (($fo_admin & 8) == 8) {
+	$selg1 = "";
+	$selg2 = "";
+	if ($fo_admin != "" && ($fo_admin & 8) == 8) {
 		$selg1 = "selected";
 		$selg2 = "";
 	}
-	if (($fo_admin & 16) == 16) {
+	if ($fo_admin != "" && ($fo_admin & 16) == 16) {
 		$selg1 = "";
 		$selg2 = "selected";
 	}
@@ -59,11 +64,13 @@ function maske_kategorie($fo_id = 0) {
 		$bgcolor = 'class="tabelle_zeile1"';
 	}
 	
-	if (($fo_admin & 2) == 2) {
+	$selu1 = "";
+	$selu2 = "";
+	if ($fo_admin != "" && ($fo_admin & 2) == 2) {
 		$selu1 = "selected";
 		$selu2 = "";
 	}
-	if (($fo_admin & 4) == 4) {
+	if ($fo_admin != "" && ($fo_admin & 4) == 4) {
 		$selu1 = "";
 		$selu2 = "selected";
 	}
@@ -112,27 +119,34 @@ function maske_kategorie($fo_id = 0) {
 function forum_liste() {
 	global $forum_admin, $chat_grafik, $lang, $u_level;
 	
-	$sql = "SELECT fo_id, fo_name, fo_order, fo_admin, th_id, th_fo_id, th_name, th_desc, th_anzthreads, th_anzreplys, th_order, th_postings FROM `forum_kategorien`, `forum_foren` WHERE fo_id = th_fo_id ";
 	if ($u_level == "G") {
-		$sql .= "AND ( ((fo_admin & 8) = 8) OR fo_admin = 0) ";
+		$query = pdoQuery("SELECT `fo_id`, `fo_name`, `fo_order`, `fo_admin`, `th_id`, `th_fo_id`, `th_name`, `th_desc`, `th_anzthreads`, `th_anzreplys`, `th_order`, `th_postings` FROM `forum_kategorien`, `forum_foren` WHERE `fo_id` = `th_fo_id` "
+		. "AND ( ((`fo_admin` & 8) = 8) OR `fo_admin` = 0) "
+		. "ORDER BY `fo_order`, `th_order`", []);
+	} else if ($u_level == "U" || $u_level == "A" || $u_level == "M" || $u_level == "Z") {
+		$query = pdoQuery("SELECT `fo_id`, `fo_name`, `fo_order`, `fo_admin`, `th_id`, `th_fo_id`, `th_name`, `th_desc`, `th_anzthreads`, `th_anzreplys`, `th_order`, `th_postings` FROM `forum_kategorien`, `forum_foren` WHERE `fo_id` = `th_fo_id` "
+		. "AND ( ((`fo_admin` & 2) = 2) OR `fo_admin` = 0) "
+		. "ORDER BY `fo_order`, `th_order`", []);
+	} else {
+		$query = pdoQuery("SELECT `fo_id`, `fo_name`, `fo_order`, `fo_admin`, `th_id`, `th_fo_id`, `th_name`, `th_desc`, `th_anzthreads`, `th_anzreplys`, `th_order`, `th_postings` FROM `forum_kategorien`, `forum_foren` WHERE `fo_id` = `th_fo_id` "
+		. "ORDER BY `fo_order`, `th_order`", []);
 	}
-	if ($u_level == "U" || $u_level == "A" || $u_level == "M" || $u_level == "Z") {
-		$sql .= "AND ( ((fo_admin & 2) = 2) OR fo_admin = 0) ";
-	}
-	$sql .= "ORDER BY fo_order, th_order";
-	$query = sqlQuery($sql);
+	
+	$queryCount = $query->rowCount();
 	
 	//fo_id merken zur Darstellnug des Kopfes
 	$fo_id_last = 0;
 	$zeile = 0;
-	if ($query && mysqli_num_rows($query) > 0) {
+	if ($queryCount > 0) {
 		$text = "";
 		
 		// Funktioniert noch nicht
 		//$text .= "<a href=\"forum.php?aktion=foren_als_gelesen\" class=\"button\" title=\"$lang[forum_foren_gelesen_markieren]\"><span class=\"fa-solid fa-check icon16\"></span> <span>$lang[forum_foren_gelesen_markieren]</span></a>\n";
 		
 		$text .= "<table style=\"width:100%\">\n";
-		while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+		
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $thema) {
 			//Neue Kategorie?
 			if ($fo_id_last != $thema['fo_id']) {
 				$text .= "<tr>\n";
@@ -148,9 +162,8 @@ function forum_liste() {
 					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&aktion=forum_neu\" class=\"button\" title=\"$lang[forum_button_neues_forum]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$lang[forum_button_neues_forum]</span></a>\n";
 					$text .= "</td>\n";
 					
-					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:50px; text-align:center;\">\n";
-					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a><br>\n";
-					$text .= "<br>\n";
+					$text .= "<td class =\"tabelle_kopfzeile\" style=\"width:80px; text-align:center;\">\n";
+					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a> ";
 					$text .= "<a href=\"forum.php?fo_id=$thema[fo_id]&fo_order=$thema[fo_order]&aktion=kategorie_down\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
@@ -197,8 +210,7 @@ function forum_liste() {
 					$text .= "</td>\n";
 					
 					$text .= "<td style=\"text-align:center;\" $farbe>\n";
-					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a><br>\n";
-					$text .= "<br>\n";
+					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_up\" class=\"button\"><span class=\"fa-solid fa-arrow-up icon16\"></span></a> ";
 					$text .= "<a href=\"forum.php?th_id=$thema[th_id]&fo_id=$thema[fo_id]&th_order=$thema[th_order]&aktion=forum_down\" class=\"button\"><span class=\"fa-solid fa-arrow-down icon16\"></span></a>\n";
 					$text .= "</td>\n";
 				} else {
@@ -222,8 +234,6 @@ function forum_liste() {
 		$text .= "</table>\n";
 		$text .= show_icon_description();
 	}
-	
-	mysqli_free_result($query);
 	
 	return $text;
 }
@@ -249,11 +259,11 @@ function maske_forum($th_id = 0) {
 	
 	$text = "";
 	if ($th_id > 0) {
-		$sql = "SELECT th_name, th_desc FROM `forum_foren` WHERE th_id=" . intval($th_id);
-		$query = sqlQuery($sql);
-		$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
-		$th_desc = htmlspecialchars(mysqli_result($query, 0, "th_desc"));
-		mysqli_free_result($query);
+		$query = pdoQuery("SELECT `th_name`, `th_desc` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+		
+		$result = $query->fetch();
+		$th_name = htmlspecialchars($result['th_name']);
+		$th_desc = htmlspecialchars($result['th_desc']);
 	}
 	
 	if (!isset($th_name)) {
@@ -286,16 +296,17 @@ function maske_forum($th_id = 0) {
 		
 		$selectbox = "<input type=\"checkbox\" name=\"th_forumwechsel\" value=\"Y\">\n";
 		
-		$sql = "SELECT fo_id, fo_name FROM `forum_kategorien` ORDER BY fo_order ";
-		$query = sqlQuery($sql);
+		$query = pdoQuery("SELECT `fo_id`, `fo_name` FROM `forum_kategorien` ORDER BY `fo_order`", []);
+		
+		$result = $query->fetchAll();
 		
 		$selectbox .= "<select name=\"th_verschiebe_nach\" size=\"1\">\n";
-		while ($row = mysqli_fetch_object($query)) {
+		foreach($result as $zaehler => $row) {
 			$selectbox .= "<option ";
-			if ($row->fo_id == $fo_id) {
+			if ($row['fo_id'] == $fo_id) {
 				$selectbox .= "selected ";
 			}
-			$selectbox .= "value=\"$row->fo_id\">$row->fo_name</option>";
+			$selectbox .= "value=\"$row[fo_id]\">$row[fo_name]</option>";
 		}
 		$selectbox .= "</select>\n";
 		
@@ -304,7 +315,6 @@ function maske_forum($th_id = 0) {
 		$text .= "<td $bgcolor>$selectbox</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
-		mysqli_free_result($query);
 	}
 	
 	
@@ -383,25 +393,23 @@ function show_forum() {
 	
 	$offset = ($seite - 1) * $anzahl_po_seite;
 	
-	$sql = "SET lc_time_names = '$locale'";
-	$query = sqlQuery($sql);
+	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
 	// Erklärung zu den Datumsformatierungen: https://www.w3schools.com/sql/func_mysql_date_format.asp
-	$sql = "SELECT po_id, po_u_id, date_format(from_unixtime(po_ts), '%d. %M %Y') AS po_date, date_format(from_unixtime(po_threadts), '%d. %M %Y') AS po_date2,
-				po_titel, po_threadorder, po_topposting, po_threadgesperrt, po_gesperrt, u_nick,
-		u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id
-				WHERE po_vater_id = 0 AND po_th_id = " . intval($th_id) . " ORDER BY po_topposting desc, po_threadts desc, po_ts DESC LIMIT $offset, $anzahl_po_seite";
-	
-	$query = sqlQuery($sql);
+	$query2 = pdoQuery("SELECT `po_id`, `po_u_id`, date_format(from_unixtime(`po_ts`), '%d. %M %Y') AS `po_date`, date_format(from_unixtime(`po_threadts`), '%d. %M %Y') AS `po_date2`,
+			`po_titel`, `po_threadorder`, `po_topposting`, `po_threadgesperrt`, `u_nick`,
+			`u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id`
+			WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id ORDER BY `po_topposting` DESC, `po_threadts` DESC, `po_ts` DESC LIMIT :limit_start, :limit_end", [':po_th_id'=>intval($th_id), ':limit_start'=>$offset, ':limit_end'=>$anzahl_po_seite]);
+	$result2 = $query2->fetchAll();
 	
 	//Infos über Forum und Thema holen
-	$sqlForum = "SELECT fo_id, fo_name, th_name, th_anzthreads FROM `forum_kategorien`, `forum_foren` WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
-	$queryForum = sqlQuery($sqlForum);
-	$fo_id = htmlspecialchars(mysqli_result($queryForum, 0, "fo_id"));
-	$fo_name = htmlspecialchars(mysqli_result($queryForum, 0, "fo_name"));
-	$th_name = htmlspecialchars(mysqli_result($queryForum, 0, "th_name"));
-	$th_anzthreads = mysqli_result($queryForum, 0, "th_anzthreads");
-	mysqli_free_result($queryForum);
+	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name`, `th_anzthreads` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>intval($th_id)]);
+	
+	$result = $query->fetch();
+	$fo_id = htmlspecialchars($result['fo_id']);
+	$fo_name = htmlspecialchars($result['fo_name']);
+	$th_name = htmlspecialchars($result['th_name']);
+	$th_anzthreads = $result['th_anzthreads'];
 	
 	$text = "";
 	
@@ -430,7 +438,7 @@ function show_forum() {
 	$text .= "</tr>\n";
 	
 	$zeile = 0;
-	while ($posting = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+	foreach($result2 as $zaehler => $posting) {
 		set_time_limit(0);
 		
 		if ($zeile % 2) {
@@ -476,15 +484,7 @@ function show_forum() {
 		}
 		
 		$text .= "<tr><td style=\"text-align:center;\" $farbe>$folder</nobr></td>\n";
-			
-		if ($posting['po_gesperrt'] == 1 && !$forum_admin) {
-			$text .= "<td $farbe style=\"font-weight:bold; font-size: smaller;\">&nbsp;" . html_entity_decode(substr($posting['po_titel'], 0, 40)) . " <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
-		} else if ($posting['po_gesperrt'] == 1 && $forum_admin) {
-			$text .= "<td $farbe style=\"font-weight:bold;\" class=\"smaller\">&nbsp;<a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">"
-			. html_entity_decode(substr($posting['po_titel'], 0, 40)) . "</a> <span style=\"color:#ff0000; \">(gesperrt)</span></td>\n";
-		} else {
-			$text .= "<td $farbe class=\"smaller\">&nbsp;<b><a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">" . html_entity_decode(substr($posting['po_titel'], 0, 40)) . "</a></b></td>\n";
-		}
+		$text .= "<td $farbe class=\"smaller\">&nbsp;<b><a href=\"forum.php?th_id=$th_id&po_id=$posting[po_id]&thread=$posting[po_id]&aktion=show_posting&seite=$seite\">" . html_entity_decode(substr($posting['po_titel'], 0, 40)) . "</a></b></td>\n";
 		
 		if (!$posting['u_nick']) {
 			$text .= "<td $farbe><span class=\"smaller\"><b>Nobody</b></span></td>\n";
@@ -509,15 +509,16 @@ function show_forum() {
 			$antworten = "";
 		} else {
 			$themen_id = $posting['po_id'];
-			$sql2 = "SELECT po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE `po_vater_id` = $themen_id ORDER by po_id desc LIMIT 1;";
-			$query2 = sqlQuery($sql2);
-			$antwort_u_id = mysqli_result($query2, 0, "po_u_id");
-			$antwort_u_nick = mysqli_result($query2, 0, "u_nick");
-			$antwort_u_level = mysqli_result($query2, 0, "u_level");
-			$antwort_u_punkte_gesamt = mysqli_result($query2, 0, "u_punkte_gesamt");
-			$antwort_u_punkte_gruppe = mysqli_result($query2, 0, "u_punkte_gruppe");
-			$antwort_u_punkte_anzeigen = mysqli_result($query2, 0, "u_punkte_anzeigen");
-			$antwort_u_chathomepage = mysqli_result($query2, 0, "u_chathomepage");
+			$query = pdoQuery("SELECT `po_u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_vater_id` = :po_vater_id ORDER by `po_id` DESC LIMIT 1", [':po_vater_id'=>$themen_id]);
+			
+			$result = $query->fetch();
+			$antwort_u_id = $result['po_u_id'];
+			$antwort_u_nick = $result['u_nick'];
+			$antwort_u_level = $result['u_level'];
+			$antwort_u_punkte_gesamt = $result['u_punkte_gesamt'];
+			$antwort_u_punkte_gruppe = $result['u_punkte_gruppe'];
+			$antwort_u_punkte_anzeigen = $result['u_punkte_anzeigen'];
+			$antwort_u_chathomepage = $result['u_chathomepage'];
 			
 			$userdata2 = array();
 			$userdata2['u_id'] = $antwort_u_id;
@@ -564,17 +565,18 @@ function maske_posting($mode) {
 		
 		case "reply": // zitieren
 		//Daten des Vaters holen
-			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick
-					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_vater_id);
-			$query = sqlQuery($sql);
+			$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, ifnull(u_nick, 'unknown') AS `u_nick`
+					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
 			
-			$autor = mysqli_result($query, 0, "u_nick");
-			$po_date = mysqli_result($query, 0, "po_date");
-			$po_titel = (mysqli_result($query, 0, "po_titel"));
-			if (substr($po_titel, 0, 3) != $lang['reply'])
+			$result = $query->fetch();
+			$autor = $result['u_nick'];
+			$po_date = $result['po_date'];
+			$po_titel = $result['po_titel'];
+			if (substr($po_titel, 0, 3) != $lang['reply']) {
 				$po_titel = $lang['reply'] . " " . $po_titel;
+			}
 			$titel = $po_titel;
-			$po_text = mysqli_result($query, 0, "po_text");
+			$po_text = $result['po_text'];
 			$po_text = erzeuge_quoting($po_text, $autor, $po_date);
 			$po_text = erzeuge_fuss($po_text);
 			
@@ -583,12 +585,13 @@ function maske_posting($mode) {
 			break;
 		case "answer": // antworten
 		//Daten des Vaters holen
-			$sql = "SELECT po_titel FROM `forum_beitraege` WHERE po_id = " . intval($po_vater_id);
-			$query = sqlQuery($sql);
+			$query = pdoQuery("SELECT `po_titel` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
 			
-			$po_titel = mysqli_result($query, 0, "po_titel");
-			if (substr($po_titel, 0, 3) != $lang['reply'])
+			$result = $query->fetch();
+			$po_titel = $result['po_titel'];
+			if (substr($po_titel, 0, 3) != $lang['reply']) {
 				$po_titel = $lang['reply'] . " " . $po_titel;
+			}
 			$titel = $po_titel;
 			$po_text = erzeuge_fuss("");
 			
@@ -598,26 +601,25 @@ function maske_posting($mode) {
 		
 		case "edit":
 		//Daten holen
-			$sql = "SELECT date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date, po_titel, po_text, ifnull(u_nick, 'unknown') AS u_nick, u_id, po_threadgesperrt, po_topposting
-					FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
-			$query = sqlQuery($sql);
+			$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, ifnull(`u_nick`, 'unknown') AS `u_nick`, `u_id`, `po_threadgesperrt`, `po_topposting`
+					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_id)]);
 			
-			$autor = mysqli_result($query, 0, "u_nick");
-			$user_id = mysqli_result($query, 0, "u_id");
-			$po_date = mysqli_result($query, 0, "po_date");
-			$po_topposting = mysqli_result($query, 0, "po_topposting");
-			$po_threadgesperrt = mysqli_result($query, 0, "po_threadgesperrt");
-			$po_titel = mysqli_result($query, 0, "po_titel");
+			$result = $query->fetch();
+			$autor = $result['u_nick'];
+			$user_id = $result['u_id'];
+			$po_date = $result['po_date'];
+			$po_topposting = $result['po_topposting'];
+			$po_threadgesperrt = $result['po_threadgesperrt'];
+			$po_titel = $result['po_titel'];
 			
 			$titel = $po_titel;
 			// Entfernt alle "Re: ", falls diese vorhanden sind.
 			$titel = str_replace("Re: ", "", $titel);
 			
-			$po_text = mysqli_result($query, 0, "po_text");
+			$po_text = $result['po_text'];
 			
 			//Testen ob Benutzer mogelt, indem er den Edit-Link mit anderer po_id benutzt
 			if ((!$forum_admin) && ($user_id != $u_id)) {
-				echo "wanna cheat eh? bad boy!";
 				exit;
 			}
 			
@@ -638,6 +640,7 @@ function maske_posting($mode) {
 		$text .= "<input type=\"hidden\" name=\"po_titel\" value=\"$po_titel\">\n";
 	}
 	
+	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Neues Thema erstellen
@@ -742,12 +745,12 @@ function verbuche_punkte($u_id) {
 function show_pfad_posting($th_id, $po_titel) {
 	global $thread, $seite;
 	//Infos über Forum und Thema holen
-	$sql = "SELECT fo_id, fo_name, th_name FROM `forum_kategorien`, `forum_foren` WHERE th_id = " . intval($th_id) . " AND fo_id = th_fo_id";
-	$query = sqlQuery($sql);
-	$fo_id = htmlspecialchars(mysqli_result($query, 0, "fo_id"));
-	$fo_name = htmlspecialchars(mysqli_result($query, 0, "fo_name"));
-	$th_name = htmlspecialchars(mysqli_result($query, 0, "th_name"));
-	mysqli_free_result($query);
+	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>intval($th_id)]);
+	
+	$result = $query->fetch();
+	$fo_id = htmlspecialchars($result['fo_id']);
+	$fo_name = htmlspecialchars($result['fo_name']);
+	$th_name = htmlspecialchars($result['th_name']);
 	
 	$text = "";
 	$text .= "<table style=\"width:100%\">\n";
@@ -760,7 +763,7 @@ function show_pfad_posting($th_id, $po_titel) {
 }
 
 //gibt Navigation für Beiträge aus
-function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
+function navigation_thema($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 	global $lang, $seite, $po_id, $u_id, $thread, $forum_admin;
 	$text = "";
 	
@@ -769,12 +772,12 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 	$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:right;\">\n";
 	
 	
-	$threadgesperrt = ist_thread_gesperrt($thread);
+	$threadgesperrt = ist_thema_gesperrt($th_id);
 	$schreibrechte = pruefe_schreibrechte($th_id);
 	// Darf der Benutzer einen Beitrag bearbeiten?
 	// Entweder eigenes posting oder forum_admin
 	if ( ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) && $ist_navigation_top ) {
-		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite= $seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 	}
 	
 	if ($schreibrechte && !$threadgesperrt && !$ist_navigation_top) {
@@ -783,11 +786,15 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 
 	//Nur Forum-Admins dürfen Beiträge loeschen
 	if ($forum_admin && $ist_navigation_top) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
-			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
-		if ($po_id == $thread) {
-			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$lang[thema_verschieben]</span></a>\n";
+		if($threadgesperrt) {
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[thema_entsperren]\"><span class=\"fa-solid fa-lock-open icon16\"></span> <span>$lang[thema_entsperren]</span></a>\n";
+		} else {
+			$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
 		}
+		$text .= "<a href=\"forum.php?th_id=$th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
+		//if ($po_id == $thread) {
+			$text .= "<a href=\"forum.php?th_id=$th_id&thread=$thread&aktion=verschiebe_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$lang[thema_verschieben]</span></a>\n";
+		//}
 	}
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
@@ -803,23 +810,21 @@ function navigation_posting($po_titel, $po_u_id, $th_id, $ist_navigation_top) {
 function verschiebe_posting() {
 	global $po_id, $thread, $seite, $lang, $th_id, $fo_id;
 	
-	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
-				po_titel, po_text, po_u_id, ifnull(u_nick, 'Nobody') as u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($thread);
+	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
+			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($thread)]);
 	
-	$query = sqlQuery($sql);
-	if ($query)
-		$row = mysqli_fetch_object($query);
-	mysqli_free_result($query);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$row = $query->fetch();
+	}
 	
-	$sql = "SELECT fo_name, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_id = " . intval($th_id);
-	$query = sqlQuery($sql);
-	if ($query)
-		$row2 = mysqli_fetch_object($query);
-	mysqli_free_result($query);
+	$query = pdoQuery("SELECT `fo_name`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 	
-	$sql = "SELECT fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_name <> 'dummy-thema' " . "ORDER BY fo_order, th_order ";
-	$query = sqlQuery($sql);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$row2 = $query->fetch();
+	}
 	
 	$text = "";
 	
@@ -828,12 +833,12 @@ function verschiebe_posting() {
 	
 	
 	// Überschrift: Thema verschieben
-	$value = $lang['verschieben_verschiebe_thema'] . " " . $row->po_titel;
+	$value = $lang['verschieben_verschiebe_thema'] . " " . $row['po_titel'];
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $value, "", "", 0, "70", "");
 	
 	
 	// Verschieben vom Forum
-	$value = $row2->fo_name . " > " . $row2->th_name;
+	$value = $row2['fo_name'] . " > " . $row2['th_name'];
 	$text .= zeige_formularfelder("text", $zaehler, $lang['verschieben_von_forum'], "", $value);
 	$zaehler++;
 	
@@ -848,19 +853,22 @@ function verschiebe_posting() {
 	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['verschieben_nach_forum'] . "</td>\n";
 	$text .= "<td $bgcolor>";
 	$text .= "<select name=\"verschiebe_nach\" size=\"1\">\n";
-	while ($row3 = mysqli_fetch_object($query)) {
+	
+	$query = pdoQuery("SELECT `fo_name`, `th_id`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_name` <> 'dummy-thema' ORDER BY `fo_order`, `th_order`", []);
+	
+	$result = $query->fetchAll();
+	foreach($result as $zaehler => $row3) {
 		$text .= "<option ";
-		if ($row3->th_id == $th_id) {
+		if ($row3['th_id'] == $th_id) {
 			$text .= "selected ";
 		}
-		$text .= "value=\"$row3->th_id\">$row3->fo_name > $row3->th_name </option>";
+		$text .= "value=\"$row3[th_id]\">$row3[fo_name] > $row3[th_name]</option>";
 	}
 	$text .= "</select>\n";
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
 	$zaehler++;
 	
-	mysqli_free_result($query);
 	
 	// Verschieben
 	if ($zaehler % 2 != 0) {
@@ -891,44 +899,41 @@ function verschiebe_posting() {
 function show_posting() {
 	global $po_id, $thread, $seite, $lang, $forum_admin, $th_id, $u_id;
 	
-	$sql = "SELECT po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
-				po_titel, po_text, po_u_id, po_gesperrt, ifnull(u_nick, 'Nobody') AS u_nick, u_id, u_level,u_punkte_gesamt,u_punkte_gruppe,u_chathomepage
-				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = " . intval($po_id);
+	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
+			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 	
-	$query = sqlQuery($sql);
-	if ($query) {
-		$row = mysqli_fetch_object($query);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$row = $query->fetch();
+		$th_id = $row['po_th_id'];
+		$po_u_id = $row['po_u_id'];
+		$po_date = $row['po_date'];
+		$po_titel = $row['po_titel'];
+	} else {
+		$th_id = 0;
+		$po_u_id = 0;
+		$po_date = "";
+		$po_titel = "";
 	}
-	$th_id = $row->po_th_id;
-	$po_u_id = $row->po_u_id;
-	$po_date = $row->po_date;
-	$po_titel = $row->po_titel;
-	$po_gesperrt = $row->po_gesperrt;
 	
-	if ($po_gesperrt == 1 && !$forum_admin) {
-		echo ('Beitrag gesperrt');
-		return;
-	}
-	
-	$po_text = ersetze_smilies(chat_parse(nl2br($row->po_text)));
-	if (($row->u_nick != "Nobody") && ($row->u_level <> "Z")) {
+	$po_text = ersetze_smilies(chat_parse(nl2br($row['po_text'])));
+	if (($row['u_nick'] != "Nobody") && ($row['u_level'] <> "Z")) {
 		$autor = zeige_userdetails($po_u_id, $row);
 	} else {
-		$autor = $row->u_nick;
+		$autor = $row['u_nick'];
 	}
 	
-	mysqli_free_result($query);
+	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
 	
-	$sql = "SELECT po_threadorder FROM `forum_beitraege` WHERE po_th_id= $th_id";
-	$query = sqlQuery($sql);
-	$po_threadorder = mysqli_result($query, 0, "po_threadorder");
-	
-	mysqli_free_result($query);
+	$result = $query->fetch();
+	$po_threadorder = $result['po_threadorder'];
 	
 	$text = show_pfad_posting($th_id, $po_titel);
 	
-	$text .= navigation_posting($po_titel, $po_u_id, $th_id, TRUE);
+	$text .= navigation_thema($po_titel, $po_u_id, $th_id, TRUE);
 	
+	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Thema
@@ -936,26 +941,27 @@ function show_posting() {
 	
 	
 	// Vom Benutzer gelesene Beiträge holen
-	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=$u_id";
-	$query = sqlQuery($sql);
-	if (mysqli_num_rows($query) > 0) {
-		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
+	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$gelesene = $result['u_gelesene_postings'];
 	}
 	$u_gelesene = unserialize($gelesene);
 	
-	$sql = "SELECT po_id, po_th_id, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') AS po_date,
-				po_titel, po_text, po_u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_punkte_anzeigen, u_chathomepage, po_threadorder, po_gesperrt
-				FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE po_id = $thread OR po_vater_id = $thread";
-	$alle_beitraege = sqlQuery($sql);
+	$query = pdoQuery("SELECT `po_id`, `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
+			`po_titel`, `po_text`, `po_u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage`, `po_threadorder`
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id OR `po_vater_id` = :po_vater_id", [':po_id'=>$thread, ':po_vater_id'=>$thread]);
 	
+	$result = $query->fetchAll();
 	
 	// Beiträge in der richtigen Reihenfolge durchlaufen
-	foreach($alle_beitraege as $zaehler => $beitrag) {
+	foreach($result as $zaehler => $beitrag) {
 		$span = 0;
 		
 		$po_text = ersetze_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
 		$po_date = $beitrag['po_date'];
-		$po_gesperrt = $beitrag['po_gesperrt'];
 		$po_u_id = $beitrag['po_u_id'];
 		$po_th_id = $beitrag['po_th_id'];
 		$po_id = $beitrag['po_id'];
@@ -973,12 +979,7 @@ function show_posting() {
 		} else {
 			$col = '';
 		}
-		
-		if ($po_gesperrt == 1) {
-			$besonderer_status = " <span style=\"color:#ff0000;\">(gesperrt)</span>" . $col;
-		} else {
-			$besonderer_status = $col;
-		}
+		$besonderer_status = $col;
 		
 		if (!$po_u_nick) {
 			$userdetails = "gelöschter Benutzer";
@@ -1000,8 +1001,18 @@ function show_posting() {
 			}
 		}
 		
+		$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$po_u_id]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$ui_gen = $result['ui_geschlecht'];
+		} else {
+			$ui_gen = '0';
+		}
+		
 		// Avatar
-		$ava = avatar_anzeigen($po_u_id, $po_u_nick, "forum", $ui_gen[0]);
+		$ava = avatar_anzeigen($po_u_id, $po_u_nick, "forum", $ui_gen);
 		
 		$text .= "<tr>\n";
 		$text .= "<td rowspan=\"3\" class=\"tabelle_kopfzeile smaller\" style=\"width:150px; vertical-align:top; text-align:center;\">\n";
@@ -1017,21 +1028,19 @@ function show_posting() {
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:right;\">\n";
 		
-		$threadgesperrt = ist_thread_gesperrt($thread);
 		$schreibrechte = pruefe_schreibrechte($po_th_id);
 		// Darf der Benutzer den Beitrag bearbeiten?
 		// Entweder eigenes posting oder forum_admin
-		if ((($u_id == $po_u_id && !$threadgesperrt) || ($forum_admin)) && ($schreibrechte)) {
+		if ((($u_id == $po_u_id) || ($forum_admin)) && ($schreibrechte)) {
 			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 		}
 		
-		if ($schreibrechte && !$threadgesperrt) {
+		if ($schreibrechte) {
 			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[thema_zitieren]</span></a>\n";
 		}
 		
-		//Nur Forum-Admins dürfen Beiträge loeschen
+		//Nur Forum-Admins dürfen Beiträge löschen
 		if ($forum_admin) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=sperre_posting&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
 			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
 		}
 		$text .= "</td>\n";
@@ -1040,7 +1049,7 @@ function show_posting() {
 	
 	$text .= "</table>\n";
 	
-	$text .= navigation_posting($po_titel, $po_u_id, $th_id, FALSE);
+	$text .= navigation_thema($po_titel, $po_u_id, $th_id, FALSE);
 	$text .= show_pfad_posting($th_id, $po_titel);
 	
 	$text .= "</table>\n";

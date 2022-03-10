@@ -9,9 +9,9 @@ if( $aktion == "") {
 	$aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 }
 
-$text = filter_input(INPUT_POST, 'text', FILTER_SANITIZE_STRING);
+$text = filter_input(INPUT_POST, 'text');
 if( $text == '') {
-	$text = filter_input(INPUT_GET, 'text', FILTER_SANITIZE_STRING);
+	$text = filter_input(INPUT_GET, 'text');
 }
 
 $username = filter_input(INPUT_GET, 'username', FILTER_SANITIZE_STRING);
@@ -20,10 +20,10 @@ $privat = filter_input(INPUT_POST, 'privat', FILTER_SANITIZE_STRING);
 $user_chat_back = filter_input(INPUT_POST, 'user_chat_back', FILTER_SANITIZE_NUMBER_INT);
 
 // Das Level aus der Tabelle "online" holen
-$level_query = "SELECT `o_level` FROM `online` WHERE `o_hash`='$id';";
-$level_result = sqlQuery($level_query);
-$level_row = mysqli_fetch_object($level_result);
-$u_level = $level_row->o_level;
+$query = pdoQuery("SELECT `o_level` FROM `online` WHERE `o_hash` = :o_hash", [':o_hash'=>$id]);
+
+$result = $query->fetch();
+$u_level = $result['o_level'];
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese($id);

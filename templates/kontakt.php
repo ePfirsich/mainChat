@@ -56,7 +56,7 @@ if($formular == 1) {
 		$nachricht = str_replace("%nachricht%", $kontakt_nachricht, $nachricht);
 		$nachricht = str_replace("%email%", $kontakt_email, $nachricht);
 		
-		$email_ok = email_senden($kontakt_email, $kontakt_betreff, $nachricht);
+		email_senden($kontakt_email, $kontakt_betreff, $nachricht);
 		
 		$erfolgsmeldung = $lang['kontakt_erfolgsmeldung_email_versendet'];
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
@@ -76,6 +76,7 @@ $text .= "<form action=\"index.php?bereich=kontakt\" method=\"post\">\n";
 $text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 $text .= "<table style=\"width:100%;\">\n";
 
+$zaehler = 0;
 
 // Absender
 $text .= zeige_formularfelder("input", $zaehler, $lang['kontakt_absender'], "kontakt_absender", $kontakt_absender);

@@ -17,31 +17,29 @@ if (isset($schau_raum) && !is_numeric($schau_raum)) {
 }
 if ((isset($schau_raum)) && $schau_raum < 0) {
 	// Community-Bereich gewählt
-	$raum_subquery = "AND o_who=" . ($schau_raum * (-1));
+	$raum_subquery = "AND `o_who` = " . ($schau_raum * (-1));
 } else if((isset($schau_raum)) && $schau_raum > 0) {
 	// Raum gewählt
-	$raum_subquery = "AND r_id=$schau_raum";
+	$raum_subquery = "AND `r_id` = $schau_raum";
 } else if(!isset($schau_raum) && $o_who != 0) {
 	// Voreinstellung auf den aktuellen Community-Bereich
 	$schau_raum = $o_who * (-1);
-	$raum_subquery = "AND o_who=$o_who";
+	$raum_subquery = "AND `o_who` = $o_who";
 } else if(!isset($schau_raum) || $schau_raum == 0) {
 	// Voreinstellung auf den aktuellen Raum
 	$schau_raum = $o_raum;
-	$raum_subquery = "AND r_id=$schau_raum";
+	$raum_subquery = "AND `r_id` = $schau_raum";
 }
 
 if ($admin && isset($kick_user_chat) && $ui_id) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
-	$query = "SELECT o_id,o_raum,o_name FROM online WHERE o_user='$ui_id' AND o_level!='C' AND o_level!='S' AND o_level!='A' ";
-	$result = sqlQuery($query);
+	$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_name` FROM `online` WHERE `o_user` = '$ui_id' AND `o_level` != 'C' AND `o_level` != 'S' AND `o_level` !='A'", [':u_id'=>$u_id]);
 	
-	if ($result && mysqli_num_rows($result) > 0) {
-		$row = mysqli_fetch_object($result);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$row = $query->fetch();
 		// Aus dem Chat ausloggen
-		ausloggen($ui_id, $row->o_name, $row->o_raum, $row->o_id);
-		
-		mysqli_free_result($result);
+		ausloggen($ui_id, $row['o_name'], $row['o_raum'], $row['o_id']);
 	} else {
 		$fehlermeldung = $lang['benutzer_fehlermeldung_kicken'];
 		$text .= hinweis($fehlermeldung, "fehler");
@@ -55,7 +53,7 @@ switch ($aktion) {
 		if ( strlen($suchtext) > 3 || $formular == 1 ) {
 			
 			// Suchergebnis mit Formular ausgeben
-			benutzer_suche($f, $suchtext);
+			benutzer_suche($f, $suchtext, $suche_ip, $suche_level, $suche_anmeldung, $suche_login, $suche_benutzerseite);
 			
 			// wenn einer nur nach % sucht, kanns auch weggelassen werden
 			if ($suchtext == "%") {
@@ -68,46 +66,25 @@ switch ($aktion) {
 			unset($subquery);
 			unset($sortierung);
 			
+			
+			// Zusammensetzen der Query
+			$query = "SELECT * FROM user ";
+			
 			$subquery = "";
-			
-			// Grundselect
-			$select = "SELECT * FROM user ";
-			
-			// Where bedingung anhand des Suchtextes und des Levels
-			if (!isset($suchtext) || !$suchtext) {
-				// Kein Suchtext, aber evtl subquery
-				$where[0] = "WHERE ";
-			} elseif (strpos($suchtext, "%") >= 0) {
-				$suchtext = escape_string($suchtext);
-				if ($admin) {
-					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
-				} else {
-					$where[0] = "WHERE (u_nick LIKE '$suchtext') ";
-				}
-			} else {
-				$suchtext = escape_string($suchtext);
-				if ($admin) {
-					$where[1] = "WHERE u_nick = '$suchtext' ";
-					$where[3] = "WHERE u_email = '$suchtext' ";
-				} else {
-					$where[0] = "WHERE u_nick = '$suchtext' ";
-				}
-				
-			}
 			
 			// Subquerys, wenn parameter gesetzt, teils anhand des Levels
 			if ($admin) {
 				// Optional level ergänzen
 				if ($suche_level && $subquery) {
-					$subquery .= "AND u_level = '" . escape_string($suche_level) . "' ";
+					$subquery .= "AND u_level = '$suche_level' ";
 				} else if ($suche_level) {
-					$subquery = " u_level = '" . escape_string($suche_level) . "' ";
+					$subquery = " u_level = '$suche_level' ";
 				}
 				
 				if ($suche_ip && $subquery) {
-					$subquery .= "AND u_ip_historie LIKE '%" . escape_string($suche_ip) . "%' ";
+					$subquery .= "AND u_ip_historie LIKE '%$suche_ip%' ";
 				} else if ($suche_ip) {
-					$subquery = " u_ip_historie LIKE '%" . escape_string($suche_ip) . "%' ";
+					$subquery = " u_ip_historie LIKE '%$suche_ip%' ";
 				}
 			}
 			
@@ -118,15 +95,15 @@ switch ($aktion) {
 			}
 			
 			if ($suche_anmeldung && $subquery) {
-				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($suche_anmeldung) . "' day)>=NOW() ";
-			} else if ($fsuche_anmeldung) {
-				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '" . escape_string($suche_anmeldung) . "' day)>=NOW() ";
+				$subquery .= "AND u_neu IS NOT NULL AND date_add(u_neu, interval '$suche_anmeldung' day)>=NOW() ";
+			} else if ($suche_anmeldung) {
+				$subquery = " u_neu IS NOT NULL AND date_add(u_neu, interval '$suche_anmeldung' day)>=NOW() ";
 			}
 			
 			if ($suche_login && $subquery) {
-				$subquery .= "AND date_add(u_login, interval '" . escape_string($suche_login) . "' hour)>=NOW() ";
+				$subquery .= "AND date_add(u_login, interval '$suche_login' hour)>=NOW() ";
 			} else if ($suche_login) {
-				$subquery = " date_add(u_login, interval '" . escape_string($suche_login) . "' hour)>=NOW() ";
+				$subquery = " date_add(u_login, interval '$suche_login' hour)>=NOW() ";
 			}
 			
 			if ($u_level == "U" && $subquery) {
@@ -140,15 +117,25 @@ switch ($aktion) {
 				$subquery = " 1=2 ";
 			}
 			
-			// Sortierung
-			if ($admin) {
-				$sortierung = "ORDER BY u_nick ";
+			// Where bedingung anhand des Suchtextes und des Levels
+			if (!isset($suchtext) || !$suchtext) {
+				// Kein Suchtext, aber evtl subquery
+				$where[0] = "WHERE ";
+			} elseif (strpos($suchtext, "%") >= 0) {
+				if ($admin) {
+					$where[0] = "WHERE (u_nick LIKE '$suchtext' OR u_email LIKE '$suchtext') ";
+				} else {
+					$where[0] = "WHERE (u_nick LIKE '$suchtext') ";
+				}
 			} else {
-				$sortierung = "ORDER BY u_nick LIMIT 0,$max_user_liste ";
+				if ($admin) {
+					$where[1] = "WHERE u_nick = '$suchtext' ";
+					$where[3] = "WHERE u_email = '$suchtext' ";
+				} else {
+					$where[0] = "WHERE u_nick = '$suchtext' ";
+				}
 			}
 			
-			// Zusammensetzen der Query
-			$query = $select;
 			if ($where[0] == "WHERE " && $subquery) {
 				$query .= $where[0] . " " . $subquery;
 			} else if ($where[0] != "WHERE " && $subquery) {
@@ -165,12 +152,18 @@ switch ($aktion) {
 					}
 				}
 			}
-			$query .= $sortierung;
 			
-			$result = sqlQuery($query);
-			$anzahl = mysqli_num_rows($result);
+			// Sortierung
+			if ($admin) {
+				$query .= "ORDER BY u_nick ";
+			} else {
+				$query .= "ORDER BY u_nick LIMIT 0, $max_user_liste ";
+			}
 			
-			if ($anzahl == 0) {
+			$query = pdoQuery($query, []);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount == 0) {
 				// Kein user gefunden
 				if ($suchtext == "%") {
 					$suchtext = "";
@@ -184,7 +177,7 @@ switch ($aktion) {
 				zeige_tabelle_zentriert($box, $text);
 			} else {
 				// Bei mehr als 1000 Ergebnissen Fehlermeldung ausgeben
-				if ($anzahl > 2000) {
+				if ($resultCount > 2000) {
 					$box = $lang['benutzer_suchergebnisse'];
 					
 					$fehlermeldung = $lang['benutzer_suche_mehr_2000_benutzer'];
@@ -194,14 +187,16 @@ switch ($aktion) {
 					zeige_tabelle_zentriert($box, $text);
 				} else {
 					// Mehrere Benutzer gefunden
-					if($anzahl == 1) {
+					if($resultCount == 1) {
 						$erfolgsmeldung = $lang['benutzer_suche_treffer_einzahl'];
 					} else {
-						$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $lang['benutzer_suche_treffer']);
+						$erfolgsmeldung = str_replace("%anzahl%", $resultCount, $lang['benutzer_suche_treffer']);
 					}
 					$text = hinweis($erfolgsmeldung, "erfolgreich");
 					
-					for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
+					$result = $query->fetchAll();
+					$i = 0;
+					foreach($result as $zaehler => $row) {
 						// Array mit Benutzerdaten und Infotexten aufbauen
 						$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
 						$larr[$i]['u_level'] = $row['u_level'];
@@ -216,9 +211,9 @@ switch ($aktion) {
 							$larr[$i]['u_level'] = "B";
 						}
 						
+						$i++;
 						flush();
 					}
-					mysqli_free_result($result);
 					
 					$box = $lang['benutzer_suchergebnisse'];
 					$text .= user_liste($larr, false);
@@ -231,36 +226,36 @@ switch ($aktion) {
 			
 		} else {
 			// Suchergebnis mit Formular ausgeben
-			benutzer_suche($f, $suchtext);
+			benutzer_suche($f, $suchtext, $suche_ip, $suche_level, $suche_anmeldung, $suche_login, $suche_benutzerseite);
 		}
 		
 		break;
 	
 	case "adminliste":
 		if ($adminlisteabrufbar && $u_level != "G") {
+			$query = pdoQuery("SELECT * FROM `user` WHERE `u_level` = 'S' OR `u_level` = 'C' ORDER BY `u_nick`", []);
 			
-			$query = 'SELECT * FROM `user` WHERE `u_level` = "S" OR `u_level` = "C" ORDER BY `u_nick` ';
-			$result = sqlQuery($query);
-			$anzahl = mysqli_num_rows($result);
-			
-			for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
+			$i = 0;
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
 				// Array mit Benutzerdaten und Infotexten aufbauen
 				$larr[$i]['u_nick'] = strtr(str_replace("\\", "", htmlspecialchars($row['u_nick'])),
 					"I", "i");
 				$larr[$i]['u_level'] = $row['u_level'];
 				$larr[$i]['u_id'] = $row['u_id'];
 				$larr[$i]['u_away'] = $row['u_away'];
+				$larr[$i]['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
 				// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-				if ($row['u_punkte_anzeigen'] != "0") {
-					$larr[$i]['gruppe'] = hexdec($row['u_punkte_gruppe']);
+				if ($row['u_punkte_anzeigen'] == 1) {
+					$larr[$i]['u_punkte_gruppe'] = hexdec($row['u_punkte_gruppe']);
 				} else {
-					$larr[$i]['gruppe'] = 0;
+					$larr[$i]['u_punkte_gruppe'] = 0;
 				}
 				$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 				
+				$i++;
 				flush();
 			}
-			mysqli_free_result($result);
 			
 			$rows = count($larr);
 			
@@ -290,12 +285,11 @@ switch ($aktion) {
 	
 	default;
 		// Raum listen
-		$query = "SELECT raum.*,o_user,o_name,o_ip,o_userdata,o_userdata2,o_userdata3,o_userdata4,r_besitzer=o_user AS isowner "
-			. "FROM online LEFT JOIN raum ON o_raum=r_id WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_aktiv)) <= $timeout $raum_subquery " . "ORDER BY o_name";
+		$query = pdoQuery("SELECT `raum`.*, `o_user`, `o_name`, `o_ip`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`, `r_besitzer`= `o_user` AS `isowner` "
+			. "FROM `online` LEFT JOIN `raum` ON `o_raum` = `r_id` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout $raum_subquery " . "ORDER BY `o_name`", [':timeout'=>$timeout]);
 		
-		$result = sqlQuery($query);
-		
-		for ($i = 0; $row = mysqli_fetch_array($result, MYSQLI_ASSOC); $i++) {
+		$result = $query->fetchAll();
+		foreach($result as $i => $row) {
 			// Array mit Benutzerdaten und Infotexten aufbauen
 			$userdata = unserialize($row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 			
@@ -332,9 +326,7 @@ switch ($aktion) {
 			if ($larr[$i]['isowner'] && $userdata['u_level'] == "U") {
 				$larr[$i]['u_level'] = "B";
 			}
-			
 		}
-		mysqli_free_result($result);
 		
 		if (isset($larr)) {
 			$rows = count($larr);
@@ -346,20 +338,23 @@ switch ($aktion) {
 		if (!$rows && $schau_raum > 0) {
 			$box = $lang['benutzer_raum'];
 			
-			$query = "SELECT r_name FROM raum WHERE r_id=" . intval($schau_raum);
-			$result = sqlQuery($query);
-			if ($result && mysqli_num_rows($result) != 0) {
-				$r_name = mysqli_result($result, 0, 0);
+			$query = pdoQuery("SELECT `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>intval($schau_raum)]);
+			
+			$resultCount = $query->rowCount();
+			if ($resultCount != 0) {
+				$result = $query->fetch();
+				$r_name = $result['r_name'];
 			}
 			$fehlermeldung = str_replace("%r_name%", $r_name, $lang['benutzer_raum_leer']);
 			
 			$text .= hinweis($fehlermeldung, "fehler");
-		} elseif (!$rows && $schau_raum < 0) {
+		} else if (!$rows && $schau_raum < 0) {
 			$box = $lang['benutzer_raum'];
 			
 			$fehlermeldung = str_replace("%whotext%", $whotext[($schau_raum * (-1))], $lang['benutzer_raum_niemand']);
 			$text .= hinweis($fehlermeldung, "fehler");
-		} else { // array ist gefüllt -> Daten ausgeben
+		} else {
+			// array ist gefüllt -> Daten ausgeben
 			$box = $larr[0]['r_name'];
 			
 			$text .= ($larr[0]['r_topic'] ? "<span class=\"smaller\">$lang[benutzer_raum_topic]: " . $larr[0]['r_topic'] . "</span><br>" : "") . "<br>";

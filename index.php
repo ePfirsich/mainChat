@@ -41,6 +41,7 @@ if($aktion == "relogin") {
 	$bereich = "relogin";
 }
 
+$fehlermeldung = "";
 // IP bestimmen und prüfen. Ist Login erlaubt?
 $abweisen = false;
 $warnung = false;
@@ -48,82 +49,79 @@ $remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
 $ip_name = @gethostbyaddr($remote_addr);
 
 // Sperrt den Chat, wenn in der Sperre Domain "-GLOBAL-" ist
-$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GLOBAL-'";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
+$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GLOBAL-'", []);
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
 	$abweisen = true;
 }
-mysqli_free_result($result);
 
 // Gastsperre aktiv? Wird beim Login und beim Nutzungsbestimmungen Login ausgewertet
 $temp_gast_sperre = false;
 // Wenn in Sperre = "-GAST-" dann Gastlogin gesperrt
-$query = "SELECT is_domain FROM ip_sperre WHERE is_domain = '-GAST-'";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
+$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GAST-'", []);
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
 	$temp_gast_sperre = true;
 }
-mysqli_free_result($result);
 
-$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) LIKE SUBSTRING_INDEX('" . escape_string($remote_addr) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
-	. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-$result = sqlQuery($query);
-$rows = mysqli_num_rows($result);
+$query = pdoQuery("SELECT `is_warn` FROM `ip_sperre` WHERE (SUBSTRING_INDEX(`is_ip`,'.',`is_ip_byte`) LIKE SUBSTRING_INDEX(:remote_addr,'.',`is_ip_byte`) AND `is_ip` IS NOT NULL) "
+	. "OR (`is_domain` LIKE RIGHT(:ip_name, LENGTH(`is_domain`)) AND LENGTH(`is_domain`)>0)", [':remote_addr'=>$remote_addr, ':ip_name'=>$ip_name]);
 
-if ($rows > 0) {
-	while ($row = mysqli_fetch_object($result)) {
-		if ($row->is_warn == "ja") {
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
+	$result = $query->fetchAll();
+	foreach($result as $zaehler => $row) {
+		if ($row['is_warn'] == "ja") {
 			// Warnung ausgeben
 			$warnung = true;
-			$infotext = $row->is_infotext;
+			$infotext = $row['is_infotext'];
 		} else {
 			// IP ist gesperrt
 			$abweisen = true;
 		}
 	}
 }
-mysqli_free_result($result);
 
 // HTTP_X_FORWARDED_FOR IP bestimmen und prüfen. Ist Login erlaubt?
 $http_x_forwarded_for = filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_VALIDATE_IP);
 
 if (!$abweisen && $http_x_forwarded_for != $remote_addr) {
 	$ip_name = @gethostbyaddr($http_x_forwarded_for);
-	$query = "SELECT * FROM ip_sperre WHERE (SUBSTRING_INDEX(is_ip,'.',is_ip_byte) "
-		. " LIKE SUBSTRING_INDEX('" . escape_string($http_x_forwarded_for) . "','.',is_ip_byte) AND is_ip IS NOT NULL) "
-		. "OR (is_domain LIKE RIGHT('" . escape_string($ip_name) . "',LENGTH(is_domain)) AND LENGTH(is_domain)>0)";
-	$result = sqlQuery($query);
-	$rows = mysqli_num_rows($result);
 	
-	if ($rows > 0) {
-		while ($row = mysqli_fetch_object($result)) {
-			if ($row->is_warn == "ja") {
+	$query = pdoQuery("SELECT `is_warn` FROM `ip_sperre` WHERE (SUBSTRING_INDEX(`is_ip`,'.',is_ip_byte) LIKE SUBSTRING_INDEX(:http_x_forwarded_for,'.',`is_ip_byte`) AND is_ip IS NOT NULL) "
+		. "OR (`is_domain` LIKE RIGHT(:ip_name, LENGTH(`is_domain`)) AND LENGTH(`is_domain`)>0)", [':http_x_forwarded_for'=>$http_x_forwarded_for, ':ip_name'=>$ip_name]);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
+			if ($row['is_warn'] == "ja") {
 				// Warnung ausgeben
 				$warnung = true;
-				$infotext = $row->is_infotext;
+				$infotext = $row['is_infotext'];
 			} else {
 				// IP ist gesperrt
 				$abweisen = true;
 			}
 		}
 	}
-	mysqli_free_result($result);
 }
 
 // zweite Prüfung, gibts was, was mit "*" in der mitte schafft? für p3cea9*.t-online.de
-$query = "SELECT * FROM ip_sperre WHERE is_domain like '_%*%_'";
-$result = sqlQuery($query);
-if ($result && mysqli_num_rows($result) > 0) {
-	while ($row = mysqli_fetch_object($result)) {
-		$part = explode("*", $row->is_domain, 2);
+$query = pdoQuery("SELECT `is_domain`, `is_warn`, `is_infotext` FROM ip_sperre WHERE is_domain LIKE '_%*%_'", []);
+
+$resultCount = $query->rowCount();
+if ($resultCount > 0) {
+	$result = $query->fetchAll();
+	foreach($result as $zaehler => $row) {
+		$part = explode("*", $row['is_domain'], 2);
 		if ((strlen($part[0]) > 0) && (strlen($part[1]) > 0)) {
 			if (substr($ip_name, 0, strlen($part[0])) == $part[0] && substr($ip_name, strlen($ip_name) - strlen($part[1]), strlen($part[1])) == $part[1]) {
 				
 				// IP stimmt überein
-				if ($row->is_warn == "ja") {
+				if ($row['is_warn'] == "ja") {
 					// Warnung ausgeben
 					$warnung = true;
-					$infotext = $row->is_infotext;
+					$infotext = $row['is_infotext'];
 				} else {
 					// IP ist gesperrt
 					$abweisen = true;
@@ -132,45 +130,39 @@ if ($result && mysqli_num_rows($result) > 0) {
 		}
 	}
 }
-mysqli_free_result($result);
 
 // Wenn $abweisen=true, dann ist Login ist für diesen Benutzer gesperrt
 // Es sei denn wechsel Forum -> Chat, dann "Relogin", und wechsel trotz IP Sperre in Chat möglich
 if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
-	$query = "SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick`='" . escape_string(coreCheckName($username, $check_name)) . "' AND (u_level in ('S','C'))";
-	$r = sqlQuery($query);
-	$rw = mysqli_num_rows($r);
+	$query = pdoQuery("SELECT `u_nick`, `u_level` FROM `user` WHERE `u_nick` = :u_nick AND (`u_level` IN ('S','C'))", [':u_nick'=>coreCheckName($username, $check_name)]);
 	
-	if ($rw == 1 && (strlen($bereich) > 0)) {
+	$resultCount = $query->rowCount();
+	if ($resultCount == 1 && (strlen($bereich) > 0)) {
 		$abweisen = false;
 	}
-	mysqli_free_result($r);
 	
 	// Prüfung nun auf Admin beendet
 	// Nun Prüfung ob genug Punkte
 	$durchgangwegenpunkte = false;
 	
 	if ($loginwhileipsperre <> 0) {
-		// Test auf Punkte 
-		$query = "SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` WHERE `u_nick`='" . escape_string(coreCheckName($username, $check_name)) . "' AND (`u_level` IN ('A','C','G','M','S','U')) ";
+		// Test auf Punkte
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt` FROM `user` WHERE `u_nick` = :u_nick AND (`u_level` IN ('A','C','G','M','S','U'))", [':u_nick'=>coreCheckName($username, $check_name)]);
 		
-		// Durchleitung wg. Punkten im Fall der MD5() verschlüsselung wird nicht gehen
-		$r = sqlQuery($query);
-		$rw = mysqli_num_rows($r);
-		
-		if ($rw == 1 && strlen($bereich) > 0) {
-			$row = mysqli_fetch_object($r);
-			if ($row->u_punkte_gesamt >= $loginwhileipsperre) {
+		// Durchleitung wg. Punkten im Fall der MD5() Verschlüsselung wird nicht gehen
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1 && strlen($bereich) > 0) {
+			$result = $query->fetch();
+			if ($result['u_punkte_gesamt'] >= $loginwhileipsperre) {
 				// genügend Punkte
 				// Login zulassen
 				$durchgangwegenpunkte = true;
 				$abweisen = false;
-				$t_u_id = $row->u_id;
-				$t_u_nick = $row->u_nick;
-				$infotext = str_replace("%punkte%", $row->u_punkte_gesamt, $lang['ipsperre2']);
+				$t_u_id = $result['u_id'];
+				$t_u_nick = $result['u_nick'];
+				$infotext = str_replace("%punkte%", $result['u_punkte_gesamt'], $lang['ipsperre2']);
 			}
 		}
-		mysqli_free_result($r);
 	}
 	
 	if ($durchgangwegenpunkte) {
@@ -178,32 +170,33 @@ if ($abweisen && $bereich != "relogin" && strlen($username) > 0) {
 		if ($eintritt == 'forum') {
 			$raumname = " (" . $whotext[2] . ")";
 		} else {
-			$query2 = "SELECT r_name FROM raum WHERE r_id=" . intval($eintritt);
-			$result2 = sqlQuery($query2);
-			if ($result2 AND mysqli_num_rows($result2) > 0) {
-				$raumname = " (" . mysqli_result($result2, 0, 0) . ") ";
+			$query2 = pdoQuery("SELECT `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>intval($eintritt)]);
+			
+			$result2Count = $query2->rowCount();
+			if ($result2Count > 0) {
+				$result2 = $query->fetch();
+				$raumname = " (" . $result2['r_name'] . ") ";
 			} else {
 				$raumname = "";
 			}
-			mysqli_free_result($result2);
 		}
 		
-		$query2 = "SELECT o_user FROM online WHERE o_level='S' OR o_level='C'";
-		$result2 = sqlQuery($query2);
-		if ($result2 AND mysqli_num_rows($result2) > 0) {
+		$query = pdoQuery("SELECT `o_user` FROM `online` WHERE `o_level` = 'S' OR `o_level` = 'C'", []);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
 			$txt = str_replace("%ip_adr%", $http_x_forwarded_for, $lang['ipsperre1']);
 			$txt = str_replace("%ip_name%", $ip_name, $txt);
 			$txt = str_replace("%is_infotext%", $infotext, $txt);
-			while ($row2 = mysqli_fetch_object($result2)) {
-				$ah1 = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$t_u_id\" target=\"chat\">";
-				$ah2 = "</a>";
-				system_msg("", 0, $row2->o_user, $system_farbe, str_replace("%u_nick%", $ah1 . $t_u_nick . $ah2 . $raumname, $txt));
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				$ah = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$t_u_id\" target=\"chat\">$t_u_nick</a>";
+				system_msg("", 0, $row['o_user'], $system_farbe, str_replace("%u_nick%", $ah . $raumname, $txt));
 			}
 			unset($infotext);
 			unset($t_u_id);
 			unset($u_nick);
 		}
-		mysqli_free_result($result2);
 	}
 }
 
@@ -227,11 +220,17 @@ if ($chat_offline) {
 // Ausloggen, falls eingeloggt
 if ($bereich == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
-	id_lese($id);
-	// Logout falls noch online
-	if (strlen($u_id) > 0) {
-		// Aus dem Chat ausloggen
-		ausloggen($u_id, $u_nick, $o_raum, $o_id);
+	if(isset($id)) {
+		id_lese($id);
+		// Logout falls noch online
+		if (strlen($u_id) > 0) {
+			// Aus dem Chat ausloggen
+			ausloggen($u_id, $u_nick, $o_raum, $o_id);
+		}
+		
+		// Session löschen
+		$_SESSION = array();
+		unset($_SESSION['id']);
 	}
 	$bereich = "";
 }
@@ -578,10 +577,6 @@ switch ($bereich) {
 	
 	default:
 		// Login ausgeben
-		
-		// Session löschen
-		//$_SESSION = array();
-		//unset($_SESSION['id']);
 		
 		// Box für Login
 		$text .= zeige_chat_login();

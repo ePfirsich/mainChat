@@ -1,29 +1,29 @@
 <?php
 function show_pfad_posting2($th_id, $thread) {
 	//Infos über Forum und Thema holen
-	$sql = "SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = " . intval($th_id) . " AND `fo_id` = `th_fo_id`";
+	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>$th_id]);
+	$result = $query->fetch();
 	
-	$query = sqlQuery($sql);
-	$fo_id = mysqli_result($query, 0, "fo_id");
-	$fo_name = htmlspecialchars( mysqli_result($query, 0, "fo_name") );
-	$th_name = htmlspecialchars( mysqli_result($query, 0, "th_name") );
-	mysqli_free_result($query);
+	$fo_id = $result['fo_id'];
+	$fo_name = htmlspecialchars( $result['fo_name'] );
+	$th_name = htmlspecialchars( $result['th_name'] );
 	
 	return "<a href=\"forum.php#$fo_id\">" . html_entity_decode($fo_name) . "</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=1\">" . html_entity_decode($th_name) . "</a>";
 	
 }
 
 function vater_rekursiv($vater) {
-	$query = "SELECT `po_id`, `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = " . intval($vater);
-	$result = sqlQuery($query);
-	$a = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	if (mysqli_num_rows($result) <> 1) {
+	$query = pdoQuery("SELECT `po_id`, `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$vater]);
+	
+	$resultCount = $query->rowCount();
+	$result = $query->fetch();
+	if ($resultCount <> 1) {
 		return -1;
-	} else if ($a['po_vater_id'] <> 0) {
-		$vater = vater_rekursiv($a['po_vater_id']);
+	} else if ($result['po_vater_id'] <> 0) {
+		$vater = vater_rekursiv($result['po_vater_id']);
 		return $vater;
 	} else {
-		return $a['po_id'];
+		return $result['po_id'];
 	}
 }
 
@@ -45,16 +45,18 @@ function such_bereich() {
 	// Suche in Board/Thema
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$lang[suche2]</td><td class=\"tabelle_zeile1\">"
 	. "<select name=\"suche_thema\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
-		
-	$sql = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-	$query = sqlQuery($sql);
+	
+	$query = pdoQuery("SELECT `fo_id`, `fo_admin`, `fo_name`, `th_id`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_anzthreads` <> 0 ORDER BY `fo_order`, `th_order`", []);
+	
+	$result = $query->fetchAll();
+	
 	$themaalt = "";
 	$text .= "<option ";
 	if (substr($suche['thema'], 0, 1) <> "B") {
 		$text .= "selected ";
 	}
 	$text .= "value=\"ALL\">$lang[option1]</option>";
-	while ($thema = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+	foreach($result as $zaehler => $thema) {
 		if (pruefe_leserechte($thema['th_id'])) {
 			if ($themaalt <> $thema['fo_name']) {
 				$text .= "<option ";
@@ -73,7 +75,6 @@ function such_bereich() {
 		}
 	}
 	$text .= "</select></td></tr>\n";
-	mysqli_free_result($query);
 	
 	// Sucheinstelung UND/ODER
 	$text .= "<tr><td rowspan=\"4\" style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$lang[suche3]</td><td class=\"tabelle_zeile1\"><select name=\"suche_modus\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
@@ -203,14 +204,16 @@ function such_bereich() {
 function such_ergebnis() {
 	global $check_name, $u_id, $suche, $lang, $u_level;
 	
+	$text = "";
+	$fehlermeldung = "";
 	$maxpostingsprosuche = 1000;
 	
-	$fehlermeldung = "";
+	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($u_id)]);
 	
-	$sql = "SELECT `u_gelesene_postings` FROM `user` WHERE `u_id`=" . intval($u_id);
-	$query = sqlQuery($sql);
-	if (mysqli_num_rows($query) > 0) {
-		$gelesene = mysqli_result($query, 0, "u_gelesene_postings");
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		$gelesene = $result['u_gelesene_postings'];
 	}
 	$u_gelesene = unserialize($gelesene);
 	
@@ -221,10 +224,12 @@ function such_ergebnis() {
 	$suche['username'] = coreCheckName($suche['username'], $check_name);
 	unset($suche['u_id']);
 	if (strlen($fehler) == 0 && $suche['username'] <> "") {
-		$sql = "SELECT `u_id` FROM `user` WHERE `u_nick` = '" . escape_string($suche['username']) . "'";
-		$query = sqlQuery($sql);
-		if (mysqli_num_rows($query) == 1) {
-			$suche['u_id'] = mysqli_result($query, 0, "u_id");
+		$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$suche['username']]);
+		
+		$resultCount = $query->rowCount();
+		if ($resultCount == 1) {
+			$result = $query->fetch();
+			$suche['u_id'] = $result['u_id'];
 		} else {
 			$fehlermeldung = str_replace("%u_nick%", $suche['username'], $lang['forum_suche_fehlermeldung_benutzername_unbekannt']);
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -257,22 +262,22 @@ function such_ergebnis() {
 			
 			for ($i = 0; $i < count($suchetext); $i++) {
 				if (strlen($querytext) == 0) {
-					$querytext = "po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+					$querytext = "po_text LIKE \"%" . $suchetext[$i] . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querytext .= " OR po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+						$querytext .= " OR po_text LIKE \"%" . $suchetext[$i] . "%\"";
 					} else {
-						$querytext .= " AND po_text LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+						$querytext .= " AND po_text LIKE \"%" . $suchetext[$i] . "%\"";
 					}
 				}
 				
 				if (strlen($querybetreff) == 0) {
-					$querybetreff = "po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+					$querybetreff = "po_titel LIKE \"%" . $suchetext[$i] . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querybetreff .= " OR po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+						$querybetreff .= " OR po_titel LIKE \"%" . $suchetext[$i] . "%\"";
 					} else {
-						$querybetreff .= " AND po_titel LIKE \"%" . escape_string($suchetext[$i]) . "%\"";
+						$querybetreff .= " AND po_titel LIKE \"%" . $suchetext[$i] . "%\"";
 					}
 				}
 			}
@@ -300,9 +305,10 @@ function such_ergebnis() {
 		}
 		
 		$boards = "";
-		$sql2 = "SELECT fo_id, fo_admin, fo_name, th_id, th_name FROM `forum_kategorien` LEFT JOIN `forum_foren` ON fo_id = th_fo_id WHERE th_anzthreads <> 0 ORDER BY fo_order, th_order ";
-		$query2 = sqlQuery($sql2);
-		while ($thema = mysqli_fetch_array($query2, MYSQLI_ASSOC)) {
+		$query2 = pdoQuery("SELECT `fo_id`, `fo_admin`, `fo_name`, `th_id`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_anzthreads` <> 0 ORDER BY `fo_order`, `th_order`", []);
+		
+		$result2 = $query2->fetchAll();
+		foreach($result2 as $zaehler => $thema) {
 			if (pruefe_leserechte($thema['th_id'])) {
 				if ($suche['thema'] == "ALL") {
 					if (strlen($boards) == 0) {
@@ -314,21 +320,20 @@ function such_ergebnis() {
 					$tempthema = substr($suche['thema'],
 						-1 * strpos($suche['thema'], "T"), 4);
 					if ($thema['th_id'] = $tempthema) {
-						$boards = "po_th_id = $thema[th_id]";
+						$boards = "`po_th_id` = $thema[th_id]";
 					}
 				} else if (preg_match("/^B([0-9])+$/i", $suche['thema'])) {
 					$tempboard = substr($suche['thema'], 1, 4);
 					if ($thema['fo_id'] == $tempboard) {
 						if (strlen($boards) == 0) {
-							$boards = "po_th_id = " . intval($thema[th_id]);
+							$boards = "`po_th_id` = " . intval($thema['th_id']);
 						} else {
-							$boards .= " OR po_th_id = " . intval($thema[th_id]);
+							$boards .= " OR `po_th_id` = " . intval($thema['th_id']);
 						}
 					}
 				}
 			}
 		}
-		mysqli_free_result($query2);
 		
 		if (strlen(trim($boards)) == 0) {
 			$boards = " 1 = 2 ";
@@ -360,10 +365,6 @@ function such_ergebnis() {
 			$abfrage .= " AND (po_ts >= $sucheab) ";
 		}
 		
-		if ($u_level <> "S" and $u_level <> "C") {
-			$abfrage .= " AND po_gesperrt = 0 ";
-		}
-		
 		if ($suche['sort'] == "SZD") {
 			$abfrage .= " ORDER BY po_ts DESC";
 		} else if ($suche['sort'] == "SZA") {
@@ -385,18 +386,19 @@ function such_ergebnis() {
 		
 		flush();
 		$sql = $sql . " " . $abfrage;
-		$query = sqlQuery($sql);
 		
-		$anzahl = mysqli_num_rows($query);
+		$query = pdoQuery($sql, []);
 		
-		$erfolgsmeldung = str_replace("%anzahl%", $anzahl, $lang['forum_suche_erfolgsmeldung']);
+		$resultCount = $query->rowCount();
+		
+		$erfolgsmeldung = str_replace("%anzahl%", $resultCount, $lang['forum_suche_erfolgsmeldung']);
 		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 		
-		if ($anzahl > $maxpostingsprosuche) {
+		if ($resultCount > $maxpostingsprosuche) {
 			$text .= "<span style=\"color:#ff0000;\"> (Ausgabe wird auf $maxpostingsprosuche begrenzt.)</span>";
 		}
 		$text .= "</td></tr>\n";
-		if ($anzahl > 0) {
+		if ($resultCount > 0) {
 			$text .= "<tr>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$lang[forum]</td>\n";
 			$text .= "<td class=\"tabelle_kopfzeile\">$lang[betreff]</td>\n";
@@ -405,7 +407,8 @@ function such_ergebnis() {
 			$text .= "</tr>";
 			
 			$i = 0;
-			while ($fund = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $fund) {
 				$i++;
 				
 				if ($i > $maxpostingsprosuche) {
@@ -424,13 +427,10 @@ function such_ergebnis() {
 					$col = '';
 				}
 				
-				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td>";
 				$thread = vater_rekursiv($fund['po_id']);
+				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td>";
 				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
 				<span style=\"font-size: smaller; $col \">" . html_entity_decode($fund['po_titel']) . "</span></a>";
-				if ($fund['po_gesperrt'] == 1) {
-					$text .= " <span style=\"color:#ff0000;\">(gesperrt)</span>";
-				}
 				$text .= "</b></span></td>";
 				$text .= "<td $bgcolor><span class=\"smaller\">" . $fund['po_zeit'] . "</span></td>";
 				
@@ -453,7 +453,6 @@ function such_ergebnis() {
 				}
 				$text .= "</tr>";
 			}
-			mysqli_free_result($query);
 		}
 		$text .= "</table>\n";
 	}
