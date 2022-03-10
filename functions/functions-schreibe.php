@@ -3,7 +3,7 @@ require_once("functions/functions-raum_gehe.php");
 require_once("functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $o_id, $benutzerdaten) {
-	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte, $o_spam_zeit;
+	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte, $o_spam_zeit, $chat_max_zeit;
 	// $raum_einstellungen und $ist_moderiert setzen
 	raum_ist_moderiert($o_raum);
 	
@@ -32,8 +32,8 @@ function schreibe_nachricht_chat($text, $privat, $o_id, $benutzerdaten) {
 			// Alle Einträge im Array löschen, die älter als $chat_max_zeit Sekunden sind
 			unset($neu_spam_zeilen);
 			unset($neu_spam_byte);
-			$zeitdifferenz = $aktuelle_zeit - $o_spam_zeit;
 			if (is_array($spam_zeilen) && $o_spam_zeit) {
+				$zeitdifferenz = $aktuelle_zeit - $o_spam_zeit;
 				foreach ($spam_zeilen as $key => $value) {
 					if ((($key - $zeitdifferenz) * -1) < $chat_max_zeit) {
 						$neu_spam_zeilen[$key - $zeitdifferenz] = $spam_zeilen[$key];
