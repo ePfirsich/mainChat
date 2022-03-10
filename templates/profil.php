@@ -46,6 +46,7 @@ if ($resultCount != 0) {
 	$f['ui_inhalt_linkfarbe'] = $standard_ui_inhalt_linkfarbe;
 	$f['ui_inhalt_linkfarbe_aktiv'] = $standard_ui_inhalt_linkfarbe_aktiv;
 	$f['ui_inhalt_hintergrundfarbe'] = $standard_ui_inhalt_hintergrundfarbe;
+	$f['u_chathomepage'] = 0;
 	$profil_gefunden = false;
 }
 
