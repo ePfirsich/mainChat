@@ -11,3 +11,4 @@ ALTER TABLE `online` DROP `o_chat_id`;
 ALTER TABLE `posting` DROP `po_gesperrt`;
 ALTER TABLE `user` DROP `u_sicherer_modus`;
 ALTER TABLE `user` DROP `u_zeilen`;
+ALTER TABLE `online` DROP `o_timestamp`;

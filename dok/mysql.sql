@@ -77,7 +77,6 @@
 # o_user 		User -> u_id
 # o_raum 		Raum -> r_id
 # o_hash 		Hash aus IP-Adresse, User
-# o_timestamp 	Zeitpunkt der Änderung dieses Datensatzes
 # o_ip 			IP von der zugegriffen wurde
 # o_who 		Bereich in der Community, in der sich der User befindet
 #				0=Chat, 1=Login, 2=Forum
@@ -384,7 +383,6 @@ CREATE TABLE `online` (
 	`o_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`o_raum` int(11) NOT NULL DEFAULT 0,
 	`o_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
 	`o_ip` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_who` smallint(3) UNSIGNED DEFAULT NULL,
 	`o_aktiv` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -690,7 +688,6 @@ ALTER TABLE `online`
 	ADD UNIQUE KEY `o_name` (`o_name`),
 	ADD KEY `o_raum` (`o_raum`),
 	ADD KEY `o_aktiv` (`o_aktiv`),
-	ADD KEY `o_timestamp` (`o_timestamp`),
 	ADD KEY `o_hash` (`o_hash`(250)),
 	ADD KEY `o_ip` (`o_ip`),
 	ADD KEY `o_browser` (`o_browser`(250)),

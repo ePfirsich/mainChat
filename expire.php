@@ -159,21 +159,27 @@ if ($resultCount) {
 
 // Leere temporäre Räume löschen, deren Besitzer nicht online ist
 echo "Leere temporäre Räume löschen\n";
-$query = pdoQuery("SELECT SQL_BUFFER_RESULT `r_id`, `r_name` FROM `raum` LEFT JOIN `online` ON `o_user` = `r_besitzer` WHERE `r_status2` LIKE 'T' AND `o_timestamp` IS NULL", []);
+$query = pdoQuery("SELECT SQL_BUFFER_RESULT `r_id`, `r_name`, `r_besitzer` FROM `raum` LEFT JOIN `online` ON `o_user` = `r_besitzer` WHERE `r_status2` = 'T'", []);
 
 $resultCount = $query->rowCount();
 if ($resultCount > 0) {
 	$result = $query->fetchAll();
 	foreach($result as $zaehler => $row) {
-		// Ist der Raum leer?
-		$query = pdoQuery("SELECT `o_id` FROM `raum`, `online` WHERE `r_id` = :r_id AND `o_raum` = `r_id`", [':r_id'=>$row['r_id']]);
-		$resultCount = $query->rowCount();
-		if ($resultCount == 0) {
-			// Raum löschen
-			pdoQuery("DELETE FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$row['r_id']]);
-			
-			// Gesperrte Räume löschen
-			pdoQuery("DELETE FROM `sperre` WHERE `s_raum` = :s_raum", [':s_raum'=>$row['r_id']]);
+		$query2 = pdoQuery("SELECT `o_id` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$row['r_besitzer']]);
+		$result2Count = $query2->rowCount();
+		
+		// Ist der Besitzer noch online?
+		if($result2Count = 0) {
+			// Ist der Raum leer?
+			$query3 = pdoQuery("SELECT `o_id` FROM `raum`, `online` WHERE `r_id` = :r_id AND `o_raum` = `r_id`", [':r_id'=>$row['r_id']]);
+			$result3Count = $query3->rowCount();
+			if ($result3Count == 0) {
+				// Raum löschen
+				pdoQuery("DELETE FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$row['r_id']]);
+				
+				// Gesperrte Räume löschen
+				pdoQuery("DELETE FROM `sperre` WHERE `s_raum` = :s_raum", [':s_raum'=>$row['r_id']]);
+			}
 		}
 	}
 }
