@@ -162,13 +162,14 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
 					$result = $query->fetchAll();
+					$dupecount = 0;
 					foreach($result as $zaehler => $row) {
-						if ($row['o_ip'] == $alt['o_ip']) {
+						if (isset($alt) && $row['o_ip'] == $alt['o_ip']) {
 							$hostname = htmlspecialchars(@gethostbyaddr($row['o_ip']));
 							if (!$shown) {
 								$dupecount++;
 								unset($userdaten);
-								$userdaten = ARRAY(u_id => $alt['o_user'], u_nick => $alt['o_name']);
+								$userdaten = ARRAY('u_id' => $alt['o_user'], 'u_nick' => $alt['o_name']);
 								$txt = "<br><b>" . $hostname . "(" . $alt['o_ip'] . "):</b>";
 								$txt .= "<br><b>" . $alt['r_name'] . " " . zeige_userdetails($alt[o_user], $userdaten) . "</b> " . htmlspecialchars($alt['o_browser']) . "<br>";
 								$shown = true;
