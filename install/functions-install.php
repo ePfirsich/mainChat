@@ -350,7 +350,9 @@ function step_2($pdo, $chat, $fpconfig, $salt) {
 	$sqlarray = explode(';', $sqlinhalt);
 	
 	foreach ($sqlarray as $key => $value) {
-		pdoQuery($value, []);
+		if($value != "") {
+			pdoQuery($value, []);
+		}
 	}
 	
 	$admin_passwort = encrypt_password_install($salt,"admin");
@@ -365,12 +367,12 @@ function step_2($pdo, $chat, $fpconfig, $salt) {
 		<tr <?php hintergrundfarbe_zellen(); ?>>
 			<td>In der Datenbank <?php echo $chat["dbase"] ?> (Datenbankuser: <?php echo $chat["user"] ?>) wurden folgende Tabellen angelegt: <br>
 				<?php
-				$tables = pdoQuery("SHOW TABLES FROM `".$chat['dbase']."`", []);
-				$tablesCount = $tables->rowCount();
-				for ($i = 0; $i < $tablesCount; $i++) {
-					$table = $query->fetchAll();
+				$query = pdoQuery("SHOW TABLES FROM `".$chat['dbase']."`", []);
+				$result = $query->fetchAll();
+				$db_tables_name = "Tables_in_" . $chat["dbase"];
+				foreach($result as $zaehler => $row) {
 					?>
-					<span style="font-weight:bold;"><?php echo $table ?></span>,
+					<span style="font-weight:bold;"><?php echo $row[$db_tables_name] ?></span>,
 					<?php
 				}
 				?>

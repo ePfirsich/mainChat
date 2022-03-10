@@ -32,6 +32,7 @@ if ( !file_exists($filenameConfig) ) {
 	</body>
 	</html>
 	<?php
+	exit;
 } else if (ini_get('output_buffering') >= 1) {
 	?>
 	<!DOCTYPE html>
@@ -49,6 +50,7 @@ if ( !file_exists($filenameConfig) ) {
 	</body>
 	</html>
 	<?php
+	exit;
 } else {
 	require $filenameConfig;
 	
