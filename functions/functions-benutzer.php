@@ -29,7 +29,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		$uu_kommentar = $result_user['u_kommentar'];
 		
 		// Default für Farbe setzen, falls undefiniert
-		if (strlen($uu_farbe) == 0) {
+		if (strlen($uu_farbe) == 0 || $uu_farbe == null) {
 			$uu_farbe = $user_farbe;
 		}
 		

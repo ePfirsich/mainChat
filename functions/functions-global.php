@@ -469,7 +469,7 @@ function id_lese($id) {
 		if (empty($row['u_farbe'])) {
 			return;
 		}
-		$user_farbe = $u_farbe = $row['u_farbe'];
+		$u_farbe = $row['u_farbe'];
 	}
 }
 
