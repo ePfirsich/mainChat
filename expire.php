@@ -138,7 +138,7 @@ if ($resultCount > 1) {
 }
 echo "\n";
 
-// Gäste löschen, falls ausgelogt und älter als 4 Minuten
+// Gäste löschen, falls ausgeloggt und älter als 4 Minuten
 echo "Gäste löschen\n";
 $query = pdoQuery("SELECT SQL_BUFFER_RESULT `u_id` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_level` = 'G' AND `o_id` IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`u_login`)) > 240", []);
 
@@ -177,6 +177,21 @@ if ($resultCount > 0) {
 		}
 	}
 }
+
+
+// Lösche alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
+echo " mail ";
+flush();
+// Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
+if ($mailloescheauspapierkorb < 1) {
+	$mailloescheauspapierkorb = 14;
+}
+pdoQuery("DELETE FROM `mail` WHERE `m_status` = 'geloescht' AND `m_geloescht_ts` < :m_geloescht_ts", [':m_geloescht_ts'=>date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y")))]);
+
+// Gast aus der Tabelle online löschen
+pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout", [':timeout'=>$timeout]);
+
+
 
 // Täglicher expire, um  03:10 Uhr
 $zeit = date("H:i");
@@ -247,15 +262,6 @@ if ($zeit == "03:10") {
 	echo " mail_check ";
 	flush();
 	pdoQuery("DELETE FROM `mail_check` WHERE DATE_ADD(datum,INTERVAL 7 DAY)<now()", []);
-	
-	// Lösche alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-	echo " mail ";
-	flush();
-	// Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-	if ($mailloescheauspapierkorb < 1) {
-		$mailloescheauspapierkorb = 14;
-	}
-	pdoQuery("DELETE FROM `mail` WHERE `m_status` = 'geloescht' AND `m_geloescht_ts` < :m_geloescht_ts", [':m_geloescht_ts'=>date("YmdHis", mktime(0, 0, 0, date("m"), date("d") - intval($mailloescheauspapierkorb), date("Y")))]);
 	
 	// Alle invites löschen, für die es keine Benutzer mehr gibt.
 	echo " Einladungen ";
