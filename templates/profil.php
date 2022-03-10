@@ -265,7 +265,7 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 			]);
 		unset($f['u_chathomepage']);
 		
-		aktualisiere_online($u_id);
+		aktualisiere_inhalt_online($u_id);
 		
 		// Alle restlichen Daten in die Tabelle "userinfo" schreiben
 		if($f['ui_id'] == 0) {
