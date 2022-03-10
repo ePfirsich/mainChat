@@ -170,8 +170,9 @@ function thread_alles_gelesen($th_id, $thread_id, $u_id) {
 		$liste[] = $val['po_id'];
 	}
 	
-	if (!$u_gelesene[$th_id]) {
-		$u_gelesene[$th_id][0] = array();
+	//kein Beitrag gelesen --> alle ungelesen
+	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
+		$u_gelesene[$th_id] = array();
 	}
 	
 	// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
@@ -218,7 +219,8 @@ function anzahl_ungelesene(&$arr_postings, $th_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if (!$u_gelesene[$th_id]) {
+	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
+		$u_gelesene[$th_id] = array();
 		return count($arr_postings);
 	}
 	
@@ -237,7 +239,8 @@ function anzahl_ungelesene2(&$arr_postings, $th_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if (!$u_gelesene[$th_id]) {
+	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
+		$u_gelesene[$th_id] = array();
 		return count($arr_postings);
 	}
 	
@@ -274,11 +277,11 @@ function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 	
 	//kein Beitrag gelesen --> alle ungelesen
 	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
+		$u_gelesene = array();
 		return count($arr_postings);
 	}
 	
-	// Anzahl Unterschied zwischen postings im Thema und den gelesenen
-	//postings des users zurueckgeben
+	// Anzahl Unterschied zwischen postings im Thema und den gelesenen postings des Benutzers zurueckgeben
 	$arr = array_diff($arr_postings, $u_gelesene[$th_id]);
 	$diff = count($arr);
 	reset($arr);
