@@ -6,6 +6,10 @@ function profil_editor($u_id, $u_nick, $f) {
 	// $f=Array der Profileinstellungen
 	global $lang;
 	
+	if( !isset($f['ui_id']) ) {
+		$f['ui_id'] = 0;
+	}
+	
 	// Benutzerdaten lesen
 	$query = pdoQuery("SELECT * FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 	$userdata = $query->fetch();

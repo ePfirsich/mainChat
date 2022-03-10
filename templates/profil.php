@@ -272,13 +272,14 @@ if($aktion == "aendern" && $f['ui_userid'] && $formular == 1) {
 			// Neues Profil anlegen
 			unset($f['ui_id']);
 			
-			pdoQuery("INSERT INTO `userinfo` (`ui_wohnort`, `ui_geburt`, `ui_hobby`, `ui_text`, `ui_geschlecht`, `ui_lieblingsfilm`, `ui_lieblingsserie`, `ui_lieblingsbuch`, `ui_lieblingsschauspieler`,
+			pdoQuery("INSERT INTO `userinfo` (`ui_userid`, `ui_wohnort`, `ui_geburt`, `ui_hobby`, `ui_text`, `ui_geschlecht`, `ui_lieblingsfilm`, `ui_lieblingsserie`, `ui_lieblingsbuch`, `ui_lieblingsschauspieler`,
 					`ui_lieblingsgetraenk`, `ui_lieblingsgericht`, `ui_lieblingsspiel`, `ui_lieblingsfarbe`, `ui_homepage`, `ui_hintergrundfarbe`, `ui_ueberschriften_textfarbe`, `ui_ueberschriften_hintergrundfarbe`,
 					`ui_inhalt_textfarbe`, `ui_inhalt_linkfarbe`, `ui_inhalt_linkfarbe_aktiv`, `ui_inhalt_hintergrundfarbe`)
-					VALUES (:ui_wohnort, :ui_geburt, :ui_hobby, :ui_text, :ui_geschlecht, :ui_lieblingsfilm, :ui_lieblingsserie, :ui_lieblingsbuch, :ui_lieblingsschauspieler,
+					VALUES (:ui_userid, :ui_wohnort, :ui_geburt, :ui_hobby, :ui_text, :ui_geschlecht, :ui_lieblingsfilm, :ui_lieblingsserie, :ui_lieblingsbuch, :ui_lieblingsschauspieler,
 					:ui_lieblingsgetraenk, :ui_lieblingsgericht, :ui_lieblingsspiel, :ui_lieblingsfarbe, :ui_homepage, :ui_hintergrundfarbe, :ui_ueberschriften_textfarbe, :ui_ueberschriften_hintergrundfarbe,
 					:ui_inhalt_textfarbe, :ui_inhalt_linkfarbe, :ui_inhalt_linkfarbe_aktiv, :ui_inhalt_hintergrundfarbe)",
 				[
+					':ui_userid'=>$f['ui_userid'],
 					':ui_wohnort'=>$f['ui_wohnort'],
 					':ui_geburt'=>$f['ui_geburt'],
 					':ui_hobby'=>$f['ui_hobby'],
