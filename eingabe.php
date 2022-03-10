@@ -51,13 +51,8 @@ zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 echo "<body class=\"chatunten\">";
 
 // Typ Eingabefeld für Chateingabe setzen
-if ($u_level == "M") {
-	$text_typ = "<textarea rows=\"3\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"1000\" cols=\"111\"></textarea>\n";
-} else {
-	$text_typ = "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"1000\" value=\"\" size=\"111\">\n";
-}
 $text = "<form name=\"form\" method=\"post\">";
-$text .= $text_typ;
+$text .= "<input type=\"text\" name=\"text\" autofocus autocomplete=\"off\" maxlength=\"1000\" value=\"\" size=\"111\">\n";
 $text .= "<button type=\"submit\">Go!</button>";
 $text .= "</form>";
 

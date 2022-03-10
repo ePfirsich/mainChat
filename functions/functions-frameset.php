@@ -16,7 +16,7 @@ function frameset_chat() {
 	global $lang, $u_level;
 	
 	if ($u_level == "M") {
-		echo "<frameset rows=\"65,*,230,280\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
+		echo "<frameset rows=\"65,*,170,280\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	} else {
 		echo "<frameset rows=\"65,*,170\" border=\"0\" frameborder=\"0\" framespacing=\"0\">\n";
 	}
