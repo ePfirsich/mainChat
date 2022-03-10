@@ -436,8 +436,10 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Paswort neu eintragen
 					if (isset($f['u_passwort']) && strlen($f['u_passwort']) > 0) {
-						$erfolgsmeldung .= $lang['einstellungen_erfolgsmeldung_passwort'];
+						$erfolgsmeldung = $lang['einstellungen_erfolgsmeldung_passwort'];
+						$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						
+						$f['u_passwort'] = encrypt_password($f['u_passwort']);
 						unset($f['u_passwort2']);
 					} else {
 						// Wenn kein Passwort eingetragen ist, die Felder komplett löschen
@@ -448,7 +450,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					// Änderungen anzeigen
 					if ($f['u_nick'] != $benutzerdaten_row['u_nick']) {
-						$erfolgsmeldung .= str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert']);
+						$erfolgsmeldung = str_replace("%u_nick%", $f['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert']);
+						$text .= hinweis($erfolgsmeldung, "erfolgreich");
+						
 						global_msg($f['u_id'], $o_raum, str_replace("%u_nick%", $f['u_nick'], str_replace("%u_nick_alt%", $benutzerdaten_row['u_nick'], $lang['einstellungen_erfolgsmeldung_benutzername_geaendert_chat_ausgabe'])));
 						
 						$query = pdoQuery("SELECT `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($f['u_id'])]);
