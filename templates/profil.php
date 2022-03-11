@@ -372,7 +372,6 @@ switch ($aktion) {
 			
 			$resultCount = $query->rowCount();
 			if ($resultCount > 0) {
-				$zaehler = 0;
 				$result = $query->fetchAll();
 				foreach($result as $zaehler => $row) {
 					if ($zaehler % 2 != 0) {
@@ -381,15 +380,7 @@ switch ($aktion) {
 						$bgcolor = 'class="tabelle_zeile1"';
 					}
 					
-					$userdata = array();
-					$userdata['u_id'] = $row['u_id'];
-					$userdata['u_nick'] = $row['u_nick'];
-					$userdata['u_level'] = $row['u_level'];
-					$userdata['u_punkte_gesamt'] = $row['u_punkte_gesamt'];
-					$userdata['u_punkte_gruppe'] = $row['u_punkte_gruppe'];
-					$userdata['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
-					$userdata['u_chathomepage'] = $row['u_chathomepage'];
-					$userdaten = zeige_userdetails($row['u_id'], $userdata);
+					$userdaten = zeige_userdetails($row['u_id']);
 					
 					$text .= "<tr>\n";
 					$text .= "<td $bgcolor><b>" . $userdaten . "</b></td>\n";
@@ -403,8 +394,6 @@ switch ($aktion) {
 					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("beziehungsstatus", htmlspecialchars($row['ui_beziehungsstatus'])) . "</td>\n";
 					$text .= "<td $bgcolor>" . zeige_profilinformationen_von_id("typ", htmlspecialchars($row['ui_typ'])) . "</td>\n";
 					$text .= "</tr>\n";
-					
-					$zaehler++;
 				}
 			}
 			$text .= "</table>\n";

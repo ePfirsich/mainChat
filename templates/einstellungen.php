@@ -15,7 +15,7 @@ if($admin && $f['u_id'] != "" && $f['u_id'] != $u_id) {
 	$temp_u_id = $u_id;
 }
 
-$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, `u_passwort`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`,
+$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, `u_passwort`, `u_kommentar`, `u_signatur`, `u_eintritt`, `u_austritt`, `u_systemmeldungen`, `u_emails_akzeptieren`, `u_nachrichten_empfangen`,
 					`u_avatare_anzeigen`, `u_layout_farbe`, `u_layout_chat_darstellung`, `u_smilies`, `u_punkte_anzeigen`, `u_level`, `u_farbe`, `u_nick_historie` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$temp_u_id]);
 
 $resultCount = $query->rowCount();
@@ -32,7 +32,7 @@ if ($resultCount == 1) {
 // Prüfen, ob ein ChatAdmin einen anderen ChatAdmin oder einen Superuser bearbeiten möchte
 if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdaten_row['u_level'] == "C" || $benutzerdaten_row['u_level'] == "S")) {
 	$fehlermeldung = $lang['einstellungen_fehler_fehlende_berechtigung'];
-	zeige_tabelle_zentriert($lang['einstellungen_fehlermeldung'], $fehlermeldung);
+	zeige_tabelle_zentriert($lang['hinweis_fehler'], $fehlermeldung);
 } else {
 	// Wenn Daten aus dem Formular übermittelt werden, diese verwenden, da Änderungen vorgenommen wurden
 	if($aktion == "editieren" && $temp_u_id && filter_input(INPUT_POST, 'u_nick', FILTER_SANITIZE_URL) != "" && $formular == 1) {
@@ -47,6 +47,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		$f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FILTER_SANITIZE_STRING));
 		$f['u_systemmeldungen'] = filter_input(INPUT_POST, 'u_systemmeldungen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_emails_akzeptieren'] = filter_input(INPUT_POST, 'u_emails_akzeptieren', FILTER_SANITIZE_NUMBER_INT);
+		$f['u_nachrichten_empfangen'] = filter_input(INPUT_POST, 'u_nachrichten_empfangen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_avatare_anzeigen'] = filter_input(INPUT_POST, 'u_avatare_anzeigen', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_layout_farbe'] = filter_input(INPUT_POST, 'u_layout_farbe', FILTER_SANITIZE_NUMBER_INT);
 		$f['u_layout_chat_darstellung'] = filter_input(INPUT_POST, 'u_layout_chat_darstellung', FILTER_SANITIZE_NUMBER_INT);
@@ -68,6 +69,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 		unset($f['u_austritt']);
 		unset($f['u_systemmeldungen']);
 		unset($f['u_emails_akzeptieren']);
+		unset($f['u_nachrichten_empfangen']);
 		unset($f['u_layout_chat_darstellung']);
 		unset($f['u_punkte_anzeigen']);
 		unset($f['u_kommentar']);
@@ -505,7 +507,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					if ($admin) {
 						// Admin
 						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_kommentar` = :u_kommentar, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
-								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
+								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_nachrichten_empfangen` = :u_nachrichten_empfangen, `u_avatare_anzeigen` = :u_avatare_anzeigen,
 								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
 								`u_level` = :u_level, `u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
 							[
@@ -519,6 +521,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 								':u_austritt'=>$f['u_austritt'],
 								':u_systemmeldungen'=>$f['u_systemmeldungen'],
 								':u_emails_akzeptieren'=>$f['u_emails_akzeptieren'],
+								':u_nachrichten_empfangen'=>$f['u_nachrichten_empfangen'],
 								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
 								':u_layout_farbe'=>$f['u_layout_farbe'],
 								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],
@@ -546,7 +549,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					} else {
 						// Benutzer
 						pdoQuery("UPDATE `user` SET `u_nick` = :u_nick, `u_email` = :u_email, `u_passwort` = :u_passwort, `u_signatur` = :u_signatur, `u_eintritt` = :u_eintritt,
-								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_avatare_anzeigen` = :u_avatare_anzeigen,
+								`u_austritt` = :u_austritt, `u_systemmeldungen` = :u_systemmeldungen, `u_emails_akzeptieren` = :u_emails_akzeptieren, `u_nachrichten_empfangen` = :u_nachrichten_empfangen, `u_avatare_anzeigen` = :u_avatare_anzeigen,
 								`u_layout_farbe` = :u_layout_farbe, `u_layout_chat_darstellung` = :u_layout_chat_darstellung, `u_smilies` = :u_smilies, `u_punkte_anzeigen` = :u_punkte_anzeigen,
 								`u_farbe` = :u_farbe, `u_nick_historie` = :u_nick_historie, `u_profil_historie` = :u_profil_historie WHERE `u_id` = :u_id",
 							[
@@ -559,6 +562,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 								':u_austritt'=>$f['u_austritt'],
 								':u_systemmeldungen'=>$f['u_systemmeldungen'],
 								':u_emails_akzeptieren'=>$f['u_emails_akzeptieren'],
+								':u_nachrichten_empfangen'=>$f['u_nachrichten_empfangen'],
 								':u_avatare_anzeigen'=>$f['u_avatare_anzeigen'],
 								':u_layout_farbe'=>$f['u_layout_farbe'],
 								':u_layout_chat_darstellung'=>$f['u_layout_chat_darstellung'],

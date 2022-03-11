@@ -541,38 +541,39 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 	}
 }
 
-function mail_sende($von, $an, $text, $betreff = "") {
-	// Verschickt Nachricht von ID $von an ID $an mit Text $text
+function mail_sende($von_id, $an_id, $text, $betreff = "") {
+	// Verschickt Nachricht von ID $von_id an ID $an_id mit Text $text
 	global $u_nick, $lang, $u_id, $pdo;
 	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
-	// Benutzer die die Mailbox zu haben, bekommen keine Aktionen
-	$query = pdoQuery("SELECT `m_id` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid AND `m_betreff` = :m_betreff AND `m_status` != 'geloescht'",
+	// Benutzer welche keine Nachrichten empfangen möchten, bekommen keine Aktionen
+	$query = pdoQuery("SELECT `u_nick`, `u_nachrichten_empfangen` FROM `user` WHERE `u_id` = :u_id",
 		[
-			':m_von_uid'=>intval($an),
-			':m_an_uid'=>intval($an),
-			':m_betreff'=>$lang['nachrichten_posteingang_geschlossen']
+			':u_id'=>$an_id
 		]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount >= 1) {
-		$mailversand_ok = false;
-		$fehlermeldung = $lang['chat_msg105'];
+		$result = $query->fetch();
+		if($result['u_nachrichten_empfangen'] == 0) {
+			$mailversand_ok = false;
+			$fehlermeldung = str_replace("%nick%", $result['u_nick'], $lang['nachrichten_fehler_keine_nachrichten_empfangen']);
+		}
 	}
 	
 	// Gesperrte Benutzer bekommen keine Nachrichten Aktionen mehr
-	$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_id` = :u_id AND `u_level` = 'Z'", [':u_id'=>intval($an)]);
+	$query = pdoQuery("SELECT `u_id` FROM `user` WHERE `u_id` = :u_id AND `u_level` = 'Z'", [':u_id'=>$an_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount >= 1) {
 		$mailversand_ok = false;
-		$fehlermeldung = "Der Benutzer ist gesperrt, und kann deswegen keine Nachrichten empfangen.";
+		$fehlermeldung = $lang['nachrichten_fehler_mailbox_gesperrt'];
 	}
 	
 	// Mailbombingschutz!
-	$query = pdoQuery("SELECT `m_id`, now()-m_zeit AS `zeit` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid ORDER BY `m_id` DESC LIMIT 0,1", [':m_von_uid'=>intval($von), ':m_an_uid'=>intval($an)]);
+	$query = pdoQuery("SELECT `m_id`, now()-m_zeit AS `zeit` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid ORDER BY `m_id` DESC LIMIT 0,1", [':m_von_uid'=>$von_id, ':m_an_uid'=>$an_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount == 1) {
@@ -589,8 +590,8 @@ function mail_sende($von, $an, $text, $betreff = "") {
 	
 	if ($mailversand_ok == true) {
 		$f['m_status'] = "neu";
-		$f['m_von_uid'] = $von;
-		$f['m_an_uid'] = $an;
+		$f['m_von_uid'] = $von_id;
+		$f['m_an_uid'] = $an_id;
 		$f['f_text'] = chat_parse($text);
 		if ($betreff) {
 			$f['m_betreff'] = $betreff;
@@ -615,10 +616,10 @@ function mail_sende($von, $an, $text, $betreff = "") {
 		$f['m_id'] = $pdo->lastInsertId();
 		
 		// Nachricht über neue E-Mail sofort erzeugen
-		if (ist_online($an)) {
-			aktion($u_id, "Sofort/Online", $an, $u_nick, "Neue Mail", $f);
+		if (ist_online($an_id)) {
+			aktion($u_id, "Sofort/Online", $an_id, $u_nick, "Neue Mail", $f);
 		} else {
-			aktion($u_id, "Sofort/Offline", $an, $u_nick, "Neue Mail", $f);
+			aktion($u_id, "Sofort/Offline", $an_id, $u_nick, "Neue Mail", $f);
 		}
 	}
 	if (!isset($f['m_id'])) {
@@ -695,12 +696,12 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 			pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 			
 			if ($row['f_userid'] != $u_id) {
-				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_nachrichten_empfangen`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` FROM `user`, `online` WHERE `o_user` = `u_id` AND `u_id` = :u_id", [':u_id'=>$row['f_userid']]);
 				
 				$result2Count = $query2->rowCount();
 			} else if ($row['f_freundid'] != $u_id) {
-				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_nachrichten_empfangen`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(o_login) AS `online` FROM `user`, `online` WHERE `o_user` = `u_id` AND `u_id` = :u_id", [':u_id'=>$row['f_freundid']]);
 				
 				$result2Count = $query2->rowCount();
@@ -730,7 +731,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 						}
 						
 						$weiterer = $lang['chat_msg90'];
-						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2['u_id'], $row2, TRUE, "&nbsp;", $row2['online']), $weiterer);
+						$weiterer = str_replace("%u_nick%", zeige_userdetails($row2['u_id'], TRUE), $weiterer);
 						$weiterer = str_replace("%raum%", $raum, $weiterer);
 						
 						$txt .= $weiterer;
@@ -890,11 +891,10 @@ function erzeuge_fuss($text) {
 	}
 	
 	if (!$row['u_signatur']) {
-		$sig = "\n\n-- \n  " . $lang['gruss'] . "\n  " . $row['u_nick'];
+		$sig = "<br>-- <br> " . $lang['gruss'] . "\n  " . $row['u_nick'];
 	} else {
-		$sig = "\n\n-- \n  " . $row['u_signatur'];
+		$sig = "<br>-- <br>  " . $row['u_signatur'];
 	}
-	$sig = htmlspecialchars($sig); //sec
 	
 	return $text . $sig;
 }

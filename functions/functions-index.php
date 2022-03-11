@@ -165,7 +165,7 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	
 	$knebelzeit = NULL;
 	// Aktuelle Benutzerdaten aus Tabelle user lesen
-	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_login`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount == 0) {

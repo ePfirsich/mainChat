@@ -66,8 +66,6 @@ class chatClass {
 		// Systemnachrichten ausgeben
 		$sysmsg = true;
 		
-		//$ausgabe = chat_lese($row_room->o_id, $row_room->o_raum, $u_id, $sysmsg, $ignore, "1000", $benutzerdaten);
-		
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $row) {
 			$query_usr = pdoQuery("SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
@@ -133,6 +131,9 @@ class chatClass {
 				$c_text = str_replace(" smil>", "'>", $c_text);
 			}
 			
+			// Leerzeichen Prüfung
+			if(!ctype_space($c_text))
+			{
 			$line->c_id = $row['c_id'];
 			$line->c_von_user = $row['c_von_user'];
 			$line->c_farbe = $row['c_farbe'];
@@ -143,6 +144,8 @@ class chatClass {
 			$line->vonuserid = $vonuserid;
 			$line->c_zeit = date('H:i:s', strtotime($row['c_zeit']));
 			$arr[] = json_encode($line);
+			}
+
 		}
 		
 		// Raum merken

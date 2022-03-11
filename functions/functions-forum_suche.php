@@ -437,16 +437,9 @@ function such_ergebnis() {
 				if (!$fund['u_nick']) {
 					$text .= "<td $bgcolor><span class=\"smaller\"><b>Nobody</b></span></td>\n";
 				} else {
-					$userdata = array();
-					$userdata['u_id'] = $fund['po_u_id'];
-					$userdata['u_nick'] = $fund['u_nick'];
-					$userdata['u_level'] = $fund['u_level'];
-					$userdata['u_punkte_gesamt'] = $fund['u_punkte_gesamt'];
-					$userdata['u_punkte_gruppe'] = $fund['u_punkte_gruppe'];
-					$userdata['u_chathomepage'] = $fund['u_chathomepage'];
-					$userlink = zeige_userdetails($fund['po_u_id'], $userdata);
+					$userlink = zeige_userdetails($fund['po_u_id']);
 					if ($fund['u_level'] == 'Z') {
-						$text .= "<td $bgcolor><span class=\"smaller\">$userdata[u_nick]</span></td>\n";
+						$text .= "<td $bgcolor><span class=\"smaller\">$fund[u_nick]</span></td>\n";
 					} else {
 						$text .= "<td $bgcolor><span class=\"smaller\">$userlink</span></td>\n";
 					}

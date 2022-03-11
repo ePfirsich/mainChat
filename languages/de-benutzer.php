@@ -39,6 +39,7 @@ $lang['benutzer_onlinezeit_details'] = "(Std/Min/Sek)";
 $lang['benutzer_allgemeine_einstellungen'] = "Allgemeine Einstellungen";
 $lang['benutzer_systemmeldungen'] = "Ein/Austrittsnachrichten";
 $lang['benutzer_emails_akzeptieren'] = "E-Mails von anderen Benutzern akzeptieren";
+$lang['benutzer_nachrichten_empfangen'] = "Nachrichten von anderen Benutzern akzeptieren";
 $lang['benutzer_avatare_im_chat'] = "Avatare im Chat";
 $lang['benutzer_farbe_des_chats'] = "Farbe des Chats";
 $lang['benutzer_farbe_des_chats_blau'] = "blau";

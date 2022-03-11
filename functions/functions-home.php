@@ -35,16 +35,10 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 	if ($resultCount == 1) {
 		$result = $query->fetch();
 		
-		$result['u_chathomepage'] = 0;
-		$result['u_punkte_anzeigen'] = 0;
-		
-		$online_zeit = $result['online'];
-		$letzter_login = $result['login'];
-		
 		// Benutzername
 		$text .= "<tr>\n";
 		$text .= "<td style=\"vertical-align:top; text-align:right; width: 150px;\" class=\"smaller\">$lang[profil_benutzername]:</td>\n";
-		$text .= "<td><b>" . zeige_userdetails($result['u_id'], $result) . "</b></td>";
+		$text .= "<td><b>" . zeige_userdetails($result['u_id'], FALSE, true) . "</b></td>";
 		$text .= "</tr>\n";
 		
 		// Onlinezeit oder letzter Login
@@ -52,10 +46,10 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 		if ($result['o_id'] != "NULL" && $result['o_id']) {
 			$text .= "<td>&nbsp;</td>";
 			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>"
-				. str_replace("%online%", gmdate("H:i:s", $online_zeit), $lang['chat_msg92']) . "</b></td>\n";
+				. str_replace("%online%", gmdate("H:i:s", result['online']), $lang['chat_msg92']) . "</b></td>\n";
 		} else {
 			$text .= "<td>&nbsp;</td>";
-			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>" . str_replace("%login%", $letzter_login, $lang['chat_msg94']) . "</b></td>\n";
+			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>" . str_replace("%login%", $result['login'], $lang['chat_msg94']) . "</b></td>\n";
 		}
 		$text .= "</tr>\n";
 		

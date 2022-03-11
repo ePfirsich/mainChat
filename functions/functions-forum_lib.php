@@ -4,7 +4,7 @@ function pruefe_leserechte($th_id) {
 	// Prüft anhand der th_id, ob der Benutzer im Forum lesen darf
 	global $u_level;
 	
-	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 	
 	$fo = $query->fetch();
 	$fo_id = $fo['th_fo_id'];
@@ -36,7 +36,7 @@ function pruefe_leserechte($th_id) {
 
 function hole_themen_id_anhand_posting_id($po_id) {
 	// Prüft anhand der `po_id` ob gesperrt ist
-	$query = pdoQuery("SELECT `po_th_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($po_id)]);
+	$query = pdoQuery("SELECT `po_th_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 	
 	$fo = $query->fetch();
 	
@@ -47,7 +47,7 @@ function pruefe_schreibrechte($th_id) {
 	// Prüft anhand der th_id, ob der Benutzer ins Forum schreiben darf
 	global $u_level;
 	
-	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 	
 	$fo = $query->fetch();
 	$fo_id = $fo['th_fo_id'];
@@ -139,7 +139,7 @@ function forum_alles_gelesen($u_id, $th_id = "") {
 		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege`", [':u_id'=>$u_id]);
 	} else {
 		// Spezifisches Forum als gelesen markieren
-		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':u_id'=>intval($th_id)]);
+		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':u_id'=>$th_id]);
 	}
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -459,8 +459,6 @@ function loesche_kategorie($fo_id) {
 		return;
 	}
 	
-	$fo_id = intval($fo_id);
-	
 	$query = pdoQuery("SELECT `fo_name` FROM `forum_kategorien` WHERE `fo_id` = :fo_id", [':u_id'=>$fo_id]);
 	$result = $query->fetch();
 	$fo_name = $result['fo_name'];
@@ -493,7 +491,7 @@ function erstelle_editiere_forum($th_id = 0) {
 		$f['th_anzreplys'] = 0;
 		
 		//groesste Order holen
-		$query = pdoQuery("SELECT MAX(`th_order`) AS `maxorder` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id", [':th_fo_id'=>intval($fo_id)]);
+		$query = pdoQuery("SELECT MAX(`th_order`) AS `maxorder` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id", [':th_fo_id'=>$fo_id]);
 		$result = $query->fetch();
 		$maxorder = $result['maxorder'];
 		if ($maxorder) {
@@ -559,7 +557,7 @@ function forum_up($th_id, $th_order, $fo_id) {
 	}
 	
 	//thema über aktuellem Thema holen
-	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>intval($fo_id), ':th_order'=>intval($th_order)]);
+	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>$fo_id, ':th_order'=>$th_order]);
 	
 	$resultCount = $query->rowCount();
 	
@@ -589,7 +587,7 @@ function forum_down($th_id, $th_order, $fo_id) {
 	}
 	
 	//thema unter aktuellem Thema holen
-	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>intval($fo_id), ':th_order'=>intval($th_order)]);
+	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>$fo_id, ':th_order'=>$th_order]);
 	
 	$resultCount = $query->rowCount();
 	
@@ -776,7 +774,7 @@ function schreibe_posting() {
 		pdoQuery("LOCK TABLES `forum_foren` WRITE", []);
 		
 		//altes th_postings und anz_threads und anz_replys holen
-		$query = pdoQuery("SELECT `th_postings`, `th_anzthreads`, `th_anzreplys` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+		$query = pdoQuery("SELECT `th_postings`, `th_anzthreads`, `th_anzreplys` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 		
 		$result = $query->fetch();
 		$postings = $result['th_postings'];
@@ -899,7 +897,7 @@ function loesche_posting() {
 			]);
 		
 		//eventuell letzter Beitrag auf Ebene neu markieren
-		$query = pdoQuery("SELECT `po_vater_id`, `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($po_id)]);
+		$query = pdoQuery("SELECT `po_vater_id`, `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 		
 		$result = $query->fetch();
 		$threadorder = $result['po_threadorder'];
@@ -907,7 +905,7 @@ function loesche_posting() {
 		
 		//falls letztes posting, dann neu setzen
 		if ($threadorder == "1") {
-			$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id AND `po_id` <> :po_id ORDER BY `po_ts` DESC LIMIT 1", [':po_vater_id'=>$vater_id, ':po_id'=>intval($po_id)]);
+			$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id AND `po_id` <> :po_id ORDER BY `po_ts` DESC LIMIT 1", [':po_vater_id'=>$vater_id, ':po_id'=>$po_id]);
 			
 			$resultCount = $query->rowCount();
 			if ($resultCount > 0) {
@@ -921,7 +919,7 @@ function loesche_posting() {
 	}
 	
 	//eintragungen in Thema neu schreiben
-	$query = pdoQuery("SELECT `th_anzthreads`, `th_anzreplys`, `th_postings` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+	$query = pdoQuery("SELECT `th_anzthreads`, `th_anzreplys`, `th_postings` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 	
 	$result = $query->fetch();
 	$postings = $result['th_postings'];
@@ -960,10 +958,7 @@ function loesche_posting() {
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
 			$result = $query->fetch();
-			$po_u_id = $result['po_u_id'];
-			if ($po_u_id) {
-				$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $po_u_id) . "<br>";
-			}
+			$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $result['po_u_id']) . "<br>";
 		}
 	}
 	$text .= hinweis($zusammenfassung, "erfolgreich");
@@ -987,7 +982,7 @@ function loesche_posting() {
 function hole_alle_unter($vater_id) {
 	global $arr_delete;
 	
-	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id", [':po_vater_id'=>intval($vater_id)]);
+	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id", [':po_vater_id'=>$vater_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -1001,8 +996,6 @@ function hole_alle_unter($vater_id) {
 
 //bereinigt jede Woche einmal die Spalte `u_gelesene_postings` des users $user_id
 function bereinige_u_gelesene_postings($user_id) {
-	$user_id = intval($user_id);
-	
 	$query = pdoQuery("SELECT `u_gelesene_postings`, `u_lastclean` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
 	$resultCount = $query->rowCount();
@@ -1141,7 +1134,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 	//aktionen nur fuer Antworten
 	if ($po_vater_id > 0) {
 		$query = pdoQuery("SELECT `po_u_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y') AS `po_date`, `po_titel`, `th_name`, `fo_name` 
-			FROM `forum_beitraege`, `forum_foren`, `forum_kategorien` WHERE `po_id` = :po_id AND `po_th_id` = `th_id` AND `th_fo_id` = `fo_id`", [':po_id'=>intval($po_vater_id)]);
+			FROM `forum_beitraege`, `forum_foren`, `forum_kategorien` WHERE `po_id` = :po_id AND `po_th_id` = `th_id` AND `th_fo_id` = `fo_id`", [':po_id'=>$po_vater_id]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {
@@ -1156,7 +1149,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 			return;
 		}
 		
-		$query = pdoQuery("SELECT `u_id`, `u_nick`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y %H:%i') AS `po_date`, `po_titel` FROM `user`, `forum_beitraege` WHERE `po_u_id` = `u_id` AND `po_id` = :po_id", [':po_id'=>intval($po_id)]);
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y %H:%i') AS `po_date`, `po_titel` FROM `user`, `forum_beitraege` WHERE `po_u_id` = `u_id` AND `po_id` = :po_id", [':po_id'=>$po_id]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {

@@ -41,7 +41,7 @@ if ($resultCount > 0) {
 } else {
 	unset($array_user);
 	// Top 100 Punkte im aktuellen Monat als Array aufbauen
-	$query = pdoQuery("SELECT `u_punkte_monat` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_monat` !=0 AND `u_punkte_datum_monat` = :u_punkte_datum_monat AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_monat` DESC, `u_punkte_gesamt` DESC, `u_punkte_jahr` DESC LIMIT 0,100", [':u_punkte_datum_monat'=>date("n", time()), ':u_punkte_datum_jahr'=>date("Y", time())]);
+	$query = pdoQuery("SELECT `u_punkte_monat` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage` FROM `user` WHERE `u_punkte_monat` !=0 AND `u_punkte_datum_monat` = :u_punkte_datum_monat AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_monat` DESC, `u_punkte_gesamt` DESC, `u_punkte_jahr` DESC LIMIT 0,100", [':u_punkte_datum_monat'=>date("n", time()), ':u_punkte_datum_jahr'=>date("Y", time())]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -52,7 +52,7 @@ if ($resultCount > 0) {
 	}
 	
 	// Top 100 Punkte im aktuellen Jahr als Array aufbauen
-	$query = pdoQuery("SELECT `u_punkte_jahr` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_jahr` !=0 AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_jahr` DESC, `u_punkte_gesamt` DESC, `u_punkte_monat` DESC LIMIT 0,100", [':u_punkte_datum_jahr'=>date("Y", time())]);
+	$query = pdoQuery("SELECT `u_punkte_jahr` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage` FROM `user` WHERE `u_punkte_jahr` !=0 AND `u_punkte_datum_jahr` = :u_punkte_datum_jahr AND `u_level` != 'Z' ORDER BY `u_punkte_jahr` DESC, `u_punkte_gesamt` DESC, `u_punkte_monat` DESC LIMIT 0,100", [':u_punkte_datum_jahr'=>date("Y", time())]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -63,7 +63,7 @@ if ($resultCount > 0) {
 	}
 	
 	// Top 100 Gesamtpunkte als Array aufbauen
-	$query = pdoQuery("SELECT `u_punkte_gesamt` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `user` WHERE `u_punkte_gesamt` !=0 AND `u_level` != 'Z' ORDER BY `u_punkte_gesamt` DESC, `u_punkte_monat` DESC, `u_punkte_jahr` DESC LIMIT 0,100", []);
+	$query = pdoQuery("SELECT `u_punkte_gesamt` AS `punkte`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage` FROM `user` WHERE `u_punkte_gesamt` !=0 AND `u_level` != 'Z' ORDER BY `u_punkte_gesamt` DESC, `u_punkte_monat` DESC, `u_punkte_jahr` DESC LIMIT 0,100", []);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -94,11 +94,9 @@ if (is_array($array_user)) {
 	for ($i = 0; $i < $anzahl; $i++) {
 		echo "<tr><td style=\"text-align:right; font-weight:bold;\" $bgcolor>" . ($i + 1) . "</td>";
 		for ($j = 0; $j < 3; $j++) {
-			if (isset($array_user[$j]) && isset($array_user[$j][$i])
-				&& $array_user[$j][$i]['punkte']) {
-				$array_user[$j][$i]['u_punkte_anzeigen'] = '1';
-				echo "<td style=\"width:8%; text-align:right;\" $bgcolor>" . $array_user[$j][$i]['punkte'] . "</td>"
-			."<td style=\"width:24%\" $bgcolor>" . zeige_userdetails($array_user[$j][$i]['u_id'], $array_user[$j][$i]) . "</td>\n";
+			if (isset($array_user[$j]) && isset($array_user[$j][$i]) && $array_user[$j][$i]['punkte']) {
+				echo "<td style=\"width:8%; text-align:right;\" $bgcolor>" . $array_user[$j][$i]['punkte'] . "</td>\n";
+				echo "<td style=\"width:24%\" $bgcolor>" . zeige_userdetails($array_user[$j][$i]['u_id']) . "</td>\n";
 			} else {
 				echo "<td style=\"width:32%;\" colspan=\"2\" $bgcolor>" . "&nbsp;" . "</td>\n";
 			}

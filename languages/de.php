@@ -235,14 +235,14 @@ $lang['chat_msg104'] = "Die Nachricht/E-Mail wurde nicht verschickt: Mailbombing
 $lang['chat_msg106'] = "Derzeit liegen keine System- oder Privat-Nachrichten vor.<br>";
 $lang['chat_msg108'] = "<b>Fehler: </b> Um neue Räume anlegen zu dürfen, brauchen Sie mindestens %punkte% Punkte oder Sie müssen Admin sein!";
 $lang['chat_msg109'] = "Sie werden von '%nick%' ignoriert oder Sie ignorieren '%nick%' und können dem Benutzer daher keine privaten Nachrichten schicken";
-$lang['chat_msg114'] = "Heute ist der %datum% um %uhrzeit% Uhr Chat-Zeit.";
+$lang['chat_msg114'] = "Heute ist %datum%.";
 $lang['freunde_fehlermeldung_ignoriert'] = "Der Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da Sie von diesem Benutzer ignoriert werden!<br>";
 $lang['freunde_fehlermeldung_gesperrt'] = "Der Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da dieser Benutzer gesperrt ist!<br>";
 $lang['freunde_fehlermeldung_gast'] = "Der Benutzer '%u_nick%' kann nicht als Freund hinzugefügt werden, da dieser Benutzer ein Gast ist!<br>";
 $lang['chat_msg119'] = "Aufruf: /ip username oder /ip www.xxx.yyy.zzz";
 $lang['chat_msg120'] = "Benutzer %u_nick% ist nicht online!";
 $lang['chat_msg121'] = "Keinen Benutzer mit passender IP gefunden!";
-$lang['chat_msg122'] = "Benutzer online mit der IP %ip% (%datum%, %uhrzeit%) ";
+$lang['chat_msg122'] = "Benutzer online mit der IP %ip% (%datum%)";
 $lang['chat_msg123'] = "Benutzer war mit IP %ip% da %datum% ";
 
 $lang['chat_spruch1'] = "<b>Fehler:</b> den Spruch '%spruchname%' gibt es nicht als Typ 2 mit '%spruchname% USERNAME ZUSATZTEXT'. "
@@ -361,7 +361,4 @@ $lang['betreff_new_posting'] = "Neue Antwort auf Ihren Beitrag %po_titel%";
 $lang['msg_new_posting_chatmail'] = "Es liegt eine neue Antwort auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% vor. <br><br><b>Pfad: </b>%forum% -> %thema%<br><br><b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" vom %po_ts_antwort%<br><br>";
 $lang['msg_new_posting_email'] = "Es liegt eine neue Antwort auf Ihren Beitrag %po_titel% vom %po_ts% vor.\n\nPfad: %forum% -> %thema%\n\nAutor: %user_from_nick%, Titel: \"%po_titel_antwort%\" vom %po_ts_antwort%\n";
 $lang['msg_new_posting_olm'] = "Es liegt eine <b>neue Antwort</b> auf Ihren Beitrag <b>%po_titel%</b> vom %po_ts% (Forum: %forum%, Thema: %thema%) vor. <b>Autor:</b> %user_from_nick%, <b>Titel:</b> \"%po_titel_antwort%\" <b>vom</b> %po_ts_antwort%";
-
-$lang['nachrichten_posteingang_geschlossen'] = "Ihr Posteingang ist geschlossen!";
-$lang['nachrichten_posteingang_geschlossen_text'] = "Bitte löschen Sie einfach diese E-Mail, wenn Sie wieder Nachrichten empfangen möchten!";
 ?>

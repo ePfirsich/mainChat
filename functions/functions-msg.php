@@ -17,7 +17,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	global $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
 	global $chat, $timeout, $datei_spruchliste, $lang, $ak, $check_name, $raumstatus1, $raum_max;
 	global $u_nick, $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
-	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $userdata, $lustigefeatures;
+	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	
 	// Text $text parsen, Befehle ausführen, Texte im Chat ausgeben
@@ -61,8 +61,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				if ($resultCount > 0) {
 					$result = $query->fetchAll();
 					foreach($result as $zaehler => $row) {
-						$userdaten = unserialize(
-							$row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
+						$userdaten = unserialize($row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 						$txt = "";
 						if ($row['r_name'] && $row['r_name'] != "NULL") {
 							$raumname = $row['r_name'];
@@ -71,10 +70,10 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 						if (!$userdaten['u_away']) {
 							$txt .= "<b>" . $raumname . ":</b> "
-								. zeige_userdetails($userdaten['u_id'], $userdaten, TRUE, "&nbsp;", $row['online']);
+								. zeige_userdetails($userdaten['u_id'], TRUE);
 						} else {
 							$txt .= $raumname . ": "
-								. zeige_userdetails($userdaten['u_id'], $userdaten, FALSE, "&nbsp;") . " -> " . $userdaten['u_away'];
+								. zeige_userdetails($userdaten['u_id'], FALSE) . " -> " . $userdaten['u_away'];
 						}
 						system_msg("", 0, $u_id, $system_farbe, $txt);
 					}
@@ -127,7 +126,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					$result = $query->fetchAll();
 					foreach($result as $zaehler => $row) {
-						$text = str_replace("%user%", zeige_userdetails($u_id, $userdata), $lang['chat_msg49']);
+						$text = str_replace("%user%", zeige_userdetails($u_id), $lang['chat_msg49']);
 						$text = str_replace("%raum%", $r_name, $text);
 						if (!($admin || $u_level == "A")) {
 							// Benutzer aus Raum... ruft um hilfe
@@ -136,14 +135,12 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if (($admin || $u_level == "A") && $row['o_user'] == $u_id) {
 							// falls eigener nick:
 							if (strtolower($chatzeile[0]) == "/int") {
-								system_msg("", $u_id, $u_id, $system_farbe, "<b>"
-									. zeige_userdetails($u_id, $userdata) . "&nbsp; ===== $lang[chat_msg24] $lang[chat_msg51]: =====</b> $txt");
+								system_msg("", $u_id, $u_id, $system_farbe, "<b>" . zeige_userdetails($u_id) . "&nbsp; ===== $lang[chat_msg24] $lang[chat_msg51]: =====</b> $txt");
 							} else {
-								system_msg("", $u_id, $u_id, $system_farbe, "<b>"
-									. zeige_userdetails($u_id, $userdata) . "&nbsp; $lang[chat_msg24] $lang[chat_msg50]: </b> $txt");
+								system_msg("", $u_id, $u_id, $system_farbe, "<b>" . zeige_userdetails($u_id) . "&nbsp; $lang[chat_msg24] $lang[chat_msg50]: </b> $txt");
 							}
 						} else {
-							priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $txt2, $userdata);
+							priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $txt2);
 						}
 					}
 				} else {
@@ -168,15 +165,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$hostname = htmlspecialchars(@gethostbyaddr($row['o_ip']));
 							if (!$shown) {
 								$dupecount++;
-								unset($userdaten);
-								$userdaten = ARRAY('u_id' => $alt['o_user'], 'u_nick' => $alt['o_name']);
 								$txt = "<br><b>" . $hostname . "(" . $alt['o_ip'] . "):</b>";
-								$txt .= "<br><b>" . $alt['r_name'] . " " . zeige_userdetails($alt[o_user], $userdaten) . "</b> " . htmlspecialchars($alt['o_browser']) . "<br>";
+								$txt .= "<br><b>" . $alt['r_name'] . " " . zeige_userdetails($alt['o_user']) . "</b> " . htmlspecialchars($alt['o_browser']) . "<br>";
 								$shown = true;
 							}
-							unset($userdaten);
-							$userdaten = ARRAY(u_id => $row['o_user'], u_nick => $row['o_name']);
-							$txt .= "<b>" . $row['r_name'] . " " . zeige_userdetails($row['o_user'], $userdaten) . "</b> " . htmlspecialchars($row['o_browser']);
+							$txt .= "<b>" . $row['r_name'] . " " . zeige_userdetails($row['o_user']) . "</b> " . htmlspecialchars($row['o_browser']);
 							system_msg("", 0, $u_id, $system_farbe, $txt);
 							$txt = "";
 						} else {
@@ -246,12 +239,8 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			}
 			
 			if ($admin && $onlineip) {
-				$date = new DateTime();
-				$date->format('Y-m-d H:i:s');
-				
-				$temp = $lang['chat_msg122'];
-				$temp = str_replace("%datum%", formatIntl($date,'dd. MMMM Y','de_DE'), $temp);
-				$temp = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $temp);
+				$date = date('Y-m-d H:i:s');
+				$temp = str_replace("%datum%", formatDate($date,"d.m.Y H:i","Y-m-d H:i:s"), $lang['chat_msg122']);
 				$temp = str_replace("%ip%", $onlineip, $temp);
 				system_msg("", 0, $u_id, $system_farbe, $temp);
 				
@@ -263,8 +252,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					$txt = "";
 					$resultCount = $query->rowCount();
 					foreach($result as $zaehler => $row) {
-						$userdaten = ARRAY('u_id' => $row['o_user'], 'u_nick' => $row['o_name']);
-						$txt .= "<b>" . $row['r_name'] . " " . zeige_userdetails($row['o_user'], $userdaten) . "</b> " . htmlspecialchars($row['o_browser']) . "<br>";
+						$txt .= "<b>" . $row['r_name'] . " " . zeige_userdetails($row['o_user']) . "</b> " . htmlspecialchars($row['o_browser']) . "<br>";
 					}
 					system_msg("", 0, $u_id, $system_farbe, $txt);
 				} else {
@@ -376,11 +364,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			
 			// 	knebel listen 
 			if ($chatzeile[0] == "/gaga" && $admin) {
-				$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_user`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`,"
-					. "UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `knebel` FROM `online` WHERE `o_knebel` > NOW()", []);
+				$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_user`, UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `knebel` FROM `online` WHERE `o_knebel` > NOW()", []);
 			} else {
-				$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_user`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`,"
-					. "UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `knebel` FROM `online` WHERE `o_raum` = :o_raum AND `o_knebel` > NOW()", [':o_raum'=>$o_raum]);
+				$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_user`, UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `knebel` FROM `online` WHERE `o_raum` = :o_raum AND `o_knebel` > NOW()", [':o_raum'=>$o_raum]);
 			}
 			
 			
@@ -392,8 +378,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($txt != "") {
 						$txt .= ", ";
 					}
-					$userdaten = unserialize( $row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
-					$txt .= zeige_userdetails($row['o_user'], $userdaten) . " " . gmdate("H:i:s", $row['knebel']);
+					$txt .= zeige_userdetails($row['o_user']) . " " . gmdate("H:i:s", $row['knebel']);
 				}
 			}
 			
@@ -498,7 +483,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				}
 				// Invite-Liste ausgeben...
-				$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `inv_id` FROM `invite` LEFT JOIN `user` ON `u_id` = `inv_user` WHERE `inv_raum` = :inv_raum", [':inv_raum'=>$raum_id]);
+				$query = pdoQuery("SELECT `u_id`, `inv_id` FROM `invite` LEFT JOIN `user` ON `u_id` = `inv_user` WHERE `inv_raum` = :inv_raum", [':inv_raum'=>$raum_id]);
 				
 				$txt = "";
 				$resultCount = $query->rowCount();
@@ -509,7 +494,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if ($txt != "") {
 								$txt .= ", ";
 							}
-							$txt .= zeige_userdetails($row['u_id'], $row);
+							$txt .= zeige_userdetails($row['u_id']);
 						} else {
 							pdoQuery("DELETE FROM `invite` WHERE `inv_id` = :inv_id", [':inv_id'=>$row['inv_id']]);
 						}
@@ -635,7 +620,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				system_msg("", 0, $u_id, $system_farbe, $lang['chat_msg55']);
 			} else {
 				// Liste der Benutzer ausgeben, die von mir ignoriert werden
-				$query = pdoQuery("SELECT `i_id`, `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` FROM `iignore` LEFT JOIN `user` ON `i_user_passiv` = `u_id` WHERE `i_user_aktiv` = :i_user_aktiv ORDER BY `u_nick`, `i_id`", [':i_user_aktiv'=>$u_id]);
+				$query = pdoQuery("SELECT `i_id`, `u_id` FROM `iignore` LEFT JOIN `user` ON `i_user_passiv` = `u_id` WHERE `i_user_aktiv` = :i_user_aktiv ORDER BY `u_nick`, `i_id`", [':i_user_aktiv'=>$u_id]);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
@@ -647,7 +632,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if ($i > 0) {
 								$text = $text . ", ";
 							}
-							$text = $text . zeige_userdetails($row['u_id'], $row);
+							$text = $text . zeige_userdetails($row['u_id']);
 						} else {
 							pdoQuery("DELETE FROM `iignore` WHERE `i_id` = :i_id", [':i_id'=>$row['i_id']]);
 						}
@@ -659,7 +644,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				
 				// Liste der Benutzer ausgeben, die mich ignorieren
-				$query = pdoQuery("SELECT `i_id`, `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` FROM `iignore` LEFT JOIN `user` ON `i_user_aktiv` = `u_id` WHERE `i_user_passiv` = :i_user_passiv ORDER BY `u_nick`, `i_id`", [':i_user_passiv'=>$u_id]);
+				$query = pdoQuery("SELECT `i_id`, `u_id` FROM `iignore` LEFT JOIN `user` ON `i_user_aktiv` = `u_id` WHERE `i_user_passiv` = :i_user_passiv ORDER BY `u_nick`, `i_id`", [':i_user_passiv'=>$u_id]);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
@@ -671,7 +656,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							if ($i > 0) {
 								$text = $text . ", ";
 							}
-							$text = $text . zeige_userdetails($row['u_id'], $row);
+							$text = $text . zeige_userdetails($row['u_id']);
 						} else {
 							pdoQuery("DELETE FROM `iignore` WHERE `i_id` = :i_id", [':i_id'=>$row['i_id']]);
 						}
@@ -1152,7 +1137,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							// Benutzer ist online
 							$result2 = $query2->fetch();
 
-							$text = $text . zeige_userdetails($row['u_id'], $row, TRUE, "&nbsp;", $result2['online_zeit'], $row['login']) . ", ";
+							$text = $text . zeige_userdetails($row['u_id'], TRUE) . ", ";
 							
 							$text .= "<b>[" . $whotext[$result2['o_who']] . "]</b>";
 							if ($result2['o_who'] == 0) {
@@ -1178,7 +1163,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$text = $text . "</b><br>\n";
 						} else {
 							// Benutzer ist nicht online
-							$text = $text . zeige_userdetails($row['u_id'], $row, TRUE, "&nbsp;", "", $row['login']) . ", ";
+							$text = $text . zeige_userdetails($row['u_id'], TRUE) . ", ";
 							
 							if ($row['u_away']) {
 								$awaytext = htmlspecialchars($row['u_away']);
@@ -1263,7 +1248,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						
 						$resultCount = $query->rowCount();
 						if ($resultCount == 0) {
-							priv_msg($u_nick, $u_id, $nick['u_id'], $u_farbe, $text, $userdata);
+							priv_msg($u_nick, $u_id, $nick['u_id'], $u_farbe, $text);
 							system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg24] $nick[u_nick]:</b> $text");
 						} else {
 							system_msg("", $u_id, $u_id, $system_farbe, str_replace('%nick%', $nick['u_nick'], $lang['chat_msg109']));
@@ -1301,11 +1286,13 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			$fid = "";
 			$nicks = "";
 			$result = $query->fetchAll();
+			$rueckgabe = false;
 			foreach($result as $zaehler => $a) {
-				$query2 = pdoQuery("SELECT `o_user`, `o_name` FROM `online` WHERE (`o_user` = :o_user OR `o_user` = :o_user) AND `o_user` != :o_user", [':o_user'=>$a['f_userid'], ':o_user'=>$a['f_freundid'], ':o_user'=>$u_id]);
+				$query2 = pdoQuery("SELECT `o_user`, `o_name` FROM `online` WHERE (`o_user` = :o_user1 OR `o_user` = :o_user2) AND `o_user` != :o_user3", [':o_user1'=>$a['f_userid'], ':o_user2'=>$a['f_freundid'], ':o_user3'=>$u_id]);
 				
 				$result2Count = $query2->rowCount();
 				if ($result2Count == 1) {
+					$rueckgabe = true;
 					if ($a['f_userid'] != $u_id) {
 						$fid[] = $a['f_userid'];
 					}
@@ -1315,15 +1302,17 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 			}
 			
-			$privat = TRUE;
-			$text = html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
-			
-			for ($i = 0; $i < count($fid); $i++) {
-				$nick = zeige_userdetails($fid[$i], 0, FALSE, "");
-				priv_msg($u_nick, $u_id, $fid[$i], $u_farbe, $text, $userdata);
-				system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg24] $nick:</b> $text");
+			if($rueckgabe) {
+				$privat = TRUE;
+				$text = html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
+				
+				for ($i = 0; $i < count($fid); $i++) {
+					$nick = zeige_userdetails($fid[$i], FALSE, true);
+					priv_msg($u_nick, $u_id, $fid[$i], $u_farbe, $text);
+					system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg24] $nick:</b> $text");
+				}
 			}
-			
+				
 			break;
 		
 		case "/analle":
@@ -1343,7 +1332,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						$result = $query->fetchAll();
 						foreach($result as $zaehler => $row) {
 							if ($row['o_user'] != $u_id) {
-								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $text, $userdata);
+								priv_msg($u_nick, $u_id, $row['o_user'], $u_farbe, $text);
 							}
 						}
 						system_msg("", $u_id, $u_id, $system_farbe, "<b>$u_nick $lang[chat_msg78]:</b> $text");
@@ -1494,13 +1483,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			break;
 		
 		case "/time":
-		// Gibt die Systemuhrzeit aus
-			$date = new DateTime();
-			$date->format('Y-m-d H:i:s');
-			
-			$tempzeit = $lang['chat_msg114'];
-			$tempzeit = str_replace("%datum%", formatIntl($date,'dd. MMMM Y','de_DE'), $tempzeit);
-			$tempzeit = str_replace("%uhrzeit%", strftime('%H:%M:%S'), $tempzeit);
+			// Gibt die Systemuhrzeit aus
+			$date = date('Y-m-d H:i:s');
+			$tempzeit = str_replace("%datum%", formatDate($date,"d.m.Y H:i","Y-m-d H:i:s"), $lang['chat_msg114']);
 			system_msg("", 0, $u_id, $system_farbe, $tempzeit);
 			unset($tempzeit);
 			break;
@@ -2147,7 +2132,7 @@ function auto_knebel($text) {
 					if ($resultCount > 0) {
 						$result = $query->fetchAll();
 						foreach($result as $zaehler => $row) {
-							$txt = str_replace("%user%", zeige_userdetails($u_id, 0, FALSE, ""), $lang['knebel8']);
+							$txt = str_replace("%user%", zeige_userdetails($u_id, FALSE, true), $lang['knebel8']);
 							$txt = str_replace("%raum%", $r_name, $txt);
 							system_msg("", 0, $row['o_user'], $system_farbe, $txt);
 							if (!$privatnachricht) {

@@ -44,9 +44,8 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 				$userdata = unserialize($row['o_userdata'] . $row['o_userdata2'] . $row['o_userdata3'] . $row['o_userdata4']);
 				
 				// Variable aus o_userdata setzen, Level und away beachten
-				$uu_id = $userdata['u_id'];
 				$uu_level = $userdata['u_level'];
-				$uu_nick = zeige_userdetails($userdata['u_id'], $userdata, FALSE, "&nbsp;", "", "", TRUE);
+				$uu_nick = zeige_userdetails($userdata['u_id'], FALSE, TRUE);
 				
 				if ($userdata['u_away'] != "") {
 					$text .= "(" . $uu_nick . ")";
@@ -350,7 +349,7 @@ function hidden_msg($von_user, $von_user_id, $farbe, $r_id, $text) {
 	}
 }
 
-function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = "") {
+function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	// Schreibt privaten Text von $von_user an Benutzer $an_user
 	// Art:	N: Normal
 	//		S: Systemnachricht
@@ -359,8 +358,8 @@ function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text, $userdata = 
 	
 	// Optional Link auf Benutzer erzeugen
 	
-	if ($von_user_id && is_array($userdata)) {
-		$f['c_von_user'] = zeige_userdetails($von_user_id, $userdata, FALSE, "&nbsp;", "", "", TRUE); 
+	if ($von_user_id) {
+		$f['c_von_user'] = zeige_userdetails($von_user_id, FALSE, TRUE); 
 	} else {
 		$f['c_von_user'] = $von_user;
 	}
@@ -476,7 +475,7 @@ function id_lese($id) {
 function aktualisiere_inhalt_online($user_id) {
 	// Kopie in Onlinedatenbank aktualisieren
 	// Query muss mit dem Code in login() übereinstimmen
-	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
+	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_login`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount == 1) {
@@ -705,146 +704,83 @@ function zeige_smilies($anzeigeort, $benutzerdaten) {
 	return $text;
 }
 
-function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $trenner = "&nbsp;", $online_zeit = "", $letzter_login = "", $extra_kompakt = FALSE, $benutzername_fett = TRUE) {
-		// Liefert Benutzernamen + Level + Gruppe + E-Mail + Benutzerseite zurück
+function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FALSE, $benutzername_fett = TRUE) {
+	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Benutzerseite zurück
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
 	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
-	// $online_zeit -> Zeit in Sekunden seit Login
-	// $letzter_login -> Datum des letzten Logins
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
 	global $system_farbe, $lang, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
 	
+	$trenner = "&nbsp;";
+	
 	$text = "";
+	$query = pdoQuery("SELECT `o_name`, `o_level`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `u_online`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`
+					FROM `online` WHERE `o_user` = :o_user ", [':o_user'=>$zeige_user_id]);
 	
-	if (is_array($userdaten)) {
-		// Array wurde übergeben
+	$resultCount = $query->rowCount();
+	if($resultCount == 1) {
+		// Benutzer online: Daten aus der Tabelle `online` holen
 		
-		if (!isset($userdaten['u_chathomepage'])) {
-			$userdaten['u_chathomepage'] = '0';
-		}
-		if (!isset($userdaten['u_punkte_anzeigen'])) {
-			$userdaten['u_punkte_anzeigen'] = '0';
-		}
+		$result = $query->fetch();
+		$userdata = unserialize($result['o_userdata'] . $result['o_userdata2'] . $result['o_userdata3'] . $result['o_userdata4']);
 		
-		$user_id = $userdaten['u_id'];
-		$user_nick = $userdaten['u_nick'];
-		if (isset($userdaten['u_level'])) {
-			$user_level = $userdaten['u_level'];
-		} else {
-			$user_level = "";
-		}
-		//$user_punkte_gesamt = $userdaten['u_punkte_gesamt'];
-		if (isset($userdaten['u_punkte_gruppe'])) {
-			$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
-		} else {
-			$user_punkte_gruppe = '0';
-		}
-		$user_chathomepage = htmlspecialchars($userdaten['u_chathomepage']);
-		
-		if ($show_geschlecht == true) {
-			$user_geschlecht = hole_geschlecht($zeige_user_id);
-		}
-		
-		$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
-		
-	} else if (is_object($userdaten)) {
-		// Object wurde übergeben
-		$user_id = $userdaten->u_id;
-		$user_nick = $userdaten->u_nick;
-		$user_level = $userdaten->u_level;
-		//$user_punkte_gesamt = $userdaten->u_punkte_gesamt;
-		$user_punkte_gruppe = hexdec($userdaten->u_punkte_gruppe);
-		if (isset($userdaten->u_chathomepage)) {
-			$user_chathomepage = htmlspecialchars($userdaten->u_chathomepage);
-		} else {
-			$user_chathomepage = "";
-		}
-		
-		if ($show_geschlecht == true) {
-			$user_geschlecht = hole_geschlecht($zeige_user_id);
-		}
-		
-		if (isset($userdaten->u_punkte_anzeigen)) {
-			$user_punkte_anzeigen = $userdaten->u_punkte_anzeigen;
-		} else {
-			$user_punkte_anzeigen = "";
-		}
-	} else if ($zeige_user_id) {
-		// Benutzerdaten aus DB lesen
-		pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
-		
-		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`, `u_punkte_anzeigen`, "
-			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online`, date_format(`u_login`,'%d. %M %Y %H:%i') AS `login` "
-			. "FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>intval($zeige_user_id)]);
-		
-		$resultCount = $query->rowCount();
-		if ($resultCount == 1) {
-			$userdaten = $query->fetch();
-			$user_id = $userdaten['u_id'];
-			$user_nick = $userdaten['u_nick'];
-			$user_level = $userdaten['u_level'];
-			//$user_punkte_gesamt = $userdaten['u_punkte_gesamt'];
-			$user_punkte_gruppe = hexdec($userdaten['u_punkte_gruppe']);
-			$user_chathomepage = htmlspecialchars($userdaten['u_chathomepage']);
-			$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
-			
-			$online_zeit = $userdaten['online'];
-			$letzter_login = $userdaten['login'];
-		}
-		
-		if ($show_geschlecht == true) {
-			$user_geschlecht = hole_geschlecht($zeige_user_id);
-		}
+		// Variable aus o_userdata setzen
+		$benutzerdaten['u_id'] = $zeige_user_id;
+		$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['o_name'])), "I", "i");
+		$benutzerdaten['u_level'] = $result['o_level'];
+		$benutzerdaten['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
+		$benutzerdaten['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
+		$benutzerdaten['u_nachrichten_empfangen'] = $userdata['u_nachrichten_empfangen'];
+		$benutzerdaten['u_chathomepage'] = $userdata['u_chathomepage'];
+		$benutzerdaten['u_online'] = $result['u_online'];
+		$benutzerdaten['u_login'] = $userdata['u_login'];
 	} else {
-		$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
-		if (isset($zeige_user_id)) {
-			$nachricht .= $zeige_user_id;
-		}
-		if (isset($userdaten['u_id'])) {
-			$nachricht .= $userdaten['u_id'];
-		}
-		if (isset($userdaten->u_id)) {
-			$nachricht .= $userdaten->u_id;
-		}
-		$nachricht .= "</p>";
-		
-		global $kontakt;
-		email_senden($kontakt, "Fehler: Falscher Aufruf von zeige_userdetails()", $nachricht);
-		
-		return "";
-	}
-	
-	// Wenn die $user_punkte_anzeigen nicht im Array war, dann seperat abfragen
-	if (!isset($user_punkte_anzeigen) || ($user_punkte_anzeigen != "1" && $user_punkte_anzeigen != "0")) {
-		$query = pdoQuery("SELECT `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($user_id)]);
+		// Benutzer offline: Daten aus der Tabelle `user` holen
+		$query = pdoQuery("SELECT `u_nick`, `u_level`, `u_punkte_anzeigen`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_login`
+					FROM `user` WHERE `u_id` = :u_id ", [':u_id'=>$zeige_user_id]);
 		
 		$resultCount = $query->rowCount();
-		if ($resultCount == 1) {
-			$userdaten = $query->fetch();
-			$user_punkte_anzeigen = $userdaten['u_punkte_anzeigen'];
+		if($resultCount == 1) {
+			$result = $query->fetch();
+			$benutzerdaten['u_id'] = $zeige_user_id;
+			$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['u_nick'])), "I", "i");
+			$benutzerdaten['u_level'] = $result['u_level'];
+			$benutzerdaten['u_punkte_anzeigen'] = $result['u_punkte_anzeigen'];
+			$benutzerdaten['u_punkte_gruppe'] = $result['u_punkte_gruppe'];
+			$benutzerdaten['u_nachrichten_empfangen'] = $result['u_nachrichten_empfangen'];
+			$benutzerdaten['u_chathomepage'] = $result['u_chathomepage'];
+			$benutzerdaten['u_online'] = null;
+			$benutzerdaten['u_login'] = $result['u_login'];
+		} else {
+			$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
+			$nachricht_titel = $nachricht;
+			if (isset($zeige_user_id)) {
+				$nachricht .= $zeige_user_id;
+			}
+			
+			global $kontakt;
+			email_senden($kontakt, $nachricht_titel, $nachricht);
+			
+			return '';
 		}
 	}
+	$benutzerdaten['u_login'] = formatDate($benutzerdaten['u_login'],"d.m.Y H:i","Y-m-d H:i:s");
 	
-	if ($user_id != $zeige_user_id) {
-		$nachricht = "Fehler: $user_id!=$zeige_user_id</p>\n";
-		
-		global $kontakt;
-		email_senden($kontakt, "Fehler", $nachricht);
-		
-		return "";
+	if ($show_geschlecht == true) {
+		$user_geschlecht = hole_geschlecht($zeige_user_id);
 	}
 	
 	if (!$extra_kompakt) {
-		$url = "inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id";
+		$url = "inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=" . $benutzerdaten['u_id'];
 		if($benutzername_fett) {
-			$text = "<a href=\"$url\" target=\"chat\"><b>" . $user_nick . "</b></a>";
+			$text = "<a href=\"$url\" target=\"chat\"><b>" . $benutzerdaten['u_nick'] . "</b></a>";
 		} else {
-			$text = "<a href=\"$url\" target=\"chat\">" . $user_nick . "</a>";
+			$text = "<a href=\"$url\" target=\"chat\">" . $benutzerdaten['u_nick'] . "</a>";
 		}
 	} else {
-		$text = $user_nick;
+		$text = $benutzerdaten['u_nick'];
 	}
 	
 	if ($show_geschlecht && $user_geschlecht) {
@@ -853,11 +789,11 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 	
 	// Levels, Gruppen, Home & Mail Grafiken
 	$text2 = "";
-	if (!isset($leveltext[$user_level])) {
-		$leveltext[$user_level] = "";
+	if (!isset($leveltext[$benutzerdaten['u_level']])) {
+		$leveltext[$benutzerdaten['u_level']] = "";
 	}
-	if (!$extra_kompakt && $leveltext[$user_level] != "") {
-		$text2 .= "&nbsp;(" . $leveltext[$user_level] . ")";
+	if (!$extra_kompakt && $leveltext[$benutzerdaten['u_level']] != "") {
+		$text2 .= "&nbsp;(" . $leveltext[$benutzerdaten['u_level']] . ")";
 	}
 	
 	if (!$extra_kompakt) {
@@ -868,34 +804,35 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 		$grafikurl2 = "";
 	}
 	
-	if (!$extra_kompakt && $user_punkte_gruppe != 0 && $user_punkte_anzeigen == "1" ) {
+	if (!$extra_kompakt && $benutzerdaten['u_punkte_gruppe'] != 0 && $benutzerdaten['u_punkte_anzeigen'] == "1" ) {
 		
-		if ($user_level == "C" || $user_level == "S") {
-			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $user_punkte_gruppe . $punkte_grafik[1] . $grafikurl2;
+		if ($benutzerdaten['u_level'] == "C" || $benutzerdaten['u_level'] == "S") {
+			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[0] . $benutzerdaten['u_punkte_gruppe'] . $punkte_grafik[1] . $grafikurl2;
 		} else {
-			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[2] . $user_punkte_gruppe . $punkte_grafik[3] . $grafikurl2;
+			$text2 .= "&nbsp;" . $grafikurl1 . $punkte_grafik[2] . $benutzerdaten['u_punkte_gruppe'] . $punkte_grafik[3] . $grafikurl2;
 		}
 	}
 	
-	if (!$extra_kompakt && $user_chathomepage == "1") {
-		$url = "home.php?/$user_nick";
-		$text2 .= "&nbsp;" . "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
+	// Chat-Homepage
+	if (!$extra_kompakt && $benutzerdaten['u_chathomepage'] == "1") {
+		$text2 .= "&nbsp;" . "<a href=\"home.php?/" . $benutzerdaten['u_nick'] . "\" target=\"_blank\">$chat_grafik[home]</a>";
 	}
 	
-	if (!$extra_kompakt && $trenner != "" && $user_nick) {
-		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=" . URLENCODE($user_nick);
+	// Nachrichten
+	if (!$extra_kompakt && $trenner != "" && $benutzerdaten['u_nachrichten_empfangen'] == "1") {
+		$url = "inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=" . $benutzerdaten['u_nick'];
 		$text2 .= $trenner . "<a href=\"$url\" target=\"chat\" title=\"E-Mail\">$chat_grafik[mail]</a>";
 	} else if (!$extra_kompakt && $trenner != "") {
 		$text2 .= $trenner;
 	}
 	
 	// Onlinezeit oder Datum des letzten Logins einfügen, falls Online Text fett ausgeben
-	if ($online_zeit && $online_zeit != "NULL" && $online) {
-		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $online_zeit), $lang['chat_msg92']);
+	if ($benutzerdaten['u_online'] != "NULL" && $online) {
+		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $benutzerdaten['u_online']), $lang['chat_msg92']);
 		$fett1 = "<b>";
 		$fett2 = "</b>";
-	} else if ($letzter_login && $letzter_login != "NULL" && $online) {
-		$text2 .= $trenner . str_replace("%login%", $letzter_login, $lang['chat_msg94']);
+	} else if ($benutzerdaten['u_login'] != "NULL" && $online) {
+		$text2 .= $trenner . str_replace("%login%", $benutzerdaten['u_login'], $lang['chat_msg94']);
 		$fett1 = "";
 		$fett2 = "";
 	} else if ($online) {
@@ -913,6 +850,12 @@ function zeige_userdetails($zeige_user_id, $userdaten = 0, $online = FALSE, $tre
 	
 	return ($fett1 . $text . $fett2);
 }
+
+function formatDate($date, $expectedFormat = 'd. M Y', $currentFormat = 'Y-m-d'){
+	$date = DateTime::createFromFormat($currentFormat, $date);
+	$date->setTimeZone(new DateTimeZone('Europe/Berlin'));
+	return $date->format($expectedFormat);
+} 
 
 function chat_parse($text) {
 	// Filtert Text und ersetzt folgende Zeichen:
@@ -1071,8 +1014,8 @@ function chat_parse($text) {
 	return $text;
 }
 
-function hole_geschlecht($userid) {
-	$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>intval($userid)]);
+function hole_geschlecht($user_id) {
+	$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$user_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount == 1) {

@@ -85,7 +85,7 @@ function formular_neue_email2($text, $box, $daten) {
 	
 	// Signatur anfügen
 	if (!isset($daten['f_text'])) {
-		$daten['f_text'] = htmlspecialchars(erzeuge_fuss(""));
+		$daten['f_text'] = erzeuge_fuss("");
 	}
 	
 	// Benutzerdaten aus u_id lesen und setzen
@@ -122,10 +122,8 @@ function formular_neue_email2($text, $box, $daten) {
 			$zaehler++;
 			
 			// Text
-			$text .= "<tr>\n";
-			$text .= "<td style=\"vertical-align:top; text-align:right;\" class=\"tabelle_zeile1\">$lang[nachrichten_text]</td>\n";
-			$text .= "<td class=\"tabelle_zeile1\"><textarea cols=\"75\" rows=\"20\" name=\"daten_text\">" . $daten['f_text'] . "</textarea></td>\n";
-			$text .= "</tr>\n";
+			$text .= zeige_formularfelder("textarea2", $zaehler, $lang['nachrichten_text'], "daten_text", $daten['f_text']);
+			$zaehler++;
 			
 			// Art des Versands
 			$email_select = "<select name=\"daten_typ\">";
@@ -192,6 +190,17 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 		
 		case "normal":
 		default;
+			// Das Empfangen von Nachrchten ist deaktiviert
+			$query = pdoQuery("SELECT `u_nick`, `u_nachrichten_empfangen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+			
+			$result = $query->fetch();
+			if($result['u_nachrichten_empfangen'] == 0) {
+				$mailversand_ok = false;
+				$hinweismeldung = $lang['nachrichten_info_keine_nachrichten_empfangen'];
+				$text .= hinweis($hinweismeldung, "hinweis");
+			}
+		
+		
 			$query = pdoQuery("SELECT `m_id`, `m_status`, `m_von_uid`, date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `m_betreff`, `u_nick` "
 				. "FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = :m_an_uid AND `m_status` !='geloescht' ORDER BY `m_zeit` DESC", [':m_an_uid'=>$u_id]);
 			
@@ -200,8 +209,8 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 	}
 	
 	$resultCount = $query->rowCount();
+	$box = "$resultCount $titel";
 	if ($resultCount > 0) {
-		$box = "$resultCount $titel";
 		
 		if($aktion == "geloescht") {
 			$text .= "<br><a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorbleeren\" class=\"button\" title=\"$lang[nachrichten_papierkorb_leeren]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[nachrichten_papierkorb_leeren]</span></a><br><br>";
@@ -283,10 +292,10 @@ function zeige_email($daten, $art) {
 	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
 	if($art == "gesendet") {
-		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` "
+		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, "
 			. "FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_von_uid` = :m_von_uid AND `m_id` = :m_id ORDER BY `m_zeit` DESC", [':m_von_uid'=>$u_id, ':m_id'=>$daten['id']]);
 	} else {
-		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` "
+		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, "
 			. "FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = :m_an_uid AND `m_id` = :m_id ORDER BY `m_zeit` DESC", [':m_an_uid'=>$u_id, ':m_id'=>$daten['id']]);
 	}
 	
@@ -298,7 +307,7 @@ function zeige_email($daten, $art) {
 		if ($row['u_nick'] == "NULL" || $row['u_nick'] == "") {
 			$von_nick = "$chat";
 		} else {
-			$von_nick = "<b>" . zeige_userdetails($row['u_id'], $row) . "</b>";
+			$von_nick = "<b>" . zeige_userdetails($row['u_id']) . "</b>";
 		}
 		
 		$text = '';

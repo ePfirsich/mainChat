@@ -12,3 +12,5 @@ ALTER TABLE `posting` DROP `po_gesperrt`;
 ALTER TABLE `user` DROP `u_sicherer_modus`;
 ALTER TABLE `user` DROP `u_zeilen`;
 ALTER TABLE `online` DROP `o_timestamp`;
+
+ALTER TABLE `user` ADD `u_nachrichten_empfangen` int(1) UNSIGNED NOT NULL DEFAULT 1;

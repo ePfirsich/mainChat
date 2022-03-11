@@ -11,9 +11,6 @@ function profil_editor($u_id, $u_nick, $f) {
 	}
 	
 	// Benutzerdaten lesen
-	$query = pdoQuery("SELECT * FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
-	$userdata = $query->fetch();
-	
 	$userdaten_bearbeiten = "\n[<a href=\"inhalt.php?bereich=einstellungen\">$lang[profil_einstellungen_aendern]</a>]";
 	
 	$zaehler = 0;
@@ -28,7 +25,7 @@ function profil_editor($u_id, $u_nick, $f) {
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['ihre_benutzerdaten'], "", "", 0, "70", "");
 	
 	// Benutzer
-	$value = "<b>" . zeige_userdetails($userdata['u_id'], $userdata) . "</b> $userdaten_bearbeiten";
+	$value = "<b>" . zeige_userdetails($u_id) . "</b> $userdaten_bearbeiten";
 	$text .= zeige_formularfelder("text", $zaehler, $lang['profil_benutzername'], "", $value);
 	$zaehler++;
 

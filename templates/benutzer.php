@@ -199,12 +199,8 @@ switch ($aktion) {
 					foreach($result as $zaehler => $row) {
 						// Array mit Benutzerdaten und Infotexten aufbauen
 						$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
-						$larr[$i]['u_level'] = $row['u_level'];
 						$larr[$i]['u_id'] = $row['u_id'];
 						$larr[$i]['u_away'] = $row['u_away'];
-						$larr[$i]['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
-						$larr[$i]['u_punkte_gruppe'] = $row['u_punkte_gruppe'];
-						$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 						
 						// Raumbesitzer einstellen, falls Level=Benutzer
 						if (isset($larr[$i]['isowner']) && $larr[$i]['isowner'] && $userdata['u_level'] == "U") {
@@ -239,19 +235,9 @@ switch ($aktion) {
 			$result = $query->fetchAll();
 			foreach($result as $zaehler => $row) {
 				// Array mit Benutzerdaten und Infotexten aufbauen
-				$larr[$i]['u_nick'] = strtr(str_replace("\\", "", htmlspecialchars($row['u_nick'])),
-					"I", "i");
-				$larr[$i]['u_level'] = $row['u_level'];
+				$larr[$i]['u_nick'] = strtr(str_replace("\\", "", htmlspecialchars($row['u_nick'])), "I", "i");
 				$larr[$i]['u_id'] = $row['u_id'];
 				$larr[$i]['u_away'] = $row['u_away'];
-				$larr[$i]['u_punkte_anzeigen'] = $row['u_punkte_anzeigen'];
-				// Wenn der Benutzer nicht möchte, daß sein Würfel angezeigt wird, ist hier die einfachste Möglichkeit
-				if ($row['u_punkte_anzeigen'] == 1) {
-					$larr[$i]['u_punkte_gruppe'] = hexdec($row['u_punkte_gruppe']);
-				} else {
-					$larr[$i]['u_punkte_gruppe'] = 0;
-				}
-				$larr[$i]['u_chathomepage'] = $row['u_chathomepage'];
 				
 				$i++;
 				flush();
@@ -286,7 +272,7 @@ switch ($aktion) {
 	default;
 		// Raum listen
 		$query = pdoQuery("SELECT `raum`.*, `o_user`, `o_name`, `o_ip`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`, `r_besitzer`= `o_user` AS `isowner` "
-			. "FROM `online` LEFT JOIN `raum` ON `o_raum` = `r_id` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout $raum_subquery " . "ORDER BY `o_name`", [':timeout'=>$timeout]);
+			. "FROM `online` LEFT JOIN `raum` ON `o_raum` = `r_id` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout $raum_subquery ORDER BY `o_name`", [':timeout'=>$timeout]);
 		
 		$result = $query->fetchAll();
 		foreach($result as $i => $row) {
@@ -295,11 +281,8 @@ switch ($aktion) {
 			
 			// Variable aus o_userdata setzen
 			$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
-			$larr[$i]['u_level'] = $userdata['u_level'];
 			$larr[$i]['u_id'] = $userdata['u_id'];
 			$larr[$i]['u_away'] = $userdata['u_away'];
-			$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
-			$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
 			$larr[$i]['r_besitzer'] = $row['r_besitzer'];
 			$larr[$i]['r_topic'] = $row['r_topic'];
 			$larr[$i]['o_ip'] = $row['o_ip'];

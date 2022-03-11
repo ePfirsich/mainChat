@@ -525,7 +525,8 @@ CREATE TABLE `user` (
 	`u_punkte_anzeigen` int(1) UNSIGNED NOT NULL DEFAULT 1,
 	`u_chathomepage` int(1) UNSIGNED NOT NULL DEFAULT 0,
 	`u_agb` int(1) UNSIGNED NOT NULL DEFAULT 0,
-	`u_emails_akzeptieren` int(1) UNSIGNED NOT NULL DEFAULT 1
+	`u_emails_akzeptieren` int(1) UNSIGNED NOT NULL DEFAULT 1,
+	`u_nachrichten_empfangen` int(1) UNSIGNED NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci PACK_KEYS=1;
 
 -- --------------------------------------------------------

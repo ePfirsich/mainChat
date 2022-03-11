@@ -70,7 +70,7 @@ if( $daten['u_nick'] == '') {
 	$daten['u_nick'] = filter_input(INPUT_POST, 'daten_nick', FILTER_SANITIZE_STRING);
 }
 
-$daten['f_text'] = filter_input(INPUT_POST, 'daten_text', FILTER_SANITIZE_STRING);
+$daten['f_text'] = filter_input(INPUT_POST, 'daten_text');
 $daten['m_betreff'] = filter_input(INPUT_POST, 'daten_betreff', FILTER_SANITIZE_STRING);
 $daten['typ'] = filter_input(INPUT_POST, 'daten_typ', FILTER_SANITIZE_NUMBER_INT);
 
@@ -289,7 +289,6 @@ if(!$bereich || $kein_seitenaufruf) {
 				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=postausgang\">" . $lang['nachrichten_postausgang'] . "</a>\n|\n"
 				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=neu\">" . $lang['nachrichten_neue_nachricht'] . "</a>\n|\n"
 				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=papierkorb\">" . $lang['nachrichten_papierkorb'] . "</a>\n|\n"
-				. "<a href=\"inhalt.php?bereich=nachrichten&aktion=mailboxzu\">" . $lang['nachrichten_nachrichten_deaktivieren'] . "</a>\n|\n"
 				. "<a href=\"inhalt.php?bereich=hilfe&aktion=hilfe-community#mail\">" . $lang['nachrichten_hilfe'] . "</a>\n";
 			zeige_tabelle_zentriert($box, $text);
 			

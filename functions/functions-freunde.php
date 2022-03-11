@@ -55,17 +55,17 @@ function zeige_freunde($text, $aktion, $zeilen) {
 			
 			// Benutzer aus der Datenbank lesen
 			if ($row['f_userid'] != $u_id) {
-				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>$row['f_userid']]);
 			} else if ($row['f_freundid'] != $u_id) {
-				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um%H:%i') AS `login`, "
+				$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `o_id`, date_format(`u_login`,'%d. %M %Y um%H:%i') AS `login`, "
 					. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>$row['f_freundid']]);
 			}
 			$result2 = $query2->fetch();
 			$result2Count = $query2->rowCount();
 			if ($result2Count > 0) {
 				// Benutzer gefunden -> Ausgeben
-				$freund_nick = "<b>" . zeige_userdetails($result2['u_id'], $result2) . "</b>";
+				$freund_nick = "<b>" . zeige_userdetails($result2['u_id']) . "</b>";
 			} else {
 				// Benutzer nicht gefunden, Freund löschen
 				$freund_nick = "NOBODY";

@@ -15,7 +15,7 @@ function raeume_auflisten($order, $extended) {
 		$anzahl_user[$row['r_id']] = $row['anzahl'];
 	}
 	// Liste der Räume und der Raumbesitzer lesen
-	$query = pdoQuery("SELECT raum.*, `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe` FROM `raum` LEFT JOIN `user` ON `r_besitzer` = `u_id` GROUP BY `r_name` ORDER BY :order", [':order'=>$order]);
+	$query = pdoQuery("SELECT * FROM `raum` GROUP BY `r_name` ORDER BY :order", [':order'=>$order]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -80,7 +80,7 @@ function raeume_auflisten($order, $extended) {
 				
 				$text .= "<td $bgcolor>$b1". $raumstatus1[$row['r_status1']] . "$b2&nbsp;</td>";
 				$text .= "<td $bgcolor>$b1" . $raumstatus2[$row['r_status2']] . "$b2&nbsp;</td>";
-				$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], $row, false) . $b2 . "</td>";
+				$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], false) . $b2 . "</td>";
 				if ((isset($extended)) && ($extended)) {
 					if ($row['r_smilie'] == 1) {
 						$r_smilie = $lang['raum_erlaubt'];

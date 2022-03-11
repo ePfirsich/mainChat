@@ -4,7 +4,6 @@ function maske_kategorie($fo_id = 0) {
 	global $lang;
 	
 	if ($fo_id > 0) {
-		$fo_id = intval($fo_id);
 		$query = pdoQuery("SELECT `fo_name`, `fo_admin` FROM `forum_kategorien` where `fo_id` = :fo_id", [':fo_id'=>$fo_id]);
 		
 		$result = $query->fetch();
@@ -259,7 +258,7 @@ function maske_forum($th_id = 0) {
 	
 	$text = "";
 	if ($th_id > 0) {
-		$query = pdoQuery("SELECT `th_name`, `th_desc` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>intval($th_id)]);
+		$query = pdoQuery("SELECT `th_name`, `th_desc` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
 		
 		$result = $query->fetch();
 		$th_name = htmlspecialchars($result['th_name']);
@@ -398,12 +397,12 @@ function show_forum() {
 	// Erklärung zu den Datumsformatierungen: https://www.w3schools.com/sql/func_mysql_date_format.asp
 	$query2 = pdoQuery("SELECT `po_id`, `po_u_id`, date_format(from_unixtime(`po_ts`), '%d. %M %Y') AS `po_date`, date_format(from_unixtime(`po_threadts`), '%d. %M %Y') AS `po_date2`,
 			`po_titel`, `po_threadorder`, `po_topposting`, `po_threadgesperrt`, `u_nick`,
-			`u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id`
-			WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id ORDER BY `po_topposting` DESC, `po_threadts` DESC, `po_ts` DESC LIMIT :limit_start, :limit_end", [':po_th_id'=>intval($th_id), ':limit_start'=>$offset, ':limit_end'=>$anzahl_po_seite]);
+			`u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_nachrichten_empfangen`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id`
+			WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id ORDER BY `po_topposting` DESC, `po_threadts` DESC, `po_ts` DESC LIMIT :limit_start, :limit_end", [':po_th_id'=>$th_id, ':limit_start'=>$offset, ':limit_end'=>$anzahl_po_seite]);
 	$result2 = $query2->fetchAll();
 	
 	//Infos über Forum und Thema holen
-	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name`, `th_anzthreads` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>intval($th_id)]);
+	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name`, `th_anzthreads` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>$th_id]);
 	
 	$result = $query->fetch();
 	$fo_id = htmlspecialchars($result['fo_id']);
@@ -489,15 +488,7 @@ function show_forum() {
 		if (!$posting['u_nick']) {
 			$text .= "<td $farbe><span class=\"smaller\"><b>Nobody</b></span></td>\n";
 		} else {
-			$userdata = array();
-			$userdata['u_id'] = $posting['po_u_id'];
-			$userdata['u_nick'] = $posting['u_nick'];
-			$userdata['u_level'] = $posting['u_level'];
-			$userdata['u_punkte_gesamt'] = $posting['u_punkte_gesamt'];
-			$userdata['u_punkte_gruppe'] = $posting['u_punkte_gruppe'];
-			$userdata['u_punkte_anzeigen'] = $posting['u_punkte_anzeigen'];
-			$userdata['u_chathomepage'] = $posting['u_chathomepage'];
-			$userlink = zeige_userdetails($posting['po_u_id'], $userdata);
+			$userlink = zeige_userdetails($posting['po_u_id']);
 			if ($posting['u_level'] == 'Z') {
 				$text .= "<td $farbe><span class=\"smaller\">$userdata[u_nick]</span></td>\n";
 			} else {
@@ -509,26 +500,11 @@ function show_forum() {
 			$antworten = "";
 		} else {
 			$themen_id = $posting['po_id'];
-			$query = pdoQuery("SELECT `po_u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_vater_id` = :po_vater_id ORDER by `po_id` DESC LIMIT 1", [':po_vater_id'=>$themen_id]);
+			$query = pdoQuery("SELECT `po_u_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id ORDER by `po_id` DESC LIMIT 1", [':po_vater_id'=>$themen_id]);
 			
 			$result = $query->fetch();
-			$antwort_u_id = $result['po_u_id'];
-			$antwort_u_nick = $result['u_nick'];
-			$antwort_u_level = $result['u_level'];
-			$antwort_u_punkte_gesamt = $result['u_punkte_gesamt'];
-			$antwort_u_punkte_gruppe = $result['u_punkte_gruppe'];
-			$antwort_u_punkte_anzeigen = $result['u_punkte_anzeigen'];
-			$antwort_u_chathomepage = $result['u_chathomepage'];
 			
-			$userdata2 = array();
-			$userdata2['u_id'] = $antwort_u_id;
-			$userdata2['u_nick'] = $antwort_u_nick;
-			$userdata2['u_level'] = $antwort_u_level;
-			$userdata2['u_punkte_gesamt'] = $antwort_u_punkte_gesamt;
-			$userdata2['u_punkte_gruppe'] = $antwort_u_punkte_gruppe;
-			$userdata2['u_punkte_anzeigen'] = $antwort_u_punkte_anzeigen;
-			$userdata2['u_chathomepage'] = $antwort_u_chathomepage;
-			$antworten_userlink = zeige_userdetails($antwort_u_id, $userdata2);
+			$antworten_userlink = zeige_userdetails($result['po_u_id']);
 			
 			$antworten = $posting['po_date2'] . " von " . $antworten_userlink;
 		}
@@ -566,18 +542,17 @@ function maske_posting($mode) {
 		case "reply": // zitieren
 		//Daten des Vaters holen
 			$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, ifnull(u_nick, 'unknown') AS `u_nick`
-					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
+					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_vater_id]);
 			
 			$result = $query->fetch();
 			$autor = $result['u_nick'];
-			$po_date = $result['po_date'];
 			$po_titel = $result['po_titel'];
 			if (substr($po_titel, 0, 3) != $lang['reply']) {
-				$po_titel = $lang['reply'] . " " . $po_titel;
+				$po_titel = $lang['reply'] . " " . $result['po_date'];
 			}
 			$titel = $po_titel;
 			$po_text = $result['po_text'];
-			$po_text = erzeuge_quoting($po_text, $autor, $po_date);
+			$po_text = erzeuge_quoting($po_text, $autor, $result['po_date']);
 			$po_text = erzeuge_fuss($po_text);
 			
 			//$kopfzeile = $po_titel;
@@ -585,7 +560,7 @@ function maske_posting($mode) {
 			break;
 		case "answer": // antworten
 		//Daten des Vaters holen
-			$query = pdoQuery("SELECT `po_titel` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
+			$query = pdoQuery("SELECT `po_titel` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$po_vater_id]);
 			
 			$result = $query->fetch();
 			$po_titel = $result['po_titel'];
@@ -602,12 +577,11 @@ function maske_posting($mode) {
 		case "edit":
 		//Daten holen
 			$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, ifnull(`u_nick`, 'unknown') AS `u_nick`, `u_id`, `po_threadgesperrt`, `po_topposting`
-					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_id)]);
+					FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 			
 			$result = $query->fetch();
 			$autor = $result['u_nick'];
 			$user_id = $result['u_id'];
-			$po_date = $result['po_date'];
 			$po_topposting = $result['po_topposting'];
 			$po_threadgesperrt = $result['po_threadgesperrt'];
 			$po_titel = $result['po_titel'];
@@ -745,7 +719,7 @@ function verbuche_punkte($u_id) {
 function show_pfad_posting($th_id, $po_titel) {
 	global $thread, $seite;
 	//Infos über Forum und Thema holen
-	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>intval($th_id)]);
+	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>$th_id]);
 	
 	$result = $query->fetch();
 	$fo_id = htmlspecialchars($result['fo_id']);
@@ -812,7 +786,7 @@ function verschiebe_posting() {
 	
 	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
 			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`
-			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($thread)]);
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$thread]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -900,38 +874,31 @@ function show_posting() {
 	global $po_id, $thread, $seite, $lang, $forum_admin, $th_id, $u_id;
 	
 	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
-			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage`
+			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`
 			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 	
 	$resultCount = $query->rowCount();
-	if ($resultCount > 0) {
+	if ($resultCount = 1) {
 		$row = $query->fetch();
 		$th_id = $row['po_th_id'];
-		$po_u_id = $row['po_u_id'];
-		$po_date = $row['po_date'];
 		$po_titel = $row['po_titel'];
 	} else {
 		$th_id = 0;
-		$po_u_id = 0;
-		$po_date = "";
+		$row['po_u_id'] = 0;
+		$row['po_date'] = "";
 		$po_titel = "";
 	}
 	
 	$po_text = ersetze_smilies(chat_parse(nl2br($row['po_text'])));
 	if (($row['u_nick'] != "Nobody") && ($row['u_level'] <> "Z")) {
-		$autor = zeige_userdetails($po_u_id, $row);
+		$autor = zeige_userdetails($row['po_u_id']);
 	} else {
 		$autor = $row['u_nick'];
 	}
 	
-	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
-	
-	$result = $query->fetch();
-	$po_threadorder = $result['po_threadorder'];
-	
 	$text = show_pfad_posting($th_id, $po_titel);
 	
-	$text .= navigation_thema($po_titel, $po_u_id, $th_id, TRUE);
+	$text .= navigation_thema($po_titel, $row['po_u_id'], $th_id, TRUE);
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";
@@ -951,28 +918,16 @@ function show_posting() {
 	$u_gelesene = unserialize($gelesene);
 	
 	$query = pdoQuery("SELECT `po_id`, `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
-			`po_titel`, `po_text`, `po_u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_punkte_anzeigen`, `u_chathomepage`, `po_threadorder`
+			`po_titel`, `po_text`, `po_u_id`, `u_nick`, `po_threadorder`
 			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id OR `po_vater_id` = :po_vater_id", [':po_id'=>$thread, ':po_vater_id'=>$thread]);
 	
 	$result = $query->fetchAll();
-	
-	// Beiträge in der richtigen Reihenfolge durchlaufen
 	foreach($result as $zaehler => $beitrag) {
 		$span = 0;
 		
 		$po_text = ersetze_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
-		$po_date = $beitrag['po_date'];
-		$po_u_id = $beitrag['po_u_id'];
 		$po_th_id = $beitrag['po_th_id'];
 		$po_id = $beitrag['po_id'];
-		$po_u_nick = $beitrag['u_nick'];
-		
-		$po_threadorder = $beitrag['po_threadorder'];
-		$po_u_level = $beitrag['u_level'];
-		$po_u_punkte_gesamt = $beitrag['u_punkte_gesamt'];
-		$po_u_punkte_gruppe = $beitrag['u_punkte_gruppe'];
-		$po_u_punkte_anzeigen = $beitrag['u_punkte_anzeigen'];
-		$po_u_chathomepage = $beitrag['u_chathomepage'];
 		
 		if (!@in_array($po_id, $u_gelesene[$th_id])) {
 			$col = ' <span class="fa-solid fa-star icon16" alt="ungelesener Beitrag" title="ungelesener Beitrag"></span>';
@@ -981,19 +936,12 @@ function show_posting() {
 		}
 		$besonderer_status = $col;
 		
-		if (!$po_u_nick) {
+		if (!$beitrag['u_nick']) {
 			$userdetails = "gelöschter Benutzer";
 		} else {
 			$userdata = array();
-			$userdata['u_id'] = $po_u_id;
-			$userdata['u_nick'] = $po_u_nick;
-			$userdata['u_level'] = $po_u_level;
-			$userdata['u_punkte_gesamt'] = $po_u_punkte_gesamt;
-			$userdata['u_punkte_gruppe'] = $po_u_punkte_gruppe;
-			$userdata['u_punkte_anzeigen'] = $po_u_punkte_anzeigen;
-			$userdata['u_chathomepage'] = $po_u_chathomepage;
 			
-			$userlink = zeige_userdetails($po_u_id, $userdata);
+			$userlink = zeige_userdetails($beitrag['po_u_id']);
 			if ($po_u_level == 'Z') {
 				$userdetails = "$userdata[u_nick]";
 			} else {
@@ -1001,7 +949,7 @@ function show_posting() {
 			}
 		}
 		
-		$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$po_u_id]);
+		$query = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$beitrag['po_u_id']]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
@@ -1012,14 +960,14 @@ function show_posting() {
 		}
 		
 		// Avatar
-		$ava = avatar_anzeigen($po_u_id, $po_u_nick, "forum", $ui_gen);
+		$ava = avatar_anzeigen($beitrag['po_u_id'], $beitrag['u_nick'], "forum", $ui_gen);
 		
 		$text .= "<tr>\n";
 		$text .= "<td rowspan=\"3\" class=\"tabelle_kopfzeile smaller\" style=\"width:150px; vertical-align:top; text-align:center;\">\n";
 		$text .= "$ava <br>\n";
 		$text .= $userdetails . $besonderer_status;
 		$text .= "</td>\n";
-		$text .= "<td class=\"tabelle_kopfzeile\">$lang[geschrieben_am]$po_date</td>\n";
+		$text .= "<td class=\"tabelle_kopfzeile\">" . $lang['geschrieben_am'] . $beitrag['po_date'] . "</td>\n";
 		$text .= "</tr>\n";
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_zeile1\">" . html_entity_decode($po_text) . "</td>\n";
@@ -1031,7 +979,7 @@ function show_posting() {
 		$schreibrechte = pruefe_schreibrechte($po_th_id);
 		// Darf der Benutzer den Beitrag bearbeiten?
 		// Entweder eigenes posting oder forum_admin
-		if ((($u_id == $po_u_id) || ($forum_admin)) && ($schreibrechte)) {
+		if ((($u_id == $beitrag['po_u_id']) || ($forum_admin)) && ($schreibrechte)) {
 			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 		}
 		
@@ -1049,7 +997,7 @@ function show_posting() {
 	
 	$text .= "</table>\n";
 	
-	$text .= navigation_thema($po_titel, $po_u_id, $th_id, FALSE);
+	$text .= navigation_thema($po_titel, $beitrag['po_u_id'], $th_id, FALSE);
 	$text .= show_pfad_posting($th_id, $po_titel);
 	
 	$text .= "</table>\n";

@@ -27,7 +27,7 @@ switch ($aktion) {
 		$daten['u_nick'] = str_replace(" ", "+", $daten['u_nick']);
 		$daten['u_nick'] = coreCheckName($daten['u_nick'], $check_name);
 		
-		$query = pdoQuery("SELECT `u_id`, `u_level` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$daten['u_nick']]);
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_nachrichten_empfangen` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$daten['u_nick']]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
@@ -43,15 +43,13 @@ switch ($aktion) {
 			}
 			
 			$boxzu = false;
-			$query2 = pdoQuery("SELECT `m_id` FROM `mail` WHERE `m_von_uid` = :m_von_uid AND `m_an_uid` = :m_an_uid and `m_betreff` = :m_betreff AND `m_status` != 'geloescht'", [':m_von_uid'=>$daten['u_id'], ':m_an_uid'=>$daten['u_id'], ':m_betreff'=>$lang['nachrichten_posteingang_geschlossen']]);
-			
-			$result2Count = $query2->rowCount();
-			if ($result2Count >= 1) {
+			// Möchte der Benutzer keine Nachrichten empfangen?
+			if($result['u_nachrichten_empfangen'] == 0) {
 				$boxzu = true;
 			}
 			
 			if ($boxzu == true) {
-				$fehlermeldung = $lang['nachrichten_fehler_mailbox_geschlossen'];
+				$fehlermeldung = str_replace("%nick%", $result['u_nick'], $lang['nachrichten_fehler_keine_nachrichten_empfangen']);
 			} else {
 				$m_u_level = $result['u_level'];
 				if ($m_u_level != "G" && $m_u_level = "Z" && $ignore != true) {
@@ -179,7 +177,8 @@ switch ($aktion) {
 			} else {
 				$daten['m_betreff'] = "Re: " . html_entity_decode($row['m_betreff']);
 			}
-			$daten['f_text'] = erzeuge_umbruch($row['m_text'], 70);
+			//$daten['f_text'] = erzeuge_umbruch($row['m_text'], 70);
+			$daten['f_text'] = $row['m_text'];
 			$daten['f_text'] = erzeuge_quoting($daten['f_text'], $row2['u_nick'], $row['zeit']);
 			$daten['f_text'] = erzeuge_fuss($daten['f_text']);
 			
@@ -221,7 +220,8 @@ switch ($aktion) {
 			} else {
 				$daten['m_betreff'] = "Re: " . html_entity_decode($row['po_titel']);
 			}
-			$daten['f_text'] = erzeuge_umbruch($row['po_text'], 70);
+			//$daten['f_text'] = erzeuge_umbruch($row['po_text'], 70);
+			$daten['f_text'] = $row['m_text'];
 			$daten['f_text'] = erzeuge_quoting($daten['f_text'], $row['u_nick'], $row['po_date']);
 			$daten['f_text'] = erzeuge_fuss($daten['f_text']);
 			
@@ -268,18 +268,6 @@ switch ($aktion) {
 	case "weiterleiten":
 	// Formular zum Weiterleiten einer Mail ausgeben
 		formular_neue_email($text, $daten);
-		break;
-	
-	case "mailboxzu":
-	// Formular zum Weiterleiten einer Mail ausgeben
-		$erfolgsmeldung = $lang['nachrichten_posteingang_geschlossen'];
-		$text .= hinweis($erfolgsmeldung, "erfolgreich");
-		
-		$betreff = $lang['nachrichten_posteingang_geschlossen'];
-		$nachricht = $lang['nachrichten_posteingang_geschlossen_text'];
-		$result = mail_sende($u_id, $u_id, $nachricht, $betreff);
-
-		zeige_mailbox($text, "normal", "");
 		break;
 	
 	default:

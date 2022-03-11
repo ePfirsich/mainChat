@@ -46,13 +46,8 @@ foreach($result as $i => $row) {
 	
 	// Variable aus o_userdata setzen
 	$larr[$i]['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($userdata['u_nick'])), "I", "i");
-	$larr[$i]['u_level'] = $userdata['u_level'];
 	$larr[$i]['u_id'] = $userdata['u_id'];
 	$larr[$i]['u_away'] = $userdata['u_away'];
-	$larr[$i]['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
-	$larr[$i]['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
-	$larr[$i]['u_punkte_gesamt'] = $userdata['u_punkte_gesamt'];
-	$larr[$i]['u_chathomepage'] = $userdata['u_chathomepage'];
 	$larr[$i]['r_besitzer'] = $row['r_besitzer'];
 	$larr[$i]['r_topic'] = $row['r_topic'];
 	$larr[$i]['o_ip'] = $row['o_ip'];

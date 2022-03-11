@@ -161,8 +161,13 @@ function user_edit($text, $f, $admin, $u_level) {
 		$value = array($lang['einstellungen_verbieten'], $lang['einstellungen_erlauben']);
 		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_emails_akzeptieren'], "u_emails_akzeptieren", $value, $f['u_emails_akzeptieren']);
 		$zaehler++;
-	} else {
-		$text .=  "<input type=\"hidden\" name=\"u_emails_akzeptieren\" value=\"$f[u_emails_akzeptieren]\">\n";
+	}
+	
+	// Nachrichten von anderen Benutzern akzeptieren
+	if ($u_level != 'G') {
+		$value = array($lang['einstellungen_verbieten'], $lang['einstellungen_erlauben']);
+		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['benutzer_nachrichten_empfangen'], "u_nachrichten_empfangen", $value, $f['u_nachrichten_empfangen']);
+		$zaehler++;
 	}
 	
 	// System Ein/Austrittsnachrichten anzeigen/verbergen

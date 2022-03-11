@@ -201,14 +201,14 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 			// Benutzer aus der Datenbank lesen
 			pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 			
-			$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
+			$query2 = pdoQuery("SELECT `u_nick`, `u_id`, `o_id`, date_format(`u_login`,'%d. %M %Y um %H:%i') AS `login`, "
 			. "UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_id` = :u_id", [':u_id'=>$row['f_blacklistid']]);
 			
 			$result2Count = $query2->rowCount();
 			if ($result2Count > 0) {
 				// Benutzer gefunden -> Ausgeben
 				$row2 = $query2->fetch();
-				$blacklist_nick = "<b>" . zeige_userdetails($row2['u_id'], $row2) . "</b>";
+				$blacklist_nick = "<b>" . zeige_userdetails($row2['u_id']) . "</b>";
 				
 			} else {
 				// Benutzer nicht gefunden, Blacklist-Eintrag löschen
@@ -234,7 +234,7 @@ function zeige_blacklist($text, $aktion, $zeilen, $sort) {
 			// Nick des Admins (Eintrager) setzen
 			$f_userid = $row['f_userid'];
 			if ($f_userid && $f_userid != "NULL") {
-				$admin_nick = zeige_userdetails($f_userid, "", FALSE);
+				$admin_nick = zeige_userdetails($f_userid, FALSE);
 			} else {
 				$admin_nick = "";
 			}

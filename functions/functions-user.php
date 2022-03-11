@@ -141,9 +141,9 @@ function user_liste($larr, $seitenleiste = false) {
 		}
 		
 		if ($v['u_away']) {
-			$user = "(" . zeige_userdetails($v['u_id'], $v, FALSE, "&nbsp;", "", "", FALSE, FALSE) . ")";
+			$user = "(" . zeige_userdetails($v['u_id'], FALSE, FALSE, FALSE) . ")";
 		} else {
-			$user = zeige_userdetails($v['u_id'], $v);
+			$user = zeige_userdetails($v['u_id']);
 		}
 		
 		$trow .= "<tr>";

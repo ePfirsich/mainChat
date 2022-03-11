@@ -12,25 +12,14 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 	$result_user = pdoQuery("SELECT `user`.*, date_format(u_login,'%d. %M %Y um %H:%i') AS `letzter_login`, date_format(u_neu,'%d. %M %Y um %H:%i') AS `erster_login` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$ui_id])->fetch();
 	
 	if ($result_user) {
-		$uu_away = $result_user['u_away'];
-		$uu_id = $result_user['u_id'];
 		$uu_nick = htmlspecialchars($result_user['u_nick']);
 		$uu_email = htmlspecialchars($result_user['u_email']);
-		$uu_level = $result_user['u_level'];
-		$uu_farbe = $result_user['u_farbe'];
-		$letzter_login = $result_user['letzter_login'];
-		$erster_login = $result_user['erster_login'];
 		$ip_historie = unserialize($result_user['u_ip_historie']);
-		$uu_punkte_gesamt = $result_user['u_punkte_gesamt'];
-		$uu_punkte_monat = $result_user['u_punkte_monat'];
-		$uu_punkte_jahr = $result_user['u_punkte_jahr'];
-		$uu_chathomepage = $result_user['u_chathomepage'];
 		$uu_profil_historie = unserialize($result_user['u_profil_historie']);
-		$uu_kommentar = $result_user['u_kommentar'];
 		
 		// Default für Farbe setzen, falls undefiniert
-		if (strlen($uu_farbe) == 0 || $uu_farbe == null) {
-			$uu_farbe = $user_farbe;
+		if (strlen($result_user['u_farbe']) == 0 || $result_user['u_farbe'] == null) {
+			$result_user['u_farbe'] = $user_farbe;
 		}
 		
 		// IP bestimmen
@@ -51,8 +40,8 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			}
 		}
 		
-		if ($uu_away != "") {
-			$hinweis = "<b>" . $lang['hinweis_hinweis_abwesend'] . "</b> " . $uu_away;
+		if ($result_user['u_away'] != "") {
+			$hinweis = "<b>" . $lang['hinweis_hinweis_abwesend'] . "</b> " . $result_user['u_away'];
 			$text .= hinweis($hinweis, "hinweis");
 		}
 		
@@ -66,8 +55,8 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		// Avatare
 		// Geschlecht holen
 		// Wenn ein Gast den Chat verlässt, hat er keine ID mehr
-		if($uu_id != null && $uu_id != "") {
-			$query1 = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$uu_id]);
+		if($ui_id != null && $ui_id != "") {
+			$query1 = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$ui_id]);
 			
 			$result1Count = $query1->rowCount();
 			if ($result1Count > 0) {
@@ -81,7 +70,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Avatar
-		$value = avatar_anzeigen($uu_id, $uu_nick, "profil", $ui_gen);
+		$value = avatar_anzeigen($ui_id, $uu_nick, "profil", $ui_gen);
 		if ($zaehler % 2 != 0) {
 			$bgcolor = 'class="tabelle_zeile2"';
 		} else {
@@ -130,7 +119,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_benutzerdaten'], "", "", 0, "70", "");
 		
 		// Benutzername
-		$value = zeige_userdetails($ui_id, $result_user);
+		$value = zeige_userdetails($ui_id);
 		$text .= zeige_formularfelder("text", $zaehler, "<b>".$lang['benutzer_benutzername']."</b>", "", $value);
 		$zaehler++;
 		
@@ -149,27 +138,27 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_onlinezeit'], "", $value);
 			$zaehler++;
 		} else {
-			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_letzter_login'], "", $letzter_login);
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_letzter_login'], "", $result_user['letzter_login']);
 			$zaehler++;
 		}
 		
-		if ($erster_login && $erster_login != "01.01.1970 01:00") {
-			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_erster_login'], "", $erster_login);
+		if ($result_user['erster_login'] && $result_user['erster_login'] != "01.01.1970 01:00") {
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_erster_login'], "", $result_user['erster_login']);
 			$zaehler++;
 		}
 		
 		// Punkte
-		if ($uu_punkte_gesamt) {
+		if ($result_user['u_punkte_gesamt']) {
 			if ($result_user['u_punkte_datum_monat'] != date("n", time())) {
-				$uu_punkte_monat = 0;
+				$result_user['u_punkte_monat'] = 0;
 			}
 			if ($result_user['u_punkte_datum_jahr'] != date("Y", time())) {
-				$uu_punkte_jahr = 0;
+				$result_user['u_punkte_jahr'] = 0;
 			}
 			
 			$date = new DateTime();
 			$date->format('Y-m-d H:i:s');
-			$value = $uu_punkte_gesamt . "/" . $uu_punkte_jahr . "/" . $uu_punkte_monat . "&nbsp;"
+			$value = $result_user['u_punkte_gesamt'] . "/" . $result_user['u_punkte_jahr'] . "/" . $result_user['u_punkte_monat'] . "&nbsp;"
 			. str_replace("%jahr%", formatIntl($date,'Y',$locale), str_replace("%monat%", formatIntl($date,'MMMM',$locale), $lang['benutzer_punkte_anzeige']));
 			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_punkte'], "", $value);
 			$zaehler++;
@@ -182,7 +171,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Benutzerseite
-		if ($uu_chathomepage == "1") {
+		if ($result_user['u_chathomepage'] == "1") {
 			$url = "home.php?/".URLENCODE($uu_nick);
 			$value = "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
 			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_webseite'], "", $value);
@@ -190,7 +179,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		
 		// Level
-		$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_level'], "", $level[$uu_level]);
+		$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_level'], "", $level[$result_user['u_level']]);
 		$zaehler++;
 		
 		// Farbe
@@ -201,13 +190,13 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		}
 		$text .= "<tr>\n";
 		$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['benutzer_farbe'] . "</td>\n";
-		$text .= "<td style=\"background-color:#" . $uu_farbe . ";\">&nbsp;</td>\n";
+		$text .= "<td style=\"background-color:#" . $result_user['u_farbe'] . ";\">&nbsp;</td>\n";
 		$text .= "</tr>\n";
 		$zaehler++;
 		
 		// Kommentar
-		if ($uu_kommentar && $admin) {
-			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_kommentar'], "", htmlspecialchars($uu_kommentar));
+		if ($result_user['u_kommentar'] && $admin) {
+			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_kommentar'], "", htmlspecialchars($result_user['u_kommentar']));
 			$zaehler++;
 		}
 		
@@ -326,17 +315,17 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			// Ändern
 			$value = "";
 			$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$ui_id\">\n";
 			$value .= "<input type=\"submit\" name=\"ein\" value=\"Ändern!\">\n";
 			$value .= "</form>\n";
 			
 			$value .= "<form name=\"edit\" action=\"inhalt.php?bereich=einstellungen\" method=\"post\" style=\"display:inline;\">\n";
-			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$uu_id\">\n";
+			$value .= "<input type=\"hidden\" name=\"u_id\" value=\"$ui_id\">\n";
 			$value .= "<input type=\"hidden\" name=\"u_nick\" value=\"$uu_nick\">\n";
 			$value .= "<input type=\"hidden\" name=\"aktion\" value=\"editieren\">\n";
 			$value .= "<input type=\"submit\" name=\"eingabe\" value=\"$lang[einstellungen_loeschen]\"><br>";
 			
-			$queryX = pdoQuery("SELECT `u_chathomepage` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$uu_id]);
+			$queryX = pdoQuery("SELECT `u_chathomepage` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$ui_id]);
 			
 			$g = $queryX->fetch();
 			

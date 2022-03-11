@@ -12,7 +12,6 @@ $lang['nachrichten_nachricht_antworten'] = "Nachricht beantworten";
 $lang['nachrichten_papierkorb'] = "Papierkorb";
 $lang['nachrichten_papierkorb_leeren'] = "Papierkorb leeren";
 $lang['nachrichten_papierkorb_geleert'] = "Der Paprierkorb wurde geleert!";
-$lang['nachrichten_nachrichten_deaktivieren'] = "Posteingang schließen";
 $lang['nachrichten_hilfe'] = "Hilfe";
 
 $lang['nachrichten_keine_nachrichten_vorhanden'] = "Es sind keine Nachrichten vorhanden.";
@@ -36,14 +35,17 @@ $lang['nachrichten_fehler_nicht_geloescht'] = "Die Nachricht '%nachricht%' konnt
 $lang['nachrichten_fehler_nicht_versendet_email'] = "Ihre E-Mail an %nick% wurde nicht verschickt.";
 $lang['nachrichten_fehler_nicht_versendet_nachricht'] = "Ihre Nachricht an %nick% wurde nicht verschickt.";
 $lang['nachrichten_fehler_text_zu_lang'] = "Der Text ist zu lange!<br>";
-$lang['nachrichten_fehler_kein_text'] = "Bitte geben Sie einen Text zum Versenden ein!<br>";
-$lang['nachrichten_fehler_kein_betreff'] = "Bitte geben Sie einen Betreff zum Versenden ein!<br>";
-$lang['nachrichten_fehler_betreff_zu_lang'] = "Bitte geben im Betreff weniger als 254 Zeichen ein!<br>";
-$lang['nachrichten_fehler_benutzername_existiert_nicht'] = "Der Benutzername '%nick%' existiert nicht!<br>";
-$lang['nachrichten_fehler_benutzername_existiert_nicht2'] = "Der Benutzername existiert nicht!<br>";
-$lang['nachrichten_fehler_mailbox_geschlossen'] = "Die Nachricht kann NICHT verschickt werden, da dieser Benutzer keine Nachrichten akzeptiert!";
-$lang['nachrichten_fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!<br>";
+$lang['nachrichten_fehler_kein_text'] = "Bitte geben Sie einen Text zum Versenden ein!";
+$lang['nachrichten_fehler_kein_betreff'] = "Bitte geben Sie einen Betreff zum Versenden ein!";
+$lang['nachrichten_fehler_betreff_zu_lang'] = "Bitte geben im Betreff weniger als 254 Zeichen ein!";
+$lang['nachrichten_fehler_benutzername_existiert_nicht'] = "Der Benutzername '%nick%' existiert nicht!";
+$lang['nachrichten_fehler_benutzername_existiert_nicht2'] = "Der Benutzername existiert nicht!";
+$lang['nachrichten_fehler_keine_nachrichten_empfangen'] = "Der Benutzer %nick% möchte keine Nachrichten empfangen!";
+$lang['nachrichten_fehler_mailbox_gesperrt'] = "Der Benutzer ist gesperrt, und kann deswegen keine Nachrichten empfangen.";
+$lang['nachrichten_fehler_kein_benutzername_angegeben'] = "Bitte geben Sie einen Benutzernamen an!";
 $lang['nachrichten_fehler_keine_mail_an_gast'] = "An einen Gast, einen gesperrten Benutzer oder einen Benutzer, der Sie ignoriert können Sie keine Mail verschickt werden!<br>";
+
+$lang['nachrichten_info_keine_nachrichten_empfangen'] = "Sie haben in den Einstellungen festgelegt, dass Sie keine Nachrichten empfangen!";
 
 $lang['nachrichten_betreff'] = "Betreff";
 $lang['nachrichten_text'] = "Text";
