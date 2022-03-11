@@ -707,7 +707,6 @@ function zeige_smilies($anzeigeort, $benutzerdaten) {
 function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FALSE, $benutzername_fett = TRUE) {
 	// Liefert Benutzernamen + Level + Gruppe + E-Mail + Benutzerseite zurück
 	// Bei online=TRUE wird der Status online/offline und opt die Onlinezeit oder der letzte Login ausgegeben
-	// Falls trenner gesetzt, wird Mail/Home Symbol ausgegeben und trenner vor Mail/Home Symbol eingefügt
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
