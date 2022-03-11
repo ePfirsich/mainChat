@@ -75,7 +75,6 @@ if ($resultCount > 0) {
 
 // HTTP_X_FORWARDED_FOR IP bestimmen und prüfen. Ist Login erlaubt?
 $http_x_forwarded_for = filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_VALIDATE_IP);
-
 if (!$abweisen && $http_x_forwarded_for != $remote_addr) {
 	$ip_name = @gethostbyaddr($http_x_forwarded_for);
 	
@@ -107,7 +106,6 @@ if ($resultCount > 0) {
 		$part = explode("*", $row['is_domain'], 2);
 		if ((strlen($part[0]) > 0) && (strlen($part[1]) > 0)) {
 			if (substr($ip_name, 0, strlen($part[0])) == $part[0] && substr($ip_name, strlen($ip_name) - strlen($part[1]), strlen($part[1])) == $part[1]) {
-				
 				// IP stimmt überein
 				if ($row['is_warn'] == "ja") {
 					// Warnung ausgeben
