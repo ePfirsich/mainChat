@@ -26,7 +26,7 @@ if ($resultCount == 0) {
 		}
 		
 		// Login abweisen, falls mehr als ein Gast online ist oder Gäste gesperrt sind
-		if (!$gast_login || ($rows > 1 && !$gast_login_viele) || $temp_gast_sperre) {
+		if ( !$gast_login || ($rows > 1 && !$gast_login_viele) || ist_gastspeere_aktiv() ) {
 			// Gäste sind gesperrt
 			
 			$fehlermeldung = $lang['login_fehlermeldung_gastlogin'];
@@ -168,7 +168,7 @@ if($in_den_chat_einloggen) {
 		} else {
 			$rest_ausblenden = false;
 			
-			if (($temp_gast_sperre) && ($u_level == 'G')) {
+			if ( ist_gastspeere_aktiv() && ($u_level == 'G')) {
 				$captcha_text1 = "999";
 			} // abweisen, falls Gastsperre aktiv
 			

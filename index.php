@@ -55,15 +55,6 @@ if ($resultCount > 0) {
 	$abweisen = true;
 }
 
-// Gastsperre aktiv? Wird beim Login und beim Nutzungsbestimmungen Login ausgewertet
-$temp_gast_sperre = false;
-// Wenn in Sperre = "-GAST-" dann Gastlogin gesperrt
-$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GAST-'", []);
-$resultCount = $query->rowCount();
-if ($resultCount > 0) {
-	$temp_gast_sperre = true;
-}
-
 $query = pdoQuery("SELECT `is_warn` FROM `ip_sperre` WHERE (SUBSTRING_INDEX(`is_ip`,'.',`is_ip_byte`) LIKE SUBSTRING_INDEX(:remote_addr,'.',`is_ip_byte`) AND `is_ip` IS NOT NULL) "
 	. "OR (`is_domain` LIKE RIGHT(:ip_name, LENGTH(`is_domain`)) AND LENGTH(`is_domain`)>0)", [':remote_addr'=>$remote_addr, ':ip_name'=>$ip_name]);
 

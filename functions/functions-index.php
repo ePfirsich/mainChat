@@ -611,7 +611,7 @@ function auth_user($username, $passwort, $bereits_angemeldet = 0) {
 }
 
 function zeige_chat_login() {
-	global $lang, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $temp_gast_sperre, $nicht_angemeldet;
+	global $lang, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $nicht_angemeldet;
 	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
 	
 	$text = "";
@@ -873,7 +873,7 @@ function zeige_chat_login() {
 		$text .= "</table>\n";
 		$text .= "</form>\n";
 		
-		if($gast_login && !$temp_gast_sperre) {
+		if( $gast_login && !ist_gastspeere_aktiv() ) {
 			// Gastlogin
 			$text .= "<form action=\"index.php\" target=\"_top\" method=\"post\">\n";
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
@@ -1052,6 +1052,17 @@ function zeige_chat_login() {
 	}
 	
 	return $text;
+}
+
+function ist_gastspeere_aktiv() {
+	// Wenn in Sperre = "-GAST-" dann Gastlogin gesperrt
+	$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GAST-'", []);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function zeige_index_footer() {
