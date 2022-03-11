@@ -46,7 +46,7 @@ $suche['u_id'] = filter_input(INPUT_POST, 'suche_u_id', FILTER_SANITIZE_STRING);
 $suche['sort'] = filter_input(INPUT_POST, 'suche_sort', FILTER_SANITIZE_STRING);
 
 // Benutzerdaten setzen
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {

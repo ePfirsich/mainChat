@@ -3,7 +3,7 @@ require_once("functions/functions.php");
 require_once("languages/$sprache-navigation.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {

@@ -221,7 +221,7 @@ if ($chat_offline) {
 if ($bereich == "logoff") {
 	// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum
 	if(isset($id)) {
-		id_lese($id);
+		id_lese();
 		// Logout falls noch online
 		if (strlen($u_id) > 0) {
 			// Aus dem Chat ausloggen

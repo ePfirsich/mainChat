@@ -6,7 +6,7 @@ require_once("functions/functions-chat_lese.php");
 $trigger_letzte_Zeilen = 1;
 
 // Benutzerdaten setzen
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {

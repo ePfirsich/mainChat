@@ -3,7 +3,7 @@ require_once("functions/functions.php");
 require_once("functions/functions-forum.php");
 
 // Benutzerdaten setzen
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {

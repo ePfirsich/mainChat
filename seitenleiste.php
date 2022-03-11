@@ -7,7 +7,7 @@ require_once("languages/$sprache-user.php");
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, u_level, admin
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {

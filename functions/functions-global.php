@@ -400,19 +400,30 @@ function aktualisiere_online($u_id) {
 	pdoQuery("UPDATE `online` SET `o_aktiv` = NULL WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
 }
 
-function id_lese($id) {
+function id_lese() {
 	// Vergleicht Hash-Wert mit IP und Browser des Benutzers
 	// Liefert Benutzer- und Online-Variable
+	global $id;
 	
+	if(!isset($id) || $id == null | $id == "") {
+		// Aus Sicherheitsgründen die Variablen löschen
+		$userdata = "";
+		$u_id = "";
+		$u_nick = "";
+		$o_id = 0;
+		$u_level = "";
+		$admin = 0;
+		
+		return false;
+	}
 	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
-	global $u_away, $o_knebel, $u_punkte_gesamt, $u_punkte_gruppe, $moderationsmodul;
-	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck, $chat;
+	global $o_knebel, $u_punkte_gesamt, $moderationsmodul, $user_farbe;
+	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
 	
 	// IP und Browser ermittlen
 	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
 	
 	// u_id und o_id aus Objekt ermitteln, o_hash, o_browser müssen übereinstimmen
-	
 	$query = pdoQuery("SELECT HIGH_PRIORITY *, UNIX_TIMESTAMP(`o_timeout_zeit`) AS `o_timeout_zeit`, UNIX_TIMESTAMP(`o_knebel`)-UNIX_TIMESTAMP(NOW()) AS `o_knebel` FROM `online` WHERE `o_hash` = :o_hash", [':o_hash'=>$id]);
 	
 	$resultCount = $query->rowCount();
@@ -449,6 +460,19 @@ function id_lese($id) {
 		} else {
 			$admin = 0;
 		}
+		
+		// Hole die Farbe des Benutzers
+		if (!empty($u_id)) {
+			$query = pdoQuery("SELECT `u_farbe` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+			
+			$row = $query->fetch();
+			if (!empty($row['u_farbe'])) {
+				$u_farbe = $row['u_farbe'];
+			} else {
+				$u_farbe = $user_farbe;
+			}
+			return true;
+		}
 	} else {
 		// Aus Sicherheitsgründen die Variablen löschen
 		$userdata = "";
@@ -457,18 +481,8 @@ function id_lese($id) {
 		$o_id = 0;
 		$u_level = "";
 		$admin = 0;
-	}
-	
-	// Hole die Farbe des Benutzers
-	global $user_farbe;
-	if (!empty($u_id)) {
-		$query = pdoQuery("SELECT `u_farbe` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 		
-		$row = $query->fetch();
-		if (empty($row['u_farbe'])) {
-			return;
-		}
-		$u_farbe = $row['u_farbe'];
+		return false;
 	}
 }
 

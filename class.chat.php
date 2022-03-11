@@ -26,7 +26,7 @@ class chatClass {
 		$level = "";
 		
 		// Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
-		id_lese($id);
+		id_lese();
 		
 		// 1 Sek pro Durchlauf fest eingestellt
 		$durchlaeufe = $refresh_zeit;

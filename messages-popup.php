@@ -7,7 +7,7 @@ $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
 $user_nick = filter_input(INPUT_GET, 'user_nick', FILTER_SANITIZE_STRING);
 
 // Benutzerdaten setzen
-id_lese($id);
+id_lese();
 
 // Direkten Aufruf der Datei verbieten (nicht eingeloggt)
 if( !isset($u_id) || $u_id == NULL || $u_id == "") {
