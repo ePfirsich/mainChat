@@ -1283,7 +1283,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			$query = pdoQuery("SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_userid`= :f_userid AND `f_status` = 'bestaetigt' "
 				. "UNION SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_freundid` = :f_freundid AND `f_status` = 'bestaetigt' ORDER BY `f_zeit` DESC", [':f_userid'=>$u_id, ':f_freundid'=>$u_id]);
 			
-			$fid = "";
+			$fid = array();
 			$nicks = "";
 			$result = $query->fetchAll();
 			$rueckgabe = false;

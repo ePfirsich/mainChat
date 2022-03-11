@@ -49,7 +49,7 @@ function raeume_auflisten($order, $extended) {
 		
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $row) {
-			$uu_id = $row['u_id'];
+			$uu_id = $row['r_besitzer'];
 			if ($row['r_status2'] == "P") {
 				$b1 = "<small><b>";
 				$b2 = "</b></small>";
@@ -80,7 +80,7 @@ function raeume_auflisten($order, $extended) {
 				
 				$text .= "<td $bgcolor>$b1". $raumstatus1[$row['r_status1']] . "$b2&nbsp;</td>";
 				$text .= "<td $bgcolor>$b1" . $raumstatus2[$row['r_status2']] . "$b2&nbsp;</td>";
-				$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['u_id'], false) . $b2 . "</td>";
+				$text .= "<td $bgcolor>$b1" . zeige_userdetails($row['r_besitzer'], false) . $b2 . "</td>";
 				if ((isset($extended)) && ($extended)) {
 					if ($row['r_smilie'] == 1) {
 						$r_smilie = $lang['raum_erlaubt'];

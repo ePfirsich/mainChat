@@ -46,7 +46,7 @@ function home_info($user_id, $u_nick, $home, $feld, $bilder) {
 		if ($result['o_id'] != "NULL" && $result['o_id']) {
 			$text .= "<td>&nbsp;</td>";
 			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>"
-				. str_replace("%online%", gmdate("H:i:s", result['online']), $lang['chat_msg92']) . "</b></td>\n";
+				. str_replace("%online%", gmdate("H:i:s", $result['online']), $lang['chat_msg92']) . "</b></td>\n";
 		} else {
 			$text .= "<td>&nbsp;</td>";
 			$text .= "<td style=\"vertical-align:top;\" class=\"smaller\"><b>" . str_replace("%login%", $result['login'], $lang['chat_msg94']) . "</b></td>\n";

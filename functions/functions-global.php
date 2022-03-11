@@ -716,56 +716,61 @@ function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FAL
 	$trenner = "&nbsp;";
 	
 	$text = "";
-	$query = pdoQuery("SELECT `o_name`, `o_level`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `u_online`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`
-					FROM `online` WHERE `o_user` = :o_user ", [':o_user'=>$zeige_user_id]);
-	
-	$resultCount = $query->rowCount();
-	if($resultCount == 1) {
-		// Benutzer online: Daten aus der Tabelle `online` holen
-		
-		$result = $query->fetch();
-		$userdata = unserialize($result['o_userdata'] . $result['o_userdata2'] . $result['o_userdata3'] . $result['o_userdata4']);
-		
-		// Variable aus o_userdata setzen
-		$benutzerdaten['u_id'] = $zeige_user_id;
-		$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['o_name'])), "I", "i");
-		$benutzerdaten['u_level'] = $result['o_level'];
-		$benutzerdaten['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
-		$benutzerdaten['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
-		$benutzerdaten['u_nachrichten_empfangen'] = $userdata['u_nachrichten_empfangen'];
-		$benutzerdaten['u_chathomepage'] = $userdata['u_chathomepage'];
-		$benutzerdaten['u_online'] = $result['u_online'];
-		$benutzerdaten['u_login'] = $userdata['u_login'];
+	if(!$zeige_user_id || $zeige_user_id == null || $zeige_user_id == 0) {
+		return '';
 	} else {
-		// Benutzer offline: Daten aus der Tabelle `user` holen
-		$query = pdoQuery("SELECT `u_nick`, `u_level`, `u_punkte_anzeigen`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_login`
-					FROM `user` WHERE `u_id` = :u_id ", [':u_id'=>$zeige_user_id]);
+		$query = pdoQuery("SELECT `o_name`, `o_level`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `u_online`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`
+						FROM `online` WHERE `o_user` = :o_user ", [':o_user'=>$zeige_user_id]);
 		
 		$resultCount = $query->rowCount();
 		if($resultCount == 1) {
+			// Benutzer online: Daten aus der Tabelle `online` holen
+			
 			$result = $query->fetch();
+			$userdata = unserialize($result['o_userdata'] . $result['o_userdata2'] . $result['o_userdata3'] . $result['o_userdata4']);
+			
+			// Variable aus o_userdata setzen
 			$benutzerdaten['u_id'] = $zeige_user_id;
-			$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['u_nick'])), "I", "i");
-			$benutzerdaten['u_level'] = $result['u_level'];
-			$benutzerdaten['u_punkte_anzeigen'] = $result['u_punkte_anzeigen'];
-			$benutzerdaten['u_punkte_gruppe'] = $result['u_punkte_gruppe'];
-			$benutzerdaten['u_nachrichten_empfangen'] = $result['u_nachrichten_empfangen'];
-			$benutzerdaten['u_chathomepage'] = $result['u_chathomepage'];
-			$benutzerdaten['u_online'] = null;
-			$benutzerdaten['u_login'] = $result['u_login'];
+			$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['o_name'])), "I", "i");
+			$benutzerdaten['u_level'] = $result['o_level'];
+			$benutzerdaten['u_punkte_anzeigen'] = $userdata['u_punkte_anzeigen'];
+			$benutzerdaten['u_punkte_gruppe'] = $userdata['u_punkte_gruppe'];
+			$benutzerdaten['u_nachrichten_empfangen'] = $userdata['u_nachrichten_empfangen'];
+			$benutzerdaten['u_chathomepage'] = $userdata['u_chathomepage'];
+			$benutzerdaten['u_online'] = $result['u_online'];
+			$benutzerdaten['u_login'] = $userdata['u_login'];
 		} else {
-			$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
-			$nachricht_titel = $nachricht;
-			if (isset($zeige_user_id)) {
-				$nachricht .= $zeige_user_id;
+			// Benutzer offline: Daten aus der Tabelle `user` holen
+			$query = pdoQuery("SELECT `u_nick`, `u_level`, `u_punkte_anzeigen`, `u_punkte_gruppe`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_login`
+						FROM `user` WHERE `u_id` = :u_id ", [':u_id'=>$zeige_user_id]);
+			
+			$resultCount = $query->rowCount();
+			if($resultCount == 1) {
+				$result = $query->fetch();
+				$benutzerdaten['u_id'] = $zeige_user_id;
+				$benutzerdaten['u_nick'] = strtr( str_replace("\\", "", htmlspecialchars($result['u_nick'])), "I", "i");
+				$benutzerdaten['u_level'] = $result['u_level'];
+				$benutzerdaten['u_punkte_anzeigen'] = $result['u_punkte_anzeigen'];
+				$benutzerdaten['u_punkte_gruppe'] = $result['u_punkte_gruppe'];
+				$benutzerdaten['u_nachrichten_empfangen'] = $result['u_nachrichten_empfangen'];
+				$benutzerdaten['u_chathomepage'] = $result['u_chathomepage'];
+				$benutzerdaten['u_online'] = null;
+				$benutzerdaten['u_login'] = $result['u_login'];
+			} else {
+				$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
+				$nachricht_titel = $nachricht;
+				if (isset($zeige_user_id)) {
+					$nachricht .= $zeige_user_id;
+				}
+				
+				global $kontakt;
+				email_senden($kontakt, $nachricht_titel, $nachricht);
+				
+				return '';
 			}
-			
-			global $kontakt;
-			email_senden($kontakt, $nachricht_titel, $nachricht);
-			
-			return '';
 		}
 	}
+	
 	$benutzerdaten['u_login'] = formatDate($benutzerdaten['u_login'],"d.m.Y H:i","Y-m-d H:i:s");
 	
 	if ($show_geschlecht == true) {
