@@ -994,47 +994,6 @@ function hole_alle_unter($vater_id) {
 	}
 }
 
-//bereinigt jede Woche einmal die Spalte `u_gelesene_postings` des users $user_id
-function bereinige_u_gelesene_postings($user_id) {
-	$query = pdoQuery("SELECT `u_gelesene_postings`, `u_lastclean` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
-	
-	$resultCount = $query->rowCount();
-	if ($resultCount > 0) {
-		$result = $query->fetch();
-		$lastclean = $result['u_lastclean'];
-		$gelesene = $result['u_gelesene_postings'];
-		
-		if ($lastclean == "0") {
-			//keine Bereinignng nötig
-			$lastclean = time();
-			pdoQuery("UPDATE `user` SET `u_lastclean` = :u_lastclean WHERE `u_id` = :u_id", [':u_lastclean'=>$lastclean, ':u_id'=>$user_id]);
-		} else if ($lastclean < (time() - 2592000)) {
-			//Bereinigung nötig
-			$lastclean = time();
-			$arr_gelesene = unserialize($gelesene);
-			
-			// Alle Beiträge in Feld einlesen
-			$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` ORDER BY `po_id`", []);
-			
-			$result = $query->fetchAll();
-			$arr_postings = array();
-			foreach($result as $zaehler => $posting) {
-				$arr_postings[] = $posting['po_id'];
-			}
-			
-			if (is_array($arr_gelesene)) {
-				foreach($arr_gelesene as $k => $v) {
-					$arr_gelesene[$k] = array_intersect($arr_gelesene[$k], $arr_postings);
-				}
-			}
-			
-			$gelesene_neu = serialize($arr_gelesene);
-			
-			pdoQuery("UPDATE `user` SET `u_lastclean` = :u_lastclean, `u_gelesene_postings` = :u_gelesene_postings WHERE `u_id` = :u_id", [':u_lastclean'=>$lastclean, ':u_gelesene_postings'=>$gelesene_neu, ':u_id'=>$user_id]);
-		}
-	}
-}
-
 function verschiebe_posting_ausfuehren() {
 	global $thread_verschiebe, $verschiebe_von, $verschiebe_nach;
 	
