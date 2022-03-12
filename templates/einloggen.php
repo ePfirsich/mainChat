@@ -296,9 +296,8 @@ if($in_den_chat_einloggen) {
 						
 						$result = $query->fetchAll();
 						foreach($result as $zaehler => $row) {
-							$ah1 = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id\" target=\"chat\">";
-							$ah2 = "</a>";
-							system_msg("", 0, $row['o_user'], $system_farbe, str_replace("%u_nick%", $ah1 . $u_nick . $ah2 . $raumname, $txt));
+							$nachricht = "<a href=\"inhalt.php?bereich=benutzer&aktion=benutzer_zeig&ui_id=$user_id\" target=\"chat\">$u_nick</a>";
+							system_msg("", 0, $row['o_user'], $system_farbe, str_replace("%u_nick%", $nachricht . $raumname, $txt));
 						}
 					}
 				}

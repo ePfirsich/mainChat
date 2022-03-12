@@ -1065,6 +1065,95 @@ function ist_gastspeere_aktiv() {
 	}
 }
 
+function ist_globale_speere_aktiv() {
+	// Wenn in Sperre = "-GAST-" dann Gastlogin gesperrt
+	$query = pdoQuery("SELECT `is_domain` FROM `ip_sperre` WHERE `is_domain` = '-GLOBAL-'", []);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function checke_ipsperren($remote_addr, $http_x_forwarded_for) {
+	// Kontrolliere die IP-Sperren
+	global $ip_name;
+	
+	$warnung = false;
+	$abweisen = false;
+	
+	$ip_name = @gethostbyaddr($remote_addr);
+	$query = pdoQuery("SELECT `is_warn` FROM `ip_sperre` WHERE (SUBSTRING_INDEX(`is_ip`,'.',`is_ip_byte`) LIKE SUBSTRING_INDEX(:remote_addr,'.',`is_ip_byte`) AND `is_ip` IS NOT NULL) "
+		. "OR (`is_domain` LIKE RIGHT(:ip_name, LENGTH(`is_domain`)) AND LENGTH(`is_domain`)>0)", [':remote_addr'=>$remote_addr, ':ip_name'=>$ip_name]);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
+			if ($row['is_warn'] == "ja") {
+				// Warnung ausgeben
+				$warnung = true;
+				$infotext = $row['is_infotext'];
+			} else {
+				// IP ist gesperrt
+				$abweisen = true;
+			}
+		}
+	}
+	
+	// HTTP_X_FORWARDED_FOR IP bestimmen und prüfen. Ist Login erlaubt?
+	if (!$abweisen && $http_x_forwarded_for != $remote_addr) {
+		$ip_name = @gethostbyaddr($http_x_forwarded_for);
+		$query = pdoQuery("SELECT `is_warn` FROM `ip_sperre` WHERE (SUBSTRING_INDEX(`is_ip`,'.',`is_ip_byte`) LIKE SUBSTRING_INDEX(:http_x_forwarded_for,'.',`is_ip_byte`) AND `is_ip` IS NOT NULL) "
+			. "OR (`is_domain` LIKE RIGHT(:ip_name, LENGTH(`is_domain`)) AND LENGTH(`is_domain`)>0)", [':http_x_forwarded_for'=>$http_x_forwarded_for, ':ip_name'=>$ip_name]);
+		$resultCount = $query->rowCount();
+		if ($resultCount > 0) {
+			$result = $query->fetchAll();
+			foreach($result as $zaehler => $row) {
+				if ($row['is_warn'] == "ja") {
+					// Warnung ausgeben
+					$warnung = true;
+				} else {
+					// IP ist gesperrt
+					$abweisen = true;
+				}
+			}
+		}
+	}
+	
+	// zweite Prüfung, gibts was, was mit "*" in der mitte schafft? für p3cea9*.t-online.de
+	$query = pdoQuery("SELECT `is_domain`, `is_warn`, `is_infotext` FROM `ip_sperre` WHERE `is_domain` LIKE '_%*%_'", []);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $row) {
+			$part = explode("*", $row['is_domain'], 2);
+			if ((strlen($part[0]) > 0) && (strlen($part[1]) > 0)) {
+				if (substr($ip_name, 0, strlen($part[0])) == $part[0] && substr($ip_name, strlen($ip_name) - strlen($part[1]), strlen($part[1])) == $part[1]) {
+					// IP stimmt überein
+					if ($row['is_warn'] == "ja") {
+						// Warnung ausgeben
+						$warnung = true;
+					} else {
+						// IP ist gesperrt
+						$abweisen = true;
+					}
+				}
+			}
+		}
+	}
+	
+	if($abweisen) {
+		// Login sperren
+		return "abweisen";
+	} else if($warnung) {
+		// Warnung ausgeben
+		return "warnung";
+	} else {
+		return "";
+	}
+}
+
 function zeige_index_footer() {
 	global $mainchat_version, $lang;
 	$text = "<br>\n";
