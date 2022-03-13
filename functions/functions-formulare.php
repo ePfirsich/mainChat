@@ -29,6 +29,17 @@ function zeige_formularfelder($art_der_anzeige, $zaehler, $name, $key, $value, $
 		// Input anzeigen
 		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
 		$text .= "<td $bgcolor><input type=\"text\" name=\"$key\" value=\"$value\" maxlenght=\"160\" size=\"$breite_eingabefeld\"> $beschreibung</td>\n";
+	} else if($art_der_anzeige == "input_benutzer") {
+		// Input anzeigen
+		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";
+		$text .= "<td $bgcolor><input type=\"text\" name=\"$key\" list=\"$key\" value=\"$value\" maxlenght=\"160\" size=\"$breite_eingabefeld\"> $beschreibung</td>\n";
+		
+		$text .= "<datalist id=\"$key\">\n";
+		$result = hole_benutzerliste();
+		foreach($result as $zaehler => $row) {
+			$text .= "<option value=\"" . $row['u_nick'] . "\">\n";
+		}
+		$text .= "</datalist>\n";
 	} else if($art_der_anzeige == "password") {
 		// Password-Feld anzeigen
 		$text .= "<td style=\"text-align:right; width:25%;\" $bgcolor>$name</td>\n";

@@ -1396,6 +1396,14 @@ function reset_system($wo_online) {
 	}
 }
 
+function hole_benutzerliste() {
+	$query = pdoQuery("SELECT `u_nick` FROM `user` WHERE `u_level` NOT IN ('Z', 'G')", []);
+	
+	$result = $query->fetchAll();
+	
+	return $result;
+}
+
 function hole_benutzer_einstellungen($u_id, $ort) {
 	if($ort == "chatausgabe") {
 		// Benötigte Einstellugen für das Chatfenster

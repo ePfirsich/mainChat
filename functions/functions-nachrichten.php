@@ -31,7 +31,7 @@ function formular_neue_email($text, $daten) {
 	$text .= "<table style=\"width:100%;\">";
 	
 	// Benutzername
-	$text .= zeige_formularfelder("input", $zaehler, $lang['nachrichten_benutzername'], "daten_nick", $daten['u_nick']);
+	$text .= zeige_formularfelder("input_benutzer", $zaehler, $lang['nachrichten_benutzername'], "daten_nick", $daten['u_nick']);
 	$zaehler++;
 	
 	if ($zaehler % 2 != 0) {
