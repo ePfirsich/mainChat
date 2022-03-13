@@ -292,10 +292,10 @@ function zeige_email($daten, $art) {
 	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
 	if($art == "gesendet") {
-		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, "
+		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id` "
 			. "FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_von_uid` = :m_von_uid AND `m_id` = :m_id ORDER BY `m_zeit` DESC", [':m_von_uid'=>$u_id, ':m_id'=>$daten['id']]);
 	} else {
-		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id`, "
+		$query = pdoQuery("SELECT mail.*,date_format(`m_zeit`,'%d. %M %Y um %H:%i') AS `zeit`, `u_nick`, `u_id` "
 			. "FROM `mail` LEFT JOIN `user` ON `m_von_uid` = `u_id` WHERE `m_an_uid` = :m_an_uid AND `m_id` = :m_id ORDER BY `m_zeit` DESC", [':m_an_uid'=>$u_id, ':m_id'=>$daten['id']]);
 	}
 	
