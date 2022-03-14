@@ -874,7 +874,7 @@ function show_posting() {
 	global $po_id, $thread, $seite, $lang, $forum_admin, $th_id, $u_id;
 	
 	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
-			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`
+			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`
 			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 	
 	$resultCount = $query->rowCount();
@@ -918,7 +918,7 @@ function show_posting() {
 	$u_gelesene = unserialize($gelesene);
 	
 	$query = pdoQuery("SELECT `po_id`, `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
-			`po_titel`, `po_text`, `po_u_id`, `u_nick`, `po_threadorder`
+			`po_titel`, `po_text`, `po_u_id`, `u_nick`, `u_level`, `po_threadorder`
 			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id OR `po_vater_id` = :po_vater_id", [':po_id'=>$thread, ':po_vater_id'=>$thread]);
 	
 	$result = $query->fetchAll();
@@ -942,10 +942,10 @@ function show_posting() {
 			$userdata = array();
 			
 			$userlink = zeige_userdetails($beitrag['po_u_id']);
-			if ($po_u_level == 'Z') {
-				$userdetails = "$userdata[u_nick]";
+			if ($beitrag['u_level'] == 'Z') {
+				$userdetails = $userdata['u_nick'];
 			} else {
-				$userdetails = "$userlink";
+				$userdetails = $userlink;
 			}
 		}
 		
