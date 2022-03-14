@@ -1926,7 +1926,6 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 	}
 	
 	// Kopie in Onlinedatenbank aktualisieren
-	// Query muss mit dem Code in login() übereinstimmen
 	$query = pdoQuery("SELECT `i_user_passiv` FROM `iignore` WHERE `i_user_aktiv` = :i_user_aktiv", [':i_user_aktiv'=>$i_user_aktiv]);
 	
 	$resultCount = $query->rowCount();

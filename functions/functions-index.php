@@ -2,7 +2,7 @@
 // Funktionen nur für index.php
 require_once("functions/functions-nachrichten_betrete_verlasse.php");
 
-function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($user_id, $u_nick, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level
@@ -214,6 +214,9 @@ function login($user_id, $u_nick, $u_level, $hash_id, $u_ip_historie, $u_agb, $u
 	pdoQuery("LOCK TABLES `online` WRITE, `user` WRITE", []);
 	
 	pdoQuery("DELETE FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$user_id]);
+	
+	// Hash-Wert ermitteln
+	$hash_id = id_erzeuge();
 	
 	// Session setzen
 	$_SESSION["id"] = $hash_id;
