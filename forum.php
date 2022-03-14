@@ -328,7 +328,7 @@ switch ($aktion) {
 		
 		// Thema zeigen
 		$box = $lang['forum_kopfzeile_thema'];
-		$text .= show_posting($th_id);
+		$text .= zeige_forenthema($po_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
@@ -355,7 +355,7 @@ switch ($aktion) {
 				
 				// Thema zeigen
 				$box = $lang['forum_kopfzeile_thema'];
-				$text .= show_posting($th_id);
+				$text .= zeige_forenthema($po_id);
 				zeige_tabelle_zentriert($box, $text);
 			} else {
 				$text .= hinweis($fehlermeldung, "fehler");
@@ -381,7 +381,7 @@ switch ($aktion) {
 		if ($leserechte) {
 			// Thema zeigen
 			$box = $lang['forum_kopfzeile_thema'];
-			$text .= show_posting($th_id);
+			$text .= zeige_forenthema($po_id);
 			zeige_tabelle_zentriert($box, $text);
 			
 			markiere_als_gelesen($po_id, $u_id, $th_id);

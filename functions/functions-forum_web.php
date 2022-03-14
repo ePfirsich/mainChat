@@ -870,12 +870,12 @@ function verschiebe_posting() {
 }
 
 // Zeigt das Thema an
-function show_posting($th_id) {
+function zeige_forenthema($po_id) {
 	global $thread, $seite, $lang, $forum_admin, $u_id;
 	
 	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
 			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`
-			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$th_id]);
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount = 1) {
@@ -883,6 +883,7 @@ function show_posting($th_id) {
 		$th_id = $row['po_th_id'];
 		$po_titel = $row['po_titel'];
 	} else {
+		echo "TEST2";
 		$th_id = 0;
 		$row['po_u_id'] = 0;
 		$row['po_date'] = "";
