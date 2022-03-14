@@ -9,8 +9,13 @@ if($th_id == "") {
 	$th_id = filter_input(INPUT_POST, 'th_id', FILTER_SANITIZE_NUMBER_INT);
 }
 
+$mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
+
 $fo_id = filter_input(INPUT_GET, 'fo_id', FILTER_SANITIZE_NUMBER_INT);
 $po_id = filter_input(INPUT_GET, 'po_id', FILTER_SANITIZE_NUMBER_INT);
+if($po_id == "") {
+	$po_id = filter_input(INPUT_POST, 'po_id', FILTER_SANITIZE_NUMBER_INT);
+}
 $seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_NUMBER_INT);
 $fo_name = filter_input(INPUT_POST, 'fo_name', FILTER_SANITIZE_STRING);
 $po_titel = filter_input(INPUT_POST, 'po_titel', FILTER_SANITIZE_STRING);
@@ -29,6 +34,9 @@ $po_vater_id = filter_input(INPUT_GET, 'po_vater_id', FILTER_SANITIZE_NUMBER_INT
 if($po_vater_id == "") {
 	$po_vater_id = filter_input(INPUT_POST, 'po_vater_id', FILTER_SANITIZE_NUMBER_INT);
 }
+
+$po_topposting = filter_input(INPUT_POST, 'po_topposting', FILTER_SANITIZE_NUMBER_INT);
+$po_threadgesperrt = filter_input(INPUT_POST, 'po_threadgesperrt', FILTER_SANITIZE_NUMBER_INT);
 
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 if($aktion == "") {
@@ -320,7 +328,7 @@ switch ($aktion) {
 		
 		// Thema zeigen
 		$box = $lang['forum_kopfzeile_thema'];
-		$text .= show_posting();
+		$text .= show_posting($th_id);
 		zeige_tabelle_zentriert($box, $text);
 		break;
 	
@@ -334,7 +342,7 @@ switch ($aktion) {
 		if ($schreibrechte && !$thread_gesperrt) {
 			$fehlermeldung = check_input("posting");
 			if (!$fehlermeldung) {
-				$new_po_id = schreibe_posting();
+				$new_po_id = schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $po_topposting, $po_threadgesperrt);
 				if ($new_po_id) {
 					markiere_als_gelesen($new_po_id, $u_id, $th_id);
 					aktion_sofort($new_po_id, $po_vater_id, $thread);
@@ -347,7 +355,7 @@ switch ($aktion) {
 				
 				// Thema zeigen
 				$box = $lang['forum_kopfzeile_thema'];
-				$text .= show_posting();
+				$text .= show_posting($th_id);
 				zeige_tabelle_zentriert($box, $text);
 			} else {
 				$text .= hinweis($fehlermeldung, "fehler");
@@ -373,7 +381,7 @@ switch ($aktion) {
 		if ($leserechte) {
 			// Thema zeigen
 			$box = $lang['forum_kopfzeile_thema'];
-			$text .= show_posting();
+			$text .= show_posting($th_id);
 			zeige_tabelle_zentriert($box, $text);
 			
 			markiere_als_gelesen($po_id, $u_id, $th_id);

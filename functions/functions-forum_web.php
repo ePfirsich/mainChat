@@ -870,12 +870,12 @@ function verschiebe_posting() {
 }
 
 // Zeigt das Thema an
-function show_posting() {
-	global $po_id, $thread, $seite, $lang, $forum_admin, $th_id, $u_id;
+function show_posting($th_id) {
+	global $thread, $seite, $lang, $forum_admin, $u_id;
 	
 	$query = pdoQuery("SELECT `po_th_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`,
 			`po_titel`, `po_text`, `po_u_id`, ifnull(`u_nick`, 'Nobody') AS `u_nick`, `u_id`, `u_level`
-			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
+			FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>$th_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount = 1) {
@@ -923,13 +923,9 @@ function show_posting() {
 	
 	$result = $query->fetchAll();
 	foreach($result as $zaehler => $beitrag) {
-		$span = 0;
-		
 		$po_text = ersetze_smilies(chat_parse(nl2br( $beitrag['po_text'] )));
-		$po_th_id = $beitrag['po_th_id'];
-		$po_id = $beitrag['po_id'];
 		
-		if (!@in_array($po_id, $u_gelesene[$th_id])) {
+		if (!@in_array($beitrag['po_id'], $u_gelesene[$th_id])) {
 			$col = ' <span class="fa-solid fa-star icon16" alt="ungelesener Beitrag" title="ungelesener Beitrag"></span>';
 		} else {
 			$col = '';
@@ -976,20 +972,20 @@ function show_posting() {
 		$text .= "<tr>\n";
 		$text .= "<td class=\"tabelle_kopfzeile\" style=\"text-align:right;\">\n";
 		
-		$schreibrechte = pruefe_schreibrechte($po_th_id);
+		$schreibrechte = pruefe_schreibrechte($beitrag['po_th_id']);
 		// Darf der Benutzer den Beitrag bearbeiten?
 		// Entweder eigenes posting oder forum_admin
 		if ((($u_id == $beitrag['po_u_id']) || ($forum_admin)) && ($schreibrechte)) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=" . $beitrag['po_th_id'] . "&po_id=" . $beitrag['po_id'] . "&thread=$thread&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
 		}
 		
 		if ($schreibrechte) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[thema_zitieren]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=" . $beitrag['po_th_id'] . "&po_vater_id=$thread&thread=$thread&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[thema_zitieren]</span></a>\n";
 		}
 		
 		//Nur Forum-Admins dürfen Beiträge löschen
 		if ($forum_admin) {
-			$text .= "<a href=\"forum.php?th_id=$po_th_id&po_id=$po_id&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
+			$text .= "<a href=\"forum.php?th_id=" . $beitrag['po_th_id'] . "&po_id=" . $beitrag['po_id'] . "&thread=$thread&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
 		}
 		$text .= "</td>\n";
 		$text .= "</tr>\n";

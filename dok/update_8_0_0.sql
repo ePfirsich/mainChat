@@ -8,7 +8,7 @@ ALTER TABLE `online` CHANGE `o_id` `o_id` int(11) UNSIGNED NOT NULL AUTO_INCREME
 
 DROP TABLE `sequence`;
 ALTER TABLE `online` DROP `o_chat_id`;
-ALTER TABLE `posting` DROP `po_gesperrt`;
+ALTER TABLE `forum_beitraege` DROP `po_gesperrt`;
 ALTER TABLE `user` DROP `u_sicherer_modus`;
 ALTER TABLE `user` DROP `u_zeilen`;
 ALTER TABLE `online` DROP `o_timestamp`;

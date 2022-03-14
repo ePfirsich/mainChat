@@ -635,9 +635,8 @@ function loesche_thema($th_id) {
 }
 
 //schreibt neuen/editierten Beitrag in die Datenbank
-function schreibe_posting() {
-	global $th_id, $po_vater_id, $u_id, $po_id, $u_nick, $po_titel, $po_text, $thread, $mode, $user_id, $autor;
-	global $po_topposting, $po_threadgesperrt, $forum_admin, $lang, $forum_aenderungsanzeige, $pdo;
+function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $po_topposting, $po_threadgesperrt) {
+	global $po_vater_id, $u_id, $u_nick, $user_id, $autor, $forum_admin, $lang, $forum_aenderungsanzeige;
 	
 	if ($mode == "edit") {
 		//muss autor neu gesetzt werden?
@@ -670,17 +669,23 @@ function schreibe_posting() {
 		}
 		
 		if ($forum_admin) {
-			$f['po_topposting'] = $po_topposting;
-			$f['po_threadgesperrt'] = $po_threadgesperrt;
-			
-			pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text, `po_topposting` = :po_topposting, `po_threadgesperrt` = :po_threadgesperrt WHERE `po_id` = :po_id",
-				[
-					':po_id'=>$po_id,
-					':po_titel'=>$f['po_titel'],
-					':po_text'=>$f['po_text'],
-					':po_topposting'=>$f['po_topposting'],
-					':po_threadgesperrt'=>$f['po_threadgesperrt']
-				]);
+			if( ($po_topposting == null || $po_topposting == '') && ($po_threadgesperrt == null || $po_threadgesperrt == '') ) {
+				pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text WHERE `po_id` = :po_id",
+					[
+						':po_id'=>$po_id,
+						':po_titel'=>$f['po_titel'],
+						':po_text'=>$f['po_text']
+					]);
+			} else {
+				pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text, `po_topposting` = :po_topposting, `po_threadgesperrt` = :po_threadgesperrt WHERE `po_id` = :po_id",
+					[
+						':po_id'=>$po_id,
+						':po_titel'=>$f['po_titel'],
+						':po_text'=>$f['po_text'],
+						':po_topposting'=>$po_topposting,
+						':po_threadgesperrt'=>$po_threadgesperrt
+					]);
+			}
 		} else {
 			pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text WHERE `po_id` = :po_id",
 				[
@@ -690,6 +695,7 @@ function schreibe_posting() {
 				]);
 		}
 	} else {
+		global $pdo;
 		//neuer Beitrag
 		$f['po_th_id'] = $th_id;
 		$f['po_u_id'] = $u_id;
@@ -726,7 +732,7 @@ function schreibe_posting() {
 			pdoQuery("LOCK TABLES `forum_beitraege` WRITE", []);
 			
 			//alte Themaorder holen
-			$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($thread)]);
+			$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$thread]);
 			$result = $query->fetch();
 			
 			$threadorder = $result['po_threadorder'];
@@ -814,8 +820,10 @@ function schreibe_posting() {
 		
 	}
 	
-	if (!isset($new_po_id))
+	if (!isset($new_po_id)) {
 		$new_po_id = 0;
+	}
+	
 	return $new_po_id;
 }
 
