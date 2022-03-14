@@ -148,7 +148,7 @@ switch ($aktion) {
 		// Nachrichten als geloescht markieren oder aufheben
 		if (isset($bearbeite_ids) && is_array($bearbeite_ids)) {
 			foreach ($bearbeite_ids as $bearbeite_id) {
-				$text .= loesche_mail($bearbeite_id, $u_id);
+				$text .= loesche_nachricht($bearbeite_id, $u_id);
 			}
 		}
 		
@@ -241,12 +241,12 @@ switch ($aktion) {
 	
 	case "zeige_empfangen":
 		// Eine Mail als Detailansicht zeigen
-		zeige_email($daten, "empfangen");
+		zeige_nachricht($daten, "empfangen");
 		break;
 		
 	case "zeige_gesendet":
 		// Eine Mail als Detailansicht zeigen
-		zeige_email($daten, "gesendet");
+		zeige_nachricht($daten, "gesendet");
 		break;
 		
 	case "postausgang":
@@ -259,7 +259,7 @@ switch ($aktion) {
 	case "papierkorb":
 	// Papierkorb zeigen
 		if ( $daten['id'] != "" ) {
-			zeige_email($daten, "papierkorb");
+			zeige_nachricht($daten, "papierkorb");
 			echo "<br>";
 		}
 		zeige_mailbox($text, "geloescht", "");

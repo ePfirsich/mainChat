@@ -285,7 +285,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 	zeige_tabelle_zentriert($box, $text);
 }
 
-function zeige_email($daten, $art) {
+function zeige_nachricht($daten, $art) {
 	// Zeigt die Mail im Detail an
 	global $u_nick, $u_id, $chat, $lang, $locale;
 	
@@ -388,7 +388,7 @@ function zeige_email($daten, $art) {
 	}
 }
 
-function loesche_mail($bearbeite_id, $u_id) {
+function loesche_nachricht($bearbeite_id, $u_id) {
 	// Löscht eine Mail der ID m_id
 	global $u_nick, $u_id, $lang;
 	
