@@ -14,6 +14,7 @@ $lang['forum_kopfzeile_forum_editieren'] = "Forum editieren";
 $lang['forum_kopfzeile_thema_erstellen'] = "Neues Thema erstellen";
 $lang['forum_kopfzeile_thema_editieren'] = "Thema editieren";
 $lang['forum_kopfzeile_thema_verschieben'] = "Thema verschieben";
+$lang['forum_kopfzeile_beitrag_editieren'] = "Beitrag editieren";
 $lang['forum_kopfzeile_forum'] = "Forum";
 $lang['forum_kopfzeile_thema'] = "Thema";
 
@@ -82,11 +83,17 @@ $lang['forum_erfolgsmeldung_thema_editiert'] = "Das Thema wurde erfolgreich edit
 $lang['forum_erfolgsmeldung_thema_verschoben'] = "Das Thema wurde erfolgreich verschoben.";
 
 $lang['forum_fehlermeldung_thema_titel'] = "Es wurde kein Titel für das Thema angegeben.";
-$lang['forum_fehlermeldung_thema_text'] = "Es wurde kein Text für das Thema angegeben.";
+$lang['forum_fehlermeldung_thema_text'] = "Es wurde kein Text für das Thema eingegeben.";
 $lang['forum_fehlermeldung_thema_fehler'] = "Es ist ein Fehler beim Editieren des Themas aufgetreten.";
 $lang['forum_fehlermeldung_thema_nicht_verschoben'] = "Das Thema wurde nicht verschoben, da das gleiche Forum ausgewählt war.";
 $lang['forum_fehlermeldung_thema_gesperrt'] = "Das Thema wurde gesperrt, so dass nicht mehr darauf geantwortet werden kann.";
 $lang['forum_fehlermeldung_thema_entsperrt'] = "Das Thema wurde gesperrt, so dass wieder darauf geantwortet werden kann.";
+
+// Erfolgs- und Fehlermeldungen für Beiträge
+$lang['forum_fehlermeldung_beitrag_text'] = "Es wurde kein Text für den Beitrag eingegeben.";
+
+$lang['forum_erfolgsmeldung_beitrag_erstellt'] = "Der Beitrag wurde erfolgreich erstellt.";
+$lang['forum_erfolgsmeldung_beitrag_editiert'] = "Der Beitrag wurde erfolgreich editiert.";
 
 //Texte für Maske Forum
 $lang['forum_msg2'] = "Öffentlich zugänglich:";
@@ -126,10 +133,6 @@ $lang['last'] = "vorheriger";
 $lang['next'] = "nächster";
 $lang['reply'] = "Re:";
 $lang['smilies'] = "Smilies zum Einfügen anzeigen";
-
-//Texte für fehlende Eingaben
-$lang['missing_potitel'] = "Geben Sie bitte einen Titel für den Beitrag an!";
-$lang['missing_potext'] = "Sie haben keinen Text für Ihren Beitrag eingegeben!";
 
 // Sonstiges
 $lang['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";

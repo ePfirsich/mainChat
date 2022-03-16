@@ -230,7 +230,6 @@ CREATE TABLE `forum_beitraege` (
 	`beitrag_user_id` int(11) NOT NULL DEFAULT 0,
 	`beitrag_thema_id` int(10) NOT NULL DEFAULT 0,
 	`beitrag_thema_timestamp` bigint(14) NOT NULL DEFAULT 0,
-	`beitrag_order` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 	`beitrag_antwort_timestamp` bigint(14) NOT NULL DEFAULT 0,
 	`beitrag_titel` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`beitrag_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,

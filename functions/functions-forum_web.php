@@ -459,8 +459,6 @@ function show_forum($forum_id) {
 		
 		$ungelesene = anzahl_ungelesene($arr_postings, $forum_id);
 		
-		//array_pop($arr_postings);
-		
 		if ($ungelesene === 0) {
 			if ($posting['beitrag_angepinnt'] == 1) { // Top Posting 
 				$folder = $chat_grafik['forum_topthema'];
@@ -528,7 +526,7 @@ function maske_posting($mode) {
 	
 	switch ($mode) {
 		case "reply": // zitieren
-		//Daten des Vaters holen
+			//Daten des Vaters holen
 			$query = pdoQuery("SELECT date_format(from_unixtime(`beitrag_thema_timestamp`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `beitrag_titel`, `beitrag_text`, ifnull(u_nick, 'unknown') AS `u_nick`
 					FROM `forum_beitraege` LEFT JOIN `user` ON `beitrag_user_id` = `u_id` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_thema_id]);
 			
@@ -542,11 +540,10 @@ function maske_posting($mode) {
 			$beitrag_text = $result['beitrag_text'];
 			$beitrag_text = erzeuge_quoting($beitrag_text, $autor, $result['po_date']);
 			$beitrag_text = erzeuge_fuss($beitrag_text);
-			
-			$button = $lang['neuer_thread_button'];
-			break;
+		break;
+		
 		case "answer": // antworten
-		//Daten des Vaters holen
+			//Daten des Vaters holen
 			$query = pdoQuery("SELECT `beitrag_titel` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_thema_id]);
 			
 			$result = $query->fetch();
@@ -556,60 +553,23 @@ function maske_posting($mode) {
 			}
 			$titel = $beitrag_titel;
 			$beitrag_text = erzeuge_fuss("");
-			
-			$button = $lang['neuer_thread_button'];
-			break;
-		
-		case "edit":
-			//Daten holen
-			$query = pdoQuery("SELECT date_format(from_unixtime(`beitrag_thema_timestamp`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `beitrag_titel`, `beitrag_text`, ifnull(`u_nick`, 'unknown') AS `u_nick`, `u_id`, `beitrag_gesperrt`, `beitrag_angepinnt`
-					FROM `forum_beitraege` LEFT JOIN `user` ON `beitrag_user_id` = `u_id` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
-			
-			$result = $query->fetch();
-			$autor = $result['u_nick'];
-			$user_id = $result['u_id'];
-			$beitrag_angepinnt = $result['beitrag_angepinnt'];
-			$beitrag_gesperrt = $result['beitrag_gesperrt'];
-			$beitrag_titel = $result['beitrag_titel'];
-			
-			$titel = $beitrag_titel;
-			// Entfernt alle "Re: ", falls diese vorhanden sind.
-			$titel = str_replace("Re: ", "", $titel);
-			
-			$beitrag_text = $result['beitrag_text'];
-			
-			//Testen ob Benutzer mogelt, indem er den Edit-Link mit anderer beitrag_id benutzt
-			if ((!$forum_admin) && ($user_id != $u_id)) {
-				exit;
-			}
-			
-			$button = $lang['edit_button'];
-			
-			break;
+		break;
 	}
+	
+	
+	$button = $lang['neuer_thread_button'];
 	
 	$text = "<form name=\"form\" action=\"forum.php?bereich=forum\" method=\"post\">";
 	$text .= show_pfad_posting($forum_id, $titel);
 	
 	
-	// Titel kann nur beim Editieren des 1. Beitrags geändert werden
-	if ( ($mode == "edit" || $mode == "answer" || $mode == "reply") && $beitrag_id == $beitrag_thema_id ) {
-		// Weiter unten wird das Formularfeld angezeigt
-	} else {
-		$text .= "<input type=\"hidden\" name=\"beitrag_titel\" value=\"$beitrag_titel\">\n";
-	}
+	$text .= "<input type=\"hidden\" name=\"beitrag_titel\" value=\"$beitrag_titel\">\n";
 	
 	$zaehler = 0;
 	$text .= "<table style=\"width:100%;\">\n";
 	
 	// Überschrift: Neues Thema erstellen
 	$text .= zeige_formularfelder("ueberschrift", $zaehler, $titel, "", "", 0, "70", "");
-	
-	// Titel
-	if ( ($mode == "edit" || $mode == "answer" || $mode == "reply") && $beitrag_id == $beitrag_thema_id ) {
-		$text .= zeige_formularfelder("input", $zaehler, $lang['forum_titel'], "beitrag_titel", $beitrag_titel);
-		$zaehler++;
-	}
 	
 	
 	// Beitrag
@@ -633,21 +593,6 @@ function maske_posting($mode) {
 	$zaehler++;
 	
 	
-	// Nur im Obersten Vater die TOP und gesperrt Einstellungen ändern lassen
-	if ($forum_admin && ($mode == "edit") && $beitrag_id == $beitrag_thema_id) {
-		// Thema gesperrt
-		$value = array($lang['posting_nein'], $lang['posting_ja']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['posting_thema_gesperrt'], "beitrag_gesperrt", $value, $beitrag_gesperrt);
-		$zaehler++;
-		
-		
-		// Thema anpinnen
-		$value = array($lang['posting_nein'], $lang['posting_ja']);
-		$text .= zeige_formularfelder("selectbox", $zaehler, $lang['posting_thema_anpinnen'], "beitrag_angepinnt", $value, $beitrag_angepinnt);
-		$zaehler++;
-	}
-	
-	
 	// Beitrag erstellen/editieren
 	if ($zaehler % 2 != 0) {
 		$bgcolor = 'class="tabelle_zeile2"';
@@ -664,19 +609,11 @@ function maske_posting($mode) {
 	$text .= show_pfad_posting($forum_id, $titel);
 	
 	$text .= "<input type=\"hidden\" name=\"forum_id\" value=\"$forum_id\">\n";
-	
-	if ($mode == "reply" || $mode == "answer") {
-		$text .= "<input type=\"hidden\" name=\"beitrag_id\" value=\"$beitrag_thema_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"beitrag_thema_id\" value=\"$beitrag_thema_id\">\n";
-	} else {
-		$text .= "<input type=\"hidden\" name=\"beitrag_thema_id\" value=\"$beitrag_thema_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"beitrag_id\" value=\"$beitrag_thema_id\">\n";
-		$text .= "<input type=\"hidden\" name=\"user_id\" value=\"$user_id\">\n";
-	}
-	
-	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"posting_anlegen\">";
+	$text .= "<input type=\"hidden\" name=\"beitrag_id\" value=\"$beitrag_thema_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"beitrag_thema_id\" value=\"$beitrag_thema_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"$mode\">";
 	$text .= "<input type=\"hidden\" name=\"seite\" value=\"$seite\">";
-	$text .= "<input type=\"hidden\" name=\"mode\" value=\"$mode\">";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "</form>";
 	
 	return $text;
@@ -781,6 +718,77 @@ function maske_thema($beitrag_id, $beitrag_titel, $beitrag_text, $beitrag_forum_
 	$text .= "<input type=\"hidden\" name=\"forum_id\" value=\"$beitrag_forum_id\">\n";
 	$text .= "<input type=\"hidden\" name=\"beitrag_thema_id\" value=\"0\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"thema_aendern\">\n";
+	$text .= "<input type=\"hidden\" name=\"seite\" value=\"$seite\">\n";
+	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
+	$text .= "</form>";
+	
+	
+	$text .= show_pfad_posting($beitrag_forum_id, $titel);
+	
+	return $text;
+}
+
+// Beitrag editieren
+function maske_beitrag_editieren($beitrag_id, $beitrag_text, $forum_id, $u_layout_farbe) {
+	global $seite, $forum_admin, $lang;
+	
+	// Wird für die korrekte Anzeige der Smilies benötigt
+	$benutzerdaten['u_layout_farbe'] = $u_layout_farbe;
+	
+	$query = pdoQuery("SELECT `beitrag_titel`, `beitrag_text`, `beitrag_forum_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	$result = $query->fetch();
+	
+	if($beitrag_text == "") {
+		$beitrag_text = $result['beitrag_text'];
+	}
+	
+	$beitrag_forum_id = $result['beitrag_forum_id'];
+	
+	$titel = $result['beitrag_titel'];
+	
+	$text = "<form name=\"form\" action=\"forum.php?bereich=forum\" method=\"post\">";
+	$text .= show_pfad_posting($beitrag_forum_id, $titel);
+	
+	$zaehler = 0;
+	$text .= "<table style=\"width:100%;\">\n";
+	
+	
+	// Beitrag
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>" . $lang['forum_beitrag'] . "</td>\n";
+	$text .= "<td $bgcolor>&nbsp;</td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	
+	// Smilies
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right; vertical-align:top;\" $bgcolor>" . zeige_smilies('forum', $benutzerdaten) . "</td>\n";
+	$text .= "<td $bgcolor><textarea name=\"beitrag_text\" rows=\"15\" cols=\"95\" wrap=\"physical\">$beitrag_text</textarea></td>\n";
+	$text .= "</tr>\n";
+	$zaehler++;
+	
+	
+	// Beitrag erstellen/editieren
+	if ($zaehler % 2 != 0) {
+		$bgcolor = 'class="tabelle_zeile2"';
+	} else {
+		$bgcolor = 'class="tabelle_zeile1"';
+	}
+	$text .= "<tr>\n";
+	$text .= "<td style=\"text-align:right;\" $bgcolor>&nbsp;</td>\n";
+	$text .= "<td $bgcolor><input type=\"submit\" value=\"$lang[forum_button_speichern]\"></td>\n";
+	$text .= "</tr>\n";
+	$text .= "</table>\n";
+	
+	$text .= "<input type=\"hidden\" name=\"beitrag_id\" value=\"$beitrag_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"forum_id\" value=\"$forum_id\">\n";
+	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"edit\">\n";
 	$text .= "<input type=\"hidden\" name=\"seite\" value=\"$seite\">\n";
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "</form>";
@@ -1064,7 +1072,7 @@ function zeige_forenthema($beitrag_id) {
 			}
 			
 			//Nur Forum-Admins dürfen Beiträge löschen
-			if ($forum_admin) {
+			if ($forum_admin && $zaehler != 0) {
 				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_thema_id&beitrag_id=" . $beitrag['beitrag_id'] . "&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
 			}
 			$text .= "</td>\n";

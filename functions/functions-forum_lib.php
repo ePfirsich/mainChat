@@ -37,13 +37,25 @@ function pruefe_leserechte($forum_id) {
 	}
 }
 
-function hole_themen_id_anhand_posting_id($beitrag_id) {
+function hole_foren_id_anhand_posting_id($beitrag_id) {
 	// Prüft anhand der `beitrag_id` ob gesperrt ist
 	$query = pdoQuery("SELECT `beitrag_forum_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
 	$resultCount = $query->rowCount();
 	if($resultCount == 1) {
 		$result = $query->fetch();
 		return $result['beitrag_forum_id'];
+	} else {
+		return 0;
+	}
+}
+
+function hole_themen_id_anhand_posting_id($beitrag_id) {
+	// Prüft anhand der `beitrag_id` ob gesperrt ist
+	$query = pdoQuery("SELECT `beitrag_thema_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	$resultCount = $query->rowCount();
+	if($resultCount == 1) {
+		$result = $query->fetch();
+		return $result['beitrag_thema_id'];
 	} else {
 		return 0;
 	}
@@ -192,11 +204,6 @@ function thread_alles_gelesen($forum_id, $thread_id, $u_id) {
 		$u_gelesene[$forum_id] = array();
 	}
 	
-	// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
-	$query = pdoQuery("SELECT `beitrag_order` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id OR `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_id'=>$thread_id, ':beitrag_thema_id'=>$thread_id]);
-	$a = $query->fetch();
-	$b = explode(",", $a['beitrag_order']);
-	
 	for ($i = 0; $i < count($liste); $i++) {
 		array_push($u_gelesene[$forum_id], $liste[$i]);
 	}
@@ -274,22 +281,6 @@ function anzahl_ungelesener_themen(&$arr_postings, $forum_id) {
 	$resultCount = $query->rowCount();
 	
 	return $resultCount;
-}
-
-//Prüft Benutzereingaben auf Vollständigkeit
-function check_input() {
-	global $lang, $beitrag_titel, $beitrag_text;
-	
-	$missing = "";
-	
-	if (strlen(trim($beitrag_titel)) <= 0) {
-		$missing .= $lang['missing_potitel'];
-	}
-	if (strlen(trim($beitrag_text)) <= 0) {
-		$missing .= $lang['missing_potext'];
-	}
-	
-	return $missing;
 }
 
 // Kategorie anlegen/editieren
@@ -515,8 +506,8 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 		global $u_id, $pdo;
 		// Neues Thema anlegen
 		if($forum_admin) {
-			pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_titel`, `beitrag_text`, `beitrag_thema_id`, `beitrag_forum_id`, `beitrag_angepinnt`, `beitrag_gesperrt`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_user_id`, `beitrag_order`)
-					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_angepinnt, :beitrag_gesperrt, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id, :beitrag_order)",
+			pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_titel`, `beitrag_text`, `beitrag_thema_id`, `beitrag_forum_id`, `beitrag_angepinnt`, `beitrag_gesperrt`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_user_id`)
+					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_angepinnt, :beitrag_gesperrt, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id)",
 				[
 					':beitrag_titel'=>$beitrag_titel,
 					':beitrag_text'=>$beitrag_text,
@@ -526,12 +517,11 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 					':beitrag_gesperrt'=>$beitrag_gesperrt,
 					':beitrag_thema_timestamp'=>time(),
 					':beitrag_antwort_timestamp'=>time(),
-					':beitrag_user_id'=>$u_id,
-					':beitrag_order'=>0
+					':beitrag_user_id'=>$u_id
 				]);
 		} else {
-			pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_titel`, `beitrag_text`, `beitrag_thema_id`, `beitrag_forum_id`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_user_id`, `beitrag_order`)
-					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id, :beitrag_order)",
+			pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_titel`, `beitrag_text`, `beitrag_thema_id`, `beitrag_forum_id`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_user_id`)
+					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id)",
 				[
 					':beitrag_titel'=>$beitrag_titel,
 					':beitrag_text'=>$beitrag_text,
@@ -539,8 +529,7 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 					':forum_id'=>$forum_id,
 					':beitrag_thema_timestamp'=>time(),
 					':beitrag_antwort_timestamp'=>time(),
-					':beitrag_user_id'=>$u_id,
-					':beitrag_order'=>0
+					':beitrag_user_id'=>$u_id
 				]);
 		}
 		
@@ -604,180 +593,105 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 	return array($text, $beitrag_id);
 }
 
+// Beitrag editieren
+function editiere_beitrag($beitrag_id, $beitrag_text) {
+	global $forum_aenderungsanzeige, $lang, $u_nick;
+	
+	if ($forum_aenderungsanzeige == "1") {
+		$append = "<br>";
+		$append .= $lang['letzte_aenderung'];
+		$append = str_replace("%datum%", date("d.m.Y"), $append);
+		$append = str_replace("%uhrzeit%", date("H:i"), $append);
+		$append = str_replace("%user%", $u_nick, $append);
+		
+		$beitrag_text .= $append;
+	}
+	
+	pdoQuery("UPDATE `forum_beitraege` SET `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
+		[
+			':beitrag_id'=>$beitrag_id,
+			':beitrag_text'=>$beitrag_text,
+		]);
+}
+
+//editiere_beitrag
 //schreibt neuen/editierten Beitrag in die Datenbank
-function schreibe_posting($mode, $beitrag_id, $forum_id, $beitrag_titel, $beitrag_text, $beitrag_angepinnt, $beitrag_gesperrt) {
-	global $beitrag_thema_id, $u_id, $u_nick, $user_id, $autor, $forum_admin, $lang, $forum_aenderungsanzeige;
+function schreibe_posting($beitrag_id, $forum_id, $beitrag_text) {
+	global $beitrag_thema_id, $u_id, $lang, $pdo;
 	
-	if ($mode == "edit") {
-		$f['beitrag_titel'] = htmlspecialchars($beitrag_titel);
-		$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
-		
-		if ($forum_aenderungsanzeige == "1") {
-			$append = $lang['letzte_aenderung'];
-			$append = str_replace("%datum%", date("d.m.Y"), $append);
-			$append = str_replace("%uhrzeit%", date("H:i"), $append);
-			$append = str_replace("%user%", $u_nick, $append);
-			
-			$f['beitrag_text'] .= $append;
-		}
-		
-		if ($forum_admin) {
-			if( ($beitrag_angepinnt == null || $beitrag_angepinnt == '') && ($beitrag_gesperrt == null || $beitrag_gesperrt == '') ) {
-				pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
-					[
-						':beitrag_id'=>$beitrag_id,
-						':beitrag_titel'=>$f['beitrag_titel'],
-						':beitrag_text'=>$f['beitrag_text']
-					]);
-			} else {
-				pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text, `beitrag_angepinnt` = :beitrag_angepinnt, `beitrag_gesperrt` = :beitrag_gesperrt WHERE `beitrag_id` = :beitrag_id",
-					[
-						':beitrag_id'=>$beitrag_id,
-						':beitrag_titel'=>$f['beitrag_titel'],
-						':beitrag_text'=>$f['beitrag_text'],
-						':beitrag_angepinnt'=>$beitrag_angepinnt,
-						':beitrag_gesperrt'=>$beitrag_gesperrt
-					]);
-			}
-		} else {
-			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
-				[
-					':beitrag_id'=>$beitrag_id,
-					':beitrag_titel'=>$f['beitrag_titel'],
-					':beitrag_text'=>$f['beitrag_text']
-				]);
-		}
+	$text = "";
+	$query = pdoQuery("SELECT `beitrag_titel` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	
+	$result = $query->fetch();
+	$beitrag_titel = $result['beitrag_titel'];
+	
+	//neuer Beitrag
+	$f['beitrag_forum_id'] = $forum_id;
+	$f['beitrag_user_id'] = $u_id;
+	$f['beitrag_thema_id'] = $beitrag_thema_id;
+	$f['beitrag_titel'] = $beitrag_titel;
+	$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
+	$f['beitrag_thema_timestamp'] = time();
+	$f['beitrag_antwort_timestamp'] = time();
+	
+	//Beitrag schreiben
+	pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_forum_id`, `beitrag_user_id`, `beitrag_thema_id`, `beitrag_titel`, `beitrag_text`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`) VALUES (:beitrag_forum_id, :beitrag_user_id, :beitrag_thema_id, :beitrag_titel, :beitrag_text, :beitrag_thema_timestamp, :beitrag_antwort_timestamp)",
+		[
+			':beitrag_forum_id'=>$f['beitrag_forum_id'],
+			':beitrag_user_id'=>$f['beitrag_user_id'],
+			':beitrag_thema_id'=>$f['beitrag_thema_id'],
+			':beitrag_titel'=>$f['beitrag_titel'],
+			':beitrag_text'=>$f['beitrag_text'],
+			':beitrag_thema_timestamp'=>$f['beitrag_thema_timestamp'],
+			':beitrag_antwort_timestamp'=>$f['beitrag_antwort_timestamp']
+		]);
+	
+	// Erfolgsmeldung anzeigen
+	$erfolgsmeldung = $lang['forum_erfolgsmeldung_beitrag_erstellt'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	$new_beitrag_id = $pdo->lastInsertId();
+	
+	//forum_beitraege muss neu geschrieben werden
+	//anz_threads und anz_replys im Thema setzen
+	//erst Tabelle `forum_foren` sperren
+	pdoQuery("LOCK TABLES `forum_foren` WRITE", []);
+	
+	//altes forum_beitraege und anz_threads und anz_replys holen
+	$query = pdoQuery("SELECT `forum_beitraege`, `forum_anzahl_antworten` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
+	
+	$result = $query->fetch();
+	$postings = $result['forum_beitraege'];
+	$anzreplys = $result['forum_anzahl_antworten'];
+	
+	if (!$postings) {
+		//erster Beitrag in diesem Thema
+		$postings = $new_beitrag_id;
 	} else {
-		global $pdo;
-		//neuer Beitrag
-		$f['beitrag_forum_id'] = $forum_id;
-		$f['beitrag_user_id'] = $u_id;
-		$f['beitrag_thema_id'] = $beitrag_thema_id;
-		$f['beitrag_titel'] = htmlspecialchars($beitrag_titel);
-		$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
-		$f['beitrag_thema_timestamp'] = time();
-		$f['beitrag_antwort_timestamp'] = time();
-		if ($beitrag_thema_id != 0) {
-			$f['beitrag_order'] = 1;
-		} else {
-			$f['beitrag_order'] = 0;
-		}
-		
-		//Beitrag schreiben
-		pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_forum_id`, `beitrag_user_id`, `beitrag_thema_id`, `beitrag_titel`, `beitrag_text`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_order`) VALUES (:beitrag_forum_id, :beitrag_user_id, :beitrag_thema_id, :beitrag_titel, :beitrag_text, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_order)",
-			[
-				':beitrag_forum_id'=>$f['beitrag_forum_id'],
-				':beitrag_user_id'=>$f['beitrag_user_id'],
-				':beitrag_thema_id'=>$f['beitrag_thema_id'],
-				':beitrag_titel'=>$f['beitrag_titel'],
-				':beitrag_text'=>$f['beitrag_text'],
-				':beitrag_thema_timestamp'=>$f['beitrag_thema_timestamp'],
-				':beitrag_antwort_timestamp'=>$f['beitrag_antwort_timestamp'],
-				':beitrag_order'=>$f['beitrag_order']
-			]);
-		
-		
-		$new_beitrag_id = $pdo->lastInsertId();
-		
-		//falls reply muss beitrag_order des vaters neu geschrieben werden
-		if ($beitrag_thema_id != 0) {
-			//beitrag_order des threadvaters neu schreiben
-			pdoQuery("LOCK TABLES `forum_beitraege` WRITE", []);
-			
-			//alte Themaorder holen
-			$query = pdoQuery("SELECT `beitrag_order` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
-			$result = $query->fetch();
-			
-			$threadorder = $result['beitrag_order'];
-			
-			//erste Antwort?
-			if ($threadorder == "0") {
-				$threadorder = $new_beitrag_id;
-			} else {
-				$insert_beitrag_id = hole_letzten($beitrag_thema_id, $new_beitrag_id);
-				
-				//alte threadorder in feld aufsplitten
-				$threadorder_array = explode(",", $threadorder);
-				$threadorder_array_new = array();
-				$i = 0;
-				foreach($threadorder_array as $k => $v) {
-					if ($v == $insert_beitrag_id) {
-						$threadorder_array_new[$i] = $v;
-						$i++;
-						$threadorder_array_new[$i] = $new_beitrag_id;
-						
-					} else {
-						$threadorder_array_new[$i] = $v;
-					}
-					$i++;
-				}
-				$threadorder = implode(",", $threadorder_array_new);
-			}
-			
-			//threadorder neu schreiben
-			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_order` = :beitrag_order, `beitrag_antwort_timestamp` = :beitrag_antwort_timestamp WHERE `beitrag_id` = :beitrag_id", [':beitrag_order'=>$threadorder, ':beitrag_antwort_timestamp'=>time(), ':beitrag_id'=>$beitrag_id]);
-			
-			// Schliesslich noch die markierung des letzten in der Ebene entfernen
-			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_order` = '0' WHERE `beitrag_order` = '1' AND `beitrag_id` <> :beitrag_id AND `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_id'=>$new_beitrag_id, ':beitrag_thema_id'=>$beitrag_thema_id]);
-			
-			//Tabellen wieder freigeben
-			pdoQuery("UNLOCK TABLES", []);
-		} else {
-			//Thema neu setzen
-			$beitrag_id = $new_beitrag_id;
-		}
-		
-		//forum_beitraege muss neu geschrieben werden
-		//anz_threads und anz_replys im Thema setzen
-		//erst Tabelle `forum_foren` sperren
-		pdoQuery("LOCK TABLES `forum_foren` WRITE", []);
-		
-		//altes forum_beitraege und anz_threads und anz_replys holen
-		$query = pdoQuery("SELECT `forum_beitraege`, `forum_anzahl_themen`, `forum_anzahl_antworten` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
-		
-		$result = $query->fetch();
-		$postings = $result['forum_beitraege'];
-		$anzthreads = $result['forum_anzahl_themen'];
-		$anzreplys = $result['forum_anzahl_antworten'];
-		
-		if (!$postings) {
-			//erster Beitrag in diesem Thema
-			$postings = $new_beitrag_id;
-		} else {
-			//schon postings da
-			$postings_array = explode(",", $postings);
-			$postings_array[] = $new_beitrag_id;
-			$postings = implode(",", $postings_array);
-		}
-		
-		if ($beitrag_thema_id == 0) {
-			//neues Thema
-			$anzthreads++;
-		} else {
-			//neue Antwort
-			$anzreplys++;
-		}
-		
-		//schreiben
-		pdoQuery("UPDATE `forum_foren` SET `forum_beitraege` = :forum_beitraege, `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten WHERE `forum_id` = :forum_id",
-			[
-				':forum_beitraege'=>$postings,
-				':forum_anzahl_themen'=>$anzthreads,
-				':forum_anzahl_antworten'=>$anzreplys,
-				':forum_id'=>$forum_id
-				
-			]);
-		
-		//Tabellen wieder freigeben
-		pdoQuery("UNLOCK TABLES", []);
-		
+		//schon postings da
+		$postings_array = explode(",", $postings);
+		$postings_array[] = $new_beitrag_id;
+		$postings = implode(",", $postings_array);
 	}
 	
-	if (!isset($new_beitrag_id)) {
-		$new_beitrag_id = 0;
-	}
+	//neue Antwort
+	$anzreplys++;
 	
-	return $new_beitrag_id;
+	//schreiben
+	pdoQuery("UPDATE `forum_foren` SET `forum_beitraege` = :forum_beitraege, `forum_anzahl_antworten` = :forum_anzahl_antworten WHERE `forum_id` = :forum_id",
+		[
+			':forum_beitraege'=>$postings,
+			':forum_anzahl_antworten'=>$anzreplys,
+			':forum_id'=>$forum_id
+			
+		]);
+	
+	//Tabellen wieder freigeben
+	pdoQuery("UNLOCK TABLES", []);
+	
+	$text .= verbuche_punkte($u_id);
+	
+	return array($text, $new_beitrag_id);
 }
 
 //holt ausgehend von root_id den letzten Beitrag
@@ -811,50 +725,6 @@ function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 	//rekursiv alle zu loeschenden postings in feld einlesen
 	$arr_delete[] = $beitrag_id;
 	hole_alle_unter($beitrag_id);
-	
-	//beitrag_order neu schreiben
-	//nur relevant, wenn Beitrag nicht erster im Thema ist
-	//ansonsten wird es eh geloescht
-	if ($beitrag_id != $beitrag_thema_id) {
-		$query = pdoQuery("SELECT `beitrag_order`, `beitrag_thema_timestamp` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_thema_id]);
-		
-		$result = $query->fetch();
-		$threadorder = $result['beitrag_order'];
-		$new_ts = $result['beitrag_thema_timestamp'];
-		
-		//in array einlesen und zu loeschende rausschmeissen
-		$arr_new_threadorder = explode(",", $threadorder);
-		
-		$arr_new_threadorder = array_diff($arr_new_threadorder, $arr_delete);
-		
-		if (count($arr_new_threadorder) == 0) {
-			$arr_new_threadorder[0] = 0;
-		} else {
-			// beim Löschen eines Beitrags wird hier die letzte änderung aller postings gesucht, damit 
-			// der thread_ts wieder stimmt
-			$new_ts = '0000000000';
-			$new_threadorder = implode(",", $arr_new_threadorder);
-			$arr_new_threadorder = explode(",", $new_threadorder);
-			for ($i = 0; $i < count($arr_new_threadorder); $i++) {
-				$query = pdoQuery("SELECT `beitrag_thema_timestamp` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>intval($arr_new_threadorder[$i])]);
-				
-				$result = $query->fetch();
-				
-				$ts = $result['beitrag_thema_timestamp'];
-				if ($ts > $new_ts) {
-					$new_ts = $ts;
-				}
-			}
-		}
-		
-		$new_threadorder = implode(",", $arr_new_threadorder);
-		
-		pdoQuery("UPDATE `forum_beitraege` SET `beitrag_antwort_timestamp` = :beitrag_antwort_timestamp WHERE `beitrag_id` = :beitrag_id",
-			[
-				':beitrag_antwort_timestamp'=>$new_ts,
-				':beitrag_id'=>$beitrag_thema_id
-			]);
-	}
 	
 	//eintragungen im Forum neu schreiben
 	$query = pdoQuery("SELECT `forum_anzahl_themen`, `forum_anzahl_antworten`, `forum_beitraege` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);

@@ -9,6 +9,7 @@ ALTER TABLE `online` CHANGE `o_id` `o_id` int(11) UNSIGNED NOT NULL AUTO_INCREME
 DROP TABLE `sequence`;
 ALTER TABLE `online` DROP `o_chat_id`;
 ALTER TABLE `forum_beitraege` DROP `po_gesperrt`;
+ALTER TABLE `forum_beitraege` DROP `po_threadorder`;
 ALTER TABLE `user` DROP `u_sicherer_modus`;
 ALTER TABLE `user` DROP `u_zeilen`;
 ALTER TABLE `online` DROP `o_timestamp`;
@@ -32,7 +33,6 @@ ALTER TABLE `forum_foren` CHANGE `th_order` `forum_order` SMALLINT(5) NOT NULL D
 ALTER TABLE `forum_beitraege` CHANGE `po_id` `beitrag_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT; 
 ALTER TABLE `forum_beitraege` CHANGE `po_th_id` `beitrag_forum_id` INT(10) NOT NULL DEFAULT '0'; 
 ALTER TABLE `forum_beitraege` CHANGE `po_u_id` `beitrag_user_id` INT(11) NOT NULL DEFAULT '0'; 
-ALTER TABLE `forum_beitraege` CHANGE `po_threadorder` `beitrag_order` MEDIUMTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL; 
 ALTER TABLE `forum_beitraege` CHANGE `po_ts` `beitrag_thema_timestamp` BIGINT(14) NOT NULL DEFAULT '0'; 
 ALTER TABLE `forum_beitraege` CHANGE `po_threadts` `beitrag_antwort_timestamp` BIGINT(14) NOT NULL DEFAULT '0'; 
 ALTER TABLE `forum_beitraege` CHANGE `po_vater_id` `beitrag_thema_id` INT(10) NOT NULL DEFAULT '0'; 
@@ -45,7 +45,6 @@ ALTER TABLE `forum_beitraege` RENAME INDEX `po_th_id` TO `beitrag_forum_id`;
 ALTER TABLE `forum_beitraege` RENAME INDEX `po_u_id` TO `beitrag_user_id`;
 ALTER TABLE `forum_beitraege` RENAME INDEX `po_vater_id` TO `beitrag_thema_id`;
 ALTER TABLE `forum_beitraege` RENAME INDEX `po_themasort` TO `beitrag_themasort`;
-
 
 ALTER TABLE `forum_foren` RENAME INDEX `th_fo_id` TO `forum_kategorie_id`;
 ALTER TABLE `forum_foren` RENAME INDEX `th_name` TO `forum_name`;
