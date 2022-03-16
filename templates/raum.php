@@ -311,6 +311,9 @@ switch ($aktion) {
 					
 					$result2Count = $query2->rowCount();
 					if ($result2Count == 0 || ($row['r_name'] == $f['r_name']) ) {
+						if($f['r_name'] == $lobby) {
+							$f['r_status2'] = "P";
+						}
 						// Raum editieren
 						if($admin || $u_id == $f['r_besitzer']) {
 							// Richtiger Besitzer
