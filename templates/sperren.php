@@ -117,7 +117,7 @@ if ( $formular == 1 ) {
 			unset($f['is_ip']);
 			$f['is_owner'] = $u_id;
 			
-			if (!isset($f['is_id'])|| $f['is_id'] == '') {
+			if (!isset($f['is_id']) || $f['is_id'] == '') {
 				// Hinzufügen
 				pdoQuery("INSERT INTO `ip_sperre` (`is_domain`, `is_owner`, `is_infotext`, `is_warn`) VALUES (:is_domain, :is_owner, :is_infotext, :is_warn)",
 					[
@@ -164,7 +164,7 @@ if ( $formular == 1 ) {
 				$f['is_ip'] = $ip1 . "...";
 			}
 			$f['is_owner'] = $u_id;
-			if (!isset($f['is_id'])|| $f['is_id'] == '') {
+			if (!isset($f['is_id']) || $f['is_id'] == '') {
 				// Hinzufügen
 				pdoQuery("INSERT INTO `ip_sperre` (`is_ip`, `is_ip_byte`, `is_owner`, `is_infotext`, `is_warn`) VALUES (:is_ip, :is_ip_byte, :is_owner, :is_infotext, :is_warn)",
 					[

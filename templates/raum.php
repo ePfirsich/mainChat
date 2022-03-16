@@ -59,11 +59,10 @@ switch ($aktion) {
 					$query2 = pdoQuery("SELECT `o_user`, `o_name` FROM `online` WHERE `o_raum` = :o_raum", [':o_raum'=>$f['r_id']]);
 					
 					$result2 = $query2->fetchAll();
-					foreach($result as $zaehler => $row2) {
+					foreach($result2 as $zaehler => $row2) {
 						system_msg("", 0, $row2['o_user'], $system_farbe, str_replace("%r_name%", $row['r_name'], $lang['fehler4']));
 						$oo_raum = raum_gehe($o_id, $row2['o_user'], $row2['o_name'], $f['r_id'], $lobby_id);
 						raum_user($lobby_id, $row2['o_user']);
-						$i++;
 					}
 					
 					pdoQuery("DELETE FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);

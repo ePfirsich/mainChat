@@ -39,12 +39,15 @@ $suche_login = filter_input(INPUT_POST, 'suche_login', FILTER_SANITIZE_NUMBER_IN
 // Sperren
 $f['is_infotext'] = filter_input(INPUT_POST, 'is_infotext', FILTER_SANITIZE_STRING);
 $f['is_domain'] = filter_input(INPUT_POST, 'is_domain', FILTER_SANITIZE_STRING);
+$f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_URL);
 $ip1 = filter_input(INPUT_POST, 'ip1', FILTER_SANITIZE_STRING);
 $ip2 = filter_input(INPUT_POST, 'ip2', FILTER_SANITIZE_STRING);
 $ip3 = filter_input(INPUT_POST, 'ip3', FILTER_SANITIZE_STRING);
 $ip4 = filter_input(INPUT_POST, 'ip4', FILTER_SANITIZE_STRING);
-$f['is_warn'] = filter_input(INPUT_POST, 'is_warn', FILTER_SANITIZE_STRING);
 $f['is_id'] = filter_input(INPUT_GET, 'is_id', FILTER_SANITIZE_NUMBER_INT);
+if( $f['is_id'] == '') {
+	$f['is_id'] = filter_input(INPUT_POST, 'is_id', FILTER_SANITIZE_NUMBER_INT);
+}
 $is_id = $f['is_id'];
 $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_URL);
 
