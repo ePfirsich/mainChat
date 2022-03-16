@@ -14,9 +14,9 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	//				H: Versteckte Nachricht
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
-	global $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
+	global $user_farbe, $hilfstext, $system_farbe;
 	global $chat, $timeout, $datei_spruchliste, $lang, $ak, $check_name, $raumstatus1, $raum_max;
-	global $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
+	global $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $max_user_liste;
 	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	

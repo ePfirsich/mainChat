@@ -13,7 +13,6 @@ if($aktion == "") {
 
 $formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
 
-$mode = filter_input(INPUT_POST, 'mode', FILTER_SANITIZE_STRING);
 $seite = filter_input(INPUT_GET, 'seite', FILTER_SANITIZE_NUMBER_INT);
 
 
