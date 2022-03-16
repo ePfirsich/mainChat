@@ -16,7 +16,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	
 	global $user_farbe, $hilfstext, $system_farbe, $moderationsmodul;
 	global $chat, $timeout, $datei_spruchliste, $lang, $ak, $check_name, $raumstatus1, $raum_max;
-	global $u_nick, $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
+	global $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $leveltext, $max_user_liste;
 	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
 	

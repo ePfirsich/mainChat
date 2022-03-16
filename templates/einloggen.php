@@ -303,7 +303,7 @@ if($in_den_chat_einloggen) {
 				}
 				
 				// Benutzer nicht gesperrt, weiter mit Login und Eintritt in ausgewählten Raum mit ID $eintritt
-				$o_id = login($user_id, $u_nick, $u_level, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt);
+				$o_id = login($user_id, $u_level, $ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt);
 				
 				if ($eintritt == "forum") {
 					// Login ins Forum

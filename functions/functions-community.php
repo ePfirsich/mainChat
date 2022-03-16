@@ -8,7 +8,7 @@ function suche_vaterposting($poid) {
 	return ($vp);
 }
 
-function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
+function mail_neu($u_id, $nachricht) {
 	// Hat der Benutzer neue Chat-Mail?
 	// $u_id ist die ID des des Benutzers
 	// $nachricht ist die Art, wie die Nachricht verschickt wird (E-Mail, Chat-Mail, OLM)
@@ -334,20 +334,20 @@ function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = ""
 			}
 			
 			if (isset($a_was["Neue Mail"]["OLM"])) {
-				mail_neu($an_u_id, $u_nick, "OLM");
+				mail_neu($an_u_id, "OLM");
 			}
 			if (isset($a_was["Neue Mail"]["E-Mail"])) {
-				mail_neu($an_u_id, $u_nick, "E-Mail");
+				mail_neu($an_u_id, "E-Mail");
 			}
 			
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
-				postings_neu($an_u_id, $u_nick, "OLM");
+				postings_neu($an_u_id, "OLM");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
-				postings_neu($an_u_id, $u_nick, "Chat-Mail");
+				postings_neu($an_u_id, "Chat-Mail");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
-				postings_neu($an_u_id, $u_nick, "E-Mail");
+				postings_neu($an_u_id, "E-Mail");
 			}
 			
 			// Merken, wann zuletzt die Aktionen ausgeführt wurden
@@ -369,20 +369,20 @@ function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = ""
 			}
 			
 			if (isset($a_was["Neue Mail"]["OLM"])) {
-				mail_neu($an_u_id, $u_nick, "OLM");
+				mail_neu($an_u_id, "OLM");
 			}
 			if (isset($a_was["Neue Mail"]["E-Mail"])) {
-				mail_neu($an_u_id, $u_nick, "E-Mail");
+				mail_neu($an_u_id, "E-Mail");
 			}
 			
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["OLM"])) {
-				postings_neu($an_u_id, $u_nick, "OLM");
+				postings_neu($an_u_id, "OLM");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["Chat-Mail"])) {
-				postings_neu($an_u_id, $u_nick, "Chat-Mail");
+				postings_neu($an_u_id, "Chat-Mail");
 			}
 			if (isset($a_was["Antwort auf eigenen Beitrag"]["E-Mail"])) {
-				postings_neu($an_u_id, $u_nick, "E-Mail");
+				postings_neu($an_u_id, "E-Mail");
 			}
 	}
 }
@@ -793,7 +793,7 @@ function freunde_online($u_id, $u_nick, $nachricht = "OLM") {
 
 //prüft ob neue Antworten auf eigene Beiträge 
 //vorhanden sind und benachrichtigt entsprechend
-function postings_neu($an_u_id, $u_nick, $nachricht) {
+function postings_neu($an_u_id, $nachricht) {
 	global $lang, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen

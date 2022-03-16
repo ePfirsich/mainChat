@@ -2,7 +2,7 @@
 // Funktionen nur für index.php
 require_once("functions/functions-nachrichten_betrete_verlasse.php");
 
-function login($user_id, $u_nick, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
+function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen
 	// $o_id wird zurückgeliefert
 	// u_id=Benutzer-ID, u_nick ist Benutzername, u_level ist Level
@@ -13,8 +13,6 @@ function login($user_id, $u_nick, $u_level, $u_ip_historie, $u_agb, $u_punkte_mo
 	// IP/Browser Adresse des Benutzer setzen
 	$remote_addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_VALIDATE_IP);
 	$http_user_agent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
-	
-	$http_user_agent = str_replace("MSIE 8.0", "MSIE 7.0", $http_user_agent);
 	
 	$http_stuff = array();
 	$http_stuff['HTTP_COOKIE'] = filter_input(INPUT_SERVER, 'HTTP_COOKIE', FILTER_SANITIZE_STRING);
