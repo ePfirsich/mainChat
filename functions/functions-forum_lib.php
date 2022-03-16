@@ -694,24 +694,6 @@ function schreibe_posting($beitrag_id, $forum_id, $beitrag_text) {
 	return array($text, $new_beitrag_id);
 }
 
-//holt ausgehend von root_id den letzten Beitrag
-function hole_letzten($root_id, $new_beitrag_id) {
-	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id AND `beitrag_id` <> :beitrag_id ORDER BY `beitrag_thema_timestamp` DESC LIMIT 1", [':beitrag_thema_id'=>intval($root_id), ':beitrag_id'=>intval($new_beitrag_id)]);
-	
-	$resultCount = $query->rowCount();
-	$result = $query->fetch();
-	
-	
-	if ($resultCount > 0) {
-		$new_root_id = $result['beitrag_id'];
-		$retval = hole_letzten($new_root_id, $new_beitrag_id);
-	} else {
-		$retval = $root_id;
-	}
-	
-	return $retval;
-}
-
 //loescht den Beitrag und alle Antworten darauf
 function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 	global $arr_delete, $punkte_pro_posting, $lang;
