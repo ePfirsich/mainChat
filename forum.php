@@ -43,9 +43,6 @@ $forum_order = filter_input(INPUT_GET, 'forum_order', FILTER_SANITIZE_NUMBER_INT
 
 
 // Forum -> Themen
-
-
-
 // Forum -> Beiträge
 $beitrag_id = filter_input(INPUT_GET, 'beitrag_id', FILTER_SANITIZE_NUMBER_INT);
 if($beitrag_id == "") {
@@ -119,7 +116,7 @@ zeige_tabelle_zentriert($box, $text);
 
 // Nur Foren-Admins dürfen Kategorien und Foren anlegen und editieren
 if(!$forum_admin) {
-	$nur_admin_seiten = array('kategorie_aendern', 'kategorie_up', 'kategorie_down', 'kategorie_delete', 'forum_aendern', 'forum_up', 'forum_down', 'forum_delete', 'delete_posting');
+	$nur_admin_seiten = array('kategorie_aendern', 'kategorie_up', 'kategorie_down', 'kategorie_delete', 'forum_aendern', 'forum_up', 'forum_down', 'forum_delete', 'verschiebe_thema', 'delete_posting');
 	if(in_array($aktion, $nur_admin_seiten, true)) {
 		$aktion = "";
 	}
@@ -279,7 +276,6 @@ if($bereich == "forum") {
 					zeige_tabelle_zentriert($box, $text);
 				}
 			} else {
-				echo "Keine ID der Kategorie übergeben";
 				// Forenübersicht anzeigen
 				$box = $lang['forum_kopfzeile_forenuebersicht'];
 				$text .= forum_liste();
@@ -339,15 +335,84 @@ if($bereich == "forum") {
 			zeige_tabelle_zentriert($box, $text);
 		break;
 		
-		//Aktionen, die einen Beitrag betreffen
-		case "thread_neu":
+		case "thema_aendern":
 			$schreibrechte = pruefe_schreibrechte($forum_id);
-			
-			if ($schreibrechte) {
-				// Neues Thema erstellen
-				$box = $lang['thema_erstellen'];
-				$text .= maske_thema_erstellen();
-				zeige_tabelle_zentriert($box, $text);
+			if($schreibrechte && $forum_id != null && $forum_id != "" && $forum_id != 0) {
+				if($beitrag_id == 0 || $beitrag_id == "") {
+					// Neues Thema anlegen
+					$box = $lang['forum_kopfzeile_thema_erstellen'];
+					$beitrag_id = 0;
+				} else {
+					// Thema editieren
+					$box = $lang['forum_kopfzeile_thema_editieren'];
+				}
+				
+				if($formular == 1) {
+					// Formular wurde abgesendet
+					$fehlermeldung = "";
+					
+					if($beitrag_titel == "") {
+						$fehlermeldung = $lang['forum_fehlermeldung_thema_titel'];
+						$text .= hinweis($fehlermeldung, "fehler");
+					}
+					
+					// Nur beim Erstellen eines Themas kann Text eingetragen werden
+					if($beitrag_id == 0 && $beitrag_text == "") {
+						$fehlermeldung = $lang['forum_fehlermeldung_thema_text'];
+						$text .= hinweis($fehlermeldung, "fehler");
+					}
+					
+					if($beitrag_angepinnt == "" || $beitrag_gesperrt == "") {
+						$fehlermeldung = $lang['forum_fehlermeldung_thema_fehler'];
+						$text .= hinweis($fehlermeldung, "fehler");
+					}
+					
+					if($fehlermeldung != "") {
+						// Formular erneut anzeigen
+						$text .= maske_thema($beitrag_id, $beitrag_titel, $beitrag_text, $forum_id, $beitrag_angepinnt, $beitrag_gesperrt, $benutzerdaten['u_layout_farbe']);
+						
+						zeige_tabelle_zentriert($box, $text);
+					} else {
+						// Änderung speichern
+						$inhalt = erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $forum_id, $beitrag_angepinnt, $beitrag_gesperrt);
+						
+						$text .= $inhalt[0];
+						$beitrag_id = $inhalt[1];
+						
+						$leserechte = pruefe_leserechte(hole_themen_id_anhand_posting_id($beitrag_id));
+						if ($leserechte) {
+							if( zeige_forenthema($beitrag_id) ) {
+								// Thema zeigen
+								$box = $lang['forum_kopfzeile_thema'];
+								$text .= zeige_forenthema($beitrag_id);
+								zeige_tabelle_zentriert($box, $text);
+								
+								markiere_als_gelesen($beitrag_id, $u_id, $forum_id);
+							} else {
+								// Kein Thema gefunden -> Forenübersicht anzeigen
+								$box = $lang['forum_kopfzeile_forenuebersicht'];
+								
+								$text .= forum_liste();
+								zeige_tabelle_zentriert($box, $text);
+							}
+						} else {
+							// Forenübersicht anzeigen
+							$box = $lang['forum_kopfzeile_forenuebersicht'];
+							$text .= forum_liste();
+							zeige_tabelle_zentriert($box, $text);
+						}
+					}
+				} else {
+					// Erster Aufruf des Formulars
+					if($beitrag_id == null || $beitrag_id == "") {
+						$beitrag_id = 0;
+					}
+					$beitrag_titel = "";
+					$beitrag_text = "";
+					$text .= maske_thema($beitrag_id, $beitrag_titel, $beitrag_text, $forum_id, $beitrag_angepinnt, $beitrag_gesperrt, $benutzerdaten['u_layout_farbe']);
+					
+					zeige_tabelle_zentriert($box, $text);
+				}
 			} else {
 				// Forenübersicht anzeigen
 				$box = $lang['forum_kopfzeile_forenuebersicht'];
@@ -355,7 +420,7 @@ if($bereich == "forum") {
 				zeige_tabelle_zentriert($box, $text);
 			}
 		break;
-			
+		
 		case "sperre_thema":
 			$text .= sperre_thema($forum_id);
 			
@@ -381,7 +446,7 @@ if($bereich == "forum") {
 			$schreibrechte = pruefe_schreibrechte($forum_id);
 			
 			if ($schreibrechte && !$thema_gesperrt) {
-				$fehlermeldung = check_input("posting");
+				$fehlermeldung = check_input();
 				if (!$fehlermeldung) {
 					$new_beitrag_id = schreibe_posting($mode, $beitrag_id, $forum_id, $beitrag_titel, $beitrag_text, $beitrag_angepinnt, $beitrag_gesperrt);
 					if ($new_beitrag_id) {
@@ -410,7 +475,7 @@ if($bereich == "forum") {
 					
 					// Neues Thema erstellen
 					$box = $lang['forum_kopfzeile_thema_erstellen'];
-					$text .= maske_thema_erstellen();
+					$text .= maske_thema($beitrag_id, $beitrag_titel, $beitrag_text, $beitrag_forum_id, $beitrag_angepinnt, $beitrag_gesperrt, $benutzerdaten['u_layout_farbe']);
 					zeige_tabelle_zentriert($box, $text);
 				}
 			} else {
@@ -422,10 +487,6 @@ if($bereich == "forum") {
 		break;
 		
 		case "show_posting":
-			// Falsch, die Leserechte anhand der $forum_id die übergeben wurde zu überprüfen
-			// $leserechte=pruefe_leserechte($forum_id);
-		
-			// Richtig, die $forum_id anhand der $beitrag_id zu bestimmen und zu prüfen
 			$leserechte = pruefe_leserechte(hole_themen_id_anhand_posting_id($beitrag_id));
 			if ($leserechte) {
 				if( zeige_forenthema($beitrag_id) ) {
@@ -442,7 +503,6 @@ if($bereich == "forum") {
 					$text .= forum_liste();
 					zeige_tabelle_zentriert($box, $text);
 				}
-				
 			} else {
 				// Forenübersicht anzeigen
 				$box = $lang['forum_kopfzeile_forenuebersicht'];
@@ -464,7 +524,8 @@ if($bereich == "forum") {
 				$text .= forum_liste();
 				zeige_tabelle_zentriert($box, $text);
 			}
-			break;
+		break;
+		
 		case "answer":
 			$schreibrechte = pruefe_schreibrechte($forum_id);
 			if ($schreibrechte) {
@@ -478,14 +539,15 @@ if($bereich == "forum") {
 				$text .= forum_liste();
 				zeige_tabelle_zentriert($box, $text);
 			}
-			break;
+		break;
+		
 		case "edit":
 			// Neues Thema erstellen
 			$box = $lang['forum_kopfzeile_thema_editieren'];
 			$text .= maske_posting("edit");
 			zeige_tabelle_zentriert($box, $text);
 			
-			break;
+		break;
 		
 		case "delete_posting":
 			$text .= loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id);
@@ -497,16 +559,9 @@ if($bereich == "forum") {
 			break;
 		
 		case "verschiebe_thema":
-			if ($forum_admin) {
-				// Thema verschieben
-				$box = $lang['forum_kopfzeile_thema_verschieben'];
-				$text .= verschiebe_thema($beitrag_id, $forum_id);
-				zeige_tabelle_zentriert($box, $text);
-			}
-			break;
-		
-		case "verschiebe_thema_ausfuehren":
-			if($forum_admin) {
+			// Thema verschieben
+			if($formular == 1) {
+				// Formular wurde abgesendet
 				if ($beitrag_forum_id != $beitrag_forum_id_neu) {
 					verschiebe_thema_ausfuehren($beitrag_id, $beitrag_forum_id, $beitrag_forum_id_neu);
 					
@@ -530,7 +585,7 @@ if($bereich == "forum") {
 					zeige_tabelle_zentriert($box, $text);
 				}
 			}
-			break;
+		break;
 		
 		default:
 			// Forenübersicht anzeigen
@@ -538,7 +593,7 @@ if($bereich == "forum") {
 			
 			$text .= forum_liste();
 			zeige_tabelle_zentriert($box, $text);
-			break;
+		break;
 	}
 } else {
 	echo "Noch nicht konfiguriert";

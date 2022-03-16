@@ -77,8 +77,13 @@ $lang['forum_fehlermeldung_forum_nicht_geloescht'] = "Das Forum konnte nicht gel
 
 
 // Erfolgs- und Fehlermeldungen für ein Thema
+$lang['forum_erfolgsmeldung_thema_erstellt'] = "Das Thema wurde erfolgreich erstellt.";
+$lang['forum_erfolgsmeldung_thema_editiert'] = "Das Thema wurde erfolgreich editiert.";
 $lang['forum_erfolgsmeldung_thema_verschoben'] = "Das Thema wurde erfolgreich verschoben.";
 
+$lang['forum_fehlermeldung_thema_titel'] = "Es wurde kein Titel für das Thema angegeben.";
+$lang['forum_fehlermeldung_thema_text'] = "Es wurde kein Text für das Thema angegeben.";
+$lang['forum_fehlermeldung_thema_fehler'] = "Es ist ein Fehler beim Editieren des Themas aufgetreten.";
 $lang['forum_fehlermeldung_thema_nicht_verschoben'] = "Das Thema wurde nicht verschoben, da das gleiche Forum ausgewählt war.";
 $lang['forum_fehlermeldung_thema_gesperrt'] = "Das Thema wurde gesperrt, so dass nicht mehr darauf geantwortet werden kann.";
 $lang['forum_fehlermeldung_thema_entsperrt'] = "Das Thema wurde gesperrt, so dass wieder darauf geantwortet werden kann.";

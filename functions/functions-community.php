@@ -816,7 +816,7 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 		FROM `forum_beitraege` a, `forum_beitraege` b, `forum_foren`, `forum_kategorien`, user 
 		WHERE a.beitrag_user_id = :beitrag_user_id AND a.beitrag_id = b.beitrag_thema_id AND a.beitrag_forum_id = forum_id AND `kat_id = `forum_kategorie_id` AND b.beitrag_user_id = u_id AND a.beitrag_user_id <> b.beitrag_user_id", [':beitrag_user_id'=>intval($an_u_id)]);
 	
-	$result = $query->fetchAöö();
+	$result = $query->fetchAll();
 	
 	foreach($result as $zaehler => $postings) {
 		//falls posting noch nicht gelesen ist es neu
