@@ -115,11 +115,7 @@ if ($rows > 15) {
 }
 
 // Inhalt anzeigen
-if($aktion == "smilies") {
-	$box = "<center>" . $lang['benutzerliste_smilies'] . "</center>";
-} else {
-	$box = "<center>" . $lang['benutzerliste_benutzer'] . "</center>";
-}
+$box = "<center>" . $lang['benutzerliste_benutzer'] . "</center>";
 zeige_tabelle_volle_breite($box, $text);
 ?>
 </body>

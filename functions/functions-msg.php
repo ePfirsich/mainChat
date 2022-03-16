@@ -1882,7 +1882,7 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 	// Unterdrückt Mitteilungen von i_user_passiv an i_user_aktiv
 	// Schaltet bei neuem Aufruf wieder zurück
 	
-	global $chat, $lang;
+	global $chat, $lang, $system_farbe;
 	
 	$i_user_aktiv = intval($i_user_aktiv);
 	$i_user_passiv = intval($i_user_passiv);

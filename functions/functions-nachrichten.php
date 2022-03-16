@@ -165,7 +165,7 @@ function formular_neue_email2($text, $box, $daten) {
 
 function zeige_mailbox($text, $aktion, $zeilen) {
 	// Zeigt die Nachrichten in der Übersicht an
-	global $u_nick, $u_id, $chat, $lang, $locale;
+	global $u_id, $chat, $lang, $locale;
 	
 	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
@@ -287,7 +287,7 @@ function zeige_mailbox($text, $aktion, $zeilen) {
 
 function zeige_nachricht($daten, $art) {
 	// Zeigt die Mail im Detail an
-	global $u_nick, $u_id, $chat, $lang, $locale;
+	global $u_id, $chat, $lang, $locale;
 	
 	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
@@ -390,7 +390,7 @@ function zeige_nachricht($daten, $art) {
 
 function loesche_nachricht($bearbeite_id, $u_id) {
 	// Löscht eine Mail der ID m_id
-	global $u_nick, $u_id, $lang;
+	global $u_id, $lang;
 	
 	$query = pdoQuery("SELECT `m_zeit`, `m_id`, `m_status`, `m_betreff` FROM `mail` WHERE `m_id` = :m_id AND `m_an_uid` = :m_an_uid", [':m_id'=>$bearbeite_id, ':m_an_uid'=>$u_id]);
 	

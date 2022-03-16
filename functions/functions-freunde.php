@@ -1,7 +1,7 @@
 <?php
 function zeige_freunde($text, $aktion, $zeilen) {
 	// Zeigt Liste der Freunde an
-	global $u_nick, $u_id, $lang, $locale;
+	global $u_id, $lang, $locale;
 	
 	pdoQuery("SET `lc_time_names` = :lc_time_names", [':lc_time_names'=>$locale]);
 	
@@ -131,7 +131,7 @@ function loesche_freund($f_freundid, $f_userid) {
 	// Löscht Freund aus der Tabelle mit f_userid und f_freundid
 	// $f_userid Benutzer-ID 
 	// $f_freundid Benutzer-ID
-	global $u_nick, $u_id, $lang;
+	global $u_id, $lang;
 	
 	$text = "";
 	if (!$f_userid || !$f_freundid) {
@@ -250,11 +250,11 @@ function neuer_freund($f_userid, $daten) {
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {
-			$fehlermeldung .= str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
+			$fehlermeldung = str_replace("%u_nick%", $daten['u_nick'], $lang['freunde_fehlermeldung_bereits_als_freund_vorhanden']);
 			$text .= hinweis($fehlermeldung, "fehler");
 		} else if ($daten['id'] == $f_userid) {
 			// Eigener Freund ist verboten
-			$fehlermeldung .= $lang['freunde_fehlermeldung_selbst_als_freund'];
+			$fehlermeldung = $lang['freunde_fehlermeldung_selbst_als_freund'];
 			$text .= hinweis($fehlermeldung, "fehler");
 		}
 		

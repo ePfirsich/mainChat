@@ -261,7 +261,6 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 			$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_interaktionen'], "", "", 0, "70", "");
 			
 			$value = "";
-			
 			$value .= "[<a href=\"schreibe.php?text=/ignore%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_ignorieren]</a>]<br>\n";
 			$value .= "[<a href=\"schreibe.php?text=/einlad%20$uu_nick\" class=\"schreibe-chat\">$lang[benutzer_einladen_ausladen]</a>]<br>\n";
 			$value .= "[<a href=\"inhalt.php?bereich=nachrichten&aktion=neu2&daten_nick=$uu_nick\" target=\"chat\">$lang[benutzer_nachricht_senden]</a>]<br>\n";

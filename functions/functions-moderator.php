@@ -1,7 +1,7 @@
 <?php
 
 function zeige_moderations_antworten($o_raum, $answer = "") {
-	global $lang, $u_id;
+	global $lang;
 	
 	$box = $lang['mod10'];
 	$text = "";

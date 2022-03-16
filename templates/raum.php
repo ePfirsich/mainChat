@@ -165,14 +165,14 @@ switch ($aktion) {
 			if($f['r_status1'] == "") {
 				$f['r_status1'] = "O";
 			}
-			if($f['status2'] == "") {
-				$f['status2'] = "T";
+			if($f['r_status2'] == "") {
+				$f['r_status2'] = "T";
 			}
 			if($f['r_min_punkte'] == "") {
 				$f['r_min_punkte'] = 0;
 			}
 			
-			$query = pdoQuery("SELECT `r_id`, `r_besitzer`, `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f[r_id]]);
+			$query = pdoQuery("SELECT `r_id`, `r_besitzer`, `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
 			
 			$resultCount = $query->rowCount();
 			if ($resultCount == 1) {
@@ -327,8 +327,8 @@ switch ($aktion) {
 									':r_eintritt'=>$f['r_eintritt'],
 									':r_austritt'=>$f['r_austritt'],
 									':r_status1'=>$f['r_status1'],
-									':r_besitzer'=>$f['f_text'],
-									':r_topic'=>$f['f_text'],
+									':r_besitzer'=>$f['r_besitzer'],
+									':r_topic'=>$f['r_topic'],
 									':r_status2'=>$f['r_status2'],
 									':r_min_punkte'=>$f['r_min_punkte'],
 									':r_smilie'=>$f['r_smilie']
