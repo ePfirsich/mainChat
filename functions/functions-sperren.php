@@ -343,12 +343,12 @@ function neuer_blacklist_eintrag($f_userid, $daten) {
 		$text .= hinweis($fehlermeldung, "fehler");
 	} else {
 		// Prüfen ob Blacklist-Eintrag bereits in Tabelle steht
-		$query = pdoQuery("SELECT `f_id` FROM `blacklist` WHERE (`f_userid` = :f_userid AND `f_blacklistid` = :f_blacklistid) OR (`f_userid` = :f_userid AND `f_blacklistid` = :f_blacklistid)",
+		$query = pdoQuery("SELECT `f_id` FROM `blacklist` WHERE (`f_userid` = :f_userid1 AND `f_blacklistid` = :f_blacklistid1) OR (`f_userid` = :f_userid2 AND `f_blacklistid` = :f_blacklistid2)",
 			[
-				':f_userid'=>$daten['id'],
-				':f_blacklistid'=>$f_userid,
-				':f_userid'=>$f_userid,
-				':f_blacklistid'=>$daten['id']
+				':f_userid1'=>$daten['id'],
+				':f_blacklistid1'=>$f_userid,
+				':f_userid2'=>$f_userid,
+				':f_blacklistid2'=>$daten['id']
 			]);
 		
 		$resultCount = $query->rowCount();

@@ -278,15 +278,15 @@ switch ($aktion) {
 						$erfolgsmeldung = str_replace("%r_name%", $f['r_name'], $lang['raum_erfolgsmeldung_erstellt']);
 						$text .= hinweis($erfolgsmeldung, "erfolgreich");
 						
-						pdoQuery("INSERT INTO `blacklist` (`r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`, `r_min_punkte`, `r_smilie`)
+						pdoQuery("INSERT INTO `raum` (`r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`, `r_min_punkte`, `r_smilie`)
 								VALUES (:r_name, :r_eintritt, :r_austritt, :r_status1, :r_besitzer, :r_topic, :r_status2, :r_min_punkte, :r_smilie)",
 							[
 								':r_name'=>$f['r_name'],
 								':r_eintritt'=>$f['r_eintritt'],
 								':r_austritt'=>$f['r_austritt'],
 								':r_status1'=>$f['r_status1'],
-								':r_besitzer'=>$f['f_text'],
-								':r_topic'=>$f['f_text'],
+								':r_besitzer'=>$f['r_besitzer'],
+								':r_topic'=>$f['r_topic'],
 								':r_status2'=>$f['r_status2'],
 								':r_min_punkte'=>$f['r_min_punkte'],
 								':r_smilie'=>$f['r_smilie']

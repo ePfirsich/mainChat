@@ -308,6 +308,7 @@ switch ($aktion) {
 				$text .= "<input type=\"hidden\" name=\"is_id\" value=\"$is_id\">\n";
 				
 				$box = $lang['sperren_aendern'];
+				$zaehler = 0;
 				
 				$text .= "<table style=\"width:100%\">\n";
 				
