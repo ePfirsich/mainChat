@@ -416,7 +416,7 @@ function id_lese() {
 		
 		return false;
 	}
-	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $admin, $system_farbe, $ignore, $userdata, $o_punkte, $o_aktion;
+	global $u_id, $u_nick, $o_id, $o_raum, $u_level, $u_farbe, $u_punkte_anzeigen, $admin, $ignore, $userdata, $o_punkte, $o_aktion;
 	global $o_knebel, $u_punkte_gesamt, $moderationsmodul, $user_farbe;
 	global $o_who, $o_timeout_zeit, $o_timeout_warnung, $o_spam_zeilen, $o_spam_byte, $o_spam_zeit, $o_dicecheck;
 	
@@ -645,7 +645,7 @@ function raum_ist_moderiert($raum) {
 	// Liefert in ist_moderiert zurück: Moderiert ja/nein
 	
 	// Liefert in ist_eingang zurück: Stiller Eingangsraum ja/nein
-	global $u_id, $system_farbe, $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
+	global $moderationsmodul, $raum_einstellungen, $ist_moderiert, $ist_eingang;
 	$moderiert = 0;
 	$raum = intval($raum);
 	
@@ -724,7 +724,7 @@ function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FAL
 	// Falls extra_kompakt=TRUE wird nur Nick ausgegeben
 	// $benutzername_fett -> Soll der Benutzername fett geschrieben werden?
 	
-	global $system_farbe, $lang, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
+	global $lang, $show_geschlecht, $leveltext, $punkte_grafik, $chat_grafik, $locale;
 	
 	$trenner = "&nbsp;";
 	
@@ -880,7 +880,7 @@ function chat_parse($text) {
 	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</A>
 	// E-Mail Adressen in A-Tag mit Mailto
 	
-	global $admin, $sprachconfig, $u_id, $u_level, $system_farbe;
+	global $admin, $sprachconfig, $u_id, $u_level;
 	
 	$trans = get_html_translation_table(HTML_ENTITIES);
 	$trans = array_flip($trans);
@@ -1067,7 +1067,7 @@ function verlasse_chat($u_id, $u_nick, $raum) {
 	// user $u_id/$u_nick verlässt $raum
 	// Nachricht in Raum $raum wird erzeugt
 	// Liefert ID des geschriebenen Datensatzes zurück
-	global $system_farbe, $nachricht_vc, $eintritt_individuell, $lustigefeatures;
+	global $nachricht_vc, $eintritt_individuell, $lustigefeatures;
 	$ergebnis = 0;
 	
 	// Nachricht an alle
@@ -1338,7 +1338,7 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 
 // Beiträge im Forum neu zählen
 function bereinige_anz_in_thema() {
-	$query = pdoQuery("SELECT th_id FROM `forum_foren` ORDER BY th_id", [])->fetchAll();
+	$query = pdoQuery("SELECT `forum_id` FROM `forum_foren` ORDER BY `forum_id`", []);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -1346,13 +1346,13 @@ function bereinige_anz_in_thema() {
 		foreach($result as $zaehler => $row) {
 			pdoQuery("LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE", []);
 			
-			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id", [':po_th_id'=>$row['th_id']])->fetch();
+			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `beitrag_thema_id` = 0 AND `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$row['forum_id']])->fetch();
 			$anzahl_thread = $result2['anzahl'];
 			
-			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `po_vater_id` <> 0 AND `po_th_id` = :po_th_id", [':po_th_id'=>$row['th_id']])->fetch();
+			$result2 = pdoQuery("SELECT COUNT(*) AS `anzahl` FROM `forum_beitraege` WHERE `beitrag_thema_id` <> 0 AND `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$row['forum_id']])->fetch();
 			$anzahl_reply = $result2['anzahl'];
 			
-			pdoQuery("UPDATE `forum_foren` SET `th_anzthreads` = :th_anzthreads, `th_anzreplys` = :th_anzreplys WHERE `th_id` = :th_id", [':th_anzthreads'=>$anzahl_thread, ':th_anzreplys'=>$anzahl_reply, ':th_id'=>$row['th_id']]);
+			pdoQuery("UPDATE `forum_foren` SET `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten WHERE `forum_id` = :forum_id", [':forum_anzahl_themen'=>$anzahl_thread, ':forum_anzahl_antworten'=>$anzahl_reply, ':forum_id'=>$row['forum_id']]);
 			
 			pdoQuery("UNLOCK TABLES", []);
 		}

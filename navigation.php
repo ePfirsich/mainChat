@@ -83,7 +83,7 @@ if ($u_level != 'G') {
 	$text .= " | <a href=\"inhalt.php?bereich=nachrichten\" target=\"chat\" title=\"" . $lang['navigation_nachrichten'] . "\"><span class=\"fa-solid fa-envelope icon16\"></span> <span>" . $lang['navigation_nachrichten'] . $neue_nachrichten . "</span></a>&nbsp;";
 }
 if($wo_online == "forum") {
-	$text .= " | <a href=\"forum.php\" target=\"chat\" title=\"" . $lang['navigation_forum'] . "\"><span class=\"fa-solid fa-comment-dots icon16\"></span> <span>" . $lang['navigation_forum'] . "</span></a>&nbsp;";
+	$text .= " | <a href=\"forum.php?bereich=forum\" target=\"chat\" title=\"" . $lang['navigation_forum'] . "\"><span class=\"fa-solid fa-comment-dots icon16\"></span> <span>" . $lang['navigation_forum'] . "</span></a>&nbsp;";
 } else if ($wo_online == "chat" && $forumfeatures) {
 	$text .= " | <a href=\"index-forum.php\" onMouseOver=\"return(true)\" target=\"_top\" title=\"" . $lang['navigation_forum'] . "\"><span class=\"fa-solid fa-comment-dots icon16\"></span> <span>" . $lang['navigation_forum'] . "</span></a>&nbsp;";
 }

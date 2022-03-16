@@ -1,20 +1,11 @@
 <?php
 function suche_vaterposting($poid) {
 	// Diese Funktion sucht das Vaterposting des übergebenen Beitrags
-	$query = pdoQuery("SELECT `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($poid)]);
+	$query = pdoQuery("SELECT `beitrag_thema_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$poid]);
 	
 	list($vp) = $query->fetch();
 	
 	return ($vp);
-}
-
-function suche_threadord($poid) {
-	// Diese Funktion sucht die Themenorder des Vaterpostings
-	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($poid)]);
-	
-	list($to) = $query->fetch();
-	
-	return ($to);
 }
 
 function mail_neu($u_id, $u_nick, $nachricht = "OLM") {
@@ -435,8 +426,8 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					system_msg("", 0, $an_u_id, $system_farbe, $txt);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_olm']);
-					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
+					$text = str_replace("%beitrag%", $inhalt['beitrag_titel'], $lang['msg_new_posting_olm']);
+					$text = str_replace("%zeit%", $inhalt['beitrag_thema_timestamp'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
 					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
@@ -474,9 +465,9 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 				// Eine neue Chat-Mail kann keine Chat-Mail auslösen
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $lang['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_chatmail']);
-					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
+					$betreff = str_replace("%beitrag%", $inhalt['beitrag_titel'], $lang['betreff_new_posting']);
+					$text = str_replace("%beitrag%", $inhalt['beitrag_titel'], $lang['msg_new_posting_chatmail']);
+					$text = str_replace("%zeit%", $inhalt['beitrag_thema_timestamp'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
 					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
@@ -525,9 +516,9 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 					email_versende($inhalt['m_von_uid'], $inhalt['m_an_uid'], $lang['email_mail3'] . $inhalt['f_text'], $inhalt['m_betreff']);
 					break;
 				case "Antwort auf eigenen Beitrag":
-					$betreff = str_replace("%po_titel%", $inhalt['po_titel'], $lang['betreff_new_posting']);
-					$text = str_replace("%po_titel%", $inhalt['po_titel'], $lang['msg_new_posting_email']);
-					$text = str_replace("%po_ts%", $inhalt['po_ts'], $text);
+					$betreff = str_replace("%beitrag%", $inhalt['beitrag_titel'], $lang['betreff_new_posting']);
+					$text = str_replace("%beitrag%", $inhalt['beitrag_titel'], $lang['msg_new_posting_email']);
+					$text = str_replace("%zeit%", $inhalt['beitrag_thema_timestamp'], $text);
 					$text = str_replace("%forum%", $inhalt['forum'], $text);
 					$text = str_replace("%thema%", $inhalt['thema'], $text);
 					$text = str_replace("%user_from_nick%", $inhalt['user_from_nick'], $text);
@@ -819,30 +810,28 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
 	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
 	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
-	$query = pdoQuery("SELECT a.po_id AS po_id_own, a.po_th_id as po_th_id, a.po_titel as po_titel_own, date_format(from_unixtime(a.po_ts), '%d.%m.%Y %H:%i') as po_date_own, th_name, fo_name,
-		b.po_id as po_id_reply, b.po_u_id as po_u_id_reply, b.po_titel as po_titel_reply, date_format(from_unixtime(b.po_ts), '%d.%m.%Y %H:%i') as po_date_reply,
-		u_nick, a.po_threadorder as threadord, a.po_id as po_id_thread
+	$query = pdoQuery("SELECT a.beitrag_id AS beitrag_id_own, a.beitrag_forum_id AS beitrag_forum_id, a.beitrag_titel as po_titel_own, date_format(from_unixtime(a.beitrag_thema_timestamp), '%d.%m.%Y %H:%i') as po_date_own, forum_name, kat_name,
+		b.beitrag_id as beitrag_id_reply, b.beitrag_user_id as po_u_id_reply, b.beitrag_titel as po_titel_reply, date_format(from_unixtime(b.beitrag_thema_timestamp), '%d.%m.%Y %H:%i') as po_date_reply,
+		u_nick, a.beitrag_id as beitrag_id_thread
 		FROM `forum_beitraege` a, `forum_beitraege` b, `forum_foren`, `forum_kategorien`, user 
-		WHERE a.po_u_id = :po_u_id AND a.po_id = b.po_vater_id AND a.po_th_id = th_id AND fo_id=th_fo_id AND b.po_u_id = u_id AND a.po_u_id <> b.po_u_id", [':po_u_id'=>intval($an_u_id)]);
+		WHERE a.beitrag_user_id = :beitrag_user_id AND a.beitrag_id = b.beitrag_thema_id AND a.beitrag_forum_id = forum_id AND `kat_id = `forum_kategorie_id` AND b.beitrag_user_id = u_id AND a.beitrag_user_id <> b.beitrag_user_id", [':beitrag_user_id'=>intval($an_u_id)]);
 	
 	$result = $query->fetchAöö();
 	
 	foreach($result as $zaehler => $postings) {
 		//falls posting noch nicht gelesen ist es neu
-		if (is_array($u_gelesene[$postings['po_th_id']])) {
-			if (!in_array($postings['po_id_reply'],
-				$u_gelesene[$postings['po_th_id']])) {
-				$poid = $postings['po_id_own'];
-				$postings['po_id_thread'] = suche_vaterposting($poid);
-				$postings['threadord'] = suche_threadord( $postings['po_id_thread']);
+		if (is_array($u_gelesene[$postings['beitrag_forum_id']])) {
+			if (!in_array($postings['beitrag_id_reply'], $u_gelesene[$postings['beitrag_forum_id']])) {
+				$poid = $postings['beitrag_id_own'];
+				$postings['beitrag_id_thread'] = suche_vaterposting($poid);
 				
 				//Nachricht versenden
 				switch ($nachricht) {
 					case "OLM":
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_olm']);
-						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'], $text);
-						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$text = str_replace("%beitrag%", $postings['po_titel_own'], $lang['msg_new_posting_olm']);
+						$text = str_replace("%zeit%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['kat_name'], $text);
+						$text = str_replace("%thema%", $postings['forum_name'], $text);
 						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
 						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
 						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
@@ -850,22 +839,22 @@ function postings_neu($an_u_id, $u_nick, $nachricht) {
 						system_msg("", 0, $an_u_id, $system_farbe, $text);
 						break;
 					case "Chat-Mail":
-						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_chatmail']);
-						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'], $text);
-						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$betreff = str_replace("%beitrag%", $postings['po_titel_own'], $lang['betreff_new_posting']);
+						$text = str_replace("%beitrag%", $postings['po_titel_own'], $lang['msg_new_posting_chatmail']);
+						$text = str_replace("%zeit%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['kat_name'], $text);
+						$text = str_replace("%thema%", $postings['forum_name'], $text);
 						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
 						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
 						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);
 						mail_sende($postings['po_u_id_reply'], $an_u_id, $text, $betreff);
 						break;
 					case "E-Mail":
-						$betreff = str_replace("%po_titel%", $postings['po_titel_own'], $lang['betreff_new_posting']);
-						$text = str_replace("%po_titel%", $postings['po_titel_own'], $lang['msg_new_posting_email']);
-						$text = str_replace("%po_ts%", $postings['po_date_own'], $text);
-						$text = str_replace("%forum%", $postings['fo_name'], $text);
-						$text = str_replace("%thema%", $postings['th_name'], $text);
+						$betreff = str_replace("%beitrag%", $postings['po_titel_own'], $lang['betreff_new_posting']);
+						$text = str_replace("%beitrag%", $postings['po_titel_own'], $lang['msg_new_posting_email']);
+						$text = str_replace("%zeit%", $postings['po_date_own'], $text);
+						$text = str_replace("%forum%", $postings['kat_name'], $text);
+						$text = str_replace("%thema%", $postings['forum_name'], $text);
 						$text = str_replace("%user_from_nick%", $postings['u_nick'], $text);
 						$text = str_replace("%po_titel_antwort%", $postings['po_titel_reply'], $text);
 						$text = str_replace("%po_ts_antwort%", $postings['po_date_reply'], $text);

@@ -225,17 +225,17 @@ CREATE TABLE `chat` (
 --
 
 CREATE TABLE `forum_beitraege` (
-	`po_id` int(10) UNSIGNED NOT NULL,
-	`po_th_id` int(10) NOT NULL DEFAULT 0,
-	`po_u_id` int(11) NOT NULL DEFAULT 0,
-	`po_vater_id` int(10) NOT NULL DEFAULT 0,
-	`po_ts` bigint(14) NOT NULL DEFAULT 0,
-	`po_threadorder` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-	`po_threadts` bigint(14) NOT NULL DEFAULT 0,
-	`po_titel` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`po_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-	`po_threadgesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
-	`po_topposting` int(1) UNSIGNED NOT NULL DEFAULT 0
+	`beitrag_id` int(10) UNSIGNED NOT NULL,
+	`beitrag_forum_id` int(10) NOT NULL DEFAULT 0,
+	`beitrag_user_id` int(11) NOT NULL DEFAULT 0,
+	`beitrag_thema_id` int(10) NOT NULL DEFAULT 0,
+	`beitrag_thema_timestamp` bigint(14) NOT NULL DEFAULT 0,
+	`beitrag_order` mediumtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+	`beitrag_antwort_timestamp` bigint(14) NOT NULL DEFAULT 0,
+	`beitrag_titel` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`beitrag_text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+	`beitrag_gesperrt` int(1) UNSIGNED NOT NULL DEFAULT 0,
+	`beitrag_angepinnt` int(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -245,14 +245,14 @@ CREATE TABLE `forum_beitraege` (
 --
 
 CREATE TABLE `forum_foren` (
-	`th_id` int(10) UNSIGNED NOT NULL,
-	`th_fo_id` smallint(5) NOT NULL DEFAULT 0,
-	`th_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`th_desc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-	`th_anzthreads` mediumint(8) NOT NULL DEFAULT 0,
-	`th_anzreplys` mediumint(8) NOT NULL DEFAULT 0,
-	`th_postings` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-	`th_order` smallint(5) NOT NULL DEFAULT 0
+	`forum_id` int(10) UNSIGNED NOT NULL,
+	`forum_kategorie_id` smallint(5) NOT NULL DEFAULT 0,
+	`forum_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`forum_beschreibung` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+	`forum_anzahl_themen` mediumint(8) NOT NULL DEFAULT 0,
+	`forum_anzahl_antworten` mediumint(8) NOT NULL DEFAULT 0,
+	`forum_beitraege` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+	`forum_order` smallint(5) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -262,10 +262,10 @@ CREATE TABLE `forum_foren` (
 --
 
 CREATE TABLE `forum_kategorien` (
-	`fo_id` smallint(5) UNSIGNED NOT NULL,
-	`fo_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`fo_order` smallint(5) NOT NULL DEFAULT 0,
-	`fo_admin` tinyint(1) NOT NULL DEFAULT 0
+	`kat_id` smallint(5) UNSIGNED NOT NULL,
+	`kat_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`kat_order` smallint(5) NOT NULL DEFAULT 0,
+	`kat_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -603,25 +603,25 @@ ALTER TABLE `chat`
 -- Indizes für die Tabelle `forum_beitraege`
 --
 ALTER TABLE `forum_beitraege`
-	ADD PRIMARY KEY (`po_id`),
-	ADD KEY `po_th_id` (`po_th_id`),
-	ADD KEY `po_u_id` (`po_u_id`),
-	ADD KEY `po_vater_id` (`po_vater_id`),
-	ADD KEY `po_themasort` (`po_th_id`,`po_vater_id`,`po_threadts`,`po_ts`);
+	ADD PRIMARY KEY (`beitrag_id`),
+	ADD KEY `beitrag_forum_id` (`beitrag_forum_id`),
+	ADD KEY `beitrag_user_id` (`beitrag_user_id`),
+	ADD KEY `beitrag_thema_id` (`beitrag_thema_id`),
+	ADD KEY `beitrag_themasort` (`beitrag_forum_id`,`beitrag_thema_id`,`beitrag_antwort_timestamp`,`beitrag_thema_timestamp`);
 
 --
 -- Indizes für die Tabelle `forum_foren`
 --
 ALTER TABLE `forum_foren`
-	ADD PRIMARY KEY (`th_id`),
-	ADD KEY `th_fo_id` (`th_fo_id`),
-	ADD KEY `th_name` (`th_name`);
+	ADD PRIMARY KEY (`forum_id`),
+	ADD KEY `forum_kategorie_id` (`forum_kategorie_id`),
+	ADD KEY `forum_name` (`forum_name`);
 
 --
 -- Indizes für die Tabelle `forum_kategorien`
 --
 ALTER TABLE `forum_kategorien`
-	ADD PRIMARY KEY (`fo_id`);
+	ADD PRIMARY KEY (`kat_id`);
 
 --
 -- Indizes für die Tabelle `freunde`
@@ -773,19 +773,19 @@ ALTER TABLE `chat`
 -- AUTO_INCREMENT für Tabelle `forum_beitraege`
 --
 ALTER TABLE `forum_beitraege`
-	MODIFY `po_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+	MODIFY `beitrag_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_foren`
 --
 ALTER TABLE `forum_foren`
-	MODIFY `th_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+	MODIFY `forum_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_kategorien`
 --
 ALTER TABLE `forum_kategorien`
-	MODIFY `fo_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+	MODIFY `kat_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `freunde`

@@ -1,61 +1,67 @@
 <?php
 
-function pruefe_leserechte($th_id) {
-	// Prüft anhand der th_id, ob der Benutzer im Forum lesen darf
+function pruefe_leserechte($forum_id) {
+	// Prüft anhand der forum_id, ob der Benutzer im Forum lesen darf
 	global $u_level;
 	
-	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
-	
-	$fo = $query->fetch();
-	$fo_id = $fo['th_fo_id'];
-	
-	$query = pdoQuery("SELECT `fo_admin` FROM `forum_kategorien` WHERE `fo_id` = :fo_id", [':fo_id'=>$fo_id]);
-	
-	$ba = $query->fetch();
-	$admin_forum = $ba['fo_admin'];
-	
-	$leserechte = false;
-	if ($u_level == "G") {
-		if ($admin_forum == 0 || (($admin_forum & 8) == 8)) {
+	$query = pdoQuery("SELECT `forum_kategorie_id` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
+	$resultCount = $query->rowCount();
+	if($resultCount == 1) {
+		$result = $query->fetch();
+		
+		$query = pdoQuery("SELECT `kat_admin` FROM `forum_kategorien` WHERE `kat_id` = :kat_id", [':kat_id'=>$result['forum_kategorie_id']]);
+		
+		$ba = $query->fetch();
+		$admin_forum = $ba['kat_admin'];
+		
+		$leserechte = false;
+		if ($u_level == "G") {
+			if ($admin_forum == 0 || (($admin_forum & 8) == 8)) {
+				$leserechte = true;
+			}
+		}
+		
+		if ($u_level == "U" || $u_level == "A" || $u_level == "M" || $u_level == "Z") {
+			if ($admin_forum == 0 || (($admin_forum & 2) == 2)) {
+				$leserechte = true;
+			}
+		}
+		
+		if ($u_level == "S" || $u_level == "C") {
 			$leserechte = true;
 		}
+		
+		return $leserechte;
+	} else {
+		return false;
 	}
-	
-	if ($u_level == "U" || $u_level == "A" || $u_level == "M" || $u_level == "Z") {
-		if ($admin_forum == 0 || (($admin_forum & 2) == 2)) {
-			$leserechte = true;
-		}
-	}
-	
-	if ($u_level == "S" || $u_level == "C") {
-		$leserechte = true;
-	}
-	
-	return $leserechte;
 }
 
-function hole_themen_id_anhand_posting_id($po_id) {
-	// Prüft anhand der `po_id` ob gesperrt ist
-	$query = pdoQuery("SELECT `po_th_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
-	
-	$fo = $query->fetch();
-	
-	return ($fo['po_th_id']);
+function hole_themen_id_anhand_posting_id($beitrag_id) {
+	// Prüft anhand der `beitrag_id` ob gesperrt ist
+	$query = pdoQuery("SELECT `beitrag_forum_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	$resultCount = $query->rowCount();
+	if($resultCount == 1) {
+		$result = $query->fetch();
+		return $result['beitrag_forum_id'];
+	} else {
+		return 0;
+	}
 }
 
-function pruefe_schreibrechte($th_id) {
-	// Prüft anhand der th_id, ob der Benutzer ins Forum schreiben darf
+function pruefe_schreibrechte($forum_id) {
+	// Prüft anhand der forum_id, ob der Benutzer ins Forum schreiben darf
 	global $u_level;
 	
-	$query = pdoQuery("SELECT `th_fo_id` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
+	$query = pdoQuery("SELECT `forum_kategorie_id` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
 	
 	$fo = $query->fetch();
-	$fo_id = $fo['th_fo_id'];
+	$kat_id = $fo['forum_kategorie_id'];
 	
-	$query = pdoQuery("SELECT `fo_admin` FROM `forum_kategorien` WHERE `fo_id` = :fo_id", [':fo_id'=>$fo_id]);
+	$query = pdoQuery("SELECT `kat_admin` FROM `forum_kategorien` WHERE `kat_id` = :kat_id", [':kat_id'=>$kat_id]);
 	
 	$ba = $query->fetch();
-	$admin_forum = $ba['fo_admin'];
+	$admin_forum = $ba['kat_admin'];
 	
 	$schreibrechte = false;
 	if ($u_level == "G") {
@@ -75,30 +81,41 @@ function pruefe_schreibrechte($th_id) {
 	return ($schreibrechte);
 }
 
-function ist_thema_gesperrt($th_id) {
+function ist_thema_gesperrt($forum_id) {
 	// Prüft ob ein Thema gesperrt ist
 	
-	$query = pdoQuery("SELECT `po_threadgesperrt` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
+	$query = pdoQuery("SELECT `beitrag_gesperrt` FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$forum_id]);
 	
 	$fo = $query->fetch();
 	
-	$threadgesperrt = false;
+	$thema_gesperrt = false;
 	
-	if ($fo['po_threadgesperrt'] == 1) {
-		$threadgesperrt = true;
+	if ($fo['beitrag_gesperrt'] == 1) {
+		$thema_gesperrt = true;
 	}
 	
-	return $threadgesperrt;
+	return $thema_gesperrt;
 }
 
-function sperre_thema($th_id) {
-	if (ist_thema_gesperrt($th_id)) {
+function sperre_thema($forum_id) {
+	global $lang;
+	
+	$text = "";
+	if (ist_thema_gesperrt($forum_id)) {
 		// Beitrag entsperren
-		pdoQuery("UPDATE `forum_beitraege` SET `po_threadgesperrt` = 0 WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
+		pdoQuery("UPDATE `forum_beitraege` SET `beitrag_gesperrt` = 0 WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$forum_id]);
+		
+		$erfolgsmeldung = $lang['forum_fehlermeldung_thema_entsperrt'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	} else {
 		// Beitrag sperren
-		pdoQuery("UPDATE `forum_beitraege` SET `po_threadgesperrt` = 1 WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
+		pdoQuery("UPDATE `forum_beitraege` SET `beitrag_gesperrt` = 1 WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$forum_id]);
+		
+		$erfolgsmeldung = $lang['forum_fehlermeldung_thema_gesperrt'];
+		$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	}
+	
+	return $text;
 }
 
 //Benutzer verlaesst Raum und geht ins Forum
@@ -131,61 +148,61 @@ function lese_gelesene_postings($u_id) {
 }
 
 // Markiert ein Forum oder alle Foren als gelesen
-function forum_alles_gelesen($u_id, $th_id = "") {
+function forum_alles_gelesen($u_id, $forum_id = "") {
 	global $u_gelesene;
 	
-	if($th_id == "") {
+	if($forum_id == "") {
 		// Alle Foren als gelesen markieren
-		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege`", [':u_id'=>$u_id]);
+		$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege`", [':u_id'=>$u_id]);
 	} else {
 		// Spezifisches Forum als gelesen markieren
-		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':u_id'=>$th_id]);
+		$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':u_id'=>$forum_id]);
 	}
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
-		if (!$u_gelesene[$th_id]) {
-			$u_gelesene[$th_id][0] = array();
+		if (!$u_gelesene[$forum_id]) {
+			$u_gelesene[$forum_id][0] = array();
 		}
 		
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $runde) {
-			array_push($u_gelesene[$th_id], $runde['po_id']);
+			array_push($u_gelesene[$forum_id], $runde['beitrag_id']);
 			//wenn schon gelesen, dann wieder raus
 		}
-		$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
+		$u_gelesene[$forum_id] = array_unique($u_gelesene[$forum_id]);
 		$gelesene = serialize($u_gelesene);
 		pdoQuery("UPDATE `user` SET `u_gelesene_postings` = :u_gelesene_postings WHERE `u_id` = :u_id", [':u_gelesene_postings'=>$gelesene, ':u_id'=>$u_id]);
 	}
 }
 
 // markiert ein Thema als gelesen
-function thread_alles_gelesen($th_id, $thread_id, $u_id) {
+function thread_alles_gelesen($forum_id, $thread_id, $u_id) {
 	global $u_gelesene;
 	
-	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_id` = :po_id OR `po_vater_id` = :po_vater_id", [':po_id'=>intval($thread_id), ':po_vater_id'=>intval($thread_id)]);
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id OR `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_id'=>$thread_id, ':beitrag_thema_id'=>$thread_id]);
 	$result = $query->fetchAll();
 	
 	$liste = array();
 	foreach ($result as $val){
-		$liste[] = $val['po_id'];
+		$liste[] = $val['beitrag_id'];
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
-		$u_gelesene[$th_id] = array();
+	if ( !$u_gelesene || !$u_gelesene[$forum_id]) {
+		$u_gelesene[$forum_id] = array();
 	}
 	
 	// alle Beiträge sind im Vater in der Themaorder, dieses array, an die gelesenen anhängen
-	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id OR `po_vater_id` = :po_vater_id", [':po_id'=>intval($thread_id), ':po_vater_id'=>intval($thread_id)]);
+	$query = pdoQuery("SELECT `beitrag_order` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id OR `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_id'=>$thread_id, ':beitrag_thema_id'=>$thread_id]);
 	$a = $query->fetch();
-	$b = explode(",", $a['po_threadorder']);
+	$b = explode(",", $a['beitrag_order']);
 	
 	for ($i = 0; $i < count($liste); $i++) {
-		array_push($u_gelesene[$th_id], $liste[$i]);
+		array_push($u_gelesene[$forum_id], $liste[$i]);
 	}
 	
 	//wenn schon gelesen, dann wieder raus
-	$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
+	$u_gelesene[$forum_id] = array_unique($u_gelesene[$forum_id]);
 	
 	// und zurückschreiben
 	$gelesene = serialize($u_gelesene);
@@ -193,24 +210,24 @@ function thread_alles_gelesen($th_id, $thread_id, $u_id) {
 }
 
 //markiert ein posting fuer einen Benutzer als gelesen
-function markiere_als_gelesen($po_id, $u_id, $th_id) {
+function markiere_als_gelesen($beitrag_id, $u_id, $forum_id) {
 	global $u_gelesene;
 	
-	if (!$u_gelesene[$th_id]) {
-		$u_gelesene[$th_id][0] = $po_id;
+	if (!$u_gelesene[$forum_id]) {
+		$u_gelesene[$forum_id][0] = $beitrag_id;
 	} else {
-		array_push($u_gelesene[$th_id], $po_id);
+		array_push($u_gelesene[$forum_id], $beitrag_id);
 		//wenn schon gelesen, dann wieder raus
-		$u_gelesene[$th_id] = array_unique($u_gelesene[$th_id]);
+		$u_gelesene[$forum_id] = array_unique($u_gelesene[$forum_id]);
 	}
 	
 	$gelesene = serialize($u_gelesene);
 	pdoQuery("UPDATE `user` SET `u_gelesene_postings` = :u_gelesene_postings WHERE `u_id` = :u_id", [':u_gelesene_postings'=>$gelesene, ':u_id'=>$u_id]);
 }
 
-//gibt die ungelesenen Beiträge in einem Thema zurueck
+//gibt die ungelesenen Beiträge in einem Forum zurueck
 //Je nachdem, ob $arr_postings sich auf ein Thema bezieht
-function anzahl_ungelesene(&$arr_postings, $th_id) {
+function anzahl_ungelesene(&$arr_postings, $forum_id) {
 	global $u_gelesene;
 	
 	//kein Beitrag im Thema --> keine ungelesenen
@@ -219,18 +236,18 @@ function anzahl_ungelesene(&$arr_postings, $th_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
-		$u_gelesene[$th_id] = array();
+	if ( !$u_gelesene || !$u_gelesene[$forum_id]) {
+		$u_gelesene[$forum_id] = array();
 		return count($arr_postings);
 	}
 	
 	// anzahl unterschied zwischen postings im Thema und den gelesenen
 	//postings des users zurueckgeben
 	
-	return count(array_diff($arr_postings, $u_gelesene[$th_id]));
+	return count(array_diff($arr_postings, $u_gelesene[$forum_id]));
 }
 
-function anzahl_ungelesene2(&$arr_postings, $th_id) {
+function anzahl_ungelesener_themen(&$arr_postings, $forum_id) {
 	global $u_gelesene;
 	
 	//kein Beitrag in Gruppe --> keine ungelesenen
@@ -239,50 +256,13 @@ function anzahl_ungelesene2(&$arr_postings, $th_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
-		$u_gelesene[$th_id] = array();
-		return count($arr_postings);
-	}
-	
-	// anzahl unterschied zwischen postings im Thema und den gelesenen
-	//postings des users zurueckgeben
-	$query = pdoQuery("SELECT `po_id`, `po_u_id`, `po_threadorder` FROM `forum_beitraege` WHERE `po_vater_id` = 0 AND `po_th_id` = :po_th_id ORDER BY `po_ts` DESC", [':po_th_id'=>intval($th_id)]);
-	
-	$result = $query->fetchAll();
-	$ungelesene = 0;
-	foreach($result as $zaehler => $posting) {
-		if ($posting['po_threadorder'] == "0") {
-			$anzreplys = 0;
-			$arr_postings = array($posting[po_id]);
-		} else {
-			$arr_postings = explode(",", $posting['po_threadorder']);
-			$anzreplys = count($arr_postings);
-			//Erster Beitrag mit beruecksichtigen
-			$arr_postings[] = $posting['po_id'];
-		}
-		
-		$ungelesene += anzahl_ungelesene($arr_postings, $th_id);
-	}
-	
-	return $ungelesene;
-}
-
-function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
-	global $u_gelesene;
-	
-	//kein Beitrag in Gruppe --> keine ungelesenen
-	if (count($arr_postings) == 0) {
-		return 0;
-	}
-	
-	//kein Beitrag gelesen --> alle ungelesen
-	if ( !$u_gelesene || !$u_gelesene[$th_id]) {
+	if ( !$u_gelesene || !$u_gelesene[$forum_id]) {
 		$u_gelesene = array();
 		return count($arr_postings);
 	}
 	
 	// Anzahl Unterschied zwischen postings im Thema und den gelesenen postings des Benutzers zurueckgeben
-	$arr = array_diff($arr_postings, $u_gelesene[$th_id]);
+	$arr = array_diff($arr_postings, $u_gelesene[$forum_id]);
 	$diff = count($arr);
 	reset($arr);
 	
@@ -290,40 +270,25 @@ function anzahl_ungelesener_themen(&$arr_postings, $th_id) {
 	// Ansonsten eine kommaseparierte Liste erstellen
 	$themen = count($arr) == 0 ? '0' : implode(',', $arr);
 	
-	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_id` IN (:po_id)", [':po_id'=>$themen]);
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_id` IN (:beitrag_id)", [':beitrag_id'=>$themen]);
 	$resultCount = $query->rowCount();
 	
 	return $resultCount;
 }
 
 //Prüft Benutzereingaben auf Vollständigkeit
-// mode --> forum, thema, posting 
+// mode --> forum, thema, posting
 function check_input($mode) {
 	global $lang;
 	
 	$missing = "";
 	
-	if ($mode == "kategorie") {
-		global $fo_name;
-		if (!$fo_name) {
-			$missing = $lang['missing_name_kategorie'];
-		}
-		
-	} else if ($mode == "forum") {
-		global $th_name, $th_desc;
-		if (!$th_name) {
-			$missing .= $lang['missing_thname'];
-		}
-		if (!$th_desc) {
-			$missing .= $lang['missing_thdesc'];
-		}
-		
-	} else if ($mode == "posting") {
-		global $po_titel, $po_text;
-		if (strlen(trim($po_titel)) <= 0) {
+	if ($mode == "posting") {
+		global $beitrag_titel, $beitrag_text;
+		if (strlen(trim($beitrag_titel)) <= 0) {
 			$missing .= $lang['missing_potitel'];
 		}
-		if (strlen(trim($po_text)) <= 0) {
+		if (strlen(trim($beitrag_text)) <= 0) {
 			$missing .= $lang['missing_potext'];
 		}
 	}
@@ -331,167 +296,14 @@ function check_input($mode) {
 	return $missing;
 }
 
-// Neues Forum in Datenbank schreiben
-function erstelle_kategorie() {
-	global $fo_id, $fo_name, $fo_admin, $fo_gast, $fo_user, $pdo;
-	
-	$f['fo_name'] = $fo_name;
-	$f['fo_admin'] = $fo_gast + $fo_user + 1;
-	
-	//groesste Order holen
-	$query = pdoQuery("SELECT MAX(`fo_order`) AS `maxorder` FROM `forum_kategorien`", []);
-	
-	$result = $query->fetch();
-	$maxorder = $result['maxorder'];
-	if ($maxorder) {
-		$maxorder++;
-	} else {
-		$maxorder = 1;
-	}
-	$f['fo_order'] = $maxorder;
-	
-	pdoQuery("INSERT INTO `forum_kategorien` (`fo_name`, `fo_order`, `fo_admin`) VALUES (:fo_name, :fo_order, :fo_admin)",
-		[
-			':fo_name'=>$f['fo_name'],
-			':fo_order'=>$f['fo_order'],
-			':fo_admin'=>$f['fo_admin']
-		]);
-	
-	$fo_id = $pdo->lastInsertId();
-	
-	//Damit leere Kategorie angezeigt wird, dummy-Forum erstellen
-	unset($f);
-	$f["th_fo_id"] = $fo_id;
-	$f["th_name"] = "dummy-thema";
-	$f["th_anzthreads"] = 0;
-	$f["th_anzreplys"] = 0;
-	$f["th_order"] = 0;
-	
-	pdoQuery("INSERT INTO `blacklist` (`th_fo_id`, `th_name`, `th_anzthreads`, `th_anzreplys`, `th_order`) VALUES (:th_fo_id, :th_name, :th_anzthreads, :th_anzreplys, :th_order)",
-		[
-			':th_fo_id'=>$f['th_fo_id'],
-			':th_name'=>$f['th_name'],
-			':th_anzthreads'=>$f['th_anzthreads'],
-			':th_anzreplys'=>$f['th_anzreplys'],
-			':th_order'=>$f['th_order']
-		]);
-}
-
-//Kategorie ändern
-function aendere_kategorie() {
-	global $fo_id, $fo_name, $fo_admin, $fo_gast, $fo_user;
-	
-	$f['fo_name'] = $fo_name;
-	$f['fo_admin'] = $fo_gast + $fo_user + 1;
-	
-	pdoQuery("UPDATE `forum_kategorien` SET `fo_name` = :fo_name, `fo_admin` = :fo_admin WHERE `fo_id` = :fo_id",
-		[
-			':fo_id'=>$fo_id,
-			':fo_name'=>$f['fo_name'],
-			':fo_admin'=>$f['fo_admin']
-		]);
-}
-
-// Schiebt Forum in Darstellungsreihenfolge nach oben
-function kategorie_up($fo_id, $fo_order) {
-	if (!$fo_id) {
-		return;
-	}
-	
-	//Forum über aktuellem Forum holen
-	$query = pdoQuery("SELECT `fo_id`, `fo_order` AS `prev_order` FROM `forum_kategorien` WHERE `fo_order` < :fo_order ORDER BY `fo_order` DESC LIMIT 1", [':fo_order'=>intval($fo_order)]);
-	
-	$resultCount = $query->rowCount();
-	//ist Forum oberstes Forum?
-	if ($resultCount == 1) {
-		$result = $query->fetch();
-		
-		//nein -> Reihenfolge vertauschen
-		pdoQuery("UPDATE `forum_kategorien` SET `fo_order` = :fo_order WHERE `fo_id` = :fo_id",
-			[
-				':fo_id'=>$result['fo_id'],
-				':fo_order'=>$fo_order
-			]);
-		
-		pdoQuery("UPDATE `forum_kategorien` SET `fo_order` = :fo_order WHERE `fo_id` = :fo_id",
-			[
-				':fo_id'=>$next_id,
-				':fo_order'=>$result['prev_order']
-			]);
-	}
-}
-
-// Schiebt Forum in Darstellungsreihenfolge nach oben
-function kategorie_down($fo_id, $fo_order) {
-	if (!$fo_id) {
-		return;
-	}
-	
-	//forum über aktuellem Forum holen
-	$query = pdoQuery("SELECT `fo_id`, `fo_order` AS `next_order` FROM `forum_kategorien` WHERE `fo_order` > :fo_order ORDER BY `fo_order` LIMIT 1", [':fo_order'=>intval($fo_order)]);
-	
-	$resultCount = $query->rowCount();
-	//ist Thema schon letztes Thema?
-	if ($resultCount == 1) {
-		$result = $query->fetch();
-		
-		//nein -> Reihenfolge vertauschen
-		pdoQuery("UPDATE `forum_kategorien` SET `fo_order` = :fo_order WHERE `fo_id` = :fo_id",
-			[
-				':fo_id'=>$result['fo_id'],
-				':fo_order'=>$fo_order
-			]);
-		
-		
-		pdoQuery("UPDATE `forum_kategorien` SET `fo_name` = :fo_name WHERE `fo_id` = :fo_id",
-			[
-				':fo_id'=>$fo_id,
-				':fo_order'=>$result['next_order']
-			]);
-	}
-}
-
-// Komplettes Forum mit allen Themen und postings loeschen
-function loesche_kategorie($fo_id) {
-	global $lang;
-	
-	if (!$fo_id) {
-		return;
-	}
-	
-	$query = pdoQuery("SELECT `fo_name` FROM `forum_kategorien` WHERE `fo_id` = :fo_id", [':u_id'=>$fo_id]);
-	$result = $query->fetch();
-	$fo_name = $result['fo_name'];
-	
-	$query = pdoQuery("SELECT `th_id` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id", [':th_fo_id'=>$fo_id]);
-	$result = $query->fetchAll();
-	foreach($result as $zaehler => $thema) {
-		pdoQuery("DELETE FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$thema['th_id']]);
-	}
-	
-	pdoQuery("DELETE FROM `forum_foren` WHERE `th_fo_id` = :fo_id", [':fo_id'=>$fo_id]);
-	pdoQuery("DELETE FROM `forum_kategorien` WHERE `fo_id` = :fo_id", [':fo_id'=>$fo_id]);
-	
-	$erfolgsmeldung = str_replace("%kategorie%", $fo_name, $lang['forum_kategorie_geloescht']);
-	$text = hinweis($erfolgsmeldung, "erfolgreich");
-	
-	return $text;
-}
-
-// Thema in Datenbank schreiben
-function erstelle_editiere_forum($th_id = 0) {
-	global $fo_id, $th_name, $th_desc, $th_forumwechsel, $th_verschiebe_nach;
-	
-	//neues Thema
-	if ($th_id == 0) {
-		$f['th_fo_id'] = $fo_id;
-		$f['th_name'] = $th_name;
-		$f['th_desc'] = $th_desc;
-		$f['th_anzthreads'] = 0;
-		$f['th_anzreplys'] = 0;
+// Kategorie anlegen/editieren
+function erstelle_editiere_kategorie($kat_id, $kat_name, $kat_admin) {
+	if($kat_id == 0) {
+		// Neue Kategorie anlegen
 		
 		//groesste Order holen
-		$query = pdoQuery("SELECT MAX(`th_order`) AS `maxorder` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id", [':th_fo_id'=>$fo_id]);
+		$query = pdoQuery("SELECT MAX(`kat_order`) AS `maxorder` FROM `forum_kategorien`", []);
+		
 		$result = $query->fetch();
 		$maxorder = $result['maxorder'];
 		if ($maxorder) {
@@ -499,95 +311,161 @@ function erstelle_editiere_forum($th_id = 0) {
 		} else {
 			$maxorder = 1;
 		}
-		$f['th_order'] = $maxorder;
 		
-		pdoQuery("INSERT INTO `blacklist` (`th_fo_id`, `th_name`, `th_desc`, `th_anzthreads`, `th_anzreplys`, `th_order`) VALUES (:th_fo_id, :th_name, :th_desc, :th_anzthreads, :th_anzreplys, :th_order)",
+		pdoQuery("INSERT INTO `forum_kategorien` (`kat_name`, `kat_order`, `kat_admin`) VALUES (:kat_name, :kat_order, :kat_admin)",
 			[
-				':th_fo_id'=>$f['th_fo_id'],
-				':th_name'=>$f['th_name'],
-				':th_desc'=>$f['th_desc'],
-				':th_anzthreads'=>$f['th_anzthreads'],
-				':th_anzreplys'=>$f['th_anzreplys'],
-				':th_order'=>$f['th_order']
+				':kat_name'=>$kat_name,
+				':kat_order'=>$maxorder,
+				':kat_admin'=>$kat_admin
 			]);
 	} else {
-		//Thema editieren
-		if ($th_forumwechsel == "Y" && preg_match("/^([0-9])+$/i", $th_verschiebe_nach)) {
-			//groesste Order holen
-			$query = pdoQuery("SELECT MAX(`th_order`) AS `maxorder` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id", [':th_fo_id'=>intval($th_verschiebe_nach)]);
-			$result = $query->fetch();
-			$maxorder = $result['maxorder'];
-			if ($maxorder) {
-				$maxorder++;
-			} else {
-				$maxorder = 1;
-			}
-			
-			$f['th_name'] = $th_name;
-			$f['th_desc'] = $th_desc;
-			$f['th_fo_id'] = $th_verschiebe_nach;
-			$f['th_order'] = $maxorder;
-			
-			pdoQuery("UPDATE `forum_foren` SET `th_name` = :th_name, `th_desc` = :th_desc, `th_fo_id` = :th_fo_id, `th_order` = :th_order WHERE `th_id` = :th_id",
-				[
-					':th_id'=>$th_id,
-					':th_name'=>$f['th_name'],
-					':th_desc'=>$f['th_desc'],
-					':th_fo_id'=>$f['th_fo_id'],
-					':th_order'=>$f['th_order'],
-				]);
-		} else {
-			$f['th_name'] = $th_name;
-			$f['th_desc'] = $th_desc;
-			
-			pdoQuery("UPDATE `forum_foren` SET `th_name` = :th_name, `th_desc` = :th_desc WHERE `th_id` = :th_id",
-				[
-					':th_id'=>$th_id,
-					':th_name'=>$f['th_name'],
-					':th_desc'=>$f['th_desc']
-				]);
-		}
+		// Kategorie editieren
+		
+		pdoQuery("UPDATE `forum_kategorien` SET `kat_name` = :kat_name, `kat_admin` = :kat_admin WHERE `kat_id` = :kat_id",
+			[
+				':kat_id'=>$kat_id,
+				':kat_name'=>$kat_name,
+				':kat_admin'=>$kat_admin
+			]);
 	}
 }
 
-//Schiebt Thema in Darstellungsreihenfolge nach oben
-function forum_up($th_id, $th_order, $fo_id) {
-	if (!$th_id || !$fo_id) {
-		return;
+// Schiebt Forum in Darstellungsreihenfolge nach oben
+function kategorie_up($kat_id, $kat_order) {
+	//Forum über aktuellem Forum holen
+	$query = pdoQuery("SELECT `kat_id`, `kat_order` AS `prev_order` FROM `forum_kategorien` WHERE `kat_order` < :kat_order ORDER BY `kat_order` DESC LIMIT 1", [':kat_order'=>$kat_order]);
+	
+	$resultCount = $query->rowCount();
+	//ist Forum oberstes Forum?
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		
+		//nein -> Reihenfolge vertauschen
+		pdoQuery("UPDATE `forum_kategorien` SET `kat_order` = :kat_order WHERE `kat_id` = :kat_id",
+			[
+				':kat_id'=>$result['kat_id'],
+				':kat_order'=>$kat_order
+			]);
+		
+		pdoQuery("UPDATE `forum_kategorien` SET `kat_order` = :kat_order WHERE `kat_id` = :kat_id",
+			[
+				':kat_id'=>$kat_id,
+				':kat_order'=>$result['prev_order']
+			]);
+	}
+}
+
+// Schiebt Forum in Darstellungsreihenfolge nach oben
+function kategorie_down($kat_id, $kat_order) {
+	//forum über aktuellem Forum holen
+	$query = pdoQuery("SELECT `kat_id`, `kat_order` AS `next_order` FROM `forum_kategorien` WHERE `kat_order` > :kat_order ORDER BY `kat_order` LIMIT 1", [':kat_order'=>$kat_order]);
+	
+	$resultCount = $query->rowCount();
+	//ist Thema schon letztes Thema?
+	if ($resultCount == 1) {
+		$result = $query->fetch();
+		
+		//nein -> Reihenfolge vertauschen
+		pdoQuery("UPDATE `forum_kategorien` SET `kat_order` = :kat_order WHERE `kat_id` = :kat_id",
+			[
+				':kat_id'=>$result['kat_id'],
+				':kat_order'=>$kat_order
+			]);
+		
+		
+		pdoQuery("UPDATE `forum_kategorien` SET `kat_order` = :kat_order WHERE `kat_id` = :kat_id",
+			[
+				':kat_id'=>$kat_id,
+				':kat_order'=>$result['next_order']
+			]);
+	}
+}
+
+// Komplettes Forum mit allen Themen und postings loeschen
+function loesche_kategorie($kat_id) {
+	global $lang;
+	
+	$text = "";
+	$query = pdoQuery("SELECT `kat_name` FROM `forum_kategorien` WHERE `kat_id` = :kat_id", [':kat_id'=>$kat_id]);
+	$result = $query->fetch();
+	$kat_name = $result['kat_name'];
+	
+	$query = pdoQuery("SELECT `forum_id` FROM `forum_foren` WHERE `forum_kategorie_id` = :forum_kategorie_id", [':forum_kategorie_id'=>$kat_id]);
+	$result = $query->fetchAll();
+	foreach($result as $zaehler => $forum) {
+		$text .= loesche_forum($forum['forum_id']);
 	}
 	
-	//thema über aktuellem Thema holen
-	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>$fo_id, ':th_order'=>$th_order]);
+	pdoQuery("DELETE FROM `forum_kategorien` WHERE `kat_id` = :kat_id", [':kat_id'=>$kat_id]);
+	
+	$erfolgsmeldung = str_replace("%kategorie%", $kat_name, $lang['forum_erfolgsmeldung_kategorie_geloescht']);
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	return $text;
+}
+
+// Forum anlegen/editieren
+function erstelle_editiere_forum($forum_id, $forum_kategorie_id, $forum_name, $forum_beschreibung) {
+	// $kat_id, $kat_name, $kat_admin
+	//groesste Order holen
+	$query = pdoQuery("SELECT MAX(`forum_order`) AS `maxorder` FROM `forum_foren` WHERE `forum_kategorie_id` = :forum_kategorie_id", [':forum_kategorie_id'=>$forum_kategorie_id]);
+	$result = $query->fetch();
+	$maxorder = $result['maxorder'];
+	if ($maxorder) {
+		$maxorder++;
+	} else {
+		$maxorder = 1;
+	}
+	
+	if($forum_id == 0) {
+		// Neues Forum anlegen
+		pdoQuery("INSERT INTO `forum_foren` (`forum_name`, `forum_beschreibung`, `forum_kategorie_id`, `forum_order`) VALUES (:forum_name, :forum_beschreibung, :forum_kategorie_id, :forum_order)",
+			[
+				':forum_name'=>$forum_name,
+				':forum_beschreibung'=>$forum_beschreibung,
+				':forum_kategorie_id'=>$forum_kategorie_id,
+				':forum_order'=>$maxorder,
+			]);
+	} else {
+		// Forum editieren
+		pdoQuery("UPDATE `forum_foren` SET `forum_name` = :forum_name, `forum_beschreibung` = :forum_beschreibung, `forum_kategorie_id` = :forum_kategorie_id, `forum_order` = :forum_order WHERE `forum_id` = :forum_id",
+			[
+				':forum_id'=>$forum_id,
+				':forum_name'=>$forum_name,
+				':forum_beschreibung'=>$forum_beschreibung,
+				':forum_kategorie_id'=>$forum_kategorie_id,
+				':forum_order'=>$maxorder,
+			]);
+	}
+}
+
+// Schiebt ein Forum in Darstellungsreihenfolge nach oben
+function forum_up($forum_id, $forum_order, $kat_id) {
+	$query = pdoQuery("SELECT `forum_id`, `forum_order` FROM `forum_foren` WHERE `forum_kategorie_id` = :forum_kategorie_id AND `forum_order` < :forum_order ORDER BY `forum_order` DESC LIMIT 1", [':forum_kategorie_id'=>$kat_id, ':forum_order'=>$forum_order]);
 	
 	$resultCount = $query->rowCount();
 	
 	//ist Thema oberstes Thema?
 	if ($resultCount == 1) {
 		$result = $query->fetch();
-		
 		//nein -> Reihenfolge vertauschen
-		pdoQuery("UPDATE `forum_foren` SET `th_order` = :th_order WHERE `th_id` = :th_id",
+		pdoQuery("UPDATE `forum_foren` SET `forum_order` = :forum_order WHERE `forum_id` = :forum_id",
 			[
-				':th_id'=>$result['th_id'],
-				':th_order'=>$th_order
+				':forum_id'=>$result['forum_id'],
+				':forum_order'=>$forum_order
 			]);
 		
-		pdoQuery("UPDATE `forum_foren` SET `th_order` = :th_order WHERE `th_id` = :th_id",
+		pdoQuery("UPDATE `forum_foren` SET `forum_order` = :forum_order WHERE `forum_id` = :forum_id",
 			[
-				':th_id'=>$th_id,
-				':th_order'=>$result['prev_order']
+				':forum_id'=>$forum_id,
+				':forum_order'=>$result['forum_order']
 			]);
 	}
 }
 
-//Schiebt Thema in Darstellungsreihenfolge nach unten
-function forum_down($th_id, $th_order, $fo_id) {
-	if (!$th_id || !$fo_id) {
-		return;
-	}
-	
-	//thema unter aktuellem Thema holen
-	$query = pdoQuery("SELECT `th_id`, `th_order` AS `prev_order` FROM `forum_foren` WHERE `th_fo_id` = :th_fo_id AND `th_order` < :th_order ORDER BY `th_order` DESC LIMIT 1", [':th_fo_id'=>$fo_id, ':th_order'=>$th_order]);
+// Schiebt ein Forum in Darstellungsreihenfolge nach unten
+function forum_down($forum_id, $forum_order, $kat_id) {
+	$query = pdoQuery("SELECT `forum_id`, `forum_order` FROM `forum_foren` WHERE `forum_kategorie_id` = :forum_kategorie_id AND `forum_order` > :forum_order ORDER BY `forum_order` DESC LIMIT 1", [':forum_kategorie_id'=>$kat_id, ':forum_order'=>$forum_order]);
 	
 	$resultCount = $query->rowCount();
 	
@@ -596,38 +474,36 @@ function forum_down($th_id, $th_order, $fo_id) {
 		$result = $query->fetch();
 		
 		//nein -> Reihenfolge vertauschen
-		pdoQuery("UPDATE `forum_foren` SET `th_order` = :th_order WHERE `th_id` = :th_id",
+		pdoQuery("UPDATE `forum_foren` SET `forum_order` = :forum_order WHERE `forum_id` = :forum_id",
 			[
-				':th_id'=>$result['th_id'],
-				':th_order'=>$th_order
+				':forum_id'=>$result['forum_id'],
+				':forum_order'=>$forum_order
 			]);
 		
-		pdoQuery("UPDATE `forum_foren` SET `th_order` = :th_order WHERE `th_id` = :th_id",
+		pdoQuery("UPDATE `forum_foren` SET `forum_order` = :forum_order WHERE `forum_id` = :forum_id",
 			[
-				':th_id'=>$th_id,
-				':th_order'=>$result['next_order']
+				':forum_id'=>$forum_id,
+				':forum_order'=>$result['forum_order']
 			]);
 	}
 }
 
-//Komplettes Thema mit allen Beiträgen loeschen
-function loesche_thema($th_id) {
+// Komplettes Forum mit allen Themen und Beiträgen loeschen
+function loesche_forum($forum_id) {
 	global $lang;
 	
-	if (!$th_id) {
-		$fehlermeldung = $lang['forum_forum_nicht_geloescht'];
+	if (!$forum_id) {
+		$fehlermeldung = $lang['forum_fehlermeldung_forum_nicht_geloescht'];
 		$text = hinweis($fehlermeldung, "fehler");
 	} else {
-		$query = pdoQuery("SELECT `th_name` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
-		
+		$query = pdoQuery("SELECT `forum_name` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
 		$result = $query->fetch();
+		$forum_name = $result['forum_name'];
 		
-		$th_name = $result['th_name'];
+		pdoQuery("DELETE FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$forum_id]);
+		pdoQuery("DELETE FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
 		
-		pdoQuery("DELETE FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>$th_id]);
-		pdoQuery("DELETE FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
-		
-		$erfolgsmeldung = str_replace("%kategorie%", $th_name, $lang['forum_forum_geloescht']);
+		$erfolgsmeldung = str_replace("%forum%", $forum_name, $lang['forum_erfolgsmeldung_forum_geloescht']);
 		$text = hinweis($erfolgsmeldung, "erfolgreich");
 	}
 	
@@ -635,8 +511,8 @@ function loesche_thema($th_id) {
 }
 
 //schreibt neuen/editierten Beitrag in die Datenbank
-function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $po_topposting, $po_threadgesperrt) {
-	global $po_vater_id, $u_id, $u_nick, $user_id, $autor, $forum_admin, $lang, $forum_aenderungsanzeige;
+function schreibe_posting($mode, $beitrag_id, $forum_id, $beitrag_titel, $beitrag_text, $beitrag_angepinnt, $beitrag_gesperrt) {
+	global $beitrag_thema_id, $u_id, $u_nick, $user_id, $autor, $forum_admin, $lang, $forum_aenderungsanzeige;
 	
 	if ($mode == "edit") {
 		//muss autor neu gesetzt werden?
@@ -656,8 +532,8 @@ function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $
 			}
 		}
 		
-		$f['po_titel'] = htmlspecialchars($po_titel);
-		$f['po_text'] = htmlspecialchars(erzeuge_umbruch($po_text, 80));
+		$f['beitrag_titel'] = htmlspecialchars($beitrag_titel);
+		$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
 		
 		if ($forum_aenderungsanzeige == "1") {
 			$append = $lang['letzte_aenderung'];
@@ -665,93 +541,93 @@ function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $
 			$append = str_replace("%uhrzeit%", date("H:i"), $append);
 			$append = str_replace("%user%", $u_nick, $append);
 			
-			$f['po_text'] .= $append;
+			$f['beitrag_text'] .= $append;
 		}
 		
 		if ($forum_admin) {
-			if( ($po_topposting == null || $po_topposting == '') && ($po_threadgesperrt == null || $po_threadgesperrt == '') ) {
-				pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text WHERE `po_id` = :po_id",
+			if( ($beitrag_angepinnt == null || $beitrag_angepinnt == '') && ($beitrag_gesperrt == null || $beitrag_gesperrt == '') ) {
+				pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
 					[
-						':po_id'=>$po_id,
-						':po_titel'=>$f['po_titel'],
-						':po_text'=>$f['po_text']
+						':beitrag_id'=>$beitrag_id,
+						':beitrag_titel'=>$f['beitrag_titel'],
+						':beitrag_text'=>$f['beitrag_text']
 					]);
 			} else {
-				pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text, `po_topposting` = :po_topposting, `po_threadgesperrt` = :po_threadgesperrt WHERE `po_id` = :po_id",
+				pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text, `beitrag_angepinnt` = :beitrag_angepinnt, `beitrag_gesperrt` = :beitrag_gesperrt WHERE `beitrag_id` = :beitrag_id",
 					[
-						':po_id'=>$po_id,
-						':po_titel'=>$f['po_titel'],
-						':po_text'=>$f['po_text'],
-						':po_topposting'=>$po_topposting,
-						':po_threadgesperrt'=>$po_threadgesperrt
+						':beitrag_id'=>$beitrag_id,
+						':beitrag_titel'=>$f['beitrag_titel'],
+						':beitrag_text'=>$f['beitrag_text'],
+						':beitrag_angepinnt'=>$beitrag_angepinnt,
+						':beitrag_gesperrt'=>$beitrag_gesperrt
 					]);
 			}
 		} else {
-			pdoQuery("UPDATE `forum_beitraege` SET `po_titel` = :po_titel, `po_text` = :po_text WHERE `po_id` = :po_id",
+			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_titel` = :beitrag_titel, `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
 				[
-					':po_id'=>$po_id,
-					':po_titel'=>$f['po_titel'],
-					':po_text'=>$f['po_text']
+					':beitrag_id'=>$beitrag_id,
+					':beitrag_titel'=>$f['beitrag_titel'],
+					':beitrag_text'=>$f['beitrag_text']
 				]);
 		}
 	} else {
 		global $pdo;
 		//neuer Beitrag
-		$f['po_th_id'] = $th_id;
-		$f['po_u_id'] = $u_id;
-		$f['po_vater_id'] = $po_vater_id;
-		$f['po_titel'] = htmlspecialchars($po_titel);
-		$f['po_text'] = htmlspecialchars(erzeuge_umbruch($po_text, 80));
-		$f['po_ts'] = time();
-		$f['po_threadts'] = time();
-		if ($po_vater_id != 0) {
-			$f['po_threadorder'] = 1;
+		$f['beitrag_forum_id'] = $forum_id;
+		$f['beitrag_user_id'] = $u_id;
+		$f['beitrag_thema_id'] = $beitrag_thema_id;
+		$f['beitrag_titel'] = htmlspecialchars($beitrag_titel);
+		$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
+		$f['beitrag_thema_timestamp'] = time();
+		$f['beitrag_antwort_timestamp'] = time();
+		if ($beitrag_thema_id != 0) {
+			$f['beitrag_order'] = 1;
 		} else {
-			$f['po_threadorder'] = 0;
+			$f['beitrag_order'] = 0;
 		}
 		
 		//Beitrag schreiben
-		pdoQuery("INSERT INTO `forum_beitraege` (`po_th_id`, `po_u_id`, `po_vater_id`, `po_titel`, `po_text`, `po_ts`, `po_threadts`, `po_threadorder`) VALUES (:po_th_id, :po_u_id, :po_vater_id, :po_titel, :po_text, :po_ts, :po_threadts, :po_threadorder)",
+		pdoQuery("INSERT INTO `forum_beitraege` (`beitrag_forum_id`, `beitrag_user_id`, `beitrag_thema_id`, `beitrag_titel`, `beitrag_text`, `beitrag_thema_timestamp`, `beitrag_antwort_timestamp`, `beitrag_order`) VALUES (:beitrag_forum_id, :beitrag_user_id, :beitrag_thema_id, :beitrag_titel, :beitrag_text, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_order)",
 			[
-				':po_th_id'=>$f['po_th_id'],
-				':po_u_id'=>$f['po_u_id'],
-				':po_vater_id'=>$f['po_vater_id'],
-				':po_titel'=>$f['po_titel'],
-				':po_text'=>$f['po_text'],
-				':po_ts'=>$f['po_ts'],
-				':po_threadts'=>$f['po_threadts'],
-				':po_threadorder'=>$f['po_threadorder']
+				':beitrag_forum_id'=>$f['beitrag_forum_id'],
+				':beitrag_user_id'=>$f['beitrag_user_id'],
+				':beitrag_thema_id'=>$f['beitrag_thema_id'],
+				':beitrag_titel'=>$f['beitrag_titel'],
+				':beitrag_text'=>$f['beitrag_text'],
+				':beitrag_thema_timestamp'=>$f['beitrag_thema_timestamp'],
+				':beitrag_antwort_timestamp'=>$f['beitrag_antwort_timestamp'],
+				':beitrag_order'=>$f['beitrag_order']
 			]);
 		
 		
-		$new_po_id = $pdo->lastInsertId();
+		$new_beitrag_id = $pdo->lastInsertId();
 		
-		//falls reply muss po_threadorder des vaters neu geschrieben werden
-		if ($po_vater_id != 0) {
-			//po_threadorder des threadvaters neu schreiben
+		//falls reply muss beitrag_order des vaters neu geschrieben werden
+		if ($beitrag_thema_id != 0) {
+			//beitrag_order des threadvaters neu schreiben
 			pdoQuery("LOCK TABLES `forum_beitraege` WRITE", []);
 			
 			//alte Themaorder holen
-			$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$thread]);
+			$query = pdoQuery("SELECT `beitrag_order` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
 			$result = $query->fetch();
 			
-			$threadorder = $result['po_threadorder'];
+			$threadorder = $result['beitrag_order'];
 			
 			//erste Antwort?
 			if ($threadorder == "0") {
-				$threadorder = $new_po_id;
+				$threadorder = $new_beitrag_id;
 			} else {
-				$insert_po_id = hole_letzten($po_vater_id, $new_po_id);
+				$insert_beitrag_id = hole_letzten($beitrag_thema_id, $new_beitrag_id);
 				
 				//alte threadorder in feld aufsplitten
 				$threadorder_array = explode(",", $threadorder);
 				$threadorder_array_new = array();
 				$i = 0;
 				foreach($threadorder_array as $k => $v) {
-					if ($v == $insert_po_id) {
+					if ($v == $insert_beitrag_id) {
 						$threadorder_array_new[$i] = $v;
 						$i++;
-						$threadorder_array_new[$i] = $new_po_id;
+						$threadorder_array_new[$i] = $new_beitrag_id;
 						
 					} else {
 						$threadorder_array_new[$i] = $v;
@@ -762,42 +638,42 @@ function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $
 			}
 			
 			//threadorder neu schreiben
-			pdoQuery("UPDATE `forum_beitraege` SET `po_threadorder` = :po_threadorder, `po_threadts` = :po_threadts WHERE `po_id` = :po_id", [':po_threadorder'=>$threadorder, ':po_threadts'=>time(), ':po_id'=>$thread]);
+			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_order` = :beitrag_order, `beitrag_antwort_timestamp` = :beitrag_antwort_timestamp WHERE `beitrag_id` = :beitrag_id", [':beitrag_order'=>$threadorder, ':beitrag_antwort_timestamp'=>time(), ':beitrag_id'=>$beitrag_id]);
 			
-			//schliesslich noch die markierung des letzten in der Ebene entfernen
-			pdoQuery("UPDATE `forum_beitraege` SET `po_threadorder` = '0' WHERE `po_threadorder` = '1' AND `po_id` <> :po_id AND `po_vater_id` = :po_vater_id", [':po_id'=>$new_po_id, ':po_vater_id'=>$po_vater_id]);
+			// Schliesslich noch die markierung des letzten in der Ebene entfernen
+			pdoQuery("UPDATE `forum_beitraege` SET `beitrag_order` = '0' WHERE `beitrag_order` = '1' AND `beitrag_id` <> :beitrag_id AND `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_id'=>$new_beitrag_id, ':beitrag_thema_id'=>$beitrag_thema_id]);
 			
 			//Tabellen wieder freigeben
 			pdoQuery("UNLOCK TABLES", []);
 		} else {
 			//Thema neu setzen
-			$thread = $new_po_id;
+			$beitrag_id = $new_beitrag_id;
 		}
 		
-		//th_postings muss neu geschrieben werden
+		//forum_beitraege muss neu geschrieben werden
 		//anz_threads und anz_replys im Thema setzen
 		//erst Tabelle `forum_foren` sperren
 		pdoQuery("LOCK TABLES `forum_foren` WRITE", []);
 		
-		//altes th_postings und anz_threads und anz_replys holen
-		$query = pdoQuery("SELECT `th_postings`, `th_anzthreads`, `th_anzreplys` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
+		//altes forum_beitraege und anz_threads und anz_replys holen
+		$query = pdoQuery("SELECT `forum_beitraege`, `forum_anzahl_themen`, `forum_anzahl_antworten` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
 		
 		$result = $query->fetch();
-		$postings = $result['th_postings'];
-		$anzthreads = $result['th_anzthreads'];
-		$anzreplys = $result['th_anzreplys'];
+		$postings = $result['forum_beitraege'];
+		$anzthreads = $result['forum_anzahl_themen'];
+		$anzreplys = $result['forum_anzahl_antworten'];
 		
 		if (!$postings) {
 			//erster Beitrag in diesem Thema
-			$postings = $new_po_id;
+			$postings = $new_beitrag_id;
 		} else {
 			//schon postings da
 			$postings_array = explode(",", $postings);
-			$postings_array[] = $new_po_id;
+			$postings_array[] = $new_beitrag_id;
 			$postings = implode(",", $postings_array);
 		}
 		
-		if ($po_vater_id == 0) {
+		if ($beitrag_thema_id == 0) {
 			//neues Thema
 			$anzthreads++;
 		} else {
@@ -806,12 +682,12 @@ function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $
 		}
 		
 		//schreiben
-		pdoQuery("UPDATE `forum_foren` SET `th_postings` = :th_postings, `th_anzthreads` = :th_anzthreads, `th_anzreplys` = :th_anzreplys WHERE `th_id` = :th_id",
+		pdoQuery("UPDATE `forum_foren` SET `forum_beitraege` = :forum_beitraege, `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten WHERE `forum_id` = :forum_id",
 			[
-				':th_postings'=>$postings,
-				':th_anzthreads'=>$anzthreads,
-				':th_anzreplys'=>$anzreplys,
-				':th_id'=>$th_id
+				':forum_beitraege'=>$postings,
+				':forum_anzahl_themen'=>$anzthreads,
+				':forum_anzahl_antworten'=>$anzreplys,
+				':forum_id'=>$forum_id
 				
 			]);
 		
@@ -820,24 +696,24 @@ function schreibe_posting($mode, $po_id, $thread, $th_id, $po_titel, $po_text, $
 		
 	}
 	
-	if (!isset($new_po_id)) {
-		$new_po_id = 0;
+	if (!isset($new_beitrag_id)) {
+		$new_beitrag_id = 0;
 	}
 	
-	return $new_po_id;
+	return $new_beitrag_id;
 }
 
 //holt ausgehend von root_id den letzten Beitrag
-function hole_letzten($root_id, $new_po_id) {
-	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE po_vater_id = :po_vater_id AND `po_id` <> :po_id ORDER BY po_ts desc LIMIT 1", [':po_vater_id'=>intval($root_id), ':po_id'=>intval($new_po_id)]);
+function hole_letzten($root_id, $new_beitrag_id) {
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id AND `beitrag_id` <> :beitrag_id ORDER BY `beitrag_thema_timestamp` DESC LIMIT 1", [':beitrag_thema_id'=>intval($root_id), ':beitrag_id'=>intval($new_beitrag_id)]);
 	
 	$resultCount = $query->rowCount();
 	$result = $query->fetch();
 	
 	
 	if ($resultCount > 0) {
-		$new_root_id = $result['po_id'];
-		$retval = hole_letzten($new_root_id, $new_po_id);
+		$new_root_id = $result['beitrag_id'];
+		$retval = hole_letzten($new_root_id, $new_beitrag_id);
 	} else {
 		$retval = $root_id;
 	}
@@ -846,29 +722,28 @@ function hole_letzten($root_id, $new_po_id) {
 }
 
 //loescht den Beitrag und alle Antworten darauf
-function loesche_posting() {
-	global $th_id, $po_id, $thread;
-	global $arr_delete;
-	global $punkte_pro_posting, $lang;
+function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
+	global $arr_delete, $punkte_pro_posting, $lang;
 	
+	$text = "";
 	$arr_delete = array();
 	
-	//tabelle `forum_beitraege` und `forum_foren` locken
+	// Tabelle `forum_beitraege` und `forum_foren` locken
 	pdoQuery("LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE", []);
 	
 	//rekursiv alle zu loeschenden postings in feld einlesen
-	$arr_delete[] = $po_id;
-	hole_alle_unter($po_id);
+	$arr_delete[] = $beitrag_id;
+	hole_alle_unter($beitrag_id);
 	
-	//po_threadorder neu schreiben
+	//beitrag_order neu schreiben
 	//nur relevant, wenn Beitrag nicht erster im Thema ist
 	//ansonsten wird es eh geloescht
-	if ($po_id != $thread) {
-		$query = pdoQuery("SELECT `po_threadorder`, `po_ts` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($thread)]);
+	if ($beitrag_id != $beitrag_thema_id) {
+		$query = pdoQuery("SELECT `beitrag_order`, `beitrag_thema_timestamp` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_thema_id]);
 		
 		$result = $query->fetch();
-		$threadorder = $result['po_threadorder'];
-		$new_ts = $result['po_ts'];
+		$threadorder = $result['beitrag_order'];
+		$new_ts = $result['beitrag_thema_timestamp'];
 		
 		//in array einlesen und zu loeschende rausschmeissen
 		$arr_new_threadorder = explode(",", $threadorder);
@@ -884,11 +759,11 @@ function loesche_posting() {
 			$new_threadorder = implode(",", $arr_new_threadorder);
 			$arr_new_threadorder = explode(",", $new_threadorder);
 			for ($i = 0; $i < count($arr_new_threadorder); $i++) {
-				$query = pdoQuery("SELECT `po_ts` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($arr_new_threadorder[$i])]);
+				$query = pdoQuery("SELECT `beitrag_thema_timestamp` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>intval($arr_new_threadorder[$i])]);
 				
 				$result = $query->fetch();
 				
-				$ts = $result['po_ts'];
+				$ts = $result['beitrag_thema_timestamp'];
 				if ($ts > $new_ts) {
 					$new_ts = $ts;
 				}
@@ -897,42 +772,20 @@ function loesche_posting() {
 		
 		$new_threadorder = implode(",", $arr_new_threadorder);
 		
-		pdoQuery("UPDATE `forum_beitraege` SET `po_threadorder` = :po_threadorder, `po_threadts` = :po_threadts WHERE `po_id` = :po_id",
+		pdoQuery("UPDATE `forum_beitraege` SET `beitrag_antwort_timestamp` = :beitrag_antwort_timestamp WHERE `beitrag_id` = :beitrag_id",
 			[
-				':po_threadorder'=>$new_threadorder,
-				':po_threadts'=>$new_ts,
-				':po_id'=>$thread
+				':beitrag_antwort_timestamp'=>$new_ts,
+				':beitrag_id'=>$beitrag_thema_id
 			]);
-		
-		//eventuell letzter Beitrag auf Ebene neu markieren
-		$query = pdoQuery("SELECT `po_vater_id`, `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$po_id]);
-		
-		$result = $query->fetch();
-		$threadorder = $result['po_threadorder'];
-		$vater_id = $result['po_vater_id'];
-		
-		//falls letztes posting, dann neu setzen
-		if ($threadorder == "1") {
-			$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id AND `po_id` <> :po_id ORDER BY `po_ts` DESC LIMIT 1", [':po_vater_id'=>$vater_id, ':po_id'=>$po_id]);
-			
-			$resultCount = $query->rowCount();
-			if ($resultCount > 0) {
-				$result = $query->fetch();
-				
-				$po_id_update = $result['po_id'];
-				
-				pdoQuery("UPDATE `forum_beitraege` SET `po_threadorder` = '1' WHERE `po_id` = :po_id", [':po_id'=>$po_id_update]);
-			}
-		}
 	}
 	
 	//eintragungen in Thema neu schreiben
-	$query = pdoQuery("SELECT `th_anzthreads`, `th_anzreplys`, `th_postings` FROM `forum_foren` WHERE `th_id` = :th_id", [':th_id'=>$th_id]);
+	$query = pdoQuery("SELECT `forum_anzahl_themen`, `forum_anzahl_antworten`, `forum_beitraege` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
 	
 	$result = $query->fetch();
-	$postings = $result['th_postings'];
-	$anzthreads = $result['th_anzthreads'];
-	$anzreplys = $result['th_anzreplys'];
+	$postings = $result['forum_beitraege'];
+	$anzthreads = $result['forum_anzahl_themen'];
+	$anzreplys = $result['forum_anzahl_antworten'];
 	
 	//in array einlesen und zu loeschende rausschmeissen
 	$arr_new_postings = explode(",", $postings);
@@ -941,45 +794,45 @@ function loesche_posting() {
 	
 	$new_postings = implode(",", $arr_new_postings);
 	
-	//th_anzthreads und th_anzreplys neu schreiben
-	if ($po_id == $thread) {
+	//forum_anzahl_themen und forum_anzahl_antworten neu schreiben
+	if ($beitrag_id == $beitrag_thema_id) {
 		$anzthreads--;
 		$anzreplys = $anzreplys - count($arr_delete) + 1;
 	} else {
 		$anzreplys = $anzreplys - count($arr_delete);
 	}
 	
-	pdoQuery("UPDATE `forum_foren` SET `th_anzthreads` = :th_anzthreads, `th_anzreplys` = :th_anzreplys, `th_postings` = :th_postings WHERE `th_id` = :th_id",
+	pdoQuery("UPDATE `forum_foren` SET `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten, `forum_beitraege` = :forum_beitraege WHERE `forum_id` = :forum_id",
 		[
-			':th_anzthreads'=>$anzthreads,
-			':th_anzreplys'=>$anzreplys,
-			':th_postings'=>$new_postings,
-			':th_id'=>$th_id
+			':forum_anzahl_themen'=>$anzthreads,
+			':forum_anzahl_antworten'=>$anzreplys,
+			':forum_beitraege'=>$new_postings,
+			':forum_id'=>$forum_id
 		]);
 	
 	// Punkte abziehen
 	reset($arr_delete);
 	$zusammenfassung = "";
 	foreach($arr_delete as $k => $v) {
-		$query = pdoQuery("SELECT `po_u_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($v)]);
+		$query = pdoQuery("SELECT `beitrag_user_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>intval($v)]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
 			$result = $query->fetch();
-			$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $result['po_u_id']) . "<br>";
+			$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $result['beitrag_user_id']) . "<br>";
 		}
 	}
 	$text .= hinweis($zusammenfassung, "erfolgreich");
 	
 	reset($arr_delete);
 	foreach($arr_delete as $k => $v) {
-		pdoQuery("DELETE FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$v]);
+		pdoQuery("DELETE FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$v]);
 	}
 	
 	//Tabellen wieder freigeben
 	pdoQuery("UNLOCK TABLES", []);
 	
-	$erfolgsmeldung = str_replace("%forum%", $fo_name, $lang['forum_thema_geloescht']);
+	$erfolgsmeldung = $lang['forum_thema_geloescht'];
 	$text .= hinweis($erfolgsmeldung, "erfolgreich");
 	
 	return $text;
@@ -990,88 +843,43 @@ function loesche_posting() {
 function hole_alle_unter($vater_id) {
 	global $arr_delete;
 	
-	$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_vater_id` = :po_vater_id", [':po_vater_id'=>$vater_id]);
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_thema_id'=>$vater_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $posting) {
-			$arr_delete[] = $posting['po_id'];
-			hole_alle_unter($posting['po_id']);
+			$arr_delete[] = $posting['beitrag_id'];
+			hole_alle_unter($posting['beitrag_id']);
 		}
 	}
 }
 
-function verschiebe_posting_ausfuehren() {
-	global $thread_verschiebe, $verschiebe_von, $verschiebe_nach;
-	
-	if (!preg_match("/^([0-9])+$/i", $thread_verschiebe)) {
-		exit();
-	}
-	if (!preg_match("/^([0-9])+$/i", $verschiebe_von)) {
-		exit();
-	}
-	if (!preg_match("/^([0-9])+$/i", $verschiebe_nach)) {
-		exit();
-	}
-	
+function verschiebe_thema_ausfuehren($beitrag_id, $beitrag_forum_id, $beitrag_forum_id_neu) {
 	// Ändert alle Beiträge eine Themas
-	$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id AND `po_th_id` = :po_th_id", [':po_id'=>intval($thread_verschiebe), ':po_th_id'=>intval($verschiebe_von)]);
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id AND `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_id'=>$beitrag_id, ':beitrag_forum_id'=>$beitrag_forum_id]);
 	
 	$resultCount = $query->rowCount();
-	if ($resultCount == 1) {
+	if ($resultCount > 0) {
 		$result = $query->fetch();
 		pdoQuery("LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE", []);
 		
-		// Verschiebt alle Kinder wenn vorhanden
-		$postings = $result['po_threadorder'];
-		if (trim($postings) <> "0") {
-			$postings2 = explode(",", $postings);
-			for ($i = 0; $i < count($postings2); $i++) {
-				pdoQuery("UPDATE `forum_beitraege` SET `po_th_id` = :po_th_id WHERE `po_id` = :po_id", [':po_th_id'=>$verschiebe_nach, ':po_id'=>$postings2[$i]]);
-			}
-		}
-		
-		// Verschiebt den Vater
-		pdoQuery("UPDATE `forum_beitraege` SET `po_th_id` = :po_th_id WHERE `po_id` = :po_id", [':po_th_id'=>$verschiebe_nach, ':user_id'=>$thread_verschiebe]);
-		
-		// Baut Themaorder des Themas ALT und NEU komplett neu auf
-		// Da manchmal auch diese Themaorder kaputt geht
-		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>intval($verschiebe_von)]);
-		
-		$resultCount = $query->rowCount();
-		$neuethreadorder = "0";
-		if ($resultCount > 0) {
-			$result = $query->fetchAll();
-			foreach($result as $zaehler => $row2) {
-				if ($neuethreadorder == "0") {
-					$neuethreadorder = "$row2[po_id]";
-				} else {
-					$neuethreadorder .= ",$row2[po_id]";
-				}
-			}
-		}
-		pdoQuery("UPDATE `forum_foren` SET `th_postings` = :th_postings WHERE `th_id` = :th_id", [':th_postings'=>$neuethreadorder, ':th_id'=>$verschiebe_von]);
-		
-		$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` WHERE `po_th_id` = :po_th_id", [':po_th_id'=>intval($verschiebe_nach)]);
-		
-		$resultCount = $query->rowCount();
-		$neuethreadorder = "0";
-		if ($resultCount > 0) {
-			$result = $query->fetchAll();
-			foreach($result as $zaehler => $row2) {
-				if ($neuethreadorder == "0") {
-					$neuethreadorder = "$row2[po_id]";
-				} else {
-					$neuethreadorder .= ",$row2[po_id]";
-				}
-			}
-		}
-		pdoQuery("UPDATE `forum_foren` SET `th_postings` = :th_postings WHERE `th_id` = :th_id", [':th_postings'=>$neuethreadorder, ':th_id'=>$verschiebe_nach]);
+		// Thema und alle Beiträge verschieben
+		pdoQuery("UPDATE `forum_beitraege` SET `beitrag_forum_id` = :beitrag_forum_id_neu WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id_neu'=>$beitrag_forum_id_neu, ':beitrag_forum_id'=>$beitrag_forum_id]);
 		
 		pdoQuery("UNLOCK TABLES", []);
 		
-		bereinige_anz_in_thema();
+		
+		// Zähler in den Foren aktualisieren
+		$query = pdoQuery("SELECT COUNT(`beitrag_id`) AS `anzahl` FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$beitrag_id]);
+		$result = $query->fetch();
+		$forum_anzahl_antworten = $result['anzahl'];
+		
+		// subtrahieren
+		aktualisiere_foren_zaehler($beitrag_forum_id, 1, $forum_anzahl_antworten, false);
+		
+		// addieren
+		aktualisiere_foren_zaehler($beitrag_forum_id_neu, 1, $forum_anzahl_antworten, true);
 	}
 	
 }
@@ -1096,27 +904,27 @@ function ersetze_smilies($text) {
 }
 
 // erzeugt Aktionen bei Antwort auf einen Beitrag
-function aktion_sofort($po_id, $po_vater_id, $thread) {
+function aktion_sofort($beitrag_id, $beitrag_thema_id, $thread) {
 	global $u_id;
 	//aktionen nur fuer Antworten
-	if ($po_vater_id > 0) {
-		$query = pdoQuery("SELECT `po_u_id`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y') AS `po_date`, `po_titel`, `th_name`, `fo_name` 
-			FROM `forum_beitraege`, `forum_foren`, `forum_kategorien` WHERE `po_id` = :po_id AND `po_th_id` = `th_id` AND `th_fo_id` = `fo_id`", [':po_id'=>$po_vater_id]);
+	if ($beitrag_thema_id > 0) {
+		$query = pdoQuery("SELECT `beitrag_user_id`, date_format(from_unixtime(`beitrag_thema_timestamp`), '%d.%m.%Y') AS `po_date`, `beitrag_titel`, `forum_name`, `kat_name` 
+			FROM `forum_beitraege`, `forum_foren`, `forum_kategorien` WHERE `beitrag_id` = :beitrag_id AND `beitrag_forum_id` = `forum_id` AND `forum_kategorie_id` = `kat_id`", [':beitrag_id'=>$beitrag_thema_id]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {
 			$result = $query->fetch();
 			//Daten des Vaters holen
-			$user = $result['po_u_id'];
-			$po_ts = $result['po_date'];
-			$po_titel = $result['po_titel'];
-			$thema = $result['th_name'];
-			$forum = $result['fo_name'];
+			$user = $result['beitrag_user_id'];
+			$beitrag_thema_timestamp = $result['po_date'];
+			$beitrag_titel = $result['beitrag_titel'];
+			$thema = $result['forum_name'];
+			$forum = $result['kat_name'];
 		} else {
 			return;
 		}
 		
-		$query = pdoQuery("SELECT `u_id`, `u_nick`, date_format(from_unixtime(`po_ts`), '%d.%m.%Y %H:%i') AS `po_date`, `po_titel` FROM `user`, `forum_beitraege` WHERE `po_u_id` = `u_id` AND `po_id` = :po_id", [':po_id'=>$po_id]);
+		$query = pdoQuery("SELECT `u_id`, `u_nick`, date_format(from_unixtime(`beitrag_thema_timestamp`), '%d.%m.%Y %H:%i') AS `po_date`, `beitrag_titel` FROM `user`, `forum_beitraege` WHERE `beitrag_user_id` = `u_id` AND `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {
@@ -1124,7 +932,7 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 			$user_from_id = $result['u_id'];
 			$user_from_nick = $result['u_nick'];
 			$po_ts_antwort = $result['po_date'];
-			$po_titel_antwort = $result['po_titel'];
+			$po_titel_antwort = $result['beitrag_titel'];
 		} else {
 			return;
 		}
@@ -1138,19 +946,8 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 			$wann = "Sofort/Offline";
 		}
 		
-		//Themaorder fuer dieses Thema holen
-		$query = pdoQuery("SELECT `po_threadorder` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>intval($thread)]);
-		
-		$resultCount = $query->rowCount();
-		if ($resultCount == 1) {
-			$result = $query->fetch();
-			$threadorder = $result['po_threadorder'];
-		} else {
-			return;
-		}
-		
-		$text['po_titel'] = $po_titel;
-		$text['po_ts'] = $po_ts;
+		$text['beitrag_titel'] = $beitrag_titel;
+		$text['beitrag_thema_timestamp'] = $beitrag_thema_timestamp;
 		$text['forum'] = $forum;
 		$text['thema'] = $thema;
 		$text['user_from_nick'] = $user_from_nick;
@@ -1158,6 +955,30 @@ function aktion_sofort($po_id, $po_vater_id, $thread) {
 		$text['po_ts_antwort'] = $po_ts_antwort;
 		
 		aktion($u_id, $wann, $user, $user_from_id, "Antwort auf eigenen Beitrag", $text);
+	}
+}
+
+function aktualisiere_foren_zaehler($forum_id, $forum_anzahl_themen, $forum_anzahl_antworten, $addieren = true) {
+	$query = pdoQuery("SELECT `forum_anzahl_themen`, `forum_anzahl_antworten` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
+	
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetch();
+		
+		if($addieren) {
+			$forum_anzahl_themen = $result['forum_anzahl_themen'] + $forum_anzahl_themen;
+			$forum_anzahl_antworten = $result['forum_anzahl_antworten'] + $forum_anzahl_antworten;
+		} else {
+			$forum_anzahl_themen = $result['forum_anzahl_themen'] - $forum_anzahl_themen;
+			$forum_anzahl_antworten = $result['forum_anzahl_antworten'] - $forum_anzahl_antworten;
+		}
+		
+		pdoQuery("UPDATE `forum_foren` SET  `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten WHERE `forum_id` = :forum_id",
+			[
+				':forum_id'=>$forum_id,
+				':forum_anzahl_themen'=>$forum_anzahl_themen,
+				':forum_anzahl_antworten'=>$forum_anzahl_antworten
+			]);
 	}
 }
 ?>

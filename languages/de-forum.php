@@ -25,24 +25,19 @@ $lang['forum_button_suche'] = "Forum durchsuchen";
 $lang['forum_button_speichern'] = "Speichern";
 
 // Kategorien
-$lang['forum_kategorie_name'] = "Name der Kategorie:";
+$lang['forum_kategorie_name'] = "Name der Kategorie";
 $lang['forum_kategorie_anlegen'] = "Neue Kategorie anlegen";
 $lang['forum_kategorie_editieren'] = "Kategorie editieren";
 $lang['forum_kategorie_themen'] = "Themen";
 $lang['forum_kategorie_beitraege'] = "Beiträge";
 $lang['forum_kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
-$lang['forum_kategorie_geloescht'] = "Die Kategorie %kategorie% mit allen untergeordneten Foren wurde gelöscht!";
-$lang['forum_forum_geloescht'] = "Das Forum %forum% wurde gelöscht!";
-$lang['forum_forum_nicht_geloescht'] = "Das Forum konnte nicht gelöscht werden!";
-$lang['forum_thema_geloescht'] = "Das Thema wurde gelöscht!";
+$lang['forum_thema_geloescht'] = "Das Thema/Der Beitrag wurde gelöscht!";
 
 // Foren
 $lang['forum_name'] = "Name des Forums:";
-$lang['forum_anlegen'] = "Neues Forum anlegen";
 $lang['forum_beschreibung'] = "Beschreibung des Forums:";
-$lang['forum_verschieben'] = "Verschiebe in eine andere Kategorie";
-$lang['forum_anlegen'] = "Forum anlegen";
+$lang['forum_kategorie'] = "Kategorie des Forums";
 $lang['forum_speichern'] = "Forum speichern";
 $lang['forum_loeschen'] = "Wollen Sie das komplette Forum mit ALLEN Themen löschen?";
 $lang['forum_forum_gelesen_markieren'] = "Forum als gelesen markieren";
@@ -63,12 +58,37 @@ $lang['thema_loeschen2'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werd
 $lang['thema_verschieben'] = "verschieben";
 $lang['thema_weiterleiten'] = "weiterleiten";
 
+
+// Erfolgs- und Fehlermeldungen für eine Kategorie
+$lang['forum_erfolgsmeldung_kategorie_erstellt'] = "Die Kategorie wurde erfolgreich erstellt.";
+$lang['forum_erfolgsmeldung_kategorie_editiert'] = "Die Kategorie wurde erfolgreich editiert.";
+$lang['forum_erfolgsmeldung_kategorie_geloescht'] = "Die Kategorie %kategorie% mit allen untergeordneten Foren wurde gelöscht!";
+
+$lang['forum_fehlermeldung_kategorie_name'] = "Es wurde kein Name für die Kategorie angegeben.";
+
+
+// Erfolgs- und Fehlermeldungen für ein Forum
+$lang['forum_erfolgsmeldung_forum_erstellt'] = "Das Forum wurde erfolgreich erstellt.";
+$lang['forum_erfolgsmeldung_forum_editiert'] = "Das Forum wurde erfolgreich editiert.";
+$lang['forum_erfolgsmeldung_forum_geloescht'] = "Das Forum %forum% wurde gelöscht!";
+
+$lang['forum_fehlermeldung_forum_name'] = "Es wurde kein Name für das Forum angegeben.";
+$lang['forum_fehlermeldung_forum_nicht_geloescht'] = "Das Forum konnte nicht gelöscht werden!";
+
+
+// Erfolgs- und Fehlermeldungen für ein Thema
+$lang['forum_erfolgsmeldung_thema_verschoben'] = "Das Thema wurde erfolgreich verschoben.";
+
+$lang['forum_fehlermeldung_thema_nicht_verschoben'] = "Das Thema wurde nicht verschoben, da das gleiche Forum ausgewählt war.";
+$lang['forum_fehlermeldung_thema_gesperrt'] = "Das Thema wurde gesperrt, so dass nicht mehr darauf geantwortet werden kann.";
+$lang['forum_fehlermeldung_thema_entsperrt'] = "Das Thema wurde gesperrt, so dass wieder darauf geantwortet werden kann.";
+
 //Texte für Maske Forum
 $lang['forum_msg2'] = "Öffentlich zugänglich:";
-$lang['forum_berechtigungen_gaeste_duerfen'] = "Gäste dürfen:";
-$lang['forum_berechtigungen_benutzer_duerfen'] = "Benutzer dürfen:";
+$lang['forum_berechtigungen_gaeste_duerfen'] = "Gäste dürfen";
+$lang['forum_berechtigungen_benutzer_duerfen'] = "Benutzer dürfen";
 $lang['forum_berechtigungen_nur_lesen'] = "nur lesen";
-$lang['forum_berechtigungen__lesen_noch_schreiben'] = "lesen und schreiben";
+$lang['forum_berechtigungen_lesen_noch_schreiben'] = "lesen und schreiben";
 $lang['forum_berechtigungen_weder_lesen_noch_schreiben'] = "weder lesen noch schreiben";
 
 //Texte für Beschreibungen der Folder
@@ -85,6 +105,7 @@ $lang['geschrieben_autor'] = "Autor";
 $lang['geschrieben_am'] = "Geschrieben am ";
 
 //Texte für Maske Beiträge
+$lang['neues_thema_button'] = "Thema erstellen";
 $lang['neuer_thread_button'] = "Beitrag erstellen";
 $lang['edit_button'] = "Beitrag editieren";
 $lang['forum_titel'] = "Titel";
@@ -99,15 +120,11 @@ $lang['page'] = "Seite";
 $lang['last'] = "vorheriger";
 $lang['next'] = "nächster";
 $lang['reply'] = "Re:";
-$lang['desc_posting'] = "Bitte keine HTML-Tags im Beitrag verwenden, diese werden bei der Darstellung des Beitrags nicht berücksichtigt. Der Beitrag wird automatisch passend formatiert, wobei Zeilenumbrüche berücksichtigt werden.";
 $lang['smilies'] = "Smilies zum Einfügen anzeigen";
 
 //Texte für fehlende Eingaben
-$lang['missing_name_kategorie'] = "Es wurde kein Name für die Kategorie angegeben.<br>";
-$lang['missing_thname'] = "Sie haben keinen Namen für das Thema angegeben!<br>";
-$lang['missing_thdesc'] = "Sie haben keine Beschreibung für das Thema angegeben!<br>";
-$lang['missing_potitel'] = "Geben Sie bitte einen Titel für den Beitrag an!<br>";
-$lang['missing_potext'] = "Sie haben keinen Text für Ihren Beitrag eingegeben!<br>";
+$lang['missing_potitel'] = "Geben Sie bitte einen Titel für den Beitrag an!";
+$lang['missing_potext'] = "Sie haben keinen Text für Ihren Beitrag eingegeben!";
 
 // Sonstiges
 $lang['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";

@@ -25,9 +25,10 @@ function getChatText() {
 		var status = "";
 		for (var i = 0; i < jsonLength; i++) {
 		var result = jsonData.results[i];
-	
+		
 			html += "<div style=\"color:#" + result.c_farbe + "\">"+ result.vonuserid +"" + result.c_text + " " + result.level + "</div>";
 			lastTimeID = result.c_id;
+		
 		}
 		$('#view_ajax').append(html);
 	});

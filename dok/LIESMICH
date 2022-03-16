@@ -50,7 +50,8 @@ DirectoryIndex index.php
 
 
 In die crontab des Benutzers www ist dann noch folgender Job einzutragen:
-"0-59  0-23 * * *  /usr/bin/lynx -dump http://localhost/expire.php > /dev/null"
+"*/1 * * * *  /usr/bin/lynx -dump http://localhost/expire.php > /dev/null"
+
 
 Nach der Änderung muss der httpd die Konfigdatei neu mit einem SIGHUP einlesen:
 killall -HUP httpd

@@ -204,7 +204,7 @@ switch ($aktion) {
 	
 	case "antworten_forum":
 		// Mail beantworten, Mail quoten und Absender lesen
-		$query = pdoQuery("SELECT date_format(from_unixtime(`po_ts`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `po_titel`, `po_text`, `u_nick`, `u_id` FROM `forum_beitraege` LEFT JOIN `user` ON `po_u_id` = `u_id` WHERE `po_id` = :po_id", [':po_id'=>intval($po_vater_id)]);
+		$query = pdoQuery("SELECT date_format(from_unixtime(`beitrag_thema_timestamp`), '%d.%m.%Y, %H:%i:%s') AS `po_date`, `beitrag_titel`, `beitrag_text`, `u_nick`, `u_id` FROM `forum_beitraege` LEFT JOIN `user` ON `beitrag_user_id` = `u_id` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_thema_id]);
 		
 		$resultCount = $query->rowCount();
 		unset($row);
@@ -215,12 +215,11 @@ switch ($aktion) {
 		// Benutzername prüfen
 		if (isset($row) && $row['u_nick'] && $row['u_nick'] != "NULL") {
 			$daten['id'] = $row['u_id'];
-			if (substr($row['po_titel'], 0, 3) == "Re:") {
-				$daten['m_betreff'] = html_entity_decode($row['po_titel']);
+			if (substr($row['beitrag_titel'], 0, 3) == "Re:") {
+				$daten['m_betreff'] = html_entity_decode($row['beitrag_titel']);
 			} else {
-				$daten['m_betreff'] = "Re: " . html_entity_decode($row['po_titel']);
+				$daten['m_betreff'] = "Re: " . html_entity_decode($row['beitrag_titel']);
 			}
-			//$daten['f_text'] = erzeuge_umbruch($row['po_text'], 70);
 			$daten['f_text'] = $row['m_text'];
 			$daten['f_text'] = erzeuge_quoting($daten['f_text'], $row['u_nick'], $row['po_date']);
 			$daten['f_text'] = erzeuge_fuss($daten['f_text']);

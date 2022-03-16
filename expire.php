@@ -402,12 +402,12 @@ if ($zeit == "03:10") {
 				$arr_gelesene = unserialize($gelesene);
 				
 				// Alle Beiträge in Feld einlesen
-				$query = pdoQuery("SELECT `po_id` FROM `forum_beitraege` ORDER BY `po_id`", []);
+				$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` ORDER BY `beitrag_id`", []);
 				
 				$result = $query->fetchAll();
 				$arr_postings = array();
 				foreach($result as $zaehler => $posting) {
-					$arr_postings[] = $posting['po_id'];
+					$arr_postings[] = $posting['beitrag_id'];
 				}
 				
 				if (is_array($arr_gelesene)) {

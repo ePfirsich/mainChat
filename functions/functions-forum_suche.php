@@ -1,29 +1,29 @@
 <?php
-function show_pfad_posting2($th_id, $thread) {
+function show_pfad_posting2($forum_id, $thread) {
 	//Infos über Forum und Thema holen
-	$query = pdoQuery("SELECT `fo_id`, `fo_name`, `th_name` FROM `forum_kategorien`, `forum_foren` WHERE `th_id` = :th_id AND `fo_id` = `th_fo_id`", [':th_id'=>$th_id]);
+	$query = pdoQuery("SELECT `kat_id`, `kat_name`, `forum_name` FROM `forum_kategorien`, `forum_foren` WHERE `forum_id` = :forum_id AND `kat_id` = `forum_kategorie_id`", [':forum_id'=>$forum_id]);
 	$result = $query->fetch();
 	
-	$fo_id = $result['fo_id'];
-	$fo_name = htmlspecialchars( $result['fo_name'] );
-	$th_name = htmlspecialchars( $result['th_name'] );
+	$kat_id = $result['kat_id'];
+	$kat_name = $result['kat_name'];
+	$forum_name = $result['forum_name'];
 	
-	return "<a href=\"forum.php#$fo_id\">" . html_entity_decode($fo_name) . "</a> > <a href=\"forum.php?th_id=$th_id&aktion=show_forum&seite=1\">" . html_entity_decode($th_name) . "</a>";
+	return "<a href=\"forum.php?bereich=forum#$kat_id\">" . html_entity_decode($kat_name) . "</a> > <a href=\"forum.php?bereich=forum&forum_id=$forum_id&aktion=show_forum&seite=1\">" . html_entity_decode($forum_name) . "</a>";
 	
 }
 
 function vater_rekursiv($vater) {
-	$query = pdoQuery("SELECT `po_id`, `po_vater_id` FROM `forum_beitraege` WHERE `po_id` = :po_id", [':po_id'=>$vater]);
+	$query = pdoQuery("SELECT `beitrag_id`, `beitrag_thema_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$vater]);
 	
 	$resultCount = $query->rowCount();
 	$result = $query->fetch();
 	if ($resultCount <> 1) {
 		return -1;
-	} else if ($result['po_vater_id'] <> 0) {
-		$vater = vater_rekursiv($result['po_vater_id']);
+	} else if ($result['beitrag_thema_id'] <> 0) {
+		$vater = vater_rekursiv($result['beitrag_thema_id']);
 		return $vater;
 	} else {
-		return $result['po_id'];
+		return $result['beitrag_id'];
 	}
 }
 
@@ -34,7 +34,7 @@ function such_bereich() {
 	
 	$text = '';
 	
-	$text .= "<form action=\"forum.php\" method=\"post\">\n";
+	$text .= "<form action=\"forum.php?bereich=forum\" method=\"post\">\n";
 	$text .= "<input type=\"hidden\" name=\"aktion\" value=\"suchergebnisse\">\n";
 	$text .= "<table style=\"width:100%\">\n";
 	
@@ -46,7 +46,7 @@ function such_bereich() {
 	$text .= "<tr><td style=\"text-align:right; vertical-align:top;\" class=\"tabelle_zeile1\">$lang[suche2]</td><td class=\"tabelle_zeile1\">"
 	. "<select name=\"suche_thema\" size=\"1\" style=\"width: " . $select_breite . "px;\">";
 	
-	$query = pdoQuery("SELECT `fo_id`, `fo_admin`, `fo_name`, `th_id`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_anzthreads` <> 0 ORDER BY `fo_order`, `th_order`", []);
+	$query = pdoQuery("SELECT `kat_id`, `kat_name`, `forum_id`, `forum_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `kat_id` = `forum_kategorie_id` WHERE `forum_anzahl_themen` <> 0 ORDER BY `kat_order`, `forum_order`", []);
 	
 	$result = $query->fetchAll();
 	
@@ -57,21 +57,21 @@ function such_bereich() {
 	}
 	$text .= "value=\"ALL\">$lang[option1]</option>";
 	foreach($result as $zaehler => $thema) {
-		if (pruefe_leserechte($thema['th_id'])) {
-			if ($themaalt <> $thema['fo_name']) {
+		if (pruefe_leserechte($thema['forum_id'])) {
+			if ($themaalt <> $thema['kat_name']) {
 				$text .= "<option ";
-				if ($suche['thema'] == "B" . $thema['fo_id']) {
+				if ($suche['thema'] == "B" . $thema['kat_id']) {
 					$text .= "selected ";
 				}
-				$text .= "value=\"B" . $thema['fo_id'] . "\">" . $thema['fo_name']
+				$text .= "value=\"B" . $thema['kat_id'] . "\">" . $thema['kat_name']
 				. "</option>";
-				$themaalt = $thema['fo_name'];
+				$themaalt = $thema['kat_name'];
 			}
 			$text .= "<option ";
-			if ($suche['thema'] == "B" . $thema['fo_id'] . "T" . $thema['th_id']) {
+			if ($suche['thema'] == "B" . $thema['kat_id'] . "T" . $thema['forum_id']) {
 					$text .= "selected ";
 			}
-			$text .= "value=\"B" . $thema['fo_id'] . "T" . $thema['th_id'] . "\">&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;" . $thema['th_name'] . "</option>";
+			$text .= "value=\"B" . $thema['kat_id'] . "T" . $thema['forum_id'] . "\">&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;" . $thema['forum_name'] . "</option>";
 		}
 	}
 	$text .= "</select></td></tr>\n";
@@ -208,7 +208,7 @@ function such_ergebnis() {
 	$fehlermeldung = "";
 	$maxpostingsprosuche = 1000;
 	
-	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($u_id)]);
+	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -262,22 +262,22 @@ function such_ergebnis() {
 			
 			for ($i = 0; $i < count($suchetext); $i++) {
 				if (strlen($querytext) == 0) {
-					$querytext = "po_text LIKE \"%" . $suchetext[$i] . "%\"";
+					$querytext = "`beitrag_text` LIKE \"%" . $suchetext[$i] . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querytext .= " OR po_text LIKE \"%" . $suchetext[$i] . "%\"";
+						$querytext .= " OR `beitrag_text` LIKE \"%" . $suchetext[$i] . "%\"";
 					} else {
-						$querytext .= " AND po_text LIKE \"%" . $suchetext[$i] . "%\"";
+						$querytext .= " AND `beitrag_text` LIKE \"%" . $suchetext[$i] . "%\"";
 					}
 				}
 				
 				if (strlen($querybetreff) == 0) {
-					$querybetreff = "po_titel LIKE \"%" . $suchetext[$i] . "%\"";
+					$querybetreff = "`beitrag_titel` LIKE \"%" . $suchetext[$i] . "%\"";
 				} else {
 					if ($suche['modus'] == "O") {
-						$querybetreff .= " OR po_titel LIKE \"%" . $suchetext[$i] . "%\"";
+						$querybetreff .= " OR `beitrag_titel` LIKE \"%" . $suchetext[$i] . "%\"";
 					} else {
-						$querybetreff .= " AND po_titel LIKE \"%" . $suchetext[$i] . "%\"";
+						$querybetreff .= " AND `beitrag_titel` LIKE \"%" . $suchetext[$i] . "%\"";
 					}
 				}
 			}
@@ -285,7 +285,7 @@ function such_ergebnis() {
 			$querybetreff = " (" . $querybetreff . ") ";
 		}
 		
-		$sql = "SELECT `forum_beitraege`.*, date_format(from_unixtime(po_ts), '%d.%m.%Y, %H:%i:%s') as po_zeit, u_id, u_nick, u_level, u_punkte_gesamt, u_punkte_gruppe, u_chathomepage FROM `forum_beitraege` LEFT JOIN user ON po_u_id = u_id WHERE ";
+		$sql = "SELECT `forum_beitraege`.*, date_format(from_unixtime(beitrag_thema_timestamp), '%d.%m.%Y, %H:%i:%s') AS `po_zeit`, `u_id`, `u_nick`, `u_level`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_chathomepage` FROM `forum_beitraege` LEFT JOIN `user` ON `beitrag_user_id` = u_id WHERE ";
 		
 		$abfrage = "";
 		if ($suche['ort'] == "V" && $querybetreff <> "") {
@@ -298,37 +298,37 @@ function such_ergebnis() {
 		
 		if (isset($suche['u_id']) && $suche['u_id']) {
 			if ($abfrage == "") {
-				$abfrage = " (po_u_id = $suche[u_id]) ";
+				$abfrage = " (beitrag_user_id = $suche[u_id]) ";
 			} else {
-				$abfrage .= " AND (po_u_id = $suche[u_id]) ";
+				$abfrage .= " AND (beitrag_user_id = $suche[u_id]) ";
 			}
 		}
 		
 		$boards = "";
-		$query2 = pdoQuery("SELECT `fo_id`, `fo_admin`, `fo_name`, `th_id`, `th_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `fo_id` = `th_fo_id` WHERE `th_anzthreads` <> 0 ORDER BY `fo_order`, `th_order`", []);
+		$query2 = pdoQuery("SELECT `kat_id`, `forum_id`, `forum_name` FROM `forum_kategorien` LEFT JOIN `forum_foren` ON `kat_id` = `forum_kategorie_id` WHERE `forum_anzahl_themen` <> 0 ORDER BY `kat_order`, `forum_order`", []);
 		
 		$result2 = $query2->fetchAll();
 		foreach($result2 as $zaehler => $thema) {
-			if (pruefe_leserechte($thema['th_id'])) {
+			if (pruefe_leserechte($thema['forum_id'])) {
 				if ($suche['thema'] == "ALL") {
 					if (strlen($boards) == 0) {
-						$boards = "po_th_id = " . intval($thema['th_id']);
+						$boards = "beitrag_forum_id = " . $thema['forum_id'];
 					} else {
-						$boards .= " OR po_th_id = " . intval($thema['th_id']);
+						$boards .= " OR beitrag_forum_id = " . $thema['forum_id'];
 					}
 				} else if (preg_match("/^B([0-9])+T([0-9])+$/i", $suche['thema'])) {
 					$tempthema = substr($suche['thema'],
 						-1 * strpos($suche['thema'], "T"), 4);
-					if ($thema['th_id'] = $tempthema) {
-						$boards = "`po_th_id` = $thema[th_id]";
+					if ($thema['forum_id'] = $tempthema) {
+						$boards = "`beitrag_forum_id` = $thema[forum_id]";
 					}
 				} else if (preg_match("/^B([0-9])+$/i", $suche['thema'])) {
 					$tempboard = substr($suche['thema'], 1, 4);
-					if ($thema['fo_id'] == $tempboard) {
+					if ($thema['kat_id'] == $tempboard) {
 						if (strlen($boards) == 0) {
-							$boards = "`po_th_id` = " . intval($thema['th_id']);
+							$boards = "`beitrag_forum_id` = " . $thema['forum_id'];
 						} else {
-							$boards .= " OR `po_th_id` = " . intval($thema['th_id']);
+							$boards .= " OR `beitrag_forum_id` = " . $thema['forum_id'];
 						}
 					}
 				}
@@ -362,23 +362,23 @@ function such_ergebnis() {
 		}
 		
 		if ($sucheab > 0) {
-			$abfrage .= " AND (po_ts >= $sucheab) ";
+			$abfrage .= " AND (beitrag_thema_timestamp >= $sucheab) ";
 		}
 		
 		if ($suche['sort'] == "SZD") {
-			$abfrage .= " ORDER BY po_ts DESC";
+			$abfrage .= " ORDER BY beitrag_thema_timestamp DESC";
 		} else if ($suche['sort'] == "SZA") {
-			$abfrage .= " ORDER BY po_ts ASC";
+			$abfrage .= " ORDER BY beitrag_thema_timestamp ASC";
 		} else if ($suche['sort'] == "SBD") {
-			$abfrage .= " ORDER BY po_titel DESC, po_ts DESC";
+			$abfrage .= " ORDER BY beitrag_titel DESC, beitrag_thema_timestamp DESC";
 		} else if ($suche['sort'] == "SBA") {
-			$abfrage .= " ORDER BY po_titel ASC, po_ts ASC";
+			$abfrage .= " ORDER BY beitrag_titel ASC, beitrag_thema_timestamp ASC";
 		} else if ($suche['sort'] == "SAD") {
-			$abfrage .= " ORDER BY u_nick DESC, po_ts DESC";
+			$abfrage .= " ORDER BY u_nick DESC, beitrag_thema_timestamp DESC";
 		} else if ($suche['sort'] == "SAA") {
-			$abfrage .= " ORDER BY u_nick ASC, po_ts ASC";
+			$abfrage .= " ORDER BY u_nick ASC, beitrag_thema_timestamp ASC";
 		} else {
-			$abfrage .= " ORDER BY po_ts DESC";
+			$abfrage .= " ORDER BY beitrag_thema_timestamp DESC";
 		}
 		
 		$text = "<br>";
@@ -421,23 +421,23 @@ function such_ergebnis() {
 					$bgcolor = 'class="tabelle_zeile2"';
 				}
 				
-				if (!@in_array($fund['po_id'], $u_gelesene[$fund['po_th_id']])) {
+				if (!@in_array($fund['beitrag_id'], $u_gelesene[$fund['beitrag_forum_id']])) {
 					$col = "font-weight:bold;";
 				} else {
 					$col = '';
 				}
 				
-				$thread = vater_rekursiv($fund['po_id']);
-				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['po_th_id'], $thread) . "</span></td>";
-				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?th_id=" . $fund['po_th_id'] . "&po_id=" . $fund['po_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
-				<span style=\"font-size: smaller; $col \">" . html_entity_decode($fund['po_titel']) . "</span></a>";
+				$thread = vater_rekursiv($fund['beitrag_id']);
+				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['beitrag_forum_id'], $thread) . "</span></td>";
+				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?bereich=forum&forum_id=" . $fund['beitrag_forum_id'] . "&beitrag_id=" . $fund['beitrag_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+				<span style=\"font-size: smaller; $col \">" . html_entity_decode($fund['beitrag_titel']) . "</span></a>";
 				$text .= "</b></span></td>";
 				$text .= "<td $bgcolor><span class=\"smaller\">" . $fund['po_zeit'] . "</span></td>";
 				
 				if (!$fund['u_nick']) {
 					$text .= "<td $bgcolor><span class=\"smaller\"><b>Nobody</b></span></td>\n";
 				} else {
-					$userlink = zeige_userdetails($fund['po_u_id']);
+					$userlink = zeige_userdetails($fund['beitrag_user_id']);
 					if ($fund['u_level'] == 'Z') {
 						$text .= "<td $bgcolor><span class=\"smaller\">$fund[u_nick]</span></td>\n";
 					} else {

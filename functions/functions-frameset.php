@@ -4,7 +4,7 @@ function frameset_forum() {
 	?>
 	<frameset rows="100,*" border="0" frameborder="0" framespacing="0">
 		<frame src="navigation.php" name="navigation" marginwidth="0" marginheight="0" scrolling="no">
-		<frame src="forum.php" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
+		<frame src="forum.php?bereich=forum" name="chat" marginwidth="0" marginheight="0" scrolling="auto">
 	</frameset>
 	<noframes>
 	<?php echo $lang['login_fehlermeldung_login_fehlermeldung_frames']; ?>

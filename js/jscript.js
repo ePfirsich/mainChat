@@ -27,6 +27,6 @@ function insertAtCursor(myField, myValue) {
 }
 
 function appendtext_forum(text) {
-	insertAtCursor(document.forms['form'].elements['po_text'], text).focus();
-	document.forms['form'].elements['po_text'].focus();
+	insertAtCursor(document.forms['form'].elements['beitrag_text'], text).focus();
+	document.forms['form'].elements['beitrag_text'].focus();
 }

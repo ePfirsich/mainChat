@@ -488,7 +488,7 @@ function id_erzeuge() {
 
 function betrete_forum($o_id, $user_id, $u_nick, $u_level) {
 	// Benutzer betritt beim Login das Forum
-	global $lobby, $eintrittsraum, $lang, $system_farbe;
+	global $lobby, $eintrittsraum, $lang;
 	
 	//Daten in onlinetabelle schreiben
 	$f['o_raum'] = -1;
@@ -951,7 +951,7 @@ function zeige_chat_login() {
 			// Anzahl der Beiträge im Forum ausgeben
 			if ($forumfeatures) {
 				// Anzahl Themen
-				$query = pdoQuery("SELECT COUNT(`th_id`) AS `anzahl` FROM `forum_foren`", []);
+				$query = pdoQuery("SELECT COUNT(`forum_id`) AS `anzahl` FROM `forum_foren`", []);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
@@ -959,17 +959,8 @@ function zeige_chat_login() {
 					$themen = $result['anzahl'];
 				}
 				
-				// Dummy Themen abziehen
-				$query = pdoQuery("SELECT COUNT(`th_id`) AS `anzahl` FROM `forum_foren` WHERE `th_name` = 'dummy-thema'", []);
-				
-				$resultCount = $query->rowCount();
-				if ($resultCount > 0) {
-					$result = $query->fetch();
-					$themen = $themen - $result['anzahl'];
-				}
-				
 				// Anzahl Beiträge
-				$query = pdoQuery("SELECT COUNT(`po_id`) AS `anzahl` FROM `forum_beitraege`", []);
+				$query = pdoQuery("SELECT COUNT(`beitrag_id`) AS `anzahl` FROM `forum_beitraege`", []);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {

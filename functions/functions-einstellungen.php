@@ -3,7 +3,7 @@ function user_edit($text, $f, $admin, $u_level) {
 	// $f = Ass. Array mit Benutzerdaten
 	
 	global $level, $user_farbe, $lang;
-	global $u_id, $punktefeatures, $eintritt_individuell;
+	global $punktefeatures, $eintritt_individuell;
 	
 	// Ausgabe des Benutzers
 	$zaehler = 0;
