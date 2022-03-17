@@ -877,7 +877,7 @@ function formatDate($date, $expectedFormat = 'd. M Y', $currentFormat = 'Y-m-d')
 
 function chat_parse($text) {
 	// Filtert Text und ersetzt folgende Zeichen:
-	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</A>
+	// http://###### oder www.###### in <a href="http://###" target=_blank>http://###</a>
 	// E-Mail Adressen in A-Tag mit Mailto
 	
 	global $admin, $sprachconfig, $u_id, $u_level;

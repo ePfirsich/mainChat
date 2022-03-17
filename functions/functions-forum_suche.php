@@ -429,7 +429,7 @@ function such_ergebnis() {
 				
 				$thread = vater_rekursiv($fund['beitrag_id']);
 				$text .= "<tr><td $bgcolor><span class=\"smaller\">" . show_pfad_posting2($fund['beitrag_forum_id'], $thread) . "</span></td>";
-				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?bereich=forum&forum_id=" . $fund['beitrag_forum_id'] . "&beitrag_id=" . $fund['beitrag_id'] . "&thread=" . $thread . "&aktion=show_posting&seite=1\">
+				$text .= "<td $bgcolor><span class=\"smaller\"><b><a href=\"forum.php?bereich=forum&forum_id=" . $fund['beitrag_forum_id'] . "&beitrag_id=" . $fund['beitrag_id'] . "&thread=" . $thread . "&aktion=zeige_thema&seite=1\">
 				<span style=\"font-size: smaller; $col \">" . html_entity_decode($fund['beitrag_titel']) . "</span></a>";
 				$text .= "</b></span></td>";
 				$text .= "<td $bgcolor><span class=\"smaller\">" . $fund['po_zeit'] . "</span></td>";

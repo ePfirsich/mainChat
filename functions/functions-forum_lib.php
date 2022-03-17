@@ -514,7 +514,7 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_angepinnt, :beitrag_gesperrt, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id)",
 				[
 					':beitrag_titel'=>$beitrag_titel,
-					':beitrag_text'=>$beitrag_text,
+					':beitrag_text'=>htmlentities($beitrag_text),
 					':beitrag_thema_id'=>0,
 					':forum_id'=>$forum_id,
 					':beitrag_angepinnt'=>$beitrag_angepinnt,
@@ -528,7 +528,7 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 					VALUES (:beitrag_titel, :beitrag_text, :beitrag_thema_id, :forum_id, :beitrag_thema_timestamp, :beitrag_antwort_timestamp, :beitrag_user_id)",
 				[
 					':beitrag_titel'=>$beitrag_titel,
-					':beitrag_text'=>$beitrag_text,
+					':beitrag_text'=>htmlentities($beitrag_text),
 					':beitrag_thema_id'=>0,
 					':forum_id'=>$forum_id,
 					':beitrag_thema_timestamp'=>time(),
@@ -614,7 +614,7 @@ function editiere_beitrag($beitrag_id, $beitrag_text) {
 	pdoQuery("UPDATE `forum_beitraege` SET `beitrag_text` = :beitrag_text WHERE `beitrag_id` = :beitrag_id",
 		[
 			':beitrag_id'=>$beitrag_id,
-			':beitrag_text'=>$beitrag_text,
+			':beitrag_text'=>htmlentities($beitrag_text),
 		]);
 }
 
@@ -634,7 +634,7 @@ function schreibe_posting($beitrag_id, $forum_id, $beitrag_text) {
 	$f['beitrag_user_id'] = $u_id;
 	$f['beitrag_thema_id'] = $beitrag_thema_id;
 	$f['beitrag_titel'] = $beitrag_titel;
-	$f['beitrag_text'] = htmlspecialchars(erzeuge_umbruch($beitrag_text, 80));
+	$f['beitrag_text'] = htmlentities($beitrag_text);
 	$f['beitrag_thema_timestamp'] = time();
 	$f['beitrag_antwort_timestamp'] = time();
 	

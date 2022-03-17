@@ -482,7 +482,7 @@ function show_forum($forum_id) {
 		}
 		
 		$text .= "<tr><td style=\"text-align:center;\" $farbe>$folder</nobr></td>\n";
-		$text .= "<td $farbe class=\"smaller\">&nbsp;<b><a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$posting[beitrag_id]&&aktion=show_posting&seite=$seite\">" . html_entity_decode(substr($posting['beitrag_titel'], 0, 40)) . "</a></b></td>\n";
+		$text .= "<td $farbe class=\"smaller\">&nbsp;<b><a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$posting[beitrag_id]&&aktion=zeige_thema&seite=$seite\">" . html_entity_decode(substr($posting['beitrag_titel'], 0, 40)) . "</a></b></td>\n";
 		
 		if (!$posting['u_nick']) {
 			$text .= "<td $farbe><span class=\"smaller\"><b>Nobody</b></span></td>\n";

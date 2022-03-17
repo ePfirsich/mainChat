@@ -438,7 +438,7 @@ if($bereich == "forum") {
 			}
 		break;
 		
-		case "show_posting":
+		case "zeige_thema":
 			$leserechte = pruefe_leserechte(hole_foren_id_anhand_posting_id($beitrag_id));
 			if ($leserechte && zeige_forenthema($beitrag_id)) {
 				// Thema zeigen
