@@ -115,7 +115,8 @@ zeige_tabelle_zentriert($box, $text);
 
 // Nur Foren-Admins dürfen Kategorien und Foren anlegen und editieren
 if(!$forum_admin) {
-	$nur_admin_seiten = array('kategorie_aendern', 'kategorie_up', 'kategorie_down', 'kategorie_delete', 'forum_aendern', 'forum_up', 'forum_down', 'forum_delete', 'verschiebe_thema', 'delete_posting');
+	$nur_admin_seiten = array('kategorie_aendern', 'kategorie_up', 'kategorie_down', 'kategorie_delete', 'forum_aendern', 'forum_up', 'forum_down', 'forum_delete',
+								'loesche_thema', 'verschiebe_thema', 'loesche_beitrag');
 	if(in_array($aktion, $nur_admin_seiten, true)) {
 		$aktion = "";
 	}
@@ -604,14 +605,33 @@ if($bereich == "forum") {
 			}
 		break;
 		
-		case "delete_posting":
-			$text .= loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id);
+		case "loesche_beitrag":
+			if($beitrag_thema_id != null && $beitrag_thema_id != "" && $beitrag_thema_id != 0) {
+				$text .= beitrag_loeschen($forum_id, $beitrag_id);
+				
+				// Thema zeigen
+				$box = $lang['forum_kopfzeile_thema'];
+				$text .= zeige_forenthema($beitrag_thema_id);
+				zeige_tabelle_zentriert($box, $text);
+				
+				markiere_als_gelesen($beitrag_id, $u_id, $forum_id);
+			} else {
+				// Keine Berechtigung oder kein Thema gefunden -> Forenübersicht anzeigen
+				$box = $lang['forum_kopfzeile_forenuebersicht'];
+				
+				$text .= forum_liste();
+				zeige_tabelle_zentriert($box, $text);
+			}
+		break;
+		
+		case "loesche_thema":
+			$text .= thema_loeschen($forum_id, $beitrag_thema_id, $beitrag_id);
 			
 			// Forum anzeigen
 			$box = $lang['forum_kopfzeile_forum'];
 			$text .= show_forum($forum_id);
 			zeige_tabelle_zentriert($box, $text);
-			break;
+		break;
 		
 		case "verschiebe_thema":
 			// Thema verschieben

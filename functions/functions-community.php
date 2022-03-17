@@ -270,7 +270,6 @@ function punkte_offline($anzahl, $user_id) {
 	}
 	
 	return ($text);
-	
 }
 
 function aktion($user_id, $typ, $an_u_id, $u_nick, $suche_was = "", $inhalt = "") {

@@ -418,7 +418,7 @@ function show_forum($forum_id) {
 	
 	$schreibrechte = pruefe_schreibrechte($forum_id);
 	if ($schreibrechte) {
-		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&aktion=thema_aendern\" class=\"button\" title=\"$lang[thema_erstellen]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$lang[thema_erstellen]</span></a>\n";
+		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&aktion=thema_aendern\" class=\"button\" title=\"$lang[forum_thema_erstellen]\"><span class=\"fa-solid fa-plus icon16\"></span> <span>$lang[forum_thema_erstellen]</span></a>\n";
 	} else {
 		$text .= "<span class=\"smaller\">$lang[nur_leserechte]</span><br>\n";
 	}
@@ -800,13 +800,20 @@ function maske_beitrag_editieren($beitrag_id, $beitrag_text, $forum_id, $u_layou
 }
 
 //Zeigt die gutgeschriebenen Punkte an
-function verbuche_punkte($u_id) {
-	global $lang, $punkte_pro_posting;
-	global $punktefeatures;
+function verbuche_punkte($u_id, $add_or_subtract) {
+	global $punkte_pro_posting, $punktefeatures;
 	
+	$text = "";
 	if ($punktefeatures) {
-		$erfolgsmeldung = $lang['forum_punkte1'] . punkte_offline($punkte_pro_posting, $u_id);
-		$text = hinweis($erfolgsmeldung, "erfolgreich");
+		if($add_or_subtract == "add") {
+			// add
+			$erfolgsmeldung = punkte_offline($punkte_pro_posting, $u_id);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		} else {
+			// subtract
+			$erfolgsmeldung = punkte_offline($punkte_pro_posting * (-1), $u_id);
+			$text .= hinweis($erfolgsmeldung, "erfolgreich");
+		}
 	}
 	
 	return $text;
@@ -846,22 +853,22 @@ function navigation_thema($beitrag_thema_id, $beitrag_id, $beitrag_titel, $beitr
 	// Darf der Benutzer einen Beitrag bearbeiten?
 	// Entweder eigenes posting oder forum_admin
 	if ( ((($u_id == $beitrag_user_id && !$threadgesperrt) || $forum_admin) && $schreibrechte) && $ist_navigation_top ) {
-		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=thema_aendern&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
+		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=thema_aendern&seite=$seite\" class=\"button\" title=\"$lang[forum_thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[forum_thema_editieren]</span></a>\n";
 	}
 	
 	if ($schreibrechte && !$threadgesperrt && !$ist_navigation_top) {
-		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&aktion=answer&seite=$seite\" class=\"button\" title=\"$lang[thema_antworten]\"><span class=\"fa-solid fa-reply icon16\"></span> <span>$lang[thema_antworten]</span></a>\n";
+		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&aktion=answer&seite=$seite\" class=\"button\" title=\"$lang[forum_thema_antworten]\"><span class=\"fa-solid fa-reply icon16\"></span> <span>$lang[forum_thema_antworten]</span></a>\n";
 	}
 
 	//Nur Forum-Admins dürfen Beiträge loeschen
 	if ($forum_admin && $ist_navigation_top) {
 		if($threadgesperrt) {
-			$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[thema_entsperren]\"><span class=\"fa-solid fa-lock-open icon16\"></span> <span>$lang[thema_entsperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[forum_thema_entsperren]\"><span class=\"fa-solid fa-lock-open icon16\"></span> <span>$lang[forum_thema_entsperren]</span></a>\n";
 		} else {
-			$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[thema_sperren]</span></a>\n";
+			$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_id=$beitrag_id&aktion=sperre_thema&seite=$seite\" class=\"button\" title=\"$lang[forum_thema_sperren]\"><span class=\"fa-solid fa-lock icon16\"></span> <span>$lang[forum_thema_sperren]</span></a>\n";
 		}
-		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&beitrag_id=$beitrag_id&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
-		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&beitrag_id=$beitrag_id&aktion=verschiebe_thema&seite=$seite\" class=\"button\" title=\"$lang[thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$lang[thema_verschieben]</span></a>\n";
+		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&beitrag_id=$beitrag_id&aktion=loesche_thema&seite=$seite\" onClick=\"return ask('$lang[forum_thema_loeschen_abfrage]')\" class=\"button\" title=\"$lang[forum_thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[forum_thema_loeschen]</span></a>\n";
+		$text .= "<a href=\"forum.php?bereich=forum&forum_id=$forum_id&beitrag_thema_id=$beitrag_thema_id&beitrag_id=$beitrag_id&aktion=verschiebe_thema&seite=$seite\" class=\"button\" title=\"$lang[forum_thema_verschieben]\"><span class=\"fa-solid fa-arrows icon16\"></span> <span>$lang[forum_thema_verschieben]</span></a>\n";
 	}
 	$text .= "</td>\n";
 	$text .= "</tr>\n";
@@ -1064,16 +1071,16 @@ function zeige_forenthema($beitrag_id) {
 			// Darf der Benutzer den Beitrag bearbeiten?
 			// Entweder eigenes posting oder forum_admin
 			if ( (($u_id == $beitrag['beitrag_user_id']) || $forum_admin) && $schreibrechte ) {
-				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_thema_id&beitrag_id=" . $beitrag['beitrag_id'] . "&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[thema_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[thema_editieren]</span></a>\n";
+				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_thema_id&beitrag_id=" . $beitrag['beitrag_id'] . "&aktion=edit&seite=$seite\" class=\"button\" title=\"$lang[forum_beitrag_editieren]\"><span class=\"fa-solid fa-pencil icon16\"></span> <span>$lang[forum_beitrag_editieren]</span></a>\n";
 			}
 			
 			if ($schreibrechte) {
-				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_id&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[thema_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[thema_zitieren]</span></a>\n";
+				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_id&aktion=reply&seite=$seite\" class=\"button\" title=\"$lang[forum_beitrag_zitieren]\"><span class=\"fa-solid fa-quote-right icon16\"></span> <span>$lang[forum_beitrag_zitieren]</span></a>\n";
 			}
 			
 			//Nur Forum-Admins dürfen Beiträge löschen
 			if ($forum_admin && $zaehler != 0) {
-				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_thema_id&beitrag_id=" . $beitrag['beitrag_id'] . "&aktion=delete_posting&seite=$seite\" onClick=\"return ask('$lang[thema_loeschen2]')\" class=\"button\" title=\"$lang[thema_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[thema_loeschen]</span></a>\n";
+				$text .= "<a href=\"forum.php?bereich=forum&forum_id=" . $beitrag['beitrag_forum_id'] . "&beitrag_thema_id=$beitrag_thema_id&beitrag_id=" . $beitrag['beitrag_id'] . "&aktion=loesche_beitrag&seite=$seite\" onClick=\"return ask('$lang[forum_beitrag_loeschen_abfrage]')\" class=\"button\" title=\"$lang[forum_beitrag_loeschen]\"><span class=\"fa-solid fa-trash icon16\"></span> <span>$lang[forum_beitrag_loeschen]</span></a>\n";
 			}
 			$text .= "</td>\n";
 			$text .= "</tr>\n";

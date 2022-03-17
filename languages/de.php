@@ -349,8 +349,8 @@ $lang['punkte17'] = "%user% peitscht sich ekstatisch aus und verliert %punkte% P
 $lang['punkte18'] = "%user% geht in ein Bordell und verliert %punkte% Punkte!";
 $lang['punkte19'] = "%user% geht in ein Casino und verliert %punkte% Punkte!";
 $lang['punkte20'] = "%user% muss zum Finanzamt und verliert %punkte% Punkte!";
-$lang['punkte21'] = "%user% wurden %punkte% Punkte gutgeschrieben!";
-$lang['punkte22'] = "%user% wurden %punkte% Punkte abgezogen!";
+$lang['punkte21'] = "Dem Benutzer %user% wurden %punkte% Punkte gutgeschrieben!";
+$lang['punkte22'] = "Dem Benutzer %user% wurden %punkte% Punkte abgezogen!";
 $lang['punkte23'] = "Einem Gast können keine Punkte gutgeschrieben werden!";
 
 //Texte für automatische generierung des Beitrags

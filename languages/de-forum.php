@@ -18,12 +18,14 @@ $lang['forum_kopfzeile_beitrag_editieren'] = "Beitrag editieren";
 $lang['forum_kopfzeile_forum'] = "Forum";
 $lang['forum_kopfzeile_thema'] = "Thema";
 
+
 // Buttons
 $lang['forum_button_editieren'] = "editieren";
 $lang['forum_button_loeschen'] = "löschen";
 $lang['forum_button_neues_forum'] = "Neues Forum";
 $lang['forum_button_suche'] = "Forum durchsuchen";
 $lang['forum_button_speichern'] = "Speichern";
+
 
 // Kategorien
 $lang['forum_kategorie_name'] = "Name der Kategorie";
@@ -33,7 +35,6 @@ $lang['forum_kategorie_themen'] = "Themen";
 $lang['forum_kategorie_beitraege'] = "Beiträge";
 $lang['forum_kategorie_loeschen'] = "Wollen Sie die komplette Kategorie mit ALLEN Foren und Themen löschen?";
 
-$lang['forum_thema_geloescht'] = "Das Thema/Der Beitrag wurde gelöscht!";
 
 // Foren
 $lang['forum_name'] = "Name des Forums:";
@@ -47,17 +48,23 @@ $lang['forum_letzte_Antwort'] = "Letzte Antwort";
 $lang['forum_thema_erstellt_am'] = "Thema erstellt am";
 $lang['forum_anzahl_antworten'] = "Anzahl an Antworten";
 
+
 // Themen
-$lang['thema_erstellen'] = "Neues Thema erstellen";
-$lang['thema_antworten'] = "antworten";
-$lang['thema_editieren'] = "editieren";
-$lang['thema_zitieren'] = "zitieren";
-$lang['thema_sperren'] = "sperren";
-$lang['thema_entsperren'] = "entsperren";
-$lang['thema_loeschen'] = "löschen";
-$lang['thema_loeschen2'] = "Wollen Sie diesen Beitrag wirklich löschen? Es werden auch ALLE ANTWORTEN AUF DIESEN Beitrag gelöscht!";
-$lang['thema_verschieben'] = "verschieben";
-$lang['thema_weiterleiten'] = "weiterleiten";
+$lang['forum_thema_erstellen'] = "Neues Thema erstellen";
+$lang['forum_thema_antworten'] = "antworten";
+$lang['forum_thema_editieren'] = "editieren";
+$lang['forum_thema_sperren'] = "sperren";
+$lang['forum_thema_entsperren'] = "entsperren";
+$lang['forum_thema_loeschen'] = "löschen";
+$lang['forum_thema_loeschen_abfrage'] = "Wollen Sie dieses Thema wirklich löschen? Es werden auch alle Beiträge in diesem Thema gelöscht!";
+$lang['forum_thema_verschieben'] = "verschieben";
+
+
+// Beiträge
+$lang['forum_beitrag_editieren'] = "editieren";
+$lang['forum_beitrag_zitieren'] = "zitieren";
+$lang['forum_beitrag_loeschen'] = "löschen";
+$lang['forum_beitrag_loeschen_abfrage'] = "Wollen Sie diesen Beitrag wirklich löschen?";
 
 
 // Erfolgs- und Fehlermeldungen für eine Kategorie
@@ -81,6 +88,7 @@ $lang['forum_fehlermeldung_forum_nicht_geloescht'] = "Das Forum konnte nicht gel
 $lang['forum_erfolgsmeldung_thema_erstellt'] = "Das Thema wurde erfolgreich erstellt.";
 $lang['forum_erfolgsmeldung_thema_editiert'] = "Das Thema wurde erfolgreich editiert.";
 $lang['forum_erfolgsmeldung_thema_verschoben'] = "Das Thema wurde erfolgreich verschoben.";
+$lang['forum_erfolgsmeldung_thema_geloescht'] = "Das Thema wurde erfolgreich gelöscht.";
 
 $lang['forum_fehlermeldung_thema_titel'] = "Es wurde kein Titel für das Thema angegeben.";
 $lang['forum_fehlermeldung_thema_text'] = "Es wurde kein Text für das Thema eingegeben.";
@@ -89,11 +97,30 @@ $lang['forum_fehlermeldung_thema_nicht_verschoben'] = "Das Thema wurde nicht ver
 $lang['forum_fehlermeldung_thema_gesperrt'] = "Das Thema wurde gesperrt, so dass nicht mehr darauf geantwortet werden kann.";
 $lang['forum_fehlermeldung_thema_entsperrt'] = "Das Thema wurde gesperrt, so dass wieder darauf geantwortet werden kann.";
 
+
 // Erfolgs- und Fehlermeldungen für Beiträge
 $lang['forum_fehlermeldung_beitrag_text'] = "Es wurde kein Text für den Beitrag eingegeben.";
 
 $lang['forum_erfolgsmeldung_beitrag_erstellt'] = "Der Beitrag wurde erfolgreich erstellt.";
 $lang['forum_erfolgsmeldung_beitrag_editiert'] = "Der Beitrag wurde erfolgreich editiert.";
+$lang['forum_erfolgsmeldung_beitrag_geloescht'] = "Der Beitrag wurde erfolgreich gelöscht.";
+
+
+// Erfolgs- und Fehlermeldungen für Punkte gutschreiben und abziehen
+$lang['forum_erfolgsmeldung_punkte_hinzugefuegt'] = "Ihr Beitrag wird mit Punkten belohnt: ";
+$lang['forum_erfolgsmeldung_punkte_abgezogen'] = "Es werden folgende Punkte abgezogen: ";
+
+
+// Erfolgs- und Fehlermeldungen für die Suche
+$lang['forum_suche_fehlermeldung_benutzername'] = "Benutzername enthält ungültige Zeichen.";
+$lang['forum_suche_fehlermeldung_benutzername_unbekannt'] = "Der Benutzername %u_nick% ist unbekannt.";
+$lang['forum_suche_fehlermeldung_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
+$lang['forum_suche_fehlermeldung_sucheinstellung_woerter'] = "Sucheinstellung 'Wörter' falsch!";
+$lang['forum_suche_fehlermeldung_sucheinstellung_ort'] = "Sucheinstellung 'Suchort' falsch!";
+$lang['forum_suche_fehlermeldung_falsches_thema'] = "Es wurde ein falsches Forum / Thema ausgewählt!";
+
+$lang['forum_suche_erfolgsmeldung'] = "Es wurden %anzahl% Suchergebnisse gefunden.";
+
 
 //Texte für Maske Forum
 $lang['forum_msg2'] = "Öffentlich zugänglich:";
@@ -119,11 +146,8 @@ $lang['geschrieben_am'] = "Geschrieben am ";
 //Texte für Maske Beiträge
 $lang['neues_thema_button'] = "Thema erstellen";
 $lang['neuer_thread_button'] = "Beitrag erstellen";
-$lang['edit_button'] = "Beitrag editieren";
 $lang['forum_titel'] = "Titel";
 $lang['forum_beitrag'] = "Beitrag";
-$lang['posting_msg3'] = "Autor";
-$lang['posting_msg4'] = "(Benutzername oder Benutzer_ID)";
 $lang['posting_thema_anpinnen'] = "Thema anpinnen";
 $lang['posting_thema_gesperrt'] = "Thema gesperrt";
 $lang['posting_ja'] = "Ja";
@@ -132,12 +156,9 @@ $lang['page'] = "Seite";
 $lang['last'] = "vorheriger";
 $lang['next'] = "nächster";
 $lang['reply'] = "Re:";
-$lang['smilies'] = "Smilies zum Einfügen anzeigen";
+
 
 // Sonstiges
-$lang['forum_punkte1'] = "Ihr Beitrag wird mit Punkten belohnt: ";
-$lang['forum_punkte2'] = "Die Punkte werden gelöscht: ";
-
 $lang['nur_leserechte'] = "[SIE DÜRFEN DIESES FORUM NUR LESEN]";
 
 //Texte fürs Verschieben
@@ -177,13 +198,4 @@ $lang['option20'] = "Sortierung nach Autor - Aufsteigend";
 
 $lang['forum'] = "Forum";
 $lang['betreff'] = "Betreff";
-
-$lang['forum_suche_fehlermeldung_benutzername'] = "Benutzername enthält ungültige Zeichen.";
-$lang['forum_suche_fehlermeldung_benutzername_unbekannt'] = "Der Benutzername %u_nick% ist unbekannt.";
-$lang['forum_suche_fehlermeldung_zeitangabe'] = "Entweder Suchwörter oder Benutzername muss bei dieser Zeitangabe angegeben werden.";
-$lang['forum_suche_fehlermeldung_sucheinstellung_woerter'] = "Sucheinstellung 'Wörter' falsch!";
-$lang['forum_suche_fehlermeldung_sucheinstellung_ort'] = "Sucheinstellung 'Suchort' falsch!";
-$lang['forum_suche_fehlermeldung_falsches_thema'] = "Es wurde ein falsches Forum / Thema ausgewählt!";
-
-$lang['forum_suche_erfolgsmeldung'] = "Es wurden %anzahl% Suchergebnisse gefunden.";
 ?>

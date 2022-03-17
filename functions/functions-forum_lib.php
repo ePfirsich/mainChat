@@ -566,7 +566,7 @@ function erstelle_editiere_thema($beitrag_id, $beitrag_titel, $beitrag_text, $fo
 				':forum_id'=>$forum_id
 			]);
 		
-		$text .= verbuche_punkte($u_id);
+		$text .= verbuche_punkte($u_id, "add");
 	} else {
 		// Thema editieren
 		if($forum_admin) {
@@ -689,14 +689,54 @@ function schreibe_posting($beitrag_id, $forum_id, $beitrag_text) {
 	//Tabellen wieder freigeben
 	pdoQuery("UNLOCK TABLES", []);
 	
-	$text .= verbuche_punkte($u_id);
+	$text .= verbuche_punkte($u_id, "add");
 	
 	return array($text, $new_beitrag_id);
 }
 
-//loescht den Beitrag und alle Antworten darauf
-function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
-	global $arr_delete, $punkte_pro_posting, $lang;
+// Löscht einen Beitrag aus einem Thema
+function beitrag_loeschen($forum_id, $beitrag_id) {
+	global $lang;
+	
+	$text = "";
+	$query = pdoQuery("SELECT `forum_anzahl_antworten`, `forum_beitraege` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
+	$result = $query->fetch();
+	$postings = $result['forum_beitraege'];
+	$anzreplys = $result['forum_anzahl_antworten'];
+	
+	//in array einlesen und zu loeschende rausschmeissen
+	$arr_delete = array();
+	$arr_new_postings = explode(",", $postings);
+	$arr_new_postings = array_diff($arr_new_postings, $arr_delete);
+	$new_postings = implode(",", $arr_new_postings);
+	
+	// forum_anzahl_antworten neu schreiben
+	$anzreplys = $anzreplys --;
+	pdoQuery("UPDATE `forum_foren` SET `forum_anzahl_antworten` = :forum_anzahl_antworten, `forum_beitraege` = :forum_beitraege WHERE `forum_id` = :forum_id",
+		[
+			':forum_anzahl_antworten'=>$anzreplys,
+			':forum_beitraege'=>$new_postings,
+			':forum_id'=>$forum_id
+		]);
+	
+	$query = pdoQuery("SELECT `beitrag_user_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	$result = $query->fetch();
+	
+	pdoQuery("DELETE FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>$beitrag_id]);
+	
+	
+	$erfolgsmeldung = $lang['forum_erfolgsmeldung_beitrag_geloescht'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
+	$text .= verbuche_punkte($result['beitrag_user_id'], "subtract");
+	
+	
+	return $text;
+}
+
+// Löscht ein Thema und alle Beitrage davon
+function thema_loeschen($forum_id, $beitrag_thema_id, $beitrag_id) {
+	global $arr_delete, $lang;
 	
 	$text = "";
 	$arr_delete = array();
@@ -705,8 +745,15 @@ function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 	pdoQuery("LOCK TABLES `forum_beitraege` WRITE, `forum_foren` WRITE", []);
 	
 	//rekursiv alle zu loeschenden postings in feld einlesen
-	$arr_delete[] = $beitrag_id;
-	hole_alle_unter($beitrag_id);
+	$arr_delete[] = $beitrag_thema_id;
+	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_thema_id'=>$beitrag_thema_id]);
+	$resultCount = $query->rowCount();
+	if ($resultCount > 0) {
+		$result = $query->fetchAll();
+		foreach($result as $zaehler => $posting) {
+			$arr_delete[] = $posting['beitrag_id'];
+		}
+	}
 	
 	//eintragungen im Forum neu schreiben
 	$query = pdoQuery("SELECT `forum_anzahl_themen`, `forum_anzahl_antworten`, `forum_beitraege` FROM `forum_foren` WHERE `forum_id` = :forum_id", [':forum_id'=>$forum_id]);
@@ -724,12 +771,8 @@ function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 	$new_postings = implode(",", $arr_new_postings);
 	
 	//forum_anzahl_themen und forum_anzahl_antworten neu schreiben
-	if ($beitrag_id == $beitrag_thema_id) {
-		$anzthreads--;
-		$anzreplys = $anzreplys - count($arr_delete) + 1;
-	} else {
-		$anzreplys = $anzreplys - count($arr_delete);
-	}
+	$anzthreads--;
+	$anzreplys = $anzreplys - count($arr_delete) + 1;
 	
 	pdoQuery("UPDATE `forum_foren` SET `forum_anzahl_themen` = :forum_anzahl_themen, `forum_anzahl_antworten` = :forum_anzahl_antworten, `forum_beitraege` = :forum_beitraege WHERE `forum_id` = :forum_id",
 		[
@@ -739,19 +782,21 @@ function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 			':forum_id'=>$forum_id
 		]);
 	
+	$erfolgsmeldung = $lang['forum_erfolgsmeldung_thema_geloescht'];
+	$text .= hinweis($erfolgsmeldung, "erfolgreich");
+	
 	// Punkte abziehen
 	reset($arr_delete);
-	$zusammenfassung = "";
 	foreach($arr_delete as $k => $v) {
 		$query = pdoQuery("SELECT `beitrag_user_id` FROM `forum_beitraege` WHERE `beitrag_id` = :beitrag_id", [':beitrag_id'=>intval($v)]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
 			$result = $query->fetch();
-			$zusammenfassung .= $lang['forum_punkte2'] . punkte_offline($punkte_pro_posting * (-1), $result['beitrag_user_id']) . "<br>";
+			
+			$text .= verbuche_punkte($result['beitrag_user_id'], "subtract");
 		}
 	}
-	$text .= hinweis($zusammenfassung, "erfolgreich");
 	
 	reset($arr_delete);
 	foreach($arr_delete as $k => $v) {
@@ -761,27 +806,8 @@ function loesche_posting($forum_id, $beitrag_thema_id, $beitrag_id) {
 	//Tabellen wieder freigeben
 	pdoQuery("UNLOCK TABLES", []);
 	
-	$erfolgsmeldung = $lang['forum_thema_geloescht'];
-	$text .= hinweis($erfolgsmeldung, "erfolgreich");
-	
 	return $text;
 	
-}
-
-//holt zum Löschen alle Beiträge unterhalb des vaters
-function hole_alle_unter($vater_id) {
-	global $arr_delete;
-	
-	$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id", [':beitrag_thema_id'=>$vater_id]);
-	
-	$resultCount = $query->rowCount();
-	if ($resultCount > 0) {
-		$result = $query->fetchAll();
-		foreach($result as $zaehler => $posting) {
-			$arr_delete[] = $posting['beitrag_id'];
-			hole_alle_unter($posting['beitrag_id']);
-		}
-	}
 }
 
 function verschiebe_thema_ausfuehren($beitrag_id, $beitrag_forum_id, $beitrag_forum_id_neu) {
