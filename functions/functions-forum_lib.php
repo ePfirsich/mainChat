@@ -55,7 +55,11 @@ function hole_themen_id_anhand_posting_id($beitrag_id) {
 	$resultCount = $query->rowCount();
 	if($resultCount == 1) {
 		$result = $query->fetch();
-		return $result['beitrag_thema_id'];
+		if($result['beitrag_thema_id'] == 0) {
+			return $beitrag_id;
+		} else {
+			return $result['beitrag_thema_id'];
+		}
 	} else {
 		return 0;
 	}
@@ -200,7 +204,7 @@ function thread_alles_gelesen($forum_id, $thread_id, $u_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if ( !isset($u_gelesene) || !$u_gelesene || !$u_gelesene[$forum_id]) {
+	if ( !isset($u_gelesene) || !$u_gelesene || !isset($u_gelesene[$forum_id]) || !$u_gelesene[$forum_id]) {
 		$u_gelesene[$forum_id] = array();
 	}
 	
@@ -263,7 +267,7 @@ function anzahl_ungelesener_themen(&$arr_postings, $forum_id) {
 	}
 	
 	//kein Beitrag gelesen --> alle ungelesen
-	if ( !$u_gelesene || !$u_gelesene[$forum_id]) {
+	if ( !isset($u_gelesene) || !$u_gelesene || !isset($u_gelesene[$forum_id]) || !$u_gelesene[$forum_id]) {
 		$u_gelesene = array();
 		return count($arr_postings);
 	}
