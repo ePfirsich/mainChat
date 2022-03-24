@@ -19,12 +19,9 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 // Hole alle benötigten Einstellungen des Benutzers
 $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
-$meta_refresh = "";
-// Kein Refresh für die Smilies
-if($aktion != "smilies") {
-	// Normalerweise kein Refresh nötig, aber da Browser den Tab freezen, kann die Userliste nicht aktuell sein
-	$meta_refresh .= '<meta http-equiv="refresh" content="60; URL=user.php?aktion='.$aktion.'">';
-}
+// Normalerweise kein Refresh nötig, aber da Browser den Tab freezen, kann die Userliste nicht aktuell sein
+$meta_refresh = '<meta http-equiv="refresh" content="30; URL=user.php?aktion='.$aktion.'">';
+
 $title = $body_titel . ' - Benutzer';
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
 
