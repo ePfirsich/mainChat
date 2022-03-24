@@ -796,7 +796,7 @@ function postings_neu($an_u_id, $nachricht) {
 	global $lang, $system_farbe;
 	
 	//schon gelesene Beiträge des Benutzers holen
-	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>intval($an_u_id)]);
+	$query = pdoQuery("SELECT `u_gelesene_postings` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$an_u_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
@@ -805,15 +805,13 @@ function postings_neu($an_u_id, $nachricht) {
 	}
 	$u_gelesene = unserialize($gelesene);
 	
-	//alle eigenen Beiträge des Benutzers mit allen Antworten 
-	//die RegExp matcht auf die Beitrags-ID im Feld Themenorder
-	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32
-	//in 131,132,133 nicht matcht) oder am Anfang oder Ende
+	//alle eigenen Beiträge des Benutzers mit allen Antworten die RegExp matcht auf die Beitrags-ID im Feld Themenorder
+	//entweder mit vorher und nachher keiner Zahl (damit z.B. 32 in 131,132,133 nicht matcht) oder am Anfang oder Ende
 	$query = pdoQuery("SELECT a.beitrag_id AS beitrag_id_own, a.beitrag_forum_id AS beitrag_forum_id, a.beitrag_titel as po_titel_own, date_format(from_unixtime(a.beitrag_thema_timestamp), '%d.%m.%Y %H:%i') as po_date_own, forum_name, kat_name,
 		b.beitrag_id as beitrag_id_reply, b.beitrag_user_id as po_u_id_reply, b.beitrag_titel as po_titel_reply, date_format(from_unixtime(b.beitrag_thema_timestamp), '%d.%m.%Y %H:%i') as po_date_reply,
 		u_nick, a.beitrag_id as beitrag_id_thread
 		FROM `forum_beitraege` a, `forum_beitraege` b, `forum_foren`, `forum_kategorien`, user 
-		WHERE a.beitrag_user_id = :beitrag_user_id AND a.beitrag_id = b.beitrag_thema_id AND a.beitrag_forum_id = forum_id AND `kat_id = `forum_kategorie_id` AND b.beitrag_user_id = u_id AND a.beitrag_user_id <> b.beitrag_user_id", [':beitrag_user_id'=>intval($an_u_id)]);
+		WHERE a.beitrag_user_id = :beitrag_user_id AND a.beitrag_id = b.beitrag_thema_id AND a.beitrag_forum_id = forum_id AND `kat_id` = `forum_kategorie_id` AND b.beitrag_user_id = u_id AND a.beitrag_user_id <> b.beitrag_user_id", [':beitrag_user_id'=>$an_u_id]);
 	
 	$result = $query->fetchAll();
 	
