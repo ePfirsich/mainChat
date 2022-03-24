@@ -33,24 +33,6 @@ if ( !file_exists($filenameConfig) ) {
 	</html>
 	<?php
 	exit;
-} else if (ini_get('output_buffering') >= 1) {
-	?>
-	<!DOCTYPE html>
-	<html dir="ltr" lang="de">
-	<head>
-		<title>mainChat</title>
-		<meta charset="utf-8">
-	</head>
-	<body>
-		<table style="width:100%; border:0px;">
-			<tr style="color:#ff0000; font-weigth:bold;">
-				<td>FEHLER: Der Chat funktioniert nur, wenn PHP: \"output_buffering\" auf 0 steht!</td>
-			</tr>
-		</table>
-	</body>
-	</html>
-	<?php
-	exit;
 } else {
 	require $filenameConfig;
 	
