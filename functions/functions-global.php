@@ -770,14 +770,25 @@ function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FAL
 				$benutzerdaten['u_online'] = null;
 				$benutzerdaten['u_login'] = $result['u_login'];
 			} else {
+				$benutzerdaten['u_id'] = 0;
+				$benutzerdaten['u_nick'] = "ehemaliges Mitglied";
+				$benutzerdaten['u_level'] = "G";
+				$benutzerdaten['u_punkte_anzeigen'] = 1;
+				$benutzerdaten['u_punkte_gruppe'] = 0;
+				$benutzerdaten['u_nachrichten_empfangen'] = 0;
+				$benutzerdaten['u_chathomepage'] = 0;
+				$benutzerdaten['u_online'] = null;
+				$benutzerdaten['u_login'] = null;
+				
+				/*
 				$nachricht = "Fehler: Falscher Aufruf von zeige_userdetails() für den Benutzer ";
 				$nachricht_titel = $nachricht;
 				if (isset($zeige_user_id)) {
 					$nachricht .= $zeige_user_id;
 				}
-				
 				global $kontakt;
 				email_senden($kontakt, $nachricht_titel, $nachricht);
+				*/
 				
 				return '';
 			}
