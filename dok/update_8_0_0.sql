@@ -41,10 +41,10 @@ ALTER TABLE `forum_beitraege` CHANGE `po_text` `beitrag_text` LONGTEXT CHARACTER
 ALTER TABLE `forum_beitraege` CHANGE `po_threadgesperrt` `beitrag_gesperrt` INT(1) UNSIGNED NOT NULL DEFAULT '0'; 
 ALTER TABLE `forum_beitraege` CHANGE `po_topposting` `beitrag_angepinnt` INT(1) UNSIGNED NOT NULL DEFAULT '0';
 
-ALTER TABLE `forum_beitraege` RENAME INDEX `po_th_id` TO `beitrag_forum_id`;
-ALTER TABLE `forum_beitraege` RENAME INDEX `po_u_id` TO `beitrag_user_id`;
-ALTER TABLE `forum_beitraege` RENAME INDEX `po_vater_id` TO `beitrag_thema_id`;
-ALTER TABLE `forum_beitraege` RENAME INDEX `po_themasort` TO `beitrag_themasort`;
+ALTER TABLE `forum_beitraege` DROP INDEX `po_th_id`, ADD INDEX `beitrag_forum_id` (`beitrag_forum_id`) USING BTREE;
+ALTER TABLE `forum_beitraege` DROP INDEX `po_u_id`, ADD INDEX `beitrag_user_id` (`beitrag_user_id`) USING BTREE;
+ALTER TABLE `forum_beitraege` DROP INDEX `po_vater_id`, ADD INDEX `beitrag_thema_id` (`beitrag_thema_id`) USING BTREE;
+ALTER TABLE `forum_beitraege` DROP INDEX `po_themasort`, ADD INDEX `beitrag_themasort` (`beitrag_forum_id`, `beitrag_thema_id`, `beitrag_antwort_timestamp`, `beitrag_thema_timestamp`) USING BTREE;
 
-ALTER TABLE `forum_foren` RENAME INDEX `th_fo_id` TO `forum_kategorie_id`;
-ALTER TABLE `forum_foren` RENAME INDEX `th_name` TO `forum_name`;
+ALTER TABLE `forum_foren` DROP INDEX `th_fo_id`, ADD INDEX `forum_kategorie_id` (`forum_kategorie_id`) USING BTREE;
+ALTER TABLE `forum_foren` DROP INDEX `th_name`, ADD INDEX `forum_name` (`forum_name`) USING BTREE;
