@@ -59,7 +59,7 @@ if ($resultCount > 0) {
 			fputs($handle, "$text\n");
 			fclose($handle);
 			@chmod($r_name, 0700);
-			echo "Chat-Zeile ins Log schreiben...";
+			echo "Chat-Zeile ins Log schreiben...<br>";
 			echo "\n";
 		} else {
 			echo "<p><b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!</p>\n";
@@ -122,12 +122,12 @@ set_time_limit(120);
 pdoQuery("DELETE FROM `chat` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`c_zeit`)) > 900 AND `c_typ` = 'S' OR `c_text` = '' OR `c_text` IS NULL OR `c_zeit` = '' OR `c_zeit` IS NULL", []);
 
 // Benutzer ausloggen, wenn $timeout überschritten wurde
-echo "Benutzer ausloggen...";
+echo "Benutzer ausloggen...<br>";
 $query = pdoQuery("SELECT SQL_BUFFER_RESULT `o_user`, `o_raum`, `o_id`, `o_who`, `o_name` FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) > :timeout", [':timeout'=>$timeout]);
 
 $resultCount = $query->rowCount();
 if ($resultCount > 1) {
-	$result = $query->fetchAl();
+	$result = $query->fetchAll();
 	foreach($result as $zaehler => $row) {
 		// Chat verlassen und Nachricht an alle Benutzer im aktuellen Raum schreiben
 		echo "Folgender Benutzer wurde ausgeloggt: " . $row['o_name'] . "<br>";
