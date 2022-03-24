@@ -1,6 +1,6 @@
 # mainChat
 
-Dies ist der angepasste mainChat von [netzhuffle](https://github.com/netzhuffle/mainchat), damit der Chat unter PHP7 laufähig ist.
+Dies ist der angepasste mainChat von [netzhuffle](https://github.com/netzhuffle/mainchat), damit der Chat unter PHP8 laufähig ist.
 Des Weiteren wurden hier viele optische Verbesserungen und eine Umstellung auf HTML5 vorgenommen.
 
 Wichtig
