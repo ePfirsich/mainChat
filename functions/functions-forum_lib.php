@@ -172,7 +172,7 @@ function forum_alles_gelesen($u_id, $forum_id = "") {
 		$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege`", [':u_id'=>$u_id]);
 	} else {
 		// Spezifisches Forum als gelesen markieren
-		$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':u_id'=>$forum_id]);
+		$query = pdoQuery("SELECT `beitrag_id` FROM `forum_beitraege` WHERE `beitrag_forum_id` = :beitrag_forum_id", [':beitrag_forum_id'=>$forum_id]);
 	}
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
