@@ -33,7 +33,7 @@ if ((isset($schau_raum)) && $schau_raum < 0) {
 
 if ($admin && isset($kick_user_chat) && $ui_id) {
 	// Nur Admins: Benutzer sofort aus dem Chat kicken
-	$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_name` FROM `online` WHERE `o_user` = '$ui_id' AND `o_level` != 'C' AND `o_level` != 'S' AND `o_level` !='A'", [':u_id'=>$u_id]);
+	$query = pdoQuery("SELECT `o_id`, `o_raum`, `o_name` FROM `online` WHERE `o_user` = :o_user AND `o_level` != 'C' AND `o_level` != 'S' AND `o_level` !='A'", [':o_user'=>$ui_id]);
 	
 	$resultCount = $query->rowCount();
 	if ($resultCount > 0) {
