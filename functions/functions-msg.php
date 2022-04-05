@@ -591,7 +591,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				} else {
 					// Benutzer nicht gefunden oder nicht online? dann testen, ob ignoriert, damit man das ignore auch wieder raus bekommt.
-					$query = pdoQuery("SELECT `u_nick`, `u_id` FROM `user,iignore` WHERE `i_user_aktiv` = :i_user_aktiv AND `i_user_passiv` = `u_id` AND `u_nick` = :u_nick ORDER BY `u_nick`", [':i_user_aktiv'=>$u_id, ':u_nick'=>$chatzeile[1]]);
+					$query = pdoQuery("SELECT `u_nick`, `u_id` FROM `user`, `iignore` WHERE `i_user_aktiv` = :i_user_aktiv AND `i_user_passiv` = `u_id` AND `u_nick` = :u_nick ORDER BY `u_nick`", [':i_user_aktiv'=>$u_id, ':u_nick'=>$chatzeile[1]]);
 					
 					$resultCount = $query->rowCount();
 					if ($resultCount == 1) {
