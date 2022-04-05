@@ -61,8 +61,6 @@ switch ($aktion) {
 		
 	default:
 		// Auswahlbox Monat
-		//$jahr = urldecode($jahr);
-		//$monat = urldecode($monat);
 		
 		if (strlen($jahr) < 1) {
 			$jahr = date("Y", time());

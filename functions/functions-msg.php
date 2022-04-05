@@ -724,7 +724,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ($raumanlegen == true) {
 						global $pdo;
 						// Hier wird der Raum angelegt
-						pdoQuery("INSERT INTO `blacklist` (`r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`) VALUES (:r_name, :r_eintritt, :r_austritt, :r_status1, :r_besitzer, :r_topic, :r_status2)",
+						pdoQuery("INSERT INTO `raum` (`r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`) VALUES (:r_name, :r_eintritt, :r_austritt, :r_status1, :r_besitzer, :r_topic, :r_status2)",
 						[
 						':r_name'=>$f['r_name'],
 						':r_eintritt'=>$f['r_eintritt'],
