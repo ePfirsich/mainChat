@@ -357,7 +357,7 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 		
 		// Eintrittsraum nicht gefunden? -> lobby probieren.
 		if ($resultCount == 0) {
-			$query = pdoQuery("SELECT `r_id`, `r_name`, `r_eintritt`, `r_topic` FROM `raum` WHERE `r_id` = :r_name", [':r_name'=>$lobby]);
+			$query = pdoQuery("SELECT `r_id`, `r_name`, `r_eintritt`, `r_topic` FROM `raum` WHERE `r_name` = :r_name", [':r_name'=>$lobby]);
 			
 			$resultCount = $query->rowCount();
 			$result = $query->fetch();
@@ -369,12 +369,11 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 			pdoQuery("INSERT INTO `raum` (`r_id`, `r_name`, `r_eintritt`, `r_austritt`, `r_status1`, `r_besitzer`, `r_topic`, `r_status2`, `r_smilie`) VALUES (0, :r_name, 'Willkommen', '', 'O', 1, 'Eingangshalle', 'P', 1)", [':r_name'=>$lobby]);
 			
 			// neu lesen
-			$query = pdoQuery("SELECT `r_id`, `r_name`, `r_eintritt`, `r_topic` FROM `raum` WHERE `r_id` = :r_name", [':r_name'=>$lobby]);
+			$query = pdoQuery("SELECT `r_id`, `r_name`, `r_eintritt`, `r_topic` FROM `raum` WHERE `r_name` = :r_name", [':r_name'=>$lobby]);
 			
 			$resultCount = $query->rowCount();
 			$result = $query->fetch();
 		}
-		
 	} else {
 		// Gewählten Raum ermitteln
 		$query = pdoQuery("SELECT `r_id`, `r_name`, `r_eintritt`, `r_topic` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$raum]);
