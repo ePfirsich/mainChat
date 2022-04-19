@@ -28,7 +28,7 @@ function raum_user($r_id, $u_id, $keine_benutzer_anzeigen = true) {
 	
 	if ($unterdruecke_user_im_raum_anzeige != "1") {
 		$query = pdoQuery("SELECT `r_name`, `r_besitzer`, `o_user`, `o_name`, `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4` "
-			. "FROM `raum`, `online` WHERE `r_id` = $r_id AND `o_raum` = `r_id` AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout ORDER BY `o_name`", [':timeout'=>$timeout]);
+			. "FROM `raum`, `online` WHERE `r_id` = :r_id AND `o_raum` = `r_id` AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) <= :timeout ORDER BY `o_name`", [`:r_id`=>$r_id, ':timeout'=>$timeout]);
 		
 		$resultCount = $query->rowCount();
 		if ($resultCount > 0) {
