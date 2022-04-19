@@ -730,7 +730,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						':r_eintritt'=>$f['r_eintritt'],
 						':r_austritt'=>$f['r_austritt'],
 						':r_status1'=>$f['r_status1'],
-						':r_besitzer'=>$f['f_text'],
+						':r_besitzer'=>$f['r_besitzer'],
 						':r_topic'=>$f['f_text'],
 						':r_status2'=>$f['r_status2']
 						]);
