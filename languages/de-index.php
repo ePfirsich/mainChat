@@ -195,8 +195,7 @@ $lang['registrierung_fehler_benutzername_zeichenlaenge'] = "Bitte geben Sie als 
 $lang['registrierung_fehler_benutzername_gast'] = "Der Name '%gast%....' ist für Gast-Accounts reserviert. Bitte wählen Sie einen anderen Benutzernamen!<br>";
 $lang['registrierung_fehler_passwort_zeichenlaenge'] = "Bitte das Feld 'Passwort' mit mindestens 4 Zeichen ausfüllen!<br>";
 $lang['registrierung_fehler_passwort_unterschiedlich'] = "Sie haben sich beim Passwort vertippt. Bitte neu versuchen!<br>";
-$lang['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail (nur intern)' eine gültige E-Mail Adresse eingeben!<br>";
-$lang['registrierung_fehler_email_falsch'] = "Bitte im Feld 'E-Mail (öffentlich)' eine gültige E-Mail Adresse eingeben!<br>";
+$lang['registrierung_fehler_adminemail_falsch'] = "Bitte im Feld 'E-Mail' eine gültige E-Mail Adresse eingeben!<br>";
 $lang['registrierung_fehler_benutzername_vergeben'] = "Dieser Benutzername ist leider schon vergeben! Bitte wählen Sie einen anderen.<br>";
 $lang['registrierung_fehler_email_bereits_vorhanden'] = "Mit dieser E-Mail ist bereits ein Benutzer registriert. Falls es sich um Ihren Account handelt, können Sie über <a href=\"index.php?bereich=passwort-vergessen\">\"Passwort vergessen?\"</a> ein neues Passwort anfordern.<br><a href=\"index.php?bereich=registrierung\">Zurück zur Registrierung!</a><br>";
 $lang['registrierung_fehler_aktivierungslink_verwendet'] = "Mit diesen Aktivierungslink wurde bereits ein Benutzer registriert.<br>";
