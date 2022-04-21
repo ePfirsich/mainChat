@@ -17,6 +17,8 @@ $f['u_passwort2'] = htmlspecialchars(filter_input(INPUT_POST, 'u_passwort2', FIL
 $f['u_email'] = filter_input(INPUT_POST, 'u_email', FILTER_VALIDATE_EMAIL);
 $f['hash'] = filter_input(INPUT_POST, 'hash', FILTER_SANITIZE_URL);
 
+$formular = filter_input(INPUT_POST, 'formular', FILTER_SANITIZE_NUMBER_INT);
+
 $formular_anzeigen = true;
 $weiter_zu_login = false;
 
@@ -26,8 +28,6 @@ if ( ($email != "" && $hash != md5($email . "+" . date("Y-m-d"))) ) {
 	$formular = 0;
 	$formular_anzeigen = false;
 } else if($email != "" && $hash == md5($email . "+" . date("Y-m-d"))) {
-	// Korrekter Aufruf
-	
 	// Mit dieser E-Mail wurde bereits ein Account registriert
 	$query = pdoQuery("SELECT `email` FROM `mail_check` WHERE `email` = :email", [':email'=>$email]);
 	
