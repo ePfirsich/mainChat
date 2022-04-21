@@ -126,14 +126,7 @@ if($in_den_chat_einloggen) {
 			$identifier = random_string();
 			$securitytoken = random_string();
 			
-			$query = pdoQuery("SELECT * FROM `securitytokens` WHERE `user_id` = :user_id", [':user_id'=>$user_id]);
-			
-			$resultCount = $query->rowCount();
-			if ($resultCount >= 1) {
-				pdoQuery("UPDATE `securitytokens` SET securitytoken = :securitytoken, `identifier` = :identifier WHERE `user_id` = :user_id", [':securitytoken'=>sha1($securitytoken), ':identifier'=>$identifier, ':user_id'=>$user_id]);
-			} else {
-				pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>sha1($securitytoken)]);
-			}
+			pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>sha1($securitytoken)]);
 			
 			setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
 			setcookie("securitytoken",$securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit

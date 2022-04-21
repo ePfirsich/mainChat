@@ -48,9 +48,9 @@ if (isset($email) && isset($username) && isset($hash)) {
 	
 	if ($fehlermeldung == "") {
 		if($username != "") {
-			$query = pdoQuery("SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = :u_nick LIMIT 2", [':u_nick'=>$username]);
+			$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, UNIX_TIMESTAMP(`u_passwortanforderung`) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_nick` = :u_nick LIMIT 2", [':u_nick'=>$username]);
 		} else {
-			$query = pdoQuery("SELECT `u_id`, `u_login`, `u_nick`, `u_passwort`, `u_email`, UNIX_TIMESTAMP(u_passwortanforderung) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = :u_email LIMIT 2", [':u_email'=>$email]);
+			$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_email`, UNIX_TIMESTAMP(`u_passwortanforderung`) AS `u_passwortanforderung`, `u_punkte_jahr` FROM `user` WHERE `u_email` = :u_email LIMIT 2", [':u_email'=>$email]);
 		}
 		
 		$resultCount = $query->rowCount();
@@ -62,11 +62,6 @@ if (isset($email) && isset($username) && isset($hash)) {
 			if( ( time()-intval($a['u_passwortanforderung']) ) < 14400 ) {
 				$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_bereits_angefordert'];
 			} else {
-				$hash = md5(
-					$a['u_id'] . $a['u_login'] . $a['u_nick']
-					. $a['u_passwort']
-					. $a['u_email'] . $a['u_punkte_jahr']);
-				
 				$email = urlencode($a['u_email']);
 				
 				// Passwortcode generieren und in der Datenbank speichern
@@ -74,7 +69,7 @@ if (isset($email) && isset($username) && isset($hash)) {
 				
 				pdoQuery("UPDATE `user` SET `u_passwort_code` = :u_passwort_code, `u_passwort_code_time` = NOW() WHERE `u_id` = :u_id", [':u_passwort_code'=>sha1($passwordcode), ':u_id'=>$a['u_id']]);
 				
-				// ULR zusammenstellen
+				// URL zusammenstellen
 				$webseite_passwort = $chat_url . "/index.php?bereich=passwort-zuruecksetzen&uid=" . $a['u_id'] . "&code=".$passwordcode;
 				$inhalt = str_replace("%webseite_passwort%", $webseite_passwort, $lang['email_passwort_vergessen_inhalt']);
 				$inhalt = str_replace("%u_nick%", $a['u_nick'], $inhalt);
@@ -87,7 +82,6 @@ if (isset($email) && isset($username) && isset($hash)) {
 				email_senden($email, $lang['email_passwort_vergessen_titel'], $inhalt);
 				
 				$email_gesendet = true;
-				unset($hash);
 			}
 		} else {
 			if($username != "") {
@@ -95,7 +89,6 @@ if (isset($email) && isset($username) && isset($hash)) {
 			} else {
 				$fehlermeldung .= $lang['login_fehlermeldung_passwort_vergessen_email2'];
 			}
-			unset($hash);
 		}
 	}
 }

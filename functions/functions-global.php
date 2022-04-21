@@ -1491,8 +1491,6 @@ function mailsmtp($mailempfaenger, $mailbetreff, $inhalt, $header, $chat, $smtp_
 	global $chat;
 	
 	require('functions/functions-smtp.php');
-	
-	// return $mail->send();
 }
 
 /**
