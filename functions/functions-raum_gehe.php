@@ -127,6 +127,11 @@ function raum_gehe($o_id, $u_id, $u_nick, $raum_alt, $raum_neu) {
 			system_msg("", 0, $u_id, "", " ");
 			system_msg("", 0, $u_id, "", $txt . "<br>\n");
 			
+			if( !isset($u_id) || $u_id == null || $u_id == "") {
+				global $kontakt;
+				email_senden($kontakt, "user_id leer2", "Nickname: " . $u_nick);
+			}
+			
 			// Raum betreten
 			nachricht_betrete($u_id, $raum_neu, $u_nick, $neu['r_name']);
 			

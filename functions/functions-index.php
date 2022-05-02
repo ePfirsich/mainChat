@@ -321,11 +321,6 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	
 	if (strlen($raum) > 0) {
 		// Prüfung ob Benutzer aus Raum ausgesperrt ist
-		if(!isset($user_id) || $user_id == null || $user_id == "") {
-			global $kontakt;
-			email_senden($kontakt, "User-ID ist leer1", "Username: " . $u_nick . " Raum-ID: " . $raum . " Online-ID: " . $o_id);
-		}
-		
 		$resultCount = pdoQuery("SELECT `s_id` FROM `sperre` WHERE `s_raum` = :s_raum AND `s_user` = :s_user", [':s_raum'=>intval($raum), ':s_user'=>$user_id])->rowCount();
 		if ($resultCount > 0 && $r_min_punkte > $u_punkte_gesamt) {
 			// Aktueller Raum ist gesperrt, oder zu wenige Punkte
@@ -397,6 +392,11 @@ function betrete_chat($o_id, $user_id, $u_nick, $u_level, $raum) {
 	// Aktuellen Raum merken, o_who auf chat setzen
 	$f['o_raum'] = $r_id;
 	$f['o_who'] = "0";
+	
+	if( !isset($user_id) || $user_id == null || $user_id == "") {
+		global $kontakt;
+		email_senden($kontakt, "user_id leer1", "Nickname: " . $u_nick);
+	}
 	
 	// Nachricht im Chat ausgeben
 	nachricht_betrete($user_id, $r_id, $u_nick, $r_name);

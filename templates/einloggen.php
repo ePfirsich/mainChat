@@ -312,6 +312,12 @@ if($in_den_chat_einloggen) {
 					// Chat betreten
 					
 					$frameset = true;
+					
+					if( !isset($user_id) || $user_id == null || $user_id == "") {
+						global $kontakt;
+						email_senden($kontakt, "user_id leer beim Login1", "Nickname: " . $u_nick);
+					}
+					
 					betrete_chat($o_id, $user_id, $u_nick, $u_level, $eintritt);
 					
 					require_once("functions/functions-frameset.php");

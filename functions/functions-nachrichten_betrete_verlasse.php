@@ -16,15 +16,7 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 	
 	// Nachricht auswählen
 	if ($eintritt_individuell == "1") {
-		$query = pdoQuery("SELECT `u_eintritt` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
-		
-		$row = $query->fetch();
-		
-		// Debug-Output
-		if( !isset($user_id) || $user_id == null || $user_id == "") {
-			global $kontakt;
-			email_senden($kontakt, "User-ID ist leer2", "Username: " . $u_nick . " Raum-ID: " . $r_id . " Raumname: " . $r_name);
-		}
+		$row = pdoQuery("SELECT `u_eintritt` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id])->fetch();
 		if (strlen($row['u_eintritt']) > 0) {
 			$text = $row['u_eintritt'];
 			$text = $text . "  <b>($u_nick)</b> ";
@@ -47,11 +39,8 @@ function nachricht_betrete($user_id, $r_id, $u_nick, $r_name) {
 		$ergebnis = system_msg("", 0, $user_id, $u_farbe, "<b>&gt;&gt;&gt;</b> " . $text);
 	} else {
 		// Spamschutz, verhindert die Eintrittsmeldung, wenn innerhalb von 60 Sek mehr als 15 Systemmitteilungen eingehen...
-		$query = pdoQuery("SELECT COUNT(`c_id`) AS `nummer` FROM `chat` WHERE `c_von_user` = '' AND `c_typ` = 'S' AND `c_raum` = :c_raum AND `c_zeit` > :c_zeit", [':c_raum'=>intval($r_id), ':c_zeit'=>date("YmdHis", date("U") - 60)]);
-		
-		$num = $query->fetch();
-		$num = $num['nummer'];
-		
+		$row = pdoQuery("SELECT COUNT(`c_id`) AS `nummer` FROM `chat` WHERE `c_von_user` = '' AND `c_typ` = 'S' AND `c_raum` = :c_raum AND `c_zeit` > :c_zeit", [':c_raum'=>intval($r_id), ':c_zeit'=>date("YmdHis", date("U") - 60)])->fetch();
+		$num = $row['nummer'];
 		if ($num < 15) {
 			$ergebnis = global_msg($user_id, $r_id, "<b>&gt;&gt;&gt;</b> " . $text);
 		}

@@ -369,6 +369,11 @@ function priv_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	$f['c_typ'] = "P";
 	$f['c_text'] = $text;
 	
+	if( !isset($f['c_an_user']) || $f['c_an_user'] == null || $f['c_an_user'] == "") {
+		global $kontakt;
+		email_senden($kontakt, "c_an_user leer1", "Von User: " . $von_user . " Von User-ID: " . $von_user_id . " Nachricht: " . $text);
+	}
+	
 	schreibe_chat($f);
 	
 	// In der Tabelle "online" merken, dass Text im Chat geschrieben wurde
@@ -391,6 +396,11 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 	$f['c_farbe'] = $farbe;
 	$f['c_typ'] = "S";
 	$f['c_text'] = $text;
+	
+	if( !isset($f['c_an_user']) || $f['c_an_user'] == null || $f['c_an_user'] == "") {
+		global $kontakt;
+		email_senden($kontakt, "c_an_user leer2", "Von User: " . $von_user . " Von User-ID: " . $von_user_id . " Nachricht: " . $text);
+	}
 	
 	schreibe_chat($f);
 }

@@ -498,6 +498,11 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		
+		if( !isset($u_id) || $u_id == null || $u_id == "") {
+			global $kontakt;
+			email_senden($kontakt, "u_id leer beim Login2", "Nickname: " . $u_nick);
+		}
+		
 		// Chat betreten
 		betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
 		
