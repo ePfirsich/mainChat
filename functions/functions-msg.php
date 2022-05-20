@@ -1118,7 +1118,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					if ((strcasecmp($chatzeile[1], "gast") == 0) && ($admin)) {
 						// suche "/whois gast" zeigt alle Gäste und den Benutzer gast, wenn vorhanden
 						$query = pdoQuery("SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` FROM `user` WHERE (`u_nick` LIKE :u_nick) OR (`u_level` = 'G') ORDER BY `u_nick` LIMIT $max_user_liste", [':u_nick'=>$chatzeile[1]]);
-					} else if (($admin) || ($u_level == "A")) {
+					} else if ( $admin || $u_level == "A" ) {
 						// suche für Admins und Tempadmins zeigt alle Benutzer
 						$query = pdoQuery("SELECT *,date_format(u_login,'%d.%m.%y %H:%i') AS `login` FROM `user` WHERE `u_nick` $sucheper :u_nick ORDER BY `u_nick` LIMIT $max_user_liste", [':u_nick'=>$chatzeile[1]]);
 					} else {

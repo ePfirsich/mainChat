@@ -869,11 +869,11 @@ function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FAL
 	}
 	
 	// Onlinezeit oder Datum des letzten Logins einfügen, falls Online Text fett ausgeben
-	if ($benutzerdaten['u_online'] != "NULL" && $online) {
+	if ($benutzerdaten['u_online'] != NULL && $online) {
 		$text2 .= $trenner . str_replace("%online%", gmdate("H:i:s", $benutzerdaten['u_online']), $lang['chat_msg92']);
 		$fett1 = "<b>";
 		$fett2 = "</b>";
-	} else if ($benutzerdaten['u_login'] != "NULL" && $online) {
+	} else if ($benutzerdaten['u_login'] != NULL && $online) {
 		$text2 .= $trenner . str_replace("%login%", $benutzerdaten['u_login'], $lang['chat_msg94']);
 		$fett1 = "";
 		$fett2 = "";
