@@ -222,6 +222,9 @@ if ($weiter_zu_login) {
 	$text .= "</table>\n";
 	$text .= "</form>\n";
 	
+	// Im Benutzername alle Sonderzeichen entfernen
+	$f['u_nick'] = coreCheckName($f['u_nick'], $check_name);
+	
 	$f['u_level'] = "U";
 	pdoQuery("INSERT INTO `user` (`u_nick`, `u_passwort`, `u_email`, `u_level`, `u_neu`) VALUES (:u_nick, :u_passwort, :u_email, :u_level, DATE_FORMAT(now(),\"%Y%m%d%H%i%s\"))",
 		[
