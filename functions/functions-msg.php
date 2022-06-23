@@ -55,7 +55,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 		// Admins auflisten
 			if ($admin || $u_level == "A") {
 				$query = pdoQuery("SELECT `o_userdata`, `o_userdata2`, `o_userdata3`, `o_userdata4`, `o_level`, `r_name`, UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_login`) AS `online` "
-					. "FROM `online` LEFT JOIN `raum` ON `r_id` = `o_raum` WHERE (`o_level` = 'S' OR `o_level` = 'C' OR `o_level` = 'A') ORDER BY `r_name`", [':u_id'=>$u_id]);
+					. "FROM `online` LEFT JOIN `raum` ON `r_id` = `o_raum` WHERE (`o_level` = 'S' OR `o_level` = 'C' OR `o_level` = 'A') ORDER BY `r_name`", []);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
