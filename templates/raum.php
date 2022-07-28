@@ -171,7 +171,7 @@ switch ($aktion) {
 				$f['r_min_punkte'] = 0;
 			}
 			
-			$query = pdoQuery("SELECT `r_id`, `r_besitzer`, `r_name` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
+			$query = pdoQuery("SELECT `r_id`, `r_besitzer`, `r_name`, `r_status1`, `r_status2`, `r_min_punkte` FROM `raum` WHERE `r_id` = :r_id", [':r_id'=>$f['r_id']]);
 			
 			$resultCount = $query->rowCount();
 			if ($resultCount == 1) {
@@ -226,24 +226,24 @@ switch ($aktion) {
 			}
 			
 			// In permanenten Räumen darf ein Raumbesitzer keine Punkte ändern
-			if (!$admin && $f['status2'] == "P") {
+			if (!$admin && $f['r_status2'] == "P" && $f['r_min_punkte'] != $row['r_min_punkte']) {
 				$fehlermeldung = $lang['raum_fehler_mindestpunktezahl_nur_admin'];
 				$text .= hinweis($fehlermeldung, "fehler");
-				unset($f['r_min_punkte']);
+				$f['r_min_punkte'] = $row['r_min_punkte'];
 			}
 			
 			// Nur Admin darf Nicht-Temporäre Räume setzen
-			if (!$admin && $f['r_status2'] == "P") {
+			if (!$admin && $f['r_status2'] == "P" && $row['r_status2'] != "P") {
 				$fehlermeldung = str_replace("%r_status%", $raumstatus2[$f['r_status2']], $lang['raum_fehler_status_nur_admin']);
 				$text .= hinweis($fehlermeldung, "fehler");
-				unset($f['r_status2']);
+				$f['r_status2'] = $row['r_status2'];
 			}
 			
 			// Status moderiert nur falls Moderationsmodul aktiv
 			if (isset($f['r_status1']) && (strtolower($f['r_status1']) == "m") && $moderationsmodul == 0) {
 				$fehlermeldung = str_replace("%r_status%", $raumstatus1[$f['r_status1']], $lang['raum_fehler_status_moderationsmodul_deaktiviert']);
 				$text .= hinweis($fehlermeldung, "fehler");
-				unset($f['r_status1']);
+				$f['r_status1'] = $row['r_status1'];
 			}
 			
 			// Nur Admin darf andere Stati als offen oder geschlossen setzen
@@ -251,14 +251,14 @@ switch ($aktion) {
 				$tmp = str_replace("%r_status%", $raumstatus1[$f['r_status1']], $lang['raum_fehler_status_nur_admin']);
 				$fehlermeldung = str_replace("%r_name%", $f['r_name'], $tmp);
 				$text .= hinweis($fehlermeldung, "fehler");
-				unset($f['r_status1']);
+				$f['r_status1'] = $row['r_status1'];
 			}
 			
 			// Prüfen ob Mindestpunkte zwischen 0 und 99.999.999
-			if (isset($f['r_min_punkte']) && ($f['r_min_punkte']) && ($f['r_min_punkte'] < 0 || $f['r_min_punkte'] > 99999999)) {
+			if ( isset($f['r_min_punkte']) && ($f['r_min_punkte']) && ($f['r_min_punkte'] < 0 || $f['r_min_punkte'] > 99999999) ) {
 				$fehlermeldung = $lang['raum_fehler_mindestpunktezahl_falsch'];
 				$text .= hinweis($fehlermeldung, "fehler");
-				unset($f['r_min_punkte']);
+				$f['r_min_punkte'] = $row['r_min_punkte'];
 			}
 			
 			if($fehlermeldung != "") {
