@@ -1,6 +1,6 @@
 <?php
 function raeume_auflisten($order, $extended) {
-	global $lang, $timeout, $raumstatus1, $raumstatus2, $admin;
+	global $lang, $timeout, $raumstatus1, $raumstatus2, $admin, $u_id;
 	
 	if (!isset($order)) {
 		$order = "r_name";
