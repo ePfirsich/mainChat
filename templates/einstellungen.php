@@ -290,13 +290,6 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 					
 					if (is_array($nick_historie)) {
 						reset($nick_historie);
-						
-						list($key, $value) = each($nick_historie);
-						$differenz = time() - $key;
-					}
-					
-					if (is_array($nick_historie)) {
-						reset($nick_historie);
 						$key= array_keys($nick_historie)[0];
 						//$key = key($nick_historie); Alternative
 						$differenz = time() - $key;
