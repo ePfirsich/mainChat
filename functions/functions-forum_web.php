@@ -489,7 +489,7 @@ function show_forum($forum_id) {
 		} else {
 			$userlink = zeige_userdetails($posting['beitrag_user_id']);
 			if ($posting['u_level'] == 'Z') {
-				$text .= "<td $farbe><span class=\"smaller\">$userdata[u_nick]</span></td>\n";
+				$text .= "<td $farbe><span class=\"smaller\">$posting[u_nick]</span></td>\n";
 			} else {
 				$text .= "<td $farbe><span class=\"smaller\">$userlink</span></td>\n";
 			}
@@ -500,11 +500,16 @@ function show_forum($forum_id) {
 		} else {
 			$themen_id = $posting['beitrag_id'];
 			$query3 = pdoQuery("SELECT `beitrag_user_id` FROM `forum_beitraege` WHERE `beitrag_thema_id` = :beitrag_thema_id ORDER by `beitrag_id` DESC LIMIT 1", [':beitrag_thema_id'=>$themen_id]);
-			$result3 = $query3->fetch();
-			
-			$antworten_userlink = zeige_userdetails($result3['beitrag_user_id']);
-			
-			$antworten = $posting['po_date2'] . " von " . $antworten_userlink;
+			$result3Count = $query3->rowCount();
+			if($result3Count > 0) {
+				$result3 = $query3->fetch();
+				
+				$antworten_userlink = zeige_userdetails($result3['beitrag_user_id']);
+				
+				$antworten = $posting['po_date2'] . " von " . $antworten_userlink;
+			} else {
+				$antworten = '';
+			}
 		}
 		$text .= "<td style=\"text-align:center;\" $farbe><span class=\"smaller\">$posting[po_date]</span></td>\n"; // Wann wurde das Thema erstellt
 		$text .= "<td style=\"text-align:center;\" $farbe><span class=\"smaller\">".$anzreplys."</span></td>\n"; // Wie viele Antworten hat das Thema
@@ -1030,11 +1035,9 @@ function zeige_forenthema($beitrag_id) {
 			if (!$beitrag['u_nick']) {
 				$userdetails = "gelöschter Benutzer";
 			} else {
-				$userdata = array();
-				
 				$userlink = zeige_userdetails($beitrag['beitrag_user_id']);
 				if ($beitrag['u_level'] == 'Z') {
-					$userdetails = $userdata['u_nick'];
+					$userdetails = $beitrag['u_nick'];
 				} else {
 					$userdetails = $userlink;
 				}
