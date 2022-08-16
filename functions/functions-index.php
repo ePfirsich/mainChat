@@ -244,7 +244,9 @@ function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_p
 	$o_id = schreibe_online($f, "einloggen", $user_id);
 	
 	if (!$o_id) {
-		email_senden($kontakt, "Fataler Fehler beim Login", $f);
+		global $kontakt;
+		$benutzerdetails = 'Benutzer-ID: ' . $user_id . '; Nickname: ' . $userdata['u_nick'] . ';';
+		email_senden($kontakt, "Fataler Fehler beim Login", $benutzerdetails);
 		exit;
 	}
 	
