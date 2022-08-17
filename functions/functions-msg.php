@@ -393,7 +393,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			// Raum ermitteln
 			$raum_id = $r_id;
 			if ($chatzeile[2] != "") {
-				$query = pdoQuery("SELECT `r_id` from `raum` WHERE `r_name` LIKE :r_name", [':r_name'=>"$chatzeile[2]%"]);
+				$query = pdoQuery("SELECT `r_id` FROM `raum` WHERE `r_name` LIKE :r_name", [':r_name'=>"$chatzeile[2]%"]);
 				
 				$resultCount = $query->rowCount();
 				if ($resultCount > 0) {
@@ -422,49 +422,52 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					
 					// schaue zuerst, ob online ein Benutzer ist, der genauso heisst wie angegeben
 					$nick = nick_ergaenze($chatzeile[1], "online", 1);
-					if ($nick['u_nick'] == $chatzeile[1]) {
+					if ( $nick && $nick['u_nick'] == $chatzeile[1]) {
+						// nichts machen
 					} else {
-						$nick['u_nick'] == "";
+						if (!$nick || $nick['u_nick'] == "") {
+							$nick = nick_ergaenze($chatzeile[1], "raum", 1);
+						}
+						/*
+						if ($nick['u_nick'] == "") {
+							$nick = nick_ergaenze($chatzeile[1], "online", 1);
+						}
+						*/
+						if (!$nick || $nick['u_nick'] == "") {
+							$nick = nick_ergaenze($chatzeile[1], "chat", 0);
+						}
 					}
 					
-					if ($nick['u_nick'] == "")
-						$nick = nick_ergaenze($chatzeile[1], "raum", 1);
-					if ($nick['u_nick'] == "")
-						$nick = nick_ergaenze($chatzeile[1], "online", 1);
-					if ($nick['u_nick'] == "")
-						$nick = nick_ergaenze($chatzeile[1], "chat", 0);
-					if ($nick['u_nick'] != "") {
-						// nick gefunden. jetzt eintragen oder löschen...
+					
+					if ($nick && $nick['u_nick'] != "") {
+						// Nick gefunden. jetzt eintragen oder löschen...
 						$query = pdoQuery("SELECT `inv_user` FROM `invite` WHERE `inv_raum` = :inv_raum AND `inv_user` = :inv_user", [':inv_raum'=>$raum_id, ':inv_user'=>$nick['u_id']]);
 						
 						$resultCount = $query->rowCount();
-						$result = $query->fetch();
-						if ($result > 0) {
-							if ($resultCount > 0) {
-								pdoQuery("DELETE FROM `invite` WHERE `inv_raum` = :inv_raum AND `inv_user` = :inv_user", [':inv_raum'=>$raum_id, ':inv_user'=>$nick['u_id']]);
-								
-								$msg = $lang['invite4'];
-							} else {
-								$f['inv_user'] = $nick['u_id'];
-								$f['inv_raum'] = $raum_id;
-								
-								pdoQuery("INSERT INTO `invite` (`inv_user`, `inv_raum`) VALUES (:inv_user, :inv_raum)",
-									[
-										':inv_user'=>$f['inv_user'],
-										':inv_raum'=>$f['inv_raum']
-									]);
-								
-								$msg = str_replace("%admin%", $u_nick, $lang['invite5']);
-								$msg = str_replace("%raum%", $r_name, $msg);
-								system_msg($u_nick, $u_id, $nick['u_id'], $system_farbe, $msg);
-								$msg = $lang['invite3'];
-							}
+						if ($resultCount > 0) {
+							pdoQuery("DELETE FROM `invite` WHERE `inv_raum` = :inv_raum AND `inv_user` = :inv_user", [':inv_raum'=>$raum_id, ':inv_user'=>$nick['u_id']]);
 							
-							$msg = str_replace("%admin%", $u_nick, $msg);
+							$msg = $lang['invite4'];
+						} else {
+							$f['inv_user'] = $nick['u_id'];
+							$f['inv_raum'] = $raum_id;
+							
+							pdoQuery("INSERT INTO `invite` (`inv_user`, `inv_raum`) VALUES (:inv_user, :inv_raum)",
+								[
+									':inv_user'=>$f['inv_user'],
+									':inv_raum'=>$f['inv_raum']
+								]);
+							
+							$msg = str_replace("%admin%", $u_nick, $lang['invite5']);
 							$msg = str_replace("%raum%", $r_name, $msg);
-							$msg = str_replace("%user%", $nick['u_nick'], $msg);
-							global_msg($u_id, $o_raum, "$msg");
+							system_msg($u_nick, $u_id, $nick['u_id'], $system_farbe, $msg);
+							$msg = $lang['invite3'];
 						}
+						
+						$msg = str_replace("%admin%", $u_nick, $msg);
+						$msg = str_replace("%raum%", $r_name, $msg);
+						$msg = str_replace("%user%", $nick['u_nick'], $msg);
+						global_msg($u_id, $o_raum, "$msg");
 					} else {
 						// Nick nicht gefunden, d.h. nicht Online, aber vielleicht doch eingeladen zum runterwerfen?
 						$query = pdoQuery("SELECT `u_nick`, `u_id` FROM `user`, `invite` WHERE `inv_raum` = :inv_raum AND `inv_user` = `u_id` AND `u_nick` = :u_nick ORDER BY `u_nick`", [':inv_raum'=>$raum_id, ':u_nick'=>$chatzeile[1]]);
@@ -500,9 +503,11 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						}
 					}
 				}
-				if ($txt == "")
+				if ($txt == "") {
 					$txt = $lang['invite2'];
-				else $txt = $lang['invite1'] . " " . $txt;
+				} else {
+					$txt = $lang['invite1'] . " " . $txt;
+				}
 				system_msg("", 0, $u_id, $system_farbe, "<b>$chat:</b> $txt");
 			}
 			break;
