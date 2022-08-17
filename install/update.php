@@ -128,15 +128,8 @@ switch ($aktion) {
 		
 		break;
 	
-	case "update_von_7_0_9":
-		// Update von 7.0.9
-		$migrationsdateienArray = ["update_7_0_10.sql", "update_7_1_0.sql", "update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
-		datenbank_migration($migrationsdateienArray);
-		
-		break;
-	
-	case "update_unter_7_0_0":
-		$migrationsdateienArray = ["update_unter_7_0_0.sql", "update_7_0_10.sql", "update_7_1_0.sql", "update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
+	case "update_unter_7_1_0":
+		$migrationsdateienArray = ["update_unter_7_1_0.sql", "update_7_1_0.sql", "update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
 		datenbank_migration($migrationsdateienArray);
 		
 		break;
@@ -198,13 +191,8 @@ switch ($aktion) {
 	</form>
 	<br>
 	<form action="update.php" method="post">
-		<input type="hidden" name="aktion" value="update_von_7_0_9">
-		<input type="submit" value="Aktualisierung von Version 7.0.9 starten">
-	</form>
-	<br>
-	<form action="update.php" method="post">
-		<input type="hidden" name="aktion" value="update_unter_7_0_0">
-		<input type="submit" value="Aktualisierung von unter Version 7.0.0 starten">
+		<input type="hidden" name="aktion" value="update_unter_7_1_0">
+		<input type="submit" value="Aktualisierung von unter Version 7.1.0 starten">
 	</form>
 	<br>
 	<?php
