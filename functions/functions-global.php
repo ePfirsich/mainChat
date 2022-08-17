@@ -1083,7 +1083,7 @@ function ausloggen($u_id, $u_nick, $o_raum, $o_id){
 	if (strlen($u_id) > 0) {
 		verlasse_chat($u_id, $u_nick, $o_raum);
 		logout($o_id, $u_id);
-		//echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
+		echo "<meta http-equiv=\"refresh\" content=\"0; URL=index.php\">";
 	}
 }
 
