@@ -382,7 +382,7 @@ CREATE TABLE `online` (
 	`o_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
 	`o_raum` int(11) NOT NULL DEFAULT 0,
 	`o_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_ip` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+	`o_ip` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`o_who` smallint(3) UNSIGNED DEFAULT NULL,
 	`o_aktiv` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`o_browser` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
