@@ -19,7 +19,7 @@ if (!file_exists($log)) {
 }
 
 // Chat expire und Kopie in Log für alle öffentlichen Zeilen, die älter als 15 Minuten sind
-echo "Expire Chattexte:\n";
+echo "Expire Chattexte:<br>";
 $query = pdoQuery("SELECT *, `r_name` FROM `chat` LEFT JOIN `raum` ON `c_raum` = `r_id` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`c_zeit`)) > 1900 AND `c_typ` != 'P' ORDER BY `c_raum`, `c_id`", []);
 
 $resultCount = $query->rowCount();
@@ -41,7 +41,7 @@ if ($resultCount > 0) {
 		// Chat-Zeile ins Log schreiben
 		$r_name = $log . "/" . str_replace("/", "_", $row['r_name']);
 		if ($raum_alt != $r_name) {
-			echo "  Raum $r_name\n";
+			echo " Raum $r_name<br>";
 		}
 		
 		// Ggf. Log routieren, falls > 100 MB
@@ -56,13 +56,13 @@ if ($resultCount > 0) {
 				$text = $text . "[" . $row['c_von_user'] . "]";
 			}
 			$text = $text . " " . $row['c_text'];
-			fputs($handle, "$text\n");
+			fputs($handle, "$text<br>");
 			fclose($handle);
 			@chmod($r_name, 0700);
 			echo "Chat-Zeile ins Log schreiben...<br>";
-			echo "\n";
+			echo "<br>";
 		} else {
-			echo "<p><b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!</p>\n";
+			echo "<b>Fehler:</b> Kann Logdatei '$r_name' nicht öffnen!<br>";
 		}
 		
 		$loesche .= $row['c_id'];
@@ -99,11 +99,11 @@ if ($expire_privat) {
 					$text = $text . "[" . $row['c_von_user'] . "]";
 				}
 				$text = $text . " " . $row['c_text'];
-				fputs($handle, "$text\n");
+				fputs($handle, "$text<br>");
 				fclose($handle);
 				chmod($r_name, 0700);
 			} else {
-				echo "<p><b>Fehler:</b> Kann Logdatei '" . $log . "/chat_privatnachrichten' nicht öffnen!</p>\n";
+				echo "<b>Fehler:</b> Kann Logdatei '" . $log . "/chat_privatnachrichten' nicht öffnen!<br>";
 			}
 			
 			// Chat-Zeile löschen
@@ -136,10 +136,10 @@ if ($resultCount > 1) {
 		ausloggen($row['o_user'], $row['o_name'], $row['o_raum'], $row['o_id']);
 	}
 }
-echo "\n";
+echo "<br>";
 
 // Gäste löschen, falls ausgeloggt und älter als 4 Minuten
-echo "Gäste löschen\n";
+echo "Gäste löschen<br>";
 $query = pdoQuery("SELECT SQL_BUFFER_RESULT `u_id` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_level` = 'G' AND `o_id` IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`u_login`)) > 240", []);
 
 $resultCount = $query->rowCount();
@@ -158,8 +158,8 @@ if ($resultCount) {
 }
 
 // Leere temporäre Räume löschen, deren Besitzer nicht online ist
-echo "Leere temporäre Räume löschen\n";
-$query = pdoQuery("SELECT SQL_BUFFER_RESULT `r_id`, `r_name`, `r_besitzer` FROM `raum` LEFT JOIN `online` ON `o_user` = `r_besitzer` WHERE `r_status2` = 'T'", []);
+echo "Leere temporäre Räume löschen<br>";
+$query = pdoQuery("SELECT `r_id`, `r_name`, `r_besitzer` FROM `raum` LEFT JOIN `online` ON `o_user` = `r_besitzer` WHERE `r_status2` = 'T'", []);
 
 $resultCount = $query->rowCount();
 if ($resultCount > 0) {
@@ -169,7 +169,7 @@ if ($resultCount > 0) {
 		$result2Count = $query2->rowCount();
 		
 		// Ist der Besitzer noch online?
-		if($result2Count = 0) {
+		if($result2Count == 0) {
 			// Ist der Raum leer?
 			$query3 = pdoQuery("SELECT `o_id` FROM `raum`, `online` WHERE `r_id` = :r_id AND `o_raum` = `r_id`", [':r_id'=>$row['r_id']]);
 			$result3Count = $query3->rowCount();
@@ -203,7 +203,7 @@ pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_ak
 $zeit = date("H:i");
 #$zeit="03:10"; #DEBUG
 if ($zeit == "03:10") {
-	echo "Täglicher expire\n";
+	echo "Täglicher expire<br>";
 	
 	if (!isset($usernamen_expire) || $usernamen_expire == 0) {
 		$usernamen_expire = 15724800;
@@ -490,7 +490,7 @@ if ( isset($anzahl_online) && ($anzahl_online > 0) ) {
 	}
 }
 
-echo "fertig\n";
+echo "fertig";
 ?>
 </pre>
 </body>
