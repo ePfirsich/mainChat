@@ -1033,7 +1033,12 @@ function zeige_chat_login() {
 					}
 					
 					// Benutzer anzeigen
-					$text .= zeige_formularfelder("ueberschrift", $zaehler, str_replace("%onlineanzahl%", $result2Count, $lang['login_benutzer_online']), "", "", 0, "70", "");
+					if($result2Count == 1) {
+						$benutzeronline = $lang['login_benutzer_online_einzahl'];
+					} else {
+						$benutzeronline = str_replace("%onlineanzahl%", $result2Count, $lang['login_benutzer_online']);
+					}
+					$text .= zeige_formularfelder("ueberschrift", $zaehler, $benutzeronline, "", "", 0, "70", "");
 					
 					$text .= "<tr>\n";
 					$text .= "<td colspan=\"2\" $bgcolor>$benutzeranzeige</td>\n";
