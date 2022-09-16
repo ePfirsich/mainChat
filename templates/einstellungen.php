@@ -245,7 +245,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 				}
 				
 				// Admin E-Mail kontrollieren
-				if ($admin) {
+				if ($admin && $f['u_level'] != 'Z') {
 					if (isset($f['u_email']) && (strlen($f['u_email']) > 0) && (filter_var($f['u_email'], FILTER_VALIDATE_EMAIL) == false) ) {
 						$fehlermeldung .= $lang['einstellungen_fehler_email1'];
 						
