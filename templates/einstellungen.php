@@ -182,7 +182,7 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 			break;
 		
 		case "loesche":
-			if ($eingabe == "Löschen!" && $admin) {
+			if ( $eingabe == $lang['einstellungen_loeschen'] && ($u_level == 'C' || $u_level == 'S') ) {
 				if ($u_id == $f['u_id']) {
 					// nicht sich selbst löschen...
 					$fehlermeldung = $lang['einstellungen_fehler_loeschen1'];
