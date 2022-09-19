@@ -394,9 +394,6 @@ function benutzer_suche($f, $suchtext, $suche_ip, $suche_level, $suche_anmeldung
 	$text .= "<input type=\"hidden\" name=\"formular\" value=\"1\">\n";
 	$text .= "<table style=\"width:100%;\">\n";
 	
-	// Überschrift: Benutzerdaten
-	$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['benutzer_suche_neue_suche'], "", "", 0, "70", "");
-	
 	// Suchtext eingeben
 	$text .= zeige_formularfelder("input", $zaehler, $lang['benutzer_suche_suchtext_eingeben'], "suchtext", $suchtext);
 	$zaehler++;
