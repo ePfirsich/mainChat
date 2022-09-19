@@ -122,7 +122,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					$nick = nick_ergaenze($txt[$j], "online", 1);
 				}
 				// Fehlermeldungen unterdrücken.
-				if ($nick['u_nick'] != "") {
+				if ($nick && $nick['u_nick'] != "") {
 					if ($at_sonderbehandlung == 1) {
 					// in /me sprüchen kein [zu Nick] an den anfang stellen, sondern nur nick ergänzen
 						$rep = $nick['u_nick'];
