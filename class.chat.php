@@ -38,7 +38,7 @@ class chatClass {
 		$row_room = $query_room->fetch();
 		$act_room = $row_room['o_raum'];
 		
-		$query = pdoQuery("SELECT `c_id`, `c_von_user`, `c_an_user`, `c_typ`, `c_raum`, `c_text`, `c_zeit`, `c_farbe`, `c_von_user_id`, `c_gelesen` FROM `chat`
+		$query = pdoQuery("SELECT `c_id`, `c_an_user`, `c_typ`, `c_raum`, `c_text`, `c_zeit`, `c_von_user_id`, `c_gelesen` FROM `chat`
 				WHERE `c_id` > :c_id1 AND `c_zeit` >= DATE_SUB(:c_zeit1, INTERVAL 0 HOUR)
 				AND `c_an_user` = 0 AND `c_raum` = :c_raum1 OR `c_id` > :c_id2 AND `c_zeit` >= DATE_SUB(:c_zeit2, INTERVAL 0 HOUR)
 				AND `c_an_user` = :c_an_user1 AND `c_raum` = :c_raum2 OR `c_id` > :c_id3 AND `c_zeit` >= DATE_SUB(:c_zeit3, INTERVAL 0 HOUR)
@@ -68,15 +68,16 @@ class chatClass {
 		
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $row) {
-			$query_usr = pdoQuery("SELECT `u_id`, `u_nick`, `u_level` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
+			$query_usr = pdoQuery("SELECT `u_id`, `u_nick`, `u_farbe`, `u_level` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$u_id]);
 			
 			$row_usr = $query_usr->fetch();
 			$usr_name = $row_usr['u_nick'];
+			$usr_farbe = $row_usr['u_farbe'];
 			$times = date('H:i:s', strtotime($row['c_zeit']));
 			$ava = "";
 			$level = "";
 			
-			if( !$row['c_von_user'] ) {
+			if( $row['c_von_user_id'] == 0 ) {
 				$vonuserid = "";
 			} else {
 				if($benutzerdaten['u_avatare_anzeigen'] == 1) {
@@ -88,9 +89,9 @@ class chatClass {
 					} else {
 						$ui_gen = '0';
 					}
-					$ava = avatar_anzeigen($row['c_von_user_id'], $row['c_von_user'], "chat", $ui_gen);
+					$ava = avatar_anzeigen($row['c_von_user_id'], $usr_name, "chat", $ui_gen);
 				}
-				$vonuserid = $ava . " <b>" . $row['c_von_user'] . "</b>: ";
+				$vonuserid = $ava . " <b>" . $usr_name . "</b>: ";
 			}
 			
 			// Private Nachrichten
@@ -104,12 +105,12 @@ class chatClass {
 					} else {
 						$ui_gen = '0';
 					}
-					$ava = avatar_anzeigen($row['c_von_user_id'], $row['c_von_user'], "chat", $ui_gen);
+					$ava = avatar_anzeigen($row['c_von_user_id'], $usr_name, "chat", $ui_gen);
 				}
 				if ($benutzerdaten['u_layout_chat_darstellung'] == '0') {
-					$vonuserid = $ava . "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
+					$vonuserid = $ava . "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>". $usr_name ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $usr_name ." '); return(false)\">privat</a>):</b> ";
 				} else {
-					$vonuserid = $ava . "<span style=\"". $row['c_farbe'] ."\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
+					$vonuserid = $ava . "<span style=\"". $usr_farbe ."\" title=\"". $times ."\"><b>". $usr_name ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $usr_name ." '); return(false)\">privat</a>):</b> ";
 				}
 			}
 			
@@ -119,7 +120,7 @@ class chatClass {
 				$row['c_text'] = "<i>" . $row['c_text'] . "</i>";
 				
 				if( $row_usr['u_level'] == 'S' || $row_usr['u_level'] == 'C' || $row_usr['u_level'] == 'M' ) {
-					$level = " <b>(". $row['c_von_user'] .")</b>";
+					$level = " <b>(". $usr_name .")</b>";
 				}
 			}
 			
@@ -146,8 +147,8 @@ class chatClass {
 			if(!ctype_space($c_text))
 			{
 			$line->c_id = $row['c_id'];
-			$line->c_von_user = $row['c_von_user'];
-			$line->c_farbe = $row['c_farbe'];
+			$line->c_von_user = $usr_name;
+			$line->c_farbe = $usr_farbe;
 			$line->c_text = $c_text;
 			//$line->c_typ = $row['c_typ'];
 			//$line->chat_ausgabe = $ausgabe;
