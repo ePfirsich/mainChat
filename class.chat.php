@@ -90,15 +90,26 @@ class chatClass {
 					}
 					$ava = avatar_anzeigen($row['c_von_user_id'], $row['c_von_user'], "chat", $ui_gen);
 				}
-				$vonuserid = "" . $ava . " <b>" . $row['c_von_user'] . "</b>: ";
+				$vonuserid = $ava . " <b>" . $row['c_von_user'] . "</b>: ";
 			}
 			
 			// Private Nachrichten
 			if( $row['c_typ'] == 'P' ) {
+				if($benutzerdaten['u_avatare_anzeigen'] == 1) {
+					$query2 = pdoQuery("SELECT `ui_geschlecht` FROM `userinfo` WHERE `ui_userid` = :ui_userid", [':ui_userid'=>$row['c_von_user_id']]);
+					$result2Count = $query2->rowCount();
+					if ($result2Count == 1) {
+						$result2 = $query2->fetch();
+						$ui_gen = $result2['ui_geschlecht'];
+					} else {
+						$ui_gen = '0';
+					}
+					$ava = avatar_anzeigen($row['c_von_user_id'], $row['c_von_user'], "chat", $ui_gen);
+				}
 				if ($benutzerdaten['u_layout_chat_darstellung'] == '0') {
-					$vonuserid = "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
+					$vonuserid = $ava . "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
 				} else {
-					$vonuserid = "<span style=\"". $row['c_farbe'] ."\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
+					$vonuserid = $ava . "<span style=\"". $row['c_farbe'] ."\" title=\"". $times ."\"><b>". $row['c_von_user'] ."&nbsp;(<a href=\"#\" onMouseOver=\"return(true)\" onClick=\"appendtext_chat('/msg ". $row['c_von_user'] ." '); return(false)\">privat</a>):</b> ";
 				}
 			}
 			
