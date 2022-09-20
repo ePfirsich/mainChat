@@ -206,7 +206,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 			} else if ($admin) {
 				$nick = nick_ergaenze($chatzeile[1], "online", 1);
 				
-				if ($nick && $nick['u_nick'] != "") {
+				if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 					$query = pdoQuery("SELECT `o_ip` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$nick['u_id']]);
 					
 					$resultCount = $query->rowCount();
@@ -277,7 +277,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 				}
 				
-				if ($nick && $nick['u_nick'] != "") {
+				if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 					$query = pdoQuery("SELECT `u_profil_historie` FROM `user` WHERE `u_nick` = :u_nick", [':u_nick'=>$nick['u_nick']]);
 					
 					$resultCount = $query->rowCount();
@@ -439,7 +439,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 					}
 					
 					
-					if ($nick && $nick['u_nick'] != "") {
+					if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 						// Nick gefunden. jetzt eintragen oder löschen...
 						$query = pdoQuery("SELECT `inv_user` FROM `invite` WHERE `inv_raum` = :inv_raum AND `inv_user` = :inv_user", [':inv_raum'=>$raum_id, ':inv_user'=>$nick['u_id']]);
 						
@@ -584,7 +584,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				// sonst evtl. DB Probs weil der expire evtl. user löscht, die hier gerade 
 				// eingetragen werden.
 				$nick = nick_ergaenze($chatzeile[1], "online", 0);
-				if ($nick && $nick['u_nick'] != "") {
+				if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 					$i_user_passiv = $nick['u_id'];
 					$i_user_name_passiv = $nick['u_nick'];
 					
@@ -1238,7 +1238,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 				}
 				
 				// Falls Empfänger gefunden, Nachricht versenden
-				if ($nick && $nick['u_nick'] != "") {
+				if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 					// Nick gefunden und eindeutig
 					if ($text != " ") {
 						// Wir prüfen, ob der Benutzer ignoriert wird, wenn ja => Fehlermeldung
@@ -1673,7 +1673,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						if ($temp == ":" || $temp == "@") {
 							$nick = nick_ergaenze($chatzeile[0], "raum", 0);
 							//$f['c_an_user'] = $nick['u_id'];
-							if ($nick && $nick['u_nick'] != "") {
+							if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
 								$f['c_text'] = "[" . $lang['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[1] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 								if ($nick['u_away'] != "") {
@@ -1688,7 +1688,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 						} else if (isset($chatzeile[1]) && substr($chatzeile[1], 0, 1) == "@") {
 							$nick = nick_ergaenze($chatzeile[1], "raum", 0);
 							$f['c_an_user'] = 0;
-							if ($nick && $nick['u_nick'] != "") {
+							if ($nick != null && $nick != '' && $nick['u_nick'] != "") {
 								// Falls Benutzer gefunden wurde Benutzernamen einfügen und filtern
 								$f['c_text'] = "[" . $lang['chat_spruch6'] . "&nbsp;$nick[u_nick]] " . html_parse($privat, htmlspecialchars( $chatzeile[0] . " " . $chatzeile[2] . " " . $chatzeile[3]))[0];
 								if ($nick['u_away'] != "") {
