@@ -98,38 +98,25 @@ switch ($aktion) {
 		// Update von 8.0.0
 		$migrationsdateienArray = ["update_8_0_4.sql"];
 		datenbank_migration($migrationsdateienArray);
+		
+		break;
 	
 	case "update_von_7_1_3":
 		// Update von 7.1.3
 		$migrationsdateienArray = ["update_8_0_0.sql", "update_8_0_4.sql"];
 		datenbank_migration($migrationsdateienArray);
 		
+		break;
+		
 	case "update_von_7_1_2":
 		// Update von 7.1.2
 		$migrationsdateienArray = ["update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
 		datenbank_migration($migrationsdateienArray);
 		
-	case "update_von_7_1_1":
-		// Update von 7.1.1
-		$migrationsdateienArray = ["update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
-		datenbank_migration($migrationsdateienArray);
-	
-	case "update_von_7_1_0":
-		// Update von 7.1.0
-		$migrationsdateienArray = ["update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
-		datenbank_migration($migrationsdateienArray);
-		
-		break;
-	
-	case "update_von_7_0_10":
-		// Update von 7.0.10
-		$migrationsdateienArray = ["update_7_1_0.sql", "update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
-		datenbank_migration($migrationsdateienArray);
-		
 		break;
 	
 	case "update_unter_7_1_0":
-		$migrationsdateienArray = ["update_unter_7_1_0.sql", "update_7_1_0.sql", "update_7_1_1.sql", "update_7_1_2.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
+		$migrationsdateienArray = ["update_unter_7_1_0.sql", "update_7_1_3.sql", "update_8_0_0.sql", "update_8_0_4.sql"];
 		datenbank_migration($migrationsdateienArray);
 		
 		break;
@@ -173,21 +160,6 @@ switch ($aktion) {
 	<form action="update.php" method="post">
 		<input type="hidden" name="aktion" value="update_von_7_1_2">
 		<input type="submit" value="Aktualisierung von Version 7.1.2 starten">
-	</form>
-	<br>
-	<form action="update.php" method="post">
-		<input type="hidden" name="aktion" value="update_von_7_1_1">
-		<input type="submit" value="Aktualisierung von Version 7.1.1 starten">
-	</form>
-	<br>
-	<form action="update.php" method="post">
-		<input type="hidden" name="aktion" value="update_von_7_1_0">
-		<input type="submit" value="Aktualisierung von Version 7.1.0 starten">
-	</form>
-	<br>
-	<form action="update.php" method="post">
-		<input type="hidden" name="aktion" value="update_von_7_0_10">
-		<input type="submit" value="Aktualisierung von Version 7.0.10 starten">
 	</form>
 	<br>
 	<form action="update.php" method="post">

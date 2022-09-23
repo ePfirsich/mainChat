@@ -89,3 +89,41 @@ CREATE TABLE `statistiken` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE `statistiken` ADD PRIMARY KEY (`id`);
 ALTER TABLE `statistiken` MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `user` DROP `u_loginfehler`;
+ALTER TABLE `user` CHANGE `u_login` `u_login` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP; 
+ALTER TABLE `user` CHANGE `u_adminemail` `u_email` VARCHAR(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `user` DROP INDEX `u_adminemail`, ADD INDEX `u_email` (`u_email`) USING BTREE;
+ALTER TABLE `user` ADD `u_passwort_code` VARCHAR(255) NULL DEFAULT NULL AFTER `u_passwort`;
+ALTER TABLE `user` ADD `u_passwort_code_time` TIMESTAMP NULL DEFAULT NULL AFTER `u_passwort_code`; 
+ALTER TABLE `user` ADD `u_email_neu` VARCHAR(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
+ALTER TABLE `user` ADD `u_email_code` VARCHAR(255) NULL DEFAULT NULL AFTER `u_email_neu`;
+ALTER TABLE `user` ADD `u_passwortanforderung` TIMESTAMP NULL DEFAULT NULL AFTER `u_passwort_code_time`;
+UPDATE `user` SET `u_passwort` = NULL;
+RENAME TABLE `forum` TO `forum_kategorien`;
+RENAME TABLE `thema` TO `forum_foren`;
+RENAME TABLE `posting` TO `forum_beitraege`;
+ALTER TABLE `forum_beitraege` DROP `po_tiefe`;
+
+ALTER TABLE `chat` engine = MyISAM;
+ALTER TABLE `chat` CHANGE `c_text` `c_text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '';
+
+ALTER TABLE `aktion` engine = InnoDB;
+ALTER TABLE `bild` engine = InnoDB;
+ALTER TABLE `blacklist` engine = InnoDB;
+ALTER TABLE `forum_beitraege` engine = InnoDB;
+ALTER TABLE `forum_foren` engine = InnoDB;
+ALTER TABLE `forum_kategorien` engine = InnoDB;
+ALTER TABLE `freunde` engine = InnoDB;
+ALTER TABLE `iignore` engine = InnoDB;
+ALTER TABLE `ip_sperre` engine = InnoDB;
+ALTER TABLE `mail` engine = InnoDB;
+ALTER TABLE `mail_check` engine = InnoDB;
+ALTER TABLE `moderation` engine = InnoDB;
+ALTER TABLE `raum` engine = InnoDB;
+ALTER TABLE `sperre` engine = InnoDB;
+ALTER TABLE `top10cache` engine = InnoDB;
+ALTER TABLE `user` engine = InnoDB;
+ALTER TABLE `userinfo` engine = InnoDB;
+
+ALTER TABLE `user` DROP `u_forum_postingproseite`;
