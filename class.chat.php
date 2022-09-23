@@ -3,12 +3,13 @@ session_start();
 require_once("conf/config.php");
 require_once("functions/functions.php");
 require_once("functions/functions-chat_lese.php");
+require_once("languages/$sprache.php");
 
 $u_id = $_SESSION['u_id'];
 
 class chatClass {
 	public static function getRestChatLines($last_time_id) {
-		global $chat_status_klein;
+		global $chat_status_klein, $u_nick;
 		$arr = array();
 		$jsonData = '{"results":[';
 		$refresh_zeit = 0;
@@ -91,7 +92,16 @@ class chatClass {
 					}
 					$ava = avatar_anzeigen($row['c_von_user_id'], $usr_name, "chat", $ui_gen);
 				}
-				$vonuserid = $ava . " <b>" . $usr_name . "</b>: ";
+				if ($benutzerdaten['u_layout_chat_darstellung'] == '0') {
+					$gesuchter_nutzer = '[zu&nbsp;' . $u_nick . ']';
+					if ( str_contains($row['c_text'], $gesuchter_nutzer) ) {
+						$vonuserid = $ava . "<span class=\"nachrichten_privat\" title=\"". $times ."\"><b>" . $usr_name . "</b>: ";
+					} else {
+						$vonuserid = $ava . "<span style=\"". $usr_farbe ."\" title=\"". $times ."\"><b>" . $usr_name . "</b>: ";
+					}
+				} else {
+					$vonuserid = $ava . " <span style=\"". $usr_farbe ."\" title=\"". $times ."\"><b>" . $usr_name . "</b>: ";
+				}
 			}
 			
 			// Private Nachrichten
