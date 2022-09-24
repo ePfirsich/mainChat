@@ -32,7 +32,7 @@ function chat_lese($o_id, $raum, $user_id, $sysmsg, $ignore, $anzahl_der_zeilen,
 	}
 	
 	if ($nur_privat_user) {
-		$txt = "<b>$u_nick flüstert an " . $user_nick . ":</b>";
+		$txt = "<b>$u_nick " . $lang['chat_msg24'] . ' ' . $user_nick . ":</b>";
 		$len = strlen($txt);
 		$qquery .= " AND (`c_an_user` = '$user_id' AND `c_von_user_id` != '0' AND ( (`c_von_user_id` = '$user_id' AND LEFT(`c_text`,$len) = '$txt') OR `c_von_user_id` = '$nur_privat_user') )";
 	}
