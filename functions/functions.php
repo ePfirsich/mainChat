@@ -86,6 +86,7 @@ if ( !file_exists($filenameConfig) ) {
 				preg_match('/^(?P<sd>.+)\.(?P<d>.+?)\.(?P<tld>.+?)$/', $http_host, $matches);
 			}
 			
+			/*
 			$subdomain = (isset($matches['sd'])) ? $matches['sd'] : '';
 			$domain = $matches['d'];
 			$tld = $matches['tld'];
@@ -96,6 +97,16 @@ if ( !file_exists($filenameConfig) ) {
 			} else {
 				$aufgerufeneURL = "http://" . $subdomain.'.'.$domain.'.'.$tld;
 			}
+			*/
+			
+			$server=$_SERVER['SERVER_NAME'];
+			$datei=$_SERVER['SCRIPT_NAME'];
+			$phpfad = substr($datei,0,strrpos($datei,"/")+1); // mit Slash am Ende , ohne +1 = Ohne Slash
+			// sucht mit strrpos in der Zeichenkette nach dem letzten slash und
+			// schneidet alles dahinter ab mit substr
+			$aufgerufeneURL = $_SERVER['REQUEST_SCHEME'] . '://' . $server.$phpfad;
+			// Letztes Zeichen entfernen
+			$aufgerufeneURL = substr($aufgerufeneURL, 0, -1);
 			
 			if($aufgerufeneURL != $chat_url) {
 				header('Location: '.$chat_url.'', true, 301);
