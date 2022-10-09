@@ -15,7 +15,7 @@ function startChat(){
 function getChatText() {
 	$.ajax({
 		type: "GET",
-		url: "/refresh.php?lastTimeID=" + lastTimeID
+		url: "/chat/refresh.php?lastTimeID=" + lastTimeID
 	}).done( function( data )
 	{
 		var jsonData = JSON.parse(data);
