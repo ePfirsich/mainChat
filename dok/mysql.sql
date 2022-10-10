@@ -378,33 +378,33 @@ CREATE TABLE `moderation` (
 --
 
 CREATE TABLE `online` (
-	`o_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`o_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
-	`o_raum` int(11) NOT NULL DEFAULT 0,
-	`o_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_ip` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_who` smallint(3) UNSIGNED DEFAULT NULL,
-	`o_aktiv` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`o_browser` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_knebel` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`o_http_stuff` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_http_stuff2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_userdata` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_userdata2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_userdata3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_userdata4` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_level` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_ignore` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`o_punkte` int(11) NOT NULL DEFAULT 0,
-	`o_aktion` int(11) UNSIGNED NOT NULL DEFAULT 0,
-	`o_timeout_zeit` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
-	`o_spam_zeilen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_spam_byte` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_spam_zeit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_dicecheck` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
-	`o_timeout_warnung` int(1) UNSIGNED NOT NULL DEFAULT 0
+  `o_id` int(11) UNSIGNED NOT NULL,
+  `o_user` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `o_raum` int(11) NOT NULL DEFAULT 0,
+  `o_hash` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_ip` varchar(38) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_who` smallint(3) UNSIGNED DEFAULT NULL,
+  `o_aktiv` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `o_browser` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_knebel` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `o_http_stuff` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_http_stuff2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_userdata` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_userdata2` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_userdata3` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_userdata4` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_level` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_ignore` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_login` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `o_punkte` int(11) NOT NULL DEFAULT 0,
+  `o_aktion` int(11) UNSIGNED NOT NULL DEFAULT 0,
+  `o_timeout_zeit` varchar(14) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0',
+  `o_spam_zeilen` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_spam_byte` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_spam_zeit` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_dicecheck` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `o_timeout_warnung` int(1) UNSIGNED NOT NULL DEFAULT 0
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci PACK_KEYS=1;
 
 -- --------------------------------------------------------
@@ -692,6 +692,11 @@ ALTER TABLE `online`
 	ADD KEY `o_ip` (`o_ip`),
 	ADD KEY `o_browser` (`o_browser`(250)),
 	ADD KEY `o_level` (`o_level`);
+
+--
+-- AUTO_INCREMENT für Tabelle `online`
+--
+ALTER TABLE `online` MODIFY `o_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Indizes für die Tabelle `raum`
