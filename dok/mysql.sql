@@ -537,7 +537,6 @@ CREATE TABLE `user` (
 CREATE TABLE `userinfo` (
 	`ui_id` int(11) NOT NULL,
 	`ui_userid` int(11) NOT NULL DEFAULT 0,
-	`ui_wohnort` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_geburt` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_beruf` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
 	`ui_hobby` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
