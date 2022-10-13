@@ -211,7 +211,7 @@ $lang['registrierung_absenden'] = "Absenden";
 $lang['ipsperre1'] = "Info an alle Admins: Benutzer %u_nick% loggt sich über %ip_adr%/%ip_name% ein (%is_infotext%)!";
 $lang['ipsperre2'] = "IP-Sperre umgangen, da mehr als $loginwhileipsperre Punkte (%punkte%)";
 
-$lang['chat_agb'] = "<b>Nutzungsbestimmungen:</b><br><ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
+$lang['chat_agb'] = "<ol><li>Wir bitten alle Benutzer im Chat um ein höfliches, respektvolles und nicht zu aufdringliches "
 	. "Verhalten. </li>"
 	. "<li>Nicht erlaubt ist die Registrierung ohne Angabe des wahren Vor- und Zunamens. Pro Mitglied ist nur ein Account zulässig.</li>"
 	. "<li>Im Chat sollte man grundsätzlich nichts tun, was man im realen Leben auch nicht tun würde. Ausdrücklich untersagt sind Beleidigungen, Pöbeleien, Sticheln, Provozieren, Stänkern, Baggern, "
