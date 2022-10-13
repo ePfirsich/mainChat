@@ -186,7 +186,7 @@ if ($resultCount > 0) {
 
 
 // Lösche alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-echo " mail ";
+echo " Alte Nachrichten löschen<br>";
 flush();
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 if ($mailloescheauspapierkorb < 1) {
