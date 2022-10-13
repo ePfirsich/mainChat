@@ -618,19 +618,21 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
-	global $lang, $logo, $chat;
+	global $lang, $logo, $chat, $login_kopfzeile_deaktivieren;
 	
 	if($logo != "") {
 	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
 	}
 	
-	$box = $lang['login_chatname'];
-	$text = "<a href=\"index.php\">$lang[login_login]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=registrierung\">$lang[login_registrierung]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=chatiquette\">$lang[login_chatiquette]</a>\n";
-	$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$lang[login_nutzungsbestimmungen]</a>\n";
-	
-	zeige_tabelle_volle_breite($box, $text);
+	if(!$login_kopfzeile_deaktivieren) {
+		$box = $lang['login_chatname'];
+		$text = "<a href=\"index.php\">$lang[login_login]</a>\n";
+		$text .= "| <a href=\"index.php?bereich=registrierung\">$lang[login_registrierung]</a>\n";
+		$text .= "| <a href=\"index.php?bereich=chatiquette\">$lang[login_chatiquette]</a>\n";
+		$text .= "| <a href=\"index.php?bereich=nutzungsbestimmungen\">$lang[login_nutzungsbestimmungen]</a>\n";
+		
+		zeige_tabelle_volle_breite($box, $text);
+	}
 }
 
 function coreCheckName($name, $check_name) {

@@ -28,6 +28,10 @@ $secret_salt = "%secret_salt%";		// Zufallsgenerierte Zeichenkette zum Hashen de
 									// Wenn dies im Laufenden Betrieb geändert wird, muss sich jeder Benutzer ein neues Passwort über "Passwort vergessen" anfordern.
 $logo = "";							// Hier muss das Logo angegeben werden, welches im Login über der Navigation angezeigt wird. (z.B. images/mainchat_logo.gif)
 
+$login_kopfzeile_deaktivieren = false;// Hiermit kann die Kopfzeile im Login deaktiviert werden.
+									//Wenn dies aktiviert ist, müssen die Links zur z.B. Registrierung woanders eingefügt werden,
+									// da sie sost nicht mehr vorhanden sind (z.B. in "templates/index-header.php")
+
 
 // Benutzerseiten
 $standard_ui_hintergrundfarbe = "ffffff";
