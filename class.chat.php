@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once("conf/config.php");
-require_once("functions/functions.php");
-require_once("functions/functions-chat_lese.php");
-require_once("languages/$sprache.php");
+require_once("./conf/config.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-chat_lese.php");
+require_once("./languages/$sprache.php");
 
 $u_id = $_SESSION['u_id'];
 

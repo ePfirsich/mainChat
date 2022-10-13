@@ -1333,7 +1333,7 @@ function zeige_profilinformationen_von_id($profilfeld, $key) {
 	// Löse die IDs in menschliche Informationen auf
 	global $lang, $sprache;
 	
-	require_once("languages/$sprache-profil.php");
+	require_once("./languages/$sprache-profil.php");
 	
 	if($profilfeld == "geschlecht") {
 		if($key == 1) {

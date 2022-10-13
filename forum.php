@@ -1,8 +1,8 @@
 <?php
-require_once("functions/functions.php");
-require_once("functions/functions-forum.php");
-require_once("languages/$sprache-smilies.php");
-require_once("languages/$sprache-forum.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-forum.php");
+require_once("./languages/$sprache-smilies.php");
+require_once("./languages/$sprache-forum.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 

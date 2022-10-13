@@ -1,6 +1,6 @@
 <?php
-require_once("functions/functions.php");
-require_once("functions/functions-chat_lese.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-chat_lese.php");
 
 // Optional kann $trigger_letzte_Zeilen als Trigger für die Ausgabe der letzten n-Zeilen angegeben werden
 $trigger_letzte_Zeilen = 1;

@@ -1,7 +1,7 @@
 <?php
 
-require_once("functions/functions.php");
-require_once("functions/functions-chat_lese.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-chat_lese.php");
 
 $user = filter_input(INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT);
 $user_nick = filter_input(INPUT_GET, 'user_nick', FILTER_SANITIZE_STRING);

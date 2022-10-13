@@ -1,6 +1,6 @@
 <?php
-require_once("functions/functions.php");
-require_once("functions/functions-forum.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-forum.php");
 
 // Benutzerdaten setzen
 id_lese();
@@ -21,7 +21,7 @@ gehe_forum($u_id, $u_nick, $o_id, $o_raum);
 $title = $body_titel;
 zeige_header($title, $benutzerdaten['u_layout_farbe']);
 
-require_once("functions/functions-frameset.php");
+require_once("./functions/functions-frameset.php");
 
 frameset_forum();
 ?>

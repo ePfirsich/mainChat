@@ -1,8 +1,8 @@
 <?php
-require_once("functions/functions.php");
-require_once("functions/functions-user.php");
-require_once("functions/functions-nachrichten_betrete_verlasse.php");
-require_once("languages/$sprache-user.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-user.php");
+require_once("./functions/functions-nachrichten_betrete_verlasse.php");
+require_once("./languages/$sprache-user.php");
 
 $aktion = filter_input(INPUT_GET, 'aktion', FILTER_SANITIZE_URL);
 

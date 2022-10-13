@@ -7,7 +7,7 @@
 <body>
 <?php
 
-require_once("functions-update.php");
+require_once("./functions-update.php");
 require("../conf/config.php");
 
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_STRING);

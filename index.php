@@ -420,7 +420,7 @@ switch ($bereich) {
 		// Chat betreten
 		betrete_chat($o_id, $u_id, $u_nick, $u_level, $neuer_raum);
 		
-		require_once("functions/functions-frameset.php");
+		require_once("./functions/functions-frameset.php");
 		
 		frameset_chat();
 		

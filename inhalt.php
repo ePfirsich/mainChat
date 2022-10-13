@@ -1,5 +1,5 @@
 <?php
-require_once("functions/functions.php");
+require_once("./functions/functions.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
@@ -124,7 +124,7 @@ $kein_seitenaufruf = false;
 
 // Übersetzungen der entsprechenden Seite einbinden
 if (file_exists("languages/$sprache-$bereich.php")) {
-	require_once("languages/$sprache-$bereich.php");
+	require_once("./languages/$sprache-$bereich.php");
 } else {
 	$kein_seitenaufruf = true;
 }
@@ -236,10 +236,10 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "benutzer":
 			// Benutzer anzeigen
-			require_once("functions/functions-benutzer.php");
-			require_once("functions/functions-user.php");
-			require_once("functions/functions-nachrichten_betrete_verlasse.php");
-			require_once("languages/$sprache-einstellungen.php");
+			require_once("./functions/functions-benutzer.php");
+			require_once("./functions/functions-user.php");
+			require_once("./functions/functions-nachrichten_betrete_verlasse.php");
+			require_once("./languages/$sprache-einstellungen.php");
 			
 			// Menü ausgeben
 			$box = $lang['benutzer_titel'];
@@ -267,8 +267,8 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "raum":
 			// Raum anzeigen
-			require_once("functions/functions-raum.php");
-			require_once("functions/functions-msg.php");
+			require_once("./functions/functions-raum.php");
+			require_once("./functions/functions-msg.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -284,7 +284,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "nachrichten":
 			// Nachrichten anzeigen
-			require_once("functions/functions-nachrichten.php");
+			require_once("./functions/functions-nachrichten.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -301,7 +301,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "profil":
 			// Profil anzeigen
-			require_once("functions/functions-profil.php");
+			require_once("./functions/functions-profil.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -318,9 +318,9 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 		case "profilbilder":
 			// Profil anzeigen
-			require_once("languages/$sprache-profil.php");
+			require_once("./languages/$sprache-profil.php");
 			
-			require_once("functions/functions-profilbilder.php");
+			require_once("./functions/functions-profilbilder.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -337,12 +337,12 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "einstellungen":
 			// Einstellungen anzeigen
-			require_once("languages/$sprache-benutzer.php");
-			require_once("languages/$sprache-profilbilder.php");
+			require_once("./languages/$sprache-benutzer.php");
+			require_once("./languages/$sprache-profilbilder.php");
 			
-			require_once("functions/functions-profilbilder.php");
-			require_once("functions/functions-msg.php");
-			require_once("functions/functions-einstellungen.php");
+			require_once("./functions/functions-profilbilder.php");
+			require_once("./functions/functions-msg.php");
+			require_once("./functions/functions-einstellungen.php");
 			
 			// Menü ausgeben
 			if ($u_level != "G") {
@@ -378,7 +378,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "statistik":
 			// Statistik anzeigen
-			require_once("functions/functions-statistik.php");
+			require_once("./functions/functions-statistik.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -392,7 +392,7 @@ if(!$bereich || $kein_seitenaufruf) {
 		
 		case "sperren":
 			// Sperren anzeigen
-			require_once("functions/functions-sperren.php");
+			require_once("./functions/functions-sperren.php");
 			
 			require_once('templates/sperren.php');
 				
@@ -400,7 +400,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 		case "freunde":
 			// Freunde anzeigen
-			require_once("functions/functions-freunde.php");
+			require_once("./functions/functions-freunde.php");
 			
 			// Menü ausgeben
 			$box = $lang['titel'];
@@ -433,7 +433,7 @@ if(!$bereich || $kein_seitenaufruf) {
 			
 		case "log":
 			// Log anzeigen
-			require_once("functions/functions-log.php");
+			require_once("./functions/functions-log.php");
 			
 			require_once('templates/log.php');
 			

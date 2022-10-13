@@ -5,7 +5,7 @@
 //			u_id -> Benutzer, zu dem das Bild gehört
 //			feld -> Feldname in der DB
 
-require_once("functions/functions.php");
+require_once("./functions/functions.php");
 
 $u_id = filter_input(INPUT_GET, 'u_id', FILTER_SANITIZE_NUMBER_INT);
 $feld = filter_input(INPUT_GET, 'feld', FILTER_SANITIZE_URL);

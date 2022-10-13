@@ -48,7 +48,7 @@ $chat["punktefeatures"] = filter_input(INPUT_POST, 'chat_punktefeatures', FILTER
 $chat["modmodul"] = filter_input(INPUT_POST, 'chat_modmodul', FILTER_SANITIZE_STRING);
 $chat["smiliesanzahl"] = filter_input(INPUT_POST, 'chat_smiliesanzahl', FILTER_SANITIZE_STRING);
 
-require_once("functions-install.php");
+require_once("./functions-install.php");
 $configdatei = "../conf/config.php";
 
 ?>

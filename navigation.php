@@ -1,6 +1,6 @@
 <?php
-require_once("functions/functions.php");
-require_once("languages/$sprache-navigation.php");
+require_once("./functions/functions.php");
+require_once("./languages/$sprache-navigation.php");
 
 // Vergleicht Hash-Wert mit IP und liefert u_id, o_id, o_raum, admin
 id_lese();
@@ -24,7 +24,7 @@ if ($o_raum && $o_raum == "-1") {
 
 // Weitere Funktionen für die Raumanzeige im Forum notwendig
 if($wo_online == "forum") {
-	require_once("functions/functions-raeume_auswahl.php");
+	require_once("./functions/functions-raeume_auswahl.php");
 }
 
 // Prüfung, ob Benutzer wegen Inaktivität ausgeloggt werden soll

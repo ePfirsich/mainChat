@@ -15,7 +15,7 @@ function startChat(){
 function getChatText() {
 	$.ajax({
 		type: "GET",
-		url: "/chat/refresh.php?lastTimeID=" + lastTimeID
+		url: "./refresh.php?lastTimeID=" + lastTimeID
 	}).done( function( data )
 	{
 		var jsonData = JSON.parse(data);
@@ -40,7 +40,7 @@ function sendChatText(){
 	if(chatInput != ""){
 		$.ajax({
 			type: "GET",
-			url: "/submit.php?chattext=" + encodeURIComponent( chatInput )
+			url: "./submit.php?chattext=" + encodeURIComponent( chatInput )
 		});
 	}
 }

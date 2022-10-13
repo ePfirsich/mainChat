@@ -37,7 +37,7 @@ if ( !file_exists($filenameConfig) ) {
 	require $filenameConfig;
 	
 	// Allgemeine Übersetzungen
-	require_once("languages/$sprache.php");
+	require_once("./languages/$sprache.php");
 	
 	// Globales
 	ini_set("magic_quotes_runtime", 0);
@@ -116,11 +116,11 @@ if ( !file_exists($filenameConfig) ) {
 		// Ende der aufgerufenen URLH
 		
 		if($forumfeatures == "1" || $punktefeatures == "1") {
-			require_once("functions-community.php");
+			require_once("./functions/functions-community.php");
 		}
-		require_once("functions-global.php");
-		require_once("functions/functions-formulare.php");
-		require_once("functions/functions-html.php");
+		require_once("./functions/functions-global.php");
+		require_once("./functions/functions-formulare.php");
+		require_once("./functions/functions-html.php");
 		
 		$chat_grafik['home']="<span class=\"fa-solid fa-home icon16\" alt=\"$lang[benutzer_benutzerseite]\" title=\"$lang[benutzer_benutzerseite]\"></span>";
 		$chat_grafik['mail']="<span class=\"fa-solid fa-envelope icon16\" alt=\"$lang[benutzer_nachricht]\" title=\"$lang[benutzer_nachricht]\"></span>";

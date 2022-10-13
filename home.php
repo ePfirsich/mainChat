@@ -2,9 +2,9 @@
 // Kopf nur ausgeben, wenn $ui_userid oder mit $argv[0] aufgerufen
 // Sonst geht der redirekt nicht mehr.
 
-require_once("functions/functions.php");
-require_once("functions/functions-home.php");
-require_once("languages/$sprache-profil.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-home.php");
+require_once("./languages/$sprache-profil.php");
 
 $ui_userid_get = filter_input(INPUT_GET, 'ui_userid', FILTER_SANITIZE_NUMBER_INT);
 

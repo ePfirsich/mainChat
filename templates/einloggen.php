@@ -304,7 +304,7 @@ if($in_den_chat_einloggen) {
 					$frameset = true;
 					betrete_forum($o_id, $user_id, $u_nick, $u_level);
 					
-					require_once("functions/functions-frameset.php");
+					require_once("./functions/functions-frameset.php");
 					
 					zeige_header($body_titel, 0);
 					frameset_forum();
@@ -320,7 +320,7 @@ if($in_den_chat_einloggen) {
 					
 					betrete_chat($o_id, $user_id, $u_nick, $u_level, $eintritt);
 					
-					require_once("functions/functions-frameset.php");
+					require_once("./functions/functions-frameset.php");
 					
 					zeige_header($body_titel, 0);
 					frameset_chat();

@@ -1,6 +1,6 @@
 <?php
-require_once("functions/functions-raum_gehe.php");
-require_once("functions/functions-msg.php");
+require_once("./functions/functions-raum_gehe.php");
+require_once("./functions/functions-msg.php");
 
 function schreibe_nachricht_chat($text, $privat, $o_id, $benutzerdaten) {
 	global $u_id, $u_nick, $lang, $o_raum, $admin, $u_level, $o_spam_zeilen, $o_spam_byte, $u_farbe, $user_farbe, $o_who, $chat_max_zeilen, $chat_max_byte, $o_spam_zeit, $chat_max_zeit, $punktefeatures;

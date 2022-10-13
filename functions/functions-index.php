@@ -1,6 +1,6 @@
 <?php
 // Funktionen nur für index.php
-require_once("functions/functions-nachrichten_betrete_verlasse.php");
+require_once("./functions/functions-nachrichten_betrete_verlasse.php");
 
 function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_punkte_jahr, $u_punkte_datum_monat, $u_punkte_datum_jahr, $u_punkte_gesamt) {
 	// In das System einloggen

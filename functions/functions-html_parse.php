@@ -42,7 +42,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 			}
 			
 			// Konfiguration für Smilies lesen
-			require_once("languages/$sprache-smilies.php");
+			require_once("./languages/$sprache-smilies.php");
 			
 			if (!$smilie_ok) {
 				// Nur die Fehlermeldung ausgeben, falls es das angegeben Smile auch gibt

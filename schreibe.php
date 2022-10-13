@@ -1,8 +1,8 @@
 <?php
-require_once("functions/functions.php");
-require_once("functions/functions-msg.php");
-require_once("functions/functions-schreibe.php");
-require_once("languages/$sprache-chat.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-msg.php");
+require_once("./functions/functions-schreibe.php");
+require_once("./languages/$sprache-chat.php");
 
 $aktion = filter_input(INPUT_POST, 'aktion', FILTER_SANITIZE_URL);
 if( $aktion == "") {

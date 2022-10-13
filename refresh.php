@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-require_once("conf/config.php");
-require_once("class.chat.php");
+require_once("./conf/config.php");
+require_once("./class.chat.php");
 if(isset($_GET['lastTimeID'])) {
 	$last_time_id = intval( $_GET['lastTimeID'] );
 } else {
