@@ -35,7 +35,7 @@ if ($resultCount > 0) {
 			$loesche .= ",";
 		}
 		if (!$row['r_name']) {
-			$row['r_name'] = "_ohne_Raum";
+ 			$row['r_name'] = "_ohne_Raum";
 		}
 		
 		// Chat-Zeile ins Log schreiben
@@ -71,7 +71,7 @@ if ($resultCount > 0) {
 	}
 	
 	// Chat-Zeilen löschen
-	pdoQuery("DELETE FROM `chat` WHERE `c_id` IN (:c_id)", [':c_id'=>$loesche]);
+	pdoQuery("DELETE FROM `chat` WHERE `c_id` IN (" . $loesche . ")", []);
 }
 
 if ($expire_privat) {
