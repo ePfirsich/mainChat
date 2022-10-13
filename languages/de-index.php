@@ -127,7 +127,7 @@ $lang['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrie
 
 $lang['login_erfolgsmeldung_abmeldung'] = "Sie wurden erfolgreich abgemeldet.<br>";
 
-$lang['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br>Wir bedauern dies sehr und arbeiten daran.<br><br> Bitte versuchen Sie es später wieder.</b></p><br><br>";
+$lang['login_fehlermeldung_login_nicht_moeglich'] = "Ein Login in den Chat ist im Moment leider nicht möglich!<br><br>Entweder wurde der Login für alle Benutzer oder spezifisch für bestimmte Benutzer gesperrt.<br>Falls es sich hierbei um ungerechtfertigte Sperre handelt, bitte das Kontaktformular nutzen.<br><br>";
 $lang['login_fehlermeldung_login_account_gesperrt'] = "<b>Leider ist der Account %u_nick% derzeit gesperrt.</b><br>Bei Fragen hierzu verwenden Sie bitte das <a href=\"index.php?bereich=kontakt\">Kontaktformular</a>.<br>";
 $lang['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist leider nicht möglich!</b><br>Es sind bereits %online% Benutzer online. Als %leveltxt% dürfen Sie ab maximal %max% Benutzer den Chat nicht mehr betreten.<br>%zusatztext%";
 $lang['login_fehlermeldung_login_fehlermeldung_frames'] = "Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)\n";
