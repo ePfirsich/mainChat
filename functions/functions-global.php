@@ -563,6 +563,24 @@ function zerlege($daten) {
 	return ($fertig);
 }
 
+function zeige_tabelle_login($box, $text) {
+	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
+	?>
+	<table class="tabelle_kopf">
+		<tr>
+			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+		</tr>
+		<tr>
+			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
+		</tr>
+	</table>
+	<?php
+	
+	require_once("./templates/index-footer.php");
+	
+	echo "</body>";
+}
+
 function zeige_tabelle_volle_breite($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 	?>

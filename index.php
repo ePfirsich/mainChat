@@ -1,8 +1,8 @@
 <?php
 // Funktionen und Config laden, Host bestimmen
-require_once("functions/functions.php");
-require_once("functions/functions-index.php");
-require_once("languages/$sprache-index.php");
+require_once("./functions/functions.php");
+require_once("./functions/functions-index.php");
+require_once("./languages/$sprache-index.php");
 
 $bereich = filter_input(INPUT_GET, 'bereich', FILTER_SANITIZE_URL);
 
@@ -198,36 +198,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$zaehler = 0;
-		$text .= "<table style=\"width:100%;\">";
-		
-		$impressum = "<b>" . $lang['impressum'] . "</b>";
-		$impressum .= "<br>";
-		$impressum .= $impressum_name;
-		$impressum .= "<br>";
-		$impressum .= $impressum_strasse;
-		$impressum .= "<br>";
-		$impressum .= $impressum_plz_ort;
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $impressum . "</td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
-		
-		$text .= "</table>";
+		require_once('templates/impressum.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_impressum'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_impressum'], $text);
 		
 		break;
 		
@@ -236,28 +214,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$zaehler = 0;
-		$text .= "<table style=\"width:100%;\">";
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $lang['datenschutzerklaerung'] . "</td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
-		
-		$text .= "</table>";
+		require_once('templates/datenschutz.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_datenschutzerklaerung'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_datenschutzerklaerung'], $text);
 		
 		break;
 		
@@ -266,28 +230,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$zaehler = 0;
-		$text .= "<table style=\"width:100%;\">";
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $chatiquette . "</td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
-		
-		$text .= "</table>";
+		require_once('templates/chatiquette.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_chatiquette'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_chatiquette'], $text);
 		
 		break;
 		
@@ -296,28 +246,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$zaehler = 0;
-		$text .= "<table style=\"width:100%;\">";
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor>" . $lang['chat_agb'] . "</td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
-		
-		$text .= "</table>";
+		require_once('templates/nutzungsbestimmungen.php');
 		$text .= zeige_index_footer();
-			
-		zeige_tabelle_volle_breite($lang['login_nutzungsbestimmungen'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_nutzungsbestimmungen'], $text);
 		
 		break;
 		
@@ -326,15 +262,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/kontakt.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_kontakt'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_kontakt'], $text);
 		
 		break;
 		
@@ -343,15 +278,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-vergessen.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_passwort_vergessen'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
 		
 		break;
 		
@@ -360,15 +294,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-zuruecksetzen.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_passwort_vergessen'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
 		
 		break;
 		
@@ -377,15 +310,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/email-bestaetigen.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_email_aendern'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_email_aendern'], $text);
 		
 		break;
 	
@@ -394,44 +326,28 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu2.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_registrierung'], $text);
 		
 		break;
 	
 	case "gesperrt":
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		$zaehler = 0;
-		$text .= "<table style=\"width:100%;\">";
-		
-		if ($zaehler % 2 != 0) {
-			$bgcolor = 'class="tabelle_zeile2"';
-		} else {
-			$bgcolor = 'class="tabelle_zeile1"';
-		}
-		$text .= "<tr>\n";
-		$text .= "<td $bgcolor><h2>" . $lang['chat_offline'] . "</h2></td>\n";
-		$text .= "</tr>\n";
-		$zaehler++;
-		
-		$text .= "</table>";
-		
+		require_once('templates/gesperrt.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['willkommen'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['willkommen'], $text);
 		
 		break;
 	
@@ -448,12 +364,12 @@ switch ($bereich) {
 			
 			zeige_header($body_titel, 0);
 			echo "<body>";
+			require_once("./templates/index-header.php");
 			
 			// Gibt die Kopfzeile im Login aus
 			zeige_kopfzeile_login();
 			
-			zeige_tabelle_volle_breite($lang['login_login'], $text);
-			echo "</body>";
+			zeige_tabelle_login($lang['login_login'], $text);
 		}
 		
 		break;
@@ -463,15 +379,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/registrierung.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_registrierung'], $text);
 		
 		break;
 	
@@ -480,15 +395,14 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
 		require_once('templates/neu.php');
 		$text .= zeige_index_footer();
-		
-		zeige_tabelle_volle_breite($lang['login_registrierung'], $text);
-		echo "</body>";
+		zeige_tabelle_login($lang['login_registrierung'], $text);
 		
 		break;
 	
@@ -515,21 +429,18 @@ switch ($bereich) {
 	default:
 		// Login ausgeben
 		
-		// Box für Login
-		$text .= zeige_chat_login();
-		
-		$text .= zeige_index_footer();
-		
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
+		require_once("./templates/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
 		
-		
-		zeige_tabelle_volle_breite($lang['login_login'], $text);
-		echo "</body>";
+		// Box für Login
+		$text .= zeige_chat_login();
+		$text .= zeige_index_footer();
+		zeige_tabelle_login($lang['login_login'], $text);
 }
 ?>
 </html>

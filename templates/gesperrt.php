@@ -13,7 +13,7 @@ if ($zaehler % 2 != 0) {
 	$bgcolor = 'class="tabelle_zeile1"';
 }
 $text .= "<tr>\n";
-$text .= "<td $bgcolor>" . $lang['chat_agb'] . "</td>\n";
+$text .= "<td $bgcolor><h2>" . $lang['chat_offline'] . "</h2></td>\n";
 $text .= "</tr>\n";
 $zaehler++;
 

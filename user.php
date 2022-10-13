@@ -24,9 +24,9 @@ $meta_refresh = '<meta http-equiv="refresh" content="30; URL=user.php?aktion='.$
 
 $title = $body_titel . ' - Benutzer';
 zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
+echo "<body>\n";
 
 // Login ok?
-echo "<body>\n";
 // Navigation zum Wechseln zwischen Benuzerliste und Smilies
 $text_navigation = "<a href=\"user.php?aktion=$aktion\"><span class=\"fa-solid fa-refresh icon16\"></span>" . $lang['benutzerliste_aktualisieren'] . "</a>";
 

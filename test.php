@@ -52,7 +52,6 @@ if( false && !isset($u_id) || $u_id == NULL || $u_id == "") {
 	//echo'</head>';
 	
 	zeige_header($title, $benutzerdaten['u_layout_farbe'], $meta_refresh);
-	
 	echo'<body>';
 	?>
 	<style>

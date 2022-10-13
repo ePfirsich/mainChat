@@ -21,7 +21,6 @@ $benutzerdaten = hole_benutzer_einstellungen($u_id, "standard");
 
 $title = $body_titel . ' - Benutzer';
 zeige_header($title, $benutzerdaten['u_layout_farbe'], "");
-
 echo "<body>\n";
 
 
