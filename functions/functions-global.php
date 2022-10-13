@@ -576,7 +576,7 @@ function zeige_tabelle_login($box, $text) {
 	</table>
 	<?php
 	
-	require_once("./templates/index-footer.php");
+	require_once("./custom/index-footer.php");
 	
 	echo "</body>";
 }

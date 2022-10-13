@@ -198,7 +198,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -214,7 +214,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -230,7 +230,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -246,7 +246,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -262,7 +262,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -278,7 +278,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -294,7 +294,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -310,7 +310,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -326,7 +326,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -340,7 +340,7 @@ switch ($bereich) {
 	case "gesperrt":
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -364,7 +364,7 @@ switch ($bereich) {
 			
 			zeige_header($body_titel, 0);
 			echo "<body>";
-			require_once("./templates/index-header.php");
+			require_once("./custom/index-header.php");
 			
 			// Gibt die Kopfzeile im Login aus
 			zeige_kopfzeile_login();
@@ -379,7 +379,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -395,7 +395,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
@@ -432,7 +432,7 @@ switch ($bereich) {
 		
 		zeige_header($body_titel, 0);
 		echo "<body>";
-		require_once("./templates/index-header.php");
+		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
 		zeige_kopfzeile_login();
