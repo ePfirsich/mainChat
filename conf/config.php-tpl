@@ -29,8 +29,9 @@ $secret_salt = "%secret_salt%";		// Zufallsgenerierte Zeichenkette zum Hashen de
 $logo = "";							// Hier muss das Logo angegeben werden, welches im Login über der Navigation angezeigt wird. (z.B. images/mainchat_logo.gif)
 
 $login_kopfzeile_deaktivieren = false;// Hiermit kann die Kopfzeile im Login deaktiviert werden.
-									//Wenn dies aktiviert ist, müssen die Links zur z.B. Registrierung woanders eingefügt werden,
-									// da sie sost nicht mehr vorhanden sind (z.B. in "templates/index-header.php")
+$login_fusszeile_deaktivieren = false;// Hiermit kann die Fußzeile im Login deaktiviert werden.
+									//Wenn einer dieser Optionen aktiviert ist, müssen die Links zur z.B. Registrierung woanders eingefügt werden,
+									// da sie sost nicht mehr vorhanden sind (z.B. in "templates/index-header.php" bzw "templates/index-footer.php")
 
 
 // Benutzerseiten

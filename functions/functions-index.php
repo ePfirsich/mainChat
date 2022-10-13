@@ -1153,11 +1153,13 @@ function checke_ipsperren($remote_addr, $http_x_forwarded_for) {
 }
 
 function zeige_index_footer() {
-	global $mainchat_version, $lang;
+	global $mainchat_version, $lang, $login_fusszeile_deaktivieren;
 	$text = "<br>\n";
 	$text .= "<div align=\"center\">$mainchat_version\n";
-	$text .= "<br><br>\n";
-	$text .= "<a href=\"index.php?bereich=datenschutz\">$lang[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$lang[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$lang[login_impressum]</a>\n";
+	if(!$login_fusszeile_deaktivieren) {
+		$text .= "<br><br>\n";
+		$text .= "<a href=\"index.php?bereich=datenschutz\">$lang[login_datenschutzerklaerung]</a> | <a href=\"index.php?bereich=kontakt\">$lang[login_kontakt]</a> | <a href=\"index.php?bereich=impressum\">$lang[login_impressum]</a>\n";
+	}
 	$text .= "</div>\n";
 	
 	return $text;
