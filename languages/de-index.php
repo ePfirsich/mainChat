@@ -120,7 +120,7 @@ Wenn etwas betont werden soll, kann man es auch kursiv (*) oder fett (_) darstel
 $lang['willkommen'] = "Willkommen im $chat!";
 $lang['chat_offline'] = "Der Chat ist derzeit leider offline.";
 
-$lang['login_formular_kopfzeile'] = "Login oder";
+$lang['login_formular_kopfzeile'] = "Als registrierter Benutzer einloggen";
 $lang['login_formular_kopfzeile_eingeloggt'] = "Login als %username% !";
 $lang['login_inhalt_kopfzeile'] = "Sie können sich als Gast einloggen, indem Sie einfach auf <b>Login</b> klicken ohne einen Benutzernamen einzugeben.";
 $lang['login_neuen_benutzernamen_registrieren'] = "neuen Benutzernamen registrieren";

@@ -614,7 +614,7 @@ function auth_user($username, $passwort, $bereits_angemeldet = 0) {
 
 function zeige_chat_login() {
 	global $lang, $eintrittsraum, $eintritt, $forumfeatures, $gast_login, $nicht_angemeldet;
-	global $lobby, $timeout, $whotext, $layout_kopf, $neuregistrierung_deaktivieren, $abweisen, $unterdruecke_raeume;
+	global $lobby, $timeout, $whotext, $layout_kopf, $abweisen, $unterdruecke_raeume;
 	
 	$text = "";
 	
@@ -814,15 +814,8 @@ function zeige_chat_login() {
 		$text .= "<table style=\"width:100%;\">\n";
 		
 		
-		// Überschrift: Login oder neu registrierten/Passwort vergessen
-		if ($neuregistrierung_deaktivieren) {
-			$login_titel = $lang['login_formular_kopfzeile'];
-		} else {
-			$login_titel = $lang['login_formular_kopfzeile'] . " [<a href=\"index.php?bereich=registrierung\">" . $lang['login_neuen_benutzernamen_registrieren'] . "</a>]";
-		}
-		$login_titel .= " [<a href=\"index.php?bereich=passwort-vergessen\">" . $lang['login_passwort_vergessen'] . "</a>]";
-		
-		$text .= zeige_formularfelder("ueberschrift", $zaehler, $login_titel, "", "", 0, "70", "");
+		// Überschrift: Als registrierter Benutzer einloggen
+		$text .= zeige_formularfelder("ueberschrift", $zaehler, $lang['login_formular_kopfzeile'], "", "", 0, "70", "");
 		
 		
 		// Benutzername
