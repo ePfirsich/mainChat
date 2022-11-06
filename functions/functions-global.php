@@ -14,7 +14,7 @@ function pdoQuery($query, $params) {
 	} catch (PDOException $exception) {
 		if($debug_modus) {
 			global $kontakt, $lang;
-			email_senden($kontakt, $lang['sql_query_fehlgeschlagen'], $query.'<br><br>' . $exception->getMessage());
+			email_senden($kontakt, $lang['sql_query_fehlgeschlagen'], $query. '<br><br>Parameter: ' . $params . '<br><br>' . $exception->getMessage());
 		}
 		return false;
 	}
