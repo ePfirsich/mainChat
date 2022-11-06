@@ -351,7 +351,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							system_msg("", 0, $u_id, $system_farbe, $txt);
 							break;
 						default:
-							pdoQuery("UPDATE `online` SET `o_knebel` = :o_knebel WHERE `o_user` = :o_user", [':o_knebel'=>"FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60)", ':o_user'=>$nick['u_id']]);
+							pdoQuery("UPDATE `online` SET `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60) WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$nick['u_id']]);
 							
 							$txt = ($knebelzeit ? $lang['knebel4'] : $lang['knebel3']);
 							$txt = str_replace("%admin%", $u_nick, $txt);
@@ -2116,13 +2116,13 @@ function auto_knebel($text) {
 					system_msg("", 0, $u_id, $system_farbe, $lang['knebel7']);
 					
 					// Hole aktuelle Knebelendzeit und geplante neue
-					$query = pdoQuery("SELECT `o_knebel`, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60) AS `knebelneu` FROM `online` WHERE `o_user` = :u_id", [':u_id'=>$u_id]);
+					$query = pdoQuery("SELECT `o_knebel`, FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60) AS `knebelneu` FROM `online` WHERE `o_user` = :u_id", [':o_knebel'=>$knebelzeit, ':u_id'=>$u_id]);
 					
 					$row = $query->fetch();
 					
 					// Nur wenn neue Zeit größer als alte, dann erneut knebeln
 					if ($row['o_knebel'] <= $row['knebelneu']) {
-						pdoQuery("UPDATE `online` SET `o_knebel` = :o_knebel WHERE `o_user` = :o_user", [':o_knebel'=>"FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+" . intval($knebelzeit) . "*60)", ':o_user'=>$u_id]);
+						pdoQuery("UPDATE `online` SET `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60) WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$u_id]);
 					}
 					
 					// Admins immer benachrichtigen, auch wenn schon geknebelt gewesen

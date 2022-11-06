@@ -161,7 +161,7 @@ function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_p
 		}
 	}
 	
-	$knebelzeit = NULL;
+	$knebelzeit = 0;
 	// Aktuelle Benutzerdaten aus Tabelle user lesen
 	$query = pdoQuery("SELECT `u_id`, `u_nick`, `u_level`, `u_farbe`, `u_away`, `u_punkte_gesamt`, `u_punkte_gruppe`, `u_login`, `u_nachrichten_empfangen`, `u_chathomepage`, `u_punkte_anzeigen` FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$user_id]);
 	
@@ -201,7 +201,7 @@ function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_p
 		$resultCount = $query->rowCount();
 		if ($resultCount == 1) {
 			$result = $query->fetch();
-			$knebelzeit = $result['u_knebel'];
+			$knebelzeit = intval($result['u_knebel']);
 		}
 	}
 	
@@ -252,9 +252,9 @@ function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_p
 	
 	// Timestamps im Datensatz aktualisieren -> Benutzer gilt als eingeloggt
 	if ($alteloginzeit != "") {
-		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = :o_login, `o_knebel` = :o_knebel, `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_login'=>$alteloginzeit, ':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
+		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = :o_login, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_login'=>$alteloginzeit, ':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
 	} else {
-		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = NULL, `o_knebel` = :o_knebel, `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
+		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = NULL, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
 	}
 	
 	// Lock freigeben
