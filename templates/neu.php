@@ -176,6 +176,7 @@ if ($weiter_zu_login) {
 	$willkommensnachricht .= $lang['registrierung_erfolgreich3'];
 	
 	$text = "";
+	$zaehler = 0;
 	
 	// Daten in DB als Benutzer eintragen
 	$text .= "<form action=\"index.php\" name=\"login\" method=\"post\">\n";
