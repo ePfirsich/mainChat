@@ -1918,7 +1918,7 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 		} else {
 			system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $lang['ignore5']));
 		}
-	} else if ($resultCount > 0) {
+	} else {
 		// Ignore löschen
 		$result = $query->fetch();
 		$i_id = $result['i_id'];
@@ -1926,8 +1926,6 @@ function ignore($o_id, $i_user_aktiv, $i_user_name_aktiv, $i_user_passiv, $i_use
 		
 		system_msg("", 0, $i_user_aktiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, $lang['ignore3']));
 		system_msg("", 0, $i_user_passiv, $system_farbe, str_replace("%i_user_name_passiv%", $i_user_name_passiv, str_replace("%i_user_name_aktiv%", $i_user_name_aktiv, $lang['ignore4'])));
-	} else {
-		echo "Fataler Fehler bei ignore ($query)<br>";
 	}
 	
 	// Kopie in Onlinedatenbank aktualisieren
