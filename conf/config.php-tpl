@@ -197,13 +197,14 @@ $smilies_anzahl="%smiliesanzahl%";
 
 // autoknebeltexte achtung preg_match -> incl /.../
 $ak[]="/chat-franken.de/";
-$ak[]="/rhoen-chat.de/";
-$ak[]="/frankenchat/";
 // Bedeutung:
 // nicht ad und nicht www|min (-> admin oder www .mainchat.de ok).
 // erschlägt also alles, was mit .mainchat.de läuft...
 // $ak[]="/(?:(?!ad)..|^.?)(?:(?!(www|min))...|^..?).mainchat.de/";
 $ak[]="/(?<!www|admin|admin|aushilfs|ct)\.mainchat\.de/";
+
+// Autoknebel-Texte
+$ak2="/fidion\.cc/#/schnurzel/";
 
 
 // Von welchen Domains ist keine Anmelung mehr möglich
@@ -253,9 +254,6 @@ $raumsperre=30;
 
 // Diese Meldung wird alle 120 Sekunden ausgegeben wenn sich nichts im Raum tut
 // $raum_msg="Hallo!";
-
-// Autoknebel-Texte
-$ak2="/fidion\.cc/#/schnurzel/";
 
 //Anzahl Punkte, die für das Anlegen eines Raum notwendig sind
 // $raumanlegenpunkte=1000;
