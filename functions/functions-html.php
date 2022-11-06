@@ -26,7 +26,7 @@ function zeige_header($title, $u_layout_farbe, $zusatz_header = '', $minimalisti
 	
 	<!-- jQuery Color picker -->
 	<link rel="stylesheet" href="css/wheelcolorpicker.css" type="text/css">
-	<script type="text/javascript" src="js/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery-3.6.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.wheelcolorpicker.min.js"></script>
 		<?php
 	if($zusatz_header != '') {
