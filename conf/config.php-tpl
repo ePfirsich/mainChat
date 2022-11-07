@@ -209,8 +209,6 @@ $ak2="/fidion\.cc/#/schnurzel/";
 
 // Von welchen Domains ist keine Anmelung mehr möglich
 // Speziell für anonyme "Wegwerfmailadressen"
-$domaingesperrtdbase="mainchat";	// wie muss die DB heißen, damit die Anmeldung verweigert wird.
-
 $domaingesperrt[]="/@trash-mail.de/";
 
 

@@ -2084,9 +2084,8 @@ function auto_knebel($text) {
 		$knebelzeit = 5;
 	}
 	
-	// für temp-admins gibts nun auch keinen autoknebel mehr
+	// Admins sind vom Autoknebel ausgeschlossen
 	$query = pdoQuery("SELECT `o_level` FROM `online` WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
-	
 	$a = $query->fetch();
 	if ($a['o_level'] == "A" || $a['o_level'] == "S" || $a['o_level'] == "C"
 		|| $a['o_level'] == "M") {

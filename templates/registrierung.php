@@ -73,10 +73,6 @@ if($fehlermeldung == "" && isset($email)) {
 	}
 	
 	// oder Domain ist lt. Config verboten
-	if ($domaingesperrtdbase != $dbase) {
-		$domaingesperrt = array();
-	}
-	
 	for ($i = 0; $i < count($domaingesperrt); $i++) {
 		$teststring = strtolower($email);
 		if (isset($domaingesperrt[$i]) && $domaingesperrt[$i] && (preg_match($domaingesperrt[$i], $teststring))) {
