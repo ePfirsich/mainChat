@@ -139,7 +139,7 @@ switch ($aktion) {
 			}
 			unset($daten);
 
-			zeige_mailbox($text, "normal", "");
+			zeige_mailbox($text, "normal");
 		}
 		
 		break;
@@ -152,7 +152,7 @@ switch ($aktion) {
 			}
 		}
 		
-		zeige_mailbox($text, "normal", "");
+		zeige_mailbox($text, "normal");
 		break;
 	
 	case "antworten":
@@ -252,7 +252,7 @@ switch ($aktion) {
 		// Postausgang zeigen
 		$text .= $lang['nachrichten_postausgang_info'];
 		
-		zeige_mailbox($text, "postausgang", "");
+		zeige_mailbox($text, "postausgang");
 		break;
 	
 	case "papierkorb":
@@ -261,7 +261,7 @@ switch ($aktion) {
 			zeige_nachricht($daten, "papierkorb");
 			echo "<br>";
 		}
-		zeige_mailbox($text, "geloescht", "");
+		zeige_mailbox($text, "geloescht");
 		break;
 	
 	case "weiterleiten":
@@ -270,6 +270,6 @@ switch ($aktion) {
 		break;
 	
 	default:
-		zeige_mailbox("", "normal", "");
+		zeige_mailbox("", "normal");
 }
 ?>

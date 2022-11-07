@@ -163,7 +163,7 @@ function formular_neue_email2($text, $box, $daten) {
 	}
 }
 
-function zeige_mailbox($text, $aktion, $zeilen) {
+function zeige_mailbox($text, $aktion) {
 	// Zeigt die Nachrichten in der Übersicht an
 	global $u_id, $chat, $lang, $locale;
 	

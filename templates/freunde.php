@@ -29,7 +29,7 @@ switch ($aktion) {
 				$erfolgsmeldung = edit_freund($daten);
 				$text .= hinweis($erfolgsmeldung, "erfolgreich");
 				
-				zeige_freunde($text, "normal", "");
+				zeige_freunde($text, "normal");
 			}
 		}
 		break;
@@ -101,7 +101,7 @@ switch ($aktion) {
 				$text .= neuer_freund($u_id, $daten);
 			}
 		}
-		zeige_freunde($text, "normal", "");
+		zeige_freunde($text, "normal");
 		break;
 	
 	case "bearbeite":
@@ -123,14 +123,14 @@ switch ($aktion) {
 			}
 		}
 		
-		zeige_freunde($text, "normal", "");
+		zeige_freunde($text, "normal");
 		break;
 	
 	case "bestaetigen":
-		zeige_freunde("", "bestaetigen", "");
+		zeige_freunde("", "bestaetigen");
 		break;
 	
 	default:
-		zeige_freunde("", "normal", "");
+		zeige_freunde("", "normal");
 }
 ?>

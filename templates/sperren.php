@@ -208,7 +208,7 @@ if ( $formular == 1 ) {
 switch ($aktion) {
 	case "blacklist":
 		// Blacklist anzeigen
-		zeige_blacklist("", "normal", "", $sort);
+		zeige_blacklist($text, $sort);
 		break;
 		
 	case "blacklist_neu":
@@ -229,7 +229,7 @@ switch ($aktion) {
 			unset($daten);
 			$daten[] = "";
 			
-			zeige_blacklist($text, "normal", "", $sort);
+			zeige_blacklist($text, $sort);
 		} else if ($daten['u_nick'] == "") {
 			$fehlermeldung = $lang['sperren_fehlermeldung_kein_benutzername_angegeben'];
 			$text .= hinweis($fehlermeldung, "fehler");
@@ -251,7 +251,7 @@ switch ($aktion) {
 			}
 		}
 		
-		zeige_blacklist($text, "normal", "", $sort);
+		zeige_blacklist($text, $sort);
 		break;
 	
 	case "loeschen":

@@ -121,7 +121,7 @@ function sperren_liste($text) {
 	zeige_tabelle_zentriert($lang['sperren_menue1'], $text);
 }
 
-function zeige_blacklist($text, $aktion, $zeilen, $sort) {
+function zeige_blacklist($text, $sort) {
 	// Zeigt Liste der Blacklist an
 	
 	global $lang, $blacklistmaxdays, $locale;
