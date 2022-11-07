@@ -196,15 +196,12 @@ $smilies_anzahl="%smiliesanzahl%";
 
 
 // autoknebeltexte achtung preg_match -> incl /.../
-$ak[]="/chat-franken.de/";
+$autoknebel[]="/chat-franken.de/";
 // Bedeutung:
 // nicht ad und nicht www|min (-> admin oder www .mainchat.de ok).
 // erschlägt also alles, was mit .mainchat.de läuft...
-// $ak[]="/(?:(?!ad)..|^.?)(?:(?!(www|min))...|^..?).mainchat.de/";
-$ak[]="/(?<!www|admin|admin|aushilfs|ct)\.mainchat\.de/";
-
-// Autoknebel-Texte
-$ak2="/fidion\.cc/#/schnurzel/";
+// $autoknebel[]="/(?:(?!ad)..|^.?)(?:(?!(www|min))...|^..?).mainchat.de/";
+$autoknebel[]="/(?<!www|admin|admin|aushilfs|ct)\.mainchat\.de/";
 
 
 // Von welchen Domains ist keine Anmelung mehr möglich

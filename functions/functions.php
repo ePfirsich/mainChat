@@ -14,7 +14,7 @@ if(isset($_SESSION["id"])) {
 }
 
 // Konfigurationsdatei einbinden
-$ak = [];
+$autoknebel = [];
 $filenameConfig = 'conf/config.php';
 if ( !file_exists($filenameConfig) ) {
 	?>

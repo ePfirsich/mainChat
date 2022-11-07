@@ -15,7 +15,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 	// $raum_einstellungen und $ist_moderiert wurde von raum_ist_moderiert() gesetzt
 	
 	global $user_farbe, $hilfstext, $system_farbe;
-	global $chat, $timeout, $datei_spruchliste, $lang, $ak, $check_name, $raumstatus1, $raum_max;
+	global $chat, $timeout, $datei_spruchliste, $lang, $check_name, $raumstatus1, $raum_max;
 	global $lobby, $o_raum, $o_knebel, $r_status1, $u_level, $max_user_liste;
 	global $o_punkte, $raum_einstellungen, $ist_moderiert, $ist_eingang, $lustigefeatures;
 	global $punkte_ab_user, $punktefeatures, $whotext, $knebelzeit, $nickwechsel, $raumanlegenpunkte, $o_dicecheck;
@@ -2068,7 +2068,7 @@ function nick_ergaenze($part, $scope = "raum", $noerror = 0) {
 }
 
 function auto_knebel($text) {
-	global $admin, $u_id, $u_nick, $o_raum, $lang, $ak, $ak2, $system_farbe, $knebelzeit;
+	global $admin, $u_id, $u_nick, $o_raum, $lang, $autoknebel, $system_farbe, $knebelzeit;
 	
 	// Prüfen ob private Nachricht
 	$chatzeile = preg_split("/ /", $text, 2);
@@ -2095,12 +2095,7 @@ function auto_knebel($text) {
 	}
 	
 	if (!$admin2) {
-		if ($ak2) {
-			$ak2 = str_replace("//", "", $ak2);
-			$ak2 = explode("#", $ak2);
-			$ak = array_merge($ak, $ak2);
-		}
-		for ($i = 0; $i < count($ak); $i++) {
+		for ($i = 0; $i < count($autoknebel); $i++) {
 			// Text in Kleinschrift gegen verbotene Text prüfen
 			$testtext = strtolower($text);
 			#$testtext=strip_tags($testtext);
@@ -2108,8 +2103,8 @@ function auto_knebel($text) {
 			$testtext = str_replace("_", "", $testtext);
 			#$testtext=str_replace(".","\.",$testtext);
 			
-			if (isset($ak[$i]) && $ak[$i]) {
-				if (preg_match($ak[$i], $testtext, $treffer)) {
+			if (isset($autoknebel[$i]) && $autoknebel[$i]) {
+				if (preg_match($autoknebel[$i], $testtext, $treffer)) {
 					system_msg("", 0, $u_id, $system_farbe, $lang['knebel7']);
 					
 					// Hole aktuelle Knebelendzeit und geplante neue
