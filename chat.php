@@ -27,7 +27,7 @@ if( !isset($u_id) || $u_id == NULL || $u_id == "") {
 	$meta_refresh .= "<meta http-equiv=\"expires\" content=\"0\">\n";
 	$meta_refresh .= "<script>\n setInterval(\"window.scrollTo(1,300000)\",100)\n</script>\n";
 	//$meta_refresh .= '<script src="js/jscript.js"></script>';
-	$meta_refresh .= '<script src="js/jquery-3.6.0.min.js"></script>';
+	$meta_refresh .= '<script src="js/jquery-3.6.1.min.js"></script>';
 	$meta_refresh .= '<script src="js/chat.js"></script>';
 	//echo'<link rel="stylesheet" href="css/style.css">';
 	//echo'</head>';
