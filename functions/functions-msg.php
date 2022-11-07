@@ -1230,7 +1230,7 @@ function chat_msg($o_id, $u_id, $u_nick, $u_farbe, $admin, $r_id, $text, $typ) {
 							$nick['u_id'] = $result['o_user'];
 						} else {
 							$nick['u_nick'] = "";
-							system_msg("", 0, $u_id, $u_farbe, str_replace("%chatzeile%", $chatzeile[1], $lang['chat_msg25']));
+							system_msg("", 0, $u_id, $system_farbe, str_replace("%chatzeile%", $chatzeile[1], $lang['chat_msg25']));
 						}
 					} else {
 						$nick = nick_ergaenze($chatzeile[1], "online", 0);
