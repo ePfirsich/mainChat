@@ -310,6 +310,9 @@ if($u_level == 'C' && ($f['u_id'] != "" && $f['u_id'] != $u_id) && ($benutzerdat
 							if (is_array($nick_historie)) {
 								$i = 0;
 								foreach($nick_historie as $datum => $nick) {
+									if($i > 3) {
+										break;
+									}
 									$nick_historie_neu[$datum] = $nick;
 									$i++;
 								}

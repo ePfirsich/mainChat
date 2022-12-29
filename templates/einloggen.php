@@ -117,7 +117,6 @@ if($in_den_chat_einloggen) {
 		$u_punkte_datum_jahr = $row['u_punkte_datum_jahr'];
 		$u_punkte_gesamt = $row['u_punkte_gesamt'];
 		$ip_historie = unserialize($row['u_ip_historie']);
-		$nick_historie = unserialize($row['u_nick_historie']);
 		
 		aktualisiere_inhalt_online($user_id);
 		
