@@ -418,30 +418,32 @@ function eintrag_aktionen($aktion_datensatz) {
 			// In aktion_datensatz stehen ID und Wert als a_id|a_wie
 			$temp = explode("|", $aktion_datensatz[$def_was_eintrag][$a_wann_eintrag]);
 			
-			$f['a_wie'] = $temp[1];
-			$f['a_was'] = $def_was_eintrag;
-			$f['a_wann'] = $a_wann_eintrag;
-			$f['a_user'] = $u_id;
-			
-			if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
-				pdoQuery("DELETE FROM `aktion` WHERE `a_was` = :a_was AND `a_wann` = :a_wann AND `a_user` = :a_user", [':a_was'=>$f['a_was'], ':a_wann'=>$f['a_wann'], ':a_user'=>$u_id]);
+			if( $temp[1] && $temp[1] != null ) {
+				$f['a_wie'] = $temp[1];
+				$f['a_was'] = $def_was_eintrag;
+				$f['a_wann'] = $a_wann_eintrag;
+				$f['a_user'] = $u_id;
 				
-				pdoQuery("INSERT INTO `aktion` (`a_wie`, `a_was`, `a_wann`, `a_user`) VALUES (:a_wie, :a_was, :a_wann, :a_user)",
-					[
-						':a_wie'=>$f['a_wie'],
-						':a_was'=>$f['a_was'],
-						':a_wann'=>$f['a_wann'],
-						':a_user'=>$f['a_user']
-					]);
-			} else {
-				pdoQuery("UPDATE `aktion` SET `a_wie` = :a_wie, `a_was` = :a_was, `a_wann` = :a_wann, `a_user` = :a_user WHERE `a_id` = :a_id",
-					[
-						':a_id'=>$temp[0],
-						':a_wie'=>$f['a_wie'],
-						':a_was'=>$f['a_was'],
-						':a_wann'=>$f['a_wann'],
-						':a_user'=>$f['a_user']
-					]);
+				if (!$temp[0] || $temp[0] == "0" || $temp[0] == "") {
+					pdoQuery("DELETE FROM `aktion` WHERE `a_was` = :a_was AND `a_wann` = :a_wann AND `a_user` = :a_user", [':a_was'=>$f['a_was'], ':a_wann'=>$f['a_wann'], ':a_user'=>$u_id]);
+					
+					pdoQuery("INSERT INTO `aktion` (`a_wie`, `a_was`, `a_wann`, `a_user`) VALUES (:a_wie, :a_was, :a_wann, :a_user)",
+						[
+							':a_wie'=>$f['a_wie'],
+							':a_was'=>$f['a_was'],
+							':a_wann'=>$f['a_wann'],
+							':a_user'=>$f['a_user']
+						]);
+				} else {
+					pdoQuery("UPDATE `aktion` SET `a_wie` = :a_wie, `a_was` = :a_was, `a_wann` = :a_wann, `a_user` = :a_user WHERE `a_id` = :a_id",
+						[
+							':a_id'=>$temp[0],
+							':a_wie'=>$f['a_wie'],
+							':a_was'=>$f['a_was'],
+							':a_wann'=>$f['a_wann'],
+							':a_user'=>$f['a_user']
+						]);
+				}
 			}
 		}
 	}
