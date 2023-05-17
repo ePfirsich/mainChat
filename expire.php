@@ -458,8 +458,6 @@ if ($zeit == "03:10") {
 $currenttime = time();
 $currentdate = date("Y-m-d H", $currenttime);
 
-unset($onlinevhosts);
-
 // Anzahl der Benutzer ermitteln, die online sind
 $query = pdoQuery("SELECT COUNT(`o_id`) AS `anzahl` FROM `online`", []);
 

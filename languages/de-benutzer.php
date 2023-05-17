@@ -81,7 +81,6 @@ $lang['benutzer_ip_adressen'] = "IP-Adressen";
 $lang['benutzer_letzte_ip_adressen'] = "letzte IP-Adressen";
 $lang['benutzer_browser'] = "Browser";
 $lang['benutzer_http_info'] = "HTTP-Info";
-$lang['benutzer_vhost'] = "vHost";
 $lang['benutzer_ip_adressen_online'] = "(online)";
 
 $lang['benutzer_interaktionen'] = "Interaktionen";
