@@ -31,7 +31,7 @@ $logo = "";							// Hier muss das Logo angegeben werden, welches im Login über
 $login_kopfzeile_deaktivieren = false;// Hiermit kann die Kopfzeile im Login deaktiviert werden.
 $login_fusszeile_deaktivieren = false;// Hiermit kann die Fußzeile im Login deaktiviert werden.
 									//Wenn einer dieser Optionen aktiviert ist, müssen die Links zur z.B. Registrierung woanders eingefügt werden,
-									// da sie sost nicht mehr vorhanden sind (z.B. in "custom/index-header.php" bzw "custom/index-footer.php")
+									// da sie sonst nicht mehr vorhanden sind (z.B. in "custom/index-header.php" bzw "custom/index-footer.php")
 
 
 // Benutzerseiten
