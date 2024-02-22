@@ -874,6 +874,7 @@ function zeige_chat_login() {
 			$text .= "<input type=\"hidden\" name=\"aktion\" value=\"einloggen\">\n";
 			$text .= "<input type=\"hidden\" name=\"username\" value=\"\">\n";
 			$text .= "<input type=\"hidden\" name=\"passwort\" value=\"\">\n";
+			$text .= "<br>";
 			$text .= "<table style=\"width:100%;\">\n";
 			
 			
