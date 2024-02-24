@@ -155,6 +155,9 @@ function schreibe_moderation() {
 
 function schreibe_chat($f) {
 	global $system_farbe;
+	ini_set('display_errors', '1');
+	error_reporting(E_ALL);
+
 	// Schreibt Chattext in DB
 	
 	// Schreiben falls text > 0
@@ -170,22 +173,26 @@ function schreibe_chat($f) {
 		if(!isset($f['c_raum'])) {
 			$f['c_raum'] = 0;
 		}
-		
+	
 		if(!isset($f['c_zeit'])) {
-			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
+			// Zeit neu eintragen im selben Format wie beim Login:
+			$f['c_zeit'] = date('Y-m-d H:i:s', time());
+			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_zeit` = :c_zeit, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
 				[
 					':c_von_user'=>$f['c_von_user'],
 					':c_an_user'=>$f['c_an_user'],
 					':c_typ'=>$f['c_typ'],
 					':c_raum'=>$f['c_raum'],
 					':c_text'=>$f['c_text'],
+				    ':c_zeit'=>$f['c_zeit'],
 					':c_farbe'=>$f['c_farbe'],
 					':c_von_user_id'=>$f['c_von_user_id']
 				]);
 		} else {
+
 			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_zeit` = :c_zeit, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
 				[
-					':c_von_userx'=>$f['c_von_user'],
+					':c_von_user'=>$f['c_von_user'],
 					':c_an_user'=>$f['c_an_user'],
 					':c_typ'=>$f['c_typ'],
 					':c_raum'=>$f['c_raum'],
@@ -566,15 +573,15 @@ function zerlege($daten) {
 function zeige_tabelle_login($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 	?>
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-		</tr>
-	</table>
-	<?php
+<table class="tabelle_kopf">
+    <tr>
+        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+    </tr>
+    <tr>
+        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
+    </tr>
+</table>
+<?php
 	
 	require_once("./custom/index-footer.php");
 	
@@ -584,15 +591,15 @@ function zeige_tabelle_login($box, $text) {
 function zeige_tabelle_volle_breite($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
 	?>
-	<table class="tabelle_kopf">
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<tr>
-			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-		</tr>
-	</table>
-	<?php
+<table class="tabelle_kopf">
+    <tr>
+        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+    </tr>
+    <tr>
+        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
+    </tr>
+</table>
+<?php
 }
 
 function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = true) {
@@ -603,17 +610,17 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 		$css = "style=\"margin-top: 5px;\"";
 	}
 	?>
-	<table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
-		<?php if($kopfzeile) { ?>
-		<tr>
-			<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-		</tr>
-		<?php } ?>
-		<tr>
-			<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-		</tr>
-	</table>
-	<?php
+<table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
+    <?php if($kopfzeile) { ?>
+    <tr>
+        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+    </tr>
+    <?php } ?>
+    <tr>
+        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
+    </tr>
+</table>
+<?php
 }
 
 function zeige_kopfzeile_login() {

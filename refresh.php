@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 require_once("./conf/config.php");
 require_once("./class.chat.php");
 if(isset($_GET['lastTimeID'])) {

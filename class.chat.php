@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once("./conf/config.php");
 require_once("./functions/functions.php");
 require_once("./functions/functions-chat_lese.php");
@@ -9,10 +8,8 @@ $u_id = $_SESSION['u_id'];
 
 class chatClass {
 	public static function getRestChatLines($last_time_id) {
-		global $chat_status_klein, $u_nick, $ignore;
-		
-		$arr = array();
-		$jsonData = '{"results":[';
+		global $chat_status_klein, $u_nick, $ignore, $msg;
+		$arr = [];
 		$refresh_zeit = 0;
 		// $query = "";
 		$o_raum = "";
@@ -35,11 +32,19 @@ class chatClass {
 		$zeige_userliste = 100;
 		
 		$DateAndTime = $_SESSION['DateAndTime'];
-		
+		// $DateAndTime='2024-02-21 20:31:20';
 		$query_room = pdoQuery("SELECT `o_id`, `o_user`, `o_raum` FROM `online` WHERE `o_hash` = :o_hash", [':o_hash'=>$id]);
 		$row_room = $query_room->fetch();
 		$act_room = $row_room['o_raum'];
-		
+
+		$queryDebug = pdoQuery("SELECT * from `chat`",[]);
+		$resultDebug = $queryDebug->fetchAll();
+		$outputDebug=[];
+		foreach($resultDebug as $row){
+			$row['zeit_aus_db'] = $row['c_zeit'];
+			$outputDebug[]=$row;
+		}
+
 		$query = pdoQuery("SELECT `c_id`, `c_von_user`, `c_an_user`, `c_typ`, `c_raum`, `c_text`, `c_zeit`, `c_farbe`, `c_von_user_id`, `c_gelesen` FROM `chat`
 				WHERE `c_id` > :c_id1 AND `c_zeit` >= DATE_SUB(:c_zeit1, INTERVAL 0 HOUR)
 				AND `c_an_user` = 0 AND `c_raum` = :c_raum1 OR `c_id` > :c_id2 AND `c_zeit` >= DATE_SUB(:c_zeit2, INTERVAL 0 HOUR)
@@ -70,6 +75,7 @@ class chatClass {
 		
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $row) {
+			// var_dump($row);
 			// Die Ignorierten Benutzer rausfiltern
 			$ausgeben = true;
 			if (isset($ignore[$row['c_von_user_id']]) && $ignore[$row['c_von_user_id']]) {
@@ -170,8 +176,9 @@ class chatClass {
 					//$line->chat_ausgabe = $ausgabe;
 					$line->level = $level;
 					$line->vonuserid = $vonuserid;
+					$line->zeit_aus_db = $row['c_zeit'];
 					$line->c_zeit = date('H:i:s', strtotime($row['c_zeit']));
-					$arr[] = json_encode($line);
+					$arr[] = $line;
 				}
 			}
 		}
@@ -200,10 +207,15 @@ class chatClass {
 		}
 		*/
 		
-		$jsonData .= implode(",", $arr);
-		$jsonData .= ']}';
-		
-		return $jsonData;
+		return json_encode([
+			'results'=>$arr,
+			'room'=>$act_room,
+			'lastTimeId'=>$last_time_id,
+			'DateAndTime'=>$DateAndTime,
+			'benutzerDaten'=>$benutzerdaten,
+			'msg'=>$msg,
+			'outputDebug'=>$outputDebug
+		],JSON_PRETTY_PRINT);
 	}
 }
 ?>
