@@ -243,7 +243,7 @@ if ($zeit == "03:10") {
 	if ($resultCount > 0) {
 		$result = $query->fetchAll();
 		foreach($result as $zaehler => $row) {
-			// Zur sicherheit vor versehentlichem löschen
+			// Zur Sicherheit vor versehentlichem löschen
 			if ($row['u_login'] == 0) {
 				continue;
 			}
@@ -252,7 +252,7 @@ if ($zeit == "03:10") {
 			pdoQuery("DELETE FROM `user` WHERE `u_id` = :u_id", [':u_id'=>$row['u_id']]);
 			
 			// Benutzer-Ignore Einträge löschen
-			pdoQuery("DELETE FROM iignore WHERE `i_user_aktiv` = :i_user_aktiv OR `i_user_passiv` = :i_user_passiv", [':i_user_aktiv'=>$row['u_id'], ':i_user_passiv'=>$row['u_id']]);
+			pdoQuery("DELETE FROM `iignore` WHERE `i_user_aktiv` = :i_user_aktiv OR `i_user_passiv` = :i_user_passiv", [':i_user_aktiv'=>$row['u_id'], ':i_user_passiv'=>$row['u_id']]);
 			
 			// Gesperrte Räume löschen
 			pdoQuery("DELETE FROM `sperre` WHERE `s_user` = :s_user", [':s_user'=>$row['u_id']]);

@@ -442,7 +442,7 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 			switch ($a_was) {
 				case "Freunde":
 				// Nachricht von Login/Logoff erzeugen
-					if ($inhalt['aktion'] == "Login" && $inhalt[raum]) {
+					if ($inhalt['aktion'] == "Login" && $inhalt['raum']) {
 						$betreff = str_replace("%u_nick%", $u_nick, $lang['nachricht_freunde3']);
 						$betreff = str_replace("%raum%", $inhalt['raum'], $betreff);
 					} elseif ($inhalt['aktion'] == "Login") {
