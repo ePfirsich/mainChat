@@ -694,7 +694,6 @@ function zeige_chat_login() {
 				unset($_COOKIE['securitytoken']);
 				
 				$automatische_anmeldung = false;
-				echo "Test FALSE2 ";
 			} else {
 				//Token war korrekt
 				
@@ -722,7 +721,6 @@ function zeige_chat_login() {
 			unset($_COOKIE['securitytoken']);
 			
 			$automatische_anmeldung = false;
-			echo "Test FALSE1 ";
 		}
 	}
 	
