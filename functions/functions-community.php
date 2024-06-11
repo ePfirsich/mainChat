@@ -535,6 +535,8 @@ function mail_sende($von_id, $an_id, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von_id an ID $an_id mit Text $text
 	global $u_nick, $lang, $u_id, $pdo;
 	
+	require_once("./languages/$sprache-nachrichten.php");
+	
 	$mailversand_ok = true;
 	$fehlermeldung = "";
 	
