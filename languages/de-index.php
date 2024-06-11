@@ -133,7 +133,7 @@ $lang['login_fehlermeldung_login_zu_viele_benutzer_online'] = "<b>Der Login ist 
 $lang['login_fehlermeldung_login_fehlermeldung_frames'] = "Ihr Browser unterstützt keine Frames. Ohne Frames kein $chat :-)\n";
 $lang['login_fehlermeldung_login_fehlgeschlagen'] = "Falscher Benutzername oder falsches Passwort eingegeben! Bitte versuchen Sie es erneut.<br>";
 $lang['login_fehlermeldung_gastlogin'] = "Leider ist kein Login als Gast möglich. Bitte melden Sie sich mit Ihrem registrierten Benutzernamen an.<br>";
-$lang['login_fehlermeldung_automatische_anmeldung'] = "Es ist ein Fehler bei er automatischen Anmeldung aufgetreten. Bitte neu einloggen.<br>";
+$lang['login_fehlermeldung_automatische_anmeldung'] = "Es ist ein Fehler bei der automatischen Anmeldung aufgetreten. Bitte neu einloggen.<br>";
 
 $lang['login_nutzungsbestimmungen_ok'] = "Ich erkenne diese Bedingungen an";
 $lang['login_nutzungsbestimmungen_abbruch'] = "Abbruch";
