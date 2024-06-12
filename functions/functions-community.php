@@ -533,7 +533,7 @@ function aktion_sende($a_was, $a_wie, $inhalt, $an_u_id, $von_u_id, $u_nick) {
 
 function mail_sende($von_id, $an_id, $text, $betreff = "") {
 	// Verschickt Nachricht von ID $von_id an ID $an_id mit Text $text
-	global $u_nick, $lang, $u_id, $pdo;
+	global $u_nick, $lang, $u_id, $pdo, $sprache;
 	
 	require_once("./languages/$sprache-nachrichten.php");
 	
