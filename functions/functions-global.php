@@ -154,11 +154,8 @@ function schreibe_moderation() {
 }
 
 function schreibe_chat($f) {
+	// Schreibt Chattext in die Datenbank
 	global $system_farbe;
-	ini_set('display_errors', '1');
-	error_reporting(E_ALL);
-
-	// Schreibt Chattext in DB
 	
 	// Schreiben falls text > 0
 	if (isset($f['c_text']) && strlen($f['c_text']) > 0) {
@@ -184,12 +181,11 @@ function schreibe_chat($f) {
 					':c_typ'=>$f['c_typ'],
 					':c_raum'=>$f['c_raum'],
 					':c_text'=>$f['c_text'],
-				    ':c_zeit'=>$f['c_zeit'],
+					':c_zeit'=>$f['c_zeit'],
 					':c_farbe'=>$f['c_farbe'],
 					':c_von_user_id'=>$f['c_von_user_id']
 				]);
 		} else {
-
 			pdoQuery("INSERT INTO `chat` SET `c_von_user` = :c_von_user, `c_an_user` = :c_an_user, `c_typ` = :c_typ, `c_raum` = :c_raum, `c_text` = :c_text, `c_zeit` = :c_zeit, `c_farbe` = :c_farbe, `c_von_user_id` = :c_von_user_id",
 				[
 					':c_von_user'=>$f['c_von_user'],
