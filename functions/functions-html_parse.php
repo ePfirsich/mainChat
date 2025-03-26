@@ -171,7 +171,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 						$text);
 					
 					// url aufbereiten
-					$txt[$j] = preg_replace("/" . $txt2 . "/", "<a href=\"redirect.php?url=" . urlencode("http://$txt2") . "\" target=_blank>http://$txt2</a>", $txt[$j]);
+					$txt[$j] = preg_replace("/" . $txt2 . "/", "<a href=\"" . urlencode("http://$txt2") . "\" target=_blank>http://$txt2</a>", $txt[$j]);
 				}
 				// http(s)://###### in <a href="http(s)://###" target=_blank>http(s)://###</A>
 				if (preg_match("!^https?://!", $txt[$j])) {
@@ -186,7 +186,7 @@ function html_parse($privat, $text, $at_sonderbehandlung = 0) {
 					$text = preg_replace("!####\d*####/!", "$txt[$j]/", $text);
 					
 					// url aufbereiten
-					$txt[$j] = preg_replace("!$txt2!", "<a href=\"redirect.php?url=" . urlencode($txt2) . "\" target=_blank>$txt2</a>", $txt[$j]);
+					$txt[$j] = preg_replace("!$txt2!", "<a href=\"" . urlencode($txt2) . "\" target=_blank>$txt2</a>", $txt[$j]);
 				}
 			}
 		}

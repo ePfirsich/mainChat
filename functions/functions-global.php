@@ -1012,7 +1012,7 @@ function chat_parse($text) {
 				
 				// url aufbereiten
 				$txt[$j] = str_replace($txt2,
-					"<a href=\"redirect.php?url="
+					"<a href=\""
 						. urlencode(
 							"http://" . strtr(preg_replace("!\\\\\\?!", "?", $txt3), $trans)) . "\" target=\"_blank\">http://"
 						. preg_replace("!\\\\\\?!", "?", $txt2) . "</a>",
@@ -1045,7 +1045,7 @@ function chat_parse($text) {
 				
 				// url aufbereiten, \? in ? wandeln
 				$txt[$j] = preg_replace("!$txt2!",
-					"<a href=\"redirect.php?url="
+					"<a href=\""
 						. urlencode(
 							strtr(preg_replace("!\\\\\\?!", "?", $txt3), $trans))
 						. "\" target=\"_blank\">"
