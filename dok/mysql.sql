@@ -751,116 +751,97 @@ ALTER TABLE `userinfo`
 --
 -- AUTO_INCREMENT für Tabelle `aktion`
 --
-ALTER TABLE `aktion`
-	MODIFY `a_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `aktion` MODIFY `a_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `bild`
 --
-ALTER TABLE `bild`
-	MODIFY `b_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `bild` MODIFY `b_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `blacklist`
 --
-ALTER TABLE `blacklist`
-	MODIFY `f_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `blacklist` MODIFY `f_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `chat`
 --
-ALTER TABLE `chat`
-	MODIFY `c_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `chat` MODIFY `c_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_beitraege`
 --
-ALTER TABLE `forum_beitraege`
-	MODIFY `beitrag_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_beitraege` MODIFY `beitrag_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_foren`
 --
-ALTER TABLE `forum_foren`
-	MODIFY `forum_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_foren` MODIFY `forum_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `forum_kategorien`
 --
-ALTER TABLE `forum_kategorien`
-	MODIFY `kat_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `forum_kategorien` MODIFY `kat_id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `freunde`
 --
-ALTER TABLE `freunde`
-	MODIFY `f_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `freunde` MODIFY `f_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `iignore`
 --
-ALTER TABLE `iignore`
-	MODIFY `i_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `iignore` MODIFY `i_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `invite`
 --
-ALTER TABLE `invite`
-	MODIFY `inv_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `invite` MODIFY `inv_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `ip_sperre`
 --
-ALTER TABLE `ip_sperre`
-	MODIFY `is_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `ip_sperre` MODIFY `is_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `mail`
 --
-ALTER TABLE `mail`
-	MODIFY `m_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `mail` MODIFY `m_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `moderation`
 --
-ALTER TABLE `moderation`
-	MODIFY `c_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `moderation` MODIFY `c_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `raum`
 --
-ALTER TABLE `raum`
-	MODIFY `r_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `raum` MODIFY `r_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `sperre`
 --
-ALTER TABLE `sperre`
-	MODIFY `s_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `sperre` MODIFY `s_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `statistiken`
 --
-ALTER TABLE `statistiken`
-	MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `statistiken` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `top10cache`
 --
-ALTER TABLE `top10cache`
-	MODIFY `t_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `top10cache` MODIFY `t_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `user`
 --
-ALTER TABLE `user`
-	MODIFY `u_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `user` MODIFY `u_id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `userinfo`
 --
-ALTER TABLE `userinfo`
-	MODIFY `ui_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `userinfo` MODIFY `ui_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
