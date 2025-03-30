@@ -413,7 +413,7 @@ function system_msg($von_user, $von_user_id, $an_user, $farbe, $text) {
 
 function aktualisiere_online($u_id) {
 	// Timestamp im Datensatz aktualisieren -> Benutzer gilt als online
-	pdoQuery("UPDATE `online` SET `o_aktiv` = NULL WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
+	pdoQuery("UPDATE `online` SET `o_aktiv` = NOW() WHERE `o_user` = :o_user", [':o_user'=>$u_id]);
 }
 
 function id_lese() {

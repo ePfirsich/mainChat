@@ -252,9 +252,9 @@ function login($user_id, $u_level, $u_ip_historie, $u_agb, $u_punkte_monat, $u_p
 	
 	// Timestamps im Datensatz aktualisieren -> Benutzer gilt als eingeloggt
 	if ($alteloginzeit != "") {
-		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = :o_login, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_login'=>$alteloginzeit, ':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
+		pdoQuery("UPDATE `online` SET `o_aktiv` = NOW(), `o_login` = :o_login, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_login'=>$alteloginzeit, ':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
 	} else {
-		pdoQuery("UPDATE `online` SET `o_aktiv` = NULL, `o_login` = NULL, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
+		pdoQuery("UPDATE `online` SET `o_aktiv` = NOW(), `o_login` = NULL, `o_knebel` = FROM_UNIXTIME(UNIX_TIMESTAMP(NOW())+ :o_knebel * 60), `o_timeout_zeit` = DATE_FORMAT(NOW(),\"%Y%m%d%H%i%s\"), `o_timeout_warnung` = 0 WHERE `o_user` = :o_user", [':o_knebel'=>$knebelzeit, ':o_user'=>$user_id]);
 	}
 	
 	// Lock freigeben
