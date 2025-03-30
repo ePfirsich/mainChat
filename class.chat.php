@@ -178,7 +178,7 @@ class chatClass {
 					$line->vonuserid = $vonuserid;
 					$line->zeit_aus_db = $row['c_zeit'];
 					$line->c_zeit = date('H:i:s', strtotime($row['c_zeit']));
-					$arr[] = $line;
+					$arr[] = clone $line;
 				}
 			}
 		}
