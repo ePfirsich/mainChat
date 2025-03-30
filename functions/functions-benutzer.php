@@ -173,7 +173,7 @@ function user_zeige($text, $ui_id, $admin, $schau_raum, $u_level, $zeigeip) {
 		// Benutzerseite
 		if ($result_user['u_chathomepage'] == "1") {
 			$url = "home.php?/".URLENCODE($uu_nick);
-			$value = "<a href=\"$url\" target=\"_blank\">$chat_grafik[home]</a>";
+			$value = "<a href=\"$url\" target=\"chat\">$chat_grafik[home]</a>";
 			$text .= zeige_formularfelder("text", $zaehler, $lang['benutzer_webseite'], "", $value);
 			$zaehler++;
 		}

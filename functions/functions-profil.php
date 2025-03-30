@@ -302,9 +302,9 @@ function profil_editor($u_id, $u_nick, $f) {
 	
 	// Benutzerseite freigeben
 	if($f['u_chathomepage'] == 1) {
-		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"_blank\">" . $lang['profil_benutzerseite_zur_homepage'] . "</a>";
+		$u_chathomepage_link = "<a href=\"home.php?/$u_nick\" target=\"chat\">" . $lang['profil_benutzerseite_zur_homepage'] . "</a>";
 	} else {
-		$u_chathomepage_link = "<a href=\"home.php?ui_userid=$u_id&aktion=&preview=yes\" target=\"_blank\">" . $lang['profil_benutzerseite_zur_vorschau'] . "</a>";
+		$u_chathomepage_link = "<a href=\"home.php?ui_userid=$u_id&aktion=&preview=yes\" target=\"chat\">" . $lang['profil_benutzerseite_zur_vorschau'] . "</a>";
 	}
 	$value = array($lang['profil_benutzerseite_deaktivieren'], $lang['profil_benutzerseite_aktivieren']);
 	$text .= zeige_formularfelder("selectbox", $zaehler, $lang['profil_benutzerseite'], "u_chathomepage", $value, $f['u_chathomepage'], "70", $u_chathomepage_link);

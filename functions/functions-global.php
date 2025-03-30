@@ -883,7 +883,7 @@ function zeige_userdetails($zeige_user_id, $online = FALSE, $extra_kompakt = FAL
 	
 	// Chat-Homepage
 	if (!$extra_kompakt && $benutzerdaten['u_chathomepage'] == "1") {
-		$text2 .= "&nbsp;" . "<a href=\"home.php?/" . $benutzerdaten['u_nick'] . "\" target=\"_blank\">$chat_grafik[home]</a>";
+		$text2 .= "&nbsp;" . "<a href=\"home.php?/" . $benutzerdaten['u_nick'] . "\" target=\"chat\">$chat_grafik[home]</a>";
 	}
 	
 	// Nachrichten
