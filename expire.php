@@ -143,7 +143,7 @@ echo "Gäste löschen<br>";
 $query = pdoQuery("SELECT SQL_BUFFER_RESULT `u_id` FROM `user` LEFT JOIN `online` ON `o_user` = `u_id` WHERE `u_level` = 'G' AND `o_id` IS NULL AND (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`u_login`)) > 240", []);
 
 $resultCount = $query->rowCount();
-if ($resultCount) {
+if ($resultCount > 0) {
 	$result = $query->fetchAll();
 	foreach($result as $zaehler => $row) {
 		// Benutzer löschen
@@ -201,7 +201,6 @@ pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_ak
 
 // Täglicher expire, um  03:10 Uhr
 $zeit = date("H:i");
-#$zeit="03:10"; #DEBUG
 if ($zeit == "03:10") {
 	echo "Täglicher expire<br>";
 	
@@ -209,7 +208,7 @@ if ($zeit == "03:10") {
 		$usernamen_expire = 15724800;
 	}
 	// Benutzer löschen, die länger als $usernamen_expire (config.php default =26 Wochen (=15724800 Sekunden)) nicht online waren
-	// und nicht auf gesperrt stehen (=Z) und kein Superuser sind (=S)
+	// und nicht auf gesperrt stehen (=Z) und kein Superuser (S) oder ChatAmins (C) sind
 	echo "<br><b>Expire:</b> Benutzer ";
 	flush();
 	
@@ -233,10 +232,10 @@ if ($zeit == "03:10") {
 	}
 	if (strlen($besitzer) > 0) {
 		$query = pdoQuery("SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, `u_login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S' " . $besitzer, []);
+			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S' AND `u_level` !='C' " . $besitzer, []);
 	} else {
 		$query = pdoQuery("SELECT SQL_BUFFER_RESULT `u_id`, `u_nick`, u_`login` FROM `user` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(u_login)) > "
-			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S'", []);
+			. $usernamen_expire . " AND `u_level` !='Z' AND `u_level` !='S' AND `u_level` !='C'", []);
 	}
 	
 	$resultCount = $query->rowCount();
