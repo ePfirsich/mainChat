@@ -24,23 +24,23 @@ $hilfstext = array(
 	"<b>Für die ausführliche Hilfe mit allen Befehlen klicken Sie bitte in der Navigation auf [HILFE].</b>");
 	
 	// Texte Benutzerlevel
-	$level['C'] = "ChatAdmin";
 	$level['S'] = "Superuser";
+	$level['C'] = "ChatAdmin";
 	$level['A'] = "Admin(temp)";
-	$level['G'] = "Gast";
-	$level['U'] = "Benutzer";
 	$level['M'] = "Moderator";
+	$level['U'] = "Benutzer";
 	$level['B'] = "Besitzer";
+	$level['G'] = "Gast";
 	$level['Z'] = "Gesperrt";
 	
 	// Text Besitzer/Benutzerlevel Kurzform
-	$leveltext['C'] = "Admin";
 	$leveltext['S'] = "Admin";
+	$leveltext['C'] = "Admin";
 	$leveltext['A'] = "Admin";
-	$leveltext['G'] = "Gast";
-	$leveltext['U'] = "";
 	$leveltext['M'] = "Moderator";
+	$leveltext['U'] = "";
 	$leveltext['B'] = "Besitzer";
+	$leveltext['G'] = "Gast";
 	
 	// Texte Status Räume
 	// Achtung: groß-kleinschreibung ist wichtig.
