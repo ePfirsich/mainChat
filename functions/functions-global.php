@@ -1208,8 +1208,8 @@ function logout($o_id, $u_id) {
 	pdoQuery("UNLOCK TABLES", []);
 	
 	// Punkterepair
-	pdoQuery("UPDATE `user` SET `u_punkte_jahr` = 0, `u_punkte_monat` = 0, `u_punkte_datum_jahr` = YEAR(NOW()), `u_punkte_datum_monat` = MONTH(NOW()), `u_login` = `u_login` WHERE `u_punkte_datum_jahr` != YEAR(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
-	pdoQuery("UPDATE `user` SET `u_punkte_monat` = 0, `u_punkte_datum_monat` = MONTH(NOW()), `u_login` = `u_login` WHERE `u_punkte_datum_monat` != MONTH(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
+	pdoQuery("UPDATE `user` SET `u_punkte_jahr` = 0, `u_punkte_monat` = 0, `u_punkte_datum_jahr` = YEAR(NOW()), `u_punkte_datum_monat` = MONTH(NOW()) WHERE `u_punkte_datum_jahr` != YEAR(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
+	pdoQuery("UPDATE `user` SET `u_punkte_monat` = 0, `u_punkte_datum_monat` = MONTH(NOW()) WHERE `u_punkte_datum_monat` != MONTH(NOW()) AND `u_id` = :u_id", [':u_id'=>$u_id]);
 	
 	// Nachrichten an Freunde verschicken
 	$query = pdoQuery("SELECT `f_id`, `f_text`, `f_userid`, `f_freundid`, `f_zeit` FROM `freunde` WHERE `f_userid` = :f_userid AND `f_status` = 'bestaetigt' UNION "
