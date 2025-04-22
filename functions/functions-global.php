@@ -568,34 +568,31 @@ function zerlege($daten) {
 
 function zeige_tabelle_login($box, $text) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
-	?>
-<table class="tabelle_kopf">
-    <tr>
-        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-    </tr>
-    <tr>
-        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-    </tr>
-</table>
-<?php
+	$inhalt = '';
+	$inhalt .= '<table class="tabelle_kopf">';
+	$inhalt .= '	<tr>';
+	$inhalt .= '		<td class="tabelle_kopfzeile">' . $box . '</td>';
+	$inhalt .= '	</tr>';
+	$inhalt .= '	<tr>';
+	$inhalt .= '		<td class="tabelle_koerper smaller">' . $text . '</td>';
+	$inhalt .= '	</tr>';
+	$inhalt .= '</table>';
 	
-	require_once("./custom/index-footer.php");
-	
-	echo "</body>";
+	return $inhalt;
 }
 
-function zeige_tabelle_volle_breite($box, $text) {
+function zeige_tabelle_volle_breite($box, $inhalt) {
 	// Gibt Tabelle mit 100% Breiter mit Kopf und Inhalt aus
-	?>
-<table class="tabelle_kopf">
-    <tr>
-        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-    </tr>
-    <tr>
-        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-    </tr>
-</table>
-<?php
+	$text = '<table class="tabelle_kopf">';
+	$text .= '	<tr>';
+	$text .= '		<td class="tabelle_kopfzeile">' . $box . '</td>';
+	$text .= '	</tr>';
+	$text .= '	<tr>';
+	$text .= '		<td class="tabelle_koerper smaller">' . $inhalt . '</td>';
+	$text .= '	</tr>';
+	$text .= '</table>';
+	
+	return $text;
 }
 
 function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = true) {
@@ -607,14 +604,14 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 	}
 	?>
 <table class="tabelle_kopf_zentriert" <?php echo $css; ?>>
-    <?php if($kopfzeile) { ?>
-    <tr>
-        <td class="tabelle_kopfzeile"><?php echo $box; ?></td>
-    </tr>
-    <?php } ?>
-    <tr>
-        <td class="tabelle_koerper smaller"><?php echo $text; ?></td>
-    </tr>
+	<?php if($kopfzeile) { ?>
+	<tr>
+		<td class="tabelle_kopfzeile"><?php echo $box; ?></td>
+	</tr>
+	<?php } ?>
+	<tr>
+		<td class="tabelle_koerper smaller"><?php echo $text; ?></td>
+	</tr>
 </table>
 <?php
 }
@@ -622,9 +619,10 @@ function zeige_tabelle_zentriert($box, $text, $margin_top = false, $kopfzeile = 
 function zeige_kopfzeile_login() {
 	// Gibt die Kopfzeile im Login aus
 	global $lang, $logo, $chat, $login_kopfzeile_deaktivieren, $neuregistrierung_deaktivieren;
+	$inhalt = '';
 	
 	if($logo != "") {
-	echo "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
+		$inhalt .= "<p style=\"text-align:center\"><img src=\"$logo\" alt =\"$chat\" title=\"$chat\"></p>";
 	}
 	
 	if(!$login_kopfzeile_deaktivieren) {
@@ -637,8 +635,10 @@ function zeige_kopfzeile_login() {
 		$text .= '| <a href="index.php?bereich=chatiquette">' . $lang['login_chatiquette'] . '</a> ';
 		$text .= '| <a href="index.php?bereich=nutzungsbestimmungen">' . $lang['login_nutzungsbestimmungen'] . '</a>';
 		
-		zeige_tabelle_volle_breite($box, $text);
+		$inhalt .= zeige_tabelle_volle_breite($box, $text);
 	}
+	
+	return $inhalt;
 }
 
 function coreCheckName($name, $check_name) {

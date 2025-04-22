@@ -124,8 +124,12 @@ if($in_den_chat_einloggen) {
 		if($row['u_level'] != "G" && $angemeldet_bleiben == 1) {
 			$identifier = random_string();
 			$securitytoken = random_string();
+			$securitytoken2 = sha1($securitytoken);
 			
-			pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>sha1($securitytoken)]);
+			// Alte Einträge des Benutzers löschen
+			pdoQuery("DELETE FROM `securitytokens` WHERE `user_id` = :user_id", [':user_id'=>$user_id]);
+			// Neuen Eintrag anlegen
+			pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>$securitytoken2]);
 			
 			setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
 			setcookie("securitytoken",$securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit

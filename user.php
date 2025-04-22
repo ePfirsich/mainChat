@@ -92,7 +92,7 @@ if ($pmue > 0) {
 	
 	$text .= "</center>";
 	
-	zeige_tabelle_volle_breite($box, $text);
+	echo zeige_tabelle_volle_breite($box, $text);
 }
 
 //Anfang Benutzerliste Ausgabe rechts
@@ -113,7 +113,7 @@ if ($rows > 15) {
 
 // Inhalt anzeigen
 $box = "<center>" . $lang['benutzerliste_benutzer'] . "</center>";
-zeige_tabelle_volle_breite($box, $text);
+echo zeige_tabelle_volle_breite($box, $text);
 ?>
 </body>
 </html>

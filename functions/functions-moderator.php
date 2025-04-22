@@ -74,7 +74,7 @@ function zeige_moderations_antworten($o_raum, $answer = "") {
 	$text .= "<br><input type=\"submit\" value=\"$lang[mod1]\">";
 	$text .= "</form>";
 	
-	zeige_tabelle_volle_breite($box,$text);
+	echo zeige_tabelle_volle_breite($box,$text);
 }
 
 function bearbeite_moderationstexte($o_raum) {

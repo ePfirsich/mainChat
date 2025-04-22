@@ -201,11 +201,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/impressum.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_impressum'], $text);
+		echo zeige_tabelle_login($lang['login_impressum'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -217,11 +219,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/datenschutz.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_datenschutzerklaerung'], $text);
+		echo zeige_tabelle_login($lang['login_datenschutzerklaerung'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -233,11 +237,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/chatiquette.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_chatiquette'], $text);
+		echo zeige_tabelle_login($lang['login_chatiquette'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -249,11 +255,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/nutzungsbestimmungen.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_nutzungsbestimmungen'], $text);
+		echo zeige_tabelle_login($lang['login_nutzungsbestimmungen'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -265,11 +273,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/kontakt.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_kontakt'], $text);
+		echo zeige_tabelle_login($lang['login_kontakt'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -281,11 +291,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-vergessen.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
+		echo zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -297,11 +309,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/passwort-zuruecksetzen.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
+		echo zeige_tabelle_login($lang['login_passwort_vergessen'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 		
@@ -313,11 +327,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/email-bestaetigen.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_email_aendern'], $text);
+		echo zeige_tabelle_login($lang['login_email_aendern'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 	
@@ -329,11 +345,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/neu2.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_registrierung'], $text);
+		echo zeige_tabelle_login($lang['login_registrierung'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 	
@@ -343,11 +361,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/gesperrt.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['willkommen'], $text);
+		echo zeige_tabelle_login($lang['willkommen'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 	
@@ -367,9 +387,11 @@ switch ($bereich) {
 			require_once("./custom/index-header.php");
 			
 			// Gibt die Kopfzeile im Login aus
-			zeige_kopfzeile_login();
+			echo zeige_kopfzeile_login();
 			
-			zeige_tabelle_login($lang['login_login'], $text);
+			echo zeige_tabelle_login($lang['login_login'], $text);
+			require_once("./custom/index-footer.php");
+			echo "</body>";
 		}
 		
 		break;
@@ -382,11 +404,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/registrierung.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_registrierung'], $text);
+		echo zeige_tabelle_login($lang['login_registrierung'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 	
@@ -398,11 +422,13 @@ switch ($bereich) {
 		require_once("./custom/index-header.php");
 		
 		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo zeige_kopfzeile_login();
 		
 		require_once('templates/neu.php');
 		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_registrierung'], $text);
+		echo zeige_tabelle_login($lang['login_registrierung'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 		
 		break;
 	
@@ -429,18 +455,23 @@ switch ($bereich) {
 	default:
 		// Login ausgeben
 		
+		// Gibt die Kopfzeile im Login aus
+		$inhalt = zeige_kopfzeile_login($inhalt);
 		
 		zeige_header($body_titel, 0);
+		
+		$text .= zeige_chat_login();
+		$text .= zeige_index_footer();
+		$inhalt2 = zeige_tabelle_login($lang['login_login'], $text);
+		
 		echo "<body>";
 		require_once("./custom/index-header.php");
 		
-		// Gibt die Kopfzeile im Login aus
-		zeige_kopfzeile_login();
+		echo $inhalt;
+		echo $inhalt2;
 		
-		// Box für Login
-		$text .= zeige_chat_login();
-		$text .= zeige_index_footer();
-		zeige_tabelle_login($lang['login_login'], $text);
+		require_once("./custom/index-footer.php");
+		echo "</body>";
 }
 ?>
 </html>

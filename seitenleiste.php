@@ -86,7 +86,7 @@ if ($pmue > 0) {
 	
 	$text2 .= "</center>";
 	
-	zeige_tabelle_volle_breite($box2, $text2);
+	echo zeige_tabelle_volle_breite($box2, $text2);
 }
 
 //Anfang Benutzerliste Ausgabe rechts
@@ -100,7 +100,7 @@ if ($rows > 15) {
 	$text .= "</div>";
 }
 
-zeige_tabelle_volle_breite("<center>Infos</center>", $text);
+echo zeige_tabelle_volle_breite("<center>Infos</center>", $text);
 ?>
 </body>
 </html>

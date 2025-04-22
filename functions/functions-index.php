@@ -698,12 +698,14 @@ function zeige_chat_login() {
 				//Token war korrekt
 				
 				//Setze neuen Token
-				$neuer_securitytoken = random_string();
+				$securitytoken = random_string();
+				$securitytoken2 = sha1($securitytoken);
 				
-				pdoQuery("UPDATE `securitytokens` SET `securitytoken` = :securitytoken WHERE `identifier` = :identifier", [':securitytoken'=>sha1($neuer_securitytoken), ':identifier'=>$identifier]);
+				pdoQuery("UPDATE `securitytokens` SET `securitytoken` = :securitytoken WHERE `identifier` = :identifier", [':securitytoken'=>$securitytoken2, ':identifier'=>$identifier]);
 				
+				// Neues Cookie setzen
 				setcookie("identifier",$identifier,time()+(3600*24*365)); //1 Jahr Gültigkeit
-				setcookie("securitytoken",$neuer_securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit
+				setcookie("securitytoken",$securitytoken,time()+(3600*24*365)); //1 Jahr Gültigkeit
 				
 				//Logge den Benutzer ein
 				$_SESSION['user_id'] = $row['user_id'];
