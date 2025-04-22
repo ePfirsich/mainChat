@@ -114,7 +114,7 @@ if ( !file_exists($filenameConfig) ) {
 				exit();
 			}
 		}
-		// Ende der aufgerufenen URLH
+		// Ende der aufgerufenen URL
 		
 		if($forumfeatures == "1" || $punktefeatures == "1") {
 			require_once("./functions/functions-community.php");
