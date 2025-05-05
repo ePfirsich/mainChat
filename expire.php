@@ -6,8 +6,10 @@ set_time_limit(120);
 $title = $body_titel;
 zeige_header($title, 0);
 
-echo "<body>";
-
+?>
+<body>
+<pre>
+<?php
 // Verzeichnis für Logs definieren
 if (strlen($log) == 0) {
 	$log = "logs";
@@ -186,7 +188,7 @@ if ($resultCount > 0) {
 
 
 // Lösche alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
-echo " Alte Nachrichten löschen<br>";
+echo "Alte Nachrichten löschen<br>";
 flush();
 // Löscht alle Nachrichten, die älter als $mailloescheauspapierkorb Tage sind
 if ($mailloescheauspapierkorb < 1) {
@@ -196,7 +198,6 @@ pdoQuery("DELETE FROM `mail` WHERE `m_status` = 'geloescht' AND `m_geloescht_ts`
 
 // Gast aus der Tabelle online löschen
 pdoQuery("DELETE FROM `online` WHERE (UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(`o_aktiv`)) > :timeout", [':timeout'=>($timeout*4)]);
-
 
 
 // Täglicher expire, um  03:10 Uhr
@@ -209,7 +210,7 @@ if ($zeit == "03:10") {
 	}
 	// Benutzer löschen, die länger als $usernamen_expire (config.php default =26 Wochen (=15724800 Sekunden)) nicht online waren
 	// und nicht auf gesperrt stehen (=Z) und kein Superuser (S) oder ChatAmins (C) sind
-	echo "<br><b>Expire:</b> Benutzer ";
+	echo "<b>Expire:</b> Benutzer<br>";
 	flush();
 	
 	// Baut den Query, für nicht mehr Expire RB, um
@@ -259,17 +260,17 @@ if ($zeit == "03:10") {
 	}
 	
 	// Lösche alle IP-Sperren, die älter als ein Tag sind
-	echo " Sperren ";
+	echo "Sperren<br>";
 	flush();
 	pdoQuery("DELETE FROM `ip_sperre` WHERE now()-`is_zeit` > 36000 AND `is_warn` !='ja'", []);
 	
 	// Lösche alle Einträge in mail_check (E-Mail für Registrierung), die älter als 7 Tage sind
-	echo " mail_check ";
+	echo "mail_check<br>";
 	flush();
 	pdoQuery("DELETE FROM `mail_check` WHERE DATE_ADD(datum,INTERVAL 7 DAY)<now()", []);
 	
 	// Alle invites löschen, für die es keine Benutzer mehr gibt.
-	echo " Einladungen ";
+	echo "Einladungen<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `inv_id` FROM `invite` LEFT JOIN `user` ON `inv_user` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -293,7 +294,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// alle Bilder löschen, für die es keine Benutzer mehr gibt.
-	echo " Bilder ";
+	echo "Bilder<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `b_id` FROM `bild` LEFT JOIN `user` ON `b_user` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -306,7 +307,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// alle Nachrichten löschen, für die es keine Benutzer mehr gibt.
-	echo " Nachrichten ";
+	echo "Nachrichten<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `m_id` FROM `mail` LEFT JOIN `user` ON `m_an_uid` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -319,7 +320,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// alle Aktionen löschen, für die es keine Benutzer mehr gibt.
-	echo " Aktionen ";
+	echo "Aktionen<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `a_id` FROM `aktion` LEFT JOIN `user` ON `a_user` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -332,7 +333,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// alle Profile löschen, für die es keine Benutzer mehr gibt.
-	echo " Profile ";
+	echo "Profile<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `ui_id` FROM `userinfo` LEFT JOIN `user` ON `ui_userid` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -345,7 +346,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// Alle Benutzer aus der Blacklist löschen, die es nicht mehr gibt.
-	echo " Blacklist ";
+	echo "Blacklist<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `f_id` FROM `blacklist` LEFT JOIN `user` ON `f_blacklistid` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -358,7 +359,7 @@ if ($zeit == "03:10") {
 	}
 	
 	// Alle Ignore löschen, für die es keine Benutzer mehr gibt.
-	echo " Ignore ";
+	echo "Ignore<br>";
 	flush();
 	$query = pdoQuery("SELECT SQL_BUFFER_RESULT `i_id` FROM `iignore` LEFT JOIN `user` ON `i_user_aktiv` = `u_id` WHERE `u_id` IS NULL", []);
 	
@@ -423,23 +424,27 @@ if ($zeit == "03:10") {
 	}
 	
 	// Beiträge im Forum neu zählen
-	echo " Beiträge im Forum neu zählen ";
+	echo "Beiträge im Forum neu zählen<br>";
 	flush();
 	bereinige_anz_in_thema();
 	
+	// Veraltete Security-Token löschen
+	echo "Veraltete Security-Token löschen<br>";
+	pdoQuery("DELETE FROM `securitytokens` WHERE `created_at` < :created_at", [':created_at'=>time()-(3600*24*365)]);
+	
 	// Datenbank optimieren
 	set_time_limit(600);
-	echo " Optimieren ";
+	echo " Optimieren<br>";
 	flush();
 	pdoQuery("OPTIMIZE TABLE `mail_check`, `top10cache`, `blacklist`, `forum_beitraege`, `forum_foren`, `aktion`, `bild`, `forum_kategorien`, `freunde`, `mail`, "
 		. "`iignore`, `invite`, `ip_sperre`, `moderation`, `online`, `raum`, `sperre`, `user`, `userinfo`", []);
 	sleep(60);
 	set_time_limit(600);
-	echo " Repariere user,raum ";
+	echo "Repariere user,raum<br>";
 	flush();
 	pdoQuery("REPAIR TABLE `user`, `raum`", []);
 	sleep(60);
-	echo " fertig<br>";
+	echo "fertig<br>";
 	flush();
 }
 
@@ -489,6 +494,6 @@ if ( isset($anzahl_online) && ($anzahl_online > 0) ) {
 
 echo "fertig";
 ?>
-</pre>
+</ul>
 </body>
 </html>

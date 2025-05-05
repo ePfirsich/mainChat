@@ -126,8 +126,6 @@ if($in_den_chat_einloggen) {
 			$securitytoken = random_string();
 			$securitytoken2 = sha1($securitytoken);
 			
-			// Alte Einträge des Benutzers löschen
-			pdoQuery("DELETE FROM `securitytokens` WHERE `user_id` = :user_id", [':user_id'=>$user_id]);
 			// Neuen Eintrag anlegen
 			pdoQuery("INSERT INTO `securitytokens` SET `user_id` = :user_id, `identifier` = :identifier, `securitytoken` = :securitytoken", [':user_id'=>$user_id, ':identifier'=>$identifier, ':securitytoken'=>$securitytoken2]);
 			
